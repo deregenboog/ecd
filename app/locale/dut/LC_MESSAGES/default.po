@@ -1,0 +1,389 @@
+msgid	"intake"
+msgstr	"Intake"
+msgid	"algemeen"
+msgstr	"Algemeen"
+msgid	"medewerker"
+msgstr	"Naam intaker"
+msgid	"verwachtingen_en_plannen"
+msgstr 	"Verwachtingen en plannen"
+msgid	"overige_hulpverlening"
+msgstr	"Overige hulpverlening"
+
+msgid 	"adresgegevens"
+msgstr	"Adresgegevens"
+msgid	"locatiekeuze"
+msgstr	"Locatiekeuze"
+msgid	"inkomen_en_woonsituatie"
+msgstr	"Inkomen en woonsituatie"
+
+msgid	"datum_intake"
+msgstr	"Datum intake"
+msgid	"postadres"
+msgstr	"Adres"
+msgid	"postcode"
+msgstr	"Postcode"
+msgid	"woonplaats"
+msgstr	"Woonplaats"
+msgid	"verblijf_in_NL_sinds"
+msgstr 	"Verblijft in Nederland sinds"
+msgid	"verblijf_in_amsterdam_sinds"
+msgstr	"Verblijft in Amsterdam sinds"
+msgid	"verblijfstatus"
+msgstr	"Verblijfstatus"
+msgid	"locatie1"
+msgstr	"Eerste locatiekeuze"
+msgid	"locatie2"
+msgstr	"Tweede locatiekeuze"
+msgid	"locatie3"
+msgstr	"Derde locatiekeuze"
+msgid	"mag_gebruiken"
+msgstr	"Heeft toegang tot de gebruikersruimte"
+msgid	"legitimatie"
+msgstr	"Legitimatie"
+msgid	"legitimatie_nummer"
+msgstr	"Legitimatienummer"
+msgid	"legitimatie_geldig_tot"
+msgstr	"Legitimatie geldig tot"
+msgid	"verslaving"
+msgstr	"Verslaving"
+msgid	"verslavingen"
+msgstr	"Verslavingen"
+msgid	"verslavingsfrequentie"
+msgstr	"Verslavingsfrequentie"
+msgid	"verslavingsperiode"
+msgstr	"Verslavingsperiode"
+msgid	"verslavingsgebruikwijze"
+msgstr	"Hoe gebruikt client?"
+msgid	"inkomen"
+msgstr	"Inkomen"
+msgid	"woonsituatie"
+msgstr	"Wat is de woonsituatie?"
+msgid	"verwachting_dienstaanbod"
+msgstr	"Wat verwacht de client van het dienstaanbod?"
+msgid	"toekomstplannen"
+msgstr	"Wat zijn de toekomstplannen van de client?"
+msgid	"instantie"
+msgstr	"Heeft de client contact met andere instanties?"
+msgid	"opmerking_andere_instanties"
+msgstr	"Opmerkingen van andere instanties"
+msgid	"medische_achtergrond"
+msgstr	"Relevante medische achtergrond"
+msgid	"indruk"
+msgstr	"Indruk over client"
+msgid	"doelgroep"
+msgstr	"Deze client behoort tot de doelgroep"
+msgid	"verslaving_overig"
+msgstr	"Overige vormen van verslavingen"
+msgid	"inkomen_overig"
+msgstr	"Overige vormen van inkomen"
+
+msgid	"bsn"
+msgstr	"BSN"
+
+msgid   "January"
+msgstr  "januari"
+msgid   "February"
+msgstr  "februari"
+msgid   "March"
+msgstr  "maart"
+msgid   "April"
+msgstr  "april"
+msgid   "May"
+msgstr  "mei"
+msgid   "June"
+msgstr  "juni"
+msgid   "July"
+msgstr  "juli"
+msgid   "August"
+msgstr  "augustus"
+msgid   "September"
+msgstr  "september"
+msgid   "October"
+msgstr  "oktober"
+msgid   "November"
+msgstr  "november"
+msgid   "December"
+msgstr  "december"
+
+msgid   "Jan"
+msgstr  "jan"
+msgid   "Feb"
+msgstr  "feb"
+msgid   "Mar"
+msgstr  "mar"
+msgid   "Apr"
+msgstr  "apr"
+msgid   "May"
+msgstr  "mei"
+msgid   "Jun"
+msgstr  "jun"
+msgid   "Jul"
+msgstr  "jul"
+msgid   "Aug"
+msgstr  "aug"
+msgid   "Sep"
+msgstr  "sept"
+msgid   "Oct"
+msgstr  "okt"
+msgid   "Nov"
+msgstr  "nov"
+msgid   "Dec"
+msgstr  "dec"
+
+
+msgid   "day"
+msgstr  "dag"
+msgid   "month"
+msgstr  "maand"
+msgid   "year"
+msgstr  "jaar"
+
+msgid	"Submit"
+msgstr	"Opslaan"
+
+msgid	"previous"
+msgstr	"vorige"
+msgid	"next"
+msgstr	"volgende"
+msgid	"Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgstr	"Pagina %page% van %pages%, met %current% van de %count% klanten"
+
+msgid	"Login"
+msgstr	"Inloggen"
+
+msgid	"Logout"
+msgstr	"Uitloggen"
+
+msgid	"Username"
+msgstr	"Gebruikersnaam"
+
+msgid	"Passwd"
+msgstr	"Wachtwoord"
+
+msgid	"Have a nice day!"
+msgstr	"Bedankt, en een mooie dag verder!"
+
+msgid	"Login failed. Invalid username or password."
+msgstr	"Aanmelden is mislukt. Ongeldige gebruikersnaam of wachtwoord."
+
+msgid	"Save"
+msgstr	"Opslaan"
+
+msgid	"Cancel"
+msgstr	"Annuleren"
+
+#: /controllers/klanten_controller.php:57;83
+msgid 	"The klant has been saved"
+msgstr 	"De klantgegevens zijn opgeslagen"
+
+#: /controllers/klanten_controller.php:60;86
+msgid 	"The klant could not be saved. Please, try again."
+msgstr 	"De klant kan niet worden opgeslagen. Gelieve opnieuw te proberen."
+
+msgid 	"The schorsing has been saved"
+msgstr 	"De schorsing is opgeslagen"
+
+msgid 	"Please choose the number of days"
+msgstr 	"Kies het aantal dagen"
+
+msgid	"edit"
+msgstr	"Bewerken"
+
+msgid	"view"
+msgstr	"Bekijken"
+
+#: /controllers/verslagen_controller.php:67
+msgid "The verslag has been saved"
+msgstr "Het verslag is opgeslagen"
+
+#: /controllers/verslagen_controller.php:70
+msgid "The verslag could not be saved. Please, try again."
+msgstr "Het verslag kan niet worden opgeslagen. Graag opnieuw proberen."
+
+msgid "You are not authorized to access that location."
+msgstr "U bent niet bevoegd om deze pagina te openen."
+
+msgid "Invalid klant"
+msgstr "Deze klant bestaat niet."
+
+msgid "Invalid schorsing"
+msgstr "Deze schorsing bestaat niet."
+
+msgid "You can only edit intakes that have been created today."
+msgstr "Je kan alleen intakes wijzigen die vandaag aangemaakt zijn."
+
+msgid "You can only edit intakes that have been created by you."
+msgstr "Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt."
+
+msgid "Show all registrations since:"
+msgstr "Toon alle registraties vanaf:"
+
+msgid "today only"
+msgstr "alleen vandaag"
+
+msgid "yesterday"
+msgstr "gisteren"
+
+msgid "last week"
+msgstr "vorige week"
+
+msgid "%s days ago"
+msgstr "%s dagen geleden"
+
+msgid "%s weeks ago"
+msgstr "%s weken geleden"
+
+msgid "%s days"
+msgstr "%s dagen"
+
+msgid "1 day"
+msgstr "1 dag"
+
+msgid "Delete"
+msgstr "Wis"
+
+msgid "delete"
+msgstr "wis"
+
+msgid "Are you sure you want to delete the client?"
+msgstr "Wilt u deze klant wissen?"
+
+msgid "Are you sure you want to delete the note?"
+msgstr "Wilt u de opmerking wissen?"
+
+msgid "Klant deleted"
+msgstr "Klant gewist"
+
+msgid "Klant was not deleted"
+msgstr "Klant is niet gewist"
+
+msgid "Invalid action."
+msgstr "Niet toegestaan"
+
+msgid "New intake needed"
+msgstr "Nieuwe intake nodig"
+
+msgid "This client has been checked out less than an hour ago. Are you sure you want to register him/her again?"
+msgstr "Deze klant is minder dan een uur geleden uitgechecked. Opnieuw registreren?"
+
+msgid "Invalid id for opmerking"
+msgstr "Verkeerde id voor opmerking"
+
+msgid "Opmerking deleted"
+msgstr "Opmerking gewist"
+
+msgid "Opmerking was not deleted"
+msgstr "Opmerking is niet gewist"
+
+msgid "Men"
+msgstr "Mannen"
+
+msgid "Women"
+msgstr "Vrouwen"
+
+msgid "Sex"
+msgstr "Geslacht"
+
+msgid "Average meals per day"
+msgstr "Gemiddeld aantal maaltijden per dag"
+
+msgid "Average visitors per day"
+msgstr "Gemiddeld aantal unieke bezoekers per dag"
+
+msgid "Average time inside"
+msgstr "Gemiddeld duur dat iemand binnen is geweest per dag"
+
+msgid "Average showers taken per day"
+msgstr "Gemiddeld aantal douches per dag"
+
+msgid "New clients"
+msgstr "Nieuwe klanten"
+
+msgid "New intakes"
+msgstr "Nieuwe intakes"
+
+msgid "Men and women"
+msgstr "Mannen en vrouwen"
+
+msgid "Unique visitors"
+msgstr "Unieke bezoekers"
+
+msgid "Are you sure you want to delete the contractor?"
+msgstr "Wilt u de aannemer wissen?"
+
+msgid "Invalid id for awbz Hoofdaannemer"
+msgstr "Ongeldige id voor awbz hoofdaannemer"
+
+msgid "Awbz Hoofdaannemer deleted"
+msgstr "Awbz hoofdaannemer gewist"
+
+msgid "Awbz Hoofdaannemer was not deleted"
+msgstr "Abwz hoofdaannemer niet gewist"
+
+msgid "Invalid awbz Hoofdaannemer"
+msgstr "Ongeldige awbz hoofdaannemer"
+
+msgid "The awbz Hoofdaannemer has been saved"
+msgstr "De awbz hoofdaannemer kan niet opgeslagen worden"
+
+msgid "The awbz Hoofdaannemer could not be saved. Please, try again."
+msgstr "De awbz hoofdaannemer kan niet opgeslagen worden, probeer opnieuw"
+
+msgid "Are you sure you want to delete the indication?"
+msgstr "Indicatie wissen?"
+
+msgid "Invalid id for awbz Indicatie"
+msgstr "Ongeldige id voor de awbz indicatie"
+
+msgid "The AWBZ Indicatie has been saved"
+msgstr "AWBZ indicatie opgeslagen"
+
+msgid "The AWBZ Indicatie could not be saved. Please, try again."
+msgstr "AWBZ Indicatie kan niet opgeslagen worden, probeer opnieuw"
+
+msgid "Awbz Indicatie was not deleted"
+msgstr "Awbz indidatie niet gewist"
+
+msgid "Awbz Indicatie deleted"
+msgstr "Abwz indicatie gewist"
+
+msgid "Edit Awbz Indicatie"
+msgstr "AWBZ indicatie aanpassen"
+
+msgid "Edit Awbz Hoofdaannemer"
+msgstr "AWBZ hoofdaannemer aanpassen"
+
+msgid "The opmerking has been saved"
+msgstr "De opmerking is opgeslagen"
+
+msgid "Saved"
+msgstr "Opgeslagen"
+
+msgid "The intake has been saved."
+msgstr "De intake is opgeslagen."
+
+msgid "This field cannot be left blank"
+msgstr "Dit veld kan niet leeg zijn"
+
+
+#: /controllers/hi5_controller.php:301
+msgid "You can only edit your own intakes"
+msgstr "Je kan alleen intakes aanpassen die door jezelf zijn aangemaakt."
+
+#: /controllers/hi5_controller.php:316
+msgid "You can only edit intakes the same day of their creation"
+msgstr "U kunt alleen intakes aanpassen op de dag van creatie"
+
+#: /controllers/hi5_controller.php:162
+msgid "You are not allowed to add intakes"
+msgstr "U bent niet bevoegd om intakes toe te voegen."
+
+#: /controllers/hi5_controller.php:324
+msgid "You are not allowed to edit intakes"
+msgstr "U bent niet bevoegd om intakes te aanpassen."
+
+msgid "The evaluation has been saved."
+msgstr "De evaluatie is opgeslagen."
+
+msgid "Are you sure you want to delete"
+msgstr "Wilt u wissen"
