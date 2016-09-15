@@ -1,0 +1,34 @@
+<?php
+
+Configure::write( 'debug',  1);
+
+$ldap['host'] = 'ldap://ldap';
+$ldap['port'] = 389;
+$ldap['baseDn'] = 'dc=toltech,dc=nl';
+
+define( 'GROUP_ADMIN', 10021 );
+define( 'GROUP_DEVELOP', 10021 );
+define( 'GROUP_VOLONTEERS', 10021 );
+define( 'GROUP_STAGE', 10021 );
+define( 'GROUP_PORTIER', 10021 );
+define( 'GROUP_MLO', 10021 );
+define( 'GROUP_MAATSCHAPPELIJK', 10021 );
+define( 'GROUP_HI5', 10021 );
+define( 'GROUP_TRAJECTBEGELEIDER', 10021 );
+define( 'GROUP_WERKBEGELEIDER', 10021 );
+define( 'GROUP_TEAMLEIDERS', 10021);
+define( 'GROUP_PFO', 10021) ;
+define( 'GROUP_BACK_ON_TRACK_COORDINATOR',10021) ;
+define( 'GROUP_BACK_ON_TRACK_COACH',10021) ;
+define( 'GROUP_GROEPSACTIVITEIT' , 10021) ;
+define( 'GROUP_IZ' , 10021) ;
+define( 'GROUP_REPORT' , 10570) ;
+
+define( 'GROUP_IZ_BEHEER' , 10021) ;
+define( 'GROUP_BEHEER_GROEPSACTIVITEIT' , 10021) ;
+
+
+$ldap['groups'] = array(
+		'werkbegeleiders' => 10021,
+		'trajectbegeleiders' => 20004,
+);
