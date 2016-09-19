@@ -5,12 +5,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.view
@@ -163,7 +163,7 @@ class View extends Object {
  * @access public
  */
 	var $subDir = null;
-	
+
 /**
  * Theme name.
  *
@@ -357,9 +357,11 @@ class View extends Object {
 			if (is_array($params['cache'])) {
 				$expires = $params['cache']['time'];
 				$key = Inflector::slug($params['cache']['key']);
-			} elseif ($params['cache'] !== true) {
-				$expires = $params['cache'];
+			} else {
 				$key = implode('_', array_keys($params));
+				if ($params['cache'] !== true) {
+					$expires = $params['cache'];
+				}
 			}
 
 			if ($expires) {
@@ -372,17 +374,27 @@ class View extends Object {
 			}
 		}
 		$paths = $this->_paths($plugin);
-
-		foreach ($paths as $path) {
-			if (file_exists($path . 'elements' . DS . $name . $this->ext)) {
-				$file = $path . 'elements' . DS . $name . $this->ext;
+		$exts = $this->_getExtensions();
+		foreach ($exts as $ext) {
+			foreach ($paths as $path) {
+				if (file_exists($path . 'elements' . DS . $name . $ext)) {
+					$file = $path . 'elements' . DS . $name . $ext;
+					break;
+				}
+			}
+			if ($file) {
 				break;
 			}
 		}
 
 		if (is_file($file)) {
-			$params = array_merge_recursive($params, $this->loaded);
-			$element = $this->_render($file, array_merge($this->viewVars, $params), $loadHelpers);
+			$vars = array_merge($this->viewVars, $params);
+			foreach ($this->loaded as $name => $helper) {
+				if (!isset($vars[$name])) {
+					$vars[$name] =& $this->loaded[$name];
+				}
+			}
+			$element = $this->_render($file, $vars, $loadHelpers);
 			if (isset($params['cache']) && isset($cacheFile) && isset($expires)) {
 				cache('views' . DS . $cacheFile, $element, $expires);
 			}
@@ -427,8 +439,8 @@ class View extends Object {
 			if ($layout && $this->autoLayout) {
 				$out = $this->renderLayout($out, $layout);
 				$isCached = (
-					isset($this->loaded['cache']) &&
-					(($this->cacheAction != false)) && (Configure::read('Cache.check') === true)
+					isset($this->loaded['cache']) ||
+					Configure::read('Cache.check') === true
 				);
 
 				if ($isCached) {
@@ -482,7 +494,7 @@ class View extends Object {
 		$this->output = $this->_render($layoutFileName, $dataForLayout, $loadHelpers, true);
 
 		if ($this->output === false) {
-			$this->output = $this->_render($layoutFileName, $data_for_layout);
+			$this->output = $this->_render($layoutFileName, $dataForLayout);
 			trigger_error(sprintf(__("Error in layout %s, got: <blockquote>%s</blockquote>", true), $layoutFileName, $this->output), E_USER_ERROR);
 			return false;
 		}
@@ -493,7 +505,7 @@ class View extends Object {
 	}
 
 /**
- * Fire a callback on all loaded Helpers. All helpers must implement this method, 
+ * Fire a callback on all loaded Helpers. All helpers must implement this method,
  * it is not checked before being called.  You can add additional helper callbacks in AppHelper.
  *
  * @param string $callback name of callback fire.
@@ -516,7 +528,7 @@ class View extends Object {
 	}
 
 /**
- * Render cached view. Works in concert with CacheHelper and Dispatcher to 
+ * Render cached view. Works in concert with CacheHelper and Dispatcher to
  * render cached view files.
  *
  * @param string $filename the cache file to include
@@ -628,6 +640,7 @@ class View extends Object {
 			if (
 				($count == 1 && !empty($this->association)) ||
 				($count == 1 && $this->model != $this->entityPath) ||
+				($count == 1 && empty($this->association) && !empty($this->field)) ||
 				($count  == 2 && !empty($this->fieldSuffix)) ||
 				is_numeric($path[0]) && !empty($assoc)
 			) {
@@ -664,7 +677,7 @@ class View extends Object {
 		if ($data == null) {
 			return false;
 		}
-		$this->viewVars = array_merge($this->viewVars, $data);
+		$this->viewVars = $data + $this->viewVars;
 	}
 
 /**
@@ -745,7 +758,8 @@ class View extends Object {
 				$cache->controllerName = $this->name;
 				$cache->layout = $this->layout;
 				$cache->cacheAction = $this->cacheAction;
-				$cache->cache($___viewFn, $out, $cached);
+				$cache->viewVars = $this->viewVars;
+				$out = $cache->cache($___viewFn, $out, $cached);
 			}
 		}
 		return $out;
@@ -843,9 +857,6 @@ class View extends Object {
 			$name = $this->viewPath . DS . $subDir . Inflector::underscore($name);
 		} elseif (strpos($name, DS) !== false) {
 			if ($name{0} === DS || $name{1} === ':') {
-				if (is_file($name)) {
-					return $name;
-				}
 				$name = trim($name, DS);
 			} else if ($name[0] === '.') {
 				$name = substr($name, 3);
@@ -854,11 +865,8 @@ class View extends Object {
 			}
 		}
 		$paths = $this->_paths(Inflector::underscore($this->plugin));
-		
-		$exts = array($this->ext);
-		if ($this->ext !== '.ctp') {
-			array_push($exts, '.ctp');
-		}
+
+		$exts = $this->_getExtensions();
 		foreach ($exts as $ext) {
 			foreach ($paths as $path) {
 				if (file_exists($path . $name . $ext)) {
@@ -898,11 +906,8 @@ class View extends Object {
 		}
 		$paths = $this->_paths(Inflector::underscore($this->plugin));
 		$file = 'layouts' . DS . $subDir . $name;
-		
-		$exts = array($this->ext);
-		if ($this->ext !== '.ctp') {
-			array_push($exts, '.ctp');
-		}
+
+		$exts = $this->_getExtensions();
 		foreach ($exts as $ext) {
 			foreach ($paths as $path) {
 				if (file_exists($path . $file . $ext)) {
@@ -911,6 +916,21 @@ class View extends Object {
 			}
 		}
 		return $this->_missingView($paths[0] . $file . $this->ext, 'missingLayout');
+	}
+
+
+/**
+ * Get the extensions that view files can use.
+ *
+ * @return array Array of extensions view files use.
+ * @access protected
+ */
+	function _getExtensions() {
+		$exts = array($this->ext);
+		if ($this->ext !== '.ctp') {
+			array_push($exts, '.ctp');
+		}
+		return $exts;
 	}
 
 /**

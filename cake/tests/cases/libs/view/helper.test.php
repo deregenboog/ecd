@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -219,7 +219,7 @@ class HelperTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function testFormFieldNameParsing() {
+	function testSetEntity() {
 		// PHP4 reference hack
 		ClassRegistry::removeObject('view');
 		ClassRegistry::addObject('view', $this->View);
@@ -348,6 +348,17 @@ class HelperTest extends CakeTestCase {
 		$this->assertEqual($this->View->modelId, null);
 		$this->assertEqual($this->View->association, null);
 		$this->assertEqual($this->View->fieldSuffix, null);
+	}
+
+/**
+ * test that 'view' doesn't break things.
+ *
+ * @return void
+ */
+	function testSetEntityWithView() {
+		$this->assertNull($this->Helper->setEntity('Allow.view.group_id'));
+		$this->assertNull($this->Helper->setEntity('Allow.view'));
+		$this->assertNull($this->Helper->setEntity('View.view'));
 	}
 
 /**
@@ -575,6 +586,13 @@ class HelperTest extends CakeTestCase {
 		$this->assertEqual($this->View->association, null);
 		$this->assertEqual($this->View->fieldSuffix, null);
 
+		$this->Helper->setEntity('HelperTestTag');
+		$this->assertEqual($this->View->model, 'HelperTestTag');
+		$this->assertEqual($this->View->field, 'HelperTestTag');
+		$this->assertEqual($this->View->modelId, null);
+		$this->assertEqual($this->View->association, null);
+		$this->assertEqual($this->View->fieldSuffix, null);
+		$this->assertEqual($this->View->entityPath, 'HelperTestTag');
 	}
 
 /**

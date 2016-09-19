@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.cake.tests.cases.libs.controller.components
  * @since         CakePHP(tm) v 1.2.0.5347
@@ -553,6 +553,49 @@ class AuthTest extends CakeTestCase {
 	}
 
 /**
+ * testIdentify method
+ *
+ * @access public
+ * @return void
+ */
+	function testIdentify() {
+		$this->AuthUser =& new AuthUser();
+		$user['id'] = 1;
+		$user['username'] = 'mariano';
+		$user['password'] = Security::hash(Configure::read('Security.salt') . 'cake');
+		$this->AuthUser->save($user, false);
+
+		$this->Controller->Auth->initialize($this->Controller);
+		$this->Controller->Auth->userModel = 'AuthUser';
+		$this->Controller->Auth->startup($this->Controller);
+		$this->assertTrue($this->Controller->Auth->identify($user));
+	}
+
+/**
+ * testIdentifyWithConditions method
+ *
+ * @access public
+ * @return void
+ */
+	function testIdentifyWithConditions() {
+		$this->AuthUser =& new AuthUser();
+		$user['id'] = 1;
+		$user['username'] = 'mariano';
+		$user['password'] = Security::hash(Configure::read('Security.salt') . 'cake');
+		$this->AuthUser->save($user, false);
+
+		$this->Controller->Auth->initialize($this->Controller);
+		$this->Controller->Auth->startup($this->Controller);
+		$this->Controller->Auth->userModel = 'AuthUser';
+
+		$this->assertFalse($this->Controller->Auth->identify($user, array('AuthUser.id >' => 2)));
+
+		$this->Controller->Auth->userScope = array('id >' => 2);
+		$this->assertFalse($this->Controller->Auth->identify($user));
+		$this->assertTrue($this->Controller->Auth->identify($user, false));
+	}
+
+/**
  * testLogin method
  *
  * @access public
@@ -973,17 +1016,6 @@ class AuthTest extends CakeTestCase {
 		);
 		$this->Controller->Auth->startup($this->Controller);
 		$expected = Router::normalize($this->Controller->Auth->loginRedirect);
-		$this->assertEqual($expected, $this->Controller->Auth->redirect());
-
-		$this->Controller->Session->delete('Auth');
-
-		$this->Controller->params['url']['url'] = 'admin/';
-		$this->Controller->Auth->initialize($this->Controller);
-		$this->Controller->Auth->userModel = 'AuthUser';
-		$this->Controller->Auth->loginRedirect = null;
-		$this->Controller->Auth->startup($this->Controller);
-		$expected = Router::normalize('admin/');
-		$this->assertTrue($this->Controller->Session->check('Message.auth'));
 		$this->assertEqual($expected, $this->Controller->Auth->redirect());
 
 		$this->Controller->Session->delete('Auth');

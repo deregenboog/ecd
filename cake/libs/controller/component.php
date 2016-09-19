@@ -4,12 +4,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.controller
@@ -22,7 +22,7 @@
  *
  * @package       cake
  * @subpackage    cake.cake.libs.controller
- * @link          http://book.cakephp.org/view/993/Components
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Components.html
  */
 class Component extends Object {
 
@@ -84,7 +84,7 @@ class Component extends Object {
  * @param object $controller Controller with components to initialize
  * @return void
  * @access public
- * @link http://book.cakephp.org/view/998/MVC-Class-Access-Within-Components
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Components.html#mvc-class-access-within-components
  */
 	function initialize(&$controller) {
 		foreach (array_keys($this->_loaded) as $name) {
@@ -106,7 +106,7 @@ class Component extends Object {
  * @param object $controller Controller with components to startup
  * @return void
  * @access public
- * @link http://book.cakephp.org/view/998/MVC-Class-Access-Within-Components
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Components.html#mvc-class-access-within-components
  * @deprecated See Component::triggerCallback()
  */
 	function startup(&$controller) {
@@ -246,17 +246,21 @@ class Component extends Object {
 				if ($componentCn === 'SessionComponent') {
 					$object->{$component} =& new $componentCn($base);
 				} else {
-					$object->{$component} =& new $componentCn();
+					if (PHP5) {
+						$object->{$component} = new $componentCn();
+					} else {
+						$object->{$component} =& new $componentCn();
+					}
 				}
 				$object->{$component}->enabled = true;
 				$this->_loaded[$component] =& $object->{$component};
 				if (!empty($config)) {
 					$this->__settings[$component] = $config;
 				}
-			}
 
-			if (isset($object->{$component}->components) && is_array($object->{$component}->components) && (!isset($object->{$component}->{$parent}))) {
-				$this->_loadComponents($object->{$component}, $component);
+				if (isset($object->{$component}->components) && is_array($object->{$component}->components) && (!isset($object->{$component}->{$parent}))) {
+					$this->_loadComponents($object->{$component}, $component);
+				}
 			}
 		}
 	}

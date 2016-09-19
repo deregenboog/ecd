@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.view.helpers
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -514,6 +514,40 @@ class RssHelperTest extends CakeTestCase {
 			'<category',
 			'<![CDATA[Bakery]]',
 			'/category',
+			'/item'
+		);
+		$this->assertTags($result, $expected);
+
+		$item = array(
+			'title' => 'Foo bar',
+			'link' => array(
+				'url' => 'http://example.com/foo?a=1&b=2',
+				'convertEntities' => false
+			),
+			'description' =>  array(
+				'value' => 'descriptive words',
+				'cdata' => true,
+			),
+			'pubDate' => '2008-05-31 12:00:00'
+		);
+		$result = $this->Rss->item(null, $item);
+		$expected = array(
+			'<item',
+			'<title',
+			'Foo bar',
+			'/title',
+			'<link',
+			'http://example.com/foo?a=1&amp;b=2',
+			'/link',
+			'<description',
+			'<![CDATA[descriptive words]]',
+			'/description',
+			'<pubDate',
+			date('r', strtotime('2008-05-31 12:00:00')),
+			'/pubDate',
+			'<guid',
+			'http://example.com/foo?a=1&amp;b=2',
+			'/guid',
 			'/item'
 		);
 		$this->assertTags($result, $expected);

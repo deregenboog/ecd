@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.controller.components
  * @since         CakePHP(tm) v 1.2.0.5435
@@ -253,6 +253,27 @@ class RequestHandlerComponentTest extends CakeTestCase {
 		$this->assertEqual($this->Controller->ext, '.ctp');
 	}
 
+
+/**
+ * testAutoAjaxLayout method
+ *
+ * @access public
+ * @return void
+ */
+	function testAutoAjaxLayout() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->RequestHandler->startup($this->Controller);
+		$this->assertTrue($this->Controller->layout, $this->RequestHandler->ajaxLayout);
+
+		$this->_init();
+		$this->Controller->params['url']['ext'] = 'js';
+		$this->RequestHandler->initialize($this->Controller);
+		$this->RequestHandler->startup($this->Controller);
+		$this->assertNotEqual($this->Controller->layout, 'ajax');
+
+		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
+	}
+
 /**
  * testStartupCallback method
  *
@@ -448,7 +469,10 @@ class RequestHandlerComponentTest extends CakeTestCase {
 		$this->_init();
 		$this->assertTrue($this->RequestHandler->isWap());
 
-		$_SERVER['HTTP_ACCEPT'] = 'application/rss+xml,text/xml,application/xml,application/xhtml+xml,text/html,text/plain,image/png,*/*';
+		$_SERVER['HTTP_ACCEPT'] = 'application/rss+xml ;q=0.9 ,  text/xml,  application/xml,application/xhtml+xml';
+		$this->_init();
+		$this->assertFalse($this->RequestHandler->isAtom());
+		$this->assertTrue($this->RequestHandler->isRSS());
 	}
 
 /**
@@ -692,7 +716,7 @@ class RequestHandlerComponentTest extends CakeTestCase {
 	}
 
 /**
- * assure that beforeRedirect with a status code will correctly set the status header 
+ * assure that beforeRedirect with a status code will correctly set the status header
  *
  * @return void
  */

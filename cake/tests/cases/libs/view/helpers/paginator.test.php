@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.view.helpers
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -20,6 +20,10 @@
 App::import('Helper', array('Html', 'Paginator', 'Form', 'Ajax', 'Javascript', 'Js'));
 
 Mock::generate('JsHelper', 'PaginatorMockJsHelper');
+
+if (!defined('FULL_BASE_URL')) {
+	define('FULL_BASE_URL', 'http://cakephp.org');
+}
 
 /**
  * PaginatorHelperTest class
@@ -1715,6 +1719,16 @@ class PaginatorHelperTest extends CakeTestCase {
 			' | ',
 			'<span',
 			array('a' => array('href' => '/index/page:15/sort:Client.name/direction:DESC')), '15', '/a',
+			'/span',
+		);
+		$this->assertTags($result, $expected);
+
+		$this->Paginator->options(array('url' => array('full_base' => true)));
+		$result = $this->Paginator->first();
+
+		$expected = array(
+			'<span',
+			array('a' => array('href' => FULL_BASE_URL . '/index/page:1/sort:Client.name/direction:DESC')), '&lt;&lt; first', '/a',
 			'/span',
 		);
 		$this->assertTags($result, $expected);

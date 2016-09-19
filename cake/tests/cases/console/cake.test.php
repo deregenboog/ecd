@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc.
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc.
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc.
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.console
  * @since         CakePHP(tm) v 1.2.0.5432
@@ -448,6 +448,23 @@ class ShellDispatcherTest extends CakeTestCase {
 			'webroot' => 'webroot'
 		);
 
+		$Dispatcher->params = $Dispatcher->args = array();
+		$Dispatcher->parseParams($params);
+		$this->assertEqual($expected, $Dispatcher->params);
+		
+		$params = array(
+			'cake.php',
+			'-working',
+			'D:\ ',
+			'bake',
+			'my_app',
+		);
+		$expected = array(
+			'working' => '.',
+			'app' => 'D:',
+			'root' => '.',
+			'webroot' => 'webroot'
+		);
 		$Dispatcher->params = $Dispatcher->args = array();
 		$Dispatcher->parseParams($params);
 		$this->assertEqual($expected, $Dispatcher->params);

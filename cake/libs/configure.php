@@ -5,12 +5,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs
@@ -23,14 +23,14 @@
  *
  * @package       cake
  * @subpackage    cake.cake.libs
- * @link          http://book.cakephp.org/view/924/The-Configuration-Class
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#the-configuration-class
  */
 class Configure extends Object {
 
 /**
  * Current debug level.
  *
- * @link          http://book.cakephp.org/view/931/CakePHP-Core-Configuration-Variables
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#cakephp-core-configuration-variables
  * @var integer
  * @access public
  */
@@ -72,6 +72,7 @@ class Configure extends Object {
  * ));
  * }}}
  *
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#write
  * @link http://book.cakephp.org/view/926/write
  * @param array $config Name of var to write
  * @param mixed $value Value to set for var
@@ -96,6 +97,7 @@ class Configure extends Object {
 					break;
 					case 3:
 						$_this->{$names[0]}[$names[1]][$names[2]] = $value;
+						break;
 					case 4:
 						$names = explode('.', $name, 2);
 						if (!isset($_this->{$names[0]})) {
@@ -113,23 +115,31 @@ class Configure extends Object {
 				if (!class_exists('Debugger')) {
 					require LIBS . 'debugger.php';
 				}
-				$reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED;
+				$reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT;
 				if (function_exists('ini_set')) {
 					ini_set('display_errors', 1);
 				}
+				$callback = array('Debugger', 'getInstance');
 			} elseif (function_exists('ini_set')) {
 				ini_set('display_errors', 0);
 			}
 
 			if (isset($_this->log) && $_this->log) {
-				if (!class_exists('CakeLog')) {
-					require LIBS . 'cake_log.php';
-				}
 				if (is_integer($_this->log) && !$_this->debug) {
 					$reporting = $_this->log;
 				} else {
-					$reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED;
+					$reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT;
 				}
+				error_reporting($reporting);
+				if (!class_exists('CakeLog')) {
+					require LIBS . 'cake_log.php';
+				}
+				if (empty($callback)) {
+					$callback = array('CakeLog', 'getInstance');
+				}
+			}
+			if (!empty($callback) && !defined('DISABLE_DEFAULT_ERROR_HANDLING') && class_exists('Debugger')) {
+				Debugger::invoke(call_user_func($callback));
 			}
 			error_reporting($reporting);
 		}
@@ -145,7 +155,7 @@ class Configure extends Object {
  * Configure::read('Name.key'); will return only the value of Configure::Name[key]
  * }}}
  *
- * @link http://book.cakephp.org/view/927/read
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#read
  * @param string $var Variable to obtain.  Use '.' to access array elements.
  * @return string value of Configure::$var
  * @access public
@@ -195,7 +205,7 @@ class Configure extends Object {
  * Configure::delete('Name.key'); will delete only the Configure::Name[key]
  * }}}
  *
- * @link http://book.cakephp.org/view/928/delete
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#delete
  * @param string $var the var to be deleted
  * @return void
  * @access public
@@ -222,7 +232,7 @@ class Configure extends Object {
  * - To load config files from app/config use `Configure::load('configure_file');`.
  * - To load config files from a plugin `Configure::load('plugin.configure_file');`.
  *
- * @link http://book.cakephp.org/view/929/load
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#load
  * @param string $fileName name of file to load, extension must be .php and only the name
  *     should be used, not the extenstion
  * @return mixed false if file not found, void if load successful
@@ -273,7 +283,7 @@ class Configure extends Object {
  *
  * Usage `Configure::version();`
  *
- * @link http://book.cakephp.org/view/930/version
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#version
  * @return string Current version of CakePHP
  * @access public
  */
@@ -439,7 +449,7 @@ class Configure extends Object {
 /**
  * Class/file loader and path management.
  *
- * @link          http://book.cakephp.org/view/933/The-App-Class
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#the-app-class
  * @since         CakePHP(tm) v 1.2.0.6001
  * @package       cake
  * @subpackage    cake.cake.libs
@@ -577,14 +587,6 @@ class App extends Object {
  * @access public
  */
 	var $return = false;
-
-/**
- * Determines if $__maps and $__paths cache should be written.
- *
- * @var boolean
- * @access private
- */
-	var $__cache = false;
 
 /**
  * Holds key/value pairs of $type => file path.
@@ -835,7 +837,7 @@ class App extends Object {
 			}
 
 			if ($cache === true) {
-				$_this->__cache = true;
+				$_this->__resetCache(true);
 			}
 			$_this->__objects[$name] = $objects;
 		}
@@ -844,9 +846,10 @@ class App extends Object {
 	}
 
 /**
- * Finds classes based on $name or specific file(s) to search.
+ * Finds classes based on $name or specific file(s) to search.  Calling App::import() will
+ * not construct any classes contained in the files. It will only find and require() the file.
  *
- * @link          http://book.cakephp.org/view/934/Using-App-import
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Developing-with-CakePHP/Configuration.html#using-app-import
  * @param mixed $type The type of Class if passed as a string, or all params can be passed as
  *                    an single array to $type,
  * @param string $name Name of the Class or a unique name for the file
@@ -930,7 +933,7 @@ class App extends Object {
 					return true;
 				} else {
 					$_this->__remove($name . $ext['class'], $type, $plugin);
-					$_this->__cache = true;
+					$_this->__resetCache(true);
 				}
 			}
 			if (!empty($search)) {
@@ -961,7 +964,7 @@ class App extends Object {
 			}
 
 			if ($directory !== null) {
-				$_this->__cache = true;
+				$_this->__resetCache(true);
 				$_this->__map($directory . $file, $name . $ext['class'], $type, $plugin);
 				$_this->__overload($type, $name . $ext['class'], $parent);
 
@@ -1032,7 +1035,8 @@ class App extends Object {
 					require LIBS . 'folder.php';
 				}
 				$Folder =& new Folder();
-				$directories = $Folder->tree($path, array('.svn', '.git', 'CVS', 'tests', 'templates'), 'dir');
+				$ignorePaths = array('.svn', '.git', 'CVS', 'tests', 'templates', 'node_modules');
+				$directories = $Folder->tree($path, $ignorePaths, 'dir');
 				sort($directories);
 				$this->__paths[$path] = $directories;
 			}
@@ -1062,8 +1066,8 @@ class App extends Object {
 		}
 		if (file_exists($file)) {
 			if (!$this->return) {
-				require($file);
 				$this->__loaded[$file] = true;
+				require($file);
 			}
 			return true;
 		}
@@ -1290,6 +1294,21 @@ class App extends Object {
 		}
 		return $items;
 	}
+	
+/**
+ * Determines if $__maps, $__objects and $__paths cache should be reset.
+ *
+ * @param boolean $reset 
+ * @return boolean
+ * @access private
+ */	
+	function __resetCache($reset = null) {
+		static $cache = array();
+		if (!$cache && $reset === true) {
+			$cache = true;	
+		}
+		return $cache;
+	}
 
 /**
  * Object destructor.
@@ -1300,7 +1319,7 @@ class App extends Object {
  * @access private
  */
 	function __destruct() {
-		if ($this->__cache) {
+		if ($this->__resetCache() === true) {
 			$core = App::core('cake');
 			unset($this->__paths[rtrim($core[0], DS)]);
 			Cache::write('dir_map', array_filter($this->__paths), '_cake_core_');

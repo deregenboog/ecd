@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.model
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -535,6 +535,86 @@ class ModelDeleteTest extends BaseModelTest {
 	}
 
 /**
+ * testDeleteDependent method
+ *
+ * @access public
+ * @return void
+ */
+	function testDeleteDependent() {
+		$this->loadFixtures('Bidding', 'BiddingMessage');
+		$Bidding = new Bidding();
+		$result = $Bidding->find('all');
+		$expected = array(
+			array(
+				'Bidding' => array('id' => 1, 'bid' => 'One', 'name' => 'Bid 1'),
+				'BiddingMessage' => array('bidding' => 'One', 'name' => 'Message 1'),
+			),
+			array(
+				'Bidding' => array('id' => 2, 'bid' => 'Two', 'name' => 'Bid 2'),
+				'BiddingMessage' => array('bidding' => 'Two', 'name' => 'Message 2'),
+			),
+			array(
+				'Bidding' => array('id' => 3, 'bid' => 'Three', 'name' => 'Bid 3'),
+				'BiddingMessage' => array('bidding' => 'Three', 'name' => 'Message 3'),
+			),
+			array(
+				'Bidding' => array('id' => 4, 'bid' => 'Five', 'name' => 'Bid 5'),
+				'BiddingMessage' => array('bidding' => '', 'name' => ''),
+			),
+		);
+		$this->assertEqual($result, $expected);
+
+		$Bidding->delete(4, true);
+		$result = $Bidding->find('all');
+		$expected = array(
+			array(
+				'Bidding' => array('id' => 1, 'bid' => 'One', 'name' => 'Bid 1'),
+				'BiddingMessage' => array('bidding' => 'One', 'name' => 'Message 1'),
+			),
+			array(
+				'Bidding' => array('id' => 2, 'bid' => 'Two', 'name' => 'Bid 2'),
+				'BiddingMessage' => array('bidding' => 'Two', 'name' => 'Message 2'),
+			),
+			array(
+				'Bidding' => array('id' => 3, 'bid' => 'Three', 'name' => 'Bid 3'),
+				'BiddingMessage' => array('bidding' => 'Three', 'name' => 'Message 3'),
+			),
+		);
+		$this->assertEqual($result, $expected);
+
+		$Bidding->delete(2, true);
+		$result = $Bidding->find('all');
+		$expected = array(
+			array(
+				'Bidding' => array('id' => 1, 'bid' => 'One', 'name' => 'Bid 1'),
+				'BiddingMessage' => array('bidding' => 'One', 'name' => 'Message 1'),
+			),
+			array(
+				'Bidding' => array('id' => 3, 'bid' => 'Three', 'name' => 'Bid 3'),
+				'BiddingMessage' => array('bidding' => 'Three', 'name' => 'Message 3'),
+			),
+		);
+		$this->assertEqual($result, $expected);
+
+		$result = $Bidding->BiddingMessage->find('all', array('order' => array('BiddingMessage.name' => 'ASC')));
+		$expected = array(
+			array(
+				'BiddingMessage' => array('bidding' => 'One', 'name' => 'Message 1'),
+				'Bidding' => array('id' => 1, 'bid' => 'One', 'name' => 'Bid 1'),
+			),
+			array(
+				'BiddingMessage' => array('bidding' => 'Three', 'name' => 'Message 3'),
+				'Bidding' => array('id' => 3, 'bid' => 'Three', 'name' => 'Bid 3'),
+			),
+			array(
+				'BiddingMessage' => array('bidding' => 'Four', 'name' => 'Message 4'),
+				'Bidding' => array('id' => '', 'bid' => '', 'name' => ''),
+			),
+		);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * test deleteLinks with Multiple habtm associations
  *
  * @return void
@@ -707,5 +787,48 @@ class ModelDeleteTest extends BaseModelTest {
 
 		// Removing Article #2 from Tag #1 is all that should have happened.
 		$this->assertEqual(count($before[0]["Tag"]), count($after[0]["Tag"]));
+	}
+
+/**
+ * test that deleting records inside the beforeDelete doesn't truncate the table.
+ *
+ * @return void
+ */
+	function testBeforeDeleteWipingTable() {
+		$this->loadFixtures('Comment');
+
+		$Comment =& new BeforeDeleteComment();
+		// Delete 3 records.
+		$Comment->delete(4);
+		$result = $Comment->find('count');
+
+		$this->assertTrue($result > 1, 'Comments are all gone.');
+		$Comment->create(array(
+			'article_id' => 1,
+			'user_id' => 2,
+			'comment' => 'new record',
+			'published' => 'Y'
+		));
+		$Comment->save();
+
+		$Comment->delete(5);
+		$result = $Comment->find('count');
+
+		$this->assertTrue($result > 1, 'Comments are all gone.');
+	}
+
+/**
+ * test that deleting the same record from the beforeDelete and the delete doesn't truncate the table.
+ *
+ * @return void
+ */
+	function testBeforeDeleteWipingTableWithDuplicateDelete() {
+		$this->loadFixtures('Comment');
+
+		$Comment =& new BeforeDeleteComment();
+		$Comment->delete(1);
+
+		$result = $Comment->find('count');
+		$this->assertTrue($result > 1, 'Comments are all gone.');
 	}
 }

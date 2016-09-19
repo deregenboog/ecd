@@ -6,14 +6,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.view.helpers
  * @since         CakePHP(tm) v 1.3
@@ -402,7 +402,7 @@ CODE;
 	function testSubmitWithMock() {
 		$this->_useMock();
 
-		$options = array('update' => '#content', 'id' => 'test-submit');
+		$options = array('update' => '#content', 'id' => 'test-submit', 'style' => 'margin: 0');
 		$this->Js->TestJsEngine->setReturnValue('dispatchMethod', 'serialize-code', array('serializeform', '*'));
 		$this->Js->TestJsEngine->setReturnValue('dispatchMethod', 'serialize-code', array('serializeForm', '*'));
 		$this->Js->TestJsEngine->setReturnValue('dispatchMethod', 'ajax-code', array('request', '*'));
@@ -422,7 +422,7 @@ CODE;
 		$result = $this->Js->submit('Save', $options);
 		$expected = array(
 			'div' => array('class' => 'submit'),
-			'input' => array('type' => 'submit', 'id' => $options['id'], 'value' => 'Save'),
+			'input' => array('type' => 'submit', 'id' => $options['id'], 'value' => 'Save', 'style' => 'margin: 0'),
 			'/div'
 		);
 		$this->assertTags($result, $expected);

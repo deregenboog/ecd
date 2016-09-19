@@ -13,20 +13,26 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
- * @subpackage    cake.libs.view.helpers
+ * @subpackage    cake.cake.libs.view.helpers
  * @since         CakePHP(tm) v 1.3
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::import('Helper', 'Js');
 
+/**
+ * Mootools Engine Helper for JsHelper
+ *
+ * @package       cake
+ * @subpackage    cake.cake.libs.view.helpers
+ */
 class MootoolsEngineHelper extends JsBaseEngineHelper {
 /**
  * Option mappings for MooTools
@@ -252,7 +258,7 @@ class MootoolsEngineHelper extends JsBaseEngineHelper {
 		}
 		$options['url'] = $url;
 		$options = $this->_prepareCallbacks('request', $options);
-		if (isset($options['dataExpression'])) {
+		if (!empty($options['dataExpression'])) {
 			$callbacks[] = 'data';
 			unset($options['dataExpression']);
 		} elseif (!empty($data)) {

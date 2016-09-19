@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.cache
  * @since         CakePHP(tm) v 1.2.0.5434
@@ -89,6 +89,20 @@ class ApcEngineTest extends CakeTestCase {
 		$this->assertEqual($result, $expecting);
 
 		Cache::delete('test');
+	}
+
+/**
+ * Writing cache entries with duration = 0 (forever) should work.
+ *
+ * @return void
+ */
+	function testReadWriteDurationZero() {
+		Cache::config('apc', array('engine' => 'Apc', 'duration' => 0, 'prefix' => 'cake_'));
+		Cache::write('zero', 'Should save', 'apc');
+		sleep(1);
+
+		$result = Cache::read('zero', 'apc');
+		$this->assertEqual('Should save', $result);
 	}
 
 /**

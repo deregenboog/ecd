@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2006-2010, Cake Software Foundation, Inc.
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc.
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2006-2010, Cake Software Foundation, Inc.
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.view.helpers
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -464,6 +464,10 @@ class HtmlHelperTest extends CakeTestCase {
 		$expected['link']['href'] = 'preg:/.*ccss\/cake\.generic\.css/';
 		$this->assertTags($result, $expected);
 
+		$result = $this->Html->css('//example.com/css/cake.generic.css');
+		$expected['link']['href'] = 'preg:/.*example\.com\/css\/cake\.generic\.css/';
+		$this->assertTags($result, $expected);
+
 		Configure::write('Asset.filter.css', false);
 
 		$result = explode("\n", trim($this->Html->css(array('cake.generic', 'vendor.generic'))));
@@ -586,9 +590,27 @@ class HtmlHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
+		$result = $this->Html->script('test.json');
+		$expected = array(
+			'script' => array('type' => 'text/javascript', 'src' => 'js/test.json.js')
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Html->script('http://example.com/test.json');
+		$expected = array(
+			'script' => array('type' => 'text/javascript', 'src' => 'http://example.com/test.json')
+		);
+		$this->assertTags($result, $expected);
+
 		$result = $this->Html->script('/plugin/js/jquery-1.3.2.js?someparam=foo');
 		$expected = array(
 			'script' => array('type' => 'text/javascript', 'src' => '/plugin/js/jquery-1.3.2.js?someparam=foo')
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Html->script('test.json.js?foo=bar');
+		$expected = array(
+			'script' => array('type' => 'text/javascript', 'src' => 'js/test.json.js?foo=bar')
 		);
 		$this->assertTags($result, $expected);
 
@@ -612,6 +634,55 @@ class HtmlHelperTest extends CakeTestCase {
 		$view->expectAt(0, 'addScript', array(new PatternExpectation('/script_in_head.js/')));
 		$result = $this->Html->script('script_in_head', array('inline' => false));
 		$this->assertNull($result);
+	}
+
+/**
+ * Test that Asset.filter.js works.
+ *
+ * @return void
+ */
+	function testScriptAssetFilter() {
+		Configure::write('Asset.filter.js', 'js.php');
+	
+		$result = $this->Html->script('jquery-1.3');
+		$expected = array(
+			'script' => array('type' => 'text/javascript', 'src' => 'cjs/jquery-1.3.js')
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Html->script('//example.com/js/jquery-1.3.js');
+		$expected = array(
+			'script' => array('type' => 'text/javascript', 'src' => '//example.com/js/jquery-1.3.js')
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * test a script file in the webroot/theme dir.
+ *
+ * @return void
+ */
+	function testScriptInTheme() {
+		if ($this->skipIf(!is_writable(WWW_ROOT . 'theme'), 'Cannot write to webroot/theme')) {
+			return;
+		}
+		App::import('Core', 'File');
+
+		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'js' . DS . '__test_js.js';
+		$file =& new File($testfile, true);
+
+		App::build(array(
+			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS)
+		));
+
+		$this->Html->webroot = '/';
+		$this->Html->theme = 'test_theme';
+		$result = $this->Html->script('__test_js.js');
+		$expected = array(
+			'script' => array('src' => '/theme/test_theme/js/__test_js.js', 'type' => 'text/javascript')
+		);
+		$this->assertTags($result, $expected);
+		App::build();
 	}
 
 /**

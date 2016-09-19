@@ -5,12 +5,12 @@
  * Simplifies the output of XML documents.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.view.helpers
@@ -26,7 +26,7 @@ App::import('Core', array('Xml', 'Set'));
  *
  * @package       cake
  * @subpackage    cake.cake.libs.view.helpers
- * @link http://book.cakephp.org/view/1473/XML
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Core-Helpers/XML.html#XML
  */
 class XmlHelper extends AppHelper {
 
@@ -38,6 +38,8 @@ class XmlHelper extends AppHelper {
  */
 	var $encoding = 'UTF-8';
 
+	var $Xml;
+	var $XmlElement;
 /**
  * Constructor
  *
@@ -55,7 +57,7 @@ class XmlHelper extends AppHelper {
  * @param array $attrib Header tag attributes
  * @return string XML header
  * @access public
- * @link http://book.cakephp.org/view/1476/header
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Core-Helpers/XML.html#header
  */
 	function header($attrib = array()) {
 		if (Configure::read('App.encoding') !== null) {
@@ -107,7 +109,7 @@ class XmlHelper extends AppHelper {
  * @param boolean $endTag Whether the end tag of the element should be printed
  * @return string XML
  * @access public
- * @link http://book.cakephp.org/view/1475/elem
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Core-Helpers/XML.html#elem
  */
 	function elem($name, $attrib = array(), $content = null, $endTag = true) {
 		$namespace = null;
@@ -136,7 +138,7 @@ class XmlHelper extends AppHelper {
 		$out = $elem->toString(array('cdata' => $cdata, 'leaveOpen' => !$endTag));
 
 		if (!$endTag) {
-			$this->Xml =& $elem;
+			$this->XmlElement =& $elem;
 		}
 		return $out;
 	}
@@ -148,9 +150,10 @@ class XmlHelper extends AppHelper {
  * @access public
  */
 	function closeElem() {
-		$name = $this->Xml->name();
-		if ($parent =& $this->Xml->parent()) {
-			$this->Xml =& $parent;
+		$elem = (empty($this->XmlElement)) ? $this->Xml : $this->XmlElement;
+		$name = $elem->name();
+		if ($parent =& $elem->parent()) {
+			$this->XmlElement =& $parent;
 		}
 		return '</' . $name . '>';
 	}
@@ -164,7 +167,7 @@ class XmlHelper extends AppHelper {
  * @return string A copy of $data in XML format
  * @see Xml::__construct()
  * @access public
- * @link http://book.cakephp.org/view/1474/serialize
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Core-Helpers/XML.html#serialize
  */
 	function serialize($data, $options = array()) {
 		$options += array('attributes' => false, 'format' => 'attributes');

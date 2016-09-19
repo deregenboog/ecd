@@ -7,12 +7,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs
@@ -41,7 +41,7 @@ if (!class_exists('String')) {
  *
  * @package       cake
  * @subpackage    cake.cake.libs
- * @link          http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
  */
 class Debugger extends Object {
 
@@ -120,7 +120,7 @@ class Debugger extends Object {
 	function __construct() {
 		$docRef = ini_get('docref_root');
 
-		if (empty($docRef)) {
+		if (empty($docRef) && function_exists('ini_set')) {
 			ini_set('docref_root', 'http://php.net/');
 		}
 		if (!defined('E_RECOVERABLE_ERROR')) {
@@ -210,7 +210,7 @@ class Debugger extends Object {
  * @see Debugger::exportVar()
  * @access public
  * @static
- * @link http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
 */
 	function dump($var) {
 		$_this =& Debugger::getInstance();
@@ -225,7 +225,7 @@ class Debugger extends Object {
  * @param $level int type of log to use. Defaults to LOG_DEBUG
  * @return void
  * @static
- * @link http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
  */
 	function log($var, $level = LOG_DEBUG) {
 		$_this =& Debugger::getInstance();
@@ -333,7 +333,7 @@ class Debugger extends Object {
  * @return mixed Formatted stack trace
  * @access public
  * @static
- * @link http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
  */
 	function trace($options = array()) {
 		$_this =& Debugger::getInstance();
@@ -445,7 +445,7 @@ class Debugger extends Object {
  * @return array Set of lines highlighted
  * @access public
  * @static
- * @link http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
  */
 	function excerpt($file, $line, $context = 2) {
 		$data = $lines = array();
@@ -478,7 +478,7 @@ class Debugger extends Object {
  * @return string Variable as a formatted string
  * @access public
  * @static
- * @link http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
  */
 	function exportVar($var, $recursion = 0) {
 		$_this =& Debugger::getInstance();
@@ -499,6 +499,16 @@ class Debugger extends Object {
 			case 'object':
 				return get_class($var) . "\n" . $_this->__object($var);
 			case 'array':
+				$var = array_merge($var,  array_intersect_key(array(
+					'password' => '*****',
+					'login'  => '*****',
+					'host' => '*****',
+					'database' => '*****',
+					'port' => '*****',
+					'prefix' => '*****',
+					'schema' => '*****'
+				), $var));
+
 				$out = "array(";
 				$vars = array();
 				foreach ($var as $key => $val) {
@@ -619,7 +629,10 @@ class Debugger extends Object {
 		$data += $defaults;
 
 		$files = $this->trace(array('start' => 2, 'format' => 'points'));
-		$code = $this->excerpt($files[0]['file'], $files[0]['line'] - 1, 1);
+		$code = '';
+		if (isset($files[1]['file'])) {
+			$code = $this->excerpt($files[1]['file'], $files[1]['line'] - 1, 1);
+		}
 		$trace = $this->trace(array('start' => 2, 'depth' => '20'));
 		$insertOpts = array('before' => '{:', 'after' => '}');
 		$context = array();
@@ -696,7 +709,7 @@ class Debugger extends Object {
  * @param object $debugger A reference to the Debugger object
  * @access public
  * @static
- * @link http://book.cakephp.org/view/1191/Using-the-Debugger-Class
+ * @link http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
  */
 	function invoke(&$debugger) {
 		set_error_handler(array(&$debugger, 'handleError'));

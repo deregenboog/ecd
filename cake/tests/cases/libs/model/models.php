@@ -6,14 +6,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.model
  * @since         CakePHP(tm) v 1.2.0.6464
@@ -278,6 +278,24 @@ class Article extends CakeTestModel {
 		if ($title === 'My Article Title') {
 			return false;
 		}
+		return true;
+	}
+}
+
+/**
+ * Model stub for beforeDelete testing
+ *
+ * @see #250
+ * @package cake.tests
+ */
+class BeforeDeleteComment extends CakeTestModel {
+	var $name = 'BeforeDeleteComment';
+
+	var $useTable = 'comments';
+
+	function beforeDelete($cascade = true) {
+		$db =& $this->getDataSource();
+		$db->delete($this, array($this->alias . '.' . $this->primaryKey => array(1, 3)));
 		return true;
 	}
 }
@@ -1084,6 +1102,76 @@ class Bid extends CakeTestModel {
  * @access public
  */
 	var $belongsTo = array('Message');
+}
+
+/**
+ * BiddingMessage class
+ *
+ * @package       cake
+ * @subpackage    cake.tests.cases.libs.model
+ */
+class BiddingMessage extends CakeTestModel {
+
+/**
+ * name property
+ *
+ * @var string 'BiddingMessage'
+ * @access public
+ */
+	var $name = 'BiddingMessage';
+
+/**
+ * primaryKey property
+ *
+ * @var string 'bidding'
+ * @access public
+ */
+	var $primaryKey = 'bidding';
+
+
+/**
+ * belongsTo property
+ *
+ * @var array
+ * @access public
+ */
+	var $belongsTo = array(
+		'Bidding' => array(
+			'foreignKey' => false,
+			'conditions' => array('BiddingMessage.bidding = Bidding.bid')
+		)
+	);
+}
+
+/**
+ * Bidding class
+ *
+ * @package       cake
+ * @subpackage    cake.tests.cases.libs.model
+ */
+class Bidding extends CakeTestModel {
+
+/**
+ * name property
+ *
+ * @var string 'Bidding'
+ * @access public
+ */
+	var $name = 'Bidding';
+
+/**
+ * hasOne property
+ *
+ * @var array
+ * @access public
+ */
+	var $hasOne = array(
+		'BiddingMessage' => array(
+			'foreignKey' => false,
+			'conditions' => array('BiddingMessage.bidding = Bidding.bid'),
+			'dependent' => true
+		)
+	);
 }
 
 /**
@@ -3414,6 +3502,14 @@ class TranslatedArticle extends CakeTestModel {
  * @access public
  */
 	var $belongsTo = array('User');
+
+/**
+ * hasMany property
+ *
+ * @var array
+ * @access public
+ */
+	var $hasMany = array('TranslatedItem');
 }
 
 class CounterCacheUser extends CakeTestModel {
@@ -3539,6 +3635,7 @@ class FruitNoWith extends CakeTestModel {
 		)
 	);
 }
+
 class UuidTagNoWith extends CakeTestModel {
 	var $name = 'UuidTag';
 	var $useTable = 'uuid_tags';
@@ -3555,11 +3652,32 @@ class UuidTagNoWith extends CakeTestModel {
 class ProductUpdateAll extends CakeTestModel {
 	var $name = 'ProductUpdateAll';
 	var $useTable = 'product_update_all';
-
 }
 
 class GroupUpdateAll extends CakeTestModel {
 	var $name = 'GroupUpdateAll';
 	var $useTable = 'group_update_all';
+}
 
+class TransactionTestModel extends CakeTestModel {
+	var $name = 'TransactionTestModel';
+	var $useTable = 'samples';
+
+	function afterSave($created) {
+		$data = array(
+			array('apple_id' => 1, 'name' => 'sample6'),
+		);
+		$this->saveAll($data, array('atomic' => true, 'callbacks' => false));
+	}
+}
+
+/**
+ * Test model for datasource prefixes
+ *
+ */
+class PrefixTestModel extends CakeTestModel {
+}
+class PrefixTestUseTableModel extends CakeTestModel {
+	var $name = 'PrefixTest';
+	var $useTable = 'prefix_tests';
 }

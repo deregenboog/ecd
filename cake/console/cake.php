@@ -8,12 +8,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc.
+ * Copyright 2005-2012, Cake Software Foundation, Inc.
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.console
@@ -147,7 +147,7 @@ class ShellDispatcher {
 	function __initConstants() {
 		if (function_exists('ini_set')) {
 			ini_set('display_errors', '1');
-			ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+			ini_set('error_reporting', E_ALL & ~E_DEPRECATED & ~E_STRICT);
 			ini_set('html_errors', false);
 			ini_set('implicit_flush', true);
 			ini_set('max_execution_time', 0);
@@ -450,7 +450,7 @@ class ShellDispatcher {
 		}
 		$result = trim($result);
 
-		if ($default != null && empty($result)) {
+		if ($default !== null && ($result === '' || $result === null)) {
 			return $default;
 		}
 		return $result;
@@ -471,7 +471,6 @@ class ShellDispatcher {
 			return fwrite($this->stdout, $string);
 		}
 	}
-
 /**
  * Outputs to the stderr filehandle.
  *
@@ -501,6 +500,9 @@ class ShellDispatcher {
 		}
 		$params = str_replace('\\', '/', $params);
 
+		if (isset($params['working'])) {
+			$params['working'] = trim($params['working']);
+		}
 		if (!empty($params['working']) && (!isset($this->args[0]) || isset($this->args[0]) && $this->args[0]{0} !== '.')) {
 			if (empty($this->params['app']) && $params['working'] != $params['root']) {
 				$params['root'] = dirname($params['working']);
@@ -517,7 +519,10 @@ class ShellDispatcher {
 		}
 
 		$params['app'] = basename($params['app']);
-		$params['working'] = rtrim($params['root'], '/') . '/' . $params['app'];
+		$params['working'] = rtrim($params['root'], '/');
+		if (!$isWin || !preg_match('/^[A-Z]:$/i', $params['app'])) {
+			$params['working'] .= '/' . $params['app'];
+		}
 
 		if (!empty($matches[0]) || !empty($isWin)) {
 			$params = str_replace('/', '\\', $params);

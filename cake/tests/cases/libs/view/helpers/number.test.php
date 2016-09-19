@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.view.helpers
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -151,6 +151,11 @@ class NumberHelperTest extends CakeTestCase {
 		$result = $this->Number->currency(-10, 'Other');
 		$expected = '($$ 10.00)';
 		$this->assertEqual($expected,$result);
+
+		$this->Number->addFormat('Other2', array('before' => '$ '));
+		$result = $this->Number->currency(0.22, 'Other2');
+		$expected = '$ 0.22';
+		$this->assertEqual($expected,$result);
 	}
 
 /**
@@ -236,7 +241,7 @@ class NumberHelperTest extends CakeTestCase {
 		$this->assertEqual($expected, $result);
 
 		$result = $this->Number->currency($value, 'EUR');
-		$expected = '99c';
+		$expected = '&#8364;0,99';
 		$this->assertEqual($expected, $result);
 
 		$result = $this->Number->currency($value, 'GBP');
@@ -258,7 +263,7 @@ class NumberHelperTest extends CakeTestCase {
 		$this->assertEqual($expected, $result);
 
 		$result = $this->Number->currency($value, 'EUR');
-		$expected = '(99c)';
+		$expected = '(&#8364;0,99)';
 		$this->assertEqual($expected, $result);
 
 		$result = $this->Number->currency($value, 'GBP');
@@ -270,7 +275,7 @@ class NumberHelperTest extends CakeTestCase {
 		$this->assertEqual($expected, $result);
 
 		$result = $this->Number->currency($value, 'EUR', array('negative'=>'-'));
-		$expected = '-99c';
+		$expected = '-&#8364;0,99';
 		$this->assertEqual($expected, $result);
 
 		$result = $this->Number->currency($value, 'GBP', array('negative'=>'-'));
@@ -321,6 +326,14 @@ class NumberHelperTest extends CakeTestCase {
 		$expected = '&#163;1,234,568';
 		$this->assertEqual($expected, $result);
 
+		$result = $this->Number->currency('1234567.8912345', null, array('before' => 'GBP', 'places' => 3));
+		$expected = 'GBP1,234,567.891';
+		$this->assertEqual($expected, $result);
+
+		$result = $this->Number->currency('650.120001', null, array('before' => 'GBP', 'places' => 4));
+		$expected = 'GBP650.1200';
+		$this->assertEqual($expected, $result);
+
 		$result = $this->Number->currency($value, 'GBP', array('escape' => true));
 		$expected = '&amp;#163;1,234,567.89';
 		$this->assertEqual($expected, $result);
@@ -335,6 +348,10 @@ class NumberHelperTest extends CakeTestCase {
 
 		$result = $this->Number->currency('0.35', 'GBP');
 		$expected = '35p';
+		$this->assertEqual($expected, $result);
+		
+		$result = $this->Number->currency('0.35', 'EUR');
+		$expected = '&#8364;0,35';
 		$this->assertEqual($expected, $result);
 	}
 

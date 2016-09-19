@@ -6,14 +6,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs.model.behaviors
  * @since         CakePHP(tm) v 1.2.0.5330
@@ -171,6 +171,57 @@ class NumberTreeTest extends CakeTestCase {
 
 		$result = $this->Tree->verify();
 		$this->assertIdentical($result, true);
+	}
+
+/**
+ * testRecoverUsingParentMode method
+ *
+ * @return void
+ */
+	public function testRecoverUsingParentMode() {
+		extract($this->settings);
+		$this->Tree = new $modelClass();
+		$this->Tree->Behaviors->disable('Tree');
+
+		$this->Tree->save(array('parent_id' => null, 'name' => 'Main', $parentField => null, $leftField => 0, $rightField => 0));
+		$node1	= $this->Tree->id;
+
+		$this->Tree->create(false);
+		$this->Tree->save(array('parent_id' => null, 'name' => 'About Us', $parentField => $node1, $leftField => 0, $rightField => 0));
+		$node11	= $this->Tree->id;
+		$this->Tree->create(false);
+		$this->Tree->save(array('parent_id' => null, 'name' => 'Programs', $parentField => $node1, $leftField => 0, $rightField => 0));
+		$node12	= $this->Tree->id;
+		$this->Tree->create(false);
+		$this->Tree->save(array('parent_id' => null, 'name' => 'Mission and History', $parentField => $node11, $leftField => 0, $rightField => 0));
+		$this->Tree->create(false);
+		$this->Tree->save(array('parent_id' => null, 'name' => 'Overview', $parentField => $node12, $leftField => 0, $rightField => 0));
+
+		$this->Tree->Behaviors->enable('Tree');
+
+		$result = $this->Tree->verify();
+		$this->assertNotIdentical($result, false);
+
+		$result = $this->Tree->recover();
+		$this->assertTrue($result);
+
+		$result = $this->Tree->verify();
+		$this->assertTrue($result);
+
+		$result = $this->Tree->find('first', array(
+			'fields' => array('name', $parentField, $leftField, $rightField),
+			'conditions' => array('name' => 'Main'),
+			'recursive' => -1
+		));
+		$expected = array(
+			$modelClass => array(
+				'name' => 'Main',
+				$parentField => null,
+				$leftField => 1,
+				$rightField => 10
+			)
+		);
+		$this->assertEqual($expected, $result);
 	}
 
 /**
@@ -1089,6 +1140,8 @@ class NumberTreeTest extends CakeTestCase {
 			array($modelClass => array( 'id' => 6, 'name' => '1.2.1', $parentField => 5, $leftField => 9, $rightField => 10)),
 			array($modelClass => array('id' => 7, 'name' => '1.2.2', $parentField => 5, $leftField => 11, $rightField => 12)));
 		$this->assertEqual($total, $expects);
+
+		$this->assertEqual(array(), $this->Tree->children(10000));
 	}
 
 /**
@@ -1110,6 +1163,11 @@ class NumberTreeTest extends CakeTestCase {
 
 		$total = $this->Tree->childCount();
 		$this->assertEqual($total, 6);
+
+		$this->Tree->read(null, $data[$modelClass]['id']);
+		$id = $this->Tree->field('id', array($modelClass . '.name' => '1.2'));
+		$total = $this->Tree->childCount($id);
+		$this->assertEqual($total, 2);
 	}
 
 /**

@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.cake.tests.libs
  * @since         CakePHP(tm) v 1.2.0.4667
@@ -63,6 +63,10 @@ class CakeTestDispatcher extends Dispatcher {
  */
 	function _invoke(&$controller, $params, $missingAction = false) {
 		$this->controller =& $controller;
+
+		if (array_key_exists('layout', $params)) {
+			$this->controller->layout = $params['layout'];
+		}
 
 		if (isset($this->testCase) && method_exists($this->testCase, 'startController')) {
 			$this->testCase->startController($this->controller, $params);
@@ -484,7 +488,7 @@ class CakeTestCase extends UnitTestCase {
 		$isTestMethod = !in_array(strtolower($method), array('start', 'end'));
 
 		if (isset($this->_fixtures) && isset($this->db) && $isTestMethod) {
-			foreach ($this->_fixtures as $fixture) {
+			foreach (array_reverse($this->_fixtures) as $fixture) {
 				$fixture->truncate($this->db);
 			}
 			$this->__truncated = true;

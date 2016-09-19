@@ -8,12 +8,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.console.libs
@@ -28,7 +28,7 @@ App::import('Model', 'CakeSchema', false);
  *
  * @package       cake
  * @subpackage    cake.cake.console.libs
- * @link          http://book.cakephp.org/view/1523/Schema-management-and-migrations
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Core-Console-Applications/Schema-management-and-migrations.html
  */
 class SchemaShell extends Shell {
 
@@ -90,6 +90,9 @@ class SchemaShell extends Shell {
 		}
 		if (!empty($this->params['plugin'])) {
 			$plugin = $this->params['plugin'];
+			if (empty($name)) {
+				$name = $plugin;
+			}
 		}
 		$this->Schema =& new CakeSchema(compact('name', 'path', 'file', 'connection', 'plugin'));
 	}
@@ -150,8 +153,13 @@ class SchemaShell extends Shell {
 			}
 		}
 
+		$cacheDisable = Configure::read('Cache.disable');
+		Configure::write('Cache.disable', true);
+
 		$content = $this->Schema->read($options);
 		$content['file'] = $this->params['file'];
+		
+		Configure::write('Cache.disable', $cacheDisable);
 
 		if ($snapshot === true) {
 			$Folder =& new Folder($this->Schema->path);
@@ -393,7 +401,7 @@ class SchemaShell extends Shell {
 			$this->err(__('Sql could not be run', true));
 			return;
 		}
-		# Configure::write('debug', 2);
+		Configure::write('debug', 2);
 		$db =& ConnectionManager::getDataSource($this->Schema->connection);
 
 		foreach ($contents as $table => $sql) {
@@ -496,6 +504,7 @@ Commands:
 		parameter will only update one table. 
 		To use a snapshot pass the `-s` param with the snapshot number.
 		To preview the changes that will be done use `-dry`.
+		To force update of all tables into the schema, use the -f param.
 TEXT;
 		$this->out($help);
 		$this->_stop();

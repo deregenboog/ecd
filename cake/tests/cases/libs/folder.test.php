@@ -4,14 +4,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -108,7 +108,8 @@ class FolderTest extends CakeTestCase {
 	function testCreateWithTrailingDs() {
 		$folder =& new Folder(TMP);
 		$path = TMP . 'tests' . DS . 'trailing' . DS . 'dir' . DS;
-		$folder->create($path);
+		$result = $folder->create($path);
+		$this->assertTrue($result);
 
 		$this->assertTrue(is_dir($path), 'Folder was not made');
 
@@ -365,6 +366,7 @@ class FolderTest extends CakeTestCase {
 		$this->assertFalse(Folder::isWindowsPath('0:\\cake\\is\\awesome'));
 		$this->assertTrue(Folder::isWindowsPath('C:\\cake\\is\\awesome'));
 		$this->assertTrue(Folder::isWindowsPath('d:\\cake\\is\\awesome'));
+		$this->assertTrue(Folder::isWindowsPath('\\\\vmware-host\\Shared Folders\\file'));
 	}
 
 /**
@@ -386,6 +388,7 @@ class FolderTest extends CakeTestCase {
 		$this->assertTrue(Folder::isAbsolute('C:\\cake'));
 		$this->assertTrue(Folder::isAbsolute('C:\\path\\to\\file'));
 		$this->assertTrue(Folder::isAbsolute('d:\\path\\to\\file'));
+		$this->assertTrue(Folder::isAbsolute('\\\\vmware-host\\Shared Folders\\file'));
 	}
 
 /**

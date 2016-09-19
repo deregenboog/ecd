@@ -6,14 +6,14 @@
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.tests.cases.libs
  * @since         CakePHP(tm) v 1.2.0.5432
@@ -149,7 +149,7 @@ class ConfigureTest extends CakeTestCase {
 
 		Configure::write('debug', 2);
 		$result = ini_get('error_reporting');
-		$this->assertEqual($result, E_ALL & ~E_DEPRECATED);
+		$this->assertEqual($result, E_ALL & ~E_DEPRECATED & ~E_STRICT);
 
 		$result = ini_get('display_errors');
 		$this->assertEqual($result, 1);
@@ -177,7 +177,7 @@ class ConfigureTest extends CakeTestCase {
 		$this->assertEqual(ini_get('display_errors'), 0);
 
 		Configure::write('debug', 2);
-		$this->assertEqual(ini_get('error_reporting'), E_ALL & ~E_DEPRECATED);
+		$this->assertEqual(ini_get('error_reporting'), E_ALL & ~E_DEPRECATED & ~E_STRICT);
 		$this->assertEqual(ini_get('display_errors'), 1);
 
 		Configure::write('debug', 0);
@@ -575,7 +575,15 @@ class AppImportTest extends CakeTestCase {
 			$this->assertTrue($file);
 			$this->assertTrue(class_exists('DboSource'));
 		}
+		App::build();
+	}
 
+/**
+ * test import() with plugins
+ *
+ * @return void
+ */
+	function testPluginImporting() {
 		App::build(array(
 			'libs' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'libs' . DS),
 			'plugins' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS)
@@ -597,10 +605,15 @@ class AppImportTest extends CakeTestCase {
 		$result = App::import('Helper', 'TestPlugin.OtherHelper');
 		$this->assertTrue($result);
 		$this->assertTrue(class_exists('OtherHelperHelper'));
+		
+		$result = App::import('Helper', 'TestPlugin.TestPluginApp');
+		$this->assertTrue($result);
+		$this->assertTrue(class_exists('TestPluginAppHelper'));
 
 		$result = App::import('Datasource', 'TestPlugin.TestSource');
 		$this->assertTrue($result);
 		$this->assertTrue(class_exists('TestSource'));
+		
 		App::build();
 	}
 

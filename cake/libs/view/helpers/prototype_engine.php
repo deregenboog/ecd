@@ -8,20 +8,26 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
- * @subpackage    cake.libs.view.helpers
+ * @subpackage    cake.cake.libs.view.helpers
  * @since         CakePHP(tm) v 1.3
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::import('Helper', 'Js');
 
+/**
+ * Prototype Engine Helper for JsHelper
+ *
+ * @package       cake
+ * @subpackage    cake.cake.libs.view.helpers
+ */
 class PrototypeEngineHelper extends JsBaseEngineHelper {
 /**
  * Is the current selection a multiple selection? or is it just a single element.
@@ -45,10 +51,8 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 			'error' => 'onFailure'
 		),
 		'sortable' => array(
-			'start' => 'onStart',
 			'sort' => 'onChange',
 			'complete' => 'onUpdate',
-			'distance' => 'snap',
 		),
 		'drag' => array(
 			'snapGrid' => 'snap',
@@ -246,7 +250,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 		}
 		$safe = array_keys($this->_callbackArguments['request']);
 		$options = $this->_prepareCallbacks('request', $options, $safe);
-		if (isset($options['dataExpression'])) {
+		if (!empty($options['dataExpression'])) {
 			$safe[] = 'parameters';
 			unset($options['dataExpression']);
 		}
@@ -261,6 +265,9 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  * Create a sortable element.
  *
  * #### Note: Requires scriptaculous to be loaded.
+ *
+ * The scriptaculous implementation of sortables does not suppot the 'start'
+ * and 'distance' options.
  *
  * @param array $options Array of options for the sortable.
  * @return string Completed sortable script.
@@ -330,10 +337,14 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 		unset($options['handle']);
 
 		if (isset($options['min']) && isset($options['max'])) {
-			$options['range'] = array($options['min'], $options['max']);
+			$options['range'] = sprintf('$R(%s,%s)', $options['min'], $options['max']);
 			unset($options['min'], $options['max']);
 		}
-		$optionString = $this->_processOptions('slider', $options);
+		$options = $this->_mapOptions('slider', $options);
+		$options = $this->_prepareCallbacks('slider', $options);
+		$optionString = $this->_parseOptions(
+			$options, array_merge(array_keys($this->_callbackArguments['slider']), array('range'))
+		);
 		if (!empty($optionString)) {
 			$optionString = ', {' . $optionString . '}';
 		}
