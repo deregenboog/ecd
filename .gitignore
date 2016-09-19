@@ -1,3 +1,9 @@
 /app/config
 /app/tmp
 /archive
+
+# Eclipse project files
+/.settings/*
+/.project
+/.buildpath
+
