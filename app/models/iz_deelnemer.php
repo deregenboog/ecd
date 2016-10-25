@@ -4,7 +4,9 @@ class IzDeelnemer extends AppModel
 {
 	public $name = 'IzDeelnemer';
 
-	public $actsAs = array('Containable', 'OdsEtiketten' );
+	public $useTable = 'iz_deelnemers';
+
+	public $actsAs = array('Containable', 'OdsEtiketten');
 
 	public $belongsTo = array(
 			'Klant' => array(
@@ -146,6 +148,8 @@ class IzDeelnemer extends AppModel
 					),
 			),
 	);
+
+	}
 
 	public function beforeSave($options = array())
 	{
@@ -1679,5 +1683,584 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
 		);
 
 		return $results;
+	}
+	public function count_beginstand(DateTime $startDate)
+	{
+		$sql = $this->count(
+			$this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulp = $this->query($sql);
+
+		$sql = $this->count(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulp, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+	}
+
+	public function count_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count(
+			$this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulp = $this->query($sql);
+
+		$sql = $this->count(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulp, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+	}
+
+	public function count_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count(
+			$this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulp = $this->query($sql);
+
+		$sql = $this->count(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulp, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+	}
+
+	public function count_eindstand(DateTime $endDate)
+	{
+		$sql = $this->count(
+			$this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulp = $this->query($sql);
+
+		$sql = $this->count(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulp, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+	}
+
+	public function count_per_coordinator_beginstand(DateTime $startDate)
+	{
+		$xPath = '0.fase';
+		$yPath = '0.medewerker';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_coordinator(
+			$this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpaanbod = $this->query($sql);
+
+		$sql = $this->count_per_coordinator(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpaanbod, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_coordinator_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = '0.medewerker';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_coordinator(
+			$this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpaanbod = $this->query($sql);
+
+		$sql = $this->count_per_coordinator(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpaanbod, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_coordinator_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = '0.medewerker';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_coordinator(
+			$this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpaanbod = $this->query($sql);
+
+		$sql = $this->count_per_coordinator(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpaanbod, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_coordinator_eindstand(DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = '0.medewerker';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_coordinator(
+			$this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpaanbod = $this->query($sql);
+
+		$sql = $this->count_per_coordinator(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpaanbod, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_project_beginstand(DateTime $startDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 'p.project';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_project(
+			$this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_project(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_project_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 'p.project';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_project(
+			$this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_project(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_project_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 'p.project';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_project(
+			$this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_project(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_project_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 'p.project';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_project(
+			$this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_project_eindstand(DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 'p.project';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_project(
+			$this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_project(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_stadsdeel_beginstand(DateTime $startDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 's.stadsdeel';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_stadsdeel(
+			$this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_stadsdeel(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 's.stadsdeel';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_stadsdeel(
+			$this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_stadsdeel(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 's.stadsdeel';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_stadsdeel(
+			$this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_stadsdeel(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 's.stadsdeel';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_stadsdeel(
+			$this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_stadsdeel_eindstand(DateTime $endDate)
+	{
+		$xPath = '0.fase';
+		$yPath = 's.stadsdeel';
+		$nPath = '0.aantal';
+
+		$sql = $this->count_per_stadsdeel(
+			$this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_stadsdeel(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+	}
+
+	public function count_per_postcodegebied_beginstand(DateTime $startDate)
+	{
+		$sql = $this->count_per_postcodegebied(
+			$this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_postcodegebied(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+	}
+
+	public function count_per_postcodegebied_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_postcodegebied(
+			$this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_postcodegebied(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+	}
+
+	public function count_per_postcodegebied_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_postcodegebied(
+			$this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_postcodegebied(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+	}
+
+	public function count_per_postcodegebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_postcodegebied(
+			$this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+	}
+
+	public function count_per_postcodegebied_eindstand(DateTime $endDate)
+	{
+		$sql = $this->count_per_postcodegebied(
+			$this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+		);
+		$metHulpvraag = $this->query($sql);
+
+		$sql = $this->count_per_postcodegebied(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+			true
+		);
+		$metKoppeling = $this->query($sql);
+
+		$result = array_merge($metHulpvraag, $metKoppeling);
+
+		return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+	}
+
+	public function count_per_project_stadsdeel_beginstand(DateTime $startDate)
+	{
+		$sql = $this->count_per_project_stadsdeel(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_project_stadsdeel(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_project_stadsdeel(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_project_stadsdeel(
+			$this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_stadsdeel_eindstand(DateTime $endDate)
+	{
+		$sql = $this->count_per_project_stadsdeel(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_postcodegebied_beginstand(DateTime $startDate)
+	{
+		$sql = $this->count_per_project_postcodegebied(
+			$this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_postcodegebied_gestart(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_project_postcodegebied(
+			$this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_postcodegebied_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_project_postcodegebied(
+			$this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_postcodegebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	{
+		$sql = $this->count_per_project_postcodegebied(
+			$this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+	}
+
+	public function count_per_project_postcodegebied_eindstand(DateTime $endDate)
+	{
+		$sql = $this->count_per_project_postcodegebied(
+			$this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+		);
+		$result = $this->query($sql);
+
+		return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+	}
+
+	protected function beginstand(DateTime $startDate, $startDateField, $endDateField)
+	{
+		return "WHERE $startDateField < '{$startDate->format('Y-m-d')}'
+			AND ($endDateField IS NULL OR $endDateField >= '{$startDate->format('Y-m-d')}')";
+	}
+
+	protected function gestart(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+	{
+		return "WHERE $startDateField BETWEEN '{$startDate->format('Y-m-d')}'
+			AND '{$endDate->format('Y-m-d')}'";
+	}
+
+	protected function afgesloten(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+	{
+		return "WHERE $endDateField BETWEEN '{$startDate->format('Y-m-d')}'
+			AND '{$endDate->format('Y-m-d')}'";
+	}
+
+	protected function succesvol_afgesloten(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+	{
+		return "WHERE $endDateField >= '{$startDate->format('Y-m-d')}'
+			AND $endDateField <= '{$endDate->format('Y-m-d')}'
+			AND koppeling.koppeling_succesvol = 1";
+	}
+
+	protected function eindstand(DateTime $endDate, $startDateField, $endDateField)
+	{
+		return "WHERE $startDateField <= '{$endDate->format('Y-m-d')}'
+			AND ($endDateField IS NULL OR $endDateField > '{$endDate->format('Y-m-d')}')";
 	}
 }
