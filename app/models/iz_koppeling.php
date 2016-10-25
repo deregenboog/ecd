@@ -217,9 +217,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, null, 'p.project', '0.aantal');
 	}
 
-	public function count_per_werkgebied_beginstand(DateTime $startDate)
+	public function count_per_stadsdeel_beginstand(DateTime $startDate)
 	{
-		$sql = $this->count_per_werkgebied(
+		$sql = $this->count_per_stadsdeel(
 			$this->beginstand($startDate)
 		);
 		$result = $this->query($sql);
@@ -227,9 +227,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, null, 's.stadsdeel', '0.aantal');
 	}
 
-	public function count_per_werkgebied_gestart(DateTime $startDate, DateTime $endDate)
+	public function count_per_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
 	{
-		$sql = $this->count_per_werkgebied(
+		$sql = $this->count_per_stadsdeel(
 			$this->gestart($startDate, $endDate)
 		);
 		$result = $this->query($sql);
@@ -237,9 +237,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, null, 's.stadsdeel', '0.aantal');
 	}
 
-	public function count_per_werkgebied_afgesloten(DateTime $startDate, DateTime $endDate)
+	public function count_per_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
 	{
-		$sql = $this->count_per_werkgebied(
+		$sql = $this->count_per_stadsdeel(
 			$this->afgesloten($startDate, $endDate)
 		);
 		$result = $this->query($sql);
@@ -247,9 +247,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, null, 's.stadsdeel', '0.aantal');
 	}
 
-	public function count_per_werkgebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	public function count_per_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
 	{
-		$sql = $this->count_per_werkgebied(
+		$sql = $this->count_per_stadsdeel(
 			$this->succesvol_afgesloten($startDate, $endDate)
 		);
 		$result = $this->query($sql);
@@ -257,9 +257,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, null, 's.stadsdeel', '0.aantal');
 	}
 
-	public function count_per_werkgebied_eindstand(DateTime $endDate)
+	public function count_per_stadsdeel_eindstand(DateTime $endDate)
 	{
-		$sql = $this->count_per_werkgebied(
+		$sql = $this->count_per_stadsdeel(
 			$this->eindstand($endDate)
 		);
 		$result = $this->query($sql);
@@ -317,9 +317,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, null, 'pc.postcodegebied', '0.aantal');
 	}
 
-	public function count_per_project_werkgebied_beginstand(DateTime $startDate)
+	public function count_per_project_stadsdeel_beginstand(DateTime $startDate)
 	{
-		$sql = $this->count_per_project_werkgebied(
+		$sql = $this->count_per_project_stadsdeel(
 			$this->beginstand($startDate)
 		);
 		$result = $this->query($sql);
@@ -327,9 +327,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
 	}
 
-	public function count_per_project_werkgebied_gestart(DateTime $startDate, DateTime $endDate)
+	public function count_per_project_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
 	{
-		$sql = $this->count_per_project_werkgebied(
+		$sql = $this->count_per_project_stadsdeel(
 			$this->gestart($startDate, $endDate)
 		);
 		$result = $this->query($sql);
@@ -337,9 +337,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
 	}
 
-	public function count_per_project_werkgebied_afgesloten(DateTime $startDate, DateTime $endDate)
+	public function count_per_project_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
 	{
-		$sql = $this->count_per_project_werkgebied(
+		$sql = $this->count_per_project_stadsdeel(
 			$this->afgesloten($startDate, $endDate)
 		);
 		$result = $this->query($sql);
@@ -347,9 +347,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
 	}
 
-	public function count_per_project_werkgebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+	public function count_per_project_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
 	{
-		$sql = $this->count_per_project_werkgebied(
+		$sql = $this->count_per_project_stadsdeel(
 			$this->succesvol_afgesloten($startDate, $endDate)
 		);
 		$result = $this->query($sql);
@@ -357,9 +357,9 @@ class IzKoppeling extends AppModel
 		return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
 	}
 
-	public function count_per_project_werkgebied_eindstand(DateTime $endDate)
+	public function count_per_project_stadsdeel_eindstand(DateTime $endDate)
 	{
-		$sql = $this->count_per_project_werkgebied(
+		$sql = $this->count_per_project_stadsdeel(
 			$this->eindstand($endDate)
 		);
 		$result = $this->query($sql);
@@ -435,7 +435,7 @@ class IzKoppeling extends AppModel
 			GROUP BY p.naam";
 	}
 
-	private function count_per_werkgebied($condition)
+	private function count_per_stadsdeel($condition)
 	{
 		return "SELECT COUNT(DISTINCT vraag.id) AS aantal, s.stadsdeel
 			FROM iz_koppelingen vraag
@@ -471,7 +471,7 @@ class IzKoppeling extends AppModel
 			GROUP BY pc.postcodegebied";
 	}
 
-	private function count_per_project_werkgebied($condition)
+	private function count_per_project_stadsdeel($condition)
 	{
 		return "SELECT COUNT(DISTINCT vraag.id) AS aantal, p.naam AS project, s.stadsdeel
 			FROM iz_koppelingen vraag

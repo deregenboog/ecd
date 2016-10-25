@@ -2,14 +2,17 @@
 
 class IzRapportagesController extends AppController
 {
+	public $uses = array();
+
 	public $components = array('ComponentLoader');
 
 	public $report_select = array(
 		'Koppelingen' => array(
+// 			'koppelingen_coordinator' => 'Koppelingen per coördinator',
 			'koppelingen_project' => 'Koppelingen per project',
-			'koppelingen_werkgebied' => 'Koppelingen per werkgebied',
+			'koppelingen_stadsdeel' => 'Koppelingen per stadsdeel',
 			'koppelingen_postcodegebied' => 'Koppelingen per postcodegebied',
-			'koppelingen_project_werkgebied' => 'Koppelingen per project en werkgebied',
+			'koppelingen_project_stadsdeel' => 'Koppelingen per project en stadsdeel',
 			'koppelingen_project_postcodegebied' => 'Koppelingen per project en postcodegebied',
 		),
 		'A1' => 'A1: Nieuwe koppelingen',
@@ -33,15 +36,15 @@ class IzRapportagesController extends AppController
 		'Z5' => 'Z5: Vrijwilligers per project',
 	);
 
-	public function __construct()
-	{
-		// valid model needed for construction
-		$this->name = 'IzDeelnemers';
-		parent::__construct();
+// 	public function __construct()
+// 	{
+// 		// valid model needed for construction
+// 		$this->name = 'IzDeelnemers';
+// 		parent::__construct();
 
-		// correct view path
-		$this->viewPath = 'iz_rapportages';
-	}
+// 		// correct view path
+// 		$this->viewPath = 'iz_rapportages';
+// 	}
 
 	public function index()
 	{
@@ -61,7 +64,7 @@ class IzRapportagesController extends AppController
 
 	public function ajax_report_html()
 	{
-		$this->loadModel('IzKoppeling');
+		$this->loadModel('IzDeelnemer');
 		$this->loadModel('IzKoppeling');
 		$this->loadModel('IzOntstaanContact');
 		$this->loadModel('IzViaPersoon');
@@ -279,26 +282,26 @@ class IzRapportagesController extends AppController
 		return $this->render('pivot_tables.'.$format);
 	}
 
-	private function report_koppelingen_werkgebied(
+	private function report_koppelingen_stadsdeel(
 		\DateTime $startDate,
 		\DateTime $endDate,
 		$format = 'html'
 	) {
-		$title = 'Koppelingen per werkgebied';
+		$title = 'Koppelingen per stadsdeel';
 		$reports = array(
 			array(
 				'title' => 'Beginstand',
 				'xDescription' => 'Aantal koppelingen',
-				'yDescription' => 'Werkgebied',
-				'data' => $this->IzKoppeling->count_per_werkgebied_beginstand(
+				'yDescription' => 'Stadsdeel',
+				'data' => $this->IzKoppeling->count_per_stadsdeel_beginstand(
 					$startDate
 				),
 			),
 			array(
 				'title' => 'Gestart',
 				'xDescription' => 'Aantal koppelingen',
-				'yDescription' => 'Werkgebied',
-				'data' => $this->IzKoppeling->count_per_werkgebied_gestart(
+				'yDescription' => 'Stadsdeel',
+				'data' => $this->IzKoppeling->count_per_stadsdeel_gestart(
 					$startDate,
 					$endDate
 				),
@@ -306,8 +309,8 @@ class IzRapportagesController extends AppController
 			array(
 				'title' => 'Afgesloten',
 				'xDescription' => 'Aantal koppelingen',
-				'yDescription' => 'Werkgebied',
-				'data' => $this->IzKoppeling->count_per_werkgebied_afgesloten(
+				'yDescription' => 'Stadsdeel',
+				'data' => $this->IzKoppeling->count_per_stadsdeel_afgesloten(
 					$startDate,
 					$endDate
 				),
@@ -315,8 +318,8 @@ class IzRapportagesController extends AppController
 			array(
 				'title' => 'Succesvol afgesloten',
 				'xDescription' => 'Aantal koppelingen',
-				'yDescription' => 'Werkgebied',
-				'data' => $this->IzKoppeling->count_per_werkgebied_succesvol_afgesloten(
+				'yDescription' => 'Stadsdeel',
+				'data' => $this->IzKoppeling->count_per_stadsdeel_succesvol_afgesloten(
 					$startDate,
 					$endDate
 				),
@@ -324,8 +327,8 @@ class IzRapportagesController extends AppController
 			array(
 				'title' => 'Eindstand',
 				'xDescription' => 'Aantal koppelingen',
-				'yDescription' => 'Werkgebied',
-				'data' => $this->IzKoppeling->count_per_werkgebied_eindstand(
+				'yDescription' => 'Stadsdeel',
+				'data' => $this->IzKoppeling->count_per_stadsdeel_eindstand(
 					$endDate
 				),
 			),
@@ -393,53 +396,53 @@ class IzRapportagesController extends AppController
 		return $this->render('pivot_tables.'.$format);
 	}
 
-	private function report_koppelingen_project_werkgebied(
+	private function report_koppelingen_project_stadsdeel(
 		\DateTime $startDate,
 		\DateTime $endDate,
 		$format = 'html'
 	) {
-		$title = 'Koppelingen per project en werkgebied';
+		$title = 'Koppelingen per project en stadsdeel';
 		$reports = array(
 			array(
 				'title' => 'Beginstand',
-				'xDescription' => 'Werkgebied',
+				'xDescription' => 'Stadsdeel',
 				'yDescription' => 'Project',
-				'data' => $this->IzKoppeling->count_per_project_werkgebied_beginstand(
+				'data' => $this->IzKoppeling->count_per_project_stadsdeel_beginstand(
 					$startDate
 				),
 			),
 			array(
 				'title' => 'Gestart',
-				'xDescription' => 'Werkgebied',
+				'xDescription' => 'Stadsdeel',
 				'yDescription' => 'Project',
-				'data' => $this->IzKoppeling->count_per_project_werkgebied_gestart(
+				'data' => $this->IzKoppeling->count_per_project_stadsdeel_gestart(
 					$startDate,
 					$endDate
 				),
 			),
 			array(
 				'title' => 'Afgesloten',
-				'xDescription' => 'Werkgebied',
+				'xDescription' => 'Stadsdeel',
 				'yDescription' => 'Project',
-				'data' => $this->IzKoppeling->count_per_project_werkgebied_afgesloten(
+				'data' => $this->IzKoppeling->count_per_project_stadsdeel_afgesloten(
 					$startDate,
 					$endDate
 				),
 			),
 			array(
 				'title' => 'Succesvol afgesloten',
-				'xDescription' => 'Werkgebied',
+				'xDescription' => 'Stadsdeel',
 				'yDescription' => 'Project',
-				'data' => $this->IzKoppeling->count_per_project_werkgebied_succesvol_afgesloten(
+				'data' => $this->IzKoppeling->count_per_project_stadsdeel_succesvol_afgesloten(
 					$startDate,
 					$endDate
 				),
 			),
 			array(
 				'title' => 'Eindstand',
-				'xDescription' => 'Werkgebied',
+				'xDescription' => 'Stadsdeel',
 				'yDescription' => 'Project',
-				'data' => $this->IzKoppeling->count_per_project_werkgebied_eindstand(
+				'data' => $this->IzKoppeling->count_per_project_stadsdeel_eindstand(
 					$endDate
 				),
 			),
