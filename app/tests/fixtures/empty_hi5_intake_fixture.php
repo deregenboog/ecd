@@ -1,7 +1,8 @@
 <?php 
-class EmptyHi5IntakeFixture extends CakeTestFixture {
-var $name = 'Hi5Intake';
+class EmptyHi5IntakeFixture extends CakeTestFixture
+{
+    public $name = 'Hi5Intake';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

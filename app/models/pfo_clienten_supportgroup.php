@@ -2,5 +2,5 @@
 
 class PfoClientenSupportgroup extends AppModel
 {
-	public $name = 'PfoClientenSupportgroup';
+    public $name = 'PfoClientenSupportgroup';
 }

@@ -2,7 +2,7 @@
 
 class IntakezComponent extends Object
 {
-    public $module = null; 
+    public $module = null;
 
     public function initialize(&$controller, $settings = array())
     {
@@ -32,10 +32,8 @@ class IntakezComponent extends Object
         ));
 
         if (empty($intake)) {
-        	
             $this->c->flashError(__('Invalid intake', true));
             return false;
-
         }
 
         $klant = $this->c->Intake->Klant->read(null, $intake['Klant']['id']);
@@ -58,16 +56,13 @@ class IntakezComponent extends Object
         $this->c->data['Intake']['module'] = $this->module;
 
         if ($this->c->Intake->save($this->c->data)) {
-        	
             $this->sendIntakeNotification(
                 $this->c->Intake->id, $this->c->data);
             $this->c->flash(
                 __('De intake is opgeslagen', true));
 
             return true;
-            
         } else {
-
             $this->c->flashError(
                 __('De intake is niet opgeslagen. Controleer de rood'.
                 ' gemarkeerde invoervelden en probeer opnieuw.', true)
@@ -78,7 +73,6 @@ class IntakezComponent extends Object
 
     public function setup_add_view($klant_id)
     {
-
         if ($klant_id == null) {
             $this->c->flashError('Geen klant Id opgegeven');
             return false;
@@ -91,15 +85,12 @@ class IntakezComponent extends Object
         }
 
         if (empty($this->c->data)) {
-        	
             $current = $this->populate_intake_data($klant_id);
 
             $datum_intake = date('Y-m-d');
 
             $intaker_id = $this->c->Session->read('Auth.Medewerker.id');
-            
         } else {
-
             $datum_intake = null;
 
             $intaker_id = $this->c->data['Intake']['medewerker_id'];
@@ -114,10 +105,8 @@ class IntakezComponent extends Object
     public function setup_edit_view($id = null)
     {
         if ($this->c->data) {
-
             $intaker_id = $this->c->data['Intake']['medewerker_id'];
         } else {
-
             $this->c->data = $this->c->Intake->find('first', array(
                 'conditions' => array(
                     'Intake.id' => $id,
@@ -180,19 +169,14 @@ class IntakezComponent extends Object
     public function save_edited($id = null)
     {
         if (!empty($this->c->data)) {
-        	
             if ($this->c->Intake->save($this->c->data)) {
-            	
                 $this->sendIntakeNotification($this->c->Intake->id, $this->c->data);
                 $this->c->flash(__('De intake is opgeslagen', true));
                 
                 return true;
-                
             } else {
-            	
                 $this->c->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
                 return false;
-                
             }
         }
 

@@ -1,12 +1,12 @@
 <?php
 
 
-/* 
+/*
  * /app/views/helpers/date_picker.php
- * 
+ *
  * version 1.5
- * 
- * 
+ *
+ *
  * */
 
 class DateHelper extends AppHelper
@@ -93,19 +93,19 @@ class DateHelper extends AppHelper
         if (is_array($options)) {
             foreach ($options as $option => $value) {
                 switch ($option) {
-                    case 'format' :
+                    case 'format':
                         $format = $value;
                         break;
                     case 'id':
                         $elementId = $value;
                         break;
-                    case 'label' :
+                    case 'label':
                         $label = $value;
                         break;
-                    case 'disabled' :
+                    case 'disabled':
                         $disabled = $value;
                         break;
-                    case 'class' :
+                    case 'class':
                         $class = $value;
                         break;
                     case 'required':
@@ -142,7 +142,7 @@ class DateHelper extends AppHelper
         $id = strtolower($id);
         $id .= $id;
 
-        //whether the field is required (just a CSS simple class set): 
+        //whether the field is required (just a CSS simple class set):
         if (isset($required) && $required == true) {
             $required = ' required';
         } else {
@@ -201,7 +201,7 @@ class DateHelper extends AppHelper
 
     /*
      * Shows formatted date in accordance to Calendar.dateDisplayFormat
-     * 
+     *
      * @options:	(array, default null)
      * nonbreaking - tells if the date is to be separated with &nbsp;
      * 					if not it's separated with just a space
@@ -355,29 +355,29 @@ class DateHelper extends AppHelper
         );
         if ($disabled) { //when the form is disabled:
             switch ($type) {
-                case 'm' :
+                case 'm':
                     $str .= '<option value="'.
                     $default[1].'" selected="selected">'.
                     (int) $default[1].'</option>'."\n";
                     break;
-                case 'M' :
+                case 'M':
                     $str .= '<option value="'.
                     $default[1].'" selected="selected">'.
                     $months[$default[1]-1].'</option>'."\n";
                     break;
-                case 'd' :
+                case 'd':
                     $str .= '<option value="'.
                     $default[2].'" selected="selected">'.
                     (int) $default[2].'</option>'."\n";
                     break;
-                case 'y' :
+                case 'y':
                     $str .= '<option value="'.
                     $default[0].'" selected="selected">'.
                     $default[0].'</option>'."\n";
             } //switch
         } else { //when the field is active
             switch ($type) {
-                case 'm' :
+                case 'm':
                     $str .= '<option value="0" class="disabled"';
                     if ($default == 'empty') {
                         $str .= ' selected="selected"';
@@ -395,7 +395,7 @@ class DateHelper extends AppHelper
                         $str .= '>'.$i.'</option>'."\n";
                     }
                     break;
-                case 'M' :
+                case 'M':
                     $str .= '<option value="0" class="disabled"';
                     if ($default == 'empty') {
                         $str .= ' selected="selected"';
@@ -414,7 +414,7 @@ class DateHelper extends AppHelper
                         $str .= '>'.$months[$i -1].'</option>'."\n";
                     }
                     break;
-                case 'd' :
+                case 'd':
                     $str .= '<option value="0" class="disabled"';
                     if ($default == 'empty') {
                         $str .= ' selected="selected"';
@@ -432,7 +432,7 @@ class DateHelper extends AppHelper
                         $str .= '>'.$i.'</option>'."\n";
                     }
                     break;
-                case 'y' :
+                case 'y':
                     $str .= '<option value="0" class="disabled"';
                     if ($default == 'empty') {
                         $str .= ' selected="selected"';

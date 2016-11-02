@@ -1,7 +1,8 @@
 <?php 
-class EmptyVerslavingsfrequentieFixture extends CakeTestFixture {
-var $name = 'Verslavingsfrequentie';
+class EmptyVerslavingsfrequentieFixture extends CakeTestFixture
+{
+    public $name = 'Verslavingsfrequentie';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

@@ -2,8 +2,7 @@
 
 class FixDatesBehavior extends ModelBehavior
 {
-
-    public function  beforeSave(&$model)
+    public function beforeSave(&$model)
     {
         $modelname = $model->alias;
         foreach ($model->data[$modelname] as $fieldname => $val) {

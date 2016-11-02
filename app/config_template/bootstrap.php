@@ -55,21 +55,21 @@ Configure::write('Config.language', 'dut');
 Configure::write('Calendar.dateDisplayFormat', 'd-M-y');
 //e-mail addresses for the intake notifications:
 
-if(isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'ecd.deregenboog.org' ) {
+if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'ecd.deregenboog.org') {
     Configure::write('informele_zorg_mail', 'jschmidt@deregenboog.org');
     Configure::write('dagbesteding_mail', 'bnieuwburg@deregenboog.org');
     Configure::write('inloophuis_mail', 'adbruijn@deregenboog.org');
     Configure::write('hulpverlening_mail', 'jvloo@deregenboog.org');
     Configure::write('agressie_mail', 'tvhamond@deregenboog.org');
     Configure::write('administratiebedrijf', 'administratiebedrijf@deregenboog.org ');
-} else if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'dev-ecd.deregenboog.org' ) {
+} elseif (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'dev-ecd.deregenboog.org') {
     Configure::write('informele_zorg_mail', 'robert@accelcloud.com');
     Configure::write('dagbesteding_mail', 'robert@accelcloud.com');
     Configure::write('inloophuis_mail', 'robert@accelcloud.com');
     Configure::write('hulpverlening_mail', 'robert@accelcloud.com');
     Configure::write('agressie_mail', 'robert@accelcloud.com');
     Configure::write('administratiebedrijf', 'robert@accelcloud.com');
-}else {
+} else {
     //Configure::write('informele_zorg_mail', 'bhuttinga@deregenboog.org');
     //Configure::write('dagbesteding_mail', 'bhuttinga@deregenboog.org');
     //Configure::write('inloophuis_mail', 'bhuttinga@deregenboog.org');
@@ -204,7 +204,7 @@ $singularizations = array(
 'iz_koppelingen' => 'iz_koppeling',
 'izkoppelingen' => 'IzKoppeling',
 'iz_verslagen' => 'iz_verslag',
-'izverslagen' => 'IzVerslag',        
+'izverslagen' => 'IzVerslag',
 'iz_deelnemers_iz_projecten' => 'iz_deelnemers_iz_project',
 'iz_afsluitingen' => 'iz_afsluiting',
 'izafsluitingen' => 'IzAfsluiting',
@@ -241,7 +241,7 @@ $singularizations = array(
 'landen' => 'land',
 'legitimaties' => 'legitimatie',//'iz_deelnemers' => 'iz_deelnemer',
 //'izdeelnemers' => 'IzDeelnemer',
-        
+
 'locaties' => 'locatie',
 'medewerkers' => 'medewerker',
 'nationaliteiten' => 'nationaliteit',
@@ -311,10 +311,11 @@ debug(Inflector::singularize('IzAfsluitingen'));
 */
 
 /*
- * 
+ *
 */
 
-function mt(){
+function mt()
+{
     list($usec, $sec) = explode(" ", microtime());
     return ((float)$usec + (float)$sec);
 }
@@ -326,35 +327,36 @@ function mt(){
  * See http://book.cakephp.org/view/1483/insert
  */
 
-function __tr  ($string, $params = array() ) {
-
+function __tr($string, $params = array())
+{
     if (!class_exists('String')) {
         App::import('Core', 'String');
     }
 
     // First translate.
-    $message = __($string , true);
+    $message = __($string, true);
     // Then replace parameter keywords
     $message = String::insert($message, $params);
 
     return $message;
-
 }
 
-function debugLastQuery($model) {
+function debugLastQuery($model)
+{
     $qs = $model->getDataSource()->_queriesLog;
     var_dump(array_pop($qs));
 }
 
 /**
  * registry_isset See if a $type and $key are set in the registry
- * 
+ *
  * @param mixed $type Mandatory object type
  * @param mixed $key  Optional object ID
  * @access public
  * @return Boolean
  */
-function registry_isset($type, $key) {
+function registry_isset($type, $key)
+{
     if (Configure::read('Cache.disable')) {
         return false;
     }
@@ -363,13 +365,14 @@ function registry_isset($type, $key) {
 
 /**
  * registry_delete Delete all or a chunk of the registry, depending of the specfied parameters
- * 
+ *
  * @param mixed $type  Object type
  * @param mixed $key  Object ID
  * @access public
  * @return void
  */
-function registry_delete($type, $key, $mem_cache = false, $config = 'default') {
+function registry_delete($type, $key, $mem_cache = false, $config = 'default')
+{
     if (Configure::read('Cache.disable')) {
         return false;
     }
@@ -379,7 +382,8 @@ function registry_delete($type, $key, $mem_cache = false, $config = 'default') {
     }
 }
 
-function registry_reset($mem_cache = false, $config = 'default') {
+function registry_reset($mem_cache = false, $config = 'default')
+{
     if (Configure::read('Cache.disable')) {
         return false;
     }
@@ -393,7 +397,7 @@ function registry_reset($mem_cache = false, $config = 'default') {
 
 /**
  * registry_set Store a value in the registry, for the given object type and ID
- * 
+ *
  * @param mixed $type Object type
  * @param mixed $key  Object ID
  * @param mixed $value The value to store, can be anything.
@@ -401,7 +405,8 @@ function registry_reset($mem_cache = false, $config = 'default') {
  * @access public
  * @return void
  */
-function registry_set($type, $key, $value, $mem_cache = false, $config = 'default') {
+function registry_set($type, $key, $value, $mem_cache = false, $config = 'default')
+{
     if (Configure::read('Cache.disable')) {
         return false;
     }
@@ -413,20 +418,21 @@ function registry_set($type, $key, $value, $mem_cache = false, $config = 'defaul
 
 /**
  * registry_get Get a value from the registry, for the given object type and optionally ID.
- * 
+ *
  * @param mixed $type Object type
  * @param mixed $key  Object ID
  * @param boolean $mem_cache  If value is not in the registry, try to read it from the long term memory cache.
  * @access public
  * @return mixed The stored value, or NULL if not set.
  */
-function registry_get($type, $key = null, $mem_cache = false, $config = 'default') {
+function registry_get($type, $key = null, $mem_cache = false, $config = 'default')
+{
     if (Configure::read('Cache.disable')) {
         return null;
     }
 
-    // Used to exclude globals in certain installations, if there is an 
-    // external queue server that only reads from cache. Not for the ECD by 
+    // Used to exclude globals in certain installations, if there is an
+    // external queue server that only reads from cache. Not for the ECD by
     // now:
     $from_globals = true;
 
@@ -447,20 +453,21 @@ function registry_get($type, $key = null, $mem_cache = false, $config = 'default
 /*
  * Check if a savelall return when using atomic = false is true or false
  */
-function is_saved($haystack) {
-    if(! is_array($haystack)) {
-        if(empty($haystack)) {
+function is_saved($haystack)
+{
+    if (! is_array($haystack)) {
+        if (empty($haystack)) {
             return false;
         }
         return true;
     }
-    if(in_array(0, $haystack)) {
+    if (in_array(0, $haystack)) {
         return false;
     }
-    foreach($haystack as $element) {
-        if(is_array($element) && ! is_saved( $element))
+    foreach ($haystack as $element) {
+        if (is_array($element) && ! is_saved($element)) {
             return false;
+        }
     }
     return true;
 }
-

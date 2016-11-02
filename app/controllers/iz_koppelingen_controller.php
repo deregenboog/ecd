@@ -2,5 +2,5 @@
 
 class IzKoppelingenController extends AppController
 {
-	public $name = 'IzKoppelingen';
+    public $name = 'IzKoppelingen';
 }

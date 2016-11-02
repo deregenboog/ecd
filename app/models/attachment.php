@@ -27,19 +27,19 @@
 class attachment extends AppModel
 {
 
-	// <editor-fold defaultstate="collapsed" desc="Group constants">
-	/**
-	 * Attachments for the Maatschappelijk Werk
-	 */
-	const GROUP_MW = 'mw';
-	const GROUP_PFO = 'pfo';
-	const GROUP_BTO = 'bto';
+    // <editor-fold defaultstate="collapsed" desc="Group constants">
+    /**
+     * Attachments for the Maatschappelijk Werk
+     */
+    const GROUP_MW = 'mw';
+    const GROUP_PFO = 'pfo';
+    const GROUP_BTO = 'bto';
 
-	/**
-	 * Attachments for the Hi5
-	 */
-	const GROUP_HI5 = 'hi5';
-	// </editor-fold>
+    /**
+     * Attachments for the Hi5
+     */
+    const GROUP_HI5 = 'hi5';
+    // </editor-fold>
 
 /**
  * Name of model
@@ -47,17 +47,17 @@ class attachment extends AppModel
  * @var string
  * @access public
  */
-	public $name = 'Attachment';
+    public $name = 'Attachment';
 /**
  * Name of table to use
  *
  * @var mixed
  * @access public
  */
-	public $useTable = 'attachments';
+    public $useTable = 'attachments';
 
-	//for transactions
-	public $transactional = true;
+    //for transactions
+    public $transactional = true;
 
 /**
  * actsAs property
@@ -65,38 +65,38 @@ class attachment extends AppModel
  * @var array
  * @access public
  */
-	public $actsAs = array(
-			'Media.Polymorphic' => array(
-				'classField' => 'model',
-				'foreignKey' => 'foreign_key',
-				),
-			'Media.Transfer' => array(
-				'trustClient'	  => false,
-				// Use a UUID for the file name of a transferred file. Without
-				// it, files like
-				// http://t1.gstatic.com/images?q=tbn:JmRds8IibpPWZM:http://i299.photobucket.com/albums/mm311/arhitecturamoderna/madrid_airport_hg.jpg&t=1
-				// and
-				// http://t2.gstatic.com/images?q=tbn:35NWVkTNcxu_EM:http://www.bmw.gotik-romanik.de/BMW%20Welt%20Thumbnails/BMW%20Welt%20von%20Thomas%20Rieger,%204.jpg&t=1
-				// are both saved at transfer/gen/images, overwriting each
-				// other.
-				// We can not use just :uuid:_:Source.extension:, because in
-				// the given examples there's no extension and the media plugin
-				// fails in putting there an empty one (it Set::filter all the
-				// markers, for some reason I cannot understand, so that the
-				// Source.extension is undefined!). We use Source.basename
-				// instead, despite it produces long file names for some
-				// images.
-				'destinationFile' => ':Medium.short::DS::year:-:month::DS::uuid:_:Source.basename:',
-				'baseDirectory'   => MEDIA_TRANSFER,
-				'createDirectory' => true,
-				'alternativeFile' => 100,
-				),
-			'Media.Media' => array(
-				'metadataLevel'   => 2,
-				'makeVersions'	  => true,
-				'filterDirectory' => MEDIA_FILTER,
-				),
-			);
+    public $actsAs = array(
+            'Media.Polymorphic' => array(
+                'classField' => 'model',
+                'foreignKey' => 'foreign_key',
+                ),
+            'Media.Transfer' => array(
+                'trustClient'      => false,
+                // Use a UUID for the file name of a transferred file. Without
+                // it, files like
+                // http://t1.gstatic.com/images?q=tbn:JmRds8IibpPWZM:http://i299.photobucket.com/albums/mm311/arhitecturamoderna/madrid_airport_hg.jpg&t=1
+                // and
+                // http://t2.gstatic.com/images?q=tbn:35NWVkTNcxu_EM:http://www.bmw.gotik-romanik.de/BMW%20Welt%20Thumbnails/BMW%20Welt%20von%20Thomas%20Rieger,%204.jpg&t=1
+                // are both saved at transfer/gen/images, overwriting each
+                // other.
+                // We can not use just :uuid:_:Source.extension:, because in
+                // the given examples there's no extension and the media plugin
+                // fails in putting there an empty one (it Set::filter all the
+                // markers, for some reason I cannot understand, so that the
+                // Source.extension is undefined!). We use Source.basename
+                // instead, despite it produces long file names for some
+                // images.
+                'destinationFile' => ':Medium.short::DS::year:-:month::DS::uuid:_:Source.basename:',
+                'baseDirectory'   => MEDIA_TRANSFER,
+                'createDirectory' => true,
+                'alternativeFile' => 100,
+                ),
+            'Media.Media' => array(
+                'metadataLevel'   => 2,
+                'makeVersions'      => true,
+                'filterDirectory' => MEDIA_FILTER,
+                ),
+            );
 /**
  * Validation rules for file and alternative fields
  *
@@ -115,62 +115,62 @@ class attachment extends AppModel
  * @var array
  * @access public
  */
-	public $validate = array(
-		'file' => array(
-			'resource'	 => array('rule' => 'checkResource', 'message' => 'No resources!'),
-			'access'	 => array('rule' => 'checkAccess', 'message' => 'No access!'),
-			'location'	 => array('rule' => array('checkLocation', array(
-				MEDIA_TRANSFER, '/tmp/',
-			)), 'message' => 'There is a problem with the location of the file!'),
-			'permission' => array('rule' => array('checkPermission', '*'), 'message' => 'You are not authorized to upload this file'),
-			'size'		 => array('rule' => array('checkSize', '9M'), 'message' => 'Your size exceeds our limit of :maxSize'),
-			'extension'  => array('rule' => array('checkExtension', false, array(
-				'doc', 'odt', 'txt', 'pdf', 'jpg', 'docx', 'xlsx', 'jpeg', 'png',
-			)), 'message' => 'This file extension is not allowed!'),
-			'mimeType'	 => array('rule' => array('checkMimeType', false, array(
-				'application/doc',
-				'application/vnd.msword',
-				'application/vnd.ms-word',
-				'application/winword',
-				'application/word',
-				'application/x-msw6',
-				'application/x-msword',
-				'application/msword',
-				'application/vnd.ms-office',
-				'image/jpeg',
-				'image/pjpeg',
-				'image/png',
-				'application/vnd.oasis.opendocument.text',
-				'application/x-vnd.oasis.opendocument.text',
-				'application/zip',
-				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-				'application/pdf',
-				'application/x-pdf',
-				'application/acrobat',
-				'applications/vnd.pdf',
-				'text/pdf',
-				'text/x-pdf',
+    public $validate = array(
+        'file' => array(
+            'resource'     => array('rule' => 'checkResource', 'message' => 'No resources!'),
+            'access'     => array('rule' => 'checkAccess', 'message' => 'No access!'),
+            'location'     => array('rule' => array('checkLocation', array(
+                MEDIA_TRANSFER, '/tmp/',
+            )), 'message' => 'There is a problem with the location of the file!'),
+            'permission' => array('rule' => array('checkPermission', '*'), 'message' => 'You are not authorized to upload this file'),
+            'size'         => array('rule' => array('checkSize', '9M'), 'message' => 'Your size exceeds our limit of :maxSize'),
+            'extension'  => array('rule' => array('checkExtension', false, array(
+                'doc', 'odt', 'txt', 'pdf', 'jpg', 'docx', 'xlsx', 'jpeg', 'png',
+            )), 'message' => 'This file extension is not allowed!'),
+            'mimeType'     => array('rule' => array('checkMimeType', false, array(
+                'application/doc',
+                'application/vnd.msword',
+                'application/vnd.ms-word',
+                'application/winword',
+                'application/word',
+                'application/x-msw6',
+                'application/x-msword',
+                'application/msword',
+                'application/vnd.ms-office',
+                'image/jpeg',
+                'image/pjpeg',
+                'image/png',
+                'application/vnd.oasis.opendocument.text',
+                'application/x-vnd.oasis.opendocument.text',
+                'application/zip',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/pdf',
+                'application/x-pdf',
+                'application/acrobat',
+                'applications/vnd.pdf',
+                'text/pdf',
+                'text/x-pdf',
 
-				'text/plain',
-		)), 'message' => 'This MIME Type is not allowed!'), ),
-		'alternative' => array(
-			'rule'		 => 'checkRepresent',
-			'on'		 => 'create',
-			'required'	 => false,
-			'allowEmpty' => true,
-		), );
+                'text/plain',
+        )), 'message' => 'This MIME Type is not allowed!'), ),
+        'alternative' => array(
+            'rule'         => 'checkRepresent',
+            'on'         => 'create',
+            'required'     => false,
+            'allowEmpty' => true,
+        ), );
 
-	public function __construct($id = false, $table = null, $ds = null)
-	{
-		$this->validate['file']['size']['message'] = __tr(
-			$this->validate['file']['size']['message'],
-			array('maxSize' => Configure::read('attachment.max_size'))
-		);
-		$this->validate['file']['size']['rule'][1] = Configure::read('attachment.max_size');
+    public function __construct($id = false, $table = null, $ds = null)
+    {
+        $this->validate['file']['size']['message'] = __tr(
+            $this->validate['file']['size']['message'],
+            array('maxSize' => Configure::read('attachment.max_size'))
+        );
+        $this->validate['file']['size']['rule'][1] = Configure::read('attachment.max_size');
 
-		parent::__construct($id, $table, $ds);
-	}
+        parent::__construct($id, $table, $ds);
+    }
 /**
  * beforeMake Callback
  *
@@ -189,71 +189,71 @@ class attachment extends AppModel
  * @return boolean True signals that the file has been processed,
  *	false or null signals that the behavior should process the file
  */
-	public function beforeMake($file, $process)
-	{
-	}
+    public function beforeMake($file, $process)
+    {
+    }
 
-	/**
-	 * Gets the file path for the attachment id.
-	 * @param string $id	  Id of the attachment
-	 * @param string $version Version of the attachment
-	 * @return string 
-	 */
-	public function getPathForId($id = null, $version = null)
-	{
-		if ($id == null) {
-			return 'wrong path!';
-		}
-		//retrieve the file record from the DB
-		$file_record = $this->find('first', array(
-			'conditions' => array(
-				'Attachment.id' => $id,
-			),
-		));
+    /**
+     * Gets the file path for the attachment id.
+     * @param string $id	  Id of the attachment
+     * @param string $version Version of the attachment
+     * @return string
+     */
+    public function getPathForId($id = null, $version = null)
+    {
+        if ($id == null) {
+            return 'wrong path!';
+        }
+        //retrieve the file record from the DB
+        $file_record = $this->find('first', array(
+            'conditions' => array(
+                'Attachment.id' => $id,
+            ),
+        ));
 
-		//check if the file exists in the database
-		if (!$file_record) {
-			return null;
-		}
+        //check if the file exists in the database
+        if (!$file_record) {
+            return null;
+        }
 
-		//retrieve the file path
-		$dir_name = $file_record['Attachment']['dirname'];
-		$filename = $file_record['Attachment']['basename'];
-		if (empty($version)) {
-			$file_path = MEDIA.$dir_name.'/'.$filename;
-		} else {
-			//the file type is changed by the filter to png
-			//we need to change the extension in the basename
-			//we asume the versioning is only done for images
-			//and that media plugin changes the period characters to underscores
-			//we can also switch off the conversion in plugins/media/config/core.php
-			$config = Configure::read('Media.filter.image');
-			if (isset($config[$version]['convert'])) {
-				$ext = explode('/', $config[$version]['convert']);
-				$name = explode('.', $filename);
-				$filename = $name[0].'.'.$ext[1];
-			}
-			$file_path = MEDIA.'filter/'.$version.'/'.$dir_name.'/'.
-				$filename;
-		}
+        //retrieve the file path
+        $dir_name = $file_record['Attachment']['dirname'];
+        $filename = $file_record['Attachment']['basename'];
+        if (empty($version)) {
+            $file_path = MEDIA.$dir_name.'/'.$filename;
+        } else {
+            //the file type is changed by the filter to png
+            //we need to change the extension in the basename
+            //we asume the versioning is only done for images
+            //and that media plugin changes the period characters to underscores
+            //we can also switch off the conversion in plugins/media/config/core.php
+            $config = Configure::read('Media.filter.image');
+            if (isset($config[$version]['convert'])) {
+                $ext = explode('/', $config[$version]['convert']);
+                $name = explode('.', $filename);
+                $filename = $name[0].'.'.$ext[1];
+            }
+            $file_path = MEDIA.'filter/'.$version.'/'.$dir_name.'/'.
+                $filename;
+        }
 
-		return $file_path;
-	} //view()
+        return $file_path;
+    } //view()
 
-	/**
-	 * Returns the controller that is associated to the group.
-	 * @param string $group Group id
-	 */
-	public function groupToController($group)
-	{
-		switch ($group) {
-			case self::GROUP_MW:
-				return 'maatschappelijk_werk';
-			case self::GROUP_HI5:
-				return 'Hi5';
-			default:
-				//if you get here add a new group in the switch
-				assert(false);
-		}
-	}
+    /**
+     * Returns the controller that is associated to the group.
+     * @param string $group Group id
+     */
+    public function groupToController($group)
+    {
+        switch ($group) {
+            case self::GROUP_MW:
+                return 'maatschappelijk_werk';
+            case self::GROUP_HI5:
+                return 'Hi5';
+            default:
+                //if you get here add a new group in the switch
+                assert(false);
+        }
+    }
 }

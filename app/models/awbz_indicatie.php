@@ -2,159 +2,157 @@
 
 class AwbzIndicatie extends AppModel
 {
-	public $name = 'AwbzIndicatie';
-	public $actsAs = array('FixDates');
-	public $validate = array(
-		'begindatum' => array(
-			'date' => array(
-				'rule' => array('date'),
-				'message' => 'Datum',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'Dit veld is verplicht',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'periodsDontOverlap' => array(
-				'rule' => array('periodsDontOverlap'),
-				'message' => 'Datums van indicaties mogen niet overlappen',
-				),
-		),
-		'einddatum' => array(
-			'date' => array(
-				'rule' => array('date'),
-				'message' => 'Datum',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'Dit veld is verplicht',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'periodsDontOverlap' => array(
-				'rule' => array('periodsDontOverlap'),
-				'message' => 'Datums van indicaties mogen niet overlappen',
-				),
+    public $name = 'AwbzIndicatie';
+    public $actsAs = array('FixDates');
+    public $validate = array(
+        'begindatum' => array(
+            'date' => array(
+                'rule' => array('date'),
+                'message' => 'Datum',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+            'notempty' => array(
+                'rule' => array('notempty'),
+                'message' => 'Dit veld is verplicht',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+            'periodsDontOverlap' => array(
+                'rule' => array('periodsDontOverlap'),
+                'message' => 'Datums van indicaties mogen niet overlappen',
+                ),
+        ),
+        'einddatum' => array(
+            'date' => array(
+                'rule' => array('date'),
+                'message' => 'Datum',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+            'notempty' => array(
+                'rule' => array('notempty'),
+                'message' => 'Dit veld is verplicht',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+            'periodsDontOverlap' => array(
+                'rule' => array('periodsDontOverlap'),
+                'message' => 'Datums van indicaties mogen niet overlappen',
+                ),
 
-		),
-		'begeleiding_per_week' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'Dit veld is verplicht',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'activering_per_week' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'Dit veld is verplicht',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'hoofdaannemer_id' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'Dit veld is verplicht',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+        ),
+        'begeleiding_per_week' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+            'notempty' => array(
+                'rule' => array('notempty'),
+                'message' => 'Dit veld is verplicht',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'activering_per_week' => array(
+            'notempty' => array(
+                'rule' => array('notempty'),
+                'message' => 'Dit veld is verplicht',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'hoofdaannemer_id' => array(
+            'notempty' => array(
+                'rule' => array('notempty'),
+                'message' => 'Dit veld is verplicht',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+    );
 
-	public $belongsTo = array(
-		'Klant' => array(
-			'className' => 'Klant',
-			'foreignKey' => 'klant_id',
-		),
-		'Hoofdaannemer' => array(
-			'className' => 'Hoofdaannemer',
-			'foreignKey' => 'hoofdaannemer_id',
-			'order' => 'Hoofdaannemer.naam ASC',
-		),
-		'Aangevraagd' => array(
-			'className' => 'Medewerker',
-			'foreignKey' => 'aangevraagd_id',
-		),
-	);
+    public $belongsTo = array(
+        'Klant' => array(
+            'className' => 'Klant',
+            'foreignKey' => 'klant_id',
+        ),
+        'Hoofdaannemer' => array(
+            'className' => 'Hoofdaannemer',
+            'foreignKey' => 'hoofdaannemer_id',
+            'order' => 'Hoofdaannemer.naam ASC',
+        ),
+        'Aangevraagd' => array(
+            'className' => 'Medewerker',
+            'foreignKey' => 'aangevraagd_id',
+        ),
+    );
 
-	public function periodsDontOverlap($val)
-	{
-		$d =& $this->data[$this->alias];
+    public function periodsDontOverlap($val)
+    {
+        $d =& $this->data[$this->alias];
 
-		if (!isset($d['klant_id'])) {
-			return true;
-		}
+        if (!isset($d['klant_id'])) {
+            return true;
+        }
 
-		foreach ($val as $field => $date) {
-		}
+        foreach ($val as $field => $date) {
+        }
 
-		$conditions =  array(
-				'begindatum <=' => $date, 'einddatum >=' => $date,
-				'klant_id' => $d['klant_id'],
-			);
+        $conditions =  array(
+                'begindatum <=' => $date, 'einddatum >=' => $date,
+                'klant_id' => $d['klant_id'],
+            );
 
-		if (!empty($d['id'])) {
-			$conditions['NOT'] = array('id' => $d['id'] );
-		}
+        if (!empty($d['id'])) {
+            $conditions['NOT'] = array('id' => $d['id'] );
+        }
 
-		$hits = $this->find('list', array( 'conditions' => $conditions ));
+        $hits = $this->find('list', array( 'conditions' => $conditions ));
 
-		if ($hits) {
-			return false;
-		}
-		return true;
-	}
+        if ($hits) {
+            return false;
+        }
+        return true;
+    }
 
-	public function getLatestAndCloseToExpireForEachClient($options = array())
-	{
-		if (isset($options['geslacht']) && !empty($options['geslacht'])) {
-			
-			App::import('Sanitize');
-			$val = Sanitize::escape($options['geslacht']);
-			$geslacht_condition = 'AND Klant.geslacht_id = '.$val;
-			
-		} else {
-			$geslacht_condition = '';
-		}
+    public function getLatestAndCloseToExpireForEachClient($options = array())
+    {
+        if (isset($options['geslacht']) && !empty($options['geslacht'])) {
+            App::import('Sanitize');
+            $val = Sanitize::escape($options['geslacht']);
+            $geslacht_condition = 'AND Klant.geslacht_id = '.$val;
+        } else {
+            $geslacht_condition = '';
+        }
 
-		$sql_query = '
+        $sql_query = '
 			SELECT
 				AwbzIndicatie.id, AwbzIndicatie.klant_id,
 				AwbzIndicatie.begindatum, AwbzIndicatie.einddatum,
@@ -189,19 +187,19 @@ class AwbzIndicatie extends AppModel
 				klant_id;
 		';
 
-		$result = $this->query($sql_query);
-		return $result;
-	}
+        $result = $this->query($sql_query);
+        return $result;
+    }
 
-	public function getAbwzReportData($year, $month)
-	{
-		$thisMonthStartTs = mktime(0, 0, 0, $month, 1, $year);
-		$thisMonthStart = date('Y-m-d', $thisMonthStartTs);
-		$nextMonthStartTs = strtotime('+1 month', $thisMonthStartTs);
-		$nextMonthStart = date('Y-m-d', $nextMonthStartTs);
-		$thisMonthEnd = date('Y-m-d', strtotime('-1 day', $nextMonthStartTs));
+    public function getAbwzReportData($year, $month)
+    {
+        $thisMonthStartTs = mktime(0, 0, 0, $month, 1, $year);
+        $thisMonthStart = date('Y-m-d', $thisMonthStartTs);
+        $nextMonthStartTs = strtotime('+1 month', $thisMonthStartTs);
+        $nextMonthStart = date('Y-m-d', $nextMonthStartTs);
+        $thisMonthEnd = date('Y-m-d', strtotime('-1 day', $nextMonthStartTs));
 
-		$sql_query = "
+        $sql_query = "
 			select klant_id,
 				   klanten.voornaam, tussenvoegsel, achternaam, roepnaam, geboortedatum, BSN
 				   hoofdaannemer_id, hoofdaannemers.naam,
@@ -241,7 +239,7 @@ class AwbzIndicatie extends AppModel
 			  join klanten on (Info.klant_id = klanten.id)
 			  join hoofdaannemers on (Info.hoofdaannemer_id = hoofdaannemers.id)
 			 group by hoofdaannemers.naam, achternaam, voornaam, tussenvoegsel, klant_id, roepnaam, geboortedatum, BSN, hoofdaannemer_id";
-		$result = $this->query($sql_query);
-		return $result;
-	}
+        $result = $this->query($sql_query);
+        return $result;
+    }
 }

@@ -1,7 +1,8 @@
 <?php 
-class EmptyContactsoortFixture extends CakeTestFixture {
-var $name = 'Contactsoort';
+class EmptyContactsoortFixture extends CakeTestFixture
+{
+    public $name = 'Contactsoort';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

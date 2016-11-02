@@ -184,7 +184,7 @@ class LdapSource extends DataSource
         $this->__scrubQueryData($queryData);
 
         switch ($type) {
-            case 'hasOne' :
+            case 'hasOne':
                 $id = $resultSet[$model->name][$model->primaryKey];
                 $queryData['conditions'] = trim($assocData['foreignKey']).'='.trim($id);
                 $queryData['targetDn'] = $linkModel->useTable;
@@ -193,7 +193,7 @@ class LdapSource extends DataSource
 
                 return $queryData;
 
-            case 'belongsTo' :
+            case 'belongsTo':
                 $id = $resultSet[$model->name][$assocData['foreignKey']];
                 $queryData['conditions'] = trim($linkModel->primaryKey).'='.trim($id);
                 $queryData['targetDn'] = $linkModel->useTable;
@@ -202,7 +202,7 @@ class LdapSource extends DataSource
 
                 return $queryData;
 
-            case 'hasMany' :
+            case 'hasMany':
                 $id = $resultSet[$model->name][$model->primaryKey];
                 $queryData['conditions'] = trim($assocData['foreignKey']).'='.trim($id);
                 $queryData['targetDn'] = $linkModel->useTable;
@@ -211,7 +211,7 @@ class LdapSource extends DataSource
 
                 return $queryData;
 
-            case 'hasAndBelongsToMany' :
+            case 'hasAndBelongsToMany':
                 return null;
         }
         return null;

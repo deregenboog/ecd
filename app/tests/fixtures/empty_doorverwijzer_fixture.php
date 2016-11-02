@@ -1,7 +1,8 @@
 <?php 
-class EmptyDoorverwijzerFixture extends CakeTestFixture {
-var $name = 'Doorverwijzer';
+class EmptyDoorverwijzerFixture extends CakeTestFixture
+{
+    public $name = 'Doorverwijzer';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

@@ -1,7 +1,8 @@
 <?php 
-class EmptyInstantieFixture extends CakeTestFixture {
-var $name = 'Instantie';
+class EmptyInstantieFixture extends CakeTestFixture
+{
+    public $name = 'Instantie';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}
