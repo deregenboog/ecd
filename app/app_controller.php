@@ -391,6 +391,8 @@ class AppController extends Controller
         //send
         $this->Email->send();
     }
+	const FORMAT_HTML = 'html';
+	const FORMAT_CSV = 'csv';
 
 /** A generic sendEmail function for internal usage, that accepts multiple
      * optional parameters (see array $defaults) and multiple addressees passed
@@ -499,4 +501,38 @@ class AppController extends Controller
             $endDate = null;
         }
     }
+	protected function applyFilter()
+	{
+		if (empty($this->data) && empty($this->params['named'])) {
+			return false;
+		}
+
+		if ($this->data) {
+			// handle form POST by redirecting with GET
+			$filters = [];
+			foreach ($this->data as $model => $filter) {
+				foreach ($filter as $field => $value) {
+					if (is_array($value)) {
+						if (array_keys($value) == ['day', 'month', 'year']) {
+							$value = implode('-', array_reverse($value));
+						}
+					}
+					$filters["$model.$field"] = $value;
+				}
+			}
+			$this->redirect($filters);
+		}
+
+		// put named params in $this->data for auto form values
+		foreach ($this->params['named'] as $filter => $value) {
+			$matches = [];
+			if (preg_match('/^([A-z]*)\.([A-z]*)$/', $filter, $matches)) {
+				array_shift($matches);
+				list($model, $field) = $matches;
+				$this->data[$model][$field] = $value;
+			}
+		}
+
+		return true;
+	}
 }
