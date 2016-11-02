@@ -2,6 +2,9 @@
 /app/tmp
 /archive
 
+# Composer-managed deps
+/vendor/*
+
 # Eclipse project files
 /.settings/*
 /.project
