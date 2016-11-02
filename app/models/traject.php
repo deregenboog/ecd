@@ -1,6 +1,6 @@
 <?php
 
-class Traject extends AppModel
+class traject extends AppModel
 {
 	public $name = 'Traject';
 	public $actsAs = array('Containable');

@@ -24,7 +24,7 @@
  * @package    media
  * @subpackage media.models
  */
-class Attachment extends AppModel
+class attachment extends AppModel
 {
 
 	// <editor-fold defaultstate="collapsed" desc="Group constants">

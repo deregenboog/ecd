@@ -1,6 +1,6 @@
 <?php
 
-class Registratie extends AppModel {
+class registratie extends AppModel {
 	var $name = 'Registratie';
 	
 	var $validate = array(

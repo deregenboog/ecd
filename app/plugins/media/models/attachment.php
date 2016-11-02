@@ -24,7 +24,7 @@
  * @package    media
  * @subpackage media.models
  */
-class Attachment extends MediaAppModel {
+class attachment extends MediaAppModel {
 /**
  * Name of model
  *

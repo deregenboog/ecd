@@ -1,6 +1,6 @@
 <?php
 
-class Inventarisatie extends AppModel
+class inventarisatie extends AppModel
 {
 	public $name = 'Inventarisatie';
 	public $displayField = 'titel';

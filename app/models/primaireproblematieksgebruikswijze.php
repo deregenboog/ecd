@@ -1,6 +1,6 @@
 <?php
 
-class Primaireproblematieksgebruikswijze extends AppModel
+class primaireproblematieksgebruikswijze extends AppModel
 {
 	public $name = 'Primaireproblematieksgebruikswijze';
 	public $useTable = 'verslavingsgebruikswijzen';

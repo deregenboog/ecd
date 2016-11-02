@@ -1,6 +1,6 @@
 <?php
 
-class Contactjournal extends AppModel
+class contactjournal extends AppModel
 {
 	public $name = 'Contactjournal';
 	public $displayField = 'text';

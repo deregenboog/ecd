@@ -1,6 +1,6 @@
 <?php
 
-class Intake extends AppModel
+class intake extends AppModel
 {
 	public $name = 'Intake';
 	public $order = 'datum_intake DESC';

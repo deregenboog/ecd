@@ -1,6 +1,6 @@
 <?php
 
-class Verblijfstatus extends AppModel
+class verblijfstatus extends AppModel
 {
 	public $name = 'Verblijfstatus';
 	public $displayField = 'naam';

@@ -1,6 +1,6 @@
 <?php
 
-class Medewerker extends AppModel
+class medewerker extends AppModel
 {
 	public $name = 'Medewerker';
 	public $users = array('Containable');

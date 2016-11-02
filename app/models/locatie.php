@@ -1,6 +1,6 @@
 <?php
 
-class Locatie extends AppModel
+class locatie extends AppModel
 {
 	public $name = 'Locatie';
 	public $displayField = 'naam';

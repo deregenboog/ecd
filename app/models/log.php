@@ -1,6 +1,6 @@
 <?php
 
-class Log extends AppModel
+class log extends AppModel
 {
 
 	/** http://bakery.cakephp.org/articles/view/logablebehavior */

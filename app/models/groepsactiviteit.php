@@ -1,6 +1,6 @@
 <?php
 
-class Groepsactiviteit extends AppModel
+class groepsactiviteit extends AppModel
 {
 	public $name = 'Groepsactiviteit';
 	public $displayField = 'naam';

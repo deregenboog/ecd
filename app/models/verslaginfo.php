@@ -1,6 +1,6 @@
 <?php
 
-class Verslaginfo extends AppModel
+class verslaginfo extends AppModel
 {
 	public $name = 'Verslaginfo';
 	

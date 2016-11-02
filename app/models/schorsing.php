@@ -1,6 +1,6 @@
 <?php
 
-class Schorsing extends AppModel
+class schorsing extends AppModel
 {
 	public $name = 'Schorsing';
 	public $validate = array(

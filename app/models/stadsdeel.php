@@ -1,6 +1,6 @@
 <?php
 
-class Stadsdeel extends AppModel
+class stadsdeel extends AppModel
 {
 	const DEFAULT_STADSDEEL = 'Overig';
 

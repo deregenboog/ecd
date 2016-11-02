@@ -1,6 +1,6 @@
 <?php
 
-class Notitie extends AppModel
+class notitie extends AppModel
 {
 	public $name = 'Notitie';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

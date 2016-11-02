@@ -1,6 +1,6 @@
 <?php
 
-class Doorverwijzer extends AppModel
+class doorverwijzer extends AppModel
 {
 	public $name = 'Doorverwijzer';
 	public $displayField = 'naam';
