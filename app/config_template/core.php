@@ -37,14 +37,14 @@
 Configure::write('debug', 0);
 require_once('config.php');
 
-if( array_key_exists( 'SERVER_NAME', $_SERVER ) && //there's no 'SERVER_NAME' at CLI
-$_SERVER['SERVER_NAME'] == 'localhost' && $_SERVER['REMOTE_PORT'] == 80 ) {
+if (array_key_exists('SERVER_NAME', $_SERVER) && //there's no 'SERVER_NAME' at CLI
+$_SERVER['SERVER_NAME'] == 'localhost' && $_SERVER['REMOTE_PORT'] == 80) {
     $in_production = false;
 } else {
     $in_production = true;
 }
 
-if ( true &&  (
+if (true &&  (
             env('REMOTE_ADDR') == '95.97.75.122' ||
             env('REMOTE_ADDR') == '24.132.236.64'  ||
             env('REMOTE_ADDR') == '84.82.36.221'  ||
@@ -52,79 +52,78 @@ if ( true &&  (
             env('REMOTE_ADDR') == '83.160.103.186' ||
             env('REMOTE_ADDR') == '82.170.209.32'
             )) {
-
     Configure::write('debug', 1);
 }
 
-$volonteers = array (
-        'vrijwilliger_oud_west' => '14', 
-        'vrijwilliger_eik' => '9', 
-        'vrijwilliger_de_kloof' => '10', 
-        'vrijwilliger_macom' => '11', 
+$volonteers = array(
+        'vrijwilliger_oud_west' => '14',
+        'vrijwilliger_eik' => '9',
+        'vrijwilliger_de_kloof' => '10',
+        'vrijwilliger_macom' => '11',
         'vrijwilliger_macom_nacht' => '12',
         'vwspreekbuis' => '15',
 );
 
-Configure::write( 'ACL.volonteers', $volonteers );
+Configure::write('ACL.volonteers', $volonteers);
 
-Configure::write( 'LDAP.configuration', $ldap );
+Configure::write('LDAP.configuration', $ldap);
 
-$enable = array (
-        GROUP_REPORT => array (
-                "Rapportages", 
-        ), 
-        GROUP_PORTIER => array (
-                "Registraties", 
-                "Opmerkingen" 
-        ), 
-        GROUP_MLO => array (
-                "Intakes", 
-                "Klanten", 
-                "Registraties", 
-                "Schorsingen", 
-                "Opmerkingen" 
-        ), 
-        GROUP_MAATSCHAPPELIJK => array (
+$enable = array(
+        GROUP_REPORT => array(
+                "Rapportages",
+        ),
+        GROUP_PORTIER => array(
+                "Registraties",
+                "Opmerkingen"
+        ),
+        GROUP_MLO => array(
+                "Intakes",
+                "Klanten",
+                "Registraties",
+                "Schorsingen",
+                "Opmerkingen"
+        ),
+        GROUP_MAATSCHAPPELIJK => array(
                 "Awbz",
                 "AwbzHoofdaannemers",
                 "AwbzIndicaties",
                 "AwbzIntakes",
-                "Intakes", 
-                "Klanten", 
-                "Registraties", 
-                "Opmerkingen", 
-                "MaatschappelijkWerk", 
-                'Verslagen', 
+                "Intakes",
+                "Klanten",
+                "Registraties",
+                "Opmerkingen",
+                "MaatschappelijkWerk",
+                'Verslagen',
                 "Rapportages",
                 "Attachments"
-        ), 
-        GROUP_HI5 => array (
-                "Intakes", 
-                "Klanten", 
+        ),
+        GROUP_HI5 => array(
+                "Intakes",
+                "Klanten",
                 "Attachments"
-        ), 
-        GROUP_ADMIN => array (
+        ),
+        GROUP_ADMIN => array(
                 "Admin",
                 "Awbz",
                 "AwbzHoofdaannemers",
                 "AwbzIndicaties",
                 "AwbzIntakes",
-                "Intakes", 
-                "Klanten", 
-                "Hi5", 
-                "MaatschappelijkWerk", 
-                'Verslagen', 
-                "Registraties", 
-                "Schorsingen", 
-                "Opmerkingen", 
-                "Rapportages", 
+                "Intakes",
+                "Klanten",
+                "Hi5",
+                "MaatschappelijkWerk",
+                'Verslagen',
+                "Registraties",
+                "Schorsingen",
+                "Opmerkingen",
+                "Rapportages",
                 "MwInventarisaties",
                 "Attachments",
                 'BackOnTrack',
                 'BotVerslagen',
                 'Vrijwilligers',
                 'Groepsactiviteiten',
-        ), 
+        ),
         GROUP_BACK_ON_TRACK_COORDINATOR => array(
             'BackOnTrack',
             'BotVerslagen',
@@ -136,14 +135,14 @@ $enable = array (
             'BotVerslagen',
             'BotKoppelingen',
         ),
-        GROUP_VOLONTEERS => array (
-                "Registraties" 
-        ), 
-        GROUP_STAGE => array (  
-            "Intakes", 
-            "Klanten", 
-            "Registraties" 
-        ), 
+        GROUP_VOLONTEERS => array(
+                "Registraties"
+        ),
+        GROUP_STAGE => array(
+            "Intakes",
+            "Klanten",
+            "Registraties"
+        ),
         GROUP_PFO =>array(
             "PfoClienten",
             "PfoRapporten",
@@ -151,7 +150,7 @@ $enable = array (
             'PfoGroepen',
             'PfoVerslagen',
         ),
-        GROUP_TRAJECTBEGELEIDER => array (
+        GROUP_TRAJECTBEGELEIDER => array(
                 "Awbz",
                 "AwbzHoofdaannemers",
                 "AwbzIndicaties",
@@ -159,14 +158,14 @@ $enable = array (
                 "Hi5",
                 "Attachments"
         ),
-	    GROUP_IZ => array(
-		        "Klanten",
-		        "Vrijwilligers",
-		        "IzDeelnemers",
-		        "IzVerslagen",
+        GROUP_IZ => array(
+                "Klanten",
+                "Vrijwilligers",
+                "IzDeelnemers",
+                "IzVerslagen",
                 "Attachments"
-	    ),
-	    GROUP_IZ_BEHEER => array(
+        ),
+        GROUP_IZ_BEHEER => array(
             "IzAfsluitingen",
             "IzDeelnemers",
             "IzEindekoppelingen",
@@ -178,7 +177,7 @@ $enable = array (
             "IzViaPersonen",
             "IzVraagaanboden",
             "IzOntstaanContacten",
-	    ),
+        ),
         GROUP_GROEPSACTIVITEIT => array(
             'Vrijwilligers',
             'Groepsactiviteiten',
@@ -187,47 +186,47 @@ $enable = array (
             'GroepsactiviteitenVerslagen',
             "Attachments"
         ),
-	    GROUP_BEHEER_GROEPSACTIVITEIT => array(
+        GROUP_BEHEER_GROEPSACTIVITEIT => array(
             "GroepsactiviteitenGroepen",
             "GroepsactiviteitenRedenen",
-	    ),
-        GROUP_WERKBEGELEIDER => array (
         ),
-        GROUP_DEVELOP => array (
-                "*" ,
-		"Klanten",
-		"Vrijwilligers",
-		"IzDeelnemers",
-		"IzVerslagen",
+        GROUP_WERKBEGELEIDER => array(
+        ),
+        GROUP_DEVELOP => array(
+                "*",
+        "Klanten",
+        "Vrijwilligers",
+        "IzDeelnemers",
+        "IzVerslagen",
         "Groepsactiviteiten",
-        ) 
+        )
 );
 
-Configure::write( 'ACL.permissions', $enable );
+Configure::write('ACL.permissions', $enable);
 
 /** Disable ACL with a flag. This only works in debug mode. */
-Configure::write( 'ACL.disabled', false );
+Configure::write('ACL.disabled', false);
 
-$menu_elements = array (
-	'Hi5' => 'Hi5', 
-	'Klanten' => 'Klantenlijst', 
-	'Vrijwilligers' => 'Vrijwilligers',
-	'Registraties' => 'Registratie', 
-	'MaatschappelijkWerk' => 'Maatschappelijk werk', 
-	'Rapportages' => 'Rapportages', 
-	'Awbz' => 'AWBZ',
-	'PfoClienten' => 'PFO', 
-	'BackOnTrack' => 'BOT',
-	'IzDeelnemers' => 'IZ',
-	'Groepsactiviteiten' => 'Groepsactiviteiten',
-	'Admin' => 'Admin'
+$menu_elements = array(
+    'Hi5' => 'Hi5',
+    'Klanten' => 'Klantenlijst',
+    'Vrijwilligers' => 'Vrijwilligers',
+    'Registraties' => 'Registratie',
+    'MaatschappelijkWerk' => 'Maatschappelijk werk',
+    'Rapportages' => 'Rapportages',
+    'Awbz' => 'AWBZ',
+    'PfoClienten' => 'PFO',
+    'BackOnTrack' => 'BOT',
+    'IzDeelnemers' => 'IZ',
+    'Groepsactiviteiten' => 'Groepsactiviteiten',
+    'Admin' => 'Admin'
 );
 
 
 
-Configure::write( 'all_menu_items', $menu_elements );
+Configure::write('all_menu_items', $menu_elements);
 
-Configure::write( 'TBC_months_period', 6 );
+Configure::write('TBC_months_period', 6);
 
 /**
  * CakePHP Log Level:
@@ -242,12 +241,12 @@ Configure::write( 'TBC_months_period', 6 );
  * Configure::write('log', E_ERROR | E_WARNING);
  * Configure::write('log', E_ALL ^ E_NOTICE);
  */
-Configure::write( 'log', true );
+Configure::write('log', true);
 
 /**
  * Application wide charset encoding
  */
-Configure::write( 'App.encoding', 'UTF-8' );
+Configure::write('App.encoding', 'UTF-8');
 
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
@@ -280,9 +279,9 @@ Configure::write( 'App.encoding', 'UTF-8' );
  *
  * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
  */
-Configure::write( 'Routing.prefixes', array (
-        'admin' 
-) );
+Configure::write('Routing.prefixes', array(
+        'admin'
+));
 
 /**
  * Turn off all caching application-wide.
@@ -306,7 +305,7 @@ Configure::write('Cache.disable', false);
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-define( 'LOG_ERROR', 2 );
+define('LOG_ERROR', 2);
 
 /**
  * The preferred session handling method. Valid values:
@@ -322,7 +321,7 @@ define( 'LOG_ERROR', 2 );
  * the cake shell command: cake schema run create Sessions
  *
  */
-Configure::write( 'Session.save', 'php' );
+Configure::write('Session.save', 'php');
 
 /**
  * The model name to be used for the session model.
@@ -365,24 +364,24 @@ Configure::write( 'Session.save', 'php' );
  * characters."
  * @link http://php.net/session_name
  */
-Configure::write( 'Session.cookie', 'ECD' );
+Configure::write('Session.cookie', 'ECD');
 
 /**
  * Session time out time (in minutes). (but the documentation says 'in seconds')
  * Actual value depends on 'Security.level' setting.
  */
-Configure::write( 'Session.timeout', '8000' );
+Configure::write('Session.timeout', '8000');
 
 /**
  * If set to false, sessions are not automatically started.
  */
-Configure::write( 'Session.start', true );
+Configure::write('Session.start', true);
 
 /**
  * When set to false, HTTP_USER_AGENT will not be checked
  * in the session
  */
-Configure::write( 'Session.checkAgent', true );
+Configure::write('Session.checkAgent', true);
 
 /**
  * The level of CakePHP security. The session timeout time defined
@@ -396,17 +395,17 @@ Configure::write( 'Session.checkAgent', true );
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-Configure::write( 'Security.level', 'medium' );
+Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.
  */
-Configure::write( 'Security.salt', 'efc488c8f80972aa21584df9060cfcb30dbef3db' );
+Configure::write('Security.salt', 'efc488c8f80972aa21584df9060cfcb30dbef3db');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-Configure::write( 'Security.cipherSeed', '98271797238915345465612303645' );
+Configure::write('Security.cipherSeed', '98271797238915345465612303645');
 
 /**
   Apply timestamps with the last modified time to static assets (js, css, images).
@@ -440,14 +439,14 @@ Configure::write( 'Security.cipherSeed', '98271797238915345465612303645' );
  * The classname and database used in CakePHP's
  * access control lists.
  */
-Configure::write( 'Acl.classname', 'DbAcl' );
-Configure::write( 'Acl.database', 'default' );
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
 
 /**
  * If you are on PHP 5.3 uncomment this line and correct your server timezone
  * to fix the date & time related errors.
  */
-date_default_timezone_set( 'Europe/Amsterdam' );
+date_default_timezone_set('Europe/Amsterdam');
 
 /**
  *
@@ -505,17 +504,17 @@ date_default_timezone_set( 'Europe/Amsterdam' );
 
 $prefix = md5(realpath('.'));
 
-Cache::config( 'default', array (
-    'engine' => 'Apc' ,
+Cache::config('default', array(
+    'engine' => 'Apc',
     'duration' => DAY,
     'prefix' => $prefix,
-) );
+));
 
-Cache::config( 'ephemeral', array (
-    'engine' => 'Apc' ,
+Cache::config('ephemeral', array(
+    'engine' => 'Apc',
     'duration' => HOUR,
     'prefix' => $prefix,
-) );
+));
 
 // cache configuration for ldap queries - @see Medewerker::listByLdapGroup()
 Cache::config('ldap', array(
@@ -545,13 +544,13 @@ Cache::config('association_query', array(
     'prefix' => $prefix
 ));
 //uitgenodigd, aangemeld, aanwezig, afwezig
-Configure::write( 'Afmeldstatus', array(
+Configure::write('Afmeldstatus', array(
     '' => '',
     'Aanwezig' => 'Aanwezig',
     'Afwezig' => 'Afwezig',
 ));
 
-Configure::write( 'Postcodegebieden', array(
+Configure::write('Postcodegebieden', array(
     '' => '',
     'Noord-oost' => 'Noord-oost',
     'Noord-West' => 'Noord-West',
@@ -578,7 +577,7 @@ Configure::write( 'Postcodegebieden', array(
     'Overig' => 'Overig',
 ));
 
-Configure::write( 'Werkgebieden', array(
+Configure::write('Werkgebieden', array(
     '' => '',
     'Amstelveen' => 'Amstelveen',
     'Centrum' => 'Centrum',
@@ -593,12 +592,12 @@ Configure::write( 'Werkgebieden', array(
     'Zuidoost' => 'Zuidoost',
 ));
 
-Configure::write( 'Persoontypen', array(
+Configure::write('Persoontypen', array(
     'Klant' => 'Klanten',
     'Vrijwilliger' => 'Vrijwilligers',
 ));
 
-Configure::write( 'IzFase', array(
+Configure::write('IzFase', array(
     //'iedereen' => 'Iedereen',
     'aanmelding' => 'Aanmelding',
     'onvolledig' => 'Onvolledige invoer',
@@ -609,13 +608,13 @@ Configure::write( 'IzFase', array(
     'koppeling_nvt' => 'Koppeling n.v.t.',
 ));
 
-Configure::write( 'Communicatietypen', array(
+Configure::write('Communicatietypen', array(
     'iedereen' => 'Iedereen',
     'communicatie_email' => 'E-Mail',
     'communicatie_post' => 'Post',
 ));
 
-Configure::write( 'options_medewerker', array(
+Configure::write('options_medewerker', array(
         '1' => 'medewerker',
         '2' => 'stagiair',
         '3' => 'vrijwilliger',
@@ -628,9 +627,9 @@ Configure::write('Landen.AMOC', array(
     7066
 ));
 
-define( 'PFO_CLIENTEN_ALL', null );
-define( 'PFO_CLIENTEN_HOOFDCLIENT', 1 );
-define( 'PFO_CLIENTEN_SUPPORTCLIENT', 2 );
+define('PFO_CLIENTEN_ALL', null);
+define('PFO_CLIENTEN_HOOFDCLIENT', 1);
+define('PFO_CLIENTEN_SUPPORTCLIENT', 2);
 
 define('STATUS_DONE', 'STATUS_DONE');
 define('STATUS_SKIPPED', 'STATUS_SKIPPED');
@@ -651,15 +650,18 @@ $GLOBALS['mem_usage'] = memory_get_usage();
 
 /**
  * ts A general utility to profile the application: whenever you call it, a line with run time and memory usage is added to app/tmp/logs/ts
- * 
- * @param mixed $mark 
+ *
+ * @param mixed $mark
  * @access public
  * @return Integer the time lapse in seconds since the previous call.
  */
-function ts($mark, $tag = 'tag') {
+function ts($mark, $tag = 'tag')
+{
     return;
 
-    if (!Configure::read('debug')) return;
+    if (!Configure::read('debug')) {
+        return;
+    }
 
     $now = microtime(true);
     $mem_usage = memory_get_usage();

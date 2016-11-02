@@ -42,7 +42,6 @@ class FilterComponent extends Object
         if (isset($controller->data['reset']) || isset($controller->data['cancel'])) {
             $controller->redirect(array('action'=>'index'));
         }
-
     }
 
     public function filterDataForRegenboog()
@@ -50,22 +49,17 @@ class FilterComponent extends Object
         $persoon_model = $this->default['persoon_model'];
         
         foreach ($this->filterData as $i => $position) {
-        	
             if (strpos($position, $persoon_model.'.voornaam') !== false) {
-            	
                 $roepnaam = str_replace('voornaam', 'roepnaam', $position);
                 
                 if (isset($this->filterData['OR'])) {
-                	
                     array_push($this->filterData['OR'], $position);
                     array_push($this->filterData['OR'], $roepnaam);
-                    
                 } else {
                     $this->filterData['OR'] = array($position, $roepnaam);
                 }
                 
                 unset($this->filterData[$i]);
-                
             }
             if (strpos($i, $persoon_model.'.show_all') !== false) {
                 if ($position) {
@@ -82,9 +76,7 @@ class FilterComponent extends Object
         $controller = $this->_prepareFilter($controller);
         $ret = array();
         if (isset($controller->data)) {
-
             foreach ($controller->data as $key=>$value) {
-
                 $columns = array();
                 
                 if (isset($controller->{$key})) {
@@ -98,24 +90,21 @@ class FilterComponent extends Object
                 }
 
                 if (!empty($columns)) {
-
                     foreach ($value as $k=>$v) {
                         if ($k === 'rowUrl') {
                             continue;
-                        } 
+                        }
 
                         if (is_array($v) && $columns[$k]=='datetime') {
                             $v = $this->_prepare_datetime($v);
                         }
 
                         if ($v != '') {
-
                             if (is_array($whiteList) && !in_array($k, $whiteList)) {
                                 continue;
                             }
 
                             if (isset($columns[$k]) && isset($this->fieldFormatting[$columns[$k]])) {
-
                                 $tmp = sprintf($this->fieldFormatting[$columns[$k]], $v);
 
                                 if (substr($tmp, 0, 4)=='LIKE') {
@@ -140,26 +129,20 @@ class FilterComponent extends Object
             }
         }
 
-    return $ret;
+        return $ret;
     }
 
     public function _prepareFilter(&$controller)
     {
         $filter = array();
         if (isset($controller->data)) {
-
             foreach ($controller->data as $model=>$fields) {
-            	
                 if (is_array($fields)) {
-                	
                     foreach ($fields as $key=>$field) {
-                    	
                         if ($field == '') {
                             unset($controller->data[$model][$key]);
                         }
-                        
                     }
-                    
                 }
             }
 
@@ -180,38 +163,34 @@ class FilterComponent extends Object
         return $controller;
     }
 
-     public function _checkParams(&$controller)
-     {
-     	
-         if (empty($controller->params['named'])) {
-             $filter = array();
-         }
+    public function _checkParams(&$controller)
+    {
+        if (empty($controller->params['named'])) {
+            $filter = array();
+        }
 
-         App::import('Sanitize');
-         $sanit = new Sanitize();
-         $controller->params['named'] = $sanit->clean($controller->params['named'], array('encode' => false));
+        App::import('Sanitize');
+        $sanit = new Sanitize();
+        $controller->params['named'] = $sanit->clean($controller->params['named'], array('encode' => false));
 
-         foreach ($controller->params['named'] as $field => $value) {
-         	
-             if (!in_array($field, $this->paginatorParams)) {
-             	
-                 $fields = explode('.', $field);
+        foreach ($controller->params['named'] as $field => $value) {
+            if (!in_array($field, $this->paginatorParams)) {
+                $fields = explode('.', $field);
                  
-                 if (sizeof($fields) == 1) {
-                     $filter[$controller->modelClass][$field] = $value;
-                 } else {
-                     $filter[$fields[0]][$fields[1]] = $value;
-                 }
-                 
-             }
-         }
+                if (sizeof($fields) == 1) {
+                    $filter[$controller->modelClass][$field] = $value;
+                } else {
+                    $filter[$fields[0]][$fields[1]] = $value;
+                }
+            }
+        }
 
-         if (!empty($filter)) {
-             return $filter;
-         } else {
-             return array();
-         }
-     }
+        if (!empty($filter)) {
+            return $filter;
+        } else {
+            return array();
+        }
+    }
 
 
     public function _prepare_datetime($date)
@@ -221,9 +200,7 @@ class FilterComponent extends Object
         $date = array_reverse($date);
 
         foreach ($date as $key=>$value) {
-
             if (!empty($value)) {
-
                 $str .= '-'.$value;
 
                 if ($key=='year') {
@@ -248,15 +225,12 @@ class FilterComponent extends Object
         $selected = null;
         
         if (isset($this->params['named'][$fieldname])) {
-        	
             $exploded = explode('-', $this->params['named'][$fieldname]);
             
             if (!empty($exploded)) {
-            	
                 $selected = '';
                 
                 foreach ($exploded as $k=>$e) {
-                	
                     if (empty($e)) {
                         $selected .= (($k==0) ? '0000' : '00');
                     } else {

@@ -1,7 +1,8 @@
 <?php 
-class EmptyHi5IntakesInkomenFixture extends CakeTestFixture {
-var $name = 'Hi5IntakesInkomen';
-var $table = 'hi5_intakes_inkomens';
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyHi5IntakesInkomenFixture extends CakeTestFixture
+{
+    public $name = 'Hi5IntakesInkomen';
+    public $table = 'hi5_intakes_inkomens';
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}
