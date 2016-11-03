@@ -10,3 +10,8 @@
 /.project
 /.buildpath
 
+# Docker files
+/Dockerfile
+/docker-compose.yml
+/docker-entrypoint-initdb.d/*
+/.data
