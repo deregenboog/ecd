@@ -23,7 +23,7 @@ class IzOntstaanContactenController extends AppController
     {
         if (!empty($this->data)) {
             $this->IzOntstaanContact->create();
-            
+
             if ($this->IzOntstaanContact->save($this->data)) {
                 $this->Session->setFlash(__('The iz ontstaan contact has been saved', true));
                 $this->redirect(array('action' => 'index'));
@@ -39,7 +39,7 @@ class IzOntstaanContactenController extends AppController
             $this->Session->setFlash(__('Invalid iz ontstaan contact', true));
             $this->redirect(array('action' => 'index'));
         }
-        
+
         if (!empty($this->data)) {
             if ($this->IzOntstaanContact->save($this->data)) {
                 $this->Session->setFlash(__('The iz ontstaan contact has been saved', true));
@@ -48,7 +48,7 @@ class IzOntstaanContactenController extends AppController
                 $this->Session->setFlash(__('The iz ontstaan contact could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             $this->data = $this->IzOntstaanContact->read(null, $id);
         }
@@ -58,14 +58,14 @@ class IzOntstaanContactenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz ontstaan contact', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         if ($this->IzOntstaanContact->delete($id)) {
             $this->Session->setFlash(__('Iz ontstaan contact deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         $this->Session->setFlash(__('Iz ontstaan contact was not deleted', true));
         $this->redirect(array('action' => 'index'));
     }

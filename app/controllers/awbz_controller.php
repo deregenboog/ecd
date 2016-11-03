@@ -31,25 +31,22 @@ class AwbzController extends AppController
         }
 
         $this->Klant->recursive = -1;
-        
+
         $contain = array(
             'Geslacht',
             'Geboorteland' => array('fields' => 'land'),
             'Nationaliteit' => array('fields' => 'naam'),
             'Medewerker',
             'AwbzIntake',
-            'AwbzIndicatie' => array(
-                'Hoofdaannemer',
-            ),
+            'AwbzIndicatie' => array('Hoofdaannemer'),
             'AwbzHoofdaannemer' => array('Hoofdaannemer'),
-
         );
-        
+
         $klant = $this->Klant->find('first', array(
             'conditions' => array('Klant.id' => $klant_id),
             'contain' => $contain,
         ));
-        
+
         $hoofdaannemers =
             $this->Klant->AwbzHoofdaannemer->Hoofdaannemer->find('list');
 
@@ -61,7 +58,7 @@ class AwbzController extends AppController
     public function zrm($id = null)
     {
         $this->loadModel('ZrmReport');
-        
+
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
             $this->redirect(array('action' => 'index'));
@@ -74,7 +71,7 @@ class AwbzController extends AppController
                 'conditions' => array('klant_id' => $id),
                 'order' => 'created DESC',
         ));
-        
+
         $zrm_data = $this->ZrmReport->zrm_data();
 
         $this->set('zrmReports', $zrmReports);
@@ -85,16 +82,16 @@ class AwbzController extends AppController
     public function rapportage()
     {
         $showForm = false;
-        
+
         if (empty($this->data)) {
             $showForm = true;
         } else {
             $reportData = $this->Klant->AwbzIndicatie->getAbwzReportData(
-                (int)$this->data['year']['year'],
-                (int)$this->data['month']['month']
+                (int) $this->data['year']['year'],
+                (int) $this->data['month']['month']
             );
         }
-        
+
         $this->set(compact('reportData', 'showForm'));
     }
 }

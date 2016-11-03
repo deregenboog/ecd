@@ -55,11 +55,11 @@ class IzAfsluitingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz afsluiting', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->IzAfsluiting->delete($id)) {
             $this->Session->setFlash(__('Iz afsluiting deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Iz afsluiting was not deleted', true));
         $this->redirect(array('action' => 'index'));

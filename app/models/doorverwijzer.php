@@ -22,10 +22,10 @@ class doorverwijzer extends AppModel
         ),
     );
 
-    public function & getLists()
+    public function &getLists()
     {
         $this->recursive = -1;
-        $all = & $this->find('all', array(
+        $all = &$this->find('all', array(
             'order' => 'type, naam ASC',
             'fields' => array('type', 'id', 'naam'),
         ));
@@ -37,8 +37,8 @@ class doorverwijzer extends AppModel
         }
 
         foreach ($all as &$item) {
-            $type =& $item['Doorverwijzer']['type'];
-            $id =& $item['Doorverwijzer']['id'];
+            $type = &$item['Doorverwijzer']['type'];
+            $id = &$item['Doorverwijzer']['id'];
             $result[$type][$id] = $item['Doorverwijzer']['naam'];
         }
 

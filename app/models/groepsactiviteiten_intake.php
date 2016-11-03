@@ -45,12 +45,12 @@ class GroepsactiviteitenIntake extends AppModel
             'foreign_key' => $foreign_key,
             'model' => $model,
         );
-        $it=$this->find('first', array(
+        $it = $this->find('first', array(
             'conditions' => $conditions,
             'fields' => array('id'),
         ));
         if (empty($it)) {
-            $d=array(
+            $d = array(
                 'model' => $model,
                 'foreign_key' => $foreign_key,
                 'medewerker_id' => $data['medewerker_id'],
@@ -63,8 +63,10 @@ class GroepsactiviteitenIntake extends AppModel
             );
             $this->create();
             $retval = $this->save($d);
+
             return $retval;
         }
+
         return true;
     }
 }

@@ -12,13 +12,13 @@ class AdminController extends AppController
 
     public function uit_dienst()
     {
-        $this->loadModel('Medewerker') ;
+        $this->loadModel('Medewerker');
 
         $medewerkers = $this->Medewerker->uit_dienst();
 
         $this->set('medewerkers', $medewerkers);
     }
-    
+
     public function edit_models()
     {
     }

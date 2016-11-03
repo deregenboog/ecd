@@ -52,6 +52,7 @@ class RapportagesController extends AppController
         if (empty($id)) { //when there's no client we redirect to the list of clients
             $this->flashError(__('Invalid klant', true));
             $this->redirect(array('action' => 'lijst'));
+
             return;
         }
 
@@ -127,7 +128,7 @@ class RapportagesController extends AppController
                 );
 
         $klant_created_cond =
-            array( 'Klant.created <' => $this->_add_day($date_to));
+            array('Klant.created <' => $this->_add_day($date_to));
 
         if (
                 !empty($this->data['options']['geslacht_id']) &&
@@ -168,11 +169,11 @@ class RapportagesController extends AppController
         $klanten_list_all = array_keys($klanten);
         $klanten_id_cond = array('klant_id' => $klanten_list_all);
 
-        if (! empty($locatie_cond)) {
+        if (!empty($locatie_cond)) {
             $registraties = $this->Registratie->find('all', array(
             'fields' => array('klant_id'),
             'conditions' => $klanten_id_cond + $locatie_cond + $date_cond,
-            #$klanten_id_cond + $locatie_cond
+            //$klanten_id_cond + $locatie_cond
         ));
 
             $klanten_list = array_unique(Set::ClassicExtract($registraties, '{n}.Registratie.klant_id'));
@@ -180,7 +181,7 @@ class RapportagesController extends AppController
             $verslagen = array();
             $verslagen = $this->Klant->Verslag->find('list',
                     array(
-                        'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array( 'id', 'klant_id'),
+                        'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array('id', 'klant_id'),
                     )
                 );
 
@@ -190,32 +191,32 @@ class RapportagesController extends AppController
             $intakes = $this->Klant->Intake->find('list',
                     array(
                         'conditions' =>
-                        #$klanten_id_cond + $locatie_intake_cond + $verslagen_dates
-                        $klanten_id_cond + $locatie_intake_cond, 'fields' => array( 'id', 'klant_id'),
+                        //$klanten_id_cond + $locatie_intake_cond + $verslagen_dates
+                        $klanten_id_cond + $locatie_intake_cond, 'fields' => array('id', 'klant_id'),
                     )
                 );
 
             $klanten_list_intake = array_unique(Set::ClassicExtract($intakes, '{n}.Intake.klant_id'));
             $tmp_klanten = $klanten;
-            $klanten=array();
+            $klanten = array();
             foreach ($tmp_klanten as $klant_id => $laste_intake_id) {
                 if (in_array($klant_id, $klanten_list_intake)) {
-                    $klanten[$klant_id]=$laste_intake_id;
+                    $klanten[$klant_id] = $laste_intake_id;
                     continue;
                 }
                 if (in_array($klant_id, $klanten_list)) {
-                    $klanten[$klant_id]=$laste_intake_id;
+                    $klanten[$klant_id] = $laste_intake_id;
                     continue;
                 }
                 if (in_array($klant_id, $klanten_list_verslag)) {
-                    $klanten[$klant_id]=$laste_intake_id;
+                    $klanten[$klant_id] = $laste_intake_id;
                     continue;
                 }
             }
-        #debug(count($tmp_klanten));
-        #debug(count($klanten_list));
-        #debug(count($klanten_list_verslag));
-        #debug(count($klanten)) ;
+        //debug(count($tmp_klanten));
+        //debug(count($klanten_list));
+        //debug(count($klanten_list_verslag));
+        //debug(count($klanten)) ;
         }
         $klanten_id_cond = array('klant_id' => array_keys($klanten));
         $klanten_cond = array('id' => array_keys($klanten));
@@ -231,8 +232,8 @@ class RapportagesController extends AppController
         $count['totalClients'] = count($klanten);
         $this->Klant->recursive = -1;
         $count['totalNewClients'] = $this->Klant->find('count',
-                array( 'conditions' => $klanten_cond
-                    + array('created >=' =>  $date_from), ));
+                array('conditions' => $klanten_cond
+                    + array('created >=' => $date_from), ));
 
         $count['uniqueVisits'] = $this->Registratie->find('count', array(
                     'fields' => array('COUNT(DISTINCT Registratie.klant_id) AS count'),
@@ -244,7 +245,7 @@ class RapportagesController extends AppController
 
         $verslagen = $this->Klant->Verslag->find('list',
                 array(
-                    'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array( 'id', 'klant_id'),
+                    'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array('id', 'klant_id'),
                     )
                 );
 
@@ -254,9 +255,9 @@ class RapportagesController extends AppController
 
         $this->Klant->Verslag->InventarisatiesVerslagen->recursive = -1;
         $dvw = $this->Klant->Verslag->InventarisatiesVerslagen->find('all',
-                array( 'conditions' => $dvw_cond,
-                    'fields' =>  array('doorverwijzer_id', 'COUNT(id) as count'),
-                    'group' =>    'doorverwijzer_id',
+                array('conditions' => $dvw_cond,
+                    'fields' => array('doorverwijzer_id', 'COUNT(id) as count'),
+                    'group' => 'doorverwijzer_id',
                     )
                 );
 
@@ -305,14 +306,14 @@ class RapportagesController extends AppController
 
         $this->Klant->Intake->recursive = -1;
 
-        $problems = $this->Klant->Intake->find('all', array('conditions' => array( 'Intake.id' => $klanten),
-                    'fields' => array("primaireproblematiek_id as problem",
+        $problems = $this->Klant->Intake->find('all', array('conditions' => array('Intake.id' => $klanten),
+                    'fields' => array('primaireproblematiek_id as problem',
                         'COUNT(Intake.id) as count', ),
                     'group' => '1',
                     'order' => 'problem', ));
 
         $count['primaryProblems'] = Set::combine($problems, '{n}.Intake.problem', '{n}.0.count');
-    #debug($count);
+    //debug($count);
 
         return $count;
     }
@@ -374,20 +375,20 @@ class RapportagesController extends AppController
             $where .= " and locatie_id = {$locatie_id} ";
         }
         if (!empty($geslacht_id)) {
-            $where.= " and geslacht_id = {$geslacht_id} ";
+            $where .= " and geslacht_id = {$geslacht_id} ";
         }
 
-        $qu="select k.id as klant_id, voornaam, tussenvoegsel, achternaam  
+        $qu = "select k.id as klant_id, voornaam, tussenvoegsel, achternaam  
 					from klanten k join  registraties r on r.klant_id = k.id where {$where} group by k.id ";
 
-        $select =$this->Klant->query($qu);
-        $title = "Nieuwe klanten";
+        $select = $this->Klant->query($qu);
+        $title = 'Nieuwe klanten';
         $this->set(compact('select', 'date_from', 'date_until', 'title'));
         $this->layout = false;
         $file = "nieuwe_klanten_{$date_from}_{$date_until}.xls";
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"$file\";");
-        header("Content-Transfer-Encoding: binary");
+        header('Content-Transfer-Encoding: binary');
         $this->render('locatie_report_excel');
 
         //new clients conditions
@@ -433,10 +434,10 @@ class RapportagesController extends AppController
             }
             if (!empty($this->data['options']['geslacht_id']) && $this->data['options']['geslacht_id'] != 0) {
                 $geslacht_id = mysql_escape_string($this->data['options']['geslacht_id']);
-                $where.= " and geslacht_id = {$geslacht_id} ";
+                $where .= " and geslacht_id = {$geslacht_id} ";
             }
 
-            $qu="create temporary table tmp_registrations select k.id as klant_id, voornaam, tussenvoegsel, achternaam, douche, kleding, maaltijd, activering, locatie_id, k.created, binnen  from klanten k join  registraties r on r.klant_id = k.id where {$where} ";
+            $qu = "create temporary table tmp_registrations select k.id as klant_id, voornaam, tussenvoegsel, achternaam, douche, kleding, maaltijd, activering, locatie_id, k.created, binnen  from klanten k join  registraties r on r.klant_id = k.id where {$where} ";
 
             $this->Klant->query($qu);
 
@@ -492,12 +493,12 @@ class RapportagesController extends AppController
             //$count['totalVisits'] = $this->Registratie->find('count', array(
             //			  'conditions' => $con
             //			  ));
-            $q="select count(*) as cnt from tmp_registrations";
-            $r=$this->Klant->query($q);
+            $q = 'select count(*) as cnt from tmp_registrations';
+            $r = $this->Klant->query($q);
             $count['totalVisits'] = $r[0][0]['cnt'];
 
-            $q="select sum(abs(douche)) as douche, sum(kleding) as kleding, sum(maaltijd) as maaltijd, sum(activering) as activering  from tmp_registrations";
-            $r=$this->Klant->query($q);
+            $q = 'select sum(abs(douche)) as douche, sum(kleding) as kleding, sum(maaltijd) as maaltijd, sum(activering) as activering  from tmp_registrations';
+            $r = $this->Klant->query($q);
             $count['shower'] = $r[0][0]['douche'];
             $count['clothes'] = $r[0][0]['kleding'];
             $count['meals'] = $r[0][0]['maaltijd'];
@@ -506,22 +507,22 @@ class RapportagesController extends AppController
             $count['suspensions'] = $this->Schorsing->find('count', array('conditions' => array_merge($consusp)));
             $count['intakes'] = $this->Klant->Intake->find('count', array('conditions' => $intake_cond));
 
-            $q="select count(distinct klant_id) as cnt from tmp_registrations ";
-            $r=$this->Klant->query($q);
+            $q = 'select count(distinct klant_id) as cnt from tmp_registrations ';
+            $r = $this->Klant->query($q);
             $count['unique_visitors'] = $r[0][0]['cnt'];
 
-            $q="select count(*) as cnt from (select count(*) as cnt from tmp_registrations group by klant_id having cnt >= 4 ) as subq";
-            $r=$this->Klant->query($q);
+            $q = 'select count(*) as cnt from (select count(*) as cnt from tmp_registrations group by klant_id having cnt >= 4 ) as subq';
+            $r = $this->Klant->query($q);
             $count['unique_visitors_4_or_more_visits'] = $r[0][0]['cnt'];
 
             //debug(array_merge($klant_cond, $geslacht_cond));
-            $q="select count(*) as cnt from (select klant_id from tmp_registrations where  created >= '{$date_from}' and created < '{$date_until}' group by klant_id) as subq ";
-            $r=$this->Klant->query($q);
+            $q = "select count(*) as cnt from (select klant_id from tmp_registrations where  created >= '{$date_from}' and created < '{$date_until}' group by klant_id) as subq ";
+            $r = $this->Klant->query($q);
             $count['new_clients'] = $r[0][0]['cnt'];
 
-            $q="select klant_id, group_concat(locatie_id) from tmp_registrations group by  klant_id ";
-            $q="select naam, count(*) as cnt from (select klant_id, locatie_id, count(*) as cnt from tmp_registrations group by  klant_id, locatie_id ) as subq join locaties l on l.id = locatie_id group by locatie_id";
-            $r=$this->Klant->query($q);
+            $q = 'select klant_id, group_concat(locatie_id) from tmp_registrations group by  klant_id ';
+            $q = 'select naam, count(*) as cnt from (select klant_id, locatie_id, count(*) as cnt from tmp_registrations group by  klant_id, locatie_id ) as subq join locaties l on l.id = locatie_id group by locatie_id';
+            $r = $this->Klant->query($q);
             $unique_per_location = $r;
 
             $this->set(compact(
@@ -704,14 +705,14 @@ class RapportagesController extends AppController
                     'alias' => 'Klant',
                     'type' => 'left',
                     'foreignKey' => false,
-                    'conditions'=> array('AwbzIndicatie.klant_id = Klant.id'),
+                    'conditions' => array('AwbzIndicatie.klant_id = Klant.id'),
                 ),
                 array(
                     'table' => 'hoofdaannemers',
                     'alias' => 'Hoofdaannemer',
                     'type' => 'left',
                     'foreignKey' => false,
-                    'conditions'=> array('AwbzIndicatie.hoofdaannemer_id = Hoofdaannemer.id'),
+                    'conditions' => array('AwbzIndicatie.hoofdaannemer_id = Hoofdaannemer.id'),
                 ),
             ),
             'fields' => array('AwbzIndicatie.*', 'Klant.*', 'Hoofdaannemer.naam'),
@@ -770,7 +771,7 @@ class RapportagesController extends AppController
      * @param mixed $ref_type
      * @param mixed $date_from
      * @param mixed $date_to
-     * @access protected
+     *
      * @return array with the two reference dates
      */
     public function _prepare_ref_dates($ref_type, $date_from, $date_to)
@@ -780,8 +781,8 @@ class RapportagesController extends AppController
         switch ($ref_type) {
             case 0: // last year
                 $last_year = date('Y', $start - YEAR);
-                $start = strtotime("1 january ".$last_year);
-                $end = strtotime("31 december ".$last_year);
+                $start = strtotime('1 january '.$last_year);
+                $end = strtotime('31 december '.$last_year);
             break;
 
             case 1: // whole year before
@@ -798,6 +799,7 @@ class RapportagesController extends AppController
 
         $ref_from = date('Y-m-d', $start);
         $ref_to = date('Y-m-d', $end);
+
         return array($ref_from, $ref_to);
     }
 
@@ -813,7 +815,7 @@ class RapportagesController extends AppController
         }
 
         //converting the date array into a string
-        //
+
         //which model we use doesn't matter here - we just need some name of
         //a date field to tell cake that we want the data to be
         //deconstructed into a date (not datetime)
@@ -841,8 +843,8 @@ class RapportagesController extends AppController
     {
         if (!$this->data) {
             $this->data = array(
-                'date_from' => array('year' => date('Y', time()-YEAR), 'month' => '01', 'day' => '01'),
-                'date_to' => array('year' => date('Y', time()-YEAR), 'month' => '12', 'day' => '31'),
+                'date_from' => array('year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'),
+                'date_to' => array('year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'),
             );
         }
         //dates
@@ -866,7 +868,8 @@ class RapportagesController extends AppController
 
         if (!$date_from || !$date_to) {
             $this->autoRender = false;
-            return "Bad dates!";
+
+            return 'Bad dates!';
         }
 
         $conditions['from'] = "'".$date_from." 00:00:00'";
@@ -877,12 +880,12 @@ class RapportagesController extends AppController
         $this->autoLayout = false;
 
         $this->set(compact('reports'));
-        if (! empty($this->data['options']['excel'])) {
+        if (!empty($this->data['options']['excel'])) {
             $this->layout = false;
-            $file = "management_report.xls";
+            $file = 'management_report.xls';
             header('Content-type: application/vnd.ms-excel');
             header("Content-Disposition: attachment; filename=\"$file\";");
-            header("Content-Transfer-Encoding: binary");
+            header('Content-Transfer-Encoding: binary');
             //$this->log($reports,'reports');
             $this->render('management_excel');
         } else {
@@ -895,8 +898,8 @@ class RapportagesController extends AppController
     {
         if (!$this->data) {
             $this->data = array(
-                    'date_from' => array('year' => date('Y', time()-YEAR), 'month' => '01', 'day' => '01'),
-                    'date_to' => array('year' => date('Y', time()-YEAR), 'month' => '12', 'day' => '31'),
+                    'date_from' => array('year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'),
+                    'date_to' => array('year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'),
             );
         }
         //dates
@@ -920,7 +923,8 @@ class RapportagesController extends AppController
 
         if (!$date_from || !$date_to) {
             $this->autoRender = false;
-            return "Bad dates!";
+
+            return 'Bad dates!';
         }
 
         $conditions['from'] = "'".$date_from." 00:00:00'";
@@ -929,12 +933,12 @@ class RapportagesController extends AppController
         $reports = $this->_calculateManagementReport($conditions, 'activering_reports.sql');
 
         $this->set(compact('reports'));
-        if (! empty($this->data['options']['excel'])) {
+        if (!empty($this->data['options']['excel'])) {
             $this->layout = false;
-            $file = "activering_report.xls";
+            $file = 'activering_report.xls';
             header('Content-type: application/vnd.ms-excel');
             header("Content-Disposition: attachment; filename=\"$file\";");
-            header("Content-Transfer-Encoding: binary");
+            header('Content-Transfer-Encoding: binary');
             //$this->log($reports,'reports');
             $this->render('activering_excel');
         } else {
@@ -945,8 +949,9 @@ class RapportagesController extends AppController
 
     /**
      * Calculate management reports by running the sqls.
+     *
      * @param array  $condition Conditions from the report filter
-     * @param string $file		Sql file to load
+     * @param string $file      Sql file to load
      */
     private function _calculateManagementReport($conditions, $file)
     {
@@ -977,13 +982,14 @@ class RapportagesController extends AppController
                                 'template' => 'blank',
                                 'subject' => 'ECD error',
                                 ));
-                    $email++;
+                    ++$email;
                 }
             }
             if (isset($mail) && $mail) {
                 $this->log($reports);
             }
         }
+
         return $reports;
     }
 
@@ -1003,9 +1009,9 @@ class RapportagesController extends AppController
     }
 
     /**
-    * Generic Management report, SQL file is passed as an argument.
-    * Conditions are not really used so far, when necessary we have to decide if we pass them as an encoded array in the AJAX call, or posted, or whatever.
-    */
+     * Generic Management report, SQL file is passed as an argument.
+     * Conditions are not really used so far, when necessary we have to decide if we pass them as an encoded array in the AJAX call, or posted, or whatever.
+     */
     public function ajaxReport($config = 'ladis_report', $conditions = null)
     {
         $reports = $this->_calculateManagementReport($conditions, $config.'.sql');
@@ -1013,12 +1019,12 @@ class RapportagesController extends AppController
         $this->autoLayout = false;
 
         $this->set(compact('reports'));
-        if (! empty($this->data['options']['excel'])) {
+        if (!empty($this->data['options']['excel'])) {
             $this->layout = false;
-            $file = "management_report.xls";
+            $file = 'management_report.xls';
             header('Content-type: application/vnd.ms-excel');
             header("Content-Disposition: attachment; filename=\"$file\";");
-            header("Content-Transfer-Encoding: binary");
+            header('Content-Transfer-Encoding: binary');
             $this->render('management_excel');
         } else {
             $this->render('ajax_management');
@@ -1028,6 +1034,7 @@ class RapportagesController extends AppController
     /**
      * Reads the management report config from the management_reports.sql
      * file and parses them.
+     *
      * @param string $file Sql file to load
      */
     private function _readManagementReportConfig($file)
@@ -1036,7 +1043,7 @@ class RapportagesController extends AppController
         $config = preg_split('/-- START.*\n/m', file_get_contents(APP.'/config/'.$file));
         foreach ($config as $report) {
             $report = trim($report);
-            if (! $report) {
+            if (!$report) {
                 continue;
             }
             preg_match('/-- HEAD:\s*(.*)\n/m', $report, $matches);
@@ -1102,12 +1109,12 @@ class RapportagesController extends AppController
         if ($options['geslacht_id'] == 0) {
             $conditions['gender'] = '1, 2';
         } else {
-            $conditions['gender'] = (int)$options['geslacht_id'];
+            $conditions['gender'] = (int) $options['geslacht_id'];
         }
 
         $conditions['from'] = "'".$dateFrom."'";
         $conditions['until'] = "'".$dateTo."'";
-        $conditions['location'] = (int)$options['location'];
+        $conditions['location'] = (int) $options['location'];
 
         if (empty($this->data['options']['excel'])) {
             $this->SqlReport->ajaxDisplay(

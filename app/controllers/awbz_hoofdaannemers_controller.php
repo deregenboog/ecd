@@ -10,6 +10,7 @@ class AwbzHoofdaannemersController extends AppController
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
             $this->render('/elements/ajax_awbz_hoofdannemer', 'ajax');
+
             return;
         }
 
@@ -43,12 +44,13 @@ class AwbzHoofdaannemersController extends AppController
                             $this->AwbzHoofdaannemer->save($previous);
                         }
                     }
-                    
+
                     $this->flash(__('Saved', true));
                 }
             } else {
                 $this->flashError(__('Invalid klant', true));
                 $this->render('/elements/ajax_awbz_hoofdaannemer', 'ajax');
+
                 return;
             }
         } else {
@@ -67,7 +69,7 @@ class AwbzHoofdaannemersController extends AppController
                 'action' => 'index',
             ));
         }
-        
+
         if (!empty($this->data)) {
             if ($this->AwbzHoofdaannemer->save($this->data)) {
                 $this->flashError(__('The awbz Hoofdaannemer has been saved', true));
@@ -80,17 +82,17 @@ class AwbzHoofdaannemersController extends AppController
                 $this->flashError(__('The awbz Hoofdaannemer could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             $this->data = $this->AwbzHoofdaannemer->read(null, $id);
         }
-        
+
         $klant_id = $this->data['AwbzHoofdaannemer']['klant_id'];
-        
+
         $klant = $this->AwbzHoofdaannemer->Klant->find('first', array(
             'conditions' => array('Klant.id' => $klant_id),
         ));
-        
+
         $hoofdaannemers = $this->AwbzHoofdaannemer->Hoofdaannemer->find('list');
         $this->set(compact('klant', 'hoofdaannemers'));
     }
@@ -100,19 +102,20 @@ class AwbzHoofdaannemersController extends AppController
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
             $this->render('/elements/ajax_awbz_hoofdannemer', 'ajax');
+
             return;
         }
 
         if (!$id) {
             $this->flashError(__('Invalid id for awbz Hoofdaannemer', true));
         }
-        
+
         if ($this->AwbzHoofdaannemer->delete($id)) {
             $this->flashError(__('Awbz Hoofdaannemer deleted', true));
         } else {
             $this->flashError(__('Awbz Hoofdaannemer was not deleted', true));
         }
-        
+
         $this->_render_ajax_view($klant_id);
     }
 
@@ -122,7 +125,7 @@ class AwbzHoofdaannemersController extends AppController
             'conditions' => array('Klant.id' => $klant_id),
             'contain' => array('AwbzHoofdaannemer' => array('Hoofdaannemer')),
         ));
-        
+
         $hoofdaannemers = $this->AwbzHoofdaannemer->Hoofdaannemer->find('list');
 
         $this->set(compact('klant', 'hoofdaannemers'));

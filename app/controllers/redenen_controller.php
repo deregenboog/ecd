@@ -59,11 +59,11 @@ class RedenenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for reden', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Reden->delete($id)) {
             $this->flashError(__('Reden deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Reden was not deleted', true));
         $this->redirect(array('action' => 'index'));

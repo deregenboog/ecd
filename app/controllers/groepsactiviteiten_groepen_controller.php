@@ -7,20 +7,20 @@ class GroepsactiviteitenGroepenController extends AppController
     public function index($showall = false)
     {
         $this->GroepsactiviteitenGroep->recursive = 0;
-        
+
         $conditions = array(
             'OR' => array(
                 'einddatum ' => null,
                 'einddatum > ' => date('Y-m-d'),
             ),
         );
-        
+
         if (!empty($showall)) {
             $conditions = array(
                'einddatum <= ' => date('Y-m-d'),
             );
         }
-        
+
         $this->paginate = array(
                 'conditions' => $conditions,
         );
@@ -32,7 +32,7 @@ class GroepsactiviteitenGroepenController extends AppController
     {
         if (!empty($this->data)) {
             $this->GroepsactiviteitenGroep->create();
-            
+
             if ($this->GroepsactiviteitenGroep->save($this->data)) {
                 $this->Session->setFlash(__('De groep is opgeslagen', true));
                 $this->redirect(array('action' => 'index'));
@@ -40,9 +40,9 @@ class GroepsactiviteitenGroepenController extends AppController
                 $this->Session->setFlash(__('Groep kan niet worden opgeslagen', true));
             }
         }
-        
+
         $werkgebieden = Configure::read('Werkgebieden');
-        
+
         $this->set('werkgebieden', $werkgebieden);
     }
 
@@ -52,10 +52,10 @@ class GroepsactiviteitenGroepenController extends AppController
             $this->Session->setFlash(__('Niet geldige groep', true));
             $this->redirect(array('action' => 'index'));
         }
-        
+
         if (!empty($this->data)) {
             $this->data['GroepsactiviteitenGroep']['id'] = $id;
-            
+
             if ($this->GroepsactiviteitenGroep->save($this->data)) {
                 $this->Session->setFlash(__('De groep is opgeslagen', true));
                 $this->redirect(array('action' => 'index'));
@@ -100,11 +100,11 @@ class GroepsactiviteitenGroepenController extends AppController
         $this->set('persoon_model', $persoon_model);
 
         $file = "{$groep}_{$persoon_model}_lijst.xls";
-        
+
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"$file\";");
-        header("Content-Transfer-Encoding: binary");
-        
+        header('Content-Transfer-Encoding: binary');
+
         $this->render('groep_excel');
     }
 }

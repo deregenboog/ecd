@@ -1,13 +1,13 @@
 <?php
 
 /** IMPORTANT:
-  * Use deleteAll() with a third argument 'true' in order to execute
-  * the beforeDelete and afterDelete callbacks for each record. This
-  * is necessary if we use the Logable behavior, otherwise deletions are not
-  * logged.
-  */
+ * Use deleteAll() with a third argument 'true' in order to execute
+ * the beforeDelete and afterDelete callbacks for each record. This
+ * is necessary if we use the Logable behavior, otherwise deletions are not
+ * logged.
+ */
 /**
- * Logs saves and deletes of any model
+ * Logs saves and deletes of any model.
  *
  * Requires the following to work as intended :
  *
@@ -38,9 +38,9 @@
  * To parse the change field, we can use
  *
  foreach (explode(',', $data['Log']['change']) as $change) {
-         preg_match('/(\w+?) \((\w*?)\) => \((\w+?)\)/', $change, $matches);
-             list($search, $field, $from, $to) = $matches;
-                 print "change \"$field\" from \"$from\" to \"$to\"\n";
+ preg_match('/(\w+?) \((\w*?)\) => \((\w+?)\)/', $change, $matches);
+ list($search, $field, $from, $to) = $matches;
+ print "change \"$field\" from \"$from\" to \"$to\"\n";
  }
  *
  * (from http://bakery.cakephp.org/articles/view/logablebehavior)
@@ -76,11 +76,12 @@
  * @co-author Ronny Vindenes
  * @co-author Carl Erik Fyllingen
  * @contributor Miha
+ *
  * @category Behavior
+ *
  * @version 2.2
  * @modified 3.june 2009 by Miha
  */
-
 class LogableBehavior extends ModelBehavior
 {
     public $user = null;
@@ -104,10 +105,10 @@ class LogableBehavior extends ModelBehavior
      *    userKey   		: 'user_id'. The field for saving the user to (user_id by default).
      * 	  change    		: 'list' > [name, age]. Set to 'full' for [name (alek) => (Alek), age (28) => (29)]
      * 	  description_ids 	: TRUE. Set to FALSE to not include model id and user id in the title field
-     *    skip  			: array(). String array of actions to not log
+     *    skip  			: array(). String array of actions to not log.
      *
-     * @param Object $Model
-     * @param array $config
+     * @param object $Model
+     * @param array  $config
      */
     public function setup(&$Model, $config = array())
     {
@@ -117,9 +118,9 @@ class LogableBehavior extends ModelBehavior
         $this->settings[$Model->alias] = array_merge($this->defaults, $config);
         $this->settings[$Model->alias]['ignore'][] = $Model->primaryKey;
 
-        $this->Log =& ClassRegistry::init('Log');
+        $this->Log = &ClassRegistry::init('Log');
         if ($this->settings[$Model->alias]['userModel'] != $Model->alias) {
-            $this->UserModel =& ClassRegistry::init($this->settings[$Model->alias]['userModel']);
+            $this->UserModel = &ClassRegistry::init($this->settings[$Model->alias]['userModel']);
         } else {
             $this->UserModel = $Model;
         }
@@ -135,6 +136,7 @@ class LogableBehavior extends ModelBehavior
         if ($enable !== null) {
             $this->settings[$Model->alias]['enabled'] = $enable;
         }
+
         return $this->settings[$Model->alias]['enabled'];
     }
 
@@ -154,8 +156,9 @@ class LogableBehavior extends ModelBehavior
      * (remember to use your own user key if you're not using 'user_id')
      * 'user_id' 	: int 	 (NULL) Defaults to all users, supply id if you want for only one User
      *
-     * @param Object $Model
-     * @param array $params
+     * @param object $Model
+     * @param array  $params
+     *
      * @return array
      */
     public function findLog(&$Model, $params = array())
@@ -204,7 +207,6 @@ class LogableBehavior extends ModelBehavior
     }
 
     /** A wrapper for findLog */
-
     public function quickFindLog(&$Model, $alias, $id,
             $conditions = null, $order = null)
     {
@@ -216,12 +218,12 @@ class LogableBehavior extends ModelBehavior
                     );
         // debug($f_cond);
         $res = $this->findLog($Model, $f_cond);
+
         return $res;
     }
 
-    /** Gets the last logged modification for a particular object, children are
-     * ignored. Extra search conditions can be passed. */
-
+     /** Gets the last logged modification for a particular object, children are
+      * ignored. Extra search conditions can be passed. */
      public function findLastModification(&$Model, $id = null, $conditions = array())
      {
          if (!$id) {
@@ -251,13 +253,13 @@ class LogableBehavior extends ModelBehavior
       * structure as $useThisStructure. For example, if you pass the whole
       * array of a request (with its children, including their IDs in the 'id'
       * field)), changes for all those objects will be returned.
-      * @param $id ID of the main object.
-      * @param $date Date since which all changes will be reported.
+      *
+      * @param $id ID of the main object
+      * @param $date Date since which all changes will be reported
       * @param $useThisStructure Optional array, that includes this and related
       * models (with their IDs) so that changes for all them are reported.
-      * $param $conditions Extra find conditions, applied to all searches.
+      * $param $conditions Extra find conditions, applied to all searches
       */
-
      public function findModificationsSince(&$Model, $id = null, $date = '1970-01-01',
              &$useThisStructure = null, $conditions = array(),
              $order = 'Log.created ASC')
@@ -276,13 +278,13 @@ class LogableBehavior extends ModelBehavior
 
          $modelID = $useThisStructure[$alias]['id'];
 
-         $date_cond = array( 'Log.created >' => $date);
+         $date_cond = array('Log.created >' => $date);
          $cond = array_merge($date_cond, $conditions);
          $related = array();
 
-         /** Parse the structure, to keep related models => IDs.
-          * Construct an array with all model => id of objects related to a
-          * given one. */
+/** Parse the structure, to keep related models => IDs.
+ * Construct an array with all model => id of objects related to a.
+ * given one. */
 
           // debug($useThisStructure);
           // debug($Model->_schema);
@@ -307,12 +309,12 @@ class LogableBehavior extends ModelBehavior
                      // object, but as successive new objects. We have to find
                      // them in another way, and reformat the result.
                      $attachments = $Model->Attachment->find('all', $modelID,
-                             array( 'conditions' => array('created' > $date,
+                             array('conditions' => array('created' > $date,
                                      'foreign_key' => $modelID, )));
                      $res = array();
                      foreach ($attachments as &$file) {
                          $attach = &$file['Attachment'];
-                         $res[] = array( 'Log' => array(
+                         $res[] = array('Log' => array(
                                      'created' => $attach['created'],
                                      'model' => 'Attachment',
                                      'foreign_key' => $attach['id'],
@@ -367,11 +369,7 @@ class LogableBehavior extends ModelBehavior
      /** Take the output of findModificationsSince() parse it and format as an
       * array, reporting per model the initial and final values for
       * each modified field.
-      *
-      @param $showAllChanges If true, store not only initial and final values,
-                             but also all possible intermediate modifications.
       */
-
      public function formatChangesPerField(&$Model, $report, $showAllChanges = false)
      {
          $changes = array();
@@ -382,7 +380,7 @@ class LogableBehavior extends ModelBehavior
                  $data_array = &$data;
                  $many = true;
              } else {
-                 $data_array = array( $data );
+                 $data_array = array($data);
                  $many = false;
              }
              foreach ($data_array as $key => &$object) {
@@ -450,14 +448,16 @@ class LogableBehavior extends ModelBehavior
     /**
      * Get list of actions for one user.
      * Params for getting (one line) activity descriptions
-     * and/or for just one model
+     * and/or for just one model.
      *
      * @example $this->Model->findUserActions(301,array('model' => 'BookTest'));
      * @example $this->Model->findUserActions(301,array('events' => true));
      * @example $this->Model->findUserActions(301,array('fields' => array('id','model'),'model' => 'BookTest');
-     * @param Object $Model
-     * @param int $user_id
-     * @param array $params
+     *
+     * @param object $Model
+     * @param int    $user_id
+     * @param array  $params
+     *
      * @return array
      */
     public function findUserActions(&$Model, $user_id, $params = array())
@@ -493,7 +493,7 @@ class LogableBehavior extends ModelBehavior
             'recursive' => -1,
             'fields' => $fields,
         ));
-        if (! isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
+        if (!isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
             return $data;
         }
         $result = array();
@@ -511,7 +511,7 @@ class LogableBehavior extends ModelBehavior
                 } elseif ($one['action'] == 'delete') {
                     $result[$key]['Log']['event'] .= ' deleted the '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
                 }
-            } elseif (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action'])  && isset($one[$this->settings[$Model->alias]['foreignKey']])) { // have model,model_id and action
+            } elseif (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action']) && isset($one[$this->settings[$Model->alias]['foreignKey']])) { // have model,model_id and action
                  if ($one['action'] == 'edit') {
                      $result[$key]['Log']['event'] .= ' edited '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
                     //	' at '.$one['created'];
@@ -524,11 +524,12 @@ class LogableBehavior extends ModelBehavior
                 $result[$key]['Log']['event'] = $one['description'];
             }
         }
+
         return $result;
     }
     /**
      * Use this to supply a model with the data of the logged in User.
-     * Intended to be called in AppController::beforeFilter like this :
+     * Intended to be called in AppController::beforeFilter like this :.
      *
      *   	if ($this->{$this->modelClass}->Behaviors->attached('Logable')) {
      *			$this->{$this->modelClass}->setUserData($activeUser);/
@@ -537,8 +538,8 @@ class LogableBehavior extends ModelBehavior
      * The $userData array is expected to look like the result of a
      * User::find(array('id'=>123));
      *
-     * @param Object $Model
-     * @param array $userData
+     * @param object $Model
+     * @param array  $userData
      */
     public function setUserData(&$Model, $userData = null)
     {
@@ -551,15 +552,16 @@ class LogableBehavior extends ModelBehavior
      * Used for logging custom actions that arent crud, like login or download.
      *
      * @example $this->Boat->customLog('ship', 66, array('title' => 'Titanic heads out'));
-     * @param Object $Model
+     *
+     * @param object $Model
      * @param string $action name of action that is taking place (dont use the crud ones)
-     * @param int $id  id of the logged item (ie model_id in logs table)
-     * @param array $values optional other values for your logs table
+     * @param int    $id     id of the logged item (ie model_id in logs table)
+     * @param array  $values optional other values for your logs table
      */
     public function customLog(&$Model, $action, $id, $values = array())
     {
         $logData['Log'] = $values;
-        /** @todo clean up $logData */
+        /* @todo clean up $logData */
         if (isset($this->Log->_schema[$this->settings[$Model->alias]['foreignKey']]) && is_numeric($id)) {
             $logData['Log'][$this->settings[$Model->alias]['foreignKey']] = $id;
         }
@@ -592,6 +594,7 @@ class LogableBehavior extends ModelBehavior
         }
         $Model->recursive = -1;
         $Model->read();
+
         return true;
     }
 
@@ -621,8 +624,9 @@ class LogableBehavior extends ModelBehavior
     public function beforeSave(&$Model)
     {
         if (isset($this->Log->_schema['change']) && $Model->id) {
-            $this->old = $Model->find('first', array('conditions'=>array($Model->primaryKey => $Model->id), 'recursive'=>-1));
+            $this->old = $Model->find('first', array('conditions' => array($Model->primaryKey => $Model->id), 'recursive' => -1));
         }
+
         return true;
     }
 
@@ -694,7 +698,7 @@ class LogableBehavior extends ModelBehavior
                     if ($this->settings[$Model->alias]['change'] == 'full') {
                         $changed_fields[] = $key.' ('.$old.') => ('.$value.')';
                     } elseif ($this->settings[$Model->alias]['change'] == 'serialize') {
-                        $changed_fields[$key] =  array('old'=>$old, 'value'=>$value);
+                        $changed_fields[$key] = array('old' => $old, 'value' => $value);
                     } else {
                         $changed_fields[] = $key;
                     }
@@ -726,8 +730,8 @@ class LogableBehavior extends ModelBehavior
      * If the userKey field in table, add it to dataset
      * If userData is supplied to model, add it to the title
      *
-     * @param Object $Model
-     * @param array $logData
+     * @param object $Model
+     * @param array  $logData
      */
     public function _saveLog(&$Model, $logData, $title = null)
     {
@@ -792,6 +796,6 @@ class LogableBehavior extends ModelBehavior
                 Configure::read('Application.activityID');
         }
         $this->Log->create($logData);
-        $this->Log->save(null, array('validate'=>false, 'callbacks' => false));
+        $this->Log->save(null, array('validate' => false, 'callbacks' => false));
     }
 }

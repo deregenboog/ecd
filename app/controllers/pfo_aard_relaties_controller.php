@@ -55,11 +55,11 @@ class PfoAardRelatiesController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo aard relatie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->PfoAardRelatie->delete($id)) {
             $this->Session->setFlash(__('Pfo aard relatie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Pfo aard relatie was not deleted', true));
         $this->redirect(array('action' => 'index'));

@@ -6,13 +6,13 @@ class PfoGroep extends AppModel
     public $displayField = 'naam';
     public function get_list($current_id = null)
     {
-        $dr=array();
+        $dr = array();
         $all = $this->find('all', array(
         ));
         $now = time();
         foreach ($all as $a) {
-            $startdatum=strtotime($a['PfoGroep']['startdatum']);
-            $einddatum=strtotime($a['PfoGroep']['einddatum']);
+            $startdatum = strtotime($a['PfoGroep']['startdatum']);
+            $einddatum = strtotime($a['PfoGroep']['einddatum']);
 
             $actual = true;
             if (!empty($startdatum)) {
@@ -29,7 +29,7 @@ class PfoGroep extends AppModel
             if (!empty($current_id)) {
                 $dr[$a['PfoGroep']['id']] = $a['PfoGroep']['naam'];
                 if ($actual == false) {
-                    $dr[$a['PfoGroep']['id']] = $a['PfoGroep']['naam']." (verlopen)" ;
+                    $dr[$a['PfoGroep']['id']] = $a['PfoGroep']['naam'].' (verlopen)';
                 }
             } else {
                 if ($actual == true) {

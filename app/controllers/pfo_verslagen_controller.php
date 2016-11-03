@@ -58,11 +58,11 @@ class PfoVerslagenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo verslag', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->PfoVerslag->delete($id)) {
             $this->Session->setFlash(__('Pfo verslag deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Pfo verslag was not deleted', true));
         $this->redirect(array('action' => 'index'));
@@ -78,8 +78,8 @@ class PfoVerslagenController extends AppController
             //debug($this->data); die();
             if ($this->PfoVerslag->save($this->data)) {
                 $id = $this->PfoVerslag->id;
-                $pf=array();
-                $pf[]=array(
+                $pf = array();
+                $pf[] = array(
                         'PfoClientenVerslag' => array(
                                 'pfo_client_id' => $this->data['PfoClientenVerslag']['pfo_current_client_id'],
                                 'pfo_verslag_id' => $id,
@@ -89,7 +89,7 @@ class PfoVerslagenController extends AppController
                 if (isset($this->data['PfoClientenVerslag']['pfo_client_id'])) {
                     if (is_array($this->data['PfoClientenVerslag']['pfo_client_id'])) {
                         foreach ($this->data['PfoClientenVerslag']['pfo_client_id'] as $v) {
-                            $pf[]=array(
+                            $pf[] = array(
                             'PfoClientenVerslag' => array(
                                 'pfo_client_id' => $v,
                                 'pfo_verslag_id' => $id,
@@ -106,7 +106,7 @@ class PfoVerslagenController extends AppController
                     $saved = true;
                 }
             }
-            if (! $saved) {
+            if (!$saved) {
                 $this->Session->setFlash(__('The pfo verslag could not be saved. Please, try again.', true));
                 debug($this->PfoVerslag->validationErrors);
                 //debug($this->PfoVerslag->PfoClientenVerslag->validationErrors);
@@ -120,7 +120,7 @@ class PfoVerslagenController extends AppController
         $pfoClient = $this->PfoClient->read_complete($pfo_client_id);
         $this->set('pfo_client', $pfoClient);
         $this->setMedewerkers();
-        $data=$this->PfoVerslag->read(null, $id);
+        $data = $this->PfoVerslag->read(null, $id);
         $this->set(compact('data', 'contact_type', 'medewerkers', 'pfoClient', 'clienten', 'pfo_client_id'));
         $this->render('/elements/pfo_verslag');
     }

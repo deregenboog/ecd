@@ -5,12 +5,12 @@ class AwbzIndicatiesController extends AppController
     public $name = 'AwbzIndicaties';
     public $uses = array('AwbzIndicatie');
 
-
     public function add($klant_id = null)
     {
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
             $this->render('/elements/ajax_awbz_indicaties', 'ajax');
+
             return;
         }
 
@@ -29,6 +29,7 @@ class AwbzIndicatiesController extends AppController
             } else {
                 $this->flashError(__('Invalid klant', true));
                 $this->render('/elements/ajax_awbz_indicaties', 'ajax');
+
                 return;
             }
         } else {
@@ -46,11 +47,11 @@ class AwbzIndicatiesController extends AppController
                 'action' => 'index',
             ));
         }
-        
+
         if (!empty($this->data)) {
             if ($this->AwbzIndicatie->save($this->data)) {
                 $this->flash(__('The AWBZ Indicatie has been saved', true));
-                
+
                 $this->redirect(array(
                     'controller' => 'awbz',
                     'action' => 'view',
@@ -60,16 +61,16 @@ class AwbzIndicatiesController extends AppController
                 $this->flashError(__('The AWBZ Indicatie could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             $this->data = $this->AwbzIndicatie->read(null, $id);
         }
-        
+
         $klant_id = $this->data['AwbzIndicatie']['klant_id'];
         $klant = $this->AwbzIndicatie->Klant->find('first', array(
             'conditions' => array('Klant.id' => $klant_id),
         ));
-        
+
         $this->set(compact('klant'));
     }
 
@@ -78,19 +79,20 @@ class AwbzIndicatiesController extends AppController
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
             $this->render('/elements/ajax_awbz_indicaties', 'ajax');
+
             return;
         }
 
         if (!$id) {
             $this->flashError(__('Invalid id for awbz Indicatie', true));
         }
-        
+
         if ($this->AwbzIndicatie->delete($id)) {
             $this->flashError(__('AWBZ Indicatie deleted', true));
         } else {
             $this->flashError(__('AWBZ Indicatie was not deleted', true));
         }
-        
+
         $this->_render_ajax_view($klant_id);
     }
 
@@ -158,7 +160,7 @@ class AwbzIndicatiesController extends AppController
                 );
             } else {
                 $this->AwbzIndicatie->set('aangevraagd_niet', 1);
-                
+
                 if ($this->AwbzIndicatie->save()) {
                     App::import('Helper', 'Date');
                     $date = new DateHelper();
@@ -185,6 +187,7 @@ class AwbzIndicatiesController extends AppController
         if (!$user) {
             $user = $this->Session->read('Auth.Medewerker.LdapUser.givenname');
         }
+
         return $user;
     }
 }

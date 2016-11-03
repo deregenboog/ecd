@@ -18,7 +18,7 @@ class SchorsingenController extends AppController
         $klant = $this->Schorsing->Klant->find('first', array(
             'conditions' => array('Klant.id' => $klant_id),
             'contain' => $this->Schorsing->Klant->contain,
-            'fields' => array( 'voornaam', 'tussenvoegsel', 'achternaam',
+            'fields' => array('voornaam', 'tussenvoegsel', 'achternaam',
                 'roepnaam', 'geboortedatum', 'BSN', 'laatste_TBC_controle', 'id',
             ),
         ));
@@ -62,8 +62,8 @@ class SchorsingenController extends AppController
                         $redirect_url[] = $locatie_id;
                     }
 
-                    if (! isset($this->Medewerkers)) {
-                        $this->Medewerker= ClassRegistry::init('Medewerker');
+                    if (!isset($this->Medewerkers)) {
+                        $this->Medewerker = ClassRegistry::init('Medewerker');
                     }
                     $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
                     $medewerker = $medewerkers[$this->Session->read('Auth.Medewerker.id')];
@@ -74,13 +74,13 @@ class SchorsingenController extends AppController
                     $content['medewerker'] = $medewerker;
                     $content['Schorsing'] = $this->data['Schorsing'];
                     if (is_array($content['Schorsing']['datum_tot'])) {
-                        $content['Schorsing']['datum_tot']=$content['Schorsing']['datum_tot']['year']."-".$content['Schorsing']['datum_tot']['month']."-".$content['Schorsing']['datum_tot']['day'];
+                        $content['Schorsing']['datum_tot'] = $content['Schorsing']['datum_tot']['year'].'-'.$content['Schorsing']['datum_tot']['month'].'-'.$content['Schorsing']['datum_tot']['day'];
                     }
-                    $content['Schorsing']['reden'] = "";
+                    $content['Schorsing']['reden'] = '';
                     foreach ($this->data['Reden']['Reden'] as $reden) {
-                        $content['Schorsing']['reden'] .= $redenen[$reden].", ";
+                        $content['Schorsing']['reden'] .= $redenen[$reden].', ';
                     }
-                    $options_medewerker=Configure::read('options_medewerker');
+                    $options_medewerker = Configure::read('options_medewerker');
                     if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker'] ])) {
                         $content['Schorsing']['aggressie_tegen_medewerker'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker'] ];
                     }
@@ -110,12 +110,12 @@ class SchorsingenController extends AppController
                     unset($content['Schorsing']['locatie_id']);
                     unset($content['Schorsing']['klant_id']);
                     unset($content['Schorsing']['id']);
-                    $content['Klant']=$this->Schorsing->Klant->getAllById($klant_id, array('Geslacht'));
+                    $content['Klant'] = $this->Schorsing->Klant->getAllById($klant_id, array('Geslacht'));
 
                     $url = array('controller' => 'schorsingen', 'action' => 'index', $klant_id, $locatie_id);
                     $content['url'] = Router::url($url, true);
                     $this->_genericSendEmail(array(
-                            'to'=>$addresses,
+                            'to' => $addresses,
                             'content' => $content,
                             'template' => 'agressie',
                             'subject' => "Agressiemelding {$locatie['naam']}, door {$medewerker}",
@@ -183,11 +183,11 @@ class SchorsingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for schorsing', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Schorsing->delete($id)) {
             $this->flashError(__('Schorsing deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Schorsing was not deleted', true));
         $this->redirect(array('action' => 'index'));
@@ -230,7 +230,7 @@ class SchorsingenController extends AppController
                     ),
                 ),
                 'Locatie' => array(
-                    'fields'=> array('naam'),
+                    'fields' => array('naam'),
                 ),
             ),
         ));

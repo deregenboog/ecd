@@ -33,6 +33,7 @@ class log extends AppModel
         );
         $options['conditions'] = array_filter($options['conditions']);
         $results = $this->find('all', $options);
+
         return $results;
     }
 }

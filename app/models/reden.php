@@ -33,10 +33,10 @@ class reden extends AppModel
         $cacheKey = 'Schorsing_get_schorsing_redenen';
         $redenen = Cache::read($cacheKey);
 
-        if (! empty($redenen)) {
+        if (!empty($redenen)) {
             return $redenen;
         }
-        
+
         $redenen = $this->find('list');
         Cache::write($cacheKey, $redenen);
 
@@ -46,15 +46,15 @@ class reden extends AppModel
     public function get_violent_options()
     {
         $redenen = $this->get_schorsing_redenen();
-        
+
         $violent_options = array();
-        
+
         foreach ($redenen as $key => $reden) {
             if (in_array($reden, $this->violent)) {
-                $violent_options[]=$key;
+                $violent_options[] = $key;
             }
         }
-        
+
         return $violent_options;
     }
 }

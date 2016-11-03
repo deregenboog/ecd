@@ -54,18 +54,18 @@ class GroepsactiviteitenGroep extends AppModel
         if (empty($this->data['GroepsactiviteitenGroep']['einddatum'])) {
             return true;
         }
-        
+
         if (empty($this->data['GroepsactiviteitenGroep']['startdatum'])) {
             return true;
         }
-        
-        $s=strtotime($this->data['GroepsactiviteitenGroep']['startdatum']);
-        $e=strtotime($this->data['GroepsactiviteitenGroep']['einddatum']);
+
+        $s = strtotime($this->data['GroepsactiviteitenGroep']['startdatum']);
+        $e = strtotime($this->data['GroepsactiviteitenGroep']['einddatum']);
 
         if ($e < $s) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -118,19 +118,20 @@ class GroepsactiviteitenGroep extends AppModel
     {
         Cache::delete($this->list_cache_key);
         Cache::delete($this->list_cache_key_all);
+
         return parent::save($data, $validate, $fieldList);
     }
 
     private function in_range($data)
     {
-        $now=time();
+        $now = time();
         $sd = strtotime($data['startdatum']);
         $ed = strtotime($data['einddatum']);
-        
+
         if ($now < $sd) {
             $inperiod = false;
         } else {
-            if (! empty($ed)) {
+            if (!empty($ed)) {
                 if ($now < $ed) {
                     $inperiod = true;
                 } else {
@@ -140,6 +141,7 @@ class GroepsactiviteitenGroep extends AppModel
                 $inperiod = true;
             }
         }
+
         return $inperiod;
     }
 
@@ -158,58 +160,59 @@ class GroepsactiviteitenGroep extends AppModel
             if ($inperiod) {
                 foreach ($groepsactiviteiten_groep as $ga) {
                     if ($ga['GroepsactiviteitenGroep']['id'] == $gv['groepsactiviteiten_groep_id']) {
-                        $inperiod =$this->in_range($ga['GroepsactiviteitenGroep']);
+                        $inperiod = $this->in_range($ga['GroepsactiviteitenGroep']);
                         break;
                     }
                 }
             }
-            
+
             if ($active && $inperiod || !$active && !$inperiod) {
                 $result[] = $gv;
             }
         }
+
         return $result;
     }
-    
+
     public function get_non_selected_open_groups($active_groups, $groepsactiviteiten_groep)
     {
-        $now=time();
+        $now = time();
         $result = array();
-        
-        $tmp = Set::classicExtract($active_groups, '{n}.groepsactiviteiten_groep_id');
-        
-        foreach ($groepsactiviteiten_groep as $gr) {
-            $inperiod =$this->in_range($gr['GroepsactiviteitenGroep']);
 
-            if (! $inperiod) {
+        $tmp = Set::classicExtract($active_groups, '{n}.groepsactiviteiten_groep_id');
+
+        foreach ($groepsactiviteiten_groep as $gr) {
+            $inperiod = $this->in_range($gr['GroepsactiviteitenGroep']);
+
+            if (!$inperiod) {
                 continue;
             }
             if ($inperiod && in_array($gr['GroepsactiviteitenGroep']['id'], $tmp)) {
                 continue;
             }
-            $result[$gr['GroepsactiviteitenGroep']['id']] = $gr['GroepsactiviteitenGroep']['naam']." (".$gr['GroepsactiviteitenGroep']['werkgebied'].') ';
+            $result[$gr['GroepsactiviteitenGroep']['id']] = $gr['GroepsactiviteitenGroep']['naam'].' ('.$gr['GroepsactiviteitenGroep']['werkgebied'].') ';
         }
-        
+
         return $result;
     }
 
     public function get_groepsactiviteiten_groep($all = false)
     {
-        $groepsactiviteiten_groep=null;
+        $groepsactiviteiten_groep = null;
         $key = $this->list_cache_key;
-        
+
         if (!empty($all)) {
             $key = $this->list_cache_key_all;
         }
-        
+
         $groepsactiviteiten_groep = Cache::read($key);
 
-        if (! empty($groepsactiviteiten_groep)) {
+        if (!empty($groepsactiviteiten_groep)) {
             return $groepsactiviteiten_groep;
         }
 
         $conditions = array();
-        
+
         if (empty($all)) {
             $conditions = array(
                 'OR' => array(
@@ -225,7 +228,7 @@ class GroepsactiviteitenGroep extends AppModel
             'contain' => array(),
             'order' => 'naam asc',
         ));
-        
+
         Cache::write($key, $groepsactiviteiten_groep);
 
         return $groepsactiviteiten_groep;
@@ -236,11 +239,11 @@ class GroepsactiviteitenGroep extends AppModel
         $groepsactiviteiten_groep = $this->get_groepsactiviteiten_groep($all);
 
         $groepsactiviteiten_list = array();
-        
+
         foreach ($groepsactiviteiten_groep as $gr) {
-            $groepsactiviteiten_list[$gr['GroepsactiviteitenGroep']['id']] = $gr['GroepsactiviteitenGroep']['naam']." (".$gr['GroepsactiviteitenGroep']['werkgebied'].') ';
+            $groepsactiviteiten_list[$gr['GroepsactiviteitenGroep']['id']] = $gr['GroepsactiviteitenGroep']['naam'].' ('.$gr['GroepsactiviteitenGroep']['werkgebied'].') ';
         }
-        
+
         return $groepsactiviteiten_list;
     }
 }

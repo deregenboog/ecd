@@ -55,11 +55,11 @@ class GeslachtenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for geslacht', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Geslacht->delete($id)) {
             $this->flashError(__('Geslacht deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Geslacht was not deleted', true));
         $this->redirect(array('action' => 'index'));

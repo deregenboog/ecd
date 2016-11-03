@@ -67,11 +67,11 @@ class MedewerkersController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for medewerker', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Medewerker->delete($id)) {
             $this->flash(__('Medewerker deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Medewerker was not deleted', true));
         $this->redirect(array('action' => 'index'));
@@ -163,15 +163,12 @@ class MedewerkersController extends AppController
         $this->RolesUser->deleteRolesForUserInObject($user_id, $model, $foreign_key);
     }
 
-    /**
-     * clear_cache Clear all caches intensively. The purpose is to force a
-     * restart without having to restart apache. This doesn't clean the
-     * /tmp/minify_* files, those should be generated automatically when one of
-     * the css/js files changes its date.
-     *
-     * @access public For administrators.
-     * @return void
-     */
+   /**
+    * clear_cache Clear all caches intensively. The purpose is to force a
+    * restart without having to restart apache. This doesn't clean the
+    * /tmp/minify_* files, those should be generated automatically when one of
+    * the css/js files changes its date.
+    */
    public function clear_cache($type = 'manual')
    {
        if (!empty($this->data)) {
@@ -232,6 +229,7 @@ class MedewerkersController extends AppController
                    debug(apc_cache_info());
                }
                $this->autoRender = false;
+
                return true;
                break;
            default:

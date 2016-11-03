@@ -61,11 +61,11 @@ class NotitiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for notitie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Notitie->delete($id)) {
             $this->flashError(__('Notitie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Notitie was not deleted', true));
         $this->redirect(array('action' => 'index'));

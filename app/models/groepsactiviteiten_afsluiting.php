@@ -28,7 +28,7 @@ class GroepsactiviteitenAfsluiting extends AppModel
     {
         $groepsactiviteiten_afsluiting = Cache::read($this->list_cache_key);
 
-        if (! empty($groepsactiviteiten_afsluiting)) {
+        if (!empty($groepsactiviteiten_afsluiting)) {
             return $groepsactiviteiten_afsluiting;
         }
 

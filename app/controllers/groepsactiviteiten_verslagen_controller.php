@@ -4,7 +4,7 @@ class GroepsactiviteitenVerslagenController extends AppController
 {
     public $name = 'GroepsactiviteitenVerslagen';
 
-    public function add_edit($persoon_model = 'Klant', $foreign_key)
+    public function add_edit($persoon_model, $foreign_key)
     {
         if (!empty($this->data)) {
             if (empty($this->data['GroepsactiviteitenVerslag']['id'])) {
@@ -14,7 +14,7 @@ class GroepsactiviteitenVerslagenController extends AppController
                 $this->data['GroepsactiviteitenVerslag']['medewerker_id'] = $this->Session->read('Auth.Medewerker.id');
             }
 
-            #$this->data['GroepsactiviteitenVerslag']['opmerking'] = nl2br(htmlentities($this->data['GroepsactiviteitenVerslag']['opmerking']));
+            //$this->data['GroepsactiviteitenVerslag']['opmerking'] = nl2br(htmlentities($this->data['GroepsactiviteitenVerslag']['opmerking']));
             if ($this->GroepsactiviteitenVerslag->save($this->data)) {
                 $this->Session->setFlash(__('The groepsactiviteiten verslag has been saved', true));
             } else {

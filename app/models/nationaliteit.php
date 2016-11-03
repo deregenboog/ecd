@@ -21,12 +21,13 @@ class nationaliteit extends AppModel
             'counterQuery' => '',
         ),
     );
-    
-    public $cachekey = "NationaliteitenList";
+
+    public $cachekey = 'NationaliteitenList';
 
     public function beforeSave($options = array())
     {
         Cache::delete($this->cachekey);
+
         return parent::beforeSave($options);
     }
 
@@ -39,6 +40,7 @@ class nationaliteit extends AppModel
         }
         $nationaliteiten = $this->find('list');
         Cache::write($this->cachekey, $nationaliteiten);
+
         return $nationaliteiten;
     }
 }

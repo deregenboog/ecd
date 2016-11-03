@@ -21,8 +21,8 @@ class IzEindekoppeling extends AppModel
         ),
     );
 
-    public $cachekey = "IzEindKoppelingList";
-    public $active_key = "IzEindKoppelingListactive";
+    public $cachekey = 'IzEindKoppelingList';
+    public $active_key = 'IzEindKoppelingListactive';
 
     public function beforeSave(&$model)
     {
@@ -31,10 +31,10 @@ class IzEindekoppeling extends AppModel
 
         return true;
     }
-    
+
     public function eindekoppelingList($all = true)
     {
-        $key=$this->cachekey;
+        $key = $this->cachekey;
 
         $conditions = array();
 
@@ -42,7 +42,7 @@ class IzEindekoppeling extends AppModel
             $conditions = array(
                 'active' => true,
             );
-            $key=$this->active_key;
+            $key = $this->active_key;
         }
 
         if (!empty($iz_eindekoppeling_list)) {

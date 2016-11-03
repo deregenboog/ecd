@@ -1,4 +1,5 @@
 <?php
+
 class AwbzIntake extends AppModel
 {
     public $name = 'AwbzIntake';
@@ -222,7 +223,7 @@ class AwbzIntake extends AppModel
         'Verslaving' => array(
             'fields' => array('naam'),
         ),
-        'Verslavingsfrequentie'=> array(
+        'Verslavingsfrequentie' => array(
             'fields' => array('naam', 'datum_van', 'datum_tot'),
         ),
         'Verslavingsperiode' => array(
@@ -246,7 +247,7 @@ class AwbzIntake extends AppModel
 
     public function checkLocation()
     {
-        if ($this->data['AwbzIntake']['locatie1_id'] <> $this->data['AwbzIntake']['locatie2_id']) {
+        if ($this->data['AwbzIntake']['locatie1_id'] != $this->data['AwbzIntake']['locatie2_id']) {
             return true;
         } else {
             return false;
@@ -283,6 +284,7 @@ class AwbzIntake extends AppModel
         if ($this->Klant->save()) {
             return false;
         }
+
         return true;
     }
 

@@ -45,6 +45,7 @@ class GroepsactiviteitenReden extends AppModel
     public function save($data = null, $validate = true, $fieldList = array())
     {
         Cache::delete($this->list_cache_key);
+
         return parent::save($data, $validate, $fieldList);
     }
 
@@ -52,7 +53,7 @@ class GroepsactiviteitenReden extends AppModel
     {
         $groepsactiviteiten_reden = Cache::read($this->list_cache_key);
 
-        if (! empty($groepsactiviteiten_reden)) {
+        if (!empty($groepsactiviteiten_reden)) {
             return $groepsactiviteiten_reden;
         }
 

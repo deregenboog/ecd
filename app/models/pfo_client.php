@@ -167,7 +167,7 @@ class PfoClient extends AppModel
             ),
 
     );
-    
+
     public function validPhone($data)
     {
         foreach ($data as $key => $value) {
@@ -175,6 +175,7 @@ class PfoClient extends AppModel
                 return true;
             }
         }
+
         return false;
     }
 
@@ -193,14 +194,14 @@ class PfoClient extends AppModel
         ));
 
         $pfoClient['PfoVerslag'] = array();
-        $ids=array();
+        $ids = array();
         if (isset($pfoClient['PfoClientenVerslag'])) {
             foreach ($pfoClient['PfoClientenVerslag'] as $pf) {
-                $ids[]=$pf['pfo_verslag_id'];
+                $ids[] = $pf['pfo_verslag_id'];
             }
         }
 
-        $pfoClient['PfoVerslag']= $this->PfoClientenVerslag->PfoVerslag->find('all', array(
+        $pfoClient['PfoVerslag'] = $this->PfoClientenVerslag->PfoVerslag->find('all', array(
                 'conditions' => array('PfoVerslag.id' => $ids),
                 'contain' => array('PfoClientenVerslag'),
                 'order' => array('created DESC'),
@@ -212,14 +213,14 @@ class PfoClient extends AppModel
         $hoofd_client_id = null;
 
         if (isset($pfoClient['SupportClient']) && !empty($pfoClient['SupportClient']['pfo_client_id'])) {
-            $hoofd_client_id =$pfoClient['SupportClient']['pfo_client_id'];
-            $complete_group[]=$hoofd_client_id;
-            
+            $hoofd_client_id = $pfoClient['SupportClient']['pfo_client_id'];
+            $complete_group[] = $hoofd_client_id;
+
             $conditions = array(
                 'pfo_client_id' => $hoofd_client_id,
                 'pfo_supportgroup_client_id NOT' => $id,
             );
-            
+
             $this->PfoClientenSupportgroup->recurcive = -1;
             $support_groep = $this->PfoClientenSupportgroup->find('all', array(
                 'conditions' => $conditions,
@@ -231,27 +232,27 @@ class PfoClient extends AppModel
             if (count($pfoClient['PfoClientenSupportgroup']) > 0) {
                 $hoofd_client_id = $id;
             }
-            
+
             foreach ($pfoClient['PfoClientenSupportgroup'] as $pf) {
-                $complete_group[]=$pf['pfo_supportgroup_client_id'];
+                $complete_group[] = $pf['pfo_supportgroup_client_id'];
             }
         }
-        
+
         foreach ($pfoClient['AlsoSupporting'] as $as) {
-            $complete_group[]=$as['PfoClientenSupportgroup']['pfo_supportgroup_client_id'];
+            $complete_group[] = $as['PfoClientenSupportgroup']['pfo_supportgroup_client_id'];
         }
-        
+
         sort($complete_group);
         $pfoClient['hoofd_client_id'] = $hoofd_client_id;
         $pfoClient['CompleteGroup'] = array_unique($complete_group);
-        
+
         if (empty($pfoClient['SupportClient'])) {
             $pfoClient['SupportClient'] = array();
         }
-        
+
         return $pfoClient;
     }
-    
+
     public function clienten()
     {
         $conditions = array();
@@ -264,7 +265,7 @@ class PfoClient extends AppModel
 
         $clienten = array();
         foreach ($clienten_all as $client) {
-            $clienten[$client['PfoClient']['id']] =  $client['PfoClient']['roepnaam']." ".$client['PfoClient']['tussenvoegsel']." ".$client['PfoClient']['achternaam'];
+            $clienten[$client['PfoClient']['id']] = $client['PfoClient']['roepnaam'].' '.$client['PfoClient']['tussenvoegsel'].' '.$client['PfoClient']['achternaam'];
             $clienten[$client['PfoClient']['id']] = trim($clienten[$client['PfoClient']['id']]);
         }
 
@@ -273,51 +274,51 @@ class PfoClient extends AppModel
 
     public function vrije_clienten($all = null)
     {
-        if (! $all) {
+        if (!$all) {
             $all = $this->clienten();
         }
-        
-        $query = "select PfoClient.id  as id , s.id as sid from pfo_clienten PfoClient 
-				left join pfo_clienten_supportgroups s on PfoClient.id = pfo_client_id or PfoClient.id = pfo_supportgroup_client_id having isnull(s.id)";
-        
+
+        $query = 'select PfoClient.id  as id , s.id as sid from pfo_clienten PfoClient 
+				left join pfo_clienten_supportgroups s on PfoClient.id = pfo_client_id or PfoClient.id = pfo_supportgroup_client_id having isnull(s.id)';
+
         $data = $this->query($query);
         $clienten = array();
-        
+
         foreach ($data as $client) {
-            $clienten[$client['PfoClient']['id']] =  $all[$client['PfoClient']['id']];
+            $clienten[$client['PfoClient']['id']] = $all[$client['PfoClient']['id']];
             $clienten[$client['PfoClient']['id']] = trim($clienten[$client['PfoClient']['id']]);
         }
-        
+
         return $clienten;
     }
 
     public function hoofd_clienten($all = null)
     {
-        if (! $all) {
+        if (!$all) {
             $all = $this->clienten();
         }
-        
+
         $contain = array(
             'PfoClientenSupportgroup' => array(
                 'fields' => array('id', 'pfo_client_id'),
             ),
         );
-        
+
         $data = $this->find('all', array(
             'contain' => $contain,
             'fields' => array('id'),
         ));
-        
+
         $clienten = array();
-        
+
         foreach ($data as $client) {
             if (count($client['PfoClientenSupportgroup']) == 0) {
                 continue;
             }
-            $clienten[$client['PfoClient']['id']] =  $all[$client['PfoClient']['id']];
+            $clienten[$client['PfoClient']['id']] = $all[$client['PfoClient']['id']];
             $clienten[$client['PfoClient']['id']] = trim($clienten[$client['PfoClient']['id']]);
         }
-        
+
         return $clienten;
     }
 }

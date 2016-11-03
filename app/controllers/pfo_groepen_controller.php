@@ -55,11 +55,11 @@ class PfoGroepenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo groep', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->PfoGroep->delete($id)) {
             $this->Session->setFlash(__('Pfo groep deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Pfo groep was not deleted', true));
         $this->redirect(array('action' => 'index'));

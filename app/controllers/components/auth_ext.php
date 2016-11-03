@@ -41,6 +41,7 @@ class AuthExtComponent extends AuthComponent
 
         if (!$model->LdapUser->testConnection()) {
             $this->Session->setFlash('LDAP server not accessible.');
+
             return $this->_loggedIn;
         }
 
@@ -76,6 +77,7 @@ class AuthExtComponent extends AuthComponent
             // the default layout.
             $this->Session->setFlash($this->loginError, $this->flashElement, array(), 'auth');
         }
+
         return $this->_loggedIn;
     }
 
@@ -87,7 +89,7 @@ class AuthExtComponent extends AuthComponent
 
     public function isAuthorized($type = null, $object = null, $user = null)
     {
-        if (Configure::read("ACL.disabled") && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
             // ACL disabled with a flag
             return true;
         }

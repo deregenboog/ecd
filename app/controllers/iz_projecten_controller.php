@@ -38,7 +38,7 @@ class IzProjectenController extends AppController
             $this->Session->setFlash(__('Invalid iz project', true));
             $this->redirect(array('action' => 'index'));
         }
-        
+
         if (!empty($this->data)) {
             if ($this->IzProject->save($this->data)) {
                 $this->Session->setFlash(__('The iz project has been saved', true));
@@ -47,7 +47,7 @@ class IzProjectenController extends AppController
                 $this->Session->setFlash(__('The iz project could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             $this->data = $this->IzProject->read(null, $id);
         }
@@ -57,14 +57,14 @@ class IzProjectenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz project', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         if ($this->IzProject->delete($id)) {
             $this->Session->setFlash(__('Iz project deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         $this->Session->setFlash(__('Iz project was not deleted', true));
         $this->redirect(array('action' => 'index'));
     }

@@ -55,11 +55,11 @@ class NationaliteitenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for nationaliteit', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Nationaliteit->delete($id)) {
             $this->flashError(__('Nationaliteit deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Nationaliteit was not deleted', true));
         $this->redirect(array('action' => 'index'));

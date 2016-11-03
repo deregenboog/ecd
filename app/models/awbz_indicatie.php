@@ -116,7 +116,7 @@ class AwbzIndicatie extends AppModel
 
     public function periodsDontOverlap($val)
     {
-        $d =& $this->data[$this->alias];
+        $d = &$this->data[$this->alias];
 
         if (!isset($d['klant_id'])) {
             return true;
@@ -125,20 +125,21 @@ class AwbzIndicatie extends AppModel
         foreach ($val as $field => $date) {
         }
 
-        $conditions =  array(
+        $conditions = array(
                 'begindatum <=' => $date, 'einddatum >=' => $date,
                 'klant_id' => $d['klant_id'],
             );
 
         if (!empty($d['id'])) {
-            $conditions['NOT'] = array('id' => $d['id'] );
+            $conditions['NOT'] = array('id' => $d['id']);
         }
 
-        $hits = $this->find('list', array( 'conditions' => $conditions ));
+        $hits = $this->find('list', array('conditions' => $conditions));
 
         if ($hits) {
             return false;
         }
+
         return true;
     }
 
@@ -188,6 +189,7 @@ class AwbzIndicatie extends AppModel
 		';
 
         $result = $this->query($sql_query);
+
         return $result;
     }
 
@@ -240,6 +242,7 @@ class AwbzIndicatie extends AppModel
 			  join hoofdaannemers on (Info.hoofdaannemer_id = hoofdaannemers.id)
 			 group by hoofdaannemers.naam, achternaam, voornaam, tussenvoegsel, klant_id, roepnaam, geboortedatum, BSN, hoofdaannemer_id";
         $result = $this->query($sql_query);
+
         return $result;
     }
 }

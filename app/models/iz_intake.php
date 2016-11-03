@@ -26,7 +26,7 @@ class IzIntake extends AppModel
             'order' => '',
         ),
     );
-    
+
     public $validate = array(
         'medewerker_id' => array(
             'notempty' => array(

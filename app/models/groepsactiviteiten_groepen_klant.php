@@ -55,12 +55,13 @@ class GroepsactiviteitenGroepenKlant extends AppModel
         if (empty($this->data['GroepsactiviteitenGroepenKlant']['startdatum'])) {
             return true;
         }
-        $s=strtotime($this->data['GroepsactiviteitenGroepenKlant']['startdatum']);
-        $e=strtotime($this->data['GroepsactiviteitenGroepenKlant']['einddatum']);
+        $s = strtotime($this->data['GroepsactiviteitenGroepenKlant']['startdatum']);
+        $e = strtotime($this->data['GroepsactiviteitenGroepenKlant']['einddatum']);
 
         if ($e < $s) {
             return false;
         }
+
         return true;
     }
 
@@ -94,7 +95,7 @@ class GroepsactiviteitenGroepenKlant extends AppModel
             'klant_id' => $klant_id,
             'groepsactiviteiten_groep_id' => $groepsactiviteiten_groep_id,
         );
-        $gag=$this->find('first', array(
+        $gag = $this->find('first', array(
             'conditions' => $conditions,
             'fields' => array('id'),
         ));
@@ -114,8 +115,10 @@ class GroepsactiviteitenGroepenKlant extends AppModel
             unset($this->validate['groepsactiviteiten_reden_id']);
             $this->create();
             $retval = $this->save($data);
+
             return $retval;
         }
+
         return true;
     }
 }

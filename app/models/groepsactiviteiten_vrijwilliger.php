@@ -28,11 +28,12 @@ class GroepsactiviteitenVrijwilliger extends AppModel
     public function get_count($groepsactiviteit_id)
     {
         $return = $this->find('list', array(
-                'conditions' => array('groepsactiviteit_id' => $groepsactiviteit_id    ),
+                'conditions' => array('groepsactiviteit_id' => $groepsactiviteit_id),
                 'contain' => array(),
         ));
 
         $count = count($return);
+
         return $count;
     }
 }

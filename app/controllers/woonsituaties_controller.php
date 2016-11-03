@@ -55,11 +55,11 @@ class WoonsituatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for woonsituatie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Woonsituatie->delete($id)) {
             $this->flashError(__('Woonsituatie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Woonsituatie was not deleted', true));
         $this->redirect(array('action' => 'index'));

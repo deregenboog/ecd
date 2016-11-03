@@ -47,7 +47,7 @@ class BotKoppeling extends AppModel
             ),
         ),
         'einddatum' => array(
-            'rule'      => array('validate_einddatum'),
+            'rule' => array('validate_einddatum'),
             'message' => 'Datum intake groter dan datum aanmelding',
         ),
     );
@@ -57,15 +57,15 @@ class BotKoppeling extends AppModel
         if (empty($this->data['BotKoppeling']['startdatum'])) {
             return true;
         }
-        
+
         if (empty($this->data['BotKoppeling']['einddatum'])) {
             return true;
         }
-        
+
         if (strtotime($this->data['BotKoppeling']['einddatum']) < strtotime($this->data['BotKoppeling']['startdatum'])) {
             return false;
         }
-        
+
         return true;
     }
 }

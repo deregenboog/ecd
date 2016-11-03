@@ -46,7 +46,7 @@ class ZrmSettingsController extends AppController
                 $this->Session->setFlash(__('ZRM settings niet opgeslagen.', true));
             }
         }
-        
+
         $zrm_settings = $this->ZrmSetting->find('all');
         $this->set('zrm_settings', $zrm_settings);
         $this->set('zrm_data', $this->ZrmReport->zrm_data());
@@ -76,14 +76,14 @@ class ZrmSettingsController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for zrm setting', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         if ($this->ZrmSetting->delete($id)) {
             $this->Session->setFlash(__('Zrm setting deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         $this->Session->setFlash(__('Zrm setting was not deleted', true));
         $this->redirect(array('action' => 'index'));
     }

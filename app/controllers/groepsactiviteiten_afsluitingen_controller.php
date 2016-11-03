@@ -55,11 +55,11 @@ class GroepsactiviteitenAfsluitingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for groepsactiviteiten afsluiting', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->GroepsactiviteitenAfsluiting->delete($id)) {
             $this->Session->setFlash(__('Groepsactiviteiten afsluiting deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Groepsactiviteiten afsluiting was not deleted', true));
         $this->redirect(array('action' => 'index'));

@@ -25,18 +25,18 @@ class AttachmentsController extends AppController
 
         $dir_name = $file_record['Attachment']['dirname'];
         $filename = $file_record['Attachment']['basename'];
-        
+
         if (empty($version)) {
             $file_path = MEDIA.$dir_name.'/'.$filename;
         } else {
             $config = Configure::read('Media.filter.image');
-            
+
             if (isset($config[$version]['convert'])) {
                 $ext = explode('/', $config[$version]['convert']);
                 $name = explode('.', $filename);
                 $filename = $name[0].'.'.$ext[1];
             }
-            
+
             $file_path = MEDIA.'filter/'.$version.'/'.$dir_name.'/'.
                     $filename;
         }
@@ -44,22 +44,22 @@ class AttachmentsController extends AppController
         $size = filesize($file_path);
         $type = mime_content_type($file_path);
 
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Accept-Ranges: bytes");
-        header("Connection: close");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Cache-Control: public");
-        header("Content-Description: File Transfer");
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Accept-Ranges: bytes');
+        header('Connection: close');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: public');
+        header('Content-Description: File Transfer');
         header("Content-Type: $type");
-        header("Content-Disposition-type: attachment");
-        
+        header('Content-Disposition-type: attachment');
+
         if ($download) {
             header("Content-Disposition: attachment; filename=\"$filename\"");
         }
-        
-        header("Content-Transfer-Encoding: binary");
-        header("Content-Length: ".$size);
+
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: '.$size);
 
         $this->_readfile_chunked($file_path);
     }
@@ -75,25 +75,26 @@ class AttachmentsController extends AppController
         $buffer = '';
         $cnt = 0;
         $handle = fopen($path, 'rb');
-        
+
         if ($handle === false) {
             return false;
         }
-        
+
         while (!feof($handle)) {
             $buffer = fread($handle, $chunksize);
             echo $buffer;
-            
+
             if ($retbytes) {
                 $cnt += strlen($buffer);
             }
         }
-        
+
         $status = fclose($handle);
-        
+
         if ($retbytes && $status) {
             return $cnt;
         }
+
         return $status;
     }
 
@@ -101,15 +102,17 @@ class AttachmentsController extends AppController
     {
         $att = $this->Attachment->read(null, $attachmentId);
 
-        if (! $att) {
+        if (!$att) {
             $this->flashError(__('Invalid attachment id.', true));
             $this->redirect('/');
+
             return;
         }
 
         if ($att['Attachment']['user_id'] != $this->Session->read('Auth.Medewerker.id')) {
             $this->flashError(__('Cannot delete attachment, you are not the uploader.', true));
             $this->redirect('/');
+
             return;
         }
 
@@ -118,8 +121,8 @@ class AttachmentsController extends AppController
 
         $this->flash(__('Document deleted.', true));
         $model = $att['Attachment']['model'];
-        
-        $controller =Inflector::Pluralize($model);
+
+        $controller = Inflector::Pluralize($model);
         $this->redirect($this->referer());
     }
 }

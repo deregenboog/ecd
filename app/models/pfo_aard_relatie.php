@@ -7,13 +7,13 @@ class PfoAardRelatie extends AppModel
 
     public function get_list($current_id = null)
     {
-        $dr=array();
+        $dr = array();
         $all = $this->find('all', array(
         ));
         $now = time();
         foreach ($all as $a) {
-            $startdatum=strtotime($a['PfoAardRelatie']['startdatum']);
-            $einddatum=strtotime($a['PfoAardRelatie']['einddatum']);
+            $startdatum = strtotime($a['PfoAardRelatie']['startdatum']);
+            $einddatum = strtotime($a['PfoAardRelatie']['einddatum']);
 
             $actual = true;
             if (!empty($startdatum)) {
@@ -30,7 +30,7 @@ class PfoAardRelatie extends AppModel
             if (!empty($current_id)) {
                 $dr[$a['PfoAardRelatie']['id']] = $a['PfoAardRelatie']['naam'];
                 if ($actual == false) {
-                    $dr[$a['PfoAardRelatie']['id']] = $a['PfoAardRelatie']['naam']." (verlopen)" ;
+                    $dr[$a['PfoAardRelatie']['id']] = $a['PfoAardRelatie']['naam'].' (verlopen)';
                 }
             } else {
                 if ($actual == true) {
@@ -38,6 +38,7 @@ class PfoAardRelatie extends AppModel
                 }
             }
         }
+
         return $dr;
     }
 }
