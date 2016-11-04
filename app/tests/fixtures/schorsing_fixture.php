@@ -1,4 +1,5 @@
 <?php
+
 /* Schorsing Fixture generated on: 2010-08-17 15:08:47 : 1282050347 */
 class SchorsingFixture extends CakeTestFixture
 {
@@ -14,7 +15,7 @@ class SchorsingFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -26,7 +27,7 @@ class SchorsingFixture extends CakeTestFixture
             'klant_id' => 1,
             'remark' => 'Lorem ipsum dolor sit amet',
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
         array( //active schorsing
             'id' => 2,
@@ -36,7 +37,7 @@ class SchorsingFixture extends CakeTestFixture
             'klant_id' => 1,
             'remark' => 'Lorem ipsum dolor sit amet',
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
         array( //active schorsing
             'id' => 3,
@@ -46,7 +47,7 @@ class SchorsingFixture extends CakeTestFixture
             'klant_id' => 666,
             'remark' => 'Lorem ipsum dolor sit amet',
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
         array( //active schorsing
             'id' => 4,
@@ -56,7 +57,7 @@ class SchorsingFixture extends CakeTestFixture
             'klant_id' => 666,
             'remark' => 'Lorem ipsum dolor sit amet',
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
     );
 }

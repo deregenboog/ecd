@@ -1,4 +1,5 @@
 <?php
+
 class IntakesVerslavingenFixture extends CakeTestFixture
 {
     public $name = 'IntakesVerslaving';
@@ -11,7 +12,7 @@ class IntakesVerslavingenFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -20,7 +21,7 @@ class IntakesVerslavingenFixture extends CakeTestFixture
             'intake_id' => 1,
             'verslaving_id' => 1,
             'created' => '2010-08-17 15:05:45',
-            'modified' => '2010-08-17 15:35:45'
+            'modified' => '2010-08-17 15:35:45',
         ),
     );
 }

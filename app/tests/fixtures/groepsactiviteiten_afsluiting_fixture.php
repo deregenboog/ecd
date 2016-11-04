@@ -1,4 +1,5 @@
 <?php
+
 /* GroepsactiviteitenAfsluiting Fixture generated on: 2015-11-22 08:11:01 : 1448175901 */
 class GroepsactiviteitenAfsluitingFixture extends CakeTestFixture
 {
@@ -10,7 +11,7 @@ class GroepsactiviteitenAfsluitingFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -18,7 +19,7 @@ class GroepsactiviteitenAfsluitingFixture extends CakeTestFixture
             'id' => 1,
             'naam' => 'Lorem ipsum dolor sit amet',
             'created' => '2015-11-22 08:05:01',
-            'modified' => '2015-11-22 08:05:01'
+            'modified' => '2015-11-22 08:05:01',
         ),
     );
 }

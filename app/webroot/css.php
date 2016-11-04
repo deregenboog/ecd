@@ -1,6 +1,6 @@
 <?php
 /**
- * CSS helping functions
+ * CSS helping functions.
  *
  * PHP versions 4 and 5
  *
@@ -11,10 +11,10 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app.webroot
  * @since         CakePHP(tm) v 0.2.9
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
@@ -22,43 +22,47 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
     exit('File Not Found');
 }
 
-/**
+/*
  * Ensure required classes are available.
  */
 if (!class_exists('File')) {
     uses('file');
 }
 
-/**
- * Make clean CSS
- *
- * @param unknown_type $path
- * @param unknown_type $name
- * @return unknown
- */
+    /**
+     * Make clean CSS.
+     *
+     * @param unknown_type $path
+     * @param unknown_type $name
+     *
+     * @return unknown
+     */
     function make_clean_css($path, $name)
     {
-        App::import('Vendor', 'csspp' . DS . 'csspp');
+        App::import('Vendor', 'csspp'.DS.'csspp');
         $data = file_get_contents($path);
         $csspp = new csspp();
         $output = $csspp->compress($data);
         $ratio = 100 - (round(strlen($output) / strlen($data), 3) * 100);
-        $output = " /* file: $name, ratio: $ratio% */ " . $output;
+        $output = " /* file: $name, ratio: $ratio% */ ".$output;
+
         return $output;
     }
-/**
- * Write CSS cache
- *
- * @param unknown_type $path
- * @param unknown_type $content
- * @return unknown
- */
+    /**
+     * Write CSS cache.
+     *
+     * @param unknown_type $path
+     * @param unknown_type $content
+     *
+     * @return unknown
+     */
     function write_css_cache($path, $content)
     {
         if (!is_dir(dirname($path))) {
             mkdir(dirname($path));
         }
         $cache = new File($path);
+
         return $cache->write($content);
     }
 
@@ -66,9 +70,9 @@ if (!class_exists('File')) {
         die('Wrong file name.');
     }
 
-    $filename = 'css/' . $regs[1];
-    $filepath = CSS . $regs[1];
-    $cachepath = CACHE . 'css' . DS . str_replace(array('/', '\\'), '-', $regs[1]);
+    $filename = 'css/'.$regs[1];
+    $filepath = CSS.$regs[1];
+    $cachepath = CACHE.'css'.DS.str_replace(array('/', '\\'), '-', $regs[1]);
 
     if (!file_exists($filepath)) {
         die('Wrong file name.');
@@ -90,9 +94,9 @@ if (!class_exists('File')) {
         $templateModified = time();
     }
 
-    header("Date: " . date("D, j M Y G:i:s ", $templateModified) . 'GMT');
-    header("Content-Type: text/css");
-    header("Expires: " . gmdate("D, d M Y H:i:s", time() + DAY) . " GMT");
-    header("Cache-Control: max-age=86400, must-revalidate"); // HTTP/1.1
-    header("Pragma: cache");        // HTTP/1.0
-    print $output;
+    header('Date: '.date('D, j M Y G:i:s ', $templateModified).'GMT');
+    header('Content-Type: text/css');
+    header('Expires: '.gmdate('D, d M Y H:i:s', time() + DAY).' GMT');
+    header('Cache-Control: max-age=86400, must-revalidate'); // HTTP/1.1
+    header('Pragma: cache');        // HTTP/1.0
+    echo $output;

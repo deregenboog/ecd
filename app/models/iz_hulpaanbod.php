@@ -4,7 +4,7 @@ App::import('Model', 'IzKoppeling');
 
 class IzHulpaanbod extends IzKoppeling
 {
-	public $name = 'IzHulpaanbod';
+    public $name = 'IzHulpaanbod';
 
     public $hasOne = array(
         'IzHulpvraag' => array(

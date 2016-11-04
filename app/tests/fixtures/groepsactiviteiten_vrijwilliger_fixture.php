@@ -1,4 +1,5 @@
 <?php
+
 /* GroepsactiviteitenVrijwilliger Fixture generated on: 2014-05-03 15:05:52 : 1399123972 */
 class GroepsactiviteitenVrijwilligerFixture extends CakeTestFixture
 {
@@ -14,7 +15,7 @@ class GroepsactiviteitenVrijwilligerFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -26,7 +27,7 @@ class GroepsactiviteitenVrijwilligerFixture extends CakeTestFixture
             'einddatum' => '2014-05-03',
             'communicatie_methode' => 'Lorem ipsum dolor sit amet',
             'created' => '2014-05-03 15:32:52',
-            'modified' => '2014-05-03 15:32:52'
+            'modified' => '2014-05-03 15:32:52',
         ),
     );
 }

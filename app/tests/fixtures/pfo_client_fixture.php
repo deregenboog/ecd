@@ -1,4 +1,5 @@
 <?php
+
 /* PfoClient Fixture generated on: 2013-06-04 22:06:26 : 1370377766 */
 class PfoClientFixture extends CakeTestFixture
 {
@@ -31,7 +32,7 @@ class PfoClientFixture extends CakeTestFixture
         'evaluatie_formulier' => array('type' => 'date', 'null' => true, 'default' => null),
         'datum_afgesloten' => array('type' => 'date', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -60,7 +61,7 @@ class PfoClientFixture extends CakeTestFixture
             'begeleidings_formulier' => '2013-06-04',
             'brief_huisarts' => '2013-06-04',
             'evaluatie_formulier' => '2013-06-04',
-            'datum_afgesloten' => '2013-06-04'
+            'datum_afgesloten' => '2013-06-04',
         ),
     );
 }

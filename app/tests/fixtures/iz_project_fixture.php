@@ -1,4 +1,5 @@
 <?php
+
 /* IzProject Fixture generated on: 2014-08-11 16:08:37 : 1407767257 */
 class IzProjectFixture extends CakeTestFixture
 {
@@ -12,7 +13,7 @@ class IzProjectFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -22,7 +23,7 @@ class IzProjectFixture extends CakeTestFixture
             'startdatum' => '2014-08-11',
             'einddatum' => '2014-08-11',
             'created' => '2014-08-11 16:27:37',
-            'modified' => '2014-08-11 16:27:37'
+            'modified' => '2014-08-11 16:27:37',
         ),
     );
 }

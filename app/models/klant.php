@@ -4,16 +4,16 @@ class klant extends AppModel
 {
     public $name = 'Klant';
     public $order = 'Klant.achternaam ASC';
-    
+
     public $virtualFields = array(
-            
+
             'name' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
             'name1st_part' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`roepnaam`)",
             'name2nd_part' => "CONCAT_WS(' ', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
             'klant_nummer' => "CONCAT('K',`Klant`.`id`)",
-            
+
     );
-    
+
     public $displayField = 'name';
     public $showDisabled = false;
 
@@ -355,7 +355,7 @@ class klant extends AppModel
                     'order' => 'created desc',
             ),
     );
-    
+
     public $hasOne = array(
             'Traject' => array(
                     'className' => 'Traject',
@@ -402,11 +402,11 @@ class klant extends AppModel
                     'dependent' => true,
             ),
     );
-    
+
     public $actsAs = array(
             'Containable',
     );
-    
+
     public $contain = array(
             'Geslacht' => array(
                     'fields' => array(
@@ -466,12 +466,13 @@ class klant extends AppModel
     {
         if (empty($this->data['Klant']['voornaam']) && empty($this->data['Klant']['roepnaam'])) {
             $this->invalidate('roepnaam', 'Voer de roep of voornaam in');
+
             return false;
         } else {
             return true;
         }
     }
-    
+
     public function beforeSave($options = array())
     {
         if (!$this->id && empty($this->data['Klant']['id'])) {
@@ -494,7 +495,7 @@ class klant extends AppModel
             $this->send_admin_email = false;
             $this->changes = array();
             foreach ($this->watchfields as $watch) {
-                if (!isset($current[$watch]) || ! isset($compare[$watch])) {
+                if (!isset($current[$watch]) || !isset($compare[$watch])) {
                     continue;
                 }
                 if ($current[$watch] != $compare[$watch]) {
@@ -503,6 +504,7 @@ class klant extends AppModel
                 }
             }
         }
+
         return parent::beforeSave($options);
     }
 
@@ -526,7 +528,7 @@ class klant extends AppModel
 
         return $klanten;
     }
-    
+
     public function set_registration_virtual_fields()
     {
         $tbc_valid = Configure::read('TBC_months_period') * 30 * DAY;
@@ -547,7 +549,7 @@ class klant extends AppModel
             if (isset($this->data['Intake'][0])) {
                 $last_intake = $this->data['Intake'][0];
                 $this->saveField('laste_intake_id', $last_intake['id']);
-                debug("klant $id updated with ".$last_intake['id']." (".$last_intake['datum_intake'].")");
+                debug("klant $id updated with ".$last_intake['id'].' ('.$last_intake['datum_intake'].')');
             } else {
                 debug("klant $id has no intake");
             }
@@ -614,6 +616,7 @@ class klant extends AppModel
         }
         debug($this->paginator);
         $contain = $this->contain;
+
         return $this->find('all', compact('conditions', 'contain', 'order', 'limit', 'page', 'group'));
     }
 
@@ -622,6 +625,7 @@ class klant extends AppModel
         if (!$this->showDisabled) {
             $queryData['conditions'][$this->alias.'.disabled'] = false;
         }
+
         return true;
     }
 
@@ -642,7 +646,7 @@ class klant extends AppModel
 
         if (empty($registratie_id)) {
             $this->Registratie->recursive = -1;
-            $recent_registration = & $this->Registratie->find('all',
+            $recent_registration = &$this->Registratie->find('all',
                 array(
                         'conditions' => array(
                                 'Registratie.klant_id' => $klant_id,
@@ -664,6 +668,7 @@ class klant extends AppModel
         if (!$this->save($this->data, false)) { //didn't save
             return false;
         }
+
         return true;
     }
 
@@ -731,7 +736,7 @@ class klant extends AppModel
             ));
         $this->set($klant);
     }
-    
+
     public function getLastIntakeAddress($klantId)
     {
         $lastIntakeInfo = $this->Intake->find('first', array(
@@ -767,6 +772,7 @@ class klant extends AppModel
             $lastIntake = $lastIntakeInfo['Hi5Intake'];
             $lastIntakeDate = $lastIntake['created'];
         }
+
         return array(
                 'postadres' => $lastIntake['postadres'],
                 'postcode' => $lastIntake['postcode'],
@@ -824,7 +830,7 @@ class klant extends AppModel
 
         App::import('Sanitize');
         $surnameQuoted = "'".Sanitize::escape($surname)."'";
-        $hits =  $this->find('all', array(
+        $hits = $this->find('all', array(
             'conditions' => $conditions,
             'order' => array(
                 "10 * (Klant.achternaam = $surnameQuoted and Klant.achternaam != '') +
@@ -841,10 +847,11 @@ class klant extends AppModel
     public function disable($id)
     {
         $this->recursive = -1;
-        if (! $this->read(null, $id)) {
+        if (!$this->read(null, $id)) {
             return false;
         }
         $this->set('disabled', 1);
+
         return $this->save();
     }
 
@@ -852,10 +859,11 @@ class klant extends AppModel
     {
         $this->recursive = -1;
         $this->showDisabled = true;
-        if (! $this->read(null, $id)) {
+        if (!$this->read(null, $id)) {
             return false;
         }
         $this->set('disabled', 0);
+
         return $this->save();
     }
 
@@ -998,9 +1006,11 @@ class klant extends AppModel
 
     /**
      * Move all associated models from the old klant ids to the new one.
-     * Returns an array of moved objects (AssociationName => count)
-     * @param int	$newId	New klant id
+     * Returns an array of moved objects (AssociationName => count).
+     *
+     * @param int   $newId  New klant id
      * @param array $oldIds List of old ids
+     *
      * @return array
      */
     public function moveAssociations($newId, $oldIds)
@@ -1018,6 +1028,7 @@ class klant extends AppModel
         }
         $this->set_last_registration($newId);
         $this->update_last_intake($newId);
+
         return $result;
     }
 
@@ -1034,26 +1045,26 @@ class klant extends AppModel
     public function get_selectie($data, $only_email = false)
     {
         $conditions = array();
-        
+
         if (!empty($data['Groepsactiviteit']['werkgebieden'])) {
             $conditions['Klant.werkgebied'] = $data['Groepsactiviteit']['werkgebieden'];
         }
-        
+
         if (!empty($only_email)) {
-            $conditions['email NOT'] = null ;
-            $conditions['email NOT'] = '' ;
+            $conditions['email NOT'] = null;
+            $conditions['email NOT'] = '';
         }
 
         $join_conditions = array(
-                "Klant.id = GroepsactiviteitenGroepenKlant.klant_id",
+                'Klant.id = GroepsactiviteitenGroepenKlant.klant_id',
         );
-        
+
         $join_table = Inflector::pluralize(Inflector::underscore('GroepsactiviteitenGroepenKlant'));
-        
+
         if (!empty($data['Groepsactiviteit']['activiteitengroepen'])) {
             $join_conditions['GroepsactiviteitenGroepenKlant.groepsactiviteiten_groep_id'] = $data['Groepsactiviteit']['activiteitengroepen'];
         }
-        
+
         if (!empty($data['Groepsactiviteit']['communicatie_type'])) {
             $or = array();
             if (in_array('communicatie_email', $data['Groepsactiviteit']['communicatie_type'])) {
@@ -1067,12 +1078,12 @@ class klant extends AppModel
             }
             $join_conditions['OR'] = $or;
         }
-        
+
         $join_conditions['OR'] = array(
                 'GroepsactiviteitenGroepenKlant.einddatum' => null,
                 'GroepsactiviteitenGroepenKlant.einddatum >=' => date('Y-m-d'),
         );
-        
+
         $contain = array('GroepsactiviteitenIntake');
 
         $joins = array();
@@ -1115,17 +1126,17 @@ class klant extends AppModel
                 'min(GroepsactiviteitenGroepenKlant.startdatum) as startdatum',
             ),
         );
-        
+
         $personen = $this->find('all', $options);
-        
+
         return $personen;
     }
     public function diensten($id)
     {
         if (is_array($id)) {
-            $id=$id['Klant']['id'];
+            $id = $id['Klant']['id'];
         }
-        $klant=$this->getAllById($id);
+        $klant = $this->getAllById($id);
         if (empty($klant)) {
             return array();
         }
@@ -1134,7 +1145,7 @@ class klant extends AppModel
             $diensten[] = array(
                 'name' => 'GA',
                 'url' => array('controller' => 'groepsactiviteiten', 'action' => 'intakes', 'Klant', $klant['Klant']['id']),
-                'from'=> $klant['GroepsactiviteitenIntake']['intakedatum'],
+                'from' => $klant['GroepsactiviteitenIntake']['intakedatum'],
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
@@ -1144,7 +1155,7 @@ class klant extends AppModel
             $diensten[] = array(
                 'name' => 'Iz',
                 'url' => array('controller' => 'iz_deelnemers', 'action' => 'toon_aanmelding', 'Klant', $klant['Klant']['id'], $klant['IzDeelnemer']['id']),
-                'from'=> $klant['IzDeelnemer']['datum_aanmelding'],
+                'from' => $klant['IzDeelnemer']['datum_aanmelding'],
                 'to' => $klant['IzDeelnemer']['datumafsluiting'],
                 'type' => 'date',
                 'value' => '',
@@ -1154,7 +1165,7 @@ class klant extends AppModel
             $diensten[] = array(
                 'name' => 'Mw',
                 'url' => array('controller' => 'maatschappelijk_werk', 'action' => 'view', $klant['Klant']['id']),
-                'from'=> $klant['Verslag'][0]['datum'],
+                'from' => $klant['Verslag'][0]['datum'],
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
@@ -1164,18 +1175,18 @@ class klant extends AppModel
             $diensten[] = array(
                 'name' => 'Hi5',
                 'url' => array('controller' => 'hi5', 'action' => 'view', $klant['Klant']['id']),
-                'from'=> $klant['Hi5Intake'][0]['datum_intake'],
+                'from' => $klant['Hi5Intake'][0]['datum_intake'],
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
             );
         }
-        $all=$this->Intake->Locatie1->locaties();
-        $locaties=array_unique(Set::ClassicExtract($klant['Registratie'], '{n}.locatie_id'));
-        $value='';
+        $all = $this->Intake->Locatie1->locaties();
+        $locaties = array_unique(Set::ClassicExtract($klant['Registratie'], '{n}.locatie_id'));
+        $value = '';
         foreach ($locaties as $locatie_id) {
             if (!empty($value)) {
-                $value.=",";
+                $value .= ',';
             }
             if (isset($all[$locatie_id])) {
                 $value .= $all[$locatie_id];
@@ -1187,7 +1198,7 @@ class klant extends AppModel
             $diensten[] = array(
                 'name' => 'Locaties',
                 'url' => null,
-                'from'=> null,
+                'from' => null,
                 'to' => null,
                 'type' => 'string',
                 'value' => $value,
@@ -1197,12 +1208,13 @@ class klant extends AppModel
             $diensten[] = array(
                 'name' => 'Gebr. ruimte',
                 'url' => null,
-                'from'=> null,
+                'from' => null,
                 'to' => null,
                 'type' => 'string',
                 'value' => $all[$klant['LasteIntake']['locatie1_id']],
             );
         }
+
         return $diensten;
     }
 }

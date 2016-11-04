@@ -1,4 +1,5 @@
 <?php
+
 /* GroepsactiviteitenGroep Fixture generated on: 2014-05-03 15:05:16 : 1399123516 */
 class GroepsactiviteitenGroepFixture extends CakeTestFixture
 {
@@ -12,7 +13,7 @@ class GroepsactiviteitenGroepFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -22,7 +23,7 @@ class GroepsactiviteitenGroepFixture extends CakeTestFixture
             'startdatum' => '2014-05-03',
             'einddatum' => '2014-05-03',
             'created' => '2014-05-03 15:25:16',
-            'modified' => '2014-05-03 15:25:16'
+            'modified' => '2014-05-03 15:25:16',
         ),
     );
 }

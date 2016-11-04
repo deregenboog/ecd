@@ -1,4 +1,5 @@
 <?php
+
 /* Vrijwilliger Fixture generated on: 2014-05-03 15:05:15 : 1399123095 */
 class VrijwilligerFixture extends CakeTestFixture
 {
@@ -29,7 +30,7 @@ class VrijwilligerFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_klanten_geboortedatum' => array('column' => 'geboortedatum', 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -56,7 +57,7 @@ class VrijwilligerFixture extends CakeTestFixture
             'geen_post' => 1,
             'disabled' => 1,
             'created' => '2014-05-03 15:18:15',
-            'modified' => '2014-05-03 15:18:15'
+            'modified' => '2014-05-03 15:18:15',
         ),
     );
 }

@@ -9,7 +9,6 @@
 
 class FormatHelper extends AppHelper
 {
-
     /**
      * Date format.
      */
@@ -47,7 +46,9 @@ class FormatHelper extends AppHelper
 
     /**
      * Prints Ja or Nee based on the value of $value.
+     *
      * @param bool $value True for Ja
+     *
      * @return string
      */
     public function printJaNee($value)
@@ -83,7 +84,7 @@ class FormatHelper extends AppHelper
      *   FormatHelper::JANEE   Value is bool: true -> Ja, false -> Nee
      *   FormatHelper::DATE    Value is a date, it is formatted with the
      *                         DateHelper before outputting
-     *   FormatHelper::UL_LIST Value is an array, items are put into li tags
+     *   FormatHelper::UL_LIST Value is an array, items are put into li tags.
      *
      * @param string $label Untranslated label (goes to the first column)
      * @param mixed  $value Value to be displaye in the second column
@@ -129,7 +130,7 @@ class FormatHelper extends AppHelper
      *   FormatHelper::JANEE   Value is bool: true -> Ja, false -> Nee
      *   FormatHelper::DATE    Value is a date, it is formatted with the
      *                         DateHelper before outputting
-     *   FormatHelper::UL_LIST Value is an array, items are put into li tags
+     *   FormatHelper::UL_LIST Value is an array, items are put into li tags.
      *
      * @param string $label Untranslated label (goes to the first column)
      * @param mixed  $value Value to be displaye in the second column
@@ -189,7 +190,7 @@ class FormatHelper extends AppHelper
      */
     public function collect($array, $field = 'naam')
     {
-        if (! is_array($array)) {
+        if (!is_array($array)) {
             return array();
         }
 
@@ -197,6 +198,7 @@ class FormatHelper extends AppHelper
         foreach ($array as $item) {
             $result[] = $item[$field];
         }
+
         return $result;
     }
 } //class

@@ -1,4 +1,5 @@
 <?php
+
 /* IzDeelnemersIzProject Fixture generated on: 2014-08-11 16:08:17 : 1407767057 */
 class IzDeelnemersIzProjectFixture extends CakeTestFixture
 {
@@ -11,7 +12,7 @@ class IzDeelnemersIzProjectFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -20,7 +21,7 @@ class IzDeelnemersIzProjectFixture extends CakeTestFixture
             'iz_deelnemer_id' => 1,
             'iz_project_id' => 1,
             'created' => '2014-08-11 16:24:17',
-            'modified' => '2014-08-11 16:24:17'
+            'modified' => '2014-08-11 16:24:17',
         ),
     );
 }

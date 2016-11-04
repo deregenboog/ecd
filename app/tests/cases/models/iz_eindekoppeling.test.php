@@ -1,4 +1,5 @@
 <?php
+
 /* IzEindekoppeling Test cases generated on: 2014-08-13 14:08:38 : 1407933998*/
 App::import('Model', 'IzEindekoppeling');
 
@@ -8,7 +9,7 @@ class IzEindekoppelingTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->IzEindekoppeling =& ClassRegistry::init('IzEindekoppeling');
+        $this->IzEindekoppeling = &ClassRegistry::init('IzEindekoppeling');
     }
 
     public function endTest()

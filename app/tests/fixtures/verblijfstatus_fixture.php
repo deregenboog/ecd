@@ -1,4 +1,5 @@
 <?php
+
 /* Verblijfstatus Fixture generated on: 2010-08-17 15:08:47 : 1282050347 */
 class VerblijfstatusFixture extends CakeTestFixture
 {
@@ -12,7 +13,7 @@ class VerblijfstatusFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -22,7 +23,7 @@ class VerblijfstatusFixture extends CakeTestFixture
             'datum_van' => '2010-08-17',
             'datum_tot' => '2010-08-17',
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
     );
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* IzIntake Fixture generated on: 2014-08-12 13:08:16 : 1407844036 */
 class IzIntakeFixture extends CakeTestFixture
 {
@@ -17,7 +18,7 @@ class IzIntakeFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modifed' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -32,7 +33,7 @@ class IzIntakeFixture extends CakeTestFixture
             'ontmoeten' => 1,
             'regelzaken' => 1,
             'created' => '2014-08-12 13:47:16',
-            'modifed' => '2014-08-12 13:47:16'
+            'modifed' => '2014-08-12 13:47:16',
         ),
     );
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* IzIntake Test cases generated on: 2014-08-12 13:08:17 : 1407844037*/
 App::import('Model', 'IzIntake');
 
@@ -8,7 +9,7 @@ class IzIntakeTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->IzIntake =& ClassRegistry::init('IzIntake');
+        $this->IzIntake = &ClassRegistry::init('IzIntake');
     }
 
     public function endTest()

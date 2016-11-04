@@ -1,4 +1,5 @@
 <?php
+
 /* Notitie Fixture generated on: 2010-08-17 15:08:47 : 1282050347 */
 class NotitieFixture extends CakeTestFixture
 {
@@ -13,7 +14,7 @@ class NotitieFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -24,7 +25,7 @@ class NotitieFixture extends CakeTestFixture
             'datum' => '1282050347',
             'opmerking' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
     );
 }

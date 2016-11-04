@@ -1,4 +1,5 @@
 <?php
+
 /* IntakesPrimaireproblematieksgebruikswijze Fixture generated on: 2011-04-15 15:04:24 : 1302873444 */
 class IntakesPrimaireproblematieksgebruikswijzeFixture extends CakeTestFixture
 {
@@ -7,6 +8,6 @@ class IntakesPrimaireproblematieksgebruikswijzeFixture extends CakeTestFixture
     public $import = array(
             'model' => 'IntakesPrimaireproblematieksgebruikswijze',
             'records' => true,
-            'table' => 'intakes_primaireproblematieksgebruikswijzen'
+            'table' => 'intakes_primaireproblematieksgebruikswijzen',
     );
 }
