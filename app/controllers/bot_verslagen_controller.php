@@ -23,25 +23,25 @@ class BotVerslagenController extends AppController
             $botKlantId = $this->data['BotVerslag']['klant_id'];
             $saved = false;
 
-            if (! $this->BotVerslag->save($this->data)) {
+            if (!$this->BotVerslag->save($this->data)) {
                 $this->flashError(__('The bot verslag could not be saved. Please, try again.', true));
-                $this->redirect("/");
+                $this->redirect('/');
             }
         }
 
         $contactTypes = $this->BotVerslag->contact_type;
-        
+
         $data = $this->BotVerslag->read(null, $id);
         $data['BotVerslag']['Medewerker']['name'] = $this->Session->read('Auth.Medewerker.LdapUser.displayname');
-        
+
         $this->set(compact('data', 'contactTypes'));
-        
+
         $this->render('/elements/bot_verslag');
     }
 
     private function checkPermissions($forKlant)
     {
-        if (! $this->back_on_track_coach) {
+        if (!$this->back_on_track_coach) {
             return true;
         }
 

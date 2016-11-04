@@ -16,6 +16,7 @@ class KlantenController extends AppController
         ) {
             $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]) || isset($this->userGroups[GROUP_DEVELOP]);
         }
+
         return $auth;
     }
 
@@ -79,22 +80,22 @@ class KlantenController extends AppController
         $klant = $this->Klant->find('first', array(
             'conditions' => array('Klant.id' => $id),
         ));
-        
+
         $registraties = $this->Klant->Registratie->find('all', array(
             'conditions' => array('Registratie.klant_id' => $klant['Klant']['id']),
             'order' => 'binnen desc',
             'limit' => 3, ));
-        
+
         $opmerkingen = $this->Klant->Opmerking->find('all', array(
             'conditions' => array('Klant.id' => $id, 'Opmerking.gezien' => false),
             'contain' => $this->Klant->Opmerking->contain,
             'limit' => 10,
         ));
-        
+
         $this->set(compact('registraties', 'opmerkingen', 'klant'));
 
         $zrm_data = $this->ZrmReport->zrm_data();
-        
+
         if (isset($klant['Intake'][0])) {
             $newestintake = $this->Klant->Intake->read(null, $klant['Intake'][0]['id']);
             $this->set('newestintake', $newestintake);
@@ -132,14 +133,14 @@ class KlantenController extends AppController
         $this->set('klant_id', $id);
         $this->set('diensten', $this->Klant->diensten($id));
     }
-    
+
     public function zrm_add($id)
     {
         $this->loadModel('ZrmReport');
 
         if (!empty($this->data)) {
             $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Klant', $id, $id);
-            
+
             if ($this->ZrmReport->save($this->data)) {
                 $this->flash(__('ZRM opgeslagen', true));
                 $this->redirect($this->data['Klant']['referer']);
@@ -149,11 +150,11 @@ class KlantenController extends AppController
         } else {
             $this->data['Klant']['referer'] = $this->referer();
         }
-        
+
         $this->set('zrm_data', $this->ZrmReport->zrm_data());
         $this->set('id', $id);
     }
-    
+
     public function zrm($id = null)
     {
         $this->loadModel('ZrmReport');
@@ -180,16 +181,16 @@ class KlantenController extends AppController
 
     public function add($step = 1)
     {
-        $steptmp=$this->getParam('step');
+        $steptmp = $this->getParam('step');
         if (!empty($steptmp)) {
-            $step=$steptmp;
+            $step = $steptmp;
         }
-        
-        $generic=$this->getParam('generic');
+
+        $generic = $this->getParam('generic');
         if (!empty($generic)) {
-            $generic=true;
+            $generic = true;
         } else {
-            $generic=false;
+            $generic = false;
         }
 
         $dups = array();
@@ -213,26 +214,26 @@ class KlantenController extends AppController
                     $this->Klant->begin();
                     if ($this->Klant->save($this->data)) {
                         if (empty($generic) && $this->Klant->goesToInfobalie($this->data)) {
-                            $referer=array(
+                            $referer = array(
                                     'action' => 'printLetter',
                                     $this->Klant->id,
                                     );
                         } else {
                             $referer = array('action' => 'index');
                         }
-                        
+
                         $this->flash(__('The klant has been saved', true));
-                        
+
                         if (!empty($this->data['Klant']['referer'])) {
-                            $referer=$this->data['Klant']['referer'];
+                            $referer = $this->data['Klant']['referer'];
                             if (preg_match('/IzDeelnemers/', $this->data['Klant']['referer'])) {
-                                $referer=array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id);
+                                $referer = array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id);
                             }
                             if (preg_match('/iz_deelnemers/', $this->data['Klant']['referer'])) {
-                                $referer=array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id);
+                                $referer = array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id);
                             }
                         }
-                        
+
                         $this->Klant->commit();
                         if (!empty($this->Klant->send_admin_email)) {
                             $this->crmUpdate($this->Klant->id);
@@ -254,25 +255,25 @@ class KlantenController extends AppController
             'conditions' => array('Geboorteland.land =' => 'Onbekend'),
             'fields' => array('land', 'id'),
         ));
-        
+
         $landen = array($onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']);
         $landen = $landen + $this->Klant->Geboorteland->find('list', array(
             'order' => array('Geboorteland.land ASC'),
                'conditions' => array('Geboorteland.land !=' => 'Onbekend'),
         ));
-        
+
         $default_land_id = array_search('Nederland', $landen);
         $onbekend_nat = $this->Klant->Nationaliteit->find('first', array(
             'conditions' => array('Nationaliteit.naam =' => 'Onbekend'),
             'fields' => array('naam', 'id'),
         ));
-        
+
         $nationaliteiten = array($onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']);
-        $nationaliteiten =    $nationaliteiten + $this->Klant->Nationaliteit->find('list', array(
+        $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', array(
             'order' => array('Nationaliteit.naam ASC'),
                'conditions' => array('Nationaliteit.naam !=' => 'Onbekend'),
         ));
-        
+
         $default_nationaliteit_id = array_search('Nederlandse', $nationaliteiten);
         $logged_in_user = $this->Session->read('Auth.Medewerker.id');
         $medewerkers = $this->Klant->Medewerker->find('list');
@@ -293,7 +294,7 @@ class KlantenController extends AppController
                 break;
             case 3:
             case 4:
-                if (! empty($generic)) {
+                if (!empty($generic)) {
                     $this->render('edit_generic');
                 }
                 break;
@@ -307,7 +308,7 @@ class KlantenController extends AppController
         $landen = $this->Klant->Geboorteland->findList();
         $mailto = Configure::read('administratiebedrijf');
 
-        $content=array();
+        $content = array();
         $url = array('controller' => 'klanten', 'action' => 'view', $id);
         $content['url'] = Router::url($url, true);
         $content['changes'] = $this->Klant->changes;
@@ -328,10 +329,10 @@ class KlantenController extends AppController
         }
 
         $this->_genericSendEmail(array(
-            'to'=>array($mailto),
+            'to' => array($mailto),
             'content' => $content,
             'template' => 'crm',
-            'subject' => "Er heeft een update in het ECD plaatsgevonden",
+            'subject' => 'Er heeft een update in het ECD plaatsgevonden',
         ));
     }
 
@@ -341,7 +342,7 @@ class KlantenController extends AppController
             $this->flashError(__('Invalid klant', true));
             $this->redirect(array('action' => 'index'));
         }
-        
+
         $generic = $this->getParam('generic');
         $persoon_model = 'Klant';
 
@@ -349,7 +350,7 @@ class KlantenController extends AppController
             if (!empty($this->data['Klant']['generic'])) {
                 $generic = 1;
             }
-            
+
             if ($this->Klant->save($this->data)) {
                 if (!empty($this->Klant->send_admin_email)) {
                     $this->crmUpdate($id);
@@ -367,17 +368,17 @@ class KlantenController extends AppController
                 $this->flashError(__('The klant could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $this->Session->write('basisgegevens_from', $_SERVER['HTTP_REFERER']);
             }
-            
+
             if (!$this->data = $this->Klant->read(null, $id)) {
                 $this->flashError(__('Unknown klant id', true));
                 $this->redirect(array('action' => 'index'));
             }
-            
+
             $this->data['Klant']['referer'] = $this->referer();
         }
 
@@ -385,19 +386,19 @@ class KlantenController extends AppController
             'conditions' => array('Geboorteland.land =' => 'Onbekend'),
             'fields' => array('land', 'id'),
         ));
-        
+
         $landen = array($onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']);
         $landen = $landen + $this->Klant->Geboorteland->find('list', array(
             'order' => array('Geboorteland.land ASC'),
             'conditions' => array('Geboorteland.land !=' => 'Onbekend'),
         ));
-        
+
         $geslachten = $this->Klant->Geslacht->find('list');
         $onbekend_nat = $this->Klant->Nationaliteit->find('first', array(
             'conditions' => array('Nationaliteit.naam =' => 'Onbekend'),
             'fields' => array('naam', 'id'),
         ));
-        
+
         $nationaliteiten = array($onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']);
         $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', array(
             'order' => array('Nationaliteit.naam ASC'),
@@ -413,6 +414,7 @@ class KlantenController extends AppController
 
         if ($generic) {
             $this->render('edit_generic');
+
             return;
         }
     }
@@ -423,7 +425,7 @@ class KlantenController extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
 
         if (!$this->Klant->disable($id)) {
@@ -440,7 +442,7 @@ class KlantenController extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
 
         if (!$this->Klant->enable($id)) {
@@ -448,7 +450,7 @@ class KlantenController extends AppController
         } else {
             $this->flash(__('Klant enabled', true));
         }
-        
+
         $this->redirect(array('action' => 'index'));
     }
 
@@ -458,7 +460,7 @@ class KlantenController extends AppController
 
         if (empty($this->params['pass'])) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
 
         $failures = '';
@@ -490,11 +492,11 @@ class KlantenController extends AppController
         if (empty($klantId)) {
             $klantId = $this->data['Klant']['id'];
         }
-        
+
         if (empty($group)) {
             $group = $this->data['Document']['group'];
         }
-        
+
         $klant = $this->Klant->read(null, $klantId);
         $this->set('klant', $klant);
         if (!empty($this->data)) {
@@ -552,10 +554,11 @@ class KlantenController extends AppController
             $this->flashError(__('Geen klanten gevonden.', true));
 
             $this->redirect(array('action' => 'findDuplicates'));
+
             return;
         }
 
-        if (! empty($this->data)) {
+        if (!empty($this->data)) {
             $newKlant = $this->getMergedKlanten($klanten);
 
             $merge_ids = array_intersect(
@@ -570,7 +573,6 @@ class KlantenController extends AppController
                 $counts = $this->Klant->moveAssociations(
                         $newKlantId, $merge_ids
                         );
-
 
                 $this->Klant->disableMultiple($merge_ids, $newKlantId);
                 $this->set('counts', $counts);
@@ -600,6 +602,7 @@ class KlantenController extends AppController
                 }
             }
         }
+
         return $newKlant;
     }
 }

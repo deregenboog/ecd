@@ -55,11 +55,11 @@ class DoorverwijzersController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for doorverwijzer', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Doorverwijzer->delete($id)) {
             $this->flashError(__('Doorverwijzer deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Doorverwijzer was not deleted', true));
         $this->redirect(array('action' => 'index'));

@@ -1,4 +1,5 @@
 <?php
+
 /* PfoClientenVerslag Test cases generated on: 2013-06-08 11:06:56 : 1370683916*/
 App::import('Model', 'PfoClientenVerslag');
 
@@ -8,7 +9,7 @@ class PfoClientenVerslagTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->PfoClientenVerslag =& ClassRegistry::init('PfoClientenVerslag');
+        $this->PfoClientenVerslag = &ClassRegistry::init('PfoClientenVerslag');
     }
 
     public function endTest()

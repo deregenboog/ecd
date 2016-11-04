@@ -31,19 +31,20 @@ class IzProject extends AppModel
     {
         Cache::delete($this->getcachekey(false));
         Cache::delete($this->getcachekey(true));
+
         return true;
     }
 
     public function getcachekey($all = true)
     {
-        $cachekey = "IzProjectenList";
-        
+        $cachekey = 'IzProjectenList';
+
         if ($all) {
             return $cachekey;
         }
-        
+
         $cachekey .= date('Y-m-d');
-        
+
         return $cachekey;
     }
 
@@ -52,14 +53,14 @@ class IzProject extends AppModel
         $projects = $this->find('all', array(
             'contain' => array(),
         ));
-        
+
         return $projects;
     }
     public function projectLists($all = false)
     {
         $cachekey = $this->getcachekey($all);
         $projectlists = Cache::read($cachekey);
-        
+
         if (!empty($projectlists)) {
             return $projectlists;
         }
@@ -80,14 +81,14 @@ class IzProject extends AppModel
                 ),
              );
         }
-        
+
         $projectlists = $this->find('list', array(
             'conditions' => $conditions,
             'order' => 'naam asc',
         ));
 
         Cache::write($cachekey, $projectlists);
-        
+
         return $projectlists;
     }
 }

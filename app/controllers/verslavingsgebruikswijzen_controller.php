@@ -59,11 +59,11 @@ class VerslavingsgebruikswijzenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verslavingsgebruikswijze', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Verslavingsgebruikswijze->delete($id)) {
             $this->flashError(__('Verslavingsgebruikswijze deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Verslavingsgebruikswijze was not deleted', true));
         $this->redirect(array('action' => 'index'));

@@ -59,11 +59,11 @@ class InkomensController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for inkomen', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Inkomen->delete($id)) {
             $this->flashError(__('Inkomen deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Inkomen was not deleted', true));
         $this->redirect(array('action' => 'index'));

@@ -1,4 +1,5 @@
 <?php
+
 /* PfoClientenVerslag Fixture generated on: 2013-06-08 11:06:54 : 1370683914 */
 class PfoClientenVerslagFixture extends CakeTestFixture
 {
@@ -11,7 +12,7 @@ class PfoClientenVerslagFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -20,7 +21,7 @@ class PfoClientenVerslagFixture extends CakeTestFixture
             'pfo_client_id' => 1,
             'pfo_verslag_id' => 1,
             'created' => '2013-06-08 11:31:54',
-            'modified' => '2013-06-08 11:31:54'
+            'modified' => '2013-06-08 11:31:54',
         ),
     );
 }

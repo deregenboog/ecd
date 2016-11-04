@@ -1,4 +1,5 @@
 <?php
+
 /* IzOntstaanContact Fixture generated on: 2014-12-12 15:12:17 : 1418392817 */
 class IzOntstaanContactFixture extends CakeTestFixture
 {
@@ -10,7 +11,7 @@ class IzOntstaanContactFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -18,7 +19,7 @@ class IzOntstaanContactFixture extends CakeTestFixture
             'id' => 1,
             'naam' => 'Lorem ipsum dolor sit amet',
             'created' => '2014-12-12 15:00:17',
-            'modified' => '2014-12-12 15:00:17'
+            'modified' => '2014-12-12 15:00:17',
         ),
     );
 }

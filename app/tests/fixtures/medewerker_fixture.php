@@ -1,4 +1,5 @@
 <?php
+
 /* Medewerker Fixture generated on: 2013-10-16 15:10:07 : 1381930327 */
 class MedewerkerFixture extends CakeTestFixture
 {
@@ -17,7 +18,7 @@ class MedewerkerFixture extends CakeTestFixture
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'uidnumber' => array('type' => 'integer', 'null' => false, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -32,7 +33,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2012-01-10 10:45:12',
             'created' => '2010-11-26 10:23:21',
             'modified' => '2012-01-10 10:45:12',
-            'uidnumber' => 20475
+            'uidnumber' => 20475,
         ),
         array(
             'id' => 1006,
@@ -45,7 +46,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2010-11-24 10:06:04',
             'created' => '2010-11-18 11:05:19',
             'modified' => '2010-11-24 10:06:04',
-            'uidnumber' => 1006
+            'uidnumber' => 1006,
         ),
         array(
             'id' => 1007,
@@ -58,7 +59,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2011-01-05 12:19:56',
             'created' => '2011-01-04 13:48:28',
             'modified' => '2011-01-05 12:19:56',
-            'uidnumber' => 1007
+            'uidnumber' => 1007,
         ),
         array(
             'id' => 1008,
@@ -71,7 +72,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2011-08-19 11:39:29',
             'created' => '2010-11-04 17:33:58',
             'modified' => '2011-08-19 11:39:29',
-            'uidnumber' => 20479
+            'uidnumber' => 20479,
         ),
         array(
             'id' => 1010,
@@ -84,7 +85,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2011-01-26 09:06:22',
             'created' => '2010-11-09 14:58:41',
             'modified' => '2011-01-26 09:06:22',
-            'uidnumber' => 1010
+            'uidnumber' => 1010,
         ),
         array(
             'id' => 1013,
@@ -97,7 +98,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2011-01-20 07:53:22',
             'created' => '2011-01-12 07:50:54',
             'modified' => '2011-01-20 07:53:22',
-            'uidnumber' => 1013
+            'uidnumber' => 1013,
         ),
         array(
             'id' => 1015,
@@ -110,7 +111,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2011-01-27 12:01:42',
             'created' => '2011-01-20 11:22:53',
             'modified' => '2011-01-27 12:01:42',
-            'uidnumber' => 1015
+            'uidnumber' => 1015,
         ),
         array(
             'id' => 1017,
@@ -123,7 +124,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2010-12-28 11:28:34',
             'created' => '2010-12-28 11:28:34',
             'modified' => '2010-12-28 11:28:34',
-            'uidnumber' => 1017
+            'uidnumber' => 1017,
         ),
         array(
             'id' => 20002,
@@ -136,7 +137,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2011-07-05 14:02:47',
             'created' => '2011-01-11 16:20:11',
             'modified' => '2011-07-05 14:02:47',
-            'uidnumber' => 20002
+            'uidnumber' => 20002,
         ),
         array(
             'id' => 20004,
@@ -149,7 +150,7 @@ class MedewerkerFixture extends CakeTestFixture
             'laatste_bezoek' => '2012-01-02 17:07:34',
             'created' => '2010-11-04 00:08:06',
             'modified' => '2012-01-02 17:07:34',
-            'uidnumber' => 20004
+            'uidnumber' => 20004,
         ),
     );
 }

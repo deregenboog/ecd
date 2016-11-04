@@ -32,6 +32,7 @@ class inventarisatie extends AppModel
             $tree[$rootId] = $this->children($rootId, false, $fields);
             $tree[$rootId]['rootName'] = &$root['Inventarisatie']['titel'];
         }
+
         return $tree;
     }
 

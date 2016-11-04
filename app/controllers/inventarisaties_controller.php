@@ -89,11 +89,11 @@ class InventarisatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for Inventarisatie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Inventarisatie->delete($id)) {
             $this->flashError(__('Inventarisatie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Inventarisatie was not deleted', true));
         $this->redirect(array('action' => 'index'));

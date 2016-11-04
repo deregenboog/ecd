@@ -55,14 +55,14 @@ class LandenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for land', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         if ($this->Land->delete($id)) {
             $this->flashError(__('Land deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         $this->flashError(__('Land was not deleted', true));
         $this->redirect(array('action' => 'index'));
     }

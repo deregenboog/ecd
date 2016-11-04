@@ -1,4 +1,5 @@
 <?php
+
 /* Registratie Fixture generated on: 2010-08-17 15:08:47 : 1282050347 */
 class RapportageRegistratieFixture extends CakeTestFixture
 {
@@ -18,9 +19,9 @@ class RapportageRegistratieFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
-    
+
     /*
      * two checked out registraties and two "active"
     */
@@ -41,7 +42,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 0,
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
         array(
             'id' => 2,
@@ -54,7 +55,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
         array(
             'id' => 3,
@@ -67,7 +68,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
         array(
             'id' => 4,
@@ -80,7 +81,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 0,
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
-            'modified' => '2010-08-17 15:05:47'
+            'modified' => '2010-08-17 15:05:47',
         ),
     //registered on 2010-08-18:
     //4 unique clients (the same clients as on 2010-08-18
@@ -97,7 +98,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
-            'modified' => '2010-08-18 15:05:47'
+            'modified' => '2010-08-18 15:05:47',
         ),
         array(
             'id' => 6,
@@ -110,7 +111,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
-            'modified' => '2010-08-18 15:05:47'
+            'modified' => '2010-08-18 15:05:47',
         ),
         array(
             'id' => 7,
@@ -123,7 +124,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
-            'modified' => '2010-08-18 15:05:47'
+            'modified' => '2010-08-18 15:05:47',
         ),
         array(
             'id' => 8,
@@ -136,7 +137,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 0,
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
-            'modified' => '2010-08-18 15:05:47'
+            'modified' => '2010-08-18 15:05:47',
         ),
     //registered on 2010-08-19:
     //3 unique clients (client 4 registered for two periods)
@@ -153,7 +154,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
-            'modified' => '2010-08-19 15:05:47'
+            'modified' => '2010-08-19 15:05:47',
         ),
         array(
             'id' => 10,
@@ -166,7 +167,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
-            'modified' => '2010-08-19 15:05:47'
+            'modified' => '2010-08-19 15:05:47',
         ),
         array(
             'id' => 11,
@@ -179,7 +180,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
-            'modified' => '2010-08-19 15:05:47'
+            'modified' => '2010-08-19 15:05:47',
         ),
         array(
             'id' => 12,
@@ -192,7 +193,7 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'maaltijd' => 1,
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
-            'modified' => '2010-08-19 15:05:47'
+            'modified' => '2010-08-19 15:05:47',
         ),
     );
 }

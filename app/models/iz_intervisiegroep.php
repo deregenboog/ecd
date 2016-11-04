@@ -42,19 +42,20 @@ class IzIntervisiegroep extends AppModel
     {
         Cache::delete($this->getcachekey(false));
         Cache::delete($this->getcachekey(true));
+
         return true;
     }
 
     public function getcachekey($all = true)
     {
-        $cachekey = "IzIntervisiegroepenList";
-        
+        $cachekey = 'IzIntervisiegroepenList';
+
         if ($all) {
             return $cachekey;
         }
-        
+
         $cachekey .= date('Y-m-d');
-        
+
         return $cachekey;
     }
 
@@ -62,7 +63,7 @@ class IzIntervisiegroep extends AppModel
     {
         $cachekey = $this->getcachekey($all);
         $intervisigroepenlists = Cache::read($cachekey);
-        
+
         if (!empty($intervisigroepenlists)) {
             return $intervisigroepenlists;
         }
@@ -87,29 +88,29 @@ class IzIntervisiegroep extends AppModel
                 ),
             );
         }
-        
+
         $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
-        
+
         $intervisigroepenlists = $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => array('id', 'naam', 'medewerker_id'),
                 'order' => 'naam',
         ));
-        
+
         $ig = array();
-        
+
         foreach ($intervisigroepenlists as $intervisigroepenlist) {
             $n = $intervisigroepenlist['IzIntervisiegroep']['naam'];
-            
+
             if (!empty($medewerkers[$intervisigroepenlist['IzIntervisiegroep']['medewerker_id']])) {
-                $n.= " (".$medewerkers[$intervisigroepenlist['IzIntervisiegroep']['medewerker_id']].") " ;
+                $n .= ' ('.$medewerkers[$intervisigroepenlist['IzIntervisiegroep']['medewerker_id']].') ';
             }
-            
+
             $ig[$intervisigroepenlist['IzIntervisiegroep']['id']] = $n;
         }
-        
+
         Cache::write($cachekey, $ig);
-        
+
         return $ig;
     }
 }

@@ -64,7 +64,8 @@ class locatie extends AppModel
     public function isDayFacility($locationId)
     {
         $this->id = $locationId;
-        return ! $this->field('nachtopvang');
+
+        return !$this->field('nachtopvang');
     }
 
     public function getDayStart($locationId, $currentTime = null)
@@ -88,23 +89,23 @@ class locatie extends AppModel
 
         return $unregister;
     }
-    
+
     public function locaties($conditions = array())
     {
-        $cachekey="Locatie.all";
-        
+        $cachekey = 'Locatie.all';
+
         foreach ($conditions as $key => $condition) {
-            $cachekey.=".{$key}.{$condition}";
+            $cachekey .= ".{$key}.{$condition}";
         }
-        
+
         $locaties = Cache::read($cachekey);
         if (!empty($locaties)) {
             return $locaties;
         }
-        
-        $locaties =$this->find('list', array('conditions' => $conditions));
+
+        $locaties = $this->find('list', array('conditions' => $conditions));
         Cache::write($cachekey, $locaties);
-        
+
         return $locaties;
     }
 }

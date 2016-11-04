@@ -1,4 +1,5 @@
 <?php
+
 /* BotKoppeling Test cases generated on: 2014-03-13 17:03:41 : 1394728001*/
 App::import('Model', 'BotKoppeling');
 
@@ -8,7 +9,7 @@ class BotKoppelingTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->BotKoppeling =& ClassRegistry::init('BotKoppeling');
+        $this->BotKoppeling = &ClassRegistry::init('BotKoppeling');
     }
 
     public function endTest()

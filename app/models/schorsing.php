@@ -118,7 +118,7 @@ class schorsing extends AppModel
 
     public function check_for_doelwit($field)
     {
-        if (! $this->is_violent()) {
+        if (!$this->is_violent()) {
             return true;
         }
         if (empty($this->data['Schorsing']['agressie'])) {
@@ -130,6 +130,7 @@ class schorsing extends AppModel
                 empty($this->data['Schorsing']['aggressie_doelwit4'])) {
             return false;
         }
+
         return true;
     }
 
@@ -144,17 +145,19 @@ class schorsing extends AppModel
                 return false;
             }
         }
+
         return true;
     }
 
     public function check_agressie()
     {
-        if (! $this->is_violent()) {
+        if (!$this->is_violent()) {
             return true;
         }
         if (empty($this->data['Schorsing']['remark'])) {
             return false;
         }
+
         return true;
     }
 
@@ -172,6 +175,7 @@ class schorsing extends AppModel
                 return true;
             }
         }
+
         return false;
     }
 
@@ -193,6 +197,7 @@ class schorsing extends AppModel
                     $this->Reden->invalidate('Reden', 'Selecteer minstens één optie');
             }
         }
+
         return true;
     }
 
@@ -202,6 +207,7 @@ class schorsing extends AppModel
             'Schorsing.klant_id' => $klant_id,
             'Schorsing.datum_tot >=' => date('Y-m-d'),
         );
+
         return $this->find('all', array(
             'conditions' => $conditions,
             'contain' => $this->contain,
@@ -210,7 +216,9 @@ class schorsing extends AppModel
 
     /**
      * Calculates the expiry date of the last active schorsing.
+     *
      * @param int $klant_id
+     *
      * @return string
      */
     public function getLastActiveSchorsingExpiry($klant_id, $locatie_id)
@@ -226,6 +234,7 @@ class schorsing extends AppModel
                 'max(Schorsing.datum_tot) max_expiry',
             ),
         ));
+
         return $result[0]['max_expiry'];
     }
 
@@ -244,6 +253,7 @@ class schorsing extends AppModel
                 'datum_van',
             ),
         ));
+
         return $result;
     }
 
@@ -253,6 +263,7 @@ class schorsing extends AppModel
             'Schorsing.klant_id' => $klant_id,
             'Schorsing.datum_tot <' => date('Y-m-d'),
         );
+
         return $this->find('all', array(
             'conditions' => $conditions,
             'contain' => $this->contain,
@@ -269,6 +280,7 @@ class schorsing extends AppModel
         if ($locatie_id) {
             $c['Schorsing.locatie_id'] = $locatie_id;
         }
+
         return $this->find('count', array('conditions' => $c));
     }
 
@@ -282,6 +294,7 @@ class schorsing extends AppModel
         ));
         if ($this->find('count', $opt) > 0) {
             $opt['conditions']['Schorsing.gezien'] = 0;
+
             return $this->find('count', $opt);
         } else {
             return null;
@@ -295,7 +308,7 @@ class schorsing extends AppModel
         }
 
         foreach ($data as $key => $klant) {
-            $return  = $this->get_schorsing_msg($klant['Klant']['id'], $locatie_id);
+            $return = $this->get_schorsing_msg($klant['Klant']['id'], $locatie_id);
             $data[$key]['Klant'] = array_merge($klant['Klant'], $return);
         }
     }
@@ -314,22 +327,23 @@ class schorsing extends AppModel
             } else {
                 $days = $data['Schorsing']['days'];
             }
-            
+
             if (!isset($data['Schorsing']['datum_van'])) {
                 $van = $data['Schorsing']['datum_van'] = date('Y-m-d');
             } else {
                 $van = $data['Schorsing']['datum_van'];
             }
-            
+
             $data['Schorsing']['datum_tot'] =
                 date('Y-m-d', strtotime("+ $days days", strtotime($van)));
-            
+
             unset($data['Schorsing']['days']);
             unset($data['Schorsing']['more_days']);
+
             return true;
         }
     }
-    
+
     public function countActiveSchorsingenMsg($klant_id)
     {
         $schCount = $this->countActiveSchorsingen($klant_id);
@@ -338,13 +352,14 @@ class schorsing extends AppModel
             if ($unseenSch > 0) {
                 $schorsing = _('schorsing verlopen');
             } else {
-                $schorsing    = _('geen');
+                $schorsing = _('geen');
             }
         } elseif ($schCount == 1) {
-            $schorsing    = '1 '._('schorsing');
+            $schorsing = '1 '._('schorsing');
         } else {
-            $schorsing    = $schCount.' '._('schorsingen');
+            $schorsing = $schCount.' '._('schorsingen');
         }
+
         return $schorsing;
     }
 
@@ -356,7 +371,7 @@ class schorsing extends AppModel
             'schorsing_datum_tot' => null,
             'schorsing_locatie_id' => null,
         );
-        
+
         $result['schorsingen'] = $this->countActiveSchorsingenMsg($klant_id);
 
         if ($locatie_id) {
@@ -367,7 +382,7 @@ class schorsing extends AppModel
                 $result['schorsing_datum_tot'] = $lastschorsing['Schorsing']['datum_tot'];
             }
         }
-        
+
         return $result;
     }
 }

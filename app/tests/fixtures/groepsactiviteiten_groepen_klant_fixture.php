@@ -1,4 +1,5 @@
 <?php
+
 /* GroepsactiviteitenGroepenKlant Fixture generated on: 2014-05-04 13:05:16 : 1399203556 */
 class GroepsactiviteitenGroepenKlantFixture extends CakeTestFixture
 {
@@ -17,7 +18,7 @@ class GroepsactiviteitenGroepenKlantFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -32,7 +33,7 @@ class GroepsactiviteitenGroepenKlantFixture extends CakeTestFixture
             'communicatie_telefoon' => 1,
             'communicatie_post' => 1,
             'created' => '2014-05-04 13:39:16',
-            'modified' => '2014-05-04 13:39:16'
+            'modified' => '2014-05-04 13:39:16',
         ),
     );
 }

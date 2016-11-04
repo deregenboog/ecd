@@ -48,6 +48,7 @@ class opmerking extends AppModel
         }
         $opts['conditions']['Opmerking.gezien'] = '0';
         $unseen = $this->find('count', $opts);
+
         return $unseen;
     }
 }

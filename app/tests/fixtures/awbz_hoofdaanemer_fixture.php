@@ -1,4 +1,5 @@
 <?php
+
 /* AwbzHoofdaanemer Fixture generated on: 2011-03-25 11:03:25 : 1301050645 */
 class AwbzHoofdaanemerFixture extends CakeTestFixture
 {
@@ -13,7 +14,7 @@ class AwbzHoofdaanemerFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -24,7 +25,7 @@ class AwbzHoofdaanemerFixture extends CakeTestFixture
             'einddatum' => '2011-03-25',
             'hoofdaannamer_id' => 1,
             'created' => '2011-03-25 11:57:25',
-            'modified' => '2011-03-25 11:57:25'
+            'modified' => '2011-03-25 11:57:25',
         ),
     );
 }

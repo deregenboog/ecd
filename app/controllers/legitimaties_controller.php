@@ -55,11 +55,11 @@ class LegitimatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for legitimatie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Legitimatie->delete($id)) {
             $this->flashError(__('Legitimatie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Legitimatie was not deleted', true));
         $this->redirect(array('action' => 'index'));

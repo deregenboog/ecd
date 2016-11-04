@@ -1,4 +1,5 @@
 <?php
+
 /* Registratie Fixture generated on: 2013-10-16 12:10:22 : 1381920082 */
 class RegistratieFixture extends CakeTestFixture
 {
@@ -19,7 +20,7 @@ class RegistratieFixture extends CakeTestFixture
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'gbrv' => array('type' => 'integer', 'null' => false, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_registraties_klant_id_locatie_id' => array('column' => array('klant_id', 'locatie_id'), 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -36,7 +37,7 @@ class RegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2011-10-16 12:41:22',
             'modified' => '2011-10-16 14:41:22',
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 2,
@@ -51,7 +52,7 @@ class RegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2013-09-16 12:41:22',
             'modified' => '2013-09-16 13:41:22',
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 3,
@@ -66,7 +67,7 @@ class RegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2013-10-15 12:21:22',
             'modified' => '2013-10-15 13:51:22',
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
 
     );

@@ -17,12 +17,12 @@ class postcodegebied extends AppModel
     public function getPostcodegebiedByPostcode($postcode)
     {
         $postcode = substr($postcode, 0, 4);
-        
+
         $conditions = array(
             'van <=' => $postcode,
             'tot >=' => $postcode,
         );
-        
+
         $result = $this->find('first', array(
             'conditions' => $conditions,
         ));

@@ -59,11 +59,11 @@ class InstantiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for instantie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Instantie->delete($id)) {
             $this->flashError(__('Instantie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Instantie was not deleted', true));
         $this->redirect(array('action' => 'index'));

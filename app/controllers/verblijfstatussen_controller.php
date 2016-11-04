@@ -55,11 +55,11 @@ class VerblijfstatussenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verblijfstatus', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Verblijfstatus->delete($id)) {
             $this->flashError(__('Verblijfstatus deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Verblijfstatus was not deleted', true));
         $this->redirect(array('action' => 'index'));
@@ -101,7 +101,7 @@ class VerblijfstatussenController extends AppController
 
         $this->Verblijfstatus->Intake->Klant->Geboorteland->recursive = -1;
         $eu = $this->Verblijfstatus->Intake->Klant->Geboorteland->find('list', array(
-            'conditions'=> array('Geboorteland.land' => array(
+            'conditions' => array('Geboorteland.land' => array(
                 'België', 'Bulgarije', 'Cyprus', 'Denemarken', 'Duitsland',
                 'Estland', 'Finland', 'Frankrijk', 'Griekenland', 'Hongarije',
                 'Ierland', 'Italië', 'Letland', 'Litouwen', 'Luxemburg',
@@ -128,7 +128,7 @@ class VerblijfstatussenController extends AppController
       //renaming field 'zonder verblijfsvergunning' => 'niet rechthebbend'
         $this->Verblijfstatus->recursive = -1;
         $renamed =
-            & $this->Verblijfstatus->findByNaam('Zonder verblijfsvergunning');
+            &$this->Verblijfstatus->findByNaam('Zonder verblijfsvergunning');
 
         debug('- renaming field \'zonder verblijfsvergunning\' => \'niet rechthebbend\'');
         if (!empty($renamed)) {
@@ -167,7 +167,7 @@ class VerblijfstatussenController extends AppController
         $niet_rech = array(
             'Verblijfstatus' => array(
                 'id' => 7,
-                'naam'=>'Niet rechthebbend (uit EU, behalve Nederland)',
+                'naam' => 'Niet rechthebbend (uit EU, behalve Nederland)',
             ),
         );
 
@@ -181,7 +181,7 @@ class VerblijfstatussenController extends AppController
         $niet_rech = array(
             'Verblijfstatus' => array(
                 'id' => 8,
-                'naam'=>'Niet rechthebbend (niet uit EU)',
+                'naam' => 'Niet rechthebbend (niet uit EU)',
             ),
         );
 
@@ -197,7 +197,7 @@ class VerblijfstatussenController extends AppController
 
       //'werkvergunning' => 'onbekend'
         debug('- "werkvergunning" => "onbekend"');
-        $intakes2update = & $this->Verblijfstatus->Intake->find('all', array(
+        $intakes2update = &$this->Verblijfstatus->Intake->find('all', array(
             'conditions' => array('Verblijfstatus.naam' => 'Werkvergunning'),
             'contain' => array(
                 'Verblijfstatus' => array('fields' => array('naam')),
@@ -232,8 +232,7 @@ class VerblijfstatussenController extends AppController
         debug('- "Niet rechthebbend (uit Europa, behalve Nederland)" / "Niet '.
             ' rechthebbend (uit Nederland, behalve Amsterdam)" / "Niet '.
             'rechthebbend (behalve EU)"');
-        $intakes2update = &
-            $this->Verblijfstatus->Intake->find('all', array(
+        $intakes2update = &$this->Verblijfstatus->Intake->find('all', array(
                 'conditions' => array(
                     'Verblijfstatus.naam' => array(
                         'Niet rechthebbend (uit Nederland, behalve Amsterdam)',

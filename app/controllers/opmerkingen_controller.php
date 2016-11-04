@@ -14,15 +14,15 @@ class OpmerkingenController extends AppController
             $this->redirect(array('controller' => 'registraties',
                 'action' => 'index', ));
         }
-        
+
         $klant = $this->Opmerking->Klant->findById($klant_id);
-        
+
         $this->Opmerking->recursive = 0;
-        
+
         $opmerkingen = $this->Opmerking->find('all', array(
             'conditions' => array('Opmerking.klant_id' => $klant_id),
         ));
-        
+
         $this->set('diensten', $this->Opmerking->Klant->diensten($klant_id));
         $this->set(compact('opmerkingen', 'klant'));
     }
@@ -40,7 +40,7 @@ class OpmerkingenController extends AppController
     {
         if (!empty($this->data)) {
             $this->Opmerking->create();
-            
+
             if ($this->Opmerking->save($this->data)) {
                 $this->flash(__('The opmerking has been saved', true));
                 $this->redirect(array('action' => 'index', $klant_id));
@@ -50,9 +50,9 @@ class OpmerkingenController extends AppController
         }
 
         $categorieen = $this->Opmerking->Categorie->find('list');
-        
+
         $this->Opmerking->Klant->recursive = 1;
-        
+
         $klant = $this->Opmerking->Klant->findById($klant_id);
 
         $this->set('diensten', $this->Opmerking->Klant->diensten($klant_id));
@@ -65,7 +65,7 @@ class OpmerkingenController extends AppController
             $this->flashError(__('Invalid opmerking', true));
             $this->redirect(array('action' => 'index'));
         }
-        
+
         if (!empty($this->data)) {
             if ($this->Opmerking->save($this->data)) {
                 $this->flash(__('The opmerking has been saved', true));
@@ -74,14 +74,14 @@ class OpmerkingenController extends AppController
                 $this->flashError(__('The opmerking could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             $this->data = $this->Opmerking->read(null, $id);
         }
-        
+
         $klanten = $this->Opmerking->Klant->find('list');
         $categorieen = $this->Opmerking->Categorie->find('list');
-        
+
         $this->set(compact('klanten', 'categorieen'));
     }
 
@@ -89,14 +89,14 @@ class OpmerkingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for opmerking', true));
-            $this->redirect(array('action'=>'index', $klant_id));
+            $this->redirect(array('action' => 'index', $klant_id));
         }
-        
+
         if ($this->Opmerking->delete($id)) {
             $this->flash(__('Opmerking deleted', true));
-            $this->redirect(array('action'=>'index', $klant_id));
+            $this->redirect(array('action' => 'index', $klant_id));
         }
-        
+
         $this->flashError(__('Opmerking was not deleted', true));
         $this->redirect(array('action' => 'index', $klant_id));
     }

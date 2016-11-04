@@ -60,11 +60,11 @@ class ZrmReportsController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for zrm report', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->ZrmReport->delete($id)) {
             $this->Session->setFlash(__('Zrm report deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Zrm report was not deleted', true));
         $this->redirect(array('action' => 'index'));

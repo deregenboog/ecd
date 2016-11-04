@@ -59,11 +59,11 @@ class VerslavingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verslaving', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Verslaving->delete($id)) {
             $this->flashError(__('Verslaving deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Verslaving was not deleted', true));
         $this->redirect(array('action' => 'index'));

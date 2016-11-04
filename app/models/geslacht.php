@@ -4,13 +4,14 @@ class geslacht extends AppModel
 {
     public $name = 'Geslacht';
     public $displayField = 'volledig';
-    public $order="Geslacht.id DESC";
+    public $order = 'Geslacht.id DESC';
 
-    public $cachekey = "GeslachtenList";
+    public $cachekey = 'GeslachtenList';
 
     public function beforeSave($options = array())
     {
         Cache::delete($this->cachekey);
+
         return parent::beforeSave($options);
     }
 
@@ -23,6 +24,7 @@ class geslacht extends AppModel
         }
         $geslachten = $this->find('list');
         Cache::write($this->cachekey, $geslachten);
+
         return $geslachten;
     }
 }

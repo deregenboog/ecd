@@ -4,7 +4,7 @@ class GroepsactiviteitenIntakesController extends AppController
 {
     public $name = 'GroepsactiviteitenIntakes';
 
-    public function add_edit($persoon_model = 'Klant', $foreign_key)
+    public function add_edit($persoon_model, $foreign_key)
     {
         if (!empty($this->data)) {
             if (empty($this->data['GroepsactiviteitenIntake']['id'])) {

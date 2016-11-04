@@ -1,4 +1,5 @@
 <?php
+
 /* Vrijwilliger Test cases generated on: 2014-05-03 15:05:16 : 1399123096*/
 App::import('Model', 'Vrijwilliger');
 
@@ -8,7 +9,7 @@ class VrijwilligerTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->Vrijwilliger =& ClassRegistry::init('Vrijwilliger');
+        $this->Vrijwilliger = &ClassRegistry::init('Vrijwilliger');
     }
 
     public function endTest()

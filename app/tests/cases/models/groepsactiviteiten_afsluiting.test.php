@@ -1,4 +1,5 @@
 <?php
+
 /* GroepsactiviteitenAfsluiting Test cases generated on: 2015-11-22 08:11:01 : 1448175901*/
 App::import('Model', 'GroepsactiviteitenAfsluiting');
 
@@ -8,7 +9,7 @@ class GroepsactiviteitenAfsluitingTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->GroepsactiviteitenAfsluiting =& ClassRegistry::init('GroepsactiviteitenAfsluiting');
+        $this->GroepsactiviteitenAfsluiting = &ClassRegistry::init('GroepsactiviteitenAfsluiting');
     }
 
     public function endTest()

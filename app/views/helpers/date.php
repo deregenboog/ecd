@@ -23,16 +23,16 @@ class DateHelper extends AppHelper
 
     ////////////////
     //creates the date input fields
-    //
+
     //@name - mandatory! "name" of the fields (Model.field), you have to specify
     //        the model name always! Otherwise the field won't be populated
-    //
+
     //@date - date string retrieved from DB (YYYY-MM-DD), when $date == 'empty'
     //        the default date is set to empty field, when date == null, default
     //        date is populated with data or set back to 'empty'
-    //
+
     //@options:
-    //
+
     //'format' - 'd-y-m', 'y-M-d' etc. M = words for months, m = numbers for months
     //				BEWARE! the calendar always appears after the year box!
     //				thus it's recommended to place the year box at the end always
@@ -45,22 +45,23 @@ class DateHelper extends AppHelper
         //checking name
         if ($name == null) {
             throw new Exception('missing name! check the /app/views/helpers/date_picker.php');
+
             return;
         }
 
         $view = &ClassRegistry::getObject('view');
-        $items=explode(".", $name);
-        $errormsg="";
+        $items = explode('.', $name);
+        $errormsg = '';
 
         /*
     	 * TODO: this below will have to change when there are more request periods!
     	*/
         $modelName = $items[0];
-        $fieldName = $items[count($items)-1];
+        $fieldName = $items[count($items) - 1];
 
         if (isset($view->validationErrors[$modelName])
             && isset($view->validationErrors[$modelName][$fieldName])) {
-            $errormsg=__($view->validationErrors[$modelName][$fieldName], true);
+            $errormsg = __($view->validationErrors[$modelName][$fieldName], true);
         }
 
         $elementId = $this->getInputId($name);
@@ -77,6 +78,7 @@ class DateHelper extends AppHelper
         $regexp = '/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/';
         if ($date != 'empty' && !preg_match($regexp, $date)) {
             throw new Exception('wrong date! check the /app/views/helpers/date.php | '.$date.' |');
+
             return;
         }
 
@@ -114,6 +116,7 @@ class DateHelper extends AppHelper
                     case 'rangeHigh':
                         if (!preg_match($regexp, $value)) {
                             throw new Exception('wrong date! check the /app/views/helpers/date_picker.php');
+
                             return;
                         }
                         $rangeHigh = ' range-high-'.$value;
@@ -123,6 +126,7 @@ class DateHelper extends AppHelper
                     case 'rangeLow':
                         if (!preg_match($regexp, $value)) {
                             throw new Exception('wrong date! check the /app/views/helpers/date_picker.php');
+
                             return;
                         }
                         $rangeLow = ' range-low-'.$value;
@@ -188,12 +192,12 @@ class DateHelper extends AppHelper
             $this->_createInputs($field, $date, $disabled, $minYear, $maxYear, $output_string);
             $output_string .= '</select>'."\n";
         }
-        $output_string.='</span>';
+        $output_string .= '</span>';
         if ($label != null) {
-            $output_string.='</div>';
+            $output_string .= '</div>';
         }
-        if ($errormsg != "") {
-            $output_string.='<div class="error-message">'.$errormsg.'</div>';
+        if ($errormsg != '') {
+            $output_string .= '<div class="error-message">'.$errormsg.'</div>';
         }
 
         return $this->output($output_string);
@@ -252,6 +256,7 @@ class DateHelper extends AppHelper
             }
         }
         $output = $format[0].$sep.$format[1].$sep.$format[2];
+
         return $output;
     }//show
 
@@ -305,6 +310,7 @@ class DateHelper extends AppHelper
     { //Model.0.field_name -> data[Model][0][field_name]
         $result = str_replace('.', '][', $str);
         $result = 'data['.$result.']';
+
         return $result;
     }
 
@@ -316,6 +322,7 @@ class DateHelper extends AppHelper
             $piece = ucfirst($piece);
             $result .= $piece;
         }
+
         return $result;
     }
 
@@ -324,12 +331,13 @@ class DateHelper extends AppHelper
         if ($format_str == null) {
             $format_str = Configure::read('Calendar.dateDisplayFormat');
         }
+
         return explode('-', $format_str);
     }
 
-    public function _createInputs($type, $default, $disabled = null, $minYear, $maxYear, & $str)
+    public function _createInputs($type, $default, $disabled, $minYear, $maxYear, &$str)
     { //$default like YYYY-MM-DD
-        if ($default == 'empty') ; elseif ($default != null) {
+        if ($default == 'empty'); elseif ($default != null) {
             $default = explode('-', $default);
         } else {
             $default = array(
@@ -363,7 +371,7 @@ class DateHelper extends AppHelper
                 case 'M':
                     $str .= '<option value="'.
                     $default[1].'" selected="selected">'.
-                    $months[$default[1]-1].'</option>'."\n";
+                    $months[$default[1] - 1].'</option>'."\n";
                     break;
                 case 'd':
                     $str .= '<option value="'.
@@ -383,7 +391,7 @@ class DateHelper extends AppHelper
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('month', true).'</option>';
-                    for ($i = 1; $i <= 12; $i++) {
+                    for ($i = 1; $i <= 12; ++$i) {
                         $str .= '<option value="';
                         if ($i < 10) {
                             $str .= '0';
@@ -401,7 +409,7 @@ class DateHelper extends AppHelper
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('month', true).'</option>';
-                    for ($i = 1; $i <= 12; $i++) {
+                    for ($i = 1; $i <= 12; ++$i) {
                         $str .= '<option value="';
                         if ($i < 10) {
                             $str .= '0';
@@ -411,7 +419,7 @@ class DateHelper extends AppHelper
                         if ($default != null && $default != 'empty' && $default[1] == $i) {
                             $str .= ' selected="selected"';
                         }
-                        $str .= '>'.$months[$i -1].'</option>'."\n";
+                        $str .= '>'.$months[$i - 1].'</option>'."\n";
                     }
                     break;
                 case 'd':
@@ -420,7 +428,7 @@ class DateHelper extends AppHelper
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('day', true).'</option>';
-                    for ($i = 1; $i <= 31; $i++) {
+                    for ($i = 1; $i <= 31; ++$i) {
                         $str .= '<option value="';
                         if ($i < 10) {
                             $str .= '0';
@@ -438,7 +446,7 @@ class DateHelper extends AppHelper
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('year', true).'</option>';
-                    for ($i = $maxYear; $i >= $minYear; $i--) {
+                    for ($i = $maxYear; $i >= $minYear; --$i) {
                         $str .= '<option';
                         if ($default != null && $default != 'empty' && $default[0] == $i) {
                             $str .= ' selected="selected"';
@@ -458,6 +466,7 @@ class DateHelper extends AppHelper
         foreach (explode('.', $model) as $piece) {
             $fieldId .= Inflector::camelize($piece);
         }
+
         return $fieldId;
     }
 
@@ -525,7 +534,7 @@ class DateHelper extends AppHelper
 
     //invisible field (not type="hidden")
         $inv_field_opts['label'] = false;
-        $inv_field_opts['style'] = "display: none";
+        $inv_field_opts['style'] = 'display: none';
         $o .= $this->Form->input($fieldname, $inv_field_opts);
 
     //retrieving the id of the last input generated by the Form helper
@@ -589,7 +598,7 @@ class DateHelper extends AppHelper
 
         ');
 
-        $this->picker_count++;
+        ++$this->picker_count;
 
         return $this->output($o);
     }
@@ -597,7 +606,9 @@ class DateHelper extends AppHelper
     /**
      * Humanizes the number of days: translates it to days, weeks, months or
      * years depending on the number of days.
+     *
      * @param int $days Number of days
+     *
      * @return string
      */
     public function humanDays($days)
@@ -615,4 +626,3 @@ class DateHelper extends AppHelper
         }
     }
 } //class
-;

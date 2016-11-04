@@ -3,22 +3,21 @@
 
 class CommonFixture
 {
-
     /* Pointer to the TestCase object who constructs this class */
     public $testCaseObj = null;
-    
+
     /* Array which defines which fixtures in the commonFixtures array
      * are going to be included for the TestCase.
      *
      */
     public $fixturesTypeIncluded = array();
-    
+
     /* Group of fixtures which can be included in the TestCase.
      * To include these groups is necessary to pass as a second
      * parameter in this class __construct() function, a keys group list:
      * basic,hotel,negotiation,organization or common
      */
-    
+
     public $commonFixtures = array(
         // Fixtures which should be included in almost all tests.
         'empty' => array(
@@ -51,13 +50,11 @@ class CommonFixture
              'app.intakes_primaireproblematieksgebruikswijze', 'app.verslag',
              'app.inventarisatie', 'app.doorverwijzer', 'app.notitie',
              'app.awbz_hoofdaannemer', 'app.hoofdaannemer', 'app.opmerking',
-             'app.categorie', 'app.verslaginfo'
+             'app.categorie', 'app.verslaginfo',
        ),
 
-
-
     );
-    
+
     public function __construct(&$testCaseObj, $fixturesType = array())
     {
         // Auto load all empty fixtures
@@ -68,15 +65,15 @@ class CommonFixture
         foreach ($empty_files as $empty_f) {
             $name = basename($empty_f);
             $name = 'app.'.str_replace('_fixture.php', '', $name);
-            $this->commonFixtures['empty'][]  = $name;
+            $this->commonFixtures['empty'][] = $name;
         }
-    
-        $this->testCaseObj =& $testCaseObj;
+
+        $this->testCaseObj = &$testCaseObj;
         $this->fixturesTypeIncluded = $fixturesType;
         //$this->diff_fixtures();
         $this->setCommonFixtures();
     }
-    
+
     /* This function debugs the difference between the fixtures loaded for a testcase (defined in the
      * $fixtures class variable in the related testcase) and the fixtures in class array $commonFixtures.
      * Only checks the difference for the $commonFixtures keys specified in $fixturesType
@@ -85,7 +82,7 @@ class CommonFixture
      *  Note: Is not used , but is handy to automate difference checks from testcase fixtures and $commonFixtures
      *  fixture groups.
      */
-    
+
     public function diff_fixtures()
     {
         $fix = array();
@@ -103,11 +100,11 @@ class CommonFixture
         }
         debug(implode('\',\'', $fix));
     }
-    
+
     public function replaceFixtures()
     {
         $replacedFixtures = $this->testCaseObj->replaceFixtures;
-        $fixtures =& $this->testCaseObj->fixtures;
+        $fixtures = &$this->testCaseObj->fixtures;
         foreach ($replacedFixtures as $replaced_fixture => $new_fixture) {
             $key = array_search($replaced_fixture, $fixtures);
             if ($key !== false) {
@@ -116,7 +113,7 @@ class CommonFixture
             }
         }
     }
-    
+
     public function setCommonFixtures()
     {
         $this->mergeFixtures();
@@ -124,7 +121,7 @@ class CommonFixture
             $this->replaceFixtures($this->testCaseObj->replaceFixtures);
         }
     }
-    
+
     public function mergeFixtures()
     {
         $testCaseFixtures = array();
@@ -170,13 +167,14 @@ class CommonFixture
         }
         $this->testCaseObj->fixtures = $testCaseFixtures;
     }
-    
+
     public function getCommonFixtures($fixtureType)
     {
         $fixtures = array();
         if (isset($this->commonFixtures[$fixtureType])) {
             $fixtures = $this->commonFixtures[$fixtureType];
         }
+
         return $fixtures;
     }
 }

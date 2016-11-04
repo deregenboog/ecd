@@ -1,4 +1,5 @@
 <?php
+
 /* Hi5IntakesAnswer Fixture generated on: 2011-04-15 15:04:05 : 1302873185 */
 class Hi5IntakesAnswerFixture extends CakeTestFixture
 {
@@ -7,6 +8,6 @@ class Hi5IntakesAnswerFixture extends CakeTestFixture
     public $import = array(
             'model' => 'Hi5IntakesAnswer',
             'records' => true,
-            'table' => 'hi5_intakes_answers'
+            'table' => 'hi5_intakes_answers',
     );
 }

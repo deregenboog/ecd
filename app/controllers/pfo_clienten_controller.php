@@ -10,23 +10,23 @@ class PfoClientenController extends AppController
     {
         $current_aardrelatie = null;
         $current_groep = null;
-        
+
         if (!empty($data)) {
             $current_aardrelatie = $data['PfoClient']['aard_relatie'];
             $current_groep = $data['PfoClient']['groep'];
         }
-        
+
         $groepen = array();
         $aard_relatie = array();
-        
+
         if (empty($id)) {
             $groepen = array('' => '');
             $aard_relatie = array('' => '');
         }
-        
-        $this->PfoAardRelatie= ClassRegistry::init('PfoAardRelatie');
-        $this->PfoGroep= ClassRegistry::init('PfoGroep');
-        $this->Medewerker= ClassRegistry::init('Medewerker');
+
+        $this->PfoAardRelatie = ClassRegistry::init('PfoAardRelatie');
+        $this->PfoGroep = ClassRegistry::init('PfoGroep');
+        $this->Medewerker = ClassRegistry::init('Medewerker');
 
         $groepen += $this->PfoGroep->get_list($current_groep);
         $aard_relatie += $this->PfoAardRelatie->get_list($current_aardrelatie);
@@ -35,16 +35,16 @@ class PfoClientenController extends AppController
         if (!empty($data['PfoClient']['medewerker_id'])) {
             $medewerker_id = $data['PfoClient']['medewerker_id'];
         }
-        
+
         $this->setMedewerkers($medewerker_id, array(GROUP_PFO));
         $geslachten = $this->PfoClient->Geslacht->find('list');
         $contact_type = $this->PfoVerslag->contact_type;
 
-        $clienten=$this->PfoClient->clienten();
-        
+        $clienten = $this->PfoClient->clienten();
+
         $vrije_clienten = $this->PfoClient->vrije_clienten($clienten);
         $hoofd_clienten = $this->PfoClient->hoofd_clienten($clienten);
-        
+
         $this->set(compact('contact_type', 'pfo_users', 'groepen', 'aard_relatie', 'medewerkers', 'geslachten', 'clienten', 'vrije_clienten', 'hoofd_clienten'));
     }
 
@@ -60,7 +60,7 @@ class PfoClientenController extends AppController
         }
 
         $this->PfoClient->recursive = 0;
-        $pfoclienten=$this->paginate('PfoClient', $conditions);
+        $pfoclienten = $this->paginate('PfoClient', $conditions);
 
         $this->set_view_variables();
 
@@ -97,9 +97,9 @@ class PfoClientenController extends AppController
             $this->PfoClient->create();
 
             $saved = false;
-            
+
             $this->PfoClient->begin();
-            
+
             if ($this->PfoClient->save($this->data['PfoClient'])) {
                 if (!empty($this->data['SupportClient']['pfo_client_id'])) {
                     $this->data['SupportClient']['pfo_supportgroup_client_id'] = $this->PfoClient->id;
@@ -109,7 +109,7 @@ class PfoClientenController extends AppController
                 } else {
                     $saved = true;
                 }
-                
+
                 if (!empty($this->data['PfoClientenSupportgroup'])) {
                     foreach ($this->data['PfoClientenSupportgroup'] as $key => $value) {
                         $this->data['PfoClientenSupportgroup'][$key]['pfo_client_id'] = $this->PfoClient->id;
@@ -147,20 +147,20 @@ class PfoClientenController extends AppController
                 unset($this->data['PfoClientenSupportgroup']);
             }
 
-            $ids=array();
-            
+            $ids = array();
+
             if (isset($this->data['PfoClientenSupportgroup'])) {
                 foreach ($this->data['PfoClientenSupportgroup'] as $key => $pg) {
-                    $ids[]=$pg['pfo_supportgroup_client_id'];
+                    $ids[] = $pg['pfo_supportgroup_client_id'];
                     $this->data['PfoClientenSupportgroup'][$key]['pfo_client_id'] = $id;
                 }
             }
-            
+
             $id_hc = null;
 
             if (isset($this->data['SupportClient']) && !empty($this->data['SupportClient']['pfo_client_id'])) {
                 $this->data['SupportClient']['pfo_supportgroup_client_id'] = $id;
-                $id_hc=$this->data['SupportClient']['pfo_client_id'];
+                $id_hc = $this->data['SupportClient']['pfo_client_id'];
             } else {
                 unset($this->data['SupportClient']);
             }
@@ -181,7 +181,7 @@ class PfoClientenController extends AppController
 
             $this->PfoClient->begin();
             $del = $this->PfoClient->PfoClientenSupportgroup->deleteAll($conditions);
-            
+
             if ($this->PfoClient->saveAll($this->data)) {
                 $this->Session->setFlash(__('The pfo client has been saved', true));
                 $this->PfoClient->commit();
@@ -202,14 +202,14 @@ class PfoClientenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo client', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         if ($this->PfoClient->delete($id)) {
             $this->Session->setFlash(__('Pfo client deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         $this->Session->setFlash(__('Pfo client was not deleted', true));
         $this->redirect(array('action' => 'index'));
     }
@@ -218,14 +218,14 @@ class PfoClientenController extends AppController
         if (empty($id)) {
             $id = $this->data['PfoClient']['id'];
         }
-        
+
         if (empty($group)) {
             $group = $this->data['Document']['group'];
         }
-        
+
         $proClient = $this->PfoClient->read(null, $id);
         $this->set('pfoClient', $proClient);
-        
+
         if (!empty($this->data)) {
             $this->data['Document']['foreign_key'] = $id;
             $this->data['Document']['model'] = $this->PfoClient->name;
@@ -256,18 +256,18 @@ class PfoClientenController extends AppController
     public function rapportage()
     {
         if (isset($this->data)) {
-            $this->PfoGroep= ClassRegistry::init('PfoGroep');
+            $this->PfoGroep = ClassRegistry::init('PfoGroep');
             $groepen = $this->PfoGroep->get_list();
-            $this->PfoVerslag= ClassRegistry::init('PfoVerslag');
+            $this->PfoVerslag = ClassRegistry::init('PfoVerslag');
             $contact_type = $this->PfoVerslag->contact_type;
             foreach ($contact_type as $k => $v) {
                 $contact_type[$k] = 0;
             }
 
-            $year_from=intval($this->data['PfoClient']['jaar']);
+            $year_from = intval($this->data['PfoClient']['jaar']);
             $year_to = $year_from + 1;
-            
-            $query ="select groep, contact_type, count(*) as count 
+
+            $query = "select groep, contact_type, count(*) as count 
 				from pfo_verslagen PfoVerslag 
 				join pfo_clienten_verslagen 
 					on PfoVerslag.id = pfo_verslag_id 
@@ -280,7 +280,7 @@ class PfoClientenController extends AppController
             $contact_total = $this->PfoClient->query($query);
 
             foreach ($contact_total as $c) {
-                $ct=$c['PfoVerslag']['contact_type'];
+                $ct = $c['PfoVerslag']['contact_type'];
                 if (!isset($contact_type[$ct])) {
                     $contact_type[$ct] = 0;
                 }
@@ -291,37 +291,37 @@ class PfoClientenController extends AppController
                 $contact_momenten[$key] = array();
                 $contact_momenten[$key] = $contact_type;
             }
-            
+
             foreach ($contact_total as $c) {
                 $groep = $c['PfoClient']['groep'];
                 $count = $c[0]['count'];
-                
+
                 if (!isset($contact_momenten[$groep])) {
                     $contact_momenten[$groep] = array();
                     $contact_momenten[$groep] = $contact_type;
                 }
-                
+
                 $contact_momenten[$groep][$c['PfoVerslag']['contact_type']] += $count;
             }
-            
+
             $total = $contact_type;
             foreach ($contact_momenten as $k => $v) {
                 $tot = 0;
-                
+
                 foreach ($v as $k1 => $v2) {
                     $tot += $v2;
                     $total[$k1] += $v2;
                 }
-                
+
                 $contact_momenten[$k]['Totaal'] = $tot;
             }
-            
+
             $tot = 0;
-            
+
             foreach ($total as $t) {
-                $tot+=$t;
+                $tot += $t;
             }
-            
+
             $total['Totaal'] = $tot;
             $contact_momenten['Totaal'] = $total;
 
@@ -338,8 +338,8 @@ class PfoClientenController extends AppController
 				) as subq group by groep;";
 
             $groep_total = $this->PfoClient->query($query);
-            $year=$year_from;
-            
+            $year = $year_from;
+
             $this->set(compact('groep_total', 'contact_momenten', 'contact_total', 'groepen', 'year'));
         }
     }

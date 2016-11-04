@@ -20,11 +20,12 @@ class IzVraagaanbod extends AppModel
             'counterQuery' => '',
         ),
     );
-    public $cachekey = "IzVraagaanbodList";
+    public $cachekey = 'IzVraagaanbodList';
 
     public function beforeSave(&$model)
     {
         Cache::delete($this->cachekey);
+
         return true;
     }
     public function vraagaanbodList()
@@ -37,6 +38,7 @@ class IzVraagaanbod extends AppModel
         $iz_vraag_aanbod_list = $this->find('list');
         $iz_vraag_aanbod_list = array('' => '') + $iz_vraag_aanbod_list;
         Cache::write($this->cachekey, $iz_vraag_aanbod_list);
+
         return $iz_vraag_aanbod_list;
     }
 }

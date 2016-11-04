@@ -1,4 +1,5 @@
 <?php
+
 /* InkomensAwbzIntake Fixture generated on: 2011-04-15 15:04:30 : 1302873390 */
 class InkomensAwbzIntakeFixture extends CakeTestFixture
 {
@@ -7,6 +8,6 @@ class InkomensAwbzIntakeFixture extends CakeTestFixture
     public $import = array(
             'model' => 'InkomensAwbzIntake',
             'records' => true,
-            'table' => 'inkomens_awbz_intakes'
+            'table' => 'inkomens_awbz_intakes',
     );
 }

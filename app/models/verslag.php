@@ -77,10 +77,11 @@ class verslag extends AppModel
     public function beforeSave($options = array())
     {
         if (!empty($this->data[$this->alias]['aanpassing_verslag'])) {
-            if (empty($this->data[$this->alias]['contactsoort_id']) ||    $this->data[$this->alias]['contactsoort_id'] != 3) {
+            if (empty($this->data[$this->alias]['contactsoort_id']) || $this->data[$this->alias]['contactsoort_id'] != 3) {
                 unset($this->data[$this->alias]['aanpassing_verslag']);
             }
         }
+
         return parent::beforeSave($options);
     }
 }

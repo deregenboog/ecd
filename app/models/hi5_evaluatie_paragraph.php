@@ -19,19 +19,19 @@ class Hi5EvaluatieParagraph extends AppModel
                     'counterQuery' => '',
             ),
     );
-    
+
     public function getParagraphs()
     {
         $paragraphList = $this->find('all', array(
                 'recursive' => 2,
         ));
-        
+
         $paragraphResult = array();
-        
+
         foreach ($paragraphList as $paragraphDetails) {
             $paragraphId = $paragraphDetails['Hi5EvaluatieParagraph']['id'];
             $paragraphResult[$paragraphId]['paragraph'] = $paragraphDetails['Hi5EvaluatieParagraph']['text'];
-            
+
             foreach ($paragraphDetails['Hi5EvaluatieQuestion'] as $questionDetails) {
                 $questionId = $questionDetails['id'];
                 $question = $questionDetails['text'];

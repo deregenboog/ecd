@@ -9,7 +9,7 @@ class PopulatorController extends AppController
     {
         debug("get rid of intake's validation if you want to use this! (models/intake.php)");
 
-        for ($i = 0; $i < $number; $i++) {
+        for ($i = 0; $i < $number; ++$i) {
             $this->Klant->create();
             $data = array(
                 'voornaam' => $this->genRandom('words', 1),
@@ -20,7 +20,7 @@ class PopulatorController extends AppController
                 'laatste_TBC_controle' => $this->genRandom('date'),
             );
             //debug($data['name'] . ' ' . $data['created']);
-            for ($j=0; $j < rand(0, 10); $j++) {
+            for ($j = 0; $j < rand(0, 10); ++$j) {
                 $data['Intake'][$j] = array(
                     'medewerker_id' => 1,
                     'datum_intake' => $this->genRandom('date'),
@@ -66,16 +66,17 @@ class PopulatorController extends AppController
             case 'words':
                 $words = array('foo', 'annihilation', 'bar', 'wicked', 'grabbing', 'teddy', 'bears', 'red', 'completely', 'Jeżozwierz', 'annoying', 'forever', 'better', 'than', 'mother', 'blast', 'smelly', 'rope', 'maintained', 'ugly');
                 $string = '';
-                for ($p = 0; $p < $length; $p++) {
-                    $string .= $words[rand(0, count($words)-1)];
+                for ($p = 0; $p < $length; ++$p) {
+                    $string .= $words[rand(0, count($words) - 1)];
                     ($p == $length) ? $string .= '' : $string .= ' ';
                 }
+
                 return $string;
         }
         $string = '';
 
-        for ($p = 0; $p < $length; $p++) {
-            $string .= $characters[mt_rand(0, strlen($characters)-1)];
+        for ($p = 0; $p < $length; ++$p) {
+            $string .= $characters[mt_rand(0, strlen($characters) - 1)];
         }
 
         return $string;

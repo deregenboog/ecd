@@ -52,7 +52,7 @@ class QueueTask extends AppModel
                 }
             }
         }
-        
+
         return $results;
     }
 }

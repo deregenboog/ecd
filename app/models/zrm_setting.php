@@ -33,23 +33,23 @@ class ZrmSetting extends AppModel
                 'request_module' => 'IzIntake',
             ),
         );
-        
+
         $zrm_settings = $this->find('all');
         $ids = Set::ClassicExtract($zrm_settings, '{n}.ZrmSetting.id');
-        
+
         $data = array();
-        
+
         foreach ($settings as $setting) {
             if (in_array($setting['id'], $ids)) {
                 continue;
             }
-            
+
             $data[] = array(
                 'ZrmSetting' => $setting,
             );
         }
-        
-        if (! empty($data)) {
+
+        if (!empty($data)) {
             $this->saveAll($data);
         }
     }
@@ -58,7 +58,7 @@ class ZrmSetting extends AppModel
     {
         $zrm_settings = registry_get('ZrmSettings', 'ZrmSettings', true);
 
-        if (! $zrm_settings) {
+        if (!$zrm_settings) {
             $required_fields = array();
             $zrm_models = array();
             App::import('Model', 'ZrmReport');
@@ -68,14 +68,14 @@ class ZrmSetting extends AppModel
 
             foreach ($fields as $k => $f) {
                 $zrm_models[$f['ZrmSetting']['request_module']] = array();
-                
+
                 foreach ($zrm_report->zrm_items as $k => $v) {
                     if (!empty($f['ZrmSetting'][$k])) {
                         $required_fields[$f['ZrmSetting']['request_module']][] = $k;
                     }
                 }
             }
-            
+
             $zrm_settings = array(
                 'required_fields' => $required_fields,
                 'zrm_models' => $zrm_models,

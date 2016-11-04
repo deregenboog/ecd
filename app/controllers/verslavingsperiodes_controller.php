@@ -55,11 +55,11 @@ class VerslavingsperiodesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verslavingsperiode', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Verslavingsperiode->delete($id)) {
             $this->flashError(__('Verslavingsperiode deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Verslavingsperiode was not deleted', true));
         $this->redirect(array('action' => 'index'));

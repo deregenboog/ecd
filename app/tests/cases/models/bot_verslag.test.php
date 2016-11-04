@@ -1,4 +1,5 @@
 <?php
+
 /* BtoVerslag Test cases generated on: 2013-10-07 17:10:10 : 1381161130*/
 App::import('Model', 'BtoVerslag');
 
@@ -8,7 +9,7 @@ class BtoVerslagTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->BtoVerslag =& ClassRegistry::init('BtoVerslag');
+        $this->BtoVerslag = &ClassRegistry::init('BtoVerslag');
     }
 
     public function endTest()

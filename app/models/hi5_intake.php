@@ -119,7 +119,7 @@ class Hi5Intake extends AppModel
                     'order' => '',
             ),
     );
-    
+
     public $hasAndBelongsToMany = array(
             'Verslavingsgebruikswijze' => array(
                     'className' => 'Verslavingsgebruikswijze',
@@ -248,8 +248,8 @@ class Hi5Intake extends AppModel
         $l1 = $this->data['Hi5Intake']['locatie1_id'];
         $l2 = $this->data['Hi5Intake']['locatie2_id'];
         $l3 = $this->data['Hi5Intake']['locatie3_id'];
-        
-        if ($l1 <> $l2 && $l2 <> $l3 && $l3 <> $l1) {
+
+        if ($l1 != $l2 && $l2 != $l3 && $l3 != $l1) {
             return true;
         } else {
             return false;

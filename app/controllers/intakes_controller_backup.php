@@ -90,11 +90,11 @@ class IntakesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Ongeldige id voor intake', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Intake->delete($id)) {
             $this->flashError(__('Intake verwijderd', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Intake is niet verwijderd', true));
         $this->redirect(array('action' => 'index'));

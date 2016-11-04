@@ -28,7 +28,7 @@ class BackOnTrack extends AppModel
             'order' => 'startdatum ASC, einddatum ASC',
         ),
     );
-    
+
     public $validate = array(
             'startdatum' => array(
                     'notempty' => array(
@@ -41,46 +41,46 @@ class BackOnTrack extends AppModel
                     ),
             ),
             'intakedatum' => array(
-                    'rule'      => array('validate_intakedatum'),
+                    'rule' => array('validate_intakedatum'),
                     'message' => 'Datum intake groter dan datum aanmelding',
             ),
             'einddatum' => array(
-                    'rule'      => array('validate_einddatum'),
+                    'rule' => array('validate_einddatum'),
                     'message' => 'Datum intake groter dan datum aanmelding',
             ),
     );
-    
+
     public function validate_intakedatum($check)
     {
         if (empty($this->data['BackOnTrack']['startdatum'])) {
             return true;
         }
-        
+
         if (empty($this->data['BackOnTrack']['intakedatum'])) {
             return true;
         }
-        
+
         if (strtotime($this->data['BackOnTrack']['intakedatum']) < strtotime($this->data['BackOnTrack']['startdatum'])) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     public function validate_einddatum($check, $compare)
     {
         if (empty($this->data['BackOnTrack']['intakedatum'])) {
             return true;
         }
-        
+
         if (empty($this->data['BackOnTrack']['einddatum'])) {
             return true;
         }
-        
+
         if (strtotime($this->data['BackOnTrack']['einddatum']) < strtotime($this->data['BackOnTrack']['intakedatum'])) {
             return false;
         }
-        
+
         return true;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Land Fixture generated on: 2013-10-16 15:10:30 : 1381930350 */
 class LandFixture extends CakeTestFixture
 {
@@ -12,7 +13,7 @@ class LandFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -22,7 +23,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5001,
@@ -30,7 +31,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5002,
@@ -38,7 +39,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5003,
@@ -46,7 +47,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5004,
@@ -54,7 +55,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5005,
@@ -62,7 +63,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5006,
@@ -70,7 +71,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5007,
@@ -78,7 +79,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5008,
@@ -86,7 +87,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
         array(
             'id' => 5009,
@@ -94,7 +95,7 @@ class LandFixture extends CakeTestFixture
             'AFK2' => '',
             'AFK3' => '',
             'created' => null,
-            'modified' => null
+            'modified' => null,
         ),
     );
 }

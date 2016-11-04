@@ -55,12 +55,13 @@ class GroepsactiviteitenGroepenVrijwilliger extends AppModel
         if (empty($this->data['GroepsactiviteitenGroepenVrijwilliger']['startdatum'])) {
             return true;
         }
-        $s=strtotime($this->data['GroepsactiviteitenGroepenVrijwilliger']['startdatum']);
-        $e=strtotime($this->data['GroepsactiviteitenGroepenVrijwilliger']['einddatum']);
+        $s = strtotime($this->data['GroepsactiviteitenGroepenVrijwilliger']['startdatum']);
+        $e = strtotime($this->data['GroepsactiviteitenGroepenVrijwilliger']['einddatum']);
 
         if ($e < $s) {
             return false;
         }
+
         return true;
     }
 

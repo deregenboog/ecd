@@ -55,11 +55,11 @@ class LocatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for locatie', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->Locatie->delete($id)) {
             $this->flashError(__('Locatie deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->flashError(__('Locatie was not deleted', true));
         $this->redirect(array('action' => 'index'));

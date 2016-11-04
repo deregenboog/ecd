@@ -93,6 +93,7 @@ class groepsactiviteit extends AppModel
             $groepsactiviteiten[$key]['Groepsactiviteit']['vrijwilligers_count'] =
                 $this->GroepsactiviteitenVrijwilliger->get_count($g['Groepsactiviteit']['id']);
         }
+
         return $groepsactiviteiten;
     }
 
@@ -101,6 +102,7 @@ class groepsactiviteit extends AppModel
         $result = $this->find('all', array(
             'contain' => array(),
         ));
+
         return $result;
     }
 
@@ -112,29 +114,30 @@ class groepsactiviteit extends AppModel
                 'order' => 'GroepsactiviteitenGroep.naam asc, Groepsactiviteit.datum asc',
 
         ));
-        $all=$this->GroepsactiviteitenGroep->get_groepsactiviteiten_list();
-        $keys=array_keys($all);
-        $group=array();
+        $all = $this->GroepsactiviteitenGroep->get_groepsactiviteiten_list();
+        $keys = array_keys($all);
+        $group = array();
 
         foreach ($data as $tmp) {
-            $date = "";
-           
-            if (! empty($tmp['Groepsactiviteit']['datum'])) {
-                $date=substr($tmp['Groepsactiviteit']['datum'], 8, 2)."-".substr($tmp['Groepsactiviteit']['datum'], 5, 2)."-".substr($tmp['Groepsactiviteit']['datum'], 0, 4);
+            $date = '';
+
+            if (!empty($tmp['Groepsactiviteit']['datum'])) {
+                $date = substr($tmp['Groepsactiviteit']['datum'], 8, 2).'-'.substr($tmp['Groepsactiviteit']['datum'], 5, 2).'-'.substr($tmp['Groepsactiviteit']['datum'], 0, 4);
             }
-            
+
             if (!empty($date)) {
-                $date=" ({$date})";
+                $date = " ({$date})";
             }
-            
-            $werkgebied = "";
-            
-            if (! empty($tmp['GroepsactiviteitenGroep']['werkgebied'])) {
-                $werkgebied = " (".$tmp['GroepsactiviteitenGroep']['werkgebied'].")";
+
+            $werkgebied = '';
+
+            if (!empty($tmp['GroepsactiviteitenGroep']['werkgebied'])) {
+                $werkgebied = ' ('.$tmp['GroepsactiviteitenGroep']['werkgebied'].')';
             }
-            
+
             $group[$tmp['GroepsactiviteitenGroep']['naam'].$werkgebied][$tmp['Groepsactiviteit']['id']] = $tmp['Groepsactiviteit']['naam'].$date;
         }
+
         return $group;
     }
 
@@ -148,9 +151,9 @@ class groepsactiviteit extends AppModel
                 App::import('Model', 'Klant');
                 $this->Klant = new Klant();
             }
-            
+
             $klanten = $this->Klant->get_selectie($data, $only_email);
-            
+
             if ($klanten) {
                 foreach ($klanten as $klant) {
                     $klant['Klant']['model'] = 'Klant';
@@ -158,11 +161,11 @@ class groepsactiviteit extends AppModel
                     $klant['Klant']['startdatum'] = $klant[0]['startdatum'];
                     $klant['Klant']['intakedatum'] = $klant['GroepsactiviteitenIntake']['intakedatum'];
                     $klant['Klant']['afsluitdatum'] = $klant['GroepsactiviteitenIntake']['afsluitdatum'];
-                    
+
                     $personen[] = $klant['Klant'];
                 }
             }
-            
+
             if (empty($geslachten)) {
                 $geslachten = $this->Klant->Geslacht->find('list');
             }
@@ -172,35 +175,35 @@ class groepsactiviteit extends AppModel
                 App::import('Model', 'Vrijwilliger');
                 $this->Vrijwilliger = new Vrijwilliger();
             }
-            
+
             $vrijwilligers = $this->Vrijwilliger->get_selectie($data, $only_email);
-            
+
             if ($vrijwilligers) {
                 foreach ($vrijwilligers as $vrijwilliger) {
                     $vrijwilliger['Vrijwilliger']['model'] = 'Vrijwilliger';
-                    $vrijwilliger['Vrijwilliger']['gezin_met_kinderen'] = "";
-                    $vrijwilliger['Vrijwilliger']['intakedatum'] = "";
-                    $vrijwilliger['Vrijwilliger']['afsluitdatum'] = "";
-                    
+                    $vrijwilliger['Vrijwilliger']['gezin_met_kinderen'] = '';
+                    $vrijwilliger['Vrijwilliger']['intakedatum'] = '';
+                    $vrijwilliger['Vrijwilliger']['afsluitdatum'] = '';
+
                     if (isset($vrijwilliger['GroepsactiviteitenIntake'])) {
                         $vrijwilliger['Vrijwilliger']['startdatum'] = $vrijwilliger[0]['startdatum'];
-                        $vrijwilliger['Vrijwilliger']['intakedatum'] = "";
+                        $vrijwilliger['Vrijwilliger']['intakedatum'] = '';
                         $vrijwilliger['Vrijwilliger']['afsluitdatum'] = $vrijwilliger['GroepsactiviteitenIntake']['afsluitdatum'];
                     }
-                    
+
                     $personen[] = $vrijwilliger['Vrijwilliger'];
                 }
             }
-            
+
             if (empty($geslachten)) {
                 $geslachten = $this->Vrijwilliger->Geslacht->find('list');
             }
         }
-        
+
         foreach ($personen as $key => $persoon) {
             $personen[$key]['geslacht'] = $geslachten[$persoon['geslacht_id']];
         }
-        
+
         return $personen;
     }
 }

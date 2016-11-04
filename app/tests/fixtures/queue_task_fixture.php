@@ -1,4 +1,5 @@
 <?php
+
 /* QueueTask Fixture generated on: 2014-05-11 20:05:57 : 1399833897 */
 class QueueTaskFixture extends CakeTestFixture
 {
@@ -18,7 +19,7 @@ class QueueTaskFixture extends CakeTestFixture
         'executed' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'status' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_queue_tasks_status_modified' => array('column' => array('modified', 'status'), 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -34,7 +35,7 @@ class QueueTaskFixture extends CakeTestFixture
             'batch' => 'Lorem ipsum dolor sit amet',
             'output' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
             'executed' => '2014-05-11 20:44:57',
-            'status' => 'Lorem ipsum dolor sit amet'
+            'status' => 'Lorem ipsum dolor sit amet',
         ),
     );
 }

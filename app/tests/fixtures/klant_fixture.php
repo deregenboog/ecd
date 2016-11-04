@@ -1,4 +1,5 @@
 <?php
+
 /* Klant Fixture generated on: 2013-10-16 12:10:55 : 1381920055 */
 class KlantFixture extends CakeTestFixture
 {
@@ -26,7 +27,7 @@ class KlantFixture extends CakeTestFixture
         'doorverwijzen_naar_amoc' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
         'merged_id' => array('type' => 'integer', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_klanten_geboortedatum' => array('column' => 'geboortedatum', 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -50,7 +51,7 @@ class KlantFixture extends CakeTestFixture
             'disabled' => 0,
             'laatste_registratie_id' => 3,
             'doorverwijzen_naar_amoc' => 1,
-            'merged_id' => 1
+            'merged_id' => 1,
         ),
     );
 }

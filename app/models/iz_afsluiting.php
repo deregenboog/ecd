@@ -9,13 +9,14 @@ class IzAfsluiting extends AppModel
 
     );
 
-    public $cachekey = "IzAfsluitingList";
-    public $active_key = "IzAfsluitingListActive";
+    public $cachekey = 'IzAfsluitingList';
+    public $active_key = 'IzAfsluitingListActive';
 
     public function beforeSave(&$model)
     {
         Cache::delete($this->cachekey);
         Cache::delete($this->active_key);
+
         return true;
     }
     public function afsluitingList($all = true)

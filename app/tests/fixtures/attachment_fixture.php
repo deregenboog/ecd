@@ -1,4 +1,5 @@
 <?php
+
 /* Attachment Fixture generated on: 2011-11-18 11:11:24 : 1321612944 */
 class AttachmentFixture extends CakeTestFixture
 {
@@ -16,7 +17,7 @@ class AttachmentFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
+        'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
     );
 
     public $records = array(
@@ -30,7 +31,7 @@ class AttachmentFixture extends CakeTestFixture
             'group' => 'Lorem ipsum dolor sit amet',
             'alternative' => 'Lorem ipsum dolor sit amet',
             'created' => '2011-11-18 11:42:24',
-            'modified' => '2011-11-18 11:42:24'
+            'modified' => '2011-11-18 11:42:24',
         ),
     );
 }

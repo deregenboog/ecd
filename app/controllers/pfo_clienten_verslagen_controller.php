@@ -61,11 +61,11 @@ class PfoClientenVerslagenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo clienten verslag', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($this->PfoClientenVerslag->delete($id)) {
             $this->Session->setFlash(__('Pfo clienten verslag deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Pfo clienten verslag was not deleted', true));
         $this->redirect(array('action' => 'index'));

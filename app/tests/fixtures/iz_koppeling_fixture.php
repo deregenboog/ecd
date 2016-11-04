@@ -1,4 +1,5 @@
 <?php
+
 /* IzKoppeling Fixture generated on: 2014-08-13 12:08:03 : 1407927183 */
 class IzKoppelingFixture extends CakeTestFixture
 {
@@ -19,7 +20,7 @@ class IzKoppelingFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -36,7 +37,7 @@ class IzKoppelingFixture extends CakeTestFixture
             'iz_eindekoppeling_id' => 1,
             'koppeling_succesvol' => 1,
             'created' => '2014-08-13 12:53:03',
-            'modified' => '2014-08-13 12:53:03'
+            'modified' => '2014-08-13 12:53:03',
         ),
     );
 }

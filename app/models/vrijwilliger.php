@@ -206,7 +206,7 @@ class vrijwilliger extends AppModel
             $this->send_admin_email = false;
             $this->changes = array();
             foreach ($this->watchfields as $watch) {
-                if (!isset($current[$watch]) || ! isset($compare[$watch])) {
+                if (!isset($current[$watch]) || !isset($compare[$watch])) {
                     continue;
                 }
                 if ($current[$watch] != $compare[$watch]) {
@@ -215,49 +215,50 @@ class vrijwilliger extends AppModel
                 }
             }
         }
+
         return parent::beforeSave($options);
     }
 
     public function get_selectie($data, $only_email = false)
     {
         $conditions = array();
-        
+
         if (!empty($data['Groepsactiviteit']['werkgebieden'])) {
             $conditions['Vrijwilliger.werkgebied'] = $data['Groepsactiviteit']['werkgebieden'];
         }
-        
+
         if (!empty($only_email)) {
-            $conditions['email NOT'] = null ;
-            $conditions['email NOT'] = '' ;
+            $conditions['email NOT'] = null;
+            $conditions['email NOT'] = '';
         }
 
         $join_conditions = array(
-                "Vrijwilliger.id = GroepsactiviteitenGroepenVrijwilliger.vrijwilliger_id",
+                'Vrijwilliger.id = GroepsactiviteitenGroepenVrijwilliger.vrijwilliger_id',
         );
-        
+
         $join_table = Inflector::pluralize(Inflector::underscore('GroepsactiviteitenGroepenVrijwilliger'));
-        
+
         if (!empty($data['Groepsactiviteit']['activiteitengroepen'])) {
             $join_conditions['GroepsactiviteitenGroepenVrijwilliger.groepsactiviteiten_groep_id'] = $data['Groepsactiviteit']['activiteitengroepen'];
         }
-        
+
         if (!empty($data['Groepsactiviteit']['communicatie_type'])) {
             $or = array();
             if (in_array('communicatie_email', $data['Groepsactiviteit']['communicatie_type'])) {
                 $or['GroepsactiviteitenGroepenVrijwilliger.communicatie_email'] = 1;
             }
-            
+
             if (in_array('communicatie_post', $data['Groepsactiviteit']['communicatie_type'])) {
                 $or['GroepsactiviteitenGroepenVrijwilliger.communicatie_post'] = 1;
             }
-            
+
             if (in_array('communicatie_telefoon', $data['Groepsactiviteit']['communicatie_type'])) {
                 $or['GroepsactiviteitenGroepenVrijwilliger.communicatie_telefoon'] = 1;
             }
-            
+
             $join_conditions['OR'] = $or;
         }
-        
+
         $join_conditions['OR'] = array(
                 'GroepsactiviteitenGroepenVrijwilliger.einddatum' => null,
                 'GroepsactiviteitenGroepenVrijwilliger.einddatum >=' => date('Y-m-d'),
@@ -266,7 +267,7 @@ class vrijwilliger extends AppModel
         $contain = array('GroepsactiviteitenIntake');
 
         $joins = array();
-        
+
         $joins[] = array(
             'table' => $join_table,
             'alias' => 'GroepsactiviteitenGroepenVrijwilliger',
@@ -306,9 +307,9 @@ class vrijwilliger extends AppModel
                 'min(GroepsactiviteitenGroepenVrijwilliger.startdatum) as startdatum',
             ),
         );
-        
+
         $personen = $this->find('all', $options);
-        
+
         return $personen;
     }
 }

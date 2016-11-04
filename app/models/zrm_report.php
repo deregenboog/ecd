@@ -5,17 +5,17 @@ class ZrmReport extends AppModel
     public $name = 'ZrmReport';
 
     public $zrm_items = array(
-            "inkomen" => "Inkomen",
-            "dagbesteding" => "Dagbesteding",
-            "huisvesting" => "Huisvesting",
-            "gezinsrelaties" => "Gezinsrelaties",
-            "geestelijke_gezondheid" => "Geestelijke gezondheid",
-            "fysieke_gezondheid" => "Fysieke gezondheid",
-            "verslaving" => "Verslaving",
-            "adl_vaardigheden" => "ADL-vaardigheden",
-            "sociaal_netwerk" => "Sociaal netwerk",
-            "maatschappelijke_participatie" => "Maatschappelijke participatie",
-            "justitie" => "Justitie",
+            'inkomen' => 'Inkomen',
+            'dagbesteding' => 'Dagbesteding',
+            'huisvesting' => 'Huisvesting',
+            'gezinsrelaties' => 'Gezinsrelaties',
+            'geestelijke_gezondheid' => 'Geestelijke gezondheid',
+            'fysieke_gezondheid' => 'Fysieke gezondheid',
+            'verslaving' => 'Verslaving',
+            'adl_vaardigheden' => 'ADL-vaardigheden',
+            'sociaal_netwerk' => 'Sociaal netwerk',
+            'maatschappelijke_participatie' => 'Maatschappelijke participatie',
+            'justitie' => 'Justitie',
     );
 
     public $zrm_models = array(
@@ -150,12 +150,12 @@ class ZrmReport extends AppModel
         parent::afterSave($created);
     }
 
-    public function checkRequired($field=array())
+    public function checkRequired($field = array())
     {
         if (empty($this->zrm_required_fields)) {
             $this->zrm_data();
         }
-        if (! isset($this->data['ZrmReport']['request_module'])) {
+        if (!isset($this->data['ZrmReport']['request_module'])) {
             return true;
         }
         if (empty($this->data['ZrmReport']['request_module'])) {
@@ -166,7 +166,7 @@ class ZrmReport extends AppModel
             return true;
         }
 
-        $r =$this->zrm_required_fields[$this->data['ZrmReport']['request_module']];
+        $r = $this->zrm_required_fields[$this->data['ZrmReport']['request_module']];
         if (empty($r)) {
             return true;
         }
@@ -175,12 +175,13 @@ class ZrmReport extends AppModel
                 return false;
             }
         }
+
         return true;
     }
 
     public function zrm_data()
     {
-        if (! isset($this->zrm_required_fields)) {
+        if (!isset($this->zrm_required_fields)) {
             App::import('Model', 'ZrmSetting');
             $setting = new ZrmSetting();
             $s = $setting->required_fields();
@@ -197,10 +198,10 @@ class ZrmReport extends AppModel
 
         foreach ($this->zrm_models as $model => $v) {
             $groups = array();
-            
+
             foreach ($permissions as $k => $models) {
                 if (in_array($model, $models)) {
-                    $groups[]=$k;
+                    $groups[] = $k;
                 }
             }
             $this->zrm_models[$model] = $groups;
@@ -213,21 +214,21 @@ class ZrmReport extends AppModel
             'zrm_names' => $this->zrm_names,
         );
     }
-    
+
     public function update_zrm_data_for_edit(&$zrm, $model, $foreign_key, $klant_id)
     {
         if (empty($zrm['ZrmReport']['model'])) {
             $zrm['ZrmReport']['model'] = $model;
         }
-        
+
         if (empty($zrm['ZrmReport']['foreign_key'])) {
             $zrm['ZrmReport']['foreign_key'] = $foreign_key;
         }
-        
+
         if (empty($zrm['ZrmReport']['klant_id'])) {
             $zrm['ZrmReport']['klant_id'] = $klant_id;
         }
-        
+
         return $zrm;
     }
 
@@ -238,10 +239,10 @@ class ZrmReport extends AppModel
         );
 
         $this->recursive = -1;
-        
+
         $zrm = $this->find('first', array(
                 'conditions' => $conditions,
-                'order' =>'ZrmReport.created DESC',
+                'order' => 'ZrmReport.created DESC',
         ));
 
         return $zrm;
@@ -255,10 +256,10 @@ class ZrmReport extends AppModel
         );
 
         $this->recursive = -1;
-        
+
         $zrm = $this->find('first', array(
             'conditions' => $conditions,
-            'order' =>'ZrmReport.created DESC',
+            'order' => 'ZrmReport.created DESC',
         ));
 
         return $zrm;

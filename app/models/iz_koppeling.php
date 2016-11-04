@@ -124,7 +124,7 @@ class IzKoppeling extends AppModel
             'IzDeelnemer',
         );
 
-        $today=date('Y-m-d');
+        $today = date('Y-m-d');
 
         $conditions = array(
             'IzDeelnemer.model' => $model,
@@ -133,7 +133,7 @@ class IzKoppeling extends AppModel
             array(
                'OR' => array(
                     'IzKoppeling.einddatum' => null,
-                    'IzKoppeling.einddatum >=' =>  $today,
+                    'IzKoppeling.einddatum >=' => $today,
                 ),
             ),
             array(
@@ -154,13 +154,13 @@ class IzKoppeling extends AppModel
         }
 
         $projects = array();
-        
+
         foreach ($project_ids as $p_id) {
             $projects[$p_id] = array();
         }
-        
+
         foreach ($all as $a) {
-            $projects[$a['IzKoppeling']['project_id']][$a['IzKoppeling']['id']]=$a[$model]['name'];
+            $projects[$a['IzKoppeling']['project_id']][$a['IzKoppeling']['id']] = $a[$model]['name'];
         }
 
         return $projects;

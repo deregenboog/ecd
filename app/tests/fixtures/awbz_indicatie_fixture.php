@@ -1,4 +1,5 @@
 <?php
+
 /* AwbzIndicatie Fixture generated on: 2011-04-19 15:04:50 : 1303221050 */
 class AwbzIndicatieFixture extends CakeTestFixture
 {
@@ -16,7 +17,7 @@ class AwbzIndicatieFixture extends CakeTestFixture
             'created' => '2011-04-14 10:41:32',
             'modified' => '2011-04-14 11:09:06',
             'aangevraagd_id' => null,
-            'hoofdaannemer_id' => 7
+            'hoofdaannemer_id' => 7,
         ),
         array(
             'id' => 2,
@@ -28,7 +29,7 @@ class AwbzIndicatieFixture extends CakeTestFixture
             'created' => '2011-04-14 10:45:32',
             'modified' => '2011-04-14 10:45:32',
             'aangevraagd_id' => null,
-            'hoofdaannemer_id' => 4
+            'hoofdaannemer_id' => 4,
         ),
     );
 }

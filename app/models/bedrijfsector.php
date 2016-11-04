@@ -25,7 +25,7 @@ class bedrijfsector extends AppModel
     {
         $list = $this->find('list');
         $nestedList = array();
-        
+
         foreach ($list as $key => $value) {
             $nestedList[$key] = $this->Bedrijfitem->find('list', array(
                 'conditions' => array(
@@ -33,7 +33,7 @@ class bedrijfsector extends AppModel
                 ),
             ));
         }
-        
+
         return $nestedList;
     }
 }

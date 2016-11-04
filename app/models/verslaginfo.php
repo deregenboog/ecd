@@ -3,9 +3,9 @@
 class verslaginfo extends AppModel
 {
     public $name = 'Verslaginfo';
-    
+
     public $displayField = 'klant_id';
-    
+
     public $validate = array(
         'klant_id' => array(
             'numeric' => array(

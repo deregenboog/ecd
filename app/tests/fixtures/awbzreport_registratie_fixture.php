@@ -1,4 +1,5 @@
 <?php
+
 /* Registratie Fixture generated on: 2011-04-22 14:04:36 : 1303474896 */
 class AwbzReportRegistratieFixture extends CakeTestFixture
 {
@@ -19,7 +20,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
         'mw' => array('type' => 'integer', 'null' => false, 'default' => null),
         'gbrv' => array('type' => 'integer', 'null' => false, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -36,7 +37,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 132,
@@ -51,7 +52,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 133,
@@ -66,7 +67,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 134,
@@ -81,7 +82,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 135,
@@ -96,7 +97,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 136,
@@ -111,7 +112,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 137,
@@ -126,7 +127,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 138,
@@ -141,7 +142,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 139,
@@ -156,7 +157,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 140,
@@ -171,7 +172,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 141,
@@ -186,7 +187,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 142,
@@ -201,7 +202,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 143,
@@ -216,7 +217,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 144,
@@ -231,7 +232,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
         array(
             'id' => 145,
@@ -246,7 +247,7 @@ class AwbzReportRegistratieFixture extends CakeTestFixture
             'created' => null,
             'modified' => null,
             'mw' => 0,
-            'gbrv' => 0
+            'gbrv' => 0,
         ),
     );
 }

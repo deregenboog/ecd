@@ -23,7 +23,7 @@ class IzVraagaanbodenController extends AppController
     {
         if (!empty($this->data)) {
             $this->IzVraagaanbod->create();
-            
+
             if ($this->IzVraagaanbod->save($this->data)) {
                 $this->Session->setFlash(__('The iz vraagaanbod has been saved', true));
                 $this->redirect(array('action' => 'index'));
@@ -39,7 +39,7 @@ class IzVraagaanbodenController extends AppController
             $this->Session->setFlash(__('Invalid iz vraagaanbod', true));
             $this->redirect(array('action' => 'index'));
         }
-        
+
         if (!empty($this->data)) {
             if ($this->IzVraagaanbod->save($this->data)) {
                 $this->Session->setFlash(__('The iz vraagaanbod has been saved', true));
@@ -48,7 +48,7 @@ class IzVraagaanbodenController extends AppController
                 $this->Session->setFlash(__('The iz vraagaanbod could not be saved. Please, try again.', true));
             }
         }
-        
+
         if (empty($this->data)) {
             $this->data = $this->IzVraagaanbod->read(null, $id);
         }
@@ -58,14 +58,14 @@ class IzVraagaanbodenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz vraagaanbod', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         if ($this->IzVraagaanbod->delete($id)) {
             $this->Session->setFlash(__('Iz vraagaanbod deleted', true));
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        
+
         $this->Session->setFlash(__('Iz vraagaanbod was not deleted', true));
         $this->redirect(array('action' => 'index'));
     }

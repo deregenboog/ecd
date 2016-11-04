@@ -21,8 +21,8 @@ class medewerker extends AppModel
     );
 
     public $order = array(
-            "voornaam ASC",
-            "achternaam ASC",
+            'voornaam ASC',
+            'achternaam ASC',
     );
 
     public $hasMany = array();
@@ -37,7 +37,7 @@ class medewerker extends AppModel
     public function __construct($id = false, $table = null, $ds = null)
     {
         parent::__construct($id, $table, $ds);
-        $this->virtualFields['name'] = "CONCAT_WS(' ', `".$this->alias."`.`voornaam`, `";
+        $this->virtualFields['name'] = "CONCAT_WS(' ', `".$this->alias.'`.`voornaam`, `';
         $this->virtualFields['name'] .= $this->alias."`.`tussenvoegsel`, `$this->alias`.`achternaam`)";
     }
 
@@ -61,7 +61,7 @@ class medewerker extends AppModel
         if (isset($ldapData['uidnumber'])) {
             $user['uidnumber'] = $ldapData['uidnumber'];
         }
-        
+
         $user['username'] = $username;
         $user['voornaam'] = $ldapData['givenname'];
         $user['achternaam'] = $ldapData['sn'];
@@ -74,7 +74,7 @@ class medewerker extends AppModel
             ),
             'limit' => 1,
         ));
-        
+
         if (!$exists) {
             $user['eerste_bezoek'] = date('Y-m-d H:i:s');
         } else {
@@ -85,6 +85,7 @@ class medewerker extends AppModel
         $this->save($medewerker);
 
         $user_id = $this->id;
+
         return $user_id;
     }
 
@@ -92,10 +93,10 @@ class medewerker extends AppModel
     {
         $cacheKey = 'Medewerker_listByLdapGroup_'.$group;
         $users = Cache::read($cacheKey, 'ldap');
-        
-        if (! $users) {
+
+        if (!$users) {
             $ldapUsers = $this->LdapUser->findAll('cn', $group);
-            
+
             $userNames = array_values(
                 Set::flatten(
                     Set::classicExtract($ldapUsers, '{n}.LdapUser.memberuid')
@@ -109,16 +110,16 @@ class medewerker extends AppModel
             ));
             Cache::write($cacheKey, $users, 'ldap');
         }
+
         return $users;
     }
-    
 
     public function getActiveUsers()
     {
         $cacheKey = 'Medewerker_UsersAll';
-        
+
         $users = Cache::read($cacheKey, 'ldap');
-        if (! $users) {
+        if (!$users) {
             $ldapUsers = $this->LdapUser->findAll('loginshell', '/bin/bash');
 
             $users = array_values(
@@ -126,19 +127,20 @@ class medewerker extends AppModel
                     Set::classicExtract($ldapUsers, '{n}.LdapUser.uid')
                 )
             );
-            
+
             Cache::write($cacheKey, $users, 'ldap');
         }
+
         return $users;
     }
 
     private function cacheKey($ids)
     {
-        $cstr = "";
+        $cstr = '';
         if (!empty($ids)) {
             if (is_array($ids)) {
                 foreach ($ids as $id) {
-                    $cstr+=$id;
+                    $cstr += $id;
                 }
             } else {
                 $cstr = $ids;
@@ -158,7 +160,7 @@ class medewerker extends AppModel
         $users = Cache::read($cacheKey, 'ldap');
         //$users = null; // ignore cache
 
-        if (! $users) {
+        if (!$users) {
             $ldapUsers = $this->LdapUser->findAll('gidnumber', $group_ids);
             $users = array_values(
                     Set::flatten(
@@ -177,7 +179,7 @@ class medewerker extends AppModel
         $cacheKey = 'Medewerker_getMedewerkers'.$this->cacheKey($group_ids).$this->cacheKey($medewerker_ids);
         $medewerkers = Cache::read($cacheKey, 'ldap');
 
-        if (! empty($medewerkes)) {
+        if (!empty($medewerkes)) {
             return $medewerkers;
         }
 
@@ -218,7 +220,7 @@ class medewerker extends AppModel
 
         return $medewerkers;
     }
-    
+
     public function uit_dienst()
     {
         $medewerkers = $this->find('all', array(
@@ -226,27 +228,27 @@ class medewerker extends AppModel
                 'contain' => array(),
         ));
 
-        $ldap_users =  $this->getActiveUsers();
-        
-        if (! $ldap_users) {
+        $ldap_users = $this->getActiveUsers();
+
+        if (!$ldap_users) {
             return false;
         }
 
-        $new=array();
+        $new = array();
 
         foreach ($medewerkers as $key => $medewerker) {
             $medewerkers[$key]['Medewerker']['active'] = false;
             $username = $medewerkers[$key]['Medewerker']['username'];
-            
+
             if (in_array($username, $ldap_users)) {
                 $medewerkers[$key]['Medewerker']['active'] = true;
             }
         }
-        
+
         if ($this->saveAll($medewerkers)) {
             return $medewerkers;
         }
-        
+
         return false;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* SchorsingenReden Fixture generated on: 2011-03-18 11:03:45 : 1300444905 */
 class SchorsingenRedenFixture extends CakeTestFixture
 {
@@ -12,7 +13,7 @@ class SchorsingenRedenFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -21,7 +22,7 @@ class SchorsingenRedenFixture extends CakeTestFixture
             'schorsing_id' => 1,
             'reden_id' => 1,
             'created' => '2011-03-18 11:41:45',
-            'modified' => '2011-03-18 11:41:45'
+            'modified' => '2011-03-18 11:41:45',
         ),
     );
 }
