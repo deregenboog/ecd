@@ -2,7 +2,10 @@
 
 class IzKoppeling extends AppModel
 {
-	public $name = 'IzKoppeling';
+// 	public $name = 'IzKoppeling';
+
+	var $useTable = 'iz_koppelingen';
+
 	public $displayField = 'iz_deelnemer_id';
 
 	public $actsAs = array('Containable');
@@ -154,11 +157,11 @@ class IzKoppeling extends AppModel
 		}
 
 		$projects = array();
-		
+
 		foreach ($project_ids as $p_id) {
 			$projects[$p_id] = array();
 		}
-		
+
 		foreach ($all as $a) {
             $projects[$a['IzKoppeling']['project_id']][$a['IzKoppeling']['id']] = $a[$model]['name'];
 		}
