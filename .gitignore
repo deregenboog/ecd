@@ -2,6 +2,17 @@
 /app/tmp
 /archive
 
+# Composer-related files
+/vendor/*
+
+# Docker-related files
+/Dockerfile
+/docker-compose.yml
+/docker-entrypoint-initdb.d/*
+/.data/*
+/start.sh
+/stop.sh
+
 # Eclipse project files
 /.settings/*
 /.project
