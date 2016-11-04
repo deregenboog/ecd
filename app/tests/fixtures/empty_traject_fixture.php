@@ -1,7 +1,8 @@
 <?php 
-class EmptyTrajectFixture extends CakeTestFixture {
-var $name = 'Traject';
+class EmptyTrajectFixture extends CakeTestFixture
+{
+    public $name = 'Traject';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

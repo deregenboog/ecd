@@ -1,17 +1,19 @@
 <?php
 /**
- * LdapSource
+ * LdapSource.
+ *
  * @author euphrate_ylb
  * @date 07/2007
+ *
  * @license http://blog.fbollon.net DWYWWI (Do whatever you want with it)
  */
 
- // We don't use it at all in this project, it is commited as a reference in
- // case we need it in the future.
+// We don't use it at all in this project, it is commited as a reference in
+// case we need it in the future.
 
 class LdapSource extends DataSource
 {
-    public $description = "Ldap Data Source";
+    public $description = 'Ldap Data Source';
 
     public $_baseConfig = array(
         'host' => 'localhost',
@@ -21,19 +23,19 @@ class LdapSource extends DataSource
 
     // Lifecycle --------------------------------------------------------------
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct($config = null)
     {
         $this->debug = Configure :: read() > 0;
         $this->fullDebug = Configure :: read() > 1;
         parent :: __construct($config);
+
         return $this->connect();
     }
 
     /**
      * Destructor. Closes connection to the database.
-     *
      */
     public function __destruct()
     {
@@ -59,7 +61,6 @@ class LdapSource extends DataSource
     /**
      * Disconnects database, kills the connection and says the connection is closed,
      * and if DEBUG is turned on, the log for this object is shown.
-     *
      */
     public function close()
     {
@@ -71,15 +72,16 @@ class LdapSource extends DataSource
 
     public function disconnect()
     {
-        @ ldap_free_result($this->results);
-        $this->connected = !@ ldap_unbind($this->connection);
+        @ldap_free_result($this->results);
+        $this->connected = !@ldap_unbind($this->connection);
+
         return !$this->connected;
     }
 
     /**
-     * Checks if it's connected to the database
+     * Checks if it's connected to the database.
      *
-     * @return boolean True if the database is connected, else false
+     * @return bool True if the database is connected, else false
      */
     public function isConnected()
     {
@@ -87,10 +89,11 @@ class LdapSource extends DataSource
     }
 
     /**
-     * Reconnects to database server with optional new settings
+     * Reconnects to database server with optional new settings.
      *
      * @param array $config An array defining the new configuration settings
-     * @return boolean True on success, false on failure
+     *
+     * @return bool True on success, false on failure
      */
     public function reconnect($config = null)
     {
@@ -98,19 +101,21 @@ class LdapSource extends DataSource
         if ($config != null) {
             $this->config = am($this->_baseConfig, $this->config, $config);
         }
+
         return $this->connect();
     }
 
     // CRUD --------------------------------------------------------------
     /**
-     * The "R" in CRUD
+     * The "R" in CRUD.
      *
      * @param Model $model
      * @param array $queryData
-     * @param integer $recursive Number of levels of association
+     * @param int   $recursive Number of levels of association
+     *
      * @return unknown
      */
-    public function read(& $model, $queryData = array(), $recursive = null)
+    public function read(&$model, $queryData = array(), $recursive = null)
     {
         $this->__scrubQueryData($queryData);
 
@@ -131,7 +136,7 @@ class LdapSource extends DataSource
         foreach ($model->__associations as $type) {
             foreach ($model->{$type} as $assoc => $assocData) {
                 if ($model->recursive > -1) {
-                    $linkModel = & $model->{$assoc};
+                    $linkModel = &$model->{$assoc};
                     $linkedModels[] = $type.'/'.$assoc;
                 }
             }
@@ -139,7 +144,7 @@ class LdapSource extends DataSource
 
         // Execute search query ------------------------
         $res = $this->_executeQuery($queryData);
-        if ($this->lastNumRows()==0) {
+        if ($this->lastNumRows() == 0) {
             return false;
         }
 
@@ -153,12 +158,12 @@ class LdapSource extends DataSource
             foreach ($model->__associations as $type) {
                 foreach ($model->{$type} as $assoc => $assocData) {
                     $db = null;
-                    $linkModel = & $model->{$assoc};
+                    $linkModel = &$model->{$assoc};
 
                     if ($model->useDbConfig == $linkModel->useDbConfig) {
-                        $db = & $this;
+                        $db = &$this;
                     } else {
-                        $db = & ConnectionManager :: getDataSource($linkModel->useDbConfig);
+                        $db = &ConnectionManager :: getDataSource($linkModel->useDbConfig);
                     }
 
                     if (isset($db) && $db != null) {
@@ -179,12 +184,12 @@ class LdapSource extends DataSource
     }
 
     // Public --------------------------------------------------------------
-    public function generateAssociationQuery(& $model, & $linkModel, $type, $association = null, $assocData = array(), & $queryData, $external = false, & $resultSet)
+    public function generateAssociationQuery(&$model, &$linkModel, $type, $association, $assocData, &$queryData, $external, &$resultSet)
     {
         $this->__scrubQueryData($queryData);
 
         switch ($type) {
-            case 'hasOne' :
+            case 'hasOne':
                 $id = $resultSet[$model->name][$model->primaryKey];
                 $queryData['conditions'] = trim($assocData['foreignKey']).'='.trim($id);
                 $queryData['targetDn'] = $linkModel->useTable;
@@ -193,7 +198,7 @@ class LdapSource extends DataSource
 
                 return $queryData;
 
-            case 'belongsTo' :
+            case 'belongsTo':
                 $id = $resultSet[$model->name][$assocData['foreignKey']];
                 $queryData['conditions'] = trim($linkModel->primaryKey).'='.trim($id);
                 $queryData['targetDn'] = $linkModel->useTable;
@@ -202,7 +207,7 @@ class LdapSource extends DataSource
 
                 return $queryData;
 
-            case 'hasMany' :
+            case 'hasMany':
                 $id = $resultSet[$model->name][$model->primaryKey];
                 $queryData['conditions'] = trim($assocData['foreignKey']).'='.trim($id);
                 $queryData['targetDn'] = $linkModel->useTable;
@@ -211,13 +216,14 @@ class LdapSource extends DataSource
 
                 return $queryData;
 
-            case 'hasAndBelongsToMany' :
+            case 'hasAndBelongsToMany':
                 return null;
         }
+
         return null;
     }
 
-    public function queryAssociation(& $model, & $linkModel, $type, $association, $assocData, & $queryData, $external = false, & $resultSet, $recursive, $stack)
+    public function queryAssociation(&$model, &$linkModel, $type, $association, $assocData, &$queryData, $external, &$resultSet, $recursive, $stack)
     {
         if (!isset($resultSet) || !is_array($resultSet)) {
             if (Configure :: read() > 0) {
@@ -227,12 +233,13 @@ class LdapSource extends DataSource
                 }
                 e('</div>');
             }
+
             return null;
         }
 
         $count = count($resultSet);
-        for ($i = 0; $i < $count; $i++) {
-            $row = & $resultSet[$i];
+        for ($i = 0; $i < $count; ++$i) {
+            $row = &$resultSet[$i];
             $queryData = $this->generateAssociationQuery($model, $linkModel, $type, $association, $assocData, $queryData, $external, $row);
             $fetch = $this->_executeQuery($queryData);
             $fetch = ldap_get_entries($this->connection, $fetch);
@@ -242,17 +249,17 @@ class LdapSource extends DataSource
                 if ($recursive > 0) {
                     foreach ($linkModel->__associations as $type1) {
                         foreach ($linkModel->{$type1 } as $assoc1 => $assocData1) {
-                            $deepModel = & $linkModel->{$assocData1['className']};
+                            $deepModel = &$linkModel->{$assocData1['className']};
                             if ($deepModel->alias != $model->name) {
                                 $tmpStack = $stack;
                                 $tmpStack[] = $assoc1;
                                 if ($linkModel->useDbConfig == $deepModel->useDbConfig) {
-                                    $db = & $this;
+                                    $db = &$this;
                                 } else {
-                                    $db = & ConnectionManager :: getDataSource($deepModel->useDbConfig);
+                                    $db = &ConnectionManager :: getDataSource($deepModel->useDbConfig);
                                 }
                                 $queryData = array();
-                                $db->queryAssociation($linkModel, $deepModel, $type1, $assoc1, $assocData1, $queryData, true, $fetch, $recursive -1, $tmpStack);
+                                $db->queryAssociation($linkModel, $deepModel, $type1, $assoc1, $assocData1, $queryData, true, $fetch, $recursive - 1, $tmpStack);
                             }
                         }
                     }
@@ -275,6 +282,7 @@ class LdapSource extends DataSource
         if (ldap_errno($this->connection)) {
             return ldap_errno($this->connection).': '.ldap_error($this->connection);
         }
+
         return null;
     }
 
@@ -287,41 +295,44 @@ class LdapSource extends DataSource
     public function lastNumRows()
     {
         if ($this->_result and is_resource($this->_result)) {
-            return @ ldap_count_entries($this->connection, $this->_result);
+            return @ldap_count_entries($this->connection, $this->_result);
         }
+
         return null;
     }
 
     // Usefull public (static) functions--------------------------------------------
     /**
-     * Convert Active Directory timestamps to unix ones
+     * Convert Active Directory timestamps to unix ones.
      *
-     * @param integer $ad_timestamp Active directory timestamp
-     * @return integer Unix timestamp
+     * @param int $ad_timestamp Active directory timestamp
+     *
+     * @return int Unix timestamp
      */
     public function convertTimestamp_ADToUnix($ad_timestamp)
     {
         $epoch_diff = 11644473600; // difference 1601<>1970 in seconds. see reference URL
         $date_timestamp = $ad_timestamp * 0.0000001;
         $unix_timestamp = $date_timestamp - $epoch_diff;
+
         return $unix_timestamp;
     }// convertTimestamp_ADToUnix
 
     // Wont be implemeneted -----------------------------------------------------
     /**
-     * Function required but not really implemented
+     * Function required but not really implemented.
      */
-     public function describe(&$model)
-     {
-         $fields[] = array('name' => '--NotYetImplemented--',
+    public function describe(&$model)
+    {
+        $fields[] = array('name' => '--NotYetImplemented--',
                         'type' => '--NotYetImplemented--',
                         'null' => '--NotYetImplemented--', );
 
-         return $fields;
-     }
+        return $fields;
+    }
 
     /**
-     * Function not supported
+     * Function not supported.
      */
     public function execute($query)
     {
@@ -329,7 +340,7 @@ class LdapSource extends DataSource
     }
 
     /**
-     * Function not supported
+     * Function not supported.
      */
     public function fetchAll($query, $cache = true)
     {
@@ -345,7 +356,7 @@ class LdapSource extends DataSource
      */
     public function logQuery($query)
     {
-        $this->_queriesCnt++;
+        ++$this->_queriesCnt;
         $this->_queriesTime += $this->took;
         $this->_queriesLog[] = array(
             'query' => $query,
@@ -365,7 +376,7 @@ class LdapSource extends DataSource
     /**
      * Outputs the contents of the queries log.
      *
-     * @param boolean $sorted
+     * @param bool $sorted
      */
     public function showLog($sorted = false)
     {
@@ -382,16 +393,16 @@ class LdapSource extends DataSource
         }
 
         if (php_sapi_name() != 'cli') {
-            print("<table id=\"cakeSqlLog\" cellspacing=\"0\" border = \"0\">\n<caption>{$this->_queriesCnt} {$text} took {$this->_queriesTime} ms</caption>\n");
-            print("<thead>\n<tr><th>Nr</th><th>Query</th><th>Error</th><th>Affected</th><th>Num. rows</th><th>Took (ms)</th></tr>\n</thead>\n<tbody>\n");
+            echo "<table id=\"cakeSqlLog\" cellspacing=\"0\" border = \"0\">\n<caption>{$this->_queriesCnt} {$text} took {$this->_queriesTime} ms</caption>\n";
+            echo "<thead>\n<tr><th>Nr</th><th>Query</th><th>Error</th><th>Affected</th><th>Num. rows</th><th>Took (ms)</th></tr>\n</thead>\n<tbody>\n";
 
             foreach ($log as $k => $i) {
-                print("<tr><td>".($k +1)."</td><td>{$i['query']}</td><td>{$i['error']}</td><td style = \"text-align: right\">{$i['affected']}</td><td style = \"text-align: right\">{$i['numRows']}</td><td style = \"text-align: right\">{$i['took']}</td></tr>\n");
+                echo '<tr><td>'.($k + 1)."</td><td>{$i['query']}</td><td>{$i['error']}</td><td style = \"text-align: right\">{$i['affected']}</td><td style = \"text-align: right\">{$i['numRows']}</td><td style = \"text-align: right\">{$i['took']}</td></tr>\n";
             }
-            print("</table>\n");
+            echo "</table>\n";
         } else {
             foreach ($log as $k => $i) {
-                print(($k +1).". {$i['query']} {$i['error']}\n");
+                echo($k + 1).". {$i['query']} {$i['error']}\n";
             }
         }
     }
@@ -400,7 +411,7 @@ class LdapSource extends DataSource
      * Output information about a LDAP query. The query, number of rows in resultset,
      * and execution time in microseconds. If the query fails, an error is output instead.
      *
-     * @param string $query Query to show information on.
+     * @param string $query Query to show information on
      */
     public function showQuery($query)
     {
@@ -410,11 +421,11 @@ class LdapSource extends DataSource
         }
 
         if ($this->debug || $error) {
-            print("<p style = \"text-align:left\"><b>Query:</b> {$query} <small>[Aff:{$this->affected} Num:{$this->numRows} Took:{$this->took}ms]</small>");
+            echo "<p style = \"text-align:left\"><b>Query:</b> {$query} <small>[Aff:{$this->affected} Num:{$this->numRows} Took:{$this->took}ms]</small>";
             if ($error) {
-                print("<br /><span style = \"color:Red;text-align:left\"><b>ERROR:</b> {$this->error}</span>");
+                echo "<br /><span style = \"color:Red;text-align:left\"><b>ERROR:</b> {$this->error}</span>";
             }
-            print('</p>');
+            echo '</p>';
         }
     }
 
@@ -427,7 +438,7 @@ class LdapSource extends DataSource
         if (is_array($conditions)) {
             // Conditions expressed as an array
             if (empty($conditions)) {
-                $conditions = array('equals'=>array($key => null));
+                $conditions = array('equals' => array($key => null));
             }
 
             $res = $this->__conditionsArrayToString($conditions);
@@ -437,21 +448,23 @@ class LdapSource extends DataSource
                 $conditions = $key.'='.trim($conditions);
             }
 
-            $res = str_replace(array("$name.$key", " = "), array($key, "="), $conditions);
+            $res = str_replace(array("$name.$key", ' = '), array($key, '='), $conditions);
         }
+
         return $res;
     }
     /**
-     * Convert an array into a ldap condition string
+     * Convert an array into a ldap condition string.
      *
      * @param array $conditions condition
+     *
      * @return string
      */
     public function __conditionsArrayToString($conditions)
     {
-        $ops_rec = array( 'and' => array('prefix'=>'&'), 'or' => array('prefix'=>'|'));
-        $ops_neg = array( 'and not' => array(), 'or not' => array(), 'not equals' => array());
-        $ops_ter = array( 'equals' => array('null'=>'*'));
+        $ops_rec = array('and' => array('prefix' => '&'), 'or' => array('prefix' => '|'));
+        $ops_neg = array('and not' => array(), 'or not' => array(), 'not equals' => array());
+        $ops_ter = array('equals' => array('null' => '*'));
 
         $ops = array_merge($ops_rec, $ops_neg, $ops_ter);
 
@@ -475,6 +488,7 @@ class LdapSource extends DataSource
                     $child = array($key => $value);
                     $tmp .= $this->__conditionsArrayToString($child);
                 }
+
                 return $tmp.')';
             } elseif (in_array($operand, array_keys($ops_neg))) {
                 if (!is_array($children)) {
@@ -488,13 +502,14 @@ class LdapSource extends DataSource
                 $tmp = '';
                 foreach ($children as $key => $value) {
                     if (!is_array($value)) {
-                        $tmp .= '('.$key.'='.((is_null($value))?$ops_ter['equals']['null']:$value).')';
+                        $tmp .= '('.$key.'='.((is_null($value)) ? $ops_ter['equals']['null'] : $value).')';
                     } else {
                         foreach ($value as $subvalue) {
                             $tmp .= $this->__conditionsArrayToString(array('equals' => array($key => $subvalue)));
                         }
                     }
                 }
+
                 return $tmp;
             }
         }
@@ -512,7 +527,7 @@ class LdapSource extends DataSource
             switch ($queryData['type']) {
                 case 'search':
                     // TODO pb ldap_search & $queryData['limit']
-                    if ($res = @ ldap_search($this->connection, $queryData['targetDn'].','.$this->config['basedn'],
+                    if ($res = @ldap_search($this->connection, $queryData['targetDn'].','.$this->config['basedn'],
                             $queryData['conditions'], $queryData['fields'], 0, $queryData['limit'])) {
                         if ($cache) {
                             if (strpos(trim(strtolower($query)), $queryData['type']) !== false) {
@@ -524,7 +539,7 @@ class LdapSource extends DataSource
                     }
                     break;
                 case 'delete':
-                    $res = @ ldap_delete($this->connection, $queryData['targetDn'].','.$this->config['basedn']);
+                    $res = @ldap_delete($this->connection, $queryData['targetDn'].','.$this->config['basedn']);
                     break;
                 default:
                     $res = false;
@@ -575,7 +590,7 @@ class LdapSource extends DataSource
         return $queryData['type'].$tmp;
     }
 
-    public function _ldapFormat(& $model, $data)
+    public function _ldapFormat(&$model, $data)
     {
         $res = array();
         foreach ($data as $key => $row) {
@@ -599,20 +614,21 @@ class LdapSource extends DataSource
                 }
             }
         }
+
         return $res;
     }
 
     public function _ldapQuote($str)
     {
         return str_replace(
-                array( '\\', ' ', '*', '(', ')' ),
-                array( '\\5c', '\\20', '\\2a', '\\28', '\\29' ),
+                array('\\', ' ', '*', '(', ')'),
+                array('\\5c', '\\20', '\\2a', '\\28', '\\29'),
                 $str
         );
     }
 
     // __ -----------------------------------------------------
-    public function __mergeAssociation(& $data, $merge, $association, $type)
+    public function __mergeAssociation(&$data, $merge, $association, $type)
     {
         if (isset($merge[0]) && !isset($merge[0][$association])) {
             $association = Inflector :: pluralize($association);
@@ -661,7 +677,7 @@ class LdapSource extends DataSource
      *
      * @param array $data
      */
-    public function __scrubQueryData(& $data)
+    public function __scrubQueryData(&$data)
     {
         if (!isset($data['type'])) {
             $data['type'] = 'default';
@@ -688,4 +704,3 @@ class LdapSource extends DataSource
         }
     }
 } // LdapSource
-;

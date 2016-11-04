@@ -40,19 +40,20 @@ class AppModel extends Model
         return null;
     }
 
-    function check_diff_multi($array1, $array2){
-    	$result = array();
-    	foreach($array1 as $key => $val) {
-    		if(isset($array2[$key])){
-    			if(is_array($val)  && is_array($array2[$key])){
-    				$result[$key] = check_diff_multi($val, $array2[$key]);
-    			}
-    		} else {
-    			$result[$key] = $val;
-    		}
-    	}
+    public function check_diff_multi($array1, $array2)
+    {
+        $result = array();
+        foreach ($array1 as $key => $val) {
+            if (isset($array2[$key])) {
+                if (is_array($val)  && is_array($array2[$key])) {
+                    $result[$key] = check_diff_multi($val, $array2[$key]);
+                }
+            } else {
+                $result[$key] = $val;
+            }
+        }
     
-    	return $result;
+        return $result;
     }
     public function has_this_data_changed($current, $original)
     {
@@ -76,7 +77,7 @@ class AppModel extends Model
     /**
      * getDummy Get an empty data array for this model, reflecting the schema
      * and the virtual fields. Cached.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -100,15 +101,14 @@ class AppModel extends Model
 
     /**
      * getById Retrieve a model data, normally from registry or cache, where it's kept.
-     * 
-     * @param mixed $id 
-     * @param boolean $fromCache 
+     *
+     * @param mixed $id
+     * @param boolean $fromCache
      * @access public
      * @return Array with CakePHP model data.
      */
     public function getById($id, $fromCache = true)
     {
-
         if ($this->debug_caching) {
             $this->log('getById '.$id, 'as_'.$this->name);
         }
@@ -148,8 +148,8 @@ class AppModel extends Model
 
     /**
      * getAllById Retrieve all related objects recursively. A parameter $contain can be passed to determine until what depth (and for what children models) this recursion will happen. Otherwise, the first level of relatives is retrieved.
-     * 
-     * @param UUID $id 
+     *
+     * @param UUID $id
      * @param Array $contain Model relationship tree, to specify the recursiveness depth.
      * @param boolean $emptyIfNotFound When used recursively, we make this true so that if some object is not found, a empty array is returned instead of false, emulating Cake's behavior when building up complex objects.
 
@@ -165,11 +165,11 @@ class AppModel extends Model
         if ($hit) {
             $result[$this->alias] = $hit;
         } else {
-           if ($emptyIfNotFound) {
-               return array($this->alias => $this->getDummy());
-           } else {
-               return false;
-           }
+            if ($emptyIfNotFound) {
+                return array($this->alias => $this->getDummy());
+            } else {
+                return false;
+            }
         }
         if (!empty($contain) || is_null($contain)) {
             $relations = $this->getRelatedToId($id, $fromCache);
@@ -227,9 +227,9 @@ class AppModel extends Model
 
     /**
      * completeAllPaginated Complete paginated results retrieved with recursive = -1 with data from the cache.
-     * 
-     * @param mixed $paginated 
-     * @param mixed $contain 
+     *
+     * @param mixed $paginated
+     * @param mixed $contain
      * @access public
      * @return void
      */
@@ -253,8 +253,8 @@ class AppModel extends Model
      * refreshCachedBelongsToRelations Updated the cached relations by
      * refreshing the belongsTo, the only ones that can change when saving THIS
      * object. Also clean the relations cache of the parents that have changed. and only those. We use deleteRelationsCacheAndParentsRelationsCache() to delete all parents without discrimination.
-     * 
-     * @param mixed $id 
+     *
+     * @param mixed $id
      * @access public
      * @return void
      */
@@ -308,12 +308,12 @@ class AppModel extends Model
 
     /**
  * findParentsOfId Retrieves an array of parent objects to which the specified object belongsTo.
-     * 
-     * @param mixed $id 
+     *
+     * @param mixed $id
      * @access public
      * @return void
      */
-    public function findParentsOfId ($id)
+    public function findParentsOfId($id)
     {
         if (empty($id)) {
             debug('empty ID');
@@ -442,8 +442,8 @@ class AppModel extends Model
 
     /**
      * clearCache A function to clear the cache of one object, on demand.
-     * 
-     * @param mixed $created 
+     *
+     * @param mixed $created
      * @access public
      * @return void
      */
@@ -510,10 +510,10 @@ class AppModel extends Model
 
     /**
      * getComputedPropertyById Parallel to the propeties registry for data in the database, we have another one for computed properties. These are the getter and setter:
-     * 
-     * @param UUID $id 
-     * @param string $property 
-     * @param Boolean $fromCache 
+     *
+     * @param UUID $id
+     * @param string $property
+     * @param Boolean $fromCache
      * @access public
      * @return void
      */
@@ -532,11 +532,11 @@ class AppModel extends Model
 
     /**
      * setComputedPropertyById Store a value in an array of properties for a particular object. See getComputedPropertyById().
-     * 
-     * @param UUID $id 
-     * @param string $property 
-     * @param mixed $value 
-     * @param Boolean $fromCache 
+     *
+     * @param UUID $id
+     * @param string $property
+     * @param mixed $value
+     * @param Boolean $fromCache
      * @access public
      * @return void
      */
@@ -586,11 +586,11 @@ class AppModel extends Model
     }
 
     /**
-     * deleteRelationsCacheAndParentsRelationsCache This deletes the relations 
-     * of this object, and also the cached relations of all parents related 
+     * deleteRelationsCacheAndParentsRelationsCache This deletes the relations
+     * of this object, and also the cached relations of all parents related
      * to this.
-     * 
-     * @param mixed $id 
+     *
+     * @param mixed $id
      * @access public
      * @return void
      */
@@ -619,10 +619,267 @@ class AppModel extends Model
 
     /**
      * deleteAll Rewrite the parent's to run the callbacks by default.
-     * 
+     *
      */
     public function deleteAll($conditions, $cascade = true, $callbacks = true)
     {
         return parent::deleteAll($conditions, $cascade, $callbacks);
     }
+}
+
+class Table
+{
+	private $result;
+
+	private $xPath;
+
+	private $yPath;
+
+	private $nPath;
+
+	private $xSort = true;
+
+	private $ySort = true;
+
+	private $xTotals = true;
+
+	private $yTotals = true;
+
+	private $xNullReplacement;
+
+	private $yNullReplacement;
+
+	private $startDate;
+
+	private $endDate;
+
+	private $controller;
+
+	private $action;
+
+	private $report;
+
+	public function __construct(array $result, $xPath, $yPath, $nPath, $report = null)
+	{
+		$this->result = $result;
+		$this->xPath = $xPath;
+		$this->yPath = $yPath;
+		$this->nPath = $nPath;
+		$this->report = $report;
+	}
+
+	public function setStartDate(\DateTime $startDate)
+	{
+		$this->startDate = $startDate;
+
+		return $this;
+	}
+
+	public function setEndDate(\DateTime $endDate)
+	{
+		$this->endDate = $endDate;
+
+		return $this;
+	}
+
+	public function setXTotals($xTotals)
+	{
+		$this->xTotals = $xTotals;
+
+		return $this;
+	}
+
+	public function setYTotals($yTotals)
+	{
+		$this->yTotals = $yTotals;
+
+		return $this;
+	}
+
+	public function setXSort($xSort)
+	{
+		$this->xSort = $xSort;
+
+		return $this;
+	}
+
+	public function setYSort($ySort)
+	{
+		$this->ySort = $ySort;
+
+		return $this;
+	}
+
+	public function setXNullReplacement($xNullReplacement)
+	{
+		$this->xNullReplacement = $xNullReplacement;
+
+		return $this;
+	}
+
+	public function setYNullReplacement($yNullReplacement)
+	{
+		$this->yNullReplacement = $yNullReplacement;
+
+		return $this;
+	}
+
+	public function setController($controller)
+	{
+		$this->controller = $controller;
+
+		return $this;
+	}
+
+	public function setAction($action)
+	{
+		$this->action = $action;
+
+		return $this;
+	}
+
+	public function render()
+	{
+		list($xValues, $yValues) = $this->getAxisLabels();
+
+		$data = $this->initializePivotStructure(
+			$xValues,
+			$yValues,
+			$this->xTotals,
+			$this->yTotals
+		);
+
+		foreach ($this->result as $row) {
+			if (empty($xValues) && empty($yValues)) {
+				if ($this->xTotals && $this->yTotals) {
+					$data['Totaal']['Totaal'] = Set::classicExtract(current($this->result), $this->nPath);
+				}
+			} elseif (empty($yValues)) {
+				foreach ($xValues as $xValue) {
+					if (Set::classicExtract($row, $this->xPath) === $xValue) {
+						$aantal = Set::classicExtract($row, $this->nPath);
+						if ($this->yTotals) {
+							$data['Totaal'][$xValue] += $aantal;
+						}
+						if ($this->xTotals && $this->yTotals) {
+							$data['Totaal']['Totaal'] += $aantal;
+						}
+					}
+				}
+			} else {
+				foreach ($yValues as $yValue) {
+					if (Set::classicExtract($row, $this->yPath) === $yValue) {
+						if (empty($xValues)) {
+							$aantal = Set::classicExtract($row, $this->nPath);
+							if ($this->xTotals) {
+								$data[$yValue]['Totaal'] += $aantal;
+							}
+							if ($this->xTotals && $this->yTotals) {
+								$data['Totaal']['Totaal'] += $aantal;
+							}
+						} else {
+							foreach ($xValues as $xValue) {
+								if (Set::classicExtract($row, $this->xPath) === $xValue) {
+									$aantal = Set::classicExtract($row, $this->nPath);
+									$data[$yValue][$xValue] += $aantal;
+									if ($this->xTotals) {
+										$data[$yValue]['Totaal'] += $aantal;
+									}
+									if ($this->yTotals) {
+										$data['Totaal'][$xValue] += $aantal;
+									}
+									if ($this->xTotals && $this->yTotals) {
+										$data['Totaal']['Totaal'] += $aantal;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if ($this->report) {
+			$data = $this->convertToLinks($data);
+		}
+
+		return $data;
+	}
+
+	protected function convertToLinks(array $data)
+	{
+		App::import('Helper', 'Html');
+		$helper = new HtmlHelper();
+
+		foreach ($data as $x => $row) {
+			foreach ($row as $y => $value) {
+				if (!$x || !$y) {
+					continue;
+				}
+				$url = array(
+					'controller' => $this->controller,
+					'action' => $this->action,
+					'Query.name' => $this->report,
+					'Query.from' => $this->startDate->format('Y-m-d'),
+					'Query.until' => $this->endDate->format('Y-m-d'),
+				);
+				if ($this->xPath && $y !== 'Totaal') {
+					$url[$this->xPath] = $y;
+				}
+				if ($this->yPath && $x !== 'Totaal') {
+					$url[$this->yPath] = $x;
+				}
+				$data[$x][$y] = $helper->link($value, $url);
+			}
+		}
+
+		return $data;
+	}
+
+	protected function getAxisLabels()
+	{
+		$xLabels = array();
+		$yLabels = array();
+		foreach ($this->result as $row) {
+			if ($this->xPath) {
+				$xLabel = Set::classicExtract($row, $this->xPath);
+				$xLabels[$xLabel] = $xLabel;
+			}
+			if ($this->yPath) {
+				$yLabel = Set::classicExtract($row, $this->yPath);
+				$yLabels[$yLabel] = $yLabel;
+			}
+		}
+		if ($this->xSort) {
+			sort($xLabels);
+		}
+		if ($this->ySort) {
+			sort($yLabels);
+		}
+
+		return array($xLabels, $yLabels);
+	}
+
+	protected function initializePivotStructure($xLabels, $yLabels)
+	{
+		$data = array();
+		foreach ($yLabels as $yLabel) {
+			foreach ($xLabels as $xLabel) {
+				$data[$yLabel][$xLabel] = 0;
+			}
+			if ($this->xTotals) {
+				$data[$yLabel]['Totaal'] = 0;
+			}
+		}
+		if ($this->yTotals) {
+			foreach ($xLabels as $xLabel) {
+				$data['Totaal'][$xLabel] = 0;
+			}
+		}
+		if ($this->xTotals && $this->yTotals) {
+			$data['Totaal']['Totaal'] = 0;
+		}
+
+		return $data;
+	}
 }

@@ -1,23 +1,23 @@
 <?php
 
-class Legitimatie extends AppModel
+class legitimatie extends AppModel
 {
-	public $name = 'Legitimatie';
-	public $displayField = 'naam';
+    public $name = 'Legitimatie';
+    public $displayField = 'naam';
 
-	public $hasMany = array(
-		'Intake' => array(
-			'className' => 'Intake',
-			'foreignKey' => 'legitimatie_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => '',
-		),
-	);
+    public $hasMany = array(
+        'Intake' => array(
+            'className' => 'Intake',
+            'foreignKey' => 'legitimatie_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ),
+    );
 }

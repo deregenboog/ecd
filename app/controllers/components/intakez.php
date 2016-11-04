@@ -2,7 +2,7 @@
 
 class IntakezComponent extends Object
 {
-    public $module = null; 
+    public $module = null;
 
     public function initialize(&$controller, $settings = array())
     {
@@ -21,6 +21,7 @@ class IntakezComponent extends Object
     {
         if (!$id) {
             $this->c->flashError(__('Invalid intake', true));
+
             return false;
         }
 
@@ -32,10 +33,9 @@ class IntakezComponent extends Object
         ));
 
         if (empty($intake)) {
-        	
             $this->c->flashError(__('Invalid intake', true));
-            return false;
 
+            return false;
         }
 
         $klant = $this->c->Intake->Klant->read(null, $intake['Klant']['id']);
@@ -48,7 +48,7 @@ class IntakezComponent extends Object
             $dateHelper->show($intake['Intake']['datum_intake']);
 
         $this->c->set(compact('title_for_layout', 'intake', 'klant'));
-        
+
         return true;
     }
 
@@ -58,48 +58,44 @@ class IntakezComponent extends Object
         $this->c->data['Intake']['module'] = $this->module;
 
         if ($this->c->Intake->save($this->c->data)) {
-        	
             $this->sendIntakeNotification(
                 $this->c->Intake->id, $this->c->data);
             $this->c->flash(
                 __('De intake is opgeslagen', true));
 
             return true;
-            
         } else {
-
             $this->c->flashError(
                 __('De intake is niet opgeslagen. Controleer de rood'.
                 ' gemarkeerde invoervelden en probeer opnieuw.', true)
             );
+
             return false;
         }
     }
 
     public function setup_add_view($klant_id)
     {
-
         if ($klant_id == null) {
             $this->c->flashError('Geen klant Id opgegeven');
+
             return false;
         }
         $klant = $this->c->Intake->Klant->read(null, $klant_id);
 
         if (empty($klant)) {
             $this->c->flashError('Geen klant Id opgegeven');
+
             return false;
         }
 
         if (empty($this->c->data)) {
-        	
             $current = $this->populate_intake_data($klant_id);
 
             $datum_intake = date('Y-m-d');
 
             $intaker_id = $this->c->Session->read('Auth.Medewerker.id');
-            
         } else {
-
             $datum_intake = null;
 
             $intaker_id = $this->c->data['Intake']['medewerker_id'];
@@ -107,17 +103,15 @@ class IntakezComponent extends Object
 
         $this->set_form_data();
         $this->c->set(compact('klant', 'intaker_id', 'datum_intake'));
-        
+
         return true;
     }
 
     public function setup_edit_view($id = null)
     {
         if ($this->c->data) {
-
             $intaker_id = $this->c->data['Intake']['medewerker_id'];
         } else {
-
             $this->c->data = $this->c->Intake->find('first', array(
                 'conditions' => array(
                     'Intake.id' => $id,
@@ -127,9 +121,9 @@ class IntakezComponent extends Object
 
             if (empty($this->c->data)) {
                 $this->c->flashError(__('Ongeldige intake', true));
+
                 return false;
             }
-
 
             if (!$this->can_edit()) {
                 return false;
@@ -141,7 +135,7 @@ class IntakezComponent extends Object
 
         $klant = $this->c->Intake->Klant->findById($this->c->data['Intake']['klant_id']);
         $this->c->set(compact('klant', 'intaker_id'));
-        
+
         return true;
     }
 
@@ -180,26 +174,22 @@ class IntakezComponent extends Object
     public function save_edited($id = null)
     {
         if (!empty($this->c->data)) {
-        	
             if ($this->c->Intake->save($this->c->data)) {
-            	
                 $this->sendIntakeNotification($this->c->Intake->id, $this->c->data);
                 $this->c->flash(__('De intake is opgeslagen', true));
-                
+
                 return true;
-                
             } else {
-            	
                 $this->c->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
+
                 return false;
-                
             }
         }
 
         $klant = $this->c->Intake->Klant->findById($this->c->data['Intake']['klant_id']);
-        
+
         $this->c->set(compact('klant', 'intaker_id', 'datum_intake'));
-        
+
         $this->c->render('/intakes/edit');
     }
 
@@ -216,18 +206,21 @@ class IntakezComponent extends Object
                 'You can only edit intakes that have been created today.',
                 true
             ));
+
             return false;
         }
 
     //it's not allowed to edit intakes that somebody else submitted
         $logged_in_user_id = $this->c->Session->read('Auth.Medewerker.id');
-        if ($this->c->data['Intake']['medewerker_id'] !=  $logged_in_user_id) {
+        if ($this->c->data['Intake']['medewerker_id'] != $logged_in_user_id) {
             $this->c->flashError(__(
                 'You can only edit intakes that you created.',
                 true
             ));
+
             return false;
         }
+
         return true;
     }
 
@@ -294,7 +287,7 @@ class IntakezComponent extends Object
             ));
             //sending e-mail
             $this->c->_genericSendEmail(array(
-                'to'=>$addresses,
+                'to' => $addresses,
                 'content' => $intake,
             ));
         }
@@ -331,7 +324,7 @@ class IntakezComponent extends Object
             if (!empty($last_same_type_intake)) {
                 $this->c->data = &$last_same_type_intake;
             } else {
-                $this->c->data = array('Intake'=> array());
+                $this->c->data = array('Intake' => array());
             }
 
             foreach (array('postadres', 'postcode', 'woonplaats',

@@ -1,34 +1,32 @@
 <?php
 
-class Land extends AppModel
+class land extends AppModel
 {
-	public $name = 'Land';
-	
-	public $displayField = 'land';
+    public $name = 'Land';
 
-	public $cachekey = "LandenList";
+    public $displayField = 'land';
 
-	public function  beforeSave($options = array())
-	{
-		
-		Cache::delete($this->cachekey);
-		return parent::beforeSave($options);
-		
-	}
+    public $cachekey = 'LandenList';
 
-	public function findList()
-	{
-		
-		$landen = Cache::read($this->cachekey);
+    public function beforeSave($options = array())
+    {
+        Cache::delete($this->cachekey);
 
-		if (!empty($landen)) {
-			return $landen;
-		}
-		
-		$landen = $this->find('list');
-		
-		Cache::write($this->cachekey, $landen);
-		
-		return $landen;
-	}
+        return parent::beforeSave($options);
+    }
+
+    public function findList()
+    {
+        $landen = Cache::read($this->cachekey);
+
+        if (!empty($landen)) {
+            return $landen;
+        }
+
+        $landen = $this->find('list');
+
+        Cache::write($this->cachekey, $landen);
+
+        return $landen;
+    }
 }

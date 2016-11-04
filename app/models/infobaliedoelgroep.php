@@ -1,7 +1,7 @@
 <?php
 
-class Infobaliedoelgroep extends AppModel
+class infobaliedoelgroep extends AppModel
 {
-	public $name = 'Infobaliedoelgroep';
-	public $displayField = 'naam';
+    public $name = 'Infobaliedoelgroep';
+    public $displayField = 'naam';
 }

@@ -2,103 +2,96 @@
 
 class AwbzController extends AppController
 {
-	public $name = 'Awbz';
-	public $uses = array('Klant');
-	public $components = array('Filter', 'RequestHandler', 'Session');
+    public $name = 'Awbz';
+    public $uses = array('Klant');
+    public $components = array('Filter', 'RequestHandler', 'Session');
 
-	public function index()
-	{
+    public function index()
+    {
+        if (isset($this->params['named'])) {
+            if (isset($this->params['named']['showDisabled'])) {
+                $this->Klant->showDisabled = $this->params['named']['showDisabled'];
+            }
+        }
 
-		if (isset($this->params['named'])) {
-			if (isset($this->params['named']['showDisabled'])) {
-				$this->Klant->showDisabled = $this->params['named']['showDisabled'];
-			}
-		}
+        $klanten = $this->paginate('Klant', $this->Filter->filterData);
 
-		$klanten = $this->paginate('Klant', $this->Filter->filterData);
+        $this->set(compact('klanten'));
 
-		$this->set(compact('klanten'));
+        if ($this->RequestHandler->isAjax()) {
+            $this->render('/elements/awbz_klantenlijst', 'ajax');
+        }
+    }
 
-		if ($this->RequestHandler->isAjax()) {
-			$this->render('/elements/awbz_klantenlijst', 'ajax');
-		}
-	}
+    public function view($klant_id = null)
+    {
+        if (!$klant_id) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(array('action' => 'index'));
+        }
 
-	public function view($klant_id = null)
-	{
-		if (!$klant_id) {
-			$this->flashError(__('Invalid klant', true));
-			$this->redirect(array('action' => 'index'));
-		}
+        $this->Klant->recursive = -1;
 
-		$this->Klant->recursive = -1;
-		
-		$contain = array(
-			'Geslacht',
-			'Geboorteland' => array('fields' => 'land'),
-			'Nationaliteit' => array('fields' => 'naam'),
-			'Medewerker',
-			'AwbzIntake',
-			'AwbzIndicatie' => array(
-				'Hoofdaannemer',
-			),
-			'AwbzHoofdaannemer' => array('Hoofdaannemer'),
+        $contain = array(
+            'Geslacht',
+            'Geboorteland' => array('fields' => 'land'),
+            'Nationaliteit' => array('fields' => 'naam'),
+            'Medewerker',
+            'AwbzIntake',
+            'AwbzIndicatie' => array('Hoofdaannemer'),
+            'AwbzHoofdaannemer' => array('Hoofdaannemer'),
+        );
 
-		);
-		
-		$klant = $this->Klant->find('first', array(
-			'conditions' => array('Klant.id' => $klant_id),
-			'contain' => $contain,
-		));
-		
-		$hoofdaannemers =
-			$this->Klant->AwbzHoofdaannemer->Hoofdaannemer->find('list');
+        $klant = $this->Klant->find('first', array(
+            'conditions' => array('Klant.id' => $klant_id),
+            'contain' => $contain,
+        ));
 
-		$intake_type = 'awbz';
+        $hoofdaannemers =
+            $this->Klant->AwbzHoofdaannemer->Hoofdaannemer->find('list');
 
-		$this->set(compact('klant', 'hoofdaannemers', 'intake_type'));
-		
-	}
+        $intake_type = 'awbz';
 
-	public function zrm($id = null)
-	{
-		$this->loadModel('ZrmReport');
-		
-		if (!$id) {
-			$this->flashError(__('Invalid klant', true));
-			$this->redirect(array('action' => 'index'));
-		}
+        $this->set(compact('klant', 'hoofdaannemers', 'intake_type'));
+    }
 
-		$klant = $this->Klant->read(null, $id);
-		$this->set('klant', $klant);
+    public function zrm($id = null)
+    {
+        $this->loadModel('ZrmReport');
 
-		$zrmReports = $this->ZrmReport->find('all', array(
-				'conditions' => array('klant_id' => $id),
-				'order' => 'created DESC',
-		));
-		
-		$zrm_data = $this->ZrmReport->zrm_data();
+        if (!$id) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(array('action' => 'index'));
+        }
 
-		$this->set('zrmReports', $zrmReports);
-		$this->set('klant_id', $id);
-		$this->set('zrm_data', $zrm_data);
-	}
+        $klant = $this->Klant->read(null, $id);
+        $this->set('klant', $klant);
 
-	public function rapportage()
-	{
-		$showForm = false;
-		
-		if (empty($this->data)) {
-			$showForm = true;
-		} else {
-			
-			$reportData = $this->Klant->AwbzIndicatie->getAbwzReportData(
-				(int)$this->data['year']['year'],
-				(int)$this->data['month']['month']
-			);
-			
-		}
-		
-		$this->set(compact('reportData', 'showForm'));
-	}
+        $zrmReports = $this->ZrmReport->find('all', array(
+                'conditions' => array('klant_id' => $id),
+                'order' => 'created DESC',
+        ));
+
+        $zrm_data = $this->ZrmReport->zrm_data();
+
+        $this->set('zrmReports', $zrmReports);
+        $this->set('klant_id', $id);
+        $this->set('zrm_data', $zrm_data);
+    }
+
+    public function rapportage()
+    {
+        $showForm = false;
+
+        if (empty($this->data)) {
+            $showForm = true;
+        } else {
+            $reportData = $this->Klant->AwbzIndicatie->getAbwzReportData(
+                (int) $this->data['year']['year'],
+                (int) $this->data['month']['month']
+            );
+        }
+
+        $this->set(compact('reportData', 'showForm'));
+    }
 }

@@ -1,7 +1,8 @@
 <?php 
-class EmptyMedewerkerFixture extends CakeTestFixture {
-var $name = 'Medewerker';
+class EmptyMedewerkerFixture extends CakeTestFixture
+{
+    public $name = 'Medewerker';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

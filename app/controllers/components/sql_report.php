@@ -5,25 +5,27 @@
  */
 class SqlReportComponent extends Component
 {
-
     /**
      * Controller.
+     *
      * @var AppController
      */
     private $controller;
 
     /**
      * Cake callback for component initialization.
+     *
      * @param AppController $controller Controller coupled to this component
      * @param array         $settings   Settings for the component
      */
-    public function initialize(&$controller, $settings=array())
+    public function initialize(&$controller, $settings = array())
     {
         $this->controller = $controller;
     }
 
     /**
      * Reads the management report config from the file and parses them.
+     *
      * @param string $file Xml file to load
      */
     private function _readManagementReportConfig($file)
@@ -53,11 +55,13 @@ class SqlReportComponent extends Component
                 'sql' => $query->sql->__toString(),
             );
         }
+
         return $reports;
     }
 
     /**
      * Calculate management reports by running the sqls.
+     *
      * @param array  $condition Conditions from the report filter
      * @param string $file      Xml file to load
      */
@@ -72,6 +76,7 @@ class SqlReportComponent extends Component
             $sql = String::insert($config['sql'], $conditions);
             $reports[$key]['result'] = $dataSource->query($sql);
         }
+
         return $reports;
     }
 
@@ -106,10 +111,10 @@ class SqlReportComponent extends Component
 
         $this->controller->set(compact('reports'));
         $this->layout = false;
-        $file = "management_report.xls";
+        $file = 'management_report.xls';
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"$excelFile\";");
-        header("Content-Transfer-Encoding: binary");
+        header('Content-Transfer-Encoding: binary');
         $this->controller->render('ajax_excel_report');
     }
 }

@@ -1,7 +1,8 @@
 <?php 
-class EmptyLandFixture extends CakeTestFixture {
-var $name = 'Land';
+class EmptyLandFixture extends CakeTestFixture
+{
+    public $name = 'Land';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

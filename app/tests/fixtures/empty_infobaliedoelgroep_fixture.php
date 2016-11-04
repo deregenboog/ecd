@@ -1,7 +1,8 @@
 <?php 
-class EmptyInfobaliedoelgroepFixture extends CakeTestFixture {
-var $name = 'Infobaliedoelgroep';
+class EmptyInfobaliedoelgroepFixture extends CakeTestFixture
+{
+    public $name = 'Infobaliedoelgroep';
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+    public $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'), );
+    public $records = array( );
+}

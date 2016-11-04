@@ -1,10 +1,10 @@
 <?php
 
 
-/* 
+/*
  * /app/views/helpers/format.php
- * 
- * 
+ *
+ *
  * */
 
 class FormatHelper extends AppHelper
