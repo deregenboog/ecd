@@ -1014,7 +1014,6 @@ class IzRapportagesController extends AppController
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-
     private function check_persoon_model($persoon_model)
     {
         if ($persoon_model != 'Vrijwilliger' && $persoon_model != 'Klant') {

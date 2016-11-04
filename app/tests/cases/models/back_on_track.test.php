@@ -1,4 +1,5 @@
 <?php
+
 /* BackOnTrack Test cases generated on: 2013-09-25 12:09:55 : 1380106555*/
 App::import('Model', 'BackOnTrack');
 
@@ -8,7 +9,7 @@ class BackOnTrackTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->BackOnTrack =& ClassRegistry::init('BackOnTrack');
+        $this->BackOnTrack = &ClassRegistry::init('BackOnTrack');
     }
 
     public function endTest()

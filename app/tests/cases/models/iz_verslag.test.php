@@ -1,4 +1,5 @@
 <?php
+
 /* IzVerslag Test cases generated on: 2014-08-12 17:08:21 : 1407856341*/
 App::import('Model', 'IzVerslag');
 
@@ -8,7 +9,7 @@ class IzVerslagTestCase extends CakeTestCase
 
     public function startTest()
     {
-        $this->IzVerslag =& ClassRegistry::init('IzVerslag');
+        $this->IzVerslag = &ClassRegistry::init('IzVerslag');
     }
 
     public function endTest()

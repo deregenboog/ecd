@@ -1,4 +1,5 @@
 <?php
+
 /* AwbzIntakeVerslaving Fixture generated on: 2011-04-15 15:04:52 : 1302872992 */
 class AwbzIntakeVerslavingFixture extends CakeTestFixture
 {
@@ -7,6 +8,6 @@ class AwbzIntakeVerslavingFixture extends CakeTestFixture
     public $import = array(
             'model' => 'AwbzIntakeVerslaving',
             'records' => true,
-            'table' => 'awbz_intakes_verslavingen'
+            'table' => 'awbz_intakes_verslavingen',
     );
 }

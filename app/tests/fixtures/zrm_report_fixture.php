@@ -1,4 +1,5 @@
 <?php
+
 /* ZrmReport Fixture generated on: 2013-11-26 11:11:23 : 1385462603 */
 class ZrmReportFixture extends CakeTestFixture
 {
@@ -21,7 +22,7 @@ class ZrmReportFixture extends CakeTestFixture
         'maatschappelijke_participatie' => array('type' => 'integer', 'null' => true, 'default' => null),
         'justitie' => array('type' => 'integer', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -40,7 +41,7 @@ class ZrmReportFixture extends CakeTestFixture
             'adl_vaardigheden' => 1,
             'sociaal_netwerk' => 1,
             'maatschappelijke_participatie' => 1,
-            'justitie' => 1
+            'justitie' => 1,
         ),
     );
 }

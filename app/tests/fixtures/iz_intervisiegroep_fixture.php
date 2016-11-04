@@ -1,4 +1,5 @@
 <?php
+
 /* IzIntervisiegroep Fixture generated on: 2014-08-05 16:08:58 : 1407248458 */
 class IzIntervisiegroepFixture extends CakeTestFixture
 {
@@ -13,7 +14,7 @@ class IzIntervisiegroepFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -24,7 +25,7 @@ class IzIntervisiegroepFixture extends CakeTestFixture
             'einddatum' => 1,
             'medewerker_id' => 1,
             'created' => '2014-08-05 16:20:58',
-            'modified' => '2014-08-05 16:20:58'
+            'modified' => '2014-08-05 16:20:58',
         ),
     );
 }

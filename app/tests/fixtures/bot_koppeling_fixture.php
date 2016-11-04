@@ -1,4 +1,5 @@
 <?php
+
 /* BotKoppeling Fixture generated on: 2014-03-13 17:03:41 : 1394728001 */
 class BotKoppelingFixture extends CakeTestFixture
 {
@@ -12,7 +13,7 @@ class BotKoppelingFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -22,7 +23,7 @@ class BotKoppelingFixture extends CakeTestFixture
             'start_datum' => '2014-03-13',
             'eind_datum' => '2014-03-13',
             'created' => '2014-03-13 17:26:41',
-            'modified' => '2014-03-13 17:26:41'
+            'modified' => '2014-03-13 17:26:41',
         ),
     );
 }

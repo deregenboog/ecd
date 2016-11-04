@@ -1,4 +1,5 @@
 <?php
+
 /* Klantinventarisatie Fixture generated on: 2014-05-08 17:05:34 : 1399563274 */
 class KlantinventarisatieFixture extends CakeTestFixture
 {
@@ -13,7 +14,7 @@ class KlantinventarisatieFixture extends CakeTestFixture
         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -24,7 +25,7 @@ class KlantinventarisatieFixture extends CakeTestFixture
             'doorverwijzer_id' => 1,
             'datum' => '2014-05-08',
             'created' => '2014-05-08 17:34:34',
-            'modified' => '2014-05-08 17:34:34'
+            'modified' => '2014-05-08 17:34:34',
         ),
     );
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Intake Fixture generated on: 2013-10-16 12:10:05 : 1381920065 */
 class IntakeFixture extends CakeTestFixture
 {
@@ -47,7 +48,7 @@ class IntakeFixture extends CakeTestFixture
         'toegang_vrouwen_nacht_opvang' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
         'telefoonnummer' => array('type' => 'string', 'null' => true, 'default' => null),
         'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_intakes_klant_id_datum_intake' => array('column' => array('klant_id', 'datum_intake'), 'unique' => 0), 'idx_intakes_woonsituatie_id' => array('column' => 'woonsituatie_id', 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 
     public $records = array(
@@ -92,7 +93,7 @@ class IntakeFixture extends CakeTestFixture
             'locatie3_id' => 7,
             'infobaliedoelgroep_id' => 1,
             'toegang_vrouwen_nacht_opvang' => 1,
-            'telefoonnummer' => 'Lorem ipsum dolor sit amet'
+            'telefoonnummer' => 'Lorem ipsum dolor sit amet',
         ),
         array(
             'id' => 2,
@@ -135,7 +136,7 @@ class IntakeFixture extends CakeTestFixture
             'locatie3_id' => 3,
             'infobaliedoelgroep_id' => 1,
             'toegang_vrouwen_nacht_opvang' => 1,
-            'telefoonnummer' => 'Lorem ipsum dolor sit amet'
+            'telefoonnummer' => 'Lorem ipsum dolor sit amet',
         ),
 
     );
