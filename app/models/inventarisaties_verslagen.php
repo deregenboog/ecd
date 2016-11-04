@@ -46,9 +46,9 @@ class InventarisatiesVerslagen extends AppModel
                 if (isset($record['Doorverwijzer']) && isset($record['Doorverwijzer']['naam'])) {
                     $doorverwijzer = $record['Doorverwijzer']['naam'];
                 }
-                
+
                 $record = $this->Inventarisatie->getpath($record['inventarisatie_id'], array('titel'));
-                
+
                 if (isset($doorverwijzer)) {
                     $record[]['Inventarisatie']['titel'] = $doorverwijzer;
                     unset($doorverwijzer);

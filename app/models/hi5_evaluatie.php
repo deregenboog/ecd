@@ -9,10 +9,10 @@ class Hi5Evaluatie extends AppModel
     );
 
     public $validate = array(
-      'verslagvan' => array( 'rule' => 'date',
+      'verslagvan' => array('rule' => 'date',
               'allowEmpty' => false,
            ),
-      'verslagtm' => array( 'rule' => 'date',
+      'verslagtm' => array('rule' => 'date',
               'allowEmpty' => false,
            ),
     );

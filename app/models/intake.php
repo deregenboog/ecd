@@ -323,7 +323,7 @@ class intake extends AppModel
         'Verslaving' => array(
             'fields' => array('naam'),
         ),
-        'Verslavingsfrequentie'=> array(
+        'Verslavingsfrequentie' => array(
             'fields' => array('naam', 'datum_van', 'datum_tot'),
         ),
         'Verslavingsperiode' => array(
@@ -347,11 +347,12 @@ class intake extends AppModel
 
     public function beforeValidate()
     {
-        foreach ($this->hasAndBelongsToMany as $k=>$v) {
+        foreach ($this->hasAndBelongsToMany as $k => $v) {
             if (isset($this->data[$k][$k])) {
                 $this->data[$this->alias][$k] = $this->data[$k][$k];
             }
         }
+
         return true;
     }
 
@@ -366,7 +367,7 @@ class intake extends AppModel
         $l1 = $this->data['Intake']['locatie1_id'];
         $l2 = $this->data['Intake']['locatie2_id'];
         $l3 = $this->data['Intake']['locatie3_id'];
-        if ($l1 <> $l2 && $l2 <> $l3 && $l3 <> $l1) {
+        if ($l1 != $l2 && $l2 != $l3 && $l3 != $l1) {
             return true;
         } else {
             return false;
@@ -455,7 +456,7 @@ class intake extends AppModel
                 continue;
             }
 
-            for ($li = 1; $li < 4; $li++) {
+            for ($li = 1; $li < 4; ++$li) {
                 $relation = 'Locatie'.$li;
                 $relInfo = $this->belongsTo[$relation];
                 $field = $relInfo['foreignKey'];
@@ -467,6 +468,7 @@ class intake extends AppModel
                 $klanten[$key][$this->alias][$relation] = $rel;
             }
         }
+
         return $klanten;
     }
 }
