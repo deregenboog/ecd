@@ -2,7 +2,6 @@
 
 class log extends AppModel
 {
-
     /** http://bakery.cakephp.org/articles/view/logablebehavior */
 
     /**
@@ -17,7 +16,6 @@ class log extends AppModel
      * that it takes to do "var $actsAs = array('Logable');" then this behavior
      * is for you.
      */
-
     public $order = 'created DESC';
 
     public function getLogs($limit, $models = null, $foreignKeys = null, $userIds = null, $actions = null)

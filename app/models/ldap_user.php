@@ -36,22 +36,24 @@ class LdapUser extends AppModel
     public function findAll($attribute = 'uid', $value = '*')
     {
         if (is_array($value)) {
-            $s = "";
+            $s = '';
             foreach ($value as $v) {
-                $s .= "(".$attribute.'='.$v.")";
+                $s .= '('.$attribute.'='.$v.')';
             }
-            $s = "(|".$s.")";
+            $s = '(|'.$s.')';
         } else {
             $s = $attribute.'='.$value;
         }
 
         $r = ldap_search($this->ds, $this->baseDn, $s);
         if ($r) {
-            ldap_sort($this->ds, $r, "sn");
+            ldap_sort($this->ds, $r, 'sn');
 
             $result = ldap_get_entries($this->ds, $r);
+
             return $this->convert_from_ldap($result);
         }
+
         return null;
     }
 
@@ -60,7 +62,7 @@ class LdapUser extends AppModel
         if (!$this->ds) {
             return false;
         }
-        
+
         if (!$this->bind) {
             return false;
         }
@@ -68,12 +70,13 @@ class LdapUser extends AppModel
         return true;
     }
 
-    public function read($fields=null, $uid)
+    public function read($fields, $uid)
     {
         $r = ldap_search($this->ds, $this->baseDn, 'uid='.$uid);
         if ($r) {
             $l = ldap_get_entries($this->ds, $r);
             $convert = $this->convert_from_ldap($l);
+
             return $convert[0];
         }
     }
@@ -86,7 +89,7 @@ class LdapUser extends AppModel
         if (!$members) {
             $members = array();
             $r = ldap_search($this->ds, 'ou=groups,'.$this->baseDn, 'gidNumber='.$gid);
-            
+
             if ($r) {
                 $l = ldap_get_entries($this->ds, $r);
 
@@ -95,16 +98,17 @@ class LdapUser extends AppModel
                 if (count($m) == 1) {
                     if (is_array($m[0]['LdapUser']['memberuid'])) {
                         foreach ($m[0]['LdapUser']['memberuid'] as $member) {
-                            $members[]=$member;
+                            $members[] = $member;
                         }
                     } else {
-                        $members[]=$m[0]['LdapUser']['memberuid'];
+                        $members[] = $m[0]['LdapUser']['memberuid'];
                     }
                 }
             }
-            
+
             registry_set($type, $gid, $members, true, 'ldap');
         }
+
         return $members;
     }
 
@@ -112,7 +116,7 @@ class LdapUser extends AppModel
     {
         $group_array = array();
         $r = ldap_search($this->ds, $this->baseDn, 'uid='.$uid);
-        
+
         if ($r) {
             if ($uid) {
                 $query = '(&(objectClass=posixgroup)(memberUid='.$uid.'))';
@@ -122,10 +126,10 @@ class LdapUser extends AppModel
 
             $r = ldap_search($this->ds, $this->baseDn, $query);
             $l = ldap_get_entries($this->ds, $r);
-            
+
             $groups = $this->convert_from_ldap($l);
             $group_array = array();
-            
+
             foreach ($groups as $g) {
                 $gid = $g['LdapUser']['gidnumber'];
                 $cn = $g['LdapUser']['cn'];
@@ -134,13 +138,13 @@ class LdapUser extends AppModel
                 $group_array[] = $group;
             }
         }
-        
+
         return $group_array;
     }
 
     public function save($data)
     {
-        $dn = "uid=".$data['LdapUser']['uid'].",".$this->baseDn;
+        $dn = 'uid='.$data['LdapUser']['uid'].','.$this->baseDn;
 
         foreach ($data['LdapUser'] as $field => $value):
          $data_ldap[$field][0] = $value;
@@ -154,7 +158,7 @@ class LdapUser extends AppModel
     public function del($uid)
     {
         $dn = "uid=$uid,".$this->baseDn;
-        
+
         return ldap_delete($this->ds, $dn);
     }
 
@@ -172,10 +176,11 @@ class LdapUser extends AppModel
 
             if (ldap_count_entries($connect, $res_id) != 1) {
                 echo "failure: username $username found more than once<br>\n";
+
                 return false;
             }
 
-            if (($entry_id = ldap_first_entry($connect, $res_id))== false) {
+            if (($entry_id = ldap_first_entry($connect, $res_id)) == false) {
                 return false;
             }
 
@@ -197,21 +202,22 @@ class LdapUser extends AppModel
     {
         $r = ldap_search($this->ds, $this->baseDn, 'uidnumber=*');
         if ($r) {
-            ldap_sort($this->ds, $r, "uidnumber");
+            ldap_sort($this->ds, $r, 'uidnumber');
 
             $result = ldap_get_entries($this->ds, $r);
             $count = $result['count'];
-            $biguid = $result[$count-1]['uidnumber'][0];
-            
+            $biguid = $result[$count - 1]['uidnumber'][0];
+
             return $biguid;
         }
+
         return null;
     }
 
     private function convert_from_ldap($data)
     {
         $final = array();
-        
+
         foreach ($data as $key => $row) {
             if ($key === 'count') {
                 continue;
@@ -221,7 +227,7 @@ class LdapUser extends AppModel
                 if (!is_numeric($key1)) {
                     continue;
                 }
-           
+
                 if ($row[$param]['count'] === 1) {
                     $final[$key]['LdapUser'][$param] = $row[$param][0];
                 } else {
@@ -234,7 +240,7 @@ class LdapUser extends AppModel
                 }
             }
         }
-        
+
         return $final;
     }
 
@@ -242,11 +248,11 @@ class LdapUser extends AppModel
     {
         $users = null;
         $result = ldap_search($this->ds, 'ou=people,'.$this->baseDn, 'uid=robert');
-        
+
         if ($result) {
             $users = ldap_get_entries($this->ds, $result);
         }
-        
+
         return $users;
     }
 }
