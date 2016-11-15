@@ -1,9 +1,5 @@
 <?php
 
-use Symfony\Component\Form\Forms;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use App\Entity\Klant;
 use App\Entity\HsKlant;
 use App\Form\HsKlantType;
@@ -12,15 +8,15 @@ use App\Form\HsProfielCodeType;
 
 class HsKlantenController extends AppController
 {
-	/**
-	 * Don't use CakePHP models
-	 */
-	public $uses = [];
+    /**
+     * Don't use CakePHP models.
+     */
+    public $uses = [];
 
-	/**
-	 * Use Twig.
-	 */
-	public $view = 'AppTwig';
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
 
     public function index()
     {
@@ -31,20 +27,20 @@ class HsKlantenController extends AppController
 
     public function view($id)
     {
-    	$entityManager = Registry::getInstance()->getManager();
-    	$hsKlant = $entityManager->find(HsKlant::class, $id);
-    	$this->set('hsKlant', $hsKlant);
+        $entityManager = Registry::getInstance()->getManager();
+        $hsKlant = $entityManager->find(HsKlant::class, $id);
+        $this->set('hsKlant', $hsKlant);
     }
 
     public function add()
     {
-    	$hsKlant = new HsKlant();
+        $hsKlant = new HsKlant();
 
         $form = $this->createForm(HsKlantType::class, $hsKlant);
         $form->handleRequest();
 
         if ($form->isValid()) {
-        	return $this->add2($form->getData()->getKlant());
+            return $this->add2($form->getData()->getKlant());
 //         	$form2 = $this->createForm(HsKlantType::class, $hsKlant, [
 //         		'mode' => HsKlantType::MODE_SELECT,
 //         		'select_filter' => $form->getData()->getKlant(),
@@ -60,64 +56,63 @@ class HsKlantenController extends AppController
 
     public function add2(Klant $filter = null)
     {
-    	$hsKlant = new HsKlant();
+        $hsKlant = new HsKlant();
 
-    	 $form = $this->createForm(HsKlantType::class, $hsKlant, [
-    			'mode' => HsKlantType::MODE_SELECT,
-    			'filter' => $filter,
-    	 		'action' => 'add2',
-    	]);
-    	$this->set('form', $form->createView());
+        $form = $this->createForm(HsKlantType::class, $hsKlant, [
+                'mode' => HsKlantType::MODE_SELECT,
+                'filter' => $filter,
+                'action' => 'add2',
+        ]);
+        $this->set('form', $form->createView());
 
-    	return $this->render('add');
+        return $this->render('add');
     }
 
     public function edit($id)
     {
-    	$form = $this->createForm(HsKlantType::class, new App\Entity\HsKlant());
-    	$form->handleRequest();
+        $form = $this->createForm(HsKlantType::class, new App\Entity\HsKlant());
+        $form->handleRequest();
 
-    	if ($form->isValid()) {
-    		return $this->redirect(['action' => 'add2']);
-    	}
+        if ($form->isValid()) {
+            return $this->redirect(['action' => 'add2']);
+        }
 
-    	$this->set('form', $form->createView());
+        $this->set('form', $form->createView());
     }
 
     public function deleten($id)
     {
-    	$form = $this->createForm(HsKlantType::class, new App\Entity\HsKlant());
-    	$form->handleRequest();
+        $form = $this->createForm(HsKlantType::class, new App\Entity\HsKlant());
+        $form->handleRequest();
 
-    	if ($form->isValid()) {
-    		return $this->redirect(['action' => 'add2']);
-    	}
+        if ($form->isValid()) {
+            return $this->redirect(['action' => 'add2']);
+        }
 
-    	$this->set('form', $form->createView());
+        $this->set('form', $form->createView());
     }
 
     public function add_hs_profiel_code($hsKlantId)
     {
-    	$hsKlant = $this->getHsKlant($hsKlantId);
-    	$hsProfielCode = new HsProfielCode();
+        $hsKlant = $this->getHsKlant($hsKlantId);
+        $hsProfielCode = new HsProfielCode();
 
-    	$form = $this->createForm(HsProfielCodeType::class, $hsProfielCode);
-    	$form->handleRequest();
+        $form = $this->createForm(HsProfielCodeType::class, $hsProfielCode);
+        $form->handleRequest();
 
-    	if ($form->isValid()) {
-    		$hsKlant->addHsProfielCode($hsProfielCode);
-    		$this->getEntityManager()->flush();
+        if ($form->isValid()) {
+            $hsKlant->addHsProfielCode($hsProfielCode);
+            $this->getEntityManager()->flush();
 
-    		return $this->redirect(['action' => 'view', $hsKlant->getId()]);
-    	}
+            return $this->redirect(['action' => 'view', $hsKlant->getId()]);
+        }
 
-    	$this->set('form', $form->createView());
-    	$this->set('hsKlant', $hsKlant);
-   	}
+        $this->set('form', $form->createView());
+        $this->set('hsKlant', $hsKlant);
+    }
 
-   	protected function getHsKlant($hsKlantId)
+    protected function getHsKlant($hsKlantId)
     {
-    	return $this->getEntityManager()->find(HsKlant::class, $hsKlantId);
+        return $this->getEntityManager()->find(HsKlant::class, $hsKlantId);
     }
 }
-

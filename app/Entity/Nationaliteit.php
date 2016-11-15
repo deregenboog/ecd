@@ -7,8 +7,6 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * @Entity
@@ -16,45 +14,45 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class Nationaliteit
 {
-	/**
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue
-	 */
-	private $id;
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
+    private $id;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $afkorting;
+    /**
+     * @Column(type="string")
+     */
+    private $afkorting;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $naam;
+    /**
+     * @Column(type="string")
+     */
+    private $naam;
 
-	/**
-	 * @Column(type="datetime")
-	 */
-	private $created;
+    /**
+     * @Column(type="datetime")
+     */
+    private $created;
 
-	/**
-	 * @Column(type="datetime")
-	 */
-	private $modified;
+    /**
+     * @Column(type="datetime")
+     */
+    private $modified;
 
-	public function getId()
-	{
-		return $this->id;
-	}
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function getAfkorting()
-	{
-		return $this->afkorting;
-	}
+    public function getAfkorting()
+    {
+        return $this->afkorting;
+    }
 
-	public function getNaam()
-	{
-		return $this->naam;
-	}
+    public function getNaam()
+    {
+        return $this->naam;
+    }
 }

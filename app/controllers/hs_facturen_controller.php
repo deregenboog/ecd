@@ -6,15 +6,15 @@ use App\Form\ConfirmationType;
 
 class HsFacturenController extends AppController
 {
-	/**
-	 * Don't use CakePHP models
-	 */
-	public $uses = [];
+    /**
+     * Don't use CakePHP models.
+     */
+    public $uses = [];
 
-	/**
-	 * Use Twig.
-	 */
-	public $view = 'AppTwig';
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
 
     public function index()
     {
@@ -25,22 +25,22 @@ class HsFacturenController extends AppController
 
     public function view($id)
     {
-    	$entityManager = Registry::getInstance()->getManager();
-    	$hsFactuur = $entityManager->find(HsFactuur::class, $id);
-    	$this->set('hsFactuur', $hsFactuur);
+        $entityManager = Registry::getInstance()->getManager();
+        $hsFactuur = $entityManager->find(HsFactuur::class, $id);
+        $this->set('hsFactuur', $hsFactuur);
     }
 
     public function add()
     {
-    	$hsFactuur = new HsFactuur();
+        $hsFactuur = new HsFactuur();
 
-    	$form = $this->createForm(HsFactuurType::class, $hsFactuur);
+        $form = $this->createForm(HsFactuurType::class, $hsFactuur);
         $form->handleRequest();
 
         if ($form->isValid()) {
-        	$entityManager = Registry::getInstance()->getManager();
-        	$entityManager->persist($hsFactuur);
-        	$entityManager->flush();
+            $entityManager = Registry::getInstance()->getManager();
+            $entityManager->persist($hsFactuur);
+            $entityManager->flush();
 
             return $this->redirect(['action' => 'index']);
         }
@@ -50,39 +50,38 @@ class HsFacturenController extends AppController
 
     public function edit($id)
     {
-    	$entityManager = Registry::getInstance()->getManager();
-    	$hsFactuur = $entityManager->find(HsFactuur::class, $id);
+        $entityManager = Registry::getInstance()->getManager();
+        $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
-    	$form = $this->createForm(HsFactuurType::class, $hsFactuur);
-    	$form->handleRequest();
+        $form = $this->createForm(HsFactuurType::class, $hsFactuur);
+        $form->handleRequest();
 
-    	if ($form->isValid()) {
-    		$entityManager = Registry::getInstance()->getManager();
-    		$entityManager->flush();
+        if ($form->isValid()) {
+            $entityManager = Registry::getInstance()->getManager();
+            $entityManager->flush();
 
-    		return $this->redirect(['action' => 'index']);
-    	}
+            return $this->redirect(['action' => 'index']);
+        }
 
-    	$this->set('form', $form->createView());
+        $this->set('form', $form->createView());
     }
 
     public function delete($id)
     {
-    	$entityManager = Registry::getInstance()->getManager();
-    	$hsFactuur = $entityManager->find(HsFactuur::class, $id);
+        $entityManager = Registry::getInstance()->getManager();
+        $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
-    	$form = $this->createForm(ConfirmationType::class);
-    	$form->handleRequest();
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest();
 
-    	if ($form->isValid()) {
-    		$entityManager->remove($hsFactuur);
-    		$entityManager->flush();
+        if ($form->isValid()) {
+            $entityManager->remove($hsFactuur);
+            $entityManager->flush();
 
-    		return $this->redirect(['action' => 'index']);
-    	}
+            return $this->redirect(['action' => 'index']);
+        }
 
-    	$this->set('form', $form->createView());
-    	$this->set('hsFactuur', $hsFactuur);
+        $this->set('form', $form->createView());
+        $this->set('hsFactuur', $hsFactuur);
     }
 }
-

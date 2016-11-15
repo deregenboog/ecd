@@ -16,202 +16,201 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class Vrijwilliger
 {
-	/**
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue
-	 */
-	private $id;
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
+    private $id;
 
-	/**
-	 * @Column(type="string", length=255, nullable=true)
-	 */
-	private $voornaam;
+    /**
+     * @Column(type="string", length=255, nullable=true)
+     */
+    private $voornaam;
 
-	/**
-	 * @Column(type="string", nullable=true)
-	 */
-	private $roepnaam;
+    /**
+     * @Column(type="string", nullable=true)
+     */
+    private $roepnaam;
 
-	/**
-	 * @Column(type="string", nullable=true)
-	 */
-	private $tussenvoegsel;
+    /**
+     * @Column(type="string", nullable=true)
+     */
+    private $tussenvoegsel;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $achternaam;
+    /**
+     * @Column(type="string")
+     */
+    private $achternaam;
 
-	/**
-	 * @var \DateTime
-	 * @Column(type="date", nullable=true)
-	 */
-	private $geboortedatum;
+    /**
+     * @var \DateTime
+     * @Column(type="date", nullable=true)
+     */
+    private $geboortedatum;
 
-	/**
-	 * @Column(type="string")
-	 * @Email
-	 */
-	private $email;
+    /**
+     * @Column(type="string")
+     * @Email
+     */
+    private $email;
 
-	/**
-	 * @Column(name="BSN", type="string")
-	 */
-	private $bsn = '';
+    /**
+     * @Column(name="BSN", type="string")
+     */
+    private $bsn = '';
 
-	/**
-	 * @var Medewerker
-	 * @ManyToOne(targetEntity="Medewerker")
-	 */
-	private $medewerker;
+    /**
+     * @var Medewerker
+     * @ManyToOne(targetEntity="Medewerker")
+     */
+    private $medewerker;
 
-	/**
-	 * @var Geslacht
-	 * @ManyToOne(targetEntity="Geslacht")
-	 */
-	private $geslacht;
+    /**
+     * @var Geslacht
+     * @ManyToOne(targetEntity="Geslacht")
+     */
+    private $geslacht;
 
-	/**
-	 * @var Land
-	 * @ManyToOne(targetEntity="Land")
-	 */
-	private $land;
+    /**
+     * @var Land
+     * @ManyToOne(targetEntity="Land")
+     */
+    private $land;
 
-	/**
-	 * @var Nationaliteit
-	 * @ManyToOne(targetEntity="Nationaliteit")
-	 */
-	private $nationaliteit;
+    /**
+     * @var Nationaliteit
+     * @ManyToOne(targetEntity="Nationaliteit")
+     */
+    private $nationaliteit;
 
-	/**
-	 * @Column(type="datetime", nullable=false)
-	 */
-	private $created;
+    /**
+     * @Column(type="datetime", nullable=false)
+     */
+    private $created;
 
-	/**
-	 * @Column(type="datetime", nullable=false)
-	 */
-	private $modified;
+    /**
+     * @Column(type="datetime", nullable=false)
+     */
+    private $modified;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $adres;
+    /**
+     * @Column(type="string")
+     */
+    private $adres;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $postcode;
+    /**
+     * @Column(type="string")
+     */
+    private $postcode;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $plaats;
+    /**
+     * @Column(type="string")
+     */
+    private $plaats;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $werkgebied;
+    /**
+     * @Column(type="string")
+     */
+    private $werkgebied;
 
-	/**
-	 * @Column(type="string", nullable=true)
-	 */
-	private $postcodegebied;
+    /**
+     * @Column(type="string", nullable=true)
+     */
+    private $postcodegebied;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $mobiel;
+    /**
+     * @Column(type="string")
+     */
+    private $mobiel;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $telefoon;
+    /**
+     * @Column(type="string")
+     */
+    private $telefoon;
 
-	/**
-	 * @Column(type="text", nullable=true)
-	 */
-	private $opmerking;
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    private $opmerking;
 
-	/**
-	 * @Column(type="boolean")
-	 */
-	private $disabled;
+    /**
+     * @Column(type="boolean")
+     */
+    private $disabled;
 
-	public function __toString()
-	{
-		return $this->getNaam();
-	}
+    public function __toString()
+    {
+        return $this->getNaam();
+    }
 
-	public function getNaam()
-	{
-		return implode(' ', [$this->voornaam, $this->tussenvoegsel, $this->achternaam]);
-	}
+    public function getNaam()
+    {
+        return implode(' ', [$this->voornaam, $this->tussenvoegsel, $this->achternaam]);
+    }
 
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function getId()
-	{
-		return $this->id;
-	}
+    public function getVoornaam()
+    {
+        return $this->voornaam;
+    }
 
-	public function getVoornaam()
-	{
-		return $this->voornaam;
-	}
+    public function setVoornaam($voornaam)
+    {
+        $this->voornaam = $voornaam;
 
-	public function setVoornaam($voornaam)
-	{
-		$this->voornaam = $voornaam;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getTussenvoegsel()
+    {
+        return $this->tussenvoegsel;
+    }
 
-	public function getTussenvoegsel()
-	{
-		return $this->tussenvoegsel;
-	}
+    public function setTussenvoegsel($tussenvoegsel)
+    {
+        $this->tussenvoegsel = $tussenvoegsel;
 
-	public function setTussenvoegsel($tussenvoegsel)
-	{
-		$this->tussenvoegsel = $tussenvoegsel;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getAchternaam()
+    {
+        return $this->achternaam;
+    }
 
-	public function getAchternaam()
-	{
-		return $this->achternaam;
-	}
+    public function setAchternaam($achternaam)
+    {
+        $this->achternaam = $achternaam;
 
-	public function setAchternaam($achternaam)
-	{
-		$this->achternaam = $achternaam;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getGeboortedatum()
+    {
+        return $this->geboortedatum;
+    }
 
-	public function getGeboortedatum()
-	{
-		return $this->geboortedatum;
-	}
+    public function setGeboortedatum(\DateTime $geboortedatum = null)
+    {
+        $this->geboortedatum = $geboortedatum;
 
-	public function setGeboortedatum(\DateTime $geboortedatum = null)
-	{
-		$this->geboortedatum = $geboortedatum;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-	public function getEmail()
-	{
-		return $this->email;
-	}
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
 
-	public function setEmail($email = null)
-	{
-		$this->email = $email;
-
-		return $this;
-	}
+        return $this;
+    }
 }

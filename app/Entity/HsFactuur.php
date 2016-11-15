@@ -19,109 +19,108 @@ use Doctrine\Common\Collections\Criteria;
  */
 class HsFactuur
 {
-	/**
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue
-	 */
-	private $id;
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
+    private $id;
 
-	/**
-	 * @Column(type="date")
-	 */
-	private $datum;
+    /**
+     * @Column(type="date")
+     */
+    private $datum;
 
-	/**
-	 * @Column(type="decimal", scale=2)
-	 */
-	private $bedrag;
+    /**
+     * @Column(type="decimal", scale=2)
+     */
+    private $bedrag;
 
-	/**
-	 * @var HsKlus
-	 * @ManyToOne(targetEntity="HsKlus", inversedBy="hsFacturen")
-	 */
-	private $hsKlus;
+    /**
+     * @var HsKlus
+     * @ManyToOne(targetEntity="HsKlus", inversedBy="hsFacturen")
+     */
+    private $hsKlus;
 
-	/**
-	 * @var ArrayCollection|HsRegistratie[]
-	 * @OneToMany(targetEntity="HsRegistratie", mappedBy="hsFactuur", orphanRemoval=true)
-	 * @JoinColumn(onDelete="SET NULL")
-	 */
-	private $hsRegistraties;
+    /**
+     * @var ArrayCollection|HsRegistratie[]
+     * @OneToMany(targetEntity="HsRegistratie", mappedBy="hsFactuur", orphanRemoval=true)
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    private $hsRegistraties;
 
-	public function __construct(HsKlus $hsKlus = null)
-	{
-		$this->setDatum(new \DateTime());
-		$this->setHsKlus($hsKlus);
+    public function __construct(HsKlus $hsKlus = null)
+    {
+        $this->setDatum(new \DateTime());
+        $this->setHsKlus($hsKlus);
 
-		$criteria = Criteria::create()->where(Criteria::expr()->isNull('hsFactuur'));
-		$this->setHsRegistraties($hsKlus->getHsRegistraties()->matching($criteria));
-	}
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hsFactuur'));
+        $this->setHsRegistraties($hsKlus->getHsRegistraties()->matching($criteria));
+    }
 
-	public function getId()
-	{
-		return $this->id;
-	}
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function getDatum()
-	{
-		return $this->datum;
-	}
+    public function getDatum()
+    {
+        return $this->datum;
+    }
 
-	public function setDatum(\DateTime $datum)
-	{
-		$this->datum = $datum;
+    public function setDatum(\DateTime $datum)
+    {
+        $this->datum = $datum;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getHsKlus()
-	{
-		return $this->hsKlus;
-	}
+    public function getHsKlus()
+    {
+        return $this->hsKlus;
+    }
 
-	private function setHsKlus(HsKlus $hsKlus)
-	{
-		$this->hsKlus = $hsKlus;
-		$hsKlus->getHsFacturen()->add($this);
+    private function setHsKlus(HsKlus $hsKlus)
+    {
+        $this->hsKlus = $hsKlus;
+        $hsKlus->getHsFacturen()->add($this);
 
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getHsKlant()
+    {
+        return $this->hsKlant;
+    }
 
-	public function getHsKlant()
-	{
-		return $this->hsKlant;
-	}
+    public function setHsKlant(HsKlant $hsKlant)
+    {
+        $this->hsKlant = $hsKlant;
 
-	public function setHsKlant(HsKlant $hsKlant)
-	{
-		$this->hsKlant = $hsKlant;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getHsRegistraties()
+    {
+        return $this->hsRegistraties;
+    }
 
-	public function getHsRegistraties()
-	{
-		return $this->hsRegistraties;
-	}
+    private function setHsRegistraties(ArrayCollection $hsRegistraties)
+    {
+        $bedrag = 0.0;
+        $this->hsRegistraties = $hsRegistraties;
+        foreach ($hsRegistraties as $hsRegistratie) {
+            $hsRegistratie->setHsFactuur($this);
+            $bedrag += 2.5 * $hsRegistratie->getUren();
+        }
 
-	private function setHsRegistraties(ArrayCollection $hsRegistraties)
-	{
-		$bedrag = 0.0;
-		$this->hsRegistraties = $hsRegistraties;
-		foreach ($hsRegistraties as $hsRegistratie) {
-			$hsRegistratie->setHsFactuur($this);
-			$bedrag += 2.5 * $hsRegistratie->getUren();
-		}
+        $this->bedrag = $bedrag;
 
-		$this->bedrag = $bedrag;
+        return $this;
+    }
 
-		return $this;
-	}
-
-	public function getBedrag()
-	{
-		return $this->bedrag;
-	}
+    public function getBedrag()
+    {
+        return $this->bedrag;
+    }
 }

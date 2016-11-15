@@ -9,24 +9,24 @@ use App\Entity\HsVrijwilliger;
 
 class HsVrijwilligerType extends AbstractType
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder
-			->add('vrijwilliger')
-			->add('dragend', null, ['label' => 'Dragende vrijwilliger'])
-		;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('vrijwilliger')
+            ->add('dragend', null, ['label' => 'Dragende vrijwilliger'])
+        ;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function configureOptions(OptionsResolver $resolver)
-	{
-		$resolver->setDefaults([
-			'data_class' => HsVrijwilliger::class,
-		]);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => HsVrijwilliger::class,
+        ]);
+    }
 }

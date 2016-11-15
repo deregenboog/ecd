@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -17,58 +16,58 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class HsActiviteit
 {
-	/**
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue
-	 */
-	private $id;
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
+    private $id;
 
-	/**
-	 * @Column(type="string")
-	 */
-	private $naam;
+    /**
+     * @Column(type="string")
+     */
+    private $naam;
 
-	/**
-	 * @Column(type="datetime", nullable=false)
-	 */
-	private $created;
+    /**
+     * @Column(type="datetime", nullable=false)
+     */
+    private $created;
 
-	/**
-	 * @Column(type="datetime", nullable=false)
-	 */
-	private $modified;
+    /**
+     * @Column(type="datetime", nullable=false)
+     */
+    private $modified;
 
-	/**
-	 * @OneToMany(targetEntity="HsKlus", mappedBy="hsActiviteit")
-	 */
-	private $hsKlussen;
+    /**
+     * @OneToMany(targetEntity="HsKlus", mappedBy="hsActiviteit")
+     */
+    private $hsKlussen;
 
-	public function __construct()
-	{
-		$this->klussen = new ArrayCollection();
-		$this->created = $this->modified = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->klussen = new ArrayCollection();
+        $this->created = $this->modified = new \DateTime();
+    }
 
-	public function __toString()
-	{
-		return $this->naam;
-	}
+    public function __toString()
+    {
+        return $this->naam;
+    }
 
-	public function getId()
-	{
-		return $this->id;
-	}
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function getNaam()
-	{
-		return $this->naam;
-	}
+    public function getNaam()
+    {
+        return $this->naam;
+    }
 
-	public function setNaam($naam)
-	{
-		$this->naam = $naam;
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
 
-		return $this;
-	}
+        return $this;
+    }
 }
