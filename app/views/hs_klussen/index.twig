@@ -1,0 +1,38 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Klussen</h1>
+
+<table>
+	<tr>
+		<th>Nummer</th>
+        <th>Datum</th>
+        <th>Klant</th>
+        <th>Activiteit</th>
+        <th>Vrijwilligers</th>
+        <th>Stadsdeel</th>
+        <th>&nbsp;</th>
+	</tr>
+	{% for hsKlus in hsKlussen %}
+	<tr>
+		<td>{{ hsKlus.id }}</td>
+        <td>{{ hsKlus.datum|date }}</td>
+        <td>{{ hsKlus.hsKlant }}</td>
+        <td>{{ hsKlus.hsActiviteit }}</td>
+        <td>
+            <ul>
+                {% for hsVrijwilliger in hsKlus.hsVrijwilligers %}
+                    <li>{{ hsVrijwilliger }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>{{ hsKlus.klant.werkgebied }}</td>
+		<td>
+		    {{ html.link('Bekijken', {'action': 'view', 0: hsKlus.id}) }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: hsKlus.id}) }}	    
+            {{ html.link('Verwijderen', {'action': 'delete', 0: hsKlus.id}) }}
+        </td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% include 'pagination.twig' ignore missing %}

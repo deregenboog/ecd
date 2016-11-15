@@ -1,0 +1,24 @@
+{% include 'hs_subnavigation.twig' %} 
+
+<h1>Facturen</h1>
+
+{{ html.link('Factuur toevoegen', {'action': 'add'}) }}
+
+<table>
+	<tr>
+		<th>Nummer</th>
+		<th></th>
+	</tr>
+	{% for hsFactuur in hsFacturen %}
+	<tr>
+		<td>{{ hsFactuur.id }}</td>
+		<td>
+		    {{ html.link('Bekijken', {'action': 'view', 0: hsFactuur.id}) }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: hsFactuur.id}) }}
+            {{ html.link('Verwijderen', {'action': 'delete', 0: hsFactuur.id}) }}
+	    </td>
+	</tr>
+	{% endfor %}
+</table>
+
+{# this.element('pagination') #}

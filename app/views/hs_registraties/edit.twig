@@ -1,0 +1,10 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Uren bewerken</h1>
+
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Opslaan" />
+{{ form_end(form) }}
+
+{{ html.link('Terug naar klus', {'controller': 'hs_klussen', 'action': 'view', 0: form.vars.data.hsKlus.id}) }}

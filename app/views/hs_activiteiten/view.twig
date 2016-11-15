@@ -1,0 +1,17 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Activiteit {{ activiteit.naam }}</h1>
+<dl>
+    <dt>Nummer</dt>
+    <dd>{{ activiteit.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ activiteit.naam }}</dd>
+</dl>
+
+{{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id}) }}
+{{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id}) }}
+
+<h2>Klussen met activiteit {{ activiteit.naam }}</h2>
+{% for klus in activiteit.klussen %}
+    {{ klus.id }}
+{% endfor %}

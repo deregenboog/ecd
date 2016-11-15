@@ -1,0 +1,37 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Klant ({{ hsKlant.klant.naam }})</h1>
+
+<dl>
+    <dt>Nummer</dt>
+    <dd>{{ hsKlant.klant.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ hsKlant.klant.naam }}</dd>
+    <dt>Profiel</dt>
+    <dd>
+        {{ html.link('Profielcode toevoegen', {'action': 'add_hs_profiel_code', 0: hsKlant.id}) }}
+        <ul>
+            {% for hsProfielCode in hsKlant.hsProfielCodes %}
+                <li>
+                    {{ hsProfielCode }}
+                    {{ html.link('Bewerken', {'controller': 'hs_profiel_codes',  'action': 'edit', 0: hsProfielCode.id}) }}
+                    {{ html.link('Verwijderen', {'controller': 'hs_profiel_codes',  'action': 'delete', 0: hsProfielCode.id}) }}
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+    <dt>Klussen</dt>
+    <dd>
+        {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: hsKlant.id}) }}
+        <ul>
+            {% for hsKlus in hsKlant.hsKlussen %}
+                <li>
+                    {{ hsKlus }}
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>
+
+{{ html.link('Bewerken', {'action': 'edit', 0: hsKlant.id}) }}
+{{ html.link('Verwijderen', {'action': 'delete', 0: hsKlant.id}) }}

@@ -1,0 +1,13 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Profielgroep {{ hsProfielGroep }}</h1>
+
+<dl>
+    <dt>Nummer</dt>
+    <dd>{{ hsProfielGroep.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ hsProfielGroep.naam }}</dd>
+</dl>
+
+{{ html.link('Bewerken', {'action': 'edit', 0: hsProfielGroep.id}) }}
+{{ html.link('Verwijderen', {'action': 'delete', 0: hsProfielGroep.id}) }}

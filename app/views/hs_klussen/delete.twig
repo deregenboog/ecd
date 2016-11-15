@@ -1,0 +1,9 @@
+{% include('hs_subnavigation.twig') %}
+{{ this.element('hs_subnavigation') }}
+<h1>Activiteit verwijderen</h1>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    Weet u zeker dat u activiteit {{ activiteit.naam }} wilt verwijderen?<br>
+    {{ html.link('Nee, annuleren', {'action': 'index'}) }}
+    <input type="submit" value="Ja, verwijderen" />
+{{ form_end(form) }}

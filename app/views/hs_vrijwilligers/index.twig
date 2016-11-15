@@ -1,0 +1,32 @@
+{% include 'hs_subnavigation.twig' %} 
+
+<h1>Vrijwilligers</h1>
+
+{{ html.link('Vrijwilliger toevoegen', {'action': 'add'}) }}
+
+<table>
+	<tr>
+		<th>Nummer</th>
+		<th>Voornaam</th>
+		<th>Tussenvoegsel</th>
+		<th>Achternaam</th>
+        <th>Dragende vrijwilliger</th>
+		<th></th>
+	</tr>
+	{% for hsVrijwilliger in hsVrijwilligers %}
+	<tr>
+		<td>{{ hsVrijwilliger.vrijwilliger.id }}</td>
+		<td>{{ hsVrijwilliger.vrijwilliger.voornaam }}</td>
+		<td>{{ hsVrijwilliger.vrijwilliger.tussenvoegsel }}</td>
+		<td>{{ hsVrijwilliger.vrijwilliger.achternaam }}</td>
+        <td>{{ hsVrijwilliger.vrijwilliger.dragend ? 'ja' : 'nee' }}</td>
+		<td>
+		    {{ html.link('Bekijken', {'action': 'view', 0: hsVrijwilliger.id}) }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: hsVrijwilliger.id}) }}
+            {{ html.link('Verwijderen', {'action': 'delete', 0: hsVrijwilliger.id}) }}
+	    </td>
+	</tr>
+	{% endfor %}
+</table>
+
+{# this.element('pagination') #}

@@ -1,0 +1,38 @@
+<div id="subheader">
+	{{ html.link(
+			'Klanten',
+			{'controller': 'hs_klanten', 'action': 'index'},
+			this.viewPath == 'hs_klanten' ? {'class': 'selected'} : {}
+	) }}
+	&nbsp;&nbsp;
+	{{ html.link(
+			'Vrijwilligers',
+			{'controller': 'hs_vrijwilligers', 'action': 'index'},
+			this.viewPath == 'hs_vrijwilligers' ? {'class': 'selected'} : {}
+	) }}
+	&nbsp;&nbsp;
+	{{ html.link(
+			'Klussen',
+			{'controller': 'hs_klussen', 'action': 'index'},
+			this.viewPath == 'hs_klussen' ? {'class': 'selected'} : {}
+	) }}
+    &nbsp;&nbsp;
+    {{ html.link(
+            'Facturen',
+            {'controller': 'hs_facturen', 'action': 'index'},
+            this.viewPath == 'hs_facturaten' ? {'class': 'selected'} : {}
+    ) }}
+    &nbsp;&nbsp;
+    {{ html.link(
+            'Profielgroepen',
+            {'controller': 'hs_profiel_groepen', 'action': 'index'},
+            this.viewPath == 'hs_profiel_groepen' ? {'class': 'selected'} : {}
+    ) }}
+    &nbsp;&nbsp;
+	{{ html.link(
+			'Activiteiten',
+			{'controller': 'hs_activiteiten', 'action': 'index'},
+			this.viewPath == 'hs_activiteiten' ? {'class': 'selected'} : {}
+	) }}
+	<div>&nbsp;</div>
+</div>

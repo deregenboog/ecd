@@ -1,0 +1,26 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Activiteiten</h1>
+
+{{ html.link('Activiteit toevoegen', {'action': 'add'}) }}
+
+<table>
+	<tr>
+		<th>Nummer</th>
+		<th>Naam</th>
+		<th></th>
+	</tr>
+	{% for activiteit in activiteiten %}
+	<tr>
+		<td>{{ activiteit.id }}</td>
+		<td>{{ activiteit.naam }}</td>
+		<td>
+		    {{ html.link('Bekijken', {'action': 'view', 0: activiteit.id}) }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id}) }}	    
+            {{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id}) }}
+        </td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% include 'pagination.twig' ignore missing %}

@@ -1,0 +1,7 @@
+{% include('hs_subnavigation.twig') %}
+{{ this.element('hs_subnavigation') }}
+<h1>Activiteit bewerken</h1>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Opslaan" />
+{{ form_end(form) }}
