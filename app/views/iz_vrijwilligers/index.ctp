@@ -39,13 +39,12 @@
 						<?= $form->input('Query.until', [
 							'type' => 'date',
 							'dateFormat' => 'DMY',
-							'label' => 'Van',
+							'label' => 'T/m',
 							'empty' => '',
 						]) ?>
 					</th>
 					<th></th>
-					<th></th>
-					<th>
+					<th colspan="2">
 						<?= $html->link('Huidige selectie downloaden', $this->params['named'] + ['format' => 'csv']) ?>
 						<?= $form->submit('Filteren') ?>
 					</th>
