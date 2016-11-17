@@ -1,0 +1,83 @@
+{{ include('elements/iz_subnavigation.twig') }}
+
+<h2>Hulpaanbiedingen</h2>
+
+<div id="contentForIndex">
+    <table id="clientList" class="index filtered">
+        <tr>
+            {{ form_start(form) }}
+            <th class="klantnrCol">
+                {{ form_widget(form.izVrijwilliger.vrijwilliger.id) }}
+                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Nr', 'vrijwilliger.id') }}
+            </th>
+            <th class="voornaamCol">
+                {{ form_widget(form.izVrijwilliger.vrijwilliger.voornaam) }}
+                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Voornaam', 'vrijwilliger.voornaam') }}
+            </th>
+            <th class="achternaamCol">
+                {{ form_widget(form.izVrijwilliger.vrijwilliger.achternaam) }}
+                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Achternaam', 'vrijwilliger.achternaam') }}
+            </th>
+            <th class="gebortedatumCol">
+                {{ form_widget(form.izVrijwilliger.vrijwilliger.geboortedatum) }}
+                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
+            </th>
+            <th class="izProjectsCol">
+                {{ form_widget(form.izProject) }}
+		{{ knp_pagination_sortable(izHulpaanbiedingen, 'Project', 'izProject.naam') }}
+	</th>
+            <th class="IzMedewerkerCol">
+                {{ form_widget(form.medewerker) }}
+		{{ knp_pagination_sortable(izHulpaanbiedingen, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th class="werkgebiedCol">
+                {{ form_widget(form.izVrijwilliger.vrijwilliger.werkgebied) }}
+		{{ knp_pagination_sortable(izHulpaanbiedingen, 'Werkgebied', 'vrijwilliger.werkgebied') }}
+            </th>
+            {{ form_end(form) }}
+        </tr>
+        {% for i, izHulpaanbod in izHulpaanbiedingen %}
+            {% set class = (i % 2 == 0) ? 'altrow' : '' %}
+            {% set url = html.url({
+                'controller': 'iz_deelnemers',
+                'action': 'koppelingen',
+                0: izHulpaanbod.izVrijwilliger.id
+            }) %}
+            <tr class="klantenlijst-row {{ class }}"
+                    onMouseOver="this.style.cursor='pointer'"
+                    onClick="location.href='{{ url }}';"
+                    id='klanten_{{ izHulpaanbod.izVrijwilliger.vrijwilliger.id }}'>
+                <td class="klantnrCol">{{ izHulpaanbod.izVrijwilliger.vrijwilliger.id }}</td>
+                <td class="voornaamCol">
+                    {{ izHulpaanbod.izVrijwilliger.vrijwilliger.voornaam }}
+                    {% if(izHulpaanbod.izVrijwilliger.vrijwilliger.roepnaam) %}
+                        ({{ izHulpaanbod.izVrijwilliger.vrijwilliger.roepnaam }})
+                    {% endif %}
+                </td>
+                <td class="achternaamCol">
+                    {% if (izHulpaanbod.izVrijwilliger.vrijwilliger.tussenvoegsel) %}
+                        {{ izHulpaanbod.izVrijwilliger.vrijwilliger.tussenvoegsel }}
+                    {% endif %}
+                    {{ izHulpaanbod.izVrijwilliger.vrijwilliger.achternaam }}
+                </td>
+                <td class="gebortedatumCol">
+                    {% if (izHulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum) %}
+                        {{ izHulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
+                    {% endif %}
+                </td>
+                <td class="">
+                    {{ izHulpaanbod.izProject }}
+                </td>
+                <td class="">
+                    {{ izHulpaanbod.medewerker }}
+                </td>
+                <td class="">
+                    {{ izHulpaanbod.izVrijwilliger.vrijwilliger.werkgebied }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {{ knp_pagination_render(izHulpaanbiedingen) }}
+    </p>
+</div>

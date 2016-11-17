@@ -1,0 +1,100 @@
+{{ include('elements/iz_subnavigation.twig') }}
+
+<h2>Hulpvragen</h2>
+
+<div id="contentForIndex">
+    <table id="clientList" class="index filtered">
+        <tr>
+	    {{ form_start(form) }}
+            <th class="klantnrCol">
+                {{ form_widget(form.izKlant.klant.id) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Nr', 'klant.id') }}
+            </th>
+            <th class="voornaamCol">
+                {{ form_widget(form.izKlant.klant.voornaam) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Voornaam', 'klant.voornaam') }}
+            </th>
+            <th class="achternaamCol">
+                {{ form_widget(form.izKlant.klant.achternaam) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Achternaam', 'klant.achternaam') }}
+            </th>
+            <th class="gebortedatumCol">
+                {{ form_widget(form.izKlant.klant.geboortedatum) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Geboortedatum', 'klant.geboortedatum') }}
+            </th>
+            <th class="izProjectsCol">
+                {{ form_widget(form.izProject) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Project', 'izProject.naam') }}
+            </th>
+            <th class="IzMedewerkerCol">
+                {{ form_widget(form.medewerker) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th class="werkgebiedCol">
+                {{ form_widget(form.izKlant.klant.werkgebied) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Werkgebied', 'klant.werkgebied') }}
+            </th>
+            <th class="lastZrmCol">
+                {{ knp_pagination_sortable(izHulpvragen, 'Laatste ZRM', 'klant.laatsteZrm') }}
+            </th>
+            {{ form_end(form) }}
+        </tr>
+        
+        {% for i, izHulpvraag in izHulpvragen %}
+            {% set class = (i % 2 == 0) ? 'altrow' : '' %}
+            {% set url = html.url({
+                'controller': 'iz_deelnemers',
+                'action': 'koppelingen',
+                0: izHulpvraag.izKlant.id
+            }) %}
+            <tr class="klantenlijst-row {{ class }}"
+                    onMouseOver="this.style.cursor='pointer'"
+                    onClick="location.href='{{ url }}';"
+                    id='klanten_{{ izHulpvraag.izKlant.klant.id }}'>
+                <td class="klantnrCol">
+                    {{ izHulpvraag.izKlant.klant.id }}
+                </td>
+                <td class="voornaamCol">
+                    {{ izHulpvraag.izKlant.klant.voornaam }}
+                    {% if(izHulpvraag.izKlant.klant.roepnaam) %}
+                        ({{ izHulpvraag.izKlant.klant.roepnaam }})
+                    {% endif %}
+                </td>
+                <td class="achternaamCol">
+                    {% if (izHulpvraag.izKlant.klant.tussenvoegsel) %}
+                        {{ izHulpvraag.izKlant.klant.tussenvoegsel }}
+                    {% endif %}
+                    {{ izHulpvraag.izKlant.klant.achternaam }}
+                </td>
+                <td class="gebortedatumCol">
+                    {% if (izHulpvraag.izKlant.klant.geboortedatum) %}
+                        {{ izHulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
+                    {% endif %}
+                </td>
+                <td class="">
+                    {{ izHulpvraag.izProject }}
+                </td>
+                <td class="">
+                    {{ izHulpvraag.medewerker }}
+                </td>
+                <td class="">
+                    {{ izHulpvraag.izKlant.klant.werkgebied }}
+                </td>
+                {% set zrm = izHulpvraag.izKlant.klant.laatsteZrm|date('U') %}
+                {% if zrm < '-6 months'|date('U') %}
+                    {% set style = 'background-color: red; color: white;' %}
+                {% elseif zrm < '-5 months'|date('U') %}
+                    {% set style = 'background-color: orange; color: white;' %}
+                {% else %}
+                    {% set style = '' %}
+                {% endif %}
+                <td class="" style="{{ style }}">
+                {{ izHulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {{ knp_pagination_render(izHulpvragen) }}
+    </p>
+</div>

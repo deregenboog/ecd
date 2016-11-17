@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\Form\FormView;
+
 /**
  * Library of array functions for Cake.
  *
@@ -994,6 +996,8 @@ class Set {
 		if (is_a($object, 'XmlNode')) {
 			$out = $object->toArray();
 			return $out;
+		} else if ($object instanceof FormView) {
+			unset($object->vars['form']);
 		} else if (is_object($object)) {
 			$keys = get_object_vars($object);
 			if (isset($keys['_name_'])) {
