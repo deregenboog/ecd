@@ -1,4 +1,7 @@
 <?php
+
+use Symfony\Component\Form\FormView;
+
 /**
  * Library of array functions for Cake.
  *
@@ -991,6 +994,13 @@ class Set {
  */
 	function reverse($object) {
 		$out = array();
+
+		// prevent fatal error (max nesting level)
+		if ($object instanceof FormView) {
+			$object = $object->vars;
+			unset($object['form']);
+		}
+
 		if (is_a($object, 'XmlNode')) {
 			$out = $object->toArray();
 			return $out;
