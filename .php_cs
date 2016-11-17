@@ -8,11 +8,12 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('locale')
     ->exclude('plugins/debug_kit')
     ->exclude('plugins/media')
-    ->exclude('plugins/media')
     ->exclude('tmp')
     ->exclude('tmp_template')
     ->exclude('vendors')
     ->in('app');
 
-return Symfony\CS\Config::create()
+return Symfony\CS\Config\Config::create()
+    ->fixers(['-psr0'])
     ->finder($finder);
+

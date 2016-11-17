@@ -2,10 +2,13 @@
 /app/tmp
 /archive
 
-# Composer-managed deps
+# Docker
+/.data/*
+
+# Composer
 /vendor/*
 
-# Eclipse project files
+# Eclipse
 /.settings/*
 /.project
 /.buildpath
