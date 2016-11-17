@@ -1,6 +1,6 @@
 <?php
 
-class klant extends AppModel
+class Klant extends AppModel
 {
     public $name = 'Klant';
     public $order = 'Klant.achternaam ASC';

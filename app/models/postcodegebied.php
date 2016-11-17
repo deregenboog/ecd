@@ -1,6 +1,6 @@
 <?php
 
-class postcodegebied extends AppModel
+class Postcodegebied extends AppModel
 {
     const DEFAULT_POSTCODEGEBIED = 'Overig';
 

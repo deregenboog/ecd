@@ -1,6 +1,6 @@
 <?php
 
-class opmerking extends AppModel
+class Opmerking extends AppModel
 {
     public $name = 'Opmerking';
 

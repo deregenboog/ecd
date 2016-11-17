@@ -1,6 +1,6 @@
 <?php
 
-class verslavingsgebruikswijze extends AppModel
+class Verslavingsgebruikswijze extends AppModel
 {
     public $name = 'Verslavingsgebruikswijze';
     public $displayField = 'naam';

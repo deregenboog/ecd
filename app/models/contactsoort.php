@@ -1,6 +1,6 @@
 <?php
 
-class contactsoort extends AppModel
+class Contactsoort extends AppModel
 {
     public $name = 'Contactsoort';
 
