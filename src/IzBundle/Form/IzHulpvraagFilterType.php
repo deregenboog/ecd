@@ -1,13 +1,14 @@
 <?php
 
-namespace AppBundle\Form;
+namespace IzBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\IzHulpvraag;
 
 class IzHulpvraagFilterType extends AbstractType
 {
@@ -31,6 +32,7 @@ class IzHulpvraagFilterType extends AbstractType
                 },
             ])
             ->add('submit', SubmitType::class, ['label' => 'Filteren'])
+            ->add('reset', ResetType::class, ['label' => 'Filter wissen'])
         ;
     }
 

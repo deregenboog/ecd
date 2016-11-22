@@ -1,9 +1,10 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @ORM\Entity
@@ -12,7 +13,7 @@ class IzVrijwilliger extends IzDeelnemer
 {
     /**
      * @var Vrijwilliger
-     * @ORM\OneToOne(targetEntity="Vrijwilliger")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger")
      * @ORM\JoinColumn(name="foreign_key", nullable=false)
      */
     protected $vrijwilliger;

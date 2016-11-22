@@ -6,6 +6,12 @@
     <table id="clientList" class="index filtered">
         <tr>
             {{ form_start(form) }}
+            <th colspan="8">
+                {{ form_widget(form.submit) }}
+                {{ form_widget(form.reset) }}
+            </th>
+        </tr>
+        <tr>
             <th class="klantnrCol">
                 {{ form_widget(form.izVrijwilliger.vrijwilliger.id) }}
                 {{ knp_pagination_sortable(izHulpaanbiedingen, 'Nr', 'vrijwilliger.id') }}

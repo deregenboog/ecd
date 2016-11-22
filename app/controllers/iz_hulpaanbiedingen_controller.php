@@ -1,8 +1,8 @@
 <?php
 
-use AppBundle\Entity\IzVrijwilliger;
-use AppBundle\Entity\IzHulpaanbod;
-use AppBundle\Form\IzHulpaanbodFilterType;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Form\IzHulpaanbodFilterType;
 
 class IzHulpaanbiedingenController extends AppController
 {

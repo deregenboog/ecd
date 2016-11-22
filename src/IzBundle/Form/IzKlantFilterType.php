@@ -1,20 +1,22 @@
 <?php
 
-namespace AppBundle\Form;
+namespace IzBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\IzVrijwilliger;
+use AppBundle\Entity\Klant;
+use IzBundle\Entity\IzKlant;
+use AppBundle\Form\KlantFilterType;
 
-class IzVrijwilligerFilterType extends AbstractType
+class IzKlantFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('vrijwilliger', VrijwilligerFilterType::class);
+        $builder->add('klant', KlantFilterType::class);
     }
 
     /**
@@ -23,7 +25,7 @@ class IzVrijwilligerFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => IzVrijwilliger::class,
+            'data_class' => IzKlant::class,
             'data' => null,
         ]);
     }

@@ -5,7 +5,13 @@
 <div id="contentForIndex">
     <table id="clientList" class="index filtered">
         <tr>
-	    {{ form_start(form) }}
+            {{ form_start(form) }}
+            <th colspan="8">
+                {{ form_widget(form.submit) }}
+                {{ form_widget(form.reset) }}
+            </th>
+        </tr>
+        <tr>
             <th class="klantnrCol">
                 {{ form_widget(form.izKlant.klant.id) }}
                 {{ knp_pagination_sortable(izHulpvragen, 'Nr', 'klant.id') }}
@@ -39,7 +45,7 @@
             </th>
             {{ form_end(form) }}
         </tr>
-        
+
         {% for i, izHulpvraag in izHulpvragen %}
             {% set class = (i % 2 == 0) ? 'altrow' : '' %}
             {% set url = html.url({

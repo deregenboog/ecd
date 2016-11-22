@@ -1,9 +1,10 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
+use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
@@ -35,7 +36,7 @@ class IzKoppeling
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $medewerker;

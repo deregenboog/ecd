@@ -1,9 +1,9 @@
 <?php
 
-use AppBundle\Entity\IzKlant;
-use AppBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Form\IzHulpvraagFilterType;
+use IzBundle\Form\IzHulpvraagFilterType;
 use Symfony\Component\HttpFoundation\Request;
 
 class IzHulpvragenController extends AppController
