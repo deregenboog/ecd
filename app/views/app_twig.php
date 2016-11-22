@@ -1,12 +1,5 @@
 <?php
 
-use Symfony\Bridge\Twig\Form\TwigRendererEngine;
-use Symfony\Bridge\Twig\Extension\FormExtension;
-use Symfony\Bridge\Twig\Form\TwigRenderer;
-use Knp\Bundle\PaginatorBundle\Twig\Extension\PaginationExtension;
-use Knp\Bundle\PaginatorBundle\Helper\Processor;
-use App\Service\UrlGenerator;
-use Symfony\Component\Translation\Translator;
 
 /*
  * Base Classes
@@ -106,40 +99,7 @@ class AppTwigView extends TwigView
                 $this->Twig->addExtension(new $extensionClassName());
             }
         }
-    }
 
-    /**
-     * Constructor.
-     *
-     * @param Controller $controller
-     *                               A controller object to pull View::__passedArgs from
-     * @param bool       $register
-     *                               Should the View instance be registered in the ClassRegistry
-     *
-     * @return View
-     */
-    public function ___construct(&$controller, $register = true)
-    {
-        parent::__construct($controller, $register);
-
-        $container = ContainerRegistry::getInstance()->getContainer();
-        $this->Twig = $container->get('twig');
-
-//         var_dump($twig); die;
-//         var_dump($this->Twig); die;
-
-        $this->Twig = $twig;
-
-//         $this->Twig->getLoader()->addPath(realpath(__DIR__.'/../../vendor/symfony/twig-bridge/Resources/views/Form'));
-
-//         $formEngine = new TwigRendererEngine([
-//             'form_div_layout.html.twig',
-//         ]);
-//         $formEngine->setEnvironment($this->Twig);
-//         $this->Twig->addExtension(new FormExtension(new TwigRenderer($formEngine)));
-
-//         $this->Twig->addExtension(new PaginationExtension(
-//         	new Processor(new UrlGenerator(), new Translator('nl_NL'))
-//         ));
+        $this->set('this', $this);
     }
 }

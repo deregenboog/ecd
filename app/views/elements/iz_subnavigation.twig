@@ -10,16 +10,18 @@
     'action': 'index',
     'Vrijwilliger.selectie': 1,
     })|raw }}
-  &nbsp;&nbsp;
-    {{ html.link('Hulpvragen', {
-    'controller': 'iz_hulpvragen',
-    'action': 'index'
-  })|raw }}
-  &nbsp;&nbsp;
-  {{ html.link('Hulpaanbiedingen', {
-    'controller': 'iz_hulpaanbiedingen',
-    'action': 'index'
-  })|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Hulpvragen',
+        {'controller': 'iz_hulpvragen', 'action': 'index'},
+        {'class': this.name == 'IzHulpvragen' ? 'selected' : ''}
+    )|raw }}
+    &nbsp;&nbsp;
+      {{ html.link(
+            'Hulpaanbiedingen',
+            {'controller': 'iz_hulpaanbiedingen', 'action': 'index'},
+        {'class': this.name == 'IzHulpaanbiedingen' ? 'selected' : ''}
+            )|raw }}
   &nbsp;&nbsp;
   {{ html.link('Rapportages', {
     'controller': 'iz_deelnemers',
