@@ -19,13 +19,14 @@ class IzHulpvragenController extends AppController
     public $view = 'AppTwig';
 
     private $sortFieldWhitelist = [
+        'izHulpvraag.startdatum',
+        'izProject.naam',
         'klant.id',
         'klant.voornaam',
         'klant.achternaam',
         'klant.geboortedatum',
         'klant.werkgebied',
         'klant.laatsteZrm',
-        'izProject.naam',
         'medewerker.achternaam',
     ];
 
@@ -61,6 +62,9 @@ class IzHulpvragenController extends AppController
             if ($geboortedatum = $filter->getIzKlant()->getKlant()->getGeboortedatum()) {
                 $builder->andWhere('klant.geboortedatum = :geboortedatum')->setParameter('geboortedatum', $geboortedatum);
             }
+            if ($startdatum = $filter->getStartdatum()) {
+                $builder->andWhere('izHulpvraag.startdatum = :startdatum')->setParameter('startdatum', $startdatum);
+            }
             if ($izProject = $filter->getIzProject()) {
                 $builder->andWhere('izHulpvraag.izProject = :izProject')->setParameter('izProject', $izProject);
             }
@@ -73,7 +77,7 @@ class IzHulpvragenController extends AppController
         }
 
         $izHulpvragen = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'klant.achternaam',
+            'defaultSortFieldName' => 'izHulpvraag.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);

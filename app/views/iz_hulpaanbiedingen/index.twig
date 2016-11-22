@@ -12,9 +12,13 @@
             </th>
         </tr>
         <tr>
+            <th>
+                {{ form_widget(form.startdatum) }}
+                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Startdatum', 'izHulpaanbod.startdatum') }}
+            </th>
             <th class="klantnrCol">
                 {{ form_widget(form.izVrijwilliger.vrijwilliger.id) }}
-                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Nr', 'vrijwilliger.id') }}
+                {{ knp_pagination_sortable(izHulpaanbiedingen, 'Klantnummer', 'vrijwilliger.id') }}
             </th>
             <th class="voornaamCol">
                 {{ form_widget(form.izVrijwilliger.vrijwilliger.voornaam) }}
@@ -30,15 +34,15 @@
             </th>
             <th class="izProjectsCol">
                 {{ form_widget(form.izProject) }}
-		{{ knp_pagination_sortable(izHulpaanbiedingen, 'Project', 'izProject.naam') }}
-	</th>
+        {{ knp_pagination_sortable(izHulpaanbiedingen, 'Project', 'izProject.naam') }}
+    </th>
             <th class="IzMedewerkerCol">
                 {{ form_widget(form.medewerker) }}
-		{{ knp_pagination_sortable(izHulpaanbiedingen, 'Medewerker', 'medewerker.achternaam') }}
+        {{ knp_pagination_sortable(izHulpaanbiedingen, 'Medewerker', 'medewerker.achternaam') }}
             </th>
             <th class="werkgebiedCol">
                 {{ form_widget(form.izVrijwilliger.vrijwilliger.werkgebied) }}
-		{{ knp_pagination_sortable(izHulpaanbiedingen, 'Werkgebied', 'vrijwilliger.werkgebied') }}
+        {{ knp_pagination_sortable(izHulpaanbiedingen, 'Werkgebied', 'vrijwilliger.werkgebied') }}
             </th>
             {{ form_end(form) }}
         </tr>
@@ -53,7 +57,12 @@
                     onMouseOver="this.style.cursor='pointer'"
                     onClick="location.href='{{ url }}';"
                     id='klanten_{{ izHulpaanbod.izVrijwilliger.vrijwilliger.id }}'>
-                <td class="klantnrCol">{{ izHulpaanbod.izVrijwilliger.vrijwilliger.id }}</td>
+                <td>
+                    {{ izHulpaanbod.startdatum|date('d-m-Y') }}
+                </td>
+                <td class="klantnrCol">
+                    {{ izHulpaanbod.izVrijwilliger.vrijwilliger.id }}
+                </td>
                 <td class="voornaamCol">
                     {{ izHulpaanbod.izVrijwilliger.vrijwilliger.voornaam }}
                     {% if(izHulpaanbod.izVrijwilliger.vrijwilliger.roepnaam) %}

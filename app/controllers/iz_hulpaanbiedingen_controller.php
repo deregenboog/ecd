@@ -17,13 +17,14 @@ class IzHulpaanbiedingenController extends AppController
     public $view = 'AppTwig';
 
     private $sortFieldWhitelist = [
+        'izHulpaanbod.startdatum',
+        'izProject.naam',
         'vrijwilliger.id',
         'vrijwilliger.voornaam',
         'vrijwilliger.achternaam',
         'vrijwilliger.geboortedatum',
         'vrijwilliger.werkgebied',
         'vrijwilliger.laatsteZrm',
-        'izProject.naam',
         'medewerker.achternaam',
     ];
 
@@ -59,6 +60,9 @@ class IzHulpaanbiedingenController extends AppController
             if ($geboortedatum = $filter->getIzVrijwilliger()->getVrijwilliger()->getGeboortedatum()) {
                 $builder->andWhere('vrijwilliger.geboortedatum = :geboortedatum')->setParameter('geboortedatum', $geboortedatum);
             }
+            if ($startdatum = $filter->getStartdatum()) {
+                $builder->andWhere('izHulpaanbod.startdatum = :startdatum')->setParameter('startdatum', $startdatum);
+            }
             if ($izProject = $filter->getIzProject()) {
                 $builder->andWhere('izHulpaanbod.izProject = :izProject')->setParameter('izProject', $izProject);
             }
@@ -71,7 +75,7 @@ class IzHulpaanbiedingenController extends AppController
         }
 
         $izHulpaanbiedingen = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'vrijwilliger.achternaam',
+            'defaultSortFieldName' => 'izHulpaanbod.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);

@@ -12,9 +12,13 @@
             </th>
         </tr>
         <tr>
+            <th>
+                {{ form_widget(form.startdatum) }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Startdatum', 'izHulpvraag.startdatum') }}
+            </th>
             <th class="klantnrCol">
                 {{ form_widget(form.izKlant.klant.id) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Nr', 'klant.id') }}
+                {{ knp_pagination_sortable(izHulpvragen, 'Klantnummer', 'klant.id') }}
             </th>
             <th class="voornaamCol">
                 {{ form_widget(form.izKlant.klant.voornaam) }}
@@ -57,6 +61,9 @@
                     onMouseOver="this.style.cursor='pointer'"
                     onClick="location.href='{{ url }}';"
                     id='klanten_{{ izHulpvraag.izKlant.klant.id }}'>
+                <td>
+                    {{ izHulpvraag.startdatum|date('d-m-Y') }}
+                </td>
                 <td class="klantnrCol">
                     {{ izHulpvraag.izKlant.klant.id }}
                 </td>

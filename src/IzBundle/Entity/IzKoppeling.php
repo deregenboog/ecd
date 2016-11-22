@@ -32,6 +32,11 @@ class IzKoppeling
     /**
      * @ORM\Column(type="datetime")
      */
+    protected $startdatum;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
     protected $einddatum;
 
     /**
@@ -97,6 +102,18 @@ class IzKoppeling
     public function setIzProject(IzProject $izProject)
     {
         $this->izProject = $izProject;
+
+        return $this;
+    }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum = null)
+    {
+        $this->startdatum = $startdatum;
 
         return $this;
     }
