@@ -26,6 +26,16 @@ class IzProject
      */
     private $naam;
 
+    /**
+     * @Column(type="date")
+     */
+    private $startdatum;
+
+    /**
+     * @Column(type="date")
+     */
+    private $einddatum;
+
     public function getId()
     {
         return $this->id;

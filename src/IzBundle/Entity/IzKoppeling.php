@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping\Id;
 use AppBundle\Entity\Medewerker;
 
 /**
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  * @ORM\Table(name="iz_koppelingen")
  */
 class IzKoppeling
@@ -38,6 +38,16 @@ class IzKoppeling
      * @ORM\Column(type="datetime")
      */
     protected $einddatum;
+
+    /**
+     * @ORM\Column(name="koppeling_startdatum", type="datetime")
+     */
+    protected $koppelingStartdatum;
+
+    /**
+     * @ORM\Column(name="koppeling_einddatum", type="datetime")
+     */
+    protected $koppelingEinddatum;
 
     /**
      * @var Medewerker
@@ -114,6 +124,30 @@ class IzKoppeling
     public function setStartdatum(\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getKoppelingStartdatum()
+    {
+        return $this->koppelingStartdatum;
+    }
+
+    public function setKoppelingStartdatum(\DateTime $koppelingStartdatum = null)
+    {
+        $this->koppelingStartdatum = $koppelingStartdatum;
+
+        return $this;
+    }
+
+    public function getKoppelingEinddatum()
+    {
+        return $this->koppelingEinddatum;
+    }
+
+    public function setKoppelingEinddatum(\DateTime $koppelingEinddatum = null)
+    {
+        $this->koppelingEinddatum = $koppelingEinddatum;
 
         return $this;
     }

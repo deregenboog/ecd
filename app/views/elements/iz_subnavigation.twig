@@ -1,14 +1,14 @@
 <div id="subheader">
-  {{ html.link('Deelnemers', {
+    {{ html.link('Deelnemers', {
         'controller': 'iz_deelnemers',
         'action': 'index',
         'Klant.selectie': 1
     })|raw }}
     &nbsp;&nbsp;
     {{ html.link('Vrijwilligers', {
-    'controller': 'iz_deelnemers',
-    'action': 'index',
-    'Vrijwilliger.selectie': 1,
+        'controller': 'iz_deelnemers',
+        'action': 'index',
+        'Vrijwilliger.selectie': 1,
     })|raw }}
     &nbsp;&nbsp;
     {{ html.link(
@@ -17,36 +17,32 @@
         {'class': this.name == 'IzHulpvragen' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
-      {{ html.link(
-            'Hulpaanbiedingen',
-            {'controller': 'iz_hulpaanbiedingen', 'action': 'index'},
+    {{ html.link(
+        'Hulpaanbiedingen',
+        {'controller': 'iz_hulpaanbiedingen', 'action': 'index'},
         {'class': this.name == 'IzHulpaanbiedingen' ? 'selected' : ''}
-            )|raw }}
-  &nbsp;&nbsp;
-  {{ html.link('Rapportages', {
-    'controller': 'iz_deelnemers',
-    'action': 'rapportages',
-  })|raw }}
-  &nbsp;&nbsp;
-  {{ html.link('Selecties', {
-    'controller': 'iz_deelnemers',
-    'action': 'selecties',
-  })|raw }}
-  &nbsp;&nbsp;
-  {{ html.link('Intervisiegroepen', {
-    'controller': 'iz_deelnemers',
-    'action': 'intervisiegroepen',
-  })|raw }}
-  &nbsp;&nbsp;
-  {{ html.link('Koppellijst', {
-    'controller': 'iz_deelnemers',
-    'action': 'koppellijst',
-  })|raw }}
-  &nbsp;&nbsp;
-  {{ html.link('Beheer', {
-    'controller': 'iz_deelnemers',
-    'action': 'beheer',
-  })|raw }}
-  &nbsp;&nbsp;
-  <div>&nbsp;</div>
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link('Koppelingen', {
+        'controller': 'iz_koppelingen', 'action': 'index'},
+        {'class': this.name == 'IzKoppelingen' ? 'selected' : ''}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link('Rapportages',
+        {'controller': 'iz_deelnemers', 'action': 'rapportages'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link('Selecties',
+        {'controller': 'iz_deelnemers', 'action': 'selecties'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link('Intervisiegroepen',
+        {'controller': 'iz_deelnemers', 'action': 'intervisiegroepen'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link('Beheer',
+        {'controller': 'iz_deelnemers', 'action': 'beheer'}
+    )|raw }}
+    &nbsp;&nbsp;
+    <div>&nbsp;</div>
 </div>

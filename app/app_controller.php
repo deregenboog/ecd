@@ -19,22 +19,22 @@ use Symfony\Component\Form\FormInterface;
 
 class AppController extends Controller
 {
-	/**
-	 * @var KernelInterface
-	 */
-	protected $kernel;
+    /**
+     * @var KernelInterface
+     */
+    protected $kernel;
 
-	/**
-	 * @var ContainerInterface
-	 */
-	protected $container;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-	/**
-	 * @var Request
-	 */
-	protected $request;
+    /**
+     * @var Request
+     */
+    protected $request;
 
-	// The helpers we are going to use in all controllers. We do that for
+    // The helpers we are going to use in all controllers. We do that for
     // default view, later we can specify helpers that will be used per
     // controller.
 
@@ -249,9 +249,9 @@ class AppController extends Controller
 
     public function beforeFilter()
     {
-    	$this->kernel = KernelRegistry::getInstance()->getKernel();
-    	$this->container = $this->kernel->getContainer();
-    	$this->request = Request::createFromGlobals();
+        $this->kernel = KernelRegistry::getInstance()->getKernel();
+        $this->container = $this->kernel->getContainer();
+        $this->request = Request::createFromGlobals();
 
         //Configure AuthComponent
         // Authorize = actions makes use of ACL.
@@ -532,112 +532,112 @@ class AppController extends Controller
         } else {
             $endDate = null;
         }
-	}
+    }
 
-	protected function applyFilter() {
-		if (empty ( $this->data ) && empty ( $this->params ['named'] )) {
-			return false;
-		}
+    protected function applyFilter() {
+        if (empty ( $this->data ) && empty ( $this->params ['named'] )) {
+            return false;
+        }
 
-		if ($this->data) {
-			// handle form POST by redirecting with GET
-			$filters = [ ];
-			foreach ( $this->data as $model => $filter ) {
-				foreach ( $filter as $field => $value ) {
-					if (is_array ( $value )) {
-						if (array_keys ( $value ) == [
-								'day',
-								'month',
-								'year'
-						]) {
-							$value = implode ( '-', array_reverse ( $value ) );
-							if ($value == '--') {
-								$value = null;
-							}
-						}
-					}
-					$filters ["$model.$field"] = $value;
-				}
-			}
-			$this->redirect ( $filters );
-		}
+        if ($this->data) {
+            // handle form POST by redirecting with GET
+            $filters = [ ];
+            foreach ( $this->data as $model => $filter ) {
+                foreach ( $filter as $field => $value ) {
+                    if (is_array ( $value )) {
+                        if (array_keys ( $value ) == [
+                                'day',
+                                'month',
+                                'year'
+                        ]) {
+                            $value = implode ( '-', array_reverse ( $value ) );
+                            if ($value == '--') {
+                                $value = null;
+                            }
+                        }
+                    }
+                    $filters ["$model.$field"] = $value;
+                }
+            }
+            $this->redirect ( $filters );
+        }
 
-		// put named params in $this->data for auto form values
-		foreach ( $this->params ['named'] as $filter => $value ) {
-			$matches = [ ];
-			if (preg_match ( '/^([A-z]*)\.([A-z]*)$/', $filter, $matches )) {
-				array_shift ( $matches );
-				list ( $model, $field ) = $matches;
-				$this->data [$model] [$field] = $value;
-			}
-		}
+        // put named params in $this->data for auto form values
+        foreach ( $this->params ['named'] as $filter => $value ) {
+            $matches = [ ];
+            if (preg_match ( '/^([A-z]*)\.([A-z]*)$/', $filter, $matches )) {
+                array_shift ( $matches );
+                list ( $model, $field ) = $matches;
+                $this->data [$model] [$field] = $value;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @return EntityManager
-	 */
-	protected function getEntityManager()
-	{
-		return $this->container->get('doctrine.orm.entity_manager');
-	}
+    /**
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
+        return $this->container->get('doctrine.orm.entity_manager');
+    }
 
-	/**
-	 * @return TwigEngine
-	 */
-	protected function getTemplatingEngine()
-	{
-		return $this->container->get('templating');
-	}
+    /**
+     * @return TwigEngine
+     */
+    protected function getTemplatingEngine()
+    {
+        return $this->container->get('templating');
+    }
 
-	/**
-	 * @return Paginator
-	 */
-	protected function getPaginator()
-	{
-		return $this->container->get('knp_paginator');
-	}
+    /**
+     * @return Paginator
+     */
+    protected function getPaginator()
+    {
+        return $this->container->get('knp_paginator');
+    }
 
-	/**
-	 * @return ValidatorInterface
-	 */
-	protected function getValidator()
-	{
-		return $this->container->get('validator');
-	}
+    /**
+     * @return ValidatorInterface
+     */
+    protected function getValidator()
+    {
+        return $this->container->get('validator');
+    }
 
-	/**
-	 * @return FormFactoryInterface
-	 */
-	protected function getFormFactory()
-	{
-		return $this->container->get('form.factory');
-	}
+    /**
+     * @return FormFactoryInterface
+     */
+    protected function getFormFactory()
+    {
+        return $this->container->get('form.factory');
+    }
 
-	/**
-	 * @return RouterInterface
-	 */
-	protected function getRouter()
-	{
-		return $this->container->get('router');
-	}
+    /**
+     * @return RouterInterface
+     */
+    protected function getRouter()
+    {
+        return $this->container->get('router');
+    }
 
-	/**
-	 * Returns a form.
-	 *
-	 * @see createBuilder()
-	 *
-	 * @param string $type    The type of the form
-	 * @param mixed  $data    The initial data
-	 * @param array  $options The options
-	 *
-	 * @return FormInterface The form named after the type
-	 *
-	 * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException if any given option is not applicable to the given type
-	 */
-	protected function createForm($type, $data = null, array $options = array())
-	{
-		return $this->getFormFactory()->create($type, $data, $options);
+    /**
+     * Returns a form.
+     *
+     * @see createBuilder()
+     *
+     * @param string $type    The type of the form
+     * @param mixed  $data    The initial data
+     * @param array  $options The options
+     *
+     * @return FormInterface The form named after the type
+     *
+     * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException if any given option is not applicable to the given type
+     */
+    protected function createForm($type, $data = null, array $options = array())
+    {
+        return $this->getFormFactory()->create($type, $data, $options);
     }
 }
