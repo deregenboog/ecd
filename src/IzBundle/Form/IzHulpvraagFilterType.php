@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Form\StadsdeelFilterType;
 use AppBundle\Form\KlantFilterType;
 use IzBundle\Entity\IzHulpvraag;
 use IzBundle\Entity\IzProject;

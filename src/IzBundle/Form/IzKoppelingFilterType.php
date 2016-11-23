@@ -16,7 +16,6 @@ use IzBundle\Entity\IzHulpaanbod;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Entity\Stadsdeel;
-use AppBundle\Form\StadsdeelFilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
 

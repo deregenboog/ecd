@@ -2,16 +2,13 @@
 
 namespace AppBundle\Filter;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\QueryBuilder;
 
 class VrijwilligerFilter implements FilterInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     public $id;
 

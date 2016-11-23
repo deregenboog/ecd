@@ -2,16 +2,13 @@
 
 namespace AppBundle\Filter;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     public $id;
 

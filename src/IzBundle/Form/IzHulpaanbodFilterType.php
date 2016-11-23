@@ -9,12 +9,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Form\StadsdeelFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpaanbodFilter;
-use IzBundle\Entity\IzHulpvraag;
 
 class IzHulpaanbodFilterType extends IzKoppelingFilterType
 {
@@ -40,7 +38,7 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime())
                         ;
-                    },
+                },
                 ])
             ->add('medewerker', EntityType::class, [
                 'required' => false,

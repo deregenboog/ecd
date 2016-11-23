@@ -28,7 +28,8 @@ class VrijwilligerFilterType extends AbstractType
             ->add('geboortedatum', BirthdayType::class, [
                 'required' => false,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy'])
+                'format' => 'dd-MM-yyyy',
+            ])
             ->add('stadsdeel', StadsdeelFilterType::class)
         ;
     }
