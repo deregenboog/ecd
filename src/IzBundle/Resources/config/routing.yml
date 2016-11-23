@@ -1,0 +1,8 @@
+iz_hulpvragen_index:
+    path: iz_hulpvragen
+
+iz_hulpaanbiedingen_index:
+    path: iz_hulpaanbiedingen
+
+iz_koppelingen_index:
+    path: iz_koppelingen

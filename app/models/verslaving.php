@@ -1,6 +1,6 @@
 <?php
 
-class verslaving extends AppModel
+class Verslaving extends AppModel
 {
     public $name = 'Verslaving';
     public $displayField = 'naam';

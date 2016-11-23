@@ -1,17 +1,15 @@
 <?php
 
-class klant extends AppModel
+class Klant extends AppModel
 {
     public $name = 'Klant';
     public $order = 'Klant.achternaam ASC';
 
     public $virtualFields = array(
-
             'name' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
             'name1st_part' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`roepnaam`)",
             'name2nd_part' => "CONCAT_WS(' ', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
             'klant_nummer' => "CONCAT('K',`Klant`.`id`)",
-
     );
 
     public $displayField = 'name';
@@ -465,7 +463,7 @@ class klant extends AppModel
     public function beforeValidate($options = array())
     {
         if (empty($this->data['Klant']['voornaam']) && empty($this->data['Klant']['roepnaam'])) {
-            $this->invalidate('roepnaam', 'Voer de roep of voornaam in');
+            $this->invalidate('roepnaam', 'Voer de roep- of voornaam in');
 
             return false;
         } else {
@@ -923,11 +921,11 @@ class klant extends AppModel
 						select k1.id id1, k2.id id2, k2.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
 						from klanten k1
 						join klanten k2
-						on ( 
+						on (
 							k2.id != k1.id AND
 							k2.achternaam != '' AND
 							(trim(k1.voornaam) = trim(k2.achternaam) )
-							or 
+							or
 							(trim(k1.roepnaam) = trim(k2.achternaam) )
 							)
 						where k1.disabled = 0
@@ -945,7 +943,7 @@ class klant extends AppModel
 						join klanten k2
 						on (
 							(trim(k1.voornaam) = trim(k2.achternaam) and ( SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1)) OR SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1)) )
-							or 
+							or
 							(trim(k1.roepnaam) = trim(k2.achternaam) and ( SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1) OR  SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1) )
 							)
 						where k1.disabled = 0

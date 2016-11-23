@@ -20,7 +20,7 @@
  *
  * A ready-to-use model combining multiple behaviors.
  */
-class attachment extends AppModel
+class Attachment extends AppModel
 {
     // <editor-fold defaultstate="collapsed" desc="Group constants">
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class registratie extends AppModel
+class Registratie extends AppModel
 {
     public $name = 'Registratie';
 

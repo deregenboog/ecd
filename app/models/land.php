@@ -1,6 +1,6 @@
 <?php
 
-class land extends AppModel
+class Land extends AppModel
 {
     public $name = 'Land';
 

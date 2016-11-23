@@ -1,6 +1,6 @@
 <?php
 
-class klantinventarisatie extends AppModel
+class Klantinventarisatie extends AppModel
 {
     public $name = 'Klantinventarisatie';
 }

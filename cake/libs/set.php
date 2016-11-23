@@ -994,16 +994,11 @@ class Set {
  */
 	function reverse($object) {
 		$out = array();
-
-		// prevent fatal error (max nesting level)
-		if ($object instanceof FormView) {
-			$object = $object->vars;
-			unset($object['form']);
-		}
-
 		if (is_a($object, 'XmlNode')) {
 			$out = $object->toArray();
 			return $out;
+		} else if ($object instanceof FormView) {
+			unset($object->vars['form']);
 		} else if (is_object($object)) {
 			$keys = get_object_vars($object);
 			if (isset($keys['_name_'])) {
