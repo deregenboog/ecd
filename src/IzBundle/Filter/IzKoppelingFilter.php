@@ -5,9 +5,21 @@ namespace IzBundle\Filter;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzProject;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\KlantFilter;
+use AppBundle\Filter\VrijwilligerFilter;
 
 class IzKoppelingFilter
 {
+    /**
+     * @var KlantFilter
+     */
+    public $klant;
+
+    /**
+     * @var VrijwilligerFilter
+     */
+    public $vrijwilliger;
+
     /**
      * @var \DateTime
      */
@@ -24,16 +36,6 @@ class IzKoppelingFilter
     public $lopendeKoppelingen;
 
     /**
-     * @var string
-     */
-    public $klantNaam;
-
-    /**
-     * @var string
-     */
-    public $vrijwilligerNaam;
-
-    /**
      * @var IzProject
      */
     public $izProject;
@@ -48,25 +50,14 @@ class IzKoppelingFilter
      */
     public $izHulpaanbodMedewerker;
 
-    /**
-     * @var string
-     */
-    public $stadsdeel;
-
     public function applyTo(QueryBuilder $builder)
     {
-        if ($this->klantNaam) {
-            $builder
-            ->andWhere('CONCAT(klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klantNaam')
-            ->setParameter('klantNaam', "%{$this->klantNaam}%")
-            ;
+        if ($this->klant) {
+            $this->klant->applyTo($builder);
         }
 
-        if ($this->vrijwilligerNaam) {
-            $builder
-            ->andWhere('CONCAT(vrijwilliger.voornaam, vrijwilliger.roepnaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) LIKE :vrijwilligerNaam')
-            ->setParameter('vrijwilligerNaam', "%{$this->vrijwilligerNaam}%")
-            ;
+        if ($this->vrijwilliger) {
+            $this->vrijwilliger->applyTo($builder);
         }
 
         if ($this->koppelingStartdatum) {
@@ -108,13 +99,6 @@ class IzKoppelingFilter
             $builder
                 ->andWhere('izHulpaanbod.medewerker = :izHulpaanbodMedewerker')
                 ->setParameter('izHulpaanbodMedewerker', $this->izHulpaanbodMedewerker)
-            ;
-        }
-
-        if (isset($this->stadsdeel['stadsdeel'])) {
-            $builder
-                ->andWhere('klant.werkgebied = :stadsdeel')
-                ->setParameter('stadsdeel', $this->stadsdeel['stadsdeel'])
             ;
         }
     }

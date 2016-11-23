@@ -7,13 +7,13 @@
         <tr>
             {{ form_start(form) }}
                 <th>
-                    {{ form_widget(form.klantNaam) }}
-                    {{ form_errors(form.klantNaam) }}
+                    {{ form_widget(form.klant.naam) }}
+                    {{ form_errors(form.klant.naam) }}
                     {{ form_widget(form.submit) }}
                 </th>
                 <th>
-                    {{ form_widget(form.vrijwilligerNaam) }}
-                    {{ form_errors(form.vrijwilligerNaam) }}
+                    {{ form_widget(form.vrijwilliger.naam) }}
+                    {{ form_errors(form.vrijwilliger.naam) }}
                 </th>
                 <th>
                     {{ form_widget(form.koppelingStartdatum) }}
@@ -39,8 +39,8 @@
                     {{ form_errors(form.izHulpaanbodMedewerker) }}
                 </th>
                 <th>
-                    {{ form_widget(form.stadsdeel.stadsdeel) }}
-                    {{ form_errors(form.stadsdeel.stadsdeel) }}
+                    {{ form_widget(form.klant.stadsdeel.naam) }}
+                    {{ form_errors(form.klant.stadsdeel.naam) }}
                 </th>
             {{ form_end(form) }}
         </tr>

@@ -17,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Entity\Stadsdeel;
 use AppBundle\Form\StadsdeelFilterType;
+use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\VrijwilligerFilterType;
 
 class IzKoppelingFilterType extends AbstractType
 {
@@ -42,14 +44,8 @@ class IzKoppelingFilterType extends AbstractType
                 'required' => false,
                 'label' => 'Alleen lopende koppelingen',
             ])
-            ->add('klantNaam', null, [
-                'required' => false,
-                'attr' => ['placeholder' => 'Naam klant'],
-            ])
-            ->add('vrijwilligerNaam', null, [
-                'required' => false,
-                'attr' => ['placeholder' => 'Naam vrijwilliger'],
-            ])
+            ->add('klant', KlantFilterType::class)
+            ->add('vrijwilliger', VrijwilligerFilterType::class)
             ->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
@@ -83,9 +79,11 @@ class IzKoppelingFilterType extends AbstractType
                     ;
                 },
                 ])
-            ->add('stadsdeel', StadsdeelFilterType::class)
             ->add('submit', SubmitType::class, ['label' => 'Filteren'])
         ;
+
+        $builder->get('klant')->remove('id')->remove('geboortedatum');
+        $builder->get('vrijwilliger')->remove('id')->remove('geboortedatum')->remove('stadsdeel');
     }
 
     /**

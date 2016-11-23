@@ -14,7 +14,7 @@ class StadsdeelFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('stadsdeel', ChoiceType::class, [
+            ->add('naam', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
                     'Amstelveen' => 'Amstelveen',

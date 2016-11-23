@@ -6,50 +6,67 @@
     <table id="clientList" class="index filtered">
         <tr>
             {{ form_start(form) }}
-            <th colspan="9">
-                {{ form_widget(form.submit) }}
-            </th>
-        </tr>
-        <tr>
             <th>
                 {{ form_widget(form.startdatum) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Startdatum', 'izHulpvraag.startdatum') }}
+                {{ form_errors(form.startdatum) }}
+                {{ form_widget(form.submit) }}
             </th>
-            <th class="klantnrCol">
-                {{ form_widget(form.izKlant.klant.id) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Klantnummer', 'klant.id') }}
+            <th>
+                {{ form_widget(form.klant.id) }}
+                {{ form_errors(form.klant.id) }}
             </th>
-            <th class="voornaamCol">
-                {{ form_widget(form.izKlant.klant.voornaam) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Voornaam', 'klant.voornaam') }}
+            <th>
+                {{ form_widget(form.klant.naam) }}
+                {{ form_errors(form.klant.naam) }}
             </th>
-            <th class="achternaamCol">
-                {{ form_widget(form.izKlant.klant.achternaam) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Achternaam', 'klant.achternaam') }}
+            <th>
+                {{ form_widget(form.klant.geboortedatum) }}
+                {{ form_errors(form.klant.geboortedatum) }}
             </th>
-            <th class="gebortedatumCol">
-                {{ form_widget(form.izKlant.klant.geboortedatum) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Geboortedatum', 'klant.geboortedatum') }}
-            </th>
-            <th class="izProjectsCol">
+            <th>
                 {{ form_widget(form.izProject) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Project', 'izProject.naam') }}
+                {{ form_errors(form.izProject) }}
             </th>
-            <th class="IzMedewerkerCol">
+            <th>
                 {{ form_widget(form.medewerker) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Medewerker', 'medewerker.achternaam') }}
+                {{ form_errors(form.medewerker) }}
             </th>
-            <th class="werkgebiedCol">
-                {{ form_widget(form.izKlant.klant.werkgebied) }}
-                {{ knp_pagination_sortable(izHulpvragen, 'Werkgebied', 'klant.werkgebied') }}
+            <th>
+                {{ form_widget(form.klant.stadsdeel.naam) }}
+                {{ form_errors(form.klant.stadsdeel.naam) }}
             </th>
-            <th class="lastZrmCol">
-                {{ knp_pagination_sortable(izHulpvragen, 'Laatste ZRM', 'klant.laatsteZrm') }}
+            <th>
             </th>
             {{ form_end(form) }}
         </tr>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Startdatum', 'izHulpvraag.startdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Klantnummer', 'klant.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Werkgebied', 'klant.werkgebied') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
+            </th>
+        </tr>
 
-        {% for i, izHulpvraag in izHulpvragen %}
+        {% for i, izHulpvraag in pagination %}
             {% set class = (i % 2 == 0) ? 'altrow' : '' %}
             {% set url = html.url({
                 'controller': 'iz_deelnemers',
@@ -63,33 +80,22 @@
                 <td>
                     {{ izHulpvraag.startdatum|date('d-m-Y') }}
                 </td>
-                <td class="klantnrCol">
+                <td>
                     {{ izHulpvraag.izKlant.klant.id }}
                 </td>
-                <td class="voornaamCol">
-                    {{ izHulpvraag.izKlant.klant.voornaam }}
-                    {% if(izHulpvraag.izKlant.klant.roepnaam) %}
-                        ({{ izHulpvraag.izKlant.klant.roepnaam }})
-                    {% endif %}
+                <td>
+                    {{ izHulpvraag.izKlant.klant.naam }}
                 </td>
-                <td class="achternaamCol">
-                    {% if (izHulpvraag.izKlant.klant.tussenvoegsel) %}
-                        {{ izHulpvraag.izKlant.klant.tussenvoegsel }}
-                    {% endif %}
-                    {{ izHulpvraag.izKlant.klant.achternaam }}
+                <td>
+                    {{ izHulpvraag.izKlant.klant.geboortedatum is empty ? "" : izHulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
                 </td>
-                <td class="gebortedatumCol">
-                    {% if (izHulpvraag.izKlant.klant.geboortedatum) %}
-                        {{ izHulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
-                    {% endif %}
-                </td>
-                <td class="">
+                <td>
                     {{ izHulpvraag.izProject }}
                 </td>
-                <td class="">
+                <td>
                     {{ izHulpvraag.medewerker }}
                 </td>
-                <td class="">
+                <td>
                     {{ izHulpvraag.izKlant.klant.werkgebied }}
                 </td>
                 {% set zrm = izHulpvraag.izKlant.klant.laatsteZrm|date('U') %}
@@ -100,13 +106,13 @@
                 {% else %}
                     {% set style = '' %}
                 {% endif %}
-                <td class="" style="{{ style }}">
-                {{ izHulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
+                <td style="{{ style }}">
+                {{ izHulpvraag.izKlant.klant.laatsteZrm is empty ? "" : izHulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
                 </td>
             </tr>
         {% endfor %}
     </table>
     <p>
-        {{ knp_pagination_render(izHulpvragen) }}
+        {{ knp_pagination_render(pagination) }}
     </p>
 </div>

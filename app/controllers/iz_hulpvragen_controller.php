@@ -49,40 +49,16 @@ class IzHulpvragenController extends AppController
             ->andWhere('klant.disabled = false');
 
         if ($form->isValid()) {
-            $filter = $form->getData();
-            if ($id = $filter->getIzKlant()->getKlant()->getId()) {
-                $builder->andWhere('klant.id = :id')->setParameter('id', $id);
-            }
-            if ($voornaam = $filter->getIzKlant()->getKlant()->getVoornaam()) {
-                $builder->andWhere('klant.voornaam LIKE :voornaam')->setParameter('voornaam', "%{$voornaam}%");
-            }
-            if ($achternaam = $filter->getIzKlant()->getKlant()->getAchternaam()) {
-                $builder->andWhere('klant.achternaam LIKE :achternaam')->setParameter('achternaam', "%{$achternaam}%");
-            }
-            if ($geboortedatum = $filter->getIzKlant()->getKlant()->getGeboortedatum()) {
-                $builder->andWhere('klant.geboortedatum = :geboortedatum')->setParameter('geboortedatum', $geboortedatum);
-            }
-            if ($startdatum = $filter->getStartdatum()) {
-                $builder->andWhere('izHulpvraag.startdatum = :startdatum')->setParameter('startdatum', $startdatum);
-            }
-            if ($izProject = $filter->getIzProject()) {
-                $builder->andWhere('izHulpvraag.izProject = :izProject')->setParameter('izProject', $izProject);
-            }
-            if ($medewerker = $filter->getMedewerker()) {
-                $builder->andWhere('izHulpvraag.medewerker = :medewerker')->setParameter('medewerker', $medewerker);
-            }
-            if ($werkgebied = $filter->getIzKlant()->getKlant()->getWerkgebied()) {
-                $builder->andWhere('klant.werkgebied LIKE :werkgebied')->setParameter('werkgebied', "%{$werkgebied}%");
-            }
+            $filter = $form->getData()->applyTo($builder);
         }
 
-        $izHulpvragen = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'izHulpvraag.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
         $this->set('form', $form->createView());
-        $this->set('izHulpvragen', $izHulpvragen);
+        $this->set('pagination', $pagination);
     }
 }
