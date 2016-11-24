@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;

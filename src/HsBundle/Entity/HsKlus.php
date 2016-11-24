@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
@@ -14,32 +14,32 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
- * @Entity
- * @Table(name="hs_klussen")
+ * @ORM\Entity
+ * @ORM\Table(name="hs_klussen")
  */
 class HsKlus
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date")
      */
     private $datum;
 
     /**
      * @var HsKlant
-     * @ManyToOne(targetEntity="HsKlant", inversedBy="hsKlussen")
+     * @ORM\ManyToOne(targetEntity="HsKlant", inversedBy="hsKlussen")
      */
     private $hsKlant;
 
     /**
      * @var HsActiviteit
-     * @ManyToOne(targetEntity="HsActiviteit", inversedBy="hsKlussen")
+     * @ORM\ManyToOne(targetEntity="HsActiviteit", inversedBy="hsKlussen")
      */
     private $hsActiviteit;
 
@@ -47,27 +47,27 @@ class HsKlus
 
     /**
      * @var ArrayCollection|HsVrijwilliger[]
-     * @ManyToMany(targetEntity="HsVrijwilliger", inversedBy="hsKlussen")
+     * @ORM\ManyToMany(targetEntity="HsVrijwilliger", inversedBy="hsKlussen")
      */
     private $hsVrijwilligers;
 
     /**
      * @var ArrayCollection|HsRegistratie[]
-     * @OneToMany(targetEntity="HsRegistratie", mappedBy="hsKlus")
-     * @JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="HsRegistratie", mappedBy="hsKlus")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $hsRegistraties;
 
     /**
      * @var ArrayCollection|HsFactuur[]
-     * @OneToMany(targetEntity="HsFactuur", mappedBy="hsKlus")
+     * @ORM\OneToMany(targetEntity="HsFactuur", mappedBy="hsKlus")
      */
     private $hsFacturen;
 
     /**
      * @var Medewerker
-     * @ManyToOne(targetEntity="Medewerker")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $medewerker;
 

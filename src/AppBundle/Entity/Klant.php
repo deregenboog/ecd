@@ -167,7 +167,7 @@ class Klant
     /**
      * @Column(type="boolean")
      */
-    private $disabled;
+    private $disabled = false;
 
     public function __toString()
     {
@@ -274,6 +274,54 @@ class Klant
     public function setEmail($email = null)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getGeslacht()
+    {
+        return $this->geslacht;
+    }
+
+    public function setGeslacht(Geslacht $geslacht)
+    {
+        $this->geslacht = $geslacht;
+
+        return $this;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+
+        return $this;
+    }
+
+    public function getLand()
+    {
+        return $this->land;
+    }
+
+    public function setLand(Land $land)
+    {
+        $this->land = $land;
+
+        return $this;
+    }
+
+    public function getNationaliteit()
+    {
+        return $this->nationaliteit;
+    }
+
+    public function setNationaliteit(Nationaliteit $nationaliteit)
+    {
+        $this->nationaliteit = $nationaliteit;
 
         return $this;
     }

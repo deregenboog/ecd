@@ -8,8 +8,8 @@
     <dd>{{ activiteit.naam }}</dd>
 </dl>
 
-{{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id}) }}
-{{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id}) }}
+{{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id})|raw }}
+{{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id})|raw }}
 
 <h2>Klussen met activiteit {{ activiteit.naam }}</h2>
 {% for klus in activiteit.klussen %}

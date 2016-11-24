@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Form;
+namespace HsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\HsFactuur;
+use HsBundle\Entity\HsProfielGroep;
+use HsBundle\Entity\HsProfielCode;
 
-class HsFactuurType extends AbstractType
+class HsProfielCodeType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('hsKlus');
+        $builder
+            ->add('hsProfielGroep', null, ['label' => 'Profielgroep'])
+            ->add('waarde');
     }
 
     /**
@@ -23,7 +26,7 @@ class HsFactuurType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsFactuur::class,
+            'data_class' => HsProfielCode::class,
         ]);
     }
 }

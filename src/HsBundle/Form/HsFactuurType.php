@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Form;
+namespace HsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\HsVrijwilliger;
+use HsBundle\Entity\HsFactuur;
 
-class HsVrijwilligerType extends AbstractType
+class HsFactuurType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('vrijwilliger')
-            ->add('dragend', null, ['label' => 'Dragende vrijwilliger'])
-        ;
+        $builder->add('hsKlus');
     }
 
     /**
@@ -26,7 +23,7 @@ class HsVrijwilligerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsVrijwilliger::class,
+            'data_class' => HsFactuur::class,
         ]);
     }
 }

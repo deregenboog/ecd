@@ -1,9 +1,9 @@
 <?php
 
-use App\Entity\HsKlus;
-use App\Form\HsKlusType;
-use App\Entity\HsKlant;
-use App\Entity\HsFactuur;
+use HsBundle\Entity\HsKlus;
+use HsBundle\Form\HsKlusType;
+use HsBundle\Entity\HsKlant;
+use HsBundle\Entity\HsFactuur;
 
 class HsKlussenController extends AppController
 {
@@ -38,7 +38,7 @@ class HsKlussenController extends AppController
         $hsKlus = new HsKlus($hsKlant);
 
         $form = $this->createForm(HsKlusType::class, $hsKlus);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->persist($hsKlus);
@@ -60,7 +60,7 @@ class HsKlussenController extends AppController
         $hsKlus = $repository->find($id);
 
         $form = $this->createForm(HsKlusType::class, $hsKlus);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->flush();
@@ -76,12 +76,12 @@ class HsKlussenController extends AppController
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('App\Entity\HsActiviteit');
+        $repository = $entityManager->getRepository('HsBundle\Entity\HsActiviteit');
         $activiteit = $repository->find($id);
         $this->set('activiteit', $activiteit);
 
         $form = $this->createForm('App\Form\ConfirmationType');
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->remove($activiteit);
@@ -103,7 +103,7 @@ class HsKlussenController extends AppController
         $form = $this->createForm(HsKlusType::class, $hsKlus, [
             'mode' => HsKlusType::MODE_ADD_VRIJWILLIGER,
         ]);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->flush();

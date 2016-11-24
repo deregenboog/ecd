@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Form;
+namespace HsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\HsProfielGroep;
+use HsBundle\Entity\HsProfielGroep;
 
 class HsProfielGroepType extends AbstractType
 {

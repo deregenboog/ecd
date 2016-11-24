@@ -1,10 +1,10 @@
 <?php
 
 use App\Entity\Klant;
-use App\Entity\HsRegistratie;
+use HsBundle\Entity\HsRegistratie;
 use App\Form\HsRegistratieType;
-use App\Entity\HsKlus;
-use App\Entity\HsVrijwilliger;
+use HsBundle\Entity\HsKlus;
+use HsBundle\Entity\HsVrijwilliger;
 
 class HsRegistratiesController extends AppController
 {
@@ -20,19 +20,19 @@ class HsRegistratiesController extends AppController
 
     public function index()
     {
-        $entityManager = Registry::getInstance()->getManager();
-        $repository = $entityManager->getRepository('App\Entity\HsKlant');
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository('HsBundle\Entity\HsKlant');
         $this->set('klanten', $repository->findAll());
     }
 
     public function add($hsKlusId, $hsVrijwilligerId)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
 
         $form = $this->createForm(HsRegistratieType::class, new HsRegistratie($hsKlus, $hsVrijwilliger));
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->persist($form->getData());
@@ -50,11 +50,11 @@ class HsRegistratiesController extends AppController
 
     public function edit($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsRegistratie = $entityManager->find(HsRegistratie::class, $id);
 
         $form = $this->createForm(HsRegistratieType::class, $hsRegistratie);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->flush();

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Form;
+namespace HsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\HsKlus;
+use HsBundle\Entity\HsKlus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\HsVrijwilliger;
+use HsBundle\Entity\HsVrijwilliger;
 use Doctrine\ORM\EntityRepository;
 
 class HsKlusType extends AbstractType
@@ -28,10 +28,18 @@ class HsKlusType extends AbstractType
                 $builder
                     ->add('datum')
                     ->add('hsActiviteit')
-                    ->add('medewerker');
+                    ->add('medewerker')
+                    ->add('hsVrijwilligers', null, [
+                        'label' => 'Vrijwilliger',
+//                         'query_builder' => function (EntityRepository $repository) use ($options) {
+//                             return $repository->createQueryBuilder('v')
+//                                 ->where('v NOT IN (:vrijwilligers)')
+//                                 ->setParameter('vrijwilligers', $options['data']->getHsVrijwilligers()->toArray());
+//                         },
+                    ]);
                 break;
             case self::MODE_ADD_VRIJWILLIGER:
-                $builder->add('hsVrijwilliger', EntityType::class, [
+                $builder->add('hsVrijwilligers', EntityType::class, [
                     'label' => 'Vrijwilliger',
                     'placeholder' => '',
                     'class' => HsVrijwilliger::class,

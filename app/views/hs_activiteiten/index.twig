@@ -2,25 +2,25 @@
 
 <h1>Activiteiten</h1>
 
-{{ html.link('Activiteit toevoegen', {'action': 'add'}) }}
+{{ html.link('Activiteit toevoegen', {'action': 'add'})|raw }}
 
 <table>
-	<tr>
-		<th>Nummer</th>
-		<th>Naam</th>
-		<th></th>
-	</tr>
-	{% for activiteit in activiteiten %}
-	<tr>
-		<td>{{ activiteit.id }}</td>
-		<td>{{ activiteit.naam }}</td>
-		<td>
-		    {{ html.link('Bekijken', {'action': 'view', 0: activiteit.id}) }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id}) }}	    
-            {{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id}) }}
+    <tr>
+        <th>Nummer</th>
+        <th>Naam</th>
+        <th></th>
+    </tr>
+    {% for activiteit in activiteiten %}
+    <tr>
+        <td>{{ activiteit.id }}</td>
+        <td>{{ activiteit.naam }}</td>
+        <td>
+            {{ html.link('Bekijken', {'action': 'view', 0: activiteit.id})|raw }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id})|raw }}
+            {{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id}|raw) }}
         </td>
-	</tr>
-	{% endfor %}
+    </tr>
+    {% endfor %}
 </table>
 
 {% include 'pagination.twig' ignore missing %}

@@ -1,7 +1,7 @@
 <?php
 
 use App\Entity\Vrijwilliger;
-use App\Entity\HsVrijwilliger;
+use HsBundle\Entity\HsVrijwilliger;
 use App\Form\HsVrijwilligerType;
 use Symfony\Component\Form\FormError;
 use Doctrine\DBAL\DBALException;
@@ -20,14 +20,14 @@ class HsVrijwilligersController extends AppController
 
     public function index()
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsVrijwilliger::class);
         $this->set('hsVrijwilligers', $repository->findAll());
     }
 
     public function view($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $id);
         $this->set('hsVrijwilliger', $hsVrijwilliger);
     }
@@ -37,7 +37,7 @@ class HsVrijwilligersController extends AppController
         $hsVrijwilliger = new HsVrijwilliger();
 
         $form = $this->createForm(HsVrijwilligerType::class, $hsVrijwilliger);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             try {
@@ -65,11 +65,11 @@ class HsVrijwilligersController extends AppController
 
     public function edit($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $id);
 
         $form = $this->createForm(HsVrijwilligerType::class, $hsVrijwilliger);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             try {

@@ -1,6 +1,7 @@
 <?php
 
-use App\Entity\HsActiviteit;
+use HsBundle\Entity\HsActiviteit;
+use HsBundle\Form\HsActiviteitType;
 
 class HsActiviteitenController extends AppController
 {
@@ -17,14 +18,14 @@ class HsActiviteitenController extends AppController
     public function index()
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('App\Entity\HsActiviteit');
+        $repository = $entityManager->getRepository(HsActiviteitType::class);
         $this->set('activiteiten', $repository->findAll());
     }
 
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('App\Entity\HsActiviteit');
+        $repository = $entityManager->getRepository(HsActiviteitType::class);
         $activiteit = $repository->find($id);
         $this->set('activiteit', $activiteit);
     }
@@ -33,8 +34,8 @@ class HsActiviteitenController extends AppController
     {
         $activiteit = new HsActiviteit();
 
-        $form = $this->createForm('App\Form\HsActiviteitType', $activiteit);
-        $form->handleRequest();
+        $form = $this->createForm(HsActiviteitType::class, $activiteit);
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager = $this->getEntityManager();
@@ -52,11 +53,11 @@ class HsActiviteitenController extends AppController
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('App\Entity\HsActiviteit');
+        $repository = $entityManager->getRepository(HsActiviteitType::class);
         $activiteit = $repository->find($id);
 
         $form = $this->createForm('App\Form\HsActiviteitType', $activiteit);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->persist($activiteit);
@@ -73,12 +74,12 @@ class HsActiviteitenController extends AppController
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('App\Entity\HsActiviteit');
+        $repository = $entityManager->getRepository(HsActiviteitType::class);
         $activiteit = $repository->find($id);
         $this->set('activiteit', $activiteit);
 
         $form = $this->createForm('App\Form\ConfirmationType');
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->remove($activiteit);

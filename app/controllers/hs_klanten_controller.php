@@ -1,10 +1,12 @@
 <?php
 
-use App\Entity\Klant;
-use App\Entity\HsKlant;
-use App\Form\HsKlantType;
-use App\Entity\HsProfielCode;
-use App\Form\HsProfielCodeType;
+use AppBundle\Entity\Klant;
+use HsBundle\Entity\HsKlant;
+use HsBundle\Form\HsKlantType;
+use HsBundle\Entity\HsProfielCode;
+use HsBundle\Form\HsProfielCodeType;
+use AppBundle\Form\KlantFilterType;
+use HsBundle\Form\HsKlantSelectType;
 
 class HsKlantenController extends AppController
 {
@@ -20,70 +22,97 @@ class HsKlantenController extends AppController
 
     public function index()
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsKlant::class);
         $this->set('klanten', $repository->findAll());
     }
 
     public function view($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsKlant = $entityManager->find(HsKlant::class, $id);
         $this->set('hsKlant', $hsKlant);
     }
 
-    public function add()
+    public function add($klantId = null)
     {
-        $hsKlant = new HsKlant();
+        $entityManager = $this->getEntityManager();
 
-        $form = $this->createForm(HsKlantType::class, $hsKlant);
-        $form->handleRequest();
+        if ($klantId) {
+            $klant = new Klant();
+            if ($klantId !== 'new') {
+                $klant = $entityManager->find(Klant::class, $klantId);
+            }
 
-        if ($form->isValid()) {
-            return $this->add2($form->getData()->getKlant());
-//         	$form2 = $this->createForm(HsKlantType::class, $hsKlant, [
-//         		'mode' => HsKlantType::MODE_SELECT,
-//         		'select_filter' => $form->getData()->getKlant(),
-//         	]);
-//         	$this->set('form', $form2->createView());
-//         	return;
+            $hsKlant = new HsKlant();
+            $hsKlant->setKlant($klant);
 
-//         	$form2->handleRequest();
+            $creationForm = $this->createForm(HsKlantType::class, $hsKlant);
+            $creationForm->handleRequest($this->request);
+
+            if ($creationForm->isValid()) {
+                $entityManager->persist($hsKlant);
+                $entityManager->flush();
+
+                $this->Session->setFlash('Klant is opgeslagen.');
+
+                return $this->redirect(array('action' => 'view', $hsKlant->getId()));
+            }
+
+            $this->set('creationForm', $creationForm->createView());
+
+            return;
         }
 
-        $this->set('form', $form->createView());
-    }
+        $filterForm = $this->createForm(KlantFilterType::class)->remove('stadsdeel');
+        $filterForm->handleRequest($this->request);
 
-    public function add2(Klant $filter = null)
-    {
-        $hsKlant = new HsKlant();
-
-        $form = $this->createForm(HsKlantType::class, $hsKlant, [
-                'mode' => HsKlantType::MODE_SELECT,
-                'filter' => $filter,
-                'action' => 'add2',
+        $selectionForm = $this->createForm(HsKlantSelectType::class, null, [
+            'filter' => $filterForm->getData(),
         ]);
-        $this->set('form', $form->createView());
+        $selectionForm->handleRequest($this->request);
 
-        return $this->render('add');
+        if ($filterForm->isValid()) {
+            $this->set('selectionForm', $selectionForm->createView());
+
+            return;
+        }
+
+        if ($selectionForm->isValid()) {
+            $hsKlant = $selectionForm->getData();
+            if ($hsKlant->getKlant() instanceof Klant) {
+                return $this->redirect(['action' => 'add', $hsKlant->getKlant()->getId()]);
+            }
+            return $this->redirect(['action' => 'add', 'new']);
+        }
+
+        $this->set('filterForm', $filterForm->createView());
     }
 
     public function edit($id)
     {
-        $form = $this->createForm(HsKlantType::class, new App\Entity\HsKlant());
-        $form->handleRequest();
+        $entityManager = $this->getEntityManager();
+        $hsKlant = $entityManager->find(HsKlant::class, $id);
+
+        $form = $this->createForm(HsKlantType::class, $hsKlant);
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            return $this->redirect(['action' => 'add2']);
+            $entityManager->flush();
+
+            $this->Session->setFlash('Klant is opgeslagen.');
+
+            return $this->redirect(array('action' => 'index'));
         }
 
         $this->set('form', $form->createView());
+        $this->set('hsKlant', $hsKlant);
     }
 
     public function deleten($id)
     {
-        $form = $this->createForm(HsKlantType::class, new App\Entity\HsKlant());
-        $form->handleRequest();
+        $form = $this->createForm(HsKlantType::class, new HsBundle\Entity\HsKlant());
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             return $this->redirect(['action' => 'add2']);
@@ -98,7 +127,7 @@ class HsKlantenController extends AppController
         $hsProfielCode = new HsProfielCode();
 
         $form = $this->createForm(HsProfielCodeType::class, $hsProfielCode);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $hsKlant->addHsProfielCode($hsProfielCode);

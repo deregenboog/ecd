@@ -1,67 +1,58 @@
 <?php
 
-namespace App\Entity;
+namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\OneToOne;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use Doctrine\ORM\Mapping\PrePersist;
-use Doctrine\ORM\Mapping\PreUpdate;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Vrijwilliger;
 
 /**
- * @Entity
- * @Table(name="hs_vrijwilligers")
- * @HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\Table(name="hs_vrijwilligers")
+ * @ORM\HasLifecycleCallbacks
  */
 class HsVrijwilliger
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private $dragend = false;
 
     /**
      * @var Vrijwilliger
-     * @OneToOne(targetEntity="Vrijwilliger")
-     * @JoinColumn(nullable=false, unique=true)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger")
+     * @ORM\JoinColumn(nullable=false, unique=true)
      */
     private $vrijwilliger;
 
     /**
      * @var HsKlus[]
-     * @ManyToMany(targetEntity="HsKlus", mappedBy="hsVrijwilligers")
+     * @ORM\ManyToMany(targetEntity="HsKlus", mappedBy="hsVrijwilligers")
      */
     private $hsKlussen;
 
     /**
      * @var HsRegistratie
-     * @OneToMany(targetEntity="HsRegistratie", mappedBy="hsVrijwilliger")
-     * @JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="HsRegistratie", mappedBy="hsVrijwilliger")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $hsRegistraties;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $created;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $modified;
 
@@ -125,7 +116,7 @@ class HsVrijwilliger
     }
 
     /**
-     * @PrePersist
+     * @ORM\PrePersist
      */
     public function onPrePersist()
     {
@@ -133,7 +124,7 @@ class HsVrijwilliger
     }
 
     /**
-     * @PreUpdate
+     * @ORM\PreUpdate
      */
     public function onPreUpdate()
     {

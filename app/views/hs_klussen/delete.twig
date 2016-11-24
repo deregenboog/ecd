@@ -4,6 +4,6 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     Weet u zeker dat u activiteit {{ activiteit.naam }} wilt verwijderen?<br>
-    {{ html.link('Nee, annuleren', {'action': 'index'}) }}
+    {{ html.link('Nee, annuleren', {'action': 'index'})|raw }}
     <input type="submit" value="Ja, verwijderen" />
 {{ form_end(form) }}

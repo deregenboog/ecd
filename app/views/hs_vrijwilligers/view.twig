@@ -12,7 +12,7 @@
         <ul>
             {% for hsKlus in hsVrijwilliger.hsKlussen %}
                 <li>
-                    {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id}) }}                                
+                    {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
                     <table>
                         <tr>
                             <th>Datum</th>
@@ -28,14 +28,14 @@
                                 <td>{{ hsRegistratie.eind|date('H:i') }}</td>
                                 <td>{{ hsRegistratie.dagdelen }}</td>
                                 <td>
-                                    {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id}) }}                                
-                                    {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id}) }}                                
+                                    {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                                    {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
                                 </td>
                             </tr>
                         {% endfor %}
                         <tr>
                             <td colspan="5">
-                                {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id}) }}
+                                {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id})|raw }}
                             </td>
                         </tr>
                     </table>
@@ -45,5 +45,5 @@
     </dd>
 </dl>
 
-{{ html.link('Bewerken', {'action': 'edit', 0: hsVrijwilliger.id}) }}
-{{ html.link('Verwijderen', {'action': 'delete', 0: hsVrijwilliger.id}) }}
+{{ html.link('Bewerken', {'action': 'edit', 0: hsVrijwilliger.id})|raw }}
+{{ html.link('Verwijderen', {'action': 'delete', 0: hsVrijwilliger.id})|raw }}

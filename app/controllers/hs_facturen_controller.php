@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\HsFactuur;
+use HsBundle\Entity\HsFactuur;
 use App\Form\HsFactuurType;
 use App\Form\ConfirmationType;
 
@@ -18,14 +18,14 @@ class HsFacturenController extends AppController
 
     public function index()
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsFactuur::class);
         $this->set('hsFacturen', $repository->findAll());
     }
 
     public function view($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
         $this->set('hsFactuur', $hsFactuur);
     }
@@ -35,10 +35,10 @@ class HsFacturenController extends AppController
         $hsFactuur = new HsFactuur();
 
         $form = $this->createForm(HsFactuurType::class, $hsFactuur);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager = Registry::getInstance()->getManager();
+            $entityManager = $this->getEntityManager();
             $entityManager->persist($hsFactuur);
             $entityManager->flush();
 
@@ -50,14 +50,14 @@ class HsFacturenController extends AppController
 
     public function edit($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
         $form = $this->createForm(HsFactuurType::class, $hsFactuur);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager = Registry::getInstance()->getManager();
+            $entityManager = $this->getEntityManager();
             $entityManager->flush();
 
             return $this->redirect(['action' => 'index']);
@@ -68,11 +68,11 @@ class HsFacturenController extends AppController
 
     public function delete($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->remove($hsFactuur);

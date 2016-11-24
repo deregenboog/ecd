@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -10,9 +10,9 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 
 /**
  * @Entity
- * @Table(name="nationaliteiten")
+ * @Table(name="hs_profiel_groep")
  */
-class Nationaliteit
+class HsProfielGroep
 {
     /**
      * @Id
@@ -22,37 +22,30 @@ class Nationaliteit
     private $id;
 
     /**
-     * @Column(type="string")
-     */
-    private $afkorting;
-
-    /**
+     * @var string
      * @Column(type="string")
      */
     private $naam;
 
-    /**
-     * @Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @Column(type="datetime")
-     */
-    private $modified;
+    public function __toString()
+    {
+        return $this->naam;
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getAfkorting()
-    {
-        return $this->afkorting;
-    }
-
     public function getNaam()
     {
         return $this->naam;
+    }
+
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
     }
 }

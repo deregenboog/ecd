@@ -41,6 +41,11 @@ class Geslacht
      */
     private $modified;
 
+    public function __toString()
+    {
+        return $this->volledig;
+    }
+
     public function getId()
     {
         return $this->id;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\HsProfielCode;
+use HsBundle\Entity\HsProfielCode;
 use App\Form\HsProfielCodeType;
 use App\Form\ConfirmationType;
 
@@ -18,21 +18,21 @@ class HsProfielCodesController extends AppController
 
     public function view($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsProfielCode = $entityManager->find(HsProfielCode::class, $id);
         $this->set('hsProfielCode', $hsProfielCode);
     }
 
     public function edit($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsProfielCode = $entityManager->find(HsProfielCode::class, $id);
 
         $form = $this->createForm(HsProfielCodeType::class, $hsProfielCode);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager = Registry::getInstance()->getManager();
+            $entityManager = $this->getEntityManager();
             $entityManager->flush();
 
             if ($hsKlant = $hsProfielCode->getHsKlant()) {
@@ -46,11 +46,11 @@ class HsProfielCodesController extends AppController
 
     public function delete($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsProfielCode = $entityManager->find(HsProfielCode::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->remove($hsProfielCode);

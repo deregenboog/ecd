@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\HsProfielGroep;
+use HsBundle\Entity\HsProfielGroep;
 use App\Form\HsProfielGroepType;
 use App\Form\ConfirmationType;
 
@@ -18,14 +18,14 @@ class HsProfielGroepenController extends AppController
 
     public function index()
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsProfielGroep::class);
         $this->set('hsProfielGroepen', $repository->findAll());
     }
 
     public function view($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsProfielGroep = $entityManager->find(HsProfielGroep::class, $id);
         $this->set('hsProfielGroep', $hsProfielGroep);
     }
@@ -35,10 +35,10 @@ class HsProfielGroepenController extends AppController
         $hsProfielGroep = new HsProfielGroep();
 
         $form = $this->createForm(HsProfielGroepType::class, $hsProfielGroep);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager = Registry::getInstance()->getManager();
+            $entityManager = $this->getEntityManager();
             $entityManager->persist($hsProfielGroep);
             $entityManager->flush();
 
@@ -50,14 +50,14 @@ class HsProfielGroepenController extends AppController
 
     public function edit($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsProfielGroep = $entityManager->find(HsProfielGroep::class, $id);
 
         $form = $this->createForm(HsProfielGroepType::class, $hsProfielGroep);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager = Registry::getInstance()->getManager();
+            $entityManager = $this->getEntityManager();
             $entityManager->flush();
 
             return $this->redirect(['action' => 'index']);
@@ -68,11 +68,11 @@ class HsProfielGroepenController extends AppController
 
     public function delete($id)
     {
-        $entityManager = Registry::getInstance()->getManager();
+        $entityManager = $this->getEntityManager();
         $hsProfielGroep = $entityManager->find(HsProfielGroep::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest();
+        $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->remove($hsProfielGroep);

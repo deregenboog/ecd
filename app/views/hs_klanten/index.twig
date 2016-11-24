@@ -1,31 +1,27 @@
-{% include 'hs_subnavigation.twig' %} 
+{% include 'hs_subnavigation.twig' %}
 
 <h1>Klanten</h1>
 
-{{ html.link('Klant toevoegen', {'action': 'add'}) }}
+{{ html.link('Klant toevoegen', {'action': 'add'})|raw }}
 
 <table>
-	<tr>
-		<th>Nummer</th>
-		<th>Voornaam</th>
-		<th>Tussenvoegsel</th>
-		<th>Achternaam</th>
-		<th></th>
-	</tr>
-	{% for klant in klanten %}
-	<tr>
-		<td>{{ klant.klant.id }}</td>
-		<td>{{ klant.klant.voornaam }}</td>
-		<td>{{ klant.klant.tussenvoegsel }}</td>
-		<td>{{ klant.klant.achternaam }}</td>
-		<td>
-            {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: klant.id}) }}
-		    {{ html.link('Bekijken', {'action': 'view', 0: klant.id}) }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: klant.id}) }}
-            {{ html.link('Verwijderen', {'action': 'deleten', 0: klant.id}) }}
-	    </td>
-	</tr>
-	{% endfor %}
+    <tr>
+        <th>Nummer</th>
+        <th>Naam</th>
+        <th></th>
+    </tr>
+    {% for klant in klanten %}
+    <tr>
+        <td>{{ klant.id }}</td>
+        <td>{{ klant.klant.naam }}</td>
+        <td>
+            {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: klant.id})|raw }}
+            {{ html.link('Bekijken', {'action': 'view', 0: klant.id})|raw }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: klant.id})|raw }}
+            {{ html.link('Verwijderen', {'action': 'deleten', 0: klant.id})|raw }}
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 
 {# this.element('pagination') #}

@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Form;
+namespace HsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\HsRegistratie;
+use HsBundle\Entity\HsVrijwilliger;
 
-class HsRegistratieType extends AbstractType
+class HsVrijwilligerType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('datum')->add('start')->add('eind');
+        $builder
+            ->add('vrijwilliger')
+            ->add('dragend', null, ['label' => 'Dragende vrijwilliger'])
+        ;
     }
 
     /**
@@ -23,7 +26,7 @@ class HsRegistratieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsRegistratie::class,
+            'data_class' => HsVrijwilliger::class,
         ]);
     }
 }

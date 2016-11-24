@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Form;
+namespace HsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\HsActiviteit;
+use HsBundle\Entity\HsActiviteit;
 
 class HsActiviteitType extends AbstractType
 {

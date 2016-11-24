@@ -3,18 +3,18 @@
 <h1>Klussen</h1>
 
 <table>
-	<tr>
-		<th>Nummer</th>
+    <tr>
+        <th>Nummer</th>
         <th>Datum</th>
         <th>Klant</th>
         <th>Activiteit</th>
         <th>Vrijwilligers</th>
         <th>Stadsdeel</th>
         <th>&nbsp;</th>
-	</tr>
-	{% for hsKlus in hsKlussen %}
-	<tr>
-		<td>{{ hsKlus.id }}</td>
+    </tr>
+    {% for hsKlus in hsKlussen %}
+    <tr>
+        <td>{{ hsKlus.id }}</td>
         <td>{{ hsKlus.datum|date }}</td>
         <td>{{ hsKlus.hsKlant }}</td>
         <td>{{ hsKlus.hsActiviteit }}</td>
@@ -25,14 +25,14 @@
                 {% endfor %}
             </ul>
         </td>
-        <td>{{ hsKlus.klant.werkgebied }}</td>
-		<td>
-		    {{ html.link('Bekijken', {'action': 'view', 0: hsKlus.id}) }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: hsKlus.id}) }}	    
-            {{ html.link('Verwijderen', {'action': 'delete', 0: hsKlus.id}) }}
+        <td>{{ hsKlus.hsKlant.klant.werkgebied }}</td>
+        <td>
+            {{ html.link('Bekijken', {'action': 'view', 0: hsKlus.id})|raw }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: hsKlus.id})|raw }}
+            {{ html.link('Verwijderen', {'action': 'delete', 0: hsKlus.id})|raw }}
         </td>
-	</tr>
-	{% endfor %}
+    </tr>
+    {% endfor %}
 </table>
 
 {% include 'pagination.twig' ignore missing %}
