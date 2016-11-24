@@ -10,18 +10,20 @@
         <th>Naam</th>
         <th></th>
     </tr>
-    {% for klant in klanten %}
+    {% for hsKlant in pagination %}
     <tr>
-        <td>{{ klant.id }}</td>
-        <td>{{ klant.klant.naam }}</td>
+        <td>{{ hsKlant.id }}</td>
+        <td>{{ hsKlant.klant.naam }}</td>
         <td>
-            {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: klant.id})|raw }}
-            {{ html.link('Bekijken', {'action': 'view', 0: klant.id})|raw }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: klant.id})|raw }}
-            {{ html.link('Verwijderen', {'action': 'deleten', 0: klant.id})|raw }}
+            {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: hsKlant.id})|raw }}
+            {{ html.link('Bekijken', {'action': 'view', 0: hsKlant.id})|raw }}
+            {{ html.link('Bewerken', {'action': 'edit', 0: hsKlant.id})|raw }}
+            {{ html.link('Verwijderen', {'action': 'deleten', 0: hsKlant.id})|raw }}
         </td>
     </tr>
     {% endfor %}
 </table>
 
-{# this.element('pagination') #}
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

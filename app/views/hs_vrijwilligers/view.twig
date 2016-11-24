@@ -1,10 +1,10 @@
 {% include 'hs_subnavigation.twig' %}
 
-<h1>Vrijwilliger ({{ hsVrijwilliger.naam }})</h1>
+<h1>Vrijwilliger {{ hsVrijwilliger.vrijwilliger.naam }}</h1>
 
 <dl>
-    <dt>Nummer</dt>
-    <dd>{{ hsVrijwilliger.vrijwilliger.id }}</dd>
+    <dt>Vrijwilligernummer</dt>
+    <dd>{{ hsVrijwilliger.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ hsVrijwilliger.vrijwilliger.naam }}</dd>
     <dt>Klussen</dt>

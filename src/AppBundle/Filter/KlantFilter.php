@@ -40,7 +40,7 @@ class KlantFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->naam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT(klant.voornaam, ' ', klant.roepnaam, ' ', klant.tussenvoegsel, ' ', klant.achternaam) LIKE :klant_naam_part_{$i}")
+                    ->andWhere("CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_{$i}")
                     ->setParameter("klant_naam_part_{$i}", "%{$part}%")
                 ;
             }

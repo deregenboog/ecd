@@ -7,18 +7,14 @@
 <table>
     <tr>
         <th>Nummer</th>
-        <th>Voornaam</th>
-        <th>Tussenvoegsel</th>
-        <th>Achternaam</th>
+        <th>Naam</th>
         <th>Dragende vrijwilliger</th>
         <th></th>
     </tr>
-    {% for hsVrijwilliger in hsVrijwilligers %}
+    {% for hsVrijwilliger in pagination %}
     <tr>
         <td>{{ hsVrijwilliger.vrijwilliger.id }}</td>
-        <td>{{ hsVrijwilliger.vrijwilliger.voornaam }}</td>
-        <td>{{ hsVrijwilliger.vrijwilliger.tussenvoegsel }}</td>
-        <td>{{ hsVrijwilliger.vrijwilliger.achternaam }}</td>
+        <td>{{ hsVrijwilliger.vrijwilliger.naam }}</td>
         <td>{{ hsVrijwilliger.dragend ? 'ja' : 'nee' }}</td>
         <td>
             {{ html.link('Bekijken', {'action': 'view', 0: hsVrijwilliger.id})|raw }}
@@ -29,4 +25,6 @@
     {% endfor %}
 </table>
 
-{# this.element('pagination') #}
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

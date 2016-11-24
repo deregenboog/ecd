@@ -1,7 +1,11 @@
 {% include 'hs_subnavigation.twig' %}
 
 <h1>Vrijwilliger bewerken</h1>
-
+<p>
+    Hier kunt u alleen de Homeservice-gegevens voor deze vrijwilliger wijzigen.
+    Klik {{ html.link('hier', {'controller': 'vrijwilligers', 'action': 'view', 0: hsVrijwilliger.vrijwilliger.id })|raw }}
+    om naar het basisdossier van deze vrijwilliger te gaan.
+</p>
 {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" value="Opslaan" />

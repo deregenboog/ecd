@@ -7,6 +7,7 @@ use HsBundle\Entity\HsProfielCode;
 use HsBundle\Form\HsProfielCodeType;
 use AppBundle\Form\KlantFilterType;
 use HsBundle\Form\HsKlantSelectType;
+use Doctrine\DBAL\Driver\PDOException;
 
 class HsKlantenController extends AppController
 {
@@ -20,11 +21,35 @@ class HsKlantenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $sortFieldWhitelist = [
+        'klant.achternaam',
+    ];
+
     public function index()
     {
+//         $form = $this->createForm(HsKlantFilterType::class);
+//         $form->handleRequest($this->request);
+
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsKlant::class);
-        $this->set('klanten', $repository->findAll());
+
+        $builder = $repository->createQueryBuilder('hsKlant')
+            ->innerJoin('hsKlant.klant', 'klant')
+            ->andWhere('klant.disabled = false')
+        ;
+
+//         if ($form->isValid()) {
+//             $filter = $form->getData()->applyTo($builder);
+//         }
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'klant.achternaam',
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+        ]);
+
+//         $this->set('form', $form);
+        $this->set('pagination', $pagination);
     }
 
     public function view($id)
@@ -51,12 +76,22 @@ class HsKlantenController extends AppController
             $creationForm->handleRequest($this->request);
 
             if ($creationForm->isValid()) {
-                $entityManager->persist($hsKlant);
-                $entityManager->flush();
+                try {
+                    $entityManager->persist($hsKlant);
+                    $entityManager->flush();
 
-                $this->Session->setFlash('Klant is opgeslagen.');
+                    $this->Session->setFlash('Klant is opgeslagen.');
 
-                return $this->redirect(array('action' => 'view', $hsKlant->getId()));
+                    return $this->redirect(array('action' => 'view', $hsKlant->getId()));
+                } catch (\Exception $e) {
+                    if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
+                        $this->Session->setFlash('Deze vrijwilliger heeft al een Homeservice-dossier.');
+                    } else {
+                        $this->Session->setFlash('Er is een fout opgetreden.');
+                    }
+                } finally {
+                    return $this->redirect(array('action' => 'index'));
+                }
             }
 
             $this->set('creationForm', $creationForm->createView());
