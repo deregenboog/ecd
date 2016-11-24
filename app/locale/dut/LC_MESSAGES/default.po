@@ -210,7 +210,10 @@ msgid "Invalid schorsing"
 msgstr "Deze schorsing bestaat niet."
 
 msgid "You can only edit intakes that have been created today."
-msgstr "Je kan alleen intakes wijzigen die vandaag aangemaakt zijn."
+msgstr "Je kan alleen intakes wijzigen die vandaag zijn aangemaakt."
+
+msgid "You can only edit intakes that have been created last week."
+msgstr "Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt."
 
 msgid "You can only edit intakes that have been created by you."
 msgstr "Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt."
