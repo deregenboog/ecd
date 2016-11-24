@@ -485,6 +485,12 @@ class RegistratiesController extends AppController
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
             }
+
+            if (count($klant['Opmerking']) > 0) {
+                $jsonVar['message'] .= $sep.'Laatste opmerking: '.end($klant['Opmerking'])['beschrijving'];
+                $jsonVar['confirm'] = true;
+                $sep = $separator;
+            }
         }
 
         render:
