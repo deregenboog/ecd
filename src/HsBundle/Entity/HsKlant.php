@@ -59,12 +59,6 @@ class HsKlant
     private $hsKlussen;
 
     /**
-     * @var HsProfiel[]
-     * @ORM\OneToMany(targetEntity="HsProfielCode", mappedBy="hsKlant", cascade={"persist", "remove"})
-     */
-    private $hsProfielCodes;
-
-    /**
      * @ORM\PrePersist
      */
     public function onPrePersist()
@@ -83,7 +77,6 @@ class HsKlant
     public function __construct()
     {
         $this->hsKlussen = new ArrayCollection();
-        $this->hsProfielCodes = new ArrayCollection();
     }
 
     public function __toString()
@@ -125,16 +118,8 @@ class HsKlant
         return $this->hsKlussen;
     }
 
-    public function getHsProfielCodes()
+    public function isDeletable()
     {
-        return $this->hsProfielCodes;
-    }
-
-    public function addHsProfielCode(HsProfielCode $hsProfielCode)
-    {
-        $this->hsProfielCodes->add($hsProfielCode);
-        $hsProfielCode->setHsKlant($this);
-
-        return $this;
+        return count($this->hsKlussen) === 0;
     }
 }

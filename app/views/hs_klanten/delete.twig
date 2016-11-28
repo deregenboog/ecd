@@ -1,10 +1,10 @@
 {% include('hs_subnavigation.twig') %}
-{{ this.element('hs_subnavigation') }}
 
-<h1>Activiteit verwijderen</h1>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    Weet u zeker dat u activiteit {{ activiteit.naam }} wilt verwijderen?<br>
-    {{ html.link('Nee, annuleren', {'action': 'index'})|raw }}
-    <input type="submit" value="Ja, verwijderen" />
-{{ form_end(form) }}
+<h1>Klant verwijderen</h1>
+<p>
+    Weet u zeker dat u activiteit <strong>{{ hsKlant }}</strong> wilt verwijderen?<br>
+    {{ form_start(form) }}
+        {{ html.link('Nee, annuleren', {'action': 'index'})|raw }}
+        <button type="submit">Ja, verwijderen</button>
+    {{ form_end(form) }}
+</p>

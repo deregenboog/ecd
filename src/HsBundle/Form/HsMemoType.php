@@ -5,16 +5,22 @@ namespace HsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use HsBundle\Entity\HsProfielGroep;
+use AppBundle\Form\AppDateType;
+use HsBundle\Entity\HsMemo;
 
-class HsProfielGroepType extends AbstractType
+class HsMemoType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('naam');
+        $builder
+            ->add('medewerker')
+            ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('memo')
+            ->add('intake')
+        ;
     }
 
     /**
@@ -23,7 +29,7 @@ class HsProfielGroepType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsProfielGroep::class,
+            'data_class' => HsMemo::class,
         ]);
     }
 }

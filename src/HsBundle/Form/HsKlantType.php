@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantType;
 use HsBundle\Entity\HsKlant;
+use AppBundle\Form\AppDateType;
 
 class HsKlantType extends AbstractType
 {
@@ -34,7 +35,7 @@ class HsKlantType extends AbstractType
             $builder->add('klant', KlantType::class);
         }
 
-        $builder->add('inschrijving');
+        $builder->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')]);
     }
 
     /**
@@ -44,7 +45,6 @@ class HsKlantType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HsKlant::class,
-            'filter' => null,
         ]);
     }
 }

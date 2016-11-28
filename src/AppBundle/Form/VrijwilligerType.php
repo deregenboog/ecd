@@ -5,9 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
+use AppBundle\Entity\Vrijwilliger;
 
-class KlantType extends AbstractType
+class VrijwilligerType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class KlantType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Klant::class,
+            'data_class' => Vrijwilliger::class,
             'data' => null,
         ]);
     }

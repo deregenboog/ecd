@@ -3,15 +3,9 @@
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\JoinColumn;
+use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
@@ -27,9 +21,24 @@ class HsKlus
     private $id;
 
     /**
+     * Datum van uitvoering.
+     *
+     * @var \DateTime
      * @ORM\Column(type="date")
      */
     private $datum;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date")
+     */
+    private $startdatum;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date")
+     */
+    private $einddatum;
 
     /**
      * @var HsKlant
@@ -54,9 +63,14 @@ class HsKlus
     /**
      * @var ArrayCollection|HsRegistratie[]
      * @ORM\OneToMany(targetEntity="HsRegistratie", mappedBy="hsKlus")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $hsRegistraties;
+
+    /**
+     * @var ArrayCollection|HsDeclaratie[]
+     * @ORM\OneToMany(targetEntity="HsDeclaratie", mappedBy="hsKlus")
+     */
+    private $hsDeclaraties;
 
     /**
      * @var ArrayCollection|HsFactuur[]
@@ -164,6 +178,11 @@ class HsKlus
         return $this->hsRegistraties;
     }
 
+    public function getHsDeclaraties()
+    {
+        return $this->hsDeclaraties;
+    }
+
     public function getHsFacturen()
     {
         return $this->hsFacturen;
@@ -179,5 +198,11 @@ class HsKlus
         $this->medewerker = $medewerker;
 
         return $this;
+    }
+
+    public function isDeletable()
+    {
+        return count($this->hsFacturen) === 0
+            && count($this->hsRegistraties) === 0;
     }
 }

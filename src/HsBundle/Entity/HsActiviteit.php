@@ -70,4 +70,14 @@ class HsActiviteit
 
         return $this;
     }
+
+    public function getHsKlussen()
+    {
+        return $this->hsKlussen;
+    }
+
+    public function isDeletable()
+    {
+        return count($this->hsKlussen) === 0;
+    }
 }

@@ -1,10 +1,14 @@
 <?php
 
-use App\Entity\Vrijwilliger;
 use HsBundle\Entity\HsVrijwilliger;
-use App\Form\HsVrijwilligerType;
+use HsBundle\Form\HsVrijwilligerType;
 use Symfony\Component\Form\FormError;
-use Doctrine\DBAL\DBALException;
+use HsBundle\Form\HsVrijwilligerFilterType;
+use AppBundle\Form\VrijwilligerFilterType;
+use HsBundle\Form\HsVrijwilligerSelectType;
+use AppBundle\Entity\Vrijwilliger;
+use HsBundle\Entity\HsMemo;
+use HsBundle\Form\HsMemoType;
 
 class HsVrijwilligersController extends AppController
 {
@@ -19,13 +23,20 @@ class HsVrijwilligersController extends AppController
     public $view = 'AppTwig';
 
     private $sortFieldWhitelist = [
+        'hsVrijwilliger.id',
         'vrijwilliger.achternaam',
+        'vrijwilliger.werkgebied',
     ];
 
     public function index()
     {
-//         $form = $this->createForm(HsVrijwilligerFilterType::class);
-//         $form->handleRequest($this->request);
+        $filter = $this->createForm(HsVrijwilligerFilterType::class, null, [
+            'enabled_filters' => [
+                'id',
+                'vrijwilliger' => ['naam', 'stadsdeel'],
+            ],
+        ]);
+        $filter->handleRequest($this->request);
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsVrijwilliger::class);
@@ -35,9 +46,9 @@ class HsVrijwilligersController extends AppController
             ->andWhere('vrijwilliger.disabled = false')
         ;
 
-//         if ($form->isValid()) {
-//             $filter = $form->getData()->applyTo($builder);
-//         }
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'vrijwilliger.achternaam',
@@ -45,7 +56,7 @@ class HsVrijwilligersController extends AppController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-//         $this->set('form', $form);
+        $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
     }
 
@@ -96,7 +107,9 @@ class HsVrijwilligersController extends AppController
             return;
         }
 
-        $filterForm = $this->createForm(VrijwilligerFilterType::class)->remove('stadsdeel');
+        $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
+            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+        ]);
         $filterForm->handleRequest($this->request);
 
         $selectionForm = $this->createForm(HsVrijwilligerSelectType::class, null, [
@@ -115,6 +128,7 @@ class HsVrijwilligersController extends AppController
             if ($hsVrijwilliger->getVrijwilliger() instanceof Vrijwilliger) {
                 return $this->redirect(['action' => 'add', $hsVrijwilliger->getVrijwilliger()->getId()]);
             }
+
             return $this->redirect(['action' => 'add', 'new']);
         }
 
@@ -140,6 +154,43 @@ class HsVrijwilligersController extends AppController
             }
         }
 
+        $this->set('form', $form->createView());
+    }
+
+    public function delete($id)
+    {
+        $form = $this->createForm(HsKlantType::class, new HsBundle\Entity\HsKlant());
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            return $this->redirect(['action' => 'add2']);
+        }
+
+        $this->set('form', $form->createView());
+    }
+
+    public function memos_add($hsVrijwilligerId)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
+
+        $form = $this->createForm(HsMemoType::class, new HsMemo($hsVrijwilliger));
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $entityManager->persist($form->getData());
+                $entityManager->flush();
+
+                $this->Session->setFlash('Memo is opgeslagen.');
+            } catch (\Exception $e) {
+                $this->Session->setFlash('Er is een fout opgetreden.');
+            } finally {
+                return $this->redirect(array('action' => 'view', $hsVrijwilliger->getId()));
+            }
+        }
+
+        $this->set('hsVrijwilliger', $hsVrijwilliger);
         $this->set('form', $form->createView());
     }
 }

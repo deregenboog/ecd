@@ -1,56 +1,114 @@
 {% include 'hs_subnavigation.twig' %}
 
-<h1>Klus ({{ hsKlus.hsActiviteit.naam }})</h1>
+<h1>
+    Klus: {{ hsKlus }}
+    {{ html.editLink({'action': 'edit', 0: hsKlus.id})|raw }}
+    {% if hsKlus.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: hsKlus.id})|raw }}
+    {% endif %}
+</h1>
 
 <dl>
-    <dt>Nummer</dt>
+    <dt>Klusnr</dt>
     <dd>{{ hsKlus.id }}</dd>
-    <dt>Klant</dt>
-    <dd>{{ hsKlus.hsKlant }}</dd>
     <dt>Activiteit</dt>
     <dd>{{ hsKlus.hsActiviteit }}</dd>
+    <dt>Klant</dt>
+    <dd>
+        {{ html.link(hsKlus.hsKlant, {'controller': 'hs_klanten', 'action': 'view', 0: hsKlus.hsKlant.id})|raw }}
+    </dd>
+    <dt>Datum</dt>
+    <dd>{{ hsKlus.datum|date('d-m-Y') }}</dd>
     <dt>Vrijwilligers</dt>
     <dd>
-        {{ html.link('Vrijwilliger toevoegen', {'action': 'add_hs_vrijwilliger', 0: hsKlus.id}) }}
-        <ul>
-            {% for hsVrijwilliger in hsKlus.hsVrijwilligers %}
-                <li>
-                    {{ html.link(hsVrijwilliger, {'controller': 'hs_vrijwilligers', 'action': 'view', 0: hsVrijwilliger.id}) }}                                
-                    <table>
-                        <tr>
-                            <th>Datum</th>
-                            <th>Start</th>
-                            <th>Eind</th>
-                            <th>Dagdelen</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        {% for hsRegistratie in hsVrijwilliger.registraties(hsKlus) %}
-                            <tr>
-                                <td>{{ hsRegistratie.datum|date('d-m-Y') }}</td>
-                                <td>{{ hsRegistratie.start|date('H:i') }}</td>
-                                <td>{{ hsRegistratie.eind|date('H:i') }}</td>
-                                <td>{{ hsRegistratie.dagdelen }}</td>
-                                <td>
-                                    {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id}) }}                                
-                                    {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id}) }}                                
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        <tr>
-                            <td colspan="5">
-                                {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsKlus.id, 1: hsVrijwilliger.id}) }}
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-            {% endfor %}
-        </ul>
+        {% if hsKlus.hsVrijwilligers is empty %}
+            -
+        {% else %}
+            <ul>
+                {% for hsVrijwilliger in hsKlus.hsVrijwilligers %}
+                    <li>
+                        {{ html.link(hsVrijwilliger, {'controller': 'hs_vrijwilligers', 'action': 'view', 0: hsVrijwilliger.id})|raw }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </dd>
-    <dt>Facturen</dt>
+    <dt>
+        Uren
+        {{ html.addLink({'controller': 'hs_registraties', 'action': 'add', 0: hsKlus.id})|raw }}
+    </dt>
+    <dd>
+        {% if hsKlus.hsRegistraties is empty %}
+            -
+        {% else %}
+            <table>
+                <tr>
+                    <th>Vrijwilliger</th>
+                    <th>Datum</th>
+                    <th>Start</th>
+                    <th>Eind</th>
+                    <th>Dagdelen</th>
+                    <th></th>
+                </tr>
+                {% for hsRegistratie in hsKlus.hsRegistraties %}
+                    <tr>
+                        <td>{{ hsRegistratie.hsVrijwilliger }}</td>
+                        <td>{{ hsRegistratie.datum|date('d-m-Y') }}</td>
+                        <td>{{ hsRegistratie.start|date('H:i') }}</td>
+                        <td>{{ hsRegistratie.eind|date('H:i') }}</td>
+                        <td>{{ hsRegistratie.dagdelen }}</td>
+                        <td>
+                            {{ html.editLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                            {{ html.deleteLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </dd>
+    <dt>
+        Declaraties
+        {{ html.addLink({'controller': 'hs_declaraties', 'action': 'add', 0: hsKlus.id})|raw }}
+    </dt>
+    <dd>
+        {% if hsKlus.hsDeclaraties is empty %}
+            -
+        {% else %}
+            <ul>
+                {% for hsDeclaratie in hsKlus.hsDeclaraties %}
+                    <li>
+                        {{ html.link(hsVrijwilliger, {'controller': 'hs_vrijwilligers', 'action': 'view', 0: hsVrijwilliger.id})|raw }}
+                        <table>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Code</th>
+                                <th>Bedrag</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                            {% for hsRegistratie in hsVrijwilliger.registraties(hsKlus) %}
+                                <tr>
+                                    <td>{{ hsDeclaratie.datum|date('d-m-Y') }}</td>
+                                    <td>{{ hsDeclaratie.code }}</td>
+                                    <td>{{ hsDeclaratie.bedrag }}</td>
+                                    <td>
+                                        {{ html.editLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </dd>
+    <dt>
+        Facturen
+        {{ html.addLink({'action': 'add_hs_factuur', 0: hsKlus.id})|raw }}
+    </dt>
     <dd>
         <table>
             <tr>
-                <th>Nummer</th>
+                <th>Factuurnr</th>
                 <th>Datum</th>
                 <th>Klant</th>
                 <th>Bedrag</th>
@@ -60,26 +118,18 @@
             {% for hsFactuur in hsKlus.hsFacturen %}
                 <tr>
                     <td>
-                        {{ html.link(hsFactuur.id, {'controller': 'hs_facturen', 'action': 'view', 0: hsFactuur.id}) }}                                
+                        {{ html.link(hsFactuur.id, {'controller': 'hs_facturen', 'action': 'view', 0: hsFactuur.id})|raw }}
                     </td>
                     <td>{{ hsFactuur.datum|date('d-m-Y') }}</td>
                     <td>{{ hsFactuur.hsKlus.hsKlant }}</td>
                     <td>&euro; {{ hsFactuur.bedrag }}</td>
                     <td></td>
                     <td>
-                        {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id}) }}                                
-                        {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id}) }}                                
+                        {{ html.editLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsFactuur.id})|raw }}
+                        {{ html.deleteLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsFactuur.id})|raw }}
                     </td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td colspan="6">
-                    {{ html.link('Factuur toevoegen', {'action': 'add_hs_factuur', 0: hsKlus.id}) }}
-                </td>
-            </tr>
         </table>
     </dd>
 </dl>
-
-{{ html.link('Wijzigen', {'action': 'edit', 0: hsKlus.id}) }}
-{{ html.link('Verwijderen', {'action': 'delete', 0: hsKlus.id}) }}

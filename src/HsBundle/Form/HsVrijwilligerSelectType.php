@@ -6,12 +6,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use HsBundle\Entity\HsKlant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
+use HsBundle\Entity\HsVrijwilliger;
 
-class HsKlantSelectType extends AbstractType
+class HsVrijwilligerSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,17 +19,17 @@ class HsKlantSelectType extends AbstractType
     {
         $builder
             ->add('form', HiddenType::class, ['mapped' => false, 'data' => self::class])
-            ->add('klant', null, [
+            ->add('vrijwilliger', null, [
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('klant');
+                    $builder = $repository->createQueryBuilder('vrijwilliger');
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
                     }
 
-                    $builder->leftJoin(HsKlant::class, 'hsKlant', 'WITH', 'hsKlant.klant = klant')
-                        ->andWhere('hsKlant.id IS NULL');
+                    $builder->leftJoin(HsVrijwilliger::class, 'hsVrijwilliger', 'WITH', 'hsVrijwilliger.vrijwilliger = vrijwilliger')
+                        ->andWhere('hsVrijwilliger.id IS NULL');
 
                     return $builder;
                 },
@@ -44,7 +43,7 @@ class HsKlantSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsKlant::class,
+            'data_class' => HsVrijwilliger::class,
             'filter' => null,
         ]);
     }

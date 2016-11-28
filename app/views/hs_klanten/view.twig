@@ -1,25 +1,18 @@
 {% include 'hs_subnavigation.twig' %}
 
-<h1>Klant {{ hsKlant.klant.naam }}</h1>
+<h1>
+    Klant {{ hsKlant.klant.naam }}
+    {{ html.editLink({'action': 'edit', 0: hsKlant.id})|raw }}
+    {% if hsKlant.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: hsKlant.id})|raw }}
+    {% endif %}
+</h1>
 
 <dl>
-    <dt>Klantnummer</dt>
+    <dt>Klantnr</dt>
     <dd>{{ hsKlant.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ hsKlant.klant.naam }}</dd>
-    <dt>Profiel</dt>
-    <dd>
-        {{ html.link('Profielcode toevoegen', {'action': 'add_hs_profiel_code', 0: hsKlant.id})|raw }}
-        <ul>
-            {% for hsProfielCode in hsKlant.hsProfielCodes %}
-                <li>
-                    {{ hsProfielCode }}
-                    {{ html.link('Bewerken', {'controller': 'hs_profiel_codes',  'action': 'edit', 0: hsProfielCode.id})|raw }}
-                    {{ html.link('Verwijderen', {'controller': 'hs_profiel_codes',  'action': 'delete', 0: hsProfielCode.id})|raw }}
-                </li>
-            {% endfor %}
-        </ul>
-    </dd>
     <dt>Klussen</dt>
     <dd>
         {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: hsKlant.id})|raw }}
@@ -33,5 +26,3 @@
     </dd>
 </dl>
 
-{{ html.link('Bewerken', {'action': 'edit', 0: hsKlant.id})|raw }}
-{{ html.link('Verwijderen', {'action': 'delete', 0: hsKlant.id})|raw }}

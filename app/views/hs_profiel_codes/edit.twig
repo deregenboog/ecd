@@ -1,9 +1,0 @@
-{% include 'hs_subnavigation.twig' %}
-
-<h1>Profielcode bewerken</h1>
-
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ html.link('Terug', {'controller': 'hs_klanten', 'action': 'view', 0: data.id}) }}
-    <input type="submit" value="Opslaan" />
-{{ form_end(form) }}

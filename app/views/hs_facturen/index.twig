@@ -6,7 +6,7 @@
 
 <table>
     <tr>
-        <th>Nummer</th>
+        <th>Factuurnr</th>
         <th></th>
     </tr>
     {% for hsFactuur in hsFacturen %}
@@ -15,7 +15,9 @@
         <td>
             {{ html.link('Bekijken', {'action': 'view', 0: hsFactuur.id})|raw }}
             {{ html.link('Bewerken', {'action': 'edit', 0: hsFactuur.id})|raw }}
-            {{ html.link('Verwijderen', {'action': 'delete', 0: hsFactuur.id})|raw }}
+            {% if hsFactuur.deletable %}
+                {{ html.link('Verwijderen', {'action': 'delete', 0: hsFactuur.id})|raw }}
+            {% endif %}
         </td>
     </tr>
     {% endfor %}

@@ -3,10 +3,11 @@
 use AppBundle\Entity\Klant;
 use HsBundle\Entity\HsRegistratie;
 use HsBundle\Entity\HsKlus;
-use HsBundle\Entity\HsVrijwilliger;
 use HsBundle\Form\HsRegistratieType;
+use HsBundle\Entity\HsDeclaratie;
+use HsBundle\Form\HsDeclaratieType;
 
-class HsRegistratiesController extends AppController
+class HsDeclaratiesController extends AppController
 {
     /**
      * Don't use CakePHP models.
@@ -18,32 +19,24 @@ class HsRegistratiesController extends AppController
      */
     public $view = 'AppTwig';
 
-    public function index()
-    {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('HsBundle\Entity\HsKlant');
-        $this->set('klanten', $repository->findAll());
-    }
-
-    public function add($hsKlusId, $hsVrijwilligerId = -1)
+    public function add($hsKlusId)
     {
         $entityManager = $this->getEntityManager();
         $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
-        $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
 
-        $form = $this->createForm(HsRegistratieType::class, new HsRegistratie($hsKlus, $hsVrijwilliger));
+        $form = $this->createForm(HsDeclaratieType::class, new HsDeclaratie($hsKlus));
         $form->handleRequest($this->request);
 
-        if ($form->isValid()) {
-            $entityManager->persist($form->getData());
-            $entityManager->flush();
+//         if ($form->isValid()) {
+//             $entityManager->persist($form->getData());
+//             $entityManager->flush();
 
-            return $this->redirect([
-                'controller' => 'hs_klussen',
-                'action' => 'view',
-                $hsKlus->getId(),
-            ]);
-        }
+//             return $this->redirect([
+//                 'controller' => 'hs_klussen',
+//                 'action' => 'view',
+//                 $hsKlus->getId(),
+//             ]);
+//         }
 
         $this->set('hsKlus', $hsKlus);
         $this->set('form', $form->createView());

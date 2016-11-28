@@ -3,11 +3,11 @@
 use AppBundle\Entity\Klant;
 use HsBundle\Entity\HsKlant;
 use HsBundle\Form\HsKlantType;
-use HsBundle\Entity\HsProfielCode;
-use HsBundle\Form\HsProfielCodeType;
 use AppBundle\Form\KlantFilterType;
 use HsBundle\Form\HsKlantSelectType;
 use Doctrine\DBAL\Driver\PDOException;
+use HsBundle\Form\HsKlantFilterType;
+use AppBundle\Form\ConfirmationType;
 
 class HsKlantenController extends AppController
 {
@@ -22,13 +22,20 @@ class HsKlantenController extends AppController
     public $view = 'AppTwig';
 
     private $sortFieldWhitelist = [
+        'hsKlant.id',
         'klant.achternaam',
+        'klant.werkgebied',
     ];
 
     public function index()
     {
-//         $form = $this->createForm(HsKlantFilterType::class);
-//         $form->handleRequest($this->request);
+        $filter = $this->createForm(HsKlantFilterType::class, null, [
+            'enabled_filters' => [
+                'id',
+                'klant' => ['naam', 'stadsdeel'],
+            ],
+        ]);
+        $filter->handleRequest($this->request);
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsKlant::class);
@@ -38,9 +45,9 @@ class HsKlantenController extends AppController
             ->andWhere('klant.disabled = false')
         ;
 
-//         if ($form->isValid()) {
-//             $filter = $form->getData()->applyTo($builder);
-//         }
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'klant.achternaam',
@@ -48,7 +55,7 @@ class HsKlantenController extends AppController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-//         $this->set('form', $form);
+        $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
     }
 
@@ -99,7 +106,9 @@ class HsKlantenController extends AppController
             return;
         }
 
-        $filterForm = $this->createForm(KlantFilterType::class)->remove('stadsdeel');
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
+            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+        ]);
         $filterForm->handleRequest($this->request);
 
         $selectionForm = $this->createForm(HsKlantSelectType::class, null, [
@@ -118,6 +127,7 @@ class HsKlantenController extends AppController
             if ($hsKlant->getKlant() instanceof Klant) {
                 return $this->redirect(['action' => 'add', $hsKlant->getKlant()->getId()]);
             }
+
             return $this->redirect(['action' => 'add', 'new']);
         }
 
@@ -133,50 +143,39 @@ class HsKlantenController extends AppController
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->Session->setFlash('Klant is opgeslagen.');
+
+                return $this->redirect(array('action' => 'index'));
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        $this->set('form', $form->createView());
+        $this->set('hsKlant', $hsKlant);
+    }
+
+    public function delete($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsKlant = $entityManager->find(HsKlant::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $entityManager->remove($hsKlant);
             $entityManager->flush();
 
-            $this->Session->setFlash('Klant is opgeslagen.');
+            $this->Session->setFlash('Klant is verwijderd.');
 
             return $this->redirect(array('action' => 'index'));
         }
 
-        $this->set('form', $form->createView());
         $this->set('hsKlant', $hsKlant);
-    }
-
-    public function deleten($id)
-    {
-        $form = $this->createForm(HsKlantType::class, new HsBundle\Entity\HsKlant());
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            return $this->redirect(['action' => 'add2']);
-        }
-
         $this->set('form', $form->createView());
-    }
-
-    public function add_hs_profiel_code($hsKlantId)
-    {
-        $hsKlant = $this->getHsKlant($hsKlantId);
-        $hsProfielCode = new HsProfielCode();
-
-        $form = $this->createForm(HsProfielCodeType::class, $hsProfielCode);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $hsKlant->addHsProfielCode($hsProfielCode);
-            $this->getEntityManager()->flush();
-
-            return $this->redirect(['action' => 'view', $hsKlant->getId()]);
-        }
-
-        $this->set('form', $form->createView());
-        $this->set('hsKlant', $hsKlant);
-    }
-
-    protected function getHsKlant($hsKlantId)
-    {
-        return $this->getEntityManager()->find(HsKlant::class, $hsKlantId);
     }
 }

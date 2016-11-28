@@ -2,12 +2,14 @@
 
 namespace HsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\ManyToOne;
+use AppBundle\Entity\Medewerker;
 
 /**
  * @Entity
@@ -41,22 +43,10 @@ class HsRegistratie
     private $eind;
 
     /**
-     * @var string
-     * @Column(type="string")
-     */
-    private $code;
-
-    /**
-     * @var string
-     * @Column(type="text")
-     */
-    private $info;
-
-    /**
      * @var float
      * @Column(type="float")
      */
-    private $bedrag;
+    private $reiskosten;
 
     /**
      * @var HsKlus
@@ -73,10 +63,25 @@ class HsRegistratie
     /**
      * @var HsVrijwilliger
      * @ManyToOne(targetEntity="HsVrijwilliger", inversedBy="hsRegistraties")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $hsVrijwilliger;
 
-    public function __construct(HsKlus $hsKlus, HsVrijwilliger $hsVrijwilliger)
+    /**
+     * @var HsActiviteit
+     * @ORM\ManyToOne(targetEntity="HsActiviteit", inversedBy="hsKlussen")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hsActiviteit;
+
+    /**
+     * @var Medewerker
+     * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $medewerker;
+
+    public function __construct(HsKlus $hsKlus, HsVrijwilliger $hsVrijwilliger = null)
     {
         $this->datum = $hsKlus->getDatum();
         $this->hsKlus = $hsKlus;
@@ -124,6 +129,18 @@ class HsRegistratie
         return $this;
     }
 
+    public function getReiskosten()
+    {
+        return $this->reiskosten;
+    }
+
+    public function setReiskosten($reiskosten)
+    {
+        $this->reiskosten = $reiskosten;
+
+        return $this;
+    }
+
     public function getHsKlus()
     {
         return $this->hsKlus;
@@ -149,6 +166,30 @@ class HsRegistratie
     public function setHsFactuur(HsFactuur $hsFactuur)
     {
         $this->hsFactuur = $hsFactuur;
+
+        return $this;
+    }
+
+    public function getHsActiviteit()
+    {
+        return $this->hsActiviteit;
+    }
+
+    public function setHsActiviteit(HsActiviteit $hsActiviteit)
+    {
+        $this->hsActiviteit = $hsActiviteit;
+
+        return $this;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
 
         return $this;
     }

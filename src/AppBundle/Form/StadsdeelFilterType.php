@@ -31,4 +31,12 @@ class StadsdeelFilterType extends AbstractType
             ])
         ;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
+    }
 }

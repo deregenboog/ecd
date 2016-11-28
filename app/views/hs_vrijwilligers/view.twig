@@ -1,12 +1,18 @@
 {% include 'hs_subnavigation.twig' %}
 
-<h1>Vrijwilliger {{ hsVrijwilliger.vrijwilliger.naam }}</h1>
+<h1>
+    Vrijwilliger: {{ hsVrijwilliger }}
+    {{ html.editLink({'action': 'edit', 0: hsVrijwilliger.id})|raw }}
+    {% if hsVrijwilliger.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: hsVrijwilliger.id})|raw }}
+    {% endif %}
+</h1>
 
 <dl>
-    <dt>Vrijwilligernummer</dt>
+    <dt>Vrijwilligernr</dt>
     <dd>{{ hsVrijwilliger.id }}</dd>
     <dt>Naam</dt>
-    <dd>{{ hsVrijwilliger.vrijwilliger.naam }}</dd>
+    <dd>{{ hsVrijwilliger }}</dd>
     <dt>Klussen</dt>
     <dd>
         <ul>
@@ -43,7 +49,16 @@
             {% endfor %}
         </ul>
     </dd>
+    <dt>
+        Memo's
+        {{ html.addLink({'action': 'memos_add', 0: hsVrijwilliger.id})|raw }}
+    </dt>
+    <dd>
+        {% if hsVrijwilliger.memos is empty %}
+            -
+        {% else %}
+            {{ hsVrijwilliger.memos|length }} {{ hsVrijwilliger.memos|length == 1 ? 'memo' : 'memo\'s' }}
+            {{ html.viewLink({'action': 'memos_index', 0: hsVrijwilliger.id})|raw }}
+        {% endif %}
+    </dd>
 </dl>
-
-{{ html.link('Bewerken', {'action': 'edit', 0: hsVrijwilliger.id})|raw }}
-{{ html.link('Verwijderen', {'action': 'delete', 0: hsVrijwilliger.id})|raw }}

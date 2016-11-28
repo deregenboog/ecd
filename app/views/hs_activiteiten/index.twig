@@ -6,21 +6,33 @@
 
 <table>
     <tr>
-        <th>Nummer</th>
-        <th>Naam</th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Activiteitnr', 'hsActiviteit.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Naam', 'hsActiviteit.naam') }}
+        </th>
         <th></th>
     </tr>
-    {% for activiteit in activiteiten %}
+    {% for hsActiviteit in pagination %}
     <tr>
-        <td>{{ activiteit.id }}</td>
-        <td>{{ activiteit.naam }}</td>
         <td>
-            {{ html.link('Bekijken', {'action': 'view', 0: activiteit.id})|raw }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: activiteit.id})|raw }}
-            {{ html.link('Verwijderen', {'action': 'delete', 0: activiteit.id}|raw) }}
+            {{ hsActiviteit.id }}
+        </td>
+        <td>
+            {{ hsActiviteit.naam }}
+        </td>
+        <td>
+            {{ html.viewLink({'action': 'view', 0: hsActiviteit.id})|raw }}
+            {{ html.editLink({'action': 'edit', 0: hsActiviteit.id})|raw }}
+            {% if hsActiviteit.deletable %}
+                {{ html.deleteLink({'action': 'delete', 0: hsActiviteit.id})|raw }}
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
 </table>
 
-{% include 'pagination.twig' ignore missing %}
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

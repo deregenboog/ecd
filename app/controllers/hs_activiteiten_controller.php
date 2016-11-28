@@ -2,6 +2,7 @@
 
 use HsBundle\Entity\HsActiviteit;
 use HsBundle\Form\HsActiviteitType;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class HsActiviteitenController extends AppController
 {
@@ -15,19 +16,32 @@ class HsActiviteitenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $sortFieldWhitelist = [
+        'hsActiviteit.id',
+        'hsActiviteit.naam',
+    ];
+
     public function index()
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(HsActiviteitType::class);
-        $this->set('activiteiten', $repository->findAll());
+        $repository = $entityManager->getRepository(HsActiviteit::class);
+
+        $builder = $repository->createQueryBuilder('hsActiviteit');
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'hsActiviteit.naam',
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+        ]);
+
+        $this->set('pagination', $pagination);
     }
 
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(HsActiviteitType::class);
-        $activiteit = $repository->find($id);
-        $this->set('activiteit', $activiteit);
+        $hsActiviteit = $entityManager->find(HsActiviteit::class, $id);
+        $this->set('hsActiviteit', $hsActiviteit);
     }
 
     public function add()
@@ -78,7 +92,7 @@ class HsActiviteitenController extends AppController
         $activiteit = $repository->find($id);
         $this->set('activiteit', $activiteit);
 
-        $form = $this->createForm('App\Form\ConfirmationType');
+        $form = $this->createForm(ConfirmationQuestion::class);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {

@@ -3,3 +3,12 @@ hs_klanten_index:
 
 hs_vrijwilligers_index:
     path: hs_vrijwilligers
+
+hs_klussen_index:
+    path: hs_klussen
+
+hs_facturen_index:
+    path: hs_facturen
+
+hs_activiteiten_index:
+    path: hs_activiteiten

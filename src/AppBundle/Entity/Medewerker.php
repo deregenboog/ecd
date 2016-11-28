@@ -15,6 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Medewerker
 {
+    use PersoonTrait;
+
     /**
      * @Id
      * @Column(type="integer")
@@ -23,73 +25,19 @@ class Medewerker
     private $id;
 
     /**
-     * @Column(type="string")
+     * Dummy property (for PersonTrait to work properly).
+     *
+     * @var string
      */
-    private $voornaam;
-
-    /**
-     * @Column(type="string", nullable=true)
-     */
-    private $tussenvoegsel;
-
-    /**
-     * @Column(type="string")
-     */
-    private $achternaam;
+    private $roepnaam;
 
     public function __construct()
     {
         $this->klanten = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->getNaam();
-    }
-
-    public function getNaam()
-    {
-        return implode(' ', [$this->voornaam, $this->tussenvoegsel, $this->achternaam]);
-    }
-
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getVoornaam()
-    {
-        return $this->voornaam;
-    }
-
-    public function setVoornaam($voornaam)
-    {
-        $this->voornaam = $voornaam;
-
-        return $this;
-    }
-
-    public function getTussenvoegsel()
-    {
-        return $this->tussenvoegsel;
-    }
-
-    public function setTussenvoegsel($tussenvoegsel)
-    {
-        $this->tussenvoegsel = $tussenvoegsel;
-
-        return $this;
-    }
-
-    public function getAchternaam()
-    {
-        return $this->achternaam;
-    }
-
-    public function setAchternaam($achternaam)
-    {
-        $this->achternaam = $achternaam;
-
-        return $this;
     }
 }

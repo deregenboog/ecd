@@ -22,6 +22,16 @@ class HsVrijwilliger
     private $id;
 
     /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    private $inschrijving;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $uitschrijving;
+
+    /**
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $dragend = false;
@@ -34,17 +44,22 @@ class HsVrijwilliger
     private $vrijwilliger;
 
     /**
-     * @var HsKlus[]
+     * @var ArrayCollection|HsKlus[]
      * @ORM\ManyToMany(targetEntity="HsKlus", mappedBy="hsVrijwilligers")
      */
     private $hsKlussen;
 
     /**
-     * @var HsRegistratie
+     * @var ArrayCollection|HsRegistratie[]
      * @ORM\OneToMany(targetEntity="HsRegistratie", mappedBy="hsVrijwilliger")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $hsRegistraties;
+
+    /**
+     * @var ArrayCollection|HsMemo[]
+     * @ORM\OneToMany(targetEntity="HsMemo", mappedBy="hsVrijwilliger")
+     */
+    private $hsMemos;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,8 +73,9 @@ class HsVrijwilliger
 
     public function __construct()
     {
-        $this->hsRegistraties = new ArrayCollection();
         $this->hsKlussen = new ArrayCollection();
+        $this->hsRegistraties = new ArrayCollection();
+        $this->hsMemos = new ArrayCollection();
     }
 
     public function __toString()
@@ -96,6 +112,18 @@ class HsVrijwilliger
         return $this;
     }
 
+    public function getInschrijving()
+    {
+        return $this->inschrijving;
+    }
+
+    public function setInschrijving(\DateTime $inschrijving)
+    {
+        $this->inschrijving = $inschrijving;
+
+        return $this;
+    }
+
     public function getHsKlussen()
     {
         return $this->hsKlussen;
@@ -115,6 +143,11 @@ class HsVrijwilliger
         return $this->hsRegistraties->matching($criteria);
     }
 
+    public function getMemos()
+    {
+        return $this->hsMemos;
+    }
+
     /**
      * @ORM\PrePersist
      */
@@ -129,5 +162,11 @@ class HsVrijwilliger
     public function onPreUpdate()
     {
         $this->modified = new \DateTime();
+    }
+
+    public function isDeletable()
+    {
+        return count($this->hsKlussen) === 0
+        && count($this->hsRegistraties) === 0;
     }
 }

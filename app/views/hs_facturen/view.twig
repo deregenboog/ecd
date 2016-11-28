@@ -1,13 +1,15 @@
 {% include 'hs_subnavigation.twig' %}
 
-<h1>Profielgroep {{ hsProfielGroep }}</h1>
+<h1>Factuur: {{ hsFactuur }}</h1>
 
 <dl>
-    <dt>Nummer</dt>
-    <dd>{{ hsProfielGroep.id }}</dd>
+    <dt>Factuurnr</dt>
+    <dd>{{ hsFactuur.id }}</dd>
     <dt>Naam</dt>
-    <dd>{{ hsProfielGroep.naam }}</dd>
+    <dd>{{ hsFactuur.naam }}</dd>
 </dl>
 
-{{ html.link('Bewerken', {'action': 'edit', 0: hsProfielGroep.id})|raw }}
-{{ html.link('Verwijderen', {'action': 'delete', 0: hsProfielGroep.id})|raw }}
+{{ html.link('Bewerken', {'action': 'edit', 0: hsFactuur.id})|raw }}
+{% if hsFactuur.deletable %}
+    {{ html.link('Verwijderen', {'action': 'delete', 0: hsFactuur.id})|raw }}
+{% endif %}

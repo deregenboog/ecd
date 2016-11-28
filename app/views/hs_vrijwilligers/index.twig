@@ -6,20 +6,60 @@
 
 <table>
     <tr>
-        <th>Nummer</th>
-        <th>Naam</th>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.naam) }}
+            {{ form_errors(filter.vrijwilliger.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.stadsdeel.naam) }}
+            {{ form_errors(filter.vrijwilliger.stadsdeel.naam) }}
+        </th>
+        <th>
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Vrijwilligernr', 'hsVrijwilliger.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'vrijwilliger.werkgebied') }}
+        </th>
         <th>Dragende vrijwilliger</th>
-        <th></th>
+        <th>
+        </th>
     </tr>
     {% for hsVrijwilliger in pagination %}
     <tr>
-        <td>{{ hsVrijwilliger.vrijwilliger.id }}</td>
-        <td>{{ hsVrijwilliger.vrijwilliger.naam }}</td>
-        <td>{{ hsVrijwilliger.dragend ? 'ja' : 'nee' }}</td>
         <td>
-            {{ html.link('Bekijken', {'action': 'view', 0: hsVrijwilliger.id})|raw }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: hsVrijwilliger.id})|raw }}
-            {{ html.link('Verwijderen', {'action': 'delete', 0: hsVrijwilliger.id})|raw }}
+            {{ html.link(hsVrijwilliger.id, {'action': 'view', 0: hsVrijwilliger.id})|raw }}
+        </td>
+        <td>
+            {{ html.link(hsVrijwilliger.vrijwilliger.naam, {'action': 'view', 0: hsVrijwilliger.id})|raw }}
+        </td>
+        <td>
+            {{ hsVrijwilliger.vrijwilliger.werkgebied }}
+        </td>
+        <td>
+            {{ hsVrijwilliger.dragend ? 'ja' : 'nee' }}
+        </td>
+        <td>
+            {{ html.viewLink({'action': 'view', 0: hsVrijwilliger.id})|raw }}
+            {{ html.editLink({'action': 'edit', 0: hsVrijwilliger.id})|raw }}
+            {% if hsVrijwilliger.deletable %}
+                {{ html.deleteLink( {'action': 'delete', 0: hsVrijwilliger.id})|raw }}
+            {% endif %}
         </td>
     </tr>
     {% endfor %}

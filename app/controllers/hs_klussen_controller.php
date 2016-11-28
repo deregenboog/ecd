@@ -4,6 +4,7 @@ use HsBundle\Entity\HsKlus;
 use HsBundle\Form\HsKlusType;
 use HsBundle\Entity\HsKlant;
 use HsBundle\Entity\HsFactuur;
+use AppBundle\Form\ConfirmationType;
 
 class HsKlussenController extends AppController
 {
@@ -17,11 +18,32 @@ class HsKlussenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $sortFieldWhitelist = [
+        'hsKlus.id',
+        'hsKlus.datum',
+        'klant.achternaam',
+        'klant.werkgebied',
+        'hsActiviteit.naam',
+        'vrijwilliger.achternaam',
+    ];
+
     public function index()
     {
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsKlus::class);
-        $this->set('hsKlussen', $repository->findAll());
+
+        $builder = $repository->createQueryBuilder('hsKlus')
+            ->innerJoin('hsKlus.hsKlant', 'hsKlant')
+            ->innerJoin('hsKlus.hsActiviteit', 'hsActiviteit')
+            ->innerJoin('hsKlant.klant', 'klant');
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'hsKlus.datum',
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+        ]);
+
+        $this->set('pagination', $pagination);
     }
 
     public function view($id)
@@ -76,45 +98,23 @@ class HsKlussenController extends AppController
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository('HsBundle\Entity\HsActiviteit');
-        $activiteit = $repository->find($id);
-        $this->set('activiteit', $activiteit);
+        $repository = $entityManager->getRepository(HsKlus::class);
+        $hsKlus = $repository->find($id);
 
-        $form = $this->createForm('App\Form\ConfirmationType');
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager->remove($activiteit);
+            $entityManager->remove($hsKlus);
             $entityManager->flush();
 
-            $this->Session->setFlash('Activiteit is verwijderd.');
+            $this->Session->setFlash('Klus is verwijderd.');
 
             return $this->redirect(array('action' => 'index'));
         }
 
-        $this->set('form', $form->createView());
-    }
-
-    public function add_hs_vrijwilliger($id)
-    {
-        $entityManager = $this->getEntityManager();
-        $hsKlus = $entityManager->find(HsKlus::class, $id);
-
-        $form = $this->createForm(HsKlusType::class, $hsKlus, [
-            'mode' => HsKlusType::MODE_ADD_VRIJWILLIGER,
-        ]);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $entityManager->flush();
-
-            $this->Session->setFlash('Vrijwilliger is toegevoegd.');
-
-            return $this->redirect(array('action' => 'view', $hsKlus->getId()));
-        }
-
-        $this->set('form', $form->createView());
         $this->set('hsKlus', $hsKlus);
+        $this->set('form', $form->createView());
     }
 
     public function add_hs_factuur($id)

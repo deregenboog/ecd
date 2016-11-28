@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class Vrijwilliger
 {
+    use PersoonTrait;
+
     /**
      * @Id
      * @Column(type="integer")
@@ -24,24 +26,9 @@ class Vrijwilliger
     private $id;
 
     /**
-     * @Column(type="string", length=255, nullable=true)
-     */
-    private $voornaam;
-
-    /**
      * @Column(type="string", nullable=true)
      */
     private $roepnaam;
-
-    /**
-     * @Column(type="string", nullable=true)
-     */
-    private $tussenvoegsel;
-
-    /**
-     * @Column(type="string")
-     */
-    private $achternaam;
 
     /**
      * @var \DateTime
@@ -139,54 +126,17 @@ class Vrijwilliger
      */
     private $disabled;
 
-    public function __toString()
-    {
-        return $this->getNaam();
-    }
-
-    public function getNaam()
-    {
-        $parts = [];
-
-        if ($this->voornaam) {
-            $parts[] = $this->voornaam;
-        }
-        if ($this->roepnaam) {
-            $parts[] = "({$this->roepnaam})";
-        }
-        if ($this->tussenvoegsel) {
-            $parts[] = $this->tussenvoegsel;
-        }
-        if ($this->achternaam) {
-            $parts[] = $this->achternaam;
-        }
-
-        return implode(' ', $parts);
-    }
-
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
+//     public function setId($id)
+//     {
+//         $this->id = $id;
 
-        return $this;
-    }
-
-    public function getVoornaam()
-    {
-        return $this->voornaam;
-    }
-
-    public function setVoornaam($voornaam)
-    {
-        $this->voornaam = $voornaam;
-
-        return $this;
-    }
+//         return $this;
+//     }
 
     public function getRoepnaam()
     {
@@ -196,30 +146,6 @@ class Vrijwilliger
     public function setRoepnaam($roepnaam)
     {
         $this->roepnaam = $roepnaam;
-
-        return $this;
-    }
-
-    public function getTussenvoegsel()
-    {
-        return $this->tussenvoegsel;
-    }
-
-    public function setTussenvoegsel($tussenvoegsel)
-    {
-        $this->tussenvoegsel = $tussenvoegsel;
-
-        return $this;
-    }
-
-    public function getAchternaam()
-    {
-        return $this->achternaam;
-    }
-
-    public function setAchternaam($achternaam)
-    {
-        $this->achternaam = $achternaam;
 
         return $this;
     }

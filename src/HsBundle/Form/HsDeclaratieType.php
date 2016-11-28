@@ -5,10 +5,10 @@ namespace HsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use HsBundle\Entity\HsProfielGroep;
-use HsBundle\Entity\HsProfielCode;
+use AppBundle\Form\AppDateType;
+use HsBundle\Entity\HsDeclaratie;
 
-class HsProfielCodeType extends AbstractType
+class HsDeclaratieType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,8 +16,12 @@ class HsProfielCodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('hsProfielGroep', null, ['label' => 'Profielgroep'])
-            ->add('waarde');
+            ->add('medewerker')
+            ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('code')
+            ->add('info')
+            ->add('bedrag')
+        ;
     }
 
     /**
@@ -26,7 +30,7 @@ class HsProfielCodeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsProfielCode::class,
+            'data_class' => HsDeclaratie::class,
         ]);
     }
 }
