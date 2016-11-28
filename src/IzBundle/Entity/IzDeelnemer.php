@@ -3,6 +3,7 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -31,11 +32,33 @@ abstract class IzDeelnemer
     protected $modified;
 
     /**
+     * @var ArrayCollection|IzKoppeling[]
+     * @ORM\OneToMany(targetEntity="IzKoppeling", mappedBy="izDeelnemer")
+     */
+    private $izKoppelingen;
+
+    /**
+     * @var IzIntake
+     * @ORM\OneToOne(targetEntity="IzIntake", mappedBy="izDeelnemer")
+     */
+    protected $izIntake;
+
+    /**
+     * @ORM\Column(name="datumafsluiting", type="date")
+     */
+    protected $afsluitDatum;
+
+    /**
      * @var IzAfsluiting
      * @ORM\ManyToOne(targetEntity="IzAfsluiting")
      * @ORM\JoinColumn(name="iz_afsluiting_id")
      */
     protected $izAfsluiting;
+
+    public function __construct()
+    {
+        $this->izKoppelingen = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -45,5 +68,15 @@ abstract class IzDeelnemer
     public function getIzAfsluiting()
     {
         return $this->izAfsluiting;
+    }
+
+    public function getIzIntake()
+    {
+        return $this->izIntake;
+    }
+
+    public function getAfsluitDatum()
+    {
+        return $this->afsluitDatum;
     }
 }

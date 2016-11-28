@@ -323,15 +323,18 @@ class AppController extends Controller
             }
 
             // http://bakery.cakephp.org/articles/view/logablebehavior
-            if (sizeof($this->uses) &&
-                    property_exists($this->modelClass, 'Behaviors') &&
-                    $this->{$this->modelClass}->
-                    Behaviors->attached('Logable')) {
-                $activeUser = array('Medewerker' => array(
-                            'id' => $auth['Medewerker']['id'],
-                            'username' => $auth['Medewerker']['username'],
-                            ),
-                        );
+            if (sizeof($this->uses)
+                && property_exists($this->modelClass, 'Behaviors')
+                && $this->{$this->modelClass}->Behaviors->attached('Logable')
+            ) {
+                if (isset($auth['username']) && $auth['username'] == 'sysadmin') {
+                    $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
+                } else {
+                    $activeUser = ['Medewerker' => [
+                        'id' => $auth['Medewerker']['id'],
+                        'username' => $auth['Medewerker']['username'],
+                    ]];
+                }
                 $this->{$this->modelClass}->setUserData($activeUser);
                 $this->{$this->modelClass}->setUserIp($this->RequestHandler->getClientIP());
             }
@@ -347,12 +350,14 @@ class AppController extends Controller
         }
 
         if ($s_user
-                || array_key_exists(GROUP_ADMIN, $this->userGroups)
-                || array_key_exists(GROUP_DEVELOP, $this->userGroups)) {
+            || array_key_exists(GROUP_ADMIN, $this->userGroups)
+            || array_key_exists(GROUP_DEVELOP, $this->userGroups)
+        ) {
             $is_admin = true;
         } else {
             $is_admin = false;
         }
+
         // Pass it to the view, model, and the controller
         //$model->user_is_administrator = $is_admin;
         $this->user_is_administrator = $is_admin;
@@ -361,6 +366,7 @@ class AppController extends Controller
 
         //ts('beforeFilter end');
     }
+
     /**
     *before render
     */

@@ -19,8 +19,8 @@ class IzKlant extends IzDeelnemer
     protected $klant;
 
     /**
-     * @var ArrayCollection|IzKoppeling[]
-     * @ORM\OneToMany(targetEntity="IzKoppeling", mappedBy="izKlant")
+     * @var ArrayCollection|IzHulpvraag[]
+     * @ORM\OneToMany(targetEntity="IzHulpvraag", mappedBy="izKlant")
      */
     private $izHulpvragen;
 
@@ -44,5 +44,10 @@ class IzKlant extends IzDeelnemer
         $this->klant = $klant;
 
         return $this;
+    }
+
+    public function getIzHulpvragen()
+    {
+        return $this->izHulpvragen;
     }
 }

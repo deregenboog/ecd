@@ -45,4 +45,17 @@ class IzProject
     {
         return $this->naam;
     }
+
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
 }
