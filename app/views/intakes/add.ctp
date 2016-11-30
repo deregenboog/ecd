@@ -84,26 +84,7 @@
 
         <fieldset>
             <legend>Verslaving</legend>
-            <h3>Primaire problematiek</h3>
-            <?php
-                echo $this->Form->input('primaireproblematiek_id', array(
-                    'options'=> $primary_problems, 'empty' => '', 'label' => 'Primaire problematiek', ));
-                echo $this->Form->input('primaireproblematieksfrequentie_id', array(
-                    'options' => $verslavingsfrequenties,
-                    'empty' => '',
-                    'label' => 'Verslavingsfrequentie',
-                ));
-                echo $this->Form->input('primaireproblematieksperiode_id', array(
-                    'options' => $verslavingsperiodes,
-                    'empty' => '',
-                    'label' => 'Verslavingsperiode',
-                ));
-                echo $this->Form->input('Primaireproblematieksgebruikswijze', array(
-                    'type'=>'select',
-                    'multiple'=>'checkbox',
-                    'label' => 'Hoe gebruikt client?', ));
-            ?>
-            <h3>Secundaire problematiek</h3>
+            <h3>Problematiek</h3>
             <?php
                 echo $this->Form->input('Verslaving', array(
                     'type'=>'select',
@@ -111,22 +92,7 @@
                     'options'=> $verslavingen,
                     'label'=>'Verslavingen', ));
                 echo $this->Form->input('verslaving_overig', array('label' => __('verslaving_overig', true)));
-                echo $this->Form->input('verslavingsfrequentie_id', array('empty' => ''));
-                echo $this->Form->input('verslavingsperiode_id', array('empty' => ''));
-                echo $this->Form->input('Verslavingsgebruikswijze', array(
-                    'type'=>'select',
-                    'multiple'=>'checkbox',
-                    'options'=> $verslavingsgebruikswijzen,
-                    'label'=>__('verslavingsgebruikwijze', true), ));
             ?>
-            <h3>Algemene problematiek</h3>
-            <?php
-            echo $date->input('Intake.eerste_gebruik', null, array(
-                'label' => 'Wat is de datum van het eerste gebruik?',
-                'rangeLow' => (date('Y') - 50).date('-m-d'),
-                'rangeHigh' => $today,
-            ));
-        ?>
         </fieldset>
 
         <fieldset>
