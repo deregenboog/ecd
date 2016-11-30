@@ -118,11 +118,6 @@ class IntakesController extends AppController
         $verslavingsgebruikswijzen = $this->Intake->Verslavingsgebruikswijze->find('list');
         $verslavingen = $this->Intake->Verslaving->find('list');
 
-        if ($this->Intake->Klant->goesToInfobalie($klant)) {
-            $infobaliedoelgroepen = $this->Intake->Infobaliedoelgroep->find('list');
-            $this->set(compact('infobaliedoelgroepen'));
-        }
-
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
         $zrm_data = $this->ZrmReport->zrm_data();
