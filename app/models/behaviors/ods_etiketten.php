@@ -137,34 +137,27 @@ class OdsEtikettenBehavior extends ModelBehavior
     public function setOdsEtikettenData(&$model, $data)
     {
         $rows = $this->xpath->query('//office:body/office:text/draw:frame');
-        $len = count($data);
-        $lastrow = $rows->length;
-        if ($lastrow != 24) {
-            $this->errors[] = 'geen 24 etiketten per pagina';
 
-            return false;
-        }
         $insertnode = $this->doc->createElement('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
         $parent = $rows->item(0)->parentNode;
         $parent->insertBefore($insertnode, $rows->item(0));
-        $framecnt = 1;
-        $pagecnt = 1;
-        for ($cnt = 0; $cnt < $len; ++$cnt) {
-            $row = $rows->item($framecnt - 1)->cloneNode(true);
-            $row->setAttribute('text:anchor-page-number', $pagecnt);
-            $parent->insertBefore($row, $insertnode);
 
-            $this->setNextRow($row, $data[$cnt]);
-            ++$framecnt;
-            if ($framecnt > 24) {
-                $framecnt = 1;
-                ++$pagecnt;
+        $page = $frame = 1;
+        foreach($data as $item) {
+            $row = $rows->item($frame - 1)->cloneNode(true);
+            $row->setAttribute('text:anchor-page-number', $page);
+            $parent->insertBefore($row, $insertnode);
+            $this->setNextRow($row, $item);
+
+            if (++$frame > $rows->length) {
+                $frame = 1;
+                ++$page;
             }
-            ++$this->current;
         }
+
         $parent = $insertnode->parentNode;
         $parent->removeChild($insertnode);
-        for ($cnt = 0; $cnt < $lastrow; ++$cnt) {
+        for ($cnt = 0; $cnt < $rows->length; ++$cnt) {
             $parent = $rows->item($cnt)->parentNode;
             $parent->removeChild($rows->item($cnt));
         }

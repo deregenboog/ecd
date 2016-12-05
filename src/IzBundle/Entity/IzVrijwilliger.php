@@ -19,8 +19,8 @@ class IzVrijwilliger extends IzDeelnemer
     protected $vrijwilliger;
 
     /**
-     * @var ArrayCollection|IzKoppeling[]
-     * @ORM\OneToMany(targetEntity="IzKoppeling", mappedBy="izVrijwilliger")
+     * @var ArrayCollection|IzHulpaanbod[]
+     * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
      */
     private $izHulpaanbiedingen;
 
@@ -45,4 +45,10 @@ class IzVrijwilliger extends IzDeelnemer
 
         return $this;
     }
+
+    public function getIzHulpaanbiedingen()
+    {
+        return $this->izHulpaanbiedingen;
+    }
+
 }

@@ -21,10 +21,10 @@ class AppTwigView extends TwigView
     public $twigOptions = array(
         'fileExtension' => '.twig',
         'extensions' => array(
-            'i18n',
-            'number',
-            'text',
-            'time',
+//             'i18n',
+//             'number',
+//             'text',
+//             'time',
         ),
     );
 
