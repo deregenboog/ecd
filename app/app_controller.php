@@ -249,8 +249,9 @@ class AppController extends Controller
 
     public function beforeFilter()
     {
-        $this->kernel = KernelRegistry::getInstance()->getKernel();
-        $this->container = $this->kernel->getContainer();
+        global $kernel;
+
+        $this->container = $kernel->getContainer();
         $this->request = Request::createFromGlobals();
 
         //Configure AuthComponent

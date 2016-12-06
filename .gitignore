@@ -1,9 +1,19 @@
-/app/config
+/app/config/parameters.yml
+
+# Temp dir
 /app/tmp
+!/app/tmp/cache/models/.gitkeep
+!/app/tmp/cache/persistent/.gitkeep
+!/app/tmp/cache/views/.gitkeep
+!/app/tmp/etiketten/.gitkeep
+!/app/tmp/logs/.gitkeep
+!/app/tmp/sessions/.gitkeep
+!/app/tmp/tests/.gitkeep
+
 /archive
 
 # Docker
-/.data/*
+/.mysql/*
 
 # Composer
 /vendor/*
@@ -13,3 +23,10 @@
 /.project
 /.buildpath
 
+# Custom tools
+/bin/*
+!/bin/console
+!/bin/docker-build.sh
+!/bin/docker-up.sh
+!/bin/docker-stop.sh
+/app/bootstrap.php.cache

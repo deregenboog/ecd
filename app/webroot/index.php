@@ -1,5 +1,18 @@
 <?php
-/**
+
+use Symfony\Component\HttpFoundation\Request;
+
+require __DIR__.'/../autoload.php';
+include_once __DIR__.'/../bootstrap.php.cache';
+
+$kernel = new AppKernel('prod', true);
+$kernel->loadClassCache();
+$kernel->boot();
+// handle request to make components (i.e. paginator) context aware
+$request = Request::createFromGlobals();
+$kernel->handle($request);
+
+/*
  * Index.
  *
  * The Front Controller for handling every request
@@ -19,7 +32,7 @@
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-    /**
+    /*
      * Use the DS to separate the directories in other defines.
      */
     if (!defined('DS')) {

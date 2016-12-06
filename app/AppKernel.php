@@ -15,6 +15,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new CakeBundle\CakeBundle(),
             new AppBundle\AppBundle(),
             new IzBundle\IzBundle(),
         ];
@@ -37,7 +38,7 @@ class AppKernel extends Kernel
 
     public function getLogDir()
     {
-        return dirname(__DIR__).'/app/tmp/log/'.$this->getEnvironment();
+        return dirname(__DIR__).'/app/tmp/logs/'.$this->getEnvironment();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
