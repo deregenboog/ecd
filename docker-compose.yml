@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    links:
+      - database
+    ports:
+      - "80:80"
+    volumes:
+      - ".:/var/www/html"
+  database:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ecd
+      MYSQL_DATABASE: ecd
+      MYSQL_USER: ecd
+      MYSQL_PASSWORD: ecd
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "81:80"
+    links:
+      - database
+    environment:
+      PMA_HOST: database

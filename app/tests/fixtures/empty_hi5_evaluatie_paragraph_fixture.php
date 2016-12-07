@@ -1,7 +1,9 @@
-<?php 
-class EmptyHi5EvaluatieParagraphFixture extends CakeTestFixture {
-var $name = 'Hi5EvaluatieParagraph';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyHi5EvaluatieParagraphFixture extends CakeTestFixture
+{
+    public $name = 'Hi5EvaluatieParagraph';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

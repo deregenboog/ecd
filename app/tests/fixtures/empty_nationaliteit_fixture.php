@@ -1,7 +1,9 @@
-<?php 
-class EmptyNationaliteitFixture extends CakeTestFixture {
-var $name = 'Nationaliteit';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyNationaliteitFixture extends CakeTestFixture
+{
+    public $name = 'Nationaliteit';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

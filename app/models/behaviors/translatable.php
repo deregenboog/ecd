@@ -1,7 +1,6 @@
 <?php
 
 /** Translate validation rule messages, and other stuff. */
-
 class TranslatableBehavior extends ModelBehavior
 {
     public $settings = array();

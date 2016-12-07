@@ -1,7 +1,9 @@
-<?php 
-class EmptyIntakeFixture extends CakeTestFixture {
-var $name = 'Intake';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyIntakeFixture extends CakeTestFixture
+{
+    public $name = 'Intake';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

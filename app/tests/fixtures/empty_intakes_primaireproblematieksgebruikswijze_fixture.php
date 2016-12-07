@@ -1,7 +1,9 @@
-<?php 
-class EmptyIntakesPrimaireproblematieksgebruikswijzeFixture extends CakeTestFixture {
-var $name = 'IntakesPrimaireproblematieksgebruikswijze';
-var $table = 'intakes_primaireproblematieksgebruikswijzen';
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+<?php
+
+class EmptyIntakesPrimaireproblematieksgebruikswijzeFixture extends CakeTestFixture
+{
+    public $name = 'IntakesPrimaireproblematieksgebruikswijze';
+    public $table = 'intakes_primaireproblematieksgebruikswijzen';
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

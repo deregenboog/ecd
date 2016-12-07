@@ -1,7 +1,9 @@
-<?php 
-class EmptyOpmerkingFixture extends CakeTestFixture {
-var $name = 'Opmerking';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyOpmerkingFixture extends CakeTestFixture
+{
+    public $name = 'Opmerking';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

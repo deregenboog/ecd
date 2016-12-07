@@ -1,7 +1,9 @@
-<?php 
-class EmptyLogFixture extends CakeTestFixture {
-var $name = 'Log';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyLogFixture extends CakeTestFixture
+{
+    public $name = 'Log';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

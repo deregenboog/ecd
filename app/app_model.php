@@ -40,19 +40,20 @@ class AppModel extends Model
         return null;
     }
 
-    function check_diff_multi($array1, $array2){
-    	$result = array();
-    	foreach($array1 as $key => $val) {
-    		if(isset($array2[$key])){
-    			if(is_array($val)  && is_array($array2[$key])){
-    				$result[$key] = check_diff_multi($val, $array2[$key]);
-    			}
-    		} else {
-    			$result[$key] = $val;
-    		}
-    	}
-    
-    	return $result;
+    public function check_diff_multi($array1, $array2)
+    {
+        $result = array();
+        foreach ($array1 as $key => $val) {
+            if (isset($array2[$key])) {
+                if (is_array($val) && is_array($array2[$key])) {
+                    $result[$key] = check_diff_multi($val, $array2[$key]);
+                }
+            } else {
+                $result[$key] = $val;
+            }
+        }
+
+        return $result;
     }
     public function has_this_data_changed($current, $original)
     {
@@ -76,9 +77,6 @@ class AppModel extends Model
     /**
      * getDummy Get an empty data array for this model, reflecting the schema
      * and the virtual fields. Cached.
-     * 
-     * @access public
-     * @return void
      */
     public function getDummy()
     {
@@ -100,15 +98,14 @@ class AppModel extends Model
 
     /**
      * getById Retrieve a model data, normally from registry or cache, where it's kept.
-     * 
-     * @param mixed $id 
-     * @param boolean $fromCache 
-     * @access public
-     * @return Array with CakePHP model data.
+     *
+     * @param mixed $id
+     * @param bool  $fromCache
+     *
+     * @return array with CakePHP model data
      */
     public function getById($id, $fromCache = true)
     {
-
         if ($this->debug_caching) {
             $this->log('getById '.$id, 'as_'.$this->name);
         }
@@ -125,6 +122,7 @@ class AppModel extends Model
             if ($this->debug_caching) {
                 $this->log('cached:  '.json_encode($result), 'as_'.$this->name);
             }
+
             return $result;
         }
         $result = $this->find('first', array(
@@ -148,13 +146,12 @@ class AppModel extends Model
 
     /**
      * getAllById Retrieve all related objects recursively. A parameter $contain can be passed to determine until what depth (and for what children models) this recursion will happen. Otherwise, the first level of relatives is retrieved.
-     * 
-     * @param UUID $id 
-     * @param Array $contain Model relationship tree, to specify the recursiveness depth.
-     * @param boolean $emptyIfNotFound When used recursively, we make this true so that if some object is not found, a empty array is returned instead of false, emulating Cake's behavior when building up complex objects.
-
-     * @access public
-     * @return Array with all composite objects, as if it where returned by a CakePHP's find with contain.
+     *
+     * @param UUID  $id
+     * @param array $contain         Model relationship tree, to specify the recursiveness depth
+     * @param bool  $emptyIfNotFound When used recursively, we make this true so that if some object is not found, a empty array is returned instead of false, emulating Cake's behavior when building up complex objects
+     *
+     * @return array with all composite objects, as if it where returned by a CakePHP's find with contain
      */
     public function getAllById($id, $contain = null, $emptyIfNotFound = false, $fromCache = true)
     {
@@ -165,11 +162,11 @@ class AppModel extends Model
         if ($hit) {
             $result[$this->alias] = $hit;
         } else {
-           if ($emptyIfNotFound) {
-               return array($this->alias => $this->getDummy());
-           } else {
-               return false;
-           }
+            if ($emptyIfNotFound) {
+                return array($this->alias => $this->getDummy());
+            } else {
+                return false;
+            }
         }
         if (!empty($contain) || is_null($contain)) {
             $relations = $this->getRelatedToId($id, $fromCache);
@@ -221,17 +218,15 @@ class AppModel extends Model
         }
 
         $result = current($this->afterFind(array($result), true));
-        
+
         return $result;
     }
 
     /**
      * completeAllPaginated Complete paginated results retrieved with recursive = -1 with data from the cache.
-     * 
-     * @param mixed $paginated 
-     * @param mixed $contain 
-     * @access public
-     * @return void
+     *
+     * @param mixed $paginated
+     * @param mixed $contain
      */
     public function completeAllPaginated($paginated, $contain = null)
     {
@@ -246,6 +241,7 @@ class AppModel extends Model
             }
             $result[] = Set::merge($hit, $this->getAllById($id, $contain));
         }
+
         return $result;
     }
 
@@ -253,10 +249,8 @@ class AppModel extends Model
      * refreshCachedBelongsToRelations Updated the cached relations by
      * refreshing the belongsTo, the only ones that can change when saving THIS
      * object. Also clean the relations cache of the parents that have changed. and only those. We use deleteRelationsCacheAndParentsRelationsCache() to delete all parents without discrimination.
-     * 
-     * @param mixed $id 
-     * @access public
-     * @return void
+     *
+     * @param mixed $id
      */
     public function refreshCachedBelongsToRelations($id)
     {
@@ -307,16 +301,15 @@ class AppModel extends Model
     }
 
     /**
- * findParentsOfId Retrieves an array of parent objects to which the specified object belongsTo.
-     * 
-     * @param mixed $id 
-     * @access public
-     * @return void
+     * findParentsOfId Retrieves an array of parent objects to which the specified object belongsTo.
+     *
+     * @param mixed $id
      */
-    public function findParentsOfId ($id)
+    public function findParentsOfId($id)
     {
         if (empty($id)) {
             debug('empty ID');
+
             return false;
         }
 
@@ -325,7 +318,7 @@ class AppModel extends Model
         }
 
         $this->recursive = -1;
-        $conditions = array( $this->alias.".".$this->primaryKey => $id);
+        $conditions = array($this->alias.'.'.$this->primaryKey => $id);
         $result = $this->find('first', array(
                     'conditions' => $conditions,
                 ));
@@ -368,6 +361,7 @@ class AppModel extends Model
         }
         unset($info);
         unset($result);
+
         return $related_ids;
     }
 
@@ -376,6 +370,7 @@ class AppModel extends Model
         if (empty($id)) {
             debug('Empty ID!');
             debug(Debugger::trace());
+
             return array();
         }
         $key = $this->getCacheKeyRelations($id);
@@ -442,10 +437,8 @@ class AppModel extends Model
 
     /**
      * clearCache A function to clear the cache of one object, on demand.
-     * 
-     * @param mixed $created 
-     * @access public
-     * @return void
+     *
+     * @param mixed $created
      */
     public function clearCache($created)
     {
@@ -478,11 +471,13 @@ class AppModel extends Model
             } else {
             }
         }
+
         return parent::beforeSave($options);
     }
 
     /**
      * Cake model afterSave callback.
+     *
      * @param bool $created Is it a new record
      */
     public function afterSave($created)
@@ -509,13 +504,11 @@ class AppModel extends Model
     }
 
     /**
-     * getComputedPropertyById Parallel to the propeties registry for data in the database, we have another one for computed properties. These are the getter and setter:
-     * 
-     * @param UUID $id 
-     * @param string $property 
-     * @param Boolean $fromCache 
-     * @access public
-     * @return void
+     * getComputedPropertyById Parallel to the propeties registry for data in the database, we have another one for computed properties. These are the getter and setter:.
+     *
+     * @param UUID   $id
+     * @param string $property
+     * @param bool   $fromCache
      */
     public function getComputedPropertyById($id, $property, $fromCache = true)
     {
@@ -532,13 +525,11 @@ class AppModel extends Model
 
     /**
      * setComputedPropertyById Store a value in an array of properties for a particular object. See getComputedPropertyById().
-     * 
-     * @param UUID $id 
-     * @param string $property 
-     * @param mixed $value 
-     * @param Boolean $fromCache 
-     * @access public
-     * @return void
+     *
+     * @param UUID   $id
+     * @param string $property
+     * @param mixed  $value
+     * @param bool   $fromCache
      */
     public function setComputedPropertyById($id, $property, $value, $fromCache = true)
     {
@@ -550,6 +541,7 @@ class AppModel extends Model
         }
         $prop[$property] = $value;
         $result = registry_set('computed_properties', $key, $prop, $fromCache);
+
         return $result;
     }
 
@@ -565,8 +557,8 @@ class AppModel extends Model
                     if (!empty($this->{$model})) {
                         $key = $this->{$model}->getCacheKeyRelations($relationId);
                         if ($this->debug_caching) {
-                            $this->log('Clean relations of '.$model.": ".$key, 'as_'.$this->name);
-                            $this->log('Clean relations of '.$model.": ".$key, 'debug_cache');
+                            $this->log('Clean relations of '.$model.': '.$key, 'as_'.$this->name);
+                            $this->log('Clean relations of '.$model.': '.$key, 'debug_cache');
                         }
                         if ($model == 'Event') {
                             // $this->log(Debugger::trace(), 'debug_cache');
@@ -575,8 +567,8 @@ class AppModel extends Model
                         $m = ClassRegistry::init($model);
                         $key = $m->getCacheKeyRelations($relationId);
                         if ($this->debug_caching) {
-                            $this->log('Clean relations of '.$model.": special ".$key, 'as_'.$this->name);
-                            $this->log('Clean relations of '.$model.": special ".$key, 'debug_cache');
+                            $this->log('Clean relations of '.$model.': special '.$key, 'as_'.$this->name);
+                            $this->log('Clean relations of '.$model.': special '.$key, 'debug_cache');
                         }
                     }
                     registry_delete('relations', $key, true);
@@ -586,13 +578,11 @@ class AppModel extends Model
     }
 
     /**
-     * deleteRelationsCacheAndParentsRelationsCache This deletes the relations 
-     * of this object, and also the cached relations of all parents related 
+     * deleteRelationsCacheAndParentsRelationsCache This deletes the relations
+     * of this object, and also the cached relations of all parents related
      * to this.
-     * 
-     * @param mixed $id 
-     * @access public
-     * @return void
+     *
+     * @param mixed $id
      */
     public function deleteRelationsCacheAndParentsRelationsCache($id)
     {
@@ -614,12 +604,12 @@ class AppModel extends Model
             $this->deleteRelationsCacheAndParentsRelationsCache($this->id);
             $this->deletePropertyCache($this->id);
         }
+
         return $result;
     }
 
     /**
      * deleteAll Rewrite the parent's to run the callbacks by default.
-     * 
      */
     public function deleteAll($conditions, $cascade = true, $callbacks = true)
     {

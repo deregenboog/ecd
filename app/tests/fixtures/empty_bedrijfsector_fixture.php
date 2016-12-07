@@ -1,7 +1,9 @@
-<?php 
-class EmptyBedrijfsectorFixture extends CakeTestFixture {
-var $name = 'Bedrijfsector';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyBedrijfsectorFixture extends CakeTestFixture
+{
+    public $name = 'Bedrijfsector';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

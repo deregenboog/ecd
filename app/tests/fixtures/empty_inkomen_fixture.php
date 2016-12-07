@@ -1,7 +1,9 @@
-<?php 
-class EmptyInkomenFixture extends CakeTestFixture {
-var $name = 'Inkomen';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyInkomenFixture extends CakeTestFixture
+{
+    public $name = 'Inkomen';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

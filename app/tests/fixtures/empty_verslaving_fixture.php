@@ -1,7 +1,9 @@
-<?php 
-class EmptyVerslavingFixture extends CakeTestFixture {
-var $name = 'Verslaving';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyVerslavingFixture extends CakeTestFixture
+{
+    public $name = 'Verslaving';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

@@ -1,0 +1,29 @@
+{{ include('elements/iz_subnavigation.twig') }}
+
+<fieldset class="action data">
+    <legend>E-mail</legend>
+    Ontvangers:
+    <ul id="ontvangers" stype='list-style-type: none;'>
+        {% if izKlanten|length + izVrijwilligers|length > 20 %}
+            {{ izKlanten|length + izVrijwilligers|length }} personen
+        {% else %}
+            {% for izKlant in izKlanten %}
+                <li style='display: inline;'>{{ izKlant.klant.email }}</li>
+            {% endfor %}
+            {% for izVrijwilliger in izVrijwilligers %}
+                <li style='display: inline;'>{{ izVrijwilliger.vrijwilliger.email }}</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    <br class="clear">
+    <p>Afzender: {{ this.Session.read('Auth.Medewerker.LdapUser.mail') }}</p>
+    {{ form_start(form) }}
+        {{ form_row(form.to) }}
+        {{ form_row(form.subject, {'attr': {'style': 'width: 500px;'}}) }}
+        {{ form_row(form.text, {'attr': {'cols': 80, 'rows': 10}}) }}
+        {{ form_row(form.file1) }}
+        {{ form_row(form.file2) }}
+        {{ form_row(form.file3) }}
+        <button type="submit">Verzenden</button>
+    {{ form_end(form) }}
+</fieldset>

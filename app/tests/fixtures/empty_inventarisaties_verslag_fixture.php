@@ -1,7 +1,9 @@
-<?php 
-class EmptyInventarisatiesVerslagFixture extends CakeTestFixture {
-var $name = 'InventarisatiesVerslag';
-var $table = 'inventarisaties_verslagen';
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+<?php
+
+class EmptyInventarisatiesVerslagFixture extends CakeTestFixture
+{
+    public $name = 'InventarisatiesVerslag';
+    public $table = 'inventarisaties_verslagen';
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

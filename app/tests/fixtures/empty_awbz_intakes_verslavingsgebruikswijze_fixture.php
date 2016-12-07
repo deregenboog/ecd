@@ -1,7 +1,9 @@
-<?php 
-class EmptyAwbzIntakesVerslavingsgebruikswijzeFixture extends CakeTestFixture {
-var $name = 'AwbzIntakesVerslavingsgebruikswijze';
-var $table = 'awbz_intakes_verslavingsgebruikswijzen';
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+<?php
+
+class EmptyAwbzIntakesVerslavingsgebruikswijzeFixture extends CakeTestFixture
+{
+    public $name = 'AwbzIntakesVerslavingsgebruikswijze';
+    public $table = 'awbz_intakes_verslavingsgebruikswijzen';
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

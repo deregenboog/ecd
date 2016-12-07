@@ -5,129 +5,127 @@ App::import('Model', 'Klant');
 App::import('Model', 'Intake');
 App::import('Model', 'Registratie');
 
-class SimpleIntake extends Intake {  // lightweight class
-    var $actsAs = null;
-    var $order = 'datum_intake DESC';
+class SimpleIntake extends Intake
+{  // lightweight class
+    public $actsAs = null;
+    public $order = 'datum_intake DESC';
 
-    var $hasOne = array();
-    var $hasMany = array ();
-    var $hasAndBelongsToMany = array ();
+    public $hasOne = array();
+    public $hasMany = array();
+    public $hasAndBelongsToMany = array();
 
-    var $belongsTo = array (
-        'Klant' => array (
-            'className' => 'SimpleKlant', 
-            'foreignKey' => 'klant_id', 
-            'conditions' => '', 
-            'fields' => '', 
-            'order' => '' 
-        ), 
+    public $belongsTo = array(
+        'Klant' => array(
+            'className' => 'SimpleKlant',
+            'foreignKey' => 'klant_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ),
     );
- 
 }
 
-class SimpleRegistratie extends Registratie {  // lightweight class
-    var $actsAs = null;
+class SimpleRegistratie extends Registratie
+{  // lightweight class
+    public $actsAs = null;
 
-    var $hasOne = array();
-    var $hasMany = array ();
-    var $hasAndBelongsToMany = array ();
+    public $hasOne = array();
+    public $hasMany = array();
+    public $hasAndBelongsToMany = array();
 
-    var $belongsTo = array (
-        'Klant' => array (
-            'className' => 'SimpleKlant', 
-            'foreignKey' => 'klant_id', 
-            'conditions' => '', 
-            'fields' => '', 
-            'order' => '' 
-        ), 
+    public $belongsTo = array(
+        'Klant' => array(
+            'className' => 'SimpleKlant',
+            'foreignKey' => 'klant_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ),
     );
- 
 }
- 
-class SimpleKlant extends Klant {  // lightweight class
-    var $actsAs = null;
-    var $order = 'achternaam ASC';
-    var $virtualFields = null;
 
-    var $hasOne = array();
+class SimpleKlant extends Klant
+{  // lightweight class
+    public $actsAs = null;
+    public $order = 'achternaam ASC';
+    public $virtualFields = null;
 
-    var $belongsTo = array (
-            'Geboorteland' => array (
-                    'className' => 'Land', 
-                    'foreignKey' => 'land_id', 
-                    'conditions' => '', 
-                    'fields' => '', 
-                    'order' => '' 
-            ), 
-            'LasteIntake' => array (
-                    'className' => 'SimpleIntake', 
-                    'foreignKey' => 'laste_intake_id', 
-                    'conditions' => '', 
-                    'fields' => '', 
-                    'order' => '' 
-            ), 
-            'LaatsteRegistratie' => array (
-                    'className' => 'SimpleRegistratie', 
-                    'foreignKey' => 'laatste_registratie_id', 
-                    'conditions' => '', 
-                    'fields' => '', 
-                    'order' => '' 
-            ) 
+    public $hasOne = array();
+
+    public $belongsTo = array(
+            'Geboorteland' => array(
+                    'className' => 'Land',
+                    'foreignKey' => 'land_id',
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => '',
+            ),
+            'LasteIntake' => array(
+                    'className' => 'SimpleIntake',
+                    'foreignKey' => 'laste_intake_id',
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => '',
+            ),
+            'LaatsteRegistratie' => array(
+                    'className' => 'SimpleRegistratie',
+                    'foreignKey' => 'laatste_registratie_id',
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => '',
+            ),
     );
-    
-    var $hasMany = array (
-            'Intake' => array (
-                    'className' => 'SimpleIntake', 
-                    'foreignKey' => 'klant_id', 
-                    'dependent' => false, 
-                    'conditions' => '', 
-                    'fields' => '', 
-                    'order' => array (
-                            'Intake.datum_intake DESC', 
-                            'Intake.modified DESC' 
-                    ) 
-            ), 
-            'Registratie' => array (
-                    'className' => 'SimpleRegistratie', 
-                    'foreignKey' => 'klant_id', 
-                    'dependent' => false, 
-                    'conditions' => '', 
-                    'fields' => '', 
-                    'order' => '', 
-                    'limit' => '', 
-                    'offset' => '', 
-                    'exclusive' => '', 
-                    'finderQuery' => '', 
-                    'counterQuery' => '' 
-                ), 
+
+    public $hasMany = array(
+            'Intake' => array(
+                    'className' => 'SimpleIntake',
+                    'foreignKey' => 'klant_id',
+                    'dependent' => false,
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => array(
+                            'Intake.datum_intake DESC',
+                            'Intake.modified DESC',
+                    ),
+            ),
+            'Registratie' => array(
+                    'className' => 'SimpleRegistratie',
+                    'foreignKey' => 'klant_id',
+                    'dependent' => false,
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => '',
+                    'limit' => '',
+                    'offset' => '',
+                    'exclusive' => '',
+                    'finderQuery' => '',
+                    'counterQuery' => '',
+                ),
             );
 }
 
-
-
-class KlantCacheTestCase extends CakeTestCase {
-
+class KlantCacheTestCase extends CakeTestCase
+{
     // var $fixtures = array('app.klant');
 
-    var $fixtures = array('app.klant', 'app.geslacht', 'app.land', 'app.ldap_user', 'app.intake', 'app.registratie', 'app.medewerker', 'app.log'); 
+    public $fixtures = array('app.klant', 'app.geslacht', 'app.land', 'app.ldap_user', 'app.intake', 'app.registratie', 'app.medewerker', 'app.log');
 
-
-    function startTest() {
-        $this->Model = & ClassRegistry::init('SimpleKlant');
+    public function startTest()
+    {
+        $this->Model = &ClassRegistry::init('SimpleKlant');
         $this->Model->id = 1; // Use this fixture
-		$this->_cacheDisable = Configure::read('Cache.disable');
+        $this->_cacheDisable = Configure::read('Cache.disable');
         Configure::write('Cache.disable', false);
         registry_reset(true);
-
     }
 
-    function endTest() {
+    public function endTest()
+    {
         Configure::write('Cache.disable', $this->_cacheDisable);
     }
 
-
-    
-    function testRegistry() {
+    public function testRegistry()
+    {
         $this->assertFalse(registry_isset('test', 'key'));
 
         registry_set('test', 'key', array('some value', 'other value'));
@@ -138,12 +136,10 @@ class KlantCacheTestCase extends CakeTestCase {
 
         registry_delete('test', 'key');
         $this->assertFalse(registry_get('test', 'key'));
-
     }
 
-
-    function testRelationsAreCachedCorrectly() {
-
+    public function testRelationsAreCachedCorrectly()
+    {
         $key = $this->Model->getCacheKeyRelations($this->Model->id);
         $result = registry_get('relations', $key, true);
 
@@ -154,13 +150,10 @@ class KlantCacheTestCase extends CakeTestCase {
 
         $this->assertTrue($result);
         $this->assertEqual($relationCache, $result);
-
-
     }
 
-
-    function testRelationsAreCachedCorrectlyAfterCacheClear() {
-
+    public function testRelationsAreCachedCorrectlyAfterCacheClear()
+    {
         $key = $this->Model->getCacheKeyRelations($this->Model->id);
         $result = registry_get('relations', $key, true);
 
@@ -171,15 +164,10 @@ class KlantCacheTestCase extends CakeTestCase {
 
         $this->assertTrue($result);
         $this->assertEqual($relationCache, $result);
-
     }
 
-
-
-
-    function testFindRelatedHasBelongsToRelationShips() {
-
-
+    public function testFindRelatedHasBelongsToRelationShips()
+    {
         $relationCache = $this->Model->getRelatedToId($this->Model->id);
         $notFound = array();
 
@@ -189,19 +177,17 @@ class KlantCacheTestCase extends CakeTestCase {
             }
         }
         if (!$this->assertTrue(empty($notFound), "I couldn't find some belongsTo relationships in the relations cache: "
-            . implode(', ', $notFound) .
-            " when searched in "
-            . print_r($relationCache, true)
+            .implode(', ', $notFound).
+            ' when searched in '
+            .print_r($relationCache, true)
         )) {
             debug(array('found only' => array_keys($relationCache),
-                'expected also' => array_keys($this->Model->belongsTo)));
-
+                'expected also' => array_keys($this->Model->belongsTo), ));
         }
     }
 
-
-
-    function testFindRelatedHasHasManyRelationships() {
+    public function testFindRelatedHasHasManyRelationships()
+    {
         $relationCache = $this->Model->getRelatedToId($this->Model->id);
         $notFound = array();
         foreach ($this->Model->hasMany as $model => $info) {
@@ -209,20 +195,18 @@ class KlantCacheTestCase extends CakeTestCase {
                 $notFound[] = $info['className'];
             }
         }
-        if(!$this->assertTrue(empty($notFound), "I couldn-t find some has many relationships in the relations cache: "
-            . implode(', ', $notFound) .
-            " when searched in "
-            . print_r($relationCache, true)
+        if (!$this->assertTrue(empty($notFound), 'I couldn-t find some has many relationships in the relations cache: '
+            .implode(', ', $notFound).
+            ' when searched in '
+            .print_r($relationCache, true)
         )) {
-
             debug(array('found only' => array_keys($relationCache),
-                'expected also' => array_keys($this->Model->hasMany)));
-
+                'expected also' => array_keys($this->Model->hasMany), ));
         }
     }
 
-    function testDeleteRelationsCache() {
-
+    public function testDeleteRelationsCache()
+    {
         $relations = $this->Model->getRelatedToId($this->Model->id);
 
         foreach ($relations as $model => $ids) {
@@ -251,11 +235,11 @@ class KlantCacheTestCase extends CakeTestCase {
                 }
             }
         }
-        $this->assertTrue(empty($foundCaches), 'Tried to delete parents relation caches, but found some not deleted ones: ' . implode(', ', $foundCaches));
+        $this->assertTrue(empty($foundCaches), 'Tried to delete parents relation caches, but found some not deleted ones: '.implode(', ', $foundCaches));
     }
 
-    function testDeletePropertyCache() {
-
+    public function testDeletePropertyCache()
+    {
         $eventId = $this->Model->id;
         $this->Model->getById($eventId);
         $key = $this->Model->getCacheKey($eventId);
@@ -264,23 +248,24 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->Model->deletePropertyCache($eventId);
         $cache = Cache::read('properties.'.$key);
         $this->assertTrue(empty($cache), "Cache for event {$key} should have been empty, found "
-            . print_r($cache, true)
+            .print_r($cache, true)
         );
     }
 
-
-    function testAfterSaveNotCreated_deletedPropertyCache() {
+    public function testAfterSaveNotCreated_deletedPropertyCache()
+    {
         $this->Model->id = $this->Model->id;
         $this->Model->afterSave(false);
         $key = $this->Model->getCacheKey($this->Model->id);
         $cache = Cache::read($key);
         $this->assertTrue(empty($cache), "After updating [saved, but not created],
             Cache for event {$key} should have been empty, found "
-            . print_r($cache, true)
+            .print_r($cache, true)
         );
     }
 
-    function testBeforeDelete_deletedRelationsCache() {
+    public function testBeforeDelete_deletedRelationsCache()
+    {
         $relations = $this->Model->getRelatedToId($this->Model->id);
 
         $this->Model->beforeDelete(null);
@@ -297,12 +282,13 @@ class KlantCacheTestCase extends CakeTestCase {
                 }
             }
         }
-        $this->assertTrue(empty($foundCaches), "After deleting, the relations cache of the parent objects should be empty,
-            but found some not deleted ones: " . implode(', ', $foundCaches)
+        $this->assertTrue(empty($foundCaches), 'After deleting, the relations cache of the parent objects should be empty,
+            but found some not deleted ones: ' .implode(', ', $foundCaches)
         );
     }
 
-    function testBeforeDelete_deletedPropertyCache() {
+    public function testBeforeDelete_deletedPropertyCache()
+    {
         $this->Model->id = $this->Model->id;
         $this->Model->getById($this->Model->id);
         $key = $this->Model->getCacheKey($this->Model->id);
@@ -313,11 +299,12 @@ class KlantCacheTestCase extends CakeTestCase {
         $cached = registry_get('properties', $key, true);
         $this->assertFalse($cached, "After deleting the event {$this->Model->id},
             Cache for event {$key} should have been empty, found "
-            . print_r($cached, true)
+            .print_r($cached, true)
         );
     }
 
-    function testComputedPropertiesCaching() {
+    public function testComputedPropertiesCaching()
+    {
         $id = $this->Model->id;
         $res = $this->Model->getComputedPropertyById($id, 'prop_1');
         $this->assertFalse($res);
@@ -325,7 +312,7 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->assertFalse($res);
 
         $this->Model->setComputedPropertyById($id, 'prop_1', 'value');
-        $prop_2 =  array('a' => 1, 'b' => 2);
+        $prop_2 = array('a' => 1, 'b' => 2);
         $this->Model->setComputedPropertyById($id, 'prop_2', $prop_2);
 
         $res = $this->Model->getComputedPropertyById($id, 'prop_1');
@@ -338,20 +325,17 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->assertFalse($res);
         $res = $this->Model->getComputedPropertyById($id, 'prop_2');
         $this->assertFalse($res);
-
     }
 
-
-
-
-    function testGetAllById_cached_nonCached() {
+    public function testGetAllById_cached_nonCached()
+    {
         $id = $this->Model->id;
 
         $fromCache = $this->Model->getAllById($id);
 
         $fromFind = $this->Model->find('first', array(
-            'conditions' => array($this->Model->alias . '.id' => $id),
-            'recursive' => 1
+            'conditions' => array($this->Model->alias.'.id' => $id),
+            'recursive' => 1,
         ));
 
         $this->assertEqual($fromCache, $fromFind);
@@ -361,7 +345,8 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->assertEqual($fromCache, $fromCache2);
     }
 
-    function testGetAllById_dataRemainsInCache() {
+    public function testGetAllById_dataRemainsInCache()
+    {
         $id = $this->Model->id;
 
         $fromCache = $this->Model->getById($id);
@@ -385,7 +370,8 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->assertEqual($fromCache, $cached);
     }
 
-    function testGetById_consecutiveReadsAreEqual() {
+    public function testGetById_consecutiveReadsAreEqual()
+    {
         $id = $this->Model->id;
 
         $fromCache = $this->Model->getById($id);
@@ -393,7 +379,8 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->assertEqual($fromCache, $fromCache2);
     }
 
-    function testGetAllById_consecutiveReadsAreEqual() {
+    public function testGetAllById_consecutiveReadsAreEqual()
+    {
         $id = $this->Model->id;
 
         $fromCache = $this->Model->getAllById($id);
@@ -401,10 +388,8 @@ class KlantCacheTestCase extends CakeTestCase {
         $this->assertEqual($fromCache, $fromCache2);
     }
 
-
-
-    function testGetAllById_klantHasRightIntakes_afterIntakeCreation() {
-
+    public function testGetAllById_klantHasRightIntakes_afterIntakeCreation()
+    {
         $id = $this->Model->id;
         $before = $this->Model->getAllById($id);
         $this->assertEqual($before['LasteIntake']['id'], 2);
@@ -453,7 +438,7 @@ class KlantCacheTestCase extends CakeTestCase {
                 'infobaliedoelgroep_id' => 1,
                 'toegang_vrouwen_nacht_opvang' => 1,
             ),
-            'Inkomen' => array( 'Inkomen' => array( 0 => '1' ))
+            'Inkomen' => array('Inkomen' => array(0 => '1')),
 
         );
 
@@ -465,12 +450,10 @@ class KlantCacheTestCase extends CakeTestCase {
             $countAfter = count($after['Intake']);
             $this->assertEqual($countAfter, $countBefore + 1);
         }
-
-
     }
 
-    function testGetAllById_klantHasRightRegistrations_afterRegistration() {
-
+    public function testGetAllById_klantHasRightRegistrations_afterRegistration()
+    {
         $id = $this->Model->id;
         $before = $this->Model->getAllById($id);
         $this->assertEqual($before['LaatsteRegistratie']['id'], 3);
@@ -478,9 +461,9 @@ class KlantCacheTestCase extends CakeTestCase {
         $countBefore = count($before['Registratie']);
 
         $data = array(
-			'locatie_id' => 3,
-			'klant_id' => 1,
-			'binnen' => date('Y-m-d H:i:s'),
+            'locatie_id' => 3,
+            'klant_id' => 1,
+            'binnen' => date('Y-m-d H:i:s'),
         );
 
         if (!$this->Model->Registratie->save($data, false)) {
@@ -492,8 +475,5 @@ class KlantCacheTestCase extends CakeTestCase {
             $countAfter = count($after['Registratie']);
             $this->assertEqual($countAfter, $countBefore + 1);
         }
-
-
     }
-
 }

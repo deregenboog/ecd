@@ -1,7 +1,9 @@
-<?php 
-class EmptyIntakesVerslavingsgebruikswijzeFixture extends CakeTestFixture {
-var $name = 'IntakesVerslavingsgebruikswijze';
-var $table = 'intakes_verslavingsgebruikswijzen';
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+<?php
+
+class EmptyIntakesVerslavingsgebruikswijzeFixture extends CakeTestFixture
+{
+    public $name = 'IntakesVerslavingsgebruikswijze';
+    public $table = 'intakes_verslavingsgebruikswijzen';
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

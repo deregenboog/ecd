@@ -1,7 +1,9 @@
-<?php 
-class EmptySchorsingenRedenFixture extends CakeTestFixture {
-var $name = 'SchorsingenReden';
-var $table = 'schorsingen_redenen';
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+<?php
+
+class EmptySchorsingenRedenFixture extends CakeTestFixture
+{
+    public $name = 'SchorsingenReden';
+    public $table = 'schorsingen_redenen';
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

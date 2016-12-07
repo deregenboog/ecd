@@ -1,7 +1,9 @@
-<?php 
-class EmptyLocatieFixture extends CakeTestFixture {
-var $name = 'Locatie';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyLocatieFixture extends CakeTestFixture
+{
+    public $name = 'Locatie';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

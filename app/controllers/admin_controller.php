@@ -2,24 +2,24 @@
 
 class AdminController extends AppController
 {
-	public $name = 'Admin';
-	public $uses = array();
-	public $components = array();
+    public $name = 'Admin';
+    public $uses = array();
+    public $components = array();
 
-	public function index()
-	{
-	}
+    public function index()
+    {
+    }
 
-	public function uit_dienst()
-	{
-		$this->loadModel('Medewerker') ;
+    public function uit_dienst()
+    {
+        $this->loadModel('Medewerker');
 
-		$medewerkers = $this->Medewerker->uit_dienst();
+        $medewerkers = $this->Medewerker->uit_dienst();
 
-		$this->set('medewerkers', $medewerkers);
-	}
-	
-	public function edit_models() {
-		
-	}
+        $this->set('medewerkers', $medewerkers);
+    }
+
+    public function edit_models()
+    {
+    }
 }

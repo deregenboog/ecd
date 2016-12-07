@@ -1,18 +1,20 @@
 <?php
+
 /* Stadsdeel Test cases generated on: 2014-05-05 16:05:28 : 1399300888*/
 App::import('Model', 'Stadsdeel');
 
-class StadsdeelTestCase extends CakeTestCase {
-	var $fixtures = array('app.stadsdeel');
+class StadsdeelTestCase extends CakeTestCase
+{
+    public $fixtures = array('app.stadsdeel');
 
-	function startTest() {
-		$this->Stadsdeel =& ClassRegistry::init('Stadsdeel');
-	}
+    public function startTest()
+    {
+        $this->Stadsdeel = &ClassRegistry::init('Stadsdeel');
+    }
 
-	function endTest() {
-		unset($this->Stadsdeel);
-		ClassRegistry::flush();
-	}
-
+    public function endTest()
+    {
+        unset($this->Stadsdeel);
+        ClassRegistry::flush();
+    }
 }
-?>

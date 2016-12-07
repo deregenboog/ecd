@@ -1,7 +1,9 @@
-<?php 
-class EmptyWoonsituatieFixture extends CakeTestFixture {
-var $name = 'Woonsituatie';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyWoonsituatieFixture extends CakeTestFixture
+{
+    public $name = 'Woonsituatie';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

@@ -1,7 +1,9 @@
-<?php 
-class EmptyCategorieFixture extends CakeTestFixture {
-var $name = 'Categorie';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyCategorieFixture extends CakeTestFixture
+{
+    public $name = 'Categorie';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

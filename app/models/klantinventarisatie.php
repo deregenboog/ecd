@@ -2,5 +2,5 @@
 
 class Klantinventarisatie extends AppModel
 {
-	public $name = 'Klantinventarisatie';
+    public $name = 'Klantinventarisatie';
 }

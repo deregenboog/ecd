@@ -1,8 +1,38 @@
 <?php
+
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\Paginator;
+use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Form\Forms;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\FormInterface;
+
 //  Application Controller. Here we specify functions that can be shared with all controllers.
 
 class AppController extends Controller
 {
+    /**
+     * @var KernelInterface
+     */
+    protected $kernel;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var Request
+     */
+    protected $request;
 
     // The helpers we are going to use in all controllers. We do that for
     // default view, later we can specify helpers that will be used per
@@ -55,7 +85,7 @@ class AppController extends Controller
 
     /** Check if a controller is accesible by the current user, based on the
      * groups it belongs to. The list of controllers accessible per group are
-     * defined at config/core.php, in the array ACL.permissions. 
+     * defined at config/core.php, in the array ACL.permissions.
      *
      * @param String $controller The controller name
      */
@@ -160,7 +190,7 @@ class AppController extends Controller
     /**
      * forAdminOnly If you are not admin, redirect. For quick access handling
      * in actions.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -194,8 +224,8 @@ class AppController extends Controller
 
     /**
      * flash Wrapper for Session-flash. See flashError, it is used more.
-     * 
-     * @param mixed $msg 
+     *
+     * @param mixed $msg
      * @access public
      * @return void
      */
@@ -206,8 +236,8 @@ class AppController extends Controller
 
     /**
      * flashError Wrapper for Session-flash, using error message CSS styling.
-     * 
-     * @param mixed $msg 
+     *
+     * @param mixed $msg
      * @access public
      * @return void
      */
@@ -219,6 +249,10 @@ class AppController extends Controller
 
     public function beforeFilter()
     {
+        $this->kernel = KernelRegistry::getInstance()->getKernel();
+        $this->container = $this->kernel->getContainer();
+        $this->request = Request::createFromGlobals();
+
         //Configure AuthComponent
         // Authorize = actions makes use of ACL.
         // http://book.cakephp.org/view/396/authorize
@@ -289,15 +323,18 @@ class AppController extends Controller
             }
 
             // http://bakery.cakephp.org/articles/view/logablebehavior
-            if (sizeof($this->uses) &&
-                    property_exists($this->modelClass, 'Behaviors') &&
-                    $this->{$this->modelClass}->
-                    Behaviors->attached('Logable')) {
-                $activeUser = array('Medewerker' => array(
-                            'id' => $auth['Medewerker']['id'],
-                            'username' => $auth['Medewerker']['username'],
-                            ),
-                        );
+            if (sizeof($this->uses)
+                && property_exists($this->modelClass, 'Behaviors')
+                && $this->{$this->modelClass}->Behaviors->attached('Logable')
+            ) {
+                if (isset($auth['username']) && $auth['username'] == 'sysadmin') {
+                    $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
+                } else {
+                    $activeUser = ['Medewerker' => [
+                        'id' => $auth['Medewerker']['id'],
+                        'username' => $auth['Medewerker']['username'],
+                    ]];
+                }
                 $this->{$this->modelClass}->setUserData($activeUser);
                 $this->{$this->modelClass}->setUserIp($this->RequestHandler->getClientIP());
             }
@@ -313,12 +350,14 @@ class AppController extends Controller
         }
 
         if ($s_user
-                || array_key_exists(GROUP_ADMIN, $this->userGroups)
-                || array_key_exists(GROUP_DEVELOP, $this->userGroups)) {
+            || array_key_exists(GROUP_ADMIN, $this->userGroups)
+            || array_key_exists(GROUP_DEVELOP, $this->userGroups)
+        ) {
             $is_admin = true;
         } else {
             $is_admin = false;
         }
+
         // Pass it to the view, model, and the controller
         //$model->user_is_administrator = $is_admin;
         $this->user_is_administrator = $is_admin;
@@ -327,6 +366,7 @@ class AppController extends Controller
 
         //ts('beforeFilter end');
     }
+
     /**
     *before render
     */
@@ -498,5 +538,112 @@ class AppController extends Controller
         } else {
             $endDate = null;
         }
+    }
+
+    protected function applyFilter() {
+        if (empty ( $this->data ) && empty ( $this->params ['named'] )) {
+            return false;
+        }
+
+        if ($this->data) {
+            // handle form POST by redirecting with GET
+            $filters = [ ];
+            foreach ( $this->data as $model => $filter ) {
+                foreach ( $filter as $field => $value ) {
+                    if (is_array ( $value )) {
+                        if (array_keys ( $value ) == [
+                                'day',
+                                'month',
+                                'year'
+                        ]) {
+                            $value = implode ( '-', array_reverse ( $value ) );
+                            if ($value == '--') {
+                                $value = null;
+                            }
+                        }
+                    }
+                    $filters ["$model.$field"] = $value;
+                }
+            }
+            $this->redirect ( $filters );
+        }
+
+        // put named params in $this->data for auto form values
+        foreach ( $this->params ['named'] as $filter => $value ) {
+            $matches = [ ];
+            if (preg_match ( '/^([A-z]*)\.([A-z]*)$/', $filter, $matches )) {
+                array_shift ( $matches );
+                list ( $model, $field ) = $matches;
+                $this->data [$model] [$field] = $value;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
+        return $this->container->get('doctrine.orm.entity_manager');
+    }
+
+    /**
+     * @return TwigEngine
+     */
+    protected function getTemplatingEngine()
+    {
+        return $this->container->get('templating');
+    }
+
+    /**
+     * @return Paginator
+     */
+    protected function getPaginator()
+    {
+        return $this->container->get('knp_paginator');
+    }
+
+    /**
+     * @return ValidatorInterface
+     */
+    protected function getValidator()
+    {
+        return $this->container->get('validator');
+    }
+
+    /**
+     * @return FormFactoryInterface
+     */
+    protected function getFormFactory()
+    {
+        return $this->container->get('form.factory');
+    }
+
+    /**
+     * @return RouterInterface
+     */
+    protected function getRouter()
+    {
+        return $this->container->get('router');
+    }
+
+    /**
+     * Returns a form.
+     *
+     * @see createBuilder()
+     *
+     * @param string $type    The type of the form
+     * @param mixed  $data    The initial data
+     * @param array  $options The options
+     *
+     * @return FormInterface The form named after the type
+     *
+     * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException if any given option is not applicable to the given type
+     */
+    protected function createForm($type, $data = null, array $options = array())
+    {
+        return $this->getFormFactory()->create($type, $data, $options);
     }
 }

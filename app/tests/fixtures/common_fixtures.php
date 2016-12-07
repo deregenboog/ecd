@@ -1,26 +1,26 @@
 <?php
 
 
-class CommonFixture {
+class CommonFixture
+{
+    /* Pointer to the TestCase object who constructs this class */
+    public $testCaseObj = null;
 
-	/* Pointer to the TestCase object who constructs this class */
-	var $testCaseObj = null;
-	
-	/* Array which defines which fixtures in the commonFixtures array
-	 * are going to be included for the TestCase.
-	 *  
-	 */	
-	var $fixturesTypeIncluded = array();
-	
-	/* Group of fixtures which can be included in the TestCase.
-	 * To include these groups is necessary to pass as a second  
-	 * parameter in this class __construct() function, a keys group list:
-	 * basic,hotel,negotiation,organization or common
-	 */
-	
-	var $commonFixtures = array (
-		// Fixtures which should be included in almost all tests.
-		'empty' => array(
+    /* Array which defines which fixtures in the commonFixtures array
+     * are going to be included for the TestCase.
+     *
+     */
+    public $fixturesTypeIncluded = array();
+
+    /* Group of fixtures which can be included in the TestCase.
+     * To include these groups is necessary to pass as a second
+     * parameter in this class __construct() function, a keys group list:
+     * basic,hotel,negotiation,organization or common
+     */
+
+    public $commonFixtures = array(
+        // Fixtures which should be included in almost all tests.
+        'empty' => array(
             ),
         'full_klant' => array(
              'app.awbz_indicatie', 'app.awbz_intake',
@@ -50,132 +50,131 @@ class CommonFixture {
              'app.intakes_primaireproblematieksgebruikswijze', 'app.verslag',
              'app.inventarisatie', 'app.doorverwijzer', 'app.notitie',
              'app.awbz_hoofdaannemer', 'app.hoofdaannemer', 'app.opmerking',
-             'app.categorie', 'app.verslaginfo'
+             'app.categorie', 'app.verslaginfo',
        ),
 
+    );
 
-
-	);
-	
-	function __construct(&$testCaseObj, $fixturesType = array()){
+    public function __construct(&$testCaseObj, $fixturesType = array())
+    {
         // Auto load all empty fixtures
 
         $path = APP.'/tests/fixtures/empty_*.php';
 
         $empty_files = glob($path);
-        foreach($empty_files as $empty_f) {
+        foreach ($empty_files as $empty_f) {
             $name = basename($empty_f);
             $name = 'app.'.str_replace('_fixture.php', '', $name);
-            $this->commonFixtures['empty'][]  = $name;
+            $this->commonFixtures['empty'][] = $name;
         }
-	
-		$this->testCaseObj =& $testCaseObj;
-		$this->fixturesTypeIncluded = $fixturesType;
-		//$this->diff_fixtures();
-		$this->setCommonFixtures();
 
+        $this->testCaseObj = &$testCaseObj;
+        $this->fixturesTypeIncluded = $fixturesType;
+        //$this->diff_fixtures();
+        $this->setCommonFixtures();
     }
-	
-	/* This function debugs the difference between the fixtures loaded for a testcase (defined in the 
-	 * $fixtures class variable in the related testcase) and the fixtures in class array $commonFixtures.
-	 * Only checks the difference for the $commonFixtures keys specified in $fixturesType 
-	 * class __construct() function. 
-	 * 
-	 *  Note: Is not used , but is handy to automate difference checks from testcase fixtures and $commonFixtures
-	 *  fixture groups.
-	 */
-	
-	function diff_fixtures(){
-		$fix = array();
-		$f = false;
-		foreach($this->testCaseObj->fixtures as $test_fixture){
-			$f = false;
-			foreach($this->commonFixtures as $fix_key => $fixtures){
-				if(in_array($test_fixture,$fixtures)){
-					$f = true;
-				}
-			}
-			if(!$f){
-				$fix[] = $test_fixture;
-			}
-		}
-		debug(implode('\',\'',$fix));
-	}
-	
-    function replaceFixtures(){
+
+    /* This function debugs the difference between the fixtures loaded for a testcase (defined in the
+     * $fixtures class variable in the related testcase) and the fixtures in class array $commonFixtures.
+     * Only checks the difference for the $commonFixtures keys specified in $fixturesType
+     * class __construct() function.
+     *
+     *  Note: Is not used , but is handy to automate difference checks from testcase fixtures and $commonFixtures
+     *  fixture groups.
+     */
+
+    public function diff_fixtures()
+    {
+        $fix = array();
+        $f = false;
+        foreach ($this->testCaseObj->fixtures as $test_fixture) {
+            $f = false;
+            foreach ($this->commonFixtures as $fix_key => $fixtures) {
+                if (in_array($test_fixture, $fixtures)) {
+                    $f = true;
+                }
+            }
+            if (!$f) {
+                $fix[] = $test_fixture;
+            }
+        }
+        debug(implode('\',\'', $fix));
+    }
+
+    public function replaceFixtures()
+    {
         $replacedFixtures = $this->testCaseObj->replaceFixtures;
-        $fixtures =& $this->testCaseObj->fixtures;
-        foreach($replacedFixtures as $replaced_fixture => $new_fixture){
+        $fixtures = &$this->testCaseObj->fixtures;
+        foreach ($replacedFixtures as $replaced_fixture => $new_fixture) {
             $key = array_search($replaced_fixture, $fixtures);
             if ($key !== false) {
-                unset ($fixtures[$key]);
+                unset($fixtures[$key]);
                 $fixtures[] = $new_fixture;
             }
         }
     }
-	
-	function setCommonFixtures(){
-		$this->mergeFixtures();
-		if(!empty($this->testCaseObj->replaceFixtures)){
-			$this->replaceFixtures($this->testCaseObj->replaceFixtures);
-		}
-	}
-	
-	function mergeFixtures(){
-		$testCaseFixtures = array();
-		if(!empty($this->fixturesTypeIncluded)){
-			$includedFixtures = $this->fixturesTypeIncluded;
-		}else{
-			$includedFixtures = array();
-		}
+
+    public function setCommonFixtures()
+    {
+        $this->mergeFixtures();
+        if (!empty($this->testCaseObj->replaceFixtures)) {
+            $this->replaceFixtures($this->testCaseObj->replaceFixtures);
+        }
+    }
+
+    public function mergeFixtures()
+    {
+        $testCaseFixtures = array();
+        if (!empty($this->fixturesTypeIncluded)) {
+            $includedFixtures = $this->fixturesTypeIncluded;
+        } else {
+            $includedFixtures = array();
+        }
 
         // The fixtures explicited in the test have priority:
-		foreach($this->testCaseObj->fixtures as $fixtureKey => &$fixture){
-			if(!in_array($fixture, $testCaseFixtures)){
-				$testCaseFixtures[] = $fixture;
-			}
-		}
-		foreach($includedFixtures as &$fixtureType){
-			$fixtures = $this->getCommonFixtures($fixtureType);
+        foreach ($this->testCaseObj->fixtures as $fixtureKey => &$fixture) {
+            if (!in_array($fixture, $testCaseFixtures)) {
+                $testCaseFixtures[] = $fixture;
+            }
+        }
+        foreach ($includedFixtures as &$fixtureType) {
+            $fixtures = $this->getCommonFixtures($fixtureType);
 
             if ($fixtureType == 'empty') {
-                foreach($fixtures as &$fixture){
+                foreach ($fixtures as &$fixture) {
                     // Empty fixtures are only added if the real ones
                     // are not used already.
-                    $normal_fixture = str_replace('app.empty_','app.',$fixture);
-                    if(!in_array($normal_fixture, $testCaseFixtures) &&
-                        !in_array($fixture, $testCaseFixtures)){
+                    $normal_fixture = str_replace('app.empty_', 'app.', $fixture);
+                    if (!in_array($normal_fixture, $testCaseFixtures) &&
+                        !in_array($fixture, $testCaseFixtures)) {
                         $testCaseFixtures[] = $fixture;
                     }
                 }
             } else {
-                foreach($fixtures as &$fixture){
-                    $empty_fixture = str_replace('app.','app.empty_',$fixture);
-                    if(!in_array($fixture, $testCaseFixtures)){
+                foreach ($fixtures as &$fixture) {
+                    $empty_fixture = str_replace('app.', 'app.empty_', $fixture);
+                    if (!in_array($fixture, $testCaseFixtures)) {
                         $testCaseFixtures[] = $fixture;
                         // A fixture automatically replaces the corresponsing
                         // empty_ one.
                         $key = array_search($empty_fixture, $testCaseFixtures);
                         if ($key !== false) {
-                            unset ($testCaseFixtures[$key]);
+                            unset($testCaseFixtures[$key]);
                         }
                     }
                 }
             }
-		}
-		$this->testCaseObj->fixtures = $testCaseFixtures;
-	}
-	
-	function getCommonFixtures($fixtureType){
-		$fixtures = array();
-		if(isset($this->commonFixtures[$fixtureType])){
-			$fixtures = $this->commonFixtures[$fixtureType];
-		}
-		return $fixtures;
-	}
+        }
+        $this->testCaseObj->fixtures = $testCaseFixtures;
+    }
 
+    public function getCommonFixtures($fixtureType)
+    {
+        $fixtures = array();
+        if (isset($this->commonFixtures[$fixtureType])) {
+            $fixtures = $this->commonFixtures[$fixtureType];
+        }
 
+        return $fixtures;
+    }
 }
-
-
-?>

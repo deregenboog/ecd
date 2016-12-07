@@ -1,7 +1,9 @@
-<?php 
-class EmptySchorsingFixture extends CakeTestFixture {
-var $name = 'Schorsing';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptySchorsingFixture extends CakeTestFixture
+{
+    public $name = 'Schorsing';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

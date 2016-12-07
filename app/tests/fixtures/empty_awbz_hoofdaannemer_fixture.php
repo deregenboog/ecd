@@ -1,7 +1,9 @@
-<?php 
-class EmptyAwbzHoofdaannemerFixture extends CakeTestFixture {
-var $name = 'AwbzHoofdaannemer';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyAwbzHoofdaannemerFixture extends CakeTestFixture
+{
+    public $name = 'AwbzHoofdaannemer';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

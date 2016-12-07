@@ -1,7 +1,9 @@
-<?php 
-class EmptyInkomensIntakeFixture extends CakeTestFixture {
-var $name = 'InkomensIntake';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyInkomensIntakeFixture extends CakeTestFixture
+{
+    public $name = 'InkomensIntake';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}

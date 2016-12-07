@@ -1,7 +1,9 @@
-<?php 
-class EmptyHi5EvaluatieQuestionFixture extends CakeTestFixture {
-var $name = 'Hi5EvaluatieQuestion';
+<?php
 
-	var $fields = array( 'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'), ); 
-	var $records = array( ); 
-} ?>
+class EmptyHi5EvaluatieQuestionFixture extends CakeTestFixture
+{
+    public $name = 'Hi5EvaluatieQuestion';
+
+    public $fields = array('id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'));
+    public $records = array();
+}
