@@ -26,6 +26,17 @@ class IzRapportagesController extends AppController
             'vrijwilligers_project_stadsdeel' => 'Vrijwilligers per project en stadsdeel',
             'vrijwilligers_project_postcodegebied' => 'Vrijwilligers per project en postcodegebied',
         ),
+        'Klanten' => array(
+            'klanten_aanmeldingen' => 'Aanmeldingen klanten',
+            'klanten_aanmeldingen_coordinator' => 'Aanmeldingen klanten per coördinator',
+            'klanten_totaal' => 'Klanten totaal',
+            'klanten_coordinator' => 'Klanten per coördinator',
+            'klanten_project' => 'Klanten per project',
+            'klanten_stadsdeel' => 'Klanten per stadsdeel',
+            'klanten_postcodegebied' => 'Klanten per postcodegebied',
+            'klanten_project_stadsdeel' => 'Klanten per project en stadsdeel',
+            'klanten_project_postcodegebied' => 'Klanten per project en postcodegebied',
+        ),
         'A1' => 'A1: Nieuwe koppelingen',
         'A2' => 'A2: Namenlijst nieuwe koppelingen',
         'B1' => 'B1: Afgesloten koppelingen',
@@ -1006,6 +1017,432 @@ class IzRapportagesController extends AppController
                 'yDescription' => 'Project',
                 'yLookupCollection' => $projecten,
                 'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
+                    'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_aanmeldingen(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten | Aanmeldingen';
+        $reports = array(
+            array(
+                'title' => 'Aanmeldingen',
+                'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpvragen en koppelingen binnen datumbereik.',
+                'yDescription' => '',
+                'data' => $this->IzKlant->count_aanmeldingen(
+                    $startDate,
+                    $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_aanmeldingen_coordinator(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten | Aanmeldingen per coördinator';
+        $medewerkers = $this->getMedewerkers();
+        $reports = array(
+            array(
+                'title' => 'Aanmeldingen per coördinator',
+                'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpvragen en koppelingen. Aanmeldingen binnen het datumbereik. Intakes, hulpvragen en koppelingen kunnen buiten datumbereik liggen.',
+                'yDescription' => 'Medewerkers uit basisdossier vrijwilliger (aanmeldingen), van IZ-intake (intakes), coördinatoren hulpvraag (hulpvragen en koppelingen)',
+                'yLookupCollection' => $medewerkers,
+                'data' => $this->IzKlant->count_aanmeldingen_per_coordinator(
+                    $startDate,
+                    $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_totaal(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten';
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => '',
+                'yDescription' => '',
+                'data' => $this->IzKlant->count(
+                    'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => '',
+                'yDescription' => '',
+                'data' => $this->IzKlant->count(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => '',
+                'yDescription' => '',
+                'data' => $this->IzKlant->count(
+                    'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => '',
+                'yDescription' => '',
+                'data' => $this->IzKlant->count(
+                    'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_coordinator(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten per coördinator';
+        $medewerkers = $this->getMedewerkers();
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => '',
+                'yDescription' => '',
+                'yLookupCollection' => $medewerkers,
+                'data' => $this->IzKlant->count_per_coordinator(
+                     'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => '',
+                'yDescription' => '',
+                'yLookupCollection' => $medewerkers,
+                'data' => $this->IzKlant->count_per_coordinator(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => '',
+                'yDescription' => '',
+                'yLookupCollection' => $medewerkers,
+                'data' => $this->IzKlant->count_per_coordinator(
+                    'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => '',
+                'yDescription' => '',
+                'yLookupCollection' => $medewerkers,
+                'data' => $this->IzKlant->count_per_coordinator(
+                    'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_project(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten per project';
+        $projecten = $this->getIzProjecten();
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project(
+                    'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project(
+                  'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Succesvol afgesloten',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project(
+                  'succesvol_afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project(
+                  'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_stadsdeel(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+
+        $title = 'Klanten per stadsdeel';
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Stadsdeel op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_stadsdeel(
+                    'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Stadsdeel op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_stadsdeel(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Stadsdeel op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_stadsdeel(
+                    'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Succesvol afgesloten',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Stadsdeel op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_stadsdeel(
+                    'succesvol_afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Stadsdeel op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_stadsdeel(
+                    'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_postcodegebied(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+
+        $title = 'Klanten met koppeling per postcodegebied';
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Postcodegebied op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_postcodegebied(
+                    'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Postcodegebied op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_postcodegebied(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Postcodegebied op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_postcodegebied(
+                    'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Succesvol afgesloten',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Postcodegebied op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_postcodegebied(
+                    'succesvol_afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => 'Aantal klanten',
+                'yDescription' => 'Postcodegebied op basis van woonadres klant',
+                'data' => $this->IzKlant->count_per_postcodegebied(
+                    'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_project_stadsdeel(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten per project en stadsdeel';
+        $projecten = $this->getIzProjecten();
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => 'Stadsdeel op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_stadsdeel(
+                    'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => 'Stadsdeel op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_stadsdeel(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => 'Stadsdeel op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_stadsdeel(
+                    'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Succesvol afgesloten',
+                'xDescription' => 'Stadsdeel op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_stadsdeel(
+                    'succesvol_afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => 'Stadsdeel op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_stadsdeel(
+                    'eindstand', $startDate, $endDate
+                ),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_klanten_project_postcodegebied(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $this->loadModel('IzKlant');
+        $title = 'Klanten met koppeling per project en postcodegebied';
+        $projecten = $this->getIzProjecten();
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => 'Postcodegebied op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_postcodegebied(
+                    'beginstand', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => 'Postcodegebied op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_postcodegebied(
+                    'gestart', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => 'Postcodegebied op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_postcodegebied(
+                    'afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Succesvol afgesloten',
+                'xDescription' => 'Postcodegebied op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_postcodegebied(
+                    'succesvol_afgesloten', $startDate, $endDate
+                ),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => 'Postcodegebied op basis van woonadres klant',
+                'yDescription' => 'Project',
+                'yLookupCollection' => $projecten,
+                'data' => $this->IzKlant->count_per_project_postcodegebied(
                     'eindstand', $startDate, $endDate
                 ),
             ),

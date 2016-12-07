@@ -2,30 +2,33 @@
 
 App::import('Model', 'IzKoppeling');
 
-class IzHulpaanbod extends IzKoppeling
+class IzHulpvraag extends IzKoppeling
 {
-    public $name = 'IzHulpaanbod';
+    public $name = 'IzHulpvraag';
 
     public $hasOne = array(
-        'IzHulpvraag' => array(
-            'className' => 'IzHulpvraag',
+        'IzHulpaanbod' => array(
+            'className' => 'IzHulpaanbod',
             'foreignKey' => 'iz_koppeling_id',
         ),
     );
 
     public $belongsTo = array(
-        'IzVrijwilliger' => array(
-            'className' => 'IzVrijwilliger',
-            'foreignKey' => 'iz_deelnemer_id',
-            'conditions' => array('model' => 'Vrijwilliger'),
-        ),
         'IzProject' => array(
             'className' => 'IzProject',
             'foreignKey' => 'project_id',
+            'type' => 'INNER',
+        ),
+        'IzKlant' => array(
+            'className' => 'IzKlant',
+            'foreignKey' => 'iz_deelnemer_id',
+            'type' => 'INNER',
+            'conditions' => array('model' => 'Klant'),
         ),
         'Medewerker' => array(
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
+            'type' => 'inner',
         ),
         'IzEindekoppeling' => array(
             'className' => 'IzEindekoppeling',

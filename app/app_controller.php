@@ -1,10 +1,41 @@
 <?php
+
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\Paginator;
+use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Form\Forms;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\FormInterface;
+
 //  Application Controller. Here we specify functions that can be shared with all controllers.
 
 class AppController extends Controller
 {
-	const FORMAT_HTML = 'html';
-	const FORMAT_CSV = 'csv';
+    const FORMAT_HTML = 'html';
+    const FORMAT_CSV = 'csv';
+
+    /**
+     * @var KernelInterface
+     */
+    protected $kernel;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var Request
+     */
+    protected $request;
 
     // The helpers we are going to use in all controllers. We do that for
     // default view, later we can specify helpers that will be used per
@@ -204,7 +235,7 @@ class AppController extends Controller
         //debug($medewerkers);
         $this->set('medewerkers', $medewerkers);
 
-		return $medewerkers;
+	return $medewerkers;
     }
 
     /**

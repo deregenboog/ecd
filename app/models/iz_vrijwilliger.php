@@ -421,8 +421,7 @@ class IzVrijwilliger extends IzDeelnemer
             ],
             'joins' => $joins,
             'conditions' => $conditions,
-            'group' => ['IzHulpaanbod.project_id'],
-            'group' => ['Postcodegebied.postcodegebied'],
+            'group' => ['IzHulpaanbod.project_id', 'Postcodegebied.postcodegebied'],
             'recursive' => -1,
         ));
 
@@ -442,35 +441,35 @@ class IzVrijwilliger extends IzDeelnemer
     public function count_aanmeldingen(DateTime $startDate, DateTime $endDate)
     {
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			'vrijwilligers met aanmelding' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+      'vrijwilligers met aanmelding' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
         $aanmeldingen = $this->query($sql);
 
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			'vrijwilligers met intake' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN iz_intakes i ON i.iz_deelnemer_id = d.id
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+      'vrijwilligers met intake' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN iz_intakes i ON i.iz_deelnemer_id = d.id
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
         $intakes = $this->query($sql);
 
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			'vrijwilligers met hulpaanbod' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+      'vrijwilligers met hulpaanbod' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
         $hulpaanbiedingen = $this->query($sql);
 
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			'vrijwilligers met koppeling' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
-			AND koppeling.iz_koppeling_id IS NOT NULL
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+      'vrijwilligers met koppeling' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
+      AND koppeling.iz_koppeling_id IS NOT NULL
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
         $koppelingen = $this->query($sql);
 
         $result = array_merge($aanmeldingen, $intakes, $hulpaanbiedingen, $koppelingen);
@@ -488,45 +487,43 @@ class IzVrijwilliger extends IzDeelnemer
     public function count_aanmeldingen_per_coordinator(DateTime $startDate, DateTime $endDate)
     {
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			v.medewerker_id AS medewerker_id,
-			'vrijwilligers met aanmelding' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
-			GROUP BY medewerker_id";
+      v.medewerker_id,
+      'vrijwilligers met aanmelding' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
+      GROUP BY medewerker_id";
         $aanmeldingen = $this->query($sql);
 
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			i.medewerker_id,
-			'vrijwilligers met intake' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN iz_intakes i ON i.iz_deelnemer_id = d.id
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
-			GROUP BY medewerker_id";
+      i.medewerker_id,
+      'vrijwilligers met intake' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN iz_intakes i ON i.iz_deelnemer_id = d.id
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
+      GROUP BY medewerker_id";
         $intakes = $this->query($sql);
 
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			koppeling.medewerker_id,
-			'vrijwilligers met hulpaanbod' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			LEFT JOIN medewerkers ON medewerkers.id = koppeling.medewerker_id
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
-			GROUP BY medewerker_id";
+      koppeling.medewerker_id,
+      'vrijwilligers met hulpaanbod' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
+      GROUP BY medewerker_id";
         $hulpaanbiedingen = $this->query($sql);
 
         $sql = "SELECT COUNT(DISTINCT v.id) AS aantal,
-			koppeling.medewerker_id,
-			'vrijwilligers met koppeling' AS fase
-			FROM iz_deelnemers d
-			INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
-			AND koppeling.iz_koppeling_id IS NOT NULL
-			INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			LEFT JOIN medewerkers ON medewerkers.id = koppeling.medewerker_id
-			WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
-			GROUP BY medewerker_id";
+      koppeling.medewerker_id,
+      'vrijwilligers met koppeling' AS fase
+      FROM iz_deelnemers d
+      INNER JOIN iz_koppelingen koppeling ON koppeling.iz_deelnemer_id = d.id
+      AND koppeling.iz_koppeling_id IS NOT NULL
+      INNER JOIN vrijwilligers v ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      WHERE d.datum_aanmelding BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
+      GROUP BY medewerker_id";
         $koppelingen = $this->query($sql);
 
         $result = array_merge($aanmeldingen, $intakes, $hulpaanbiedingen, $koppelingen);
@@ -662,10 +659,10 @@ class IzVrijwilliger extends IzDeelnemer
     protected function select($columns, $condition, $metKoppeling = false)
     {
         return "SELECT DISTINCT $columns
-			FROM vrijwilligers AS v
-			INNER JOIN iz_deelnemers AS d ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-			INNER JOIN iz_koppelingen AS koppeling ON koppeling.iz_deelnemer_id = d.id
-			{$condition}";
+      FROM vrijwilligers AS v
+      INNER JOIN iz_deelnemers AS d ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+      INNER JOIN iz_koppelingen AS koppeling ON koppeling.iz_deelnemer_id = d.id
+      {$condition}";
 // 		return "SELECT DISTINCT v.id, koppeling.medewerker_id
 // 			FROM vrijwilligers AS v
 // 			INNER JOIN iz_deelnemers AS d ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
@@ -832,7 +829,7 @@ class IzVrijwilliger extends IzDeelnemer
     protected function gestart(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
     {
         return "WHERE $startDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'
-			AND (v.id) NOT IN ({$this->select(
+      AND (v.id) NOT IN ({$this->select(
                 'v.id',
                 $this->beginstand($startDate, $startDateField, $endDateField)
             )})";
@@ -853,14 +850,14 @@ class IzVrijwilliger extends IzDeelnemer
     protected function nieuw_gestart(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
     {
         return "LEFT JOIN (
-				SELECT koppeling.*
-				FROM iz_koppelingen AS koppeling
-				WHERE $startDateField < '{$startDate->format('Y-m-d')}'
-				GROUP BY iz_deelnemer_id
-				HAVING $startDateField = MAX($startDateField)
-			) AS vorige_koppeling ON vorige_koppeling.iz_deelnemer_id = d.id
-			WHERE (vorige_koppeling.project_id IS NULL OR vorige_koppeling.project_id <> koppeling.project_id)
-			AND $startDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+        SELECT koppeling.*
+        FROM iz_koppelingen AS koppeling
+        WHERE $startDateField < '{$startDate->format('Y-m-d')}'
+        GROUP BY iz_deelnemer_id
+        HAVING $startDateField = MAX($startDateField)
+      ) AS vorige_koppeling ON vorige_koppeling.iz_deelnemer_id = d.id
+      WHERE (vorige_koppeling.project_id IS NULL OR vorige_koppeling.project_id <> koppeling.project_id)
+      AND $startDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
     }
 
     public function count_intakes_per_coordinator_beginstand(DateTime $startDate)

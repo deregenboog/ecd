@@ -2,7 +2,10 @@
 
 class IzKoppeling extends AppModel
 {
-    public $name = 'IzKoppeling';
+    // 	public $name = 'IzKoppeling';
+
+    public $useTable = 'iz_koppelingen';
+
     public $displayField = 'iz_deelnemer_id';
 
     public $actsAs = array('Containable');
