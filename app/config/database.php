@@ -13,17 +13,14 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app.config
  * @since         CakePHP(tm) v 0.2.9
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 /**
  * In this file you set up your database connection details.
- *
- * @package       cake
- * @subpackage    cake.config
  */
 /**
  * Database configuration class.
@@ -69,27 +66,41 @@
  * encoding =>
  * For MySQL, MySQLi, Postgres and DB2, specifies the character encoding to use when connecting to the
  * database.  Uses database default.
- *
  */
-class DATABASE_CONFIG {
+class DATABASE_CONFIG
+{
+    public $default = array(
+        'driver' => 'mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'user',
+        'password' => 'password',
+        'database' => 'database_name',
+        'encoding' => 'utf8',
+        'prefix' => '',
+    );
 
-	var $default = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
-		'prefix' => '',
-	);
+    public $test = array(
+        'driver' => 'mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'user',
+        'password' => 'password',
+        'database' => 'test_database_name',
+        'encoding' => 'utf8',
+        'prefix' => '',
+    );
 
-	var $test = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
-		'prefix' => '',
-	);
+    public function __construct()
+    {
+        global $kernel;
+
+        $container = $kernel->getContainer();
+
+        $this->default['host'] = $container->getParameter('database_host');
+        $this->default['port'] = $container->getParameter('database_port');
+        $this->default['login'] = $container->getParameter('database_user');
+        $this->default['password'] = $container->getParameter('database_password');
+        $this->default['database'] = $container->getParameter('database_name');
+    }
 }

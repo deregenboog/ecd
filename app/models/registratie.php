@@ -115,7 +115,6 @@ class Registratie extends AppModel
         $fields = array_merge($fields, array_merge($registratie_fields, $klant_fields));
 
         $this->recursive = -1;
-        ts('getActiveRegistraties 1');
 
         $options = array(
             'fields' => $fields,
@@ -128,7 +127,6 @@ class Registratie extends AppModel
         );
 
         $regular_klanten = $this->find('all', $options);
-        ts('getActiveRegistraties 2');
 
         if ($gebruikersruimte) {
             $gebruikers = array();
@@ -172,35 +170,35 @@ class Registratie extends AppModel
         if (!empty($exception_list)) {
             $exception_list = implode(',', $exception_list);
             $exception_list_query = 'AND
-						klant_id NOT IN ('.$exception_list.')';
+                        klant_id NOT IN ('.$exception_list.')';
         } else {
             $exception_list_query = '';
         }
 
         App::import('Sanitize');
         $result = $this->query('
-			SELECT
-				binnen, buiten, douche, mw, kleding, maaltijd, activering, gbrv,
-				voornaam, achternaam, roepnaam, tussenvoegsel, Registratie.id,
-				laatste_TBC_controle, klant_id
-			FROM (
-				SELECT * FROM registraties
-				WHERE
-					locatie_id = '.Sanitize::escape($locatie_id).'
-				AND
-					closed = 1
-				AND
-					binnen > "'.$timelimit.'"
-				'.$exception_list_query.'
-				ORDER BY
-					buiten DESC
-			) AS `Registratie`
-			LEFT JOIN
-				klanten AS `Klant` ON Registratie.klant_id = Klant.id
-			GROUP BY
-				klant_id;
+            SELECT
+                binnen, buiten, douche, mw, kleding, maaltijd, activering, gbrv,
+                voornaam, achternaam, roepnaam, tussenvoegsel, Registratie.id,
+                laatste_TBC_controle, klant_id
+            FROM (
+                SELECT * FROM registraties
+                WHERE
+                    locatie_id = '.Sanitize::escape($locatie_id).'
+                AND
+                    closed = 1
+                AND
+                    binnen > "'.$timelimit.'"
+                '.$exception_list_query.'
+                ORDER BY
+                    buiten DESC
+            ) AS `Registratie`
+            LEFT JOIN
+                klanten AS `Klant` ON Registratie.klant_id = Klant.id
+            GROUP BY
+                klant_id;
 
-		');
+        ');
 
         return $result;
     }
@@ -769,12 +767,12 @@ class Registratie extends AppModel
         );
 
         $result = $this->query("
-			select count(*) cnt
-			  from (
-					$query
-					having count(*) >= 4
-				   ) a
-		");
+            select count(*) cnt
+              from (
+                    $query
+                    having count(*) >= 4
+                   ) a
+        ");
 
         return $result[0][0]['cnt'];
     }

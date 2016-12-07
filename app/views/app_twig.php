@@ -80,8 +80,8 @@ class AppTwigView extends TwigView
 // 				'cache' => false, // use cakephp cache
 // 				'debug' => (Configure::read() > 0),
 // 		));
-        $container = KernelRegistry::getInstance()->getKernel()->getContainer();
-        $this->Twig = $container->get('twig');
+        global $kernel;
+        $this->Twig = $kernel->getContainer()->get('twig');
 
         $loader = $this->Twig->getLoader();
         foreach ($paths as $path) {

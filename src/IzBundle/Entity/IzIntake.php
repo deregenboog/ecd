@@ -3,6 +3,7 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity

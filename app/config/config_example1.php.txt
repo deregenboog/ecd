@@ -25,6 +25,6 @@ define( 'GROUP_IZ_BEHEER' , 10462) ;
 define( 'GROUP_BEHEER_GROEPSACTIVITEIT' , 10463) ;
 
 $ldap['groups'] = array(
-		'werkbegeleiders' => 10195,
-		'trajectbegeleiders' => 10194,
+	'werkbegeleiders' => 10195,
+	'trajectbegeleiders' => 10194,
 );
