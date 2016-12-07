@@ -31,7 +31,7 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
     Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-    
+
     //some aliases that make maatschappelijk_werk in the url go to verslagen_controller
     Router::connect('/maatschappelijk_werk/', array('controller' => 'verslagen', 'action' => 'index'));
     Router::connect('/MaatschappelijkWerk/', array('controller' => 'verslagen', 'action' => 'index'));

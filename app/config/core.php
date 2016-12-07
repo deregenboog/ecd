@@ -19,12 +19,11 @@
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 global $kernel;
 $container = $kernel->getContainer();
 $params = $container->getParameter('cake');
 
-    /**
+    /*
      * CakePHP Debug Level:.
      *
      * Production Mode:
@@ -329,23 +328,23 @@ Cache::config('ldap', array(
 
 Cache::config('_cake_model_', array(
     'engine' => 'File', //[required]
-    'duration'=> WEEK,
-    'probability'=> 100, //[optional]
+    'duration' => WEEK,
+    'probability' => 100, //[optional]
     'prefix' => $prefix,
 ));
 
 Cache::config('_cake_core_', array(
     'engine' => 'File', //[required]
-    'duration'=> WEEK,
-    'probability'=> 100, //[optional]
+    'duration' => WEEK,
+    'probability' => 100, //[optional]
     'prefix' => $prefix,
 ));
 
 Cache::config('association_query', array(
     'engine' => 'File', //[required]
-    'duration'=> WEEK, //[optional]
-    'probability'=> 100, //[optional]
-    'prefix' => $prefix
+    'duration' => WEEK, //[optional]
+    'probability' => 100, //[optional]
+    'prefix' => $prefix,
 ));
 
 Configure::write('ACL.volonteers', $params['volunteers']);
@@ -362,14 +361,14 @@ define('GROUP_HI5', $params['GROUP_HI5']); // sys_hi5
 define('GROUP_TRAJECTBEGELEIDER', $params['GROUP_TRAJECTBEGELEIDER']);
 define('GROUP_WERKBEGELEIDER', $params['GROUP_WERKBEGELEIDER']);
 define('GROUP_TEAMLEIDERS', $params['GROUP_TEAMLEIDERS']);
-define('GROUP_PFO', $params['GROUP_PFO']) ; // pfondersteuning_data
-define('GROUP_BACK_ON_TRACK_COORDINATOR', $params['GROUP_BACK_ON_TRACK_COORDINATOR']) ;
-define('GROUP_BACK_ON_TRACK_COACH', $params['GROUP_BACK_ON_TRACK_COACH']) ;
-define('GROUP_GROEPSACTIVITEIT', $params['GROUP_GROEPSACTIVITEIT']) ;
-define('GROUP_IZ', $params['GROUP_IZ']) ;
-define('GROUP_REPORT', $params['GROUP_REPORT']) ;
-define('GROUP_IZ_BEHEER', $params['GROUP_IZ_BEHEER']) ;
-define('GROUP_BEHEER_GROEPSACTIVITEIT', $params['GROUP_BEHEER_GROEPSACTIVITEIT']) ;
+define('GROUP_PFO', $params['GROUP_PFO']); // pfondersteuning_data
+define('GROUP_BACK_ON_TRACK_COORDINATOR', $params['GROUP_BACK_ON_TRACK_COORDINATOR']);
+define('GROUP_BACK_ON_TRACK_COACH', $params['GROUP_BACK_ON_TRACK_COACH']);
+define('GROUP_GROEPSACTIVITEIT', $params['GROUP_GROEPSACTIVITEIT']);
+define('GROUP_IZ', $params['GROUP_IZ']);
+define('GROUP_REPORT', $params['GROUP_REPORT']);
+define('GROUP_IZ_BEHEER', $params['GROUP_IZ_BEHEER']);
+define('GROUP_BEHEER_GROEPSACTIVITEIT', $params['GROUP_BEHEER_GROEPSACTIVITEIT']);
 
 // convert group names to group ids
 foreach ($params['ACL.permissions'] as $key => $value) {
@@ -378,7 +377,7 @@ foreach ($params['ACL.permissions'] as $key => $value) {
 }
 Configure::write('ACL.permissions', $params['ACL.permissions']);
 
-/** Disable ACL with a flag. This only works in debug mode. */
+/* Disable ACL with a flag. This only works in debug mode. */
 Configure::write('ACL.disabled', Configure::read('debug') > 0);
 
 Configure::write('all_menu_items', $params['all_menu_items']);
@@ -408,12 +407,12 @@ define('STATUS_PROCESSING', 'STATUS_PROCESSING');
 define('STATUS_PENDING', 'STATUS_PENDING');
 
 /** Include the attachments plugin. */
-include(APP.'plugins/media/config/core.php');
+include APP.'plugins/media/config/core.php';
 
 Configure::write('openingTimeCorrectionSec', 30 * MINUTE);
 Configure::write('attachment.max_size', '10M');
 
-/**
+/*
  * Setting language to Dutch for month selection fields.
  */
 Configure::write('Config.language', $params['Config.language']);
