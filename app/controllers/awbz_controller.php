@@ -38,11 +38,8 @@ class AwbzController extends AppController
             'Nationaliteit' => array('fields' => 'naam'),
             'Medewerker',
             'AwbzIntake',
-            'AwbzIndicatie' => array(
-                'Hoofdaannemer',
-            ),
+            'AwbzIndicatie' => array('Hoofdaannemer'),
             'AwbzHoofdaannemer' => array('Hoofdaannemer'),
-
         );
 
         $klant = $this->Klant->find('first', array(

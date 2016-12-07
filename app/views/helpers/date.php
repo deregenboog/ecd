@@ -217,7 +217,7 @@ class DateHelper extends AppHelper
             return '';
         }
         //defaults:
-        $sep = '&nbsp;';
+        $sep = ' ';
         $short = false;
         $format = Configure::read('Calendar.dateDisplayFormat');
         //collecting options:

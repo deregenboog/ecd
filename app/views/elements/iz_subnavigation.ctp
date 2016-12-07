@@ -87,15 +87,13 @@
     echo "&nbsp;&nbsp;";
     if ($this->action == 'rapportages') {
         echo $html->link('Rapportages', array(
-            'controller' => 'iz_deelnemers',
-            'action' => 'rapportages'
+            'controller' => 'iz_rapportages',
         ), array(
             'class' => 'selected'
         ));
     } else {
         echo $html->link('Rapportages', array(
-            'controller' => 'iz_deelnemers',
-            'action' => 'rapportages'
+            'controller' => 'iz_rapportages',
         ));
     }
     echo "&nbsp;&nbsp;";

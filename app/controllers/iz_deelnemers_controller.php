@@ -11,9 +11,7 @@ class IzDeelnemersController extends AppController
 {
     public $name = 'IzDeelnemers';
 
-    public $components = array(
-            'ComponentLoader',
-    );
+    public $components = ['ComponentLoader'];
 
     public $report_select=array(
             'A1' => 'A1: Nieuwe koppelingen',
@@ -239,8 +237,8 @@ class IzDeelnemersController extends AppController
                 $persoon_model,
         );
 
-        $projectlists_view = array('' => '') + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(true);
-        $projectlists = array('' => '') + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(false);
+		$projectlists_view = ['' => ''] + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(true);
+		$projectlists = ['' => ''] + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(false);
 
         foreach ($personen as $key => $persoon) {
             $project_ids=array();

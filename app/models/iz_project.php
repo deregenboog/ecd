@@ -56,6 +56,7 @@ class IzProject extends AppModel
 
         return $projects;
     }
+
     public function projectLists($all = false)
     {
         $cachekey = $this->getcachekey($all);
