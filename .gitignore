@@ -1,7 +1,7 @@
 /app/config/parameters.yml
 
 # Temp dir
-/app/tmp
+/app/tmp/*
 !/app/tmp/cache/models/.gitkeep
 !/app/tmp/cache/persistent/.gitkeep
 !/app/tmp/cache/views/.gitkeep
@@ -10,7 +10,14 @@
 !/app/tmp/sessions/.gitkeep
 !/app/tmp/tests/.gitkeep
 
-/archive
+# SQL data
+/app/sql/*
+!/app/sql/00-schema.sql
+!/app/sql/10-data.sql
+
+# Uploads
+/archive/*
+!/archive/.gitkeep
 
 # Docker
 /.mysql/*
