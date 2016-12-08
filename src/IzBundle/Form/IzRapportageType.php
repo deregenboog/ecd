@@ -5,15 +5,7 @@ namespace IzBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\KlantFilterType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\IzProject;
-use AppBundle\Form\StadsdeelFilterType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use IzBundle\Filter\IzDeelnemerSelectie;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class IzRapportageType extends AbstractType
@@ -54,7 +46,7 @@ class IzRapportageType extends AbstractType
                     'Vrijwilligers' => array(
 //                         'Aanmeldingen vrijwilligers' => 'vrijwilligers_aanmeldingen',
 //                         'Aanmeldingen vrijwilligers per coördinator' => 'vrijwilligers_aanmeldingen_coordinator',
-                        'Vrijwilligers totaal' => 'vrijwilligers_totaal' ,
+                        'Vrijwilligers totaal' => 'vrijwilligers_totaal',
 //                         'Vrijwilligers per coördinator' => 'vrijwilligers_per_coordinator',
                         'Vrijwilligers per project' => 'vrijwilligers_per_project',
                         'Vrijwilligers per stadsdeel' => 'vrijwilligers_per_stadsdeel',

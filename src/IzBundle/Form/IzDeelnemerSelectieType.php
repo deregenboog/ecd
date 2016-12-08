@@ -5,9 +5,6 @@ namespace IzBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\KlantFilterType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use IzBundle\Entity\IzProject;
 use AppBundle\Form\StadsdeelFilterType;
@@ -29,7 +26,7 @@ class IzDeelnemerSelectieType extends AbstractType
                 'multiple' => true,
                 'label' => 'Projecten',
                 'query_builder' => function (EntityRepository $repo) {
-                return $repo->createQueryBuilder('izProject')
+                    return $repo->createQueryBuilder('izProject')
                     ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                     ->orderBy('izProject.naam', 'ASC')
                     ->setParameter('now', new \DateTime())

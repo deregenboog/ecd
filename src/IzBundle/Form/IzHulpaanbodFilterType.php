@@ -38,7 +38,7 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime())
                         ;
-                    },
+                },
                 ])
             ->add('medewerker', EntityType::class, [
                 'required' => false,

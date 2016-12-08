@@ -148,8 +148,8 @@ class AppModel extends Model
      * getAllById Retrieve all related objects recursively. A parameter $contain can be passed to determine until what depth (and for what children models) this recursion will happen. Otherwise, the first level of relatives is retrieved.
      *
      * @param UUID  $id
-     * @param array $contain Model relationship tree, to specify the recursiveness depth
-     * @param bool $emptyIfNotFound When used recursively, we make this true so that if some object is not found, a empty array is returned instead of false, emulating Cake's behavior when building up complex objects
+     * @param array $contain         Model relationship tree, to specify the recursiveness depth
+     * @param bool  $emptyIfNotFound When used recursively, we make this true so that if some object is not found, a empty array is returned instead of false, emulating Cake's behavior when building up complex objects
      *
      * @return array with all composite objects, as if it where returned by a CakePHP's find with contain
      */

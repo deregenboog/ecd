@@ -23,16 +23,16 @@ class DateHelper extends AppHelper
 
     ////////////////
     //creates the date input fields
-    //
+
     //@name - mandatory! "name" of the fields (Model.field), you have to specify
     //        the model name always! Otherwise the field won't be populated
-    //
+
     //@date - date string retrieved from DB (YYYY-MM-DD), when $date == 'empty'
     //        the default date is set to empty field, when date == null, default
     //        date is populated with data or set back to 'empty'
-    //
+
     //@options:
-    //
+
     //'format' - 'd-y-m', 'y-M-d' etc. M = words for months, m = numbers for months
     //				BEWARE! the calendar always appears after the year box!
     //				thus it's recommended to place the year box at the end always

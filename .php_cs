@@ -1,6 +1,6 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = Symfony\CS\Finder::create()
     ->exclude('config')
     ->exclude('config_sql')
     ->exclude('config_template')
@@ -13,9 +13,10 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('tmp_template')
     ->exclude('vendors')
     ->in('app')
-    ->in('src');
+    ->in('src')
+;
 
-return Symfony\CS\Config\Config::create()
+return Symfony\CS\Config::create()
     ->fixers(['-psr0'])
-    ->finder($finder);
-
+    ->finder($finder)
+;

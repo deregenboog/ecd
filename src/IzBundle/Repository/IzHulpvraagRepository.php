@@ -61,7 +61,7 @@ class IzHulpvraagRepository extends EntityRepository
 
     private function applyReportFilter(QueryBuilder $builder, $report, \DateTime $startDate, \DateTime $endDate)
     {
-        switch($report) {
+        switch ($report) {
             case 'beginstand':
                 $builder
                 ->andWhere('izHulpvraag.koppelingStartdatum < :startdatum')

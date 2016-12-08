@@ -143,7 +143,7 @@ class OdsEtikettenBehavior extends ModelBehavior
         $parent->insertBefore($insertnode, $rows->item(0));
 
         $page = $frame = 1;
-        foreach($data as $item) {
+        foreach ($data as $item) {
             $row = $rows->item($frame - 1)->cloneNode(true);
             $row->setAttribute('text:anchor-page-number', $page);
             $parent->insertBefore($row, $insertnode);
