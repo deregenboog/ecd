@@ -43,33 +43,15 @@
         ));
     }
     echo "&nbsp;&nbsp;";
-    if ($this->name == 'IzHulpvragen') {
-        echo $html->link('Hulpvragen', array(
-            'controller' => 'iz_hulpvragen',
-            'action' => 'index'
-        ), array(
-            'class' => 'selected'
-        ));
-    } else {
-        echo $html->link('Hulpvragen', array(
-            'controller' => 'iz_hulpvragen',
-            'action' => 'index'
-        ));
-    }
+    echo $html->link('Hulpvragen', array(
+        'controller' => 'iz_hulpvragen',
+        'action' => 'index'
+    ));
     echo "&nbsp;&nbsp;";
-    if ($this->name == 'IzHulpaanbiedingen') {
-        echo $html->link('Hulpaanbiedingen', array(
-            'controller' => 'iz_hulpaanbiedingen',
-            'action' => 'index'
-        ), array(
-            'class' => 'selected'
-        ));
-    } else {
-        echo $html->link('Hulpaanbiedingen', array(
-            'controller' => 'iz_hulpaanbiedingen',
-            'action' => 'index'
-        ));
-    }
+    echo $html->link('Hulpaanbiedingen', array(
+        'controller' => 'iz_hulpaanbiedingen',
+        'action' => 'index'
+    ));
     echo "&nbsp;&nbsp;";
     if ($this->name == 'Izkoppelingen') {
         echo $html->link('Koppelingen', array(
@@ -85,31 +67,14 @@
         ));
     }
     echo "&nbsp;&nbsp;";
-    if ($this->action == 'rapportages') {
-        echo $html->link('Rapportages', array(
-            'controller' => 'iz_rapportages',
-        ), array(
-            'class' => 'selected'
-        ));
-    } else {
-        echo $html->link('Rapportages', array(
-            'controller' => 'iz_rapportages',
-        ));
-    }
+    echo $html->link('Rapportages', array(
+        'controller' => 'iz_rapportages',
+    ));
     echo "&nbsp;&nbsp;";
-    if ($this->action == 'selecties') {
-        echo $html->link('Selecties', array(
-            'controller' => 'iz_deelnemers',
-            'action' => 'selecties'
-        ), array(
-            'class' => 'selected'
-        ));
-    } else {
-        echo $html->link('Selecties', array(
-            'controller' => 'iz_deelnemers',
-            'action' => 'selecties'
-        ));
-    }
+    echo $html->link('Selecties', array(
+        'controller' => 'iz_deelnemers',
+        'action' => 'selecties'
+    ));
     echo "&nbsp;&nbsp;";
     if ($this->action == 'intervisiegroepen') {
         echo $html->link('Intervisiegroepen', array(
