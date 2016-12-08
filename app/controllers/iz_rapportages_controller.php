@@ -4,6 +4,7 @@ use IzBundle\Form\IzRapportageType;
 use IzBundle\Entity\IzKoppeling;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Report\Table;
+use IzBundle\Entity\IzVrijwilliger;
 
 class IzRapportagesController extends AppController
 {
@@ -716,56 +717,75 @@ class IzRapportagesController extends AppController
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers';
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzVrijwilliger::class);
+
+        $beginstand = $repository->count('beginstand', $startDate, $endDate);
+        $gestart = $repository->count('gestart', $startDate, $endDate);
+        $afgesloten = $repository->count('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->count('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->count('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, null, 'aantal', 'beginstand');
+        $beginstandTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $gestartTable = new Table($gestart, null, null, 'aantal', 'gestart');
+        $gestartTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, null, 'aantal', 'afgesloten');
+        $afgeslotenTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, null, 'aantal', 'eindstand');
+        $eindstandTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum).';
+        $yDesctiption = '';
+
+        $title = 'Vrijwilligers totaal';
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
-// 			array(
-// 				'title' => 'Nieuw Gestart',
-// 				'xDescription' => '',
-// 				'yDescription' => '',
-// 				'data' => $this->IzVrijwilliger->count_nieuw(
-// 					'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
@@ -892,130 +912,168 @@ class IzRapportagesController extends AppController
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_vrijwilligers_stadsdeel(
+    private function report_vrijwilligers_per_stadsdeel(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzVrijwilliger');
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzVrijwilliger::class);
+
+        $beginstand = $repository->countByStadsdeel('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByStadsdeel('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByStadsdeel('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByStadsdeel('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByStadsdeel('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, 'stadsdeel', 'aantal', 'beginstand');
+        $beginstandTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $gestartTable = new Table($gestart, null, 'stadsdeel', 'aantal', 'gestart');
+        $gestartTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'stadsdeel', 'aantal', 'afgesloten');
+        $afgeslotenTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'stadsdeel', 'aantal', 'eindstand');
+        $eindstandTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum).';
+        $yDesctiption = 'Stadsdeel';
 
         $title = 'Vrijwilligers per stadsdeel';
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
-// 			array(
-// 				'title' => 'Nieuw gestart',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-// 				'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-// 				    'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_vrijwilligers_project(
+    private function report_vrijwilligers_per_project(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzVrijwilliger');
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzVrijwilliger::class);
+
+        $beginstand = $repository->countByProject('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByProject('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByProject('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByProject('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByProject('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, 'project', 'aantal', 'beginstand');
+        $beginstandTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $gestartTable = new Table($gestart, null, 'project', 'aantal', 'gestart');
+        $gestartTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'project', 'aantal', 'afgesloten');
+        $afgeslotenTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'project', 'aantal', 'eindstand');
+        $eindstandTable
+            ->setController('iz_vrijwilligers')
+            ->setAction('index')
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum).';
+        $yDesctiption = 'Project';
+
         $title = 'Vrijwilligers per project';
-        $projecten = $this->getIzProjecten();
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
-// 			array(
-// 				'title' => 'Nieuw gestart',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Project',
-// 		         'yLookupCollection' => $projecten,
-// 				'data' => $this->IzVrijwilliger->count_per_project(
-// 				    'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
-// 			array(
-// 				'title' => 'Succesvol afgesloten',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Project',
-// 				'yLookupCollection' => $projecten,
-// 				'data' => $this->IzVrijwilliger->count_per_project(
-// 					'succesvol_afgesloten', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
