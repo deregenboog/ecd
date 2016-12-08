@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
  */
 class IzVrijwilliger extends IzDeelnemer
 {

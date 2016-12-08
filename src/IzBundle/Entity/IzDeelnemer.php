@@ -49,6 +49,11 @@ abstract class IzDeelnemer
     protected $afsluitDatum;
 
     /**
+     * @ORM\Column(name="datum_aanmelding", type="date")
+     */
+    protected $datumAanmelding;
+
+    /**
      * @var IzAfsluiting
      * @ORM\ManyToOne(targetEntity="IzAfsluiting")
      * @ORM\JoinColumn(name="iz_afsluiting_id")
