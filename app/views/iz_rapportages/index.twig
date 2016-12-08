@@ -16,7 +16,7 @@
 
 <div class="form">
     <fieldset id="fldRapportages">
-        <legend>{{ title is defined ? title : 'Rapport'}}</legend>
+        <legend>Rapport {{ title is defined ? '"'~title~'"' }}</legend>
         {% if reports is defined %}
             {{ include('iz_rapportages/pivot_tables.twig') }}
         {% endif %}
