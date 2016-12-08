@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
  */
 class IzKlant extends IzDeelnemer
 {
