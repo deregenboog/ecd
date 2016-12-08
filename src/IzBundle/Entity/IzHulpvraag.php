@@ -5,7 +5,7 @@ namespace IzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\IzHulpvraagRepository")
  * @ORM\Table(name="iz_koppelingen")
  */
 class IzHulpvraag extends IzKoppeling

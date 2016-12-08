@@ -1,0 +1,11 @@
+<h2>{{ title }}</h2>
+<p>
+    <strong>
+        Periode: {{ startDate|date('d-m-Y') }} - {{ endDate|date('d-m-Y') }}
+    </strong>
+</p>
+<div>
+    {% for report in reports %}
+        {% include 'iz_rapportages/pivot_table.twig' %}
+    {% endfor %}
+</div>

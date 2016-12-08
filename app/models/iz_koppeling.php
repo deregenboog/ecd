@@ -422,128 +422,128 @@ class IzKoppeling extends AppModel
     private function count_per_project($condition)
     {
         return "SELECT COUNT(DISTINCT vraag.id) AS aantal, p.naam AS project
-			FROM iz_koppelingen vraag
-			INNER JOIN iz_projecten p ON p.id = vraag.project_id
-			INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
-			AND izklant.model = 'Klant'
-			AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
-			INNER JOIN klanten ON izklant.foreign_key = klanten.id
-			INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
-			INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
-			AND izvrijwilliger.model = 'Vrijwilliger'
-			AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
-			INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
-			{$condition}
-			GROUP BY p.naam";
+            FROM iz_koppelingen vraag
+            INNER JOIN iz_projecten p ON p.id = vraag.project_id
+            INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
+            AND izklant.model = 'Klant'
+            AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
+            INNER JOIN klanten ON izklant.foreign_key = klanten.id
+            INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
+            INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
+            AND izvrijwilliger.model = 'Vrijwilliger'
+            AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
+            INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
+            {$condition}
+            GROUP BY p.naam";
     }
 
     private function count_per_stadsdeel($condition)
     {
         return "SELECT COUNT(DISTINCT vraag.id) AS aantal, s.stadsdeel
-			FROM iz_koppelingen vraag
-			INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
-			AND izklant.model = 'Klant'
-			AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
-			INNER JOIN klanten ON izklant.foreign_key = klanten.id
-			LEFT JOIN stadsdelen s ON s.postcode = klanten.postcode
-			INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
-			INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
-			AND izvrijwilliger.model = 'Vrijwilliger'
-			AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
-			INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
-			{$condition}
-			GROUP BY s.stadsdeel";
+            FROM iz_koppelingen vraag
+            INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
+            AND izklant.model = 'Klant'
+            AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
+            INNER JOIN klanten ON izklant.foreign_key = klanten.id
+            LEFT JOIN stadsdelen s ON s.postcode = klanten.postcode
+            INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
+            INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
+            AND izvrijwilliger.model = 'Vrijwilliger'
+            AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
+            INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
+            {$condition}
+            GROUP BY s.stadsdeel";
     }
 
     private function count_per_postcodegebied($condition)
     {
         return "SELECT COUNT(DISTINCT vraag.id) AS aantal, pc.postcodegebied
-			FROM iz_koppelingen vraag
-			INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
-				AND izklant.model = 'Klant'
-				AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
-			INNER JOIN klanten ON izklant.foreign_key = klanten.id
-			LEFT JOIN postcodegebieden pc ON SUBSTRING(klanten.postcode, 1, 4) BETWEEN pc.van AND pc.tot
-			INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
-			INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
-				AND izvrijwilliger.model = 'Vrijwilliger'
-				AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
-			INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
-			{$condition}
-			GROUP BY pc.postcodegebied";
+            FROM iz_koppelingen vraag
+            INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
+                AND izklant.model = 'Klant'
+                AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
+            INNER JOIN klanten ON izklant.foreign_key = klanten.id
+            LEFT JOIN postcodegebieden pc ON SUBSTRING(klanten.postcode, 1, 4) BETWEEN pc.van AND pc.tot
+            INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
+            INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
+                AND izvrijwilliger.model = 'Vrijwilliger'
+                AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
+            INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
+            {$condition}
+            GROUP BY pc.postcodegebied";
     }
 
     private function count_per_project_stadsdeel($condition)
     {
         return "SELECT COUNT(DISTINCT vraag.id) AS aantal, p.naam AS project, s.stadsdeel
-			FROM iz_koppelingen vraag
-			INNER JOIN iz_projecten p ON p.id = vraag.project_id
-			INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
-			AND izklant.model = 'Klant'
-			AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
-			INNER JOIN klanten ON izklant.foreign_key = klanten.id
-			LEFT JOIN stadsdelen s ON s.postcode = klanten.postcode
-			INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
-			INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
-			AND izvrijwilliger.model = 'Vrijwilliger'
-			AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
-			INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
-			{$condition}
-			GROUP BY p.naam, s.stadsdeel";
+            FROM iz_koppelingen vraag
+            INNER JOIN iz_projecten p ON p.id = vraag.project_id
+            INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
+            AND izklant.model = 'Klant'
+            AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
+            INNER JOIN klanten ON izklant.foreign_key = klanten.id
+            LEFT JOIN stadsdelen s ON s.postcode = klanten.postcode
+            INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
+            INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
+            AND izvrijwilliger.model = 'Vrijwilliger'
+            AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
+            INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
+            {$condition}
+            GROUP BY p.naam, s.stadsdeel";
     }
 
     private function count_per_project_postcodegebied($condition)
     {
         return "SELECT COUNT(DISTINCT vraag.id) AS aantal, p.naam AS project, pc.postcodegebied
-			FROM iz_koppelingen vraag
-			INNER JOIN iz_projecten p ON p.id = vraag.project_id
-			INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
-			AND izklant.model = 'Klant'
-			AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
-			INNER JOIN klanten ON izklant.foreign_key = klanten.id
-			LEFT JOIN postcodegebieden pc ON SUBSTRING(klanten.postcode, 1, 4) BETWEEN pc.van AND pc.tot
-			INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
-			INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
-			AND izvrijwilliger.model = 'Vrijwilliger'
-			AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
-			INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
-			{$condition}
-			GROUP BY p.naam, pc.postcodegebied";
+            FROM iz_koppelingen vraag
+            INNER JOIN iz_projecten p ON p.id = vraag.project_id
+            INNER JOIN iz_deelnemers izklant ON izklant.id = vraag.iz_deelnemer_id
+            AND izklant.model = 'Klant'
+            AND (izklant.iz_afsluiting_id IS NULL OR izklant.iz_afsluiting_id != 10)
+            INNER JOIN klanten ON izklant.foreign_key = klanten.id
+            LEFT JOIN postcodegebieden pc ON SUBSTRING(klanten.postcode, 1, 4) BETWEEN pc.van AND pc.tot
+            INNER JOIN iz_koppelingen aanbod ON aanbod.id = vraag.iz_koppeling_id
+            INNER JOIN iz_deelnemers izvrijwilliger ON izvrijwilliger.id = aanbod.iz_deelnemer_id
+            AND izvrijwilliger.model = 'Vrijwilliger'
+            AND (izvrijwilliger.iz_afsluiting_id IS NULL OR izvrijwilliger.iz_afsluiting_id != 10)
+            INNER JOIN vrijwilligers ON izvrijwilliger.foreign_key = vrijwilligers.id
+            {$condition}
+            GROUP BY p.naam, pc.postcodegebied";
     }
 
     private function beginstand(DateTime $startDate)
     {
         return "WHERE vraag.koppeling_startdatum < '{$startDate->format('Y-m-d')}'
-			AND (vraag.koppeling_einddatum IS NULL OR vraag.koppeling_einddatum >= '{$startDate->format('Y-m-d')}')
-			AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
+            AND (vraag.koppeling_einddatum IS NULL OR vraag.koppeling_einddatum >= '{$startDate->format('Y-m-d')}')
+            AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
     }
 
     private function gestart(DateTime $startDate, DateTime $endDate)
     {
         return "WHERE vraag.koppeling_startdatum >= '{$startDate->format('Y-m-d')}'
-			AND vraag.koppeling_startdatum <= '{$endDate->format('Y-m-d')}'
-			AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
+            AND vraag.koppeling_startdatum <= '{$endDate->format('Y-m-d')}'
+            AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
     }
 
     private function afgesloten(DateTime $startDate, DateTime $endDate)
     {
         return "WHERE vraag.koppeling_einddatum >= '{$startDate->format('Y-m-d')}'
-			AND vraag.koppeling_einddatum <= '{$endDate->format('Y-m-d')}'
-			AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
+            AND vraag.koppeling_einddatum <= '{$endDate->format('Y-m-d')}'
+            AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
     }
 
     private function succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
     {
         return "WHERE vraag.koppeling_einddatum >= '{$startDate->format('Y-m-d')}'
-			AND vraag.koppeling_einddatum <= '{$endDate->format('Y-m-d')}'
-			AND vraag.koppeling_succesvol = 1
-			AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
+            AND vraag.koppeling_einddatum <= '{$endDate->format('Y-m-d')}'
+            AND vraag.koppeling_succesvol = 1
+            AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
     }
 
     private function eindstand(DateTime $endDate)
     {
         return "WHERE vraag.koppeling_startdatum <= '{$endDate->format('Y-m-d')}'
-			AND (vraag.koppeling_einddatum IS NULL OR vraag.koppeling_einddatum > '{$endDate->format('Y-m-d')}')
-			AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
+            AND (vraag.koppeling_einddatum IS NULL OR vraag.koppeling_einddatum > '{$endDate->format('Y-m-d')}')
+            AND (vraag.iz_eindekoppeling_id IS NULL OR vraag.iz_eindekoppeling_id != 10)";
     }
 }
