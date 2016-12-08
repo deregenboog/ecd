@@ -8,8 +8,8 @@
  * @license http://blog.fbollon.net DWYWWI (Do whatever you want with it)
  */
 
- // We don't use it at all in this project, it is commited as a reference in
- // case we need it in the future.
+// We don't use it at all in this project, it is commited as a reference in
+// case we need it in the future.
 
 class LdapSource extends DataSource
 {
@@ -322,14 +322,14 @@ class LdapSource extends DataSource
     /**
      * Function required but not really implemented.
      */
-     public function describe(&$model)
-     {
-         $fields[] = array('name' => '--NotYetImplemented--',
+    public function describe(&$model)
+    {
+        $fields[] = array('name' => '--NotYetImplemented--',
                         'type' => '--NotYetImplemented--',
                         'null' => '--NotYetImplemented--', );
 
-         return $fields;
-     }
+        return $fields;
+    }
 
     /**
      * Function not supported.

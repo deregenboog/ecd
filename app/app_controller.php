@@ -19,6 +19,9 @@ use Symfony\Component\Form\FormInterface;
 
 class AppController extends Controller
 {
+    const FORMAT_HTML = 'html';
+    const FORMAT_CSV = 'csv';
+
     /**
      * @var KernelInterface
      */
@@ -37,11 +40,11 @@ class AppController extends Controller
     // The helpers we are going to use in all controllers. We do that for
     // default view, later we can specify helpers that will be used per
     // controller.
-
     public $helpers = array('Date', 'Session', 'Html', 'Js', 'Format');
+
     // setup components
     public $components = array('Session', 'AuthExt', 'RequestHandler', 'DebugKit.Toolbar');
-    // default datetime filter
+
     /**
      * user groups for the current logged in user.
      * @var array
@@ -61,8 +64,19 @@ class AppController extends Controller
         'Awbz' => array('Awbz'),
         'PfoClienten' => array('PfoClienten', 'PfoAardRelaties', 'PfoGroepen', 'PfoClientenVerslagen', 'PfoVerslagen'),
         'BackOnTrack' => array('BackOnTrack', 'BotKoppelingen', 'BotVerslagen'),
-        'IzDeelnemers' => array('IzDeelnemers', 'IzProjecten', 'IzIntervisiegroepen', 'IzVerslagen', 'IzKoppelingen',
-            'IzEindekoppelingen', 'IzAfsluitingen', 'IzVraagaanboden', 'IzOntstaanContacten', 'IzViaPersonen', ),
+		'IzDeelnemers' => array(
+			'IzDeelnemers',
+			'IzProjecten',
+			'IzIntervisiegroepen',
+			'IzVerslagen',
+			'IzKoppelingen',
+			'IzEindekoppelingen',
+			'IzAfsluitingen',
+			'IzVraagaanboden',
+			'IzOntstaanContacten',
+			'IzViaPersonen',
+			'IzRapportages',
+		),
         'Groepsactiviteiten' => array('Groepsactiviteiten', 'GroepsactiviteitenGroepen', 'GroepsactiviteitenRedenen',
             'GroepsactiviteitenIntakes', 'GroepsactiviteitenVerslagen', ),
         'Admin' => array('Admin', 'ZrmSettings'),
@@ -85,7 +99,7 @@ class AppController extends Controller
 
     /** Check if a controller is accesible by the current user, based on the
      * groups it belongs to. The list of controllers accessible per group are
-     * defined at config/core.php, in the array ACL.permissions.
+     * defined at config/core.php, in the array ACL.permissions. 
      *
      * @param String $controller The controller name
      */
@@ -190,7 +204,7 @@ class AppController extends Controller
     /**
      * forAdminOnly If you are not admin, redirect. For quick access handling
      * in actions.
-     *
+     * 
      * @access public
      * @return void
      */
@@ -220,12 +234,14 @@ class AppController extends Controller
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         //debug($medewerkers);
         $this->set('medewerkers', $medewerkers);
+
+	return $medewerkers;
     }
 
     /**
      * flash Wrapper for Session-flash. See flashError, it is used more.
-     *
-     * @param mixed $msg
+     * 
+     * @param mixed $msg 
      * @access public
      * @return void
      */
@@ -236,8 +252,8 @@ class AppController extends Controller
 
     /**
      * flashError Wrapper for Session-flash, using error message CSS styling.
-     *
-     * @param mixed $msg
+     * 
+     * @param mixed $msg 
      * @access public
      * @return void
      */
@@ -332,8 +348,8 @@ class AppController extends Controller
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
-                        'id' => $auth['Medewerker']['id'],
-                        'username' => $auth['Medewerker']['username'],
+                            'id' => $auth['Medewerker']['id'],
+                            'username' => $auth['Medewerker']['username'],
                     ]];
                 }
                 $this->{$this->modelClass}->setUserData($activeUser);
@@ -351,7 +367,7 @@ class AppController extends Controller
         }
 
         if ($s_user
-            || array_key_exists(GROUP_ADMIN, $this->userGroups)
+                || array_key_exists(GROUP_ADMIN, $this->userGroups)
             || array_key_exists(GROUP_DEVELOP, $this->userGroups)
         ) {
             $is_admin = true;
@@ -541,7 +557,8 @@ class AppController extends Controller
         }
     }
 
-    protected function applyFilter() {
+    protected function applyFilter()
+    {
         if (empty ( $this->data ) && empty ( $this->params ['named'] )) {
             return false;
         }
@@ -552,11 +569,7 @@ class AppController extends Controller
             foreach ( $this->data as $model => $filter ) {
                 foreach ( $filter as $field => $value ) {
                     if (is_array ( $value )) {
-                        if (array_keys ( $value ) == [
-                                'day',
-                                'month',
-                                'year'
-                        ]) {
+                        if (array_keys($value) == ['day', 'month', 'year']) {
                             $value = implode ( '-', array_reverse ( $value ) );
                             if ($value == '--') {
                                 $value = null;

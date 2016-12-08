@@ -1,9 +1,5 @@
-<?php echo $this->element('iz_subnavigation'); ?>
-
-<?php 
-
-	echo $form->create('IzDeelnemer', array('controller' => 'iz_deelnemers', 'action'=>'koppellijst'));
-?>
+<?= $this->element('iz_subnavigation') ?>
+<?= $form->create('IzHulpvraag', array('controller' => 'iz_koppelingen')) ?>
 <table>
 	<tr>
 			<th class='IzKlKvoornaam'>
@@ -53,7 +49,7 @@
 			</th>
 	</tr>
 </table>
-<?php 
+<?php
 	echo $form->end();
 ?>
 
@@ -76,14 +72,14 @@ $("#IzDeelnemerKoppellijstForm").submit(function(e) {
 		url : formURL,
 		type: "POST",
 		data : postData,
-		success:function(data, textStatus, jqXHR) 
+		success:function(data, textStatus, jqXHR)
 		{
 			//data: return data from server
 			$('#contentForIndex').html(data);
 		},
-		error: function(jqXHR, textStatus, errorThrown) 
+		error: function(jqXHR, textStatus, errorThrown)
 		{
-			//if fails		
+			//if fails
 			console.log('error');
 		}
 	});

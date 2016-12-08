@@ -6,10 +6,10 @@ class Vrijwilliger extends AppModel
     public $displayField = 'achternaam';
 
     public $virtualFields = array(
-            'name' => "CONCAT_WS(' ', `Vrijwilliger`.`voornaam`, `Vrijwilliger`.`tussenvoegsel`, `Vrijwilliger`.`achternaam`)",
-            'name1st_part' => "CONCAT_WS(' ', `Vrijwilliger`.`voornaam`, `Vrijwilliger`.`roepnaam`)",
-            'name2nd_part' => "CONCAT_WS(' ', `Vrijwilliger`.`tussenvoegsel`, `Vrijwilliger`.`achternaam`)",
-            'klant_nummer' => "CONCAT('V',`Vrijwilliger`.`id`)",
+        'name' => "CONCAT_WS(' ', Vrijwilliger.voornaam, Vrijwilliger.tussenvoegsel, Vrijwilliger.achternaam)",
+        'name1st_part' => "CONCAT_WS(' ', Vrijwilliger.voornaam, Vrijwilliger.roepnaam)",
+        'name2nd_part' => "CONCAT_WS(' ', Vrijwilliger.tussenvoegsel, Vrijwilliger.achternaam)",
+        'klant_nummer' => "CONCAT('V', Vrijwilliger.id)",
     );
 
     public $watchfields = array(
@@ -20,12 +20,12 @@ class Vrijwilliger extends AppModel
     );
 
     public $actsAs = array(
-            'Containable',
+        'Containable',
     );
 
     public $paginate = array(
-            'contain' => array('Geslacht'),
-            //'limit' => 2,
+        'contain' => array('Geslacht'),
+// 		'limit' => 2,
     );
     public $validate = array(
             'achternaam' => array(
@@ -163,27 +163,26 @@ class Vrijwilliger extends AppModel
             'order' => 'created desc',
         ),
     );
-    public $hasOne = array(
-        'IzDeelnemer' => array(
-                    'className' => 'IzDeelnemer',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                            'IzDeelnemer.model' => 'Vrijwilliger',
-                    ),
-                    'order' => '',
-                    'dependent' => true,
-           ),
-            'GroepsactiviteitenIntake' => array(
-                    'className' => 'GroepsactiviteitenIntake',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                        'GroepsactiviteitenIntake.model' => 'Vrijwilliger',
-                    ),
-                    'order' => '',
-                    'dependent' => true,
-            ),
 
+    public $hasOne = array(
+        'IzVrijwilliger' => array(
+            'className' => 'IzVrijwilliger',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array(
+                'IzVrijwilliger.model' => 'Vrijwilliger',
+            ),
+            'dependent' => true,
+        ),
+        'GroepsactiviteitenIntake' => array(
+            'className' => 'GroepsactiviteitenIntake',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array(
+                'GroepsactiviteitenIntake.model' => 'Vrijwilliger',
+            ),
+            'dependent' => true,
+        ),
     );
+
     public function beforeSave($options = array())
     {
         if (empty($this->id) && empty($this->data['Vrijwilliger']['id'])) {
@@ -271,7 +270,7 @@ class Vrijwilliger extends AppModel
         $joins[] = array(
             'table' => $join_table,
             'alias' => 'GroepsactiviteitenGroepenVrijwilliger',
-            'type' => 'INNER',
+            'type' => 'inner',
             'conditions' => $join_conditions,
 
         );

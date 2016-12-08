@@ -170,10 +170,10 @@ class IntakesController extends AppController
             if ($dateCreated < new \DateTime('-7 days')) {
                 $this->flashError(__('You can only edit intakes that have been created last week.', true));
                 $this->redirect(array(
-                    'controller' => 'klanten',
-                    'action' => 'view',
-                    $this->data['Intake']['klant_id'],
-                ));
+                        'controller' => 'klanten',
+                        'action' => 'view',
+                        $this->data['Intake']['klant_id'],
+                        ));
             }
         }
 

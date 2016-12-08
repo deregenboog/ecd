@@ -424,10 +424,10 @@ class RegistratiesController extends AppController
             if (empty($klant['LaatsteRegistratie']['buiten'])) {
                 if ($klant['LaatsteRegistratie']['locatie_id'] == $locatie_id) {
                     $jsonVar['allow'] = false;
-                    $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingechecked op deze locatie.';
+                    $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op deze locatie.';
                 } else {
                     $jsonVar['confirm'] = true;
-                    $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingechecked op andere locatie. Toch inchecken?';
+                    $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op andere locatie. Toch inchecken?';
                     $sep = $separator;
                 }
 

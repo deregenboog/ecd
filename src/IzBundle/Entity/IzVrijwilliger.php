@@ -50,5 +50,4 @@ class IzVrijwilliger extends IzDeelnemer
     {
         return $this->izHulpaanbiedingen;
     }
-
 }

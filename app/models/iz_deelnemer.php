@@ -4,97 +4,60 @@ class IzDeelnemer extends AppModel
 {
     public $name = 'IzDeelnemer';
 
+    public $useTable = 'iz_deelnemers';
+
     public $actsAs = array('Containable', 'OdsEtiketten');
 
     public $belongsTo = array(
-            'Klant' => array(
-                    'className' => 'Klant',
-                    'model' => 'Klant',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array('model' => 'Klant'),
-                    'fields' => '',
-                    'order' => '',
-            ),
-            'Vrijwilliger' => array(
-                    'className' => 'Vrijwilliger',
-                    'model' => 'Vrijwilliger',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array('model' => 'Vrijwilliger'),
-                    'fields' => '',
-                    'order' => '',
-            ),
-            'IzAfsluiting' => array(
-                    'className' => 'IzAfsluiting',
-                    'foreignKey' => 'iz_afsluiting_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-            ),
+        'Klant' => array(
+            'className' => 'Klant',
+            'model' => 'Klant',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array('model' => 'Klant'),
+        ),
+        'Vrijwilliger' => array(
+            'className' => 'Vrijwilliger',
+            'model' => 'Vrijwilliger',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array('model' => 'Vrijwilliger'),
+        ),
+        'IzAfsluiting' => array(
+            'className' => 'IzAfsluiting',
+            'foreignKey' => 'iz_afsluiting_id',
+        ),
     );
 
     public $hasMany = array(
-            'IzDeelnemersIzIntervisiegroep' => array(
-                    'className' => 'IzDeelnemersIzIntervisiegroep',
-                    'foreignKey' => 'iz_deelnemer_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
+        'IzDeelnemersIzIntervisiegroep' => array(
+            'className' => 'IzDeelnemersIzIntervisiegroep',
+            'foreignKey' => 'iz_deelnemer_id',
+            'dependent' => false,
+        ),
+        'IzDeelnemersIzProject' => array(
+            'className' => 'IzDeelnemersIzProject',
+            'foreignKey' => 'iz_deelnemer_id',
+            'dependent' => false,
+        ),
+        'IzVerslag' => array(
+            'className' => 'IzVerslag',
+            'foreignKey' => 'iz_deelnemer_id',
+            'dependent' => false,
+        ),
+        'IzKoppeling' => array(
+            'className' => 'IzKoppeling',
+            'foreignKey' => 'iz_deelnemer_id',
+            'dependent' => false,
+        ),
+        'IzDeelnemerDocument' => array(
+            'className' => 'Attachment',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array(
+                'IzDeelnemerDocument.model' => 'IzDeelnemer',
+                'is_active' => 1,
             ),
-            'IzDeelnemersIzProject' => array(
-                    'className' => 'IzDeelnemersIzProject',
-                    'foreignKey' => 'iz_deelnemer_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'IzVerslag' => array(
-                    'className' => 'IzVerslag',
-                    'foreignKey' => 'iz_deelnemer_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'IzKoppeling' => array(
-                    'className' => 'IzKoppeling',
-                    'foreignKey' => 'iz_deelnemer_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'IzDeelnemerDocument' => array(
-                    'className' => 'Attachment',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                            'IzDeelnemerDocument.model' => 'IzDeelnemer',
-                            'is_active' => 1,
-                    ),
-                    'dependent' => true,
-                    'order' => 'created desc',
-            ),
+            'dependent' => true,
+            'order' => 'created desc',
+        ),
     );
 
     public $hasOne = array(
@@ -102,49 +65,35 @@ class IzDeelnemer extends AppModel
             'className' => 'IzIntake',
             'foreignKey' => 'iz_deelnemer_id',
             'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => '',
         ),
     );
 
     public $validate = array(
-            'datum_aanmelding' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een datum in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        'datum_aanmelding' => array(
+            'notempty' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Voer een datum in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'email_aanmelder' => array(
-                    'email' => array(
-                            'rule' => array(
-                                    'email',
-                            ),
-                            'message' => 'Een geldig E-Mail adres invoeren',
-                            'allowEmpty' => true,
-                            'required' => false,
-                            //'last' => false, // Stop validation after this rule
-                    ),
+        ),
+        'email_aanmelder' => array(
+            'email' => array(
+                'rule' => array('email'),
+                'message' => 'Een geldig E-Mail adres invoeren',
+                'allowEmpty' => true,
+                'required' => false,
+                //'last' => false, // Stop validation after this rule
             ),
-            'iz_afsluiting_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een reden in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'iz_afsluiting_id' => array(
+            'notempty' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Voer een reden in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
+        ),
     );
 
     public function beforeSave($options = array())
@@ -177,17 +126,17 @@ class IzDeelnemer extends AppModel
         $iz_koppelingen = $this->IzKoppeling->find('all', array(
             'conditions' => array(
                 'OR' => array(
-                     array(
+                    array(
                         'iz_deelnemer_id' => $id,
                         'koppeling_einddatum' => null,
                         'iz_koppeling_id NOT' => null,
-                     ),
-                     array(
-                         'iz_deelnemer_id' => $id,
-                         'einddatum' => null,
-                         'iz_koppeling_id' => null,
-                     ),
-                 ),
+                    ),
+                    array(
+                        'iz_deelnemer_id' => $id,
+                        'einddatum' => null,
+                        'iz_koppeling_id' => null,
+                    ),
+                ),
             ),
             'contain' => array(),
             'fields' => array('id'),
@@ -572,13 +521,13 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', COUNT(*) AS cnt'
-             .' FROM iz_deelnemers izd'
-             .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NOT NULL'
-             .' AND izk.koppeling_startdatum >= "'.$startDate.'"'
-             .' AND izk.koppeling_startdatum <= "'.$endDate.'"'
-             .' GROUP BY '.$groupby
+            .' FROM iz_deelnemers izd'
+            .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NOT NULL'
+            .' AND izk.koppeling_startdatum >= "'.$startDate.'"'
+            .' AND izk.koppeling_startdatum <= "'.$endDate.'"'
+            .' GROUP BY '.$groupby
         ;
 
         $data = $this->query($sql);
@@ -622,16 +571,16 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', COUNT(*) AS cnt'
-             .' FROM iz_deelnemers izd'
-             .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NOT NULL'
-             .' AND izk.koppeling_startdatum < "'.$endDate.'"'
-             .' AND ('
-                 .' izk.koppeling_einddatum IS NULL'
-                 .' OR izk.koppeling_einddatum > "'.$startDate.'"'
-             .' )'
-             .' GROUP BY '.$groupby
+            .' FROM iz_deelnemers izd'
+            .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NOT NULL'
+            .' AND izk.koppeling_startdatum < "'.$endDate.'"'
+            .' AND ('
+                .' izk.koppeling_einddatum IS NULL'
+                .' OR izk.koppeling_einddatum > "'.$startDate.'"'
+            .' )'
+            .' GROUP BY '.$groupby
         ;
 
         $data = $this->query($sql);
@@ -675,16 +624,16 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', count(*) as cnt '
-             .' FROM iz_deelnemers izd'
-             .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NOT NULL'
-             .' AND izk.koppeling_startdatum < "'.$endDate.'"'
-             .' AND ('
-                 .' izk.koppeling_einddatum IS NULL'
-                 .' OR izk.koppeling_einddatum >= "'.$endDate.'"'
-             .' )'
-             .' GROUP BY '.$groupby
+            .' FROM iz_deelnemers izd'
+            .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NOT NULL'
+            .' AND izk.koppeling_startdatum < "'.$endDate.'"'
+            .' AND ('
+                .' izk.koppeling_einddatum IS NULL'
+                .' OR izk.koppeling_einddatum >= "'.$endDate.'"'
+            .' )'
+            .' GROUP BY '.$groupby
         ;
 
         $data = $this->query($sql);
@@ -728,16 +677,16 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', COUNT(*) AS cnt'
-             .' FROM iz_deelnemers izd'
-             .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NULL'
-             .' AND izk.startdatum < "'.$endDate.'"'
-             .' AND ('
-                 .' izk.einddatum IS NULL'
-                 .' OR izk.einddatum >= "'.$endDate.'"'
-             .' )'
-             .' GROUP BY '.$groupby
+            .' FROM iz_deelnemers izd'
+            .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NULL'
+            .' AND izk.startdatum < "'.$endDate.'"'
+            .' AND ('
+                .' izk.einddatum IS NULL'
+                .' OR izk.einddatum >= "'.$endDate.'"'
+            .' )'
+            .' GROUP BY '.$groupby
         ;
 
         $data = $this->query($sql);
@@ -781,16 +730,16 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', COUNT(*) AS cnt'
-             .' FROM iz_deelnemers izd'
-             .' JOIN vrijwilligers v ON v.id = izd.foreign_key AND izd.model = "Vrijwilliger"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NULL'
-             .' AND izk.startdatum < "'.$endDate.'"'
-             .' AND ('
-                 .' izk.einddatum IS NULL'
-                 .' OR izk.einddatum >= "'.$endDate.'"'
-             .' )'
-             .' GROUP BY '.$groupby
+            .' FROM iz_deelnemers izd'
+            .' JOIN vrijwilligers v ON v.id = izd.foreign_key AND izd.model = "Vrijwilliger"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NULL'
+            .' AND izk.startdatum < "'.$endDate.'"'
+            .' AND ('
+                .' izk.einddatum IS NULL'
+                .' OR izk.einddatum >= "'.$endDate.'"'
+            .' )'
+            .' GROUP BY '.$groupby
         ;
 
         $data = $this->query($sql);
@@ -834,16 +783,16 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', ROUND( AVG( ABS( DATEDIFF(izk.koppeling_startdatum, izk.startdatum) ) ) ) as avg'
-             .' FROM iz_deelnemers izd'
-             .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NOT NULL'
-             .' AND izk.koppeling_startdatum < "'.$endDate.'"'
-             .' AND ('
-                 .' izk.koppeling_einddatum IS NULL'
-                 .' OR izk.koppeling_einddatum > "'.$startDate.'"'
-             .' )'
-             .' '.$groupby
+            .' FROM iz_deelnemers izd'
+            .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NOT NULL'
+            .' AND izk.koppeling_startdatum < "'.$endDate.'"'
+            .' AND ('
+                .' izk.koppeling_einddatum IS NULL'
+                .' OR izk.koppeling_einddatum > "'.$startDate.'"'
+            .' )'
+            .' '.$groupby
         ;
 
         $data = $this->query($sql);
@@ -857,16 +806,16 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT '.$field.', ROUND( AVG( ABS( DATEDIFF(izk.koppeling_startdatum, izk.startdatum) ) ) ) as avg'
-             .' FROM iz_deelnemers izd'
-             .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' WHERE izk.iz_koppeling_id IS NOT NULL'
-             .' AND izk.koppeling_startdatum < "'.$endDate.'"'
-             .' AND ('
-                 .' izk.koppeling_einddatum IS NULL'
-                 .' OR izk.koppeling_einddatum > "'.$startDate.'"'
-             .' )'
-             .' '
+            .' FROM iz_deelnemers izd'
+            .' JOIN klanten k ON k.id = izd.foreign_key AND izd.model = "Klant"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' WHERE izk.iz_koppeling_id IS NOT NULL'
+            .' AND izk.koppeling_startdatum < "'.$endDate.'"'
+            .' AND ('
+                .' izk.koppeling_einddatum IS NULL'
+                .' OR izk.koppeling_einddatum > "'.$startDate.'"'
+            .' )'
+            .' '
         ;
 
         $data = $this->query($sql);
@@ -953,13 +902,13 @@ class IzDeelnemer extends AppModel
         }
 
         $sql = 'SELECT izp.naam, COUNT(*) AS cnt'
-             .' FROM iz_deelnemers izd'
-             .' JOIN vrijwilligers v ON v.id = izd.foreign_key AND izd.model = "Vrijwilliger"'
-             .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
-             .' JOIN iz_projecten izp on izp.id = izk.project_id '
-             .' AND izk.startdatum < "'.$endDate.'"'
-             .' AND izk.startdatum > "'.$startDate.'"'
-             .' GROUP BY izk.project_id';
+            .' FROM iz_deelnemers izd'
+            .' JOIN vrijwilligers v ON v.id = izd.foreign_key AND izd.model = "Vrijwilliger"'
+            .' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id'
+            .' JOIN iz_projecten izp on izp.id = izk.project_id '
+            .' AND izk.startdatum < "'.$endDate.'"'
+            .' AND izk.startdatum > "'.$startDate.'"'
+            .' GROUP BY izk.project_id';
 
         $data = $this->query($sql);
 
@@ -989,13 +938,13 @@ class IzDeelnemer extends AppModel
             $template[ $key ] = 0;
         }
 
-        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` 
-FROM iz_deelnemers izd 
-JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id 
+        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
+FROM iz_deelnemers izd
+JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id
 JOIN iz_projecten p on p.id = izk.project_id
-WHERE izk.iz_koppeling_id IS NOT NULL 
-AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' 
+WHERE izk.iz_koppeling_id IS NOT NULL
+AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}'
 GROUP BY izk.project_id, k.werkgebied
 ORDER BY p.naam, k.werkgebied";
 
@@ -1048,15 +997,15 @@ ORDER BY p.naam, k.werkgebied";
     {
         $results = array();
 
-        $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key, 
+        $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
 from
 (SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum, iz_koppeling_id
-FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL 
-AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' ORDER BY p.naam, k.werkgebied, izk.koppeling_startdatum ) as kl 
-join iz_koppelingen izk on izk.id = kl.iz_koppeling_id 
-left join iz_deelnemers izd on izd.id = izk.iz_deelnemer_id and izd.model = 'Vrijwilliger' 
+FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL
+AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' ORDER BY p.naam, k.werkgebied, izk.koppeling_startdatum ) as kl
+join iz_koppelingen izk on izk.id = kl.iz_koppeling_id
+left join iz_deelnemers izd on izd.id = izk.iz_deelnemer_id and izd.model = 'Vrijwilliger'
 join vrijwilligers v on v.id = foreign_key ";
 
         $data = $this->query($sql);
@@ -1086,9 +1035,9 @@ join vrijwilligers v on v.id = foreign_key ";
             $template[ $key ] = 0;
         }
 
-        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd JOIN 
+        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd JOIN
 	klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN
-	iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL AND 
+	iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL AND
 	izk.koppeling_einddatum >= '{$startDate}' AND izk.koppeling_einddatum <= '{$endDate}' AND
 	izk.iz_eindekoppeling_id != 10 GROUP BY izk.project_id, k.werkgebied ORDER BY p.naam, k.werkgebied";
 
@@ -1140,16 +1089,16 @@ join vrijwilligers v on v.id = foreign_key ";
     {
         $results = array();
 
-        $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id , izk.iz_deelnemer_id, izd.foreign_key, 
+        $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id , izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
 from
 (SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum,	izk.koppeling_einddatum, iz_koppeling_id
-FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id 
-JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL AND 
+FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id
+JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL AND
 	izk.koppeling_einddatum >= '{$startDate}' AND izk.koppeling_einddatum <= '{$endDate}'
-AND izk.iz_eindekoppeling_id != 10 ORDER BY p.naam, k.werkgebied, izk.koppeling_einddatum) as kl  
-join iz_koppelingen izk on izk.id = kl.iz_koppeling_id 
-left join iz_deelnemers izd on izd.id = izk.iz_deelnemer_id and izd.model = 'Vrijwilliger' 
+AND izk.iz_eindekoppeling_id != 10 ORDER BY p.naam, k.werkgebied, izk.koppeling_einddatum) as kl
+join iz_koppelingen izk on izk.id = kl.iz_koppeling_id
+left join iz_deelnemers izd on izd.id = izk.iz_deelnemer_id and izd.model = 'Vrijwilliger'
 join vrijwilligers v on v.id = foreign_key ";
 
         $data = $this->query($sql);
@@ -1179,9 +1128,9 @@ join vrijwilligers v on v.id = foreign_key ";
             $template[ $key ] = 0;
         }
 
-        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd 
-JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE 
-	izk.iz_koppeling_id IS NOT NULL AND 
+        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd
+JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE
+	izk.iz_koppeling_id IS NOT NULL AND
 	izk.koppeling_einddatum >= '{$startDate}' AND izk.koppeling_einddatum <= '{$endDate}'
 AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 GROUP BY izk.project_id, k.werkgebied ORDER BY p.naam, k.werkgebied";
 
@@ -1233,16 +1182,16 @@ AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 GROUP BY izk.
     {
         $results = array();
 
-        $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key, 
+        $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
- from
+from
 (SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`,
-	izk.koppeling_startdatum, izk.koppeling_einddatum, iz_koppeling_id FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL 
+	izk.koppeling_startdatum, izk.koppeling_einddatum, iz_koppeling_id FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL
 AND izk.koppeling_einddatum >= '{$startDate}' AND izk.koppeling_einddatum <= '{$endDate}'
-AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 ORDER BY p.naam, k.werkgebied, izk.koppeling_einddatum) as kl 
-join iz_koppelingen izk on izk.id = kl.iz_koppeling_id 
-left join iz_deelnemers izd on izd.id = izk.iz_deelnemer_id and izd.model = 'Vrijwilliger' 
+AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 ORDER BY p.naam, k.werkgebied, izk.koppeling_einddatum) as kl
+join iz_koppelingen izk on izk.id = kl.iz_koppeling_id
+left join iz_deelnemers izd on izd.id = izk.iz_deelnemer_id and izd.model = 'Vrijwilliger'
 join vrijwilligers v on v.id = foreign_key ";
 
         $data = $this->query($sql);
@@ -1272,13 +1221,14 @@ join vrijwilligers v on v.id = foreign_key ";
             $template[ $key ] = 0;
         }
 
-        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` 
-FROM iz_deelnemers izd 
-JOIN vrijwilligers k ON k.id = izd.foreign_key AND izd.model = 'Vrijwilliger' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id 
+        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
+FROM iz_deelnemers izd
+JOIN vrijwilligers k ON k.id = izd.foreign_key AND izd.model = 'Vrijwilliger'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id
 JOIN iz_projecten p on p.id = izk.project_id
-WHERE izk.iz_koppeling_id IS NOT NULL 
-AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' 
+WHERE izk.iz_koppeling_id IS NOT NULL
+AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10)
+AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}'
 GROUP BY k.id, izk.project_id, k.werkgebied
 ORDER BY p.naam, k.werkgebied";
 
@@ -1329,8 +1279,8 @@ ORDER BY p.naam, k.werkgebied";
         $results = array();
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum
-FROM iz_deelnemers izd JOIN vrijwilligers k ON k.id = izd.foreign_key AND izd.model = 'Vrijwilliger' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL 
+FROM iz_deelnemers izd JOIN vrijwilligers k ON k.id = izd.foreign_key AND izd.model = 'Vrijwilliger'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL
 AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' GROUP BY k.id ORDER BY p.naam, k.werkgebied, izk.koppeling_startdatum";
 
         $data = $this->query($sql);
@@ -1358,13 +1308,13 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
             $template[ $key ] = 0;
         }
 
-        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` 
-FROM iz_deelnemers izd 
-JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id 
+        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
+FROM iz_deelnemers izd
+JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id
 JOIN iz_projecten p on p.id = izk.project_id
-WHERE izk.iz_koppeling_id IS NOT NULL 
-AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' 
+WHERE izk.iz_koppeling_id IS NOT NULL
+AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}'
 GROUP BY k.id, izk.project_id, k.werkgebied
 ORDER BY p.naam, k.werkgebied";
 
@@ -1418,8 +1368,8 @@ ORDER BY p.naam, k.werkgebied";
         $results = array();
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum
-FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' 
-JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL 
+FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
+JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL
 AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.koppeling_startdatum >= '{$startDate}' AND izk.koppeling_startdatum <= '{$endDate}' GROUP BY k.id ORDER BY p.naam, k.werkgebied, izk.koppeling_startdatum";
 
         $data = $this->query($sql);
@@ -1442,9 +1392,9 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
     {
         $results = array();
 
-        $sql = "select k.werkgebied as Werkgebied, count(*) as Aantal from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id 
-join klanten k on k.id = izd.foreign_key and izd.model = 'Klant' 
-where izd.model = 'Klant' and not isnull(izd.datum_aanmelding) and isnull(i.intake_datum)  
+        $sql = "select k.werkgebied as Werkgebied, count(*) as Aantal from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id
+join klanten k on k.id = izd.foreign_key and izd.model = 'Klant'
+where izd.model = 'Klant' and not isnull(izd.datum_aanmelding) and isnull(i.intake_datum)
 AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDate}'  group by k.werkgebied ";
 
         $data = $this->query($sql);
@@ -1473,9 +1423,9 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     public function K2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
         $results = array();
-        $sql = "select CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, k.werkgebied as Werkgebied, datum_aanmelding from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id 
-join klanten k on k.id = izd.foreign_key and izd.model = 'Klant' 
-where izd.model = 'Klant' and not isnull(izd.datum_aanmelding) and isnull(i.intake_datum)  
+        $sql = "select CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, k.werkgebied as Werkgebied, datum_aanmelding from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id
+join klanten k on k.id = izd.foreign_key and izd.model = 'Klant'
+where izd.model = 'Klant' and not isnull(izd.datum_aanmelding) and isnull(i.intake_datum)
 AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDate}'  order by werkgebied";
 
         $data = $this->query($sql);
@@ -1491,7 +1441,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
                 'data' => array(
                     'Klant' => $k,
                     'datum_aanmelding' => $value['izd']['datum_aanmelding'],
-                 ),
+                ),
             );
             ++$total;
         }
@@ -1501,7 +1451,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
             'data' => array(
                 'Klant' => $total,
                 'datum_aanmelding' => '',
-             ),
+            ),
         );
 
         return $results;
@@ -1510,12 +1460,12 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     {
         $results = array();
 
-        $sql = "select werkgebied as Werkgebied, count(*) as Aantal from 
-			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id from iz_deelnemers izd 
-			left join iz_koppelingen izk on izk.iz_deelnemer_id = izd.id join iz_intakes i on i.iz_deelnemer_id = izd.id 
-			and not isnull(intake_datum) 
-			where izd.datum_aanmelding >= '{$startDate}' and izd.datum_aanmelding <= '{$endDate}' 
-			and model = 'Klant' group by izd.id having isnull(izk.id)) as s 
+        $sql = "select werkgebied as Werkgebied, count(*) as Aantal from
+			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id from iz_deelnemers izd
+			left join iz_koppelingen izk on izk.iz_deelnemer_id = izd.id join iz_intakes i on i.iz_deelnemer_id = izd.id
+			and not isnull(intake_datum)
+			where izd.datum_aanmelding >= '{$startDate}' and izd.datum_aanmelding <= '{$endDate}'
+			and model = 'Klant' group by izd.id having isnull(izk.id)) as s
 			join klanten k on k.id = s.foreign_key and model = 'Klant' group by werkgebied";
 
         $data = $this->query($sql);
@@ -1543,12 +1493,12 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     public function L2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
         $results = array();
-        $sql = "select werkgebied as Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, s.datum_aanmelding, s.intake_datum, s.medewerker_id, CONCAT_WS(' ', m.voornaam, m.tussenvoegsel, m.achternaam)  as medewerker	from 
-			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id, i.intake_datum, i.medewerker_id  from iz_deelnemers izd 
-			left join iz_koppelingen izk on izk.iz_deelnemer_id = izd.id join iz_intakes i on i.iz_deelnemer_id = izd.id 
-			and not isnull(intake_datum) 
-			where izd.datum_aanmelding >= '{$startDate}' and izd.datum_aanmelding <= '{$endDate}' 
-			and model = 'Klant' group by izd.id having isnull(izk.id)) as s 
+        $sql = "select werkgebied as Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, s.datum_aanmelding, s.intake_datum, s.medewerker_id, CONCAT_WS(' ', m.voornaam, m.tussenvoegsel, m.achternaam)  as medewerker	from
+			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id, i.intake_datum, i.medewerker_id  from iz_deelnemers izd
+			left join iz_koppelingen izk on izk.iz_deelnemer_id = izd.id join iz_intakes i on i.iz_deelnemer_id = izd.id
+			and not isnull(intake_datum)
+			where izd.datum_aanmelding >= '{$startDate}' and izd.datum_aanmelding <= '{$endDate}'
+			and model = 'Klant' group by izd.id having isnull(izk.id)) as s
 			join klanten k on k.id = s.foreign_key and model = 'Klant' left join medewerkers m on m.id = s.medewerker_id ";
 
         $data = $this->query($sql);
@@ -1565,7 +1515,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
                     'datum_aanmelding' => $value['s']['datum_aanmelding'],
                     'intake_datum' => $value['s']['intake_datum'],
                     'medewerker' => $value[0]['medewerker'],
-                 ),
+                ),
             );
             ++$total;
         }
@@ -1577,9 +1527,634 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
                 'datum_aanmelding' => '',
                 'intake_datum' => '',
                 'medewerker' => '',
-             ),
+            ),
         );
 
         return $results;
+    }
+
+    public function count_beginstand(DateTime $startDate)
+    {
+        $sql = $this->count(
+            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulp = $this->query($sql);
+
+        $sql = $this->count(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulp, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+    }
+
+    public function count_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count(
+            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulp = $this->query($sql);
+
+        $sql = $this->count(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulp, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+    }
+
+    public function count_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count(
+            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulp = $this->query($sql);
+
+        $sql = $this->count(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulp, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+    }
+
+    public function count_eindstand(DateTime $endDate)
+    {
+        $sql = $this->count(
+            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulp = $this->query($sql);
+
+        $sql = $this->count(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulp, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
+    }
+
+    public function count_per_coordinator_beginstand(DateTime $startDate)
+    {
+        $sql = $this->count_per_coordinator(
+            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpaanbod = $this->query($sql);
+
+        $sql = $this->count_per_coordinator(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+/*
+        SELECT COUNT(DISTINCT v.id) AS aantal, koppeling.medewerker_id, 'met koppeling' AS fase
+        FROM vrijwilligers AS v
+        INNER JOIN iz_deelnemers AS d ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
+        INNER JOIN iz_koppelingen AS koppeling ON koppeling.iz_deelnemer_id = d.id
+        LEFT JOIN medewerkers ON medewerkers.id = koppeling.medewerker_id
+        WHERE koppeling.koppeling_startdatum < '2016-01-01' AND (koppeling.koppeling_einddatum IS NULL OR koppeling.koppeling_einddatum >= '2016-01-01')
+        GROUP BY medewerkers.id
+*/
+
+// 		var_dump($this->find('all', [
+// 			'fields' => [
+// 				'COUNT(DISTINCT IzVrijwilliger.id) AS aantal',
+// 				'IzHulpaanbod.medewerker_id',
+// 			],
+// 			'group' => ['IzHulpaanbod.medewerker_id'],
+// 			'joins' => [
+// 				[
+// 					'table' => 'iz_koppelingen',
+// 					'alias' => 'IzHulpaanbod',
+// 					'type' => 'INNER',
+// 					'conditions' => [
+// 						'IzVrijwilliger.id = IzHulpaanbod.iz_deelnemer_id'
+// 					],
+// 				],
+// 			],
+// 			'conditions' => [
+// 				'IzVrijwilliger.model' => 'Vrijwilliger',
+// 				'IzHulpaanbod.koppeling_startdatum <' => $startDate->format('Y-m-d'),
+// 				'OR' => [
+// 					'IzHulpaanbod.koppeling_einddatum IS NULL',
+// 					'IzHulpaanbod.koppeling_einddatum >=' => $startDate->format('Y-m-d'),
+// 				],
+// 			],
+// 			'recursive' => -1,
+// 		])); die;
+
+        $result = array_merge($metHulpaanbod, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
+    }
+
+    public function count_per_coordinator_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_coordinator(
+            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpaanbod = $this->query($sql);
+
+        $sql = $this->count_per_coordinator(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpaanbod, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
+    }
+
+    public function count_per_coordinator_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_coordinator(
+            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpaanbod = $this->query($sql);
+
+        $sql = $this->count_per_coordinator(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpaanbod, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
+    }
+
+    public function count_per_coordinator_eindstand(DateTime $endDate)
+    {
+        $sql = $this->count_per_coordinator(
+            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpaanbod = $this->query($sql);
+
+        $sql = $this->count_per_coordinator(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpaanbod, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
+    }
+
+    public function count_per_project_beginstand(DateTime $startDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 'p.project';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_project(
+            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_project(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_project_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 'p.project';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_project(
+            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_project(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_project_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 'p.project';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_project(
+            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_project(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_project_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 'p.project';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_project(
+            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_project_eindstand(DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 'p.project';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_project(
+            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_project(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_stadsdeel_beginstand(DateTime $startDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 's.stadsdeel';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_stadsdeel(
+            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_stadsdeel(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 's.stadsdeel';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_stadsdeel(
+            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_stadsdeel(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 's.stadsdeel';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_stadsdeel(
+            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_stadsdeel(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 's.stadsdeel';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_stadsdeel(
+            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_stadsdeel_eindstand(DateTime $endDate)
+    {
+        $xPath = '0.fase';
+        $yPath = 's.stadsdeel';
+        $nPath = '0.aantal';
+
+        $sql = $this->count_per_stadsdeel(
+            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_stadsdeel(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
+    }
+
+    public function count_per_postcodegebied_beginstand(DateTime $startDate)
+    {
+        $sql = $this->count_per_postcodegebied(
+            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_postcodegebied(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+    }
+
+    public function count_per_postcodegebied_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_postcodegebied(
+            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_postcodegebied(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+    }
+
+    public function count_per_postcodegebied_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_postcodegebied(
+            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_postcodegebied(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+    }
+
+    public function count_per_postcodegebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_postcodegebied(
+            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+    }
+
+    public function count_per_postcodegebied_eindstand(DateTime $endDate)
+    {
+        $sql = $this->count_per_postcodegebied(
+            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
+        );
+        $metHulpvraag = $this->query($sql);
+
+        $sql = $this->count_per_postcodegebied(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
+            true
+        );
+        $metKoppeling = $this->query($sql);
+
+        $result = array_merge($metHulpvraag, $metKoppeling);
+
+        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
+    }
+
+    public function count_per_project_stadsdeel_beginstand(DateTime $startDate)
+    {
+        $sql = $this->count_per_project_stadsdeel(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_project_stadsdeel(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_project_stadsdeel(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_project_stadsdeel(
+            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_stadsdeel_eindstand(DateTime $endDate)
+    {
+        $sql = $this->count_per_project_stadsdeel(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_postcodegebied_beginstand(DateTime $startDate)
+    {
+        $sql = $this->count_per_project_postcodegebied(
+            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_postcodegebied_gestart(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_project_postcodegebied(
+            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_postcodegebied_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_project_postcodegebied(
+            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_postcodegebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
+    {
+        $sql = $this->count_per_project_postcodegebied(
+            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+    }
+
+    public function count_per_project_postcodegebied_eindstand(DateTime $endDate)
+    {
+        $sql = $this->count_per_project_postcodegebied(
+            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
+        );
+        $result = $this->query($sql);
+
+        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
+    }
+
+    public function getConditions($condition, DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+    {
+        switch ($condition) {
+            default:
+            case 'gestart':
+                return [
+                    "$startDateField BETWEEN ? AND ?" => [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')],
+// 					'NOT' => [
+// 						"$startDateField <" => $startDate->format('Y-m-d'),
+// 						'OR' => [
+// 							"$endDateField IS NULL",
+// 							"$endDateField >= " => $startDate->format('Y-m-d'),
+// 						],
+// 					],
+                ];
+// 			default:
+// 			case 'beginstand':
+// 				return [
+// 					"$startDateField <" => $startDate->format('Y-m-d'),
+// 					'OR' => [
+// 						"$endDateField IS NULL",
+// 						"$endDateField >= " => $startDate->format('Y-m-d'),
+// 					],
+// 				];
+        }
+    }
+
+    protected function beginstand(DateTime $startDate, $startDateField, $endDateField)
+    {
+        return "WHERE $startDateField < '{$startDate->format('Y-m-d')}'
+			AND ($endDateField IS NULL OR $endDateField >= '{$startDate->format('Y-m-d')}')";
+    }
+
+    protected function gestart(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+    {
+        return "WHERE $startDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+    }
+
+    protected function afgesloten(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+    {
+        return "WHERE $endDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
+    }
+
+    protected function succesvol_afgesloten(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
+    {
+        return $this->afgesloten($startDate, $endDate, $startDateField, $endDateField)
+        .' AND koppeling.koppeling_succesvol = 1';
+    }
+
+    protected function eindstand(DateTime $endDate, $startDateField, $endDateField)
+    {
+        return "WHERE $startDateField <= '{$endDate->format('Y-m-d')}'
+			AND ($endDateField IS NULL OR $endDateField > '{$endDate->format('Y-m-d')}')";
     }
 }

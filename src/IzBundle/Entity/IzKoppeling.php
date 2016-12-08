@@ -53,6 +53,11 @@ abstract class IzKoppeling
     protected $koppelingEinddatum;
 
     /**
+     * @ORM\Column(name="koppeling_succesvol", type="boolean")
+     */
+    protected $koppelingSuccesvol;
+
+    /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
@@ -65,6 +70,13 @@ abstract class IzKoppeling
      * @ORM\JoinColumn(name="project_id", nullable=false)
      */
     protected $izProject;
+
+    /**
+     * @var IzEindeKoppeling
+     * @ORM\ManyToOne(targetEntity="IzEindeKoppeling")
+     * @ORM\JoinColumn(name="iz_eindekoppeling_id")
+     */
+    protected $izEindeKoppeling;
 
     /**
      * @var IzDeelnemer
