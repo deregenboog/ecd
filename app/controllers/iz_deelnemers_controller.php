@@ -1447,7 +1447,7 @@ class IzDeelnemersController extends AppController
 
             if ($this->IzDeelnemer->save($data)) {
 
-                $this->Session->setFlash(__('De IZ aanmelding is opgesloten', true));
+                $this->Session->setFlash(__('Het IZ-dossier is afgesloten', true));
                 $this->redirect(array('action' => 'afsluiting', $id));
 
             } else {
