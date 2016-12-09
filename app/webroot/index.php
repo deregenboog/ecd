@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 require __DIR__.'/../autoload.php';
 include_once __DIR__.'/../bootstrap.php.cache';
 
-$kernel = new AppKernel('prod', true);
+$kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
 $kernel->boot();
 // handle request to make components (i.e. paginator) context aware
