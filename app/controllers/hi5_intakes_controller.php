@@ -77,7 +77,7 @@ class Hi5IntakesController extends AppController
         }
 
         if (!empty($this->data)) {
-            $this->data['Hi5Answer']['Hi5Answer'] = array();
+            $this->data['Hi5Answer']['Hi5Answer'] = [];
             foreach ($this->data['Hi5Answer']['checkbox'] as $k => $v) {
                 if ($v) {
                     $this->data['Hi5Answer']['Hi5Answer'][] = $k;

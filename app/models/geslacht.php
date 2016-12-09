@@ -8,7 +8,7 @@ class Geslacht extends AppModel
 
     public $cachekey = 'GeslachtenList';
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
 

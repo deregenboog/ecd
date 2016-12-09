@@ -12,7 +12,7 @@ class ComponentLoaderComponent extends Object
         $this->controller = &$controller;
     }
 
-    public function load($component_name, $settings = array())
+    public function load($component_name, $settings = [])
     {
         App::import('Component', $component_name);
         $component2 = $component_name.'Component';

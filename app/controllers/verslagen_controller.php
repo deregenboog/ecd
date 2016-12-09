@@ -288,7 +288,7 @@ class VerslagenController extends AppController
             $intaker_id = $this->data['Verslag']['medewerker_id'];
         } else {
             $intaker_id = $this->Session->read('Auth.Medewerker.id');
-            $categories = array();
+            $categories = [];
 
             foreach ($inventarisaties as $catId => $group) {
                 foreach ($group as $key => $inv) {
@@ -302,7 +302,7 @@ class VerslagenController extends AppController
             }
 
             $ivs = $verslag['InventarisatiesVerslagen'];
-            $verslag['InventarisatiesVerslagen'] = array();
+            $verslag['InventarisatiesVerslagen'] = [];
 
             foreach ($ivs as $iv) {
                 $iid = $iv['inventarisatie_id'];
@@ -435,7 +435,7 @@ class VerslagenController extends AppController
             'conditions' => array('Klant.id' => $klantId),
         ));
 
-        $medewerker_ids = array();
+        $medewerker_ids = [];
 
         if (isset($this->data['Verslaginfo']['trajectbegeleider_id'])) {
             $medewerker_ids[] = $this->data['Verslaginfo']['trajectbegeleider_id'];

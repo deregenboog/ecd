@@ -10,7 +10,7 @@ class GroupsController extends AppController
 {
     public $name = 'Groups';
     public $helpers = array('Html', 'Form');
-    public $uses = array();
+    public $uses = [];
 
     public function beforeFilter()
     {
@@ -119,7 +119,7 @@ class GroupsController extends AppController
         if (!Configure::read('debug')) {
             return $this->_stop();
         }
-        $log = array();
+        $log = [];
 
         $aco = &$this->Acl->Aco;
         $root = $aco->node('controllers');
@@ -283,7 +283,7 @@ class GroupsController extends AppController
         // Get the list of plugins
         $Plugins = $folder->read();
         $Plugins = $Plugins[0];
-        $arr = array();
+        $arr = [];
 
         // Loop through the plugins
         foreach ($Plugins as $pluginName) {
@@ -394,7 +394,7 @@ class GroupsController extends AppController
                     ),
             );
 
-        $log = array();
+        $log = [];
 
         // Build first an array of all methods in controllers.
 

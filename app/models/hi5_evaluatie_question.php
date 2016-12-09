@@ -16,7 +16,7 @@ class Hi5EvaluatieQuestion extends AppModel
 
     public function processPostedData($questionData)
     {
-        $return = array();
+        $return = [];
 
         foreach ($questionData as $questionId => $questionAnswers) {
             $item = $questionAnswers;

@@ -54,8 +54,8 @@ class DateHelper extends AppHelper
         $errormsg = '';
 
         /*
-    	 * TODO: this below will have to change when there are more request periods!
-    	*/
+         * TODO: this below will have to change when there are more request periods!
+        */
         $modelName = $items[0];
         $fieldName = $items[count($items) - 1];
 
@@ -415,7 +415,6 @@ class DateHelper extends AppHelper
                             $str .= '0';
                         }
                         $str .= $i.'"';
-                        // debug($default[1]. ' '.$i);
                         if ($default != null && $default != 'empty' && $default[1] == $i) {
                             $str .= ' selected="selected"';
                         }

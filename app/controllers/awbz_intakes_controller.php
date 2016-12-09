@@ -297,7 +297,7 @@ class AwbzIntakesController extends AppController
             return;
         }
 
-        $addresses = array();
+        $addresses = [];
         if ((isset($intake['informele_zorg_ignore']) &&
             !$intake['informele_zorg_ignore'] && $intake['informele_zorg'])
             ||

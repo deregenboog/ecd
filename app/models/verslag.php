@@ -55,7 +55,7 @@ class Verslag extends AppModel
 
     public $contain = array(
         'InventarisatiesVerslagen' => array(
-            'fields' => array(),
+            'fields' => [],
             'Inventarisatie' => array('fields' => array('titel', 'id')),
             'Doorverwijzer' => array('fields' => array('naam')),
         ),
@@ -74,7 +74,7 @@ class Verslag extends AppModel
         ),
     );
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         if (!empty($this->data[$this->alias]['aanpassing_verslag'])) {
             if (empty($this->data[$this->alias]['contactsoort_id']) || $this->data[$this->alias]['contactsoort_id'] != 3) {

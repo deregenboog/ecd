@@ -51,7 +51,7 @@ class IzProject extends AppModel
     public function getProjects()
     {
         $projects = $this->find('all', array(
-            'contain' => array(),
+            'contain' => [],
         ));
 
         return $projects;
@@ -67,7 +67,7 @@ class IzProject extends AppModel
         }
 
         if ($all) {
-            $conditions = array();
+            $conditions = [];
         } else {
             $conditions = array(
                 'OR' => array(

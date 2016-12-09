@@ -11,7 +11,7 @@ class Inventarisatie extends AppModel
      * children are subarrays of the same level
      * $fields - attributes of (children) nodes to be retrieved from DB
     */
-    public function getTree($fields = array())
+    public function getTree($fields = [])
     {
         //default node fields to be read form DB
         if (empty($fields)) {
@@ -25,7 +25,7 @@ class Inventarisatie extends AppModel
             'order' => 'order ASC',
         ));
 
-        $tree = array();
+        $tree = [];
         //for every root collect the children
         foreach ($roots as &$root) {
             $rootId = &$root['Inventarisatie']['id'];

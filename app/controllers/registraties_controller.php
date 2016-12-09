@@ -344,8 +344,8 @@ class RegistratiesController extends AppController
 
     public function setRegistraties($locatie_id, $history_limit = 0)
     {
-        $gebruikersruimte_registraties = array();
-        $active_registraties = array();
+        $gebruikersruimte_registraties = [];
+        $active_registraties = [];
 
         $this->Registratie->getActiveRegistraties(
             $active_registraties,

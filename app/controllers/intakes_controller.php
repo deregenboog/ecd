@@ -110,8 +110,8 @@ class IntakesController extends AppController
         $woonsituaties = $this->Intake->Woonsituatie->find('list');
 
         $locatie1s = $this->Intake->Locatie1->find('list', array('conditions' => array('Locatie1.gebruikersruimte' => 1)));
-        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => array()));
-        $locatie3s = array();
+        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => []));
+        $locatie3s = [];
 
         $inkomens = $this->Intake->Inkomen->find('list');
         $instanties = $this->Intake->Instantie->find('list');
@@ -200,8 +200,8 @@ class IntakesController extends AppController
         $woonsituaties = $this->Intake->Woonsituatie->find('list');
 
         $locatie1s = $this->Intake->Locatie1->find('list', array('conditions' => array('Locatie1.gebruikersruimte' => 1)));
-        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => array()));
-        $locatie3s = array();
+        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => []));
+        $locatie3s = [];
 
         $inkomens = $this->Intake->Inkomen->find('list');
         $instanties = $this->Intake->Instantie->find('list');
@@ -256,7 +256,7 @@ class IntakesController extends AppController
             return;
         }
 
-        $addresses = array();
+        $addresses = [];
         if ((isset($data['Intake']['informele_zorg_ignore']) &&
             !$data['Intake']['informele_zorg_ignore'] && $data['Intake']['informele_zorg'])
             ||

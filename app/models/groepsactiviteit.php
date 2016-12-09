@@ -100,15 +100,15 @@ class Groepsactiviteit extends AppModel
     public function groeps_activiteiten()
     {
         $result = $this->find('all', array(
-            'contain' => array(),
+            'contain' => [],
         ));
 
         return $result;
     }
 
-    public function groeps_activiteiten_list($active_groeps = array())
+    public function groeps_activiteiten_list($active_groeps = [])
     {
-        $result = array();
+        $result = [];
         $data = $this->find('all', array(
                 'contain' => array('GroepsactiviteitenGroep'),
                 'order' => 'GroepsactiviteitenGroep.naam asc, Groepsactiviteit.datum asc',
@@ -116,7 +116,7 @@ class Groepsactiviteit extends AppModel
         ));
         $all = $this->GroepsactiviteitenGroep->get_groepsactiviteiten_list();
         $keys = array_keys($all);
-        $group = array();
+        $group = [];
 
         foreach ($data as $tmp) {
             $date = '';
@@ -143,8 +143,8 @@ class Groepsactiviteit extends AppModel
 
     public function get_personen($data, $only_email = false)
     {
-        $personen = array();
-        $geslachten = array();
+        $personen = [];
+        $geslachten = [];
 
         if (in_array('Klant', $data['Groepsactiviteit']['persoon_model'])) {
             if (!isset($this->Klant)) {

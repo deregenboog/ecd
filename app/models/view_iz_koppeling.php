@@ -155,10 +155,10 @@ class ViewIzKoppeling extends AppModel
 // 			$all[$key][$model] = $this->IzDeelnemer->{$model}->getById($a['IzDeelnemer']['foreign_key']);
 // 		}
 
-// 		$projects = array();
+// 		$projects = [];
 
 // 		foreach ($project_ids as $p_id) {
-// 			$projects[$p_id] = array();
+// 			$projects[$p_id] = [];
 // 		}
 
 // 		foreach ($all as $a) {
@@ -503,8 +503,8 @@ class ViewIzKoppeling extends AppModel
 
 // 	private function getAxisLabels(array $data, $xPath, $yPath)
 // 	{
-// 		$xLabels = array();
-// 		$yLabels = array();
+// 		$xLabels = [];
+// 		$yLabels = [];
 // 		foreach ($data as $row) {
 // 			if ($xPath) {
 // 				$xLabel = Set::classicExtract($row, $xPath);
@@ -523,7 +523,7 @@ class ViewIzKoppeling extends AppModel
 
 // 	private function initializePivotStructure($xLabels, $yLabels)
 // 	{
-// 		$data = array();
+// 		$data = [];
 // 		foreach ($yLabels as $yLabel) {
 // 			foreach ($xLabels as $xLabel) {
 // 				$data[$yLabel][$xLabel] = 0;

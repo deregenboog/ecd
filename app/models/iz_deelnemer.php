@@ -96,7 +96,7 @@ class IzDeelnemer extends AppModel
         ),
     );
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         $data = array($this->alias => $this->data[$this->alias]);
 
@@ -138,7 +138,7 @@ class IzDeelnemer extends AppModel
                     ),
                 ),
             ),
-            'contain' => array(),
+            'contain' => [],
             'fields' => array('id'),
         ));
 
@@ -166,7 +166,7 @@ class IzDeelnemer extends AppModel
     {
         $geslachten = $this->Klant->Geslacht->find('list');
 
-        $personen = array();
+        $personen = [];
         $query = '';
 
         $projectlist = $this->IzDeelnemersIzProject->IzProject->projectLists(true);
@@ -200,7 +200,7 @@ class IzDeelnemer extends AppModel
         foreach ($tmp as $t) {
             $project_ids = explode(',', $t[0]['project_ids']);
 
-            $project_names = array();
+            $project_names = [];
 
             foreach ($project_ids as $project_id) {
                 if (isset($projectlist[$project_id])) {
@@ -318,7 +318,7 @@ class IzDeelnemer extends AppModel
 
     public function getPersonen($params)
     {
-        $personen = array();
+        $personen = [];
 
         $query = '';
         $geslachten = $this->Klant->Geslacht->find('list');
@@ -343,7 +343,7 @@ class IzDeelnemer extends AppModel
 
             foreach ($tmp as $t) {
                 $project_ids = explode(',', $t[0]['project_ids']);
-                $project_names = array();
+                $project_names = [];
                 $found = false;
 
                 foreach ($project_ids as $project_id) {
@@ -501,7 +501,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Aantal nieuwe koppelingen in deze periode',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -551,7 +551,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Aantal actieve unieke klanten in deze periode',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -604,7 +604,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Aantal actieve unieke klanten op einddatum',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -657,7 +657,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Wachtlijst deelnemers op einddatum',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($werkgebieden as $key => $value) {
@@ -710,7 +710,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Wachtlijst vrijwilligers op einddatum',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -763,7 +763,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Gemiddelde wachttijd klant (dagen)',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -826,7 +826,7 @@ class IzDeelnemer extends AppModel
 
     public function aanvullend_contact_html($startDate, $endDate)
     {
-        $results = array();
+        $results = [];
 
         $sql = 'select izc.naam, count(*) as cnt from iz_deelnemers izd '
             .' left join iz_ontstaan_contacten izc on izc.id = contact_ontstaan  '
@@ -856,7 +856,7 @@ class IzDeelnemer extends AppModel
     }
     public function aanvullend_binnengekomen_html($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = 'select izv.naam, count(*) as cnt from iz_deelnemers izd '
             .' left join iz_via_personen izv on izv.id = binnengekomen_via	'
@@ -886,7 +886,7 @@ class IzDeelnemer extends AppModel
 
     public function aanvullend_aanmelding_html($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         foreach ($labels as $key => $value) {
             if (empty($key)) {
@@ -931,8 +931,8 @@ class IzDeelnemer extends AppModel
     }
     public function A1_new_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -995,7 +995,7 @@ ORDER BY p.naam, k.werkgebied";
 
     public function A2_new_per_project_per_werkgebied_totaal($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
@@ -1028,8 +1028,8 @@ join vrijwilligers v on v.id = foreign_key ";
 
     public function B1_stopped_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1087,7 +1087,7 @@ join vrijwilligers v on v.id = foreign_key ";
     }
     public function B2_stopped_per_project_per_werkgebied_totaal($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id , izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
@@ -1121,8 +1121,8 @@ join vrijwilligers v on v.id = foreign_key ";
 
     public function C1_geslaagd_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1180,7 +1180,7 @@ AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 GROUP BY izk.
     }
     public function C2_geslaagd_per_project_per_werkgebied_totaal($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
@@ -1214,8 +1214,8 @@ join vrijwilligers v on v.id = foreign_key ";
 
     public function F1_nieuwe_vrijwilligers_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1276,7 +1276,7 @@ ORDER BY p.naam, k.werkgebied";
 
     public function F2_namen_nieuwe_vrijwilligers_per_project_per_werkgebied($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum
 FROM iz_deelnemers izd JOIN vrijwilligers k ON k.id = izd.foreign_key AND izd.model = 'Vrijwilliger'
@@ -1301,8 +1301,8 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
     }
     public function J1_nieuwe_deelnemers_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1365,7 +1365,7 @@ ORDER BY p.naam, k.werkgebied";
 
     public function J2_namen_nieuwe_deelnemers_per_project_per_werkgebied($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum
 FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
@@ -1390,7 +1390,7 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
     }
     public function K1_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select k.werkgebied as Werkgebied, count(*) as Aantal from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id
 join klanten k on k.id = izd.foreign_key and izd.model = 'Klant'
@@ -1422,7 +1422,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     }
     public function K2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
         $sql = "select CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, k.werkgebied as Werkgebied, datum_aanmelding from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id
 join klanten k on k.id = izd.foreign_key and izd.model = 'Klant'
 where izd.model = 'Klant' and not isnull(izd.datum_aanmelding) and isnull(i.intake_datum)
@@ -1458,7 +1458,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     }
     public function L1_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select werkgebied as Werkgebied, count(*) as Aantal from
 			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id from iz_deelnemers izd
@@ -1492,7 +1492,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     }
     public function L2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
         $sql = "select werkgebied as Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, s.datum_aanmelding, s.intake_datum, s.medewerker_id, CONCAT_WS(' ', m.voornaam, m.tussenvoegsel, m.achternaam)  as medewerker	from
 			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id, i.intake_datum, i.medewerker_id  from iz_deelnemers izd
 			left join iz_koppelingen izk on izk.iz_deelnemer_id = izd.id join iz_intakes i on i.iz_deelnemer_id = izd.id

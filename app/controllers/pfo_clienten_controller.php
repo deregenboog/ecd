@@ -16,8 +16,8 @@ class PfoClientenController extends AppController
             $current_groep = $data['PfoClient']['groep'];
         }
 
-        $groepen = array();
-        $aard_relatie = array();
+        $groepen = [];
+        $aard_relatie = [];
 
         if (empty($id)) {
             $groepen = array('' => '');
@@ -147,7 +147,7 @@ class PfoClientenController extends AppController
                 unset($this->data['PfoClientenSupportgroup']);
             }
 
-            $ids = array();
+            $ids = [];
 
             if (isset($this->data['PfoClientenSupportgroup'])) {
                 foreach ($this->data['PfoClientenSupportgroup'] as $key => $pg) {
@@ -286,9 +286,9 @@ class PfoClientenController extends AppController
                 }
             }
 
-            $contact_momenten = array();
+            $contact_momenten = [];
             foreach ($groepen as $key => $groep) {
-                $contact_momenten[$key] = array();
+                $contact_momenten[$key] = [];
                 $contact_momenten[$key] = $contact_type;
             }
 
@@ -297,7 +297,7 @@ class PfoClientenController extends AppController
                 $count = $c[0]['count'];
 
                 if (!isset($contact_momenten[$groep])) {
-                    $contact_momenten[$groep] = array();
+                    $contact_momenten[$groep] = [];
                     $contact_momenten[$groep] = $contact_type;
                 }
 

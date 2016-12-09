@@ -8,7 +8,7 @@ class Land extends AppModel
 
     public $cachekey = 'LandenList';
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
 

@@ -14,7 +14,7 @@ class AppModel extends Model
             );
 
     public $debug_caching = false;
-    public $beforeSaveData = array();
+    public $beforeSaveData = [];
     public $ignore_caching_for = array('Log');
 
     /*
@@ -42,7 +42,7 @@ class AppModel extends Model
 
     public function check_diff_multi($array1, $array2)
     {
-        $result = array();
+        $result = [];
         foreach ($array1 as $key => $val) {
             if (isset($array2[$key])) {
                 if (is_array($val) && is_array($array2[$key])) {
@@ -82,7 +82,7 @@ class AppModel extends Model
     {
         $result = registry_get('schema', $this->name, true);
         if (!$result) {
-            $result = array();
+            $result = [];
             $schema = $this->schema();
             foreach ($schema as $field => $info) {
                 $result[$field] = null;
@@ -155,7 +155,7 @@ class AppModel extends Model
      */
     public function getAllById($id, $contain = null, $emptyIfNotFound = false, $fromCache = true)
     {
-        $result = array();
+        $result = [];
 
         $hit = $this->getById($id, $fromCache);
 
@@ -181,7 +181,7 @@ class AppModel extends Model
             }
             if (!is_array($branch) && $branch != '*') {
                 $m = $branch;
-                $branch = array();
+                $branch = [];
             }
             if (!empty($relations[$m])) {
                 if (!isset($this->{$m})) {
@@ -211,7 +211,7 @@ class AppModel extends Model
                     if (isset($this->belongsTo[$m])) {
                         $result[$m] = $this->{$m}->getDummy();
                     } else {
-                        $result[$m] = array();
+                        $result[$m] = [];
                     }
                 }
             }
@@ -230,7 +230,7 @@ class AppModel extends Model
      */
     public function completeAllPaginated($paginated, $contain = null)
     {
-        $result = array();
+        $result = [];
         foreach ($paginated as $hit) {
             if (isset($hit[$this->alias]['id'])) {
                 $id = $hit[$this->alias]['id'];
@@ -278,7 +278,7 @@ class AppModel extends Model
                 $ref[$this->alias] = $this->data[$this->alias];
                 $changes = $this->has_this_data_changed($ref, $this->beforeSaveData[$id]);
             }
-            $parents_to_clean = array();
+            $parents_to_clean = [];
             if (!empty($changes)) {
                 foreach ($this->belongsTo as $model => $info) {
                     $fk = $info['foreignKey'];
@@ -322,14 +322,14 @@ class AppModel extends Model
         $result = $this->find('first', array(
                     'conditions' => $conditions,
                 ));
-        $related_ids = array();
+        $related_ids = [];
         if ($this->debug_caching) {
             $this->log(array('conditions' => $conditions, 'result' => $result), 'as_'.$this->name);
         }
 
         if (is_array($result)) {
             foreach ($this->belongsTo as $model => $info) {
-                $related_ids[$model] = array();
+                $related_ids[$model] = [];
                 $fk = $info['foreignKey'];
                 $pk = $this->{$model}->primaryKey;
                 if ($this->debug_caching) {
@@ -371,7 +371,7 @@ class AppModel extends Model
             debug('Empty ID!');
             debug(Debugger::trace());
 
-            return array();
+            return [];
         }
         $key = $this->getCacheKeyRelations($id);
         $result = registry_get('relations', $key, $fromCache);
@@ -386,7 +386,7 @@ class AppModel extends Model
 
         $related_ids = $this->findParentsOfId($id);
 
-        $relations = array();
+        $relations = [];
 
         $relationModels = array_merge($this->hasMany, $this->hasOne);
         foreach ($relationModels as $model => $info) {
@@ -413,7 +413,7 @@ class AppModel extends Model
             if (!empty($ids)) {
                 $ids = array($model => array_keys($ids));
             } else {
-                $ids = array($model => array());
+                $ids = array($model => []);
             }
             $relations = array_merge($relations, $ids);
         }
@@ -459,7 +459,7 @@ class AppModel extends Model
         $this->refreshCachedBelongsToRelations($this->id);
     }
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         $this->debug_caching = Configure::read('debug');
         if (!in_array($this->name, $this->ignore_caching_for)) {
@@ -537,7 +537,7 @@ class AppModel extends Model
 
         $prop = registry_get('computed_properties', $key, $fromCache);
         if (!$prop) {
-            $prop = array();
+            $prop = [];
         }
         $prop[$property] = $value;
         $result = registry_set('computed_properties', $key, $prop, $fromCache);

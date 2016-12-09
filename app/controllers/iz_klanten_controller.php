@@ -42,8 +42,8 @@ class IzKlantenController extends IzDeelnemersController
 
         $now = date('Y-m-d');
         foreach ($klanten as $key => $klant) {
-            $project_ids = array();
-            $medewerker_ids = array();
+            $project_ids = [];
+            $medewerker_ids = [];
 
             if (isset($klant['IzIntake'])) {
                 if (!empty($klant['IzIntake']['medewerker_id'])) {

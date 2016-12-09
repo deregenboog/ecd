@@ -18,7 +18,7 @@ class SqlReportComponent extends Component
      * @param AppController $controller Controller coupled to this component
      * @param array         $settings   Settings for the component
      */
-    public function initialize(&$controller, $settings = array())
+    public function initialize(&$controller, $settings = [])
     {
         $this->controller = $controller;
     }
@@ -30,14 +30,14 @@ class SqlReportComponent extends Component
      */
     private function _readManagementReportConfig($file)
     {
-        $reports = array();
+        $reports = [];
         $fieldProperties = array('name', 'label', 'helper', 'function');
         $queries = simplexml_load_file(APP.'/config/'.$file.'.xml');
         foreach ($queries as $query) {
             $head = $query->head->__toString();
-            $fields = array();
+            $fields = [];
             foreach ($query->fields->field as $field) {
-                $fld = array();
+                $fld = [];
                 foreach ($fieldProperties as $fieldName) {
                     if ($field[$fieldName]) {
                         $fld[$fieldName] = $field[$fieldName]->__toString();

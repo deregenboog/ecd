@@ -42,7 +42,7 @@ class GroepsactiviteitenReden extends AppModel
         ),
     );
 
-    public function save($data = null, $validate = true, $fieldList = array())
+    public function save($data = null, $validate = true, $fieldList = [])
     {
         Cache::delete($this->list_cache_key);
 
@@ -59,7 +59,7 @@ class GroepsactiviteitenReden extends AppModel
 
         $this->recursive = -1;
         $groepsactiviteiten_reden = $this->find('all', array(
-                'contain' => array(), // seems not te be working...
+                'contain' => [], // seems not te be working...
         ));
         Cache::write($this->list_cache_key, $groepsactiviteiten_reden);
 
@@ -70,7 +70,7 @@ class GroepsactiviteitenReden extends AppModel
     {
         $groepsactiviteiten_reden = $this->get_groepsactiviteiten_reden();
 
-        $groepsactiviteiten_reden_list = array();
+        $groepsactiviteiten_reden_list = [];
         foreach ($groepsactiviteiten_reden as $r) {
             $groepsactiviteiten_reden_list[$r['GroepsactiviteitenReden']['id']] = $r['GroepsactiviteitenReden']['naam'];
         }

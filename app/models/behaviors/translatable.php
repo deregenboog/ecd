@@ -3,13 +3,13 @@
 /** Translate validation rule messages, and other stuff. */
 class TranslatableBehavior extends ModelBehavior
 {
-    public $settings = array();
-    public $defaults = array();
+    public $settings = [];
+    public $defaults = [];
 
-    public function setup(&$Model, $config = array())
+    public function setup(&$Model, $config = [])
     {
         if (!is_array($config)) {
-            $config = array();
+            $config = [];
         }
         $this->settings[$Model->alias] = array_merge($this->defaults, $config);
 

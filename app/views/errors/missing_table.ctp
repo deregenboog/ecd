@@ -19,27 +19,26 @@
 ?>
 <h2><?php __('Missing Database Table'); ?></h2>
 <p class="error">
-				<strong><?php __('Error'); ?>: </strong>
-				<?php printf(__('Database table %1$s for model %2$s was not found.', true), '<em>'.$table.'</em>',	'<em>'.$model.'</em>'); ?>
+                <strong><?php __('Error'); ?>: </strong>
+                <?php printf(__('Database table %1$s for model %2$s was not found.', true), '<em>'.$table.'</em>',	'<em>'.$model.'</em>'); ?>
 </p>
 <p class="notice">
-				<strong><?php __('Notice'); ?>: </strong>
-	<?php
-	$fixture = Inflector::singularize($table);
-	$fixture_alias = 'app.'.$fixture;
-	$fixture_file = APP.'tests'.DS.'fixtures'.DS.$fixture.'_fixture.php';
-	// debug($fixture_file);
-	$exists = file_exists($fixture_file);
-	debug(Debugger::trace());
+                <strong><?php __('Notice'); ?>: </strong>
+    <?php
+    $fixture = Inflector::singularize($table);
+    $fixture_alias = 'app.'.$fixture;
+    $fixture_file = APP.'tests'.DS.'fixtures'.DS.$fixture.'_fixture.php';
+    $exists = file_exists($fixture_file);
+    debug(Debugger::trace());
 
-	if ($exists) {
-		echo 'Testing? Try using the fixture '.$fixture_file.' by including it as \''.$fixture_alias.'\',';
-	} else {
-		echo 'Testing? Try creating the fixture '.$fixture_file.' and including it as \''.$fixture_alias.'\',';
-	}
-	echo '<br/><br/>Handling plurals can be tricky, make sure the fixture declares var $table = \''.$table.'\' and var $import = array ( \'table\' => \''.$table.'\' )';
+    if ($exists) {
+        echo 'Testing? Try using the fixture '.$fixture_file.' by including it as \''.$fixture_alias.'\',';
+    } else {
+        echo 'Testing? Try creating the fixture '.$fixture_file.' and including it as \''.$fixture_alias.'\',';
+    }
+    echo '<br/><br/>Handling plurals can be tricky, make sure the fixture declares var $table = \''.$table.'\' and var $import = array ( \'table\' => \''.$table.'\' )';
 
-		echo '<br/><br/>Developing? Try updating your database by running LAUNCH_ME_to_update_DB.sh';
+        echo '<br/><br/>Developing? Try updating your database by running LAUNCH_ME_to_update_DB.sh';
 
-		?>
+        ?>
 </p>

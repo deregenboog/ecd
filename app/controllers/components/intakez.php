@@ -4,7 +4,7 @@ class IntakezComponent extends Object
 {
     public $module = null;
 
-    public function initialize(&$controller, $settings = array())
+    public function initialize(&$controller, $settings = [])
     {
         $defaults = array(
             'module' => 'Registratie',
@@ -244,7 +244,7 @@ class IntakezComponent extends Object
         }
 
         //checking which addresses we should sent the mails to
-        $addresses = array();
+        $addresses = [];
         if ((isset($intake['informele_zorg_ignore']) &&
             !$intake['informele_zorg_ignore'] && $intake['informele_zorg'])
             ||
@@ -324,7 +324,7 @@ class IntakezComponent extends Object
             if (!empty($last_same_type_intake)) {
                 $this->c->data = &$last_same_type_intake;
             } else {
-                $this->c->data = array('Intake' => array());
+                $this->c->data = array('Intake' => []);
             }
 
             foreach (array('postadres', 'postcode', 'woonplaats',

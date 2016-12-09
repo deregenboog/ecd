@@ -18,7 +18,7 @@ class IzVerslagenController extends AppController
         $foreign_key = $iz_deelnemer['IzDeelnemer']['foreign_key'];
 
         if (!empty($this->data)) {
-            $verslag = array();
+            $verslag = [];
 
             if (!empty($this->data['IzVerslag']['id'])) {
                 $iz_k_id = $this->data['IzVerslag']['iz_koppeling_id'];

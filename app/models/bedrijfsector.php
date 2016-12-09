@@ -24,7 +24,7 @@ class Bedrijfsector extends AppModel
     public function getNestedSectors()
     {
         $list = $this->find('list');
-        $nestedList = array();
+        $nestedList = [];
 
         foreach ($list as $key => $value) {
             $nestedList[$key] = $this->Bedrijfitem->find('list', array(

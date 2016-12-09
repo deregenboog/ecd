@@ -7,7 +7,7 @@ class PfoAardRelatie extends AppModel
 
     public function get_list($current_id = null)
     {
-        $dr = array();
+        $dr = [];
         $all = $this->find('all', array(
         ));
         $now = time();

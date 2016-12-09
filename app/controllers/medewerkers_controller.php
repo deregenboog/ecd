@@ -176,9 +176,9 @@ class MedewerkersController extends AppController
        } elseif ($type == 'auto') {
            $types = array($type);
        } else {
-           $types = array();
+           $types = [];
        }
-       $messages = array();
+       $messages = [];
 
        foreach ($types as $type) {
            switch ($type) {

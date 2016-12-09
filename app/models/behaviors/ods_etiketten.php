@@ -7,14 +7,14 @@ function OdsWarningHandler($errno, $errstr, $errfile, $errline)
 
 class OdsEtikettenBehavior extends ModelBehavior
 {
-    public $settings = array();
+    public $settings = [];
     public $model = null;
-    public $_defaults = array();
+    public $_defaults = [];
 
     public $template_dir = null;
     public $template_name = null;
 
-    public $errors = array();
+    public $errors = [];
     public $error = null;
 
     public function setup(&$model, $config)
@@ -100,7 +100,7 @@ class OdsEtikettenBehavior extends ModelBehavior
 
     public function setOdsEtikettenTemplate(&$model, $template = 'etiketten')
     {
-        $this->errors = array();
+        $this->errors = [];
 
         $this->zip = null;
         $this->doc = null;

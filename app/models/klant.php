@@ -448,9 +448,9 @@ class Klant extends AppModel
                             'naam',
                     ),
             ),
-            'BackOnTrack' => array(),
-            'Intake' => array(),
-            'Document' => array(),
+            'BackOnTrack' => [],
+            'Intake' => [],
+            'Document' => [],
     );
 
     public $deduplicationMethods = array(
@@ -460,7 +460,7 @@ class Klant extends AppModel
             'relaxed_surname' => 'Surname like first name',
     );
 
-    public function beforeValidate($options = array())
+    public function beforeValidate($options = [])
     {
         if (empty($this->data['Klant']['voornaam']) && empty($this->data['Klant']['roepnaam'])) {
             $this->invalidate('roepnaam', 'Voer de roep- of voornaam in');
@@ -471,13 +471,13 @@ class Klant extends AppModel
         }
     }
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         if (!$this->id && empty($this->data['Klant']['id'])) {
             $this->send_admin_email = true;
             $this->changes = $this->data;
             if (isset($this->data['Klant'])) {
-                $this->changes = array();
+                $this->changes = [];
                 foreach ($this->watchfields as $watch) {
                     if (isset($this->data['Klant'][$watch])) {
                         $this->changes[$watch] = $this->data['Klant'][$watch];
@@ -491,7 +491,7 @@ class Klant extends AppModel
                 $compare = $this->data['Klant'];
             }
             $this->send_admin_email = false;
-            $this->changes = array();
+            $this->changes = [];
             foreach ($this->watchfields as $watch) {
                 if (!isset($current[$watch]) || !isset($compare[$watch])) {
                     continue;
@@ -604,7 +604,7 @@ class Klant extends AppModel
         return $return;
     }
 
-    public function OFF_paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array())
+    public function OFF_paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = [])
     {
         if (!is_array($order) || empty($order)) {
             $order = array(
@@ -958,8 +958,8 @@ class Klant extends AppModel
 
         }
 
-        $this->sets = array();
-        $this->setIndexes = array();
+        $this->sets = [];
+        $this->setIndexes = [];
 
         foreach ($pairs as $p) {
             $id1 = $p['k1']['id1'];
@@ -1014,7 +1014,7 @@ class Klant extends AppModel
     public function moveAssociations($newId, $oldIds)
     {
         $associations = array_merge($this->hasOne, $this->hasMany);
-        $result = array();
+        $result = [];
         foreach ($associations as $aName => $assoc) {
             $fields = array($assoc['foreignKey'] => $newId);
             $conditions = array($assoc['foreignKey'] => $oldIds);
@@ -1042,7 +1042,7 @@ class Klant extends AppModel
     }
     public function get_selectie($data, $only_email = false)
     {
-        $conditions = array();
+        $conditions = [];
 
         if (!empty($data['Groepsactiviteit']['werkgebieden'])) {
             $conditions['Klant.werkgebied'] = $data['Groepsactiviteit']['werkgebieden'];
@@ -1064,7 +1064,7 @@ class Klant extends AppModel
         }
 
         if (!empty($data['Groepsactiviteit']['communicatie_type'])) {
-            $or = array();
+            $or = [];
             if (in_array('communicatie_email', $data['Groepsactiviteit']['communicatie_type'])) {
                 $or['GroepsactiviteitenGroepenKlant.communicatie_email'] = 1;
             }
@@ -1084,7 +1084,7 @@ class Klant extends AppModel
 
         $contain = array('GroepsactiviteitenIntake');
 
-        $joins = array();
+        $joins = [];
         $joins[] = array(
             'table' => $join_table,
             'alias' => 'GroepsactiviteitenGroepenKlant',
@@ -1136,9 +1136,9 @@ class Klant extends AppModel
         }
         $klant = $this->getAllById($id);
         if (empty($klant)) {
-            return array();
+            return [];
         }
-        $diensten = array();
+        $diensten = [];
         if (!empty($klant['GroepsactiviteitenIntake'])) {
             $diensten[] = array(
                 'name' => 'GA',

@@ -73,7 +73,7 @@ class IzDeelnemersController extends AppController
 
         $iz_intake = $this->IzDeelnemer->IzIntake->find('first', array(
                 'conditions' => array('iz_deelnemer_id' => $id),
-                'contain' => array(),
+                'contain' => [],
 
         ));
 
@@ -89,7 +89,7 @@ class IzDeelnemersController extends AppController
 
         $werkgebieden = Configure::read('Werkgebieden');
 
-        $persoon['IzDeelnemer']['IzDeelnemerDocument'] = array();
+        $persoon['IzDeelnemer']['IzDeelnemerDocument'] = [];
 
         if (!empty($iz_deelnemer['IzDeelnemerDocument'])) {
             $persoon['IzDeelnemer']['IzDeelnemerDocument'] = $iz_deelnemer['IzDeelnemerDocument'];
@@ -240,8 +240,8 @@ class IzDeelnemersController extends AppController
         $projectlists = ['' => ''] + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(false);
 
         foreach ($personen as $key => $persoon) {
-            $project_ids = array();
-            $medewerker_ids = array();
+            $project_ids = [];
+            $medewerker_ids = [];
 
             if (isset($persoon['IzDeelnemer']['IzIntake'])) {
                 if (!empty($persoon['IzDeelnemer']['IzIntake']['medewerker_id'])) {
@@ -310,7 +310,7 @@ class IzDeelnemersController extends AppController
             $direction = $this->passedArgs['direction'];
         }
 
-        $filter = array();
+        $filter = [];
 
         if (!empty($this->data)) {
             $filter = $this->data;
@@ -384,7 +384,7 @@ class IzDeelnemersController extends AppController
             $where .= '  isnull(kk.iz_eindekoppeling_id) and isnull(kk.koppeling_einddatum)  ';
         }
 
-        $joins = array();
+        $joins = [];
 
         $table = "select iv.model as vmodel, iv.foreign_key as vforeign_key,
                 v.voornaam as voornaam,
@@ -477,7 +477,7 @@ class IzDeelnemersController extends AppController
                 'model' => $persoon_model,
                 'foreign_key' => $foreign_key,
             ),
-            'contain' => array(),
+            'contain' => [],
             'fields' => array('id'),
         ));
 
@@ -560,7 +560,7 @@ class IzDeelnemersController extends AppController
                         'foreign_key' => $foreign_key,
                     ),
                     'fields' => array('id'),
-                    'contain' => array(),
+                    'contain' => [],
                 ));
 
                 if (!empty($iz)) {
@@ -575,7 +575,7 @@ class IzDeelnemersController extends AppController
             }
         }
 
-        $diensten = array();
+        $diensten = [];
 
         if ($persoon_model == 'Klant') {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
@@ -615,7 +615,7 @@ class IzDeelnemersController extends AppController
 
         $iz_intake = $this->IzDeelnemer->IzIntake->find('first', array(
                 'conditions' => array('iz_deelnemer_id' => $id),
-                'contain' => array(),
+                'contain' => [],
 
         ));
 
@@ -663,7 +663,7 @@ class IzDeelnemersController extends AppController
         } else {
             $this->data = $iz_intake;
 
-            $this->data['ZrmReport'] = array();
+            $this->data['ZrmReport'] = [];
 
             if (!empty($iz_intake)) {
                 $zrm = $this->ZrmReport->get_zrm_report('IzIntake',
@@ -682,7 +682,7 @@ class IzDeelnemersController extends AppController
 
         $zrm_data = $this->ZrmReport->zrm_data();
 
-        $diensten = array();
+        $diensten = [];
 
         if ($persoon_model == 'Klant') {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
@@ -722,11 +722,11 @@ class IzDeelnemersController extends AppController
 
         $verslagen = $this->IzDeelnemer->IzVerslag->find('all', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
             'order' => 'created DESC',
         ));
 
-        $diensten = array();
+        $diensten = [];
         if ($persoon_model == 'Klant') {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
         }
@@ -764,14 +764,14 @@ class IzDeelnemersController extends AppController
             $this->redirect('/');
         }
 
-        $iz_koppeling_gekoppeld = array();
+        $iz_koppeling_gekoppeld = [];
         $iz_koppeling = $iz_deelnemer['IzKoppeling'][array_search($iz_koppeling_id, $iz_koppeling_ids)];
         $iz_koppeling_gekoppelde_id = $iz_koppeling['iz_koppeling_id'];
 
         $other_model = null;
         $other_id = null;
 
-        $other_persoon = array();
+        $other_persoon = [];
 
         $conditions = array(
             'IzVerslag.iz_koppeling_id' => $iz_koppeling_id,
@@ -792,7 +792,7 @@ class IzDeelnemersController extends AppController
             $iz_koppeling_gekoppeld = $this->IzDeelnemer->IzKoppeling->getAllById($iz_koppeling_gekoppelde_id, array('IzDeelnemer'));
             $other_model = $iz_koppeling_gekoppeld['IzDeelnemer']['model'];
             $other_id = $iz_koppeling_gekoppeld['IzDeelnemer']['foreign_key'];
-            $other_persoon = array();
+            $other_persoon = [];
             if (!empty($other_id)) {
                 if ($other_model == 'Klant') {
                     $other_persoon = $this->IzDeelnemer->Klant->getById($other_id);
@@ -805,11 +805,11 @@ class IzDeelnemersController extends AppController
 
         $verslagen = $this->IzDeelnemer->IzVerslag->find('all', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
             'order' => 'created DESC',
         ));
 
-        $diensten = array();
+        $diensten = [];
 
         if ($persoon_model == 'Klant') {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
@@ -848,7 +848,7 @@ class IzDeelnemersController extends AppController
 
         if (!empty($this->data)) {
             $this->data['IzKoppeling']['id'] = $iz_koppeling_id;
-            $data2 = array();
+            $data2 = [];
 
             if (!empty($iz_koppeling['iz_koppeling_id'])) {
                 $data2 = array(
@@ -924,7 +924,7 @@ class IzDeelnemersController extends AppController
         if (!empty($iz_koppeling_id)) {
             $this->IzDeelnemer->begin();
 
-            $data2 = array();
+            $data2 = [];
 
             $data = array(
                 'IzKoppeling' => array(
@@ -1082,9 +1082,9 @@ class IzDeelnemersController extends AppController
              ),
         ));
 
-        $usedprojects = array();
-        $requestedprojects = array();
-        $activeprojects = array();
+        $usedprojects = [];
+        $requestedprojects = [];
+        $activeprojects = [];
 
         $now = strtotime(date('Y-m-d'));
 
@@ -1126,7 +1126,7 @@ class IzDeelnemersController extends AppController
 
         $activeprojects = $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(false);
         $projects = $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(true);
-        $selectableprojects = array();
+        $selectableprojects = [];
 
         foreach ($activeprojects as $key => $project) {
             if ($key == '') {
@@ -1144,7 +1144,7 @@ class IzDeelnemersController extends AppController
 
         foreach ($koppelingen as $key => $koppeling) {
             if ($koppelingen[$key]['IzKoppeling']['section'] != 0) {
-                $koppelingen[$key]['iz_koppeling_id'] = array();
+                $koppelingen[$key]['iz_koppeling_id'] = [];
                 continue;
             }
 
@@ -1156,7 +1156,7 @@ class IzDeelnemersController extends AppController
         $iz_vraagaanboden = $this->IzDeelnemer->IzKoppeling->IzVraagaanbod->vraagaanbodList();
 
         $activeprojects = array('' => '') + $activeprojects;
-        $diensten = array();
+        $diensten = [];
 
         if ($persoon_model == 'Klant') {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
@@ -1293,7 +1293,7 @@ class IzDeelnemersController extends AppController
             $this->redirect('/');
         }
 
-        $this->IzDeelnemer->validate = array();
+        $this->IzDeelnemer->validate = [];
 
         if (!$this->IzDeelnemer->save($data)) {
             debug($this->IzDeelnemer->validationErrors);
@@ -1341,7 +1341,7 @@ class IzDeelnemersController extends AppController
 
         $ga = $this->GroepsactiviteitenGroepenKlant->find('first', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
         ));
 
         $eropuit = false;
@@ -1356,7 +1356,7 @@ class IzDeelnemersController extends AppController
 
         $has_active_koppelingen = $this->IzDeelnemer->hasActiveKoppelingen($id);
 
-        $diensten = array();
+        $diensten = [];
 
         if ($this->data['IzDeelnemer']['model'] == 'Klant') {
             $diensten = $this->IzDeelnemer->Klant->diensten($this->data['IzDeelnemer']['foreign_key']);
@@ -1427,7 +1427,7 @@ class IzDeelnemersController extends AppController
         }
 
         $intervisiegroepenlists = $this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->IzIntervisiegroep->intervisiegroepenLists();
-        $diensten = array();
+        $diensten = [];
         $this->set('diensten', $diensten);
 
         $this->set(compact('intervisiegroepenlists'));
@@ -1713,7 +1713,7 @@ class IzDeelnemersController extends AppController
 
     public function intervisiegroepen()
     {
-        $personen = array();
+        $personen = [];
         $projectlists = $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists();
         $intervisiegroepenlists = $this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->IzIntervisiegroep->intervisiegroepenLists();
 
@@ -1737,7 +1737,7 @@ class IzDeelnemersController extends AppController
                     $this->set('personen', $personen);
                     $this->render('selecties_excel');
                 } elseif ($this->data['IzDeelnemer']['export'] == 'etiket') {
-                    $data = array();
+                    $data = [];
 
                     foreach ($personen as $persoon) {
                         $data[] = array(
@@ -1787,7 +1787,7 @@ class IzDeelnemersController extends AppController
             }
         }
 
-        $diensten = array();
+        $diensten = [];
 
         $this->set(compact('intervisiegroepenlists', 'personen', 'projectlists', 'intervisiegroepenlists'));
     }

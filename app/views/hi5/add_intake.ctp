@@ -237,9 +237,7 @@
         <fieldset id="survey">
         <?php
         $question_cnt = 0;
-        // debug($hi5Questions);
         $values = $this->Form->value('Hi5Answer.Hi5Answer');
-        // debug($values);
         $selected = array();
         if (!empty($values)) {
             foreach ($values as $v) {
@@ -261,8 +259,6 @@
             echo $questionDetails['question']."<br/>";
             if (isset($questionDetails['answers'])) {
                 foreach ($questionDetails['answers'] as $questionType => $questionTypeDetails) {
-                    // debug($questionDetails);
-                    // debug($questionTypeDetails);
                     switch ($questionType) {
                         case 'checkbox':
                             foreach ($questionTypeDetails as $ans_id => $answer) {

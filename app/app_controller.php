@@ -46,10 +46,10 @@ class AppController extends Controller
     public $components = array('Session', 'AuthExt', 'RequestHandler', 'DebugKit.Toolbar');
 
     /**
-     * user groups for the current logged in user.
+     * User groups for the current logged in user.
      * @var array
      */
-    public $userGroups = array();
+    public $userGroups = [];
 
     /*
      * List of controllers belonging to menu items
@@ -64,19 +64,19 @@ class AppController extends Controller
         'Awbz' => array('Awbz'),
         'PfoClienten' => array('PfoClienten', 'PfoAardRelaties', 'PfoGroepen', 'PfoClientenVerslagen', 'PfoVerslagen'),
         'BackOnTrack' => array('BackOnTrack', 'BotKoppelingen', 'BotVerslagen'),
-		'IzDeelnemers' => array(
-			'IzDeelnemers',
-			'IzProjecten',
-			'IzIntervisiegroepen',
-			'IzVerslagen',
-			'IzKoppelingen',
-			'IzEindekoppelingen',
-			'IzAfsluitingen',
-			'IzVraagaanboden',
-			'IzOntstaanContacten',
-			'IzViaPersonen',
-			'IzRapportages',
-		),
+        'IzDeelnemers' => array(
+            'IzDeelnemers',
+            'IzProjecten',
+            'IzIntervisiegroepen',
+            'IzVerslagen',
+            'IzKoppelingen',
+            'IzEindekoppelingen',
+            'IzAfsluitingen',
+            'IzVraagaanboden',
+            'IzOntstaanContacten',
+            'IzViaPersonen',
+            'IzRapportages',
+        ),
         'Groepsactiviteiten' => array('Groepsactiviteiten', 'GroepsactiviteitenGroepen', 'GroepsactiviteitenRedenen',
             'GroepsactiviteitenIntakes', 'GroepsactiviteitenVerslagen', ),
         'Admin' => array('Admin', 'ZrmSettings'),
@@ -97,49 +97,43 @@ class AppController extends Controller
         }
     }
 
-    /** Check if a controller is accesible by the current user, based on the
+    /**
+     * Check if a controller is accesible by the current user, based on the
      * groups it belongs to. The list of controllers accessible per group are
-     * defined at config/core.php, in the array ACL.permissions. 
+     * defined at config/core.php, in the array ACL.permissions.
      *
      * @param String $controller The controller name
      */
-
     public function _isControllerAuthorized ($controller)
     {
-        $s_user = $this->Session->read('is_superuser');
-
-        if ($s_user) {
+        if ($this->Session->read('is_superuser')) {
             return true;
         }
 
-        $allow = false;
-
-        $enable = Configure::read('ACL.permissions');
-
-        foreach ($this->userGroups as $gid => $g_name) {
-            if (!isset($enable[$gid])) {
-                // Don't know anything about this group
-                // debug("Don't know about $gid");
+        $permissions = Configure::read('ACL.permissions');
+        foreach (array_keys($this->userGroups) as $gid) {
+            if (!isset($permissions[$gid])) {
+                // abstain from voting
                 continue;
             }
-            if (in_array($controller, $enable[$gid])
-                || in_array("*", $enable[$gid])) {
-                // Users in this group can use this controller.
-                // debug("$controller is for $gid");
-                $allow = true;
-                break;
-            } else {
-                // debug("$controller is NOT for $gid");
+            if (in_array($controller, $permissions[$gid])
+                || in_array('*', $permissions[$gid])
+            ) {
+                // access allowed
+                return true;
             }
         }
 
-        return $allow;
+        // access denied by default
+        return false;
     }
 
-    /** Get a parameter's value from somewhere of the parameters attribute, by
+    /**
+     * Get a parameter's value from somewhere of the parameters attribute, by
      * using a predefined order. A position can be specified, if the parameter
      * may show up in the GET URL at a certain position. If it is not found,
-     * return null */
+     * return null
+     */
     public function getParam($full_name, $position = -1, $default = null)
     {
         $p = &$this->params;
@@ -192,19 +186,18 @@ class AppController extends Controller
 
     public function isAuthorized()
     {
-        //ts('isAuthorized');
         $allow = $this->_isControllerAuthorized($this->name);
         if (!$allow) {
             $this->Session->setFlash("{$this->name}: toegang geweigerd");
         }
-        //ts('isAuthorized end');
+
         return $allow;
     }
 
     /**
      * forAdminOnly If you are not admin, redirect. For quick access handling
      * in actions.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -232,16 +225,15 @@ class AppController extends Controller
 
         $medewerkers=array('' => '');
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
-        //debug($medewerkers);
         $this->set('medewerkers', $medewerkers);
 
-	return $medewerkers;
+        return $medewerkers;
     }
 
     /**
      * flash Wrapper for Session-flash. See flashError, it is used more.
-     * 
-     * @param mixed $msg 
+     *
+     * @param mixed $msg
      * @access public
      * @return void
      */
@@ -252,8 +244,8 @@ class AppController extends Controller
 
     /**
      * flashError Wrapper for Session-flash, using error message CSS styling.
-     * 
-     * @param mixed $msg 
+     *
+     * @param mixed $msg
      * @access public
      * @return void
      */
@@ -276,7 +268,6 @@ class AppController extends Controller
 
         // By authorizing controller and not actions, we can get rid of ACL and
         // keep things simple. See isAuthorized() above.
-        //ts('beforeFilter');
         $this->AuthExt->authorize = 'controller';
         $this->AuthExt->autoRedirect = false;
         $this->AuthExt->actionPath = 'controllers/';
@@ -298,7 +289,7 @@ class AppController extends Controller
             $this->userGroups = array_flip($user_groups);
             $this->set('userGroups', $this->userGroups);
         } else {
-            $this->set('userGroups', array());
+            $this->set('userGroups', []);
         }
 
         if (Configure::read("ACL.disabled") && Configure::read('debug')) {
@@ -380,8 +371,6 @@ class AppController extends Controller
         $this->user_is_administrator = $is_admin;
         $this->set('user_is_administrator', $is_admin);
         $this->set('htmlBodyId', Inflector::variable($this->name.'_'.$this->action));
-
-        //ts('beforeFilter end');
     }
 
     /**
@@ -389,8 +378,6 @@ class AppController extends Controller
     */
     public function beforeRender()
     {
-
-        //ts('beforeRender');
         if (isset($this->data['Medewerker']['password'])) {
             unset($this->data['Medewerker']['password']);
         }
@@ -400,7 +387,7 @@ class AppController extends Controller
 
         $menu_elements = Configure::read('all_menu_items');
 
-        $menu_allowed = array();
+        $menu_allowed = [];
 
         foreach ($menu_elements as $controller => $text) {
             if ($this->_isControllerAuthorized($controller)) {
@@ -423,13 +410,6 @@ class AppController extends Controller
                 }
             }
         }
-
-        //ts('beforeRender end');
-    }
-
-    public function afterFilter()
-    {
-        //ts($this->name . " " . $this->action . " afterFilter");
     }
 
     /*
@@ -475,9 +455,9 @@ class AppController extends Controller
         $defaults = array(
             'template' => 'default',
             'from_id' => null,
-            'to' => array(),
-            'cc' => array(),
-            'bcc' => array(),
+            'to' => [],
+            'cc' => [],
+            'bcc' => [],
             'message_id' => "",
             'summary' => "",
             'error' => null,
@@ -508,7 +488,7 @@ class AppController extends Controller
         $this->Email->bcc = $params['bcc'];
 
         $result = true;
-        $sent = array();
+        $sent = [];
 
         foreach ($params['to'] as $user_id => $to) {
             $this->Email->to = $to;
@@ -656,7 +636,7 @@ class AppController extends Controller
      *
      * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException if any given option is not applicable to the given type
      */
-    protected function createForm($type, $data = null, array $options = array())
+    protected function createForm($type, $data = null, array $options = [])
     {
         return $this->getFormFactory()->create($type, $data, $options);
     }

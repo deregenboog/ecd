@@ -90,7 +90,7 @@ class Locatie extends AppModel
         return $unregister;
     }
 
-    public function locaties($conditions = array())
+    public function locaties($conditions = [])
     {
         $cachekey = 'Locatie.all';
 

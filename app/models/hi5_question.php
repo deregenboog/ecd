@@ -23,7 +23,7 @@ class Hi5Question extends AppModel
                 'order' => 'order ASC',
         ));
 
-        $questionResult = array();
+        $questionResult = [];
 
         foreach ($questionList as $questionDetails) {
             $questionId = $questionDetails['Hi5Question']['id'];

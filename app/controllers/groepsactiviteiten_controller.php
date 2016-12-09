@@ -260,7 +260,7 @@ class GroepsactiviteitenController extends AppController
                 'groepsactiviteiten_reden_id' => null,
             ),
         );
-        $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->validate = array();
+        $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->validate = [];
         if (!$this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->save($data)) {
             $validation_error = true;
         }
@@ -286,7 +286,7 @@ class GroepsactiviteitenController extends AppController
             $this->redirect('/');
         }
 
-        $this->GroepsactiviteitenIntake->validate = array();
+        $this->GroepsactiviteitenIntake->validate = [];
 
         if (!$this->GroepsactiviteitenIntake->save($data)) {
             $this->Session->setFlash(__('Error opnieuw_aanmelden', true));
@@ -321,7 +321,7 @@ class GroepsactiviteitenController extends AppController
 
         $persoon = $this->{$persoon_model}->getAllById($id);
 
-        $diensten = array();
+        $diensten = [];
         if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon);
         }
@@ -366,7 +366,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         $persoon = $this->{$persoon_model}->getAllById($id);
-        $diensten = array();
+        $diensten = [];
         if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon);
         }
@@ -426,7 +426,7 @@ class GroepsactiviteitenController extends AppController
 
         $persoon = $this->{$persoon_model}->getAllById($foreign_key);
 
-        $diensten = array();
+        $diensten = [];
         if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon);
         }
@@ -501,7 +501,7 @@ class GroepsactiviteitenController extends AppController
 
         $persoon_id = $id;
         $groepsactiviteiten_redenen = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->GroepsactiviteitenReden->find('list', array(
-                'contain' => array(),
+                'contain' => [],
         ));
 
         $groepsactiviteit = $this->data[$persoon_groepsactiviteiten_groepen];
@@ -563,7 +563,7 @@ class GroepsactiviteitenController extends AppController
 
         $vrijwilliger = $this->{$persoon_model}->read(null, $id);
 
-        $diensten = array();
+        $diensten = [];
 
         if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon);
@@ -638,7 +638,7 @@ class GroepsactiviteitenController extends AppController
         $a = Set::ClassicExtract($active_groeps, '{n}.groepsactiviteiten_groep_id');
         $groepsactiviteiten = $this->Groepsactiviteit->groeps_activiteiten_list($a);
 
-        $a = array();
+        $a = [];
         foreach ($groepsactiviteiten as $g) {
             $a += array_keys($g);
         }
@@ -650,7 +650,7 @@ class GroepsactiviteitenController extends AppController
             }
         }
 
-        $diensten = array();
+        $diensten = [];
         if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon);
         }
@@ -820,7 +820,7 @@ class GroepsactiviteitenController extends AppController
 
     public function selecties()
     {
-        $personen = $vrijwilligers = $klanten = array();
+        $personen = $vrijwilligers = $klanten = [];
 
         if (!empty($this->data)) {
             $validated = true;
@@ -890,7 +890,7 @@ class GroepsactiviteitenController extends AppController
     {
         $groepsactiviteiten_list = $this->Groepsactiviteit->GroepsactiviteitenGroep->get_groepsactiviteiten_list();
 
-        $groepsactiviteiten = array();
+        $groepsactiviteiten = [];
 
         if (!empty($id)) {
             $this->paginate = array(
@@ -959,7 +959,7 @@ class GroepsactiviteitenController extends AppController
 
         $current = $this->{$persoon_groepsactiviteiten}->find('all', array(
                 'conditions' => array('groepsactiviteit_id' => array('groepsactiviteit_id' => $id)),
-                'contain' => array(),
+                'contain' => [],
                 'fields' => array('id', $persoon_id_field),
         ));
 
@@ -974,13 +974,13 @@ class GroepsactiviteitenController extends AppController
                     'einddatum > now()',
                 ),
             ),
-            'contain' => array(),
+            'contain' => [],
             'fields' => array('id', $persoon_id_field, 'einddatum'),
             'order' => 'id',
 
         ));
 
-        $data = array();
+        $data = [];
 
         foreach ($groep as $g) {
             if (in_array($g[$persoon_groepsactiviteiten_groepen][$persoon_id_field], $current)) {
@@ -1146,7 +1146,7 @@ class GroepsactiviteitenController extends AppController
     }
     public function ajax_report_html()
     {
-        $reports = array();
+        $reports = [];
         $reports[] = $this->groepen_report_html();
         $reports[] = $this->werkgebied_report_html();
         $reports[] = $this->personen_report_html();
@@ -1170,7 +1170,7 @@ class GroepsactiviteitenController extends AppController
 
     public function groepen_report_html()
     {
-        $conditions = array();
+        $conditions = [];
 
         $date_from = $this->data['date_from']['year'].'-'.$this->data['date_from']['month'].'-'.$this->data['date_from']['day'];
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
@@ -1184,12 +1184,12 @@ class GroepsactiviteitenController extends AppController
 
         $data = $this->Groepsactiviteit->query($sql);
 
-        $groepen = array();
+        $groepen = [];
 
         $template = array(
-            'Deelnemers' => array(),
-            'Vrijwilligers' => array(),
-            'Activiteiten' => array(),
+            'Deelnemers' => [],
+            'Vrijwilligers' => [],
+            'Activiteiten' => [],
             'naam' => '',
         );
 
@@ -1254,7 +1254,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         $report['head'] = "Groepen rapport : van {$date_from} tot {$date_to}";
-        $report['result'] = array();
+        $report['result'] = [];
         $report['fields'] = array(
                 'naam' => 'Werkgebied',
                 'activiteiten' => 'Aantal activiteiten',
@@ -1265,7 +1265,7 @@ class GroepsactiviteitenController extends AppController
         );
 
         foreach ($groepen as $groep) {
-            $tmp = array();
+            $tmp = [];
             $tmp['naam'] = $groep['naam'];
             $tmp['activiteiten'] = count($groep['Activiteiten']);
             $tmp['deelnemers_cnt'] = count($groep['Deelnemers']);
@@ -1292,7 +1292,7 @@ class GroepsactiviteitenController extends AppController
 
     public function personen_report_html()
     {
-        $conditions = array();
+        $conditions = [];
 
         $date_from = $this->data['date_from']['year'].'-'.$this->data['date_from']['month'].'-'.$this->data['date_from']['day'];
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
@@ -1308,8 +1308,8 @@ class GroepsactiviteitenController extends AppController
         $werkgebieden = Configure::read('Werkgebieden');
 
         $template = array(
-                'Deelnemers' => array(),
-                'Vrijwilligers' => array(),
+                'Deelnemers' => [],
+                'Vrijwilligers' => [],
         );
 
         foreach ($werkgebieden as $key => $v) {
@@ -1369,10 +1369,10 @@ class GroepsactiviteitenController extends AppController
         $report['fields'] = array('werkgebied' => 'Werkgebied', 'deelnemers_unique_cnt' => 'Aantal unieke deelnemers', 'vrijwilligers_unique_cnt' => 'Aantal unieke vrijwilligers');
         $report['hasSummary'] = false;
 
-        $report['result'] = array();
+        $report['result'] = [];
 
         foreach ($werkgebieden as $werkgebied) {
-            $tmp = array();
+            $tmp = [];
             $tmp['werkgebied'] = $werkgebied['werkgebied'];
             $tmp['deelnemers_unique_cnt'] = count($werkgebied['Deelnemers']);
             $tmp['vrijwilligers_unique_cnt'] = count($werkgebied['Vrijwilligers']);
@@ -1385,7 +1385,7 @@ class GroepsactiviteitenController extends AppController
 
     public function werkgebied_report_html()
     {
-        $conditions = array();
+        $conditions = [];
 
         $date_from = $this->data['date_from']['year'].'-'.$this->data['date_from']['month'].'-'.$this->data['date_from']['day'];
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
@@ -1399,12 +1399,12 @@ class GroepsactiviteitenController extends AppController
 
         $data = $this->Groepsactiviteit->query($sql);
 
-        $werkgebieden = array();
+        $werkgebieden = [];
 
         $template = array(
-            'Deelnemers' => array(),
-            'Vrijwilligers' => array(),
-            'Activiteiten' => array(),
+            'Deelnemers' => [],
+            'Vrijwilligers' => [],
+            'Activiteiten' => [],
         );
 
         foreach ($data as $d) {
@@ -1463,10 +1463,10 @@ class GroepsactiviteitenController extends AppController
             ++$werkgebieden[$w]['Activiteiten'][$g];
         }
 
-        $report['result'] = array();
+        $report['result'] = [];
 
         foreach ($werkgebieden as $key => $w) {
-            $tmp = array();
+            $tmp = [];
             $tmp['werkgebied'] = $key;
             $tmp['activiteiten_cnt'] = count($w['Activiteiten']);
             $tmp['deelenemers_unique'] = count($w['Deelnemers']);

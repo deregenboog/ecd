@@ -94,7 +94,7 @@ class Registratie extends AppModel
             $fields = array('LasteIntake.mag_gebruiken');
             $order = array('LasteIntake.mag_gebruiken ASC, Registratie.created DESC');
         } else {
-            $fields = array();
+            $fields = [];
             array_push($contain, 'Klant');
             $order = null;
             $intake_field = null;
@@ -129,7 +129,7 @@ class Registratie extends AppModel
         $regular_klanten = $this->find('all', $options);
 
         if ($gebruikersruimte) {
-            $gebruikers = array();
+            $gebruikers = [];
             $i = count($regular_klanten) - 1;
             $gebruiker = true;
 
@@ -144,14 +144,14 @@ class Registratie extends AppModel
         }
     }
 
-    public function getRecentlyUnregistered($locatie_id, $previous_days = 0, &$active_registr = array(), &$gebruiker_registr = array())
+    public function getRecentlyUnregistered($locatie_id, $previous_days = 0, &$active_registr = [], &$gebruiker_registr = [])
     {
         $this->Locatie->id = $locatie_id;
         $nachtopvang = $this->Locatie->field('nachtopvang');
 
         $timelimit = $this->get_timelimit($locatie_id, $previous_days);
 
-        $exception_list = array();
+        $exception_list = [];
 
         foreach ($active_registr as $registered_client) {
             array_push(
@@ -233,7 +233,7 @@ class Registratie extends AppModel
             'limit' => 10000,
         ));
         $cnt = 0;
-        $saved = array();
+        $saved = [];
 
         foreach ($pending as $registratie) {
             $locationId = $registratie['Registratie']['locatie_id'];
@@ -401,7 +401,7 @@ class Registratie extends AppModel
             || $registratie['Registratie']['gbrv'] > 0
             || $registratie['Registratie']['mw'] > 0
         ) {
-            $registratie_data = array();
+            $registratie_data = [];
             $conditions = $this->getRegistratiesConditions($registratie['Registratie']['locatie_id']);
             $registraties = $this->find('all', $conditions);
 
@@ -433,7 +433,7 @@ class Registratie extends AppModel
 
     public function delKlantFromQueueList($registratie_id, $fieldname, &$registraties, &$registratie_data)
     {
-        $registraties_list = array();
+        $registraties_list = [];
 
         foreach ($registraties as $key => $registratie) {
             if ($registratie['Registratie'][$fieldname] > 0) {
@@ -442,7 +442,7 @@ class Registratie extends AppModel
         }
 
         asort($registraties_list);
-        $r_to_save = array();
+        $r_to_save = [];
 
         if ($registratie_data['Registratie'][$fieldname] > 0) {
             unset($registraties_list[$registratie_id]);
@@ -477,7 +477,7 @@ class Registratie extends AppModel
     {
         $registraties = $this->find('all', $this->getRegistratiesConditions($locatie_id));
 
-        $registratie_data = array();
+        $registratie_data = [];
         $updated_registratie_key = null;
 
         foreach ($registraties as $key => $registratie) {
@@ -527,7 +527,7 @@ class Registratie extends AppModel
 
     public function delKlantFromShowerList($registratie_id, &$registraties, &$registratie_data)
     {
-        $registraties_list = array();
+        $registraties_list = [];
 
         foreach ($registraties as $key => $registratie) {
             if ($registratie['Registratie']['douche'] > 0) {
@@ -536,7 +536,7 @@ class Registratie extends AppModel
         }
 
         asort($registraties_list);
-        $r_to_save = array();
+        $r_to_save = [];
 
         if ($registratie_data['Registratie']['douche'] > 0) {
             unset($registraties_list[$registratie_id]);
@@ -567,7 +567,7 @@ class Registratie extends AppModel
     public function updateShowerList($action, $registratie_id, $locatie_id)
     {
         $registraties = $this->find('all', $this->getRegistratiesConditions($locatie_id));
-        $registratie_data = array();
+        $registratie_data = [];
         $updated_registratie_key = null;
 
         foreach ($registraties as $key => $registratie) {
@@ -777,7 +777,7 @@ class Registratie extends AppModel
         return $result[0][0]['cnt'];
     }
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         $data = array($this->alias => $this->data[$this->alias]);
 
