@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
  */
 class IzVrijwilliger extends IzDeelnemer
 {
@@ -19,8 +19,8 @@ class IzVrijwilliger extends IzDeelnemer
     protected $vrijwilliger;
 
     /**
-     * @var ArrayCollection|IzKoppeling[]
-     * @ORM\OneToMany(targetEntity="IzKoppeling", mappedBy="izVrijwilliger")
+     * @var ArrayCollection|IzHulpaanbod[]
+     * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
      */
     private $izHulpaanbiedingen;
 
@@ -44,5 +44,10 @@ class IzVrijwilliger extends IzDeelnemer
         $this->vrijwilliger = $vrijwilliger;
 
         return $this;
+    }
+
+    public function getIzHulpaanbiedingen()
+    {
+        return $this->izHulpaanbiedingen;
     }
 }

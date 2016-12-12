@@ -1,0 +1,8 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: database
+    database_port: 3306
+    database_name: ecd
+    database_user: ecd
+    database_password: ecd
+    secret: 0ac758a6a8664bb4e2e89fb90e80ac668ea89ea6

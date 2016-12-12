@@ -1,0 +1,26 @@
+{% include 'elements/iz_subnavigation.twig' %}
+
+<h2>Rapportages</h2>
+
+<div class="actions">
+    <fieldset>
+        <legend>Opties</legend>
+        {{ form_start(form) }}
+            {{ form_row(form.startdatum) }}
+            {{ form_row(form.einddatum) }}
+            {{ form_row(form.rapport) }}
+            <button type="submit">Rapport tonen</button>
+        {{ form_end(form) }}
+    </fieldset>
+</div>
+
+<div class="form">
+    <fieldset id="fldRapportages">
+        <legend>Rapport {{ title is defined ? '"'~title~'"' }}</legend>
+        {% if reports is defined %}
+            {{ include('iz_rapportages/pivot_tables.twig') }}
+        {% endif %}
+    </fieldset>
+</div>
+
+<iframe name="iframeExcel" style="display: none;"></iframe>

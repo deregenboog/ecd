@@ -56,7 +56,7 @@ class SchorsingenController extends AppController
                     //debug($this->data); die;
                     $this->flash(__('The schorsing has been saved', true));
                     $redirect_url = array('action' => 'index', $klant_id);
-                    $addresses = array();
+                    $addresses = [];
                     $addresses[] = Configure::read('agressie_mail');
                     if (isset($locatie_id)) {
                         $redirect_url[] = $locatie_id;
@@ -67,9 +67,9 @@ class SchorsingenController extends AppController
                     }
                     $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
                     $medewerker = $medewerkers[$this->Session->read('Auth.Medewerker.id')];
-                    $klant = array();
+                    $klant = [];
                     $locatie = $this->Schorsing->Locatie->getById($this->data['Schorsing']['locatie_id']);
-                    $content = array();
+                    $content = [];
                     $content['Message'] = array('dit is een mail verstuurd nav een fysieke of verbale agressie schorsing');
                     $content['medewerker'] = $medewerker;
                     $content['Schorsing'] = $this->data['Schorsing'];

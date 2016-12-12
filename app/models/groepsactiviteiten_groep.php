@@ -114,7 +114,7 @@ class GroepsactiviteitenGroep extends AppModel
     public $list_cache_key = 'GroepsactiviteitenGroep.list_cache_key';
     public $list_cache_key_all = 'GroepsactiviteitenGroep.list_cache_key_all';
 
-    public function save($data = null, $validate = true, $fieldList = array())
+    public function save($data = null, $validate = true, $fieldList = [])
     {
         Cache::delete($this->list_cache_key);
         Cache::delete($this->list_cache_key_all);
@@ -147,7 +147,7 @@ class GroepsactiviteitenGroep extends AppModel
 
     public function get_group_selection($data, $groepsactiviteiten_groep, $active = true)
     {
-        $result = array();
+        $result = [];
 
         $cnt = 0;
 
@@ -177,7 +177,7 @@ class GroepsactiviteitenGroep extends AppModel
     public function get_non_selected_open_groups($active_groups, $groepsactiviteiten_groep)
     {
         $now = time();
-        $result = array();
+        $result = [];
 
         $tmp = Set::classicExtract($active_groups, '{n}.groepsactiviteiten_groep_id');
 
@@ -211,7 +211,7 @@ class GroepsactiviteitenGroep extends AppModel
             return $groepsactiviteiten_groep;
         }
 
-        $conditions = array();
+        $conditions = [];
 
         if (empty($all)) {
             $conditions = array(
@@ -225,7 +225,7 @@ class GroepsactiviteitenGroep extends AppModel
 
         $groepsactiviteiten_groep = $this->find('all', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
             'order' => 'naam asc',
         ));
 
@@ -238,7 +238,7 @@ class GroepsactiviteitenGroep extends AppModel
     {
         $groepsactiviteiten_groep = $this->get_groepsactiviteiten_groep($all);
 
-        $groepsactiviteiten_list = array();
+        $groepsactiviteiten_list = [];
 
         foreach ($groepsactiviteiten_groep as $gr) {
             $groepsactiviteiten_list[$gr['GroepsactiviteitenGroep']['id']] = $gr['GroepsactiviteitenGroep']['naam'].' ('.$gr['GroepsactiviteitenGroep']['werkgebied'].') ';

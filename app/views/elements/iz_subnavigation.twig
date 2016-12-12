@@ -28,12 +28,16 @@
         {'class': this.name == 'IzKoppelingen' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
-    {{ html.link('Rapportages',
-        {'controller': 'iz_deelnemers', 'action': 'rapportages'}
+    {{ html.link(
+        'Rapportages',
+        {'controller': 'iz_rapportages', 'action': 'index'},
+        {'class': this.name == 'IzRapportages' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
-    {{ html.link('Selecties',
-        {'controller': 'iz_deelnemers', 'action': 'selecties'}
+    {{ html.link(
+        'Selecties',
+        {'controller': 'iz_deelnemers', 'action': 'selecties'},
+        {'class': (this.name == 'IzDeelnemers' and this.action == 'selecties') ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link('Intervisiegroepen',

@@ -8,7 +8,7 @@ class PostcodegebiedFixture extends CakeTestFixture
     public $fields = array(
         'postcode' => array('type' => 'string', 'null' => false, 'default' => null),
         'postcodegebied' => array('type' => 'string', 'null' => false, 'default' => null),
-        'indexes' => array(),
+        'indexes' => [],
         'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
     );
 

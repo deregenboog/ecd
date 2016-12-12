@@ -18,7 +18,7 @@ class QueueTask extends AppModel
         ),
     );
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         if (isset($this->data['QueueTask']['data'])) {
             $this->data['QueueTask']['data'] =
@@ -41,14 +41,14 @@ class QueueTask extends AppModel
                     $results[$key]['QueueTask']['data'] =
                     json_decode($data['QueueTask']['data'], true);
                 } else {
-                    $results[$key]['QueueTask']['data'] = array();
+                    $results[$key]['QueueTask']['data'] = [];
                 }
 
                 if (!empty($data['QueueTask']['output']) && !empty($results[$key]['QueueTask']['data']['task'])) {
                     $results[$key]['QueueTask']['output'] =
                     json_decode($data['QueueTask']['output'], true);
                 } else {
-                    $results[$key]['QueueTask']['output'] = array();
+                    $results[$key]['QueueTask']['output'] = [];
                 }
             }
         }

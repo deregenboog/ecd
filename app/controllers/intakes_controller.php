@@ -110,18 +110,13 @@ class IntakesController extends AppController
         $woonsituaties = $this->Intake->Woonsituatie->find('list');
 
         $locatie1s = $this->Intake->Locatie1->find('list', array('conditions' => array('Locatie1.gebruikersruimte' => 1)));
-        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => array()));
-        $locatie3s = array();
+        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => []));
+        $locatie3s = [];
 
         $inkomens = $this->Intake->Inkomen->find('list');
         $instanties = $this->Intake->Instantie->find('list');
         $verslavingsgebruikswijzen = $this->Intake->Verslavingsgebruikswijze->find('list');
         $verslavingen = $this->Intake->Verslaving->find('list');
-
-        if ($this->Intake->Klant->goesToInfobalie($klant)) {
-            $infobaliedoelgroepen = $this->Intake->Infobaliedoelgroep->find('list');
-            $this->set(compact('infobaliedoelgroepen'));
-        }
 
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
@@ -171,8 +166,9 @@ class IntakesController extends AppController
         if (empty($this->data)) {
             $this->data = $this->Intake->read(null, $id);
 
-            if (substr($this->data['Intake']['created'], 0, 10) != date('Y-m-d')) {
-                $this->flashError(__('You can only edit intakes that have been created today.', true));
+            $dateCreated = new \DateTime($this->data['Intake']['created']);
+            if ($dateCreated < new \DateTime('-7 days')) {
+                $this->flashError(__('You can only edit intakes that have been created last week.', true));
                 $this->redirect(array(
                         'controller' => 'klanten',
                         'action' => 'view',
@@ -204,8 +200,8 @@ class IntakesController extends AppController
         $woonsituaties = $this->Intake->Woonsituatie->find('list');
 
         $locatie1s = $this->Intake->Locatie1->find('list', array('conditions' => array('Locatie1.gebruikersruimte' => 1)));
-        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => array()));
-        $locatie3s = array();
+        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => []));
+        $locatie3s = [];
 
         $inkomens = $this->Intake->Inkomen->find('list');
         $instanties = $this->Intake->Instantie->find('list');
@@ -260,7 +256,7 @@ class IntakesController extends AppController
             return;
         }
 
-        $addresses = array();
+        $addresses = [];
         if ((isset($data['Intake']['informele_zorg_ignore']) &&
             !$data['Intake']['informele_zorg_ignore'] && $data['Intake']['informele_zorg'])
             ||

@@ -14,7 +14,7 @@ class AppModel extends Model
             );
 
     public $debug_caching = false;
-    public $beforeSaveData = array();
+    public $beforeSaveData = [];
     public $ignore_caching_for = array('Log');
 
     /*
@@ -42,7 +42,7 @@ class AppModel extends Model
 
     public function check_diff_multi($array1, $array2)
     {
-        $result = array();
+        $result = [];
         foreach ($array1 as $key => $val) {
             if (isset($array2[$key])) {
                 if (is_array($val) && is_array($array2[$key])) {
@@ -82,7 +82,7 @@ class AppModel extends Model
     {
         $result = registry_get('schema', $this->name, true);
         if (!$result) {
-            $result = array();
+            $result = [];
             $schema = $this->schema();
             foreach ($schema as $field => $info) {
                 $result[$field] = null;
@@ -155,7 +155,7 @@ class AppModel extends Model
      */
     public function getAllById($id, $contain = null, $emptyIfNotFound = false, $fromCache = true)
     {
-        $result = array();
+        $result = [];
 
         $hit = $this->getById($id, $fromCache);
 
@@ -181,7 +181,7 @@ class AppModel extends Model
             }
             if (!is_array($branch) && $branch != '*') {
                 $m = $branch;
-                $branch = array();
+                $branch = [];
             }
             if (!empty($relations[$m])) {
                 if (!isset($this->{$m})) {
@@ -211,7 +211,7 @@ class AppModel extends Model
                     if (isset($this->belongsTo[$m])) {
                         $result[$m] = $this->{$m}->getDummy();
                     } else {
-                        $result[$m] = array();
+                        $result[$m] = [];
                     }
                 }
             }
@@ -230,7 +230,7 @@ class AppModel extends Model
      */
     public function completeAllPaginated($paginated, $contain = null)
     {
-        $result = array();
+        $result = [];
         foreach ($paginated as $hit) {
             if (isset($hit[$this->alias]['id'])) {
                 $id = $hit[$this->alias]['id'];
@@ -278,7 +278,7 @@ class AppModel extends Model
                 $ref[$this->alias] = $this->data[$this->alias];
                 $changes = $this->has_this_data_changed($ref, $this->beforeSaveData[$id]);
             }
-            $parents_to_clean = array();
+            $parents_to_clean = [];
             if (!empty($changes)) {
                 foreach ($this->belongsTo as $model => $info) {
                     $fk = $info['foreignKey'];
@@ -322,14 +322,14 @@ class AppModel extends Model
         $result = $this->find('first', array(
                     'conditions' => $conditions,
                 ));
-        $related_ids = array();
+        $related_ids = [];
         if ($this->debug_caching) {
             $this->log(array('conditions' => $conditions, 'result' => $result), 'as_'.$this->name);
         }
 
         if (is_array($result)) {
             foreach ($this->belongsTo as $model => $info) {
-                $related_ids[$model] = array();
+                $related_ids[$model] = [];
                 $fk = $info['foreignKey'];
                 $pk = $this->{$model}->primaryKey;
                 if ($this->debug_caching) {
@@ -371,7 +371,7 @@ class AppModel extends Model
             debug('Empty ID!');
             debug(Debugger::trace());
 
-            return array();
+            return [];
         }
         $key = $this->getCacheKeyRelations($id);
         $result = registry_get('relations', $key, $fromCache);
@@ -386,7 +386,7 @@ class AppModel extends Model
 
         $related_ids = $this->findParentsOfId($id);
 
-        $relations = array();
+        $relations = [];
 
         $relationModels = array_merge($this->hasMany, $this->hasOne);
         foreach ($relationModels as $model => $info) {
@@ -413,7 +413,7 @@ class AppModel extends Model
             if (!empty($ids)) {
                 $ids = array($model => array_keys($ids));
             } else {
-                $ids = array($model => array());
+                $ids = array($model => []);
             }
             $relations = array_merge($relations, $ids);
         }
@@ -459,7 +459,7 @@ class AppModel extends Model
         $this->refreshCachedBelongsToRelations($this->id);
     }
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         $this->debug_caching = Configure::read('debug');
         if (!in_array($this->name, $this->ignore_caching_for)) {
@@ -537,7 +537,7 @@ class AppModel extends Model
 
         $prop = registry_get('computed_properties', $key, $fromCache);
         if (!$prop) {
-            $prop = array();
+            $prop = [];
         }
         $prop[$property] = $value;
         $result = registry_set('computed_properties', $key, $prop, $fromCache);
@@ -614,262 +614,5 @@ class AppModel extends Model
     public function deleteAll($conditions, $cascade = true, $callbacks = true)
     {
         return parent::deleteAll($conditions, $cascade, $callbacks);
-    }
-}
-
-class Table
-{
-    private $result;
-
-    private $xPath;
-
-    private $yPath;
-
-    private $nPath;
-
-    private $xSort = true;
-
-    private $ySort = true;
-
-    private $xTotals = true;
-
-    private $yTotals = true;
-
-    private $xNullReplacement;
-
-    private $yNullReplacement;
-
-    private $startDate;
-
-    private $endDate;
-
-    private $controller;
-
-    private $action;
-
-    private $report;
-
-    public function __construct(array $result, $xPath, $yPath, $nPath, $report = null)
-    {
-        $this->result = $result;
-        $this->xPath = $xPath;
-        $this->yPath = $yPath;
-        $this->nPath = $nPath;
-        $this->report = $report;
-    }
-
-    public function setStartDate(\DateTime $startDate)
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function setEndDate(\DateTime $endDate)
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    public function setXTotals($xTotals)
-    {
-        $this->xTotals = $xTotals;
-
-        return $this;
-    }
-
-    public function setYTotals($yTotals)
-    {
-        $this->yTotals = $yTotals;
-
-        return $this;
-    }
-
-    public function setXSort($xSort)
-    {
-        $this->xSort = $xSort;
-
-        return $this;
-    }
-
-    public function setYSort($ySort)
-    {
-        $this->ySort = $ySort;
-
-        return $this;
-    }
-
-    public function setXNullReplacement($xNullReplacement)
-    {
-        $this->xNullReplacement = $xNullReplacement;
-
-        return $this;
-    }
-
-    public function setYNullReplacement($yNullReplacement)
-    {
-        $this->yNullReplacement = $yNullReplacement;
-
-        return $this;
-    }
-
-    public function setController($controller)
-    {
-        $this->controller = $controller;
-
-        return $this;
-    }
-
-    public function setAction($action)
-    {
-        $this->action = $action;
-
-        return $this;
-    }
-
-    public function render()
-    {
-        list($xValues, $yValues) = $this->getAxisLabels();
-
-        $data = $this->initializePivotStructure(
-            $xValues,
-            $yValues,
-            $this->xTotals,
-            $this->yTotals
-        );
-
-        foreach ($this->result as $row) {
-            if (empty($xValues) && empty($yValues)) {
-                if ($this->xTotals && $this->yTotals) {
-                    $data['Totaal']['Totaal'] = Set::classicExtract(current($this->result), $this->nPath);
-                }
-            } elseif (empty($yValues)) {
-                foreach ($xValues as $xValue) {
-                    if (Set::classicExtract($row, $this->xPath) === $xValue) {
-                        $aantal = Set::classicExtract($row, $this->nPath);
-                        if ($this->yTotals) {
-                            $data['Totaal'][$xValue] += $aantal;
-                        }
-                        if ($this->xTotals && $this->yTotals) {
-                            $data['Totaal']['Totaal'] += $aantal;
-                        }
-                    }
-                }
-            } else {
-                foreach ($yValues as $yValue) {
-                    if (Set::classicExtract($row, $this->yPath) === $yValue) {
-                        if (empty($xValues)) {
-                            $aantal = Set::classicExtract($row, $this->nPath);
-                            if ($this->xTotals) {
-                                $data[$yValue]['Totaal'] += $aantal;
-                            }
-                            if ($this->xTotals && $this->yTotals) {
-                                $data['Totaal']['Totaal'] += $aantal;
-                            }
-                        } else {
-                            foreach ($xValues as $xValue) {
-                                if (Set::classicExtract($row, $this->xPath) === $xValue) {
-                                    $aantal = Set::classicExtract($row, $this->nPath);
-                                    $data[$yValue][$xValue] += $aantal;
-                                    if ($this->xTotals) {
-                                        $data[$yValue]['Totaal'] += $aantal;
-                                    }
-                                    if ($this->yTotals) {
-                                        $data['Totaal'][$xValue] += $aantal;
-                                    }
-                                    if ($this->xTotals && $this->yTotals) {
-                                        $data['Totaal']['Totaal'] += $aantal;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($this->report) {
-            $data = $this->convertToLinks($data);
-        }
-
-        return $data;
-    }
-
-    protected function convertToLinks(array $data)
-    {
-        App::import('Helper', 'Html');
-        $helper = new HtmlHelper();
-
-        foreach ($data as $x => $row) {
-            foreach ($row as $y => $value) {
-                if (!$x || !$y) {
-                    continue;
-                }
-                $url = array(
-                    'controller' => $this->controller,
-                    'action' => $this->action,
-                    'Query.name' => $this->report,
-                    'Query.from' => $this->startDate->format('Y-m-d'),
-                    'Query.until' => $this->endDate->format('Y-m-d'),
-                );
-                if ($this->xPath && $y !== 'Totaal') {
-                    $url[$this->xPath] = $y;
-                }
-                if ($this->yPath && $x !== 'Totaal') {
-                    $url[$this->yPath] = $x;
-                }
-                $data[$x][$y] = $helper->link($value, $url);
-            }
-        }
-
-        return $data;
-    }
-
-    protected function getAxisLabels()
-    {
-        $xLabels = array();
-        $yLabels = array();
-        foreach ($this->result as $row) {
-            if ($this->xPath) {
-                $xLabel = Set::classicExtract($row, $this->xPath);
-                $xLabels[$xLabel] = $xLabel;
-            }
-            if ($this->yPath) {
-                $yLabel = Set::classicExtract($row, $this->yPath);
-                $yLabels[$yLabel] = $yLabel;
-            }
-        }
-        if ($this->xSort) {
-            sort($xLabels);
-        }
-        if ($this->ySort) {
-            sort($yLabels);
-        }
-
-        return array($xLabels, $yLabels);
-    }
-
-    protected function initializePivotStructure($xLabels, $yLabels)
-    {
-        $data = array();
-        foreach ($yLabels as $yLabel) {
-            foreach ($xLabels as $xLabel) {
-                $data[$yLabel][$xLabel] = 0;
-            }
-            if ($this->xTotals) {
-                $data[$yLabel]['Totaal'] = 0;
-            }
-        }
-        if ($this->yTotals) {
-            foreach ($xLabels as $xLabel) {
-                $data['Totaal'][$xLabel] = 0;
-            }
-        }
-        if ($this->xTotals && $this->yTotals) {
-            $data['Totaal']['Totaal'] = 0;
-        }
-
-        return $data;
     }
 }

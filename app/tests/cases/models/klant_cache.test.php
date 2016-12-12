@@ -10,9 +10,9 @@ class SimpleIntake extends Intake
     public $actsAs = null;
     public $order = 'datum_intake DESC';
 
-    public $hasOne = array();
-    public $hasMany = array();
-    public $hasAndBelongsToMany = array();
+    public $hasOne = [];
+    public $hasMany = [];
+    public $hasAndBelongsToMany = [];
 
     public $belongsTo = array(
         'Klant' => array(
@@ -29,9 +29,9 @@ class SimpleRegistratie extends Registratie
 {  // lightweight class
     public $actsAs = null;
 
-    public $hasOne = array();
-    public $hasMany = array();
-    public $hasAndBelongsToMany = array();
+    public $hasOne = [];
+    public $hasMany = [];
+    public $hasAndBelongsToMany = [];
 
     public $belongsTo = array(
         'Klant' => array(
@@ -50,7 +50,7 @@ class SimpleKlant extends Klant
     public $order = 'achternaam ASC';
     public $virtualFields = null;
 
-    public $hasOne = array();
+    public $hasOne = [];
 
     public $belongsTo = array(
             'Geboorteland' => array(
@@ -169,7 +169,7 @@ class KlantCacheTestCase extends CakeTestCase
     public function testFindRelatedHasBelongsToRelationShips()
     {
         $relationCache = $this->Model->getRelatedToId($this->Model->id);
-        $notFound = array();
+        $notFound = [];
 
         foreach ($this->Model->belongsTo as $model => $info) {
             if (!array_key_exists($model, $relationCache)) {
@@ -189,7 +189,7 @@ class KlantCacheTestCase extends CakeTestCase
     public function testFindRelatedHasHasManyRelationships()
     {
         $relationCache = $this->Model->getRelatedToId($this->Model->id);
-        $notFound = array();
+        $notFound = [];
         foreach ($this->Model->hasMany as $model => $info) {
             if (!array_key_exists($model, $relationCache)) {
                 $notFound[] = $info['className'];
@@ -223,7 +223,7 @@ class KlantCacheTestCase extends CakeTestCase
 
         $this->Model->deleteRelationsCacheAndParentsRelationsCache($this->Model->id);
 
-        $foundCaches = array();
+        $foundCaches = [];
         foreach ($relations as $model => $ids) {
             foreach ($ids as $id) {
                 if (isset($this->Model->belongsTo[$model]) && !empty($id)) {
@@ -270,7 +270,7 @@ class KlantCacheTestCase extends CakeTestCase
 
         $this->Model->beforeDelete(null);
 
-        $foundCaches = array();
+        $foundCaches = [];
         foreach ($relations as $model => $ids) {
             foreach ($ids as $id) {
                 if (isset($this->Model->belongsTo[$model]) && !empty($id)) {

@@ -19,10 +19,10 @@ class ZrmReport extends AppModel
     );
 
     public $zrm_models = array(
-            'Intake' => array(),
-            'MaatschappelijkWerk' => array(),
-            'Awbz' => array(),
-            'Hi5' => array(),
+            'Intake' => [],
+            'MaatschappelijkWerk' => [],
+            'Awbz' => [],
+            'Hi5' => [],
     );
 
     public $belongsTo = array(
@@ -150,7 +150,7 @@ class ZrmReport extends AppModel
         parent::afterSave($created);
     }
 
-    public function checkRequired($field = array())
+    public function checkRequired($field = [])
     {
         if (empty($this->zrm_required_fields)) {
             $this->zrm_data();
@@ -197,7 +197,7 @@ class ZrmReport extends AppModel
         }
 
         foreach ($this->zrm_models as $model => $v) {
-            $groups = array();
+            $groups = [];
 
             foreach ($permissions as $k => $models) {
                 if (in_array($model, $models)) {

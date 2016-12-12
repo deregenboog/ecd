@@ -36,9 +36,6 @@ class AuthExtComponent extends AuthComponent
             return $this->_loggedIn;
         }
 
-        // debug( $data[$alias.'.username']);
-        // debug( $posted_data[$alias]['passwd']);
-
         if (!$model->LdapUser->testConnection()) {
             $this->Session->setFlash('LDAP server not accessible.');
 
@@ -64,7 +61,7 @@ class AuthExtComponent extends AuthComponent
             if (!empty($groups)) {
                 $user[$this->userModel]['LdapUser']['Groups'] = $groups;
                 // Store group IDs in an accesible array, for Acl:
-                $acl_groups = array();
+                $acl_groups = [];
                 foreach ($groups as $g) {
                     $acl_groups[] = $g['gidnumber'];
                 }
@@ -75,7 +72,7 @@ class AuthExtComponent extends AuthComponent
             // The 'auth' flash is not shown in the view if it is shown in
             // the login view, so I removed it from there and left it only in
             // the default layout.
-            $this->Session->setFlash($this->loginError, $this->flashElement, array(), 'auth');
+            $this->Session->setFlash($this->loginError, $this->flashElement, [], 'auth');
         }
 
         return $this->_loggedIn;

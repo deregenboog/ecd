@@ -25,7 +25,7 @@ class Medewerker extends AppModel
             'achternaam ASC',
     );
 
-    public $hasMany = array();
+    public $hasMany = [];
 
     public $belongsTo = array(
         'LdapUser' => array(
@@ -46,7 +46,7 @@ class Medewerker extends AppModel
         $m = $this->LdapUser->getMembers($gid);
         $members = $this->find('list', array(
             'conditions' => array('username' => $m),
-            'contain' => array(),
+            'contain' => [],
 
         ));
 
@@ -183,16 +183,16 @@ class Medewerker extends AppModel
             return $medewerkers;
         }
 
-        $medewerkers = array();
+        $medewerkers = [];
         if (!empty($group_ids)) {
             $medewerkers = $this->listByLdapGroupId($group_ids);
         }
 
         $options = array(
-            'contain' => array(),
+            'contain' => [],
             'order' => 'voornaam, achternaam',
         );
-        $options['conditions'] = array();
+        $options['conditions'] = [];
         if (!$all_users) {
             $options['conditions'] = array('active' => true);
         }
@@ -225,7 +225,7 @@ class Medewerker extends AppModel
     {
         $medewerkers = $this->find('all', array(
                 'fields' => array('id', 'username', 'active'),
-                'contain' => array(),
+                'contain' => [],
         ));
 
         $ldap_users = $this->getActiveUsers();
@@ -234,7 +234,7 @@ class Medewerker extends AppModel
             return false;
         }
 
-        $new = array();
+        $new = [];
 
         foreach ($medewerkers as $key => $medewerker) {
             $medewerkers[$key]['Medewerker']['active'] = false;

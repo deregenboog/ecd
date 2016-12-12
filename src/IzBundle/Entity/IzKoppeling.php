@@ -7,10 +7,13 @@ use Doctrine\ORM\Mapping\Id;
 use AppBundle\Entity\Medewerker;
 
 /**
- * @ORM\MappedSuperclass
+ * @ORM\Entity
  * @ORM\Table(name="iz_koppelingen")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"hulpvraag" = "IzHulpvraag", "hulpaanbod" = "IzHulpaanbod"})
  */
-class IzKoppeling
+abstract class IzKoppeling
 {
     /**
      * @ORM\Id
@@ -50,6 +53,11 @@ class IzKoppeling
     protected $koppelingEinddatum;
 
     /**
+     * @ORM\Column(name="koppeling_succesvol", type="boolean")
+     */
+    protected $koppelingSuccesvol;
+
+    /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
@@ -63,31 +71,33 @@ class IzKoppeling
      */
     protected $izProject;
 
+    /**
+     * @var IzEindeKoppeling
+     * @ORM\ManyToOne(targetEntity="IzEindeKoppeling")
+     * @ORM\JoinColumn(name="iz_eindekoppeling_id")
+     */
+    protected $izEindeKoppeling;
+
+    /**
+     * @var IzDeelnemer
+     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izKoppelingen")
+     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     */
+    private $izDeelnemer;
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function getIzKlant()
+    public function getIzDeelnemer()
     {
-        return $this->izKlant;
+        return $this->izDeelnemer;
     }
 
-    public function setKlant(IzKlant $izKlant)
+    public function setDeelnemer(IzDeelnemer $izDeelnemer)
     {
-        $this->izKlant = $izKlant;
-
-        return $this;
-    }
-
-    public function getIzVrijwilliger()
-    {
-        return $this->izVrijwilliger;
-    }
-
-    public function setVrijwilliger(IzVrijwilliger $izVrijwilliger)
-    {
-        $this->izVrijwilliger = $izVrijwilliger;
+        $this->izKlant = $izDeelnemer;
 
         return $this;
     }

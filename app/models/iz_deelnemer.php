@@ -4,8 +4,6 @@ class IzDeelnemer extends AppModel
 {
     public $name = 'IzDeelnemer';
 
-    public $useTable = 'iz_deelnemers';
-
     public $actsAs = array('Containable', 'OdsEtiketten');
 
     public $belongsTo = array(
@@ -96,7 +94,7 @@ class IzDeelnemer extends AppModel
         ),
     );
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         $data = array($this->alias => $this->data[$this->alias]);
 
@@ -138,7 +136,7 @@ class IzDeelnemer extends AppModel
                     ),
                 ),
             ),
-            'contain' => array(),
+            'contain' => [],
             'fields' => array('id'),
         ));
 
@@ -166,7 +164,7 @@ class IzDeelnemer extends AppModel
     {
         $geslachten = $this->Klant->Geslacht->find('list');
 
-        $personen = array();
+        $personen = [];
         $query = '';
 
         $projectlist = $this->IzDeelnemersIzProject->IzProject->projectLists(true);
@@ -200,7 +198,7 @@ class IzDeelnemer extends AppModel
         foreach ($tmp as $t) {
             $project_ids = explode(',', $t[0]['project_ids']);
 
-            $project_names = array();
+            $project_names = [];
 
             foreach ($project_ids as $project_id) {
                 if (isset($projectlist[$project_id])) {
@@ -318,7 +316,7 @@ class IzDeelnemer extends AppModel
 
     public function getPersonen($params)
     {
-        $personen = array();
+        $personen = [];
 
         $query = '';
         $geslachten = $this->Klant->Geslacht->find('list');
@@ -343,7 +341,7 @@ class IzDeelnemer extends AppModel
 
             foreach ($tmp as $t) {
                 $project_ids = explode(',', $t[0]['project_ids']);
-                $project_names = array();
+                $project_names = [];
                 $found = false;
 
                 foreach ($project_ids as $project_id) {
@@ -501,7 +499,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Aantal nieuwe koppelingen in deze periode',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -551,7 +549,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Aantal actieve unieke klanten in deze periode',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -604,7 +602,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Aantal actieve unieke klanten op einddatum',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -657,7 +655,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Wachtlijst deelnemers op einddatum',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($werkgebieden as $key => $value) {
@@ -710,7 +708,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Wachtlijst vrijwilligers op einddatum',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -763,7 +761,7 @@ class IzDeelnemer extends AppModel
     {
         $result = array(
             'title' => 'Gemiddelde wachttijd klant (dagen)',
-            'data' => array(),
+            'data' => [],
         );
 
         foreach ($labels as $key => $value) {
@@ -826,7 +824,7 @@ class IzDeelnemer extends AppModel
 
     public function aanvullend_contact_html($startDate, $endDate)
     {
-        $results = array();
+        $results = [];
 
         $sql = 'select izc.naam, count(*) as cnt from iz_deelnemers izd '
             .' left join iz_ontstaan_contacten izc on izc.id = contact_ontstaan  '
@@ -856,7 +854,7 @@ class IzDeelnemer extends AppModel
     }
     public function aanvullend_binnengekomen_html($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = 'select izv.naam, count(*) as cnt from iz_deelnemers izd '
             .' left join iz_via_personen izv on izv.id = binnengekomen_via	'
@@ -886,7 +884,7 @@ class IzDeelnemer extends AppModel
 
     public function aanvullend_aanmelding_html($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         foreach ($labels as $key => $value) {
             if (empty($key)) {
@@ -931,8 +929,8 @@ class IzDeelnemer extends AppModel
     }
     public function A1_new_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -995,7 +993,7 @@ ORDER BY p.naam, k.werkgebied";
 
     public function A2_new_per_project_per_werkgebied_totaal($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
@@ -1028,8 +1026,8 @@ join vrijwilligers v on v.id = foreign_key ";
 
     public function B1_stopped_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1087,7 +1085,7 @@ join vrijwilligers v on v.id = foreign_key ";
     }
     public function B2_stopped_per_project_per_werkgebied_totaal($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id , izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
@@ -1121,8 +1119,8 @@ join vrijwilligers v on v.id = foreign_key ";
 
     public function C1_geslaagd_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1180,7 +1178,7 @@ AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 GROUP BY izk.
     }
     public function C2_geslaagd_per_project_per_werkgebied_totaal($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select kl.Project, kl.Werkgebied, kl.Klant, kl.koppeling_startdatum, kl.koppeling_einddatum, kl.iz_koppeling_id, izk.iz_deelnemer_id, izd.foreign_key,
 CONCAT_WS(' ', v.voornaam, v.tussenvoegsel, v.achternaam) AS `Vrijwilliger`
@@ -1214,8 +1212,8 @@ join vrijwilligers v on v.id = foreign_key ";
 
     public function F1_nieuwe_vrijwilligers_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1276,7 +1274,7 @@ ORDER BY p.naam, k.werkgebied";
 
     public function F2_namen_nieuwe_vrijwilligers_per_project_per_werkgebied($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum
 FROM iz_deelnemers izd JOIN vrijwilligers k ON k.id = izd.foreign_key AND izd.model = 'Vrijwilliger'
@@ -1301,8 +1299,8 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
     }
     public function J1_nieuwe_deelnemers_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
-        $results = array();
-        $template = array();
+        $results = [];
+        $template = [];
 
         foreach ($werkgebieden as $key => $value) {
             $template[ $key ] = 0;
@@ -1365,7 +1363,7 @@ ORDER BY p.naam, k.werkgebied";
 
     public function J2_namen_nieuwe_deelnemers_per_project_per_werkgebied($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, izk.koppeling_startdatum, izk.koppeling_einddatum
 FROM iz_deelnemers izd JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant'
@@ -1390,7 +1388,7 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
     }
     public function K1_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select k.werkgebied as Werkgebied, count(*) as Aantal from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id
 join klanten k on k.id = izd.foreign_key and izd.model = 'Klant'
@@ -1422,7 +1420,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     }
     public function K2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
         $sql = "select CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, k.werkgebied as Werkgebied, datum_aanmelding from iz_deelnemers izd left join iz_intakes i on i.iz_deelnemer_id = izd.id
 join klanten k on k.id = izd.foreign_key and izd.model = 'Klant'
 where izd.model = 'Klant' and not isnull(izd.datum_aanmelding) and isnull(i.intake_datum)
@@ -1458,7 +1456,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     }
     public function L1_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
 
         $sql = "select werkgebied as Werkgebied, count(*) as Aantal from
 			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id from iz_deelnemers izd
@@ -1492,7 +1490,7 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
     }
     public function L2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
-        $results = array();
+        $results = [];
         $sql = "select werkgebied as Werkgebied, CONCAT_WS(' ', k.voornaam, k.tussenvoegsel, k.achternaam) AS `Klant`, s.datum_aanmelding, s.intake_datum, s.medewerker_id, CONCAT_WS(' ', m.voornaam, m.tussenvoegsel, m.achternaam)  as medewerker	from
 			(select izd.id, model, foreign_key, datum_aanmelding, izk.id as iz_koppeling_id, i.intake_datum, i.medewerker_id  from iz_deelnemers izd
 			left join iz_koppelingen izk on izk.iz_deelnemer_id = izd.id join iz_intakes i on i.iz_deelnemer_id = izd.id
@@ -1531,630 +1529,5 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
         );
 
         return $results;
-    }
-
-    public function count_beginstand(DateTime $startDate)
-    {
-        $sql = $this->count(
-            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulp = $this->query($sql);
-
-        $sql = $this->count(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulp, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
-    }
-
-    public function count_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count(
-            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulp = $this->query($sql);
-
-        $sql = $this->count(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulp, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
-    }
-
-    public function count_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count(
-            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulp = $this->query($sql);
-
-        $sql = $this->count(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulp, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
-    }
-
-    public function count_eindstand(DateTime $endDate)
-    {
-        $sql = $this->count(
-            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulp = $this->query($sql);
-
-        $sql = $this->count(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulp, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', '0.model', '0.aantal', false, false, false);
-    }
-
-    public function count_per_coordinator_beginstand(DateTime $startDate)
-    {
-        $sql = $this->count_per_coordinator(
-            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpaanbod = $this->query($sql);
-
-        $sql = $this->count_per_coordinator(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-/*
-        SELECT COUNT(DISTINCT v.id) AS aantal, koppeling.medewerker_id, 'met koppeling' AS fase
-        FROM vrijwilligers AS v
-        INNER JOIN iz_deelnemers AS d ON v.id = d.foreign_key AND d.model = 'Vrijwilliger'
-        INNER JOIN iz_koppelingen AS koppeling ON koppeling.iz_deelnemer_id = d.id
-        LEFT JOIN medewerkers ON medewerkers.id = koppeling.medewerker_id
-        WHERE koppeling.koppeling_startdatum < '2016-01-01' AND (koppeling.koppeling_einddatum IS NULL OR koppeling.koppeling_einddatum >= '2016-01-01')
-        GROUP BY medewerkers.id
-*/
-
-// 		var_dump($this->find('all', [
-// 			'fields' => [
-// 				'COUNT(DISTINCT IzVrijwilliger.id) AS aantal',
-// 				'IzHulpaanbod.medewerker_id',
-// 			],
-// 			'group' => ['IzHulpaanbod.medewerker_id'],
-// 			'joins' => [
-// 				[
-// 					'table' => 'iz_koppelingen',
-// 					'alias' => 'IzHulpaanbod',
-// 					'type' => 'INNER',
-// 					'conditions' => [
-// 						'IzVrijwilliger.id = IzHulpaanbod.iz_deelnemer_id'
-// 					],
-// 				],
-// 			],
-// 			'conditions' => [
-// 				'IzVrijwilliger.model' => 'Vrijwilliger',
-// 				'IzHulpaanbod.koppeling_startdatum <' => $startDate->format('Y-m-d'),
-// 				'OR' => [
-// 					'IzHulpaanbod.koppeling_einddatum IS NULL',
-// 					'IzHulpaanbod.koppeling_einddatum >=' => $startDate->format('Y-m-d'),
-// 				],
-// 			],
-// 			'recursive' => -1,
-// 		])); die;
-
-        $result = array_merge($metHulpaanbod, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
-    }
-
-    public function count_per_coordinator_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_coordinator(
-            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpaanbod = $this->query($sql);
-
-        $sql = $this->count_per_coordinator(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpaanbod, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
-    }
-
-    public function count_per_coordinator_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_coordinator(
-            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpaanbod = $this->query($sql);
-
-        $sql = $this->count_per_coordinator(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpaanbod, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
-    }
-
-    public function count_per_coordinator_eindstand(DateTime $endDate)
-    {
-        $sql = $this->count_per_coordinator(
-            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpaanbod = $this->query($sql);
-
-        $sql = $this->count_per_coordinator(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpaanbod, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'koppeling.medewerker_id', '0.aantal', false, true, false);
-    }
-
-    public function count_per_project_beginstand(DateTime $startDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 'p.project';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_project(
-            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_project(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_project_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 'p.project';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_project(
-            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_project(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_project_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 'p.project';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_project(
-            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_project(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_project_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 'p.project';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_project(
-            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_project_eindstand(DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 'p.project';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_project(
-            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_project(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_stadsdeel_beginstand(DateTime $startDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 's.stadsdeel';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_stadsdeel(
-            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_stadsdeel(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 's.stadsdeel';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_stadsdeel(
-            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_stadsdeel(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 's.stadsdeel';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_stadsdeel(
-            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_stadsdeel(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 's.stadsdeel';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_stadsdeel(
-            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_stadsdeel_eindstand(DateTime $endDate)
-    {
-        $xPath = '0.fase';
-        $yPath = 's.stadsdeel';
-        $nPath = '0.aantal';
-
-        $sql = $this->count_per_stadsdeel(
-            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_stadsdeel(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, $xPath, $yPath, $nPath, false, true, false);
-    }
-
-    public function count_per_postcodegebied_beginstand(DateTime $startDate)
-    {
-        $sql = $this->count_per_postcodegebied(
-            $this->beginstand($startDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_postcodegebied(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
-    }
-
-    public function count_per_postcodegebied_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_postcodegebied(
-            $this->gestart($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_postcodegebied(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
-    }
-
-    public function count_per_postcodegebied_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_postcodegebied(
-            $this->afgesloten($startDate, $endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_postcodegebied(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
-    }
-
-    public function count_per_postcodegebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_postcodegebied(
-            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
-    }
-
-    public function count_per_postcodegebied_eindstand(DateTime $endDate)
-    {
-        $sql = $this->count_per_postcodegebied(
-            $this->eindstand($endDate, 'koppeling.startdatum', 'koppeling.einddatum')
-        );
-        $metHulpvraag = $this->query($sql);
-
-        $sql = $this->count_per_postcodegebied(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum'),
-            true
-        );
-        $metKoppeling = $this->query($sql);
-
-        $result = array_merge($metHulpvraag, $metKoppeling);
-
-        return $this->getPivotTableData($result, '0.fase', 'pc.postcodegebied', '0.aantal', false, true, false);
-    }
-
-    public function count_per_project_stadsdeel_beginstand(DateTime $startDate)
-    {
-        $sql = $this->count_per_project_stadsdeel(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_stadsdeel_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_project_stadsdeel(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_stadsdeel_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_project_stadsdeel(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_stadsdeel_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_project_stadsdeel(
-            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_stadsdeel_eindstand(DateTime $endDate)
-    {
-        $sql = $this->count_per_project_stadsdeel(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 's.stadsdeel', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_postcodegebied_beginstand(DateTime $startDate)
-    {
-        $sql = $this->count_per_project_postcodegebied(
-            $this->beginstand($startDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_postcodegebied_gestart(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_project_postcodegebied(
-            $this->gestart($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_postcodegebied_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_project_postcodegebied(
-            $this->afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_postcodegebied_succesvol_afgesloten(DateTime $startDate, DateTime $endDate)
-    {
-        $sql = $this->count_per_project_postcodegebied(
-            $this->succesvol_afgesloten($startDate, $endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
-    }
-
-    public function count_per_project_postcodegebied_eindstand(DateTime $endDate)
-    {
-        $sql = $this->count_per_project_postcodegebied(
-            $this->eindstand($endDate, 'koppeling.koppeling_startdatum', 'koppeling.koppeling_einddatum')
-        );
-        $result = $this->query($sql);
-
-        return $this->getPivotTableData($result, 'pc.postcodegebied', 'p.project', '0.aantal');
-    }
-
-    public function getConditions($condition, DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
-    {
-        switch ($condition) {
-            default:
-            case 'gestart':
-                return [
-                    "$startDateField BETWEEN ? AND ?" => [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')],
-// 					'NOT' => [
-// 						"$startDateField <" => $startDate->format('Y-m-d'),
-// 						'OR' => [
-// 							"$endDateField IS NULL",
-// 							"$endDateField >= " => $startDate->format('Y-m-d'),
-// 						],
-// 					],
-                ];
-// 			default:
-// 			case 'beginstand':
-// 				return [
-// 					"$startDateField <" => $startDate->format('Y-m-d'),
-// 					'OR' => [
-// 						"$endDateField IS NULL",
-// 						"$endDateField >= " => $startDate->format('Y-m-d'),
-// 					],
-// 				];
-        }
-    }
-
-    protected function beginstand(DateTime $startDate, $startDateField, $endDateField)
-    {
-        return "WHERE $startDateField < '{$startDate->format('Y-m-d')}'
-			AND ($endDateField IS NULL OR $endDateField >= '{$startDate->format('Y-m-d')}')";
-    }
-
-    protected function gestart(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
-    {
-        return "WHERE $startDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
-    }
-
-    protected function afgesloten(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
-    {
-        return "WHERE $endDateField BETWEEN '{$startDate->format('Y-m-d')}' AND '{$endDate->format('Y-m-d')}'";
-    }
-
-    protected function succesvol_afgesloten(DateTime $startDate, DateTime $endDate, $startDateField, $endDateField)
-    {
-        return $this->afgesloten($startDate, $endDate, $startDateField, $endDateField)
-        .' AND koppeling.koppeling_succesvol = 1';
-    }
-
-    protected function eindstand(DateTime $endDate, $startDateField, $endDateField)
-    {
-        return "WHERE $startDateField <= '{$endDate->format('Y-m-d')}'
-			AND ($endDateField IS NULL OR $endDateField > '{$endDate->format('Y-m-d')}')";
     }
 }

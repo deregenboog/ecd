@@ -25,10 +25,10 @@ class Hi5Answer extends AppModel
 
     public function processPostedData($posted_data)
     {
-        $result = array();
+        $result = [];
 
         foreach ($posted_data as $ans_id => $block) {
-            $item = array();
+            $item = [];
             $item['hi5_answer_id'] = $ans_id;
 
             if (is_array($block)) {

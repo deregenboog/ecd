@@ -193,8 +193,8 @@ class PfoClient extends AppModel
             ),
         ));
 
-        $pfoClient['PfoVerslag'] = array();
-        $ids = array();
+        $pfoClient['PfoVerslag'] = [];
+        $ids = [];
         if (isset($pfoClient['PfoClientenVerslag'])) {
             foreach ($pfoClient['PfoClientenVerslag'] as $pf) {
                 $ids[] = $pf['pfo_verslag_id'];
@@ -207,7 +207,7 @@ class PfoClient extends AppModel
                 'order' => array('created DESC'),
         ));
 
-        $pfoClient['AlsoSupporting'] = array();
+        $pfoClient['AlsoSupporting'] = [];
         $complete_group = array($id);
 
         $hoofd_client_id = null;
@@ -247,7 +247,7 @@ class PfoClient extends AppModel
         $pfoClient['CompleteGroup'] = array_unique($complete_group);
 
         if (empty($pfoClient['SupportClient'])) {
-            $pfoClient['SupportClient'] = array();
+            $pfoClient['SupportClient'] = [];
         }
 
         return $pfoClient;
@@ -255,15 +255,15 @@ class PfoClient extends AppModel
 
     public function clienten()
     {
-        $conditions = array();
+        $conditions = [];
 
         $clienten_all = $this->find('all', array(
-            'contain' => array(),
+            'contain' => [],
             'conditions' => $conditions,
             'fields' => array('id', 'roepnaam', 'tussenvoegsel', 'achternaam'),
         ));
 
-        $clienten = array();
+        $clienten = [];
         foreach ($clienten_all as $client) {
             $clienten[$client['PfoClient']['id']] = $client['PfoClient']['roepnaam'].' '.$client['PfoClient']['tussenvoegsel'].' '.$client['PfoClient']['achternaam'];
             $clienten[$client['PfoClient']['id']] = trim($clienten[$client['PfoClient']['id']]);
@@ -282,7 +282,7 @@ class PfoClient extends AppModel
 				left join pfo_clienten_supportgroups s on PfoClient.id = pfo_client_id or PfoClient.id = pfo_supportgroup_client_id having isnull(s.id)';
 
         $data = $this->query($query);
-        $clienten = array();
+        $clienten = [];
 
         foreach ($data as $client) {
             $clienten[$client['PfoClient']['id']] = $all[$client['PfoClient']['id']];
@@ -309,7 +309,7 @@ class PfoClient extends AppModel
             'fields' => array('id'),
         ));
 
-        $clienten = array();
+        $clienten = [];
 
         foreach ($data as $client) {
             if (count($client['PfoClientenSupportgroup']) == 0) {

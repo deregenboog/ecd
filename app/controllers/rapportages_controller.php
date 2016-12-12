@@ -57,8 +57,8 @@ class RapportagesController extends AppController
         }
 
         // Set extra constraints if user has given a date-range
-        $con = array();
-        $consusp = array();
+        $con = [];
+        $consusp = [];
         $date_from = null;
         $date_to = null;
         $count = null;
@@ -112,11 +112,11 @@ class RapportagesController extends AppController
 
     public function _generateInfobalieStats($date_from, $date_to)
     {
-        $klant_cond = array();
-        $klant_created_cond = array();
-        $geslacht_cond = array();
-        $intake_cond = array();
-        $locatie_cond = array();
+        $klant_cond = [];
+        $klant_created_cond = [];
+        $geslacht_cond = [];
+        $intake_cond = [];
+        $locatie_cond = [];
 
         $date_cond = array(
                 'binnen >=' => $date_from,
@@ -177,8 +177,8 @@ class RapportagesController extends AppController
         ));
 
             $klanten_list = array_unique(Set::ClassicExtract($registraties, '{n}.Registratie.klant_id'));
-            $klanten_list_verslag = array();
-            $verslagen = array();
+            $klanten_list_verslag = [];
+            $verslagen = [];
             $verslagen = $this->Klant->Verslag->find('list',
                     array(
                         'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array('id', 'klant_id'),
@@ -187,7 +187,7 @@ class RapportagesController extends AppController
 
             $klanten_list_verslag = array_unique(Set::ClassicExtract($verslagen, '{n}.Verslag.klant_id'));
 
-            $intakes = array();
+            $intakes = [];
             $intakes = $this->Klant->Intake->find('list',
                     array(
                         'conditions' =>
@@ -198,7 +198,7 @@ class RapportagesController extends AppController
 
             $klanten_list_intake = array_unique(Set::ClassicExtract($intakes, '{n}.Intake.klant_id'));
             $tmp_klanten = $klanten;
-            $klanten = array();
+            $klanten = [];
             foreach ($tmp_klanten as $klant_id => $laste_intake_id) {
                 if (in_array($klant_id, $klanten_list_intake)) {
                     $klanten[$klant_id] = $laste_intake_id;
@@ -321,7 +321,7 @@ class RapportagesController extends AppController
     public function infobalie()
     {
         // Gather data for a location specific report
-        $con = array();
+        $con = [];
 
         $references = array('het voorgande jaar', 'het afgelope jaar', 'dezelfde periode een jaar eerder');
 
@@ -378,8 +378,8 @@ class RapportagesController extends AppController
             $where .= " and geslacht_id = {$geslacht_id} ";
         }
 
-        $qu = "select k.id as klant_id, voornaam, tussenvoegsel, achternaam  
-					from klanten k join  registraties r on r.klant_id = k.id where {$where} group by k.id ";
+        $qu = "select k.id as klant_id, voornaam, tussenvoegsel, achternaam
+                    from klanten k join  registraties r on r.klant_id = k.id where {$where} group by k.id ";
 
         $select = $this->Klant->query($qu);
         $title = 'Nieuwe klanten';
@@ -396,8 +396,8 @@ class RapportagesController extends AppController
     public function locatie()
     {
         // Gather data for a location specific report
-        $con = array();
-        $consusp = array();
+        $con = [];
+        $consusp = [];
 
         // Set extra constraints if user has given a location and/or date-range
         $date_from = null;
@@ -405,9 +405,9 @@ class RapportagesController extends AppController
         $date_until = null;
         $geslacht_id = null;
         $locatie_id = null;
-        $klant_cond = array();
-        $geslacht_cond = array();
-        $intake_cond = array();
+        $klant_cond = [];
+        $geslacht_cond = [];
+        $intake_cond = [];
 
         if ($this->data) {
             $this->_prepare_dates($date_from, $date_to);
@@ -538,13 +538,13 @@ class RapportagesController extends AppController
     public function locatie_klant()
     {
         // Gather data for a location specific report
-        $con = array();
+        $con = [];
 
         // Set extra constraints if user has given a location and/or date-range
         $date_from = null;
         $date_to = null;
         $current_location = 'Alle locaties';
-        $geslacht_cond = array();
+        $geslacht_cond = [];
 
         if ($this->data) {
             $this->_prepare_dates($date_from, $date_to);
@@ -593,7 +593,7 @@ class RapportagesController extends AppController
 
     public function schorsingen()
     {
-        $conditions = array();
+        $conditions = [];
         $date_from = date('Y-m-d', strtotime('today - 1 year'));
         $date_to = date('Y-m-d', strtotime('tomorrow'));
         $current_location = 'Alle locaties';
@@ -634,7 +634,7 @@ class RapportagesController extends AppController
 
         //counting all schorsingen and active schorsingen for each client
         if (!empty($schorsingen)) {
-            $clients = array();
+            $clients = [];
             $previous_klant_id = null;
             foreach ($schorsingen as &$schorsing) {
                 //when this iteration is over the same client as previous iteration:
@@ -667,14 +667,12 @@ class RapportagesController extends AppController
         //setting stuff
         $locations = $this->Locatie->find('list', array('fields' => array('Locatie.id', 'Locatie.naam')));
 
-        // debug($clients);
-
         $this->set(compact('current_location', 'locations', 'date_to', 'date_from', 'clients'));
     }
 
     public function awbz_indicaties()
     {
-        $conditions = array();
+        $conditions = [];
 
         if ($this->data) {
             //setting the conditions depending on the data recieved from the form
@@ -685,11 +683,9 @@ class RapportagesController extends AppController
                     $this->data['options']['geslacht_id'];
             }
         }
-        // debug($conditions);
 
         $indicaties =
             $this->Klant->AwbzIndicatie->getLatestAndCloseToExpireForEachClient($conditions);
-        // debug($indicaties);
 
         //setting stuff
         $this->set(compact('indicaties'));
@@ -859,7 +855,7 @@ class RapportagesController extends AppController
      */
     public function ajaxManagement()
     {
-        $conditions = array();
+        $conditions = [];
 
         //dates
         $date_from = null;
@@ -914,7 +910,7 @@ class RapportagesController extends AppController
      */
     public function ajaxActivering()
     {
-        $conditions = array();
+        $conditions = [];
 
         //dates
         $date_from = null;
@@ -968,10 +964,7 @@ class RapportagesController extends AppController
             $reports[$key]['run'] = $sql;
             $reports[$key]['result'] = $dataSource->query($sql);
             if ($file == 'management_reports.sql' && empty($reports[$key]['result'])) {
-                // debug($key);
-                // debug($sql);
                 $log = $dataSource->getLog(false, false);
-                // debug($log);
                 $addresses = array('phpdevelop@toltech.nl');
                 $error = "Problem in ECD management report. Maybe there's bad input data that makes a bad query, but it could also be that the temporary table regenboog-live.tmp_visits is missing. This happened before, on low disk space.\n\n".$sql;
                 $this->log($error);
@@ -1039,7 +1032,7 @@ class RapportagesController extends AppController
      */
     private function _readManagementReportConfig($file)
     {
-        $reports = array();
+        $reports = [];
         $config = preg_split('/-- START.*\n/m', file_get_contents(APP.'/config/'.$file));
         foreach ($config as $report) {
             $report = trim($report);
@@ -1095,7 +1088,7 @@ class RapportagesController extends AppController
 
     public function ajaxGeenHulpverlenerscontact()
     {
-        $conditions = array();
+        $conditions = [];
 
         $options = $this->data['options'];
 
@@ -1144,7 +1137,7 @@ class RapportagesController extends AppController
         }
 
         if ($this->execute($sql)) {
-            $out = array();
+            $out = [];
 
             $first = $this->fetchRow();
             if ($first != null) {

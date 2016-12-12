@@ -29,7 +29,7 @@ class GroepsactiviteitenVrijwilliger extends AppModel
     {
         $return = $this->find('list', array(
                 'conditions' => array('groepsactiviteit_id' => $groepsactiviteit_id),
-                'contain' => array(),
+                'contain' => [],
         ));
 
         $count = count($return);

@@ -193,7 +193,7 @@ class KlantenController extends AppController
             $generic = false;
         }
 
-        $dups = array();
+        $dups = [];
         if (!empty($this->data)) {
             switch ($step) {
 
@@ -308,7 +308,7 @@ class KlantenController extends AppController
         $landen = $this->Klant->Geboorteland->findList();
         $mailto = Configure::read('administratiebedrijf');
 
-        $content = array();
+        $content = [];
         $url = array('controller' => 'klanten', 'action' => 'view', $id);
         $content['url'] = Router::url($url, true);
         $content['changes'] = $this->Klant->changes;

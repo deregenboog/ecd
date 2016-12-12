@@ -143,7 +143,7 @@ class AwbzIndicatie extends AppModel
         return true;
     }
 
-    public function getLatestAndCloseToExpireForEachClient($options = array())
+    public function getLatestAndCloseToExpireForEachClient($options = [])
     {
         if (isset($options['geslacht']) && !empty($options['geslacht'])) {
             App::import('Sanitize');

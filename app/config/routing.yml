@@ -1,0 +1,6 @@
+_app:
+    resource: "@AppBundle/Resources/config/routing.yml"
+
+_iz:
+    resource: "@IzBundle/Resources/config/routing.yml"
+

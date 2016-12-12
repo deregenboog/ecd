@@ -165,11 +165,11 @@ class Vrijwilliger extends AppModel
     );
 
     public $hasOne = array(
-        'IzVrijwilliger' => array(
-            'className' => 'IzVrijwilliger',
+        'IzDeelnemer' => array(
+            'className' => 'IzDeelnemer',
             'foreignKey' => 'foreign_key',
             'conditions' => array(
-                'IzVrijwilliger.model' => 'Vrijwilliger',
+                'IzDeelnemer.model' => 'Vrijwilliger',
             ),
             'dependent' => true,
         ),
@@ -183,13 +183,13 @@ class Vrijwilliger extends AppModel
         ),
     );
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         if (empty($this->id) && empty($this->data['Vrijwilliger']['id'])) {
             $this->send_admin_email = true;
             $this->changes = $this->data;
             if (isset($this->data['Vrijwilliger'])) {
-                $this->changes = array();
+                $this->changes = [];
                 foreach ($this->watchfields as $watch) {
                     if (isset($this->data['Vrijwilliger'][$watch])) {
                         $this->changes[$watch] = $this->data['Vrijwilliger'][$watch];
@@ -203,7 +203,7 @@ class Vrijwilliger extends AppModel
                 $compare = $this->data['Vrijwilliger'];
             }
             $this->send_admin_email = false;
-            $this->changes = array();
+            $this->changes = [];
             foreach ($this->watchfields as $watch) {
                 if (!isset($current[$watch]) || !isset($compare[$watch])) {
                     continue;
@@ -220,7 +220,7 @@ class Vrijwilliger extends AppModel
 
     public function get_selectie($data, $only_email = false)
     {
-        $conditions = array();
+        $conditions = [];
 
         if (!empty($data['Groepsactiviteit']['werkgebieden'])) {
             $conditions['Vrijwilliger.werkgebied'] = $data['Groepsactiviteit']['werkgebieden'];
@@ -242,7 +242,7 @@ class Vrijwilliger extends AppModel
         }
 
         if (!empty($data['Groepsactiviteit']['communicatie_type'])) {
-            $or = array();
+            $or = [];
             if (in_array('communicatie_email', $data['Groepsactiviteit']['communicatie_type'])) {
                 $or['GroepsactiviteitenGroepenVrijwilliger.communicatie_email'] = 1;
             }
@@ -265,7 +265,7 @@ class Vrijwilliger extends AppModel
 
         $contain = array('GroepsactiviteitenIntake');
 
-        $joins = array();
+        $joins = [];
 
         $joins[] = array(
             'table' => $join_table,

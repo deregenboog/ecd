@@ -39,7 +39,7 @@ class BackOnTrackController extends AppController
         ),
         'BotVerslag' => array(
             'fields' => array('*'),
-            'Medewerker' => array(),
+            'Medewerker' => [],
         ),
         'BackOnTrack' => array(
             'BotKoppeling' => array(

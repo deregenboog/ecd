@@ -1,0 +1,261 @@
+parameters:
+    cake:
+        Session.cookie: ECD
+        Session.timeout: 8000
+
+        Security.salt: "efc488c8f80972aa21584df9060cfcb30dbef3db"
+        Security.cipherSeed: "98271797238915345465612303645"
+
+        timezone: "Europe/Amsterdam"
+
+        debug: "%kernel.debug%"
+        debug_level: 2
+
+        Config.language: dut
+
+        Calendar.dateDisplayFormat: d-M-y
+
+        Cache.disable: "%kernel.debug%"
+
+        volunteers:
+            vrijwilliger_oud_west: 14
+            vrijwilliger_eik: 9
+            vrijwilliger_de_kloof: 10
+            vrijwilliger_macom: 11
+            vrijwilliger_macom_nacht: 12
+            vwspreekbuis: 15
+
+        ldap:
+            host: ldap://ldap.deregenboog.org
+            port: 389
+            baseDn: dc=deregenboog,dc=org
+            groups:
+                werkbegeleiders: 10195
+                trajectbegeleiders: 10194
+
+        GROUP_ADMIN: 10105
+        GROUP_DEVELOP: 10422
+        GROUP_VOLONTEERS: 1025
+        GROUP_STAGE: 1026
+        GROUP_PORTIER: 10103
+        GROUP_MLO: 10104
+        GROUP_MAATSCHAPPELIJK: 10117
+        GROUP_HI5: 10097
+        GROUP_TRAJECTBEGELEIDER: 10194);
+        GROUP_WERKBEGELEIDER: 10195);
+        GROUP_TEAMLEIDERS: 10105);
+        GROUP_PFO: 10123
+        GROUP_BACK_ON_TRACK_COORDINATOR: 10404
+        GROUP_BACK_ON_TRACK_COACH: 10403
+        GROUP_GROEPSACTIVITEIT: 10396
+        GROUP_IZ: 10460
+        GROUP_REPORT: 10570
+        GROUP_IZ_BEHEER: 10462
+        GROUP_BEHEER_GROEPSACTIVITEIT: 10463
+
+        ACL.disabled: false
+        ACL.permissions:
+            GROUP_REPORT:
+                - Rapportages
+            GROUP_PORTIER:
+                - Registraties
+                - Opmerkingen
+            GROUP_MLO:
+                - Intakes
+                - Klanten
+                - Registraties
+                - Schorsingen
+                - Opmerkingen
+            GROUP_MAATSCHAPPELIJK:
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Intakes
+                - Klanten
+                - Registraties
+                - Opmerkingen
+                - MaatschappelijkWerk
+                - Verslagen
+                - Rapportages
+                - Attachments
+            GROUP_HI5:
+                - Intakes
+                - Klanten
+                - Attachments
+            GROUP_ADMIN:
+                - Admin
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Intakes
+                - Klanten
+                - Hi5
+                - MaatschappelijkWerk
+                - Verslagen
+                - Registraties
+                - Schorsingen
+                - Opmerkingen
+                - Rapportages
+                - MwInventarisaties
+                - Attachments
+                - BackOnTrack
+                - BotVerslagen
+                - Vrijwilligers
+                - Groepsactiviteiten
+            GROUP_BACK_ON_TRACK_COORDINATOR:
+                - BackOnTrack
+                - BotVerslagen
+                - BotKoppelingen
+                - Intakes
+            GROUP_BACK_ON_TRACK_COACH:
+                - BackOnTrack
+                - BotVerslagen
+                - BotKoppelingen
+            GROUP_VOLONTEERS:
+                    - Registraties
+            GROUP_STAGE:
+                - Intakes
+                - Klanten
+                - Registraties
+            GROUP_PFO:
+                - PfoClienten
+                - PfoRapporten
+                - PfoAardRelaties
+                - PfoGroepen
+                - PfoVerslagen
+            GROUP_TRAJECTBEGELEIDER:
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Hi5
+                - Attachments
+            GROUP_IZ:
+                - Klanten
+                - Vrijwilligers
+                - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
+                - IzVerslagen
+                - Attachments
+            GROUP_IZ_BEHEER:
+                - IzAfsluitingen
+                - IzDeelnemers
+                - IzEindekoppelingen
+                - IzIntervisiegroepen
+                - IzKoppelingen
+                - IzOntstaan
+                - IzProjecten
+                - IzVerslagen
+                - IzViaPersonen
+                - IzVraagaanboden
+                - IzOntstaanContacten
+            GROUP_GROEPSACTIVITEIT:
+                - Vrijwilligers
+                - Groepsactiviteiten
+                - Klanten
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - Attachments
+            GROUP_BEHEER_GROEPSACTIVITEIT:
+                - GroepsactiviteitenGroepen
+                - GroepsactiviteitenRedenen
+            GROUP_WERKBEGELEIDER: []
+            GROUP_DEVELOP:
+                - "*"
+                - Klanten
+                - Vrijwilligers
+                - IzDeelnemers
+                - IzVerslagen
+                - Groepsactiviteiten
+
+        all_menu_items:
+            Hi5: Hi5
+            Klanten: Klantenlijst
+            Vrijwilligers: Vrijwilligers
+            Registraties: Registratie
+            MaatschappelijkWerk: Maatschappelijk werk
+            Rapportages: Rapportages
+            Awbz: AWBZ
+            PfoClienten: PFO
+            BackOnTrack: BOT
+            IzDeelnemers: IZ
+            Groepsactiviteiten: Groepsactiviteiten
+            Admin: Admin
+
+        TBC_months_period: 6
+
+        Landen.AMOC: [5002, 5009, 5010, 5015, 5017, 5039, 5040, 5049, 6002, 6003, 6007, 6018, 6029, 6037, 6039, 6066, 6067, 7003, 7024, 7028, 7044, 7047, 7050, 7064, 7065, 7066]
+
+        options_medewerker:
+            1: medewerker
+            2: stagiair
+            3: vrijwilliger
+
+        Communicatietypen:
+            iedereen: Iedereen
+            communicatie_email: E-Mail
+            communicatie_post: Post
+
+        IzFase:
+#            iedereen: Iedereen
+            aanmelding: Aanmelding
+            onvolledig: Onvolledige invoer
+            wachtlijst: Wachtlijst
+            gekoppeld: Gekoppeld
+#            beeindigd: Beeindigd
+            afgesloten: Afgesloten
+            koppeling_nvt: Koppeling n.v.t.
+
+        Persoontypen:
+            Klant: Klanten
+            Vrijwilliger: Vrijwilligers
+
+        Werkgebieden:
+            "": ""
+            "Amstelveen": "Amstelveen"
+            "Centrum": "Centrum"
+            "Diemen": "Diemen"
+            "Nieuw-West": "Nieuw-West"
+            "Noord": "Noord"
+            "Overig": "Overig"
+            "Oost": "Oost"
+            "West": "West"
+            "Westpoort": "Westpoort"
+            "Zuid": "Zuid"
+            "Zuidoost": "Zuidoost"
+
+        Postcodegebieden:
+            "": ""
+            "Noord-oost": "Noord-oost"
+            "Noord-West": "Noord-West"
+            "Oud Noord": "Oud Noord"
+            "Westerpark": "Westerpark"
+            "Centrum West": "Centrum West"
+            "Centrum Oost": "Centrum Oost"
+            "Oostelijke Havengebied - Indische Buurt": "Oostelijke Havengebied - Indische Buurt"
+            "Oud Oost": "Oud Oost"
+            "Ijburg - Zeeburgereiland": "Ijburg - Zeeburgereiland"
+            "Watergraafsmeer": "Watergraafsmeer"
+            "De Pijp - Rivierenbuurt": "De Pijp - Rivierenbuurt"
+            "Buitenveldert - Zuidas": "Buitenveldert - Zuidas"
+            "Zuid": "Zuid"
+            "De Baarsjes - Oud West": "De Baarsjes - Oud West"
+            "Bos en Lommer": "Bos en Lommer"
+            "Geuzenveld - Slotermeer": "Geuzenveld - Slotermeer"
+            "Slotervaart": "Slotervaart"
+            "Osdorp": "Osdorp"
+            "De Aker - Nieuw Sloten": "De Aker - Nieuw Sloten"
+            "Bijlmer Centrum": "Bijlmer Centrum"
+            "Bijlmer Oost": "Bijlmer Oost"
+            "Gaaperdam - Driemond": "Gaaperdam - Driemond"
+            "Overig": "Overig"
+
+        Afmeldstatus:
+            "": ""
+            "Aanwezig": "Aanwezig"
+            "Afwezig": "Afwezig"

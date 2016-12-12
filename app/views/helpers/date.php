@@ -415,7 +415,6 @@ class DateHelper extends AppHelper
                             $str .= '0';
                         }
                         $str .= $i.'"';
-                        // debug($default[1]. ' '.$i);
                         if ($default != null && $default != 'empty' && $default[1] == $i) {
                             $str .= ' selected="selected"';
                         }
@@ -556,47 +555,47 @@ class DateHelper extends AppHelper
         //defaults
         if ($this->picker_count == 0) {
             $this->Js->buffer('
-				$.datepicker.setDefaults( $.datepicker.regional[ "nl" ] );
-				$.datepicker.setDefaults( {
-					changeMonth: true,
-					changeYear: true,
-					showOtherMonths: true,
-					selectOtherMonths: true,
-					altFormat: "yy-mm-dd",
-					buttonImage: "'.Router::url('/img/calendar_1.png').'",
-					buttonImageOnly: true,
-					buttonText: "kalender",
-					showOn: "both"
-				} );
-			');
+                $.datepicker.setDefaults( $.datepicker.regional[ "nl" ] );
+                $.datepicker.setDefaults( {
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    altFormat: "yy-mm-dd",
+                    buttonImage: "'.Router::url('/img/calendar_1.png').'",
+                    buttonImageOnly: true,
+                    buttonText: "kalender",
+                    showOn: "both"
+                } );
+            ');
         }
 
         //attaching the datepicker and the listeners
         $this->Js->buffer('
-			var field_id = "#'.$field_id.'";
+            var field_id = "#'.$field_id.'";
 
-			var datepicker_field = $(field_id+"-datepicker");
-			datepicker_field.datepicker({
-				altField: field_id,
-				onClose: function(dateText, inst){
-					inst.input.removeAttr("disabled");
-				}
-			}).focus(function(e){
-				$(this).attr("disabled", "disabled");
-			});
+            var datepicker_field = $(field_id+"-datepicker");
+            datepicker_field.datepicker({
+                altField: field_id,
+                onClose: function(dateText, inst){
+                    inst.input.removeAttr("disabled");
+                }
+            }).focus(function(e){
+                $(this).attr("disabled", "disabled");
+            });
 
-		//for preset dates (ex. when editing)
-			var preset_val = $(field_id).val();
-			if(preset_val){
-				datepicker_field.datepicker("setDate", new Date(preset_val));
-			}
+        //for preset dates (ex. when editing)
+            var preset_val = $(field_id).val();
+            if(preset_val){
+                datepicker_field.datepicker("setDate", new Date(preset_val));
+            }
 
-			$(field_id+"-clear").click(function(e){
-				$(field_id).val("");
-				$(field_id+"-datepicker").val("");
-			});
+            $(field_id+"-clear").click(function(e){
+                $(field_id).val("");
+                $(field_id+"-datepicker").val("");
+            });
 
-		');
+        ');
 
         ++$this->picker_count;
 

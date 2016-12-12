@@ -1,42 +1,27 @@
 <?php
 
+use IzBundle\Form\IzRapportageType;
+use IzBundle\Entity\IzKoppeling;
+use IzBundle\Entity\IzHulpvraag;
+use AppBundle\Report\Table;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Entity\IzKlant;
+
 class IzRapportagesController extends AppController
 {
-    public $uses = array();
+    /**
+     * Don't use CakePHP models.
+     */
+    public $uses = [];
 
-    public $components = array('ComponentLoader');
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
+
+//     public $components = array('ComponentLoader');
 
     public $report_select = array(
-        'Koppelingen' => array(
-// 			'koppelingen_coordinator' => 'Koppelingen per coördinator',
-            'koppelingen_project' => 'Koppelingen per project',
-            'koppelingen_stadsdeel' => 'Koppelingen per stadsdeel',
-            'koppelingen_postcodegebied' => 'Koppelingen per postcodegebied',
-            'koppelingen_project_stadsdeel' => 'Koppelingen per project en stadsdeel',
-            'koppelingen_project_postcodegebied' => 'Koppelingen per project en postcodegebied',
-        ),
-        'Vrijwilligers' => array(
-            'vrijwilligers_aanmeldingen' => 'Aanmeldingen vrijwilligers',
-            'vrijwilligers_aanmeldingen_coordinator' => 'Aanmeldingen vrijwilligers per coördinator',
-            'vrijwilligers_totaal' => 'Vrijwilligers totaal',
-            'vrijwilligers_coordinator' => 'Vrijwilligers per coördinator',
-            'vrijwilligers_project' => 'Vrijwilligers per project',
-            'vrijwilligers_stadsdeel' => 'Vrijwilligers per stadsdeel',
-            'vrijwilligers_postcodegebied' => 'Vrijwilligers per postcodegebied',
-            'vrijwilligers_project_stadsdeel' => 'Vrijwilligers per project en stadsdeel',
-            'vrijwilligers_project_postcodegebied' => 'Vrijwilligers per project en postcodegebied',
-        ),
-        'Klanten' => array(
-            'klanten_aanmeldingen' => 'Aanmeldingen klanten',
-            'klanten_aanmeldingen_coordinator' => 'Aanmeldingen klanten per coördinator',
-            'klanten_totaal' => 'Klanten totaal',
-            'klanten_coordinator' => 'Klanten per coördinator',
-            'klanten_project' => 'Klanten per project',
-            'klanten_stadsdeel' => 'Klanten per stadsdeel',
-            'klanten_postcodegebied' => 'Klanten per postcodegebied',
-            'klanten_project_stadsdeel' => 'Klanten per project en stadsdeel',
-            'klanten_project_postcodegebied' => 'Klanten per project en postcodegebied',
-        ),
         'A1' => 'A1: Nieuwe koppelingen',
         'A2' => 'A2: Namenlijst nieuwe koppelingen',
         'B1' => 'B1: Afgesloten koppelingen',
@@ -58,33 +43,20 @@ class IzRapportagesController extends AppController
         'Z5' => 'Z5: Vrijwilligers per project',
     );
 
-// 	public function __construct()
-// 	{
-// 		// valid model needed for construction
-// 		$this->name = 'IzDeelnemers';
-// 		parent::__construct();
-
-// 		// correct view path
-// 		$this->viewPath = 'iz_rapportages';
-// 	}
-
     public function index()
     {
-        $this->applyFilter();
+        $form = $this->createForm(IzRapportageType::class);
+        $form->handleRequest($this->request);
 
-        if (empty($this->data)) {
-            $this->data = ['Query' => [
-                'from' => (new \DateTime('first day of January this year'))->format('Y-m-d'),
-                'until' => (new \DateTime('now'))->format('Y-m-d'),
-            ]];
-        } else {
-            $this->ajax_report_html();
+        if ($form->isValid()) {
+            $reportName = $form->get('rapport')->getData();
+            $method = 'report_'.$reportName;
+            if (method_exists($this, $method)) {
+                $this->{$method}($form->get('startdatum')->getData(), $form->get('einddatum')->getData());
+            }
         }
 
-        $report_select = $this->report_select;
-        $title = '';
-
-        $this->set(compact('report_generator', 'title', 'report_select'));
+        $this->set('form', $form->createView());
     }
 
     public function ajax_report_html()
@@ -260,12 +232,124 @@ class IzRapportagesController extends AppController
 // 		}
     }
 
-    private function report_koppelingen_project(
+    private function report_koppelingen_totaal(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel($this->entity);
+        $repository = $this->getEntityManager()->getRepository(IzHulpvraag::class);
+
+        $beginstand = $repository->count('beginstand', $startDate, $endDate);
+        $gestart = $repository->count('gestart', $startDate, $endDate);
+        $afgesloten = $repository->count('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->count('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->count('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, null, 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $gestartTable = new Table($gestart, null, null, 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, null, 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $succesvolAfgeslotenTable = new Table($succesvolAfgesloten, null, null, 'aantal');
+        $succesvolAfgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, null, 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $title = 'Koppelingen totaal';
+        $reports = array(
+            array(
+                'title' => 'Beginstand',
+                'xDescription' => 'Aantal koppelingen',
+                'data' => $beginstandTable->render(),
+            ),
+            array(
+                'title' => 'Gestart',
+                'xDescription' => 'Aantal koppelingen',
+                'data' => $gestartTable->render(),
+            ),
+            array(
+                'title' => 'Afgesloten',
+                'xDescription' => 'Aantal koppelingen',
+                'data' => $afgeslotenTable->render(),
+            ),
+            array(
+                'title' => 'Succesvol afgesloten',
+                'xDescription' => 'Aantal koppelingen',
+                'data' => $succesvolAfgeslotenTable->render(),
+            ),
+            array(
+                'title' => 'Eindstand',
+                'xDescription' => 'Aantal koppelingen',
+                'data' => $eindstandTable->render(),
+            ),
+        );
+
+        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+    }
+
+    private function report_koppelingen_per_project(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzHulpvraag::class);
+
+        $beginstand = $repository->countByProject('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByProject('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByProject('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByProject('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByProject('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, 'project', 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $gestartTable = new Table($gestart, null, 'project', 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'project', 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $succesvolAfgeslotenTable = new Table($succesvolAfgesloten, null, 'project', 'aantal');
+        $succesvolAfgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'project', 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
 
         $title = 'Koppelingen per project';
         $reports = array(
@@ -273,1295 +357,1325 @@ class IzRapportagesController extends AppController
                 'title' => 'Beginstand',
                 'xDescription' => 'Aantal koppelingen',
                 'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_beginstand(
-                    $startDate
-                ),
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
                 'xDescription' => 'Aantal koppelingen',
                 'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_gestart(
-                    $startDate,
-                    $endDate
-                ),
+                'data' => $gestartTable->render(),
             ),
             array(
                 'title' => 'Afgesloten',
                 'xDescription' => 'Aantal koppelingen',
                 'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project(
-                    $startDate,
-                    $endDate
-                ),
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Succesvol afgesloten',
                 'xDescription' => 'Aantal koppelingen',
                 'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_succesvol_afgesloten(
-                    $startDate,
-                    $endDate
-                ),
+                'data' => $succesvolAfgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
                 'xDescription' => 'Aantal koppelingen',
                 'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_eindstand(
-                    $endDate
-                ),
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_koppelingen_stadsdeel(
+    private function report_koppelingen_per_stadsdeel(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
-    ) {
+        ) {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzHulpvraag::class);
+
+        $beginstand = $repository->countByStadsdeel('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByStadsdeel('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByStadsdeel('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByStadsdeel('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByStadsdeel('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, 'stadsdeel', 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ;
+
+        $gestartTable = new Table($gestart, null, 'stadsdeel', 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'stadsdeel', 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ;
+
+        $succesvolAfgeslotenTable = new Table($succesvolAfgesloten, null, 'stadsdeel', 'aantal');
+        $succesvolAfgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ;
+
+        $eindstandTable = new Table($eindstand, null, 'stadsdeel', 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ;
+
         $title = 'Koppelingen per stadsdeel';
         $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Stadsdeel',
-                'data' => $this->IzKoppeling->count_per_stadsdeel_beginstand(
-                    $startDate
+                array(
+                    'title' => 'Beginstand',
+                    'xDescription' => 'Aantal koppelingen',
+                    'yDescription' => 'Stadsdeel',
+                    'data' => $beginstandTable->render(),
                 ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Stadsdeel',
-                'data' => $this->IzKoppeling->count_per_stadsdeel_gestart(
-                    $startDate,
-                    $endDate
+                array(
+                    'title' => 'Gestart',
+                    'xDescription' => 'Aantal koppelingen',
+                    'yDescription' => 'Stadsdeel',
+                    'data' => $gestartTable->render(),
                 ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Stadsdeel',
-                'data' => $this->IzKoppeling->count_per_stadsdeel_afgesloten(
-                    $startDate,
-                    $endDate
+                array(
+                    'title' => 'Afgesloten',
+                    'xDescription' => 'Aantal koppelingen',
+                    'yDescription' => 'Stadsdeel',
+                    'data' => $afgeslotenTable->render(),
                 ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Stadsdeel',
-                'data' => $this->IzKoppeling->count_per_stadsdeel_succesvol_afgesloten(
-                    $startDate,
-                    $endDate
+                array(
+                    'title' => 'Succesvol afgesloten',
+                    'xDescription' => 'Aantal koppelingen',
+                    'yDescription' => 'Stadsdeel',
+                    'data' => $succesvolAfgeslotenTable->render(),
                 ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Stadsdeel',
-                'data' => $this->IzKoppeling->count_per_stadsdeel_eindstand(
-                    $endDate
+                array(
+                    'title' => 'Eindstand',
+                    'xDescription' => 'Aantal koppelingen',
+                    'yDescription' => 'Stadsdeel',
+                    'data' => $eindstandTable->render(),
                 ),
-            ),
-        );
+            );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_koppelingen_postcodegebied(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $title = 'Koppelingen per postcodegebied';
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Postcodegebied',
-                'data' => $this->IzKoppeling->count_per_postcodegebied(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Postcodegebied',
-                'data' => $this->IzKoppeling->count_per_postcodegebied(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Postcodegebied',
-                'data' => $this->IzKoppeling->count_per_postcodegebied(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Succesvol afgesloten',
-// 				'xDescription' => 'Aantal koppelingen',
-// 				'yDescription' => 'Postcodegebied',
-// 				'data' => $this->IzKoppeling->count_per_postcodegebied(
-// 					'succesvol_afgesloten', $startDate, $endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Aantal koppelingen',
-                'yDescription' => 'Postcodegebied',
-                'data' => $this->IzKoppeling->count_per_postcodegebied(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+//     private function report_koppelingen_postcodegebied(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $title = 'Koppelingen per postcodegebied';
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Aantal koppelingen',
+//                 'yDescription' => 'Postcodegebied',
+//                 'data' => $this->IzKoppeling->count_per_postcodegebied(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Aantal koppelingen',
+//                 'yDescription' => 'Postcodegebied',
+//                 'data' => $this->IzKoppeling->count_per_postcodegebied(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Aantal koppelingen',
+//                 'yDescription' => 'Postcodegebied',
+//                 'data' => $this->IzKoppeling->count_per_postcodegebied(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Succesvol afgesloten',
+// // 				'xDescription' => 'Aantal koppelingen',
+// // 				'yDescription' => 'Postcodegebied',
+// // 				'data' => $this->IzKoppeling->count_per_postcodegebied(
+// // 					'succesvol_afgesloten', $startDate, $endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Aantal koppelingen',
+//                 'yDescription' => 'Postcodegebied',
+//                 'data' => $this->IzKoppeling->count_per_postcodegebied(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
 
-    private function report_koppelingen_project_stadsdeel(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $title = 'Koppelingen per project en stadsdeel';
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Stadsdeel',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_stadsdeel_beginstand(
-                    $startDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Stadsdeel',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_stadsdeel_gestart(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Stadsdeel',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_stadsdeel_afgesloten(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Stadsdeel',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_stadsdeel_succesvol_afgesloten(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Stadsdeel',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_stadsdeel_eindstand(
-                    $endDate
-                ),
-            ),
-        );
+//         return $this->render('pivot_tables.'.$format);
+//     }
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//     private function report_koppelingen_project_stadsdeel(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $title = 'Koppelingen per project en stadsdeel';
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Stadsdeel',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_stadsdeel_beginstand(
+//                     $startDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Stadsdeel',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_stadsdeel_gestart(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Stadsdeel',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_stadsdeel_afgesloten(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Succesvol afgesloten',
+//                 'xDescription' => 'Stadsdeel',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_stadsdeel_succesvol_afgesloten(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Stadsdeel',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_stadsdeel_eindstand(
+//                     $endDate
+//                 ),
+//             ),
+//         );
 
-    private function report_koppelingen_project_postcodegebied(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $title = 'Koppelingen per project en postcodegebied';
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Postcodegebied',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_postcodegebied_beginstand(
-                    $startDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Postcodegebied',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_postcodegebied_gestart(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Postcodegebied',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_postcodegebied_afgesloten(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Postcodegebied',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_postcodegebied_succesvol_afgesloten(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Postcodegebied',
-                'yDescription' => 'Project',
-                'data' => $this->IzKoppeling->count_per_project_postcodegebied_eindstand(
-                    $endDate
-                ),
-            ),
-        );
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         return $this->render('pivot_tables.'.$format);
+//     }
 
-    private function report_vrijwilligers_aanmeldingen(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers | Aanmeldingen';
-        $reports = array(
-            array(
-                'title' => 'Aanmeldingen',
-                'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpaanbiedingen en koppelingen binnen datumbereik.',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count_aanmeldingen(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-        );
+//     private function report_koppelingen_project_postcodegebied(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $title = 'Koppelingen per project en postcodegebied';
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Postcodegebied',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_postcodegebied_beginstand(
+//                     $startDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Postcodegebied',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_postcodegebied_gestart(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Postcodegebied',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_postcodegebied_afgesloten(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Succesvol afgesloten',
+//                 'xDescription' => 'Postcodegebied',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_postcodegebied_succesvol_afgesloten(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Postcodegebied',
+//                 'yDescription' => 'Project',
+//                 'data' => $this->IzKoppeling->count_per_project_postcodegebied_eindstand(
+//                     $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
 
-    private function report_vrijwilligers_aanmeldingen_coordinator(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers | Aanmeldingen per coördinator';
-        $medewerkers = $this->getMedewerkers();
-        $reports = array(
-            array(
-                'title' => 'Aanmeldingen per coördinator',
-                'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpaanbiedingen en koppelingen binnen datumbereik.',
-                'yDescription' => 'Medewerkers uit basisdossier vrijwilliger (aanmeldingen), van IZ-intake (intakes), coördinatoren hulpaanbod (hulpaanbiedingen en koppelingen)',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzVrijwilliger->count_aanmeldingen_per_coordinator(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-        );
+//         return $this->render('pivot_tables.'.$format);
+//     }
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//     private function report_vrijwilligers_aanmeldingen(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzVrijwilliger');
+//         $title = 'Vrijwilligers | Aanmeldingen';
+//         $reports = array(
+//             array(
+//                 'title' => 'Aanmeldingen',
+//                 'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpaanbiedingen en koppelingen binnen datumbereik.',
+//                 'yDescription' => '',
+//                 'data' => $this->IzVrijwilliger->count_aanmeldingen(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//         );
+
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
+
+//     private function report_vrijwilligers_aanmeldingen_coordinator(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzVrijwilliger');
+//         $title = 'Vrijwilligers | Aanmeldingen per coördinator';
+//         $medewerkers = $this->getMedewerkers();
+//         $reports = array(
+//             array(
+//                 'title' => 'Aanmeldingen per coördinator',
+//                 'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpaanbiedingen en koppelingen binnen datumbereik.',
+//                 'yDescription' => 'Medewerkers uit basisdossier vrijwilliger (aanmeldingen), van IZ-intake (intakes), coördinatoren hulpaanbod (hulpaanbiedingen en koppelingen)',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzVrijwilliger->count_aanmeldingen_per_coordinator(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//         );
+
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
     private function report_vrijwilligers_totaal(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers';
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzVrijwilliger::class);
+
+        $beginstand = $repository->count('beginstand', $startDate, $endDate);
+        $gestart = $repository->count('gestart', $startDate, $endDate);
+        $afgesloten = $repository->count('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->count('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->count('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, null, 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $gestartTable = new Table($gestart, null, null, 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, null, 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, null, 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum).';
+        $yDesctiption = '';
+
+        $title = 'Vrijwilligers totaal';
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
-// 			array(
-// 				'title' => 'Nieuw Gestart',
-// 				'xDescription' => '',
-// 				'yDescription' => '',
-// 				'data' => $this->IzVrijwilliger->count_nieuw(
-// 					'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzVrijwilliger->count(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_vrijwilligers_coordinator(
+//     private function report_vrijwilligers_coordinator(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzVrijwilliger');
+//         $title = 'Vrijwilligers per coördinator';
+//         $medewerkers = $this->getMedewerkers();
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzVrijwilliger->count_per_coordinator(
+//                     'beginstand',
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzVrijwilliger->count_per_coordinator(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Nieuw Gestart',
+// // 				'xDescription' => '',
+// // 				'yDescription' => '',
+// // 				'yLookupCollection' => $medewerkers,
+// // 				'data' => $this->IzVrijwilliger->count_per_coordinator_nieuw_gestart(
+// // 					$startDate,
+// // 					$endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzVrijwilliger->count_per_coordinator(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzVrijwilliger->count_per_coordinator(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
+
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
+
+//     private function report_vrijwilligers_project_stadsdeel(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzVrijwilliger');
+//         $title = 'Vrijwilligers per project en stadsdeel';
+//         $projecten = $this->getIzProjecten();
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Nieuw Gestart',
+// // 				'xDescription' => '',
+// // 				'yDescription' => '',
+// // 				'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
+// // 				    'nieuw_gestart', $startDate, $endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
+
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
+
+    private function report_vrijwilligers_per_stadsdeel(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers per coördinator';
-        $medewerkers = $this->getMedewerkers();
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzVrijwilliger->count_per_coordinator(
-                    'beginstand',
-                    $startDate,
-                    $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzVrijwilliger->count_per_coordinator(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Nieuw Gestart',
-// 				'xDescription' => '',
-// 				'yDescription' => '',
-// 				'yLookupCollection' => $medewerkers,
-// 				'data' => $this->IzVrijwilliger->count_per_coordinator_nieuw_gestart(
-// 					$startDate,
-// 					$endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzVrijwilliger->count_per_coordinator(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzVrijwilliger->count_per_coordinator(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzVrijwilliger::class);
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+        $beginstand = $repository->countByStadsdeel('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByStadsdeel('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByStadsdeel('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByStadsdeel('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByStadsdeel('eindstand', $startDate, $endDate);
 
-    private function report_vrijwilligers_project_stadsdeel(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers per project en stadsdeel';
-        $projecten = $this->getIzProjecten();
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Nieuw Gestart',
-// 				'xDescription' => '',
-// 				'yDescription' => '',
-// 				'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
-// 				    'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_stadsdeel(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+        $beginstandTable = new Table($beginstand, null, 'stadsdeel', 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+        $gestartTable = new Table($gestart, null, 'stadsdeel', 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
 
-    private function report_vrijwilligers_stadsdeel(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzVrijwilliger');
+        $afgeslotenTable = new Table($afgesloten, null, 'stadsdeel', 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'stadsdeel', 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum).';
+        $yDesctiption = 'Stadsdeel';
 
         $title = 'Vrijwilligers per stadsdeel';
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
-// 			array(
-// 				'title' => 'Nieuw gestart',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-// 				'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-// 				    'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Stadsdeel op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_stadsdeel(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_vrijwilligers_project(
+    private function report_vrijwilligers_per_project(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzVrijwilliger');
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzVrijwilliger::class);
+
+        $beginstand = $repository->countByProject('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByProject('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByProject('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByProject('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByProject('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, 'project', 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $gestartTable = new Table($gestart, null, 'project', 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'project', 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'project', 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum).';
+        $yDesctiption = 'Project';
+
         $title = 'Vrijwilligers per project';
-        $projecten = $this->getIzProjecten();
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
-// 			array(
-// 				'title' => 'Nieuw gestart',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Project',
-// 		         'yLookupCollection' => $projecten,
-// 				'data' => $this->IzVrijwilliger->count_per_project(
-// 				    'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
-// 			array(
-// 				'title' => 'Succesvol afgesloten',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Project',
-// 				'yLookupCollection' => $projecten,
-// 				'data' => $this->IzVrijwilliger->count_per_project(
-// 					'succesvol_afgesloten', $startDate, $endDate
-// 				),
-// 			),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_vrijwilligers_postcodegebied(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzVrijwilliger');
+//     private function report_vrijwilligers_postcodegebied(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzVrijwilliger');
 
-        $title = 'Vrijwilligers per postcodegebied';
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_postcodegebied(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_postcodegebied(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Nieuw gestart',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-// 				'data' => $this->IzVrijwilliger->count_per_postcodegebied(
-// 					'nieuw_gestart', $startDate, $endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_postcodegebied(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Succesvol afgesloten',
-// 				'xDescription' => 'Aantal vrijwilligers',
-// 				'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-// 				'data' => $this->IzVrijwilliger->count_per_postcodegebied(
-// 					'succesvol_afgesloten', $startDate, $endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Aantal vrijwilligers',
-                'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'data' => $this->IzVrijwilliger->count_per_postcodegebied(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+//         $title = 'Vrijwilligers per postcodegebied';
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Aantal vrijwilligers',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'data' => $this->IzVrijwilliger->count_per_postcodegebied(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Aantal vrijwilligers',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'data' => $this->IzVrijwilliger->count_per_postcodegebied(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Nieuw gestart',
+// // 				'xDescription' => 'Aantal vrijwilligers',
+// // 				'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+// // 				'data' => $this->IzVrijwilliger->count_per_postcodegebied(
+// // 					'nieuw_gestart', $startDate, $endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Aantal vrijwilligers',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'data' => $this->IzVrijwilliger->count_per_postcodegebied(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Succesvol afgesloten',
+// // 				'xDescription' => 'Aantal vrijwilligers',
+// // 				'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+// // 				'data' => $this->IzVrijwilliger->count_per_postcodegebied(
+// // 					'succesvol_afgesloten', $startDate, $endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Aantal vrijwilligers',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'data' => $this->IzVrijwilliger->count_per_postcodegebied(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
-    private function report_vrijwilligers_project_postcodegebied(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzVrijwilliger');
-        $title = 'Vrijwilligers met koppeling per project en postcodegebied';
-        $projecten = $this->getIzProjecten();
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Nieuw gestart',
-// 				'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-// 				'yDescription' => 'Project',
-// 				'data' => $this->IzVrijwilliger->count_per_project_postcodegebied_nieuw_gestart(
-// 					'', $startDate, $endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-// 			array(
-// 				'title' => 'Succesvol afgesloten',
-// 				'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-// 				'yDescription' => 'Project',
-// 				'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
-// 					'succesvol_afgesloten', $startDate, $endDate
-// 				),
-// 			),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+//     private function report_vrijwilligers_project_postcodegebied(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzVrijwilliger');
+//         $title = 'Vrijwilligers met koppeling per project en postcodegebied';
+//         $projecten = $this->getIzProjecten();
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Nieuw gestart',
+// // 				'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+// // 				'yDescription' => 'Project',
+// // 				'data' => $this->IzVrijwilliger->count_per_project_postcodegebied_nieuw_gestart(
+// // 					'', $startDate, $endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+// // 			array(
+// // 				'title' => 'Succesvol afgesloten',
+// // 				'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+// // 				'yDescription' => 'Project',
+// // 				'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
+// // 					'succesvol_afgesloten', $startDate, $endDate
+// // 				),
+// // 			),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres vrijwilliger',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzVrijwilliger->count_per_project_postcodegebied(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
-    private function report_klanten_aanmeldingen(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzKlant');
-        $title = 'Klanten | Aanmeldingen';
-        $reports = array(
-            array(
-                'title' => 'Aanmeldingen',
-                'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpvragen en koppelingen binnen datumbereik.',
-                'yDescription' => '',
-                'data' => $this->IzKlant->count_aanmeldingen(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-        );
+//     private function report_klanten_aanmeldingen(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzKlant');
+//         $title = 'Klanten | Aanmeldingen';
+//         $reports = array(
+//             array(
+//                 'title' => 'Aanmeldingen',
+//                 'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpvragen en koppelingen binnen datumbereik.',
+//                 'yDescription' => '',
+//                 'data' => $this->IzKlant->count_aanmeldingen(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
-    private function report_klanten_aanmeldingen_coordinator(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzKlant');
-        $title = 'Klanten | Aanmeldingen per coördinator';
-        $medewerkers = $this->getMedewerkers();
-        $reports = array(
-            array(
-                'title' => 'Aanmeldingen per coördinator',
-                'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpvragen en koppelingen. Aanmeldingen binnen het datumbereik. Intakes, hulpvragen en koppelingen kunnen buiten datumbereik liggen.',
-                'yDescription' => 'Medewerkers uit basisdossier vrijwilliger (aanmeldingen), van IZ-intake (intakes), coördinatoren hulpvraag (hulpvragen en koppelingen)',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzKlant->count_aanmeldingen_per_coordinator(
-                    $startDate,
-                    $endDate
-                ),
-            ),
-        );
+//     private function report_klanten_aanmeldingen_coordinator(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzKlant');
+//         $title = 'Klanten | Aanmeldingen per coördinator';
+//         $medewerkers = $this->getMedewerkers();
+//         $reports = array(
+//             array(
+//                 'title' => 'Aanmeldingen per coördinator',
+//                 'xDescription' => 'Aanmeldingen en daaruit volgende intakes, hulpvragen en koppelingen. Aanmeldingen binnen het datumbereik. Intakes, hulpvragen en koppelingen kunnen buiten datumbereik liggen.',
+//                 'yDescription' => 'Medewerkers uit basisdossier vrijwilliger (aanmeldingen), van IZ-intake (intakes), coördinatoren hulpvraag (hulpvragen en koppelingen)',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzKlant->count_aanmeldingen_per_coordinator(
+//                     $startDate,
+//                     $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
     private function report_klanten_totaal(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzKlant');
-        $title = 'Klanten';
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzKlant::class);
+
+        $beginstand = $repository->count('beginstand', $startDate, $endDate);
+        $gestart = $repository->count('gestart', $startDate, $endDate);
+        $afgesloten = $repository->count('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->count('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->count('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, null, 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $gestartTable = new Table($gestart, null, null, 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, null, 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, null, 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $xDescription = 'Aantal klanten met koppeling (op basis van start- en einddatum van koppeling).';
+        $yDesctiption = '';
+
+        $title = 'Klanten totaal';
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzKlant->count(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzKlant->count(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzKlant->count(
-                    'afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'data' => $this->IzKlant->count(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_klanten_coordinator(
+//     private function report_klanten_coordinator(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzKlant');
+//         $title = 'Klanten per coördinator';
+//         $medewerkers = $this->getMedewerkers();
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzKlant->count_per_coordinator(
+//                      'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzKlant->count_per_coordinator(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzKlant->count_per_coordinator(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => '',
+//                 'yDescription' => '',
+//                 'yLookupCollection' => $medewerkers,
+//                 'data' => $this->IzKlant->count_per_coordinator(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
+
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
+
+    private function report_klanten_per_project(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzKlant');
-        $title = 'Klanten per coördinator';
-        $medewerkers = $this->getMedewerkers();
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzKlant->count_per_coordinator(
-                     'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzKlant->count_per_coordinator(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzKlant->count_per_coordinator(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => '',
-                'yDescription' => '',
-                'yLookupCollection' => $medewerkers,
-                'data' => $this->IzKlant->count_per_coordinator(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzKlant::class);
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+        $beginstand = $repository->countByProject('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByProject('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByProject('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByProject('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByProject('eindstand', $startDate, $endDate);
 
-    private function report_klanten_project(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzKlant');
+        $beginstandTable = new Table($beginstand, null, 'project', 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $gestartTable = new Table($gestart, null, 'project', 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'project', 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'project', 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+            ->setYTotals(false)
+        ;
+
+        $xDescription = 'Aantal klanten met koppeling (op basis van start- en einddatum van koppeling).';
+        $yDesctiption = 'Project';
+
         $title = 'Klanten per project';
-        $projecten = $this->getIzProjecten();
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project(
-                  'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project(
-                  'succesvol_afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project(
-                  'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_klanten_stadsdeel(
+    private function report_klanten_per_stadsdeel(
         \DateTime $startDate,
         \DateTime $endDate,
         $format = 'html'
     ) {
-        $this->loadModel('IzKlant');
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(IzKlant::class);
+
+        $beginstand = $repository->countByStadsdeel('beginstand', $startDate, $endDate);
+        $gestart = $repository->countByStadsdeel('gestart', $startDate, $endDate);
+        $afgesloten = $repository->countByStadsdeel('afgesloten', $startDate, $endDate);
+        $succesvolAfgesloten = $repository->countByStadsdeel('succesvol_afgesloten', $startDate, $endDate);
+        $eindstand = $repository->countByStadsdeel('eindstand', $startDate, $endDate);
+
+        $beginstandTable = new Table($beginstand, null, 'stadsdeel', 'aantal');
+        $beginstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $gestartTable = new Table($gestart, null, 'stadsdeel', 'aantal');
+        $gestartTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $afgeslotenTable = new Table($afgesloten, null, 'stadsdeel', 'aantal');
+        $afgeslotenTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $eindstandTable = new Table($eindstand, null, 'stadsdeel', 'aantal');
+        $eindstandTable
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
+        ;
+
+        $xDescription = 'Aantal klanten met koppeling (op basis van start- en einddatum van koppeling).';
+        $yDesctiption = 'Stadsdeel';
 
         $title = 'Klanten per stadsdeel';
         $reports = array(
             array(
                 'title' => 'Beginstand',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Stadsdeel op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_stadsdeel(
-                    'beginstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $beginstandTable->render(),
             ),
             array(
                 'title' => 'Gestart',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Stadsdeel op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_stadsdeel(
-                    'gestart', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $gestartTable->render(),
             ),
             array(
                 'title' => 'Afgesloten',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Stadsdeel op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_stadsdeel(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Stadsdeel op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_stadsdeel(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $afgeslotenTable->render(),
             ),
             array(
                 'title' => 'Eindstand',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Stadsdeel op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_stadsdeel(
-                    'eindstand', $startDate, $endDate
-                ),
+                'xDescription' => $xDescription,
+                'yDescription' => $yDesctiption,
+                'data' => $eindstandTable->render(),
             ),
         );
 
         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
     }
 
-    private function report_klanten_postcodegebied(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzKlant');
+//     private function report_klanten_postcodegebied(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzKlant');
 
-        $title = 'Klanten met koppeling per postcodegebied';
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Postcodegebied op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_postcodegebied(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Postcodegebied op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_postcodegebied(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Postcodegebied op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_postcodegebied(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Postcodegebied op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_postcodegebied(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Aantal klanten',
-                'yDescription' => 'Postcodegebied op basis van woonadres klant',
-                'data' => $this->IzKlant->count_per_postcodegebied(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+//         $title = 'Klanten met koppeling per postcodegebied';
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Aantal klanten',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'data' => $this->IzKlant->count_per_postcodegebied(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Aantal klanten',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'data' => $this->IzKlant->count_per_postcodegebied(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Aantal klanten',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'data' => $this->IzKlant->count_per_postcodegebied(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Succesvol afgesloten',
+//                 'xDescription' => 'Aantal klanten',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'data' => $this->IzKlant->count_per_postcodegebied(
+//                     'succesvol_afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Aantal klanten',
+//                 'yDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'data' => $this->IzKlant->count_per_postcodegebied(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
-    private function report_klanten_project_stadsdeel(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzKlant');
-        $title = 'Klanten per project en stadsdeel';
-        $projecten = $this->getIzProjecten();
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Stadsdeel op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_stadsdeel(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Stadsdeel op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_stadsdeel(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Stadsdeel op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_stadsdeel(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Stadsdeel op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_stadsdeel(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Stadsdeel op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_stadsdeel(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+//     private function report_klanten_project_stadsdeel(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzKlant');
+//         $title = 'Klanten per project en stadsdeel';
+//         $projecten = $this->getIzProjecten();
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Stadsdeel op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_stadsdeel(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Stadsdeel op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_stadsdeel(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Stadsdeel op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_stadsdeel(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Succesvol afgesloten',
+//                 'xDescription' => 'Stadsdeel op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_stadsdeel(
+//                     'succesvol_afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Stadsdeel op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_stadsdeel(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
-    private function report_klanten_project_postcodegebied(
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $format = 'html'
-    ) {
-        $this->loadModel('IzKlant');
-        $title = 'Klanten met koppeling per project en postcodegebied';
-        $projecten = $this->getIzProjecten();
-        $reports = array(
-            array(
-                'title' => 'Beginstand',
-                'xDescription' => 'Postcodegebied op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_postcodegebied(
-                    'beginstand', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Gestart',
-                'xDescription' => 'Postcodegebied op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_postcodegebied(
-                    'gestart', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Afgesloten',
-                'xDescription' => 'Postcodegebied op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_postcodegebied(
-                    'afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Succesvol afgesloten',
-                'xDescription' => 'Postcodegebied op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_postcodegebied(
-                    'succesvol_afgesloten', $startDate, $endDate
-                ),
-            ),
-            array(
-                'title' => 'Eindstand',
-                'xDescription' => 'Postcodegebied op basis van woonadres klant',
-                'yDescription' => 'Project',
-                'yLookupCollection' => $projecten,
-                'data' => $this->IzKlant->count_per_project_postcodegebied(
-                    'eindstand', $startDate, $endDate
-                ),
-            ),
-        );
+//     private function report_klanten_project_postcodegebied(
+//         \DateTime $startDate,
+//         \DateTime $endDate,
+//         $format = 'html'
+//     ) {
+//         $this->loadModel('IzKlant');
+//         $title = 'Klanten met koppeling per project en postcodegebied';
+//         $projecten = $this->getIzProjecten();
+//         $reports = array(
+//             array(
+//                 'title' => 'Beginstand',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_postcodegebied(
+//                     'beginstand', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Gestart',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_postcodegebied(
+//                     'gestart', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Afgesloten',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_postcodegebied(
+//                     'afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Succesvol afgesloten',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_postcodegebied(
+//                     'succesvol_afgesloten', $startDate, $endDate
+//                 ),
+//             ),
+//             array(
+//                 'title' => 'Eindstand',
+//                 'xDescription' => 'Postcodegebied op basis van woonadres klant',
+//                 'yDescription' => 'Project',
+//                 'yLookupCollection' => $projecten,
+//                 'data' => $this->IzKlant->count_per_project_postcodegebied(
+//                     'eindstand', $startDate, $endDate
+//                 ),
+//             ),
+//         );
 
-        $this->set(compact('title', 'startDate', 'endDate', 'reports'));
-    }
+//         $this->set(compact('title', 'startDate', 'endDate', 'reports'));
+//     }
 
-    private function check_persoon_model($persoon_model)
-    {
-        if ($persoon_model != 'Vrijwilliger' && $persoon_model != 'Klant') {
-            echo 'Een foute invoer';
-            exit;
-        }
+//     private function getMedewerkers()
+//     {
+//         $this->loadModel('Medewerker');
 
-        if (!isset($this->{$persoon_model})) {
-            $this->loadModel($persoon_model);
-        }
+//         return $this->Medewerker->find('list', array(
+//             'joins' => array(
+//                 array(
+//                     'table' => 'iz_koppelingen',
+//                     'alias' => 'IzHulpaanbod',
+//                     'type' => 'INNER',
+//                     'conditions' => array(
+//                         'IzHulpaanbod.medewerker_id = Medewerker.id',
+//                     ),
+//                 ),
+//             ),
+//         ));
+//     }
 
-        return $persoon_model;
-    }
+//     private function getIzProjecten()
+//     {
+//         $this->loadModel('IzProject');
 
-    private function setmetadata($id = null, $persoon_model = null, $foreign_key = null)
-    {
-        $iz_deelnemer = null;
-        $is_afgesloten = false;
-
-        if (!empty($id)) {
-            $iz_deelnemer = $this->IzDeelnemer->getAllById($id);
-            $persoon_model = $iz_deelnemer['IzDeelnemer']['model'];
-            $foreign_key = $iz_deelnemer['IzDeelnemer']['foreign_key'];
-
-            if (!empty($iz_deelnemer['IzDeelnemer']['datumafsluiting']) &&
-                    strtotime(date('Y-m-d')) >= strtotime($iz_deelnemer['IzDeelnemer']['datumafsluiting'])) {
-                $is_afgesloten = true;
-            }
-        }
-
-        $iz_intake = $this->IzDeelnemer->IzIntake->find('first', array(
-                'conditions' => array('iz_deelnemer_id' => $id),
-                'contain' => array(),
-
-        ));
-
-        $this->setMedewerkers();
-
-        $persoon_model = $this->check_persoon_model($persoon_model);
-        $persoon = $this->{$persoon_model}->getAllById($foreign_key);
-
-        $geslachten = $this->{$persoon_model}->Geslacht->find('list');
-        $landen = $this->{$persoon_model}->Geboorteland->find('list');
-
-        $nationaliteiten = $this->{$persoon_model}->Nationaliteit->find('list');
-
-        $werkgebieden = Configure::read('Werkgebieden');
-
-        $persoon['IzDeelnemer']['IzDeelnemerDocument'] = array();
-
-        if (!empty($iz_deelnemer['IzDeelnemerDocument'])) {
-            $persoon['IzDeelnemer']['IzDeelnemerDocument'] = $iz_deelnemer['IzDeelnemerDocument'];
-        }
-
-        $this->set(compact(
-                'id',
-                'persoon',
-                'persoon_model',
-                'project_id',
-                'foreign_key',
-                'geslachten',
-                'landen',
-                'nationaliteiten',
-                'medewerkers',
-                'werkgebieden',
-                'iz_intake',
-                'iz_deelnemer',
-                'is_afgesloten'
-        ));
-    }
-
-    protected function formatPostedDate($key, $default = null)
-    {
-        $date = $this->data[$key];
-
-        if (!empty($date['year']) && !empty($date['month']) && !empty($date['day'])) {
-            $date = $date['year'].'-'.$date['month'].'-'.$date['day'];
-        } else {
-            $date = $default;
-        }
-
-        return $date;
-    }
-
-    private function getMedewerkers()
-    {
-        $this->loadModel('Medewerker');
-
-        return $this->Medewerker->find('list', array(
-            'joins' => array(
-                array(
-                    'table' => 'iz_koppelingen',
-                    'alias' => 'IzHulpaanbod',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'IzHulpaanbod.medewerker_id = Medewerker.id',
-                    ),
-                ),
-            ),
-        ));
-    }
-
-    private function getIzProjecten()
-    {
-        $this->loadModel('IzProject');
-
-        return $this->IzProject->find('list', array(
-            'joins' => array(
-                array(
-                    'table' => 'iz_koppelingen',
-                    'alias' => 'IzHulpaanbod',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'IzHulpaanbod.project_id = IzProject.id',
-                    ),
-                ),
-            ),
-        ));
-    }
+//         return $this->IzProject->find('list', array(
+//             'joins' => array(
+//                 array(
+//                     'table' => 'iz_koppelingen',
+//                     'alias' => 'IzHulpaanbod',
+//                     'type' => 'INNER',
+//                     'conditions' => array(
+//                         'IzHulpaanbod.project_id = IzProject.id',
+//                     ),
+//                 ),
+//             ),
+//         ));
+//     }
 }

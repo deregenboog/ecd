@@ -7,17 +7,15 @@ class LdapUsersController extends AppController
 
     public function index()
     {
-        // debug($this->LdapUser->auth('jose', 'ooTauph4-'));
-       $this->set('primaryKey', $this->LdapUser->primaryKey);
+        $this->set('primaryKey', $this->LdapUser->primaryKey);
         $users = $this->LdapUser->findAll('uid', '*');
         $this->set('ldap_users', $users);
     }
 
     public function groups()
     {
-        // debug($this->LdapUser->auth('jose', 'ooTauph4-'));
-       $groups = $this->LdapUser->getGroups();
-        $this->set('ldap_user', array());
+        $groups = $this->LdapUser->getGroups();
+        $this->set('ldap_user', []);
         $this->set('ldap_groups', $groups);
 
         $this->render('view');
@@ -75,10 +73,7 @@ class LdapUsersController extends AppController
     {
         $user = $this->LdapUser->read(null, $uid);
         $groups = $this->LdapUser->getGroups($uid);
-       // Interesting fields:
-       // debug($user['LdapUser']['displayname']);
-       // debug($user['LdapUser']['uidnumber']);
-       $this->set('ldap_user', $user);
+        $this->set('ldap_user', $user);
         $this->set('ldap_groups', $groups);
     }
 

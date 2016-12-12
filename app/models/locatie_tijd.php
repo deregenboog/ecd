@@ -21,7 +21,7 @@ class LocatieTijd extends AppModel
             'recursive' => -1,
         ));
 
-        $result = array();
+        $result = [];
         foreach ($recs as $rec) {
             $locationId = $rec['LocatieTijd']['locatie_id'];
             $dayOfWeek = $rec['LocatieTijd']['dag_van_de_week'];

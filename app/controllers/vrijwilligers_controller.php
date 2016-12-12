@@ -101,7 +101,7 @@ class VrijwilligersController extends AppController
 
         $mailto = Configure::read('administratiebedrijf');
 
-        $content = array();
+        $content = [];
 
         $url = array('controller' => 'vrijwilligers', 'action' => 'view', $id);
 

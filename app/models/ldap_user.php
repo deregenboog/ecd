@@ -87,7 +87,7 @@ class LdapUser extends AppModel
         $members = registry_get($type, $gid, true, 'ldap');
 
         if (!$members) {
-            $members = array();
+            $members = [];
             $r = ldap_search($this->ds, 'ou=groups,'.$this->baseDn, 'gidNumber='.$gid);
 
             if ($r) {
@@ -114,7 +114,7 @@ class LdapUser extends AppModel
 
     public function getGroups($uid = null)
     {
-        $group_array = array();
+        $group_array = [];
         $r = ldap_search($this->ds, $this->baseDn, 'uid='.$uid);
 
         if ($r) {
@@ -128,7 +128,7 @@ class LdapUser extends AppModel
             $l = ldap_get_entries($this->ds, $r);
 
             $groups = $this->convert_from_ldap($l);
-            $group_array = array();
+            $group_array = [];
 
             foreach ($groups as $g) {
                 $gid = $g['LdapUser']['gidnumber'];
@@ -216,7 +216,7 @@ class LdapUser extends AppModel
 
     private function convert_from_ldap($data)
     {
-        $final = array();
+        $final = [];
 
         foreach ($data as $key => $row) {
             if ($key === 'count') {

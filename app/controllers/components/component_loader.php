@@ -1,6 +1,6 @@
 <?php
 /**
- * loads a component on the fly from within the controller
+ * loads a component on the fly from within the controller.
  */
 class ComponentLoaderComponent extends Object
 {
@@ -9,14 +9,14 @@ class ComponentLoaderComponent extends Object
     public function initialize(&$controller)
     {
         // saving the controller reference for later use
-        $this->controller =& $controller;
+        $this->controller = &$controller;
     }
 
-    public function load($component_name, $settings = array())
+    public function load($component_name, $settings = [])
     {
         App::import('Component', $component_name);
         $component2 = $component_name.'Component';
-        $component =& new $component2(null);
+        $component = &new $component2(null);
 
         if (method_exists($component, 'initialize')) {
             $component->initialize($this->controller, $settings);

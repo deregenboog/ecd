@@ -71,8 +71,6 @@ class RegistratiesController extends AppController
     public function index($locatie_id = null)
     {
         if ($locatie_id && $locatie = $this->Registratie->Locatie->getById($locatie_id)) {
-            ts('index');
-
             $this->disableCache();
             $conditions = $this->Filter->filterData;
 
@@ -129,18 +127,14 @@ class RegistratiesController extends AppController
             );
 
             $this->Klant->recursive = -1;
-            ts('paginate');
 
             $klanten = $this->paginate('Klant');
-            ts('paginated');
 
             $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
 
             $klanten = $this->Klant->completeVirtualFields($klanten);
-            ts('completed');
 
             $this->Klant->Schorsing->get_schorsing_messages($klanten, $locatie_id);
-            ts('got messages');
 
             $this->set('klanten', $klanten);
             $this->set('add_to_list', 1);
@@ -350,16 +344,14 @@ class RegistratiesController extends AppController
 
     public function setRegistraties($locatie_id, $history_limit = 0)
     {
-        ts('setRegistraties');
-        $gebruikersruimte_registraties = array();
-        $active_registraties = array();
+        $gebruikersruimte_registraties = [];
+        $active_registraties = [];
 
         $this->Registratie->getActiveRegistraties(
             $active_registraties,
             $gebruikersruimte_registraties,
             $locatie_id
         );
-        ts('setRegistraties 1');
 
         $past_registraties = $this->Registratie->getRecentlyUnregistered(
             $locatie_id,
@@ -367,22 +359,15 @@ class RegistratiesController extends AppController
             $active_registraties,
             $gebruikersruimte_registraties
         );
-        ts('setRegistraties 2');
 
         $this->Registratie->setMessages($active_registraties);
-        ts('setRegistraties 3');
-
         $this->Registratie->setMessages($gebruikersruimte_registraties);
-        ts('setRegistraties 4');
-
         $this->Registratie->setMessages($past_registraties);
-        ts('setRegistraties 5');
 
         $this->set('active_registraties', $active_registraties);
         $this->set('gebruikersruimte_registraties', $gebruikersruimte_registraties);
         $this->set('past_registraties', $past_registraties);
         $this->set('total_registered_clients', count($active_registraties));
-        ts('setRegistraties end');
     }
 
     public function set_last_registrations()
@@ -482,6 +467,12 @@ class RegistratiesController extends AppController
 
             if ($klant['Klant']['new_TBC_check_needed'] == 'Ja') {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
+                $jsonVar['confirm'] = true;
+                $sep = $separator;
+            }
+
+            if (count($klant['Opmerking']) > 0) {
+                $jsonVar['message'] .= $sep.'Laatste opmerking: '.end($klant['Opmerking'])['beschrijving'];
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
             }

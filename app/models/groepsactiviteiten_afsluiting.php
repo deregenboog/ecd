@@ -34,7 +34,7 @@ class GroepsactiviteitenAfsluiting extends AppModel
 
         $this->recursive = -1;
         $groepsactiviteiten_afsluiting = $this->find('all', array(
-                'contain' => array(),
+                'contain' => [],
         ));
         Cache::write($this->list_cache_key, $groepsactiviteiten_afsluiting);
 
@@ -45,7 +45,7 @@ class GroepsactiviteitenAfsluiting extends AppModel
     {
         $groepsactiviteiten_afsluiting = $this->get_groepsactiviteiten_afsluiting();
 
-        $groepsactiviteiten_afsluiting_list = array();
+        $groepsactiviteiten_afsluiting_list = [];
         foreach ($groepsactiviteiten_afsluiting as $r) {
             $groepsactiviteiten_afsluiting_list[$r['GroepsactiviteitenAfsluiting']['id']] = $r['GroepsactiviteitenAfsluiting']['naam'];
         }
