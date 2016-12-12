@@ -1,5 +1,7 @@
 <?php
 
+use AppBundle\Entity\Medewerker;
+
 class MedewerkersController extends AppController
 {
     public $name = 'Medewerkers';
@@ -110,6 +112,8 @@ class MedewerkersController extends AppController
             $user_id = $this->Medewerker->registerUser($this->AuthExt->user());
             $this->Session->Write('Auth.Medewerker.id', $user_id);
 
+            $this->saveUserGroups($user_id, $ldap);
+
             if (isset($ldap['displayname'])) {
                 $this->flash(__('Welkom', true).' '.
                      $ldap['displayname']);
@@ -140,6 +144,26 @@ class MedewerkersController extends AppController
         }
 
         unset($this->data['Medewerker']['passwd']);
+    }
+
+    private function saveUserGroups($userId, $ldap = [])
+    {
+        $em = $this->getEntityManager();
+        $user = $em->find(Medewerker::class, $userId);
+
+        if ($user && key_exists('Groups', $ldap)) {
+            $userGroups = [];
+            foreach ($ldap['Groups'] as $group) {
+                $userGroups[] = $group['gidnumber'];
+            }
+            $user->setGroepen($userGroups);
+            try {
+                $em->persist($user);
+                $em->flush($user);
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
     }
 
     public function logout()
