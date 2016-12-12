@@ -114,7 +114,7 @@ parameters:
                 - BotVerslagen
                 - BotKoppelingen
             GROUP_VOLONTEERS:
-                    - Registraties
+                - Registraties
             GROUP_STAGE:
                 - Intakes
                 - Klanten
@@ -145,6 +145,10 @@ parameters:
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
                 - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
                 - IzEindekoppelingen
                 - IzIntervisiegroepen
                 - IzKoppelingen
