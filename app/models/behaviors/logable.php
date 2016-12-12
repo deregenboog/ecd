@@ -279,10 +279,8 @@ class LogableBehavior extends ModelBehavior
          $cond = array_merge($date_cond, $conditions);
          $related = [];
 
-/** Parse the structure, to keep related models => IDs.
- * Construct an array with all model => id of objects related to a.
- * given one. */
-
+         // Parse the structure, to keep related models => IDs.
+         // Construct an array with all model => id of objects related to a given one.
          $model_log = [];
 
          foreach ($useThisStructure as $r_model => $data) {

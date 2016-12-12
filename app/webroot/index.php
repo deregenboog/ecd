@@ -2,16 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-require __DIR__.'/../autoload.php';
-include_once __DIR__.'/../bootstrap.php.cache';
-
-$kernel = new AppKernel('prod', false);
-$kernel->loadClassCache();
-$kernel->boot();
-// handle request to make components (i.e. paginator) context aware
-$request = Request::createFromGlobals();
-$kernel->handle($request);
-
 /*
  * Index.
  *
@@ -20,20 +10,21 @@ $kernel->handle($request);
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
+ * @package       cake
+ * @subpackage    cake.app.webroot
  * @since         CakePHP(tm) v 0.2.9
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-    /*
-     * Use the DS to separate the directories in other defines.
+/*
+ * Use the DS to separate the directories in other defines
      */
     if (!defined('DS')) {
         define('DS', DIRECTORY_SEPARATOR);
@@ -51,6 +42,7 @@ $kernel->handle($request);
     if (!defined('ROOT')) {
         define('ROOT', dirname(dirname(dirname(__FILE__))));
     }
+
 /*
  * The actual directory name for the "app".
  *
@@ -86,6 +78,19 @@ $kernel->handle($request);
             define('CORE_PATH', CAKE_CORE_INCLUDE_PATH.DS);
         }
     }
+    if (php_sapi_name() == 'cli-server') {
+        $_SERVER['PHP_SELF'] = '/'.basename(__FILE__);
+    }
+
+    require ROOT.DS.APP_DIR.DS.'autoload.php';
+    include_once ROOT.DS.APP_DIR.DS.'bootstrap.php.cache';
+    $kernel = new AppKernel('prod', false);
+    $kernel->loadClassCache();
+    $kernel->boot();
+    // handle request to make components (i.e. paginator) context aware
+    $request = Request::createFromGlobals();
+    $kernel->handle($request);
+
     if (!include(CORE_PATH.'cake'.DS.'bootstrap.php')) {
         trigger_error('CakePHP core could not be found.  Check the value of CAKE_CORE_INCLUDE_PATH in APP/webroot/index.php.  It should point to the directory containing your '.DS.'cake core directory and your '.DS.'vendors root directory.', E_USER_ERROR);
     }

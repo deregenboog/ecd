@@ -165,11 +165,11 @@ class Vrijwilliger extends AppModel
     );
 
     public $hasOne = array(
-        'IzVrijwilliger' => array(
-            'className' => 'IzVrijwilliger',
+        'IzDeelnemer' => array(
+            'className' => 'IzDeelnemer',
             'foreignKey' => 'foreign_key',
             'conditions' => array(
-                'IzVrijwilliger.model' => 'Vrijwilliger',
+                'IzDeelnemer.model' => 'Vrijwilliger',
             ),
             'dependent' => true,
         ),

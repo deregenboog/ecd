@@ -82,18 +82,13 @@ class MedewerkersController extends AppController
         if ($this->AuthExt->user()) {
             $user_groups = $this->AuthExt->user('Group');
             $ldap = $this->AuthExt->user('LdapUser');
+            $this->log(['LdapUser' => $ldap, 'Group' => $user_groups], 'login');
 
             // valid users need to belong to at least one of the known groups.
-
-            $enable = Configure::read('ACL.permissions');
-            $valid_groups = array_keys($enable);
+            $permissions = Configure::read('ACL.permissions');
 
             $is_ok = false;
-
-            $this->log(array('LdapUser' => $ldap, 'Group' => $user_groups),
-                    'login');
-
-            foreach ($valid_groups as $known_group) {
+            foreach (array_keys($permissions) as $known_group) {
                 if (in_array($known_group, $user_groups)) {
                     $is_ok = true;
                     break;

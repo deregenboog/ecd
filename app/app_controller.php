@@ -104,7 +104,7 @@ class AppController extends Controller
      *
      * @param String $controller The controller name
      */
-    public function _isControllerAuthorized ($controller)
+    public function _isControllerAuthorized($controller)
     {
         if ($this->Session->read('is_superuser')) {
             return true;
@@ -178,12 +178,13 @@ class AppController extends Controller
         return $default;
     }
 
-    /** We don't need AROs and ACOs this if we
+    /*
+     * We don't need AROs and ACOs this if we
      * Auth->autorize = 'controller', that's only necessary for 'actions'.
      * Because we filter on controller, an isAuthorized() function is required
      * per controller. We put a generic one here so that is present for all of
-     * them, with common parameters: */
-
+     * them, with common parameters:
+     */
     public function isAuthorized()
     {
         $allow = $this->_isControllerAuthorized($this->name);
@@ -271,15 +272,13 @@ class AppController extends Controller
         $this->AuthExt->authorize = 'controller';
         $this->AuthExt->autoRedirect = false;
         $this->AuthExt->actionPath = 'controllers/';
-        $this->AuthExt->loginAction =
-            array('controller' => 'medewerkers', 'action' => 'login');
-        $this->AuthExt->logoutRedirect =
-            array('controller' => 'medewerkers', 'action' => 'login');
+        $this->AuthExt->loginAction = ['controller' => 'medewerkers', 'action' => 'login'];
+        $this->AuthExt->logoutRedirect = ['controller' => 'medewerkers', 'action' => 'login'];
         //this is to allow everyone to see the static pages
-        $this->AuthExt->allowedActions = array('display');
+        $this->AuthExt->allowedActions = ['display'];
 
         // Element to be rendered for ajax login form:
-        $this->AuthExt->ajaxLogin = "ajax_login";
+        $this->AuthExt->ajaxLogin = 'ajax_login';
         $auth = $this->Session->read('Auth');
         $this->set('user_is_logged_in', false);
         $this->set('user_is_administrator', false);
@@ -305,21 +304,18 @@ class AppController extends Controller
         }
 
         // route the user to home directory
-
         if (isset($auth['Medewerker'])) {
             // We are logged in already.
-            //$contact = $this->Session->read('Auth.Contact');
+            // $contact = $this->Session->read('Auth.Contact');
             // set some view variables:
             $this->set('user_is_logged_in', true);
             $user_id = $this->Session->read('user_id');
             $this->set('user_id', $user_id);
 
-            // Store user ID also in the default model, so that we can use it
-            // there.
+            // Store user ID also in the default model, so that we can use it there.
             $name = $this->modelClass;
 
             $s_user = $this->Session->read('is_superuser');
-
             if ($s_user) {
                 // Allow admins to do everything here by now! Like that we do
                 // not need to create all ACOs.
@@ -327,7 +323,6 @@ class AppController extends Controller
                 // granted to s_user despite it is allowed to access all
                 // controllers/. ACO for all specific objects need to exists!
                 $this->AuthExt->allow('*');
-            } else {
             }
 
             // http://bakery.cakephp.org/articles/view/logablebehavior
@@ -339,8 +334,8 @@ class AppController extends Controller
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
-                            'id' => $auth['Medewerker']['id'],
-                            'username' => $auth['Medewerker']['username'],
+                        'id' => $auth['Medewerker']['id'],
+                        'username' => $auth['Medewerker']['username'],
                     ]];
                 }
                 $this->{$this->modelClass}->setUserData($activeUser);
@@ -388,7 +383,6 @@ class AppController extends Controller
         $menu_elements = Configure::read('all_menu_items');
 
         $menu_allowed = [];
-
         foreach ($menu_elements as $controller => $text) {
             if ($this->_isControllerAuthorized($controller)) {
                 $menu_allowed[$controller] = $text;

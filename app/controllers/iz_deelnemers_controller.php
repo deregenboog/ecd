@@ -13,28 +13,6 @@ class IzDeelnemersController extends AppController
 
     public $components = ['ComponentLoader'];
 
-    public $report_select = array(
-            'A1' => 'A1: Nieuwe koppelingen',
-            'A2' => 'A2: Namenlijst nieuwe koppelingen',
-            'B1' => 'B1: Afgesloten koppelingen',
-            'B2' => 'B2: Namenlijst afgesloten koppelingen',
-            'C1' => 'C1: Succesvolle koppelingen ',
-            'C2' => 'C2: Namenlijst succesvolle koppelingen',
-            'F1' => 'F1: nieuwe koppelingen unieke vrijwilligers',
-            'F2' => 'F2: nieuwe koppelingen namen unieke vrijwilligers',
-            'J1' => 'J1: nieuwe koppelingen unieke deelnemers',
-            'J2' => 'J2: nieuwe koppelingen namen unieke deelnemers',
-            'K1' => 'K1: Nieuwe deelnemers zonder intake',
-            'K2' => 'K2: nieuwe deelnemers zonder intake namenlijst',
-            'L1' => 'L1: Nieuwe deelnemers zonder vraag',
-            'L2' => 'L2: Namenlijst deelnemers zonder vraag',
-            'Z1' => 'Z1: Per werkgebied',
-            'Z2' => 'Z2: Per project',
-            'Z3' => 'Z3: Deelnemers per verwijzing',
-            'Z4' => 'Z4: Vrijwilligers per verwijzing',
-            'Z5' => 'Z5: Vrijwilligers per project',
-        );
-
     public function beforeFilter()
     {
         $this->IzDeelnemer->params = $this->params;
@@ -72,9 +50,8 @@ class IzDeelnemersController extends AppController
         }
 
         $iz_intake = $this->IzDeelnemer->IzIntake->find('first', array(
-                'conditions' => array('iz_deelnemer_id' => $id),
-                'contain' => [],
-
+            'conditions' => array('iz_deelnemer_id' => $id),
+            'contain' => [],
         ));
 
         $this->setMedewerkers();
@@ -291,178 +268,6 @@ class IzDeelnemersController extends AppController
 
         if ($this->RequestHandler->isAjax()) {
             $this->render('/elements/personen_lijst', 'ajax');
-        }
-    }
-
-    public function koppellijst()
-    {
-        $this->check_persoon_model('Klant');
-
-        $this->loadModel('IzDeelnemer');
-        $this->loadModel('IzProject');
-        $this->loadModel('Vrijwilliger');
-
-        $named = $this->params['named'];
-        $sort = $direction = null;
-
-        if (!empty($this->passedArgs['sort'])) {
-            $sort = $this->passedArgs['sort'];
-            $direction = $this->passedArgs['direction'];
-        }
-
-        $filter = [];
-
-        if (!empty($this->data)) {
-            $filter = $this->data;
-            $this->Session->write('IzDeelnemerKoppelLijst', $filter);
-        }
-
-        if (!empty($this->params['named'])) {
-            $filter = $this->Session->read('IzDeelnemerKoppelLijst');
-        }
-
-        $options = array_merge($this->params, $this->params['url'], $this->passedArgs);
-
-        $conditions = array(
-            'IzDeelnemer.model' => 'Klant',
-            'Vrijwilliger.iz_koppeling_id NOT' => null,
-        );
-
-        if (!empty($filter['K']['achternaam'])) {
-            $conditions['Klant.achternaam like'] = '%'.mysql_escape_string($filter['K']['achternaam']).'%';
-        }
-
-        if (!empty($filter['K']['voornaam'])) {
-            $conditions['Klant.voornaam like'] = '%'.mysql_escape_string($filter['K']['voornaam']).'%';
-        }
-
-        $where = '';
-        if (!empty($filter['V']['achternaam'])) {
-            $where .= "v.achternaam like '%".mysql_escape_string($filter['V']['achternaam'])."%' ";
-        }
-
-        if (!empty($filter['V']['voornaam'])) {
-            if (!empty($where)) {
-                $where = " {$where} and ";
-            }
-
-            $where .= "v.voornaam like '%".mysql_escape_string($filter['V']['voornaam'])."%' ";
-        }
-
-        if (!empty($filter['IzDeelnemer']['werkgebied'])) {
-            $wg = $filter['IzDeelnemer']['werkgebied'];
-            $conditions['Klant.werkgebied'] = mysql_escape_string($wg);
-        }
-        if (!empty($filter['IzDeelnemer']['medewerker_id'])) {
-            if (!empty($where)) {
-                $where = " {$where} and ";
-            }
-
-            $m = mysql_escape_string($filter['IzDeelnemer']['medewerker_id']);
-            $where .= " (kv.medewerker_id = {$m} or kk.medewerker_id = {$m} ) ";
-        }
-
-        if (!empty($filter['IzDeelnemer']['project'])) {
-            if (!empty($where)) {
-                $where = " {$where} and ";
-            }
-
-            $p = mysql_escape_string($filter['IzDeelnemer']['project']);
-            $where .= " kv.project_id = {$p} ";
-        }
-
-        if (!empty($filter['IzDeelnemer']['afgesloten'])) {
-            if (!empty($where)) {
-                $where = " {$where} and ";
-            }
-
-            $where .= '  not isnull(kk.iz_eindekoppeling_id) and kk.koppeling_einddatum < now()  ';
-        } else {
-            if (!empty($where)) {
-                $where = " {$where} and ";
-            }
-            $where .= '  isnull(kk.iz_eindekoppeling_id) and isnull(kk.koppeling_einddatum)  ';
-        }
-
-        $joins = [];
-
-        $table = "select iv.model as vmodel, iv.foreign_key as vforeign_key,
-                v.voornaam as voornaam,
-                v.tussenvoegsel as tussenvoegsel,
-                v.achternaam as achternaam,
-                kv.iz_deelnemer_id,
-                kv.koppeling_startdatum as koppeling_startdatum,
-                kv.medewerker_id,
-                kk.medewerker_id as klant_medewerker_id ,
-                kv.project_id as vproject_id,
-                kk.project_id as kproject_id, kk.id as kk_id, kv.id as kv_id, kk.iz_deelnemer_id as klant_iz_deelnemer_id, kk.iz_koppeling_id,
-                kk.iz_eindekoppeling_id as kiz_eindekoppeling_id,
-                p.naam as project_naam
-                from iz_koppelingen kk
-                join iz_koppelingen kv on kv.id = kk.iz_koppeling_id
-                join iz_deelnemers iv  on iv.id = kv.iz_deelnemer_id
-                join iz_projecten p on p.id = kv.project_id
-                join vrijwilligers v on v.id = iv.foreign_key and iv.model = 'Vrijwilliger'
-                where {$where}
-                ";
-        $joins[] = array(
-               'table' => "( {$table} )",
-                'alias' => 'Vrijwilliger',
-                'type' => 'INNER',
-                'conditions' => array(
-                     'Vrijwilliger.klant_iz_deelnemer_id = IzDeelnemer.id',
-                ),
-        );
-
-        $this->paginate = array(
-            'conditions' => $conditions,
-            'contain' => array(
-                'Klant',
-            ),
-            'joins' => $joins,
-            'fields' => array('id', 'model', 'foreign_key', 'Klant.voornaam',
-                'Klant.tussenvoegsel',
-                'Klant.achternaam',
-                'Klant.werkgebied',
-                'Vrijwilliger.voornaam',
-                'Vrijwilliger.tussenvoegsel',
-                'Vrijwilliger.achternaam',
-                'Vrijwilliger.iz_deelnemer_id',
-                'Vrijwilliger.koppeling_startdatum',
-                'Vrijwilliger.vmodel', 'Vrijwilliger.vforeign_key',
-                'Vrijwilliger.vproject_id',
-                'Vrijwilliger.kproject_id',
-                'Vrijwilliger.kiz_eindekoppeling_id',
-                'Vrijwilliger.kk_id',
-                'Vrijwilliger.kv_id',
-                'Vrijwilliger.project_naam',
-                'Vrijwilliger.medewerker_id',
-                'Vrijwilliger.klant_medewerker_id',
-            ),
-        );
-
-        $this->Vrijwilliger->virtualFields = array(
-            'koppeling_startdatum' => 'Vrijwilliger.koppeling_startdatum',
-            'project_naam' => 'Vrijwilliger.project_naam',
-        );
-
-        $personen = $this->paginate('IzDeelnemer');
-
-        if (false && !empty($sort)) {
-            $this->passedArgs['sort'] = $sort;
-            $this->passedArgs['direction'] = $direction;
-        }
-        $this->data = $filter;
-
-        $this->setMedewerkers();
-
-        $werkgebieden = Configure::read('Werkgebieden');
-        $projecten = $this->IzProject->projectLists();
-
-        $this->set(compact('personen', 'filter', 'werkgebieden', 'projecten'));
-
-        if ($this->RequestHandler->isAjax()) {
-            $this->render('/elements/iz_koppellijst', 'ajax');
         }
     }
 

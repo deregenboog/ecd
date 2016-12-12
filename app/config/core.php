@@ -378,7 +378,7 @@ foreach ($params['ACL.permissions'] as $key => $value) {
 Configure::write('ACL.permissions', $params['ACL.permissions']);
 
 /* Disable ACL with a flag. This only works in debug mode. */
-Configure::write('ACL.disabled', Configure::read('debug') > 0);
+Configure::write('ACL.disabled', $params['ACL.disabled'] && Configure::read('debug') > 0);
 
 Configure::write('all_menu_items', $params['all_menu_items']);
 

@@ -699,28 +699,24 @@ class IzRapportagesController extends AppController
 
         $beginstandTable = new Table($beginstand, null, null, 'aantal');
         $beginstandTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
         ;
 
         $gestartTable = new Table($gestart, null, null, 'aantal');
         $gestartTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
         ;
 
         $afgeslotenTable = new Table($afgesloten, null, null, 'aantal');
         $afgeslotenTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
         ;
 
         $eindstandTable = new Table($eindstand, null, null, 'aantal');
         $eindstandTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
         ;
@@ -895,7 +891,6 @@ class IzRapportagesController extends AppController
 
         $beginstandTable = new Table($beginstand, null, 'stadsdeel', 'aantal');
         $beginstandTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -903,7 +898,6 @@ class IzRapportagesController extends AppController
 
         $gestartTable = new Table($gestart, null, 'stadsdeel', 'aantal');
         $gestartTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -911,7 +905,6 @@ class IzRapportagesController extends AppController
 
         $afgeslotenTable = new Table($afgesloten, null, 'stadsdeel', 'aantal');
         $afgeslotenTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -919,7 +912,6 @@ class IzRapportagesController extends AppController
 
         $eindstandTable = new Table($eindstand, null, 'stadsdeel', 'aantal');
         $eindstandTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -975,7 +967,6 @@ class IzRapportagesController extends AppController
 
         $beginstandTable = new Table($beginstand, null, 'project', 'aantal');
         $beginstandTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -983,7 +974,6 @@ class IzRapportagesController extends AppController
 
         $gestartTable = new Table($gestart, null, 'project', 'aantal');
         $gestartTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -991,7 +981,6 @@ class IzRapportagesController extends AppController
 
         $afgeslotenTable = new Table($afgesloten, null, 'project', 'aantal');
         $afgeslotenTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
@@ -999,7 +988,6 @@ class IzRapportagesController extends AppController
 
         $eindstandTable = new Table($eindstand, null, 'project', 'aantal');
         $eindstandTable
-            ->setController('iz_vrijwilligers')
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYTotals(false)
