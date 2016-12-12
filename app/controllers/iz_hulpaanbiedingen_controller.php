@@ -16,6 +16,13 @@ class IzHulpaanbiedingenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $enabledFilters = [
+        'startdatum',
+        'vrijwilliger' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'izProject',
+        'medewerker',
+    ];
+
     private $sortFieldWhitelist = [
         'izHulpaanbod.startdatum',
         'izProject.naam',
@@ -30,7 +37,9 @@ class IzHulpaanbiedingenController extends AppController
 
     public function index()
     {
-        $form = $this->createForm(IzHulpaanbodFilterType::class);
+        $form = $this->createForm(IzHulpaanbodFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
         $form->handleRequest($this->request);
 
         $entityManager = $this->getEntityManager();
