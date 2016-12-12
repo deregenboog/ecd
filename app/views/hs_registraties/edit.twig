@@ -2,9 +2,13 @@
 
 <h1>Uren bewerken</h1>
 
+<p>
+    {% set hsKlus = form.vars.data.hsKlus %}
+    {{ html.link('Terug naar ' ~ hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
+</p>
+
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <input type="submit" value="Opslaan" />
+    <button type="submit">Opslaan</button>
 {{ form_end(form) }}
 
-{{ html.link('Terug naar klus', {'controller': 'hs_klussen', 'action': 'view', 0: form.vars.data.hsKlus.id}) }}

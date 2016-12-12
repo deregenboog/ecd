@@ -9,6 +9,9 @@ use HsBundle\Form\HsVrijwilligerSelectType;
 use AppBundle\Entity\Vrijwilliger;
 use HsBundle\Entity\HsMemo;
 use HsBundle\Form\HsMemoType;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
+use AppBundle\Entity\Medewerker;
 
 class HsVrijwilligersController extends AppController
 {
@@ -22,6 +25,11 @@ class HsVrijwilligersController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $enabledFilters = [
+        'id',
+        'vrijwilliger' => ['naam', 'stadsdeel'],
+    ];
+
     private $sortFieldWhitelist = [
         'hsVrijwilliger.id',
         'vrijwilliger.achternaam',
@@ -31,10 +39,7 @@ class HsVrijwilligersController extends AppController
     public function index()
     {
         $filter = $this->createForm(HsVrijwilligerFilterType::class, null, [
-            'enabled_filters' => [
-                'id',
-                'vrijwilliger' => ['naam', 'stadsdeel'],
-            ],
+            'enabled_filters' => $this->enabledFilters,
         ]);
         $filter->handleRequest($this->request);
 
@@ -169,12 +174,36 @@ class HsVrijwilligersController extends AppController
         $this->set('form', $form->createView());
     }
 
+    public function memos_index($hsVrijwilligerId)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
+
+        $builder = $entityManager->getRepository(HsMemo::class)->createQueryBuilder('hsMemo')
+            ->innerJoin('hsMemo.hsVrijwilliger', 'hsVrijwilliger')
+            ->andWhere('hsVrijwilliger = :hsVrijwilliger')
+            ->setParameter('hsVrijwilliger', $hsVrijwilliger)
+        ;
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'hsMemo.datum',
+            'defaultSortDirection' => 'desc',
+            'sortFieldWhitelist' => ['hsMemo.datum'],
+        ]);
+
+        $this->set('hsVrijwilliger', $hsVrijwilliger);
+        $this->set('pagination', $pagination);
+    }
+
     public function memos_add($hsVrijwilligerId)
     {
         $entityManager = $this->getEntityManager();
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
 
-        $form = $this->createForm(HsMemoType::class, new HsMemo($hsVrijwilliger));
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+
+        $form = $this->createForm(HsMemoType::class, new HsMemo($hsVrijwilliger, $medewerker));
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {

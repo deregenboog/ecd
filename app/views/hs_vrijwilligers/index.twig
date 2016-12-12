@@ -2,7 +2,10 @@
 
 <h1>Vrijwilligers</h1>
 
-{{ html.link('Vrijwilliger toevoegen', {'action': 'add'})|raw }}
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Vrijwilliger toevoegen', {'action': 'add'})|raw }}
+</p>
 
 <table>
     <tr>
@@ -16,8 +19,8 @@
             {{ form_errors(filter.vrijwilliger.naam) }}
         </th>
         <th>
-            {{ form_widget(filter.vrijwilliger.stadsdeel.naam) }}
-            {{ form_errors(filter.vrijwilliger.stadsdeel.naam) }}
+            {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+            {{ form_errors(filter.vrijwilliger.stadsdeel) }}
         </th>
         <th>
         </th>
@@ -28,7 +31,7 @@
     </tr>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Vrijwilligernr', 'hsVrijwilliger.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'hsVrijwilliger.id') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
@@ -41,27 +44,27 @@
         </th>
     </tr>
     {% for hsVrijwilliger in pagination %}
-    <tr>
-        <td>
-            {{ html.link(hsVrijwilliger.id, {'action': 'view', 0: hsVrijwilliger.id})|raw }}
-        </td>
-        <td>
-            {{ html.link(hsVrijwilliger.vrijwilliger.naam, {'action': 'view', 0: hsVrijwilliger.id})|raw }}
-        </td>
-        <td>
-            {{ hsVrijwilliger.vrijwilliger.werkgebied }}
-        </td>
-        <td>
-            {{ hsVrijwilliger.dragend ? 'ja' : 'nee' }}
-        </td>
-        <td>
-            {{ html.viewLink({'action': 'view', 0: hsVrijwilliger.id})|raw }}
-            {{ html.editLink({'action': 'edit', 0: hsVrijwilliger.id})|raw }}
-            {% if hsVrijwilliger.deletable %}
-                {{ html.deleteLink( {'action': 'delete', 0: hsVrijwilliger.id})|raw }}
-            {% endif %}
-        </td>
-    </tr>
+        <tr>
+            <td>
+                {{ html.link(hsVrijwilliger.id, {'action': 'view', 0: hsVrijwilliger.id})|raw }}
+            </td>
+            <td>
+                {{ html.link(hsVrijwilliger.vrijwilliger.naam, {'action': 'view', 0: hsVrijwilliger.id})|raw }}
+            </td>
+            <td>
+                {{ hsVrijwilliger.vrijwilliger.werkgebied }}
+            </td>
+            <td>
+                {{ hsVrijwilliger.dragend ? 'ja' : 'nee' }}
+            </td>
+            <td>
+                {{ html.viewLink({'action': 'view', 0: hsVrijwilliger.id})|raw }}
+                {{ html.editLink({'action': 'edit', 0: hsVrijwilliger.id})|raw }}
+                {% if hsVrijwilliger.deletable %}
+                    {{ html.deleteLink( {'action': 'delete', 0: hsVrijwilliger.id})|raw }}
+                {% endif %}
+            </td>
+        </tr>
     {% endfor %}
 </table>
 

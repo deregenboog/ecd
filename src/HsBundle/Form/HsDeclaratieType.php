@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
 use HsBundle\Entity\HsDeclaratie;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class HsDeclaratieType extends AbstractType
 {
@@ -18,9 +19,12 @@ class HsDeclaratieType extends AbstractType
         $builder
             ->add('medewerker')
             ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('code')
+            ->add('hsDeclaratieCategorie', null, [
+                'label' => 'Declaratiecategorie',
+                'placeholder' => 'Selecteer een declaratiecategorie',
+            ])
             ->add('info')
-            ->add('bedrag')
+            ->add('bedrag', MoneyType::class)
         ;
     }
 

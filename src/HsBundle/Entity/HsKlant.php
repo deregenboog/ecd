@@ -5,6 +5,7 @@ namespace HsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -34,6 +35,11 @@ class HsKlant
      * @ORM\Column(type="date", nullable=true)
      */
     private $laatsteContact;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $actief = true;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -121,5 +127,24 @@ class HsKlant
     public function isDeletable()
     {
         return count($this->hsKlussen) === 0;
+    }
+
+    public function isActief()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('einddatum'))
+            ->orWhere(Criteria::expr()->gte('einddatum', new \DateTime('today')));
+
+        $actief = count($this->hsKlussen->matching($criteria)) > 0;
+        $this->setActief($actief);
+
+        return $actief;
+    }
+
+    public function setActief($actief)
+    {
+        $this->actief = $actief;
+
+        return $this;
     }
 }

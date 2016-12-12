@@ -6,7 +6,7 @@
     Zoek een bestaande klant op klantnr, naam en/of geboortedatum.
     {{ form_start(filterForm) }}
         {{ form_widget(filterForm) }}
-        <input type="submit" value="Verder" />
+        <button type="submit">Verder</button>
     {{ form_end(filterForm) }}
 {% endif %}
 
@@ -15,13 +15,13 @@
     Selecteer niks en klik op "Verder" om een nieuwe klant aan te maken.
     {{ form_start(selectionForm) }}
         {{ form_widget(selectionForm) }}
-        <input type="submit" value="Verder" />
+        <button type="submit">Verder</button>
     {{ form_end(selectionForm) }}
 {% endif %}
 
 {% if creationForm is defined %}
     {{ form_start(creationForm) }}
         {{ form_widget(creationForm) }}
-        <input type="submit" value="Opslaan" />
+        <button type="submit">Opslaan</button>
     {{ form_end(creationForm) }}
 {% endif %}

@@ -1,9 +1,9 @@
 {% include('hs_subnavigation.twig') %}
 
-<h1>Profielgroep verwijderen</h1>
+<h1>Factuur verwijderen</h1>
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    Weet u zeker dat u profielgroep {{ hsProfielGroep }} wilt verwijderen?<br>
-    {{ html.link('Nee, annuleren', {'action': 'index'})|raw }}
-    <input type="submit" value="Ja, verwijderen" />
+    Weet u zeker dat u {{ hsFactuur }} wilt verwijderen?<br>
+    {{ html.link('Nee, terug', {'action': 'view', 0: hsFactuur.id})|raw }}
+    <button type="submit">Ja, verwijderen</button>
 {{ form_end(form) }}

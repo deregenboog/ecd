@@ -24,19 +24,19 @@ class HsKlus
      * Datum van uitvoering.
      *
      * @var \DateTime
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=false)
      */
     private $datum;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=false)
      */
     private $startdatum;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $einddatum;
 
@@ -49,6 +49,7 @@ class HsKlus
     /**
      * @var HsActiviteit
      * @ORM\ManyToOne(targetEntity="HsActiviteit", inversedBy="hsKlussen")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $hsActiviteit;
 
@@ -85,20 +86,17 @@ class HsKlus
      */
     private $medewerker;
 
-    public function __construct(HsKlant $hsKlant)
+    public function __construct(HsKlant $hsKlant, Medewerker $medewerker = null)
     {
         $this->hsKlant = $hsKlant;
+        $this->medewerker = $medewerker;
         $this->hsVrijwilligers = new ArrayCollection();
         $this->hsRegistraties = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return sprintf('%s bij %s op %s',
-            $this->hsActiviteit->getNaam(),
-            (string) $this->hsKlant,
-            $this->datum->format('d-m-Y')
-        );
+        return sprintf('Klus #%d',$this->id);
     }
 
     public function getId()
@@ -205,4 +203,27 @@ class HsKlus
         return count($this->hsFacturen) === 0
             && count($this->hsRegistraties) === 0;
     }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum)
+    {
+        $this->startdatum = $startdatum;
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum)
+    {
+        $this->einddatum = $einddatum;
+        return $this;
+    }
+
 }

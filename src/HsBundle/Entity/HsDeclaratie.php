@@ -32,12 +32,6 @@ class HsDeclaratie
 
     /**
      * @var string
-     * @Column(type="string")
-     */
-    private $code;
-
-    /**
-     * @var string
      * @Column(type="text")
      */
     private $info;
@@ -51,6 +45,7 @@ class HsDeclaratie
     /**
      * @var HsKlus
      * @ManyToOne(targetEntity="HsKlus", inversedBy="hsRegistraties")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $hsKlus;
 
@@ -61,16 +56,24 @@ class HsDeclaratie
     private $hsFactuur;
 
     /**
+     * @var HsDeclaratieCategorie
+     * @ManyToOne(targetEntity="HsDeclaratieCategorie")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hsDeclaratieCategorie;
+
+    /**
      * @var Medewerker
      * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
     private $medewerker;
 
-    public function __construct(HsKlus $hsKlus)
+    public function __construct(HsKlus $hsKlus, Medewerker $medewerker = null)
     {
-        $this->datum = $hsKlus->getDatum();
         $this->hsKlus = $hsKlus;
+        $this->datum = $hsKlus->getDatum();
+        $this->medewerker = $medewerker;
     }
 
     public function getId()
@@ -119,11 +122,6 @@ class HsDeclaratie
         return $this;
     }
 
-    public function getCode()
-    {
-        return $this->code;
-    }
-
     public function getInfo()
     {
         return $this->info;
@@ -132,5 +130,31 @@ class HsDeclaratie
     public function getBedrag()
     {
         return $this->bedrag;
+    }
+
+    public function setInfo($info)
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    public function setBedrag($bedrag)
+    {
+        $this->bedrag = $bedrag;
+
+        return $this;
+    }
+
+    public function getHsDeclaratieCategorie()
+    {
+        return $this->hsDeclaratieCategorie;
+    }
+
+    public function setHsDeclaratieCategorie(HsDeclaratieCategorie $hsDeclaratieCategorie)
+    {
+        $this->hsDeclaratieCategorie = $hsDeclaratieCategorie;
+
+        return $this;
     }
 }

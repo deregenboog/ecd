@@ -5,10 +5,10 @@ namespace HsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use HsBundle\Entity\HsKlus;
-use AppBundle\Form\AppDateType;
+use HsBundle\Entity\HsActiviteit;
+use HsBundle\Entity\HsDeclaratieCategorie;
 
-class HsKlusType extends AbstractType
+class HsDeclaratieCategorieType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,11 +16,8 @@ class HsKlusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startdatum', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('hsActiviteit', null, ['label' => 'Activiteit'])
-            ->add('medewerker')
-            ->add('hsVrijwilligers', null, ['label' => 'Vrijwilligers']);
+            ->add('naam')
+        ;
     }
 
     /**
@@ -29,7 +26,7 @@ class HsKlusType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => HsKlus::class,
+            'data_class' => HsDeclaratieCategorie::class,
         ]);
     }
 }

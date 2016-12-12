@@ -5,6 +5,7 @@ use HsBundle\Form\HsKlusType;
 use HsBundle\Entity\HsKlant;
 use HsBundle\Entity\HsFactuur;
 use AppBundle\Form\ConfirmationType;
+use AppBundle\Entity\Medewerker;
 
 class HsKlussenController extends AppController
 {
@@ -56,8 +57,12 @@ class HsKlussenController extends AppController
     public function add($hsKlantId)
     {
         $entityManager = $this->getEntityManager();
+
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+
         $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
-        $hsKlus = new HsKlus($hsKlant);
+        $hsKlus = new HsKlus($hsKlant, $medewerker);
 
         $form = $this->createForm(HsKlusType::class, $hsKlus);
         $form->handleRequest($this->request);
@@ -115,23 +120,5 @@ class HsKlussenController extends AppController
 
         $this->set('hsKlus', $hsKlus);
         $this->set('form', $form->createView());
-    }
-
-    public function add_hs_factuur($id)
-    {
-        $entityManager = $this->getEntityManager();
-        $hsKlus = $entityManager->find(HsKlus::class, $id);
-
-        $hsFactuur = new HsFactuur($hsKlus);
-        if (count($hsFactuur->getHsRegistraties()) > 0) {
-            $entityManager->persist($hsFactuur);
-            $entityManager->flush();
-
-            $this->Session->setFlash('Factuur is toegevoegd.');
-        } else {
-            $this->Session->setFlash('Er is niks te factureren.');
-        }
-
-        return $this->redirect(array('action' => 'view', $hsKlus->getId()));
     }
 }

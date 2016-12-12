@@ -44,7 +44,7 @@ class HsRegistratie
 
     /**
      * @var float
-     * @Column(type="float")
+     * @Column(type="float", nullable=true)
      */
     private $reiskosten;
 
@@ -57,6 +57,7 @@ class HsRegistratie
     /**
      * @var HsFactuur
      * @ManyToOne(targetEntity="HsFactuur", inversedBy="hsRegistraties")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $hsFactuur;
 
@@ -81,11 +82,13 @@ class HsRegistratie
      */
     private $medewerker;
 
-    public function __construct(HsKlus $hsKlus, HsVrijwilliger $hsVrijwilliger = null)
+    public function __construct(HsKlus $hsKlus, HsVrijwilliger $hsVrijwilliger = null, Medewerker $medewerker = null)
     {
         $this->datum = $hsKlus->getDatum();
         $this->hsKlus = $hsKlus;
+        $this->hsActiviteit = $hsKlus->getHsActiviteit();
         $this->hsVrijwilliger = $hsVrijwilliger;
+        $this->medewerker = $medewerker;
     }
 
     public function getId()

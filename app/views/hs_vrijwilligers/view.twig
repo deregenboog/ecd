@@ -9,45 +9,49 @@
 </h1>
 
 <dl>
-    <dt>Vrijwilligernr</dt>
+    <dt>#</dt>
     <dd>{{ hsVrijwilliger.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ hsVrijwilliger }}</dd>
     <dt>Klussen</dt>
     <dd>
-        <ul>
-            {% for hsKlus in hsVrijwilliger.hsKlussen %}
-                <li>
-                    {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
-                    <table>
-                        <tr>
-                            <th>Datum</th>
-                            <th>Start</th>
-                            <th>Eind</th>
-                            <th>Dagdelen</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        {% for hsRegistratie in hsVrijwilliger.registraties(hsKlus) %}
+        {% if hsVrijwilliger.hsKlussen is empty %}
+            -
+        {% else %}
+            <ul>
+                {% for hsKlus in hsVrijwilliger.hsKlussen %}
+                    <li>
+                        {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
+                        <table>
                             <tr>
-                                <td>{{ hsRegistratie.datum|date('d-m-Y') }}</td>
-                                <td>{{ hsRegistratie.start|date('H:i') }}</td>
-                                <td>{{ hsRegistratie.eind|date('H:i') }}</td>
-                                <td>{{ hsRegistratie.dagdelen }}</td>
-                                <td>
-                                    {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
-                                    {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                                <th>Datum</th>
+                                <th>Start</th>
+                                <th>Eind</th>
+                                <th>Dagdelen</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                            {% for hsRegistratie in hsVrijwilliger.registraties(hsKlus) %}
+                                <tr>
+                                    <td>{{ hsRegistratie.datum|date('d-m-Y') }}</td>
+                                    <td>{{ hsRegistratie.start|date('H:i') }}</td>
+                                    <td>{{ hsRegistratie.eind|date('H:i') }}</td>
+                                    <td>{{ hsRegistratie.dagdelen }}</td>
+                                    <td>
+                                        {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                                        {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="5">
+                                    {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id})|raw }}
                                 </td>
                             </tr>
-                        {% endfor %}
-                        <tr>
-                            <td colspan="5">
-                                {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id})|raw }}
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-            {% endfor %}
-        </ul>
+                        </table>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </dd>
     <dt>
         Memo's

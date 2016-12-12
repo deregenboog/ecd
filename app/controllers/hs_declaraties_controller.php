@@ -6,6 +6,7 @@ use HsBundle\Entity\HsKlus;
 use HsBundle\Form\HsRegistratieType;
 use HsBundle\Entity\HsDeclaratie;
 use HsBundle\Form\HsDeclaratieType;
+use AppBundle\Entity\Medewerker;
 
 class HsDeclaratiesController extends AppController
 {
@@ -24,19 +25,22 @@ class HsDeclaratiesController extends AppController
         $entityManager = $this->getEntityManager();
         $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
 
-        $form = $this->createForm(HsDeclaratieType::class, new HsDeclaratie($hsKlus));
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+
+        $form = $this->createForm(HsDeclaratieType::class, new HsDeclaratie($hsKlus, $medewerker));
         $form->handleRequest($this->request);
 
-//         if ($form->isValid()) {
-//             $entityManager->persist($form->getData());
-//             $entityManager->flush();
+        if ($form->isValid()) {
+            $entityManager->persist($form->getData());
+            $entityManager->flush();
 
-//             return $this->redirect([
-//                 'controller' => 'hs_klussen',
-//                 'action' => 'view',
-//                 $hsKlus->getId(),
-//             ]);
-//         }
+            return $this->redirect([
+                'controller' => 'hs_klussen',
+                'action' => 'view',
+                $hsKlus->getId(),
+            ]);
+        }
 
         $this->set('hsKlus', $hsKlus);
         $this->set('form', $form->createView());

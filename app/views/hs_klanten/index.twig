@@ -4,7 +4,10 @@
     Klanten
 </h1>
 
-{{ html.link('Klant toevoegen', {'action': 'add'})|raw }}
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Klant toevoegen', {'action': 'add'})|raw }}
+</p>
 
 <table>
     <tr>
@@ -18,8 +21,10 @@
             {{ form_errors(filter.klant.naam) }}
         </th>
         <th>
-            {{ form_widget(filter.klant.stadsdeel.naam) }}
-            {{ form_errors(filter.klant.stadsdeel.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.stadsdeel) }}
+            {{ form_errors(filter.klant.stadsdeel) }}
         </th>
         <th>
             <button type="submit">Filteren</button>
@@ -28,10 +33,13 @@
     </tr>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Klantnr', 'hsKlant.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'hsKlant.id') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Actief', 'hsKlant.actief') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
@@ -49,6 +57,9 @@
         </td>
         <td>
             {{ hsKlant.klant.werkgebied }}
+        </td>
+        <td>
+            {{ hsKlant.actief }}
         </td>
         <td>
             {{ html.viewLink({'action': 'view', 0: hsKlant.id})|raw }}

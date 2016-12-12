@@ -1,0 +1,28 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>
+    Declaratiecategorie {{ hsDeclaratiecategorie.naam }}
+    {{ html.editLink({'action': 'edit', 0: hsDeclaratiecategorie.id})|raw }}
+    {% if hsDeclaratiecategorie.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: hsDeclaratiecategorie.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ hsDeclaratiecategorie.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ hsDeclaratiecategorie.naam }}</dd>
+    <dt>Klussen</dt>
+    <dd>
+        {% if hsDeclaratiecategorie.hsKlussen is empty %}
+            -
+        {% else %}
+            <ul>
+                {% for hsKlus in hsDeclaratiecategorie.hsKlussen %}
+                    <li>{{ hsKlus }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </dd>
+</dl>

@@ -21,6 +21,11 @@ class HsKlantenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $enabledFilters = [
+        'id',
+        'klant' => ['naam', 'stadsdeel'],
+    ];
+
     private $sortFieldWhitelist = [
         'hsKlant.id',
         'klant.achternaam',
@@ -30,10 +35,7 @@ class HsKlantenController extends AppController
     public function index()
     {
         $filter = $this->createForm(HsKlantFilterType::class, null, [
-            'enabled_filters' => [
-                'id',
-                'klant' => ['naam', 'stadsdeel'],
-            ],
+            'enabled_filters' => $this->enabledFilters,
         ]);
         $filter->handleRequest($this->request);
 

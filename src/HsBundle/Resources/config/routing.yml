@@ -12,3 +12,6 @@ hs_facturen_index:
 
 hs_activiteiten_index:
     path: hs_activiteiten
+
+hs_declaratie_categorieen_index:
+    path: hs_declaratie_categorieen

@@ -5,6 +5,7 @@ use HsBundle\Entity\HsRegistratie;
 use HsBundle\Entity\HsKlus;
 use HsBundle\Entity\HsVrijwilliger;
 use HsBundle\Form\HsRegistratieType;
+use AppBundle\Entity\Medewerker;
 
 class HsRegistratiesController extends AppController
 {
@@ -31,7 +32,10 @@ class HsRegistratiesController extends AppController
         $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
 
-        $form = $this->createForm(HsRegistratieType::class, new HsRegistratie($hsKlus, $hsVrijwilliger));
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+
+        $form = $this->createForm(HsRegistratieType::class, new HsRegistratie($hsKlus, $hsVrijwilliger, $medewerker));
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {

@@ -2,12 +2,15 @@
 
 <h1>Activiteiten</h1>
 
-{{ html.link('Activiteit toevoegen', {'action': 'add'})|raw }}
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Activiteit toevoegen', {'action': 'add'})|raw }}
+</p>
 
 <table>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Activiteitnr', 'hsActiviteit.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'hsActiviteit.id') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Naam', 'hsActiviteit.naam') }}

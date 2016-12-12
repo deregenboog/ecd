@@ -2,25 +2,65 @@
 
 <h1>Facturen</h1>
 
-{{ html.link('Factuur toevoegen', {'action': 'add'})|raw }}
-
 <table>
     <tr>
-        <th>Factuurnr</th>
-        <th></th>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.nummer) }}
+            {{ form_errors(filter.nummer) }}
+        </th>
+        <th>
+            {{ form_widget(filter.datum) }}
+            {{ form_errors(filter.datum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.bedrag) }}
+            {{ form_errors(filter.bedrag) }}
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
     </tr>
-    {% for hsFactuur in hsFacturen %}
     <tr>
-        <td>{{ hsFactuur.id }}</td>
-        <td>
-            {{ html.link('Bekijken', {'action': 'view', 0: hsFactuur.id})|raw }}
-            {{ html.link('Bewerken', {'action': 'edit', 0: hsFactuur.id})|raw }}
-            {% if hsFactuur.deletable %}
-                {{ html.link('Verwijderen', {'action': 'delete', 0: hsFactuur.id})|raw }}
-            {% endif %}
-        </td>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'hsFactuur.nummer') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Datum', 'hsFactuur.datum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Bedrag', 'hsFactuur.bedrag') }}
+        </th>
+        <th>
+        </th>
     </tr>
+    {% for hsFactuur in pagination %}
+        <tr>
+            <td>
+                {{ html.link(hsFactuur.nummer, {'action': 'view', 0: hsFactuur.id})|raw }}
+            </td>
+            <td>{{ hsFactuur.datum|date('d-m-Y') }}</td>
+            <td>{{ hsFactuur.hsKlus.hsKlant }}</td>
+            <td>{{ hsFactuur.bedrag|money }}</td>
+            <td>
+                {{ html.viewLink({'action': 'view', 0: hsFactuur.id})|raw }}
+                {{ html.editLink({'action': 'edit', 0: hsFactuur.id})|raw }}
+                {% if hsFactuur.deletable %}
+                    {{ html.deleteLink({'action': 'delete', 0: hsFactuur.id})|raw }}
+                {% endif %}
+            </td>
+        </tr>
     {% endfor %}
 </table>
 
-{# this.element('pagination') #}
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

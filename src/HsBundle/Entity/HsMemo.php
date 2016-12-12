@@ -26,7 +26,7 @@ class HsMemo
 
     /**
      * @var \DateTime
-     * @Column(type="date")
+     * @Column(type="datetime")
      */
     private $datum;
 
@@ -56,9 +56,11 @@ class HsMemo
      */
     private $medewerker;
 
-    public function __construct(HsVrijwilliger $hsVrijwilliger)
+    public function __construct(HsVrijwilliger $hsVrijwilliger, Medewerker $medewerker = null)
     {
         $this->hsVrijwilliger = $hsVrijwilliger;
+        $this->medewerker = $medewerker;
+
         if (count($hsVrijwilliger->getMemos()) === 0) {
             $this->intake = true;
         }

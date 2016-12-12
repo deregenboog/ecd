@@ -2,65 +2,108 @@
 
 namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\Common\Collections\Criteria;
 
 /**
- * @Entity
- * @Table(name="hs_facturen")
+ * @ORM\Entity
+ * @ORM\Table(name="hs_facturen")
  */
 class HsFactuur
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="string")
+     */
+    private $nummer;
+
+    /**
+     * @ORM\Column(type="date")
      */
     private $datum;
 
     /**
-     * @Column(type="decimal", scale=2)
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $betreft;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2)
      */
     private $bedrag;
 
     /**
      * @var HsKlus
-     * @ManyToOne(targetEntity="HsKlus", inversedBy="hsFacturen")
+     * @ORM\ManyToOne(targetEntity="HsKlus", inversedBy="hsFacturen")
      */
     private $hsKlus;
 
     /**
      * @var ArrayCollection|HsRegistratie[]
-     * @OneToMany(targetEntity="HsRegistratie", mappedBy="hsFactuur", orphanRemoval=true)
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="HsRegistratie", mappedBy="hsFactuur", orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $hsRegistraties;
+
+    /**
+     * @var ArrayCollection|HsDeclaratie[]
+     * @ORM\OneToMany(targetEntity="HsDeclaratie", mappedBy="hsFactuur", orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    private $hsDeclaraties;
 
     public function __construct(HsKlus $hsKlus = null)
     {
         $this->setDatum(new \DateTime());
         $this->setHsKlus($hsKlus);
 
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hsFactuur'));
+        $firstDayOfPrevMonth = new \DateTime('first day of previous month');
+        $lastDayOfPrevMonth = new \DateTime('last day of previous month');
+        $lastDayOfPrevMonth = new \DateTime('last day of this month');
+
+        $this->nummer = sprintf(
+            '%d/%d',
+            $hsKlus->getHsKlant()->getId(),
+            $lastDayOfPrevMonth->format('ymd')
+        );
+
+        $this->betreft = sprintf(
+            'Factuurnr: %s van %s t/m %s',
+            $this->nummer,
+            $firstDayOfPrevMonth->format('d-m-Y'),
+            $lastDayOfPrevMonth->format('d-m-Y')
+        );
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('hsFactuur'))
+            ->andWhere(Criteria::expr()->lte('datum', $lastDayOfPrevMonth))
+        ;
         $this->setHsRegistraties($hsKlus->getHsRegistraties()->matching($criteria));
+        $this->setHsDeclaraties($hsKlus->getHsDeclaraties()->matching($criteria));
+
+        $this->calculate();
+    }
+
+    public function __toString()
+    {
+        return sprintf('Factuur %d', $this->id);
     }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getNummer()
+    {
+        return $this->nummer;
     }
 
     public function getDatum()
@@ -107,11 +150,39 @@ class HsFactuur
 
     private function setHsRegistraties(ArrayCollection $hsRegistraties)
     {
-        $bedrag = 0.0;
         $this->hsRegistraties = $hsRegistraties;
         foreach ($hsRegistraties as $hsRegistratie) {
             $hsRegistratie->setHsFactuur($this);
+        }
+
+        return $this;
+    }
+
+    public function getHsDeclaraties()
+    {
+        return $this->hsDeclaraties;
+    }
+
+    private function setHsDeclaraties(ArrayCollection $hsDeclaraties)
+    {
+        $this->hsDeclaraties = $hsDeclaraties;
+        foreach ($hsDeclaraties as $hsDeclaratie) {
+            $hsDeclaratie->setHsFactuur($this);
+        }
+
+        return $this;
+    }
+
+    private function calculate()
+    {
+        $bedrag = 0.0;
+
+        foreach ($this->hsRegistraties as $hsRegistratie) {
             $bedrag += 2.5 * $hsRegistratie->getUren();
+        }
+
+        foreach ($this->hsDeclaraties as $hsDeclaratie) {
+            $bedrag += $hsDeclaratie->getBedrag();
         }
 
         $this->bedrag = $bedrag;
@@ -122,5 +193,11 @@ class HsFactuur
     public function getBedrag()
     {
         return $this->bedrag;
+    }
+
+    public function isDeletable()
+    {
+        // @todo
+        return true;
     }
 }

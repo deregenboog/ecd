@@ -28,5 +28,11 @@
         {'controller': 'hs_activiteiten', 'action': 'index'},
         this.viewPath == 'hs_activiteiten' ? {'class': 'selected'} : {}
     )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Declaratiecategorieën',
+        {'controller': 'hs_declaratie_categorieen', 'action': 'index'},
+        this.viewPath == 'hs_declaratie_categorieen' ? {'class': 'selected'} : {}
+    )|raw }}
     <div>&nbsp;</div>
 </div>

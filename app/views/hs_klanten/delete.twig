@@ -4,7 +4,7 @@
 <p>
     Weet u zeker dat u activiteit <strong>{{ hsKlant }}</strong> wilt verwijderen?<br>
     {{ form_start(form) }}
-        {{ html.link('Nee, annuleren', {'action': 'index'})|raw }}
+        {{ html.link('Nee, terug', {'action': 'index'})|raw }}
         <button type="submit">Ja, verwijderen</button>
     {{ form_end(form) }}
 </p>

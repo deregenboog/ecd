@@ -2,7 +2,9 @@
 
 use HsBundle\Entity\HsFactuur;
 use App\Form\HsFactuurType;
-use App\Form\ConfirmationType;
+use AppBundle\Form\ConfirmationType;
+use HsBundle\Entity\HsKlus;
+use HsBundle\Form\HsFactuurFilterType;
 
 class HsFacturenController extends AppController
 {
@@ -16,11 +18,49 @@ class HsFacturenController extends AppController
      */
     public $view = 'AppTwig';
 
+
+    private $enabledFilters = [
+        'nummer',
+        'datum',
+        'bedrag',
+        'klant' => ['naam'],
+    ];
+
+    private $sortFieldWhitelist = [
+        'hsFactuur.nummer',
+        'hsFactuur.datum',
+        'hsFactuur.bedrag',
+        'klant.achternaam',
+    ];
+
     public function index()
     {
+        $filter = $this->createForm(HsFactuurFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsFactuur::class);
-        $this->set('hsFacturen', $repository->findAll());
+
+        $builder = $repository->createQueryBuilder('hsFactuur')
+            ->innerJoin('hsFactuur.hsKlus', 'hsKlus')
+            ->innerJoin('hsKlus.hsKlant', 'hsKlant')
+            ->innerJoin('hsKlant.klant', 'klant')
+        ;
+
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'hsFactuur.nummer',
+            'defaultSortDirection' => 'desc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+        ]);
+
+        $this->set('filter', $filter->createView());
+        $this->set('pagination', $pagination);
     }
 
     public function view($id)
@@ -30,22 +70,26 @@ class HsFacturenController extends AppController
         $this->set('hsFactuur', $hsFactuur);
     }
 
-    public function add()
+    public function add($hsKlusId)
     {
-        $hsFactuur = new HsFactuur();
+        $entityManager = $this->getEntityManager();
+        $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
 
-        $form = $this->createForm(HsFactuurType::class, $hsFactuur);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $entityManager = $this->getEntityManager();
+        $hsFactuur = new HsFactuur($hsKlus);
+        if (count($hsFactuur->getHsRegistraties()) > 0) {
             $entityManager->persist($hsFactuur);
             $entityManager->flush();
 
-            return $this->redirect(['action' => 'index']);
+            $this->Session->setFlash('Factuur is toegevoegd.');
+        } else {
+            $this->Session->setFlash('Er is voor de vorige maand niks te factureren.');
         }
 
-        $this->set('form', $form->createView());
+        return $this->redirect([
+            'controller' => 'hs_klussen',
+            'action' => 'view',
+            $hsKlus->getId(),
+        ]);
     }
 
     public function edit($id)
