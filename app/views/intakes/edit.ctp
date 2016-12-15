@@ -213,15 +213,16 @@
 
         </fieldset>
     </fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
-</div>
-<div class="actions">
-<?php
-    echo $this->element('klantbasic', array('data' => $klant));
-    echo $this->element('diensten', array( 'diensten' => $diensten, ));
-    echo $this->element('intakes_summary', array('data' => $klant));
-?>
 
+    <?= $this->element('zrm', ['model' => 'Intake', 'zrm_data' => $zrm_data]) ?>
+
+    <?php echo $this->Form->end(__('Submit', true));?>
+</div>
+
+<div class="actions">
+    <?= $this->element('klantbasic', array('data' => $klant)) ?>
+    <?= $this->element('diensten', array( 'diensten' => $diensten, )) ?>
+    <?= $this->element('intakes_summary', array('data' => $klant)) ?>
     <fieldset>
         <legend>Schorsingen</legend>
         <?php if (!empty($klant['Schorsing'])): ?>

@@ -409,7 +409,6 @@ class Intake extends AppModel
 
         $last_intake_id = $klant['Intake'][0]['id'];
         $this->Klant->saveField('laste_intake_id', $last_intake_id);
-        $f_id = strtotime($klant['Klant']['first_intake_date']);
         if (isset($this->data['Intake']['datum_intake']) && !empty($this->data['Intake']['datum_intake'])) {
             if (empty($klant['Klant']['first_intake_date'])) {
                 $this->Klant->saveField('first_intake_date', $this->data['Intake']['datum_intake']);
