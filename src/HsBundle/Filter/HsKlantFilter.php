@@ -13,6 +13,11 @@ class HsKlantFilter implements FilterInterface
     public $id;
 
     /**
+     * @var bool
+     */
+    public $openstaand;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -23,6 +28,17 @@ class HsKlantFilter implements FilterInterface
             $builder
                 ->andWhere('hsKlant.id = :hs_klant_id')
                 ->setParameter('hs_klant_id', $this->id)
+            ;
+        }
+
+        if (false || $this->openstaand) {
+            $builder
+//                 ->distinct(true)
+                ->innerJoin('hsKlant.hsKlussen', 'hsKlus')
+                ->innerJoin('hsKlus.hsFacturen', 'hsFactuur')
+                ->innerJoin('hsFactuur.hsBetalingen', 'hsBetaling')
+                ->having('(SUM(hsFactuur.bedrag) - SUM(hsBetaling.bedrag)) > 0')
+//                 ->groupBy('hsKlant.id')
             ;
         }
 

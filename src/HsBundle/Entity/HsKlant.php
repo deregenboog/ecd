@@ -147,4 +147,29 @@ class HsKlant
 
         return $this;
     }
+
+    public function getGefactureerd()
+    {
+        $bedrag = 0.0;
+        foreach ($this->hsKlussen as $hsKlus) {
+            $bedrag += $hsKlus->getGefactureerd();
+        }
+
+        return $bedrag;
+    }
+
+    public function getBetaald()
+    {
+        $bedrag = 0.0;
+        foreach ($this->hsKlussen as $hsKlus) {
+            $bedrag += $hsKlus->getBetaald();
+        }
+
+        return $bedrag;
+    }
+
+    public function getOpenstaand()
+    {
+        return $this->getGefactureerd() - $this->getBetaald();
+    }
 }

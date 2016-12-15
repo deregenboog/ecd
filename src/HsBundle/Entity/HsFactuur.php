@@ -59,6 +59,12 @@ class HsFactuur
      */
     private $hsDeclaraties;
 
+    /**
+     * @var ArrayCollection|HsBetaling[]
+     * @ORM\OneToMany(targetEntity="HsBetaling", mappedBy="hsFactuur")
+     */
+    private $hsBetalingen;
+
     public function __construct(HsKlus $hsKlus = null)
     {
         $this->setDatum(new \DateTime());
@@ -199,5 +205,25 @@ class HsFactuur
     {
         // @todo
         return true;
+    }
+
+    public function getHsBetalingen()
+    {
+        return $this->hsBetalingen;
+    }
+
+    public function getBetaald()
+    {
+        $betaald = 0.0;
+        foreach ($this->hsBetalingen as $hsBetaling) {
+            $betaald += $hsBetaling->getBedrag();
+        }
+
+        return $betaald;
+    }
+
+    public function getOpenstaand()
+    {
+        return $this->bedrag - $this->getBetaald();
     }
 }

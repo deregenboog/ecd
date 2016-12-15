@@ -1,0 +1,72 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Betalingen</h1>
+
+<table>
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.hsFactuur.nummer) }}
+            {{ form_errors(filter.hsFactuur.nummer) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.datum) }}
+            {{ form_errors(filter.datum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.referentie) }}
+            {{ form_errors(filter.referentie) }}
+        </th>
+        <th>
+            {{ form_widget(filter.bedrag) }}
+            {{ form_errors(filter.bedrag) }}
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Factuur', 'hsBetaling.hsFactuur') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Datum', 'hsBetaling.datum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Referentie', 'hsBetaling.referentie') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Bedrag', 'hsBetaling.bedrag') }}
+        </th>
+        <th>
+        </th>
+    </tr>
+    {% for hsBetaling in pagination %}
+        <tr>
+            <td>{{ html.link(hsBetaling.hsFactuur.nummer, {'controller': 'hs_facturen', 'action': 'view', 0: hsBetaling.hsFactuur.id})|raw }}</td>
+            <td>{{ hsBetaling.hsFactuur.hsKlus.hsKlant }}</td>
+            <td>{{ hsBetaling.datum|date('d-m-Y') }}</td>
+            <td>{{ hsBetaling.referentie }}</td>
+            <td>{{ hsBetaling.bedrag|money }}</td>
+            <td>
+                {{ html.viewLink({'action': 'view', 0: hsBetaling.id})|raw }}
+                {{ html.editLink({'action': 'edit', 0: hsBetaling.id})|raw }}
+                {% if hsBetaling.deletable %}
+                    {{ html.deleteLink({'action': 'delete', 0: hsBetaling.id})|raw }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

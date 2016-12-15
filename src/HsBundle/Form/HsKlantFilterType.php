@@ -9,6 +9,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use HsBundle\Filter\HsKlantFilter;
 use AppBundle\Form\FilterType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HsKlantFilterType extends AbstractType
 {
@@ -20,6 +21,13 @@ class HsKlantFilterType extends AbstractType
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
                 'attr' => ['placeholder' => 'Klantnummer'],
+            ]);
+        }
+
+        if (in_array('openstaand', $options['enabled_filters'])) {
+            $builder->add('openstaand', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Met openstaande factuur',
             ]);
         }
 

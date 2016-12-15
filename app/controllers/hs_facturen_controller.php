@@ -5,6 +5,7 @@ use App\Form\HsFactuurType;
 use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\HsKlus;
 use HsBundle\Form\HsFactuurFilterType;
+use HsBundle\Form\HsBetalingFilterType;
 
 class HsFacturenController extends AppController
 {

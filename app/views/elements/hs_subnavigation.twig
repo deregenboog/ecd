@@ -24,6 +24,12 @@
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
+        'Betalingen',
+        {'controller': 'hs_betalingen', 'action': 'index'},
+        this.viewPath == 'hs_betalingen' ? {'class': 'selected'} : {}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
         'Activiteiten',
         {'controller': 'hs_activiteiten', 'action': 'index'},
         this.viewPath == 'hs_activiteiten' ? {'class': 'selected'} : {}

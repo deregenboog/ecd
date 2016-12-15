@@ -8,11 +8,6 @@
     {% endif %}
 </h1>
 
-<p>
-    {{ html.addLink({'controller': 'hs_betalingen', 'action': 'add', 0: hsFactuur.id})|raw }}
-    {{ html.link('Betaling toevoegen', {'controller': 'hs_betalingen', 'action': 'add', 0: hsFactuur.id})|raw }}
-</p>
-
 <dl>
     <dt>#</dt>
     <dd>{{ hsFactuur.id }}</dd>
@@ -22,12 +17,6 @@
     <dd>{{ hsFactuur }}</dd>
     <dt>Klant</dt>
     <dd>{{ hsFactuur.hsKlus.hsKlant }}</dd>
-    <dt>Totaal</dt>
-    <dd>{{ hsFactuur.bedrag|money }}</dd>
-    <dt>Betaald</dt>
-    <dd>{{ hsFactuur.betaald|money }}</dd>
-    <dt>Openstaand</dt>
-    <dd>{{ hsFactuur.openstaand|money }}</dd>
     <dt>Uren</dt>
     <dd>
         {% if hsFactuur.hsRegistraties is empty %}
@@ -103,33 +92,19 @@
             </table>
         {% endif %}
     </dd>
-    <dt>Betalingen</dt>
+    <dt>Totaal</dt>
     <dd>
-        {% if hsFactuur.hsBetalingen is empty %}
-            -
-        {% else %}
-            <table class="fixed">
+        <table class="fixed">
+            <tr>
+                <th colspan="6"></th>
+                <th>Totaal</th>
+            </tr>
+            <tfoot>
                 <tr>
-                    <th>Datum</th>
-                    <th>Referentie</th>
-                    <th colspan="4">Info</th>
-                    <th>Bedrag</th>
+                    <th colspan="6">Totaal</th>
+                    <th>{{ hsFactuur.bedrag|money }}</th>
                 </tr>
-                {% for hsBetaling in hsFactuur.hsBetalingen %}
-                    <tr>
-                        <td>{{ hsBetaling.datum|date('d-m-Y') }}</td>
-                        <td>{{ hsBetaling.referentie }}</td>
-                        <td colspan="4">{{ hsBetaling.info }}</td>
-                        <td>{{ hsBetaling.bedrag|money }}</td>
-                    </tr>
-                {% endfor %}
-                <tfoot>
-                    <tr>
-                        <th colspan="6">Totaal</th>
-                        <th>{{ hsFactuur.betaald|money }}</th>
-                    </tr>
-                </tfoot>
-            </table>
-        {% endif %}
+            </tfoot>
+        </table>
     </dd>
 </dl>

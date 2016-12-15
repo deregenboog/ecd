@@ -23,6 +23,7 @@ class HsKlantenController extends AppController
 
     private $enabledFilters = [
         'id',
+        'openstaand',
         'klant' => ['naam', 'stadsdeel'],
     ];
 
@@ -55,6 +56,7 @@ class HsKlantenController extends AppController
             'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'wrap-queries' => true, // because of HAVING clause in filter
         ]);
 
         $this->set('filter', $filter->createView());

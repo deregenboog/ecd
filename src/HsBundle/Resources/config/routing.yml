@@ -10,6 +10,9 @@ hs_klussen_index:
 hs_facturen_index:
     path: hs_facturen
 
+hs_betalingen_index:
+    path: hs_betalingen
+
 hs_activiteiten_index:
     path: hs_activiteiten
 

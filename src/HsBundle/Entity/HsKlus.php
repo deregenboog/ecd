@@ -226,4 +226,28 @@ class HsKlus
         return $this;
     }
 
+    public function getGefactureerd()
+    {
+        $bedrag = 0.0;
+        foreach ($this->hsFacturen as $hsFactuur) {
+            $bedrag += $hsFactuur->getBedrag();
+        }
+
+        return $bedrag;
+    }
+
+    public function getBetaald()
+    {
+        $bedrag = 0.0;
+        foreach ($this->hsFacturen as $hsFactuur) {
+            $bedrag += $hsFactuur->getBetaald();
+        }
+
+        return $bedrag;
+    }
+
+    public function getOpenstaand()
+    {
+        return $this->getGefactureerd() - $this->getBetaald();
+    }
 }

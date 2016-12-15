@@ -27,6 +27,11 @@
             {{ form_errors(filter.klant.stadsdeel) }}
         </th>
         <th>
+            {{ form_widget(filter.openstaand) }}
+            {{ form_label(filter.openstaand) }}
+            {{ form_errors(filter.openstaand) }}
+        </th>
+        <th>
             <button type="submit">Filteren</button>
         </th>
         {{ form_end(filter) }}
@@ -44,6 +49,7 @@
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
         </th>
+        <th>Openstaand</th>
         <th>
         </th>
     </tr>
@@ -60,6 +66,9 @@
         </td>
         <td>
             {{ hsKlant.actief }}
+        </td>
+        <td>
+            {{ hsKlant.openstaand|money }}
         </td>
         <td>
             {{ html.viewLink({'action': 'view', 0: hsKlant.id})|raw }}
