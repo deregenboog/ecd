@@ -7,12 +7,12 @@ class Registratie extends AppModel
     public $validate = array(
         'locatie_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
             ),
         ),
         'klant_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
             ),
         ),
     );

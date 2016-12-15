@@ -138,16 +138,12 @@ class AppController extends Controller
     /**
      * Check if a controller is accesible by the current user, based on the
      * groups it belongs to. The list of controllers accessible per group are
-     * defined at config/core.php, in the array ACL.permissions.
+     * defined at config/core.php, in the array ACL.permissions. 
      *
      * @param String $controller The controller name
      */
-    public function _isControllerAuthorized($controller)
+    public function _isControllerAuthorized ($controller)
     {
-        if ($this->Session->read('is_superuser')) {
-            return true;
-        }
-
         $permissions = Configure::read('ACL.permissions');
         foreach (array_keys($this->userGroups) as $gid) {
             if (!isset($permissions[$gid])) {
@@ -236,7 +232,7 @@ class AppController extends Controller
     /**
      * forAdminOnly If you are not admin, redirect. For quick access handling
      * in actions.
-     *
+     * 
      * @access public
      * @return void
      */
@@ -266,13 +262,13 @@ class AppController extends Controller
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         $this->set('medewerkers', $medewerkers);
 
-        return $medewerkers;
+	return $medewerkers;
     }
 
     /**
      * flash Wrapper for Session-flash. See flashError, it is used more.
-     *
-     * @param mixed $msg
+     * 
+     * @param mixed $msg 
      * @access public
      * @return void
      */
@@ -283,8 +279,8 @@ class AppController extends Controller
 
     /**
      * flashError Wrapper for Session-flash, using error message CSS styling.
-     *
-     * @param mixed $msg
+     * 
+     * @param mixed $msg 
      * @access public
      * @return void
      */
@@ -329,22 +325,21 @@ class AppController extends Controller
             $this->set('userGroups', []);
         }
 
-        if (Configure::read("ACL.disabled") && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
             // Disable ACL, fake user data:
-            $auth['Group'] = array( 1 );
-            $auth['username'] = "sysadmin";
-            $auth['Medewerker']['LdapUser']['displayname'] = "System Administrator";
-            $auth['Medewerker']['LdapUser']['givenname'] = "System";
-            $auth['Medewerker']['LdapUser']['sn'] = "Administrator";
-            $auth['Medewerker']['LdapUser']['uidnumber'] = "1";
-            $s_user = $this->Session->write('is_superuser', $auth);
-            // $this->Session->write('Auth.User', $auth);
+            $auth['Group'] = [1];
+            $auth['username'] = 'sysadmin';
+            $auth['Medewerker']['LdapUser']['displayname'] = 'System Administrator';
+            $auth['Medewerker']['LdapUser']['givenname'] = 'System';
+            $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
+            $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
+            $this->Session->write('Auth.User', $auth);
         }
 
         // route the user to home directory
         if (isset($auth['Medewerker'])) {
             // We are logged in already.
-            // $contact = $this->Session->read('Auth.Contact');
+            //$contact = $this->Session->read('Auth.Contact');
             // set some view variables:
             $this->set('user_is_logged_in', true);
             $user_id = $this->Session->read('user_id');
@@ -352,16 +347,6 @@ class AppController extends Controller
 
             // Store user ID also in the default model, so that we can use it there.
             $name = $this->modelClass;
-
-            $s_user = $this->Session->read('is_superuser');
-            if ($s_user) {
-                // Allow admins to do everything here by now! Like that we do
-                // not need to create all ACOs.
-                // TODO: without this, it seems access to actions is not
-                // granted to s_user despite it is allowed to access all
-                // controllers/. ACO for all specific objects need to exists!
-                $this->AuthExt->allow('*');
-            }
 
             // http://bakery.cakephp.org/articles/view/logablebehavior
             if (sizeof($this->uses)
@@ -372,8 +357,8 @@ class AppController extends Controller
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
-                        'id' => $auth['Medewerker']['id'],
-                        'username' => $auth['Medewerker']['username'],
+                            'id' => $auth['Medewerker']['id'],
+                            'username' => $auth['Medewerker']['username'],
                     ]];
                 }
                 $this->{$this->modelClass}->setUserData($activeUser);

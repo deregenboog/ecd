@@ -16,7 +16,7 @@ class Schorsing extends AppModel
         ),
         'klant_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
             ),
         ),
         'remark' => array(

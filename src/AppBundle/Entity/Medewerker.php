@@ -31,6 +31,11 @@ class Medewerker
      */
     private $roepnaam;
 
+    /**
+     * @Column(name="groups", type="simple_array", nullable=true)
+     */
+    private $groepen = [];
+
     public function __construct()
     {
         $this->klanten = new ArrayCollection();
@@ -39,5 +44,17 @@ class Medewerker
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getGroepen()
+    {
+        return $this->groepen;
+    }
+
+    public function setGroepen(array $groepen = [])
+    {
+        $this->groepen = $groepen;
+
+        return $this;
     }
 }

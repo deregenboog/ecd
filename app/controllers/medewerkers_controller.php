@@ -1,5 +1,7 @@
 <?php
 
+use AppBundle\Entity\Medewerker;
+
 class MedewerkersController extends AppController
 {
     public $name = 'Medewerkers';
@@ -102,28 +104,21 @@ class MedewerkersController extends AppController
                 } else {
                     $name = 'deze medewerker';
                 }
-                $this->flashError('Sorry, '.$name.
-                        ' is nog niet bevoegd om dit systeem te gebruiken.');
+                $this->flashError(
+                    'Sorry, '.$name.' is nog niet bevoegd om dit systeem te gebruiken.'
+                );
                 $this->redirect($this->AuthExt->logout());
             }
 
             $user_id = $this->Medewerker->registerUser($this->AuthExt->user());
             $this->Session->Write('Auth.Medewerker.id', $user_id);
 
+            $this->saveUserGroups($user_id, $ldap);
+
             if (isset($ldap['displayname'])) {
-                $this->flash(__('Welkom', true).' '.
-                     $ldap['displayname']);
+                $this->flash(__('Welkom', true).' '.$ldap['displayname']);
             } else {
                 $this->flash(__('Welkom', true));
-            }
-
-            if (isset($ldap['gidnumber']) &&
-                $ldap['gidnumber'] == GROUP_ADMIN) {
-                // Superusers have their main posix gidnumber equal to
-        // GROUP_ADMIN
-                $this->Session->Write('is_superuser', true);
-            } else {
-                $this->Session->Write('is_superuser', false);
             }
 
             $cont = $this->Session->read('AfterLogin.Controler');
@@ -131,15 +126,35 @@ class MedewerkersController extends AppController
 
             if ($cont && $action && $action != 'login') {
                 $this->redirect(array(
-                            'controller' => $cont, 'action' => $action,
-                            )
-                        );
+                    'controller' => $cont,
+                    'action' => $action,
+                ));
             }
 
             $this->redirect('/');
         }
 
         unset($this->data['Medewerker']['passwd']);
+    }
+
+    private function saveUserGroups($userId, $ldap = [])
+    {
+        $em = $this->getEntityManager();
+        $user = $em->find(Medewerker::class, $userId);
+
+        if ($user && key_exists('Groups', $ldap)) {
+            $userGroups = [];
+            foreach ($ldap['Groups'] as $group) {
+                $userGroups[] = $group['gidnumber'];
+            }
+            $user->setGroepen($userGroups);
+            try {
+                $em->persist($user);
+                $em->flush($user);
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
     }
 
     public function logout()

@@ -5,9 +5,10 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: nl
+    locale: nl_NL.utf8
 
 framework:
+    default_locale:  "%locale%"
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
@@ -17,7 +18,6 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
 
 # Twig Configuration
 twig:

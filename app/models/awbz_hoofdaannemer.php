@@ -16,7 +16,7 @@ class AwbzHoofdaannemer extends AppModel
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -26,7 +26,7 @@ class AwbzHoofdaannemer extends AppModel
         ),
         'hoofdaannemer_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,

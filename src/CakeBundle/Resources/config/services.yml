@@ -41,9 +41,9 @@ parameters:
         GROUP_MLO: 10104
         GROUP_MAATSCHAPPELIJK: 10117
         GROUP_HI5: 10097
-        GROUP_TRAJECTBEGELEIDER: 10194);
-        GROUP_WERKBEGELEIDER: 10195);
-        GROUP_TEAMLEIDERS: 10105);
+        GROUP_TRAJECTBEGELEIDER: 10194
+        GROUP_WERKBEGELEIDER: 10195
+        GROUP_TEAMLEIDERS: 10105
         GROUP_PFO: 10123
         GROUP_BACK_ON_TRACK_COORDINATOR: 10404
         GROUP_BACK_ON_TRACK_COACH: 10403
@@ -114,7 +114,7 @@ parameters:
                 - BotVerslagen
                 - BotKoppelingen
             GROUP_VOLONTEERS:
-                    - Registraties
+                - Registraties
             GROUP_STAGE:
                 - Intakes
                 - Klanten
@@ -145,6 +145,10 @@ parameters:
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
                 - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
                 - IzEindekoppelingen
                 - IzIntervisiegroepen
                 - IzKoppelingen

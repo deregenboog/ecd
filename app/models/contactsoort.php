@@ -9,7 +9,7 @@ class Contactsoort extends AppModel
     public $validate = array(
         'text' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
             ),
         ),
     );

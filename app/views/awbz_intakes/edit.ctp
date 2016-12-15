@@ -137,10 +137,13 @@
 
         <fieldset>
             <legend>Indruk</legend>
-            <?php
-                echo $this->Form->input('indruk', array('label' => __('indruk', true)));
-                echo $this->Form->input('doelgroep', array('label' => __('doelgroep', true)));
-            ?>
+            <?= $this->Form->input('indruk', ['label' => __('label_indruk', true)]) ?>
+            <?= $this->Form->label('doelgroep', __('label_doelgroep', true)) ?>
+            <?= $this->Form->input('doelgroep', [
+                'type' => 'radio',
+                'options' => [1 => 'Ja', 0 => 'Nee'],
+                'legend' => false,
+            ]) ?>
         </fieldset>
         <fieldset id="ondersteuning">
             <legend>Ondersteuning</legend>

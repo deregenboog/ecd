@@ -1,31 +1,30 @@
-<?php
-$logged_in_user_id = $this->Session->read('Auth.Medewerker.id');
-if (!isset($plainText) || !$plainText) {
-    echo '<div class="editWrench">';
-    $printer_img = $this->Html->image('printer.png');
-    echo '<a href="#" onclick="window.print()">'.$printer_img.'</a>';
+<?php $plainText = isset($plainText) ? $plainText : false; ?>
 
-    if ($data['Intake']['datum_intake'] == date('Y-m-d') &&
-            $logged_in_user_id == $data['Intake']['medewerker_id']
-        ) {
-        $wrench = $html->image('wrench.png');
-        $url = array('controller' => 'intakes', 'action' => 'edit', $data['Intake']['id']);
-        $opts = array('escape' => false, 'title' => __('edit', true));
-        echo $html->link($wrench, $url, $opts);
-    }
-    echo '</div>';
-}
-?>
+<?php if (!$plainText): ?>
+    <div class="editWrench">
+        <a href="#" onclick="window.print()">
+            <?= $this->Html->image('printer.png') ?>
+        </a>
 
-<?php if (!isset($plainText) || !$plainText) {
-    ?><fieldset>
-    <legend><?php __('algemeen')?></legend><?php
-} else {
-    ?>
-    <h3><?php __('algemeen')?></h3>
-    <?php
-}?>
+        <?php
+            $dateCreated = new \DateTime($data['Intake']['datum_intake']);
+            if ($dateCreated >= new \DateTime('-7 days')
+                && $this->Session->read('Auth.Medewerker.id') == $data['Intake']['medewerker_id']
+            ) {
+                $wrench = $html->image('wrench.png');
+                $url = ['controller' => 'intakes', 'action' => 'edit', $data['Intake']['id']];
+                $opts = ['escape' => false, 'title' => __('edit', true)];
+                echo $html->link($wrench, $url, $opts);
+            }
+        ?>
+    </div>
+<?php endif; ?>
 
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('algemeen')?></legend><?php else: ?>
+        <h3><?php __('algemeen')?></h3>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
             <td><?php __('medewerker')?></td>
@@ -36,19 +35,16 @@ if (!isset($plainText) || !$plainText) {
             <td><?php echo $format->printData($date->show($data['Intake']['datum_intake'])); ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-    ?></fieldset><?php
-} ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-    ?><fieldset>
-    <legend><?php __('adresgegevens')?></legend>
-    <?php
-} else {
-    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('adresgegevens')?></legend>
+<?php else: ?>
     <h3><?php __('adresgegevens')?></h3>
-    <?php
-}?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
             <td><?php __('postadres')?></td>
@@ -79,19 +75,16 @@ if (!isset($plainText) || !$plainText) {
             <td><?php echo $format->printData($data['Intake']['telefoonnummer']); ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-    ?></fieldset><?php
-} ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-    ?><fieldset>
-    <legend><?php __('locatiekeuze')?></legend>
-    <?php
-} else {
-    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('locatiekeuze')?></legend>
+<?php else: ?>
     <h3><?php __('locatiekeuze')?></h3>
-    <?php
-}?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
             <td><?php __('Intake locatie')?></td>
@@ -126,19 +119,16 @@ if (!isset($plainText) || !$plainText) {
         </tr>
         -->
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                ?></fieldset><?php
-            } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                ?><fieldset>
-    <legend><?php __('legitimatie')?></legend>
-    <?php
-            } else {
-                ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('legitimatie')?></legend>
+<?php else: ?>
     <h3><?php __('legitimatie')?></h3>
-    <?php
-            }?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
             <td><?php __('legitimatie')?></td>
@@ -153,19 +143,16 @@ if (!isset($plainText) || !$plainText) {
             <td><?php echo $format->printData($date->show($data['Intake']['legitimatie_geldig_tot'])); ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                ?></fieldset><?php
-            } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                ?><fieldset>
-    <legend><?php __('verslaving')?></legend><?php
-            } else {
-                ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('verslaving')?></legend>
+<?php else: ?>
     <h3><?php __('verslaving')?></h3>
-    <?php
-            } ?>
-
+<?php endif; ?>
 <?php if ($data['PrimaireProblematiek']['id']): ?>
     <h3>Primaire problematiek</h3>
     <table class='fixedwidth'>
@@ -296,28 +283,25 @@ if (!isset($plainText) || !$plainText) {
         </tr>
     </table>
 <?php endif; ?>
-<?php if (!isset($plainText) || !$plainText) {
-                    ?></fieldset><?php
-                } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                    ?><fieldset>
-    <legend><?php __('inkomen_en_woonsituatie')?></legend><?php
-                } else {
-                    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('inkomen_en_woonsituatie')?></legend>
+<?php else: ?>
     <h3><?php __('inkomen_en_woonsituatie')?></h3>
-    <?php
-                }?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
-            <td><?php __('inkomen')?></td>
+            <td><?php __('inkomen') ?></td>
             <td>
-                <?php if (!empty($data['Inkomen'])) {
-                    ?>
+                <?php if (!empty($data['Inkomen'])): ?>
                 <ul>
                     <?php foreach ($data['Inkomen'] as $inkomen): ?>
                         <li>
-                            <?php echo $inkomen['naam']?>
+                            <?= $inkomen['naam'] ?>
                         </li>
                     <?php endforeach; ?>
                     <?php if ($data['Intake']['inkomen_overig'] != ''): ?>
@@ -326,29 +310,26 @@ if (!isset($plainText) || !$plainText) {
                         </li>
                     <?php endif; ?>
                 </ul>
-                <?php
-                } else {
-                    echo '-';
-                }?>
+                <?php else: ?>
+                    -
+                <?php endif; ?>
             </td>
         </tr>
         <tr>
-            <td><?php __('woonsituatie')?></td>
-            <td><?php echo $format->printData($data['Woonsituatie']['naam'])?></td>
+            <td><?php __('woonsituatie') ?></td>
+            <td><?php echo $format->printData($data['Woonsituatie']['naam']) ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                    ?></fieldset><?php
-                } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                    ?><fieldset>
-    <legend><?php __('overige_hulpverlening')?></legend><?php
-                } else {
-                    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('overige_hulpverlening')?></legend>
+<?php else: ?>
     <h3><?php __('overige_hulpverlening')?></h3>
-    <?php
-                }?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
             <td><?php __('instantie')?></td>
@@ -377,18 +358,16 @@ if (!isset($plainText) || !$plainText) {
             <td><?php echo $format->printData($data['Intake']['medische_achtergrond']); ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                    ?></fieldset><?php
-                } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                    ?><fieldset>
-    <legend><?php __('verwachtingen_en_plannen')?></legend><?php
-                } else {
-                    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('verwachtingen_en_plannen')?></legend>
+<?php else: ?>
     <h3><?php __('verwachtingen_en_plannen')?></h3>
-    <?php
-                }?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
             <td><?php __('verwachting_dienstaanbod')?></td>
@@ -399,25 +378,23 @@ if (!isset($plainText) || !$plainText) {
             <td><?php echo $format->printData($data['Intake']['toekomstplannen']); ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                    ?></fieldset><?php
-                } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                    ?><fieldset>
-    <legend><?php __('Indruk')?></legend><?php
-                } else {
-                    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('Indruk')?></legend>
+<?php else: ?>
     <h3><?php __('Indruk')?></h3>
-    <?php
-                }?>
+<?php endif; ?>
     <table class='fixedwidth'>
         <tr>
-            <td><?php __('indruk')?></td>
+            <td><?php __('label_indruk')?></td>
             <td><?php echo $format->printData($data['Intake']['indruk']); ?></td>
         </tr>
         <tr>
-            <td><?php __('doelgroep') ?></td>
+            <td><?php __('label_doelgroep') ?></td>
             <td>
                 <?php if ($data['Intake']['doelgroep']): ?>
                     <p>Ja</p>
@@ -432,18 +409,16 @@ if (!isset($plainText) || !$plainText) {
             </td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                    ?></fieldset><?php
-                } ?>
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-<?php if (!isset($plainText) || !$plainText) {
-                    ?><fieldset>
-    <legend><?php __('Ondersteuning')?></legend><?php
-                } else {
-                    ?>
+<?php if (!$plainText): ?>
+    <fieldset>
+        <legend><?php __('Ondersteuning')?></legend>
+<?php else: ?>
     <h3><?php __('Ondersteuning')?></h3>
-    <?php
-                }?>
+<?php endif; ?>
     <table class="fixedwidth">
         <tr>
             <td>Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?</td>
@@ -463,28 +438,30 @@ if (!isset($plainText) || !$plainText) {
             <td><?php echo $data['Intake']['hulpverlening'] == 1? 'Ja' : 'Nee'; ?></td>
         </tr>
     </table>
-<?php if (!isset($plainText) || !$plainText) {
-                    ?></fieldset><?php
-                } ?>
-<?php
-if (!isset($plainText) || !$plainText) {
-                    if ($data['Intake']['datum_intake'] == date('Y-m-d') &&
-            $logged_in_user_id == $data['Intake']['medewerker_id']
-        ) {
-                        echo '<div class="editWrench">';
-                        $wrench = $html->image('wrench.png');
-                        $url = array(
-                'controller' => 'intakes',
-                'action' => 'edit',
-                $data['Intake']['id'],
-            );
-                        $opts = array('escape' => false, 'title' => __('edit', true));
-                        echo $html->link($wrench, $url, $opts);
-                        echo '</div>';
-                    }
-                }
+<?php if (!$plainText): ?>
+    </fieldset>
+<?php endif; ?>
 
-    if (! empty($zrmReport)) {
-        echo $this->element('zrm_view', array('data' => $zrmReport));
-    }
-?>
+<?php if (! empty($zrmReport)): ?>
+    <?= $this->element('zrm_view', array('data' => $zrmReport)) ?>
+<?php endif; ?>
+
+<?php if (!$plainText): ?>
+    <div class="editWrench">
+        <a href="#" onclick="window.print()">
+            <?= $this->Html->image('printer.png') ?>
+        </a>
+
+        <?php
+            $dateCreated = new \DateTime($data['Intake']['datum_intake']);
+            if ($dateCreated >= new \DateTime('-7 days')
+                && $this->Session->read('Auth.Medewerker.id') == $data['Intake']['medewerker_id']
+            ) {
+                $wrench = $html->image('wrench.png');
+                $url = ['controller' => 'intakes', 'action' => 'edit', $data['Intake']['id']];
+                $opts = ['escape' => false, 'title' => __('edit', true)];
+                echo $html->link($wrench, $url, $opts);
+            }
+        ?>
+    </div>
+<?php endif; ?>

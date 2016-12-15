@@ -82,6 +82,7 @@
                     'selected' => '--', ));
             ?>
         </fieldset>
+
         <fieldset>
             <legend>Verslaving</legend>
             <h3>Problematiek</h3>
@@ -94,17 +95,17 @@
                 echo $this->Form->input('verslaving_overig', array('label' => __('verslaving_overig', true)));
             ?>
         </fieldset>
+
         <fieldset>
             <legend>Inkomen en woonsituatie</legend>
             <?php
                 echo $this->Form->input('Inkomen', array(
                     'type'=>'select',
-                    'label' => '<b>Inkomen (kies minimaal een optie)</b>',
-                    'multiple'=>'checkbox',
                     'required' => true,
+                    'multiple'=>'checkbox',
                     'options'=> $inkomens,
-                    ));
-                //*/
+                    'label' => '<b>Inkomen (kies minimaal een optie)</b>',
+                ));
                 echo $this->Form->input('inkomen_overig', array('label' => __('inkomen_overig', true)));
                 echo $this->Form->input('woonsituatie_id', array('label' => 'Wat is de woonsituatie?', 'empty' => ''));
             ?>
@@ -133,10 +134,13 @@
 
         <fieldset>
             <legend>Indruk</legend>
-            <?php
-                echo $this->Form->input('indruk', array('label' => __('indruk', true)));
-                echo $this->Form->input('doelgroep', array('label' => __('doelgroep', true)));
-            ?>
+            <?= $this->Form->input('indruk', ['label' => __('label_indruk', true)]) ?>
+            <?= $this->Form->label('doelgroep', __('label_doelgroep', true)) ?>
+            <?= $this->Form->input('doelgroep', [
+                'type' => 'radio',
+                'options' => [1 => 'Ja', 0 => 'Nee'],
+                'legend' => false,
+            ]) ?>
         </fieldset>
         <fieldset id="ondersteuning">
             <legend>Ondersteuning</legend>
@@ -153,20 +157,22 @@
                     'label'    => ' ',
                     'legend'	=> false,
                 );
-                echo $this->Form->label('informele_zorg',
-                    'Zou je het leuk vinden om iedere week
-                    met iemand samen iets te ondernemen?'
-                );
 
                 $ja_label_f = 'Ja <small style="display: none">(e-mail naar ';
                 $ja_label_b = ')</small>';
 
+            //informele_zorg
+                echo $this->Form->label('informele_zorg',
+                    'Zou je het leuk vinden om iedere week
+                    met iemand samen iets te ondernemen?'
+                );
                 echo $form->hidden('informele_zorg_ignore', array(
                     'value' => $this->data['Intake']['informele_zorg'], ));
                 $optionsArray['options'][1] =
                     $ja_label_f.$informele_zorg_mail.$ja_label_b;
                 echo $this->Form->input('informele_zorg', $optionsArray);
 
+            //dagbesteding
                 echo $this->Form->label('dagbesteding',
                     'Zou je het leuk vinden om overdag iets te doen te hebben?'
                 );
@@ -176,6 +182,7 @@
                     $ja_label_f.$dagbesteding_mail.$ja_label_b;
                 echo $this->Form->input('dagbesteding', $optionsArray);
 
+            //inloophuis
                 echo $this->Form->label('inloophuis',
                     'Zou je een plek in de buurt willen hebben waar je iedere
                     dag koffie kan drinken en mensen kan ontmoeten?'
@@ -186,6 +193,7 @@
                     $ja_label_f.$inloophuis_mail.$ja_label_b;
                 echo $this->Form->input('inloophuis', $optionsArray);
 
+            //hulpverlening
                 echo $this->Form->label('hulpverlening',
                     'Heeft u hulp nodig met regelzaken?'
                 );
@@ -196,7 +204,7 @@
                 echo $this->Form->input('hulpverlening', $optionsArray);
             ?>
         </fieldset>
-        <fieldset id="zrm" style="display: none;">
+        <fieldset id="zrm" style="display : block;">
             <legend>Zelfredzaamheid matrix</legend>
             <p>
                 Vul onderstaande matrix in
@@ -207,18 +215,15 @@
                 'zrm_data' => $zrm_data,
             ));
             ?>
-
         </fieldset>
     </fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+    <?php echo $this->Form->end(__('Submit', true));?>
 </div>
-<div class="actions">
-<?php
-    echo $this->element('klantbasic', array('data' => $klant));
-    echo $this->element('diensten', array( 'diensten' => $diensten, ));
-    echo $this->element('intakes_summary', array('data' => $klant));
-?>
 
+<div class="actions">
+    <?= $this->element('klantbasic', array('data' => $klant)) ?>
+    <?= $this->element('diensten', array( 'diensten' => $diensten, )) ?>
+    <?= $this->element('intakes_summary', array('data' => $klant)) ?>
     <fieldset>
         <legend>Schorsingen</legend>
         <?php if (!empty($klant['Schorsing'])): ?>
@@ -234,8 +239,8 @@
         <?php endif; ?>
     </fieldset>
 </div>
+
 <?php
     $this->Js->buffer('ondersteuning_toggle_addresses();');
     $this->Js->buffer('Ecd.intake();');
-
 ?>
