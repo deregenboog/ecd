@@ -23,6 +23,14 @@ class AwbzIntake extends AppModel
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
         ),
+        'doelgroep' => [
+            'notempty' => [
+                'rule' => 'notEmpty',
+                'message' => 'Dit veld is verplicht',
+                'allowEmpty' => false,
+                'required' => true,
+            ],
+        ],
     );
 
     public $belongsTo = array(

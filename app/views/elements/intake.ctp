@@ -413,11 +413,11 @@ if (!isset($plainText) || !$plainText) {
                 }?>
     <table class='fixedwidth'>
         <tr>
-            <td><?php __('indruk')?></td>
+            <td><?php __('label_indruk')?></td>
             <td><?php echo $format->printData($data['Intake']['indruk']); ?></td>
         </tr>
         <tr>
-            <td><?php __('doelgroep') ?></td>
+            <td><?php __('label_doelgroep') ?></td>
             <td>
                 <?php if ($data['Intake']['doelgroep']): ?>
                     <p>Ja</p>

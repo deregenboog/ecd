@@ -131,7 +131,7 @@
 
             <table class="fixedwidth extra_td_height">
                 <?php
-                    echo $format->printEmptyTableLine('Indruk over client');
+                    echo $format->printEmptyTableLine(__('label_indruk', true));
                     echo $format->printEmptyTableLine('Deze client behoort tot de doelgroep', null, FormatHelper::JANEE);
             ?>
             </table>
