@@ -104,8 +104,9 @@ class MedewerkersController extends AppController
                 } else {
                     $name = 'deze medewerker';
                 }
-                $this->flashError('Sorry, '.$name.
-                        ' is nog niet bevoegd om dit systeem te gebruiken.');
+                $this->flashError(
+                    'Sorry, '.$name.' is nog niet bevoegd om dit systeem te gebruiken.'
+                );
                 $this->redirect($this->AuthExt->logout());
             }
 
@@ -115,19 +116,9 @@ class MedewerkersController extends AppController
             $this->saveUserGroups($user_id, $ldap);
 
             if (isset($ldap['displayname'])) {
-                $this->flash(__('Welkom', true).' '.
-                     $ldap['displayname']);
+                $this->flash(__('Welkom', true).' '.$ldap['displayname']);
             } else {
                 $this->flash(__('Welkom', true));
-            }
-
-            if (isset($ldap['gidnumber']) &&
-                $ldap['gidnumber'] == GROUP_ADMIN) {
-                // Superusers have their main posix gidnumber equal to
-        // GROUP_ADMIN
-                $this->Session->Write('is_superuser', true);
-            } else {
-                $this->Session->Write('is_superuser', false);
             }
 
             $cont = $this->Session->read('AfterLogin.Controler');
@@ -135,9 +126,9 @@ class MedewerkersController extends AppController
 
             if ($cont && $action && $action != 'login') {
                 $this->redirect(array(
-                            'controller' => $cont, 'action' => $action,
-                            )
-                        );
+                    'controller' => $cont,
+                    'action' => $action,
+                ));
             }
 
             $this->redirect('/');

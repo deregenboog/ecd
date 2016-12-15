@@ -1,10 +1,9 @@
 <?php
-/*
+/**
 * Extend the Auth component, but override login parts to use LDAP and multiple
 * groups.
 * Code based on
 * http://bakery.cakephp.org/articles/view/authext-a-small-auth-extension-to-set-permission-on-user-belonging-to-several-groups-roles
-*
 */
 
 App::import('component', 'Auth');
@@ -32,7 +31,8 @@ class AuthExtComponent extends AuthComponent
         $posted_data = $this->data;
 
         if (empty($data[$alias.'.username'])
-                || empty($posted_data[$alias]['passwd'])) {
+            || empty($posted_data[$alias]['passwd'])
+        ) {
             return $this->_loggedIn;
         }
 
@@ -43,8 +43,9 @@ class AuthExtComponent extends AuthComponent
         }
 
         if ($model->LdapUser->auth(
-                    $data[$alias.'.username'],
-                    $posted_data[$alias]['passwd'])) {
+            $data[$alias.'.username'],
+            $posted_data[$alias]['passwd'])
+        ) {
             $this->_loggedIn = true;
 
             $ldap = $model->LdapUser->read(null, $data[$alias.'.username']);

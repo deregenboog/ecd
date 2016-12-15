@@ -3,7 +3,7 @@
 class LdapUsersController extends AppController
 {
     public $name = 'LdapUsers';
-    public $uses = array('LdapUser');
+    public $uses = ['LdapUser'];
 
     public function index()
     {
