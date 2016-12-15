@@ -17,11 +17,10 @@
                 //echo $this->Form->input('medewerker_id', array('label' => 'Naam intaker', 'default' => $intaker_id ));
                 echo $date->input('Intake.datum_intake', $datum_intake, array(
                     'label' => 'Datum van intake',
-                    'rangeLow' => (date('Y') - 1).date('-m-d'),
                     'required' => true,
-                    'rangeHigh' => $today, )
-                );
-
+                    'rangeLow' => (date('Y') - 1).date('-m-d'),
+                    'rangeHigh' => $today,
+                ));
             ?>
         </fieldset>
 
@@ -61,7 +60,6 @@
                 echo $this->Form->input('locatie1_id', array(
                     'label' => 'Toegang gebruikersruimte',
                     'empty' => '', ));
-
                 if ($klant['Klant']['geslacht_id'] == 2) {
                     echo $this->Form->input('toegang_vrouwen_nacht_opvang', array(
                         'label' => __('Heeft toegang tot de Vrouwen Nacht Opvang', true), ));
@@ -98,15 +96,13 @@
         <fieldset>
             <legend>Inkomen en woonsituatie</legend>
             <?php
-
-
                 echo $this->Form->input('Inkomen', array(
                     'type'=>'select',
                     'required' => true,
                     'multiple'=>'checkbox',
                     'options'=> $inkomens,
                     'label' => '<b>Inkomen (kies minimaal een optie)</b>',
-                    ));
+                ));
                 echo $this->Form->input('inkomen_overig', array('label' => __('inkomen_overig', true)));
                 echo $this->Form->input('woonsituatie_id', array('label' => 'Wat is de woonsituatie?', 'empty' => ''));
             ?>
@@ -152,13 +148,12 @@
                 mogelijkheden, of deze al gebruikt.
             </p>
             <?php
-
                 $optionsArray = array(
-                    'options'	 => array(0 =>'Nee', 1 => 'Ja'),
-                    'type'		  => 'radio',
-                    'label'    => ' ',
-                    'legend'	=> false,
-                    'value'		=> 0,
+                    'options' => array(0 =>'Nee', 1 => 'Ja'),
+                    'type' => 'radio',
+                    'label' => ' ',
+                    'legend' => false,
+                    'value' => 0,
                 );
 
                 $ja_label_f = 'Ja <small style="display: none">(e-mail naar ';
@@ -210,15 +205,15 @@
                 'zrm_data' => $zrm_data,
             ));
             ?>
-
         </fieldset>
     </fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
+
 <div class="actions">
-        <?php echo $this->element('klantbasic', array('data' => $klant)); ?>
-        <?php echo $this->element('diensten', array( 'diensten' => $diensten, )); ?>
-        <?php echo $this->Html->link('Toevoegen annuleren', array('controller' => 'klanten', 'action' => 'view', $klant['Klant']['id']))?>
+        <?= $this->element('klantbasic', array('data' => $klant)) ?>
+        <?= $this->element('diensten', array( 'diensten' => $diensten, )) ?>
+        <?= $this->Html->link('Toevoegen annuleren', array('controller' => 'klanten', 'action' => 'view', $klant['Klant']['id'])) ?>
 </div>
 
 <?php
