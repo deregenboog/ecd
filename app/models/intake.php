@@ -3,11 +3,13 @@
 class Intake extends AppModel
 {
     public $name = 'Intake';
+
     public $order = 'datum_intake DESC';
+
     public $validate = array(
        'klant_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -17,7 +19,7 @@ class Intake extends AppModel
         ),
         'medewerker_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -27,7 +29,7 @@ class Intake extends AppModel
         ),
         'datum_intake' => array(
             'date' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => true,
@@ -53,7 +55,7 @@ class Intake extends AppModel
         ),
         'verblijfstatus_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 'required' => true,
@@ -88,7 +90,7 @@ class Intake extends AppModel
         ),
         'woonsituatie_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 'required' => true,
@@ -98,7 +100,7 @@ class Intake extends AppModel
         ),
         'verwachting_dienstaanbod' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 'allowEmpty' => false,
                 'required' => true,
@@ -108,7 +110,7 @@ class Intake extends AppModel
         ),
         'toekomstplannen' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 'allowEmpty' => false,
                 'required' => true,

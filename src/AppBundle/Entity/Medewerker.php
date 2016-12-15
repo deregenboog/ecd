@@ -109,5 +109,4 @@ class Medewerker
 
         return $this;
     }
-
 }

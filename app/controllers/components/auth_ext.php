@@ -3,9 +3,8 @@
 * Extend the Auth component, but override login parts to use LDAP and multiple
 * groups.
 * Code based on
-* http://bakery.cakephp.org/articles/view/authext-a-small-auth-extension-to-set-permission-on-user-belonging-to-several-groups-roles
+* http://bakery.cakephp.org/articles/view/authext-a-small-auth-extension-to-set-permission-on-user-belonging-to-several-groups-roles.
 */
-
 App::import('component', 'Auth');
 
 class AuthExtComponent extends AuthComponent

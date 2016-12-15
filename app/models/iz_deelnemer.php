@@ -69,7 +69,7 @@ class IzDeelnemer extends AppModel
     public $validate = array(
         'datum_aanmelding' => array(
             'notempty' => array(
-                'rule' => array('notEmpty'),
+                'rule' => 'notEmpty',
                 'message' => 'Voer een datum in',
                 'allowEmpty' => false,
                 'required' => false,
@@ -86,7 +86,7 @@ class IzDeelnemer extends AppModel
         ),
         'iz_afsluiting_id' => array(
             'notempty' => array(
-                'rule' => array('notEmpty'),
+                'rule' => 'notEmpty',
                 'message' => 'Voer een reden in',
                 'allowEmpty' => false,
                 'required' => false,
