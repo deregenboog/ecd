@@ -94,7 +94,7 @@ class HsKlus extends HsMemoSubject
      */
     private $medewerker;
 
-    public function __construct(HsKlant $hsKlant, Medewerker $medewerker = null)
+    public function __construct(HsKlant $hsKlant = null, Medewerker $medewerker = null)
     {
         $this->hsKlant = $hsKlant;
         $this->medewerker = $medewerker;

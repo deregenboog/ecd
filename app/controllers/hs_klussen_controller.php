@@ -56,15 +56,19 @@ class HsKlussenController extends AppController
         $this->set('hsKlus', $repository->find($id));
     }
 
-    public function add($hsKlantId)
+    public function add($hsKlantId = null)
     {
         $entityManager = $this->getEntityManager();
 
         $medewerkerId = $this->Session->read('Auth.Medewerker.id');
         $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
 
-        $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
-        $hsKlus = new HsKlus($hsKlant, $medewerker);
+        if ($hsKlantId) {
+            $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
+            $hsKlus = new HsKlus($hsKlant, $medewerker);
+        } else {
+            $hsKlus = new HsKlus(null, $medewerker);
+        }
 
         $form = $this->createForm(HsKlusType::class, $hsKlus);
         $form->handleRequest($this->request);
@@ -79,7 +83,9 @@ class HsKlussenController extends AppController
         }
 
         $this->set('form', $form->createView());
-        $this->set('hsKlant', $hsKlant);
+        if (isset($hsKlant)) {
+            $this->set('hsKlant', $hsKlant);
+        }
     }
 
     public function edit($id)

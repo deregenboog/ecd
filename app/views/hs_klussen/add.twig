@@ -1,6 +1,10 @@
 {% include('hs_subnavigation.twig') %}
 
-<h1>Klus toevoegen voor {{ hsKlant.klant }}</h1>
+{% if hsKlant is defined %}
+    <h1>Klus toevoegen voor {{ hsKlant.klant }}</h1>
+{% else %}
+    <h1>HomeService-klus toevoegen</h1>
+{% endif %}
 
 {{ form_start(form) }}
     {{ form_widget(form) }}
