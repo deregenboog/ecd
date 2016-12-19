@@ -99,7 +99,7 @@ class HsFactuur
 
     public function __toString()
     {
-        return sprintf('Factuur %d', $this->id);
+        return $this->nummer;
     }
 
     public function getId()
@@ -226,4 +226,10 @@ class HsFactuur
     {
         return $this->bedrag - $this->getBetaald();
     }
+
+    public function getBetreft()
+    {
+        return $this->betreft;
+    }
+
 }

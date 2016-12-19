@@ -15,11 +15,11 @@
 
 <dl>
     <dt>#</dt>
-    <dd>{{ hsFactuur.id }}</dd>
+    <dd>{{ hsFactuur.nummer }}</dd>
+    <dt>Betreft</dt>
+    <dd>{{ hsFactuur.betreft }}</dd>
     <dt>Datum</dt>
     <dd>{{ hsFactuur.datum|date('d-m-Y') }}</dd>
-    <dt>Betreft</dt>
-    <dd>{{ hsFactuur }}</dd>
     <dt>Klant</dt>
     <dd>{{ hsFactuur.hsKlus.hsKlant }}</dd>
     <dt>Totaal</dt>
