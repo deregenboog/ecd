@@ -180,4 +180,16 @@ class HsKlant extends HsMemoSubject
     {
         return $this->getGefactureerd() - $this->getBetaald();
     }
+
+    public function getHsFacturen()
+    {
+        $hsFacturen = new ArrayCollection();
+        foreach ($this->hsKlussen as $hsKlus) {
+            foreach ($hsKlus->getHsFacturen() as $hsFactuur) {
+                $hsFacturen->add($hsFactuur);
+            }
+        }
+
+        return $hsFacturen;
+    }
 }

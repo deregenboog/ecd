@@ -24,6 +24,7 @@ class HsFacturenController extends AppController
         'nummer',
         'datum',
         'bedrag',
+        'openstaand',
         'klant' => ['naam'],
     ];
 
@@ -58,6 +59,7 @@ class HsFacturenController extends AppController
             'defaultSortFieldName' => 'hsFactuur.nummer',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'wrap-queries' => true, // because of HAVING clause in filter
         ]);
 
         $this->set('filter', $filter->createView());

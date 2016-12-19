@@ -23,6 +23,11 @@ class HsFactuurFilter implements FilterInterface
     public $bedrag;
 
     /**
+     * @var bool
+     */
+    public $openstaand;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -47,6 +52,15 @@ class HsFactuurFilter implements FilterInterface
             $builder
                 ->andWhere('hsFactuur.bedrag = :bedrag')
                 ->setParameter('bedrag', $this->bedrag)
+            ;
+        }
+
+        if ($this->openstaand) {
+            $builder
+                ->leftJoin('hsFactuur.hsBetalingen', 'hsBetaling')
+                ->having('(SUM(hsFactuur.bedrag) - SUM(hsBetaling.bedrag)) > 0')
+                ->orHaving('SUM(hsFactuur.bedrag) > 0 AND COUNT(hsBetaling) = 0')
+                ->groupBy('hsFactuur')
             ;
         }
 

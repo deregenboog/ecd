@@ -12,6 +12,7 @@ use AppBundle\Form\FilterType;
 use HsBundle\Filter\HsFactuurFilter;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HsFactuurFilterType extends AbstractType
 {
@@ -34,6 +35,13 @@ class HsFactuurFilterType extends AbstractType
             $builder->add('bedrag', MoneyType::class, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Bedrag'],
+            ]);
+        }
+
+        if (in_array('openstaand', $options['enabled_filters'])) {
+            $builder->add('openstaand', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Openstaand',
             ]);
         }
 

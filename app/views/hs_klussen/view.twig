@@ -122,6 +122,7 @@
                     <th>Klant</th>
                     <th>Bedrag</th>
                     <th>Betaald</th>
+                    <th>Openstaand</th>
                     <th>&nbsp;</th>
                 </tr>
                 {% for hsFactuur in hsKlus.hsFacturen %}
@@ -131,8 +132,9 @@
                         </td>
                         <td>{{ hsFactuur.datum|date('d-m-Y') }}</td>
                         <td>{{ hsFactuur.hsKlus.hsKlant }}</td>
-                        <td>&euro; {{ hsFactuur.bedrag }}</td>
-                        <td></td>
+                        <td>{{ hsFactuur.bedrag|money }}</td>
+                        <td>{{ hsFactuur.betaald|money }}</td>
+                        <td>{{ hsFactuur.openstaand|money }}</td>
                         <td>
                             {{ html.viewLink({'controller': 'hs_facturen', 'action': 'view', 0: hsFactuur.id})|raw }}
                             {{ html.editLink({'controller': 'hs_facturen', 'action': 'edit', 0: hsFactuur.id})|raw }}

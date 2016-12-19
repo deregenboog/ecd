@@ -31,14 +31,12 @@ class HsKlantFilter implements FilterInterface
             ;
         }
 
-        if (false || $this->openstaand) {
+        if ($this->openstaand) {
             $builder
-//                 ->distinct(true)
                 ->innerJoin('hsKlant.hsKlussen', 'hsKlus')
                 ->innerJoin('hsKlus.hsFacturen', 'hsFactuur')
                 ->innerJoin('hsFactuur.hsBetalingen', 'hsBetaling')
                 ->having('(SUM(hsFactuur.bedrag) - SUM(hsBetaling.bedrag)) > 0')
-//                 ->groupBy('hsKlant.id')
             ;
         }
 

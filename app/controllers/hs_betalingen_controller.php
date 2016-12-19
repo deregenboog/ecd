@@ -31,6 +31,7 @@ class HsBetalingenController extends AppController
     ];
 
     private $sortFieldWhitelist = [
+        'hsFactuur.nummer',
         'hsBetaling.referentie',
         'hsBetaling.datum',
         'hsBetaling.bedrag',
@@ -59,21 +60,14 @@ class HsBetalingenController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-//             'defaultSortFieldName' => 'hsFactuur.nummer',
-//             'defaultSortDirection' => 'desc',
-//             'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'defaultSortFieldName' => 'hsBetaling.datum',
+            'defaultSortDirection' => 'desc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
         $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
     }
-
-//     public function view($id)
-//     {
-//         $entityManager = $this->getEntityManager();
-//         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
-//         $this->set('hsFactuur', $hsFactuur);
-//     }
 
     public function add($hsFactuurId)
     {

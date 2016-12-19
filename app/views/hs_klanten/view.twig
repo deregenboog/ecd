@@ -13,16 +13,57 @@
     <dd>{{ hsKlant.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ hsKlant.klant.naam }}</dd>
-    <dt>Klussen</dt>
+    <dt>Openstaand</dt>
+    <dd>{{ hsKlant.openstaand|money }}</dd>
+    <dt>
+        Klussen
+        {{ html.addLink({'controller': 'hs_klussen', 'action': 'add', 0: hsKlant.id})|raw }}
+    </dt>
     <dd>
-        {{ html.link('Klus toevoegen', {'controller': 'hs_klussen', 'action': 'add', 0: hsKlant.id})|raw }}
         <ul>
             {% for hsKlus in hsKlant.hsKlussen %}
                 <li>
-                    {{ hsKlus }}
+                    {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
                 </li>
             {% endfor %}
         </ul>
+    </dd>
+    <dt>
+        Facturen
+    </dt>
+    <dd>
+        {% if hsKlant.hsFacturen is empty %}
+            -
+        {% else %}
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Datum</th>
+                    <th>Klant</th>
+                    <th>Bedrag</th>
+                    <th>Betaald</th>
+                    <th>Openstaand</th>
+                    <th>&nbsp;</th>
+                </tr>
+                {% for hsFactuur in hsKlant.hsFacturen %}
+                    <tr>
+                        <td>
+                            {{ html.link(hsFactuur.id, {'controller': 'hs_facturen', 'action': 'view', 0: hsFactuur.id})|raw }}
+                        </td>
+                        <td>{{ hsFactuur.datum|date('d-m-Y') }}</td>
+                        <td>{{ hsFactuur.hsKlus.hsKlant }}</td>
+                        <td>{{ hsFactuur.bedrag|money }}</td>
+                        <td>{{ hsFactuur.betaald|money }}</td>
+                        <td>{{ hsFactuur.openstaand|money }}</td>
+                        <td>
+                            {{ html.viewLink({'controller': 'hs_facturen', 'action': 'view', 0: hsFactuur.id})|raw }}
+                            {{ html.editLink({'controller': 'hs_facturen', 'action': 'edit', 0: hsFactuur.id})|raw }}
+                            {{ html.deleteLink({'controller': 'hs_facturen', 'action': 'edit', 0: hsFactuur.id})|raw }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     </dd>
     <dt>
         Memo's
