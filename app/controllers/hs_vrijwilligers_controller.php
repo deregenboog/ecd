@@ -27,6 +27,8 @@ class HsVrijwilligersController extends AppController
 
     private $enabledFilters = [
         'id',
+        'dragend',
+        'rijbewijs',
         'vrijwilliger' => ['naam', 'stadsdeel'],
     ];
 
@@ -153,12 +155,13 @@ class HsVrijwilligersController extends AppController
                 $entityManager->flush();
                 $this->Session->setFlash('Vrijwilliger is opgeslagen.');
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $hsVrijwilliger->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
         }
 
+        $this->set('hsVrijwilliger', $hsVrijwilliger);
         $this->set('form', $form->createView());
     }
 

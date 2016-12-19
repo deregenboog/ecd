@@ -37,6 +37,7 @@ class HsVrijwilligerType extends AbstractType
 
         $builder->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')]);
         $builder->add('dragend', null, ['label' => 'Dragende vrijwilliger']);
+        $builder->add('rijbewijs', null, ['label' => 'Rijbewijs']);
     }
 
     /**

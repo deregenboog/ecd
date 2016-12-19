@@ -13,6 +13,10 @@
     <dd>{{ hsVrijwilliger.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ hsVrijwilliger }}</dd>
+    <dt>Dragend</dt>
+    <dd>{{ hsVrijwilliger.dragend ? 'Ja' : 'Nee' }}</dd>
+    <dt>Rijbewijs</dt>
+    <dd>{{ hsVrijwilliger.rijbewijs ? 'Ja' : (hsVrijwilliger.rijbewijs is null ? 'Onbekend' : 'Nee') }}</dd>
     <dt>Klussen</dt>
     <dd>
         {% if hsVrijwilliger.hsKlussen is empty %}

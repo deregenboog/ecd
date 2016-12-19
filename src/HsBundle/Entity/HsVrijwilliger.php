@@ -37,6 +37,11 @@ class HsVrijwilliger
     private $dragend = false;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $rijbewijs;
+
+    /**
      * @var Vrijwilliger
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger")
      * @ORM\JoinColumn(nullable=false, unique=true)
@@ -168,5 +173,17 @@ class HsVrijwilliger
     {
         return count($this->hsKlussen) === 0
         && count($this->hsRegistraties) === 0;
+    }
+
+    public function getRijbewijs()
+    {
+        return $this->rijbewijs;
+    }
+
+    public function setRijbewijs($rijbewijs)
+    {
+        $this->rijbewijs = $rijbewijs;
+
+        return $this;
     }
 }

@@ -13,6 +13,16 @@ class HsVrijwilligerFilter implements FilterInterface
     public $id;
 
     /**
+     * @var bool
+     */
+    public $dragend;
+
+    /**
+     * @var bool
+     */
+    public $rijbewijs;
+
+    /**
      * @var VrijwilligerFilter
      */
     public $vrijwilliger;
@@ -24,6 +34,14 @@ class HsVrijwilligerFilter implements FilterInterface
                 ->andWhere('hsVrijwilliger.id = :hs_vrijwilliger_id')
                 ->setParameter('hs_vrijwilliger_id', $this->id)
             ;
+        }
+
+        if ($this->dragend) {
+            $builder->andWhere('hsVrijwilliger.dragend = true');
+        }
+
+        if ($this->rijbewijs) {
+            $builder->andWhere('hsVrijwilliger.rijbewijs = true');
         }
 
         if ($this->vrijwilliger) {
