@@ -6,6 +6,8 @@ use HsBundle\Entity\HsKlant;
 use HsBundle\Entity\HsFactuur;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\HsMemo;
+use HsBundle\Form\HsMemoType;
 
 class HsKlussenController extends AppController
 {
@@ -116,6 +118,57 @@ class HsKlussenController extends AppController
             $this->Session->setFlash('Klus is verwijderd.');
 
             return $this->redirect(array('action' => 'index'));
+        }
+
+        $this->set('hsKlus', $hsKlus);
+        $this->set('form', $form->createView());
+    }
+
+    public function memos_index($hsKlusId)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
+
+        $builder = $entityManager->getRepository(HsMemo::class)->createQueryBuilder('hsMemo')
+            ->innerJoin(HsKlus::class, 'hsKlus', 'WITH', 'hsKlus = :hsKlus')
+            ->innerJoin('hsKlus.hsMemos', 'hsMemos', 'WITH', 'hsMemos = hsMemo')
+            ->setParameter('hsKlus', $hsKlus)
+        ;
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'hsMemo.datum',
+            'defaultSortDirection' => 'desc',
+            'sortFieldWhitelist' => ['hsMemo.datum'],
+        ]);
+
+        $this->set('hsKlus', $hsKlus);
+        $this->set('pagination', $pagination);
+    }
+
+    public function memos_add($hsKlusId)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsKlus = $entityManager->find(HsKlus::class, $hsKlusId);
+
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+
+        $hsMemo = new HsMemo($medewerker);
+
+        $form = $this->createForm(HsMemoType::class, $hsMemo)->remove('intake');
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $hsKlus->addHsMemo($hsMemo);
+                $entityManager->flush();
+
+                $this->Session->setFlash('Memo is opgeslagen.');
+            } catch (\Exception $e) {
+                $this->Session->setFlash('Er is een fout opgetreden.');
+            } finally {
+                return $this->redirect(array('action' => 'view', $hsKlus->getId()));
+            }
         }
 
         $this->set('hsKlus', $hsKlus);

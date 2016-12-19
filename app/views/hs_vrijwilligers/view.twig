@@ -62,10 +62,10 @@
         {{ html.addLink({'action': 'memos_add', 0: hsVrijwilliger.id})|raw }}
     </dt>
     <dd>
-        {% if hsVrijwilliger.memos is empty %}
+        {% if hsVrijwilliger.hsMemos is empty %}
             -
         {% else %}
-            {{ hsVrijwilliger.memos|length }} {{ hsVrijwilliger.memos|length == 1 ? 'memo' : 'memo\'s' }}
+            {{ hsVrijwilliger.hsMemos|length }} {{ hsVrijwilliger.hsMemos|length == 1 ? 'memo' : 'memo\'s' }}
             {{ html.viewLink({'action': 'memos_index', 0: hsVrijwilliger.id})|raw }}
         {% endif %}
     </dd>

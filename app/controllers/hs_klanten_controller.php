@@ -8,6 +8,9 @@ use HsBundle\Form\HsKlantSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use HsBundle\Form\HsKlantFilterType;
 use AppBundle\Form\ConfirmationType;
+use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\HsMemo;
+use HsBundle\Form\HsMemoType;
 
 class HsKlantenController extends AppController
 {
@@ -177,6 +180,60 @@ class HsKlantenController extends AppController
             $this->Session->setFlash('Klant is verwijderd.');
 
             return $this->redirect(array('action' => 'index'));
+        }
+
+        $this->set('hsKlant', $hsKlant);
+        $this->set('form', $form->createView());
+    }
+
+    public function memos_index($hsKlantId)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
+
+        $builder = $entityManager->getRepository(HsMemo::class)->createQueryBuilder('hsMemo')
+            ->innerJoin(HsKlant::class, 'hsKlant', 'WITH', 'hsKlant = :hsKlant')
+            ->innerJoin('hsKlant.hsMemos', 'hsMemos', 'WITH', 'hsMemos = hsMemo')
+            ->setParameter('hsKlant', $hsKlant)
+        ;
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'hsMemo.datum',
+            'defaultSortDirection' => 'desc',
+            'sortFieldWhitelist' => ['hsMemo.datum'],
+        ]);
+
+        $this->set('hsKlant', $hsKlant);
+        $this->set('pagination', $pagination);
+    }
+
+    public function memos_add($hsKlantId)
+    {
+        $entityManager = $this->getEntityManager();
+        $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
+
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+
+        $hsMemo = new HsMemo($medewerker);
+        if (count($hsKlant->getHsMemos()) === 0) {
+            $hsMemo->setIntake(true);
+        }
+
+        $form = $this->createForm(HsMemoType::class, $hsMemo);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $hsKlant->addHsMemo($hsMemo);
+                $entityManager->flush();
+
+                $this->Session->setFlash('Memo is opgeslagen.');
+            } catch (\Exception $e) {
+                $this->Session->setFlash('Er is een fout opgetreden.');
+            } finally {
+                return $this->redirect(array('action' => 'view', $hsKlant->getId()));
+            }
         }
 
         $this->set('hsKlant', $hsKlant);

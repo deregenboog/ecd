@@ -143,4 +143,16 @@
             </table>
         {% endif %}
     </dd>
+    <dt>
+        Memo's
+        {{ html.addLink({'action': 'memos_add', 0: hsKlus.id})|raw }}
+    </dt>
+    <dd>
+        {% if hsKlus.hsMemos is empty %}
+            -
+        {% else %}
+            {{ hsKlus.hsMemos|length }} {{ hsKlus.hsMemos|length == 1 ? 'memo' : 'memo\'s' }}
+            {{ html.viewLink({'action': 'memos_index', 0: hsKlus.id})|raw }}
+        {% endif %}
+    </dd>
 </dl>

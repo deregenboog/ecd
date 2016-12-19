@@ -1,0 +1,46 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>
+    Memo's van klant: {{ hsKlant }}
+    {{ html.viewLink({'action': 'view', 0: hsKlant.id})|raw }}
+</h1>
+
+<p>
+    {{ html.addLink({'action': 'memos_add', 0: hsKlant.id})|raw }}
+    {{ html.link('Memo toevoegen', {'action': 'memos_add', 0: hsKlant.id})|raw }}
+</p>
+
+<table>
+    <tr>
+        <th>Datum</th>
+        <th>Intake</th>
+        <th>Medewerker</th>
+        <th>Memo</th>
+        <th>
+        </th>
+    </tr>
+    {% for hsMemo in pagination %}
+        <tr>
+            <td>
+                {{ hsMemo.datum ? hsMemo.datum|date('d-m-Y H:i') : '' }}
+            </td>
+            <td>
+                {{ hsMemo.intake ? 'ja' : 'nee' }}
+            </td>
+            <td>
+                {{ hsMemo.medewerker }}
+            </td>
+            <td>
+                {{ hsMemo.memo|nl2br }}
+            </td>
+            <td>
+                {# html.editLink({'action': 'memos_edit', 0: hsKlant.id})|raw #}
+                {# html.deleteLink({'action': 'memos_delete', 0: hsKlant.id})|raw #}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

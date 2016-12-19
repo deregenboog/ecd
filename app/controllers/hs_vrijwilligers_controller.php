@@ -183,8 +183,8 @@ class HsVrijwilligersController extends AppController
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $hsVrijwilligerId);
 
         $builder = $entityManager->getRepository(HsMemo::class)->createQueryBuilder('hsMemo')
-            ->innerJoin('hsMemo.hsVrijwilliger', 'hsVrijwilliger')
-            ->andWhere('hsVrijwilliger = :hsVrijwilliger')
+            ->innerJoin(HsVrijwilliger::class, 'hsVrijwilliger', 'WITH', 'hsVrijwilliger = :hsVrijwilliger')
+            ->innerJoin('hsVrijwilliger.hsMemos', 'hsMemos', 'WITH', 'hsMemos = hsMemo')
             ->setParameter('hsVrijwilliger', $hsVrijwilliger)
         ;
 
@@ -206,12 +206,17 @@ class HsVrijwilligersController extends AppController
         $medewerkerId = $this->Session->read('Auth.Medewerker.id');
         $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
 
-        $form = $this->createForm(HsMemoType::class, new HsMemo($hsVrijwilliger, $medewerker));
+        $hsMemo = new HsMemo($medewerker);
+        if (count($hsVrijwilliger->getHsMemos()) === 0) {
+            $hsMemo->setIntake(true);
+        }
+
+        $form = $this->createForm(HsMemoType::class, $hsMemo);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             try {
-                $entityManager->persist($form->getData());
+                $hsVrijwilliger->addHsMemo($hsMemo);
                 $entityManager->flush();
 
                 $this->Session->setFlash('Memo is opgeslagen.');

@@ -12,7 +12,7 @@ use AppBundle\Entity\Vrijwilliger;
  * @ORM\Table(name="hs_vrijwilligers")
  * @ORM\HasLifecycleCallbacks
  */
-class HsVrijwilliger
+class HsVrijwilliger extends HsMemoSubject
 {
     /**
      * @ORM\Id
@@ -62,9 +62,11 @@ class HsVrijwilliger
 
     /**
      * @var ArrayCollection|HsMemo[]
-     * @ORM\OneToMany(targetEntity="HsMemo", mappedBy="hsVrijwilliger")
+     *
+     * @ORM\ManyToMany(targetEntity="HsMemo", cascade={"persist", "remove"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
-    private $hsMemos;
+    protected $hsMemos;
 
     /**
      * @ORM\Column(type="datetime")
@@ -146,11 +148,6 @@ class HsVrijwilliger
         ;
 
         return $this->hsRegistraties->matching($criteria);
-    }
-
-    public function getMemos()
-    {
-        return $this->hsMemos;
     }
 
     /**

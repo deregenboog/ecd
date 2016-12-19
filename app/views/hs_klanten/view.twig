@@ -24,5 +24,16 @@
             {% endfor %}
         </ul>
     </dd>
+    <dt>
+        Memo's
+        {{ html.addLink({'action': 'memos_add', 0: hsKlant.id})|raw }}
+    </dt>
+    <dd>
+        {% if hsKlant.hsMemos is empty %}
+            -
+        {% else %}
+            {{ hsKlant.hsMemos|length }} {{ hsKlant.hsMemos|length == 1 ? 'memo' : 'memo\'s' }}
+            {{ html.viewLink({'action': 'memos_index', 0: hsKlant.id})|raw }}
+        {% endif %}
+    </dd>
 </dl>
-

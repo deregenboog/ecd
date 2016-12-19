@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Criteria;
  * @ORM\Table(name="hs_klanten")
  * @ORM\HasLifecycleCallbacks
  */
-class HsKlant
+class HsKlant extends HsMemoSubject
 {
     /**
      * @ORM\Id
@@ -63,6 +63,14 @@ class HsKlant
      * @ORM\OneToMany(targetEntity="HsKlus", mappedBy="hsKlant")
      */
     private $hsKlussen;
+
+    /**
+     * @var ArrayCollection|HsMemo[]
+     *
+     * @ORM\ManyToMany(targetEntity="HsMemo", cascade={"persist", "remove"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $hsMemos;
 
     /**
      * @ORM\PrePersist

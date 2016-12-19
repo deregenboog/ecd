@@ -11,7 +11,7 @@ use AppBundle\Entity\Medewerker;
  * @ORM\Entity
  * @ORM\Table(name="hs_klussen")
  */
-class HsKlus
+class HsKlus extends HsMemoSubject
 {
     /**
      * @ORM\Id
@@ -78,6 +78,14 @@ class HsKlus
      * @ORM\OneToMany(targetEntity="HsFactuur", mappedBy="hsKlus")
      */
     private $hsFacturen;
+
+    /**
+     * @var ArrayCollection|HsMemo[]
+     *
+     * @ORM\ManyToMany(targetEntity="HsMemo", cascade={"persist", "remove"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $hsMemos;
 
     /**
      * @var Medewerker

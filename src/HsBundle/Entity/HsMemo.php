@@ -43,27 +43,15 @@ class HsMemo
     private $intake = false;
 
     /**
-     * @var HsVrijwilliger
-     * @ManyToOne(targetEntity="HsVrijwilliger")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $hsVrijwilliger;
-
-    /**
      * @var Medewerker
      * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
     private $medewerker;
 
-    public function __construct(HsVrijwilliger $hsVrijwilliger, Medewerker $medewerker = null)
+    public function __construct(Medewerker $medewerker = null)
     {
-        $this->hsVrijwilliger = $hsVrijwilliger;
         $this->medewerker = $medewerker;
-
-        if (count($hsVrijwilliger->getMemos()) === 0) {
-            $this->intake = true;
-        }
     }
 
     public function getId()
