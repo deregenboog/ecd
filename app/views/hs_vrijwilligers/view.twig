@@ -25,8 +25,16 @@
             <ul>
                 {% for hsKlus in hsVrijwilliger.hsKlussen %}
                     <li>
-                        {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
                         <table>
+                            <tr>
+                                <td colspan="4">
+                                    {{ html.link(hsKlus, {'controller': 'hs_klussen', 'action': 'view', 0: hsKlus.id})|raw }}
+                                </td>
+                                <td>
+                                    {{ html.addLink({'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id})|raw }}
+                                    {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id})|raw }}
+                                </td>
+                            </tr>
                             <tr>
                                 <th>Datum</th>
                                 <th>Start</th>
@@ -41,16 +49,13 @@
                                     <td>{{ hsRegistratie.eind|date('H:i') }}</td>
                                     <td>{{ hsRegistratie.dagdelen }}</td>
                                     <td>
+                                        {{ html.editLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
                                         {{ html.link('Uren bewerken', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
+                                        {{ html.deleteLink({'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
                                         {{ html.link('Uren verwijderen', {'controller': 'hs_registraties', 'action': 'edit', 0: hsRegistratie.id})|raw }}
                                     </td>
                                 </tr>
                             {% endfor %}
-                            <tr>
-                                <td colspan="5">
-                                    {{ html.link('Uren toevoegen', {'controller': 'hs_registraties', 'action': 'add', 0: hsVrijwilliger.id, 1: hsVrijwilliger.id})|raw }}
-                                </td>
-                            </tr>
                         </table>
                     </li>
                 {% endfor %}

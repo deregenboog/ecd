@@ -1,11 +1,12 @@
 {% include 'hs_subnavigation.twig' %}
 
 <h1>
-    Memo's van klus: {{ hsKlus }}
-    {{ html.viewLink({'action': 'view', 0: hsKlus.id})|raw }}
+    Memo's van {{ hsKlus }}
 </h1>
 
 <p>
+    {{ html.viewLink({'action': 'view', 0: hsKlus.id})|raw }}
+    {{ html.link('Klus bekijken', {'action': 'view', 0: hsKlus.id})|raw }}
     {{ html.addLink({'action': 'memos_add', 0: hsKlus.id})|raw }}
     {{ html.link('Memo toevoegen', {'action': 'memos_add', 0: hsKlus.id})|raw }}
 </p>
