@@ -11,13 +11,7 @@
         <?php if (isset($locatie_id)): ?>
             <?= $form->hidden('locatie_id', ['value' => $locatie['Locatie']['id']])?>
         <?php elseif (isset($locaties)): ?>
-            <?= $this->Form->input('locatie_id', [
-                'type' => 'select',
-                'multiple' => true,
-                'label' => 'Locatie(s)',
-                'size' => 20,
-            ])
-        ?>
+            <?= $this->Form->input('locatie_id', ['multiple' => true, 'label' => 'Locatie(s)', 'rows' => 10]) ?>
         <?php endif; ?>
 
         <?= $form->hidden('klant_id', ['value' => $klant['Klant']['id']]) ?>
