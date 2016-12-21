@@ -63,9 +63,17 @@ class GaActiviteit
      */
     private $gaKlantDeelnames;
 
+    /**
+     * @var ArrayCollection|GaVrijwilligerDeelname[]
+     *
+     * @ORM\OneToMany(targetEntity="GaVrijwilligerDeelname", mappedBy="gaActiviteit")
+     */
+    private $gaVrijwilligerDeelnames;
+
     public function __construct()
     {
         $this->gaKlantDeelnames = new ArrayCollection();
+        $this->gaVrijwilligerDeelnames = new ArrayCollection();
     }
 
     public function getId()

@@ -13,7 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\DiscriminatorMap({
  *     "ErOpUit" = "GaGroepErOpUit",
  *     "Buurtmaatjes" = "GaGroepBuurtmaatjes",
- *     "OpenHuis" = "GaGroepOpenHuis"
+ *     "OpenHuis" = "GaGroepOpenHuis",
+ *     "Organisatie" = "GaGroepOrganisatie"
  * })
  */
 abstract class GaGroep
@@ -59,6 +60,20 @@ abstract class GaGroep
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $modified;
+
+    /**
+     * @var GaKlantLidmaatschap[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="GaKlantLidmaatschap", mappedBy="gaGroep")
+     */
+    protected $gaKlantLeden;
+
+    /**
+     * @var GaVrijwilligerLidmaatschap[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="GaVrijwilligerLidmaatschap", mappedBy="gaGroep")
+     */
+    protected $gaVrijwilligerLeden;
 
     /**
      * @var GaActiviteit[]|ArrayCollection

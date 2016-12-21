@@ -1,0 +1,44 @@
+<div id="subheader">
+    {{ html.link(
+        'Deelnemerslijst',
+        {'controller': 'Groepsactiviteiten', 'action': 'index'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Vrijwilligerslijst',
+        {'controller': 'Groepsactiviteiten', 'action': 'index', 'selectie': 'Vrijwilliger'})
+    |raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Groepen',
+        {'controller': 'Groepsactiviteiten', 'action': 'export'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Activiteitenregistratie',
+        {'controller': 'Groepsactiviteiten', 'action': 'planning'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Rapportages OUD',
+        {'controller': 'Groepsactiviteiten', 'action': 'rapportages'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Rapportages NIEUW',
+        {'controller': 'groepsactiviteiten_rapportages', 'action': 'index'},
+        {'class': this.name == 'GroepsactiviteitenRapportages' ? 'selected' : ''}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Selecties',
+        {'controller': 'Groepsactiviteiten', 'action': 'selecties'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Beheer',
+        {'controller': 'Groepsactiviteiten', 'action': 'beheer'}
+    )|raw }}
+    &nbsp;&nbsp;
+    <div>&nbsp;</div>
+</div>
