@@ -54,13 +54,13 @@ class IzRapportageType extends AbstractType
 //                         'Vrijwilligers per project en stadsdeel' => 'vrijwilligers_per_project_stadsdeel',
 //                         'Vrijwilligers per project en postcodegebied' => 'vrijwilligers_per_project_postcodegebied',
                     ),
-                    'Klanten' => array(
+                    'Deelnemers' => array(
 //                         'Aanmeldingen klanten' => 'klanten_aanmeldingen',
 //                         'Aanmeldingen klanten per coördinator' => 'klanten_aanmeldingen_coordinator',
-                        'Klanten totaal' => 'klanten_totaal',
+                        'Deelnemers totaal' => 'klanten_totaal',
 //                         'Klanten per coördinator' => 'klanten_per_coordinator',
-                        'Klanten per project' => 'klanten_per_project',
-                        'Klanten per stadsdeel' => 'klanten_per_stadsdeel',
+                        'Deelnemers per project' => 'klanten_per_project',
+                        'Deelnemers per stadsdeel' => 'klanten_per_stadsdeel',
 //                         'Klanten per postcodegebied' => 'klanten_per_postcodegebied',
 //                         'Klanten per project en stadsdeel' => 'klanten_per_project_stadsdeel',
 //                         'Klanten per project en postcodegebied' => 'klanten_per_project_postcodegebied',
