@@ -1,5 +1,28 @@
 parameters:
     cake:
+        email:
+            prod:
+                informele_zorg: "jschmidt@deregenboog.org"
+                dagbesteding: "bnieuwburg@deregenboog.org"
+                inloophuis: "adbruijn@deregenboog.org"
+                hulpverlening: "jvloo@deregenboog.org"
+                agressie: "tvhamond@deregenboog.org"
+                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+            beta:
+                informele_zorg: "jschmidt@deregenboog.org"
+                dagbesteding: "bnieuwburg@deregenboog.org"
+                inloophuis: "adbruijn@deregenboog.org"
+                hulpverlening: "jvloo@deregenboog.org"
+                agressie: "tvhamond@deregenboog.org"
+                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+            test:
+                informele_zorg: "bhuttinga@deregenboog.org"
+                dagbesteding: "bhuttinga@deregenboog.org"
+                inloophuis: "bhuttinga@deregenboog.org"
+                hulpverlening: "bhuttinga@deregenboog.org"
+                agressie: "bhuttinga@deregenboog.org"
+                administratiebedrijf: "bhuttinga@deregenboog.org"
+
         Session.cookie: ECD
         Session.timeout: 8000
 
