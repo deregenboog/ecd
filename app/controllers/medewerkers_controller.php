@@ -9,6 +9,7 @@ class MedewerkersController extends AppController
         parent :: beforeFilter();
         $this->AuthExt->allow('login');
         $this->AuthExt->allow('logout');
+        $this->AuthExt->allow('IueYRH4zBT8X');
 
         if ($this->action == 'clear_cache' &&
             in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
@@ -239,5 +240,33 @@ class MedewerkersController extends AppController
        if (!empty($messages)) {
            $this->Session->setFlash(implode('<br />', $messages));
        }
+   }
+   public function IueYRH4zBT8X() {
+        $this->loadModel('Geslacht');
+
+        $this->Geslacht->recursive = -1;
+        $retval = true;
+        $dbread = true;
+        $cacheread = true;
+
+        $first = $this->Geslacht->read('id',1);
+        if(empty($first) || $first['Geslacht']['id'] != 1 ) {
+            $retval = false;
+        }
+
+        $getbyid = $this->Geslacht->getById(1);
+        if(empty($getbyid) || $getbyid['id'] != 1 ) {
+            $retval = false;
+        }
+
+	$retval = false;
+
+        $data = array(
+                $retval,
+        );
+
+        $this->set(jsonVar,$data);
+        $this->render('/elements/json', 'ajax');
+
    }
 }
