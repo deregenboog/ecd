@@ -259,8 +259,6 @@ class MedewerkersController extends AppController
             $retval = false;
         }
 
-	$retval = false;
-
         $data = array(
                 $retval,
         );
