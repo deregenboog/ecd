@@ -41,6 +41,12 @@ class HsKlus extends HsMemoSubject
     private $einddatum;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $onHold = false;
+
+    /**
      * @var HsKlant
      * @ORM\ManyToOne(targetEntity="HsKlant", inversedBy="hsKlussen")
      */
@@ -83,7 +89,7 @@ class HsKlus extends HsMemoSubject
      * @var ArrayCollection|HsMemo[]
      *
      * @ORM\ManyToMany(targetEntity="HsMemo", cascade={"persist", "remove"})
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
      */
     protected $hsMemos;
 
@@ -257,5 +263,17 @@ class HsKlus extends HsMemoSubject
     public function getOpenstaand()
     {
         return $this->getGefactureerd() - $this->getBetaald();
+    }
+
+    public function isOnHold()
+    {
+        return $this->onHold;
+    }
+
+    public function setOnHold($onHold)
+    {
+        $this->onHold = $onHold;
+
+        return $this;
     }
 }

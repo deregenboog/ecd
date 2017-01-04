@@ -11,6 +11,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\HsMemo;
 use HsBundle\Form\HsMemoType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class HsKlantenController extends AppController
 {
@@ -87,10 +88,19 @@ class HsKlantenController extends AppController
             $hsKlant->setKlant($klant);
 
             $creationForm = $this->createForm(HsKlantType::class, $hsKlant);
+            $creationForm->add('memo', TextareaType::class, [
+                'label' => 'Intake-memo',
+                'mapped' => false,
+                'attr' => ['rows' => 10, 'cols' => 80],
+            ]);
             $creationForm->handleRequest($this->request);
 
             if ($creationForm->isValid()) {
                 try {
+                    $hsMemo = new HsMemo($hsKlant->getKlant()->getMedewerker());
+                    $hsMemo->setMemo($creationForm->get('memo')->getData());
+                    $hsKlant->addHsMemo($hsMemo);
+
                     $entityManager->persist($hsKlant);
                     $entityManager->flush();
 
@@ -99,7 +109,7 @@ class HsKlantenController extends AppController
                     return $this->redirect(array('action' => 'view', $hsKlant->getId()));
                 } catch (\Exception $e) {
                     if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
-                        $this->Session->setFlash('Deze vrijwilliger heeft al een Homeservice-dossier.');
+                        $this->Session->setFlash('Deze klant heeft al een Homeservice-dossier.');
                     } else {
                         $this->Session->setFlash('Er is een fout opgetreden.');
                     }

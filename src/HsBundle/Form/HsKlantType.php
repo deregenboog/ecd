@@ -36,6 +36,7 @@ class HsKlantType extends AbstractType
         }
 
         $builder->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')]);
+        $builder->add('onHold');
     }
 
     /**

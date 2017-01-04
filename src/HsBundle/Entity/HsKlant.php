@@ -52,6 +52,12 @@ class HsKlant extends HsMemoSubject
     private $modified;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $onHold = false;
+
+    /**
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -68,7 +74,7 @@ class HsKlant extends HsMemoSubject
      * @var ArrayCollection|HsMemo[]
      *
      * @ORM\ManyToMany(targetEntity="HsMemo", cascade={"persist", "remove"})
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
      */
     protected $hsMemos;
 
@@ -191,5 +197,17 @@ class HsKlant extends HsMemoSubject
         }
 
         return $hsFacturen;
+    }
+
+    public function isOnHold()
+    {
+        return $this->onHold;
+    }
+
+    public function setOnHold($onHold)
+    {
+        $this->onHold = $onHold;
+
+        return $this;
     }
 }

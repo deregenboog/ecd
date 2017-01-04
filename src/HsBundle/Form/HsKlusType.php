@@ -20,7 +20,9 @@ class HsKlusType extends AbstractType
             ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
             ->add('hsActiviteit', null, ['label' => 'Activiteit'])
             ->add('medewerker')
-            ->add('hsVrijwilligers', null, ['label' => 'Vrijwilligers']);
+            ->add('hsVrijwilligers', null, ['label' => 'Vrijwilligers'])
+            ->add('onHold')
+        ;
     }
 
     /**

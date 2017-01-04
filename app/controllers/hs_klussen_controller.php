@@ -8,6 +8,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\HsMemo;
 use HsBundle\Form\HsMemoType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class HsKlussenController extends AppController
 {
@@ -49,6 +50,28 @@ class HsKlussenController extends AppController
         $this->set('pagination', $pagination);
     }
 
+    public function download()
+    {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(HsKlus::class);
+
+        $builder = $repository->createQueryBuilder('hsKlus')
+            ->innerJoin('hsKlus.hsKlant', 'hsKlant')
+            ->innerJoin('hsKlus.hsActiviteit', 'hsActiviteit')
+            ->innerJoin('hsKlant.klant', 'klant');
+        $hsKlussen = $builder->getQuery()->getResult();
+
+        $now = new \DateTime();
+
+        $this->autoLayout = false;
+        $this->layout = false;
+//         $this->header('Content-type: text/csv');
+//         $this->header(sprintf('Content-Disposition: attachment; filename="homeservice-klussen-%s.csv";', $now->format('d-m-Y')));
+
+        $this->set('now', $now);
+        $this->set('hsKlussen', $hsKlussen);
+    }
+
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
@@ -71,9 +94,17 @@ class HsKlussenController extends AppController
         }
 
         $form = $this->createForm(HsKlusType::class, $hsKlus);
+        $form->add('memo', TextareaType::class, [
+            'mapped' => false,
+            'attr' => ['rows' => 10, 'cols' => 80],
+        ]);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
+            $hsMemo = new HsMemo($hsKlus->getMedewerker());
+            $hsMemo->setMemo($form->get('memo')->getData());
+            $hsKlus->addHsMemo($hsMemo);
+
             $entityManager->persist($hsKlus);
             $entityManager->flush();
 

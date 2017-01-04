@@ -52,6 +52,12 @@ class HsMemo
     public function __construct(Medewerker $medewerker = null)
     {
         $this->medewerker = $medewerker;
+        $this->datum = new \DateTime();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s %s', $this->medewerker, $this->datum->format('d-m-Y H:i:s'));
     }
 
     public function getId()

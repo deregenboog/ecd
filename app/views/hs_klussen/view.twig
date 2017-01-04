@@ -157,12 +157,32 @@
             {{ html.addLink({'action': 'memos_add', 0: hsKlus.id})|raw }}
         </dt>
         <dd>
-            {% if hsKlus.hsMemos is empty %}
-                -
-            {% else %}
-                {{ hsKlus.hsMemos|length }} {{ hsKlus.hsMemos|length == 1 ? 'memo' : 'memo\'s' }}
-                {{ html.viewLink({'action': 'memos_index', 0: hsKlus.id})|raw }}
-            {% endif %}
+            <table>
+                <tr>
+                    <th>Datum</th>
+                    <th>Medewerker</th>
+                    <th>Memo</th>
+                    <th>
+                    </th>
+                </tr>
+                {% for hsMemo in hsKlus.hsMemos %}
+                    <tr>
+                        <td>
+                            {{ hsMemo.datum ? hsMemo.datum|date('d-m-Y H:i') : '' }}
+                        </td>
+                        <td>
+                            {{ hsMemo.medewerker }}
+                        </td>
+                        <td>
+                            {{ hsMemo.memo|nl2br }}
+                        </td>
+                        <td>
+                            {{ html.editLink({'controller': 'hs_memos', 'action': 'edit', 0: hsMemo.id})|raw }}
+                            {{ html.deleteLink({'controller': 'hs_memos', 'action': 'delete', 0: hsMemo.id})|raw }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         </dd>
     {% endif %}
 </dl>
