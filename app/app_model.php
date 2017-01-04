@@ -468,7 +468,6 @@ class AppModel extends Model
             }
             if ($this->id) {
                 $this->beforeSaveData[$this->id][$this->alias] = $this->getById($this->id);
-            } else {
             }
         }
 
