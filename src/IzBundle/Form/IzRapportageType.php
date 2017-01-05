@@ -10,6 +10,17 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class IzRapportageType extends AbstractType
 {
+    private $choices = [];
+
+    public function __construct(array $options)
+    {
+        foreach ($options as $category => $reports) {
+            foreach ($reports as $id => $report) {
+                $this->choices[$category][$report->getTitle()] = $id;
+            }
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,39 +44,7 @@ class IzRapportageType extends AbstractType
             ->add('rapport', ChoiceType::class, [
                 'required' => true,
                 'placeholder' => 'Selecteer een rapport',
-                'choices' => [
-                    'Koppelingen' => [
-                        'Koppelingen totaal' => 'koppelingen_totaal',
-//                         'Koppelingen per coördinator' => 'koppelingen_per_coordinator',
-                        'Koppelingen per project' => 'koppelingen_per_project',
-                        'Koppelingen per stadsdeel' => 'koppelingen_per_stadsdeel',
-//                         'Koppelingen per postcodegebied' => 'koppelingen_per_postcodegebied',
-//                         'Koppelingen per project en stadsdeel' => 'koppelingen_per_project_stadsdeel',
-//                         'Koppelingen per project en postcodegebied' => 'koppelingen_per_project_postcodegebied',
-                    ],
-                    'Vrijwilligers' => array(
-//                         'Aanmeldingen vrijwilligers' => 'vrijwilligers_aanmeldingen',
-//                         'Aanmeldingen vrijwilligers per coördinator' => 'vrijwilligers_aanmeldingen_coordinator',
-                        'Vrijwilligers totaal' => 'vrijwilligers_totaal',
-//                         'Vrijwilligers per coördinator' => 'vrijwilligers_per_coordinator',
-                        'Vrijwilligers per project' => 'vrijwilligers_per_project',
-                        'Vrijwilligers per stadsdeel' => 'vrijwilligers_per_stadsdeel',
-//                         'Vrijwilligers per postcodegebied' => 'vrijwilligers_per_postcodegebied',
-//                         'Vrijwilligers per project en stadsdeel' => 'vrijwilligers_per_project_stadsdeel',
-//                         'Vrijwilligers per project en postcodegebied' => 'vrijwilligers_per_project_postcodegebied',
-                    ),
-                    'Deelnemers' => array(
-//                         'Aanmeldingen klanten' => 'klanten_aanmeldingen',
-//                         'Aanmeldingen klanten per coördinator' => 'klanten_aanmeldingen_coordinator',
-                        'Deelnemers totaal' => 'klanten_totaal',
-//                         'Klanten per coördinator' => 'klanten_per_coordinator',
-                        'Deelnemers per project' => 'klanten_per_project',
-                        'Deelnemers per stadsdeel' => 'klanten_per_stadsdeel',
-//                         'Klanten per postcodegebied' => 'klanten_per_postcodegebied',
-//                         'Klanten per project en stadsdeel' => 'klanten_per_project_stadsdeel',
-//                         'Klanten per project en postcodegebied' => 'klanten_per_project_postcodegebied',
-                    ),
-                ],
+                'choices' => $this->choices,
             ])
         ;
     }

@@ -113,6 +113,48 @@ class IzKlantRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getCountBuilder()
+            ->addSelect('izProject.naam AS project')
+            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->innerJoin('izHulpvraag.izProject', 'izProject')
+            ->groupBy('izProject', 'klant.werkgebied');
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        switch ($report) {
+            case 'gestart':
+                // exclude beginstand
+                $beginstandBuilder = $this->getCountBuilder()
+                    ->select("CONCAT_WS('-', izKlant.id, izProject.naam, klant.werkgebied)")
+                    ->innerJoin('izHulpvraag.izProject', 'izProject')
+                ;
+                $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
+                $beginstand = $beginstandBuilder->getQuery()->getResult();
+                array_walk($beginstand, function (&$item) {
+                    $item = current($item);
+                });
+                $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izKlant.id, izProject.naam, klant.werkgebied)", $beginstand));
+                break;
+            case 'afgesloten':
+                // exclude eindstand
+                $eindstandBuilder = $this->getCountBuilder()
+                    ->select("CONCAT_WS('-', izKlant.id, izProject.naam, klant.werkgebied)")
+                    ->innerJoin('izHulpvraag.izProject', 'izProject')
+                ;
+                $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
+                $eindstand = $eindstandBuilder->getQuery()->getResult();
+                // flatten array
+                array_walk($eindstand, function (&$item) {
+                    $item = current($item);
+                });
+                $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izKlant.id, izProject.naam, klant.werkgebied)", $eindstand));
+                break;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     private function getCountBuilder()
     {
         return $this->createQueryBuilder('izKlant')
@@ -169,6 +211,8 @@ class IzKlantRepository extends EntityRepository
                     ->setParameter('einddatum', $endDate)
                 ;
                 break;
+            default:
+                throw new \RuntimeException("Unknown report filter '{$report}' in class ".__CLASS__);
         }
     }
 }
