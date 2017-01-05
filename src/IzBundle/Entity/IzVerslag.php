@@ -7,9 +7,9 @@ use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="iz_intakes")
+ * @ORM\Table(name="iz_verslagen")
  */
-class IzIntake
+class IzVerslag
 {
     /**
      * @ORM\Id
@@ -24,20 +24,14 @@ class IzIntake
     private $created;
 
     /**
-     * @todo Fix typo modifed => modified
-     * @ORM\Column(name="modifed", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $modified;
 
     /**
-     * @ORM\Column(name="intake_datum", type="date")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $intakeDatum;
-
-    /**
-     * @ORM\Column(name="gezin_met_kinderen", type="boolean")
-     */
-    private $gezinMetKinderen;
+    private $opmerking;
 
     /**
      * @var IzDeelnemer
@@ -45,6 +39,13 @@ class IzIntake
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      */
     private $izDeelnemer;
+
+    /**
+     * @var IzKoppeling
+     * @ORM\OneToOne(targetEntity="IzKoppeling")
+     * @ORM\JoinColumn(name="iz_koppeling_id")
+     */
+    private $izKoppeling;
 
     /**
      * @var Medewerker
@@ -58,19 +59,9 @@ class IzIntake
         return $this->id;
     }
 
-    public function getIntakeDatum()
-    {
-        return $this->intakeDatum;
-    }
-
     public function getIzDeelnemer()
     {
         return $this->izDeelnemer;
-    }
-
-    public function isGezinMetKinderen()
-    {
-        return $this->gezinMetKinderen;
     }
 
     public function getMedewerker()
@@ -91,4 +82,27 @@ class IzIntake
 
         return $this;
     }
+
+    public function getOpmerking()
+    {
+        return $this->opmerking;
+    }
+
+    public function setOpmerking($opmerking)
+    {
+        $this->opmerking = $opmerking;
+        return $this;
+    }
+
+    public function getIzKoppeling()
+    {
+        return $this->izKoppeling;
+    }
+
+    public function setIzKoppeling(IzKoppeling $izKoppeling)
+    {
+        $this->izKoppeling = $izKoppeling;
+        return $this;
+    }
+
 }

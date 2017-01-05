@@ -126,3 +126,8 @@ services:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: rapportage, category: Vrijwilligers }
+
+    iz.data_fixtures.faker_provider:
+        class: IzBundle\DataFixtures\IzFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }

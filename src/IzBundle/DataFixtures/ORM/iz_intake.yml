@@ -1,0 +1,5 @@
+IzBundle\Entity\IzIntake:
+    iz_intake_{1..100}:
+        iz_deelnemer: '@iz_klant_<current()>'
+        intakeDatum: <dateTimeThisDecade()>
+        medewerker: '@medewerker_*'
