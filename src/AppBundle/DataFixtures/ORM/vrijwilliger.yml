@@ -16,3 +16,6 @@ AppBundle\Entity\Vrijwilliger:
         werkgebied: 'Centrum'
         geenPost: '10%? 1 : 0'
         geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_*'
+        nationaliteit: '@nationaliteit_*'
