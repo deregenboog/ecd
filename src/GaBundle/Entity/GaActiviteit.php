@@ -11,6 +11,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class GaActiviteit
 {
+    const STATUS_AANWEZIG = 'Aanwezig';
+    const STATUS_AFWEZIG = 'Afwezig';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

@@ -13,6 +13,7 @@ use GaBundle\Entity\GaGroepOpenHuis;
 use GaBundle\Entity\GaVrijwilligerIntake;
 use GaBundle\Entity\GaGroepOrganisatie;
 use GaBundle\Entity\GaGroepBuurtmaatjes;
+use GaBundle\Entity\GaActiviteit;
 
 class GroepsactiviteitenRapportagesController extends AppController
 {
@@ -141,6 +142,27 @@ class GroepsactiviteitenRapportagesController extends AppController
         $this->set('reports', $reports);
     }
 
+    private function report_eropuit_vrijwilligers_per_stadsdeel(
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $grid = $this->getVrijwilligersPerStadsdeelGrid(GaGroepErOpUit::class, $startDate, $endDate, $format);
+
+        $title = 'ErOpUit vrijwilligers per stadsdeel';
+        $reports = [[
+            'title' => $title,
+            'xDescription' => 'LET OP: Stadsdeel is op basis van woonadres vrijwilliger (dus niet op basis van activiteitlocatie)',
+            'yDescription' => 'Stadsdeel',
+            'data' => $grid->render(),
+        ]];
+
+        $this->set('title', $title);
+        $this->set('startDate', $startDate);
+        $this->set('endDate', $endDate);
+        $this->set('reports', $reports);
+    }
+
     private function report_openhuis_deelnemers_per_stadsdeel(
         \DateTime $startDate,
         \DateTime $endDate,
@@ -250,12 +272,12 @@ class GroepsactiviteitenRapportagesController extends AppController
             ->addSelect('COUNT(DISTINCT gaActiviteit) AS aantal_activiteiten')
             ->addSelect('COUNT(DISTINCT gaKlantDeelname) AS aantal_deelnemers')
             ->addSelect('COUNT(DISTINCT klant) AS aantal_unieke_deelnemers')
-            ->innerJoin('gaGroep.gaActiviteiten', 'gaActiviteit')
-            ->innerJoin('gaActiviteit.gaKlantDeelnames', 'gaKlantDeelname')
+            ->innerJoin('gaGroep.gaActiviteiten', 'gaActiviteit', 'WITH', 'gaActiviteit.datum BETWEEN :start AND :eind')
+            ->innerJoin('gaActiviteit.gaKlantDeelnames', 'gaKlantDeelname', 'WITH', 'gaKlantDeelname.status = :aanwezig')
             ->innerJoin('gaKlantDeelname.klant', 'klant')
-            ->where('gaActiviteit.datum BETWEEN :start AND :eind')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
+            ->setParameter('aanwezig', GaActiviteit::STATUS_AANWEZIG)
         ;
         $data = $builder->getQuery()->getResult();
 
@@ -287,16 +309,18 @@ class GroepsactiviteitenRapportagesController extends AppController
             ->addSelect('COUNT(DISTINCT gaActiviteit) AS aantal_activiteiten')
             ->addSelect('COUNT(DISTINCT gaKlantDeelname) AS aantal_deelnemers')
             ->addSelect('COUNT(DISTINCT klant) AS aantal_unieke_deelnemers')
-            ->innerJoin('gaGroep.gaActiviteiten', 'gaActiviteit')
-            ->innerJoin('gaActiviteit.gaKlantDeelnames', 'gaKlantDeelname')
+//             ->addSelect('COUNT(DISTINCT gaVrijwilligerDeelname) AS aantal_vrijwilligers')
+//             ->addSelect('COUNT(DISTINCT vrijwilliger) AS aantal_unieke_vrijwilligers')
+            ->innerJoin('gaGroep.gaActiviteiten', 'gaActiviteit', 'WITH', 'gaActiviteit.datum BETWEEN :start AND :eind')
+            ->innerJoin('gaActiviteit.gaKlantDeelnames', 'gaKlantDeelname', 'WITH', 'gaKlantDeelname.status = :aanwezig')
             ->innerJoin('gaKlantDeelname.klant', 'klant')
-            ->where('gaActiviteit.datum BETWEEN :start AND :eind')
 //             ->groupBy('gaGroep.werkgebied')
 //             ->orderBy('gaGroep.werkgebied')
             ->groupBy('klant.werkgebied')
             ->orderBy('klant.werkgebied')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
+            ->setParameter('aanwezig', GaActiviteit::STATUS_AANWEZIG)
         ;
         $data = $builder->getQuery()->getResult();
 
@@ -310,6 +334,47 @@ class GroepsactiviteitenRapportagesController extends AppController
             ->setStartDate($startDate)
             ->setEndDate($endDate)
             ->setYNullReplacement('Onbekend')
+        ;
+
+        return $grid;
+    }
+
+    private function getVrijwilligersPerStadsdeelGrid(
+        $class,
+        \DateTime $startDate,
+        \DateTime $endDate,
+        $format = 'html'
+    ) {
+        $builder = $this->getEntityManager()->getRepository($class)
+        ->createQueryBuilder('gaGroep')
+//             ->select('gaGroep.werkgebied AS stadsdeel')
+        ->select('vrijwilliger.werkgebied AS stadsdeel')
+        ->addSelect('COUNT(DISTINCT gaActiviteit) AS aantal_activiteiten')
+        ->addSelect('COUNT(DISTINCT gaVrijwilligerDeelname) AS aantal_vrijwilligers')
+        ->addSelect('COUNT(DISTINCT vrijwilliger) AS aantal_unieke_vrijwilligers')
+        ->innerJoin('gaGroep.gaActiviteiten', 'gaActiviteit', 'WITH', 'gaActiviteit.datum BETWEEN :start AND :eind')
+        ->innerJoin('gaActiviteit.gaVrijwilligerDeelnames', 'gaVrijwilligerDeelname', 'WITH', 'gaKlantDeelname.status = :aanwezig')
+        ->innerJoin('gaVrijwilligerDeelname.vrijwilliger', 'vrijwilliger')
+//             ->groupBy('gaGroep.werkgebied')
+//             ->orderBy('gaGroep.werkgebied')
+        ->groupBy('vrijwilliger.werkgebied')
+        ->orderBy('vrijwilliger.werkgebied')
+        ->setParameter('start', $startDate)
+        ->setParameter('eind', $endDate)
+        ->setParameter('aanwezig', GaActiviteit::STATUS_AANWEZIG)
+        ;
+        $data = $builder->getQuery()->getResult();
+
+        $columns = [
+            'Aantal activiteiten' => 'aantal_activiteiten',
+            'Aantal deelnemers' => 'aantal_deelnemers',
+            'Aantal unieke deelnemers' => 'aantal_unieke_deelnemers',
+        ];
+        $grid = new Grid($data, $columns, 'stadsdeel');
+        $grid
+        ->setStartDate($startDate)
+        ->setEndDate($endDate)
+        ->setYNullReplacement('Onbekend')
         ;
 
         return $grid;

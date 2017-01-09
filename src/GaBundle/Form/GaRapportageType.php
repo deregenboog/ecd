@@ -43,6 +43,7 @@ class GaRapportageType extends AbstractType
                         'ErOpUit deelnemers totaal' => 'eropuit_deelnemers_totaal',
                         'ErOpUit deelnemers per stadsdeel' => 'eropuit_deelnemers_per_stadsdeel',
                         'ErOpUit vrijwilligers totaal' => 'eropuit_vrijwilligers_totaal',
+                        'ErOpUit vrijwilligers per stadsdeel' => 'eropuit_vrijwilligers_per_stadsdeel',
                     ],
                     'Open Huizen' => [
                         'Open Huis deelnemers totaal' => 'openhuis_deelnemers_totaal',
