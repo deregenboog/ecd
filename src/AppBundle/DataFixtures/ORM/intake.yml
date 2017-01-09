@@ -1,0 +1,5 @@
+AppBundle\Entity\Intake:
+    intake_{1..500}:
+        klant: '@klant_*'
+        medewerker: '@medewerker_*'
+        datum: '<dateTimeThisDecade()>'
