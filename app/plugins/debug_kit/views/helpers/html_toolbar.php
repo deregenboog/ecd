@@ -29,14 +29,14 @@ class HtmlToolbarHelper extends ToolbarHelper {
  * @var array
  * @access public
  */
-	var $helpers = array('Html', 'Form');
+    var $helpers = array('Html', 'Form');
 /**
  * settings property
  *
  * @var array
  * @access public
  */
-	var $settings = array('format' => 'html', 'forceEnable' => false);
+    var $settings = array('format' => 'html', 'forceEnable' => false);
 /**
  * Recursively goes through an array and makes neat HTML out of it.
  *
@@ -45,53 +45,55 @@ class HtmlToolbarHelper extends ToolbarHelper {
  * @param int $currentDepth current depth.
  * @return string
  **/
-	function makeNeatArray($values, $openDepth = 0, $currentDepth = 0) {
-		$className ="neat-array depth-$currentDepth";
-		if ($openDepth > $currentDepth) {
-			$className .= ' expanded';
-		}
-		$nextDepth = $currentDepth + 1;
-		$out = "<ul class=\"$className\">";
-		if (!is_array($values)) {
-			if (is_bool($values)) {
-				$values = array($values);
-			}
-			if (is_null($values)) {
-				$values = array(null);
-			}
-		}
-		if (empty($values)) {
-			$values[] = '(empty)';
-		}
-		foreach ($values as $key => $value) {
-			$out .= '<li><strong>' . $key . '</strong>';
-			if ($value === null) {
-				$value = '(null)';
-			}
-			if ($value === false) {
-				$value = '(false)';
-			}
-			if ($value === true) {
-				$value = '(true)';
-			}
-			if (empty($value) && $value != 0) {
-				$value = '(empty)';
-			}
+    function makeNeatArray($values, $openDepth = 0, $currentDepth = 0, $maxDepth = 5) {
+        $className ="neat-array depth-$currentDepth";
+        if ($openDepth > $currentDepth) {
+            $className .= ' expanded';
+        }
+        $nextDepth = $currentDepth + 1;
+        $out = "<ul class=\"$className\">";
+        if (!is_array($values)) {
+            if (is_bool($values)) {
+                $values = array($values);
+            }
+            if (is_null($values)) {
+                $values = array(null);
+            }
+        }
+        if (empty($values)) {
+            $values[] = '(empty)';
+        }
+        foreach ($values as $key => $value) {
+            $out .= '<li><strong>' . $key . '</strong>';
+            if ($value === null) {
+                $value = '(null)';
+            }
+            if ($value === false) {
+                $value = '(false)';
+            }
+            if ($value === true) {
+                $value = '(true)';
+            }
+            if (empty($value) && $value != 0) {
+                $value = '(empty)';
+            }
 
-			if (is_object($value)) {
-				$value = Set::reverse($value, true);
-			}
+            if (is_object($value)) {
+                $value = Set::reverse($value, true);
+            }
 
-			if (is_array($value) && !empty($value)) {
-				$out .= $this->makeNeatArray($value, $openDepth, $nextDepth);
-			} else {
-				$out .= h($value);
-			}
-			$out .= '</li>';
-		}
-		$out .= '</ul>';
-		return $out;
-	}
+            if (is_array($value) && !empty($value)) {
+                if ($currentDepth < $maxDepth) {
+                    $out .= $this->makeNeatArray($value, $openDepth, $nextDepth);
+                }
+            } elseif (!is_array($value)) {
+                $out .= h($value);
+            }
+            $out .= '</li>';
+        }
+        $out .= '</ul>';
+        return $out;
+    }
 /**
  * Create an HTML message
  *
@@ -99,19 +101,19 @@ class HtmlToolbarHelper extends ToolbarHelper {
  * @param string $message message content
  * @return string
  */
-	function message($label, $message) {
-		return sprintf('<p><strong>%s</strong> %s</p>', $label, $message);
-	}
+    function message($label, $message) {
+        return sprintf('<p><strong>%s</strong> %s</p>', $label, $message);
+    }
 /**
  * Start a panel.
  * make a link and anchor.
  *
  * @return void
  **/
-	function panelStart($title, $anchor) {
-		$link = $this->Html->link($title, '#' . $anchor);
-		return $link;
-	}
+    function panelStart($title, $anchor) {
+        $link = $this->Html->link($title, '#' . $anchor);
+        return $link;
+    }
 /**
  * Create a table.
  *
@@ -119,73 +121,73 @@ class HtmlToolbarHelper extends ToolbarHelper {
  * @param array $headers Optional header row.
  * @return string
  */
-	function table($rows, $headers = array()) {
-		$out = '<table class="debug-table">';
-		if (!empty($headers)) {
-			$out .= $this->Html->tableHeaders($headers);
-		}
-		$out .= $this->Html->tableCells($rows, array('class' => 'odd'), array('class' => 'even'), false, false);
-		$out .= '</table>';
-		return $out;
-	}
+    function table($rows, $headers = array()) {
+        $out = '<table class="debug-table">';
+        if (!empty($headers)) {
+            $out .= $this->Html->tableHeaders($headers);
+        }
+        $out .= $this->Html->tableCells($rows, array('class' => 'odd'), array('class' => 'even'), false, false);
+        $out .= '</table>';
+        return $out;
+    }
 /**
  * send method
  *
  * @return void
  * @access public
  */
-	function send() {
-		if (!$this->settings['forceEnable'] && Configure::read('debug') == 0) {
-			return;
-		}
-		$view =& ClassRegistry::getObject('view');
-		$head = $this->Html->css('/debug_kit/css/debug_toolbar');
-		if (isset($view->viewVars['debugToolbarJavascript'])) {
-			foreach ($view->viewVars['debugToolbarJavascript'] as $script) {
-				if ($script) {
-					$head .= $this->Html->script($script);
-				}
-			}
-		}
-		if (preg_match('#</head>#', $view->output)) {
-			$view->output = preg_replace('#</head>#', $head . "\n</head>", $view->output, 1);
-		}
-		$toolbar = $view->element('debug_toolbar', array('plugin' => 'debug_kit', 'disableTimer' => true));
-		if (preg_match('#</body>#', $view->output)) {
-			$view->output = preg_replace('#</body>#', $toolbar . "\n</body>", $view->output, 1);
-		}
-	}
+    function send() {
+        if (!$this->settings['forceEnable'] && Configure::read('debug') == 0) {
+            return;
+        }
+        $view =& ClassRegistry::getObject('view');
+        $head = $this->Html->css('/debug_kit/css/debug_toolbar');
+        if (isset($view->viewVars['debugToolbarJavascript'])) {
+            foreach ($view->viewVars['debugToolbarJavascript'] as $script) {
+                if ($script) {
+                    $head .= $this->Html->script($script);
+                }
+            }
+        }
+        if (preg_match('#</head>#', $view->output)) {
+            $view->output = preg_replace('#</head>#', $head . "\n</head>", $view->output, 1);
+        }
+        $toolbar = $view->element('debug_toolbar', array('plugin' => 'debug_kit', 'disableTimer' => true));
+        if (preg_match('#</body>#', $view->output)) {
+            $view->output = preg_replace('#</body>#', $toolbar . "\n</body>", $view->output, 1);
+        }
+    }
 /**
  * Generates a SQL explain link for a given query
  *
  * @param string $sql SQL query string you want an explain link for.
  * @return string Rendered Html link or '' if the query is not a select/describe
  */
-	function explainLink($sql, $connection) {
-		if (!preg_match('/^(SELECT)/i', $sql)) {
-			return '';
-		}
-		App::import('Core', 'Security');
-		$hash = Security::hash($sql . $connection, null, true);
-		$url = array(
-			'plugin' => 'debug_kit',
-			'controller' => 'toolbar_access',
-			'action' => 'sql_explain'
-		);
-		foreach (Router::prefixes() as $prefix) {
-			$url[$prefix] = false;
-		}
-		$this->explainLinkUid = (isset($this->explainLinkUid) ? $this->explainLinkUid + 1 : 0); 
-		$uid = $this->explainLinkUid . '_' . rand(0, 10000);
-		$form = $this->Form->create('log', array('url' => $url, 'id' => "logForm{$uid}"));
-		$form .= $this->Form->hidden('log.ds', array('id' => "logDs{$uid}", 'value' => $connection));
-		$form .= $this->Form->hidden('log.sql', array('id' => "logSql{$uid}", 'value' => $sql));
-		$form .= $this->Form->hidden('log.hash', array('id' => "logHash{$uid}", 'value' => $hash));
-		$form .= $this->Form->submit(__d('debug_kit', 'Explain', true), array(
-			'div' => false,
-			'class' => 'sql-explain-link'
-		));
-		$form .= $this->Form->end();
-		return $form;
-	}
+    function explainLink($sql, $connection) {
+        if (!preg_match('/^(SELECT)/i', $sql)) {
+            return '';
+        }
+        App::import('Core', 'Security');
+        $hash = Security::hash($sql . $connection, null, true);
+        $url = array(
+            'plugin' => 'debug_kit',
+            'controller' => 'toolbar_access',
+            'action' => 'sql_explain'
+        );
+        foreach (Router::prefixes() as $prefix) {
+            $url[$prefix] = false;
+        }
+        $this->explainLinkUid = (isset($this->explainLinkUid) ? $this->explainLinkUid + 1 : 0);
+        $uid = $this->explainLinkUid . '_' . rand(0, 10000);
+        $form = $this->Form->create('log', array('url' => $url, 'id' => "logForm{$uid}"));
+        $form .= $this->Form->hidden('log.ds', array('id' => "logDs{$uid}", 'value' => $connection));
+        $form .= $this->Form->hidden('log.sql', array('id' => "logSql{$uid}", 'value' => $sql));
+        $form .= $this->Form->hidden('log.hash', array('id' => "logHash{$uid}", 'value' => $hash));
+        $form .= $this->Form->submit(__d('debug_kit', 'Explain', true), array(
+            'div' => false,
+            'class' => 'sql-explain-link'
+        ));
+        $form .= $this->Form->end();
+        return $form;
+    }
 }
