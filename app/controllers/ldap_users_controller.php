@@ -12,6 +12,51 @@ class LdapUsersController extends AppController
         $this->set('ldap_users', $users);
     }
 
+    public function matrix()
+    {
+        $permissions = Configure::read('ACL.permissions');
+        ksort($permissions);
+
+        $allControllers = [];
+        foreach ($permissions as $controllers) {
+            foreach ($controllers as $controller) {
+                $allControllers[$controller] = $controller;
+            }
+        }
+        ksort($allControllers);
+
+        $this->loadModel('Medewerker');
+        $activeUsers = $this->Medewerker->getActiveUsers();
+
+        $ldapUsers = [];
+        foreach ($this->LdapUser->findAll('uid', '*') as $ldapUser) {
+            $uid = $ldapUser['LdapUser']['uid'];
+            if (in_array($uid, $activeUsers)) {
+                $ldapUsers[$uid] = ['cn' => $ldapUser['LdapUser']['cn']];
+            }
+        }
+        ksort($ldapUsers);
+
+        foreach ($ldapUsers as $uid => $ldapUser) {
+            $ldapUsers[$uid]['groups'] = [];
+            foreach ($this->LdapUser->getGroups($uid) as $group) {
+                $gid = $group['gidnumber'];
+                if (array_key_exists($gid, $permissions)) {
+                    $ldapUsers[$uid]['groups'][$gid] = $group['cn'];
+                }
+            }
+
+            // remove irrelevant users
+            if (count($ldapUsers[$uid]['groups']) === 0) {
+                unset($ldapUsers[$uid]);
+            }
+        }
+
+        $this->set('all_controllers', $allControllers);
+        $this->set('permissions', $permissions);
+        $this->set('ldap_users', $ldapUsers);
+    }
+
     public function groups()
     {
         $groups = $this->LdapUser->getGroups();

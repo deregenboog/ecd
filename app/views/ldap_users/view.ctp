@@ -1,41 +1,34 @@
-<?php
-	if (isset($ldap_user['LdapUser'])) {
-		echo($ldap_user['LdapUser']['displayname']);
-		echo " (".($ldap_user['LdapUser']['uidnumber']).")";
-		echo "<h1>View LDAP User</h1>\n";
-	}
-?>
+<h1>View LDAP User</h1>
+
+<p>
+    <?php if (isset($ldap_user['LdapUser'])): ?>
+        <?= $ldap_user['LdapUser']['cn'] ?>
+        (<?= $ldap_user['LdapUser']['uidnumber'] ?>)
+    <?php endif; ?>
+</p>
 
 <table>
-<?php 
-if (isset($ldap_user['LdapUser'])) {
-	foreach ($ldap_user['LdapUser'] as $k => $val) {
-		echo "
-		<tr>
-		<td>$k</td>
-		<td>$val</td>
-		</tr>
-		";
-	}
-}
-?>
+    <?php if (isset($ldap_user['LdapUser'])): ?>
+        <?php foreach ($ldap_user['LdapUser'] as $key => $value): ?>
+            <?php if (is_array($value)) continue; ?>
+            <tr>
+                <td><?= $key ?></td>
+                <td><?= $value ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </table>
-<h1>Groups</h1>
+
+<h2>Groups</h2>
 <table>
-<?php
-	echo "
-		<tr>
-		<td>gidnumber</td>
-		<td>cn</td>
-		</tr>
-		";
-foreach ($ldap_groups as $k => $val) {
-	echo "
-		<tr>
-		<td>".$val['gidnumber']."</td>
-		<td>".$val['cn']."</td>
-		</tr>
-		";
-}
-?>
+    <tr>
+        <th>gidnumber</th>
+        <th>cn</th>
+    </tr>
+    <?php foreach ($ldap_groups as $value): ?>
+        <tr>
+            <td><?= $value['gidnumber'] ?></td>
+            <td><?= $value['cn'] ?></td>
+        </tr>
+    <?php endforeach; ?>
 </table>
