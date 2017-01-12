@@ -38,6 +38,19 @@ class IzVrijwilligerRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getCountBuilder()
+            ->addSelect('vrijwilliger.werkgebied AS stadsdeel')
+            ->addSelect('izProject.naam AS project')
+            ->innerJoin('izHulpaanbod.izProject', 'izProject')
+            ->groupBy('izProject', 'vrijwilliger.werkgebied')
+        ;
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     private function getCountBuilder()
     {
         return $this->createQueryBuilder('izVrijwilliger')
@@ -98,6 +111,8 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->setParameter('einddatum', $endDate)
                 ;
                 break;
+            default:
+                throw new \RuntimeException("Unknown report filter '{$report}' in class ".__CLASS__);
         }
     }
 }

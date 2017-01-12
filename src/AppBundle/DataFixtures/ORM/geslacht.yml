@@ -1,0 +1,10 @@
+AppBundle\Entity\Geslacht:
+    geslacht_man:
+        afkorting: 'M'
+        volledig: 'Man'
+    geslacht_vrouw:
+        afkorting: 'V'
+        volledig: 'Vrouw'
+    geslacht_onbekend:
+        afkorting: 'onb'
+        volledig: 'Onbekend'

@@ -1,0 +1,13 @@
+IzBundle\Entity\IzVraagAanbod:
+    iz_vraag_aanbod_Overig:
+        naam: Overig
+    iz_vraag_aanbod_Overleden:
+        naam: Overleden
+    iz_vraag_aanbod_Verhuisd:
+        naam: Verhuisd
+    iz_vraag_aanbod_Onbereikbaar:
+        naam: Onbereikbaar
+    iz_vraag_aanbod_Foutieve invoer:
+        naam: Foutieve invoer
+    iz_vraag_aanbod_Niet meer nodig:
+        naam: Niet meer nodig

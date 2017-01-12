@@ -1,0 +1,26 @@
+AppBundle\Entity\Klant:
+    klant_{1..200}:
+        roepnaam: '<firstname()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        geslacht: '@geslacht_*'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        laatsteTbcControle: '<dateTimeThisDecade()>'
+        laatsteZrm: '<dateTimeThisDecade()>'
+        laatsteIntakeId: 1
+        laatsteRegistratieId: 1
+        overleden: '10%? 1 : 0'
+        disabled: '10%? 1 : 0'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'
+        werkgebied: 'Centrum'
+        geenPost: '10%? 1 : 0'
+        geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_*'
+        nationaliteit: '@nationaliteit_*'

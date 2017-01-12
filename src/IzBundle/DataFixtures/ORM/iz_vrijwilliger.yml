@@ -1,0 +1,6 @@
+IzBundle\Entity\IzVrijwilliger:
+    iz_vrijwilliger_{1..100}:
+        vrijwilliger (unique): '@vrijwilliger_*'
+        datumAanmelding: '<dateTimeThisDecade()>'
+        afsluitDatum: '30%? <dateTimeThisDecade()>'
+        izAfsluiting: '30%? @iz_afsluiting_*'

@@ -36,6 +36,11 @@ class IzProject
      */
     private $einddatum;
 
+    /**
+     * @Column(name="heeft_koppelingen", type="boolean")
+     */
+    private $heeftKoppelingen;
+
     public function getId()
     {
         return $this->id;
@@ -57,4 +62,41 @@ class IzProject
 
         return $this;
     }
+
+    public function getHeeftKoppelingen()
+    {
+        return $this->heeftKoppelingen;
+    }
+
+    public function setHeeftKoppelingen($heeftKoppelingen)
+    {
+        $this->heeftKoppelingen = $heeftKoppelingen;
+
+        return $this;
+    }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum)
+    {
+        $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
 }
