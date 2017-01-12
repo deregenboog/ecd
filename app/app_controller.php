@@ -110,6 +110,10 @@ class AppController extends Controller
             'GroepsactiviteitenIntakes',
             'GroepsactiviteitenVerslagen',
         ],
+        'HsKlanten' => [
+            'HsKlanten',
+            'HsVrijwilligers',
+        ],
         'Admin' => [
             'Admin',
             'ZrmSettings',
