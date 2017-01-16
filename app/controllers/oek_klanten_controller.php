@@ -1,16 +1,15 @@
 <?php
 
 use AppBundle\Entity\Klant;
-use OekBundle\Entity\HsKlant;
-use OekBundle\Form\HsKlantType;
+use OekBundle\Entity\OekKlant;
+use OekBundle\Form\OekKlantType;
 use AppBundle\Form\KlantFilterType;
-use OekBundle\Form\HsKlantSelectType;
+use OekBundle\Form\OekKlantSelectType;
 use Doctrine\DBAL\Driver\PDOException;
-use OekBundle\Form\HsKlantFilterType;
+use OekBundle\Form\OekKlantFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
-use OekBundle\Entity\HsMemo;
-use OekBundle\Form\HsMemoType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OekKlantenController extends AppController
@@ -32,23 +31,23 @@ class OekKlantenController extends AppController
     ];
 
     private $sortFieldWhitelist = [
-        'hsKlant.id',
+        'oekKlant.id',
         'klant.achternaam',
         'klant.werkgebied',
     ];
 
     public function index()
     {
-        $filter = $this->createForm(HsKlantFilterType::class, null, [
+        $filter = $this->createForm(OekKlantFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
         $filter->handleRequest($this->request);
 
         $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(HsKlant::class);
+        $repository = $entityManager->getRepository(OekKlant::class);
 
-        $builder = $repository->createQueryBuilder('hsKlant')
-            ->innerJoin('hsKlant.klant', 'klant')
+        $builder = $repository->createQueryBuilder('oekKlant')
+            ->innerJoin('oekKlant.klant', 'klant')
             ->andWhere('klant.disabled = false')
         ;
 
@@ -70,8 +69,8 @@ class OekKlantenController extends AppController
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
-        $hsKlant = $entityManager->find(HsKlant::class, $id);
-        $this->set('hsKlant', $hsKlant);
+        $oekKlant = $entityManager->find(OekKlant::class, $id);
+        $this->set('oekKlant', $oekKlant);
     }
 
     public function add($klantId = null)
@@ -84,10 +83,10 @@ class OekKlantenController extends AppController
                 $klant = $entityManager->find(Klant::class, $klantId);
             }
 
-            $hsKlant = new HsKlant();
-            $hsKlant->setKlant($klant);
+            $oekKlant = new OekKlant();
+            $oekKlant->setKlant($klant);
 
-            $creationForm = $this->createForm(HsKlantType::class, $hsKlant);
+            $creationForm = $this->createForm(OekKlantType::class, $oekKlant);
             $creationForm->add('memo', TextareaType::class, [
                 'label' => 'Intake-memo',
                 'mapped' => false,
@@ -97,19 +96,15 @@ class OekKlantenController extends AppController
 
             if ($creationForm->isValid()) {
                 try {
-                    $hsMemo = new HsMemo($hsKlant->getKlant()->getMedewerker());
-                    $hsMemo->setMemo($creationForm->get('memo')->getData());
-                    $hsKlant->addHsMemo($hsMemo);
-
-                    $entityManager->persist($hsKlant);
+                    $entityManager->persist($oekKlant);
                     $entityManager->flush();
 
                     $this->Session->setFlash('Klant is opgeslagen.');
 
-                    return $this->redirect(array('action' => 'view', $hsKlant->getId()));
+                    return $this->redirect(array('action' => 'view', $oekKlant->getId()));
                 } catch (\Exception $e) {
                     if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
-                        $this->Session->setFlash('Deze klant heeft al een Homeservice-dossier.');
+                        $this->Session->setFlash('Deze klant heeft al een Op-eigen-kracht-dossier.');
                     } else {
                         $this->Session->setFlash('Er is een fout opgetreden.');
                     }
@@ -128,7 +123,7 @@ class OekKlantenController extends AppController
         ]);
         $filterForm->handleRequest($this->request);
 
-        $selectionForm = $this->createForm(HsKlantSelectType::class, null, [
+        $selectionForm = $this->createForm(OekKlantSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
         $selectionForm->handleRequest($this->request);
@@ -140,9 +135,9 @@ class OekKlantenController extends AppController
         }
 
         if ($selectionForm->isValid()) {
-            $hsKlant = $selectionForm->getData();
-            if ($hsKlant->getKlant() instanceof Klant) {
-                return $this->redirect(['action' => 'add', $hsKlant->getKlant()->getId()]);
+            $oekKlant = $selectionForm->getData();
+            if ($oekKlant->getKlant() instanceof Klant) {
+                return $this->redirect(['action' => 'add', $oekKlant->getKlant()->getId()]);
             }
 
             return $this->redirect(['action' => 'add', 'new']);
@@ -154,9 +149,9 @@ class OekKlantenController extends AppController
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
-        $hsKlant = $entityManager->find(HsKlant::class, $id);
+        $oekKlant = $entityManager->find(OekKlant::class, $id);
 
-        $form = $this->createForm(HsKlantType::class, $hsKlant);
+        $form = $this->createForm(OekKlantType::class, $oekKlant);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
@@ -172,19 +167,19 @@ class OekKlantenController extends AppController
         }
 
         $this->set('form', $form->createView());
-        $this->set('hsKlant', $hsKlant);
+        $this->set('oekKlant', $oekKlant);
     }
 
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
-        $hsKlant = $entityManager->find(HsKlant::class, $id);
+        $oekKlant = $entityManager->find(OekKlant::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $entityManager->remove($hsKlant);
+            $entityManager->remove($oekKlant);
             $entityManager->flush();
 
             $this->Session->setFlash('Klant is verwijderd.');
@@ -192,61 +187,7 @@ class OekKlantenController extends AppController
             return $this->redirect(array('action' => 'index'));
         }
 
-        $this->set('hsKlant', $hsKlant);
-        $this->set('form', $form->createView());
-    }
-
-    public function memos_index($hsKlantId)
-    {
-        $entityManager = $this->getEntityManager();
-        $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
-
-        $builder = $entityManager->getRepository(HsMemo::class)->createQueryBuilder('hsMemo')
-            ->innerJoin(HsKlant::class, 'hsKlant', 'WITH', 'hsKlant = :hsKlant')
-            ->innerJoin('hsKlant.hsMemos', 'hsMemos', 'WITH', 'hsMemos = hsMemo')
-            ->setParameter('hsKlant', $hsKlant)
-        ;
-
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'hsMemo.datum',
-            'defaultSortDirection' => 'desc',
-            'sortFieldWhitelist' => ['hsMemo.datum'],
-        ]);
-
-        $this->set('hsKlant', $hsKlant);
-        $this->set('pagination', $pagination);
-    }
-
-    public function memos_add($hsKlantId)
-    {
-        $entityManager = $this->getEntityManager();
-        $hsKlant = $entityManager->find(HsKlant::class, $hsKlantId);
-
-        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
-        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
-
-        $hsMemo = new HsMemo($medewerker);
-        if (count($hsKlant->getHsMemos()) === 0) {
-            $hsMemo->setIntake(true);
-        }
-
-        $form = $this->createForm(HsMemoType::class, $hsMemo);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            try {
-                $hsKlant->addHsMemo($hsMemo);
-                $entityManager->flush();
-
-                $this->Session->setFlash('Memo is opgeslagen.');
-            } catch (\Exception $e) {
-                $this->Session->setFlash('Er is een fout opgetreden.');
-            } finally {
-                return $this->redirect(array('action' => 'view', $hsKlant->getId()));
-            }
-        }
-
-        $this->set('hsKlant', $hsKlant);
+        $this->set('oekKlant', $oekKlant);
         $this->set('form', $form->createView());
     }
 }
