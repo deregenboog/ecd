@@ -16,10 +16,10 @@ class KoppelingenPerStadsdeel extends AbstractKoppelingenReport
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countByStadsdeel('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->countByStadsdeel('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->countByStadsdeel('afgesloten', $this->startDate, $this->endDate);
-        $this->succesvolAfgesloten = $this->repository->countByStadsdeel('succesvol_afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->countByStadsdeel('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->countKoppelingenByStadsdeel('beginstand', $this->startDate, $this->endDate);
+        $this->gestart = $this->repository->countKoppelingenByStadsdeel('gestart', $this->startDate, $this->endDate);
+        $this->afgesloten = $this->repository->countKoppelingenByStadsdeel('afgesloten', $this->startDate, $this->endDate);
+        $this->succesvolAfgesloten = $this->repository->countKoppelingenByStadsdeel('succesvol_afgesloten', $this->startDate, $this->endDate);
+        $this->eindstand = $this->repository->countKoppelingenByStadsdeel('eindstand', $this->startDate, $this->endDate);
     }
 }
