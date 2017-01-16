@@ -7,6 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\GaGroepRepository")
  */
-class GaGroepErOpUit extends GaGroep
+class GaGroepKwartiermaken extends GaGroep
 {
 }

@@ -90,28 +90,7 @@
     ?>
     &nbsp;&nbsp;
     <?php
-        if ($this->action == 'rapportages') {
-            echo $html->link(
-                'Rapportages OUD',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'rapportages',
-                ),
-                array('class' => 'selected')
-            );
-        } else {
-            echo $html->link(
-                'Rapportages OUD',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'rapportages',
-                )
-            );
-        }
-    ?>
-    &nbsp;&nbsp;
-    <?php
-        echo $html->link('Rapportages NIEUW', array(
+        echo $html->link('Rapportages', array(
             'controller' => 'groepsactiviteiten_rapportages',
             'action' => 'index',
         ));

@@ -22,7 +22,7 @@ class GroepsactiviteitenGroepenController extends AppController
         }
 
         $this->paginate = array(
-                'conditions' => $conditions,
+            'conditions' => $conditions,
         );
 
         $this->set('groepsactiviteitenGroepen', $this->paginate());
@@ -41,9 +41,7 @@ class GroepsactiviteitenGroepenController extends AppController
             }
         }
 
-        $werkgebieden = Configure::read('Werkgebieden');
-
-        $this->set('werkgebieden', $werkgebieden);
+        $this->set('werkgebieden', Configure::read('Werkgebieden'));
     }
 
     public function edit($id = null)
@@ -67,6 +65,8 @@ class GroepsactiviteitenGroepenController extends AppController
             $this->GroepsactiviteitenGroep->recursive = 0;
             $this->data = $this->GroepsactiviteitenGroep->read(null, $id);
         }
+
+        $this->set('werkgebieden', Configure::read('Werkgebieden'));
     }
 
     public function export($id, $persoon_model = 'Klant')
