@@ -19,13 +19,12 @@ class GaKlantDeelname
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $klant;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GaActiviteit")
-     * @ORM\JoinColumn(name="groepsactiviteit_id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="GaActiviteit", inversedBy="gaKlantDeelnames")
+     * @ORM\JoinColumn(name="groepsactiviteit_id")
      */
     private $gaActiviteit;
 
@@ -43,10 +42,6 @@ class GaKlantDeelname
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
-
-    public function __construct()
-    {
-    }
 
     public function getId()
     {
