@@ -114,6 +114,9 @@ class AppController extends Controller
             'HsKlanten',
             'HsVrijwilligers',
         ],
+        'OekKlanten' => [
+            'OekKlanten'
+        ],
         'Admin' => [
             'Admin',
             'ZrmSettings',
