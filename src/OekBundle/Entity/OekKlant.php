@@ -32,7 +32,7 @@ class OekKlant
     private $verwijzingDoor;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $afsluiting;
 
@@ -122,7 +122,7 @@ class OekKlant
     public function setAanmelding(\DateTime $aanmelding)
     {
         $this->aanmelding = $aanmelding;
-        
+
         return $this;
     }
 
@@ -205,5 +205,10 @@ class OekKlant
         $this->oekTrainingen->remove($oekTraining);
 
         return $this;
+    }
+
+    public function isDeletable()
+    {
+        return count($this->oekGroepen) === 0 && count($this->oekTrainingen) === 0;
     }
 }

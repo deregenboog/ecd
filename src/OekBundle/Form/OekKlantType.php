@@ -35,7 +35,7 @@ class OekKlantType extends AbstractType
             $builder->add('klant', KlantType::class);
         }
 
-        $builder->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')]);
+        $builder->add('aanmelding', AppDateType::class, ['data' => new \DateTime('today')]);
         $builder->add('verwijzingDoor');
         $builder->add('verwijzingNaar');
     }
