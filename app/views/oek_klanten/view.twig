@@ -1,0 +1,42 @@
+{% include 'oek_subnavigation.twig' %}
+
+<h1>
+    Klant {{ oekKlant.klant.naam }}
+    {{ html.editLink({'action': 'edit', 0: oekKlant.id})|raw }}
+    {% if oekKlant.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: oekKlant.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ oekKlant.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ oekKlant.klant.naam }}</dd>
+    <dt>
+        Groepen
+        {{ html.addLink({'controller': 'oek_groepen', 'action': 'add', 0: oekKlant.id})|raw }}
+    </dt>
+    <dd>
+        <ul>
+            {% for oekGroep in oekKlant.oekGroepen %}
+                <li>
+                    {{ html.link(oekGroep, {'controller': 'oek_groepen', 'action': 'view', 0: oekGroep.id})|raw }}
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+    <dt>
+        Trainingen
+        {{ html.addLink({'controller': 'oek_trainingen', 'action': 'add', 0: oekKlant.id})|raw }}
+    </dt>
+    <dd>
+        <ul>
+            {% for oekTraining in oekKlant.oekTrainingen %}
+                <li>
+                    {{ html.link(oekTraining, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>
