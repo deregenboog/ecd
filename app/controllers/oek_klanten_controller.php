@@ -87,11 +87,6 @@ class OekKlantenController extends AppController
             $oekKlant->setKlant($klant);
 
             $creationForm = $this->createForm(OekKlantType::class, $oekKlant);
-            $creationForm->add('memo', TextareaType::class, [
-                'label' => 'Intake-memo',
-                'mapped' => false,
-                'attr' => ['rows' => 10, 'cols' => 80],
-            ]);
             $creationForm->handleRequest($this->request);
 
             if ($creationForm->isValid()) {

@@ -83,22 +83,8 @@ class OekTraining
         $this->modified = new \DateTime();
     }
 
-    /**
-     * OekTraining constructor.
-     * @param string   $naam
-     * @param string   $locatie
-     * @param DateTime $start
-     * @param DateTime $eind
-     * @param OekGroep $oekGroep
-     */
-    public function __construct($naam, $locatie, DateTime $start, DateTime $eind, OekGroep $oekGroep)
+    public function __construct()
     {
-        $this->naam       = $naam;
-        $this->locatie    = $locatie;
-        $this->startDatum = $start;
-        $this->startTijd  = $start;
-        $this->eindDatum  = $eind;
-        $this->oekGroep   = $oekGroep;
         $this->oekKlanten = new ArrayCollection();
     }
 
