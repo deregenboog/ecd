@@ -1,6 +1,6 @@
 <?php
 
-namespace HsBundle\Form;
+namespace OekBundle\Form;
 
 use AppBundle\Form\AppTimeType;
 use OekBundle\Entity\OekTraining;
