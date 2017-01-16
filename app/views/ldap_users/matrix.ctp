@@ -20,6 +20,7 @@
 <table>
     <tr>
        <th>Gebruiker / Groep</th>
+       <th>ID</th>
        <?php foreach (array_keys($permissions) as $gid): ?>
            <th><?= $gid ?></th>
        <?php endforeach; ?>
@@ -27,6 +28,7 @@
     <?php foreach ($ldap_users as $uid => $ldap_user): ?>
         <tr>
             <td><?= $ldap_user['cn'] ?> (<?= $uid ?>)</td>
+            <td><?= isset($ldap_user['id']) ? $ldap_user['id'] : '' ?></td>
            <?php foreach ($permissions as $gid => $permission): ?>
                <td><?= (array_key_exists($gid, $ldap_user['groups'])) ? 'X' : '' ?></td>
            <?php endforeach; ?>

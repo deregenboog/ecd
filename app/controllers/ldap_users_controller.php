@@ -37,7 +37,16 @@ class LdapUsersController extends AppController
         }
         ksort($ldapUsers);
 
+        $medewerkers = [];
+        $result = $this->Medewerker->query('SELECT id, username FROM medewerkers');
+        foreach ($result as $row) {
+            $medewerkers[$row['medewerkers']['username']] = $row['medewerkers']['id'];
+        }
+
         foreach ($ldapUsers as $uid => $ldapUser) {
+            if (key_exists($uid, $medewerkers)) {
+                $ldapUsers[$uid]['id'] = $medewerkers[$uid];
+            }
             $ldapUsers[$uid]['groups'] = [];
             foreach ($this->LdapUser->getGroups($uid) as $group) {
                 $gid = $group['gidnumber'];
