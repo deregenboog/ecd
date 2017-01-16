@@ -1,10 +1,9 @@
 <?php
 
-namespace IzBundle\DependencyInjection\Compiler;
+namespace GaBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 class ReportsCompilerPass implements CompilerPassInterface
 {
@@ -13,12 +12,14 @@ class ReportsCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $definition = $container->getDefinition('iz.form.rapportage');
+        $definition = $container->getDefinition('ga.form.rapportage');
 
         $reports = [];
-        foreach ($container->findTaggedServiceIds('iz.rapportage') as $id => $params) {
+        foreach ($container->findTaggedServiceIds('ga.rapportage') as $id => $params) {
+            $report = $container->getDefinition($id);
+            $report->addMethodCall('setTitle', [$params[0]['title']]);
             $category = $params[0]['category'];
-            $reports[$category][$id] = new Reference($id);
+            $reports[$category][$id] = $report;
         }
 
         $definition->addArgument($reports);

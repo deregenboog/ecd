@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GaBundle\Repository\GaGroepRepository")
  * @ORM\Table(name="groepsactiviteiten_groepen")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *     "ErOpUit" = "GaGroepErOpUit",
  *     "Buurtmaatjes" = "GaGroepBuurtmaatjes",
+ *     "Kwartiermaken" = "GaGroepKwartiermaken",
  *     "OpenHuis" = "GaGroepOpenHuis",
  *     "Organisatie" = "GaGroepOrganisatie"
  * })
@@ -51,7 +52,7 @@ abstract class GaGroep
      */
     protected $einddatum;
 
-        /**
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $created;
@@ -100,6 +101,7 @@ abstract class GaGroep
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 
@@ -111,6 +113,7 @@ abstract class GaGroep
     public function setWerkgebied($werkgebied)
     {
         $this->werkgebied = $werkgebied;
+
         return $this;
     }
 
@@ -122,6 +125,7 @@ abstract class GaGroep
     public function setActiviteitenRegistreren($activiteitenRegistreren)
     {
         $this->activiteitenRegistreren = $activiteitenRegistreren;
+
         return $this;
     }
 
@@ -133,6 +137,7 @@ abstract class GaGroep
     public function setStartdatum($startdatum)
     {
         $this->startdatum = $startdatum;
+
         return $this;
     }
 
@@ -144,6 +149,7 @@ abstract class GaGroep
     public function setEinddatum($einddatum)
     {
         $this->einddatum = $einddatum;
+
         return $this;
     }
 

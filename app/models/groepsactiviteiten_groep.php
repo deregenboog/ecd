@@ -3,50 +3,50 @@
 class GroepsactiviteitenGroep extends AppModel
 {
     public $name = 'GroepsactiviteitenGroep';
+
     public $displayField = 'naam';
 
     public $actsAs = array('Containable');
 
     public $validate = array(
-            'naam' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een reden in',
-                            'allowEmpty' => false,
-                            'required' => true,
-                    ),
+        'naam' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een reden in',
+                'allowEmpty' => false,
+                'required' => true,
             ),
-            'werkgebied' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een werkgebied in',
-                            'allowEmpty' => false,
-                            'required' => true,
-                    ),
+        ),
+        'werkgebied' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een werkgebied in',
+                'allowEmpty' => false,
+                'required' => true,
             ),
-            'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een startdatum in',
-                            'allowEmpty' => false,
-                            'required' => true,
-                    ),
+        ),
+        'startdatum' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een startdatum in',
+                'allowEmpty' => false,
+                'required' => true,
             ),
-            'einddatum' => array(
-                    'datecompare' => array(
-                            'rule' => array(
-                                    'compareDates',
-                            ),
-                            'message' => 'Einddatum moet later dan startdatum zijn',
-                    ),
+        ),
+        'einddatum' => array(
+            'datecompare' => array(
+                'rule' => array(
+                    'compareDates',
+                ),
+                'message' => 'Einddatum moet later dan startdatum zijn',
             ),
-
+        ),
     );
 
     public function compareDates()
@@ -112,6 +112,7 @@ class GroepsactiviteitenGroep extends AppModel
     );
 
     public $list_cache_key = 'GroepsactiviteitenGroep.list_cache_key';
+
     public $list_cache_key_all = 'GroepsactiviteitenGroep.list_cache_key_all';
 
     public function save($data = null, $validate = true, $fieldList = [])

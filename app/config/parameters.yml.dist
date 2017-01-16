@@ -1,4 +1,5 @@
 parameters:
+    ACL.disabled: false
     database_driver: pdo_mysql
     database_host: database
     database_port: 3306

@@ -76,7 +76,7 @@ parameters:
         GROUP_IZ_BEHEER: 10462
         GROUP_BEHEER_GROEPSACTIVITEIT: 10463
 
-        ACL.disabled: false
+        ACL.disabled: '%ACL.disabled%'
         ACL.permissions:
             GROUP_REPORT:
                 - Rapportages
@@ -182,12 +182,13 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
             GROUP_GROEPSACTIVITEIT:
-                - Vrijwilligers
-                - Groepsactiviteiten
                 - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
-                - Attachments
+                - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
