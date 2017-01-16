@@ -59,8 +59,14 @@ class OekKlant
     private $klant;
 
     /**
+     * @var ArrayCollection|OekGroep[]
+     * @ORM\ManyToMany(targetEntity="OekGroep", mappedBy="oekKlanten")
+     */
+    private $oekGroepen;
+
+    /**
      * @var ArrayCollection|OekTraining[]
-     * @ORM\OneToMany(targetEntity="OekTraining", mappedBy="oekKlant")
+     * @ORM\ManyToMany(targetEntity="OekTraining", mappedBy="oekKlanten")
      */
     private $oekTrainingen;
 
@@ -82,6 +88,7 @@ class OekKlant
 
     public function __construct()
     {
+        $this->oekGroepen    = new ArrayCollection();
         $this->oekTrainingen = new ArrayCollection();
     }
 
@@ -164,6 +171,25 @@ class OekKlant
     public function getModified()
     {
         return $this->modified;
+    }
+
+    public function getOekGroepen()
+    {
+        return $this->oekGroepen;
+    }
+
+    public function addOekGroep(OekGroep $oekGroep)
+    {
+        $this->oekGroepen->add($oekGroep);
+
+        return $this;
+    }
+
+    public function removeOekGroep(OekGroep $oekGroep)
+    {
+        $this->oekGroepen->remove($oekGroep);
+
+        return $this;
     }
 
     public function getOekTrainingen()
