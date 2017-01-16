@@ -114,19 +114,15 @@ class OekKlant
         return $this;
     }
 
-    public function getHsKlussen()
-    {
-        return $this->hsKlussen;
-    }
-
     public function getAanmelding()
     {
         return $this->aanmelding;
     }
 
-    public function setAanmelding($aanmelding)
+    public function setAanmelding(\DateTime $aanmelding)
     {
         $this->aanmelding = $aanmelding;
+        
         return $this;
     }
 
