@@ -182,12 +182,13 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
             GROUP_GROEPSACTIVITEIT:
-                - Vrijwilligers
-                - Groepsactiviteiten
                 - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
-                - Attachments
+                - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen

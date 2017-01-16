@@ -138,7 +138,7 @@ class AppController extends Controller
      *
      * @param String $controller The controller name
      */
-    public function _isControllerAuthorized ($controller)
+    public function _isControllerAuthorized($controller)
     {
         if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             return true;
