@@ -105,6 +105,13 @@ class OekGroep
         return $this->oekKlanten;
     }
 
+    public function setOekKlanten($oekKlanten = [])
+    {
+        $this->oekKlanten = $oekKlanten;
+
+        return $this;
+    }
+
     public function addOekKlant(OekKlant $oekKlant)
     {
         $this->oekKlanten->add($oekKlant);
