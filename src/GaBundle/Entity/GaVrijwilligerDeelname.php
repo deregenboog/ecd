@@ -24,7 +24,7 @@ class GaVrijwilligerDeelname
     private $vrijwilliger;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GaActiviteit")
+     * @ORM\ManyToOne(targetEntity="GaActiviteit", inversedBy="gaVrijwilligerDeelnames")
      * @ORM\JoinColumn(name="groepsactiviteit_id", nullable=true)
      */
     private $gaActiviteit;

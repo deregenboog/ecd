@@ -16,10 +16,10 @@ class KoppelingenPerPostcodegebied extends AbstractKoppelingenReport
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countByPostcodegebied('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->countByPostcodegebied('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->countByPostcodegebied('afgesloten', $this->startDate, $this->endDate);
-        $this->succesvolAfgesloten = $this->repository->countByPostcodegebied('succesvol_afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->countByPostcodegebied('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->countKoppelingenByPostcodegebied('beginstand', $this->startDate, $this->endDate);
+        $this->gestart = $this->repository->countKoppelingenByPostcodegebied('gestart', $this->startDate, $this->endDate);
+        $this->afgesloten = $this->repository->countKoppelingenByPostcodegebied('afgesloten', $this->startDate, $this->endDate);
+        $this->succesvolAfgesloten = $this->repository->countKoppelingenByPostcodegebied('succesvol_afgesloten', $this->startDate, $this->endDate);
+        $this->eindstand = $this->repository->countKoppelingenByPostcodegebied('eindstand', $this->startDate, $this->endDate);
     }
 }

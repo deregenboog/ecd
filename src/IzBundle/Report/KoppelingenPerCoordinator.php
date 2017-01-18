@@ -16,10 +16,10 @@ class KoppelingenPerCoordinator extends AbstractKoppelingenReport
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countByCoordinator('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->countByCoordinator('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->countByCoordinator('afgesloten', $this->startDate, $this->endDate);
-        $this->succesvolAfgesloten = $this->repository->countByCoordinator('succesvol_afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->countByCoordinator('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->countKoppelingenByCoordinator('beginstand', $this->startDate, $this->endDate);
+        $this->gestart = $this->repository->countKoppelingenByCoordinator('gestart', $this->startDate, $this->endDate);
+        $this->afgesloten = $this->repository->countKoppelingenByCoordinator('afgesloten', $this->startDate, $this->endDate);
+        $this->succesvolAfgesloten = $this->repository->countKoppelingenByCoordinator('succesvol_afgesloten', $this->startDate, $this->endDate);
+        $this->eindstand = $this->repository->countKoppelingenByCoordinator('eindstand', $this->startDate, $this->endDate);
     }
 }

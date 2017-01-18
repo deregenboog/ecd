@@ -18,7 +18,7 @@ class GaVrijwilligerLidmaatschap
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GaGroep")
+     * @ORM\ManyToOne(targetEntity="GaGroep", inversedBy="gaVrijwilligerLeden")
      * @ORM\JoinColumn(name="groepsactiviteiten_groep_id", nullable=false)
      */
     private $gaGroep;
