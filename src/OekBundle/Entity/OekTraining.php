@@ -163,4 +163,8 @@ class OekTraining
 
         return $this;
     }
+
+    public function isDeletable() {
+        return $this->eindDatum < (new \DateTime());
+    }
 }

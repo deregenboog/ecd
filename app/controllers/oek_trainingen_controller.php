@@ -18,9 +18,7 @@ class OekTrainingenController extends AppController
 
     private $sortFieldWhitelist = [
         'oekTraining.id',
-        'oekTraining.startDatum',
-        'klant.achternaam',
-        'klant.werkgebied',
+        'oekTraining.startDatum'
     ];
 
     public function index()
@@ -29,9 +27,8 @@ class OekTrainingenController extends AppController
         $repository = $entityManager->getRepository(OekTraining::class);
 
         $builder = $repository->createQueryBuilder('oekTraining')
-            ->innerJoin('oekTraining.oekKlanten', 'oekKlanten')
-            ->innerJoin('oekTraining.oekGroep', 'oekGroep')
-            ->innerJoin('oekKlanten.klant', 'klant');
+            ->leftJoin('oekTraining.oekKlanten', 'oekKlanten')
+            ->innerJoin('oekTraining.oekGroep', 'oekGroep');
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekTraining.startDatum',

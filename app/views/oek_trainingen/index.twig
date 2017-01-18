@@ -1,0 +1,47 @@
+{% include 'oek_subnavigation.twig' %}
+
+<h1>Trainingen</h1>
+
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('OEK-training toevoegen', {'action': 'add'})|raw }}
+</p>
+
+<table>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'oekTraining.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Naam', 'oekTraining.naam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Groep', 'oekTraining.oekGroep') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Aantal klanten', 'oekTraining.oekKlanten') }}
+        </th>
+        <th></th>
+    </tr>
+    {% for oekTraining in pagination %}
+    <tr>
+        <td>
+            {{ html.link(oekTraining.id, {'action': 'view', 0: oekTraining.id})|raw }}
+        </td>
+        <td>{{ oekTraining.naam }}</td>
+        <td>{{ oekTraining.oekGroep.naam }}</td>
+        <td>{{ oekTraining.oekKlanten.count() }}</td>
+        <td>
+            {{ html.viewLink({'action': 'view', 0: oekTraining.id})|raw }}
+            {{ html.editLink({'action': 'edit', 0: oekTraining.id})|raw }}
+            {% if oekTraining.deletable %}
+                {{ html.deleteLink({'action': 'delete', 0: oekTraining.id})|raw }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

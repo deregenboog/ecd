@@ -1,0 +1,36 @@
+{% include 'oek_subnavigation.twig' %}
+
+<h1>{{ oekGroep }}</h1>
+
+<p>
+    {{ html.editLink({'action': 'edit', 0: oekGroep.id})|raw }}
+    {{ html.link('Groep wijzigen', {'action': 'edit', 0: oekGroep.id})|raw }}
+    {% if oekGroep.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: oekGroep.id})|raw }}
+    {% endif %}
+</p>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ oekGroep.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ oekGroep.naam }}</dd>
+    <dt>Klanten</dt>
+    <dd>
+        <ul>
+        {% for oekKlant in oekGroep.oekKlanten %}
+            <li>{{ html.link(oekKlant, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}</li>
+        {% endfor %}
+        </ul>
+        &nbsp;
+    </dd>
+    <dt>Trainingen</dt>
+    <dd>
+        <ul>
+        {% for oekTraining in oekGroep.oekTrainingen %}
+            <li>{{ html.link(oekTraining, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}</li>
+        {% endfor %}
+        </ul>
+        &nbsp;
+    </dd>
+</dl>

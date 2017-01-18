@@ -18,9 +18,7 @@ class OekGroepenController extends AppController
 
     private $sortFieldWhitelist = [
         'oekGroep.id',
-        'oekGroep.naam',
-        'klant.achternaam',
-        'klant.werkgebied',
+        'oekGroep.naam'
     ];
 
     public function index()
@@ -29,9 +27,8 @@ class OekGroepenController extends AppController
         $repository = $entityManager->getRepository(OekGroep::class);
 
         $builder = $repository->createQueryBuilder('oekGroep')
-            ->innerJoin('oekGroep.oekKlanten', 'oekKlanten')
-            ->innerJoin('oekGroep.oekTrainingen', 'oekTrainingen')
-            ->innerJoin('oekKlanten.klant', 'klant');
+            ->leftJoin('oekGroep.oekKlanten', 'oekKlanten')
+            ->leftJoin('oekGroep.oekTrainingen', 'oekTrainingen');
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekGroep.naam',
