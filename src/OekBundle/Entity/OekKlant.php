@@ -37,7 +37,7 @@ class OekKlant
     private $afsluiting;
 
     /**
-     * @ORM\Column(name="verwijzing_naar", nullable=false)
+     * @ORM\Column(name="verwijzing_naar", nullable=true)
      */
     private $verwijzingNaar;
 

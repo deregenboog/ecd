@@ -21,8 +21,6 @@
             {{ form_errors(filter.klant.naam) }}
         </th>
         <th>
-        </th>
-        <th>
             {{ form_widget(filter.klant.stadsdeel) }}
             {{ form_errors(filter.klant.stadsdeel) }}
         </th>
@@ -41,8 +39,7 @@
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
         </th>
-        <th>
-        </th>
+        <th></th>
     </tr>
     {% for oekKlant in pagination %}
     <tr>

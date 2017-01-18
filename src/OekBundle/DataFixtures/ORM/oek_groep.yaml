@@ -1,0 +1,10 @@
+OekBundle\Entity\OekGroep:
+    oek_groep_{1..10}:
+        klant          : '@klant_*'
+
+        naam           : '<sentence()>'
+
+        oek_klanten    : '<numberBetween(1, 10)>x @oek_klant_*'
+
+        created        : '<dateTimeThisDecade()>'
+        modified       : '<dateTimeThisDecade()>'

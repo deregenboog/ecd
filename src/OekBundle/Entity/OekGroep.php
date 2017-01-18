@@ -78,6 +78,18 @@ class OekGroep
         return $this->id;
     }
 
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
     public function getCreated()
     {
         return $this->created;
@@ -124,5 +136,10 @@ class OekGroep
         $this->oekTrainingen->remove($oekTraining);
 
         return $this;
+    }
+
+    public function isDeletable()
+    {
+        return $this->oekKlanten->count() == 0;
     }
 }

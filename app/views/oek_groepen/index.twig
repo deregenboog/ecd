@@ -1,53 +1,41 @@
-{% include 'hs_subnavigation.twig' %}
+{% include 'oek_subnavigation.twig' %}
 
-<h1>Klussen</h1>
+<h1>Groepen</h1>
 
 <p>
     {{ html.addLink({'action': 'add'})|raw }}
-    {{ html.link('HomeService-klus toevoegen', {'action': 'add'})|raw }}
+    {{ html.link('OEK-groep toevoegen', {'action': 'add'})|raw }}
 </p>
 
 <table>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, '#', 'hsKlus.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'oekGroep.id') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Datum', 'hsKlus.datum') }}
+            {{ knp_pagination_sortable(pagination, 'Naam', 'oekGroep.naam') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+            {{ knp_pagination_sortable(pagination, 'Aantal klanten', 'oekGroep.oekKlanten') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+            {{ knp_pagination_sortable(pagination, 'Aantal trainingen', 'oekGroep.oekTrainingen') }}
         </th>
-        <th>
-            {{ knp_pagination_sortable(pagination, 'Activiteit', 'hsActiviteit.naam') }}
-        </th>
-        <th>Vrijwilliger</th>
-        <th>&nbsp;</th>
+        <th></th>
     </tr>
-    {% for hsKlus in pagination %}
+    {% for oekGroep in pagination %}
     <tr>
         <td>
-            {{ html.link(hsKlus.id, {'action': 'view', 0: hsKlus.id})|raw }}
+            {{ html.link(oekGroep.id, {'action': 'view', 0: oekGroep.id})|raw }}
         </td>
-        <td>{{ hsKlus.datum|date('d-m-Y') }}</td>
-        <td>{{ hsKlus.hsKlant }}</td>
-        <td>{{ hsKlus.hsKlant.klant.werkgebied }}</td>
-        <td>{{ hsKlus.hsActiviteit }}</td>
+        <td>{{ oekGroep.naam }}</td>
+        <td>{{ oekGroep.oekKlanten.count() }}</td>
+        <td>{{ oekGroep.oekTrainingen.count() }}</td>
         <td>
-            <ul>
-                {% for hsVrijwilliger in hsKlus.hsVrijwilligers %}
-                    <li>{{ hsVrijwilliger }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td>
-            {{ html.viewLink({'action': 'view', 0: hsKlus.id})|raw }}
-            {{ html.editLink({'action': 'edit', 0: hsKlus.id})|raw }}
-            {% if hsKlus.deletable %}
-                {{ html.deleteLink({'action': 'delete', 0: hsKlus.id})|raw }}
+            {{ html.viewLink({'action': 'view', 0: oekGroep.id})|raw }}
+            {{ html.editLink({'action': 'edit', 0: oekGroep.id})|raw }}
+            {% if oekGroep.deletable %}
+                {{ html.deleteLink({'action': 'delete', 0: oekGroep.id})|raw }}
             {% endif %}
         </td>
     </tr>
