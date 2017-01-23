@@ -81,8 +81,12 @@ class OekKlantenController extends AppController
         $entityManager = $this->getEntityManager();
 
         if ($klantId) {
-            $klant = new Klant();
-            if ($klantId !== 'new') {
+            if ($klantId === 'new') {
+                $klant = new Klant();
+                $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+                $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+                $klant->setMedewerker($medewerker);
+            } else {
                 $klant = $entityManager->find(Klant::class, $klantId);
             }
 
