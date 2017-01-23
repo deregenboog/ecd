@@ -35,11 +35,20 @@ class EmailMessageType extends AbstractType
             ])
             ->add('subject', null, [
                 'required' => true,
-                'attr' => ['placeholder' => 'Onderwerp'],
+                'label' => 'Onderwerp',
+                'attr' => [
+                    'placeholder' => 'Onderwerp',
+                    'size' => 50,
+                ],
             ])
             ->add('text', TextareaType::class, [
                 'required' => true,
-                'attr' => ['placeholder' => 'Bericht'],
+                'label' => 'Bericht',
+                'attr' => [
+                    'placeholder' => 'Bericht',
+                    'cols' => 50,
+                    'rows' => 20,
+                ],
             ])
             ->add('file1', FileType::class, [
                 'required' => false,
