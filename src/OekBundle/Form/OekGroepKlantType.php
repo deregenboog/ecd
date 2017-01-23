@@ -24,7 +24,7 @@ class OekGroepKlantType extends AbstractType
                     ->where('klant NOT IN (:klanten)')
                     ->setParameter('klanten', $options['data']->getOekKlanten())
                     ;
-            }
+            },
         ]);
     }
 

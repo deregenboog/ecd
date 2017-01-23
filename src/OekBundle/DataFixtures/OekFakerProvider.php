@@ -15,5 +15,4 @@ final class OekFakerProvider
             return Person::firstNameMale();
         }
     }
-
 }

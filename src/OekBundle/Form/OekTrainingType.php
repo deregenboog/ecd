@@ -16,7 +16,6 @@ class OekTrainingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->add('naam');
         $builder->add('locatie');
         $builder->add('oekGroep');

@@ -49,7 +49,7 @@ class OekKlantModel
     {
         $trainingen = [];
 
-        foreach($this->oekKlant->getOekGroepen() as $groep) {
+        foreach ($this->oekKlant->getOekGroepen() as $groep) {
             $trainingen = array_merge($trainingen, $groep->getOekTrainingen()->toArray());
         }
 

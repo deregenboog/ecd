@@ -5,7 +5,6 @@ namespace OekBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -88,7 +87,7 @@ class OekKlant
 
     public function __construct()
     {
-        $this->oekGroepen    = new ArrayCollection();
+        $this->oekGroepen = new ArrayCollection();
         $this->oekTrainingen = new ArrayCollection();
     }
 
@@ -134,6 +133,7 @@ class OekKlant
     public function setVerwijzingDoor($verwijzingDoor)
     {
         $this->verwijzingDoor = $verwijzingDoor;
+
         return $this;
     }
 
@@ -145,6 +145,7 @@ class OekKlant
     public function setAfsluiting($afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
         return $this;
     }
 
@@ -156,6 +157,7 @@ class OekKlant
     public function setVerwijzingNaar($verwijzingNaar)
     {
         $this->verwijzingNaar = $verwijzingNaar;
+
         return $this;
     }
 

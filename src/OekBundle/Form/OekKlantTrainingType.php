@@ -26,7 +26,7 @@ class OekKlantTrainingType extends AbstractType
                     ->setParameter('groepsTrainingen', $options['data']->getOekGroepsTrainingen())
                     ->setParameter('trainingen', $options['data']->getOekTrainingen())
                     ;
-            }
+            },
         ]);
     }
 

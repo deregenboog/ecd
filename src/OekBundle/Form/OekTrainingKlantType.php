@@ -4,8 +4,6 @@ namespace OekBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\OekKlant;
-use OekBundle\Entity\OekTraining;
-use OekBundle\Form\Model\OekKlantModel;
 use OekBundle\Form\Model\OekTrainingModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,7 +26,7 @@ class OekTrainingKlantType extends AbstractType
                     ->setParameter('groepsKlanten', $options['data']->getOekGroepsKlanten())
                     ->setParameter('klanten', $options['data']->getOekKlanten())
                     ;
-            }
+            },
         ]);
     }
 

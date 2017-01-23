@@ -9,7 +9,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Filter\OekKlantFilter;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class OekKlantFilterType extends AbstractType
 {

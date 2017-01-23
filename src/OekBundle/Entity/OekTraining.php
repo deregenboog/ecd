@@ -206,7 +206,8 @@ class OekTraining
         return $this;
     }
 
-    public function isDeletable() {
+    public function isDeletable()
+    {
         return $this->oekKlanten->count() == 0;
     }
 }
