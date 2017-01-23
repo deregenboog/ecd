@@ -41,11 +41,6 @@ class Nationaliteit
      */
     private $modified;
 
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
     public function getId()
     {
         return $this->id;

@@ -1,9 +1,0 @@
-OekBundle\Entity\OekKlant:
-    oek_klant_{1..100}:
-        klant (unique): '@klant_*'
-        aanmelding: '<dateTimeThisDecade()>'
-        verwijzingDoor: '<lastname()>'
-        afsluiting: '50%? <dateTimeThisDecade()>'
-        verwijzingNaar: <koppelingVerwijzingNaar($afsluiting)>
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

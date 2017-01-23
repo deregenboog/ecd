@@ -16,31 +16,22 @@ class VrijwilligerFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('id', $options['enabled_filters'])) {
-            $builder->add('id', null, [
+        $builder
+            ->add('id', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Vrijwilligernummer'],
-            ]);
-        }
-
-        if (in_array('naam', $options['enabled_filters'])) {
-            $builder->add('naam', null, [
+            ])
+            ->add('naam', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Naam vrijwilliger'],
-            ]);
-        }
-
-        if (in_array('geboortedatum', $options['enabled_filters'])) {
-            $builder->add('geboortedatum', BirthdayType::class, [
+            ])
+            ->add('geboortedatum', BirthdayType::class, [
                 'required' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
-            ]);
-        }
-
-        if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
-        }
+            ])
+            ->add('stadsdeel', StadsdeelFilterType::class)
+        ;
     }
 
     /**
@@ -50,14 +41,7 @@ class VrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VrijwilligerFilter::class,
+            'data' => null,
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return FilterType::class;
     }
 }
