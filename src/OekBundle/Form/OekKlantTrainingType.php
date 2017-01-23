@@ -3,26 +3,28 @@
 namespace OekBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
+use OekBundle\Entity\OekTraining;
 use OekBundle\Form\Model\OekKlantModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use OekBundle\Entity\OekGroep;
 
-class OekKlantGroepType extends AbstractType
+class OekKlantTrainingType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('oekGroep', EntityType::class, [
-            'class' => OekGroep::class,
+        $builder->add('oekTraining', EntityType::class, [
+            'class' => OekTraining::class,
             'query_builder' => function (EntityRepository $repository) use ($options) {
-                return $repository->createQueryBuilder('groep')
-                    ->where('groep NOT IN (:groepen)')
-                    ->setParameter('groepen', $options['data']->getOekGroepen())
+                return $repository->createQueryBuilder('training')
+                    ->where('training IN (:groepsTrainingen)')
+                    ->andWhere('training NOT IN (:trainingen)')
+                    ->setParameter('groepsTrainingen', $options['data']->getOekGroepsTrainingen())
+                    ->setParameter('trainingen', $options['data']->getOekTrainingen())
                     ;
             }
         ]);

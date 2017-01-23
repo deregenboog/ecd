@@ -15,7 +15,7 @@
     <dd>{{ oekKlant.klant.naam }}</dd>
     <dt>
         Groepen
-        {{ html.addLink({'controller': 'oek_groepen', 'action': 'add', 0: oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_klanten', 'action': 'voeg_toe_aan_groep', 0: oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>
@@ -29,7 +29,7 @@
     </dd>
     <dt>
         Trainingen
-        {{ html.addLink({'controller': 'oek_trainingen', 'action': 'add', 0: oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_klanten', 'action': 'voeg_toe_aan_training', 0: oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>

@@ -62,7 +62,7 @@ class OekTraining
     private $oekKlanten;
 
     /**
-     * @var ArrayCollection|OekGroep[]
+     * @var OekGroep
      * @ORM\ManyToOne(targetEntity="OekGroep", inversedBy="oekTrainingen")
      */
     private $oekGroep;

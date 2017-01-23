@@ -1,6 +1,8 @@
 <?php
 
 use OekBundle\Entity\OekTraining;
+use OekBundle\Form\Model\OekTrainingModel;
+use OekBundle\Form\OekTrainingKlantType;
 use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
 
@@ -109,6 +111,28 @@ class OekTrainingenController extends AppController
         }
 
         $this->set('oekTraining', $oekTraining);
+        $this->set('form', $form->createView());
+    }
+
+    public function voeg_klant_toe($oekTrainingId)
+    {
+        /** @var OekTraining $oekTraining */
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekTraining::class);
+        $oekTraining = $repository->find($oekTrainingId);
+        $oekTrainingModel = new OekTrainingModel($oekTraining);
+
+        $form = $this->createForm(OekTrainingKlantType::class, $oekTrainingModel);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $entityManager->flush();
+
+            $this->Session->setFlash('Klant is toegevoegd aan groep.');
+
+            return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+        }
+
         $this->set('form', $form->createView());
     }
 }
