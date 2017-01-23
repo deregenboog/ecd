@@ -183,6 +183,7 @@ class OekTraining
     public function addOekKlant(OekKlant $oekKlant)
     {
         $this->oekKlanten->add($oekKlant);
+        $this->oekGroep->getOekKlanten()->removeElement($oekKlant);
 
         return $this;
     }

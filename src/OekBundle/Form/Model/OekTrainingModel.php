@@ -27,7 +27,6 @@ class OekTrainingModel
     public function setOekKlant(OekKlant $klant)
     {
         $this->oekTraining->addOekKlant($klant);
-        $this->oekTraining->getOekGroep()->getOekKlanten()->removeElement($klant);
     }
 
     public function getOekGroepsKlanten()
