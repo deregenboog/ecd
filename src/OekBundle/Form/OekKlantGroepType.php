@@ -19,11 +19,12 @@ class OekKlantGroepType extends AbstractType
     {
         $builder->add('oekGroep', EntityType::class, [
             'class' => OekGroep::class,
+            'placeholder' => 'Selecteer een groep',
             'query_builder' => function (EntityRepository $repository) use ($options) {
                 return $repository->createQueryBuilder('groep')
                     ->where('groep NOT IN (:groepen)')
                     ->setParameter('groepen', $options['data']->getOekGroepen())
-                    ;
+                ;
             },
         ]);
     }

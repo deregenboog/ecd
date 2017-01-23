@@ -25,7 +25,7 @@ class OekKlantTrainingType extends AbstractType
                     ->andWhere('training NOT IN (:trainingen)')
                     ->setParameter('groepsTrainingen', $options['data']->getOekGroepsTrainingen())
                     ->setParameter('trainingen', $options['data']->getOekTrainingen())
-                    ;
+                ;
             },
         ]);
     }

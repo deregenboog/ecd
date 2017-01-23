@@ -195,15 +195,15 @@ class OekKlantenController extends AppController
 
     public function voeg_toe_aan_groep($oekKlantId)
     {
-        $this->voeg_toe_aan(OekKlantGroepType::class, $oekKlantId);
+        return $this->voeg_toe_aan(OekKlantGroepType::class, $oekKlantId);
     }
 
     public function voeg_toe_aan_training($oekKlantId)
     {
-        $this->voeg_toe_aan(OekKlantTrainingType::class, $oekKlantId);
+        return $this->voeg_toe_aan(OekKlantTrainingType::class, $oekKlantId);
     }
 
-    public function voeg_toe_aan($type, $oekKlantId)
+    private function voeg_toe_aan($type, $oekKlantId)
     {
         /** @var OekKlant $oekKlant */
         $entityManager = $this->getEntityManager();
