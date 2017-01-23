@@ -209,6 +209,7 @@ class OekKlant
 
     public function isDeletable()
     {
-        return count($this->oekGroepen) === 0 && count($this->oekTrainingen) === 0;
+        // todo: implement for real
+        return false;
     }
 }

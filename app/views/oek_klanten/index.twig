@@ -20,10 +20,7 @@
             {{ form_widget(filter.klant.naam) }}
             {{ form_errors(filter.klant.naam) }}
         </th>
-        <th>
-            {{ form_widget(filter.klant.stadsdeel) }}
-            {{ form_errors(filter.klant.stadsdeel) }}
-        </th>
+        <th colspan="2"></th>
         <th>
             <button type="submit">Filteren</button>
         </th>
@@ -37,7 +34,10 @@
             {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+            {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekKlant.aanmelding') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'oekKlant.afsluiting') }}
         </th>
         <th></th>
     </tr>
@@ -50,7 +50,10 @@
             {{ html.link(oekKlant.klant.naam, {'action': 'view', 0: oekKlant.id})|raw }}
         </td>
         <td>
-            {{ oekKlant.klant.werkgebied }}
+            {{ oekKlant.aanmelding | date('d-m-Y') }}
+        </td>
+        <td>
+            {{ oekKlant.afsluiting | date('d-m-Y') }}
         </td>
         <td>
             {{ html.viewLink({'action': 'view', 0: oekKlant.id})|raw }}
