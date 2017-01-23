@@ -18,17 +18,6 @@ class IzKoppelingenController extends AppController
      */
     public $view = 'AppTwig';
 
-    private $enabledFilters = [
-        'koppelingStartdatum',
-        'koppelingEinddatum',
-        'lopendeKoppelingen',
-        'klant' => ['naam', 'stadsdeel'],
-        'vrijwilliger' => ['naam'],
-        'izProject',
-        'izHulpvraagMedewerker',
-        'izHulpaanbodMedewerker',
-    ];
-
     private $sortFieldWhitelist = [
         'izHulpvraag.koppelingStartdatum',
         'izHulpvraag.koppelingEinddatum',
@@ -41,9 +30,7 @@ class IzKoppelingenController extends AppController
 
     public function index()
     {
-        $form = $this->createForm(IzKoppelingFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $form = $this->createForm(IzKoppelingFilterType::class);
         $form->handleRequest($this->request);
 
         $entityManager = $this->getEntityManager();

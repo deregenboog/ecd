@@ -37,13 +37,10 @@ class VrijwilligerFilter implements FilterInterface
         }
 
         if ($this->naam) {
-            $parts = preg_split('/\s+/', $this->naam);
-            foreach ($parts as $i => $part) {
-                $builder
-                    ->andWhere("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.roepnaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) LIKE :vrijwilliger_naam_part_{$i}")
-                    ->setParameter("vrijwilliger_naam_part_{$i}", "%{$part}%")
-                ;
-            }
+            $builder
+                ->andWhere('CONCAT(vrijwilliger.voornaam, vrijwilliger.roepnaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) LIKE :vrijwilliger_naam')
+                ->setParameter('vrijwilliger_naam', "%{$this->naam}%")
+            ;
         }
 
         if ($this->geboortedatum) {

@@ -1,9 +1,0 @@
-{% include('hs_subnavigation.twig') %}
-
-<h1>Betaling verwijderen</h1>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    Weet u zeker dat u {{ hsBeatling }} wilt verwijderen?<br>
-    {{ html.link('Nee, terug', {'action': 'view', 0: hsFactuur.id})|raw }}
-    <button type="submit">Ja, verwijderen</button>
-{{ form_end(form) }}

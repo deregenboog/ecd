@@ -2,13 +2,8 @@
 
 namespace AppBundle\Twig;
 
-class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class AppExtension extends \Twig_Extension
 {
-    public function __construct($locale)
-    {
-        setlocale(LC_MONETARY, $locale);
-    }
-
     public function getGlobals()
     {
         return [
@@ -20,7 +15,6 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     {
         return array(
             new \Twig_SimpleFilter('tabless', array($this, 'tablessFilter')),
-            new \Twig_SimpleFilter('money', array($this, 'moneyFilter')),
         );
     }
 
@@ -29,8 +23,8 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         return preg_replace("/(\s|\t)+/", ' ', $value);
     }
 
-    public function moneyFilter($value)
+    public function getName()
     {
-        return money_format('%(#1n', $value);
+        return 'app_extension';
     }
 }

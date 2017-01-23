@@ -1,9 +1,11 @@
 <?php
+
 namespace IzBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\IzHulpvraag;
 use IzBundle\Filter\IzKoppelingFilter;
@@ -19,105 +21,78 @@ use AppBundle\Form\VrijwilligerFilterType;
 
 class IzKoppelingFilterType extends AbstractType
 {
-
     /**
-     *
      * {@inheritdoc}
-     *
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('koppelingStartdatum', $options['enabled_filters'])) {
-            $builder->add('koppelingStartdatum', DateType::class, [
+        $builder
+            ->add('koppelingStartdatum', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj'
-                ]
-            ]);
-        }
-
-        if (in_array('koppelingEinddatum', $options['enabled_filters'])) {
-            $builder->add('koppelingEinddatum', DateType::class, [
+                'attr' => ['placeholder' => 'dd-mm-jjjj'],
+            ])
+            ->add('koppelingEinddatum', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj'
-                ]
-            ]);
-        }
-
-        if (in_array('lopendeKoppelingen', $options['enabled_filters'])) {
-            $builder->add('lopendeKoppelingen', CheckboxType::class, [
+                'attr' => ['placeholder' => 'dd-mm-jjjj'],
+            ])
+            ->add('lopendeKoppelingen', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen lopende koppelingen'
-            ]);
-        }
-
-        if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
-            ]);
-        }
-
-        if (key_exists('vrijwilliger', $options['enabled_filters'])) {
-            $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
-            ]);
-        }
-
-        if (in_array('izProject', $options['enabled_filters'])) {
-            $builder->add('izProject', EntityType::class, [
+                'label' => 'Alleen lopende koppelingen',
+            ])
+            ->add('klant', KlantFilterType::class)
+            ->add('vrijwilliger', VrijwilligerFilterType::class)
+            ->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                         ->orderBy('izProject.naam', 'ASC')
-                        ->setParameter('now', new \DateTime());
-                }
-            ]);
-        }
-
-        if (in_array('izHulpvraagMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpvraagMedewerker', EntityType::class, [
+                        ->setParameter('now', new \DateTime())
+                    ;
+                },
+            ])
+            ->add('izHulpvraagMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
-                return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
-                ->orderBy('medewerker.achternaam', 'ASC');
-                }
-                ]);
-
-        }
-        if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpaanbodMedewerker', EntityType::class, [
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->orderBy('medewerker.achternaam', 'ASC')
+                    ;
+                },
+            ])
+            ->add('izHulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
-                return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
-                ->orderBy('medewerker.achternaam', 'ASC');
-                }
-                ]);
-        }
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                        ->orderBy('medewerker.achternaam', 'ASC')
+                    ;
+                },
+                ])
+            ->add('submit', SubmitType::class, ['label' => 'Filteren'])
+        ;
+
+        $builder->get('klant')->remove('id')->remove('geboortedatum');
+        $builder->get('vrijwilliger')->remove('id')->remove('geboortedatum')->remove('stadsdeel');
     }
 
     /**
-     *
      * {@inheritdoc}
-     *
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => IzKoppelingFilter::class,
-            'enabled_filters' => [],
+            'method' => 'GET',
         ]);
     }
 }
