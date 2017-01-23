@@ -15,22 +15,28 @@
     <dd>{{ oekGroep.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ oekGroep.naam }}</dd>
-    <dt>Klanten</dt>
+    <dt>Wachtlijst</dt>
     <dd>
-        <ul>
-        {% for oekKlant in oekGroep.oekKlanten %}
-            <li>{{ html.link(oekKlant, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}</li>
-        {% endfor %}
-        </ul>
-        &nbsp;
+        {% if oekGroep.oekKlanten.count() > 0 %}
+            <ul>
+                {% for oekKlant in oekGroep.oekKlanten %}
+                    <li>{{ html.link(oekKlant, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <span>Er staat niemand op de wachtlijst.</span>
+        {% endif %}
     </dd>
     <dt>Trainingen</dt>
     <dd>
-        <ul>
-        {% for oekTraining in oekGroep.oekTrainingen %}
-            <li>{{ html.link(oekTraining, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}</li>
-        {% endfor %}
-        </ul>
-        &nbsp;
+        {% if oekGroep.oekTrainingen.count() > 0 %}
+            <ul>
+            {% for oekTraining in oekGroep.oekTrainingen %}
+                <li>{{ html.link(oekTraining, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <span>Er zijn nog geen trainingen voor deze groep.</span>
+        {% endif %}
     </dd>
 </dl>

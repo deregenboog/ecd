@@ -18,7 +18,10 @@ class OekTrainingenController extends AppController
 
     private $sortFieldWhitelist = [
         'oekTraining.id',
-        'oekTraining.startDatum'
+        'oekTraining.naam',
+        'oekGroep.naam',
+        'oekTraining.startDatum',
+        'oekTraining.eindDatum'
     ];
 
     public function index()

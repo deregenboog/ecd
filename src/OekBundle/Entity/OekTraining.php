@@ -103,9 +103,23 @@ class OekTraining
         return $this->naam;
     }
 
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
     public function getLocatie()
     {
         return $this->locatie;
+    }
+
+    public function setLocatie($locatie)
+    {
+        $this->locatie = $locatie;
+
+        return $this;
     }
 
     public function getStartDatum()
@@ -113,14 +127,35 @@ class OekTraining
         return $this->startDatum;
     }
 
+    public function setStartDatum($startDatum)
+    {
+        $this->startDatum = $startDatum;
+
+        return $this;
+    }
+
     public function getStartTijd()
     {
         return $this->startTijd;
     }
 
+    public function setStartTijd($startTijd)
+    {
+        $this->startTijd = $startTijd;
+
+        return $this;
+    }
+
     public function getEindDatum()
     {
         return $this->eindDatum;
+    }
+
+    public function setEindDatum($eindDatum)
+    {
+        $this->eindDatum = $eindDatum;
+
+        return $this;
     }
 
     public function getCreated()
@@ -172,6 +207,6 @@ class OekTraining
     }
 
     public function isDeletable() {
-        return $this->eindDatum < (new \DateTime());
+        return $this->oekKlanten->count() == 0;
     }
 }
