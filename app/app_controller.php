@@ -117,6 +117,9 @@ class AppController extends Controller
         'OekKlanten' => [
             'OekKlanten'
         ],
+        'OdpHuurders' => [
+            'OdpHuurders'
+        ],
         'Admin' => [
             'Admin',
             'ZrmSettings',

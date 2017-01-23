@@ -1,0 +1,28 @@
+services:
+    odp.repository.iz_hulpvraag:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OdpBundle\Entity\IzHulpvraag
+
+    odp.repository.iz_klant:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OdpBundle\Entity\IzKlant
+
+    odp.repository.iz_vrijwilliger:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OdpBundle\Entity\IzVrijwilliger
+
+    odp.form.rapportage:
+        class: OdpBundle\Form\IzRapportageType
+        tags:
+            - { name: form.type }
+
+    odp.data_fixtures.faker_provider:
+        class: OdpBundle\DataFixtures\OdpFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }
