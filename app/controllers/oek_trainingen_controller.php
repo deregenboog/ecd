@@ -135,4 +135,47 @@ class OekTrainingenController extends AppController
 
         $this->set('form', $form->createView());
     }
+
+    public function email_deelnemers($oekTrainingId)
+    {
+        if ($this->request->server->get('REQUEST_METHOD') != 'POST') {
+            return;
+        }
+
+        /** @var OekTraining $oekTraining */
+        /** @var Swift_Mailer $mailer */
+        /** @var Swift_Mime_Message $message */
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekTraining::class);
+        $oekTraining = $repository->find($oekTrainingId);
+
+        $mailer = $this->container->get('mailer');
+        $message = $mailer->createMessage();
+
+        $message->setSubject($this->request->get('subject'));
+        $message->setBody($this->request->get('body'));
+
+        $addresses = [];
+
+        foreach($oekTraining->getOekKlanten() as $oekKlant) {
+            $klant = $oekKlant->getKlant();
+            $addresses[$klant->getEmail()] = $klant->getNaam();
+        }
+
+        $message->setTo($addresses);
+
+        $failedRecipients = [];
+        $mailer->getTransport()->send($message, $failedRecipients);
+
+        if ($failedRecipients) {
+            $failedRecipients = implode(', ', $failedRecipients);
+            $this->Session->setFlash(
+                'De email kon niet worden verzonden naar: ' . $failedRecipients
+            );
+        } else {
+            $this->Session->setFlash('De email is succesvol verzonden.');
+        }
+
+        return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+    }
 }
