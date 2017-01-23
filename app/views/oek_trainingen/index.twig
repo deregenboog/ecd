@@ -34,7 +34,9 @@
         <td>
             {{ html.link(oekTraining.id, {'action': 'view', 0: oekTraining.id})|raw }}
         </td>
-        <td>{{ oekTraining.naam }}</td>
+        <td>
+            {{ html.link(oekTraining.naam, {'action': 'view', 0: oekTraining.id})|raw }}
+        </td>
         <td>{{ oekTraining.oekGroep.naam }}</td>
         <td>{{ oekTraining.oekKlanten.count() }}</td>
         <td>{{ oekTraining.startDatum | date('d-m-Y') }}</td>
