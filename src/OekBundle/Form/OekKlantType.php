@@ -39,7 +39,7 @@ class OekKlantType extends AbstractType
             $builder->add('aanmelding', AppDateType::class, ['data' => new \DateTime('today'), 'required' => true]);
             $builder->add('verwijzingDoor');
         } else {
-            $builder->add('afsluiting', AppDateType::class);
+            $builder->add('afsluiting', AppDateType::class, ['required' => false]);
             $builder->add('verwijzingNaar');
         }
     }
