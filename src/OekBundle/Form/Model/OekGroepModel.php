@@ -21,7 +21,7 @@ class OekGroepModel
 
     public function getOekKlanten()
     {
-        return $this->oekGroep->getOekKlanten();
+        return $this->oekGroep->getOekKlanten()->toArray() ?: [0];
     }
 
     public function setOekKlant(OekKlant $klant)

@@ -22,7 +22,7 @@ class OekKlantModel
 
     public function getOekGroepen()
     {
-        return $this->oekKlant->getOekGroepen();
+        return $this->oekKlant->getOekGroepen()->toArray() ?: [0];
     }
 
     public function setOekGroep(OekGroep $groep)
@@ -37,7 +37,7 @@ class OekKlantModel
 
     public function getOekTrainingen()
     {
-        return $this->oekKlant->getOekTrainingen();
+        return $this->oekKlant->getOekTrainingen()->toArray() ?: [0];
     }
 
     public function setOekTraining(OekTraining $training)
@@ -53,6 +53,6 @@ class OekKlantModel
             $trainingen = array_merge($trainingen, $groep->getOekTrainingen()->toArray());
         }
 
-        return $trainingen;
+        return $trainingen ?: [0];
     }
 }
