@@ -4,6 +4,7 @@ use OekBundle\Entity\OekTraining;
 use OekBundle\Form\Model\OekTrainingModel;
 use OekBundle\Form\OekTrainingKlantType;
 use OekBundle\Form\OekTrainingType;
+use OekBundle\Form\OekEmailMessageType;
 use AppBundle\Form\ConfirmationType;
 
 class OekTrainingenController extends AppController
@@ -138,44 +139,42 @@ class OekTrainingenController extends AppController
 
     public function email_deelnemers($oekTrainingId)
     {
-        if ($this->request->server->get('REQUEST_METHOD') != 'POST') {
-            return;
-        }
-
         /** @var OekTraining $oekTraining */
-        /** @var Swift_Mailer $mailer */
-        /** @var Swift_Mime_Message $message */
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekTraining::class);
-        $oekTraining = $repository->find($oekTrainingId);
+        $oekTraining = $this->getEntityManager()->getRepository(OekTraining::class)
+            ->find($oekTrainingId);
 
-        $mailer = $this->container->get('mailer');
-        $message = $mailer->createMessage();
+        $form = $this->createForm(OekEmailMessageType::class, null, [
+            'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
+            'to' => $oekTraining->getOekKlanten(),
+        ]);
+        $form->handleRequest($this->request);
 
-        $message->setSubject($this->request->get('subject'));
-        $message->setBody($this->request->get('body'));
+        if ($form->isValid()) {
+            /** @var Swift_Mailer $mailer */
+            $mailer = $this->container->get('mailer');
 
-        $addresses = [];
+            /** @var Swift_Mime_Message $message */
+            $message = $mailer->createMessage()
+                ->setFrom($form->get('from')->getData())
+                ->setTo($form->get('from')->getData())
+                ->setBcc(explode(', ', $form->get('to')->getData()))
+                ->setSubject($form->get('subject')->getData())
+                ->setBody($form->get('text')->getData(), 'text/plain')
+            ;
 
-        foreach($oekTraining->getOekKlanten() as $oekKlant) {
-            $klant = $oekKlant->getKlant();
-            $addresses[$klant->getEmail()] = $klant->getNaam();
+            if ($mailer->send($message)) {
+                $this->flash(__('Email is succesvol verzonden', true));
+            } else {
+                $this->flashError(__('Email kon niet worden verzonden', true));
+            }
+
+            return $this->redirect([
+                'action' => 'view',
+                $oekTraining->getId(),
+            ]);
         }
 
-        $message->setTo($addresses);
-
-        $failedRecipients = [];
-        $mailer->getTransport()->send($message, $failedRecipients);
-
-        if ($failedRecipients) {
-            $failedRecipients = implode(', ', $failedRecipients);
-            $this->Session->setFlash(
-                'De email kon niet worden verzonden naar: ' . $failedRecipients
-            );
-        } else {
-            $this->Session->setFlash('De email is succesvol verzonden.');
-        }
-
-        return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+        $this->set('form', $form->createView());
+        $this->set('oekTraining', $oekTraining);
     }
 }
