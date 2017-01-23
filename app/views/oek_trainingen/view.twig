@@ -25,8 +25,7 @@
     <dd>{{ oekTraining.eindDatum | date('d-m-Y') }}</dd>
     <dt>
         Klanten
-        {{ html.addLink({'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }} <br>
-        {{ html.link('(Email allen)', {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id})|raw }}
+        {{ html.addLink({'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }}
     </dt>
     <dd>
         {% if oekTraining.oekKlanten.count() > 0 %}
