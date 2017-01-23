@@ -1285,8 +1285,11 @@ class IzDeelnemersController extends AppController
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            // create message
-            $message = \Swift_Message::newInstance()
+            /** @var Swift_Mailer $mailer */
+            $mailer = $this->container->get('mailer');
+
+            /** @var Swift_Mime_Message $message */
+            $message = $mailer->createMessage()
                 ->setFrom($form->get('from')->getData())
                 ->setTo(explode(', ', $form->get('to')->getData()))
                 ->setSubject($form->get('subject')->getData())
@@ -1304,7 +1307,7 @@ class IzDeelnemersController extends AppController
                 $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
             }
 
-            if ($this->container->get('mailer')->send($message)) {
+            if ($mailer->send($message)) {
                 $this->flash(__('Email is succesvol verzonden', true));
             } else {
                 $this->flashError(__('Email kon niet worden verzonden', true));
