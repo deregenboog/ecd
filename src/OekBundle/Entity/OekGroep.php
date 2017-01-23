@@ -147,6 +147,7 @@ class OekGroep
 
     public function isDeletable()
     {
-        return $this->oekKlanten->count() == 0;
+        return $this->oekKlanten->count() == 0 &&
+               $this->oekTrainingen->count() == 0;
     }
 }
