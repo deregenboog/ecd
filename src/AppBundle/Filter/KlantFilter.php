@@ -31,16 +31,19 @@ class KlantFilter implements FilterInterface
     {
         if ($this->id) {
             $builder
-            ->andWhere('klant.id = :klant_id')
-            ->setParameter('klant_id', $this->id)
+                ->andWhere('klant.id = :klant_id')
+                ->setParameter('klant_id', $this->id)
             ;
         }
 
         if ($this->naam) {
-            $builder
-                ->andWhere('CONCAT(klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam')
-                ->setParameter('klant_naam', "%{$this->naam}%")
-            ;
+            $parts = preg_split('/\s+/', $this->naam);
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_{$i}")
+                    ->setParameter("klant_naam_part_{$i}", "%{$part}%")
+                ;
+            }
         }
 
         if ($this->geboortedatum) {

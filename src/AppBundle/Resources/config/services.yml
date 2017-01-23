@@ -2,5 +2,6 @@ services:
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
+        arguments: ["%locale%"]
         tags:
             - { name: twig.extension }

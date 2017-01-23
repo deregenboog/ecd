@@ -1,0 +1,11 @@
+OekBundle\Entity\OekTraining:
+    oek_training_{1..40}:
+        naam: '<sentence()>'
+        oek_groep: '@oek_groep_*'
+        oek_klanten: '<numberBetween(1, 10)>x @oek_klant_*'
+        startDatum: '<dateTimeThisDecade()>'
+        startTijd: '<dateTimeThisDecade()>'
+        eindDatum: '<dateTimeThisDecade()>'
+        locatie: '<word()>'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'

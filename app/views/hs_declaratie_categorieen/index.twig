@@ -1,0 +1,40 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Declaratiecategorieën</h1>
+
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Declaratiecategorie toevoegen', {'action': 'add'})|raw }}
+</p>
+
+<table>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'hsDeclaratieCategorie.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Naam', 'hsDeclaratieCategorie.naam') }}
+        </th>
+        <th></th>
+    </tr>
+    {% for hsDeclaratieCategorie in pagination %}
+    <tr>
+        <td>
+            {{ hsDeclaratieCategorie.id }}
+        </td>
+        <td>
+            {{ hsDeclaratieCategorie.naam }}
+        </td>
+        <td>
+            {{ html.editLink({'action': 'edit', 0: hsDeclaratieCategorie.id})|raw }}
+            {% if hsDeclaratieCategorie.deletable %}
+                {{ html.deleteLink({'action': 'delete', 0: hsDeclaratieCategorie.id})|raw }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

@@ -213,6 +213,8 @@ parameters:
             BackOnTrack: BOT
             IzDeelnemers: IZ
             Groepsactiviteiten: Groepsactiviteiten
+            hs_klanten: HomesService
+            oek_klanten: Op Eigen Kracht
             Admin: Admin
 
         TBC_months_period: 6
