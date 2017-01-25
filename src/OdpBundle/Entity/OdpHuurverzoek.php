@@ -59,4 +59,14 @@ class OdpHuurverzoek
     {
         $this->opmerkingen = $opmerkingen;
     }
+
+    public function getKlant()
+    {
+        return $this->getOdpHuurder()->getKlant();
+    }
+
+    public function isDeletable()
+    {
+        return false;
+    }
 }

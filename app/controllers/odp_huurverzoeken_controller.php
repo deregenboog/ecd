@@ -44,7 +44,9 @@ class OdpHuurverzoekenController extends AppController
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OdpHuurverzoek::class);
 
-        $builder = $repository->createQueryBuilder('odpHuurverzoek');
+        $builder = $repository->createQueryBuilder('odpHuurverzoek')
+            ->innerJoin('odpHuurverzoek.odpHuurder', 'odpHuurder')
+            ->innerJoin('odpHuurder.klant', 'klant');
 
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
@@ -65,6 +67,7 @@ class OdpHuurverzoekenController extends AppController
         $entityManager = $this->getEntityManager();
         $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $id);
         $this->set('odpHuurverzoek', $odpHuurverzoek);
+        $this->set('odpHuurder', $odpHuurverzoek->getOdpHuurder());
     }
 
     public function add($klantId = null)
