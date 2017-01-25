@@ -27,6 +27,11 @@ class OdpHuuraanbod
      */
     private $odpVerhuurder;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getOdpVerhuurder()
     {
         return $this->odpVerhuurder;

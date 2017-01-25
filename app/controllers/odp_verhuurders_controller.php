@@ -1,6 +1,7 @@
 <?php
 
 use AppBundle\Entity\Klant;
+use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpVerhuurder;
 use OdpBundle\Form\OdpVerhuurderType;
 use AppBundle\Form\KlantFilterType;
@@ -192,5 +193,19 @@ class OdpVerhuurdersController extends AppController
 
         $this->set('odpVerhuurder', $odpVerhuurder);
         $this->set('form', $form->createView());
+    }
+
+    public function nieuw_huuraanbod($odpVerhuurderId)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpVerhuurder = $entityManager->find(OdpVerhuurder::class, $odpVerhuurderId);
+
+        $odpHuuraanbod = new OdpHuuraanbod();
+        $odpHuuraanbod->setOdpVerhuurder($odpVerhuurder);
+
+        $entityManager->persist($odpHuuraanbod);
+        $entityManager->flush();
+
+        return $this->redirect(['action' => 'view', $odpVerhuurder->getId()]);
     }
 }

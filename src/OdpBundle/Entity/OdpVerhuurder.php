@@ -22,4 +22,9 @@ class OdpVerhuurder extends OdpDeelnemer
     {
         return count($this->odpHuuraanbiedingen) === 0;
     }
+
+    public function getHuuraanbiedingen()
+    {
+        return $this->odpHuuraanbiedingen;
+    }
 }
