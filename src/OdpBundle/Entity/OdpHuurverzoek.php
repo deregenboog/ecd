@@ -27,6 +27,11 @@ class OdpHuurverzoek
      */
     private $odpHuurder;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getOdpHuurder()
     {
         return $this->odpHuurder;

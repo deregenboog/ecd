@@ -2,6 +2,7 @@
 
 use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuurder;
+use OdpBundle\Entity\OdpHuurverzoek;
 use OdpBundle\Form\OdpHuurderType;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Form\OdpHuurderSelectType;
@@ -192,5 +193,19 @@ class OdpHuurdersController extends AppController
 
         $this->set('odpHuurder', $odpHuurder);
         $this->set('form', $form->createView());
+    }
+
+    public function nieuw_huurverzoek($odpHuurderId)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpHuurder = $entityManager->find(OdpHuurder::class, $odpHuurderId);
+
+        $odpHuurverzoek = new OdpHuurverzoek();
+        $odpHuurverzoek->setOdpHuurder($odpHuurder);
+
+        $entityManager->persist($odpHuurverzoek);
+        $entityManager->flush();
+
+        return $this->redirect(['action' => 'view', $odpHuurder->getId()]);
     }
 }
