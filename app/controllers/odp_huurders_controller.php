@@ -12,6 +12,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
 use OdpBundle\Form\HsMemoType;
+use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpHuurdersController extends AppController
@@ -203,9 +204,19 @@ class OdpHuurdersController extends AppController
         $odpHuurverzoek = new OdpHuurverzoek();
         $odpHuurverzoek->setOdpHuurder($odpHuurder);
 
-        $entityManager->persist($odpHuurverzoek);
-        $entityManager->flush();
+        $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
+        $form->handleRequest($this->request);
 
-        return $this->redirect(['action' => 'view', $odpHuurder->getId()]);
+        if ($form->isValid()) {
+            $entityManager->persist($odpHuurverzoek);
+            $entityManager->flush();
+
+            $this->Session->setFlash('Huurverzoek is toegevoegd.');
+
+            return $this->redirect(['action' => 'view', $odpHuurder->getId()]);
+        }
+
+        $this->set('odpHuurverzoek', $odpHuurverzoek);
+        $this->set('form', $form->createView());
     }
 }

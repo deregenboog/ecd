@@ -27,6 +27,12 @@ class OdpHuurverzoek
      */
     private $odpHuurder;
 
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $opmerkingen;
+
     public function getId()
     {
         return $this->id;
@@ -42,5 +48,15 @@ class OdpHuurverzoek
         $this->odpHuurder = $odpHuurder;
 
         return $this;
+    }
+
+    public function getOpmerkingen()
+    {
+        return $this->opmerkingen;
+    }
+
+    public function setOpmerkingen($opmerkingen)
+    {
+        $this->opmerkingen = $opmerkingen;
     }
 }

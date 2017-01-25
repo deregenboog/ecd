@@ -27,6 +27,12 @@ class OdpHuuraanbod
      */
     private $odpVerhuurder;
 
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $opmerkingen;
+
     public function getId()
     {
         return $this->id;
@@ -42,5 +48,15 @@ class OdpHuuraanbod
         $this->odpVerhuurder = $odpVerhuurder;
 
         return $this;
+    }
+
+    public function getOpmerkingen()
+    {
+        return $this->opmerkingen;
+    }
+
+    public function setOpmerkingen($opmerkingen)
+    {
+        $this->opmerkingen = $opmerkingen;
     }
 }
