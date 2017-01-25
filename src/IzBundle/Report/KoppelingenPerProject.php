@@ -16,10 +16,10 @@ class KoppelingenPerProject extends AbstractKoppelingenReport
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countByProject('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->countByProject('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->countByProject('afgesloten', $this->startDate, $this->endDate);
-        $this->succesvolAfgesloten = $this->repository->countByProject('succesvol_afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->countByProject('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
+        $this->gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
+        $this->afgesloten = $this->repository->countKoppelingenByProject('afgesloten', $this->startDate, $this->endDate);
+        $this->succesvolAfgesloten = $this->repository->countKoppelingenByProject('succesvol_afgesloten', $this->startDate, $this->endDate);
+        $this->eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
     }
 }
