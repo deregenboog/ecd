@@ -147,7 +147,12 @@ class SchorsingenController extends AppController
                 ));
                 $this->set(compact('locatie_id', 'locatie'));
             } else {
-                $this->set('locaties', $this->Schorsing->Locatie->find('list'));
+                $this->set('locaties', $this->Schorsing->Locatie->find('list', [
+                    'conditions' => ['OR' => [
+                        ['datum_tot' => '0000-00-00'],
+                        ['datum_tot >' => date('Y-m-d')],
+                    ]],
+                ]));
             }
 
             $this->set(compact('klant_id', 'redenen', 'klant', 'violent_options'));
