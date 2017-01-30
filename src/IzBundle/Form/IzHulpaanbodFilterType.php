@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\VrijwilligerFilterType;
@@ -20,24 +21,15 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('startdatum', $options['enabled_filters'])) {
-            $builder->add('startdatum', DateType::class, [
+        $builder
+            ->add('startdatum', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'attr' => ['placeholder' => 'dd-mm-jjjj'],
-            ]);
-        }
-
-
-        if (key_exists('vrijwilliger', $options['enabled_filters'])) {
-            $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
-            ]);
-        }
-
-        if (in_array('izProject', $options['enabled_filters'])) {
-            $builder->add('izProject', EntityType::class, [
+            ])
+            ->add('vrijwilliger', VrijwilligerFilterType::class)
+            ->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
                 'query_builder' => function (EntityRepository $repo) {
@@ -47,11 +39,8 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->setParameter('now', new \DateTime())
                         ;
                 },
-            ]);
-        }
-
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+                ])
+            ->add('medewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
@@ -61,8 +50,9 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->orderBy('medewerker.achternaam', 'ASC')
                     ;
                 },
-            ]);
-        }
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Filteren'])
+        ;
     }
 
     /**
@@ -72,7 +62,7 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
     {
         $resolver->setDefaults([
             'data_class' => IzHulpaanbodFilter::class,
-            'enabled_filters' => [],
+            'method' => 'GET',
         ]);
     }
 }

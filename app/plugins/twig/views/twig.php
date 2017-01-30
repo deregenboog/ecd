@@ -39,12 +39,12 @@ class TwigView extends ThemeView {
 	 * @var array
 	 */
 	public $twigOptions = array(
-		'fileExtension' => '.twig',
+		'fileExtension' => '.tpl',
 		'extensions' => array(
 			'i18n',
 			'number',
 			'text',
-			'time',
+			'time'
 		)
 	);
 
@@ -103,7 +103,7 @@ class TwigView extends ThemeView {
 		$loader = new Twig_Loader_Filesystem($paths);
 		$this->Twig = new Twig_Environment($loader, array(
 			'cache' => false, // use cakephp cache
-			'debug' => (Configure::read('debug') > 0),
+			'debug' => (Configure::read() > 0),
 		));
 
 		// Do not escape return values (from helpers)
@@ -117,8 +117,6 @@ class TwigView extends ThemeView {
 				$this->Twig->addExtension(new $extensionClassName);
 			}
 		}
-
-		$this->set('this', $this);
 	}
 
 	/**
