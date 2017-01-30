@@ -29,7 +29,7 @@ class OekKlantenController extends AppController
 
     private $enabledFilters = [
         'id',
-        'klant' => ['naam'],
+        'klant' => ['naam', 'stadsdeel'],
         'aanmelding',
         'afsluiting'
     ];
@@ -37,6 +37,7 @@ class OekKlantenController extends AppController
     private $sortFieldWhitelist = [
         'oekKlant.id',
         'klant.achternaam',
+        'klant.werkgebied',
         'oekKlant.aanmelding',
         'oekKlant.afsluiting',
     ];

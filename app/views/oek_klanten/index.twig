@@ -21,6 +21,10 @@
             {{ form_errors(filter.klant.naam) }}
         </th>
         <th>
+            {{ form_widget(filter.klant.stadsdeel) }}
+            {{ form_errors(filter.klant.stadsdeel) }}
+        </th>
+        <th>
             {{ form_widget(filter.aanmelding) }}
             {{ form_errors(filter.aanmelding) }}
         </th>
@@ -41,6 +45,9 @@
             {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
         </th>
         <th>
+            {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+        </th>
+        <th>
             {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekKlant.aanmelding') }}
         </th>
         <th>
@@ -55,6 +62,9 @@
         </td>
         <td>
             {{ html.link(oekKlant.klant.naam, {'action': 'view', 0: oekKlant.id})|raw }}
+        </td>
+        <td>
+            {{ oekKlant.klant.werkgebied }}
         </td>
         <td>
             {{ oekKlant.aanmelding | date('d-m-Y') }}
