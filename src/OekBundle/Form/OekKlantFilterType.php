@@ -32,6 +32,7 @@ class OekKlantFilterType extends AbstractType
 
         if (in_array('groep', $options['enabled_filters'])) {
             $builder->add('groep', EntityType::class, [
+                'required' => false,
                 'class' => OekGroep::class
             ]);
         }
