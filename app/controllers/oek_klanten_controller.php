@@ -72,6 +72,37 @@ class OekKlantenController extends AppController
         $this->set('pagination', $pagination);
     }
 
+    public function wachtlijst()
+    {
+        $filter = $this->createForm(OekKlantFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters + ['groepen'],
+        ]);
+        $filter->handleRequest($this->request);
+
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekKlant::class);
+
+        $builder = $repository->createQueryBuilder('oekKlant')
+            ->innerJoin('oekKlant.klant', 'klant')
+            ->innerJoin('oekKlant.oekGroepen', 'groepen')
+            ->andWhere('klant.disabled = false')
+        ;
+
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'klant.achternaam',
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'wrap-queries' => true, // because of HAVING clause in filter
+        ]);
+
+        $this->set('filter', $filter->createView());
+        $this->set('pagination', $pagination);
+    }
+
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
