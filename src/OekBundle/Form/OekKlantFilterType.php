@@ -2,6 +2,7 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,6 +26,20 @@ class OekKlantFilterType extends AbstractType
 
         if (key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
+        }
+
+        if (in_array('aanmelding', $options['enabled_filters'])) {
+            $builder->add('aanmelding', null, [
+                'attr' => ['placeholder' => 'Aanmelding'],
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('afsluiting', $options['enabled_filters'])) {
+            $builder->add('afsluiting', null, [
+                'attr' => ['placeholder' => 'Afsluiting'],
+                'required' => false,
+            ]);
         }
     }
 

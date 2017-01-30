@@ -3,6 +3,7 @@
 namespace OekBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 
 class OekKlantFilter implements FilterInterface
@@ -13,9 +14,14 @@ class OekKlantFilter implements FilterInterface
     public $id;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $openstaand;
+    public $aanmelding;
+
+    /**
+     * @var string
+     */
+    public $afsluiting;
 
     /**
      * @var KlantFilter
@@ -31,12 +37,17 @@ class OekKlantFilter implements FilterInterface
             ;
         }
 
-        if ($this->openstaand) {
+        if ($this->aanmelding) {
             $builder
-                ->innerJoin('oekKlant.oekKlussen', 'oekKlus')
-                ->innerJoin('oekKlus.oekFacturen', 'oekFactuur')
-                ->innerJoin('oekFactuur.oekBetalingen', 'oekBetaling')
-                ->having('(SUM(oekFactuur.bedrag) - SUM(oekBetaling.bedrag)) > 0')
+                ->andWhere('oekKlant.aanmelding LIKE :aanmelding')
+                ->setParameter('aanmelding', "%{$this->aanmelding}%")
+            ;
+        }
+
+        if ($this->afsluiting) {
+            $builder
+                ->andWhere('oekKlant.afsluiting LIKE :afsluiting')
+                ->setParameter('afsluiting', "%{$this->afsluiting}%")
             ;
         }
 

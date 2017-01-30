@@ -20,7 +20,14 @@
             {{ form_widget(filter.klant.naam) }}
             {{ form_errors(filter.klant.naam) }}
         </th>
-        <th colspan="2"></th>
+        <th>
+            {{ form_widget(filter.aanmelding) }}
+            {{ form_errors(filter.aanmelding) }}
+        </th>
+        <th>
+            {{ form_widget(filter.afsluiting) }}
+            {{ form_errors(filter.afsluiting) }}
+        </th>
         <th>
             <button type="submit">Filteren</button>
         </th>
