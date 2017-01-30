@@ -12,7 +12,7 @@ use AppBundle\Entity\TimestampableTrait;
  * @ORM\Table(name="odp_huurovereenkomsten")
  * @ORM\HasLifecycleCallbacks
  */
-abstract class OdpHuurovereenkomst
+class OdpHuurovereenkomst
 {
     use TimestampableTrait;
 
@@ -52,11 +52,11 @@ abstract class OdpHuurovereenkomst
      */
     protected $odpHuurverzoek;
 
-    /**
-     * @var OdpHuurovereenkomstAfsluiting
-     * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
-     */
-    protected $odpHuurovereenkomstAfsluiting;
+//    /**
+//     * @var OdpHuurovereenkomstAfsluiting
+//     * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
+//     */
+//    protected $odpHuurovereenkomstAfsluiting;
 
     public function getId()
     {
@@ -83,6 +83,42 @@ abstract class OdpHuurovereenkomst
     public function setStartdatum(\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
+    public function getOdpHuuraanbod()
+    {
+        return $this->odpHuuraanbod;
+    }
+
+    public function getOdpHuurverzoek()
+    {
+        return $this->odpHuurverzoek;
+    }
+
+    public function setOdpHuuraanbod(OdpHuuraanbod $huuraanbod)
+    {
+        $this->odpHuuraanbod = $huuraanbod;
+
+        return $this;
+    }
+
+    public function setOdpHuurverzoek(OdpHuurverzoek $huurverzoek)
+    {
+        $this->odpHuurverzoek = $huurverzoek;
 
         return $this;
     }

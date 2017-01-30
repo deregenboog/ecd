@@ -29,4 +29,13 @@ class OdpHuurder extends OdpDeelnemer
     {
         return count($this->odpHuurverzoeken) === 0;
     }
+
+    public function getHuurverzoeken() {
+        return $this->odpHuurverzoeken;
+    }
+
+    public function getKlant()
+    {
+        return $this->klant;
+    }
 }

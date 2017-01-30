@@ -1,6 +1,6 @@
 {% include 'odp_subnavigation.twig' %}
 
-<h1>Huurverzoeken</h1>
+<h1>Huuraanbiedingen</h1>
 
 <table>
     <tr>
@@ -18,10 +18,10 @@
     </tr>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, '#', 'odpHuurder.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'odpVerhuurder.id') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Huurder', 'klant.achternaam') }}
+            {{ knp_pagination_sortable(pagination, 'Verhuurder', 'klant.achternaam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
@@ -30,22 +30,22 @@
         <th>
         </th>
     </tr>
-    {% for odpHuurder in pagination %}
+    {% for odpVerhuurder in pagination %}
     <tr>
         <td>
-            {{ html.link(odpHuurder.id, {'action': 'view', 0: odpHuurder.id})|raw }}
+            {{ html.link(odpVerhuurder.id, {'action': 'view', 0: odpVerhuurder.id})|raw }}
         </td>
         <td>
-            {{ html.link(odpHuurder.klant.naam, {'action': 'view', 0: odpHuurder.id})|raw }}
+            {{ html.link(odpVerhuurder.klant.naam, {'action': 'view', 0: odpVerhuurder.id})|raw }}
         </td>
         <td>
-            {{ odpHuurder.klant.werkgebied }}
+            {{ odpVerhuurder.klant.werkgebied }}
         </td>
         <td>
-            {{ html.viewLink({'action': 'view', 0: odpHuurder.id})|raw }}
-            {{ html.editLink({'action': 'edit', 0: odpHuurder.id})|raw }}
-            {% if odpHuurder.deletable %}
-                {{ html.deleteLink({'action': 'delete', 0: odpHuurder.id})|raw }}
+            {{ html.viewLink({'action': 'view', 0: odpVerhuurder.id})|raw }}
+            {{ html.editLink({'action': 'edit', 0: odpVerhuurder.id})|raw }}
+            {% if odpVerhuurder.deletable %}
+                {{ html.deleteLink({'action': 'delete', 0: odpVerhuurder.id})|raw }}
             {% endif %}
         </td>
     </tr>

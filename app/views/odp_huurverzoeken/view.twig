@@ -2,9 +2,9 @@
 
 <h1>
     Huurder {{ odpHuurder.klant }}
-    {{ html.editLink({'action': 'edit', 0: odpHuurder.id})|raw }}
+    {{ html.editLink({'action': 'edit', 0: odpHuurverzoek.id})|raw }}
     {% if odpHuurder.deletable %}
-        {{ html.deleteLink({'action': 'delete', 0: odpHuurder.id})|raw }}
+        {{ html.deleteLink({'action': 'delete', 0: odpHuurverzoek.id})|raw }}
     {% endif %}
 </h1>
 
@@ -13,4 +13,15 @@
     <dd>{{ odpHuurder.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ odpHuurder.klant }}</dd>
+    <dt>Opmerkingen</dt>
+    <dd>{{ odpHuurverzoek.opmerkingen }}</dd>
+    <dt>Huurovereenkomst</dt>
+    <dd>
+        {% if odpHuurverzoek.odpHuurovereenkomst %}
+            {{ odpHuurverzoek.odpHuurovereenkomst.id }}
+        {% else %}
+            {{ html.addLink({'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
+            {{ html.link('Maak huurovereenkomst', {'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
+        {% endif %}
+    </dd>
 </dl>

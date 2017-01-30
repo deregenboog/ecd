@@ -27,6 +27,23 @@ class OdpHuurverzoek
      */
     private $odpHuurder;
 
+    /**
+     * @var OdpHuurovereenkomst
+     * @ORM\OneToOne(targetEntity="OdpHuurovereenkomst", mappedBy="odpHuurverzoek")
+     */
+    private $odpHuurovereenkomst;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $opmerkingen;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getOdpHuurder()
     {
         return $this->odpHuurder;
@@ -37,5 +54,35 @@ class OdpHuurverzoek
         $this->odpHuurder = $odpHuurder;
 
         return $this;
+    }
+
+    public function getOpmerkingen()
+    {
+        return $this->opmerkingen;
+    }
+
+    public function setOpmerkingen($opmerkingen)
+    {
+        $this->opmerkingen = $opmerkingen;
+    }
+
+    public function getKlant()
+    {
+        return $this->getOdpHuurder()->getKlant();
+    }
+
+    public function getOdpHuurovereenkomst()
+    {
+        return $this->odpHuurovereenkomst;
+    }
+
+    public function isDeletable()
+    {
+        return false;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

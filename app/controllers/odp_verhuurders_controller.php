@@ -1,7 +1,9 @@
 <?php
 
 use AppBundle\Entity\Klant;
+use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpVerhuurder;
+use OdpBundle\Form\OdpHuuraanbodType;
 use OdpBundle\Form\OdpVerhuurderType;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Form\OdpVerhuurderSelectType;
@@ -191,6 +193,30 @@ class OdpVerhuurdersController extends AppController
         }
 
         $this->set('odpVerhuurder', $odpVerhuurder);
+        $this->set('form', $form->createView());
+    }
+
+    public function nieuw_huuraanbod($odpVerhuurderId)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpVerhuurder = $entityManager->find(OdpVerhuurder::class, $odpVerhuurderId);
+
+        $odpHuuraanbod = new OdpHuuraanbod();
+        $odpHuuraanbod->setOdpVerhuurder($odpVerhuurder);
+
+        $form = $this->createForm(OdpHuuraanbodType::class, $odpHuuraanbod);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $entityManager->persist($odpHuuraanbod);
+            $entityManager->flush();
+
+            $this->Session->setFlash('Huuraanbod is toegevoegd.');
+
+            return $this->redirect(['action' => 'view', $odpVerhuurder->getId()]);
+        }
+
+        $this->set('odpHuuraanbod', $odpHuuraanbod);
         $this->set('form', $form->createView());
     }
 }

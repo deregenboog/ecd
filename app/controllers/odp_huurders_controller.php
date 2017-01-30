@@ -2,6 +2,7 @@
 
 use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuurder;
+use OdpBundle\Entity\OdpHuurverzoek;
 use OdpBundle\Form\OdpHuurderType;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Form\OdpHuurderSelectType;
@@ -11,6 +12,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
 use OdpBundle\Form\HsMemoType;
+use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpHuurdersController extends AppController
@@ -191,6 +193,30 @@ class OdpHuurdersController extends AppController
         }
 
         $this->set('odpHuurder', $odpHuurder);
+        $this->set('form', $form->createView());
+    }
+
+    public function nieuw_huurverzoek($odpHuurderId)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpHuurder = $entityManager->find(OdpHuurder::class, $odpHuurderId);
+
+        $odpHuurverzoek = new OdpHuurverzoek();
+        $odpHuurverzoek->setOdpHuurder($odpHuurder);
+
+        $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $entityManager->persist($odpHuurverzoek);
+            $entityManager->flush();
+
+            $this->Session->setFlash('Huurverzoek is toegevoegd.');
+
+            return $this->redirect(['action' => 'view', $odpHuurder->getId()]);
+        }
+
+        $this->set('odpHuurverzoek', $odpHuurverzoek);
         $this->set('form', $form->createView());
     }
 }

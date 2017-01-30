@@ -13,4 +13,18 @@
     <dd>{{ odpHuurder.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ odpHuurder.klant }}</dd>
+    <dt>
+        Huurverzoeken
+        {{ html.addLink({'controller': 'odp_huurders', 'action': 'nieuw_huurverzoek', 0: odpHuurder.id})|raw }}
+    </dt>
+    <dd>
+        <ul>
+            {% for odpHuurverzoek in odpHuurder.huurverzoeken %}
+                <li>
+                    {{ html.link(odpHuurverzoek.id, {'controller': 'odp_huurverzoeken', 'action': 'view', 0: odpHuurverzoek.id})|raw }}
+                </li>
+            {% endfor %}
+        </ul>
+        &nbsp;
+    </dd>
 </dl>
