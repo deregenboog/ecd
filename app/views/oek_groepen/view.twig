@@ -20,15 +20,15 @@
         {{ html.addLink({'controller': 'oek_groepen', 'action': 'voeg_klant_toe', 0: oekGroep.id})|raw }}
     </dt>
     <dd>
-        {% if oekGroep.oekKlanten.count() > 0 %}
-            <ul>
-                {% for oekKlant in oekGroep.oekKlanten %}
-                    <li>{{ html.link(oekKlant, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <span>Er staat niemand op de wachtlijst.</span>
-        {% endif %}
+        {{ html.link(oekGroep.oekKlanten.count() ~ ' klanten', {
+            'controller': 'oek_klanten',
+            'action': 'wachtlijst',
+            '?': {
+                'oek_klant_filter': {
+                    'groep': oekGroep.id
+                }
+            }
+        }) |raw }}
     </dd>
     <dt>Trainingen</dt>
     <dd>
