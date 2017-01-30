@@ -53,10 +53,10 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        if (isset($this->stadsdeel['naam'])) {
+        if (isset($this->stadsdeel)) {
             $builder
                 ->andWhere('klant.werkgebied = :klant_stadsdeel')
-                ->setParameter('klant_stadsdeel', $this->stadsdeel['naam'])
+                ->setParameter('klant_stadsdeel', $this->stadsdeel)
             ;
         }
     }

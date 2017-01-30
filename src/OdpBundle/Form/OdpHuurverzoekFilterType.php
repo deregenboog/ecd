@@ -19,11 +19,18 @@ class OdpHuurverzoekFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function getParent()
+    {
+        return FilterType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => OdpHuurverzoekFilter::class,
-            'enabled_filters' => [],
         ]);
     }
 }
