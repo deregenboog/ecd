@@ -1,7 +1,9 @@
 <?php
 
 use AppBundle\Entity\Klant;
+use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Entity\OdpHuurverzoek;
+use OdpBundle\Form\OdpHuurovereenkomstType;
 use OdpBundle\Form\OdpHuurverzoekType;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Form\OdpHuurverzoekSelectType;
@@ -12,6 +14,7 @@ use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
 use OdpBundle\Form\HsMemoType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormError;
 
 class OdpHuurverzoekenController extends AppController
 {
@@ -113,5 +116,39 @@ class OdpHuurverzoekenController extends AppController
 
         $this->set('odpHuurverzoek', $odpHuurverzoek);
         $this->set('form', $form->createView());
+    }
+
+    public function maak_huurovereenkomst($huurverzoekId)
+    {
+        /** @var OdpHuurverzoek $odpHuurverzoek */
+        /** @var Medewerker $medewerker */
+        $entityManager = $this->getEntityManager();
+        $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $huurverzoekId);
+        $medewerker = $entityManager->find(Medewerker::class, $this->Session->read('user_id'));
+
+        $odpHuurovereenkomst = new OdpHuurovereenkomst();
+        $odpHuurovereenkomst->setOdpHuurverzoek($odpHuurverzoek);
+        $odpHuurovereenkomst->setMedewerker($medewerker);
+
+        $form = $this->createForm(OdpHuurovereenkomstType::class, $odpHuurovereenkomst);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $entityManager->persist($odpHuurovereenkomst);
+                $entityManager->flush();
+
+                $this->Session->setFlash('Huurovereenkomst is opgeslagen.');
+
+                return $this->redirect(array('action' => 'view', $huurverzoekId));
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        $this->set('form', $form->createView());
+        $this->set('odpHuurovereenkomst', $odpHuurovereenkomst);
+
+        $this->render('/odp_huurovereenkomsten/add');
     }
 }

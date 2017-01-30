@@ -28,6 +28,12 @@ class OdpHuuraanbod
     private $odpVerhuurder;
 
     /**
+     * @var OdpHuurovereenkomst
+     * @ORM\OneToOne(targetEntity="OdpHuurovereenkomst", mappedBy="odpHuuraanbod")
+     */
+    private $odpHuurovereenkomst;
+
+    /**
      * @var string
      * @ORM\Column(type="text")
      */
@@ -65,8 +71,18 @@ class OdpHuuraanbod
         $this->opmerkingen = $opmerkingen;
     }
 
+    public function getOdpHuurovereenkomst()
+    {
+        return $this->odpHuurovereenkomst;
+    }
+
     public function isDeletable()
     {
         return false;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

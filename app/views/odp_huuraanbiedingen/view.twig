@@ -15,4 +15,13 @@
     <dd>{{ odpVerhuurder.klant }}</dd>
     <dt>Opmerkingen</dt>
     <dd>{{ odpHuuraanbod.opmerkingen }}</dd>
+    <dt>Huurovereenkomst</dt>
+    <dd>
+        {% if odpHuuraanbod.odpHuurovereenkomst %}
+            {{ odpHuuraanbod.odpHuurovereenkomst.id }}
+        {% else %}
+            {{ html.addLink({'action': 'maak_huurovereenkomst', 0: odpHuuraanbod.id}) | raw }}
+            {{ html.link('Maak huurovereenkomst', {'action': 'maak_huurovereenkomst', 0: odpHuuraanbod.id}) | raw }}
+        {% endif %}
+    </dd>
 </dl>
