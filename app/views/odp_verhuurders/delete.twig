@@ -1,0 +1,10 @@
+{% include('odp_subnavigation.twig') %}
+
+<h1>Verhuurder verwijderen</h1>
+<p>
+    Weet u zeker dat u verhuurder <strong>{{ odpVerhuurder }}</strong> wilt verwijderen?<br>
+    {{ form_start(form) }}
+        {{ html.link('Nee, terug', {'action': 'index'})|raw }}
+        <button type="submit">Ja, verwijderen</button>
+    {{ form_end(form) }}
+</p>

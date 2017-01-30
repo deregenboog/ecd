@@ -1,0 +1,8 @@
+oek_klanten_index:
+    path: oek_klanten
+
+oek_groepen_index:
+    path: oek_groepen
+
+oek_trainingen_index:
+    path: oek_trainingen

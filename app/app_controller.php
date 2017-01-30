@@ -110,6 +110,16 @@ class AppController extends Controller
             'GroepsactiviteitenIntakes',
             'GroepsactiviteitenVerslagen',
         ],
+        'HsKlanten' => [
+            'HsKlanten',
+            'HsVrijwilligers',
+        ],
+        'OekKlanten' => [
+            'OekKlanten'
+        ],
+        'OdpHuurders' => [
+            'OdpHuurders'
+        ],
         'Admin' => [
             'Admin',
             'ZrmSettings',
@@ -329,6 +339,7 @@ class AppController extends Controller
             $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
             $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
             $this->Session->write('Auth.User', $auth);
+            $this->Session->write('user_id', 1);
             $this->AuthExt->allow('*');
         }
 

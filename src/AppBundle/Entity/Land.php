@@ -46,6 +46,11 @@ class Land
      */
     private $modified;
 
+    public function __toString()
+    {
+        return $this->land;
+    }
+
     public function getId()
     {
         return $this->id;

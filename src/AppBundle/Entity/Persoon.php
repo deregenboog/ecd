@@ -141,7 +141,7 @@ class Persoon
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $disabled;
+    protected $disabled = false;
 
     public function __toString()
     {
@@ -308,4 +308,135 @@ class Persoon
 
         return $this;
     }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+
+        return $this;
+    }
+
+    public function getLand()
+    {
+        return $this->land;
+    }
+
+    public function setLand(Land $land)
+    {
+        $this->land = $land;
+        return $this;
+    }
+
+    public function getBsn()
+    {
+        return $this->bsn;
+    }
+
+    public function setBsn($bsn)
+    {
+        $this->bsn = $bsn;
+        return $this;
+    }
+
+    public function getNationaliteit()
+    {
+        return $this->nationaliteit;
+    }
+
+    public function setNationaliteit(Nationaliteit $nationaliteit)
+    {
+        $this->nationaliteit = $nationaliteit;
+        return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+    public function setAdres($adres)
+    {
+        $this->adres = $adres;
+        return $this;
+    }
+
+    public function setPostcode($postcode)
+    {
+        $this->postcode = $postcode;
+        return $this;
+    }
+
+    public function setPlaats($plaats)
+    {
+        $this->plaats = $plaats;
+        return $this;
+    }
+
+    public function setMobiel($mobiel)
+    {
+        $this->mobiel = $mobiel;
+        return $this;
+    }
+
+    public function setTelefoon($telefoon)
+    {
+        $this->telefoon = $telefoon;
+        return $this;
+    }
+
+    public function getGeenPost()
+    {
+        return $this->geenPost;
+    }
+
+    public function setGeenPost($geenPost)
+    {
+        $this->geenPost = $geenPost;
+        return $this;
+    }
+
+    public function getGeenEmail()
+    {
+        return $this->geenEmail;
+    }
+
+    public function setGeenEmail($geenEmail)
+    {
+        $this->geenEmail = $geenEmail;
+        return $this;
+    }
+
+    public function getOpmerking()
+    {
+        return $this->opmerking;
+    }
+
+    public function setOpmerking($opmerking)
+    {
+        $this->opmerking = $opmerking;
+        return $this;
+    }
+
+    public function getDisabled()
+    {
+        return $this->disabled;
+    }
+
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+        return $this;
+    }
+
+
 }

@@ -1,11 +1,13 @@
 <?php
 $userGroups = $this->Session->read('Auth.Medewerker.Group');
+    if (!$userGroups) {
+        $userGroups = [];
+    }
 ?>
 
 <h2><?php __('Klantenlijst');?></h2>
 
 <?php
-
 	echo $html->link('Nieuwe klant invoeren', array('action' => 'add'), array(),
 		__('Hebt u de algemene klantenlijst al gechecked? Weet u zeker dat dit een nieuwe klant is?', true));
 	if (in_array(GROUP_TEAMLEIDERS, $userGroups) || in_array(GROUP_DEVELOP, $userGroups)) {
