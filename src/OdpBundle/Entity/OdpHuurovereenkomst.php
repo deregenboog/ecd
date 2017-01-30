@@ -52,11 +52,11 @@ class OdpHuurovereenkomst
      */
     protected $odpHuurverzoek;
 
-//    /**
-//     * @var OdpHuurovereenkomstAfsluiting
-//     * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
-//     */
-//    protected $odpHuurovereenkomstAfsluiting;
+    /**
+     * @var OdpHuurovereenkomstAfsluiting
+     * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
+     */
+    protected $odpHuurovereenkomstAfsluiting;
 
     public function getId()
     {

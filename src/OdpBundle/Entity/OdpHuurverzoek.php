@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\TimestampableTrait;
 
@@ -20,6 +21,13 @@ class OdpHuurverzoek
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $medewerker;
 
     /**
      * @var OdpHuurder
@@ -42,6 +50,18 @@ class OdpHuurverzoek
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+
+        return $this;
     }
 
     public function getOdpHuurder()
