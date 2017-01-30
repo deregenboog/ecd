@@ -7,7 +7,7 @@ use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\OekGroep;
 
-class OekKlantFilter implements FilterInterface
+class OekTrainingFilter implements FilterInterface
 {
     /**
      * @var int
@@ -17,17 +17,17 @@ class OekKlantFilter implements FilterInterface
     /**
      * @var OekGroep
      */
-    public $groep;
+    public $training_oekGroep;
 
     /**
      * @var string
      */
-    public $aanmelding;
+    public $startDatum;
 
     /**
      * @var string
      */
-    public $afsluiting;
+    public $eindDatum;
 
     /**
      * @var KlantFilter
@@ -38,30 +38,29 @@ class OekKlantFilter implements FilterInterface
     {
         if ($this->id) {
             $builder
-                ->andWhere('oekKlant.id = :oek_klant_id')
+                ->andWhere('oekTraining.id = :oek_klant_id')
                 ->setParameter('oek_klant_id', $this->id)
             ;
         }
 
-        if ($this->groep) {
+        if ($this->training_oekGroep) {
             $builder
-                ->innerJoin('oekKlant.oekGroepen', 'oekGroepen')
-                ->andWhere('oekGroepen = :oek_groep')
-                ->setParameter('oek_groep', $this->groep)
+                ->andWhere('oekGroep = :oek_groep')
+                ->setParameter('oek_groep', $this->training_oekGroep)
             ;
         }
 
-        if ($this->aanmelding) {
+        if ($this->startDatum) {
             $builder
-                ->andWhere('oekKlant.aanmelding LIKE :aanmelding')
-                ->setParameter('aanmelding', "%{$this->aanmelding}%")
+                ->andWhere('oekTraining.startDatum LIKE :startDatum')
+                ->setParameter('startDatum', "%{$this->startDatum}%")
             ;
         }
 
-        if ($this->afsluiting) {
+        if ($this->eindDatum) {
             $builder
-                ->andWhere('oekKlant.afsluiting LIKE :afsluiting')
-                ->setParameter('afsluiting', "%{$this->afsluiting}%")
+                ->andWhere('oekTraining.eindDatum LIKE :eindDatum')
+                ->setParameter('eindDatum', "%{$this->eindDatum}%")
             ;
         }
 

@@ -2,9 +2,11 @@
 
 use OekBundle\Entity\OekTraining;
 use OekBundle\Form\Model\OekTrainingModel;
+use OekBundle\Form\OekTrainingFilterType;
 use OekBundle\Form\OekTrainingKlantType;
 use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
+use Symfony\Component\Form\Test\FormInterface;
 
 class OekTrainingenController extends AppController
 {
@@ -18,6 +20,14 @@ class OekTrainingenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $enabledFilters = [
+        'id',
+        'klant' => ['naam'],
+        'training_oekGroep',
+        'startDatum',
+        'eindDatum'
+    ];
+
     private $sortFieldWhitelist = [
         'oekTraining.id',
         'oekTraining.naam',
@@ -28,6 +38,12 @@ class OekTrainingenController extends AppController
 
     public function index()
     {
+        /** @var FormInterface $filter */
+        $filter = $this->createForm(OekTrainingFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OekTraining::class);
 
@@ -35,12 +51,17 @@ class OekTrainingenController extends AppController
             ->leftJoin('oekTraining.oekKlanten', 'oekKlanten')
             ->innerJoin('oekTraining.oekGroep', 'oekGroep');
 
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
+
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekTraining.startDatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
+        $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
     }
 

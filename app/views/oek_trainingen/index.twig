@@ -9,6 +9,34 @@
 
 <table>
     <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.training_oekGroep) }}
+            {{ form_errors(filter.training_oekGroep) }}
+        </th>
+        <th></th>
+        <th>
+            {{ form_widget(filter.startDatum) }}
+            {{ form_errors(filter.startDatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.eindDatum) }}
+            {{ form_errors(filter.eindDatum) }}
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+    <tr>
         <th>
             {{ knp_pagination_sortable(pagination, '#', 'oekTraining.id') }}
         </th>
