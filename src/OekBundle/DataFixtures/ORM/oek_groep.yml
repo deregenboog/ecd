@@ -1,6 +1,21 @@
 OekBundle\Entity\OekGroep:
-    oek_groep_{1..10}:
-        naam: '<sentence()>'
+    oek_groep_1:
+        naam: 'OEK basis'
+        oek_klanten: '<numberBetween(1, 10)>x @oek_klant_*'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'
+    oek_groep_2:
+        naam: 'OEK psychiatrie'
+        oek_klanten: '<numberBetween(1, 10)>x @oek_klant_*'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'
+    oek_groep_3:
+        naam: 'OEK werk aan je toekomst'
+        oek_klanten: '<numberBetween(1, 10)>x @oek_klant_*'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'
+    oek_groep_4:
+        naam: 'OEK daklozen'
         oek_klanten: '<numberBetween(1, 10)>x @oek_klant_*'
         created: '<dateTimeThisDecade()>'
         modified: '<dateTimeThisDecade()>'
