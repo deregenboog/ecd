@@ -77,8 +77,8 @@ class OekKlantenController extends AppController
 
     public function wachtlijst()
     {
-        $this->enabledFilters = array_merge($this->enabledFilters, ['groep']);
-        $this->sortFieldWhitelist = array_merge($this->sortFieldWhitelist, ['oekKlant.groepen']);
+        $this->enabledFilters[] = 'groep';
+        $this->sortFieldWhitelist[] = 'oekKlant.groepen';
 
         return $this->index();
     }
