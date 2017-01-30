@@ -15,12 +15,34 @@ class IzVrijwilligerRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function select($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getSelectBuilder();
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countByProject($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
             ->addSelect('izProject.naam AS project')
             ->innerJoin('izHulpaanbod.izProject', 'izProject')
             ->groupBy('izProject')
+        ;
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function selectByProject($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getSelectBuilder()
+            ->addSelect('izProject.naam AS project')
+            ->innerJoin('izHulpaanbod.izProject', 'izProject')
+            ->addGroupBy('izProject')
+            ->orderBy('izProject.naam')
+            ->addOrderBy('vrijwilliger.achternaam, vrijwilliger.voornaam, vrijwilliger.tussenvoegsel')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -60,6 +82,22 @@ class IzVrijwilligerRepository extends EntityRepository
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluiting')
             ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
+            ->setParameter('foutieve_invoer', 'Foutieve invoer')
+        ;
+    }
+
+    private function getSelectBuilder()
+    {
+        return $this->createQueryBuilder('izVrijwilliger')
+            ->select('vrijwilliger.id')
+            ->addSelect("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) AS naam")
+            ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
+            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
+            ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+            ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluiting')
+            ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
+            ->groupBy('izVrijwilliger.id')
+            ->orderBy('vrijwilliger.achternaam, vrijwilliger.voornaam, vrijwilliger.tussenvoegsel')
             ->setParameter('foutieve_invoer', 'Foutieve invoer')
         ;
     }
