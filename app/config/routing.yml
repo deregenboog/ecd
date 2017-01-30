@@ -4,3 +4,5 @@ _app:
 _iz:
     resource: "@IzBundle/Resources/config/routing.yml"
 
+_oek:
+    resource: "@OekBundle/Resources/config/routing.yml"
