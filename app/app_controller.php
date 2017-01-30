@@ -110,6 +110,13 @@ class AppController extends Controller
             'GroepsactiviteitenIntakes',
             'GroepsactiviteitenVerslagen',
         ],
+        'HsKlanten' => [
+            'HsKlanten',
+            'HsVrijwilligers',
+        ],
+        'OekKlanten' => [
+            'OekKlanten'
+        ],
         'Admin' => [
             'Admin',
             'ZrmSettings',
@@ -134,12 +141,16 @@ class AppController extends Controller
     /**
      * Check if a controller is accesible by the current user, based on the
      * groups it belongs to. The list of controllers accessible per group are
-     * defined at config/core.php, in the array ACL.permissions. 
+     * defined at config/core.php, in the array ACL.permissions.
      *
      * @param String $controller The controller name
      */
-    public function _isControllerAuthorized ($controller)
+    public function _isControllerAuthorized($controller)
     {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
+            return true;
+        }
+
         $permissions = Configure::read('ACL.permissions');
         foreach (array_keys($this->userGroups) as $gid) {
             if (!isset($permissions[$gid])) {
@@ -228,7 +239,7 @@ class AppController extends Controller
     /**
      * forAdminOnly If you are not admin, redirect. For quick access handling
      * in actions.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -258,13 +269,13 @@ class AppController extends Controller
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         $this->set('medewerkers', $medewerkers);
 
-	return $medewerkers;
+    return $medewerkers;
     }
 
     /**
      * flash Wrapper for Session-flash. See flashError, it is used more.
-     * 
-     * @param mixed $msg 
+     *
+     * @param mixed $msg
      * @access public
      * @return void
      */
@@ -275,15 +286,14 @@ class AppController extends Controller
 
     /**
      * flashError Wrapper for Session-flash, using error message CSS styling.
-     * 
-     * @param mixed $msg 
+     *
+     * @param mixed $msg
      * @access public
      * @return void
      */
     public function flashError($msg)
     {
-        $this->Session->setFlash($msg, 'default',
-                    array('class' => 'error-message'));
+        $this->Session->setFlash($msg, 'default', ['class' => 'error-message']);
     }
 
     public function beforeFilter()
@@ -292,10 +302,6 @@ class AppController extends Controller
 
         $this->container = $kernel->getContainer();
         $this->request = Request::createFromGlobals();
-
-        //Configure AuthComponent
-        // Authorize = actions makes use of ACL.
-        // http://book.cakephp.org/view/396/authorize
 
         // By authorizing controller and not actions, we can get rid of ACL and
         // keep things simple. See isAuthorized() above.
@@ -306,9 +312,9 @@ class AppController extends Controller
         $this->AuthExt->logoutRedirect = ['controller' => 'medewerkers', 'action' => 'login'];
         //this is to allow everyone to see the static pages
         $this->AuthExt->allowedActions = ['display'];
-
         // Element to be rendered for ajax login form:
         $this->AuthExt->ajaxLogin = 'ajax_login';
+
         $auth = $this->Session->read('Auth');
         $this->set('user_is_logged_in', false);
         $this->set('user_is_administrator', false);
@@ -321,7 +327,7 @@ class AppController extends Controller
             $this->set('userGroups', []);
         }
 
-        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // Disable ACL, fake user data:
             $auth['Group'] = [1];
             $auth['username'] = 'sysadmin';
@@ -330,6 +336,7 @@ class AppController extends Controller
             $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
             $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
             $this->Session->write('Auth.User', $auth);
+            $this->AuthExt->allow('*');
         }
 
         // route the user to home directory
@@ -353,8 +360,8 @@ class AppController extends Controller
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
-                            'id' => $auth['Medewerker']['id'],
-                            'username' => $auth['Medewerker']['username'],
+                        'id' => $auth['Medewerker']['id'],
+                        'username' => $auth['Medewerker']['username'],
                     ]];
                 }
                 $this->{$this->modelClass}->setUserData($activeUser);
@@ -371,13 +378,12 @@ class AppController extends Controller
             }
         }
 
+        $is_admin = false;
         if ($s_user
-                || array_key_exists(GROUP_ADMIN, $this->userGroups)
+            || array_key_exists(GROUP_ADMIN, $this->userGroups)
             || array_key_exists(GROUP_DEVELOP, $this->userGroups)
         ) {
             $is_admin = true;
-        } else {
-            $is_admin = false;
         }
 
         // Pass it to the view, model, and the controller
@@ -388,8 +394,8 @@ class AppController extends Controller
     }
 
     /**
-    *before render
-    */
+     * before render
+     */
     public function beforeRender()
     {
         if (isset($this->data['Medewerker']['password'])) {
@@ -442,7 +448,7 @@ class AppController extends Controller
         $this->Email->send();
     }
 
-/** A generic sendEmail function for internal usage, that accepts multiple
+    /** A generic sendEmail function for internal usage, that accepts multiple
      * optional parameters (see array $defaults) and multiple addressees passed
      * as an array (that will generate multiple emails with the same contents).
      *
@@ -454,11 +460,10 @@ class AppController extends Controller
      * $param $debug if true, do not send any real email, but return an array
      * with all emails that would have been generated.
      */
-
     public function _genericSendEmail($parameters, $debug = false)
     {
         App::import('Component', 'Email');
-        $this->Email =& new EmailComponent(null);
+        $this->Email = new EmailComponent(null);
         if (method_exists($this->Email, 'initialize')) {
             $this->Email->initialize($this);
         }

@@ -11,8 +11,9 @@ class KlantenController extends AppController
     public function _isControllerAuthorized($controller)
     {
         $auth = parent::_isControllerAuthorized($controller);
-        if ($auth &&
-            $this->action == 'merge' || $this->action == 'findDuplicates'
+
+        if ($auth && $this->action == 'merge'
+            || $this->action == 'findDuplicates'
         ) {
             $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]) || isset($this->userGroups[GROUP_DEVELOP]);
         }
@@ -259,7 +260,7 @@ class KlantenController extends AppController
         $landen = array($onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']);
         $landen = $landen + $this->Klant->Geboorteland->find('list', array(
             'order' => array('Geboorteland.land ASC'),
-               'conditions' => array('Geboorteland.land !=' => 'Onbekend'),
+            'conditions' => array('Geboorteland.land !=' => 'Onbekend'),
         ));
 
         $default_land_id = array_search('Nederland', $landen);
@@ -271,7 +272,7 @@ class KlantenController extends AppController
         $nationaliteiten = array($onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']);
         $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', array(
             'order' => array('Nationaliteit.naam ASC'),
-               'conditions' => array('Nationaliteit.naam !=' => 'Onbekend'),
+            'conditions' => array('Nationaliteit.naam !=' => 'Onbekend'),
         ));
 
         $default_nationaliteit_id = array_search('Nederlandse', $nationaliteiten);

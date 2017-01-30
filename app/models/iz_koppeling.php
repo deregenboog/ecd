@@ -9,76 +9,76 @@ class IzKoppeling extends AppModel
     public $actsAs = array('Containable');
 
     public $validate = array(
-            'medewerker_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een medewerker in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        'medewerker_id' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een medewerker in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'iz_vraagaanbod_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een reden in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'iz_vraagaanbod_id' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een reden in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'iz_eindekoppeling_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een reden in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'iz_eindekoppeling_id' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een reden in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een startdatum in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'startdatum' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een startdatum in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'iz_koppeling_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Selecteer een koppeling',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'iz_koppeling_id' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Selecteer een koppeling',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'koppleling_startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een startdatum in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'koppleling_startdatum' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een startdatum in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
-            'project_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een project in',
-                            'allowEmpty' => false,
-                            'required' => false,
-                    ),
+        ),
+        'project_id' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een project in',
+                'allowEmpty' => false,
+                'required' => false,
             ),
+        ),
     );
 
     public $belongsTo = array(
@@ -110,8 +110,24 @@ class IzKoppeling extends AppModel
             'fields' => '',
             'order' => '',
         ),
-
     );
+
+    public function beforeSave($options = [])
+    {
+        $izDeelnemerId = $this->data['IzDeelnemer']['id'];
+        $izDeelnemer = $this->IzDeelnemer->findById($izDeelnemerId);
+
+        if ($izDeelnemer) {
+            if ($izDeelnemer['IzDeelnemer']['model'] == 'Klant') {
+                $this->data['IzKoppeling']['discr'] = 'hulpvraag';
+            }
+            if ($izDeelnemer['IzDeelnemer']['model'] == 'Vrijwilliger') {
+                $this->data['IzKoppeling']['discr'] = 'hulpaanbod';
+            }
+        }
+
+        return parent::beforeSave($options);
+    }
 
     public function getCandidatesForProjects($persoon_model, $project_ids)
     {

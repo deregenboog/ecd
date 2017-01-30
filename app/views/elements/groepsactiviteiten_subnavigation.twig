@@ -20,12 +20,7 @@
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
-        'Rapportages OUD',
-        {'controller': 'Groepsactiviteiten', 'action': 'rapportages'}
-    )|raw }}
-    &nbsp;&nbsp;
-    {{ html.link(
-        'Rapportages NIEUW',
+        'Rapportages',
         {'controller': 'groepsactiviteiten_rapportages', 'action': 'index'},
         {'class': this.name == 'GroepsactiviteitenRapportages' ? 'selected' : ''}
     )|raw }}

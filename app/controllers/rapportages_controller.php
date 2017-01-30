@@ -393,6 +393,7 @@ class RapportagesController extends AppController
 
         //new clients conditions
     }
+
     public function locatie()
     {
         // Gather data for a location specific report
@@ -531,7 +532,15 @@ class RapportagesController extends AppController
         }
 
         $this->Locatie->recursive = -1;
-        $locations = $this->Locatie->find('list', array('fields' => array('Locatie.id', 'Locatie.naam')));
+        $locations = $this->Locatie->find('list', [
+            'fields' => ['Locatie.id', 'Locatie.naam'],
+            // @link https://github.com/deregenboog/ecd/issues/47
+//             'conditions' => ['OR' => [
+//                 ['datum_tot' => '0000-00-00'],
+//                 ['datum_tot >' => date('Y-m-d')],
+//             ]],
+        ]);
+
         $this->set(compact('locations', 'date_from', 'date_until', 'geslacht_id', 'locatie_id'));
     }
 

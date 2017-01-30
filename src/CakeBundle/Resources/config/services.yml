@@ -1,5 +1,28 @@
 parameters:
     cake:
+        email:
+            prod:
+                informele_zorg: "jschmidt@deregenboog.org"
+                dagbesteding: "bnieuwburg@deregenboog.org"
+                inloophuis: "adbruijn@deregenboog.org"
+                hulpverlening: "jvloo@deregenboog.org"
+                agressie: "tvhamond@deregenboog.org"
+                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+            beta:
+                informele_zorg: "jschmidt@deregenboog.org"
+                dagbesteding: "bnieuwburg@deregenboog.org"
+                inloophuis: "adbruijn@deregenboog.org"
+                hulpverlening: "jvloo@deregenboog.org"
+                agressie: "tvhamond@deregenboog.org"
+                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+            test:
+                informele_zorg: "bhuttinga@deregenboog.org"
+                dagbesteding: "bhuttinga@deregenboog.org"
+                inloophuis: "bhuttinga@deregenboog.org"
+                hulpverlening: "bhuttinga@deregenboog.org"
+                agressie: "bhuttinga@deregenboog.org"
+                administratiebedrijf: "bhuttinga@deregenboog.org"
+
         Session.cookie: ECD
         Session.timeout: 8000
 
@@ -53,7 +76,7 @@ parameters:
         GROUP_IZ_BEHEER: 10462
         GROUP_BEHEER_GROEPSACTIVITEIT: 10463
 
-        ACL.disabled: false
+        ACL.disabled: '%ACL.disabled%'
         ACL.permissions:
             GROUP_REPORT:
                 - Rapportages
@@ -159,12 +182,13 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
             GROUP_GROEPSACTIVITEIT:
-                - Vrijwilligers
-                - Groepsactiviteiten
                 - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
-                - Attachments
+                - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
@@ -189,6 +213,8 @@ parameters:
             BackOnTrack: BOT
             IzDeelnemers: IZ
             Groepsactiviteiten: Groepsactiviteiten
+            hs_klanten: HomesService
+            oek_klanten: Op Eigen Kracht
             Admin: Admin
 
         TBC_months_period: 6

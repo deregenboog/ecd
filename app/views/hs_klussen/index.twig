@@ -1,0 +1,59 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Klussen</h1>
+
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('HomeService-klus toevoegen', {'action': 'add'})|raw }}
+</p>
+
+<table>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'hsKlus.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Datum', 'hsKlus.datum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Activiteit', 'hsActiviteit.naam') }}
+        </th>
+        <th>Vrijwilliger</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for hsKlus in pagination %}
+    <tr>
+        <td>
+            {{ html.link(hsKlus.id, {'action': 'view', 0: hsKlus.id})|raw }}
+        </td>
+        <td>{{ hsKlus.datum|date('d-m-Y') }}</td>
+        <td>{{ hsKlus.hsKlant }}</td>
+        <td>{{ hsKlus.hsKlant.klant.werkgebied }}</td>
+        <td>{{ hsKlus.hsActiviteit }}</td>
+        <td>
+            <ul>
+                {% for hsVrijwilliger in hsKlus.hsVrijwilligers %}
+                    <li>{{ hsVrijwilliger }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>
+            {{ html.viewLink({'action': 'view', 0: hsKlus.id})|raw }}
+            {{ html.editLink({'action': 'edit', 0: hsKlus.id})|raw }}
+            {% if hsKlus.deletable %}
+                {{ html.deleteLink({'action': 'delete', 0: hsKlus.id})|raw }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

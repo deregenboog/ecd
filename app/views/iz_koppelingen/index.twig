@@ -9,7 +9,7 @@
                 <th>
                     {{ form_widget(form.klant.naam) }}
                     {{ form_errors(form.klant.naam) }}
-                    {{ form_widget(form.submit) }}
+                    <button type="submit">Filteren</button>
                 </th>
                 <th>
                     {{ form_widget(form.vrijwilliger.naam) }}
@@ -46,7 +46,7 @@
         </tr>
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}

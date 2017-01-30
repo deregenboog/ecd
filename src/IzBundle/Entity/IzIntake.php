@@ -84,4 +84,11 @@ class IzIntake
 
         return $this;
     }
+
+    public function setIzDeelnemer(IzDeelnemer $izDeelnemer)
+    {
+        $this->izDeelnemer = $izDeelnemer;
+
+        return $this;
+    }
 }

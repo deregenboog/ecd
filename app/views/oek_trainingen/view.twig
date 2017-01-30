@@ -1,0 +1,47 @@
+{% include 'oek_subnavigation.twig' %}
+
+<h1>{{ oekTraining }}</h1>
+
+<p>
+    {{ html.editLink({'action': 'edit', 0: oekTraining.id})|raw }}
+    {{ html.link('Training wijzigen', {'action': 'edit', 0: oekTraining.id})|raw }}
+    {% if oekTraining.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: oekTraining.id})|raw }}
+    {% endif %}
+</p>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ oekTraining.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ oekTraining.naam }}</dd>
+    <dt>Locatie</dt>
+    <dd>{{ oekTraining.locatie }}</dd>
+    <dt>Start datum</dt>
+    <dd>{{ oekTraining.startDatum | date('d-m-Y') }}</dd>
+    <dt>Start tijd</dt>
+    <dd>{{ oekTraining.startTijd | date('H:i') }}</dd>
+    <dt>Eind datum</dt>
+    <dd>{{ oekTraining.eindDatum | date('d-m-Y') }}</dd>
+    <dt>
+        Klanten
+        {{ html.addLink({'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }} <br>
+        {{ html.link('(Email allen)', {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id})|raw }}
+    </dt>
+    <dd>
+        {% if oekTraining.oekKlanten.count() > 0 %}
+            <ul>
+            {% for oekKlant in oekTraining.oekKlanten %}
+                <li>{{ html.link(oekKlant, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <span>Nog niemand.</span>
+        {% endif %}
+        &nbsp;
+    </dd>
+    <dt>Groep</dt>
+    <dd>
+        {{ oekTraining.oekGroep.naam }}
+    </dd>
+</dl>

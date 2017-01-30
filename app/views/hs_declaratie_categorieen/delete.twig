@@ -1,0 +1,9 @@
+{% include('hs_subnavigation.twig') %}
+
+<h1>Declaratiecategorie verwijderen</h1>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    Weet u zeker dat u declaratiecategorie {{ hsDeclaratieCategorie }} wilt verwijderen?<br>
+    {{ html.link('Nee, terug', {'action': 'index'})|raw }}
+    <button type="submit">Ja, verwijderen</button>
+{{ form_end(form) }}

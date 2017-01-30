@@ -41,7 +41,7 @@ class IzHulpvraag extends IzKoppeling
         return $this->izHulpaanbod;
     }
 
-    public function setIzHulpaanbod(IzHulpaanbod $izHulpaanbod)
+    public function setIzHulpaanbod(IzHulpaanbod $izHulpaanbod = null)
     {
         $this->izHulpaanbod = $izHulpaanbod;
 
