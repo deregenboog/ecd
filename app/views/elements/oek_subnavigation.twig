@@ -7,8 +7,8 @@
     &nbsp;&nbsp;
     {{ html.link(
         'Wachtlijst',
-        {'controller': 'oek_wachtlijsten', 'action': 'index'},
-        this.viewPath == 'oek_wachtlijsten' ? {'class': 'selected'} : {}
+        {'controller': 'oek_klanten', 'action': 'wachtlijst'},
+        this.viewPath == 'oek_klanten/wachtlijst' ? {'class': 'selected'} : {}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(

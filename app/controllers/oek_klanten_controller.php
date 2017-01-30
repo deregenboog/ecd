@@ -14,6 +14,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormInterface;
 
 class OekKlantenController extends AppController
 {
@@ -44,6 +45,7 @@ class OekKlantenController extends AppController
 
     public function index()
     {
+        /** @var FormInterface $filter */
         $filter = $this->createForm(OekKlantFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
@@ -54,6 +56,7 @@ class OekKlantenController extends AppController
 
         $builder = $repository->createQueryBuilder('oekKlant')
             ->innerJoin('oekKlant.klant', 'klant')
+            ->innerJoin('oekKlant.oekGroepen', 'oekGroepen')
             ->andWhere('klant.disabled = false')
         ;
 
@@ -74,33 +77,10 @@ class OekKlantenController extends AppController
 
     public function wachtlijst()
     {
-        $filter = $this->createForm(OekKlantFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters + ['groepen'],
-        ]);
-        $filter->handleRequest($this->request);
+        $this->enabledFilters = array_merge($this->enabledFilters, ['groep']);
+        $this->sortFieldWhitelist = array_merge($this->sortFieldWhitelist, ['oekKlant.groepen']);
 
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekKlant::class);
-
-        $builder = $repository->createQueryBuilder('oekKlant')
-            ->innerJoin('oekKlant.klant', 'klant')
-            ->innerJoin('oekKlant.oekGroepen', 'groepen')
-            ->andWhere('klant.disabled = false')
-        ;
-
-        if ($filter->isValid()) {
-            $filter->getData()->applyTo($builder);
-        }
-
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'klant.achternaam',
-            'defaultSortDirection' => 'asc',
-            'sortFieldWhitelist' => $this->sortFieldWhitelist,
-            'wrap-queries' => true, // because of HAVING clause in filter
-        ]);
-
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return $this->index();
     }
 
     public function view($id)

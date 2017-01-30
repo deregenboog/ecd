@@ -5,6 +5,7 @@ namespace OekBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
+use OekBundle\Entity\OekGroep;
 
 class OekKlantFilter implements FilterInterface
 {
@@ -12,6 +13,11 @@ class OekKlantFilter implements FilterInterface
      * @var int
      */
     public $id;
+
+    /**
+     * @var OekGroep
+     */
+    public $groep;
 
     /**
      * @var string
@@ -34,6 +40,13 @@ class OekKlantFilter implements FilterInterface
             $builder
                 ->andWhere('oekKlant.id = :oek_klant_id')
                 ->setParameter('oek_klant_id', $this->id)
+            ;
+        }
+
+        if ($this->groep) {
+            $builder
+                ->andWhere(':oek_groep IN (oekKlant.oekGroepen)')
+                ->setParameter('oek_groep', $this->groep)
             ;
         }
 
