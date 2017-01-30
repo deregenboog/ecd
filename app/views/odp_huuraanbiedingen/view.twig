@@ -1,0 +1,18 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>
+    Verhuurder {{ odpVerhuurder.klant }}
+    {{ html.editLink({'action': 'edit', 0: odpHuuraanbod.id})|raw }}
+    {% if odpVerhuurder.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: odpHuuraanbod.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ odpVerhuurder.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ odpVerhuurder.klant }}</dd>
+    <dt>Opmerkingen</dt>
+    <dd>{{ odpHuuraanbod.opmerkingen }}</dd>
+</dl>

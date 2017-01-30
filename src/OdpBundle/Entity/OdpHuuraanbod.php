@@ -50,6 +50,11 @@ class OdpHuuraanbod
         return $this;
     }
 
+    public function getKlant()
+    {
+        return $this->odpVerhuurder->getKlant();
+    }
+
     public function getOpmerkingen()
     {
         return $this->opmerkingen;
@@ -58,5 +63,10 @@ class OdpHuuraanbod
     public function setOpmerkingen($opmerkingen)
     {
         $this->opmerkingen = $opmerkingen;
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }
