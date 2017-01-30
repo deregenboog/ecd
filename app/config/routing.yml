@@ -6,3 +6,5 @@ _iz:
 
 _oek:
     resource: "@OekBundle/Resources/config/routing.yml"
+_odp:
+    resource: "@OdpBundle/Resources/config/routing.yml"

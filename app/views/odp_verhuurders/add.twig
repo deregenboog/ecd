@@ -1,0 +1,27 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>Verhuurder toevoegen</h1>
+
+{% if filterForm is defined %}
+    Zoek een bestaande verhuurder op klantnr, naam en/of geboortedatum.
+    {{ form_start(filterForm) }}
+        {{ form_widget(filterForm) }}
+        <button type="submit">Verder</button>
+    {{ form_end(filterForm) }}
+{% endif %}
+
+{% if selectionForm is defined %}
+    Selecteer een bestaande verhuurder en klik op "Verder".<br>
+    Selecteer niks en klik op "Verder" om een nieuwe verhuurder aan te maken.
+    {{ form_start(selectionForm) }}
+        {{ form_widget(selectionForm) }}
+        <button type="submit">Verder</button>
+    {{ form_end(selectionForm) }}
+{% endif %}
+
+{% if creationForm is defined %}
+    {{ form_start(creationForm) }}
+        {{ form_widget(creationForm) }}
+        <button type="submit">Opslaan</button>
+    {{ form_end(creationForm) }}
+{% endif %}
