@@ -30,7 +30,7 @@ class OekKlantFilterType extends AbstractType
             $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
         }
 
-        if (key_exists('groep', $options['enabled_filters'])) {
+        if (in_array('groep', $options['enabled_filters'])) {
             $builder->add('groep', EntityType::class, [
                 'class' => OekGroep::class
             ]);
