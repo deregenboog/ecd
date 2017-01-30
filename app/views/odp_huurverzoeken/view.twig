@@ -1,0 +1,16 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>
+    Huurder {{ odpHuurder.klant }}
+    {{ html.editLink({'action': 'edit', 0: odpHuurder.id})|raw }}
+    {% if odpHuurder.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: odpHuurder.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ odpHuurder.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ odpHuurder.klant }}</dd>
+</dl>

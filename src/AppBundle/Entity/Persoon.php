@@ -141,7 +141,7 @@ class Persoon
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $disabled;
+    protected $disabled = false;
 
     public function __toString()
     {

@@ -1,0 +1,4 @@
+OdpBundle\Entity\OdpVerhuurder:
+    odp_huurder_{1..100}:
+        klant (unique): '@klant_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
