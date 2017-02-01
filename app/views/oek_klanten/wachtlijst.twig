@@ -74,10 +74,10 @@
             </ul>
         </td>
         <td>
-            {{ oekKlant.aanmelding | date('d-m-Y') }}
+            {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
         </td>
         <td>
-            {{ oekKlant.afsluiting | date('d-m-Y') }}
+            {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
         </td>
         <td>
             {{ html.viewLink({'action': 'view', 0: oekKlant.id})|raw }}
