@@ -2,7 +2,6 @@
 
 namespace OekBundle\Form;
 
-use AppBundle\Form\AppDateType;
 use OekBundle\Entity\OekGroep;
 use OekBundle\Filter\OekTrainingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -11,7 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
-use OekBundle\Filter\OekKlantFilter;
 use AppBundle\Form\FilterType;
 
 class OekTrainingFilterType extends AbstractType
@@ -34,7 +32,7 @@ class OekTrainingFilterType extends AbstractType
         if (in_array('training_oekGroep', $options['enabled_filters'])) {
             $builder->add('training_oekGroep', EntityType::class, [
                 'required' => false,
-                'class' => OekGroep::class
+                'class' => OekGroep::class,
             ]);
         }
 

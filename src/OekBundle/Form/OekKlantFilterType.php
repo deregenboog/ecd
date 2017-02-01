@@ -2,7 +2,6 @@
 
 namespace OekBundle\Form;
 
-use AppBundle\Form\AppDateType;
 use OekBundle\Entity\OekGroep;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -34,7 +33,7 @@ class OekKlantFilterType extends AbstractType
         if (in_array('groep', $options['enabled_filters'])) {
             $builder->add('groep', EntityType::class, [
                 'required' => false,
-                'class' => OekGroep::class
+                'class' => OekGroep::class,
             ]);
         }
 
