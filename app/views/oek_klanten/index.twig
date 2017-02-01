@@ -13,8 +13,8 @@
     <tr>
         {{ form_start(filter) }}
         <th>
-            {{ form_widget(filter.id) }}
-            {{ form_errors(filter.id) }}
+            {{ form_widget(filter.klant.id) }}
+            {{ form_errors(filter.klant.id) }}
         </th>
         <th>
             {{ form_widget(filter.klant.naam) }}
@@ -39,7 +39,7 @@
     </tr>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, '#', 'oekKlant.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
@@ -58,7 +58,7 @@
     {% for oekKlant in pagination %}
     <tr>
         <td>
-            {{ html.link(oekKlant.id, {'action': 'view', 0: oekKlant.id})|raw }}
+            {{ html.link(oekKlant.klant.id, {'action': 'view', 0: oekKlant.id})|raw }}
         </td>
         <td>
             {{ html.link(oekKlant.klant.naam, {'action': 'view', 0: oekKlant.id})|raw }}

@@ -29,14 +29,13 @@ class OekKlantenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'id',
-        'klant' => ['naam', 'stadsdeel'],
+        'klant' => ['id', 'naam', 'stadsdeel'],
         'aanmelding',
         'afsluiting'
     ];
 
     private $sortFieldWhitelist = [
-        'oekKlant.id',
+        'klant.id',
         'klant.achternaam',
         'klant.werkgebied',
         'oekKlant.aanmelding',
