@@ -28,7 +28,8 @@ class AppDateRangeType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $event) {
             /* @var AppDateRangeModel $data */
             $data = $event->getData();
-            if ($data->getStart() instanceof \DateTime
+            if ($data instanceof AppDateRangeModel
+                && $data->getStart() instanceof \DateTime
                 && $data->getEnd() instanceof \DateTime
                 && $data->getStart() > $data->getEnd()
             ) {
