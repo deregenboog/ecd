@@ -24,12 +24,12 @@
         </th>
         <th></th>
         <th>
-            {{ form_widget(filter.startDatum) }}
-            {{ form_errors(filter.startDatum) }}
+            {{ form_widget(filter.startdatum) }}
+            {{ form_errors(filter.startdatum) }}
         </th>
         <th>
-            {{ form_widget(filter.eindDatum) }}
-            {{ form_errors(filter.eindDatum) }}
+            {{ form_widget(filter.einddatum) }}
+            {{ form_errors(filter.einddatum) }}
         </th>
         <th>
             <button type="submit">Filteren</button>
@@ -50,10 +50,10 @@
             Aantal deelnemers
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Startdatum', 'oekTraining.startDatum') }}
+            {{ knp_pagination_sortable(pagination, 'Startdatum', 'oekTraining.startdatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Einddatum', 'oekTraining.eindDatum') }}
+            {{ knp_pagination_sortable(pagination, 'Einddatum', 'oekTraining.einddatum') }}
         </th>
         <th></th>
     </tr>
@@ -70,10 +70,10 @@
         </td>
         <td>{{ oekTraining.oekKlanten.count() }}</td>
         <td>
-            {{ oekTraining.startDatum ? oekTraining.startDatum|date('d-m-Y') }}
-            {{ oekTraining.startTijd ? '(' ~ oekTraining.startTijd|date('H:i') ~ ' uur)' }}
+            {{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}
+            {{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') ~ ' uur' }}
         </td>
-        <td>{{ oekTraining.eindDatum ? oekTraining.eindDatum|date('d-m-Y') }}</td>
+        <td>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}</td>
         <td>
             {{ html.viewLink({'action': 'view', 0: oekTraining.id})|raw }}
             {{ html.editLink({'action': 'edit', 0: oekTraining.id})|raw }}

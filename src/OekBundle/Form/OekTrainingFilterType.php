@@ -37,14 +37,14 @@ class OekTrainingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('startDatum', $options['enabled_filters'])) {
-            $builder->add('startDatum', AppDateRangeType::class, [
+        if (in_array('startdatum', $options['enabled_filters'])) {
+            $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
 
-        if (in_array('eindDatum', $options['enabled_filters'])) {
-            $builder->add('eindDatum', AppDateRangeType::class, [
+        if (in_array('einddatum', $options['enabled_filters'])) {
+            $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }

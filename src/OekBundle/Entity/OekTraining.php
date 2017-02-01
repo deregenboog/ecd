@@ -28,17 +28,17 @@ class OekTraining
     /**
      * @ORM\Column(type="date")
      */
-    private $startDatum;
+    private $startdatum;
 
     /**
      * @ORM\Column(type="time")
      */
-    private $startTijd;
+    private $starttijd;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $eindDatum;
+    private $einddatum;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -125,36 +125,36 @@ class OekTraining
 
     public function getStartDatum()
     {
-        return $this->startDatum;
+        return $this->startdatum;
     }
 
-    public function setStartDatum($startDatum)
+    public function setStartDatum($startdatum)
     {
-        $this->startDatum = $startDatum;
+        $this->startdatum = $startdatum;
 
         return $this;
     }
 
     public function getStartTijd()
     {
-        return $this->startTijd;
+        return $this->starttijd;
     }
 
-    public function setStartTijd($startTijd)
+    public function setStartTijd($starttijd)
     {
-        $this->startTijd = $startTijd;
+        $this->starttijd = $starttijd;
 
         return $this;
     }
 
     public function getEindDatum()
     {
-        return $this->eindDatum;
+        return $this->einddatum;
     }
 
-    public function setEindDatum($eindDatum)
+    public function setEindDatum($einddatum)
     {
-        $this->eindDatum = $eindDatum;
+        $this->einddatum = $einddatum;
 
         return $this;
     }

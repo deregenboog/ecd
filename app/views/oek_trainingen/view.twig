@@ -17,12 +17,12 @@
     <dd>{{ oekTraining.naam }}</dd>
     <dt>Locatie</dt>
     <dd>{{ oekTraining.locatie }}</dd>
-    <dt>Start datum</dt>
-    <dd>{{ oekTraining.startDatum | date('d-m-Y') }}</dd>
-    <dt>Start tijd</dt>
-    <dd>{{ oekTraining.startTijd | date('H:i') }}</dd>
-    <dt>Eind datum</dt>
-    <dd>{{ oekTraining.eindDatum | date('d-m-Y') }}</dd>
+    <dt>Startdatum</dt>
+    <dd>{{ oekTraining.startdatum | date('d-m-Y') }}</dd>
+    <dt>Starttijd</dt>
+    <dd>{{ oekTraining.starttijd | date('H:i') }}</dd>
+    <dt>Einddatum</dt>
+    <dd>{{ oekTraining.einddatum | date('d-m-Y') }}</dd>
     <dt>
         Deelnemers
         {{ html.addLink({'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }} <br>

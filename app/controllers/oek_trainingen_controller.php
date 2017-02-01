@@ -24,16 +24,16 @@ class OekTrainingenController extends AppController
         'id',
         'naam',
         'oekGroep',
-        'startDatum',
-        'eindDatum'
+        'startdatum',
+        'einddatum'
     ];
 
     private $sortFieldWhitelist = [
         'oekTraining.id',
         'oekTraining.naam',
         'oekGroep.naam',
-        'oekTraining.startDatum',
-        'oekTraining.eindDatum'
+        'oekTraining.startdatum',
+        'oekTraining.einddatum'
     ];
 
     public function index()
@@ -56,7 +56,7 @@ class OekTrainingenController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'oekTraining.startDatum',
+            'defaultSortFieldName' => 'oekTraining.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
