@@ -31,7 +31,8 @@ class Land extends AppModel
 
         // move preferred countries to top of list
         foreach ($this->preferredCountries as $preferredCountry) {
-            if ($key = array_search($preferredCountry, $landen)) {
+            $key = array_search($preferredCountry, $landen);
+            if (false !== $key) {
                 unset($landen[ $key]);
                 $landen = [(string)$key => $preferredCountry] + $landen;
             }

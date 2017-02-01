@@ -53,14 +53,10 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        /**
-         * Waarom staat ['naam'] hier?!
-         * Zou volgens mij weg moeten, dan werkt het in de OekBundle
-         */
-        if (isset($this->stadsdeel['naam'])) {
+        if (isset($this->stadsdeel)) {
             $builder
                 ->andWhere('klant.werkgebied = :klant_stadsdeel')
-                ->setParameter('klant_stadsdeel', $this->stadsdeel['naam'])
+                ->setParameter('klant_stadsdeel', $this->stadsdeel)
             ;
         }
     }

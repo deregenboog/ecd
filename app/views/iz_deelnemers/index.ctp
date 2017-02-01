@@ -63,7 +63,7 @@
 
         echo '<td class="show_allCol">'.$form->input('show_all', array(
             'type' => 'checkbox',
-            'label' => 'Toon alle Regenboog-klanten',
+            'label' => $persoon_model == 'Vrijwilliger' ? 'Toon alle Regenboog-vrijwilligers' : 'Toon alle Regenboog-klanten',
             'checked' => false,
         )).'</td>';
 
