@@ -38,15 +38,13 @@ class OekKlantFilterType extends AbstractType
         }
 
         if (in_array('aanmelding', $options['enabled_filters'])) {
-            $builder->add('aanmelding', null, [
-                'attr' => ['placeholder' => 'Aanmelding'],
+            $builder->add('aanmelding', AppDateType::class, [
                 'required' => false,
             ]);
         }
 
         if (in_array('afsluiting', $options['enabled_filters'])) {
-            $builder->add('afsluiting', null, [
-                'attr' => ['placeholder' => 'Afsluiting'],
+            $builder->add('afsluiting', AppDateType::class, [
                 'required' => false,
             ]);
         }

@@ -53,15 +53,15 @@ class OekKlantFilter implements FilterInterface
 
         if ($this->aanmelding) {
             $builder
-                ->andWhere('oekKlant.aanmelding LIKE :aanmelding')
-                ->setParameter('aanmelding', "%{$this->aanmelding}%")
+                ->andWhere('oekKlant.aanmelding = :aanmelding')
+                ->setParameter('aanmelding', $this->aanmelding)
             ;
         }
 
         if ($this->afsluiting) {
             $builder
-                ->andWhere('oekKlant.afsluiting LIKE :afsluiting')
-                ->setParameter('afsluiting', "%{$this->afsluiting}%")
+                ->andWhere('oekKlant.afsluiting = :afsluiting')
+                ->setParameter('afsluiting', $this->afsluiting)
             ;
         }
 
