@@ -3,7 +3,6 @@
 namespace OekBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\OekGroep;
 

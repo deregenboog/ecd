@@ -45,8 +45,7 @@ class OekKlantFilter implements FilterInterface
 
         if ($this->groep) {
             $builder
-                ->innerJoin('oekKlant.oekGroepen', 'oekGroepen')
-                ->andWhere('oekGroepen = :oek_groep')
+                ->andWhere('oekGroep = :oek_groep')
                 ->setParameter('oek_groep', $this->groep)
             ;
         }
