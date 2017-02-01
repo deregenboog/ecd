@@ -8,9 +8,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\AppDateRangeType;
 
 class OekTrainingFilterType extends AbstractType
 {
@@ -21,31 +20,31 @@ class OekTrainingFilterType extends AbstractType
     {
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
-                'attr' => ['placeholder' => 'Trainingnummer'],
+                'attr' => ['placeholder' => 'Nummer'],
             ]);
         }
 
-        if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
+        if (in_array('naam', $options['enabled_filters'])) {
+            $builder->add('naam', null, [
+                'attr' => ['placeholder' => 'Naam'],
+            ]);
         }
 
-        if (in_array('training_oekGroep', $options['enabled_filters'])) {
-            $builder->add('training_oekGroep', EntityType::class, [
+        if (in_array('oekGroep', $options['enabled_filters'])) {
+            $builder->add('oekGroep', EntityType::class, [
                 'required' => false,
                 'class' => OekGroep::class,
             ]);
         }
 
         if (in_array('startDatum', $options['enabled_filters'])) {
-            $builder->add('startDatum', null, [
-                'attr' => ['placeholder' => 'Start'],
+            $builder->add('startDatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
 
         if (in_array('eindDatum', $options['enabled_filters'])) {
-            $builder->add('eindDatum', null, [
-                'attr' => ['placeholder' => 'Eind'],
+            $builder->add('eindDatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }

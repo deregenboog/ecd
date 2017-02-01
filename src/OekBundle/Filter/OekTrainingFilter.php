@@ -15,24 +15,24 @@ class OekTrainingFilter implements FilterInterface
     public $id;
 
     /**
-     * @var OekGroep
+     * @var string
      */
-    public $training_oekGroep;
+    public $naam;
 
     /**
-     * @var string
+     * @var OekGroep
+     */
+    public $oekGroep;
+
+    /**
+     * @var \DateTime
      */
     public $startDatum;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     public $eindDatum;
-
-    /**
-     * @var KlantFilter
-     */
-    public $klant;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -43,29 +43,48 @@ class OekTrainingFilter implements FilterInterface
             ;
         }
 
-        if ($this->training_oekGroep) {
+        if ($this->naam) {
+            $builder
+                ->andWhere('oekTraining.naam LIKE :naam')
+                ->setParameter('naam', "%{$this->naam}%")
+            ;
+        }
+
+        if ($this->oekGroep) {
             $builder
                 ->andWhere('oekGroep = :oek_groep')
-                ->setParameter('oek_groep', $this->training_oekGroep)
+                ->setParameter('oek_groep', $this->oekGroep)
             ;
         }
 
         if ($this->startDatum) {
-            $builder
-                ->andWhere('oekTraining.startDatum LIKE :startDatum')
-                ->setParameter('startDatum', "%{$this->startDatum}%")
-            ;
+            if ($this->startDatum->getStart()) {
+                $builder
+                    ->andWhere('oekTraining.startDatum >= :startdatum_van')
+                    ->setParameter('startdatum_van', $this->startDatum->getStart())
+                ;
+            }
+            if ($this->startDatum->getEnd()) {
+                $builder
+                    ->andWhere('oekTraining.startDatum <= :startdatum_tot')
+                    ->setParameter('startdatum_tot', $this->startDatum->getEnd())
+                ;
+            }
         }
 
         if ($this->eindDatum) {
-            $builder
-                ->andWhere('oekTraining.eindDatum LIKE :eindDatum')
-                ->setParameter('eindDatum', "%{$this->eindDatum}%")
-            ;
-        }
-
-        if ($this->klant) {
-            $this->klant->applyTo($builder);
+            if ($this->eindDatum->getStart()) {
+                $builder
+                    ->andWhere('oekTraining.eindDatum >= :einddatum_van')
+                    ->setParameter('einddatum_van', $this->eindDatum->getStart())
+                ;
+            }
+            if ($this->eindDatum->getEnd()) {
+                $builder
+                    ->andWhere('oekTraining.eindDatum <= :einddatum_tot')
+                    ->setParameter('einddatum_tot', $this->eindDatum->getEnd())
+                ;
+            }
         }
     }
 }

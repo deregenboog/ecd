@@ -22,8 +22,8 @@ class OekTrainingenController extends AppController
 
     private $enabledFilters = [
         'id',
-        'klant' => ['naam'],
-        'training_oekGroep',
+        'naam',
+        'oekGroep',
         'startDatum',
         'eindDatum'
     ];
