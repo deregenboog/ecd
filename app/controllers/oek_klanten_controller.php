@@ -56,7 +56,7 @@ class OekKlantenController extends AppController
 
         $builder = $repository->createQueryBuilder('oekKlant')
             ->innerJoin('oekKlant.klant', 'klant')
-            ->innerJoin('oekKlant.oekGroepen', 'oekGroepen')
+            ->leftJoin('oekKlant.oekGroepen', 'oekGroepen')
             ->andWhere('klant.disabled = false')
         ;
 
