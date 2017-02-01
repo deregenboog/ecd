@@ -1,7 +1,7 @@
 {% include 'oek_subnavigation.twig' %}
 
 <h1>
-    Klant {{ oekKlant.klant.naam }}
+    Deelnemer {{ oekKlant.klant.naam }}
     {{ html.editLink({'action': 'edit', 0: oekKlant.id})|raw }}
     {% if oekKlant.deletable %}
         {{ html.deleteLink({'action': 'delete', 0: oekKlant.id})|raw }}

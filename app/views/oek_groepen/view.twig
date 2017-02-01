@@ -20,7 +20,7 @@
         {{ html.addLink({'controller': 'oek_groepen', 'action': 'voeg_klant_toe', 0: oekGroep.id})|raw }}
     </dt>
     <dd>
-        {{ html.link(oekGroep.oekKlanten.count() ~ ' klanten', {
+        {{ html.link(oekGroep.oekKlanten.count() ~ ' deelnemers', {
             'controller': 'oek_klanten',
             'action': 'wachtlijst',
             '?': {

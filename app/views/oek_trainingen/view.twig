@@ -24,7 +24,7 @@
     <dt>Eind datum</dt>
     <dd>{{ oekTraining.eindDatum | date('d-m-Y') }}</dd>
     <dt>
-        Klanten
+        Deelnemers
         {{ html.addLink({'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }} <br>
         {{ html.link('(Email allen)', {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id})|raw }}
     </dt>

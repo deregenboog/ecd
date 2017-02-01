@@ -1,12 +1,10 @@
 {% include 'oek_subnavigation.twig' %}
 
-<h1>
-    Klanten
-</h1>
+<h1>Deelnemers</h1>
 
 <p>
     {{ html.addLink({'action': 'add'})|raw }}
-    {{ html.link('Klant toevoegen', {'action': 'add'})|raw }}
+    {{ html.link('Deelnemer toevoegen', {'action': 'add'})|raw }}
 </p>
 
 <table>
@@ -42,7 +40,7 @@
             {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+            {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
