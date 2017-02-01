@@ -26,7 +26,7 @@ class OekTraining
     private $naam;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $startDatum;
 
@@ -36,22 +36,22 @@ class OekTraining
     private $startTijd;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $eindDatum;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $locatie;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $created;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $modified;
 
@@ -64,6 +64,7 @@ class OekTraining
     /**
      * @var OekGroep
      * @ORM\ManyToOne(targetEntity="OekGroep", inversedBy="oekTrainingen")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $oekGroep;
 
