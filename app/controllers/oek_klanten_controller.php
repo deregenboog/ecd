@@ -13,7 +13,6 @@ use OekBundle\Form\OekKlantFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormInterface;
 
 class OekKlantenController extends AppController
@@ -44,21 +43,14 @@ class OekKlantenController extends AppController
 
     public function index()
     {
-        /** @var FormInterface $filter */
-        $filter = $this->createForm(OekKlantFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->request);
-
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekKlant::class);
-
+        $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
             ->innerJoin('oekKlant.klant', 'klant')
             ->leftJoin('oekKlant.oekGroepen', 'oekGroepen')
             ->andWhere('klant.disabled = false')
         ;
 
+        $filter = $this->createFilter();
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
         }
@@ -79,7 +71,27 @@ class OekKlantenController extends AppController
         $this->enabledFilters[] = 'groep';
         $this->sortFieldWhitelist[] = 'oekKlant.groepen';
 
-        return $this->index();
+        $repository = $this->getEntityManager()->getRepository(OekKlant::class);
+        $builder = $repository->createQueryBuilder('oekKlant')
+            ->innerJoin('oekKlant.klant', 'klant')
+            ->innerJoin('oekKlant.oekGroepen', 'oekGroepen')
+            ->andWhere('klant.disabled = false')
+        ;
+
+        $filter = $this->createFilter();
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => 'klant.achternaam',
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'wrap-queries' => true, // because of HAVING clause in filter
+        ]);
+
+        $this->set('filter', $filter->createView());
+        $this->set('pagination', $pagination);
     }
 
     public function view($id)
@@ -214,6 +226,19 @@ class OekKlantenController extends AppController
     public function voeg_toe_aan_training($oekKlantId)
     {
         return $this->voeg_toe_aan(OekKlantTrainingType::class, $oekKlantId);
+    }
+
+    /**
+     * @return FormInterface
+     */
+    private function createFilter()
+    {
+        $filter = $this->createForm(OekKlantFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
+        return $filter;
     }
 
     private function voeg_toe_aan($type, $oekKlantId)
