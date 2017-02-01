@@ -12,6 +12,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Filter\OekKlantFilter;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\AppDateRangeType;
 
 class OekKlantFilterType extends AbstractType
 {
@@ -38,13 +39,13 @@ class OekKlantFilterType extends AbstractType
         }
 
         if (in_array('aanmelding', $options['enabled_filters'])) {
-            $builder->add('aanmelding', AppDateType::class, [
+            $builder->add('aanmelding', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
 
         if (in_array('afsluiting', $options['enabled_filters'])) {
-            $builder->add('afsluiting', AppDateType::class, [
+            $builder->add('afsluiting', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }

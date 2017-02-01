@@ -52,17 +52,33 @@ class OekKlantFilter implements FilterInterface
         }
 
         if ($this->aanmelding) {
-            $builder
-                ->andWhere('oekKlant.aanmelding = :aanmelding')
-                ->setParameter('aanmelding', $this->aanmelding)
-            ;
+            if ($this->aanmelding->getStart()) {
+                $builder
+                ->andWhere('oekKlant.aanmelding >= :aanmelding_van')
+                ->setParameter('aanmelding_van', $this->aanmelding->getStart())
+                ;
+            }
+            if ($this->aanmelding->getEnd()) {
+                $builder
+                    ->andWhere('oekKlant.aanmelding <= :aanmelding_tot')
+                    ->setParameter('aanmelding_tot', $this->aanmelding->getEnd())
+                ;
+            }
         }
 
         if ($this->afsluiting) {
-            $builder
-                ->andWhere('oekKlant.afsluiting = :afsluiting')
-                ->setParameter('afsluiting', $this->afsluiting)
-            ;
+            if ($this->afsluiting->getStart()) {
+                $builder
+                    ->andWhere('oekKlant.afsluiting >= :afsluiting_van')
+                    ->setParameter('afsluiting_van', $this->afsluiting->getStart())
+                ;
+            }
+            if ($this->afsluiting->getEnd()) {
+                $builder
+                    ->andWhere('oekKlant.afsluiting <= :afsluiting_tot')
+                    ->setParameter('afsluiting_tot', $this->afsluiting->getEnd())
+                ;
+            }
         }
 
         if ($this->klant) {
