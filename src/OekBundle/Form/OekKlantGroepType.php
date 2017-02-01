@@ -18,8 +18,9 @@ class OekKlantGroepType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('oekGroep', EntityType::class, [
-            'class' => OekGroep::class,
+            'label' => 'Groep',
             'placeholder' => 'Selecteer een groep',
+            'class' => OekGroep::class,
             'query_builder' => function (EntityRepository $repository) use ($options) {
                 return $repository->createQueryBuilder('groep')
                     ->where('groep NOT IN (:groepen)')

@@ -18,6 +18,8 @@ class OekKlantTrainingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('oekTraining', EntityType::class, [
+            'label' => 'Training',
+            'placeholder' => 'Selecteer een training',
             'class' => OekTraining::class,
             'query_builder' => function (EntityRepository $repository) use ($options) {
                 return $repository->createQueryBuilder('training')

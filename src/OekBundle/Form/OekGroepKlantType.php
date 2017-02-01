@@ -18,6 +18,8 @@ class OekGroepKlantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('oekKlant', EntityType::class, [
+            'label' => 'Deelnemer',
+            'placeholder' => 'Selecteer een deelnemer',
             'class' => OekKlant::class,
             'query_builder' => function (EntityRepository $repository) use ($options) {
                 return $repository->createQueryBuilder('klant')
