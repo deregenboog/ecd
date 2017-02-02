@@ -5,7 +5,7 @@ namespace OekBundle\Form\Model;
 use OekBundle\Entity\OekKlant;
 use OekBundle\Entity\OekTraining;
 
-class OekTrainingModel
+class OekTrainingFacade
 {
     private $oekTraining;
 
@@ -14,14 +14,14 @@ class OekTrainingModel
         $this->oekTraining = $oekTraining;
     }
 
+    public function getOekKlanten()
+    {
+        return $this->oekTraining->getOekKlanten();
+    }
+
     public function getOekKlant()
     {
         return null;
-    }
-
-    public function getOekKlanten()
-    {
-        return $this->oekTraining->getOekKlanten()->toArray() ?: [0];
     }
 
     public function setOekKlant(OekKlant $klant)
@@ -29,8 +29,8 @@ class OekTrainingModel
         $this->oekTraining->addOekKlant($klant);
     }
 
-    public function getOekGroepsKlanten()
+    public function getOekGroep()
     {
-        return $this->oekTraining->getOekGroep()->getOekKlanten()->toArray() ?: [0];
+        return $this->oekTraining->getOekGroep();
     }
 }
