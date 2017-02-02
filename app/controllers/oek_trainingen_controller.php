@@ -1,9 +1,9 @@
 <?php
 
 use OekBundle\Entity\OekTraining;
-use OekBundle\Form\Model\OekTrainingModel;
+use OekBundle\Form\Model\OekTrainingFacade;
 use OekBundle\Form\OekTrainingFilterType;
-use OekBundle\Form\OekTrainingKlantType;
+use OekBundle\Form\OekTrainingAddKlantType;
 use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
 use Symfony\Component\Form\Test\FormInterface;
@@ -141,19 +141,20 @@ class OekTrainingenController extends AppController
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OekTraining::class);
         $oekTraining = $repository->find($oekTrainingId);
-        $oekTrainingModel = new OekTrainingModel($oekTraining);
+        $oekTrainingModel = new OekTrainingFacade($oekTraining);
 
-        $form = $this->createForm(OekTrainingKlantType::class, $oekTrainingModel);
+        $form = $this->createForm(OekTrainingAddKlantType::class, $oekTrainingModel);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->Session->setFlash('Klant is toegevoegd aan groep.');
+            $this->Session->setFlash('Klant is aan training toegevoegd.');
 
-            return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+            return $this->redirect(['action' => 'view', $oekTraining->getId()]);
         }
 
+        $this->set('oekTraining', $oekTraining);
         $this->set('form', $form->createView());
     }
 

@@ -2,9 +2,9 @@
 
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
-use OekBundle\Form\Model\OekKlantModel;
-use OekBundle\Form\OekKlantGroepType;
-use OekBundle\Form\OekKlantTrainingType;
+use OekBundle\Form\Model\OekKlantFacade;
+use OekBundle\Form\OekKlantAddGroepType;
+use OekBundle\Form\OekKlantAddTrainingType;
 use OekBundle\Form\OekKlantType;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Form\OekKlantSelectType;
@@ -245,19 +245,27 @@ class OekKlantenController extends AppController
         /** @var OekKlant $oekKlant */
         $entityManager = $this->getEntityManager();
         $oekKlant = $entityManager->find(OekKlant::class, $oekKlantId);
-        $oekKlantModel = new OekKlantModel($oekKlant);
 
-        $form = $this->createForm($type, $oekKlantModel);
+        $form = $this->createForm($type, new OekKlantFacade($oekKlant));
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             try {
                 $entityManager->flush();
 
-                $this->Session->setFlash('Klant is toegevoegd.');
+                switch ($type) {
+                    case OekKlantAddGroepType::class:
+                        $this->Session->setFlash('Deelnemer is aan groep toegevoegd.');
+                        break;
+                    case OekKlantAddTrainingType::class:
+                        $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
+                        break;
+                    default:
+                        $this->Session->setFlash('Deelnemer is toegevoegd.');
+                }
 
                 return $this->redirect(array('action' => 'view', $oekKlant->getId()));
-                //return $this->redirect(array('action' => 'index'));
+                // return $this->redirect(array('action' => 'index'));
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
