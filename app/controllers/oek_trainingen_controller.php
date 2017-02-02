@@ -25,7 +25,7 @@ class OekTrainingenController extends AppController
         'naam',
         'oekGroep',
         'startdatum',
-        'einddatum'
+        'einddatum',
     ];
 
     private $sortFieldWhitelist = [
@@ -33,7 +33,7 @@ class OekTrainingenController extends AppController
         'oekTraining.naam',
         'oekGroep.naam',
         'oekTraining.startdatum',
-        'oekTraining.einddatum'
+        'oekTraining.einddatum',
     ];
 
     public function index()
@@ -179,7 +179,7 @@ class OekTrainingenController extends AppController
 
         $addresses = [];
 
-        foreach($oekTraining->getOekKlanten() as $oekKlant) {
+        foreach ($oekTraining->getOekKlanten() as $oekKlant) {
             $klant = $oekKlant->getKlant();
             $addresses[$klant->getEmail()] = $klant->getNaam();
         }
@@ -192,7 +192,7 @@ class OekTrainingenController extends AppController
         if ($failedRecipients) {
             $failedRecipients = implode(', ', $failedRecipients);
             $this->Session->setFlash(
-                'De email kon niet worden verzonden naar: ' . $failedRecipients
+                'De email kon niet worden verzonden naar: '.$failedRecipients
             );
         } else {
             $this->Session->setFlash('De email is succesvol verzonden.');

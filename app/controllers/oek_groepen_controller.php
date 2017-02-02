@@ -20,7 +20,7 @@ class OekGroepenController extends AppController
 
     private $sortFieldWhitelist = [
         'oekGroep.id',
-        'oekGroep.naam'
+        'oekGroep.naam',
     ];
 
     public function index()
