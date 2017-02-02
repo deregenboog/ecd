@@ -91,7 +91,7 @@ class OekTraining
 
     public function __toString()
     {
-        return $this->naam;
+        return sprintf('%s (%s)', $this->naam, $this->oekGroep);
     }
 
     public function getId()
