@@ -2,18 +2,9 @@
 
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
-use OekBundle\Form\Model\OekKlantFacade;
-use OekBundle\Form\OekKlantAddGroepType;
-use OekBundle\Form\OekKlantAddTrainingType;
-use OekBundle\Form\OekKlantType;
-use AppBundle\Form\KlantFilterType;
-use OekBundle\Form\OekKlantSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OekBundle\Form\OekKlantFilterType;
-use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class OekWachtlijstController extends AppController
 {
@@ -55,6 +46,9 @@ class OekWachtlijstController extends AppController
         $filter = $this->createFilter();
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
@@ -66,6 +60,18 @@ class OekWachtlijstController extends AppController
 
         $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        $oekKlanten = $builder->getQuery()->getResult();
+
+        $filename = sprintf('op-eigen-kracht-wachtlijst-%s.csv', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: text/csv');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $this->set('oekKlanten', $oekKlanten);
+        $this->render('download', false);
     }
 
     /**

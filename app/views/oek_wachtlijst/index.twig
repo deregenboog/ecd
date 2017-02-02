@@ -30,7 +30,8 @@
             {{ form_errors(filter.afsluiting) }}
         </th>
         <th>
-            <button type="submit">Filteren</button>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
         </th>
         {{ form_end(filter) }}
     </tr>

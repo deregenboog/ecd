@@ -1,0 +1,10 @@
+Deelnemer{{ tab }}Stadsdeel{{ tab }}Telefoon{{ tab }}Mobiel
+{% for oekKlant in oekKlanten %}
+    {{- oekKlant ~ tab -}}
+    {{- oekKlant.klant.werkgebied  ~ tab -}}
+    {% for oekGroep in oekKlant.oekGroepen %}
+        {{- oekGroep ~ " " -}}
+    {% endfor %}{{- tab -}}
+    {{- oekKlant.klant.telefoon  ~ tab-}}
+    {{- oekKlant.klant.mobiel }}
+{% endfor %}

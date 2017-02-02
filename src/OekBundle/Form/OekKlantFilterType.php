@@ -12,6 +12,7 @@ use AppBundle\Form\KlantFilterType;
 use OekBundle\Filter\OekKlantFilter;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class OekKlantFilterType extends AbstractType
 {
@@ -48,6 +49,14 @@ class OekKlantFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        $builder->add('filter', SubmitType::class, [
+            'label' => 'Filteren',
+        ]);
+
+        $builder->add('download', SubmitType::class, [
+            'label' => 'Downloaden',
+        ]);
     }
 
     /**
