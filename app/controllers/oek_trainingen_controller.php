@@ -135,7 +135,7 @@ class OekTrainingenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function voeg_klant_toe($oekTrainingId)
+    public function add_klant($oekTrainingId)
     {
         /** @var OekTraining $oekTraining */
         $entityManager = $this->getEntityManager();

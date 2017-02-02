@@ -111,7 +111,7 @@ class OekGroepenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function voeg_klant_toe($oekGroepId)
+    public function add_klant($oekGroepId)
     {
         /** @var OekGroep $oekGroep */
         $entityManager = $this->getEntityManager();

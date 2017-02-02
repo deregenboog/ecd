@@ -217,14 +217,14 @@ class OekKlantenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function voeg_toe_aan_groep($oekKlantId)
+    public function add_groep($oekKlantId)
     {
-        return $this->voeg_toe_aan(OekKlantGroepType::class, $oekKlantId);
+        return $this->add_to(OekKlantAddGroepType::class, $oekKlantId);
     }
 
-    public function voeg_toe_aan_training($oekKlantId)
+    public function add_training($oekKlantId)
     {
-        return $this->voeg_toe_aan(OekKlantTrainingType::class, $oekKlantId);
+        return $this->add_to(OekKlantAddTrainingType::class, $oekKlantId);
     }
 
     /**
@@ -240,7 +240,7 @@ class OekKlantenController extends AppController
         return $filter;
     }
 
-    private function voeg_toe_aan($type, $oekKlantId)
+    private function add_to($type, $oekKlantId)
     {
         /** @var OekKlant $oekKlant */
         $entityManager = $this->getEntityManager();

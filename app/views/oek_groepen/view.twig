@@ -19,8 +19,8 @@
 
 <h2>Wachtlijst</h2>
 <p>
-    {{ html.addLink({'controller': 'oek_groepen', 'action': 'voeg_klant_toe', 0: oekGroep.id})|raw }}
-    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_groepen', 'action': 'voeg_klant_toe', 0: oekGroep.id})|raw }}
+    {{ html.addLink({'controller': 'oek_groepen', 'action': 'add_klant', 0: oekGroep.id})|raw }}
+    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_groepen', 'action': 'add_klant', 0: oekGroep.id})|raw }}
 </p>
 {% if oekGroep.oekKlanten.count() == 0 %}
     <p>Deze groep heeft nog geen wachtlijst.</p>

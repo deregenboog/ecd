@@ -32,8 +32,8 @@
 <h2>Deelnemers</h2>
 
 <p>
-    {{ html.addLink({'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }}
-    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_trainingen', 'action': 'voeg_klant_toe', 0: oekTraining.id})|raw }}
+    {{ html.addLink({'controller': 'oek_trainingen', 'action': 'add_klant', 0: oekTraining.id})|raw }}
+    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_trainingen', 'action': 'add_klant', 0: oekTraining.id})|raw }}
     {{ html.link('Deelnemers e-mailen', {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id})|raw }}
 </p>
 
