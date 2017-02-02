@@ -2,13 +2,13 @@
     {{ html.link(
         'Deelnemers',
         {'controller': 'oek_klanten', 'action': 'index'},
-        this.viewPath == 'oek_klanten' and this.action != 'wachtlijst' ? {'class': 'selected'} : {}
+        this.viewPath == 'oek_klanten' ? {'class': 'selected'} : {}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
         'Wachtlijst',
-        {'controller': 'oek_klanten', 'action': 'wachtlijst'},
-        this.viewPath == 'oek_klanten' and this.action == 'wachtlijst' ? {'class': 'selected'} : {}
+        {'controller': 'oek_wachtlijst', 'action': 'index'},
+        this.viewPath == 'oek_wachtlijst' ? {'class': 'selected'} : {}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
