@@ -33,11 +33,18 @@ class OdpVerhuurderFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function getParent()
+    {
+        return FilterType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => OdpVerhuurderFilter::class,
-            'enabled_filters' => [],
         ]);
     }
 }
