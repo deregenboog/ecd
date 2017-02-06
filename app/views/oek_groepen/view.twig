@@ -15,7 +15,10 @@
     <dd>{{ oekGroep.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ oekGroep.naam }}</dd>
-    <dt>Wachtlijst</dt>
+    <dt>
+        Wachtlijst
+        {{ html.addLink({'controller': 'oek_groepen', 'action': 'voeg_klant_toe', 0: oekGroep.id})|raw }}
+    </dt>
     <dd>
         {% if oekGroep.oekKlanten.count() > 0 %}
             <ul>

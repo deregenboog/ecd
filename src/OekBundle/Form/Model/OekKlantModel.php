@@ -4,18 +4,55 @@ namespace OekBundle\Form\Model;
 
 use OekBundle\Entity\OekKlant;
 use OekBundle\Entity\OekGroep;
+use OekBundle\Entity\OekTraining;
 
-class OekKlantModel extends OekKlant
+class OekKlantModel
 {
-//     private $oekKlant;
+    private $oekKlant;
 
-//     public function __construct(OekKlant $oekKlant)
-//     {
-//         $this->oekKlant = $oekKlant;
-//     }
+    public function __construct(OekKlant $oekKlant)
+    {
+        $this->oekKlant = $oekKlant;
+    }
+
+    public function getOekGroep()
+    {
+        return null;
+    }
+
+    public function getOekGroepen()
+    {
+        return $this->oekKlant->getOekGroepen()->toArray() ?: [0];
+    }
 
     public function setOekGroep(OekGroep $groep)
     {
-        return $this->oekKlant->addOrkGroep($groep);
+        $groep->addOekKlant($this->oekKlant);
+    }
+
+    public function getOekTraining()
+    {
+        return null;
+    }
+
+    public function getOekTrainingen()
+    {
+        return $this->oekKlant->getOekTrainingen()->toArray() ?: [0];
+    }
+
+    public function setOekTraining(OekTraining $training)
+    {
+        $training->addOekKlant($this->oekKlant);
+    }
+
+    public function getOekGroepsTrainingen()
+    {
+        $trainingen = [];
+
+        foreach ($this->oekKlant->getOekGroepen() as $groep) {
+            $trainingen = array_merge($trainingen, $groep->getOekTrainingen()->toArray());
+        }
+
+        return $trainingen ?: [0];
     }
 }

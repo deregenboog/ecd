@@ -1,6 +1,8 @@
 <?php
 
 use OekBundle\Entity\OekGroep;
+use OekBundle\Form\Model\OekGroepModel;
+use OekBundle\Form\OekGroepKlantType;
 use OekBundle\Form\OekGroepType;
 use AppBundle\Form\ConfirmationType;
 
@@ -106,6 +108,28 @@ class OekGroepenController extends AppController
         }
 
         $this->set('oekGroep', $oekGroep);
+        $this->set('form', $form->createView());
+    }
+
+    public function voeg_klant_toe($oekGroepId)
+    {
+        /** @var OekGroep $oekGroep */
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekGroep::class);
+        $oekGroep = $repository->find($oekGroepId);
+        $oekGroepModel = new OekGroepModel($oekGroep);
+
+        $form = $this->createForm(OekGroepKlantType::class, $oekGroepModel);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $entityManager->flush();
+
+            $this->Session->setFlash('Klant is toegevoegd aan groep.');
+
+            return $this->redirect(array('action' => 'view', $oekGroep->getId()));
+        }
+
         $this->set('form', $form->createView());
     }
 }

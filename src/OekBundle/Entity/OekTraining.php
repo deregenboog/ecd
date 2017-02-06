@@ -62,7 +62,7 @@ class OekTraining
     private $oekKlanten;
 
     /**
-     * @var ArrayCollection|OekGroep[]
+     * @var OekGroep
      * @ORM\ManyToOne(targetEntity="OekGroep", inversedBy="oekTrainingen")
      */
     private $oekGroep;
@@ -183,6 +183,7 @@ class OekTraining
     public function addOekKlant(OekKlant $oekKlant)
     {
         $this->oekKlanten->add($oekKlant);
+        $this->oekGroep->getOekKlanten()->removeElement($oekKlant);
 
         return $this;
     }
@@ -206,7 +207,8 @@ class OekTraining
         return $this;
     }
 
-    public function isDeletable() {
+    public function isDeletable()
+    {
         return $this->oekKlanten->count() == 0;
     }
 }

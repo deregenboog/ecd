@@ -30,6 +30,9 @@
 /.project
 /.buildpath
 
+# PhpStorm
+.idea
+
 # Custom tools
 /bin/*
 !/bin/console
@@ -37,5 +40,3 @@
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
-
-.idea

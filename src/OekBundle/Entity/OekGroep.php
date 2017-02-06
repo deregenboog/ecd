@@ -64,7 +64,7 @@ class OekGroep
 
     public function __construct()
     {
-        $this->oekKlanten    = new ArrayCollection();
+        $this->oekKlanten = new ArrayCollection();
         $this->oekTrainingen = new ArrayCollection();
     }
 
