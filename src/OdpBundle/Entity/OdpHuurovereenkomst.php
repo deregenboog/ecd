@@ -29,7 +29,7 @@ class OdpHuurovereenkomst
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $einddatum;
 

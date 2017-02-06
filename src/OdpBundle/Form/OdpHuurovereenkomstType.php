@@ -30,7 +30,7 @@ class OdpHuurovereenkomstType extends AbstractType
         }
 
         $builder->add('startdatum', AppDateType::class);
-        $builder->add('einddatum', AppDateType::class);
+        $builder->add('einddatum', AppDateType::class, ['required' => false]);
     }
 
     /**
