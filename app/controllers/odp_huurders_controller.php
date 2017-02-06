@@ -200,9 +200,11 @@ class OdpHuurdersController extends AppController
     {
         $entityManager = $this->getEntityManager();
         $odpHuurder = $entityManager->find(OdpHuurder::class, $odpHuurderId);
+        $medewerker = $entityManager->find(Medewerker::class, $this->Session->read('user_id'));
 
         $odpHuurverzoek = new OdpHuurverzoek();
         $odpHuurverzoek->setOdpHuurder($odpHuurder);
+        $odpHuurverzoek->setMedewerker($medewerker);
 
         $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
         $form->handleRequest($this->request);
