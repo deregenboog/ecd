@@ -53,7 +53,8 @@ class OdpHuurovereenkomstType extends AbstractType
             'query_builder' => function (EntityRepository $repository) use ($options) {
                 $odpHuurovereenkomst = $options['data'];
 
-                $builder = $repository->createQueryBuilder('huurverzoek');
+                $builder = $repository->createQueryBuilder('huurverzoek')
+                    ->leftJoin('huurverzoek.odpHuurovereenkomst', 'huurovereenkomst');
 
                 if (
                     $odpHuurovereenkomst instanceof OdpHuurovereenkomst &&
@@ -66,6 +67,7 @@ class OdpHuurovereenkomstType extends AbstractType
                                 'huurverzoek.einddatum >= :start AND :eind IS NULL',
                                 'huurverzoek.einddatum IS NULL'
                             ]))
+                            ->andWhere('huurovereenkomst.id IS NULL')
                             ->setParameter('start', $odpHuuraanbod->getStartdatum())
                             ->setParameter('eind', $odpHuuraanbod->getEinddatum());
                 }
@@ -82,7 +84,8 @@ class OdpHuurovereenkomstType extends AbstractType
             'query_builder' => function (EntityRepository $repository) use ($options) {
                 $odpHuurovereenkomst = $options['data'];
 
-                $builder = $repository->createQueryBuilder('huuraanbod');
+                $builder = $repository->createQueryBuilder('huuraanbod')
+                    ->leftJoin('huuraanbod.odpHuurovereenkomst', 'huurovereenkomst');
 
                 if (
                     $odpHuurovereenkomst instanceof OdpHuurovereenkomst &&
@@ -95,6 +98,7 @@ class OdpHuurovereenkomstType extends AbstractType
                                 'huuraanbod.einddatum >= :start AND :eind IS NULL',
                                 'huuraanbod.einddatum IS NULL'
                             ]))
+                            ->andWhere('huurovereenkomst.id IS NULL')
                             ->setParameter('start', $odpHuurverzoek->getStartdatum())
                             ->setParameter('eind', $odpHuurverzoek->getEinddatum());
                 }
