@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Form\FilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
