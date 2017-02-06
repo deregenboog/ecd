@@ -13,6 +13,10 @@
     <dd>{{ odpHuurder.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ odpHuurder.klant }}</dd>
+    <dt>Startdatum</dt>
+    <dd>{{ odpHuurverzoek.startdatum | date('d-m-Y') }}</dd>
+    <dt>Einddatum</dt>
+    <dd>{{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum | date('d-m-Y') : 'onbepaald' }}</dd>
     <dt>Opmerkingen</dt>
     <dd>{{ odpHuurverzoek.opmerkingen }}</dd>
     <dt>Huurovereenkomst</dt>

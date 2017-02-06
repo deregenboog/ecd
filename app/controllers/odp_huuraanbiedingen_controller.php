@@ -28,12 +28,18 @@ class OdpHuuraanbiedingenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'id',
+        'klant' => ['naam', 'stadsdeel'],
+        'startdatum',
+        'einddatum'
     ];
 
     private $sortFieldWhitelist = [
         'odpHuuraanbod.id',
         'klant.achternaam',
         'klant.werkgebied',
+        'odpHuurverzoek.startdatum',
+        'odpHuurverzoek.einddatum',
     ];
 
     public function index()

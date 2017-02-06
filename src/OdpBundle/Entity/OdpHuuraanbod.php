@@ -42,6 +42,16 @@ class OdpHuuraanbod
     private $odpHuurovereenkomst;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $startdatum;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $einddatum;
+
+    /**
      * @var string
      * @ORM\Column(type="text")
      */
@@ -79,6 +89,30 @@ class OdpHuuraanbod
     public function getKlant()
     {
         return $this->odpVerhuurder->getKlant();
+    }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum = null)
+    {
+        $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
     }
 
     public function getOpmerkingen()
