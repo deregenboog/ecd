@@ -1,11 +1,6 @@
 {% include 'oek_subnavigation.twig' %}
 
-<h1>Deelnemers</h1>
-
-<p>
-    {{ html.addLink({'action': 'add'})|raw }}
-    {{ html.link('Deelnemer toevoegen', {'action': 'add'})|raw }}
-</p>
+<h1>Wachtlijst deelnemers</h1>
 
 <table>
     <tr>
@@ -23,6 +18,10 @@
             {{ form_errors(filter.klant.stadsdeel) }}
         </th>
         <th>
+            {{ form_widget(filter.groep) }}
+            {{ form_errors(filter.groep) }}
+        </th>
+        <th>
             {{ form_widget(filter.aanmelding) }}
             {{ form_errors(filter.aanmelding) }}
         </th>
@@ -31,7 +30,8 @@
             {{ form_errors(filter.afsluiting) }}
         </th>
         <th>
-            <button type="submit">Filteren</button>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
         </th>
         {{ form_end(filter) }}
     </tr>
@@ -44,6 +44,9 @@
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Groep(en)', 'oekKlant.oekGroepen') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekKlant.aanmelding') }}
@@ -63,6 +66,13 @@
         </td>
         <td>
             {{ oekKlant.klant.werkgebied }}
+        </td>
+        <td>
+            <ul>
+                {% for oekGroep in oekKlant.oekGroepen %}
+                    <li>{{ oekGroep.naam }}</li>
+                {% endfor %}
+            </ul>
         </td>
         <td>
             {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}

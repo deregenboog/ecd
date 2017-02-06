@@ -1,6 +1,9 @@
 oek_klanten_index:
     path: oek_klanten
 
+oek_wachtlijst_index:
+    path: oek_wachtlijst
+
 oek_groepen_index:
     path: oek_groepen
 

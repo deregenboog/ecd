@@ -4,10 +4,38 @@
 
 <p>
     {{ html.addLink({'action': 'add'})|raw }}
-    {{ html.link('OEK-training toevoegen', {'action': 'add'})|raw }}
+    {{ html.link('Training toevoegen', {'action': 'add'})|raw }}
 </p>
 
 <table>
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.naam) }}
+            {{ form_errors(filter.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.oekGroep) }}
+            {{ form_errors(filter.oekGroep) }}
+        </th>
+        <th></th>
+        <th>
+            {{ form_widget(filter.startdatum) }}
+            {{ form_errors(filter.startdatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.einddatum) }}
+            {{ form_errors(filter.einddatum) }}
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
+    </tr>
     <tr>
         <th>
             {{ knp_pagination_sortable(pagination, '#', 'oekTraining.id') }}
@@ -19,13 +47,13 @@
             {{ knp_pagination_sortable(pagination, 'Groep', 'oekGroep.naam') }}
         </th>
         <th>
-            Aantal klanten
+            Aantal deelnemers
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Start', 'oekTraining.startDatum') }}
+            {{ knp_pagination_sortable(pagination, 'Startdatum', 'oekTraining.startdatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Eind', 'oekTraining.eindDatum') }}
+            {{ knp_pagination_sortable(pagination, 'Einddatum', 'oekTraining.einddatum') }}
         </th>
         <th></th>
     </tr>
@@ -37,10 +65,15 @@
         <td>
             {{ html.link(oekTraining.naam, {'action': 'view', 0: oekTraining.id})|raw }}
         </td>
-        <td>{{ oekTraining.oekGroep.naam }}</td>
+        <td>
+            {{ html.link(oekTraining.oekGroep, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.oekGroep.id})|raw }}
+        </td>
         <td>{{ oekTraining.oekKlanten.count() }}</td>
-        <td>{{ oekTraining.startDatum | date('d-m-Y') }}</td>
-        <td>{{ oekTraining.eindDatum | date('d-m-Y') }}</td>
+        <td>
+            {{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}
+            {{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') ~ ' uur' }}
+        </td>
+        <td>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}</td>
         <td>
             {{ html.viewLink({'action': 'view', 0: oekTraining.id})|raw }}
             {{ html.editLink({'action': 'edit', 0: oekTraining.id})|raw }}

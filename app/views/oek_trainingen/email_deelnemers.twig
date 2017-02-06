@@ -1,15 +1,8 @@
 {% include 'oek_subnavigation.twig' %}
 
-<h1>E-mail deelnemers van training</h1>
+<h1>E-mail deelnemers van training {{ oekTraining }}</h1>
 
-<form method="post">
-    <p>
-        <input type="text" name="subject" placeholder="Onderwerp" required>
-    </p>
-    <p>
-        <textarea name="body" cols="30" rows="10" placeholder="Tekst" required></textarea>
-    </p>
-    <p>
-        <button type="submit">Verzend</button>
-    </p>
-</form>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Verzenden</button>
+{{ form_end(form) }}

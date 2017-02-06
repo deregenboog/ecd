@@ -1,8 +1,14 @@
 <div id="subheader">
     {{ html.link(
-        'Klanten',
+        'Deelnemers',
         {'controller': 'oek_klanten', 'action': 'index'},
         this.viewPath == 'oek_klanten' ? {'class': 'selected'} : {}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Wachtlijst',
+        {'controller': 'oek_wachtlijst', 'action': 'index'},
+        this.viewPath == 'oek_wachtlijst' ? {'class': 'selected'} : {}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
