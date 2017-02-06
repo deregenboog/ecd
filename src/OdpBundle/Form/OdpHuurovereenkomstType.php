@@ -3,6 +3,8 @@
 namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Orx;
 use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Entity\OdpHuurverzoek;
@@ -20,13 +22,13 @@ class OdpHuurovereenkomstType extends AbstractType
     {
         if ($options['data'] instanceof OdpHuurovereenkomst) {
             if ($options['data']->getOdpHuuraanbod()) {
-                $this->setOdpHuurverzoek($builder);
+                $this->setOdpHuurverzoek($builder, $options);
             } elseif ($options['data']->getOdpHuurverzoek()) {
-                $this->setOdpHuuraanbod($builder);
+                $this->setOdpHuuraanbod($builder, $options);
             }
         } else {
-            $this->setOdpHuuraanbod($builder);
-            $this->setOdpHuurverzoek($builder);
+            $this->setOdpHuuraanbod($builder, $options);
+            $this->setOdpHuurverzoek($builder, $options);
         }
 
         $builder->add('startdatum', AppDateType::class);
@@ -44,17 +46,61 @@ class OdpHuurovereenkomstType extends AbstractType
         ]);
     }
 
-    private function setOdpHuurverzoek(FormBuilderInterface $builder)
+    private function setOdpHuurverzoek(FormBuilderInterface $builder, array $options)
     {
         $builder->add('odpHuurverzoek', EntityType::class, [
-            'class' => OdpHuurverzoek::class
+            'class' => OdpHuurverzoek::class,
+            'query_builder' => function (EntityRepository $repository) use ($options) {
+                $odpHuurovereenkomst = $options['data'];
+
+                $builder = $repository->createQueryBuilder('huurverzoek');
+
+                if (
+                    $odpHuurovereenkomst instanceof OdpHuurovereenkomst &&
+                    $odpHuuraanbod = $odpHuurovereenkomst->getOdpHuuraanbod()
+                ) {
+                    $builder->where(new Orx([
+                                'huurverzoek.startdatum BETWEEN :start AND :eind',
+                                'huurverzoek.startdatum >= :start AND :eind IS NULL',
+                                'huurverzoek.einddatum BETWEEN :start AND :eind',
+                                'huurverzoek.einddatum >= :start AND :eind IS NULL',
+                                'huurverzoek.einddatum IS NULL'
+                            ]))
+                            ->setParameter('start', $odpHuuraanbod->getStartdatum())
+                            ->setParameter('eind', $odpHuuraanbod->getEinddatum());
+                }
+
+                return $builder;
+            },
         ]);
     }
 
-    private function setOdpHuuraanbod(FormBuilderInterface $builder)
+    private function setOdpHuuraanbod(FormBuilderInterface $builder, array $options)
     {
         $builder->add('odpHuuraanbod', EntityType::class, [
-            'class' => OdpHuuraanbod::class
+            'class' => OdpHuuraanbod::class,
+            'query_builder' => function (EntityRepository $repository) use ($options) {
+                $odpHuurovereenkomst = $options['data'];
+
+                $builder = $repository->createQueryBuilder('huuraanbod');
+
+                if (
+                    $odpHuurovereenkomst instanceof OdpHuurovereenkomst &&
+                    $odpHuurverzoek = $odpHuurovereenkomst->getOdpHuurverzoek()
+                ) {
+                    $builder->where(new Orx([
+                                'huuraanbod.startdatum BETWEEN :start AND :eind',
+                                'huuraanbod.startdatum >= :start AND :eind IS NULL',
+                                'huuraanbod.einddatum BETWEEN :start AND :eind',
+                                'huuraanbod.einddatum >= :start AND :eind IS NULL',
+                                'huuraanbod.einddatum IS NULL'
+                            ]))
+                            ->setParameter('start', $odpHuurverzoek->getStartdatum())
+                            ->setParameter('eind', $odpHuurverzoek->getEinddatum());
+                }
+
+                return $builder;
+            },
         ]);
     }
 }
