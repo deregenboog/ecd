@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Filter\OdpHuurderFilter;
+use AppBundle\Form\FilterType;
 
 class OdpHuurderFilterType extends AbstractType
 {
@@ -32,11 +33,18 @@ class OdpHuurderFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function getParent()
+    {
+        return FilterType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => OdpHuurderFilter::class,
-            'enabled_filters' => [],
         ]);
     }
 }
