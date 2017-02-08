@@ -122,4 +122,19 @@ class OdpHuurovereenkomst
 
         return $this;
     }
+
+    public function getOdpHuurder()
+    {
+        return $this->odpHuurverzoek->getOdpHuurder();
+    }
+
+    public function getOdpVerhuurder()
+    {
+        return $this->odpHuuraanbod->getOdpVerhuurder();
+    }
+
+    public function isDeletable()
+    {
+        return false;
+    }
 }
