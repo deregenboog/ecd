@@ -30,8 +30,8 @@ class OdpHuurovereenkomstenController extends AppController
 
     private $enabledFilters = [
         'id',
-        'odpHuurder' => ['klant' => ['naam']],
-        'odpVerhuurder' => ['klant' => ['naam']],
+        'odpHuurderKlant' => ['naam'],
+        'odpVerhuurderKlant' => ['naam'],
         'startdatum',
         'einddatum',
 //        'medewerker'

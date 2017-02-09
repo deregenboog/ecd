@@ -27,12 +27,12 @@ class KlantFilter implements FilterInterface
      */
     public $stadsdeel;
 
-    public function applyTo(QueryBuilder $builder)
+    public function applyTo(QueryBuilder $builder, $alias = 'klant')
     {
         if ($this->id) {
             $builder
-                ->andWhere('klant.id = :klant_id')
-                ->setParameter('klant_id', $this->id)
+                ->andWhere("{$alias}.id = :{$alias}_id")
+                ->setParameter("{$alias}_id", $this->id)
             ;
         }
 
@@ -40,23 +40,23 @@ class KlantFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->naam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_{$i}")
-                    ->setParameter("klant_naam_part_{$i}", "%{$part}%")
+                    ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam, {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_naam_part_{$i}")
+                    ->setParameter("{$alias}_naam_part_{$i}", "%{$part}%")
                 ;
             }
         }
 
         if ($this->geboortedatum) {
             $builder
-                ->andWhere('klant.geboortedatum = :klant_geboortedatum')
-                ->setParameter('klant_geboortedatum', $this->geboortedatum)
+                ->andWhere("{$alias}.geboortedatum = :{$alias}_geboortedatum")
+                ->setParameter("{$alias}_geboortedatum", $this->geboortedatum)
             ;
         }
 
         if (isset($this->stadsdeel)) {
             $builder
-                ->andWhere('klant.werkgebied = :klant_stadsdeel')
-                ->setParameter('klant_stadsdeel', $this->stadsdeel)
+                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
             ;
         }
     }
