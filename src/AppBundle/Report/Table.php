@@ -133,7 +133,7 @@ class Table
                 }
             } elseif (empty($yValues)) {
                 foreach ($xValues as $xValue) {
-                    if ($set->classicExtract($row, $this->xPath) === $xValue) {
+                    if ($set->classicExtract($row, $this->xPath) == $xValue) {
                         $aantal = $set->classicExtract($row, $this->nPath);
                         if ($this->yTotals) {
                             $data['Totaal'][$xValue] += $aantal;
@@ -145,7 +145,7 @@ class Table
                 }
             } else {
                 foreach ($yValues as $yValue) {
-                    if ($set->classicExtract($row, $this->yPath) === $yValue) {
+                    if ($set->classicExtract($row, $this->yPath) == $yValue) {
                         if (empty($xValues)) {
                             $aantal = $set->classicExtract($row, $this->nPath);
                             if ($this->xTotals) {
@@ -156,7 +156,7 @@ class Table
                             }
                         } else {
                             foreach ($xValues as $xValue) {
-                                if ($set->classicExtract($row, $this->xPath) === $xValue) {
+                                if ($set->classicExtract($row, $this->xPath) == $xValue) {
                                     $aantal = $set->classicExtract($row, $this->nPath);
                                     $data[$yValue][$xValue] += $aantal;
                                     if ($this->xTotals) {
