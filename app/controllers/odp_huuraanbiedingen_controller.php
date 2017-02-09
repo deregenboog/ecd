@@ -61,7 +61,7 @@ class OdpHuuraanbiedingenController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-//             'defaultSortFieldName' => 'klant.achternaam',
+            'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
@@ -72,10 +72,8 @@ class OdpHuuraanbiedingenController extends AppController
 
     public function view($id)
     {
-        $entityManager = $this->getEntityManager();
-        $odpHuuraanbod = $entityManager->find(OdpHuuraanbod::class, $id);
+        $odpHuuraanbod = $this->getEntityManager()->find(OdpHuuraanbod::class, $id);
         $this->set('odpHuuraanbod', $odpHuuraanbod);
-        $this->set('odpVerhuurder', $odpHuuraanbod->getOdpVerhuurder());
     }
 
     public function edit($id)
