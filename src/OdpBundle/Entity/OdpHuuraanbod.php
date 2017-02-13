@@ -42,12 +42,12 @@ class OdpHuuraanbod
     private $odpHuurovereenkomst;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     protected $einddatum;
 
