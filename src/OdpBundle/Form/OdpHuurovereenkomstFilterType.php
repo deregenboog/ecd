@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use OdpBundle\Filter\OdpHuurovereenkomstFilter;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\KlantFilterType;
 
 class OdpHuurovereenkomstFilterType extends AbstractType
 {
@@ -22,15 +23,15 @@ class OdpHuurovereenkomstFilterType extends AbstractType
             ]);
         }
 
-        if (array_key_exists('odpHuurder', $options['enabled_filters'])) {
-            $builder->add('odpHuurder', OdpHuurderFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['odpHuurder'],
+        if (array_key_exists('odpHuurderKlant', $options['enabled_filters'])) {
+            $builder->add('odpHuurderKlant', KlantFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['odpHuurderKlant'],
             ]);
         }
 
-        if (array_key_exists('odpVerhuurder', $options['enabled_filters'])) {
-            $builder->add('odpVerhuurder', OdpVerhuurderFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['odpVerhuurder'],
+        if (array_key_exists('odpVerhuurderKlant', $options['enabled_filters'])) {
+            $builder->add('odpVerhuurderKlant', KlantFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['odpVerhuurderKlant'],
             ]);
         }
 

@@ -55,7 +55,7 @@
             {{ html.link(odpHuurverzoek.id, {'action': 'view', 0: odpHuurverzoek.id})|raw }}
         </td>
         <td>
-            {{ html.link(odpHuurverzoek.klant.naam, {'action': 'view', 0: odpHuurverzoek.id})|raw }}
+            {{ html.link(odpHuurverzoek.klant.naam, {'controller': 'odp_huurders', 'action': 'view', 0: odpHuurverzoek.odpHuurder.id})|raw }}
         </td>
         <td>
             {{ odpHuurverzoek.klant.werkgebied }}
