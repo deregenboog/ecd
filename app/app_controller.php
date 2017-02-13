@@ -254,7 +254,7 @@ class AppController extends Controller
         if (! isset($this->Medewerkers)) {
             $this->Medewerker= ClassRegistry::init('Medewerker');
         }
-        $viewmedewerkers=array('' => '');
+        $viewmedewerkers = array('' => '');
         $viewmedewerkers += $this->Medewerker->getMedewerkers(null, null, true);
         $this->set('viewmedewerkers', $viewmedewerkers);
 

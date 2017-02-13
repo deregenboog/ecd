@@ -37,9 +37,9 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime())
-                        ;
+                    ;
                 },
-                ])
+            ])
             ->add('medewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
@@ -47,7 +47,8 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
-                        ->orderBy('medewerker.achternaam', 'ASC')
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                        ->addOrderBy('medewerker.achternaam', 'ASC')
                     ;
                 },
             ])
