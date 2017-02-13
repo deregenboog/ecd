@@ -1,0 +1,24 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>
+    Huurovereenkomst {{ odpHuurovereenkomst.odpHuurder.klant }} en {{ odpHuurovereenkomst.odpVerhuurder.klant }}
+    {% if odpHuurovereenkomst.editable %}
+        {{ html.editLink({'action': 'edit', 0: odpHuurovereenkomst.id})|raw }}
+    {% endif %}
+    {% if odpHuurovereenkomst.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: odpHuurovereenkomst.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ odpHuurovereenkomst.id }}</dd>
+    <dt>Huurder</dt>
+    <dd>{{ odpHuurovereenkomst.odpHuurder.klant }}</dd>
+    <dt>Verhuurder</dt>
+    <dd>{{ odpHuurovereenkomst.odpVerhuurder.klant }}</dd>
+    <dt>Startdatum</dt>
+    <dd>{{ odpHuurovereenkomst.startdatum | date('d-m-Y') }}</dd>
+    <dt>Einddatum</dt>
+    <dd>{{ odpHuurovereenkomst.einddatum ? odpHuurovereenkomst.einddatum | date('d-m-Y') : 'onbepaald' }}</dd>
+</dl>

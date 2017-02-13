@@ -1,9 +1,12 @@
 <?php
 
 use AppBundle\Entity\Klant;
+use AppBundle\Form\ConfirmationType;
 use OdpBundle\Entity\OdpHuurder;
 use OdpBundle\Entity\OdpHuurovereenkomst;
+use OdpBundle\Form\OdpHuurovereenkomstAfsluitingType;
 use OdpBundle\Form\OdpHuurovereenkomstFilterType;
+use OdpBundle\Form\OdpHuurovereenkomstType;
 
 class OdpHuurovereenkomstenController extends AppController
 {
@@ -66,5 +69,80 @@ class OdpHuurovereenkomstenController extends AppController
 
         $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function view($id)
+    {
+        $odpHuurovereenkomst = $this->getEntityManager()->find(OdpHuurovereenkomst::class, $id);
+        $this->set('odpHuurovereenkomst', $odpHuurovereenkomst);
+    }
+
+    public function edit($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpHuurovereenkomst = $entityManager->find(OdpHuurovereenkomst::class, $id);
+
+        $form = $this->createForm(OdpHuurovereenkomstType::class, $odpHuurovereenkomst);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->Session->setFlash('Huurovereenkomst is opgeslagen.');
+
+                return $this->redirect(array('action' => 'index'));
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        $this->set('form', $form->createView());
+        $this->set('odpHuurovereenkomst', $odpHuurovereenkomst);
+    }
+
+    public function afsluiten($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpHuurovereenkomst = $entityManager->find(OdpHuurovereenkomst::class, $id);
+
+        $form = $this->createForm(OdpHuurovereenkomstAfsluitingType::class, $odpHuurovereenkomst);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->Session->setFlash('Huurovereenkomst is afgesloten.');
+
+                return $this->redirect(array('action' => 'index'));
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        $this->set('form', $form->createView());
+        $this->set('odpHuurovereenkomst', $odpHuurovereenkomst);
+    }
+
+    public function delete($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $odpHuurovereenkomst = $entityManager->find(OdpHuurovereenkomst::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $entityManager->remove($odpHuurovereenkomst);
+            $entityManager->flush();
+
+            $this->Session->setFlash('Huurovereenkomst is verwijderd.');
+
+            return $this->redirect(array('action' => 'index'));
+        }
+
+        $this->set('odpHuurovereenkomst', $odpHuurovereenkomst);
+        $this->set('form', $form->createView());
     }
 }

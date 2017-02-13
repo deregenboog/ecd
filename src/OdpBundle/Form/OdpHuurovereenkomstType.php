@@ -21,9 +21,10 @@ class OdpHuurovereenkomstType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data'] instanceof OdpHuurovereenkomst) {
-            if ($options['data']->getOdpHuuraanbod()) {
+            if (!$options['data']->getOdpHuurverzoek()) {
                 $this->setOdpHuurverzoek($builder, $options);
-            } elseif ($options['data']->getOdpHuurverzoek()) {
+            }
+            if (!$options['data']->getOdpHuuraanbod()) {
                 $this->setOdpHuuraanbod($builder, $options);
             }
         } else {

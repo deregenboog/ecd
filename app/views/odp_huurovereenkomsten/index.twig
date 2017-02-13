@@ -68,9 +68,18 @@
             </td>
             <td>
                 {{ html.viewLink({'action': 'view', 0: odpHuurovereenkomst.id})|raw }}
-                {{ html.editLink({'action': 'edit', 0: odpHuurovereenkomst.id})|raw }}
+                {% if odpHuurovereenkomst.editable %}
+                    {{ html.editLink({'action': 'edit', 0: odpHuurovereenkomst.id})|raw }}
+                {% endif %}
                 {% if odpHuurovereenkomst.deletable %}
                     {{ html.deleteLink({'action': 'delete', 0: odpHuurovereenkomst.id})|raw }}
+                {% endif %}
+                {% if odpHuurovereenkomst.editable %}
+                    {{ html.link(
+                        html.image('/img/lock_open.png'),
+                        {'action': 'afsluiten', 0: odpHuurovereenkomst.id},
+                        {'escape': false}
+                    )|raw }}
                 {% endif %}
             </td>
         </tr>
