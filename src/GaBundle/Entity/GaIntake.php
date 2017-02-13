@@ -2,6 +2,7 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +22,7 @@ abstract class GaIntake
     protected $id;
 
     /**
+     * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -82,6 +84,7 @@ abstract class GaIntake
     protected $intakedatum;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
      */
     protected $afsluitdatum;
@@ -109,5 +112,26 @@ abstract class GaIntake
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Medewerker
+     */
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAfsluitdatum()
+    {
+        return $this->afsluitdatum;
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }

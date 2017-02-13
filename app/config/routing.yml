@@ -11,3 +11,5 @@ _oek:
     resource: "@OekBundle/Resources/config/routing.yml"
 _odp:
     resource: "@OdpBundle/Resources/config/routing.yml"
+_ga:
+    resource: "@GaBundle/Resources/config/routing.yml"
