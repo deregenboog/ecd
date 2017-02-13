@@ -1,0 +1,8 @@
+GaBundle\Entity\GaKlantLidmaatschap:
+    ga_klant_lidmaatschap_{1..50}:
+        klant: '@klant_*'
+        gaGroep: '@ga_groep_*'
+        startdatum: '<dateTimeThisDecade()>'
+        einddatum: '50%? <dateTimeThisDecade()>'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'
