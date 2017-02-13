@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Form\Model;
 
 class AppDateRangeModel

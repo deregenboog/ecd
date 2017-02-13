@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
-use OdpBundle\Filter\OdpHuurderFilter;
 use OdpBundle\Filter\OdpVerhuurderFilter;
 
 class OdpVerhuurderFilterType extends AbstractType
