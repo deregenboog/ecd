@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new IzBundle\IzBundle(),
             new GaBundle\GaBundle(),
+            new Hi5Bundle\Hi5Bundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

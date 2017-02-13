@@ -1,0 +1,5 @@
+Hi5Bundle\Entity\Hi5Intake:
+    hi5_intake_{1..50}:
+        klant: '@klant_<current()>'
+        medewerker: '@medewerker_*'
+        intakedatum: '<dateTimeThisDecade()>'

@@ -78,6 +78,14 @@ class Registratie extends AppModel
                     'Klant.id = Registratie.klant_id',
                 ),
             ),
+            array(
+                'table' => 'trajecten',
+                'alias' => 'Traject',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'Klant.id = Traject.klant_id',
+                ),
+            ),
         );
 
         if ($gebruikersruimte) {
@@ -112,7 +120,11 @@ class Registratie extends AppModel
         foreach ($klant_fields as $i => $kf) {
             $klant_fields[$i] = 'Klant.'.$kf;
         }
-        $fields = array_merge($fields, array_merge($registratie_fields, $klant_fields));
+        $fields = array_merge($fields, array_merge(
+            $registratie_fields,
+            $klant_fields),
+            ['Traject.id']
+        );
 
         $this->recursive = -1;
 

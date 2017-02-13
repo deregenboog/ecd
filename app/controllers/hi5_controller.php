@@ -4,15 +4,15 @@ class Hi5Controller extends AppController
 {
     public $name = 'Hi5';
 
-    public $components = array(
-            'ComponentLoader',
-            'RequestHandler',
-            'Session',
-    );
+    public $components = [
+        'ComponentLoader',
+        'RequestHandler',
+        'Session',
+    ];
 
-    public $uses = array(
-            'Klant',
-    );
+    public $uses = [
+        'Klant',
+    ];
 
     private $permissions = 0;
 

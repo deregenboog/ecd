@@ -78,11 +78,10 @@ class RegistratiesController extends AppController
             if (!empty($locatie['gebruikersruimte'])) { //Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
                 $conditions[] = array('LasteIntake.locatie1_id' => $locatie_id);
             } elseif ($locatie['id'] == 17) { // Vrouwen Nacht Opvang
-
                 $conditions[]['Geslacht.afkorting'] = 'V';
                 $conditions[]['LasteIntake.toegang_vrouwen_nacht_opvang'] = 1;
             } elseif ($locatie['id'] == 5) { // Amoc
-            } elseif ($locatie['id'] == 12) { //Nachtopvang De Regenboog Groep
+            } elseif ($locatie['id'] == 12) { // Nachtopvang De Regenboog Groep
             } else { // Rest
                 $conditions[] = array('OR' => array(
                         'LasteIntake.verblijfstatus_id NOT ' => 7,
@@ -102,7 +101,6 @@ class RegistratiesController extends AppController
             $this->log($conditions, 'registratie');
 
             $this->paginate['Klant'] = array(
-
                 'contain' => array(
                     'Geslacht' => array(
                         'fields' => array(
@@ -127,13 +125,9 @@ class RegistratiesController extends AppController
             );
 
             $this->Klant->recursive = -1;
-
             $klanten = $this->paginate('Klant');
-
             $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
-
             $klanten = $this->Klant->completeVirtualFields($klanten);
-
             $this->Klant->Schorsing->get_schorsing_messages($klanten, $locatie_id);
 
             $this->set('klanten', $klanten);

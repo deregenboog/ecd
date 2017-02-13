@@ -1,0 +1,11 @@
+Hi5Bundle\Entity\Hi5Traject:
+    hi5_traject_{1..50}:
+        klant: '@klant_<current()>'
+        trajectbegeleider: '@medewerker_*'
+        werkbegeleider: '@medewerker_*'
+        telefoonnummerKlant: '<phoneNumber()>'
+        administratienummer: '0123456789'
+        telefoonnummerManager: '<phoneNumber()>'
+        emailManager: '<email()>'
+        created: '<dateTimeThisDecade()>'
+        modified: '<dateTimeThisDecade()>'
