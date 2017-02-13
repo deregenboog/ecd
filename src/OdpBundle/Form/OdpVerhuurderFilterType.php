@@ -2,12 +2,12 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Form\FilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
-use OdpBundle\Filter\OdpHuurderFilter;
 use OdpBundle\Filter\OdpVerhuurderFilter;
 
 class OdpVerhuurderFilterType extends AbstractType
@@ -17,12 +17,6 @@ class OdpVerhuurderFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('id', $options['enabled_filters'])) {
-            $builder->add('id', null, [
-                'required' => false,
-            ]);
-        }
-
         if (array_key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],

@@ -5,15 +5,9 @@ use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Entity\OdpHuurverzoek;
 use OdpBundle\Form\OdpHuurovereenkomstType;
 use OdpBundle\Form\OdpHuurverzoekType;
-use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuurverzoekSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuurverzoekFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
-use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormError;
 
 class OdpHuurverzoekenController extends AppController
@@ -29,12 +23,18 @@ class OdpHuurverzoekenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'id',
+        'klant' => ['naam', 'stadsdeel'],
+        'startdatum',
+        'einddatum',
     ];
 
     private $sortFieldWhitelist = [
         'odpHuurverzoek.id',
         'klant.achternaam',
         'klant.werkgebied',
+        'odpHuurverzoek.startdatum',
+        'odpHuurverzoek.einddatum',
     ];
 
     public function index()
@@ -67,10 +67,8 @@ class OdpHuurverzoekenController extends AppController
 
     public function view($id)
     {
-        $entityManager = $this->getEntityManager();
-        $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $id);
+        $odpHuurverzoek = $this->getEntityManager()->find(OdpHuurverzoek::class, $id);
         $this->set('odpHuurverzoek', $odpHuurverzoek);
-        $this->set('odpHuurder', $odpHuurverzoek->getOdpHuurder());
     }
 
     public function edit($id)

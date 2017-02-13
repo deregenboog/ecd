@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\TimestampableTrait;
 
@@ -22,6 +23,13 @@ class OdpHuuraanbod
     private $id;
 
     /**
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $medewerker;
+
+    /**
      * @var OdpVerhuurder
      * @ORM\ManyToOne(targetEntity="OdpVerhuurder", inversedBy="odpHuuraanbiedingen")
      */
@@ -34,6 +42,16 @@ class OdpHuuraanbod
     private $odpHuurovereenkomst;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    protected $startdatum;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $einddatum;
+
+    /**
      * @var string
      * @ORM\Column(type="text")
      */
@@ -42,6 +60,18 @@ class OdpHuuraanbod
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+
+        return $this;
     }
 
     public function getOdpVerhuurder()
@@ -59,6 +89,30 @@ class OdpHuuraanbod
     public function getKlant()
     {
         return $this->odpVerhuurder->getKlant();
+    }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum = null)
+    {
+        $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
     }
 
     public function getOpmerkingen()

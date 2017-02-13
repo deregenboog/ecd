@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Form\AppDateType;
 use OdpBundle\Entity\OdpHuurverzoek;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,6 +15,8 @@ class OdpHuurverzoekType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('startdatum', AppDateType::class);
+        $builder->add('einddatum', AppDateType::class, ['required' => false]);
         $builder->add('opmerkingen');
     }
 

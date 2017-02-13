@@ -24,12 +24,12 @@ class OdpHuurovereenkomst
     protected $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date", nullable=true)
      */
     protected $einddatum;
 
@@ -52,11 +52,11 @@ class OdpHuurovereenkomst
      */
     protected $odpHuurverzoek;
 
-//    /**
-//     * @var OdpHuurovereenkomstAfsluiting
-//     * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
-//     */
-//    protected $odpHuurovereenkomstAfsluiting;
+    /**
+     * @var OdpHuurovereenkomstAfsluiting
+     * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
+     */
+    protected $odpHuurovereenkomstAfsluiting;
 
     public function getId()
     {
@@ -121,5 +121,20 @@ class OdpHuurovereenkomst
         $this->odpHuurverzoek = $huurverzoek;
 
         return $this;
+    }
+
+    public function getOdpHuurder()
+    {
+        return $this->odpHuurverzoek->getOdpHuurder();
+    }
+
+    public function getOdpVerhuurder()
+    {
+        return $this->odpHuuraanbod->getOdpVerhuurder();
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }

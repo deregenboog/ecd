@@ -4,16 +4,10 @@ use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Form\OdpHuuraanbodType;
-use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuuraanbodSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuuraanbodFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
-use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use OdpBundle\Form\OdpHuurovereenkomstType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpHuuraanbiedingenController extends AppController
 {
@@ -28,12 +22,18 @@ class OdpHuuraanbiedingenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'id',
+        'klant' => ['naam', 'stadsdeel'],
+        'startdatum',
+        'einddatum',
     ];
 
     private $sortFieldWhitelist = [
         'odpHuuraanbod.id',
         'klant.achternaam',
         'klant.werkgebied',
+        'odpHuuraanbod.startdatum',
+        'odpHuuraanbod.einddatum',
     ];
 
     public function index()
@@ -55,7 +55,7 @@ class OdpHuuraanbiedingenController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-//             'defaultSortFieldName' => 'klant.achternaam',
+            'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
@@ -66,10 +66,8 @@ class OdpHuuraanbiedingenController extends AppController
 
     public function view($id)
     {
-        $entityManager = $this->getEntityManager();
-        $odpHuuraanbod = $entityManager->find(OdpHuuraanbod::class, $id);
+        $odpHuuraanbod = $this->getEntityManager()->find(OdpHuuraanbod::class, $id);
         $this->set('odpHuuraanbod', $odpHuuraanbod);
-        $this->set('odpVerhuurder', $odpHuuraanbod->getOdpVerhuurder());
     }
 
     public function edit($id)

@@ -14,7 +14,7 @@ class VrijwilligersPerProject extends AbstractVrijwilligersReport
 
     protected $xDescription = 'Aantal vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum)';
 
-    protected$yDesctiption = 'Project';
+    protected $yDescription = 'Project';
 
     protected function init()
     {
