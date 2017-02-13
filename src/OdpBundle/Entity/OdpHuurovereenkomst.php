@@ -53,6 +53,11 @@ class OdpHuurovereenkomst
     protected $odpHuurverzoek;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $afsluitdatum;
+
+    /**
      * @var OdpHuurovereenkomstAfsluiting
      * @ORM\ManyToOne(targetEntity="OdpHuurovereenkomstAfsluiting")
      */
@@ -70,6 +75,8 @@ class OdpHuurovereenkomst
 
     public function setMedewerker(Medewerker $medewerker)
     {
+        $this->throwIfNotEditable();
+
         $this->medewerker = $medewerker;
 
         return $this;
@@ -82,6 +89,8 @@ class OdpHuurovereenkomst
 
     public function setStartdatum(\DateTime $startdatum = null)
     {
+        $this->throwIfNotEditable();
+
         $this->startdatum = $startdatum;
 
         return $this;
@@ -94,7 +103,37 @@ class OdpHuurovereenkomst
 
     public function setEinddatum(\DateTime $einddatum = null)
     {
+        $this->throwIfNotEditable();
+
         $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
+    public function getAfsluitdatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    {
+        $this->throwIfNotEditable();
+
+        $this->afsluitdatum = $afsluitdatum;
+
+        return $this;
+    }
+
+    public function getOdpHuurovereenkomstAfsluiting()
+    {
+        return $this->odpHuurovereenkomstAfsluiting;
+    }
+
+    public function setOdpHuurovereenkomstAfsluiting(OdpHuurovereenkomstAfsluiting $afsluiting)
+    {
+        $this->throwIfNotEditable();
+
+        $this->odpHuurovereenkomstAfsluiting = $afsluiting;
 
         return $this;
     }
@@ -111,6 +150,8 @@ class OdpHuurovereenkomst
 
     public function setOdpHuuraanbod(OdpHuuraanbod $huuraanbod)
     {
+        $this->throwIfNotEditable();
+
         $this->odpHuuraanbod = $huuraanbod;
 
         return $this;
@@ -118,6 +159,8 @@ class OdpHuurovereenkomst
 
     public function setOdpHuurverzoek(OdpHuurverzoek $huurverzoek)
     {
+        $this->throwIfNotEditable();
+
         $this->odpHuurverzoek = $huurverzoek;
 
         return $this;
@@ -133,8 +176,25 @@ class OdpHuurovereenkomst
         return $this->odpHuuraanbod->getOdpVerhuurder();
     }
 
+    public function isEditable()
+    {
+        return !$this->odpHuurovereenkomstAfsluiting;
+    }
+
     public function isDeletable()
     {
-        return false;
+        return $this->isEditable();
+    }
+
+    public function __toString()
+    {
+        return "$this->id";
+    }
+
+    private function throwIfNotEditable()
+    {
+        if (!$this->isEditable()) {
+            throw new \Exception("Huurovereenkomst #$this->id is afgesloten en mag daarom niet meer bewerkt worden.");
+        }
     }
 }

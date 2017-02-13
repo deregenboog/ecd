@@ -22,14 +22,14 @@ class OdpHuurovereenkomstAfsluiting
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $naam;
 
     /**
-     * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @ORM\Column(name="active", type="boolean")
      */
-    private $actief;
+    private $actief = true;
 
     public function __toString()
     {
