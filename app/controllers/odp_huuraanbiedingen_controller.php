@@ -31,7 +31,8 @@ class OdpHuuraanbiedingenController extends AppController
         'id',
         'klant' => ['naam', 'stadsdeel'],
         'startdatum',
-        'einddatum'
+        'einddatum',
+        'openstaand',
     ];
 
     private $sortFieldWhitelist = [
@@ -53,6 +54,7 @@ class OdpHuuraanbiedingenController extends AppController
         $repository = $entityManager->getRepository(OdpHuuraanbod::class);
 
         $builder = $repository->createQueryBuilder('odpHuuraanbod')
+            ->leftJoin('odpHuuraanbod.odpHuurovereenkomst', 'odpHuurovereenkomst')
             ->innerJoin('odpHuuraanbod.odpVerhuurder', 'odpVerhuurder')
             ->innerJoin('odpVerhuurder.klant', 'klant');
 
