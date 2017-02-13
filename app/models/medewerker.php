@@ -179,7 +179,7 @@ class Medewerker extends AppModel
         $cacheKey = 'Medewerker_getMedewerkers'.$this->cacheKey($group_ids).$this->cacheKey($medewerker_ids);
         $medewerkers = Cache::read($cacheKey, 'ldap');
 
-        if (!empty($medewerkes)) {
+        if (!empty($medewerkers)) {
             return $medewerkers;
         }
 
