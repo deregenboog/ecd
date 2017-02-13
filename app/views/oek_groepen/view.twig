@@ -15,31 +15,90 @@
     <dd>{{ oekGroep.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ oekGroep.naam }}</dd>
-    <dt>
-        Wachtlijst
-        {{ html.addLink({'controller': 'oek_groepen', 'action': 'voeg_klant_toe', 0: oekGroep.id})|raw }}
-    </dt>
-    <dd>
-        {% if oekGroep.oekKlanten.count() > 0 %}
-            <ul>
-                {% for oekKlant in oekGroep.oekKlanten %}
-                    <li>{{ html.link(oekKlant, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <span>Er staat niemand op de wachtlijst.</span>
-        {% endif %}
-    </dd>
-    <dt>Trainingen</dt>
-    <dd>
-        {% if oekGroep.oekTrainingen.count() > 0 %}
-            <ul>
-            {% for oekTraining in oekGroep.oekTrainingen %}
-                <li>{{ html.link(oekTraining, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}</li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <span>Er zijn nog geen trainingen voor deze groep.</span>
-        {% endif %}
-    </dd>
 </dl>
+
+<h2>Wachtlijst</h2>
+<p>
+    {{ html.addLink({'controller': 'oek_groepen', 'action': 'add_klant', 0: oekGroep.id})|raw }}
+    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_groepen', 'action': 'add_klant', 0: oekGroep.id})|raw }}
+</p>
+{% if oekGroep.oekKlanten.count() == 0 %}
+    <p>Deze groep heeft nog geen wachtlijst.</p>
+{% else %}
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Deelnemer</th>
+            <th>Stadsdeel</th>
+            <th>Aanmelddatum</th>
+            <th>Afsluitdatum</th>
+            <th></th>
+        </tr>
+        {% for oekKlant in oekGroep.oekKlanten %}
+            <tr>
+                <td>
+                    {{ html.link(oekKlant.klant.id, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
+                </td>
+                <td>
+                    {{ html.link(oekKlant.klant.naam, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
+                </td>
+                <td>
+                    {{ oekKlant.klant.werkgebied }}
+                </td>
+                <td>
+                    {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ html.viewLink({'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
+                    {{ html.editLink({'controller': 'oek_klanten', 'action': 'edit', 0: oekKlant.id})|raw }}
+                    {% if oekKlant.deletable %}
+                        {{ html.deleteLink({'controller': 'oek_klanten', 'action': 'delete', 0: oekKlant.id})|raw }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<h2>Trainingen</h2>
+{% if oekGroep.oekTrainingen.count() == 0 %}
+    <p>Deze groep bevat nog geen trainingen.</p>
+{% else %}
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Naam
+            </th>
+            <th>Aantal deelnemers</th>
+            <th>Startdatum</th>
+            <th>Einddatum</th>
+            <th></th>
+        </tr>
+        {% for oekTraining in oekGroep.oekTrainingen %}
+            <tr>
+                <td>
+                    {{ html.link(oekTraining.id, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}
+                </td>
+                <td>
+                    {{ html.link(oekTraining.naam, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}
+                </td>
+                <td>{{ oekTraining.oekKlanten.count() }}</td>
+                <td>
+                    {{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}
+                    {{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') ~ ' uur' }}
+                </td>
+                <td>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}</td>
+                <td>
+                    {{ html.viewLink({'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}
+                    {{ html.editLink({'controller': 'oek_trainingen', 'action': 'edit', 0: oekTraining.id})|raw }}
+                    {% if oekTraining.deletable %}
+                        {{ html.deleteLink({'controller': 'oek_trainingen', 'action': 'delete', 0: oekTraining.id})|raw }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

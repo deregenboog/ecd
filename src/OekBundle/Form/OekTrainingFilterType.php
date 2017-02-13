@@ -3,18 +3,15 @@
 namespace OekBundle\Form;
 
 use OekBundle\Entity\OekGroep;
+use OekBundle\Filter\OekTrainingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
-use OekBundle\Filter\OekKlantFilter;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class OekKlantFilterType extends AbstractType
+class OekTrainingFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -23,40 +20,34 @@ class OekKlantFilterType extends AbstractType
     {
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
-                'attr' => ['placeholder' => 'Klantnummer'],
+                'attr' => ['placeholder' => 'Nummer'],
             ]);
         }
 
-        if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
+        if (in_array('naam', $options['enabled_filters'])) {
+            $builder->add('naam', null, [
+                'attr' => ['placeholder' => 'Naam'],
+            ]);
         }
 
-        if (in_array('groep', $options['enabled_filters'])) {
-            $builder->add('groep', EntityType::class, [
+        if (in_array('oekGroep', $options['enabled_filters'])) {
+            $builder->add('oekGroep', EntityType::class, [
                 'required' => false,
                 'class' => OekGroep::class,
             ]);
         }
 
-        if (in_array('aanmelding', $options['enabled_filters'])) {
-            $builder->add('aanmelding', AppDateRangeType::class, [
+        if (in_array('startdatum', $options['enabled_filters'])) {
+            $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
 
-        if (in_array('afsluiting', $options['enabled_filters'])) {
-            $builder->add('afsluiting', AppDateRangeType::class, [
+        if (in_array('einddatum', $options['enabled_filters'])) {
+            $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
-
-        $builder->add('filter', SubmitType::class, [
-            'label' => 'Filteren',
-        ]);
-
-        $builder->add('download', SubmitType::class, [
-            'label' => 'Downloaden',
-        ]);
     }
 
     /**
@@ -65,7 +56,7 @@ class OekKlantFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => OekKlantFilter::class,
+            'data_class' => OekTrainingFilter::class,
         ]);
     }
 

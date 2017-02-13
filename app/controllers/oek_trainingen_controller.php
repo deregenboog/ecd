@@ -1,10 +1,13 @@
 <?php
 
 use OekBundle\Entity\OekTraining;
-use OekBundle\Form\Model\OekTrainingModel;
-use OekBundle\Form\OekTrainingKlantType;
+use OekBundle\Form\Model\OekTrainingFacade;
+use OekBundle\Form\OekTrainingFilterType;
+use OekBundle\Form\OekTrainingAddKlantType;
 use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
+use Symfony\Component\Form\Test\FormInterface;
+use OekBundle\Form\OekEmailMessageType;
 
 class OekTrainingenController extends AppController
 {
@@ -18,16 +21,30 @@ class OekTrainingenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $enabledFilters = [
+        'id',
+        'naam',
+        'oekGroep',
+        'startdatum',
+        'einddatum',
+    ];
+
     private $sortFieldWhitelist = [
         'oekTraining.id',
         'oekTraining.naam',
         'oekGroep.naam',
-        'oekTraining.startDatum',
-        'oekTraining.eindDatum'
+        'oekTraining.startdatum',
+        'oekTraining.einddatum',
     ];
 
     public function index()
     {
+        /** @var FormInterface $filter */
+        $filter = $this->createForm(OekTrainingFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OekTraining::class);
 
@@ -35,12 +52,17 @@ class OekTrainingenController extends AppController
             ->leftJoin('oekTraining.oekKlanten', 'oekKlanten')
             ->innerJoin('oekTraining.oekGroep', 'oekGroep');
 
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+        }
+
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'oekTraining.startDatum',
+            'defaultSortFieldName' => 'oekTraining.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
+        $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
     }
 
@@ -114,68 +136,67 @@ class OekTrainingenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function voeg_klant_toe($oekTrainingId)
+    public function add_klant($oekTrainingId)
     {
         /** @var OekTraining $oekTraining */
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OekTraining::class);
         $oekTraining = $repository->find($oekTrainingId);
-        $oekTrainingModel = new OekTrainingModel($oekTraining);
+        $oekTrainingModel = new OekTrainingFacade($oekTraining);
 
-        $form = $this->createForm(OekTrainingKlantType::class, $oekTrainingModel);
+        $form = $this->createForm(OekTrainingAddKlantType::class, $oekTrainingModel);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->Session->setFlash('Klant is toegevoegd aan groep.');
+            $this->Session->setFlash('Klant is aan training toegevoegd.');
 
-            return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+            return $this->redirect(['action' => 'view', $oekTraining->getId()]);
         }
 
+        $this->set('oekTraining', $oekTraining);
         $this->set('form', $form->createView());
     }
 
     public function email_deelnemers($oekTrainingId)
     {
-        if ($this->request->server->get('REQUEST_METHOD') != 'POST') {
-            return;
-        }
-
         /** @var OekTraining $oekTraining */
-        /** @var Swift_Mailer $mailer */
-        /** @var Swift_Mime_Message $message */
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekTraining::class);
-        $oekTraining = $repository->find($oekTrainingId);
+        $oekTraining = $this->getEntityManager()->getRepository(OekTraining::class)
+            ->find($oekTrainingId);
 
-        $mailer = $this->container->get('mailer');
-        $message = $mailer->createMessage();
+        $form = $this->createForm(OekEmailMessageType::class, null, [
+            'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
+            'to' => $oekTraining->getOekKlanten(),
+        ]);
+        $form->handleRequest($this->request);
 
-        $message->setSubject($this->request->get('subject'));
-        $message->setBody($this->request->get('body'));
+        if ($form->isValid()) {
+            /** @var Swift_Mailer $mailer */
+            $mailer = $this->container->get('mailer');
 
-        $addresses = [];
+            /** @var Swift_Mime_Message $message */
+            $message = $mailer->createMessage()
+                ->setFrom($form->get('from')->getData())
+                ->setTo($form->get('from')->getData())
+                ->setBcc(explode(', ', $form->get('to')->getData()))
+                ->setSubject($form->get('subject')->getData())
+                ->setBody($form->get('text')->getData(), 'text/plain')
+            ;
 
-        foreach($oekTraining->getOekKlanten() as $oekKlant) {
-            $klant = $oekKlant->getKlant();
-            $addresses[$klant->getEmail()] = $klant->getNaam();
+            if ($mailer->send($message)) {
+                $this->flash(__('Email is succesvol verzonden', true));
+            } else {
+                $this->flashError(__('Email kon niet worden verzonden', true));
+            }
+
+            return $this->redirect([
+                'action' => 'view',
+                $oekTraining->getId(),
+            ]);
         }
 
-        $message->setTo($addresses);
-
-        $failedRecipients = [];
-        $mailer->getTransport()->send($message, $failedRecipients);
-
-        if ($failedRecipients) {
-            $failedRecipients = implode(', ', $failedRecipients);
-            $this->Session->setFlash(
-                'De email kon niet worden verzonden naar: ' . $failedRecipients
-            );
-        } else {
-            $this->Session->setFlash('De email is succesvol verzonden.');
-        }
-
-        return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+        $this->set('form', $form->createView());
+        $this->set('oekTraining', $oekTraining);
     }
 }

@@ -2,9 +2,9 @@
 
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
-use OekBundle\Form\Model\OekKlantModel;
-use OekBundle\Form\OekKlantGroepType;
-use OekBundle\Form\OekKlantTrainingType;
+use OekBundle\Form\Model\OekKlantFacade;
+use OekBundle\Form\OekKlantAddGroepType;
+use OekBundle\Form\OekKlantAddTrainingType;
 use OekBundle\Form\OekKlantType;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Form\OekKlantSelectType;
@@ -13,7 +13,7 @@ use OekBundle\Form\OekKlantFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormInterface;
 
 class OekKlantenController extends AppController
 {
@@ -28,32 +28,28 @@ class OekKlantenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'id',
-        'klant' => ['naam'],
+        'klant' => ['id', 'naam', 'stadsdeel'],
+        'aanmelding',
+        'afsluiting',
     ];
 
     private $sortFieldWhitelist = [
-        'oekKlant.id',
+        'klant.id',
         'klant.achternaam',
+        'klant.werkgebied',
         'oekKlant.aanmelding',
         'oekKlant.afsluiting',
     ];
 
     public function index()
     {
-        $filter = $this->createForm(OekKlantFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->request);
-
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekKlant::class);
-
+        $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
             ->innerJoin('oekKlant.klant', 'klant')
             ->andWhere('klant.disabled = false')
         ;
 
+        $filter = $this->createFilter();
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
         }
@@ -193,34 +189,55 @@ class OekKlantenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function voeg_toe_aan_groep($oekKlantId)
+    public function add_groep($oekKlantId)
     {
-        return $this->voeg_toe_aan(OekKlantGroepType::class, $oekKlantId);
+        return $this->add_to(OekKlantAddGroepType::class, $oekKlantId);
     }
 
-    public function voeg_toe_aan_training($oekKlantId)
+    public function add_training($oekKlantId)
     {
-        return $this->voeg_toe_aan(OekKlantTrainingType::class, $oekKlantId);
+        return $this->add_to(OekKlantAddTrainingType::class, $oekKlantId);
     }
 
-    private function voeg_toe_aan($type, $oekKlantId)
+    /**
+     * @return FormInterface
+     */
+    private function createFilter()
+    {
+        $filter = $this->createForm(OekKlantFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
+        return $filter;
+    }
+
+    private function add_to($type, $oekKlantId)
     {
         /** @var OekKlant $oekKlant */
         $entityManager = $this->getEntityManager();
         $oekKlant = $entityManager->find(OekKlant::class, $oekKlantId);
-        $oekKlantModel = new OekKlantModel($oekKlant);
 
-        $form = $this->createForm($type, $oekKlantModel);
+        $form = $this->createForm($type, new OekKlantFacade($oekKlant));
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
             try {
                 $entityManager->flush();
 
-                $this->Session->setFlash('Klant is toegevoegd.');
+                switch ($type) {
+                    case OekKlantAddGroepType::class:
+                        $this->Session->setFlash('Deelnemer is aan groep toegevoegd.');
+                        break;
+                    case OekKlantAddTrainingType::class:
+                        $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
+                        break;
+                    default:
+                        $this->Session->setFlash('Deelnemer is toegevoegd.');
+                }
 
                 return $this->redirect(array('action' => 'view', $oekKlant->getId()));
-                //return $this->redirect(array('action' => 'index'));
+                // return $this->redirect(array('action' => 'index'));
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }

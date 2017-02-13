@@ -1,7 +1,7 @@
 {% include 'oek_subnavigation.twig' %}
 
 <h1>
-    Klant {{ oekKlant.klant.naam }}
+    Deelnemer {{ oekKlant.klant.naam }}
     {{ html.editLink({'action': 'edit', 0: oekKlant.id})|raw }}
     {% if oekKlant.deletable %}
         {{ html.deleteLink({'action': 'delete', 0: oekKlant.id})|raw }}
@@ -10,12 +10,12 @@
 
 <dl>
     <dt>#</dt>
-    <dd>{{ oekKlant.id }}</dd>
+    <dd>{{ oekKlant.klant.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ oekKlant.klant.naam }}</dd>
     <dt>
         Groepen
-        {{ html.addLink({'controller': 'oek_klanten', 'action': 'voeg_toe_aan_groep', 0: oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_klanten', 'action': 'add_groep', 0: oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>
@@ -29,7 +29,7 @@
     </dd>
     <dt>
         Trainingen
-        {{ html.addLink({'controller': 'oek_klanten', 'action': 'voeg_toe_aan_training', 0: oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_klanten', 'action': 'add_training', 0: oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>

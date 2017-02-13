@@ -1,9 +1,9 @@
 {% include 'oek_subnavigation.twig' %}
 
-<h1>Klant toevoegen</h1>
+<h1>Deelnemer toevoegen</h1>
 
 {% if filterForm is defined %}
-    Zoek een bestaande klant op klantnr, naam en/of geboortedatum.
+    Zoek een bestaande deelnemer op nummer, naam en/of geboortedatum.
     {{ form_start(filterForm) }}
         {{ form_widget(filterForm) }}
         <button type="submit">Verder</button>
@@ -11,8 +11,8 @@
 {% endif %}
 
 {% if selectionForm is defined %}
-    Selecteer een bestaande klant en klik op "Verder".<br>
-    Selecteer niks en klik op "Verder" om een nieuwe klant aan te maken.
+    Selecteer een bestaande deelnemer en klik op "Verder".<br>
+    Selecteer niks en klik op "Verder" om een nieuwe deelnemer aan te maken.
     {{ form_start(selectionForm) }}
         {{ form_widget(selectionForm) }}
         <button type="submit">Verder</button>
