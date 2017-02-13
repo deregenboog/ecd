@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
@@ -31,6 +32,13 @@ abstract class OdpDeelnemer
      * @ORM\OneToOne(targetEntity="OdpIntake", mappedBy="odpDeelnemer")
      */
     protected $odpIntake;
+
+    /**
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $medewerker;
 
     /**
      * @ORM\Column(name="aanmelddatum", type="date")
@@ -78,6 +86,18 @@ abstract class OdpDeelnemer
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+
+        return $this;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
 
         return $this;
     }

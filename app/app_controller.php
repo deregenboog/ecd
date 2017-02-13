@@ -1,5 +1,6 @@
 <?php
 
+use AppBundle\Entity\Medewerker;
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\Paginator;
@@ -339,7 +340,7 @@ class AppController extends Controller
             $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
             $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
             $this->Session->write('Auth.User', $auth);
-            $this->Session->write('user_id', 1);
+            $this->Session->write('user_id', $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId());
             $this->AuthExt->allow('*');
         }
 

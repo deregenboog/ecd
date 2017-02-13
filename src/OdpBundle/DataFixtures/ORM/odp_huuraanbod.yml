@@ -1,0 +1,7 @@
+OdpBundle\Entity\OdpHuuraanbod:
+    odp_huuraanbod_{1..75}:
+        odpVerhuurder (unique): '@odp_verhuurder_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        einddatum: '<einddatum($startdatum)>'
+        opmerkingen: '<sentence()>'

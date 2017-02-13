@@ -29,12 +29,18 @@ class OdpHuurverzoekenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'id',
+        'klant' => ['naam', 'stadsdeel'],
+        'startdatum',
+        'einddatum'
     ];
 
     private $sortFieldWhitelist = [
         'odpHuurverzoek.id',
         'klant.achternaam',
         'klant.werkgebied',
+        'odpHuurverzoek.startdatum',
+        'odpHuurverzoek.einddatum',
     ];
 
     public function index()
@@ -67,10 +73,8 @@ class OdpHuurverzoekenController extends AppController
 
     public function view($id)
     {
-        $entityManager = $this->getEntityManager();
-        $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $id);
+        $odpHuurverzoek = $this->getEntityManager()->find(OdpHuurverzoek::class, $id);
         $this->set('odpHuurverzoek', $odpHuurverzoek);
-        $this->set('odpHuurder', $odpHuurverzoek->getOdpHuurder());
     }
 
     public function edit($id)

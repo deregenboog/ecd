@@ -9,3 +9,6 @@ odp_huurverzoeken_index:
 
 odp_huuraanbiedingen_index:
     path: odp_huuraanbiedingen
+
+odp_huurovereenkomsten_index:
+    path: odp_huurovereenkomsten

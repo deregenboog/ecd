@@ -2,15 +2,15 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\AbstractType;
+use OdpBundle\Filter\OdpHuurovereenkomstFilter;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use OdpBundle\Filter\OdpHuurverzoekFilter;
+use AppBundle\Form\KlantFilterType;
 
-class OdpHuurverzoekFilterType extends AbstractType
+class OdpHuurovereenkomstFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -23,11 +23,18 @@ class OdpHuurverzoekFilterType extends AbstractType
             ]);
         }
 
-        if (array_key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
+        if (array_key_exists('odpHuurderKlant', $options['enabled_filters'])) {
+            $builder->add('odpHuurderKlant', KlantFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['odpHuurderKlant'],
             ]);
         }
+
+        if (array_key_exists('odpVerhuurderKlant', $options['enabled_filters'])) {
+            $builder->add('odpVerhuurderKlant', KlantFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['odpVerhuurderKlant'],
+            ]);
+        }
+
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
@@ -55,7 +62,7 @@ class OdpHuurverzoekFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => OdpHuurverzoekFilter::class,
+            'data_class' => OdpHuurovereenkomstFilter::class,
         ]);
     }
 }
