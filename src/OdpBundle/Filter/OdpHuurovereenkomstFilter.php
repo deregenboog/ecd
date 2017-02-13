@@ -2,11 +2,11 @@
 
 namespace OdpBundle\Filter;
 
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Filter\KlantFilter;
 
-class OdpHuurverzoekFilter
+class OdpHuurovereenkomstFilter
 {
     /**
      * @var int
@@ -26,7 +26,12 @@ class OdpHuurverzoekFilter
     /**
      * @var KlantFilter
      */
-    public $klant;
+    public $odpHuurderKlant;
+
+    /**
+     * @var KlantFilter
+     */
+    public $odpVerhuurderKlant;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -67,8 +72,12 @@ class OdpHuurverzoekFilter
             }
         }
 
-        if ($this->klant) {
-            $this->klant->applyTo($builder);
+        if ($this->odpHuurderKlant) {
+            $this->odpHuurderKlant->applyTo($builder, 'odpHuurderKlant');
+        }
+
+        if ($this->odpVerhuurderKlant) {
+            $this->odpVerhuurderKlant->applyTo($builder, 'odpVerhuurderKlant');
         }
     }
 }
