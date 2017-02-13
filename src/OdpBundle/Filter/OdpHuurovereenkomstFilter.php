@@ -37,8 +37,8 @@ class OdpHuurovereenkomstFilter
     {
         if ($this->id) {
             $builder
-                ->andWhere('odpHuurovereenkomst.id = :odp_klant_id')
-                ->setParameter('odp_klant_id', $this->id)
+                ->andWhere('odpHuurovereenkomst.id = :huurovereenkomst_id')
+                ->setParameter('huurovereenkomst_id', $this->id)
             ;
         }
 

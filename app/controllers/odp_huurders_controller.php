@@ -11,7 +11,6 @@ use OdpBundle\Form\OdpHuurderFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 

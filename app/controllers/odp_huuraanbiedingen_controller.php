@@ -4,16 +4,10 @@ use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Form\OdpHuuraanbodType;
-use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuuraanbodSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuuraanbodFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
-use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use OdpBundle\Form\OdpHuurovereenkomstType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpHuuraanbiedingenController extends AppController
 {

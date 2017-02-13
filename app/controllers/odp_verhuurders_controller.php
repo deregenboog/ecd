@@ -10,9 +10,7 @@ use OdpBundle\Form\OdpVerhuurderSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpVerhuurderFilterType;
 use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpVerhuurdersController extends AppController
