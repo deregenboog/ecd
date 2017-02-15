@@ -273,7 +273,7 @@ class AppController extends Controller
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         $this->set('medewerkers', $medewerkers);
 
-    return $medewerkers;
+        return $medewerkers;
     }
 
     /**
@@ -340,7 +340,10 @@ class AppController extends Controller
             $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
             $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
             $this->Session->write('Auth.User', $auth);
-            $this->Session->write('user_id', $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId());
+            $this->Session->write(
+                'Auth.Medewerker.id',
+                $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId()
+            );
             $this->AuthExt->allow('*');
         }
 
