@@ -4,10 +4,12 @@ namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\GaGroepRepository")
  * @ORM\Table(name="groepsactiviteiten_groepen")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
@@ -20,6 +22,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 abstract class GaGroep
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -51,16 +55,6 @@ abstract class GaGroep
      * @ORM\Column(type="date", nullable=true)
      */
     protected $einddatum;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $modified;
 
     /**
      * @var GaKlantLidmaatschap[]|ArrayCollection

@@ -5,14 +5,19 @@ namespace OekBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\InitialStateInterface;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="OekBundle\Repository\OekKlantRepository")
  * @ORM\Table(name="oek_klanten")
  * @ORM\HasLifecycleCallbacks
  */
 class OekKlant
 {
+    use TimestampableTrait, RequiredMedewerkerTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -41,16 +46,6 @@ class OekKlant
     private $verwijzingNaar;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $modified;
-
-    /**
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -68,22 +63,6 @@ class OekKlant
      * @ORM\ManyToMany(targetEntity="OekTraining", mappedBy="oekKlanten")
      */
     private $oekTrainingen;
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function onPrePersist()
-    {
-        $this->created = $this->modified = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->modified = new \DateTime();
-    }
 
     public function __construct()
     {
@@ -159,16 +138,6 @@ class OekKlant
         $this->verwijzingNaar = $verwijzingNaar;
 
         return $this;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
     }
 
     public function getOekGroepen()

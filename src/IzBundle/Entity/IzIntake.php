@@ -8,6 +8,7 @@ use AppBundle\Entity\Medewerker;
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_intakes")
+ * @ORM\HasLifecycleCallbacks
  */
 class IzIntake
 {
@@ -19,15 +20,20 @@ class IzIntake
     private $id;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      */
-    private $created;
+    protected $created;
 
     /**
+     * @var \DateTime
+     *
      * @todo Fix typo modifed => modified
+     *
      * @ORM\Column(name="modifed", type="datetime")
      */
-    private $modified;
+    protected $modified;
 
     /**
      * @ORM\Column(name="intake_datum", type="date")
@@ -35,7 +41,7 @@ class IzIntake
     private $intakeDatum;
 
     /**
-     * @ORM\Column(name="gezin_met_kinderen", type="boolean")
+     * @ORM\Column(name="gezin_met_kinderen", type="boolean", nullable=true)
      */
     private $gezinMetKinderen;
 
@@ -56,6 +62,22 @@ class IzIntake
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->created = $this->modified = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->modified = new \DateTime();
     }
 
     public function getIntakeDatum()

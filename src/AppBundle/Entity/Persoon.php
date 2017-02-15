@@ -4,12 +4,16 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks
  */
 class Persoon
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -57,36 +61,30 @@ class Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $medewerker;
 
     /**
      * @var Geslacht
      * @ORM\ManyToOne(targetEntity="Geslacht")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $geslacht;
 
     /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $land;
 
     /**
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $nationaliteit;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    protected $modified;
 
     /**
      * @ORM\Column(type="string")
@@ -352,16 +350,6 @@ class Persoon
     {
         $this->nationaliteit = $nationaliteit;
         return $this;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
     }
 
     public function setAdres($adres)

@@ -4,5 +4,3 @@ GaBundle\Entity\GaKlantLidmaatschap:
         gaGroep: '@ga_groep_*'
         startdatum: '<dateTimeThisDecade()>'
         einddatum: '50%? <dateTimeThisDecade()>'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

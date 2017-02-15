@@ -2,5 +2,3 @@ GaBundle\Entity\GaActiviteit:
     ga_activiteit_{1..50}:
         gaGroep: '@ga_groep_*'
         naam: '<word()>'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

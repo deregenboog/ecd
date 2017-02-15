@@ -2,44 +2,34 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
- * @Entity
- * @Table(name="nationaliteiten")
+ * @ORM\Entity
+ * @ORM\Table(name="nationaliteiten")
+ * @ORM\HasLifecycleCallbacks
  */
 class Nationaliteit
 {
+    use TimestampableTrait;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $afkorting;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $naam;
-
-    /**
-     * @Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @Column(type="datetime")
-     */
-    private $modified;
 
     public function __toString()
     {

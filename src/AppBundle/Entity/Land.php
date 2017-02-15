@@ -2,49 +2,39 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
- * @Entity
- * @Table(name="landen")
+ * @ORM\Entity
+ * @ORM\Table(name="landen")
+ * @ORM\HasLifecycleCallbacks
  */
 class Land
 {
+    use TimestampableTrait;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(name="AFK2", type="string", length=5, nullable=false)
+     * @ORM\Column(name="AFK2", type="string", length=5, nullable=false)
      */
     private $afkorting2;
 
     /**
-     * @Column(name="AFK3", type="string", length=5, nullable=false)
+     * @ORM\Column(name="AFK3", type="string", length=5, nullable=false)
      */
     private $afkorting3;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $land;
-
-    /**
-     * @Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @Column(type="datetime", nullable=true)
-     */
-    private $modified;
 
     public function __toString()
     {

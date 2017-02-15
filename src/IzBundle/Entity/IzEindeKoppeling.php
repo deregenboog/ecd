@@ -3,13 +3,17 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_eindekoppelingen")
+ * @ORM\HasLifecycleCallbacks
  */
 class IzEindeKoppeling
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -18,24 +22,14 @@ class IzEindeKoppeling
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $naam;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="active", type="boolean", nullable=false)
      */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
-
-    /**
-     * @ORM\Column(name="active", type="boolean", nullable=true)
-     */
-    private $actief;
+    private $actief = true;
 
     public function __toString()
     {
