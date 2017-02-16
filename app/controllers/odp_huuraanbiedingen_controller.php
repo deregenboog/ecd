@@ -121,7 +121,7 @@ class OdpHuuraanbiedingenController extends AppController
         /** @var Medewerker $medewerker */
         $entityManager = $this->getEntityManager();
         $odpHuuraanbod = $entityManager->find(OdpHuuraanbod::class, $huuraanbodId);
-        $medewerker = $entityManager->find(Medewerker::class, $this->Session->read('user_id'));
+        $medewerker = $this->getMedewerker();
 
         $odpHuurovereenkomst = new OdpHuurovereenkomst();
         $odpHuurovereenkomst->setOdpHuuraanbod($odpHuuraanbod);

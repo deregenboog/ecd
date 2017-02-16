@@ -666,4 +666,14 @@ class AppController extends Controller
     {
         return $this->getFormFactory()->create($type, $data, $options);
     }
+
+    /**
+     * @return Medewerker
+     */
+    protected function getMedewerker()
+    {
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+
+        return $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+    }
 }
