@@ -76,4 +76,9 @@ abstract class OekVerwijzing
 
         return $this;
     }
+
+    public function isDeletable()
+    {
+        return false;
+    }
 }
