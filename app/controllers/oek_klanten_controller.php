@@ -65,6 +65,9 @@ class OekKlantenController extends AppController
         $filter = $this->createFilter();
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
@@ -76,6 +79,18 @@ class OekKlantenController extends AppController
 
         $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        $oekKlanten = $builder->getQuery()->getResult();
+
+        $filename = sprintf('op-eigen-kracht-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: text/csv');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $this->set('oekKlanten', $oekKlanten);
+        $this->render('download', false);
     }
 
     public function view($id)

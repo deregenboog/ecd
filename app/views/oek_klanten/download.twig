@@ -3,7 +3,7 @@ Deelnemer{{ tab -}}
 Telefoon{{ tab -}}
 Mobiel{{ tab -}}
 Stadsdeel{{ tab -}}
-Groepen{{ tab -}}
+Trainingen{{ tab -}}
 Aanmelddatum{{ tab -}}
 Verwezen door{{ tab -}}
 Afsluitdatum{{ tab -}}
@@ -14,8 +14,8 @@ Verwezen naar
     {{- oekKlant.klant.telefoon ~ tab -}}
     {{- oekKlant.klant.mobiel ~ tab -}}
     {{- oekKlant.klant.werkgebied ~ tab -}}
-    {% for oekGroep in oekKlant.oekGroepen %}
-        {{- oekGroep ~ " " -}}
+    {% for oekTraining in oekKlant.oekTrainingen %}
+        {{- oekTraining ~ " " -}}
     {% endfor %}{{- tab -}}
     {{- (oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y')) ~ tab -}}
     {{- (oekKlant.oekAanmelding ? oekKlant.oekAanmelding.verwijzing) ~ tab -}}
