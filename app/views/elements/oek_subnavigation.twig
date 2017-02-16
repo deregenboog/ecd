@@ -34,5 +34,11 @@
         {'controller': 'oek_verwijzingen_naar', 'action': 'index'},
         this.viewPath == 'oek_verwijzingen_naar' ? {'class': 'selected'} : {}
     )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Rapportages',
+        {'controller': 'oek_rapportages', 'action': 'index'},
+        this.viewPath == 'oek_rapportages' ? {'class': 'selected'} : {}
+    )|raw }}
     <div>&nbsp;</div>
 </div>
