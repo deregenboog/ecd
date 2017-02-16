@@ -42,6 +42,13 @@ class OekKlantType extends AbstractType
             $builder->add('afsluiting', AppDateType::class, ['required' => false]);
             $builder->add('verwijzingNaar');
         }
+
+        $builder->add('opmerking', null, [
+            'attr' => [
+                'rows' => 15,
+                'cols' => 50,
+            ],
+        ]);
     }
 
     /**

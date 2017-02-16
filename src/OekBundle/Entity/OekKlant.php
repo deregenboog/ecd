@@ -71,6 +71,9 @@ class OekKlant
 
     /**
      * @ORM\PrePersist
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
      */
     public function onPrePersist()
     {
@@ -84,6 +87,7 @@ class OekKlant
     {
         $this->modified = new \DateTime();
     }
+    private $opmerking;
 
     public function __construct()
     {
@@ -213,5 +217,17 @@ class OekKlant
     {
         // todo: implement for real
         return false;
+    }
+
+    public function getOpmerking()
+    {
+        return $this->opmerking;
+    }
+
+    public function setOpmerking($opmerking = null)
+    {
+        $this->opmerking = $opmerking;
+
+        return $this;
     }
 }
