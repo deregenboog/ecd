@@ -1,7 +1,5 @@
 <?php
 
-use OekBundle\Entity\OekGroep;
-use AppBundle\Form\ConfirmationType;
 use OekBundle\Entity\OekKlant;
 use OekBundle\Form\Model\OekTrainingKlantModel;
 use OekBundle\Entity\OekTraining;
