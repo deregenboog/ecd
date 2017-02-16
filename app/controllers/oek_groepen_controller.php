@@ -110,27 +110,4 @@ class OekGroepenController extends AppController
         $this->set('oekGroep', $oekGroep);
         $this->set('form', $form->createView());
     }
-
-    public function add_klant($oekGroepId)
-    {
-        /** @var OekGroep $oekGroep */
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekGroep::class);
-        $oekGroep = $repository->find($oekGroepId);
-
-        $oekGroepModel = new OekGroepFacade($oekGroep);
-        $form = $this->createForm(OekGroepAddKlantType::class, $oekGroepModel);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $entityManager->flush();
-
-            $this->Session->setFlash('Deelnemer is aan groep toegevoegd.');
-
-            return $this->redirect(array('action' => 'view', $oekGroep->getId()));
-        }
-
-        $this->set('oekGroep', $oekGroep);
-        $this->set('form', $form->createView());
-    }
 }

@@ -1,18 +1,25 @@
 {% include 'oek_subnavigation.twig' %}
 
-<h1>
-    Deelnemer {{ oekKlant.klant.naam }}
-    {{ html.editLink({'action': 'edit', 0: oekKlant.id})|raw }}
-    {% if oekKlant.deletable %}
-        {{ html.deleteLink({'action': 'delete', 0: oekKlant.id})|raw }}
-    {% endif %}
-</h1>
+<h1>Deelnemer {{ oekKlant.klant.naam }}</h1>
 
 <p>
+    {% set edit_link = {'action': 'edit', 0: oekKlant.id} %}
+    {{ html.editLink(edit_link)|raw }}
+    {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
+
+    {% if oekKlant.deletable %}
+        {% set delete_link = {'action': 'delete', 0: oekKlant.id} %}
+        {{ html.deleteLink(delete_link)|raw }}
+    {% endif %}
+
     {% if oekKlant.oekAfsluiting %}
-        {{ html.link('Dossier heropenen', {'action': 'open', 0: oekKlant.id})|raw }}
+        {% set open_link = {'action': 'open', 0: oekKlant.id} %}
+        {{ html.addLink(open_link)|raw }}
+        {{ html.link('Dossier heropenen', open_link)|raw }}
     {% else %}
-        {{ html.link('Dossier afsluiten', {'action': 'close', 0: oekKlant.id})|raw }}
+        {% set close_link = {'action': 'close', 0: oekKlant.id} %}
+        {{ html.deleteLink(close_link)|raw }}
+        {{ html.link('Dossier afsluiten', close_link)|raw }}
     {% endif %}
 </p>
 
@@ -33,13 +40,15 @@
     <dd>{{ oekKlant.opmerking|nl2br }}&nbsp;</dd>
     <dt>
         Groepen
-        {{ html.addLink({'controller': 'oek_klanten', 'action': 'add_groep', 0: oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_groep_klanten', 'action': 'add', 'oekKlant': oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>
             {% for oekGroep in oekKlant.oekGroepen %}
                 <li>
                     {{ html.link(oekGroep, {'controller': 'oek_groepen', 'action': 'view', 0: oekGroep.id})|raw }}
+                    {% set delete_link = {'controller': 'oek_groep_klanten', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
+                    {{ html.deleteLink(delete_link)|raw }}
                 </li>
             {% endfor %}
         </ul>
@@ -47,7 +56,7 @@
     </dd>
     <dt>
         Trainingen
-        {{ html.addLink({'controller': 'oek_klanten', 'action': 'add_training', 0: oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_training_klanten', 'action': 'add', 'oekKlant': oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>

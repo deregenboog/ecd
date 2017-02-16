@@ -32,9 +32,13 @@
 <h2>Deelnemers</h2>
 
 <p>
-    {{ html.addLink({'controller': 'oek_trainingen', 'action': 'add_klant', 0: oekTraining.id})|raw }}
-    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_trainingen', 'action': 'add_klant', 0: oekTraining.id})|raw }}
-    {{ html.link('Deelnemers e-mailen', {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id})|raw }}
+    {% set add_link = {'controller': 'oek_training_klanten', 'action': 'add', 'oekTraining': oekTraining.id} %}
+    {{ html.addLink(add_link)|raw }}
+    {{ html.link('Deelnemer aan training toevoegen', add_link)|raw }}
+    <br>
+    {% set email_link = {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id} %}
+    {{ html.editLink(email_link)|raw }}
+    {{ html.link('Deelnemers e-mailen', email_link)|raw }}
 </p>
 
 <table>
@@ -58,10 +62,10 @@
                 {{ oekKlant.klant.werkgebied }}
             </td>
             <td>
-                {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
+                {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
             </td>
             <td>
-                {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
+                {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
             </td>
             <td>
                 {{ html.viewLink({'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}

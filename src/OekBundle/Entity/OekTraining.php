@@ -2,7 +2,6 @@
 
 namespace OekBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
@@ -150,7 +149,9 @@ class OekTraining
 
     public function addOekKlant(OekKlant $oekKlant)
     {
+        $oekKlant->addOekTraining($this);
         $this->oekKlanten->add($oekKlant);
+
         $this->oekGroep->getOekKlanten()->removeElement($oekKlant);
 
         return $this;
@@ -158,7 +159,10 @@ class OekTraining
 
     public function removeOekKlant(OekKlant $oekKlant)
     {
-        $this->oekKlanten->remove($oekKlant);
+        if ($this->oekKlanten->contains($oekKlant)) {
+            $oekKlant->removeOekTraining($this);
+            $this->oekKlanten->removeElement($oekKlant);
+        }
 
         return $this;
     }

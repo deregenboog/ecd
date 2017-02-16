@@ -7,6 +7,7 @@
     {{ html.link('Groep wijzigen', {'action': 'edit', 0: oekGroep.id})|raw }}
     {% if oekGroep.deletable %}
         {{ html.deleteLink({'action': 'delete', 0: oekGroep.id})|raw }}
+        {{ html.link('Groep verwijderen', {'action': 'delete', 0: oekGroep.id})|raw }}
     {% endif %}
 </p>
 
@@ -19,10 +20,11 @@
 
 <h2>Wachtlijst</h2>
 <p>
-    {{ html.addLink({'controller': 'oek_groepen', 'action': 'add_klant', 0: oekGroep.id})|raw }}
-    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_groepen', 'action': 'add_klant', 0: oekGroep.id})|raw }}
+    {% set link = {'controller': 'oek_groep_klanten', 'action': 'add', 'oekGroep': oekGroep.id} %}
+    {{ html.addLink(link)|raw }}
+    {{ html.link('Deelnemer aan wachtlijst toevoegen', link)|raw }}
 </p>
-{% if oekGroep.oekKlanten.count() == 0 %}
+{% if oekGroep.oekKlanten.count == 0 %}
     <p>Deze groep heeft nog geen wachtlijst.</p>
 {% else %}
     <table>
@@ -46,17 +48,15 @@
                     {{ oekKlant.klant.werkgebied }}
                 </td>
                 <td>
-                    {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
+                    {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
+                    {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ html.viewLink({'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
-                    {{ html.editLink({'controller': 'oek_klanten', 'action': 'edit', 0: oekKlant.id})|raw }}
-                    {% if oekKlant.deletable %}
-                        {{ html.deleteLink({'controller': 'oek_klanten', 'action': 'delete', 0: oekKlant.id})|raw }}
-                    {% endif %}
+                    {% set delete_link = {'controller': 'oek_groep_klanten', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
+                    {{ html.deleteLink(delete_link)|raw }}
+                    {{ html.link('Deelnemer van wachtlijst verwijderen', delete_link)|raw }}
                 </td>
             </tr>
         {% endfor %}
@@ -64,7 +64,11 @@
 {% endif %}
 
 <h2>Trainingen</h2>
-{% if oekGroep.oekTrainingen.count() == 0 %}
+<p>
+    {{ html.addLink({'controller': 'oek_trainingen', 'action': 'add', '?': oekGroep.id})|raw }}
+    {{ html.link('Training toevoegen', {'controller': 'oek_trainingen', 'action': 'add', 'oekGroep': oekGroep.id})|raw }}
+</p>
+{% if oekGroep.oekTrainingen.count == 0 %}
     <p>Deze groep bevat nog geen trainingen.</p>
 {% else %}
     <table>
@@ -72,7 +76,7 @@
             <th>#</th>
             <th>Naam
             </th>
-            <th>Aantal deelnemers</th>
+            <th>Deelnemers</th>
             <th>Startdatum</th>
             <th>Einddatum</th>
             <th></th>

@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\InitialStateInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
@@ -130,7 +129,9 @@ class OekKlant
 
     public function removeOekGroep(OekGroep $oekGroep)
     {
-        $this->oekGroepen->remove($oekGroep);
+        if ($this->oekGroepen->contains($oekGroep)) {
+            $this->oekGroepen->removeElement($oekGroep);
+        }
 
         return $this;
     }
@@ -149,7 +150,9 @@ class OekKlant
 
     public function removeOekTraining(OekTraining $oekTraining)
     {
-        $this->oekTrainingen->remove($oekTraining);
+        if ($this->oekTrainingen->contains($oekTraining)) {
+            $this->oekTrainingen->removeElement($oekTraining);
+        }
 
         return $this;
     }

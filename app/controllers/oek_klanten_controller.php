@@ -266,16 +266,6 @@ class OekKlantenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function add_groep($oekKlantId)
-    {
-        return $this->add_to(OekKlantAddGroepType::class, $oekKlantId);
-    }
-
-    public function add_training($oekKlantId)
-    {
-        return $this->add_to(OekKlantAddTrainingType::class, $oekKlantId);
-    }
-
     /**
      * @return FormInterface
      */
@@ -287,40 +277,5 @@ class OekKlantenController extends AppController
         $filter->handleRequest($this->request);
 
         return $filter;
-    }
-
-    private function add_to($type, $oekKlantId)
-    {
-        /** @var OekKlant $oekKlant */
-        $entityManager = $this->getEntityManager();
-        $oekKlant = $entityManager->find(OekKlant::class, $oekKlantId);
-
-        $form = $this->createForm($type, new OekKlantFacade($oekKlant));
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            try {
-                $entityManager->flush();
-
-                switch ($type) {
-                    case OekKlantAddGroepType::class:
-                        $this->Session->setFlash('Deelnemer is aan groep toegevoegd.');
-                        break;
-                    case OekKlantAddTrainingType::class:
-                        $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
-                        break;
-                    default:
-                        $this->Session->setFlash('Deelnemer is toegevoegd.');
-                }
-
-                return $this->redirect(array('action' => 'view', $oekKlant->getId()));
-                // return $this->redirect(array('action' => 'index'));
-            } catch (\Exception $e) {
-                $form->addError(new FormError('Er is een fout opgetreden.'));
-            }
-        }
-
-        $this->set('form', $form->createView());
-        $this->set('oekKlant', $oekKlant);
     }
 }

@@ -81,6 +81,7 @@ class OekGroep
 
     public function addOekKlant(OekKlant $oekKlant)
     {
+        $oekKlant->addOekGroep($this);
         $this->oekKlanten->add($oekKlant);
 
         return $this;
@@ -88,7 +89,10 @@ class OekGroep
 
     public function removeOekKlant(OekKlant $oekKlant)
     {
-        $this->oekKlanten->remove($oekKlant);
+        if ($this->oekKlanten->contains($oekKlant)) {
+            $oekKlant->removeOekGroep($this);
+            $this->oekKlanten->removeElement($oekKlant);
+        }
 
         return $this;
     }
@@ -107,7 +111,10 @@ class OekGroep
 
     public function removeOekTraining(OekTraining $oekTraining)
     {
-        $this->oekTrainingen->remove($oekTraining);
+        if ($this->oekKlanten->contains($oekTraining)) {
+            $oekTraining->removeOekGroep($this);
+            $this->oekTrainingen->removeElement($oekTraining);
+        }
 
         return $this;
     }

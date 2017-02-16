@@ -136,29 +136,6 @@ class OekTrainingenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function add_klant($oekTrainingId)
-    {
-        /** @var OekTraining $oekTraining */
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekTraining::class);
-        $oekTraining = $repository->find($oekTrainingId);
-        $oekTrainingModel = new OekTrainingFacade($oekTraining);
-
-        $form = $this->createForm(OekTrainingAddKlantType::class, $oekTrainingModel);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $entityManager->flush();
-
-            $this->Session->setFlash('Klant is aan training toegevoegd.');
-
-            return $this->redirect(['action' => 'view', $oekTraining->getId()]);
-        }
-
-        $this->set('oekTraining', $oekTraining);
-        $this->set('form', $form->createView());
-    }
-
     public function email_deelnemers($oekTrainingId)
     {
         /** @var OekTraining $oekTraining */
