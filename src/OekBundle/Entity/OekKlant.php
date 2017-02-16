@@ -5,14 +5,19 @@ namespace OekBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\InitialStateInterface;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="OekBundle\Repository\OekKlantRepository")
  * @ORM\Table(name="oek_klanten")
  * @ORM\HasLifecycleCallbacks
  */
 class OekKlant
 {
+    use TimestampableTrait, RequiredMedewerkerTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,34 +26,41 @@ class OekKlant
     private $id;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * History of states.
+     *
+     * @var OekDossierStatus[]
+     *
+     * @ORM\ManyToMany(targetEntity="OekDossierStatus", cascade={"persist"})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
-    private $aanmelding;
+    private $oekDossierStatussen;
 
     /**
-     * @ORM\Column(name="verwijzing_door", nullable=false)
+     * Current state.
+     *
+     * @var OekDossierStatus
+     *
+     * @ORM\ManyToOne(targetEntity="OekDossierStatus", cascade={"persist"})
      */
-    private $verwijzingDoor;
+    private $oekDossierStatus;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * Current aanmelding.
+     *
+     * @var OekAanmelding
+     *
+     * @ORM\ManyToOne(targetEntity="OekAanmelding")
      */
-    private $afsluiting;
+    private $oekAanmelding;
 
     /**
-     * @ORM\Column(name="verwijzing_naar", nullable=true)
+     * Current afsluiting.
+     *
+     * @var OekAfsluiting
+     *
+     * @ORM\ManyToOne(targetEntity="OekAfsluiting")
      */
-    private $verwijzingNaar;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $modified;
+    private $oekAfsluiting;
 
     /**
      * @var Klant
@@ -70,23 +82,10 @@ class OekKlant
     private $oekTrainingen;
 
     /**
-     * @ORM\PrePersist
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    public function onPrePersist()
-    {
-        $this->created = $this->modified = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->modified = new \DateTime();
-    }
     private $opmerking;
 
     public function __construct()
@@ -115,64 +114,6 @@ class OekKlant
         $this->klant = $klant;
 
         return $this;
-    }
-
-    public function getAanmelding()
-    {
-        return $this->aanmelding;
-    }
-
-    public function setAanmelding(\DateTime $aanmelding)
-    {
-        $this->aanmelding = $aanmelding;
-
-        return $this;
-    }
-
-    public function getVerwijzingDoor()
-    {
-        return $this->verwijzingDoor;
-    }
-
-    public function setVerwijzingDoor($verwijzingDoor)
-    {
-        $this->verwijzingDoor = $verwijzingDoor;
-
-        return $this;
-    }
-
-    public function getAfsluiting()
-    {
-        return $this->afsluiting;
-    }
-
-    public function setAfsluiting($afsluiting)
-    {
-        $this->afsluiting = $afsluiting;
-
-        return $this;
-    }
-
-    public function getVerwijzingNaar()
-    {
-        return $this->verwijzingNaar;
-    }
-
-    public function setVerwijzingNaar($verwijzingNaar)
-    {
-        $this->verwijzingNaar = $verwijzingNaar;
-
-        return $this;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
     }
 
     public function getOekGroepen()
@@ -215,8 +156,91 @@ class OekKlant
 
     public function isDeletable()
     {
-        // todo: implement for real
+        // @todo: implement for real
         return false;
+    }
+
+    public function getOekDossierStatussen()
+    {
+        return $this->oekDossierStatussen;
+    }
+
+    public function setOekAanmelding(OekAanmelding $oekAanmelding)
+    {
+        return $this->addOekAanmelding($oekAanmelding);
+    }
+
+    public function addOekAanmelding(OekAanmelding $oekAanmelding)
+    {
+        if ($this->oekDossierStatus instanceof OekAanmelding) {
+            throw new \RuntimeException('Er is een fout opgetreden bij het aanpassen van de dossierstatus.');
+        }
+
+        $this->oekDossierStatussen[] = $oekAanmelding;
+        $this->oekDossierStatus = $oekAanmelding;
+        $this->oekAanmelding = $oekAanmelding;
+        $this->oekAfsluiting = null;
+        $oekAanmelding->setOekKlant($this);
+
+        return $this;
+    }
+
+    public function addOekAfsluiting(OekAfsluiting $oekAfsluiting)
+    {
+        if (!$this->oekDossierStatus instanceof OekAanmelding) {
+            throw new \RuntimeException('Er is een fout opgetreden bij het aanpassen van de dossierstatus.');
+        }
+
+        $this->oekDossierStatussen[] = $oekAfsluiting;
+        $this->oekDossierStatus = $oekAfsluiting;
+        $this->oekAfsluiting = $oekAfsluiting;
+        $oekAfsluiting->setOekKlant($this);
+
+        return $this;
+    }
+
+//     public function addOekDossierStatus(OekDossierStatus $oekDossierStatus)
+//     {
+//         // initial state must be of type OekInitialDossierStatus
+//         if (!$this->oekDossierStatus && !$oekDossierStatus instanceof InitialStateInterface) {
+//             throw new \RuntimeException('Er is een fout opgetreden bij het aanpassen van de dossierstatus.');
+//         }
+
+//         // state change must involve two different states
+//         if (get_class($this->oekDossierStatus) === get_class($oekDossierStatus)) {
+//             throw new \RuntimeException('Er is een fout opgetreden bij het aanpassen van de dossierstatus.');
+//         }
+
+//         $this->oekDossierStatussen[] = $oekDossierStatus;
+//         $this->oekDossierStatus = $oekDossierStatus;
+//         $oekDossierStatus->setOekKlant($this);
+
+//         return $this;
+//     }
+
+    public function getOekDossierStatus()
+    {
+        return $this->oekDossierStatus;
+    }
+
+    /**
+     * Returns the current OekAanmelding instance.
+     *
+     * @return OekAanmelding
+     */
+    public function getOekAanmelding()
+    {
+        return $this->oekAanmelding;
+    }
+
+    /**
+     * Returns the current OekAfsluiting instance.
+     *
+     * @return OekAfsluiting
+     */
+    public function getOekAfsluiting()
+    {
+        return $this->oekAfsluiting;
     }
 
     public function getOpmerking()

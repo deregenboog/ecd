@@ -13,6 +13,7 @@ use OekBundle\Filter\OekKlantFilter;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use OekBundle\Entity\OekTraining;
 
 class OekKlantFilterType extends AbstractType
 {
@@ -38,14 +39,21 @@ class OekKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('aanmelding', $options['enabled_filters'])) {
-            $builder->add('aanmelding', AppDateRangeType::class, [
+        if (in_array('training', $options['enabled_filters'])) {
+            $builder->add('training', EntityType::class, [
+                'required' => false,
+                'class' => OekTraining::class,
+            ]);
+        }
+
+        if (in_array('aanmelddatum', $options['enabled_filters'])) {
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
 
-        if (in_array('afsluiting', $options['enabled_filters'])) {
-            $builder->add('afsluiting', AppDateRangeType::class, [
+        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+            $builder->add('afsluitdatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }

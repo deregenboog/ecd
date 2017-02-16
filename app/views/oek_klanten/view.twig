@@ -8,11 +8,29 @@
     {% endif %}
 </h1>
 
+<p>
+    {% if oekKlant.oekAfsluiting %}
+        {{ html.link('Dossier heropenen', {'action': 'open', 0: oekKlant.id})|raw }}
+    {% else %}
+        {{ html.link('Dossier afsluiten', {'action': 'close', 0: oekKlant.id})|raw }}
+    {% endif %}
+</p>
+
 <dl>
     <dt>#</dt>
     <dd>{{ oekKlant.klant.id }}</dd>
     <dt>Naam</dt>
     <dd>{{ oekKlant.klant.naam }}</dd>
+    <dt>Historie</dt>
+    <dd>
+        <ul>
+            {% for oekDossierStatus in oekKlant.oekDossierStatussen %}
+                <li>{{ oekDossierStatus }}</li>
+            {% endfor %}
+        </ul>&nbsp;
+    </dd>
+    <dt>Opmerking</dt>
+    <dd>{{ oekKlant.opmerking|nl2br }}&nbsp;</dd>
     <dt>
         Groepen
         {{ html.addLink({'controller': 'oek_klanten', 'action': 'add_groep', 0: oekKlant.id})|raw }}

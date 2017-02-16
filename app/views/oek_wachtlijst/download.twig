@@ -7,4 +7,8 @@ Deelnemer{{ tab }}Stadsdeel{{ tab }}Telefoon{{ tab }}Mobiel
     {% endfor %}{{- tab -}}
     {{- oekKlant.klant.telefoon  ~ tab-}}
     {{- oekKlant.klant.mobiel }}
+    {{- (oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y')) ~ tab -}}
+    {{- (oekKlant.oekAanmelding ? oekKlant.oekAanmelding.verwijzing) ~ tab -}}
+    {{- (oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y')) ~ tab -}}
+    {{- (oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.verwijzing) }}
 {% endfor %}

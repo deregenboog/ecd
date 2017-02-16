@@ -20,25 +20,29 @@ class OekWachtlijstController extends AppController
 
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'stadsdeel'],
-        'aanmelding',
-        'afsluiting',
         'groep',
+        'aanmelddatum',
+        'afsluitdatum',
     ];
 
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
         'klant.werkgebied',
-        'oekKlant.aanmelding',
-        'oekKlant.afsluiting',
-        'oekKlant.groepen',
+        'oekGroep.naam',
+        'aanmelddatum',
+        'afsluitdatum',
     ];
 
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
-            ->innerJoin('oekKlant.klant', 'klant')
+            ->select('oekKlant, oekAanmelding, oekAfsluiting, oekDossierStatus, oekGroep')
+        	->innerJoin('oekKlant.klant', 'klant')
+            ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
+            ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
+            ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
             ->innerJoin('oekKlant.oekGroepen', 'oekGroep')
             ->andWhere('klant.disabled = false')
         ;
