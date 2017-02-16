@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 //  Application Controller. Here we specify functions that can be shared with all controllers.
 
@@ -607,6 +608,14 @@ class AppController extends Controller
     protected function getEntityManager()
     {
         return $this->container->get('doctrine.orm.entity_manager');
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    protected function getEventDispatcher()
+    {
+        return $this->container->get('event_dispatcher');
     }
 
     /**

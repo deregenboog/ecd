@@ -1,4 +1,11 @@
 services:
+    oek.event.diensten_lookup_subscriber:
+        class: OekBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
     oek.data_fixtures.faker_provider:
         class: OekBundle\DataFixtures\OekFakerProvider
         tags:

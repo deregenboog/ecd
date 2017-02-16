@@ -3,6 +3,10 @@
 <h1>Deelnemer {{ oekKlant.klant.naam }}</h1>
 
 <p>
+    {% set view_link = {'controller': 'klanten', 'action': 'view', 0: oekKlant.klant.id} %}
+    {{ html.viewLink(view_link)|raw }}
+    {{ html.link('Basisdossier bekijken', view_link)|raw }}
+
     {% set edit_link = {'action': 'edit', 0: oekKlant.id} %}
     {{ html.editLink(edit_link)|raw }}
     {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
