@@ -1,8 +1,6 @@
 <?php
 
 use OekBundle\Entity\OekGroep;
-use OekBundle\Form\Model\OekGroepFacade;
-use OekBundle\Form\OekGroepAddKlantType;
 use OekBundle\Form\OekGroepType;
 use AppBundle\Form\ConfirmationType;
 
@@ -43,9 +41,8 @@ class OekGroepenController extends AppController
 
     public function view($id)
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekGroep::class);
-        $this->set('oekGroep', $repository->find($id));
+        $oekGroep = $this->getEntityManager()->find(OekGroep::class, $id);
+        $this->set('oekGroep', $oekGroep);
     }
 
     public function add()

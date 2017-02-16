@@ -20,7 +20,6 @@ class OekAfsluiting extends OekDossierStatus
         );
     }
 
-
     public function setVerwijzing(OekVerwijzingNaar $verwijzing)
     {
         $this->verwijzing = $verwijzing;

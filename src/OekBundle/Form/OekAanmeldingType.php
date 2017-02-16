@@ -5,13 +5,8 @@ namespace OekBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantType;
-use OekBundle\Entity\OekKlant;
 use AppBundle\Form\AppDateType;
 use OekBundle\Entity\OekAanmelding;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OekBundle\Entity\OekVerwijzingDoor;
 use AppBundle\Form\MedewerkerType;
 

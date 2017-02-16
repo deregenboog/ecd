@@ -20,6 +20,7 @@ class OekTrainingType extends AbstractType
         $builder->add('locatie');
         $builder->add('oekGroep', null, [
             'label' => 'Groep',
+            'placeholder' => 'Selecteer een item',
         ]);
         $builder->add('startdatum', AppDateType::class);
         $builder->add('starttijd', AppTimeType::class);

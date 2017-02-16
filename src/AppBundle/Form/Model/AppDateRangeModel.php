@@ -14,6 +14,12 @@ class AppDateRangeModel
      */
     private $end;
 
+    public function __construct(\DateTime $start = null, \DateTime $end = null)
+    {
+        $this->start = $start;
+        $this->end = $end;
+    }
+
     public function hasData()
     {
         return $this->start instanceof \DateTime

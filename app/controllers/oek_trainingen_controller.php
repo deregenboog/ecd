@@ -1,13 +1,11 @@
 <?php
 
 use OekBundle\Entity\OekTraining;
-use OekBundle\Form\Model\OekTrainingFacade;
 use OekBundle\Form\OekTrainingFilterType;
-use OekBundle\Form\OekTrainingAddKlantType;
 use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
-use Symfony\Component\Form\Test\FormInterface;
 use OekBundle\Form\OekEmailMessageType;
+use OekBundle\Entity\OekGroep;
 
 class OekTrainingenController extends AppController
 {
@@ -39,19 +37,15 @@ class OekTrainingenController extends AppController
 
     public function index()
     {
-        /** @var FormInterface $filter */
-        $filter = $this->createForm(OekTrainingFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->request);
-
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekTraining::class);
-
+        $repository = $this->getEntityManager()->getRepository(OekTraining::class);
         $builder = $repository->createQueryBuilder('oekTraining')
             ->leftJoin('oekTraining.oekKlanten', 'oekKlanten')
             ->innerJoin('oekTraining.oekGroep', 'oekGroep');
 
+        $filter = $this->createForm(OekTrainingFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
         }
@@ -78,17 +72,20 @@ class OekTrainingenController extends AppController
         $entityManager = $this->getEntityManager();
 
         $oekTraining = new OekTraining();
+        if (isset($this->params['named']['oekGroep'])) {
+            $oekGroep = $entityManager->find(OekGroep::class, $this->params['named']['oekGroep']);
+            $oekTraining->setOekGroep($oekGroep);
+        }
 
         $form = $this->createForm(OekTrainingType::class, $oekTraining);
         $form->handleRequest($this->request);
-
         if ($form->isValid()) {
             $entityManager->persist($oekTraining);
             $entityManager->flush();
 
             $this->Session->setFlash('Training is opgeslagen.');
 
-            return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+            return $this->redirect(['action' => 'view', $oekTraining->getId()]);
         }
 
         $this->set('form', $form->createView());

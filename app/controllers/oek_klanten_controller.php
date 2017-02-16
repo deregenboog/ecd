@@ -2,16 +2,12 @@
 
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
-use OekBundle\Form\Model\OekKlantFacade;
-use OekBundle\Form\OekKlantAddGroepType;
-use OekBundle\Form\OekKlantAddTrainingType;
 use OekBundle\Form\OekKlantType;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Form\OekKlantSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use OekBundle\Form\OekKlantFilterType;
 use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\QueryBuilder;

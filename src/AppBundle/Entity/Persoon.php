@@ -327,6 +327,7 @@ class Persoon
     public function setLand(Land $land)
     {
         $this->land = $land;
+
         return $this;
     }
 
@@ -338,6 +339,7 @@ class Persoon
     public function setBsn($bsn)
     {
         $this->bsn = $bsn;
+
         return $this;
     }
 
@@ -349,36 +351,42 @@ class Persoon
     public function setNationaliteit(Nationaliteit $nationaliteit)
     {
         $this->nationaliteit = $nationaliteit;
+
         return $this;
     }
 
     public function setAdres($adres)
     {
         $this->adres = $adres;
+
         return $this;
     }
 
     public function setPostcode($postcode)
     {
         $this->postcode = $postcode;
+
         return $this;
     }
 
     public function setPlaats($plaats)
     {
         $this->plaats = $plaats;
+
         return $this;
     }
 
     public function setMobiel($mobiel)
     {
         $this->mobiel = $mobiel;
+
         return $this;
     }
 
     public function setTelefoon($telefoon)
     {
         $this->telefoon = $telefoon;
+
         return $this;
     }
 
@@ -390,6 +398,7 @@ class Persoon
     public function setGeenPost($geenPost)
     {
         $this->geenPost = $geenPost;
+
         return $this;
     }
 
@@ -401,6 +410,7 @@ class Persoon
     public function setGeenEmail($geenEmail)
     {
         $this->geenEmail = $geenEmail;
+
         return $this;
     }
 
@@ -412,6 +422,7 @@ class Persoon
     public function setOpmerking($opmerking)
     {
         $this->opmerking = $opmerking;
+
         return $this;
     }
 
@@ -423,8 +434,7 @@ class Persoon
     public function setDisabled($disabled)
     {
         $this->disabled = $disabled;
+
         return $this;
     }
-
-
 }

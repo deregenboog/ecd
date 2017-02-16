@@ -20,10 +20,10 @@ class KlantType extends AbstractType
             ->add('tussenvoegsel')
             ->add('achternaam')
             ->add('geslacht', null, [
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->orderBy('geslacht.id', 'DESC');
-                }
+                },
             ])
             ->add('geboortedatum', AppDateType::class)
             ->add('email')

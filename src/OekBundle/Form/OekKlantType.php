@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantType;
 use OekBundle\Entity\OekKlant;
-use AppBundle\Form\AppDateType;
 use AppBundle\Form\MedewerkerType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
@@ -47,7 +46,7 @@ class OekKlantType extends AbstractType
                 'label' => false,
             ]);
             $builder->get('oekAanmelding')->remove('medewerker');
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $oekKlant = $event->getData();
                 $oekKlant->getOekAanmelding()->setMedewerker($oekKlant->getMedewerker());
             });
