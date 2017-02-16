@@ -3,7 +3,6 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
@@ -25,7 +24,7 @@ class AppDateRangeType extends AbstractType
             ])
         ;
 
-        $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $event) {
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /* @var AppDateRangeModel $data */
             $data = $event->getData();
             if ($data instanceof AppDateRangeModel

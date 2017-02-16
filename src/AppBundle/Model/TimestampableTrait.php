@@ -1,20 +1,24 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
 trait TimestampableTrait
 {
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      */
-    private $created;
+    protected $created;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      */
-    private $modified;
+    protected $modified;
 
     /**
      * @ORM\PrePersist

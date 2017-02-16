@@ -3,13 +3,17 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_vraagaanboden")
+ * @ORM\HasLifecycleCallbacks
  */
 class IzVraagAanbod
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -18,19 +22,9 @@ class IzVraagAanbod
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $naam;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
 
     public function __toString()
     {
@@ -50,6 +44,7 @@ class IzVraagAanbod
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 }

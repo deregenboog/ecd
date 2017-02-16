@@ -11,7 +11,6 @@ use OdpBundle\Form\OdpHuurderFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -28,12 +27,11 @@ class OdpHuurdersController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'id',
-        'klant' => ['naam', 'stadsdeel'],
+        'klant' => ['id', 'naam', 'stadsdeel'],
     ];
 
     private $sortFieldWhitelist = [
-        'OdpHuurder.id',
+        'klant.id',
         'klant.achternaam',
         'klant.werkgebied',
     ];
@@ -200,9 +198,11 @@ class OdpHuurdersController extends AppController
     {
         $entityManager = $this->getEntityManager();
         $odpHuurder = $entityManager->find(OdpHuurder::class, $odpHuurderId);
+        $medewerker = $this->getMedewerker();
 
         $odpHuurverzoek = new OdpHuurverzoek();
         $odpHuurverzoek->setOdpHuurder($odpHuurder);
+        $odpHuurverzoek->setMedewerker($medewerker);
 
         $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
         $form->handleRequest($this->request);

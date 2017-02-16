@@ -3,16 +3,20 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_intakes")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "GaKlantIntake", "Vrijwilliger" = "GaVrijwilligerIntake"})
  */
 abstract class GaIntake
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -85,16 +89,6 @@ abstract class GaIntake
      * @ORM\Column(type="date", nullable=true)
      */
     protected $afsluitdatum;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $modified;
 
     /**
      * @ORM\ManyToOne(targetEntity="GaAfsluiting")

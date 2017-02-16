@@ -115,8 +115,6 @@ class Table
 
     public function render()
     {
-        $set = new \Set();
-
         list($xValues, $yValues) = $this->getAxisLabels();
 
         $data = $this->initializePivotStructure(
@@ -129,12 +127,12 @@ class Table
         foreach ($this->result as $row) {
             if (empty($xValues) && empty($yValues)) {
                 if ($this->xTotals && $this->yTotals) {
-                    $data['Totaal']['Totaal'] = $set->classicExtract(current($this->result), $this->nPath);
+                    $data['Totaal']['Totaal'] = current($this->result)[$this->nPath];
                 }
             } elseif (empty($yValues)) {
                 foreach ($xValues as $xValue) {
-                    if ($set->classicExtract($row, $this->xPath) === $xValue) {
-                        $aantal = $set->classicExtract($row, $this->nPath);
+                    if ($row[$this->xPath] === $xValue) {
+                        $aantal = $row[$this->nPath];
                         if ($this->yTotals) {
                             $data['Totaal'][$xValue] += $aantal;
                         }
@@ -145,9 +143,9 @@ class Table
                 }
             } else {
                 foreach ($yValues as $yValue) {
-                    if ($set->classicExtract($row, $this->yPath) === $yValue) {
+                    if ($row[$this->yPath] === $yValue) {
                         if (empty($xValues)) {
-                            $aantal = $set->classicExtract($row, $this->nPath);
+                            $aantal = $row[$this->nPath];
                             if ($this->xTotals) {
                                 $data[$yValue]['Totaal'] += $aantal;
                             }
@@ -156,8 +154,8 @@ class Table
                             }
                         } else {
                             foreach ($xValues as $xValue) {
-                                if ($set->classicExtract($row, $this->xPath) === $xValue) {
-                                    $aantal = $set->classicExtract($row, $this->nPath);
+                                if ($row[$this->xPath] === $xValue) {
+                                    $aantal = $row[$this->nPath];
                                     $data[$yValue][$xValue] += $aantal;
                                     if ($this->xTotals) {
                                         $data[$yValue]['Totaal'] += $aantal;
@@ -215,17 +213,15 @@ class Table
 
     protected function getAxisLabels()
     {
-        $set = new \Set();
-
         $xLabels = array();
         $yLabels = array();
         foreach ($this->result as $row) {
             if ($this->xPath) {
-                $xLabel = $set->classicExtract($row, $this->xPath);
+                $xLabel = $row[$this->xPath];
                 $xLabels[$xLabel] = $xLabel;
             }
             if ($this->yPath) {
-                $yLabel = $set->classicExtract($row, $this->yPath);
+                $yLabel = $row[$this->yPath];
                 $yLabels[$yLabel] = $yLabel;
             }
         }

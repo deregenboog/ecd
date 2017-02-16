@@ -2,8 +2,10 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\TimestampableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +14,7 @@ use AppBundle\Entity\TimestampableTrait;
  */
 class OdpHuurverzoek
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -34,6 +36,16 @@ class OdpHuurverzoek
     private $odpHuurovereenkomst;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    protected $startdatum;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $einddatum;
+
+    /**
      * @var string
      * @ORM\Column(type="text")
      */
@@ -52,6 +64,30 @@ class OdpHuurverzoek
     public function setOdpHuurder(OdpHuurder $odpHuurder)
     {
         $this->odpHuurder = $odpHuurder;
+
+        return $this;
+    }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum = null)
+    {
+        $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
 
         return $this;
     }

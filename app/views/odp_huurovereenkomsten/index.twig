@@ -1,0 +1,82 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>Huurovereenkomsten</h1>
+
+<table>
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.odpHuurderKlant.naam) }}
+            {{ form_errors(filter.odpHuurderKlant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.odpVerhuurderKlant.naam) }}
+            {{ form_errors(filter.odpVerhuurderKlant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.startdatum) }}
+            {{ form_errors(filter.startdatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.einddatum) }}
+            {{ form_errors(filter.einddatum) }}
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'odpHuurovereenkomst.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Huurder', 'odpHuurderKlant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Verhuurder', 'odpVerhuurderKlant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Startdatum', 'odpHuurovereenkomst.startdatum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Einddatum', 'odpHuurovereenkomst.einddatum') }}
+        </th>
+        <th>
+        </th>
+    </tr>
+    {% for odpHuurovereenkomst in pagination %}
+        <tr>
+            <td>
+                {{ html.link(odpHuurovereenkomst.id, {'action': 'view', 0: odpHuurovereenkomst.id})|raw }}
+            </td>
+            <td>
+                {{ html.link(odpHuurovereenkomst.odpHuurder.klant.naam, {'controller': 'odp_huurders' ,'action': 'view', 0: odpHuurovereenkomst.odpHuurder.id})|raw }}
+            </td>
+            <td>
+                {{ html.link(odpHuurovereenkomst.odpVerhuurder.klant.naam, {'controller': 'odp_verhuurders' ,'action': 'view', 0: odpHuurovereenkomst.odpVerhuurder.id})|raw }}
+            </td>
+            <td>
+                {{ odpHuurovereenkomst.startdatum | date('d-m-Y') }}
+            </td>
+            <td>
+                {{ odpHuurovereenkomst.einddatum ? odpHuurovereenkomst.einddatum | date('d-m-Y')  : 'onbepaald' }}
+            </td>
+            <td>
+                {{ html.viewLink({'action': 'view', 0: odpHuurovereenkomst.id})|raw }}
+                {{ html.editLink({'action': 'edit', 0: odpHuurovereenkomst.id})|raw }}
+                {% if odpHuurovereenkomst.deletable %}
+                    {{ html.deleteLink({'action': 'delete', 0: odpHuurovereenkomst.id})|raw }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

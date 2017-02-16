@@ -4,6 +4,7 @@ namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -12,6 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class OekGroep
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -25,16 +28,6 @@ class OekGroep
     private $naam;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $modified;
-
-    /**
      * @var ArrayCollection|OekKlant[]
      * @ORM\ManyToMany(targetEntity="OekKlant", inversedBy="oekGroepen")
      */
@@ -45,22 +38,6 @@ class OekGroep
      * @ORM\OneToMany(targetEntity="OekTraining", mappedBy="oekGroep")
      */
     private $oekTrainingen;
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function onPrePersist()
-    {
-        $this->created = $this->modified = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->modified = new \DateTime();
-    }
 
     public function __construct()
     {
@@ -88,16 +65,6 @@ class OekGroep
         $this->naam = $naam;
 
         return $this;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
     }
 
     public function getOekKlanten()

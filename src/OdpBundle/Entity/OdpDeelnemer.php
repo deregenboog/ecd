@@ -2,10 +2,12 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
-use AppBundle\Entity\TimestampableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -17,7 +19,7 @@ use AppBundle\Entity\TimestampableTrait;
  */
 abstract class OdpDeelnemer
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -78,6 +80,18 @@ abstract class OdpDeelnemer
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+
+        return $this;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
 
         return $this;
     }

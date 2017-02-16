@@ -11,8 +11,8 @@
     <tr>
         {{ form_start(filter) }}
         <th>
-            {{ form_widget(filter.id) }}
-            {{ form_errors(filter.id) }}
+            {{ form_widget(filter.klant.id) }}
+            {{ form_errors(filter.klant.id) }}
         </th>
         <th>
             {{ form_widget(filter.klant.naam) }}
@@ -29,10 +29,10 @@
     </tr>
     <tr>
         <th>
-            {{ knp_pagination_sortable(pagination, '#', 'odpHuurder.id') }}
+            {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+            {{ knp_pagination_sortable(pagination, 'Huurder', 'klant.achternaam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
@@ -44,7 +44,7 @@
     {% for odpHuurder in pagination %}
     <tr>
         <td>
-            {{ html.link(odpHuurder.id, {'action': 'view', 0: odpHuurder.id})|raw }}
+            {{ html.link(odpHuurder.klant.id, {'action': 'view', 0: odpHuurder.id})|raw }}
         </td>
         <td>
             {{ html.link(odpHuurder.klant.naam, {'action': 'view', 0: odpHuurder.id})|raw }}
