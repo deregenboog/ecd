@@ -5,6 +5,7 @@ namespace OekBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -100,6 +101,14 @@ class OekGroep
     public function getOekTrainingen()
     {
         return $this->oekTrainingen;
+    }
+
+    public function getOekTrainingenToekomstig()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->gte('einddatum', new \DateTime()));
+
+        return $this->oekTrainingen->matching($criteria);
     }
 
     public function addOekTraining(OekTraining $oekTraining)

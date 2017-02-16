@@ -81,7 +81,7 @@
             <th>Einddatum</th>
             <th></th>
         </tr>
-        {% for oekTraining in oekGroep.oekTrainingen %}
+        {% for oekTraining in oekGroep.oekTrainingenToekomstig %}
             <tr>
                 <td>
                     {{ html.link(oekTraining.id, {'controller': 'oek_trainingen', 'action': 'view', 0: oekTraining.id})|raw }}
