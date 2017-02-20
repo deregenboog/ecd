@@ -49,30 +49,25 @@ class OekLidmaatschappenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function delete()
+    public function delete($oekLidmaatschapId)
     {
         $entityManager = $this->getEntityManager();
 
-        /** @var OekGroep $oekGroep */
-        $oekGroep = $entityManager->find(OekGroep::class, $this->params['named']['oekGroep']);
-
-        /** @var OekKlant $oekKlant */
-        $oekKlant = $entityManager->find(OekKlant::class, $this->params['named']['oekKlant']);
+        /** @var OekLidmaatschap $oekLidmaatschap */
+        $oekLidmaatschap = $entityManager->find(OekLidmaatschap::class, $oekLidmaatschapId);
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->request);
-
         if ($form->isValid()) {
-            $oekGroep->removeOekKlant($oekKlant);
+            $entityManager->remove($oekLidmaatschap);
             $entityManager->flush();
 
             $this->Session->setFlash('Deelnemer is van wachtlijst verwijderd.');
 
-            return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekKlant->getId()]);
+            return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekLidmaatschap->getOekKlant()->getId()]);
         }
 
-        $this->set('oekGroep', $oekGroep);
-        $this->set('oekKlant', $oekKlant);
+        $this->set('oekLidmaatschap', $oekLidmaatschap);
         $this->set('form', $form->createView());
     }
 }

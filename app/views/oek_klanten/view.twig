@@ -48,10 +48,10 @@
     </dt>
     <dd>
         <ul>
-            {% for oekGroep in oekKlant.oekGroepen %}
+            {% for oekLidmaatschap in oekKlant.oekLidmaatschappen %}
                 <li>
-                    {{ html.link(oekGroep, {'controller': 'oek_groepen', 'action': 'view', 0: oekGroep.id})|raw }}
-                    {% set delete_link = {'controller': 'oek_lidmaatschappen', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
+                    {{ html.link(oekLidmaatschap.oekGroep, {'controller': 'oek_groepen', 'action': 'view', 0: oekLidmaatschap.oekGroep.id})|raw }}
+                    {% set delete_link = {'controller': 'oek_lidmaatschappen', 'action': 'delete', 0: oekLidmaatschap.id} %}
                     {{ html.deleteLink(delete_link)|raw }}
                 </li>
             {% endfor %}
