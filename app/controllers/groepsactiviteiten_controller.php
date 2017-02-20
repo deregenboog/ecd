@@ -6,6 +6,8 @@ use GaBundle\Entity\GaVrijwilligerIntake;
 use GaBundle\Form\GaKlantIntakeFilterType;
 use GaBundle\Form\GaVrijwilligerIntakeFilterType;
 use Symfony\Component\Form\FormInterface;
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Vrijwilliger;
 
 class GroepsactiviteitenController extends AppController
 {
@@ -255,17 +257,17 @@ class GroepsactiviteitenController extends AppController
         }
     }
 
-    public function afgesloten_klanten_dossiers()
+    public function afgesloten_klanten()
     {
-        return $this->afgesloten_dossiers('klant');
+        return $this->afgesloten('klant');
     }
 
-    public function afgesloten_vrijwilligers_dossiers()
+    public function afgesloten_vrijwilligers()
     {
-        return $this->afgesloten_dossiers('vrijwilliger');
+        return $this->afgesloten('vrijwilliger');
     }
 
-    private function afgesloten_dossiers($entityName)
+    private function afgesloten($entityName)
     {
         $intakeClassesWhitelist = [
             'klant' => GaKlantIntake::class,
@@ -305,7 +307,8 @@ class GroepsactiviteitenController extends AppController
     }
 
     /**
-     * @var string $entityName
+     * @var string
+     *
      * @return FormInterface
      */
     private function createFilter($entityName)
@@ -1287,11 +1290,11 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select g.naam, g.werkgebied, g.id as groep_id, klant_id as p_id, a.id as groepsactiviteit_id
-			from groepsactiviteiten_groepen g
-			join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = a.id
-			where pg.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            from groepsactiviteiten_groepen g
+            join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = a.id
+            where pg.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1330,11 +1333,11 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select g.naam, g.werkgebied, g.id as groep_id, vrijwilliger_id as p_id, a.id as groepsactiviteit_id
-			from groepsactiviteiten_groepen g
-			join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = a.id
-			where pg.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            from groepsactiviteiten_groepen g
+            join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = a.id
+            where pg.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1409,10 +1412,10 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select p.werkgebied, p.id from klanten p
-			join groepsactiviteiten_klanten gp on gp.klant_id = p.id
-			join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
-			where gp.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            join groepsactiviteiten_klanten gp on gp.klant_id = p.id
+            join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
+            where gp.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1448,10 +1451,10 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select p.werkgebied, p.id from vrijwilligers p
-		join groepsactiviteiten_vrijwilligers gp on gp.vrijwilliger_id = p.id
-		join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
-		where gp.afmeld_status = 'Aanwezig' and
-		a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+        join groepsactiviteiten_vrijwilligers gp on gp.vrijwilliger_id = p.id
+        join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
+        where gp.afmeld_status = 'Aanwezig' and
+        a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1502,11 +1505,11 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select pg.klant_id as persoon_id, g.id as groepsactiviteit_id, gg.werkgebied as werkgebied
-			from groepsactiviteiten g
-			join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = g.id
-			where pg.afmeld_status = 'Aanwezig' and
-			g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
+            from groepsactiviteiten g
+            join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = g.id
+            where pg.afmeld_status = 'Aanwezig' and
+            g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1543,11 +1546,11 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select pg.vrijwilliger_id as persoon_id, g.id as groepsactiviteit_id, gg.werkgebied as werkgebied
-			from groepsactiviteiten g
-			join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = g.id
-			where  pg.afmeld_status = 'Aanwezig' and
-			 g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
+            from groepsactiviteiten g
+            join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = g.id
+            where  pg.afmeld_status = 'Aanwezig' and
+             g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 

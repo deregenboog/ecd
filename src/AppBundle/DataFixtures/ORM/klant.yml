@@ -4,6 +4,7 @@ AppBundle\Entity\Klant:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
+        geboortedatum: '<date()>'
         adres: '<streetAddress()>'
         postcode: '<postcode()>'
         plaats: '<city()>'

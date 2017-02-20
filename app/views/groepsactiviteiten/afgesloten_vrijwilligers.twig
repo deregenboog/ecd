@@ -1,4 +1,4 @@
-{% include 'oek_subnavigation.twig' %}
+{% include 'groepsactiviteiten_subnavigation.twig' %}
 
 <h1>Afgesloten vrijwilligers dossiers</h1>
 
@@ -63,7 +63,7 @@
                 {{ html.link(intake.vrijwilliger.naam, {'action': 'view', 0: intake.id})|raw }}
             </td>
             <td>
-                {{ intake.vrijwilliger.geboortedatum }}
+                {{ intake.vrijwilliger.geboortedatum ? intake.vrijwilliger.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
                 {{ intake.medewerker }}

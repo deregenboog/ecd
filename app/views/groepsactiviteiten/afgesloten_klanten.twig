@@ -1,4 +1,4 @@
-{% include 'oek_subnavigation.twig' %}
+{% include 'groepsactiviteiten_subnavigation.twig' %}
 
 <h1>Afgesloten klanten dossiers</h1>
 
@@ -63,13 +63,13 @@
                 {{ html.link(intake.klant.naam, {'action': 'view', 0: intake.id})|raw }}
             </td>
             <td>
-                {{ intake.klant.geboortedatum }}
+                {{ intake.klant.geboortedatum ? intake.klant.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
                 {{ intake.medewerker }}
             </td>
             <td>
-                {{ intake.afsluitdatum ? intake.afsluitdatum | date('d-m-Y') }}
+                {{ intake.afsluitdatum ? intake.afsluitdatum|date('d-m-Y') }}
             </td>
             <td>
                 {{ html.viewLink({'action': 'view', 0: intake.id})|raw }}
