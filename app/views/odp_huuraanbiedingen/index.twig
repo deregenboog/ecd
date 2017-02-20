@@ -52,7 +52,7 @@
             {{ knp_pagination_sortable(pagination, 'Einddatum', 'odpHuuraanbod.einddatum') }}
         </th>
         <th>
-            Openstaand
+            {{ knp_pagination_sortable(pagination, 'Huurovereenkomst', 'odpHuurovereenkomst.id') }}
         </th>
         <th>
         </th>
@@ -75,7 +75,7 @@
                 {{ odpHuuraanbod.einddatum ? odpHuuraanbod.einddatum | date('d-m-Y')  : 'onbepaald' }}
             </td>
             <td>
-                {{ odpHuuraanbod.odpHuurovereenkomst ? 'gesloten' : 'openstaand' }}
+                {{ odpHuuraanbod.odpHuurovereenkomst ? html.link(odpHuuraanbod.odpHuurovereenkomst.id, {'controller': 'odp_huurovereenkomsten', 'action': 'view', 0: odpHuuraanbod.odpHuurovereenkomst.id})|raw }}
             </td>
             <td>
                 {{ html.viewLink({'action': 'view', 0: odpHuuraanbod.id})|raw }}

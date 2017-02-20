@@ -36,6 +36,7 @@ class OdpHuurverzoekenController extends AppController
         'klant.werkgebied',
         'odpHuurverzoek.startdatum',
         'odpHuurverzoek.einddatum',
+        'odpHuurovereenkomst.id',
     ];
 
     public function index()
