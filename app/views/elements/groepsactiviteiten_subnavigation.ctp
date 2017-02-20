@@ -5,7 +5,7 @@
             && empty($this->params['named'])
         ) {
             echo $html->link(
-                'Deelnemerslijst',
+                'Deelnemers',
                 array(
                     'controller' => 'Groepsactiviteiten',
                     'action' => 'index',
@@ -14,7 +14,7 @@
             );
         } else {
             echo $html->link(
-                'Deelnemerslijst',
+                'Deelnemers',
                 array(
                     'controller' => 'Groepsactiviteiten',
                     'action' => 'index',
@@ -23,13 +23,22 @@
         }
     ?>
     &nbsp;&nbsp;
+    <?= $html->link(
+            'Afgesloten deelnemers',
+            array(
+                'controller' => 'groepsactiviteiten',
+                'action' => 'afgesloten_klanten',
+            )
+        );
+    ?>
+    &nbsp;&nbsp;
     <?php
         if ($this->name == 'Groepsactiviteiten'
             && $this->action == 'index'
             && !empty($this->params['named'])
         ) {
             echo $html->link(
-                'Vrijwilligerslijst',
+                'Vrijwilligers',
                 array(
                     'controller' => 'Groepsactiviteiten',
                     'action' => 'index',
@@ -39,7 +48,7 @@
             );
         } else {
             echo $html->link(
-                'Vrijwilligerslijst',
+                'Vrijwilligers',
                 array(
                     'controller' => 'Groepsactiviteiten',
                     'action' => 'index',
@@ -47,6 +56,15 @@
                 )
             );
         }
+    ?>
+    &nbsp;&nbsp;
+    <?= $html->link(
+            'Afgesloten vrijwilligers',
+            array(
+                'controller' => 'groepsactiviteiten',
+                'action' => 'afgesloten_vrijwilligers',
+            )
+        );
     ?>
     &nbsp;&nbsp;
     <?php
