@@ -32,7 +32,7 @@
 <h2>Deelnemers</h2>
 
 <p>
-    {% set add_link = {'controller': 'oek_training_klanten', 'action': 'add', 'oekTraining': oekTraining.id} %}
+    {% set add_link = {'controller': 'oek_deelnames', 'action': 'add', 'oekTraining': oekTraining.id} %}
     {{ html.addLink(add_link)|raw }}
     {{ html.link('Deelnemer aan training toevoegen', add_link)|raw }}
     <br>
@@ -46,8 +46,7 @@
         <th>#</th>
         <th>Deelnemer</th>
         <th>Stadsdeel</th>
-        <th>Aanmelddatum</th>
-        <th>Afsluitdatum</th>
+        <th>Status</th>
         <th></th>
     </tr>
     {% for oekKlant in oekTraining.oekKlanten %}
@@ -62,17 +61,10 @@
                 {{ oekKlant.klant.werkgebied }}
             </td>
             <td>
-                {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
+                {{ oekKlant.oekDeelname(oekTraining).status }}
             </td>
             <td>
-                {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
-            </td>
-            <td>
-                {{ html.viewLink({'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
-                {{ html.editLink({'controller': 'oek_klanten', 'action': 'edit', 0: oekKlant.id})|raw }}
-                {% if oekKlant.deletable %}
-                    {{ html.deleteLink({'controller': 'oek_klanten', 'action': 'delete', 0: oekKlant.id})|raw }}
-                {% endif %}
+                {{ html.editLink({'controller': 'oek_deelnames', 'action': 'edit', 'oekTraining': oekTraining.id, 'oekKlant': oekKlant.id})|raw }}
             </td>
         </tr>
     {% endfor %}

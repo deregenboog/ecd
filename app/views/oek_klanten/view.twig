@@ -44,14 +44,14 @@
     <dd>{{ oekKlant.opmerking|nl2br }}&nbsp;</dd>
     <dt>
         Groepen
-        {{ html.addLink({'controller': 'oek_groep_klanten', 'action': 'add', 'oekKlant': oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_lidmaatschappen', 'action': 'add', 'oekKlant': oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>
             {% for oekGroep in oekKlant.oekGroepen %}
                 <li>
                     {{ html.link(oekGroep, {'controller': 'oek_groepen', 'action': 'view', 0: oekGroep.id})|raw }}
-                    {% set delete_link = {'controller': 'oek_groep_klanten', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
+                    {% set delete_link = {'controller': 'oek_lidmaatschappen', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
                     {{ html.deleteLink(delete_link)|raw }}
                 </li>
             {% endfor %}
@@ -60,7 +60,7 @@
     </dd>
     <dt>
         Trainingen
-        {{ html.addLink({'controller': 'oek_training_klanten', 'action': 'add', 'oekKlant': oekKlant.id})|raw }}
+        {{ html.addLink({'controller': 'oek_deelnames', 'action': 'add', 'oekKlant': oekKlant.id})|raw }}
     </dt>
     <dd>
         <ul>

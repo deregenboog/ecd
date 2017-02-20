@@ -31,8 +31,8 @@
         <td>
             {{ html.link(oekGroep.naam, {'action': 'view', 0: oekGroep.id})|raw }}
         </td>
-        <td>{{ oekGroep.oekKlanten.count() }}</td>
-        <td>{{ oekGroep.oekTrainingen.count() }}</td>
+        <td>{{ oekGroep.oekKlanten.count }}</td>
+        <td>{{ oekGroep.oekTrainingen.count }}</td>
         <td>
             {{ html.viewLink({'action': 'view', 0: oekGroep.id})|raw }}
             {{ html.editLink({'action': 'edit', 0: oekGroep.id})|raw }}

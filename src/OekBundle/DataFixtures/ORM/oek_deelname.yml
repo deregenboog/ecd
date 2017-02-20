@@ -1,0 +1,4 @@
+OekBundle\Entity\OekDeelname:
+    oek_deelname_{1..40}:
+        oek_training: '@oek_training_<current()>'
+        oek_klant: '@oek_klant_<current()>'

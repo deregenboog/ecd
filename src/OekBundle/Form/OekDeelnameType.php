@@ -8,45 +8,42 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use OekBundle\Entity\OekGroep;
-use OekBundle\Form\Model\OekGroepKlantModel;
+use OekBundle\Entity\OekTraining;
+use OekBundle\Form\Model\OekDeelnameModel;
+use OekBundle\Entity\OekDeelname;
 
-class OekGroepKlantType extends AbstractType
+class OekDeelnameType extends AbstractType
 {
+    const MODE_ADD = 'add';
+    const MODE_EDIT = 'edit';
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data']->getOekGroep() instanceof OekGroep) {
-            $builder->add('oekGroep', EntityType::class, [
-                'label' => 'Groep',
-                'class' => OekGroep::class,
+        if ($options['data']->getOekTraining() instanceof OekTraining) {
+            $builder->add('oekTraining', EntityType::class, [
+                'label' => 'Training',
+                'class' => OekTraining::class,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('oekGroep')
-                        ->where('oekGroep = :oek_groep')
-                        ->setParameter('oek_groep', $options['data']->getOekGroep())
+                    return $repository->createQueryBuilder('oekTraining')
+                        ->where('oekTraining = :oek_training')
+                        ->setParameter('oek_training', $options['data']->getOekTraining())
                     ;
                 },
             ]);
         } elseif ($options['data']->getOekKlant() instanceof OekKlant) {
-            $builder->add('oekGroep', EntityType::class, [
-                'label' => 'Groep',
-                'placeholder' => 'Selecteer een groep',
-                'class' => OekGroep::class,
+            $builder->add('oekTraining', EntityType::class, [
+                'label' => 'Training',
+                'placeholder' => 'Selecteer een training',
+                'class' => OekTraining::class,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('oekGroep')
-                        ->orderBy('oekGroep.naam', 'ASC')
+                    return $repository->createQueryBuilder('oekTraining')
+                        ->where('oekTraining.einddatum >= :now')
+                        ->setParameter('now', new \DateTime('today'))
+                        ->orderBy('oekTraining.naam', 'ASC')
                     ;
-
-                    if (count($options['data']->getOekKlant()->getOekGroepen()) > 0) {
-                        $builder
-                            ->where('oekGroep NOT IN (:oek_groepen)')
-                            ->setParameter('oek_groepen', $options['data']->getOekKlant()->getOekGroepen())
-                        ;
-                    }
-
-                    return $builder;
                 },
             ]);
         }
@@ -62,7 +59,7 @@ class OekGroepKlantType extends AbstractType
                     ;
                 },
             ]);
-        } elseif ($options['data']->getOekGroep() instanceof OekGroep) {
+        } elseif ($options['data']->getOekTraining() instanceof OekTraining) {
             $builder->add('oekKlant', EntityType::class, [
                 'label' => 'Deelnemer',
                 'placeholder' => 'Selecteer een deelnemer',
@@ -75,10 +72,10 @@ class OekGroepKlantType extends AbstractType
                         ->addOrderBy('klant.achternaam')
                     ;
 
-                    if (count($options['data']->getOekGroep()->getOekKlanten()) > 0) {
+                    if (count($options['data']->getOekTraining()->getOekKlanten()) > 0) {
                         $builder
                             ->where('oekKlant NOT IN (:oek_klanten)')
-                            ->setParameter('oek_klanten', $options['data']->getOekGroep()->getOekKlanten())
+                            ->setParameter('oek_klanten', $options['data']->getOekTraining()->getOekKlanten())
                         ;
                     }
 
@@ -94,7 +91,8 @@ class OekGroepKlantType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => OekGroepKlantModel::class,
+            'data_class' => OekDeelname::class,
+            'mode' => self::MODE_ADD,
         ]);
     }
 }

@@ -20,7 +20,7 @@
 
 <h2>Wachtlijst</h2>
 <p>
-    {% set link = {'controller': 'oek_groep_klanten', 'action': 'add', 'oekGroep': oekGroep.id} %}
+    {% set link = {'controller': 'oek_lidmaatschappen', 'action': 'add', 'oekGroep': oekGroep.id} %}
     {{ html.addLink(link)|raw }}
     {{ html.link('Deelnemer aan wachtlijst toevoegen', link)|raw }}
 </p>
@@ -54,7 +54,7 @@
                     {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
                 </td>
                 <td>
-                    {% set delete_link = {'controller': 'oek_groep_klanten', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
+                    {% set delete_link = {'controller': 'oek_lidmaatschappen', 'action': 'delete', 'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id} %}
                     {{ html.deleteLink(delete_link)|raw }}
                     {{ html.link('Deelnemer van wachtlijst verwijderen', delete_link)|raw }}
                 </td>

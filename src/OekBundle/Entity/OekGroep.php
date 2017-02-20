@@ -29,10 +29,10 @@ class OekGroep
     private $naam;
 
     /**
-     * @var ArrayCollection|OekKlant[]
-     * @ORM\ManyToMany(targetEntity="OekKlant", inversedBy="oekGroepen")
+     * @var ArrayCollection|OekDeelname[]
+     * @ORM\OneToMany(targetEntity="OekLidmaatschap", mappedBy="oekGroep")
      */
-    private $oekKlanten;
+    private $oekLidmaatschappen;
 
     /**
      * @var ArrayCollection|OekTraining[]
@@ -42,7 +42,7 @@ class OekGroep
 
     public function __construct()
     {
-        $this->oekKlanten = new ArrayCollection();
+        $this->oekLidmaatschappen = new ArrayCollection();
         $this->oekTrainingen = new ArrayCollection();
     }
 
@@ -70,32 +70,12 @@ class OekGroep
 
     public function getOekKlanten()
     {
-        return $this->oekKlanten;
-    }
-
-    public function setOekKlanten($oekKlanten = [])
-    {
-        $this->oekKlanten = $oekKlanten;
-
-        return $this;
-    }
-
-    public function addOekKlant(OekKlant $oekKlant)
-    {
-        $oekKlant->addOekGroep($this);
-        $this->oekKlanten->add($oekKlant);
-
-        return $this;
-    }
-
-    public function removeOekKlant(OekKlant $oekKlant)
-    {
-        if ($this->oekKlanten->contains($oekKlant)) {
-            $oekKlant->removeOekGroep($this);
-            $this->oekKlanten->removeElement($oekKlant);
+        $oekKlanten = new ArrayCollection();
+        foreach ($this->oekLidmaatschappen as $oekLidmaatschap) {
+            $oekKlanten[] = $oekLidmaatschap->getOekKlant();
         }
 
-        return $this;
+        return $oekKlanten;
     }
 
     public function getOekTrainingen()
@@ -130,7 +110,7 @@ class OekGroep
 
     public function isDeletable()
     {
-        return $this->oekKlanten->count() == 0 &&
+        return $this->oekLidmaatschappen->count() == 0 &&
                $this->oekTrainingen->count() == 0;
     }
 }

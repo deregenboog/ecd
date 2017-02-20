@@ -39,7 +39,8 @@ class OekTrainingenController extends AppController
     {
         $repository = $this->getEntityManager()->getRepository(OekTraining::class);
         $builder = $repository->createQueryBuilder('oekTraining')
-            ->leftJoin('oekTraining.oekKlanten', 'oekKlanten')
+            ->leftJoin('oekTraining.oekDeelnames', 'oekDeelname')
+            ->leftJoin('oekDeelname.oekKlant', 'oekKlant')
             ->innerJoin('oekTraining.oekGroep', 'oekGroep');
 
         $filter = $this->createForm(OekTrainingFilterType::class, null, [

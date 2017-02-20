@@ -27,8 +27,10 @@ class OekGroepenController extends AppController
         $repository = $entityManager->getRepository(OekGroep::class);
 
         $builder = $repository->createQueryBuilder('oekGroep')
-            ->leftJoin('oekGroep.oekKlanten', 'oekKlanten')
-            ->leftJoin('oekGroep.oekTrainingen', 'oekTrainingen');
+            ->select('oekGroep, oekLidmaatschap, oekKlant, oekTraining')
+            ->leftJoin('oekGroep.oekLidmaatschappen', 'oekLidmaatschap')
+            ->leftJoin('oekLidmaatschap.oekKlant', 'oekKlant')
+            ->leftJoin('oekGroep.oekTrainingen', 'oekTraining');
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekGroep.naam',

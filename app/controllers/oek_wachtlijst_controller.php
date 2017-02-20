@@ -38,12 +38,13 @@ class OekWachtlijstController extends AppController
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
-            ->select('oekKlant, oekAanmelding, oekAfsluiting, oekDossierStatus, oekGroep')
+            ->select('oekKlant, oekAanmelding, oekAfsluiting, oekDossierStatus, oekLidmaatschap, oekGroep')
             ->innerJoin('oekKlant.klant', 'klant')
             ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
             ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
             ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
-            ->innerJoin('oekKlant.oekGroepen', 'oekGroep')
+            ->innerJoin('oekKlant.oekLidmaatschappen', 'oekLidmaatschap')
+            ->innerJoin('oekLidmaatschap.oekGroep', 'oekGroep')
             ->andWhere('klant.disabled = false')
         ;
 
