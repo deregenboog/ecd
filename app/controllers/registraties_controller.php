@@ -78,7 +78,6 @@ class RegistratiesController extends AppController
             if (!empty($locatie['gebruikersruimte'])) { //Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
                 $conditions[] = array('LasteIntake.locatie1_id' => $locatie_id);
             } elseif ($locatie['id'] == 17) { // Vrouwen Nacht Opvang
-
                 $conditions[]['Geslacht.afkorting'] = 'V';
                 $conditions[]['LasteIntake.toegang_vrouwen_nacht_opvang'] = 1;
             } elseif ($locatie['id'] == 5) { // Amoc
@@ -102,7 +101,6 @@ class RegistratiesController extends AppController
             $this->log($conditions, 'registratie');
 
             $this->paginate['Klant'] = array(
-
                 'contain' => array(
                     'Geslacht' => array(
                         'fields' => array(
@@ -458,7 +456,6 @@ class RegistratiesController extends AppController
             }
 
             $schorsing = $this->Registratie->Klant->Schorsing->countActiveSchorsingenMsg($klant_id);
-
             if ($schorsing == 'Hier geschorst') {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
                 $sep = $separator;
