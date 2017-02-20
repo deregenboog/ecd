@@ -26,6 +26,11 @@
             {{ form_errors(filter.einddatum) }}
         </th>
         <th>
+            {{ form_widget(filter.openstaand) }}
+            {{ form_label(filter.openstaand) }}
+            {{ form_errors(filter.openstaand) }}
+        </th>
+        <th>
             <button type="submit">Filteren</button>
         </th>
         {{ form_end(filter) }}
@@ -47,6 +52,9 @@
             {{ knp_pagination_sortable(pagination, 'Einddatum', 'odpHuuraanbod.einddatum') }}
         </th>
         <th>
+            Openstaand
+        </th>
+        <th>
         </th>
     </tr>
     {% for odpHuuraanbod in pagination %}
@@ -65,6 +73,9 @@
             </td>
             <td>
                 {{ odpHuuraanbod.einddatum ? odpHuuraanbod.einddatum | date('d-m-Y')  : 'onbepaald' }}
+            </td>
+            <td>
+                {{ odpHuuraanbod.odpHuurovereenkomst ? 'gesloten' : 'openstaand' }}
             </td>
             <td>
                 {{ html.viewLink({'action': 'view', 0: odpHuuraanbod.id})|raw }}
