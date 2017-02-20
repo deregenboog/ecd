@@ -455,11 +455,13 @@ class RegistratiesController extends AppController
                 $jsonVar['confirm'] = true;
             }
 
-            $schorsing = $this->Registratie->Klant->Schorsing->countActiveSchorsingenMsg($klant_id);
-            if ($schorsing == 'Hier geschorst') {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
-                $sep = $separator;
-                $jsonVar['confirm'] = true;
+            $actieveSchorsingen = $this->Registratie->Klant->Schorsing->getActiveSchorsingen($klant_id);
+            foreach ($actieveSchorsingen as $actieveSchorsing) {
+                if ($actieveSchorsing['Locatie']['id'] == $location['Locatie']['id']) {
+                    $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+                    $sep = $separator;
+                    $jsonVar['confirm'] = true;
+                }
             }
 
             if ($klant['Klant']['new_TBC_check_needed'] == 'Ja') {

@@ -106,10 +106,11 @@ class Schorsing extends AppModel
     );
 
     public $actsAs = array('Containable');
-    public $contain = array(
-        'Locatie' => array('fields' => array('naam')),
-        'Reden' => array('fields' => array('naam')),
-    );
+
+    public $contain = [
+        'Locatie' => ['fields' => ['id', 'naam']],
+        'Reden' => ['fields' => ['naam']],
+    ];
 
     public function check_dummy($field)
     {
@@ -212,7 +213,7 @@ class Schorsing extends AppModel
             'conditions' => $conditions,
             'contain' => $this->contain,
         ));
-    }//getActiveSchorsingen
+    }
 
     /**
      * Calculates the expiry date of the last active schorsing.
