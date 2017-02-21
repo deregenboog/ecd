@@ -9,7 +9,7 @@
             <th>
                 {{ form_widget(form.startdatum) }}
                 {{ form_errors(form.startdatum) }}
-                {{ form_widget(form.submit) }}
+                <button type="submit">Filteren</button>
             </th>
             <th>
                 {{ form_widget(form.klant.id) }}
@@ -44,10 +44,10 @@
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'izHulpvraag.startdatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Klantnummer', 'klant.id') }}
+                {{ knp_pagination_sortable(pagination, 'Deelnemernummer', 'klant.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}

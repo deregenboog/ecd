@@ -79,14 +79,13 @@ class AuthExtComponent extends AuthComponent
     }
 
     // override this to find the right aro/aco. If we use Auth->authorize =
-    // 'controller' we don't need this at all (we just call the standar
-    // isAuthorize method, see http://book.cakephp.org/view/396/authorize).
+    // 'controller' we don't need this at all (we just call the standard
+    // isAuthorized() method, see http://book.cakephp.org/view/396/authorize).
     // This is left here in case we want to authorize on actions, while having
     // multiple groups.
-
     public function isAuthorized($type = null, $object = null, $user = null)
     {
-        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // ACL disabled with a flag
             return true;
         }

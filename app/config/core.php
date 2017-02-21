@@ -419,34 +419,12 @@ Configure::write('Config.language', $params['Config.language']);
 Configure::write('Calendar.dateDisplayFormat', $params['Calendar.dateDisplayFormat']);
 
 // e-mail addresses for the intake notifications:
-if (isset($_SERVER ['HTTP_HOST']) && $_SERVER ['HTTP_HOST'] == 'ecd.deregenboog.org') {
-    Configure::write('informele_zorg_mail', 'jschmidt@deregenboog.org');
-    Configure::write('dagbesteding_mail', 'bnieuwburg@deregenboog.org');
-    Configure::write('inloophuis_mail', 'adbruijn@deregenboog.org');
-    Configure::write('hulpverlening_mail', 'jvloo@deregenboog.org');
-    Configure::write('agressie_mail', 'tvhamond@deregenboog.org');
-    Configure::write('administratiebedrijf', 'administratiebedrijf@deregenboog.org ');
-} elseif (isset($_SERVER ['HTTP_HOST']) && $_SERVER ['HTTP_HOST'] == 'dev-ecd.deregenboog.org') {
-    Configure::write('informele_zorg_mail', 'robert@accelcloud.com');
-    Configure::write('dagbesteding_mail', 'robert@accelcloud.com');
-    Configure::write('inloophuis_mail', 'robert@accelcloud.com');
-    Configure::write('hulpverlening_mail', 'robert@accelcloud.com');
-    Configure::write('agressie_mail', 'robert@accelcloud.com');
-    Configure::write('administratiebedrijf', 'robert@accelcloud.com');
-} else {
-    // Configure::write('informele_zorg_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('dagbesteding_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('inloophuis_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('hulpverlening_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('agressie_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('administratiebedrijf', 'bhuttinga@deregenboog.org');
-    Configure::write('informele_zorg_mail', 'robert@accelcloud.com');
-    Configure::write('dagbesteding_mail', 'robert@accelcloud.com');
-    Configure::write('inloophuis_mail', 'robert@accelcloud.com');
-    Configure::write('hulpverlening_mail', 'robert@accelcloud.com');
-    Configure::write('agressie_mail', 'robert@accelcloud.com');
-    Configure::write('administratiebedrijf', 'robert@accelcloud.com');
-}
+Configure::write('informele_zorg_mail', $params['email']['informele_zorg']);
+Configure::write('dagbesteding_mail', $params['email']['dagbesteding']);
+Configure::write('inloophuis_mail', $params['email']['inloophuis']);
+Configure::write('hulpverlening_mail', $params['email']['hulpverlening']);
+Configure::write('agressie_mail', $params['email']['agressie']);
+Configure::write('administratiebedrijf', $params['email']['administratiebedrijf']);
 
 /**
  * Translate a string, and replace variables in it as given by the $params

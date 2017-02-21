@@ -1,19 +1,18 @@
 <?php
 
+use AppBundle\Entity\Medewerker;
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\TwigBundle\TwigEngine;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 //  Application Controller. Here we specify functions that can be shared with all controllers.
 
@@ -47,6 +46,7 @@ class AppController extends Controller
 
     /**
      * User groups for the current logged in user.
+     *
      * @var array
      */
     public $userGroups = [];
@@ -83,7 +83,7 @@ class AppController extends Controller
             'PfoAardRelaties',
             'PfoGroepen',
             'PfoClientenVerslagen',
-            'PfoVerslagen'
+            'PfoVerslagen',
         ],
         'BackOnTrack' => [
             'BackOnTrack',
@@ -117,29 +117,32 @@ class AppController extends Controller
     ];
 
     /**
-     * Before any Controller action
+     * Before any Controller action.
      */
-
     public function _findIp()
     {
-        if (getenv("HTTP_CLIENT_IP")) {
-            return getenv("HTTP_CLIENT_IP");
-        } elseif (getenv("HTTP_X_FORWARDED_FOR")) {
-            return getenv("HTTP_X_FORWARDED_FOR");
+        if (getenv('HTTP_CLIENT_IP')) {
+            return getenv('HTTP_CLIENT_IP');
+        } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
+            return getenv('HTTP_X_FORWARDED_FOR');
         } else {
-            return getenv("REMOTE_ADDR");
+            return getenv('REMOTE_ADDR');
         }
     }
 
     /**
      * Check if a controller is accesible by the current user, based on the
      * groups it belongs to. The list of controllers accessible per group are
-     * defined at config/core.php, in the array ACL.permissions. 
+     * defined at config/core.php, in the array ACL.permissions.
      *
-     * @param String $controller The controller name
+     * @param string $controller The controller name
      */
-    public function _isControllerAuthorized ($controller)
+    public function _isControllerAuthorized($controller)
     {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
+            return true;
+        }
+
         $permissions = Configure::read('ACL.permissions');
         foreach (array_keys($this->userGroups) as $gid) {
             if (!isset($permissions[$gid])) {
@@ -162,7 +165,7 @@ class AppController extends Controller
      * Get a parameter's value from somewhere of the parameters attribute, by
      * using a predefined order. A position can be specified, if the parameter
      * may show up in the GET URL at a certain position. If it is not found,
-     * return null
+     * return null.
      */
     public function getParam($full_name, $position = -1, $default = null)
     {
@@ -185,19 +188,22 @@ class AppController extends Controller
             if (!is_array($p['form'][$name])) {
                 return trim($p['form'][$name]);
             }
+
             return $p['form'][$name];
         }
         if (isset($p['named'][$name])) {
             if (!is_array($p['named'][$name])) {
                 return trim($p['named'][$name]);
             }
-            return ($p['named'][$name]);
+
+            return $p['named'][$name];
         }
         if (isset($p['url'][$name])) {
             if (!is_array($p['url'][$name])) {
                 return trim($p['url'][$name]);
             }
-            return ($p['url'][$name]);
+
+            return $p['url'][$name];
         }
 
         // A position in the URL can be also used:
@@ -228,9 +234,6 @@ class AppController extends Controller
     /**
      * forAdminOnly If you are not admin, redirect. For quick access handling
      * in actions.
-     * 
-     * @access public
-     * @return void
      */
     public function forAdminsOnly()
     {
@@ -242,31 +245,30 @@ class AppController extends Controller
 
     /**
      * Function to set medewerker parameters in the view
-     * group_ids array of ecd groups
+     * group_ids array of ecd groups.
+     *
      * @param unknown_type $medewerker_ids can be an array of medewerkers with should be in the array even when inactive
      */
     public function setMedewerkers($medewerker_ids = null,  $group_ids = null)
     {
-        if (! isset($this->Medewerkers)) {
-            $this->Medewerker= ClassRegistry::init('Medewerker');
+        if (!isset($this->Medewerkers)) {
+            $this->Medewerker = ClassRegistry::init('Medewerker');
         }
-        $viewmedewerkers=array('' => '');
+        $viewmedewerkers = array('' => '');
         $viewmedewerkers += $this->Medewerker->getMedewerkers(null, null, true);
         $this->set('viewmedewerkers', $viewmedewerkers);
 
-        $medewerkers=array('' => '');
+        $medewerkers = array('' => '');
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         $this->set('medewerkers', $medewerkers);
 
-	return $medewerkers;
+        return $medewerkers;
     }
 
     /**
      * flash Wrapper for Session-flash. See flashError, it is used more.
-     * 
-     * @param mixed $msg 
-     * @access public
-     * @return void
+     *
+     * @param mixed $msg
      */
     public function flash($msg)
     {
@@ -275,15 +277,12 @@ class AppController extends Controller
 
     /**
      * flashError Wrapper for Session-flash, using error message CSS styling.
-     * 
-     * @param mixed $msg 
-     * @access public
-     * @return void
+     *
+     * @param mixed $msg
      */
     public function flashError($msg)
     {
-        $this->Session->setFlash($msg, 'default',
-                    array('class' => 'error-message'));
+        $this->Session->setFlash($msg, 'default', ['class' => 'error-message']);
     }
 
     public function beforeFilter()
@@ -292,10 +291,6 @@ class AppController extends Controller
 
         $this->container = $kernel->getContainer();
         $this->request = Request::createFromGlobals();
-
-        //Configure AuthComponent
-        // Authorize = actions makes use of ACL.
-        // http://book.cakephp.org/view/396/authorize
 
         // By authorizing controller and not actions, we can get rid of ACL and
         // keep things simple. See isAuthorized() above.
@@ -306,9 +301,9 @@ class AppController extends Controller
         $this->AuthExt->logoutRedirect = ['controller' => 'medewerkers', 'action' => 'login'];
         //this is to allow everyone to see the static pages
         $this->AuthExt->allowedActions = ['display'];
-
         // Element to be rendered for ajax login form:
         $this->AuthExt->ajaxLogin = 'ajax_login';
+
         $auth = $this->Session->read('Auth');
         $this->set('user_is_logged_in', false);
         $this->set('user_is_administrator', false);
@@ -321,15 +316,27 @@ class AppController extends Controller
             $this->set('userGroups', []);
         }
 
-        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // Disable ACL, fake user data:
-            $auth['Group'] = [1];
-            $auth['username'] = 'sysadmin';
-            $auth['Medewerker']['LdapUser']['displayname'] = 'System Administrator';
-            $auth['Medewerker']['LdapUser']['givenname'] = 'System';
-            $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
-            $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
+            $auth = [
+                'Group' => [1],
+                'username' => 'sysadmin',
+                'Medewerker' => [
+                    'LdapUser' => [
+                        'displayname' => 'System Administrator',
+                        'givenname' => 'System',
+                        'sn' => 'Administrator',
+                        'uidnumber' => '1',
+                    ],
+                ],
+            ];
             $this->Session->write('Auth.User', $auth);
+            $this->Session->write(
+                'Auth.Medewerker.id',
+                $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId()
+            );
+            $this->Session->write('Auth.Medewerker.Group', []);
+            $this->AuthExt->allow('*');
         }
 
         // route the user to home directory
@@ -353,8 +360,8 @@ class AppController extends Controller
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
-                            'id' => $auth['Medewerker']['id'],
-                            'username' => $auth['Medewerker']['username'],
+                        'id' => $auth['Medewerker']['id'],
+                        'username' => $auth['Medewerker']['username'],
                     ]];
                 }
                 $this->{$this->modelClass}->setUserData($activeUser);
@@ -371,13 +378,12 @@ class AppController extends Controller
             }
         }
 
+        $is_admin = false;
         if ($s_user
-                || array_key_exists(GROUP_ADMIN, $this->userGroups)
+            || array_key_exists(GROUP_ADMIN, $this->userGroups)
             || array_key_exists(GROUP_DEVELOP, $this->userGroups)
         ) {
             $is_admin = true;
-        } else {
-            $is_admin = false;
         }
 
         // Pass it to the view, model, and the controller
@@ -388,8 +394,8 @@ class AppController extends Controller
     }
 
     /**
-    *before render
-    */
+     * before render.
+     */
     public function beforeRender()
     {
         if (isset($this->data['Medewerker']['password'])) {
@@ -417,7 +423,7 @@ class AppController extends Controller
         $model = Inflector::singularize($this->name);
         if (!empty($this->{$model}) &&
                 is_array($this->{$model}->hasAndBelongsToMany)) {
-            foreach ($this->{$model}->hasAndBelongsToMany as $k=>$v) {
+            foreach ($this->{$model}->hasAndBelongsToMany as $k => $v) {
                 if (isset($this->{$model}->validationErrors[$k])) {
                     $this->{$model}->{$k}->validationErrors[$k] = $this->{$model}->validationErrors[$k];
                 }
@@ -442,7 +448,7 @@ class AppController extends Controller
         $this->Email->send();
     }
 
-/** A generic sendEmail function for internal usage, that accepts multiple
+    /** A generic sendEmail function for internal usage, that accepts multiple
      * optional parameters (see array $defaults) and multiple addressees passed
      * as an array (that will generate multiple emails with the same contents).
      *
@@ -450,15 +456,15 @@ class AppController extends Controller
      * but the contents should all be in the array $params['contents'] to keep
      * things tidy. The basic template 'generic_notification' uses only
      * $params['contents']['text'], for example.
+     *
      * @param $parameters array
      * $param $debug if true, do not send any real email, but return an array
-     * with all emails that would have been generated.
+     * with all emails that would have been generated
      */
-
     public function _genericSendEmail($parameters, $debug = false)
     {
         App::import('Component', 'Email');
-        $this->Email =& new EmailComponent(null);
+        $this->Email = new EmailComponent(null);
         if (method_exists($this->Email, 'initialize')) {
             $this->Email->initialize($this);
         }
@@ -471,13 +477,13 @@ class AppController extends Controller
             'to' => [],
             'cc' => [],
             'bcc' => [],
-            'message_id' => "",
-            'summary' => "",
+            'message_id' => '',
+            'summary' => '',
             'error' => null,
             'model' => null,
             'direct_link' => null,
             'foreign_key' => null,
-            'subject' => "Regenboog verzoek",
+            'subject' => 'Regenboog verzoek',
             'from' => 'noreply@deregenboog.org',
             'replyTo' => 'noreply@deregenboog.org',
             'returnPath' => 'noreply@deregenboog.org',
@@ -494,7 +500,7 @@ class AppController extends Controller
         $this->Email->replyTo = $params['replyTo'];
         $this->Email->from = $params['from'];
         $this->Email->return = $params['returnPath'];
-        $this->Email->additionalParams = "-r ".$params['returnPath'];
+        $this->Email->additionalParams = '-r '.$params['returnPath'];
         $this->Email->template = $params['template'];
         $this->Email->sendAs = $params['sendAs'];
         $this->Email->cc = $params['cc'];
@@ -552,18 +558,18 @@ class AppController extends Controller
 
     protected function applyFilter()
     {
-        if (empty ( $this->data ) && empty ( $this->params ['named'] )) {
+        if (empty($this->data) && empty($this->params ['named'])) {
             return false;
         }
 
         if ($this->data) {
             // handle form POST by redirecting with GET
-            $filters = [ ];
-            foreach ( $this->data as $model => $filter ) {
-                foreach ( $filter as $field => $value ) {
-                    if (is_array ( $value )) {
+            $filters = [];
+            foreach ($this->data as $model => $filter) {
+                foreach ($filter as $field => $value) {
+                    if (is_array($value)) {
                         if (array_keys($value) == ['day', 'month', 'year']) {
-                            $value = implode ( '-', array_reverse ( $value ) );
+                            $value = implode('-', array_reverse($value));
                             if ($value == '--') {
                                 $value = null;
                             }
@@ -572,15 +578,15 @@ class AppController extends Controller
                     $filters ["$model.$field"] = $value;
                 }
             }
-            $this->redirect ( $filters );
+            $this->redirect($filters);
         }
 
         // put named params in $this->data for auto form values
-        foreach ( $this->params ['named'] as $filter => $value ) {
-            $matches = [ ];
-            if (preg_match ( '/^([A-z]*)\.([A-z]*)$/', $filter, $matches )) {
-                array_shift ( $matches );
-                list ( $model, $field ) = $matches;
+        foreach ($this->params ['named'] as $filter => $value) {
+            $matches = [];
+            if (preg_match('/^([A-z]*)\.([A-z]*)$/', $filter, $matches)) {
+                array_shift($matches);
+                list($model, $field) = $matches;
                 $this->data [$model] [$field] = $value;
             }
         }
@@ -594,6 +600,14 @@ class AppController extends Controller
     protected function getEntityManager()
     {
         return $this->container->get('doctrine.orm.entity_manager');
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    protected function getEventDispatcher()
+    {
+        return $this->container->get('event_dispatcher');
     }
 
     /**
@@ -652,5 +666,15 @@ class AppController extends Controller
     protected function createForm($type, $data = null, array $options = [])
     {
         return $this->getFormFactory()->create($type, $data, $options);
+    }
+
+    /**
+     * @return Medewerker
+     */
+    protected function getMedewerker()
+    {
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+
+        return $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
     }
 }

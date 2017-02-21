@@ -2,39 +2,40 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(name="iz_projecten")
+ * @ORM\Entity
+ * @ORM\Table(name="iz_projecten")
  */
 class IzProject
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $naam;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date")
      */
     private $startdatum;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $einddatum;
+
+    /**
+     * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=false)
+     */
+    private $heeftKoppelingen = true;
 
     public function getId()
     {
@@ -54,6 +55,42 @@ class IzProject
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getHeeftKoppelingen()
+    {
+        return $this->heeftKoppelingen;
+    }
+
+    public function setHeeftKoppelingen($heeftKoppelingen)
+    {
+        $this->heeftKoppelingen = $heeftKoppelingen;
+
+        return $this;
+    }
+
+    public function getStartdatum()
+    {
+        return $this->startdatum;
+    }
+
+    public function setStartdatum(\DateTime $startdatum)
+    {
+        $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
 
         return $this;
     }

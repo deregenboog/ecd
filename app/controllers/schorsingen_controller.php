@@ -126,6 +126,7 @@ class SchorsingenController extends AppController
                 }
             }
         }
+
         if ($klant_id != null) {
             //$redenen = $this->Schorsing->Reden->find('list');
 
@@ -140,11 +141,18 @@ class SchorsingenController extends AppController
             //and the locatie_id field is hidden in the form
             //otherwise we provide a dropdown with locations
             if ($locatie_id != null) {
-                $locatie = $this->Schorsing->Locatie->find('first',
-                    array('conditions' => array('Locatie.id' => $locatie_id), 'recursive' => '-1'));
+                $locatie = $this->Schorsing->Locatie->find('first', array(
+                    'conditions' => array('Locatie.id' => $locatie_id),
+                    'recursive' => '-1',
+                ));
                 $this->set(compact('locatie_id', 'locatie'));
             } else {
-                $this->set('locaties', $this->Schorsing->Locatie->find('list'));
+                $this->set('locaties', $this->Schorsing->Locatie->find('list', [
+                    'conditions' => ['OR' => [
+                        ['datum_tot' => '0000-00-00'],
+                        ['datum_tot >' => date('Y-m-d')],
+                    ]],
+                ]));
             }
 
             $this->set(compact('klant_id', 'redenen', 'klant', 'violent_options'));
@@ -209,9 +217,6 @@ class SchorsingenController extends AppController
 
     public function get_pdf($schorsing_id = null, $eng = 0)
     {
-
-//		  Configure::write('debug', 0);
-
         if (empty($schorsing_id)) {
             $this->flashError(__('Invalid schorsing', true));
             $this->redirect('/');
@@ -232,26 +237,35 @@ class SchorsingenController extends AppController
                 'Locatie' => array(
                     'fields' => array('naam'),
                 ),
+                'Reden' => array(
+                    'fields' => array('naam'),
+                ),
             ),
         ));
         if (empty($schorsing)) {
             $this->flashError(__('Invalid schorsing', true));
             $this->redirect('/');
         }
+
+        $redenen = [];
+        if (!empty($schorsing['Reden'])) {
+            foreach ($schorsing['Reden'] as $reden) {
+                if ($reden['SchorsingenReden']['reden_id'] == 100) {
+                    $redenen[] = $reden['naam'].': '.$schorsing['Schorsing']['overig_reden'];
+                } else {
+                    $redenen[] = $reden['naam'];
+                }
+            }
+        }
+
         $opmerking_uit_schorsing = $schorsing['Schorsing']['remark'];
         $bijzonderheden = $schorsing['Schorsing']['bijzonderheden'];
         $locatiehoofd = $schorsing['Schorsing']['locatiehoofd'];
-
-    //schorsing data:
-        //note
-
-        //dates
 
         //schorsing start date
         $begindatum_schorsing = $schorsing['Schorsing']['datum_van'];
 
         //calculating the other times
-
         $begin = new DateTime($schorsing['Schorsing']['datum_van']);
 
         //schorsing end date
@@ -293,7 +307,7 @@ class SchorsingenController extends AppController
             }
         }
 
-    //client data
+        //client data
         $klant_naam = $schorsing['Klant']['name'];
         $locatie = $schorsing['Locatie']['naam'];
         $adres = $schorsing['Klant']['LasteIntake']['postadres'];
@@ -301,12 +315,21 @@ class SchorsingenController extends AppController
         $woonplaats = $schorsing['Klant']['LasteIntake']['woonplaats'];
         $geslacht = $schorsing['Klant']['Geslacht']['afkorting'];
 
-    //setting everything to the view
+        //setting everything to the view
         $this->set(compact(
-            'bijzonderheden', 'locatiehoofd',
-            'klant_naam', 'locatie', 'adres', 'postcode', 'woonplaats',
-            'opmerking_uit_schorsing', 'begindatum_schorsing',
-            'einddatum_schorsing_pp', 'lengte_schorsing', 'geslacht'
+            'bijzonderheden',
+            'locatiehoofd',
+            'klant_naam',
+            'locatie',
+            'adres',
+            'postcode',
+            'woonplaats',
+            'redenen',
+            'opmerking_uit_schorsing',
+            'begindatum_schorsing',
+            'einddatum_schorsing_pp',
+            'lengte_schorsing',
+            'geslacht'
         ));
 
         $this->layout = 'pdf'; //this will use the pdf.ctp layout

@@ -9,7 +9,7 @@
             <th>
                 {{ form_widget(form.startdatum) }}
                 {{ form_errors(form.startdatum) }}
-                {{ form_widget(form.submit) }}
+                <button type="submit">Filteren</button>
             </th>
             <th>
                 {{ form_widget(form.vrijwilliger.id) }}
@@ -44,7 +44,7 @@
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'izHulpaanbod.startdatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Klantnummer', 'vrijwilliger.id') }}
+                {{ knp_pagination_sortable(pagination, 'Vrijwilligernummer', 'vrijwilliger.id') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Naam', 'vrijwilliger.achternaam') }}

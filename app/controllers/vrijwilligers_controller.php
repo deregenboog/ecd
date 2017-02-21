@@ -162,12 +162,13 @@ class VrijwilligersController extends AppController
 
         $this->setmetadata($id);
     }
+
     private function setmetadata($id = null)
     {
         $persoon_model = 'Vrijwilliger';
 
         $geslachten = $this->Vrijwilliger->Geslacht->find('list');
-        $landen = $this->Vrijwilliger->Geboorteland->find('list');
+        $landen = $this->Vrijwilliger->Geboorteland->findList();
         $nationaliteiten = $this->Vrijwilliger->Nationaliteit->find('list');
 
         $this->setMedewerkers();

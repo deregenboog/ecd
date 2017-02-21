@@ -2,5 +2,12 @@ services:
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
+        arguments: ["%locale%"]
         tags:
             - { name: twig.extension }
+
+    app.form.type.medewerker:
+        class: AppBundle\Form\MedewerkerType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }

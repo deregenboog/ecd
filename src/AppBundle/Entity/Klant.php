@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use InloopBundle\Entity\Intake;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -16,14 +18,24 @@ class Klant extends Persoon
     private $mezzoId = 0;
 
     /**
+     * @var Intake[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Intake", mappedBy="klant")
+     */
+    private $intakes;
+
+    /**
      * @ORM\Column(name="laatste_TBC_controle", type="date")
      */
     private $laatsteTbcControle;
 
     /**
-     * @ORM\Column(name="laste_intake_id", type="integer")
+     * @var Intake
+     *
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Intake")
+     * @ORM\JoinColumn(name="laste_intake_id")
      */
-    private $laatsteIntakeId;
+    private $laatsteIntake;
 
     /**
      * @ORM\Column(name="laatste_registratie_id", type="integer")
@@ -38,7 +50,12 @@ class Klant extends Persoon
     /**
      * @ORM\Column(type="boolean")
      */
-    private $overleden;
+    private $overleden = false;
+
+    public function __construct()
+    {
+        $this->intakes = new ArrayCollection();
+    }
 
     public function getLaatsteZrm()
     {
@@ -48,6 +65,32 @@ class Klant extends Persoon
     public function setLaastseZrm(\DateTime $laatsteZrm)
     {
         $this->laatsteZrm = $laatsteZrm;
+
+        return $this;
+    }
+
+    public function getLaatsteTbcControle()
+    {
+        return $this->laatsteTbcControle;
+    }
+
+    public function setLaatsteTbcControle($laatsteTbcControle = null)
+    {
+        $this->laatsteTbcControle = $laatsteTbcControle;
+
+        return $this;
+    }
+
+    public function getIntakes()
+    {
+        return $this->intakes;
+    }
+
+    public function addIntake(Intake $intake)
+    {
+        $this->intakes->add($intake);
+        $intake->setKlant($this);
+        $this->laatsteIntake = $intake;
 
         return $this;
     }

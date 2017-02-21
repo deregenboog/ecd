@@ -5,16 +5,20 @@ namespace IzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_koppelingen")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"hulpvraag" = "IzHulpvraag", "hulpaanbod" = "IzHulpaanbod"})
  */
 abstract class IzKoppeling
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -25,35 +29,25 @@ abstract class IzKoppeling
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $modified;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $einddatum;
 
     /**
-     * @ORM\Column(name="koppeling_startdatum", type="datetime")
+     * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
      */
     protected $koppelingStartdatum;
 
     /**
-     * @ORM\Column(name="koppeling_einddatum", type="datetime")
+     * @ORM\Column(name="koppeling_einddatum", type="datetime", nullable=true)
      */
     protected $koppelingEinddatum;
 
     /**
-     * @ORM\Column(name="koppeling_succesvol", type="boolean")
+     * @ORM\Column(name="koppeling_succesvol", type="boolean", nullable=true)
      */
     protected $koppelingSuccesvol;
 

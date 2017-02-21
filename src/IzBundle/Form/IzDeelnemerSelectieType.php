@@ -44,7 +44,7 @@ class IzDeelnemerSelectieType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'choices' => [
-                    'Klanten' => 'klanten',
+                    'Deelnemers' => 'klanten',
                     'Vrijwilligers' => 'vrijwilligers',
                 ],
                 'data' => [

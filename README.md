@@ -1,48 +1,31 @@
-System requirements
+# Electronisch Cliëntendossier (ECD)
 
-PHP 5.6 & MySql & Apache
+## Requirements
 
-    Modules :
-    php5-mysql
-    php-apc
-    php5-curl
-    php5-gd
-    php5-ldap
-    php5-mysql
+[Docker](https://www.docker.com/) needs to be installed on your system.
 
-Implement following changes on the file system :
+## Installation
 
-    mkdir -p archive
-    cp -rp app/tmp_template app/tmp
-    cp -rp app/config_template app/config
-    cp app/config/config_example1.php.txt  app/config/config.php
-    cp app/config/database.php.default app/config/database.php
-    chown -R www-data:www-data app/tmp archive    (or your apache usersid)
+Checkout the repository from [https://github.com/deregenboog/ecd](https://github.com/deregenboog/ecd) and cd into the project directory.
 
-Create a mysql user and database. ECD is currently authenticating trough an openldap server, in the near future also active directory will be supported.
+Build and start the Docker-containers and start a Bash-shell on the web-container:
 
-* Edit config.php, add the ldap server values
-* define( 'GROUP_ADMIN', 10021 );  // 10021 is the Posix group id
-* Configure the database.php
-* cd app/config/schema
-* edit load.sh
-* Enter the mysql credentials or create a .my.cnf
-* Run ./load.sh
+    bin/docker-up.sh
 
-This should populate the database
+Install dependencies using Composer:
 
+    ./composer.phar install
 
-Cronjobs : 
+Update db-schema:
 
-0 2,14 * * * /var/www/html/cake/console/cake -app /var/www/html/app/ unregister_all >>/var/log/ecdcron.log
+    bin/console doctrine:migrations:migrate
 
-*/15 * * * * /var/www/html/cake/console/cake -app /var/www/html/app/ send_email >>/var/log/send_email.log
+Load db-fixtures (this may take a while):
 
-0 0 * * * mysql ecd < /var/www/html/app/config/schema/management_report_views.sql >>/var/log/cron-management_report_views.log 2>&1
+    bin/console hautelook_alice:doctrine:fixtures:load
 
+The ECD web-application should now be accessible by pointing your web-browser to [http://0.0.0.0/](http://0.0.0.0/). PhpMyAdmin is available at post 81 for easy database access: [http://0.0.0.0:81/](http://0.0.0.0:81/) (user: ecd, password: ecd).
 
+To quit simply `exit` the web-container and stop all three Docker-containers by running:
 
-
-
-
-
+    bin/docker-stop.sh
