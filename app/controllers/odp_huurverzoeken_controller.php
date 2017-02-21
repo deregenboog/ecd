@@ -5,15 +5,9 @@ use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Entity\OdpHuurverzoek;
 use OdpBundle\Form\OdpHuurovereenkomstType;
 use OdpBundle\Form\OdpHuurverzoekType;
-use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuurverzoekSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuurverzoekFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
-use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormError;
 
 class OdpHuurverzoekenController extends AppController
@@ -32,7 +26,8 @@ class OdpHuurverzoekenController extends AppController
         'id',
         'klant' => ['naam', 'stadsdeel'],
         'startdatum',
-        'einddatum'
+        'einddatum',
+        'openstaand',
     ];
 
     private $sortFieldWhitelist = [
@@ -41,6 +36,7 @@ class OdpHuurverzoekenController extends AppController
         'klant.werkgebied',
         'odpHuurverzoek.startdatum',
         'odpHuurverzoek.einddatum',
+        'odpHuurovereenkomst.id',
     ];
 
     public function index()
@@ -54,6 +50,7 @@ class OdpHuurverzoekenController extends AppController
         $repository = $entityManager->getRepository(OdpHuurverzoek::class);
 
         $builder = $repository->createQueryBuilder('odpHuurverzoek')
+            ->leftJoin('odpHuurverzoek.odpHuurovereenkomst', 'odpHuurovereenkomst')
             ->innerJoin('odpHuurverzoek.odpHuurder', 'odpHuurder')
             ->innerJoin('odpHuurder.klant', 'klant');
 
@@ -128,7 +125,7 @@ class OdpHuurverzoekenController extends AppController
         /** @var Medewerker $medewerker */
         $entityManager = $this->getEntityManager();
         $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $huurverzoekId);
-        $medewerker = $entityManager->find(Medewerker::class, $this->Session->read('user_id'));
+        $medewerker = $this->getMedewerker();
 
         $odpHuurovereenkomst = new OdpHuurovereenkomst();
         $odpHuurovereenkomst->setOdpHuurverzoek($odpHuurverzoek);

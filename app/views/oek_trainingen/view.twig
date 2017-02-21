@@ -32,9 +32,13 @@
 <h2>Deelnemers</h2>
 
 <p>
-    {{ html.addLink({'controller': 'oek_trainingen', 'action': 'add_klant', 0: oekTraining.id})|raw }}
-    {{ html.link('Deelnemer toevoegen', {'controller': 'oek_trainingen', 'action': 'add_klant', 0: oekTraining.id})|raw }}
-    {{ html.link('Deelnemers e-mailen', {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id})|raw }}
+    {% set add_link = {'controller': 'oek_deelnames', 'action': 'add', 'oekTraining': oekTraining.id} %}
+    {{ html.addLink(add_link)|raw }}
+    {{ html.link('Deelnemer aan training toevoegen', add_link)|raw }}
+    <br>
+    {% set email_link = {'controller': 'oek_trainingen', 'action': 'email_deelnemers', 0: oekTraining.id} %}
+    {{ html.editLink(email_link)|raw }}
+    {{ html.link('Deelnemers e-mailen', email_link)|raw }}
 </p>
 
 <table>
@@ -42,8 +46,7 @@
         <th>#</th>
         <th>Deelnemer</th>
         <th>Stadsdeel</th>
-        <th>Aanmelddatum</th>
-        <th>Afsluitdatum</th>
+        <th>Status</th>
         <th></th>
     </tr>
     {% for oekKlant in oekTraining.oekKlanten %}
@@ -58,17 +61,10 @@
                 {{ oekKlant.klant.werkgebied }}
             </td>
             <td>
-                {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
+                {{ oekKlant.oekDeelname(oekTraining).status }}
             </td>
             <td>
-                {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
-            </td>
-            <td>
-                {{ html.viewLink({'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
-                {{ html.editLink({'controller': 'oek_klanten', 'action': 'edit', 0: oekKlant.id})|raw }}
-                {% if oekKlant.deletable %}
-                    {{ html.deleteLink({'controller': 'oek_klanten', 'action': 'delete', 0: oekKlant.id})|raw }}
-                {% endif %}
+                {{ html.editLink({'controller': 'oek_deelnames', 'action': 'edit', 'oekTraining': oekTraining.id, 'oekKlant': oekKlant.id})|raw }}
             </td>
         </tr>
     {% endfor %}

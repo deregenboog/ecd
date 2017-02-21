@@ -37,21 +37,21 @@ class OdpHuurovereenkomstFilter
     {
         if ($this->id) {
             $builder
-                ->andWhere('odpHuurverzoek.id = :odp_klant_id')
-                ->setParameter('odp_klant_id', $this->id)
+                ->andWhere('odpHuurovereenkomst.id = :huurovereenkomst_id')
+                ->setParameter('huurovereenkomst_id', $this->id)
             ;
         }
 
         if ($this->startdatum) {
             if ($this->startdatum->getStart()) {
                 $builder
-                    ->andWhere('odpHuurverzoek.startdatum >= :startdatum_van')
+                    ->andWhere('odpHuurovereenkomst.startdatum >= :startdatum_van')
                     ->setParameter('startdatum_van', $this->startdatum->getStart())
                 ;
             }
             if ($this->startdatum->getEnd()) {
                 $builder
-                    ->andWhere('odpHuurverzoek.startdatum <= :startdatum_tot')
+                    ->andWhere('odpHuurovereenkomst.startdatum <= :startdatum_tot')
                     ->setParameter('startdatum_tot', $this->startdatum->getEnd())
                 ;
             }
@@ -60,13 +60,13 @@ class OdpHuurovereenkomstFilter
         if ($this->einddatum) {
             if ($this->einddatum->getStart()) {
                 $builder
-                    ->andWhere('odpHuurverzoek.einddatum >= :einddatum_van')
+                    ->andWhere('odpHuurovereenkomst.einddatum >= :einddatum_van')
                     ->setParameter('einddatum_van', $this->einddatum->getStart())
                 ;
             }
             if ($this->einddatum->getEnd()) {
                 $builder
-                    ->andWhere('odpHuurverzoek.einddatum <= :einddatum_tot')
+                    ->andWhere('odpHuurovereenkomst.einddatum <= :einddatum_tot')
                     ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }

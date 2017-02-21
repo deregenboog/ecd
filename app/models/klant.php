@@ -1,5 +1,9 @@
 <?php
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AppBundle\Event\Events;
+use AppBundle\Event\DienstenLookupEvent;
+
 class Klant extends AppModel
 {
     public $name = 'Klant';
@@ -832,9 +836,9 @@ class Klant extends AppModel
             'conditions' => $conditions,
             'order' => array(
                 "10 * (Klant.achternaam = $surnameQuoted and Klant.achternaam != '') +
-				 3 * (Klant.roepnaam = $surnameQuoted and Klant.roepnaam != '' and Klant.roepnaam != Klant.achternaam) +
-				 1 * (Klant.voornaam = $surnameQuoted and Klant.voornaam != '') +
-				 5 * (Klant.geboortedatum = '$birth') desc",
+                 3 * (Klant.roepnaam = $surnameQuoted and Klant.roepnaam != '' and Klant.roepnaam != Klant.achternaam) +
+                 1 * (Klant.voornaam = $surnameQuoted and Klant.voornaam != '') +
+                 5 * (Klant.geboortedatum = '$birth') desc",
                 'Klant.id',
             ),
         ));
@@ -876,80 +880,80 @@ class Klant extends AppModel
         switch ($mode) {
             case 'no_birthdate':
                 $pairs = $this->query("
-						select k1.id id1, k2.id id2, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
-						from klanten k1
-						join klanten k2
-						on (k1.geboortedatum = k2.geboortedatum and k1.id > k2.id)
-						where k1.disabled = 0
-						and k2.disabled = 0
-						and (k1.geboortedatum IS NULL or k1.geboortedatum = '0000-00-00')
+                        select k1.id id1, k2.id id2, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
+                        from klanten k1
+                        join klanten k2
+                        on (k1.geboortedatum = k2.geboortedatum and k1.id > k2.id)
+                        where k1.disabled = 0
+                        and k2.disabled = 0
+                        and (k1.geboortedatum IS NULL or k1.geboortedatum = '0000-00-00')
 
-						order by k1.achternaam
-						");
+                        order by k1.achternaam
+                        ");
                 $matched_key = 'k1.geboortedatum';
                 break;
 
             case 'birthdate':
                 $pairs = $this->query("
-							select k1.id id1, k2.id id2, DATE_FORMAT(k1.geboortedatum, '%e %b %Y') formatted_date, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
-						from klanten k1
-						join klanten k2
-						on (k1.geboortedatum = k2.geboortedatum and k1.id > k2.id)
-						where k1.disabled = 0
-						and k2.disabled = 0
-						and k1.geboortedatum IS NOT NULL AND k1.geboortedatum != '0000-00-00'
-						order by k1.geboortedatum
-						");
+                            select k1.id id1, k2.id id2, DATE_FORMAT(k1.geboortedatum, '%e %b %Y') formatted_date, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
+                        from klanten k1
+                        join klanten k2
+                        on (k1.geboortedatum = k2.geboortedatum and k1.id > k2.id)
+                        where k1.disabled = 0
+                        and k2.disabled = 0
+                        and k1.geboortedatum IS NOT NULL AND k1.geboortedatum != '0000-00-00'
+                        order by k1.geboortedatum
+                        ");
                 $matched_key = '0.formatted_date';
                 break;
 
             case 'surname':
                 $pairs = $this->query("
-						select k1.id id1, k2.id id2, k1.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
-						from klanten k1
-						join klanten k2
-						on (k1.id > k2.id and trim(k1.achternaam) = trim(k2.achternaam))
-						where k1.disabled = 0
-						and k2.disabled = 0
-						order by k1.achternaam
-						");
+                        select k1.id id1, k2.id id2, k1.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
+                        from klanten k1
+                        join klanten k2
+                        on (k1.id > k2.id and trim(k1.achternaam) = trim(k2.achternaam))
+                        where k1.disabled = 0
+                        and k2.disabled = 0
+                        order by k1.achternaam
+                        ");
                 $matched_key = 'k1.achternaam';
                 break;
 
             case 'relaxed_surname':
                 $pairs = $this->query("
-						select k1.id id1, k2.id id2, k2.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
-						from klanten k1
-						join klanten k2
-						on (
-							k2.id != k1.id AND
-							k2.achternaam != '' AND
-							(trim(k1.voornaam) = trim(k2.achternaam) )
-							or
-							(trim(k1.roepnaam) = trim(k2.achternaam) )
-							)
-						where k1.disabled = 0
-						and k2.disabled = 0
-						AND k1.id != k2.id
-						order by k2.achternaam
-						");
+                        select k1.id id1, k2.id id2, k2.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
+                        from klanten k1
+                        join klanten k2
+                        on (
+                            k2.id != k1.id AND
+                            k2.achternaam != '' AND
+                            (trim(k1.voornaam) = trim(k2.achternaam) )
+                            or
+                            (trim(k1.roepnaam) = trim(k2.achternaam) )
+                            )
+                        where k1.disabled = 0
+                        and k2.disabled = 0
+                        AND k1.id != k2.id
+                        order by k2.achternaam
+                        ");
                 $matched_key = 'k2.achternaam';
                 break;
 
             case 'less_relaxed_surname':
                 $pairs = $this->query("
-						select k1.id id1, k2.id id2, k2.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
-						from klanten k1
-						join klanten k2
-						on (
-							(trim(k1.voornaam) = trim(k2.achternaam) and ( SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1)) OR SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1)) )
-							or
-							(trim(k1.roepnaam) = trim(k2.achternaam) and ( SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1) OR  SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1) )
-							)
-						where k1.disabled = 0
-						and k2.disabled = 0
-						order by name1
-						");
+                        select k1.id id1, k2.id id2, k2.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
+                        from klanten k1
+                        join klanten k2
+                        on (
+                            (trim(k1.voornaam) = trim(k2.achternaam) and ( SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1)) OR SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1)) )
+                            or
+                            (trim(k1.roepnaam) = trim(k2.achternaam) and ( SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1) OR  SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1) )
+                            )
+                        where k1.disabled = 0
+                        and k2.disabled = 0
+                        order by name1
+                        ");
                 $matched_key = 'k2.achternaam';
                 break;
 
@@ -1129,7 +1133,7 @@ class Klant extends AppModel
 
         return $personen;
     }
-    public function diensten($id)
+    public function diensten($id, EventDispatcherInterface $eventDispatcher = null)
     {
         if (is_array($id)) {
             $id = $id['Klant']['id'];
@@ -1211,6 +1215,12 @@ class Klant extends AppModel
                 'type' => 'string',
                 'value' => $all[$klant['LasteIntake']['locatie1_id']],
             );
+        }
+
+        if ($eventDispatcher instanceof EventDispatcherInterface) {
+            $event = new DienstenLookupEvent($klant['Klant']['id'], $diensten);
+            $eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $diensten = $event->getDiensten();
         }
 
         return $diensten;

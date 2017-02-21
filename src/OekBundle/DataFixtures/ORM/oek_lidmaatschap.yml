@@ -1,0 +1,4 @@
+OekBundle\Entity\OekLidmaatschap:
+    oek_lidmaatschap_{1..40}:
+        oek_groep: '@oek_groep_*'
+        oek_klant: '@oek_klant_<current()>'

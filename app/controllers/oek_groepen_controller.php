@@ -1,8 +1,6 @@
 <?php
 
 use OekBundle\Entity\OekGroep;
-use OekBundle\Form\Model\OekGroepFacade;
-use OekBundle\Form\OekGroepAddKlantType;
 use OekBundle\Form\OekGroepType;
 use AppBundle\Form\ConfirmationType;
 
@@ -29,8 +27,10 @@ class OekGroepenController extends AppController
         $repository = $entityManager->getRepository(OekGroep::class);
 
         $builder = $repository->createQueryBuilder('oekGroep')
-            ->leftJoin('oekGroep.oekKlanten', 'oekKlanten')
-            ->leftJoin('oekGroep.oekTrainingen', 'oekTrainingen');
+            ->select('oekGroep, oekLidmaatschap, oekKlant, oekTraining')
+            ->leftJoin('oekGroep.oekLidmaatschappen', 'oekLidmaatschap')
+            ->leftJoin('oekLidmaatschap.oekKlant', 'oekKlant')
+            ->leftJoin('oekGroep.oekTrainingen', 'oekTraining');
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekGroep.naam',
@@ -43,9 +43,8 @@ class OekGroepenController extends AppController
 
     public function view($id)
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekGroep::class);
-        $this->set('oekGroep', $repository->find($id));
+        $oekGroep = $this->getEntityManager()->find(OekGroep::class, $id);
+        $this->set('oekGroep', $oekGroep);
     }
 
     public function add()
@@ -105,29 +104,6 @@ class OekGroepenController extends AppController
             $this->Session->setFlash('Groep is verwijderd.');
 
             return $this->redirect(array('action' => 'index'));
-        }
-
-        $this->set('oekGroep', $oekGroep);
-        $this->set('form', $form->createView());
-    }
-
-    public function add_klant($oekGroepId)
-    {
-        /** @var OekGroep $oekGroep */
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(OekGroep::class);
-        $oekGroep = $repository->find($oekGroepId);
-
-        $oekGroepModel = new OekGroepFacade($oekGroep);
-        $form = $this->createForm(OekGroepAddKlantType::class, $oekGroepModel);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $entityManager->flush();
-
-            $this->Session->setFlash('Deelnemer is aan groep toegevoegd.');
-
-            return $this->redirect(array('action' => 'view', $oekGroep->getId()));
         }
 
         $this->set('oekGroep', $oekGroep);

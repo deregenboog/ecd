@@ -3,18 +3,7 @@
 use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuurder;
 use OdpBundle\Entity\OdpHuurovereenkomst;
-use OdpBundle\Filter\OdpHuurovereenkomstFilter;
-use OdpBundle\Form\OdpHuurderType;
-use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuurderSelectType;
-use Doctrine\DBAL\Driver\PDOException;
-use OdpBundle\Form\OdpHuurderFilterType;
-use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
-use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use OdpBundle\Form\OdpHuurovereenkomstFilterType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpHuurovereenkomstenController extends AppController
 {
@@ -34,7 +23,6 @@ class OdpHuurovereenkomstenController extends AppController
         'odpVerhuurderKlant' => ['naam'],
         'startdatum',
         'einddatum',
-//        'medewerker'
     ];
 
     private $sortFieldWhitelist = [
@@ -43,7 +31,6 @@ class OdpHuurovereenkomstenController extends AppController
         'odpVerhuurderKlant.achternaam',
         'odpHuurovereenkomst.startdatum',
         'odpHuurovereenkomst.einddatum',
-        'medewerker'
     ];
 
     public function index()

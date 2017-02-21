@@ -65,7 +65,7 @@ class OdpHuurovereenkomstType extends AbstractType
                                 'huurverzoek.startdatum >= :start AND :eind IS NULL',
                                 'huurverzoek.einddatum BETWEEN :start AND :eind',
                                 'huurverzoek.einddatum >= :start AND :eind IS NULL',
-                                'huurverzoek.einddatum IS NULL'
+                                'huurverzoek.einddatum IS NULL',
                             ]))
                             ->andWhere('huurovereenkomst.id IS NULL')
                             ->setParameter('start', $odpHuuraanbod->getStartdatum())
@@ -96,7 +96,7 @@ class OdpHuurovereenkomstType extends AbstractType
                                 'huuraanbod.startdatum >= :start AND :eind IS NULL',
                                 'huuraanbod.einddatum BETWEEN :start AND :eind',
                                 'huuraanbod.einddatum >= :start AND :eind IS NULL',
-                                'huuraanbod.einddatum IS NULL'
+                                'huuraanbod.einddatum IS NULL',
                             ]))
                             ->andWhere('huurovereenkomst.id IS NULL')
                             ->setParameter('start', $odpHuurverzoek->getStartdatum())

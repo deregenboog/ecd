@@ -4,13 +4,17 @@ namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten")
+ * @ORM\HasLifecycleCallbacks
  */
 class GaActiviteit
 {
+    use TimestampableTrait;
+
     const STATUS_AANWEZIG = 'Aanwezig';
     const STATUS_AFWEZIG = 'Afwezig';
 
@@ -48,16 +52,6 @@ class GaActiviteit
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $afgesloten;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
 
     /**
      * @var ArrayCollection|GaKlantDeelname[]

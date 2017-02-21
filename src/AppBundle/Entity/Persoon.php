@@ -4,12 +4,16 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks
  */
 class Persoon
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -57,36 +61,30 @@ class Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $medewerker;
 
     /**
      * @var Geslacht
      * @ORM\ManyToOne(targetEntity="Geslacht")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $geslacht;
 
     /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $land;
 
     /**
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $nationaliteit;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    protected $modified;
 
     /**
      * @ORM\Column(type="string")
@@ -329,6 +327,7 @@ class Persoon
     public function setLand(Land $land)
     {
         $this->land = $land;
+
         return $this;
     }
 
@@ -340,6 +339,7 @@ class Persoon
     public function setBsn($bsn)
     {
         $this->bsn = $bsn;
+
         return $this;
     }
 
@@ -351,46 +351,42 @@ class Persoon
     public function setNationaliteit(Nationaliteit $nationaliteit)
     {
         $this->nationaliteit = $nationaliteit;
+
         return $this;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
     }
 
     public function setAdres($adres)
     {
         $this->adres = $adres;
+
         return $this;
     }
 
     public function setPostcode($postcode)
     {
         $this->postcode = $postcode;
+
         return $this;
     }
 
     public function setPlaats($plaats)
     {
         $this->plaats = $plaats;
+
         return $this;
     }
 
     public function setMobiel($mobiel)
     {
         $this->mobiel = $mobiel;
+
         return $this;
     }
 
     public function setTelefoon($telefoon)
     {
         $this->telefoon = $telefoon;
+
         return $this;
     }
 
@@ -402,6 +398,7 @@ class Persoon
     public function setGeenPost($geenPost)
     {
         $this->geenPost = $geenPost;
+
         return $this;
     }
 
@@ -413,6 +410,7 @@ class Persoon
     public function setGeenEmail($geenEmail)
     {
         $this->geenEmail = $geenEmail;
+
         return $this;
     }
 
@@ -424,6 +422,7 @@ class Persoon
     public function setOpmerking($opmerking)
     {
         $this->opmerking = $opmerking;
+
         return $this;
     }
 
@@ -435,8 +434,7 @@ class Persoon
     public function setDisabled($disabled)
     {
         $this->disabled = $disabled;
+
         return $this;
     }
-
-
 }

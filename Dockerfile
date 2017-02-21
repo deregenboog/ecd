@@ -21,4 +21,6 @@ COPY docker/xdebug.ini /tmp/xdebug.ini
 RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && rm /tmp/xdebug.ini
 
-RUN a2enmod rewrite
+# configure apache
+COPY docker/vhost.conf /etc/apache2/sites-available/app.conf
+RUN a2enmod rewrite headers && a2dissite 000-default && a2ensite app

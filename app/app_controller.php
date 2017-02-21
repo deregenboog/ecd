@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 //  Application Controller. Here we specify functions that can be shared with all controllers.
 
@@ -273,7 +274,7 @@ class AppController extends Controller
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         $this->set('medewerkers', $medewerkers);
 
-    return $medewerkers;
+        return $medewerkers;
     }
 
     /**
@@ -340,7 +341,10 @@ class AppController extends Controller
             $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
             $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
             $this->Session->write('Auth.User', $auth);
-            $this->Session->write('user_id', $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId());
+            $this->Session->write(
+                'Auth.Medewerker.id',
+                $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId()
+            );
             $this->AuthExt->allow('*');
         }
 
@@ -607,6 +611,14 @@ class AppController extends Controller
     }
 
     /**
+     * @return EventDispatcherInterface
+     */
+    protected function getEventDispatcher()
+    {
+        return $this->container->get('event_dispatcher');
+    }
+
+    /**
      * @return TwigEngine
      */
     protected function getTemplatingEngine()
@@ -662,5 +674,15 @@ class AppController extends Controller
     protected function createForm($type, $data = null, array $options = [])
     {
         return $this->getFormFactory()->create($type, $data, $options);
+    }
+
+    /**
+     * @return Medewerker
+     */
+    protected function getMedewerker()
+    {
+        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+
+        return $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
     }
 }

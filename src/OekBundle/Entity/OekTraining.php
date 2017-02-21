@@ -2,9 +2,9 @@
 
 namespace OekBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -13,6 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class OekTraining
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -46,20 +48,10 @@ class OekTraining
     private $locatie;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var ArrayCollection|OekDeelname[]
+     * @ORM\OneToMany(targetEntity="OekDeelname", mappedBy="oekTraining")
      */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $modified;
-
-    /**
-     * @var ArrayCollection|OekKlant[]
-     * @ORM\ManyToMany(targetEntity="OekKlant", inversedBy="oekTrainingen")
-     */
-    private $oekKlanten;
+    private $oekDeelnames;
 
     /**
      * @var OekGroep
@@ -68,25 +60,9 @@ class OekTraining
      */
     private $oekGroep;
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function onPrePersist()
-    {
-        $this->created = $this->modified = new DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->modified = new \DateTime();
-    }
-
     public function __construct()
     {
-        $this->oekKlanten = new ArrayCollection();
+        $this->oekDeelnames = new ArrayCollection();
     }
 
     public function __toString()
@@ -159,41 +135,14 @@ class OekTraining
         return $this;
     }
 
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
-    }
-
     public function getOekKlanten()
     {
-        return $this->oekKlanten;
-    }
+        $oekKlanten = new ArrayCollection();
+        foreach ($this->oekDeelnames as $oekDeelname) {
+            $oekKlanten[] = $oekDeelname->getOekKlant();
+        }
 
-    public function setOekKlanten($oekKlanten = [])
-    {
-        $this->oekKlanten = $oekKlanten;
-
-        return $this;
-    }
-
-    public function addOekKlant(OekKlant $oekKlant)
-    {
-        $this->oekKlanten->add($oekKlant);
-        $this->oekGroep->getOekKlanten()->removeElement($oekKlant);
-
-        return $this;
-    }
-
-    public function removeOekKlant(OekKlant $oekKlant)
-    {
-        $this->oekKlanten->remove($oekKlant);
-
-        return $this;
+        return $oekKlanten;
     }
 
     public function getOekGroep()
@@ -210,6 +159,6 @@ class OekTraining
 
     public function isDeletable()
     {
-        return $this->oekKlanten->count() == 0;
+        return $this->oekDeelnames->count() == 0;
     }
 }

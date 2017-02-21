@@ -22,12 +22,12 @@
             {{ form_errors(filter.groep) }}
         </th>
         <th>
-            {{ form_widget(filter.aanmelding) }}
-            {{ form_errors(filter.aanmelding) }}
+            {{ form_widget(filter.aanmelddatum) }}
+            {{ form_errors(filter.aanmelddatum) }}
         </th>
         <th>
-            {{ form_widget(filter.afsluiting) }}
-            {{ form_errors(filter.afsluiting) }}
+            {{ form_widget(filter.afsluitdatum) }}
+            {{ form_errors(filter.afsluitdatum) }}
         </th>
         <th>
             {{ form_widget(filter.filter) }}
@@ -46,23 +46,23 @@
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Groep(en)', 'oekKlant.oekGroepen') }}
+            {{ knp_pagination_sortable(pagination, 'Groep(en)', 'oekGroep.naam') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekKlant.aanmelding') }}
+            {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekAanmelding.datum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'oekKlant.afsluiting') }}
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'oekAfsluiting.datum') }}
         </th>
         <th></th>
     </tr>
     {% for oekKlant in pagination %}
     <tr>
         <td>
-            {{ html.link(oekKlant.klant.id, {'action': 'view', 0: oekKlant.id})|raw }}
+            {{ html.link(oekKlant.klant.id, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
         </td>
         <td>
-            {{ html.link(oekKlant.klant.naam, {'action': 'view', 0: oekKlant.id})|raw }}
+            {{ html.link(oekKlant.klant.naam, {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
         </td>
         <td>
             {{ oekKlant.klant.werkgebied }}
@@ -75,16 +75,16 @@
             </ul>
         </td>
         <td>
-            {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
+            {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
         </td>
         <td>
-            {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
+            {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
         </td>
         <td>
-            {{ html.viewLink({'action': 'view', 0: oekKlant.id})|raw }}
-            {{ html.editLink({'action': 'edit', 0: oekKlant.id})|raw }}
+            {{ html.viewLink({'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
+            {{ html.editLink({'controller': 'oek_klanten', 'action': 'edit', 0: oekKlant.id})|raw }}
             {% if oekKlant.deletable %}
-                {{ html.deleteLink({'action': 'delete', 0: oekKlant.id})|raw }}
+                {{ html.deleteLink({'controller': 'oek_klanten', 'action': 'delete', 0: oekKlant.id})|raw }}
             {% endif %}
         </td>
     </tr>

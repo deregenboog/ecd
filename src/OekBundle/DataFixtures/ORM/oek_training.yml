@@ -2,10 +2,7 @@ OekBundle\Entity\OekTraining:
     oek_training_{1..40}:
         naam: 'Training <current()>'
         oek_groep: '@oek_groep_*'
-        oek_klanten: '<numberBetween(1, 10)>x @oek_klant_*'
         startdatum: '<dateTimeThisDecade()>'
         starttijd: '<dateTimeThisDecade()>'
         einddatum: '<dateTimeThisDecade()>'
         locatie: '<word()>'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

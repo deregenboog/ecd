@@ -4,6 +4,7 @@ AppBundle\Entity\Klant:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
+        geboortedatum: '<date()>'
         adres: '<streetAddress()>'
         postcode: '<postcode()>'
         plaats: '<city()>'
@@ -16,8 +17,6 @@ AppBundle\Entity\Klant:
         laatsteRegistratieId: 1
         overleden: '10%? 1 : 0'
         disabled: '10%? 1 : 0'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'
         werkgebied: 'Centrum'
         geenPost: '10%? 1 : 0'
         geenEmail: '10%? 1 : 0'

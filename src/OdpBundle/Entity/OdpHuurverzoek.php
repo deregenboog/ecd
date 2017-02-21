@@ -4,7 +4,8 @@ namespace OdpBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\TimestampableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -13,7 +14,7 @@ use AppBundle\Entity\TimestampableTrait;
  */
 class OdpHuurverzoek
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -21,13 +22,6 @@ class OdpHuurverzoek
      * @ORM\GeneratedValue
      */
     private $id;
-
-    /**
-     * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $medewerker;
 
     /**
      * @var OdpHuurder
@@ -42,12 +36,12 @@ class OdpHuurverzoek
     private $odpHuurovereenkomst;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     protected $einddatum;
 
@@ -60,18 +54,6 @@ class OdpHuurverzoek
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getMedewerker()
-    {
-        return $this->medewerker;
-    }
-
-    public function setMedewerker(Medewerker $medewerker)
-    {
-        $this->medewerker = $medewerker;
-
-        return $this;
     }
 
     public function getOdpHuurder()

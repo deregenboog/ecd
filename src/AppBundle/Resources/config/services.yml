@@ -5,3 +5,9 @@ services:
         arguments: ["%locale%"]
         tags:
             - { name: twig.extension }
+
+    app.form.type.medewerker:
+        class: AppBundle\Form\MedewerkerType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }

@@ -1,0 +1,12 @@
+{% include('hs_subnavigation.twig') %}
+
+<h1>Groep verwijderen</h1>
+<p>
+    Weet u zeker dat u deelnemer <strong>{{ oekKlant }}</strong>
+    van wachtlijst <strong>{{ oekGroep }}</strong> wilt verwijderen?
+    <br>
+    {{ form_start(form) }}
+        {{ html.link('Nee, terug', {'controller': 'oek_klanten', 'action': 'view', 0: oekKlant.id})|raw }}
+        <button type="submit">Ja, verwijderen</button>
+    {{ form_end(form) }}
+</p>

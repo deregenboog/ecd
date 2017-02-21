@@ -4,13 +4,17 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_verslagen")
+ * @ORM\HasLifecycleCallbacks
  */
 class IzVerslag
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -19,23 +23,13 @@ class IzVerslag
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $modified;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $opmerking;
 
     /**
      * @var IzDeelnemer
-     * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
+     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      */
     private $izDeelnemer;

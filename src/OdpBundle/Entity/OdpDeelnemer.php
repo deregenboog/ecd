@@ -6,7 +6,8 @@ use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
-use AppBundle\Entity\TimestampableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -18,7 +19,7 @@ use AppBundle\Entity\TimestampableTrait;
  */
 abstract class OdpDeelnemer
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -32,13 +33,6 @@ abstract class OdpDeelnemer
      * @ORM\OneToOne(targetEntity="OdpIntake", mappedBy="odpDeelnemer")
      */
     protected $odpIntake;
-
-    /**
-     * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $medewerker;
 
     /**
      * @ORM\Column(name="aanmelddatum", type="date")

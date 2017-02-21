@@ -17,4 +17,9 @@ class GaVrijwilligerIntake extends GaIntake
      * @ORM\JoinColumn(name="foreign_key", nullable=false)
      */
     protected $vrijwilliger;
+
+    public function getVrijwilliger()
+    {
+        return $this->vrijwilliger;
+    }
 }

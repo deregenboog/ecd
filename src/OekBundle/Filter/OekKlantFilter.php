@@ -6,6 +6,8 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\OekGroep;
+use AppBundle\Form\Model\AppDateRangeModel;
+use OekBundle\Entity\OekAanmelding;
 
 class OekKlantFilter implements FilterInterface
 {
@@ -20,14 +22,19 @@ class OekKlantFilter implements FilterInterface
     public $groep;
 
     /**
-     * @var string
+     * @var OekTraining
      */
-    public $aanmelding;
+    public $training;
 
     /**
-     * @var string
+     * @var AppDateRangeModel
      */
-    public $afsluiting;
+    public $aanmelddatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $afsluitdatum;
 
     /**
      * @var KlantFilter
@@ -50,32 +57,39 @@ class OekKlantFilter implements FilterInterface
             ;
         }
 
-        if ($this->aanmelding) {
-            if ($this->aanmelding->getStart()) {
+        if ($this->training) {
+            $builder
+                ->andWhere('oekTraining = :oek_training')
+                ->setParameter('oek_training', $this->training)
+            ;
+        }
+
+        if ($this->aanmelddatum) {
+            if ($this->aanmelddatum->getStart()) {
                 $builder
-                ->andWhere('oekKlant.aanmelding >= :aanmelding_van')
-                ->setParameter('aanmelding_van', $this->aanmelding->getStart())
+                    ->andWhere('oekAanmelding.datum >= :aanmelddatum_van')
+                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
                 ;
             }
-            if ($this->aanmelding->getEnd()) {
+            if ($this->aanmelddatum->getEnd()) {
                 $builder
-                    ->andWhere('oekKlant.aanmelding <= :aanmelding_tot')
-                    ->setParameter('aanmelding_tot', $this->aanmelding->getEnd())
+                    ->andWhere('oekAanmelding.datum <= :aanmelddatum_tot')
+                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
                 ;
             }
         }
 
-        if ($this->afsluiting) {
-            if ($this->afsluiting->getStart()) {
+        if ($this->afsluitdatum) {
+            if ($this->afsluitdatum->getStart()) {
                 $builder
-                    ->andWhere('oekKlant.afsluiting >= :afsluiting_van')
-                    ->setParameter('afsluiting_van', $this->afsluiting->getStart())
+                    ->andWhere('oekAfsluiting.datum >= :afsluitdatum_van')
+                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
-            if ($this->afsluiting->getEnd()) {
+            if ($this->afsluitdatum->getEnd()) {
                 $builder
-                    ->andWhere('oekKlant.afsluiting <= :afsluiting_tot')
-                    ->setParameter('afsluiting_tot', $this->afsluiting->getEnd())
+                    ->andWhere('oekAfsluiting.datum <= :afsluitdatum_tot')
+                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
         }

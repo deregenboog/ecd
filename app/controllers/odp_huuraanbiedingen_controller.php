@@ -4,16 +4,10 @@ use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpHuurovereenkomst;
 use OdpBundle\Form\OdpHuuraanbodType;
-use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuuraanbodSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuuraanbodFilterType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
-use OdpBundle\Entity\HsMemo;
-use OdpBundle\Form\HsMemoType;
 use OdpBundle\Form\OdpHuurovereenkomstType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OdpHuuraanbiedingenController extends AppController
 {
@@ -31,15 +25,17 @@ class OdpHuuraanbiedingenController extends AppController
         'id',
         'klant' => ['naam', 'stadsdeel'],
         'startdatum',
-        'einddatum'
+        'einddatum',
+        'openstaand',
     ];
 
     private $sortFieldWhitelist = [
         'odpHuuraanbod.id',
         'klant.achternaam',
         'klant.werkgebied',
-        'odpHuurverzoek.startdatum',
-        'odpHuurverzoek.einddatum',
+        'odpHuuraanbod.startdatum',
+        'odpHuuraanbod.einddatum',
+        'odpHuurovereenkomst.id',
     ];
 
     public function index()
@@ -53,6 +49,7 @@ class OdpHuuraanbiedingenController extends AppController
         $repository = $entityManager->getRepository(OdpHuuraanbod::class);
 
         $builder = $repository->createQueryBuilder('odpHuuraanbod')
+            ->leftJoin('odpHuuraanbod.odpHuurovereenkomst', 'odpHuurovereenkomst')
             ->innerJoin('odpHuuraanbod.odpVerhuurder', 'odpVerhuurder')
             ->innerJoin('odpVerhuurder.klant', 'klant');
 
@@ -127,7 +124,7 @@ class OdpHuuraanbiedingenController extends AppController
         /** @var Medewerker $medewerker */
         $entityManager = $this->getEntityManager();
         $odpHuuraanbod = $entityManager->find(OdpHuuraanbod::class, $huuraanbodId);
-        $medewerker = $entityManager->find(Medewerker::class, $this->Session->read('user_id'));
+        $medewerker = $this->getMedewerker();
 
         $odpHuurovereenkomst = new OdpHuurovereenkomst();
         $odpHuurovereenkomst->setOdpHuuraanbod($odpHuuraanbod);
