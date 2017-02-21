@@ -24,7 +24,7 @@ class Intake
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="intakes")
      */
     private $klant;
 
@@ -57,4 +57,8 @@ class Intake
      */
     private $toegangInloophuis;
 
+    public function setKlant(Klant $klant)
+    {
+        $this->klant = $klant;
+    }
 }

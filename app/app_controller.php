@@ -322,13 +322,20 @@ class AppController extends Controller
 
         if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // Disable ACL, fake user data:
-            $auth['Group'] = [1];
-            $auth['username'] = 'sysadmin';
-            $auth['Medewerker']['LdapUser']['displayname'] = 'System Administrator';
-            $auth['Medewerker']['LdapUser']['givenname'] = 'System';
-            $auth['Medewerker']['LdapUser']['sn'] = 'Administrator';
-            $auth['Medewerker']['LdapUser']['uidnumber'] = '1';
+            $auth = [
+                'Group' => [1],
+                'username' => 'sysadmin',
+                'Medewerker' => [
+                    'LdapUser' => [
+                        'displayname' => 'System Administrator',
+                        'givenname' => 'System',
+                        'sn' => 'Administrator',
+                        'uidnumber' => '1',
+                    ],
+                ],
+            ];
             $this->Session->write('Auth.User', $auth);
+            $this->Session->write('Auth.Medewerker.Group', []);
             $this->AuthExt->allow('*');
         }
 

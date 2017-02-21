@@ -38,21 +38,22 @@ class KlantenController extends AppController
             }
         }
 
-        $this->paginate = array(
-                'contain' => array(
-                    'LasteIntake' => array(
-                        'fields' => array(
-                            'locatie1_id',
-                            'locatie2_id',
-                            'locatie3_id',
-                            'datum_intake',
-                        ),
-                    ),
-                    'Intake' => array(
-                        'fields' => array('datum_intake', 'id'),
-                        ),
-                    'Geslacht', ),
-                );
+        $this->paginate = [
+            'contain' => [
+                'LasteIntake' => [
+                    'fields' => [
+                        'locatie1_id',
+                        'locatie2_id',
+                        'locatie3_id',
+                        'datum_intake',
+                    ],
+                ],
+                'Intake' => [
+                    'fields' => ['datum_intake', 'id'],
+                ],
+                'Geslacht',
+            ],
+        ];
 
         $klanten = $this->paginate(null, $this->Filter->filterData);
         $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);

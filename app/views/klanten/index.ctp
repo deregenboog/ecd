@@ -1,5 +1,5 @@
 <?php
-$userGroups = $this->Session->read('Auth.Medewerker.Group');
+    $userGroups = $this->Session->read('Auth.Medewerker.Group');
 ?>
 
 <h2><?php __('Klantenlijst');?></h2>
@@ -7,7 +7,7 @@ $userGroups = $this->Session->read('Auth.Medewerker.Group');
 <?php
     echo $html->link('Nieuwe klant invoeren', array('action' => 'add'), array(),
         __('Hebt u de algemene klantenlijst al gechecked? Weet u zeker dat dit een nieuwe klant is?', true));
-    if ($userGroups && (in_array(GROUP_TEAMLEIDERS, $userGroups) || in_array(GROUP_DEVELOP, $userGroups))) {
+    if (in_array(GROUP_TEAMLEIDERS, $userGroups) || in_array(GROUP_DEVELOP, $userGroups)) {
         echo ' | '.
             $this->Html->link('Lijst van mogelijk dubbele invoer', array(
                 'controller' => 'klanten',
