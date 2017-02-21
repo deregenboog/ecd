@@ -61,6 +61,18 @@ class GroepsactiviteitenKlantenController extends AppController
         $this->set('pagination', $pagination);
     }
 
+    public function download(QueryBuilder $builder)
+    {
+        $intakes = $builder->getQuery()->getResult();
+
+        $filename = sprintf('groepsactiviteiten-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: text/csv');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $this->set('intakes', $intakes);
+        $this->render('download', false);
+    }
+
     public function add()
     {
         $filterForm = $this->createForm(KlantFilterType::class, null, [
@@ -98,18 +110,6 @@ class GroepsactiviteitenKlantenController extends AppController
         }
 
         $this->set('filterForm', $filterForm->createView());
-    }
-
-    private function download(QueryBuilder $builder)
-    {
-        $intakes = $builder->getQuery()->getResult();
-        $filename = sprintf("groepsactiviteiten-deelnemers-%s.csv", (new \DateTime())->format('d-m-Y'));
-
-        $this->header('Content-type: text/csv');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-
-        $this->set('intakes', $intakes);
-        $this->render('download', false);
     }
 
     /**

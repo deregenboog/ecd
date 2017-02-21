@@ -144,4 +144,8 @@ abstract class GaIntake
         return $this->gaAfsluiting;
     }
 
+    public function isGezinMetKinderen()
+    {
+        return $this->gezinMetKinderen;
+    }
 }
