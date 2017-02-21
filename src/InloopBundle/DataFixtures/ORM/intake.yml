@@ -1,6 +1,5 @@
 InloopBundle\Entity\Intake:
     intake_{1..200}:
-        klant: '@klant_*'
         medewerker: '@medewerker_*'
         intakedatum: '<dateTimeThisDecade()>'
         toegangInloophuis: true

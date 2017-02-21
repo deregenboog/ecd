@@ -28,7 +28,11 @@
         <th class="2eIntakesCol">Intake-locatie</th>
         <th class="3eIntakesCol"></th>
         <th class="laatsteIntakeCol">
-            <?= empty($maatschappelijkwerk) ? 'Laatste intake' : 'Laatste verslag' ?>
+            <?php if (empty($maatschappelijkwerk)): ?>
+                <?= $this->Paginator->sort('Laatste intake', 'LasteIntake.datum_intake', $filter_options) ?>
+            <?php else: ?>
+                Laatste verslag
+            <?php endif; ?>
         </th>
         <?php if (empty($maatschappelijkwerk)): ?>
             <th class="aantalIntakesCol">Aantal intakes</th>
