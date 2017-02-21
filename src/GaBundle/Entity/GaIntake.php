@@ -2,17 +2,22 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_intakes")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "GaKlantIntake", "Vrijwilliger" = "GaVrijwilligerIntake"})
  */
 abstract class GaIntake
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,6 +26,7 @@ abstract class GaIntake
     protected $id;
 
     /**
+     * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -82,19 +88,10 @@ abstract class GaIntake
     protected $intakedatum;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
      */
     protected $afsluitdatum;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $modified;
 
     /**
      * @ORM\ManyToOne(targetEntity="GaAfsluiting")
@@ -109,5 +106,26 @@ abstract class GaIntake
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Medewerker
+     */
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAfsluitdatum()
+    {
+        return $this->afsluitdatum;
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }

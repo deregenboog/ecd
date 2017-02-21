@@ -2,44 +2,40 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(name="iz_projecten")
+ * @ORM\Entity
+ * @ORM\Table(name="iz_projecten")
  */
 class IzProject
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $naam;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date")
      */
     private $startdatum;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $einddatum;
 
     /**
-     * @Column(name="heeft_koppelingen", type="boolean")
+     * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=false)
      */
-    private $heeftKoppelingen;
+    private $heeftKoppelingen = true;
 
     public function getId()
     {
@@ -98,5 +94,4 @@ class IzProject
 
         return $this;
     }
-
 }

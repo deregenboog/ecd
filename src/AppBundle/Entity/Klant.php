@@ -50,7 +50,7 @@ class Klant extends Persoon
     /**
      * @ORM\Column(type="boolean")
      */
-    private $overleden;
+    private $overleden = false;
 
     public function __construct()
     {
@@ -94,7 +94,4 @@ class Klant extends Persoon
 
         return $this;
     }
-
-
-
 }

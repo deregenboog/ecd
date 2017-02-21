@@ -4,5 +4,6 @@ IzBundle\Entity\IzHulpvraag:
         izProject: '@iz_project_*'
         medewerker: '@medewerker_*'
         izHulpaanbod: '50%? @iz_hulpaanbod_<current()>'
+        startdatum: '<dateTimeThisDecade()>'
         koppelingStartdatum: <koppelingStartdatum($izHulpaanbod)>
         koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>

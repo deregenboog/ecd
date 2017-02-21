@@ -2,8 +2,6 @@
 
 namespace IzBundle\Report;
 
-use AppBundle\Report\Table;
-
 class VrijwilligersPerProjectNamenlijst extends AbstractVrijwilligersNamenlijstReport
 {
     protected $columns = [

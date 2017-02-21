@@ -3,16 +3,20 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_verslagen")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "GaKlantVerslag", "Vrijwilliger" = "GaVrijwilligerVerslag"})
  */
 abstract class GaVerslag
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -30,20 +34,6 @@ abstract class GaVerslag
      * @ORM\Column(type="text", nullable=true)
      */
     protected $opmerking;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $modified;
-
-    public function __construct()
-    {
-    }
 
     public function getId()
     {

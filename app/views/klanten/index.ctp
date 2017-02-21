@@ -1,5 +1,8 @@
 <?php
     $userGroups = $this->Session->read('Auth.Medewerker.Group');
+    if (!$userGroups) {
+        $userGroups = [];
+    }
 ?>
 
 <h2><?php __('Klantenlijst');?></h2>

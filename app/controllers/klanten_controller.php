@@ -105,7 +105,7 @@ class KlantenController extends AppController
             $this->set('zrmReport', $this->ZrmReport->get_zrm_report('Intake', $klant['Intake'][0]['id']));
         }
         $this->set('zrm_data', $zrm_data);
-        $this->set('diensten', $this->Klant->diensten($id));
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
     public function registratie($id = null)

@@ -356,9 +356,9 @@ class Schorsing extends AppModel
                 $schorsing = __('geen', true);
             }
         } elseif ($schCount == 1) {
-            $schorsing = '1 '. __('schorsing', true);
+            $schorsing = '1 '.__('schorsing', true);
         } else {
-            $schorsing = $schCount.' '. __('schorsingen', true);
+            $schorsing = $schCount.' '.__('schorsingen', true);
         }
 
         return $schorsing;

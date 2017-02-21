@@ -3,13 +3,17 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_groepen_vrijwilligers")
+ * @ORM\HasLifecycleCallbacks
  */
 class GaVrijwilligerLidmaatschap
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -59,20 +63,6 @@ class GaVrijwilligerLidmaatschap
      * @ORM\Column(name="communicatie_post", type="boolean", nullable=true)
      */
     private $communicatiePost;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
-
-    public function __construct()
-    {
-    }
 
     public function getId()
     {

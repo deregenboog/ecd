@@ -147,7 +147,7 @@ class RegistratiesController extends AppController
                 $this->render('/elements/registratie_klantenlijst', 'ajax');
             }
         } else {
-            $this->set('locaties', $this->Registratie->Locatie->locaties(array('maatschappelijkwerk' => 0)));
+            $this->set('locaties', $this->Registratie->Locatie->locaties(['maatschappelijkwerk' => 0]));
             $this->render('locaties');
         }
     }

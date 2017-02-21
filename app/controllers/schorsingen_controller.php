@@ -126,6 +126,7 @@ class SchorsingenController extends AppController
                 }
             }
         }
+
         if ($klant_id != null) {
             //$redenen = $this->Schorsing->Reden->find('list');
 
@@ -140,11 +141,18 @@ class SchorsingenController extends AppController
             //and the locatie_id field is hidden in the form
             //otherwise we provide a dropdown with locations
             if ($locatie_id != null) {
-                $locatie = $this->Schorsing->Locatie->find('first',
-                    array('conditions' => array('Locatie.id' => $locatie_id), 'recursive' => '-1'));
+                $locatie = $this->Schorsing->Locatie->find('first', array(
+                    'conditions' => array('Locatie.id' => $locatie_id),
+                    'recursive' => '-1',
+                ));
                 $this->set(compact('locatie_id', 'locatie'));
             } else {
-                $this->set('locaties', $this->Schorsing->Locatie->find('list'));
+                $this->set('locaties', $this->Schorsing->Locatie->find('list', [
+                    'conditions' => ['OR' => [
+                        ['datum_tot' => '0000-00-00'],
+                        ['datum_tot >' => date('Y-m-d')],
+                    ]],
+                ]));
             }
 
             $this->set(compact('klant_id', 'redenen', 'klant', 'violent_options'));
@@ -243,7 +251,7 @@ class SchorsingenController extends AppController
         if (!empty($schorsing['Reden'])) {
             foreach ($schorsing['Reden'] as $reden) {
                 if ($reden['SchorsingenReden']['reden_id'] == 100) {
-                    $redenen[] = $reden['naam'] . ': ' . $schorsing['Schorsing']['overig_reden'];
+                    $redenen[] = $reden['naam'].': '.$schorsing['Schorsing']['overig_reden'];
                 } else {
                     $redenen[] = $reden['naam'];
                 }

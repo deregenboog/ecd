@@ -34,7 +34,7 @@ class Land extends AppModel
             $key = array_search($preferredCountry, $landen);
             if (false !== $key) {
                 unset($landen[ $key]);
-                $landen = [(string)$key => $preferredCountry] + $landen;
+                $landen = [(string) $key => $preferredCountry] + $landen;
             }
         }
 
