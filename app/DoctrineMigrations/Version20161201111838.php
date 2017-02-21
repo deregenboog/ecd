@@ -24,8 +24,6 @@ class Version20161201111838 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE iz_koppelingen DROP discr');
+        $this->throwIrreversibleMigrationException();
     }
 }

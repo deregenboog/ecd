@@ -123,6 +123,10 @@ table td.actions a {
 	padding:2px 5px;
 }
 
+table.fixed {
+    table-layout: fixed;
+}
+
 .actions fieldset.fix-size {
     width: 228px;
 }

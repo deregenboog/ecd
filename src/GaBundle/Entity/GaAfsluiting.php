@@ -3,13 +3,17 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_afsluitingen")
+ * @ORM\HasLifecycleCallbacks
  */
 class GaAfsluiting
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,16 +25,6 @@ class GaAfsluiting
      * @ORM\Column(nullable=true)
      */
     private $naam;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
 
     public function __construct()
     {

@@ -26,7 +26,7 @@ class VrijwilligersPerGroep extends AbstractReport
             ->setEndDate($this->endDate)
             ->setYNullReplacement('Onbekend')
         ;
-        
+
         $this->reports[] = [
             'title' => '',
             'yDescription' => 'Groep',

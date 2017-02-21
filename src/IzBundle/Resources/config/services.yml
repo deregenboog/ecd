@@ -113,8 +113,22 @@ services:
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
+    iz.report.vrijwilligers.totaal_namenlijst:
+        class: IzBundle\Report\VrijwilligersTotaalNamenlijst
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
     iz.report.vrijwilligers.per_project:
         class: IzBundle\Report\VrijwilligersPerProject
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    iz.report.vrijwilligers.per_project_namenlijst:
+        class: IzBundle\Report\VrijwilligersPerProjectNamenlijst
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:

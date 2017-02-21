@@ -442,12 +442,12 @@ class RapportagesController extends AppController
 
             $this->Klant->query($qu);
 
-        //new clients conditions
+            //new clients conditions
             $klant_cond = array(
                 'Klant.created >=' => $date_from,
                 'Klant.created <' => $this->_add_day($date_to),
             );
-        //intake
+            //intake
             $intake_cond = array(
                 'Intake.created >=' => $date_from,
                 'Intake.created <' => $this->_add_day($date_to),
@@ -485,15 +485,14 @@ class RapportagesController extends AppController
             $intake_cond = $intake_cond + $geslacht_cond;
 
             // We now change the report and use the temporary table
-
             $count['uniqueVisits'] = $this->Registratie->find('count', array(
-                        'fields' => array('COUNT(DISTINCT Registratie.klant_id) AS count'),
-                        'conditions' => $con,
-                        ));
+                'fields' => array('COUNT(DISTINCT Registratie.klant_id) AS count'),
+                'conditions' => $con,
+            ));
 
-            //$count['totalVisits'] = $this->Registratie->find('count', array(
-            //			  'conditions' => $con
-            //			  ));
+//             $count['totalVisits'] = $this->Registratie->find('count', array(
+//                 'conditions' => $con
+//             ));
             $q = 'select count(*) as cnt from tmp_registrations';
             $r = $this->Klant->query($q);
             $count['totalVisits'] = $r[0][0]['cnt'];
@@ -527,8 +526,8 @@ class RapportagesController extends AppController
             $unique_per_location = $r;
 
             $this->set(compact(
-                        'date_to', 'date_from', 'count', 'unique_per_location'
-                        ));
+                'date_to', 'date_from', 'count', 'unique_per_location'
+            ));
         }
 
         $this->Locatie->recursive = -1;
