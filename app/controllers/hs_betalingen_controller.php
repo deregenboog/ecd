@@ -1,10 +1,8 @@
 <?php
 
 use HsBundle\Entity\HsFactuur;
-use App\Form\HsFactuurType;
 use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\HsKlus;
-use HsBundle\Form\HsFactuurFilterType;
 use HsBundle\Entity\HsBetaling;
 use HsBundle\Form\HsBetalingFilterType;
 use HsBundle\Form\HsBetalingType;
@@ -20,7 +18,6 @@ class HsBetalingenController extends AppController
      * Use Twig.
      */
     public $view = 'AppTwig';
-
 
     private $enabledFilters = [
         'referentie',

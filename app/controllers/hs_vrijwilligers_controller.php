@@ -10,7 +10,6 @@ use AppBundle\Entity\Vrijwilliger;
 use HsBundle\Entity\HsMemo;
 use HsBundle\Form\HsMemoType;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 use AppBundle\Entity\Medewerker;
 
 class HsVrijwilligersController extends AppController

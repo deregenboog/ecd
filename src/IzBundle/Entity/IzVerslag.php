@@ -85,6 +85,7 @@ class IzVerslag
     public function setOpmerking($opmerking)
     {
         $this->opmerking = $opmerking;
+
         return $this;
     }
 
@@ -96,7 +97,7 @@ class IzVerslag
     public function setIzKoppeling(IzKoppeling $izKoppeling)
     {
         $this->izKoppeling = $izKoppeling;
+
         return $this;
     }
-
 }

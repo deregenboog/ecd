@@ -1,7 +1,6 @@
 <?php
 
 use OekBundle\Entity\OekKlant;
-use OekBundle\Form\Model\OekDeelnameModel;
 use OekBundle\Entity\OekTraining;
 use OekBundle\Form\OekDeelnameType;
 use OekBundle\Entity\OekDeelname;

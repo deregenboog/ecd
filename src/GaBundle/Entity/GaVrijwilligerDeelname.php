@@ -9,7 +9,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_vrijwilligers")
  * @ORM\HasLifecycleCallbacks
-*/
+ */
 class GaVrijwilligerDeelname
 {
     use TimestampableTrait;

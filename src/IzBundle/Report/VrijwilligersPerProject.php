@@ -43,25 +43,25 @@ class VrijwilligersPerProject extends AbstractVrijwilligersReport
                 'title' => 'Beginstand',
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
-                'data' => $beginstandTable->render()
+                'data' => $beginstandTable->render(),
             ],
             [
                 'title' => 'Gestart',
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
-                'data' => $gestartTable->render()
+                'data' => $gestartTable->render(),
             ],
             [
                 'title' => 'Afgesloten',
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
-                'data' => $afgeslotenTable->render()
+                'data' => $afgeslotenTable->render(),
             ],
             [
                 'title' => 'Eindstand',
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
-                'data' => $eindstandTable->render()
+                'data' => $eindstandTable->render(),
             ],
         ];
     }

@@ -26,9 +26,6 @@ class Version20161212162259 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE medewerkers DROP groups');
+        $this->throwIrreversibleMigrationException();
     }
 }

@@ -9,7 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OekBundle\Entity\OekTraining;
-use OekBundle\Form\Model\OekDeelnameModel;
 use OekBundle\Entity\OekDeelname;
 
 class OekDeelnameType extends AbstractType

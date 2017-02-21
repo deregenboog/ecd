@@ -8,8 +8,8 @@ use AppBundle\Model\TimestampableTrait;
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_afsluitingen")
-  * @ORM\HasLifecycleCallbacks
-*/
+ * @ORM\HasLifecycleCallbacks
+ */
 class GaAfsluiting
 {
     use TimestampableTrait;

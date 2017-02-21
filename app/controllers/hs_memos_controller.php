@@ -1,14 +1,6 @@
 <?php
 
-use AppBundle\Entity\Klant;
-use HsBundle\Entity\HsKlant;
-use HsBundle\Form\HsKlantType;
-use AppBundle\Form\KlantFilterType;
-use HsBundle\Form\HsKlantSelectType;
-use Doctrine\DBAL\Driver\PDOException;
-use HsBundle\Form\HsKlantFilterType;
 use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\HsMemo;
 use HsBundle\Form\HsMemoType;
 

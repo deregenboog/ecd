@@ -24,7 +24,7 @@ class IzIntake
      *
      * @ORM\Column(type="datetime")
      */
-    protected $created;
+    private $created;
 
     /**
      * @var \DateTime
@@ -33,7 +33,7 @@ class IzIntake
      *
      * @ORM\Column(name="modifed", type="datetime")
      */
-    protected $modified;
+    private $modified;
 
     /**
      * @ORM\Column(name="intake_datum", type="date")

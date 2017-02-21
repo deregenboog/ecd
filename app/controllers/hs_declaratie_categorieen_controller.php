@@ -2,7 +2,6 @@
 
 use HsBundle\Entity\HsDeclaratieCategorie;
 use HsBundle\Form\HsDeclaratieCategorieType;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use AppBundle\Form\ConfirmationType;
 
 class HsDeclaratieCategorieenController extends AppController

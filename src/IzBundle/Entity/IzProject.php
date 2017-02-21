@@ -94,5 +94,4 @@ class IzProject
 
         return $this;
     }
-
 }

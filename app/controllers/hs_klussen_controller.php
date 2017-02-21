@@ -3,7 +3,6 @@
 use HsBundle\Entity\HsKlus;
 use HsBundle\Form\HsKlusType;
 use HsBundle\Entity\HsKlant;
-use HsBundle\Entity\HsFactuur;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\HsMemo;

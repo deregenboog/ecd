@@ -114,9 +114,9 @@
 					echo $strong;
 					$msg = $klant['Klant']['schorsingen'];
 					if (!empty($klant['Klant']['schorsing_locatie_id'])) {
-						$msg = _("Geschorst bij")." ".$locaties[$klant['Klant']['schorsing_locatie_id']]." "._("van")." ";
+                        $msg = __('Geschorst bij', true) . ' ' . $locaties[$klant['Klant']['schorsing_locatie_id']] . ' ' . __('van', true)." ";
 						$msg .= $date->show($klant['Klant']['schorsing_datum_van'], array('short'=>true));
-						$msg .= " "._("tot")." ".$date->show($klant['Klant']['schorsing_datum_tot'], array('short'=>true));
+                        $msg .= ' ' . __('tot', true) . ' ' . $date->show($klant['Klant']['schorsing_datum_tot'], array('short'=>true));
 					}
 					echo $msg;
 					echo $strong_end;

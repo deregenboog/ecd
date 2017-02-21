@@ -5,7 +5,6 @@ namespace GaBundle\Form;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
-use GaBundle\Entity\GaKlantIntake;
 use GaBundle\Entity\GaVrijwilligerIntake;
 use GaBundle\Filter\GaVrijwilligerIntakeFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

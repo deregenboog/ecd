@@ -2,7 +2,6 @@
 
 namespace OdpBundle\Entity;
 
-use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;

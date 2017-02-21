@@ -44,7 +44,7 @@ class OdpHuuraanbodFilterType extends AbstractType
         if (in_array('openstaand', $options['enabled_filters'])) {
             $builder->add('openstaand', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Openstaand'
+                'label' => 'Openstaand',
             ]);
         }
     }
