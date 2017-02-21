@@ -3,3 +3,4 @@ IzBundle\Entity\IzHulpaanbod:
         izVrijwilliger: '@iz_vrijwilliger_*'
         izProject: '@iz_project_*'
         medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'

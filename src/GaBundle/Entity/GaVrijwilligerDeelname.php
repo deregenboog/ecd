@@ -3,13 +3,17 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_vrijwilligers")
+ * @ORM\HasLifecycleCallbacks
  */
 class GaVrijwilligerDeelname
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -33,20 +37,6 @@ class GaVrijwilligerDeelname
      * @ORM\Column(name="afmeld_status", length=50, nullable=true)
      */
     private $status;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
-
-    public function __construct()
-    {
-    }
 
     public function getId()
     {

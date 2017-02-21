@@ -1,5 +1,9 @@
 <?php
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AppBundle\Event\Events;
+use AppBundle\Event\DienstenLookupEvent;
+
 class Klant extends AppModel
 {
     public $name = 'Klant';
@@ -1129,7 +1133,7 @@ class Klant extends AppModel
 
         return $personen;
     }
-    public function diensten($id)
+    public function diensten($id, EventDispatcherInterface $eventDispatcher = null)
     {
         if (is_array($id)) {
             $id = $id['Klant']['id'];
@@ -1211,6 +1215,12 @@ class Klant extends AppModel
                 'type' => 'string',
                 'value' => $all[$klant['LasteIntake']['locatie1_id']],
             );
+        }
+
+        if ($eventDispatcher instanceof EventDispatcherInterface) {
+            $event = new DienstenLookupEvent($klant['Klant']['id'], $diensten);
+            $eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $diensten = $event->getDiensten();
         }
 
         return $diensten;

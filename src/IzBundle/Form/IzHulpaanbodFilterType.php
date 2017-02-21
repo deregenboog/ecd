@@ -29,7 +29,6 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
             ]);
         }
 
-
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
             $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
@@ -45,7 +44,7 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime())
-                        ;
+                    ;
                 },
             ]);
         }

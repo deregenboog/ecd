@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\KlantFilter;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class KlantFilterType extends AbstractType
 {
@@ -28,7 +29,7 @@ class KlantFilterType extends AbstractType
             ]);
         }
         if (in_array('geboortedatum', $options['enabled_filters'])) {
-            $builder->add('geboortedatum', AppDateType::class, [
+            $builder->add('geboortedatum', BirthdayType::class, [
                 'required' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',

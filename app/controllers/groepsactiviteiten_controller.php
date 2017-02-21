@@ -1,12 +1,44 @@
 <?php
 
+use Doctrine\ORM\QueryBuilder;
+use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Entity\GaVrijwilligerIntake;
+use GaBundle\Form\GaKlantIntakeFilterType;
+use GaBundle\Form\GaVrijwilligerIntakeFilterType;
+use Symfony\Component\Form\FormInterface;
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Vrijwilliger;
+
 class GroepsactiviteitenController extends AppController
 {
     public $name = 'Groepsactiviteiten';
 
+    private $enabledFilters = [
+        'klant' => ['id', 'naam', 'geboortedatum'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatum'],
+        'medewerker',
+        'afsluitdatum',
+    ];
+
+    private $sortFieldWhitelist = [
+        'klant.id',
+        'klant.achternaam',
+        'klant.geboortedatum',
+        'vrijwilliger.id',
+        'vrijwilliger.achternaam',
+        'vrijwilliger.geboortedatum',
+        'medewerker.achternaam',
+        'intake.afsluitdatum',
+    ];
+
     public $components = array(
             'ComponentLoader',
     );
+
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
 
     private function setmetadata($persoon_model, $id)
     {
@@ -223,6 +255,88 @@ class GroepsactiviteitenController extends AppController
         if ($this->RequestHandler->isAjax()) {
             $this->render('/elements/personen_lijst', 'ajax');
         }
+    }
+
+    public function afgesloten_klanten()
+    {
+        return $this->afgesloten('klant');
+    }
+
+    public function afgesloten_vrijwilligers()
+    {
+        return $this->afgesloten('vrijwilliger');
+    }
+
+    private function afgesloten($entityName)
+    {
+        $intakeClassesWhitelist = [
+            'klant' => GaKlantIntake::class,
+            'vrijwilliger' => GaVrijwilligerIntake::class,
+        ];
+
+        // Dit veroorzaakt een error als er een verkeerde entity name wordt meegegeven.
+        // Dus ik denk niet dat ik nog handmatig een exceptie daarvoor hoef te gooien?
+        $intakeClass = $intakeClassesWhitelist[$entityName];
+
+        $repository = $this->getEntityManager()->getRepository($intakeClass);
+        $builder = $repository->createQueryBuilder('intake')
+            ->innerJoin("intake.$entityName", $entityName)
+            ->innerJoin('intake.medewerker', 'medewerker')
+            ->andWhere("$entityName.disabled = false")
+            ->andWhere('intake.afsluitdatum <= :vandaag')
+            ->setParameter('vandaag', new \DateTime())
+        ;
+
+        $filter = $this->createFilter($entityName);
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder, $entityName);
+            }
+        }
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => "$entityName.achternaam",
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'wrap-queries' => true, // because of HAVING clause in filter
+        ]);
+
+        $this->set('filter', $filter->createView());
+        $this->set('pagination', $pagination);
+    }
+
+    /**
+     * @var string
+     *
+     * @return FormInterface
+     */
+    private function createFilter($entityName)
+    {
+        $filterTypeWhitelist = [
+            'klant' => GaKlantIntakeFilterType::class,
+            'vrijwilliger' => GaVrijwilligerIntakeFilterType::class,
+        ];
+
+        $filterType = $filterTypeWhitelist[$entityName];
+
+        $filter = $this->createForm($filterType, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
+        return $filter;
+    }
+
+    private function download(QueryBuilder $builder, $entityName)
+    {
+        $intakes = $builder->getQuery()->getResult();
+        $filename = sprintf("groepsactiviteiten-gesloten-$entityName-dossiesr-%s.csv", (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: text/csv');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->set('intakes', $intakes);
+        $this->set('entityName', $entityName);
+        $this->render('download', false);
     }
 
     public function view($persoon_model = 'Klant', $id = null)

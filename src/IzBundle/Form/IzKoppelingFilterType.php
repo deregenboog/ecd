@@ -1,4 +1,5 @@
 <?php
+
 namespace IzBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -13,17 +14,13 @@ use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\IzHulpaanbod;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use AppBundle\Entity\Stadsdeel;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
 
 class IzKoppelingFilterType extends AbstractType
 {
-
     /**
-     *
      * {@inheritdoc}
-     *
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,8 +30,8 @@ class IzKoppelingFilterType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'attr' => [
-                    'placeholder' => 'dd-mm-jjjj'
-                ]
+                    'placeholder' => 'dd-mm-jjjj',
+                ],
             ]);
         }
 
@@ -44,15 +41,15 @@ class IzKoppelingFilterType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'attr' => [
-                    'placeholder' => 'dd-mm-jjjj'
-                ]
+                    'placeholder' => 'dd-mm-jjjj',
+                ],
             ]);
         }
 
         if (in_array('lopendeKoppelingen', $options['enabled_filters'])) {
             $builder->add('lopendeKoppelingen', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen lopende koppelingen'
+                'label' => 'Alleen lopende koppelingen',
             ]);
         }
 
@@ -77,7 +74,7 @@ class IzKoppelingFilterType extends AbstractType
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
-                }
+                },
             ]);
         }
 
@@ -86,32 +83,29 @@ class IzKoppelingFilterType extends AbstractType
                 'required' => false,
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
-                return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
-                }
+                },
                 ]);
-
         }
         if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
-                return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
-                }
+                },
                 ]);
         }
     }
 
     /**
-     *
      * {@inheritdoc}
-     *
      */
     public function configureOptions(OptionsResolver $resolver)
     {

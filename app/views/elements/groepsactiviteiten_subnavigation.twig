@@ -1,22 +1,38 @@
 <div id="subheader">
     {{ html.link(
-        'Deelnemerslijst',
-        {'controller': 'Groepsactiviteiten', 'action': 'index'}
+        'Deelnemers',
+        {'controller': 'groepsactiviteiten', 'action': 'index'},
+        {'class': (this.name == 'Groepsactiviteiten' and this.action == 'index' and this.params.named is empty) ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
-        'Vrijwilligerslijst',
-        {'controller': 'Groepsactiviteiten', 'action': 'index', 'selectie': 'Vrijwilliger'})
-    |raw }}
+        'Afgesloten deelnemers',
+        {'controller': 'groepsactiviteiten', 'action': 'afgesloten_klanten'},
+        {'class': this.name == 'Groepsactiviteiten' and this.action == 'afgesloten_klanten' ? 'selected' : ''}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Vrijwilligers',
+        {'controller': 'groepsactiviteiten', 'action': 'index', 'selectie': 'Vrijwilliger'},
+        {'class': (this.name == 'Groepsactiviteiten' and this.action == 'index' and this.params.named is not empty) ? 'selected' : ''}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
+        'Afgesloten vrijwilligers',
+        {'controller': 'groepsactiviteiten', 'action': 'afgesloten_vrijwilligers'},
+        {'class': this.name == 'Groepsactiviteiten' and this.action == 'afgesloten_vrijwilligers' ? 'selected' : ''}
+    )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
         'Groepen',
-        {'controller': 'Groepsactiviteiten', 'action': 'export'}
+        {'controller': 'Groepsactiviteiten', 'action': 'export'},
+        {'class': this.name == 'Groepsactiviteiten' and this.action == 'export' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
         'Activiteitenregistratie',
-        {'controller': 'Groepsactiviteiten', 'action': 'planning'}
+        {'controller': 'Groepsactiviteiten', 'action': 'planning'},
+        {'class': this.name == 'Groepsactiviteiten' and this.action == 'planning' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
@@ -27,12 +43,14 @@
     &nbsp;&nbsp;
     {{ html.link(
         'Selecties',
-        {'controller': 'Groepsactiviteiten', 'action': 'selecties'}
+        {'controller': 'Groepsactiviteiten', 'action': 'selecties'},
+        {'class': this.name == 'Groepsactiviteiten' and this.action == 'selecties' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
         'Beheer',
-        {'controller': 'Groepsactiviteiten', 'action': 'beheer'}
+        {'controller': 'Groepsactiviteiten', 'action': 'beheer'},
+        {'class': this.name == 'Groepsactiviteiten' and this.action == 'beheer' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
     <div>&nbsp;</div>

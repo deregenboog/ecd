@@ -1,24 +1,11 @@
 <?php
+
 use IzBundle\Form\IzRapportageType;
-use IzBundle\Entity\IzKoppeling;
-use IzBundle\Entity\IzHulpvraag;
-use AppBundle\Report\Table;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzKlant;
-use IzBundle\Report\KoppelingenPerStadsdeel;
-use IzBundle\Report\KoppelingenPerPostcodegebied;
-use IzBundle\Report\KoppelingenPerCoordinator;
-use IzBundle\Report\KoppelingenPerProject;
-use IzBundle\Report\KoppelingenPerProjectStadsdeel;
-use IzBundle\Report\KoppelingenPerProjectPostcodegebied;
-use IzBundle\Report\KoppelingenTotaal;
-use IzBundle\Report\VrijwilligersTotaal;
-use IzBundle\Report\VrijwilligersPerProject;
-use IzBundle\Report\VrijwilligersPerStadsdeel;
 
 class IzRapportagesController extends AppController
 {
-
     /**
      * Don't use CakePHP models.
      */
