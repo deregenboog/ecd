@@ -12,6 +12,7 @@ use OdpBundle\Form\OdpVerhuurderFilterType;
 use AppBundle\Form\ConfirmationType;
 use OdpBundle\Entity\HsMemo;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormError;
 
 class OdpVerhuurdersController extends AppController
 {
@@ -94,23 +95,17 @@ class OdpVerhuurdersController extends AppController
 
             if ($creationForm->isValid()) {
                 try {
-                    $hsMemo = new HsMemo($odpVerhuurder->getKlant()->getMedewerker());
-                    $hsMemo->setMemo($creationForm->get('memo')->getData());
-                    $odpVerhuurder->addHsMemo($hsMemo);
-
+                    $entityManager->persist($odpVerhuurder->getKlant());
                     $entityManager->persist($odpVerhuurder);
                     $entityManager->flush();
 
-                    $this->Session->setFlash('Klant is opgeslagen.');
+                    $this->Session->setFlash('Verhuurder is opgeslagen.');
 
                     return $this->redirect(array('action' => 'view', $odpVerhuurder->getId()));
                 } catch (\Exception $e) {
-                    if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
-                        $this->Session->setFlash('Deze klant heeft al een Homeservice-dossier.');
-                    } else {
-                        $this->Session->setFlash('Er is een fout opgetreden.');
-                    }
-                } finally {
+                    var_dump($e->getMessage()); die;
+                    $this->Session->setFlash('Er is een fout opgetreden.');
+
                     return $this->redirect(array('action' => 'index'));
                 }
             }

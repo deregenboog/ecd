@@ -14,6 +14,7 @@ class OdpHuurder extends OdpDeelnemer
 {
     /**
      * @var Klant
+     *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
      * @ORM\JoinColumn(name="foreign_key", nullable=false)
      */
@@ -21,6 +22,7 @@ class OdpHuurder extends OdpDeelnemer
 
     /**
      * @var ArrayCollection|OdpHuurverzoek[]
+     *
      * @ORM\OneToMany(targetEntity="OdpHuurverzoek", mappedBy="odpHuurder")
      */
     private $odpHuurverzoeken;

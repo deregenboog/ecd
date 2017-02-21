@@ -7,6 +7,7 @@ use OdpBundle\Entity\OdpHuuraanbod;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\MedewerkerType;
 
 class OdpHuuraanbodType extends AbstractType
 {
@@ -15,9 +16,12 @@ class OdpHuuraanbodType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('startdatum', AppDateType::class);
-        $builder->add('einddatum', AppDateType::class, ['required' => false]);
-        $builder->add('opmerkingen');
+        $builder
+            ->add('medewerker', MedewerkerType::class)
+            ->add('startdatum', AppDateType::class)
+            ->add('einddatum', AppDateType::class, ['required' => false])
+            ->add('opmerkingen')
+        ;
     }
 
     /**

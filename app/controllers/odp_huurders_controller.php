@@ -5,13 +5,12 @@ use OdpBundle\Entity\OdpHuurder;
 use OdpBundle\Entity\OdpHuurverzoek;
 use OdpBundle\Form\OdpHuurderType;
 use AppBundle\Form\KlantFilterType;
-use OdpBundle\Form\OdpHuurderSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuurderFilterType;
 use AppBundle\Form\ConfirmationType;
-use OdpBundle\Entity\HsMemo;
 use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use OdpBundle\Form\OdpHuurderSelectType;
 
 class OdpHuurdersController extends AppController
 {
@@ -94,23 +93,16 @@ class OdpHuurdersController extends AppController
 
             if ($creationForm->isValid()) {
                 try {
-                    $hsMemo = new HsMemo($odpHuurder->getKlant()->getMedewerker());
-                    $hsMemo->setMemo($creationForm->get('memo')->getData());
-                    $odpHuurder->addHsMemo($hsMemo);
-
+                    $entityManager->persist($odpHuurder->getKlant());
                     $entityManager->persist($odpHuurder);
                     $entityManager->flush();
 
-                    $this->Session->setFlash('Klant is opgeslagen.');
+                    $this->Session->setFlash('Huurder is opgeslagen.');
 
                     return $this->redirect(array('action' => 'view', $odpHuurder->getId()));
                 } catch (\Exception $e) {
-                    if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
-                        $this->Session->setFlash('Deze klant heeft al een Homeservice-dossier.');
-                    } else {
-                        $this->Session->setFlash('Er is een fout opgetreden.');
-                    }
-                } finally {
+                    $this->Session->setFlash('Er is een fout opgetreden.');
+
                     return $this->redirect(array('action' => 'index'));
                 }
             }
