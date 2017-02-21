@@ -1,0 +1,129 @@
+<?php
+
+use Doctrine\ORM\QueryBuilder;
+use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Form\GaKlantIntakeFilterType;
+use Symfony\Component\Form\FormInterface;
+use AppBundle\Entity\Klant;
+use AppBundle\Form\KlantFilterType;
+use GaBundle\Form\GaKlantSelectType;
+use Symfony\Component\Form\ChoiceList\LazyChoiceList;
+
+class GroepsactiviteitenKlantenController extends AppController
+{
+    private $enabledFilters = [
+        'klant' => ['id', 'naam', 'geboortedatum'],
+        'medewerker',
+        'intakedatum',
+        'afsluitdatum',
+        'open',
+    ];
+
+    private $sortFieldWhitelist = [
+        'klant.id',
+        'klant.achternaam',
+        'klant.geboortedatum',
+        'medewerker.achternaam',
+        'intake.intakedatum',
+        'intake.afsluitdatum',
+    ];
+
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
+
+    public function index()
+    {
+        $repository = $this->getEntityManager()->getRepository(GaKlantIntake::class);
+        $builder = $repository->createQueryBuilder('intake')
+            ->innerJoin("intake.klant", 'klant')
+            ->innerJoin('intake.medewerker', 'medewerker')
+            ->andWhere("klant.disabled = false")
+        ;
+
+        $filter = $this->createFilter();
+        if ($filter->isValid()) {
+            $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
+        }
+
+        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+            'defaultSortFieldName' => "klant.achternaam",
+            'defaultSortDirection' => 'asc',
+            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+            'wrap-queries' => true, // because of HAVING clause in filter
+        ]);
+
+        $this->set('filter', $filter->createView());
+        $this->set('pagination', $pagination);
+    }
+
+    public function add()
+    {
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
+            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+        ]);
+        $filterForm->handleRequest($this->request);
+
+        $selectionForm = $this->createForm(GaKlantSelectType::class, null, [
+            'filter' => $filterForm->getData(),
+        ]);
+        $selectionForm->handleRequest($this->request);
+
+        if (0 === count($selectionForm->get('klant')->getConfig()->getAttribute('choice_list')->getValues())) {
+            $this->flashError('Geen resultaat gevonden. Zoek opnieuw of maak eerst een basisdossier aan.');
+
+            return $this->redirect([
+                'controller' => 'groepsactiviteiten_klanten',
+                'action' => 'add',
+            ]);
+        }
+
+        if ($filterForm->isValid()) {
+            $this->set('selectionForm', $selectionForm->createView());
+
+            return;
+        }
+
+        if ($selectionForm->isValid()) {
+            return $this->redirect([
+                'controller' => 'groepsactiviteiten',
+                'action' => 'intakes',
+                'Klant',
+                $selectionForm->getData()->getKlant()->getId(),
+            ]);
+        }
+
+        $this->set('filterForm', $filterForm->createView());
+    }
+
+    private function download(QueryBuilder $builder)
+    {
+        $intakes = $builder->getQuery()->getResult();
+        $filename = sprintf("groepsactiviteiten-deelnemers-%s.csv", (new \DateTime())->format('d-m-Y'));
+
+        $this->header('Content-type: text/csv');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $this->set('intakes', $intakes);
+        $this->render('download', false);
+    }
+
+    /**
+     * @var string
+     *
+     * @return FormInterface
+     */
+    private function createFilter()
+    {
+        $filter = $this->createForm(GaKlantIntakeFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->request);
+
+        return $filter;
+    }
+}

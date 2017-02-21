@@ -1,0 +1,19 @@
+{% include 'groepsactiviteiten_subnavigation.twig' %}
+
+<h1>Vrijwilliger toevoegen</h1>
+
+{% if filterForm is defined %}
+    Zoek een bestaande vrijwilliger op vrijwilligernummer, naam en/of geboortedatum.
+    {{ form_start(filterForm) }}
+        {{ form_widget(filterForm) }}
+        <button type="submit">Verder</button>
+    {{ form_end(filterForm) }}
+{% endif %}
+
+{% if selectionForm is defined %}
+    Selecteer een bestaande vrijwilliger en klik op "Verder" of maak eerst een nieuw basisdossier aan.
+    {{ form_start(selectionForm) }}
+        {{ form_widget(selectionForm) }}
+        <button type="submit">Verder</button>
+    {{ form_end(selectionForm) }}
+{% endif %}

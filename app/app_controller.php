@@ -104,6 +104,8 @@ class AppController extends Controller
             'IzRapportages',
         ],
         'Groepsactiviteiten' => [
+            'groepsactiviteiten_klanten',
+            'groepsactiviteiten_vrijwilligers',
             'Groepsactiviteiten',
             'GroepsactiviteitenGroepen',
             'GroepsactiviteitenRedenen',
