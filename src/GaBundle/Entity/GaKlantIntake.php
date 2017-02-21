@@ -22,4 +22,11 @@ class GaKlantIntake extends GaIntake
     {
         return $this->klant;
     }
+
+    public function setKlant(Klant $klant)
+    {
+        $this->klant = $klant;
+
+        return $this;
+    }
 }

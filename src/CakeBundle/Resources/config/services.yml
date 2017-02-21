@@ -185,6 +185,8 @@ parameters:
                 - Klanten
                 - Vrijwilligers
                 - Attachments
+                - groepsactiviteiten_klanten
+                - groepsactiviteiten_vrijwilligers
                 - Groepsactiviteiten
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
@@ -211,7 +213,7 @@ parameters:
             Awbz: AWBZ
             PfoClienten: PFO
             IzDeelnemers: IZ
-            Groepsactiviteiten: Groepsactiviteiten
+            groepsactiviteiten_klanten: Groepsactiviteiten
             hs_klanten: HomeService
             oek_klanten: Op Eigen Kracht
             odp_huurders: Onder de Pannen

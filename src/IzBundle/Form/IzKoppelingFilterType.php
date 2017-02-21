@@ -84,11 +84,11 @@ class IzKoppelingFilterType extends AbstractType
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
                 },
-                ]);
+            ]);
         }
         if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
@@ -96,11 +96,11 @@ class IzKoppelingFilterType extends AbstractType
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
                 },
-                ]);
+            ]);
         }
     }
 

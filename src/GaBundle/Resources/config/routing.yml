@@ -1,5 +1,5 @@
-groepsactiviteiten_afgesloten_klanten:
-    path: groepsactiviteiten/afgesloten_klanten
+groepsactiviteiten_klanten_index:
+    path: groepsactiviteiten_klanten
 
-groepsactiviteiten_afgesloten_vrijwilligers:
-    path: groepsactiviteiten/afgesloten_vrijwilligers
+groepsactiviteiten_vrijwilligers_index:
+    path: groepsactiviteiten_vrijwilligers
