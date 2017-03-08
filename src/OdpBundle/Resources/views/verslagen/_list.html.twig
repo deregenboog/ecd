@@ -1,0 +1,25 @@
+<h2>Verslagen</h2>
+<p>
+    {% if huurder is defined %}
+        {% set url = path('odp_verslagen_add', {huurder: huurder.id}) %}
+    {% elseif verhuurder is defined %}
+        {% set url = path('odp_verslagen_add', {verhuurder: verhuurder.id}) %}
+    {% elseif huurverzoek is defined %}
+        {% set url = path('odp_verslagen_add', {huurverzoek: huurverzoek.id}) %}
+    {% elseif huuraanbod is defined %}
+        {% set url = path('odp_verslagen_add', {huuraanbod: huuraanbod.id}) %}
+    {% elseif huurovereenkomst is defined %}
+        {% set url = path('odp_verslagen_add', {huurovereenkomst: huurovereenkomst.id}) %}
+    {% endif %}
+    {{ html.addLink(url) }}
+    {{ html.link('Verslag toevoegen', url) }}
+</p>
+<table class="table">
+    {% for verslag in entity.verslagen %}
+        <tr>
+            <td>{{ verslag.datum|date('d-m-Y') }}</td>
+            <td>{{ verslag.medewerker }}</td>
+            <td><pre>{{ verslag.opmerking }}</pre></td>
+        </tr>
+    {% endfor %}
+</table>

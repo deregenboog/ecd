@@ -23,22 +23,11 @@ parameters:
                 agressie: "bhuttinga@deregenboog.org"
                 administratiebedrijf: "bhuttinga@deregenboog.org"
 
-        Session.cookie: ECD
-        Session.timeout: 8000
-
-        Security.salt: "efc488c8f80972aa21584df9060cfcb30dbef3db"
-        Security.cipherSeed: "98271797238915345465612303645"
-
-        timezone: "Europe/Amsterdam"
-
-        debug: "%kernel.debug%"
         debug_level: 2
 
         Config.language: dut
 
         Calendar.dateDisplayFormat: d-M-y
-
-        Cache.disable: "%kernel.debug%"
 
         volunteers:
             vrijwilliger_oud_west: 14
@@ -49,34 +38,31 @@ parameters:
             vwspreekbuis: 15
 
         ldap:
-            host: ldap://ldap.deregenboog.org
-            port: 389
-            baseDn: dc=deregenboog,dc=org
             groups:
                 werkbegeleiders: 10195
                 trajectbegeleiders: 10194
 
-        GROUP_ADMIN: 10105
-        GROUP_DEVELOP: 10422
-        GROUP_VOLONTEERS: 1025
-        GROUP_STAGE: 1026
-        GROUP_PORTIER: 10103
-        GROUP_MLO: 10104
-        GROUP_MAATSCHAPPELIJK: 10117
-        GROUP_HI5: 10097
-        GROUP_TRAJECTBEGELEIDER: 10194
-        GROUP_WERKBEGELEIDER: 10195
-        GROUP_TEAMLEIDERS: 10105
-        GROUP_PFO: 10123
-        GROUP_BACK_ON_TRACK_COORDINATOR: 10404
-        GROUP_BACK_ON_TRACK_COACH: 10403
-        GROUP_GROEPSACTIVITEIT: 10396
-        GROUP_IZ: 10460
-        GROUP_REPORT: 10570
-        GROUP_IZ_BEHEER: 10462
-        GROUP_BEHEER_GROEPSACTIVITEIT: 10463
+        ACL.groups:
+            GROUP_ADMIN: 10105
+            GROUP_DEVELOP: 10422
+            GROUP_VOLONTEERS: 1025
+            GROUP_STAGE: 1026
+            GROUP_PORTIER: 10103
+            GROUP_MLO: 10104
+            GROUP_MAATSCHAPPELIJK: 10117
+            GROUP_HI5: 10097
+            GROUP_TRAJECTBEGELEIDER: 10194
+            GROUP_WERKBEGELEIDER: 10195
+            GROUP_TEAMLEIDERS: 10105
+            GROUP_PFO: 10123
+            GROUP_BACK_ON_TRACK_COORDINATOR: 10404
+            GROUP_BACK_ON_TRACK_COACH: 10403
+            GROUP_GROEPSACTIVITEIT: 10396
+            GROUP_IZ: 10460
+            GROUP_REPORT: 10570
+            GROUP_IZ_BEHEER: 10462
+            GROUP_BEHEER_GROEPSACTIVITEIT: 10463
 
-        ACL.disabled: '%ACL.disabled%'
         ACL.permissions:
             GROUP_REPORT:
                 - Rapportages
@@ -126,7 +112,7 @@ parameters:
                 - BackOnTrack
                 - BotVerslagen
                 - Vrijwilligers
-                - Groepsactiviteiten
+                - groepsactiviteiten_klanten
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -187,7 +173,6 @@ parameters:
                 - Attachments
                 - groepsactiviteiten_klanten
                 - groepsactiviteiten_vrijwilligers
-                - Groepsactiviteiten
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
@@ -201,7 +186,7 @@ parameters:
                 - Vrijwilligers
                 - IzDeelnemers
                 - IzVerslagen
-                - Groepsactiviteiten
+                - groepsactiviteiten_klanten
 
         all_menu_items:
             Hi5: Hi5
@@ -216,7 +201,7 @@ parameters:
             groepsactiviteiten_klanten: Groepsactiviteiten
             hs_klanten: HomeService
             oek_klanten: Op Eigen Kracht
-            odp_huurders: Onder de Pannen
+            odp: Onder de Pannen
             Admin: Admin
 
         TBC_months_period: 6
@@ -291,3 +276,14 @@ parameters:
             "": ""
             "Aanwezig": "Aanwezig"
             "Afwezig": "Afwezig"
+
+services:
+    cake.service.config:
+        class: CakeBundle\Service\CakeConfiguration
+
+    cake.event.controller:
+        class: CakeBundle\Event\KernelSubscriber
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: kernel.event_subscriber }

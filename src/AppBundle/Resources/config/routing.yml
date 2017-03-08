@@ -1,0 +1,9 @@
+app_annotations:
+    resource: "@AppBundle/Controller"
+    type: annotation
+
+app_klanten_view:
+    path: klanten/view/{id}
+
+app_klanten_edit:
+    path: klanten/edit/{id}

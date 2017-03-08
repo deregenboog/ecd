@@ -6,16 +6,19 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: nl_NL.utf8
+    acl_disabled: false
+    pagination.items_per_page: 20
 
 framework:
-    default_locale:  "%locale%"
-    translator:      { fallbacks: ["%locale%"] }
-    secret:          "%secret%"
+    default_locale: "%locale%"
+    translator: { fallbacks: ["%locale%"] }
+    secret: "%secret%"
+    session: ~
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
-    form:            ~
-    validation:      { enable_annotations: true }
+    form: ~
+    validation: { enable_annotations: true }
     templating:
         engines: ['twig']
 
@@ -24,7 +27,7 @@ twig:
     debug: "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
-        - form_div_layout.html.twig
+        - bootstrap_3_horizontal_layout.html.twig
     cache: '%kernel.cache_dir%/twig'
 
 # Doctrine Configuration
@@ -43,7 +46,23 @@ doctrine:
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
 
+jms_di_extra: ~
+
 knp_paginator: ~
 
 swiftmailer:
     transport: mail
+
+assetic:
+    debug: "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    filters:
+        cssrewrite: ~
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        odp_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /odp/documenten
+            upload_destination: '%kernel.root_dir%/../archive/odp'

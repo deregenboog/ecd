@@ -26,11 +26,6 @@
             {{ form_errors(filter.einddatum) }}
         </th>
         <th>
-            {{ form_widget(filter.openstaand) }}
-            {{ form_label(filter.openstaand) }}
-            {{ form_errors(filter.openstaand) }}
-        </th>
-        <th>
             <button type="submit">Filteren</button>
         </th>
         {{ form_end(filter) }}
@@ -52,9 +47,6 @@
             {{ knp_pagination_sortable(pagination, 'Einddatum', 'odpHuurverzoek.einddatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Huurovereenkomst', 'odpHuurovereenkomst.id') }}
-        </th>
-        <th>
         </th>
     </tr>
     {% for odpHuurverzoek in pagination %}
@@ -63,19 +55,16 @@
             {{ html.link(odpHuurverzoek.id, {'action': 'view', 0: odpHuurverzoek.id})|raw }}
         </td>
         <td>
-            {{ html.link(odpHuurverzoek.klant.naam, {'controller': 'odp_huurders', 'action': 'view', 0: odpHuurverzoek.odpHuurder.id})|raw }}
+            {{ odpHuurverzoek.odpHuurder.klant.naam }}
         </td>
         <td>
-            {{ odpHuurverzoek.klant.werkgebied }}
+            {{ odpHuurverzoek.odpHuurder.klant.werkgebied }}
         </td>
         <td>
             {{ odpHuurverzoek.startdatum | date('d-m-Y') }}
         </td>
         <td>
-            {{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum | date('d-m-Y')  : 'onbepaald' }}
-        </td>
-        <td>
-            {{ odpHuurverzoek.odpHuurovereenkomst ? html.link(odpHuurverzoek.odpHuurovereenkomst.id, {'controller': 'odp_huurovereenkomsten', 'action': 'view', 0: odpHuurverzoek.odpHuurovereenkomst.id})|raw }}
+            {{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum | date('d-m-Y') : '-' }}
         </td>
         <td>
             {{ html.viewLink({'action': 'view', 0: odpHuurverzoek.id})|raw }}

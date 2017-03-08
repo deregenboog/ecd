@@ -1,14 +1,9 @@
-odp_huurders_index:
-    path: odp_huurders
+odp_annotations:
+    resource: "@OdpBundle/Controller"
+    type: annotation
 
-odp_verhuurders_index:
-    path: odp_verhuurders
-
-odp_huurverzoeken_index:
-    path: odp_huurverzoeken
-
-odp_huuraanbiedingen_index:
-    path: odp_huuraanbiedingen
-
-odp_huurovereenkomsten_index:
-    path: odp_huurovereenkomsten
+odp_index:
+    path: /odp
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: odp_huurders_index

@@ -41,7 +41,7 @@ class OdpVerhuurdersController extends AppController
         $filter = $this->createForm(OdpVerhuurderFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OdpVerhuurder::class);
@@ -55,7 +55,7 @@ class OdpVerhuurdersController extends AppController
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -91,7 +91,7 @@ class OdpVerhuurdersController extends AppController
                 'mapped' => false,
                 'attr' => ['rows' => 10, 'cols' => 80],
             ]);
-            $creationForm->handleRequest($this->request);
+            $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isValid()) {
                 try {
@@ -103,7 +103,6 @@ class OdpVerhuurdersController extends AppController
 
                     return $this->redirect(array('action' => 'view', $odpVerhuurder->getId()));
                 } catch (\Exception $e) {
-                    var_dump($e->getMessage()); die;
                     $this->Session->setFlash('Er is een fout opgetreden.');
 
                     return $this->redirect(array('action' => 'index'));
@@ -118,12 +117,12 @@ class OdpVerhuurdersController extends AppController
         $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->request);
+        $filterForm->handleRequest($this->getRequest());
 
         $selectionForm = $this->createForm(OdpVerhuurderSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
-        $selectionForm->handleRequest($this->request);
+        $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isValid()) {
             $this->set('selectionForm', $selectionForm->createView());
@@ -149,7 +148,7 @@ class OdpVerhuurdersController extends AppController
         $odpVerhuurder = $entityManager->find(OdpVerhuurder::class, $id);
 
         $form = $this->createForm(OdpVerhuurderType::class, $odpVerhuurder);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -173,7 +172,7 @@ class OdpVerhuurdersController extends AppController
         $odpVerhuurder = $entityManager->find(OdpVerhuurder::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($odpVerhuurder);
@@ -193,14 +192,10 @@ class OdpVerhuurdersController extends AppController
         $entityManager = $this->getEntityManager();
         $odpVerhuurder = $entityManager->find(OdpVerhuurder::class, $odpVerhuurderId);
 
-        $odpHuuraanbod = new OdpHuuraanbod();
-        $odpHuuraanbod->setOdpVerhuurder($odpVerhuurder);
-
-        $form = $this->createForm(OdpHuuraanbodType::class, $odpHuuraanbod);
-        $form->handleRequest($this->request);
-
+        $form = $this->createForm(OdpHuuraanbodType::class, new OdpHuuraanbod());
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
-            $entityManager->persist($odpHuuraanbod);
+            $odpVerhuurder->addOdpHuuraanbod($form->getData());
             $entityManager->flush();
 
             $this->Session->setFlash('Huuraanbod is toegevoegd.');
@@ -208,7 +203,6 @@ class OdpVerhuurdersController extends AppController
             return $this->redirect(['action' => 'view', $odpVerhuurder->getId()]);
         }
 
-        $this->set('odpHuuraanbod', $odpHuuraanbod);
         $this->set('form', $form->createView());
     }
 }

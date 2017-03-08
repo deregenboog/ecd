@@ -5,12 +5,12 @@ use OdpBundle\Entity\OdpHuurder;
 use OdpBundle\Entity\OdpHuurverzoek;
 use OdpBundle\Form\OdpHuurderType;
 use AppBundle\Form\KlantFilterType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuurderFilterType;
 use AppBundle\Form\ConfirmationType;
 use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use OdpBundle\Form\OdpHuurderSelectType;
+use Symfony\Component\Form\FormError;
 
 class OdpHuurdersController extends AppController
 {
@@ -39,7 +39,7 @@ class OdpHuurdersController extends AppController
         $filter = $this->createForm(OdpHuurderFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OdpHuurder::class);
@@ -53,7 +53,7 @@ class OdpHuurdersController extends AppController
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -89,7 +89,7 @@ class OdpHuurdersController extends AppController
                 'mapped' => false,
                 'attr' => ['rows' => 10, 'cols' => 80],
             ]);
-            $creationForm->handleRequest($this->request);
+            $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isValid()) {
                 try {
@@ -115,12 +115,12 @@ class OdpHuurdersController extends AppController
         $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->request);
+        $filterForm->handleRequest($this->getRequest());
 
         $selectionForm = $this->createForm(OdpHuurderSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
-        $selectionForm->handleRequest($this->request);
+        $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isValid()) {
             $this->set('selectionForm', $selectionForm->createView());
@@ -146,15 +146,15 @@ class OdpHuurdersController extends AppController
         $odpHuurder = $entityManager->find(OdpHuurder::class, $id);
 
         $form = $this->createForm(OdpHuurderType::class, $odpHuurder);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
                 $entityManager->flush();
 
-                $this->Session->setFlash('Klant is opgeslagen.');
+                $this->Session->setFlash('Huurder is opgeslagen.');
 
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(['action' => 'view', $odpHuurder->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
@@ -170,15 +170,15 @@ class OdpHuurdersController extends AppController
         $odpHuurder = $entityManager->find(OdpHuurder::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($odpHuurder);
             $entityManager->flush();
 
-            $this->Session->setFlash('Klant is verwijderd.');
+            $this->Session->setFlash('Huurder is verwijderd.');
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         }
 
         $this->set('odpHuurder', $odpHuurder);
@@ -189,14 +189,12 @@ class OdpHuurdersController extends AppController
     {
         $entityManager = $this->getEntityManager();
         $odpHuurder = $entityManager->find(OdpHuurder::class, $odpHuurderId);
-        $medewerker = $this->getMedewerker();
 
         $odpHuurverzoek = new OdpHuurverzoek();
         $odpHuurverzoek->setOdpHuurder($odpHuurder);
-        $odpHuurverzoek->setMedewerker($medewerker);
 
         $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->persist($odpHuurverzoek);

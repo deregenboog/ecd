@@ -154,9 +154,3 @@ services:
 #            - "@oek.repository.oek_vrijwilliger"
 #        tags:
 #            - { name: oek.rapportage, category: Vrijwilligers }
-#
-#    oek.data_fixtures.faker_provider:
-#        class: OekBundle\DataFixtures\OekFakerProvider
-#        tags:
-#            - { name: hautelook_alice.faker.provider }
-#

@@ -26,8 +26,9 @@ class KlantType extends AbstractType
                 },
             ])
             ->add('geboortedatum', AppDateType::class)
+            ->add('bsn')
             ->add('email')
-            ->add('medewerker')
+            ->add('medewerker', MedewerkerType::class)
             ->add('land')
             ->add('nationaliteit')
         ;

@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Coördinatoren |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Coördinatoren</h1>
+    <p>
+        {{ html.addLink(path('odp_coordinatoren_add')) }}
+        {{ html.link('Coördinator toevoegen', path('odp_coordinatoren_add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'coordinator.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'medewerker.voornaam') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for coordinator in pagination %}
+            <tr>
+                <td>
+                    {{ coordinator.id }}
+                </td>
+                <td>
+                    {{ coordinator }}
+                </td>
+                <td>
+                    {{ html.editLink(path('odp_coordinatoren_edit', {'id': coordinator.id})) }}
+                    {{ html.deleteLink(path('odp_coordinatoren_delete', {'id': coordinator.id})) }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}
