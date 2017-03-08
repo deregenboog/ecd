@@ -1282,7 +1282,7 @@ class IzDeelnemersController extends AppController
     public function email_selectie()
     {
         $form = $this->createForm(IzEmailMessageType::class, null);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             /** @var Swift_Mailer $mailer */
@@ -1404,7 +1404,7 @@ class IzDeelnemersController extends AppController
         $this->view = 'AppTwig';
 
         $form = $this->createForm(IzDeelnemerSelectieType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $izKlanten = new ArrayCollection([]);

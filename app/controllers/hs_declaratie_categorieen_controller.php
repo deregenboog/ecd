@@ -28,7 +28,7 @@ class HsDeclaratieCategorieenController extends AppController
 
         $builder = $repository->createQueryBuilder('hsDeclaratieCategorie');
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsDeclaratieCategorie.naam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -49,7 +49,7 @@ class HsDeclaratieCategorieenController extends AppController
         $hsDeclaratieCategorie = new HsDeclaratieCategorie();
 
         $form = $this->createForm(HsDeclaratieCategorieType::class, $hsDeclaratieCategorie);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager = $this->getEntityManager();
@@ -71,7 +71,7 @@ class HsDeclaratieCategorieenController extends AppController
         $hsDeclaratieCategorie = $repository->find($id);
 
         $form = $this->createForm(HsDeclaratieCategorieType::class, $hsDeclaratieCategorie);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->persist($hsDeclaratieCategorie);
@@ -92,7 +92,7 @@ class HsDeclaratieCategorieenController extends AppController
         $hsDeclaratieCategorie = $repository->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($hsDeclaratieCategorie);

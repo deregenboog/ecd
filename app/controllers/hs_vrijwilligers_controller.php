@@ -42,7 +42,7 @@ class HsVrijwilligersController extends AppController
         $filter = $this->createForm(HsVrijwilligerFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsVrijwilliger::class);
@@ -56,7 +56,7 @@ class HsVrijwilligersController extends AppController
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'vrijwilliger.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -87,7 +87,7 @@ class HsVrijwilligersController extends AppController
             $hsVrijwilliger->setVrijwilliger($vrijwilliger);
 
             $creationForm = $this->createForm(HsVrijwilligerType::class, $hsVrijwilliger);
-            $creationForm->handleRequest($this->request);
+            $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isValid()) {
                 try {
@@ -116,12 +116,12 @@ class HsVrijwilligersController extends AppController
         $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->request);
+        $filterForm->handleRequest($this->getRequest());
 
         $selectionForm = $this->createForm(HsVrijwilligerSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
-        $selectionForm->handleRequest($this->request);
+        $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isValid()) {
             $this->set('selectionForm', $selectionForm->createView());
@@ -147,7 +147,7 @@ class HsVrijwilligersController extends AppController
         $hsVrijwilliger = $entityManager->find(HsVrijwilliger::class, $id);
 
         $form = $this->createForm(HsVrijwilligerType::class, $hsVrijwilliger);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -167,7 +167,7 @@ class HsVrijwilligersController extends AppController
     public function delete($id)
     {
         $form = $this->createForm(HsKlantType::class, new HsBundle\Entity\HsKlant());
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             return $this->redirect(['action' => 'add2']);
@@ -187,7 +187,7 @@ class HsVrijwilligersController extends AppController
             ->setParameter('hsVrijwilliger', $hsVrijwilliger)
         ;
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsMemo.datum',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => ['hsMemo.datum'],
@@ -211,7 +211,7 @@ class HsVrijwilligersController extends AppController
         }
 
         $form = $this->createForm(HsMemoType::class, $hsMemo);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {

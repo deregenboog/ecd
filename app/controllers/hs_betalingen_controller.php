@@ -40,7 +40,7 @@ class HsBetalingenController extends AppController
         $filter = $this->createForm(HsBetalingFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsBetaling::class);
@@ -56,7 +56,7 @@ class HsBetalingenController extends AppController
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsBetaling.datum',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -74,7 +74,7 @@ class HsBetalingenController extends AppController
         $hsBetaling = new HsBetaling($hsFactuur);
 
         $form = $this->createForm(HsBetalingType::class, $hsBetaling);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->persist($form->getData());
@@ -94,7 +94,7 @@ class HsBetalingenController extends AppController
         $hsBetaling = $entityManager->find(HsBetaling::class, $id);
 
         $form = $this->createForm(HsBetalingType::class, $hsBetaling);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->flush();
@@ -113,7 +113,7 @@ class HsBetalingenController extends AppController
 //         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
 //         $form = $this->createForm(ConfirmationType::class);
-//         $form->handleRequest($this->request);
+//         $form->handleRequest($this->getRequest());
 
 //         if ($form->isValid()) {
 //             $entityManager->remove($hsFactuur);

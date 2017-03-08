@@ -26,7 +26,7 @@ class OekVerwijzingenNaarController extends AppController
 
         $builder = $repository->createQueryBuilder('oekVerwijzing');
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekVerwijzing.naam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -40,7 +40,7 @@ class OekVerwijzingenNaarController extends AppController
         $oekVerwijzing = new OekVerwijzingNaar();
 
         $form = $this->createForm(OekVerwijzingType::class, $oekVerwijzing);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager = $this->getEntityManager();
@@ -61,7 +61,7 @@ class OekVerwijzingenNaarController extends AppController
         $oekVerwijzing = $entityManager->find(OekVerwijzingNaar::class, $id);
 
         $form = $this->createForm(OekVerwijzingType::class, $oekVerwijzing);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->flush();
 

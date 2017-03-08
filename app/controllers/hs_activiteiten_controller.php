@@ -28,7 +28,7 @@ class HsActiviteitenController extends AppController
 
         $builder = $repository->createQueryBuilder('hsActiviteit');
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsActiviteit.naam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -49,7 +49,7 @@ class HsActiviteitenController extends AppController
         $activiteit = new HsActiviteit();
 
         $form = $this->createForm(HsActiviteitType::class, $activiteit);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager = $this->getEntityManager();
@@ -71,7 +71,7 @@ class HsActiviteitenController extends AppController
         $activiteit = $repository->find($id);
 
         $form = $this->createForm('App\Form\HsActiviteitType', $activiteit);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->persist($activiteit);
@@ -93,7 +93,7 @@ class HsActiviteitenController extends AppController
         $this->set('activiteit', $activiteit);
 
         $form = $this->createForm(ConfirmationQuestion::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($activiteit);

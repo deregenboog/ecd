@@ -29,7 +29,7 @@ class HsDeclaratiesController extends AppController
         $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
 
         $form = $this->createForm(HsDeclaratieType::class, new HsDeclaratie($hsKlus, $medewerker));
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->persist($form->getData());
@@ -52,7 +52,7 @@ class HsDeclaratiesController extends AppController
         $hsRegistratie = $entityManager->find(HsRegistratie::class, $id);
 
         $form = $this->createForm(HsRegistratieType::class, $hsRegistratie);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->flush();

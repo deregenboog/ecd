@@ -66,7 +66,7 @@ class OekKlantenController extends AppController
             }
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -111,7 +111,7 @@ class OekKlantenController extends AppController
             $oekKlant->setKlant($klant);
 
             $creationForm = $this->createForm(OekKlantType::class, $oekKlant);
-            $creationForm->handleRequest($this->request);
+            $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isValid()) {
                 try {
@@ -140,12 +140,12 @@ class OekKlantenController extends AppController
         $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->request);
+        $filterForm->handleRequest($this->getRequest());
 
         $selectionForm = $this->createForm(OekKlantSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
-        $selectionForm->handleRequest($this->request);
+        $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isValid()) {
             $this->set('selectionForm', $selectionForm->createView());
@@ -171,7 +171,7 @@ class OekKlantenController extends AppController
         $oekKlant = $entityManager->find(OekKlant::class, $id);
 
         $form = $this->createForm(OekKlantType::class, $oekKlant);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -196,7 +196,7 @@ class OekKlantenController extends AppController
 
         $oekAanmelding = new OekAanmelding();
         $form = $this->createForm(OekAanmeldingType::class, $oekAanmelding);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -222,7 +222,7 @@ class OekKlantenController extends AppController
 
         $oekAfsluiting = new OekAfsluiting();
         $form = $this->createForm(OekAfsluitingType::class, $oekAfsluiting);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -247,7 +247,7 @@ class OekKlantenController extends AppController
         $oekKlant = $entityManager->find(OekKlant::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($oekKlant);
@@ -270,7 +270,7 @@ class OekKlantenController extends AppController
         $filter = $this->createForm(OekKlantFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         return $filter;
     }

@@ -36,7 +36,7 @@ class OekLidmaatschappenController extends AppController
 
         $oekLidmaatschap = new OekLidmaatschap($oekGroep, $oekKlant);
         $form = $this->createForm(OekLidmaatschapType::class, $oekLidmaatschap);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->persist($oekLidmaatschap);
             $entityManager->flush();
@@ -57,7 +57,7 @@ class OekLidmaatschappenController extends AppController
         $oekLidmaatschap = $entityManager->find(OekLidmaatschap::class, $oekLidmaatschapId);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->remove($oekLidmaatschap);
             $entityManager->flush();
