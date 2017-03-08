@@ -1,0 +1,43 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>
+    Verhuurder {{ odpVerhuurder.klant.naam }}
+    {{ html.editLink({'action': 'edit', 0: odpVerhuurder.id})|raw }}
+    {% if odpVerhuurder.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: odpVerhuurder.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ odpVerhuurder.klant.id }}</dd>
+    <dt>Naam</dt>
+    <dd>{{ odpVerhuurder.klant.naam }}</dd>
+    <dt>
+        Huuraanbod
+    </dt>
+    <dd>
+        {% if odpVerhuurder.actiefOdpHuuraanbod %}
+            {{ html.link(odpVerhuurder.actiefOdpHuuraanbod, {'controller': 'odp_huuraanbiedingen', 'action': 'view', 0: odpVerhuurder.actiefOdpHuuraanbod.id})|raw }}
+        {% else %}
+            {% set link = {'controller': 'odp_verhuurders', 'action': 'nieuw_huuraanbod', 0: odpVerhuurder.id} %}
+            {{ html.addLink(link)|raw }}
+            {{ html.link('Huuraanbod maken', link)|raw }}
+        {% endif %}
+    </dd>
+    <dt>Verslagen</dt>
+    <dd>
+        {% set link = {'controller': 'odp_verslagen', 'action': 'add', 'odpVerhuurder': odpVerhuurder.id} %}
+        {{ html.addLink(link)|raw }}
+        {{ html.link('Verslag toevoegen', link)|raw }}
+        <ul>
+            {% for odpVerslag in odpVerhuurder.odpVerslagen %}
+                <li>
+                    {{ odpVerslag.medewerker }}
+                    ({{ odpVerslag.datum|date('d-m-Y') }})
+                    <pre>{{ odpVerslag.opmerking }}</pre>
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>

@@ -42,7 +42,7 @@ class KlantFilter implements FilterInterface
                 $builder
                     ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam, {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_naam_part_{$i}")
                     ->setParameter("{$alias}_naam_part_{$i}", "%{$part}%")
-            ;
+                ;
             }
         }
 

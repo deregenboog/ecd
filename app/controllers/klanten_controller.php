@@ -42,10 +42,10 @@ class KlantenController extends AppController
             'contain' => [
                 'LasteIntake' => [
                     'fields' => [
-                        'locatie1_id',
-                        'locatie2_id',
-                        'locatie3_id',
-                        'datum_intake',
+                            'locatie1_id',
+                            'locatie2_id',
+                            'locatie3_id',
+                            'datum_intake',
                     ],
                 ],
                 'Intake' => [

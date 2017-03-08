@@ -44,7 +44,7 @@ class IzKoppelingenController extends AppController
         $form = $this->createForm(IzKoppelingFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(IzHulpvraag::class);
@@ -65,7 +65,7 @@ class IzKoppelingenController extends AppController
             $form->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'izHulpvraag.koppelingStartdatum',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,

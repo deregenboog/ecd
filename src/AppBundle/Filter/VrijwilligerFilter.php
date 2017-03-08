@@ -42,7 +42,7 @@ class VrijwilligerFilter implements FilterInterface
                 $builder
                     ->andWhere("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.roepnaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) LIKE :vrijwilliger_naam_part_{$i}")
                     ->setParameter("vrijwilliger_naam_part_{$i}", "%{$part}%")
-            ;
+                ;
             }
         }
 

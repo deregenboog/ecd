@@ -6,3 +6,7 @@ _iz:
 
 _ga:
     resource: "@GaBundle/Resources/config/routing.yml"
+
+_odp:
+    resource: "@OdpBundle/Resources/config/routing.yml"
+

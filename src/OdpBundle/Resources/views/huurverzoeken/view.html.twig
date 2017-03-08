@@ -1,0 +1,57 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Huurverzoeken |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>
+        Huurverzoek van {{ huurverzoek.huurder.klant }}
+    </h1>
+    <p>
+        {{ html.editLink(path('odp_huurverzoeken_edit', {id: huurverzoek.id})) }}
+        {{ html.link('Wijzigen', path('odp_huurverzoeken_edit', {id: huurverzoek.id})) }}
+        {% if huurverzoek.deletable %}
+            {{ html.deleteLink(path('odp_huurverzoeken_delete', {id: huurverzoek.id})) }}
+            {{ html.link('Verwijderen', path('odp_huurverzoeken_delete', {id: huurverzoek.id})) }}
+        {% endif %}
+    </p>
+    <table class="table">
+        <tr>
+            <td>#</td>
+            <td>{{ huurverzoek.id }}</td>
+        </tr>
+        <tr>
+            <td>Huurder</td>
+            <td>{{ html.link(huurverzoek.huurder.klant, path('odp_huurders_view', {id: huurverzoek.huurder.id})) }}</td>
+        </tr>
+        <tr>
+            <td>Startdatum</td>
+            <td>{{ huurverzoek.startdatum | date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <td>Einddatum</td>
+            <td>{{ huurverzoek.einddatum ? huurverzoek.einddatum|date('d-m-Y') : '-' }}</td>
+        </tr>
+        <tr>
+            <td>Koppeling</td>
+            <td>
+                {% if huurverzoek.huurovereenkomst %}
+                    {{ html.link(huurverzoek.huurovereenkomst, path('odp_huurovereenkomsten_view', {id: huurverzoek.huurovereenkomst.id})) }}
+                {% else %}
+                    {{ html.addLink(path('odp_huurovereenkomsten_add', {huurverzoek: huurverzoek.id})) }}
+                    {{ html.link('Maak koppeling', path('odp_huurovereenkomsten_add', {huurverzoek: huurverzoek.id})) }}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block content_right %}
+        {% include 'OdpBundle:verslagen:_list.html.twig' with {entity: huurverzoek} %}
+{% endblock %}

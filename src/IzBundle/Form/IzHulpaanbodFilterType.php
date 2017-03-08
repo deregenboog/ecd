@@ -44,7 +44,7 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime())
-                    ;
+                        ;
                 },
             ]);
         }

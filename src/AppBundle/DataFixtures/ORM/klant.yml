@@ -13,7 +13,7 @@ AppBundle\Entity\Klant:
         email: '<email()>'
         laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
-        addIntake: ['@intake_*']
+#        addIntake: ['@intake_<current()>']
         laatsteRegistratieId: 1
         overleden: '10%? 1 : 0'
         disabled: '10%? 1 : 0'

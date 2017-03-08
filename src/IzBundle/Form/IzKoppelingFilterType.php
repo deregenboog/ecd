@@ -88,7 +88,7 @@ class IzKoppelingFilterType extends AbstractType
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
                 },
-                ]);
+            ]);
         }
         if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
@@ -100,7 +100,7 @@ class IzKoppelingFilterType extends AbstractType
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
                 },
-                ]);
+            ]);
         }
     }
 

@@ -1,0 +1,69 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Verhuurders |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>
+        Verhuurder {{ verhuurder.klant.naam }}
+    </h1>
+    <p>
+        {{ html.editLink(path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
+        {{ html.link('Wijzigen', path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
+        {% if verhuurder.deletable %}
+            {{ html.deleteLink(path('odp_verhuurders_delete', {'id': verhuurder.id})) }}
+            {{ html.link('Verwijderen', path('odp_verhuurders_delete', {'id': verhuurder.id})) }}
+        {% endif %}
+        {{ html.closeLink(path('odp_verhuurders_close', {id: verhuurder.id})) }}
+        {{ html.link('Afsluiten', path('odp_verhuurders_close', {id: verhuurder.id})) }}
+    </p>
+    <table class="table">
+        <tr>
+            <td>Naam</td>
+            <td>{{ verhuurder.klant }}</td>
+        </tr>
+        <tr>
+            <td>Aanmelddatum</td>
+            <td>{{ verhuurder.aanmelddatum|date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <td>Afsluitdatum</td>
+            <td>{{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <td>Reden afsluiting</td>
+            <td>{{ verhuurder.afsluiting ? verhuurder.afsluiting }}</td>
+        </tr>
+        <tr>
+            <td>Huuraanbod</td>
+            <td>
+                {% if verhuurder.actiefHuuraanbod %}
+                    {{ html.link(verhuurder.actiefHuuraanbod, path('odp_huuraanbiedingen_view', {id: verhuurder.actiefHuuraanbod.id})) }}
+                {% else %}
+                    {{ html.addLink(path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
+                    {{ html.link('Huuraanbod maken', path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Koppeling</td>
+            <td>
+                {% if verhuurder.actiefHuuraanbod and verhuurder.actiefHuuraanbod.huurovereenkomst %}
+                    {{ html.link(verhuurder.actiefHuuraanbod.huurovereenkomst, path('odp_huurovereenkomsten_view', {id: verhuurder.actiefHuuraanbod.huurovereenkomst.id})) }}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    {% include '::klant_basis.html.twig' with {klant: verhuurder.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'OdpBundle:verslagen:_list.html.twig' with {entity: verhuurder} %}
+    {% include 'OdpBundle:documenten:_list.html.twig' with {entity: verhuurder} %}
+{% endblock %}

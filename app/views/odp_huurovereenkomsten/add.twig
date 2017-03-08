@@ -1,0 +1,34 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>Koppeling maken</h1>
+
+{% if odpHuurverzoek is defined %}
+    <dl>
+        <dt>#</dt>
+        <dd>{{ odpHuurverzoek.id }}</dd>
+        <dt>Huurder</dt>
+        <dd>{{ odpHuurverzoek.odpHuurder.klant }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ odpHuurverzoek.startdatum | date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum|date('d-m-Y') : '-' }}</dd>
+    </dl>
+{% endif %}
+
+{% if odpHuuraanbod is defined %}
+    <dl>
+        <dt>#</dt>
+        <dd>{{ odpHuuraanbod.id }}</dd>
+        <dt>Verhuurder</dt>
+        <dd>{{ odpHuuraanbod.odpVerhuurder.klant }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ odpHuuraanbod.startdatum | date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ odpHuuraanbod.einddatum ? odpHuuraanbod.einddatum | date('d-m-Y') : '-' }}</dd>
+    </dl>
+{% endif %}
+
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Opslaan</button>
+{{ form_end(form) }}

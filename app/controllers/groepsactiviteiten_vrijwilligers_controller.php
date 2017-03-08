@@ -50,7 +50,7 @@ class GroepsactiviteitenVrijwilligersController extends AppController
             }
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => "vrijwilliger.achternaam",
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -78,12 +78,12 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->request);
+        $filterForm->handleRequest($this->getRequest());
 
         $selectionForm = $this->createForm(GaVrijwilligerSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
-        $selectionForm->handleRequest($this->request);
+        $selectionForm->handleRequest($this->getRequest());
 
         if (0 === count($selectionForm->get('vrijwilliger')->getConfig()->getAttribute('choice_list')->getValues())) {
             $this->flashError('Geen resultaat gevonden. Zoek opnieuw of maak eerst een basisdossier aan.');
@@ -122,7 +122,7 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         $filter = $this->createForm(GaVrijwilligerIntakeFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         return $filter;
     }

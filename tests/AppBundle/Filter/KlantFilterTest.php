@@ -1,11 +1,12 @@
 <?php
 
-namespace AppBundle\Filter;
+namespace Tests\AppBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\KlantFilter;
 
 class KlantFilterTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,12 +37,34 @@ class KlantFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'CONCAT_WS(klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam',
+            "CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_0",
+            (string) $builder->getDQLPart('where')
+            );
+        $this->assertEquals(
+            "%{$filter->naam}%",
+            $builder->getParameter('klant_naam_part_0')->getValue()
+        );
+    }
+
+    public function testNaamMultiplePartsFilter()
+    {
+        $builder = $this->createQueryBuilder();
+
+        $filter = $this->createSUT();
+        $filter->naam = 'Bart   Huttinga'; // multiple spaces intended
+        $filter->applyTo($builder);
+
+        $this->assertEquals(
+            "CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_0 AND CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_1",
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            "%{$filter->naam}%",
-            $builder->getParameter('klant_naam')->getValue()
+            "%Bart%",
+            $builder->getParameter('klant_naam_part_0')->getValue()
+        );
+        $this->assertEquals(
+            "%Huttinga%",
+            $builder->getParameter('klant_naam_part_1')->getValue()
         );
     }
 

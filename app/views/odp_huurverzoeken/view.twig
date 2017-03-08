@@ -1,0 +1,44 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>
+    Huurverzoek van {{ odpHuurverzoek.odpHuurder.klant }}
+    {{ html.editLink({'action': 'edit', 0: odpHuurverzoek.id})|raw }}
+    {% if odpHuurverzoek.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: odpHuurverzoek.id})|raw }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ odpHuurverzoek.id }}</dd>
+    <dt>Huurder</dt>
+    <dd>{{ odpHuurverzoek.odpHuurder.klant }}</dd>
+    <dt>Startdatum</dt>
+    <dd>{{ odpHuurverzoek.startdatum | date('d-m-Y') }}</dd>
+    <dt>Einddatum</dt>
+    <dd>{{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum|date('d-m-Y') : '-' }}</dd>
+    <dt>Koppeling</dt>
+    <dd>
+        {% if odpHuurverzoek.odpHuurovereenkomst %}
+            {{ html.link(odpHuurverzoek.odpHuurovereenkomst, {'controller': 'odp_huurovereenkomsten', 'action': 'view', 0: odpHuurverzoek.odpHuurovereenkomst.id}) | raw }}
+        {% else %}
+            {{ html.addLink({'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
+            {{ html.link('Maak koppeling', {'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
+        {% endif %}
+    </dd>
+    <dt>Verslagen</dt>
+    <dd>
+        {% set link = {'controller': 'odp_verslagen', 'action': 'add', 'odpHuurverzoek': odpHuurverzoek.id} %}
+        {{ html.addLink(link)|raw }}
+        {{ html.link('Verslag toevoegen', link)|raw }}
+        <ul>
+            {% for odpVerslag in odpHuurverzoek.odpVerslagen %}
+                <li>
+                    {{ odpVerslag.medewerker }}
+                    ({{ odpVerslag.datum|date('d-m-Y') }})
+                    <pre>{{ odpVerslag.opmerking }}</pre>
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>

@@ -307,7 +307,7 @@ class SchorsingenController extends AppController
             }
         }
 
-        //client data
+    //client data
         $klant_naam = $schorsing['Klant']['name'];
         $locatie = $schorsing['Locatie']['naam'];
         $adres = $schorsing['Klant']['LasteIntake']['postadres'];
@@ -315,7 +315,7 @@ class SchorsingenController extends AppController
         $woonplaats = $schorsing['Klant']['LasteIntake']['woonplaats'];
         $geslacht = $schorsing['Klant']['Geslacht']['afkorting'];
 
-        //setting everything to the view
+    //setting everything to the view
         $this->set(compact(
             'bijzonderheden',
             'locatiehoofd',

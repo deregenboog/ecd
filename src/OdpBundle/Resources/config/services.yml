@@ -1,0 +1,33 @@
+services:
+    odp.data_fixtures.faker_provider:
+        class: OdpBundle\DataFixtures\OdpFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }
+
+    odp.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    odp.dao.coordinator:
+        parent: odp.dao
+        class: OdpBundle\Service\CoordinatorDao
+
+    odp.dao.document:
+        class: OdpBundle\Service\DocumentDao
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    odp.dao.huurderafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuurderafsluitingDao
+
+    odp.dao.verhuurderafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\VerhuurderafsluitingDao
+
+    odp.dao.woningbouwcorporatie:
+        parent: odp.dao
+        class: OdpBundle\Service\WoningbouwcorporatieDao
