@@ -17,6 +17,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class SymfonyController extends \AppController
 {
@@ -67,7 +68,26 @@ class SymfonyController extends \AppController
      */
     public function redirect($url, $status = 302)
     {
-        return new RedirectResponse($url, $status);
+        // hand over control to CakePHP's AppController
+        return parent::redirect($url, $status, true);
+
+//         if (is_null($status)) {
+//             $status = 302;
+//         }
+
+//         if (strpos($url, 'login')) {
+//             // hand over control to CakePHP's AppController
+//             return parent::redirect($url, $status, true);
+//         }
+
+//         try {
+//             $this->get('router')->match($url);
+//         } catch (ResourceNotFoundException $e) {
+//             // hand over control to CakePHP's AppController
+//             return parent::redirect($url, $status, true);
+//         }
+
+//         return new RedirectResponse($url, $status);
     }
 
     /**
