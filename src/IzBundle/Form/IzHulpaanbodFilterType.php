@@ -12,6 +12,7 @@ use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpaanbodFilter;
+use AppBundle\Form\FilterType;
 
 class IzHulpaanbodFilterType extends IzKoppelingFilterType
 {
@@ -73,5 +74,13 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
             'data_class' => IzHulpaanbodFilter::class,
             'enabled_filters' => [],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

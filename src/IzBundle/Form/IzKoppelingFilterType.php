@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
+use AppBundle\Form\FilterType;
 
 class IzKoppelingFilterType extends AbstractType
 {
@@ -113,5 +114,13 @@ class IzKoppelingFilterType extends AbstractType
             'data_class' => IzKoppelingFilter::class,
             'enabled_filters' => [],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }
