@@ -131,7 +131,7 @@ class HuurdersController extends SymfonyController
             return;
         }
 
-        if ($selectionForm->isValid()) {
+        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
             $huurder = $selectionForm->getData();
             if ($huurder->getKlant() instanceof Klant) {
                 $id = $huurder->getKlant()->getId();

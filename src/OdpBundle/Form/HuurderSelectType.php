@@ -7,9 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Klant;
-use OekBundle\Entity\OekKlant;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use OdpBundle\Entity\Huurder;
 
 class HuurderSelectType extends AbstractType
 {
@@ -23,8 +23,8 @@ class HuurderSelectType extends AbstractType
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('klant')
-                        ->leftJoin(OekKlant::class, 'oekKlant', 'WITH', 'oekKlant.klant = klant')
-                        ->andWhere('oekKlant.id IS NULL');
+                        ->leftJoin(Huurder::class, 'huurder', 'WITH', 'huurder.klant = klant')
+                        ->andWhere('huurder.id IS NULL');
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
@@ -43,7 +43,7 @@ class HuurderSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => OekKlant::class,
+            'data_class' => Huurder::class,
             'filter' => null,
         ]);
     }
