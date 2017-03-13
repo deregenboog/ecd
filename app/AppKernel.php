@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new CakeBundle\CakeBundle(),
             new AppBundle\AppBundle(),
+            new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
             new GaBundle\GaBundle(),
             new HsBundle\HsBundle(),

@@ -2,9 +2,6 @@
 
 namespace IzBundle\Report;
 
-use AppBundle\Report\Grid;
-use AppBundle\Report\Listing;
-
 class VrijwilligersTotaalNamenlijst extends AbstractVrijwilligersNamenlijstReport
 {
     protected $title = 'Vrijwilligers totaal (namenlijst)';

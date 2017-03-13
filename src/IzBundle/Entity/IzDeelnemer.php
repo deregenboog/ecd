@@ -4,32 +4,26 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_deelnemers")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "IzKlant", "Vrijwilliger" = "IzVrijwilliger"})
  */
 abstract class IzDeelnemer
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $modified;
 
     /**
      * @var ArrayCollection|IzKoppeling[]
@@ -44,7 +38,7 @@ abstract class IzDeelnemer
     protected $izIntake;
 
     /**
-     * @ORM\Column(name="datumafsluiting", type="date")
+     * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
      */
     protected $afsluitDatum;
 

@@ -9,3 +9,9 @@ oek_groepen_index:
 
 oek_trainingen_index:
     path: oek_trainingen
+
+oek_verwijzingen_naar_index:
+    path: oek_verwijzingen_naar
+
+oek_verwijzingen_door_index:
+    path: oek_verwijzingen_door

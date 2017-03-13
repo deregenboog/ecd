@@ -3,7 +3,8 @@
 namespace OdpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\TimestampableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +13,7 @@ use AppBundle\Entity\TimestampableTrait;
  */
 class OdpHuurovereenkomstAfsluiting
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id

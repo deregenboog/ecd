@@ -24,6 +24,11 @@ class OdpHuurverzoekFilter
     public $einddatum;
 
     /**
+     * @var bool
+     */
+    public $openstaand;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -65,6 +70,10 @@ class OdpHuurverzoekFilter
                     ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->openstaand) {
+            $builder->where('odpHuurovereenkomst.id IS NULL');
         }
 
         if ($this->klant) {

@@ -4,5 +4,3 @@ GaBundle\Entity\GaVrijwilligerIntake:
         medewerker: '@medewerker_*'
         intakedatum: '<dateTimeThisDecade()>'
         afsluitdatum: '50%? <dateTimeThisDecade()>'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

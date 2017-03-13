@@ -485,7 +485,6 @@ class RapportagesController extends AppController
             $intake_cond = $intake_cond + $geslacht_cond;
 
             // We now change the report and use the temporary table
-
             $count['uniqueVisits'] = $this->Registratie->find('count', array(
                         'fields' => array('COUNT(DISTINCT Registratie.klant_id) AS count'),
                         'conditions' => $con,

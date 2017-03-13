@@ -155,6 +155,6 @@
 
 <?php
     $options = array('violent_options' => $violent_options);
-//     $this->Js->buffer('Ecd.schorsing.options = '.json_encode($options));
-//     $this->Js->buffer('Ecd.schorsing()');
+     $this->Js->buffer('Ecd.schorsing.options = '.json_encode($options));
+     $this->Js->buffer('Ecd.schorsing()');
 ?>

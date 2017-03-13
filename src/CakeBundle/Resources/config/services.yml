@@ -210,7 +210,6 @@ parameters:
             Rapportages: Rapportages
             Awbz: AWBZ
             PfoClienten: PFO
-            BackOnTrack: BOT
             IzDeelnemers: IZ
             Groepsactiviteiten: Groepsactiviteiten
             hs_klanten: HomeService

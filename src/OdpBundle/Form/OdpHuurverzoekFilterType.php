@@ -6,6 +6,7 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Filter\OdpHuurverzoekFilter;
@@ -37,6 +38,13 @@ class OdpHuurverzoekFilterType extends AbstractType
         if (in_array('einddatum', $options['enabled_filters'])) {
             $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('openstaand', $options['enabled_filters'])) {
+            $builder->add('openstaand', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Openstaand',
             ]);
         }
     }

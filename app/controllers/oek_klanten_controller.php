@@ -2,18 +2,19 @@
 
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
-use OekBundle\Form\Model\OekKlantFacade;
-use OekBundle\Form\OekKlantAddGroepType;
-use OekBundle\Form\OekKlantAddTrainingType;
 use OekBundle\Form\OekKlantType;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Form\OekKlantSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use OekBundle\Form\OekKlantFilterType;
 use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Doctrine\ORM\QueryBuilder;
+use OekBundle\Entity\OekAanmelding;
+use OekBundle\Form\OekAanmeldingType;
+use OekBundle\Form\OekAfsluitingType;
+use OekBundle\Entity\OekAfsluiting;
 
 class OekKlantenController extends AppController
 {
@@ -29,29 +30,40 @@ class OekKlantenController extends AppController
 
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'stadsdeel'],
-        'aanmelding',
-        'afsluiting',
+        'training',
+        'aanmelddatum',
+        'afsluitdatum',
     ];
 
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
         'klant.werkgebied',
-        'oekKlant.aanmelding',
-        'oekKlant.afsluiting',
+        'oekTraining.naam',
+        'oekAanmelding.datum',
+        'oekAfsluiting.datum',
     ];
 
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
+            ->select('oekKlant, oekAanmelding, oekAfsluiting, oekDossierStatus, oekDeelname, oekTraining')
             ->innerJoin('oekKlant.klant', 'klant')
+            ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
+            ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
+            ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
+            ->leftJoin('oekKlant.oekDeelnames', 'oekDeelname')
+            ->leftJoin('oekDeelname.oekTraining', 'oekTraining')
             ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createFilter();
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
@@ -63,6 +75,18 @@ class OekKlantenController extends AppController
 
         $this->set('filter', $filter->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        $oekKlanten = $builder->getQuery()->getResult();
+
+        $filename = sprintf('op-eigen-kracht-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: text/csv');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $this->set('oekKlanten', $oekKlanten);
+        $this->render('download', false);
     }
 
     public function view($id)
@@ -79,9 +103,6 @@ class OekKlantenController extends AppController
         if ($klantId) {
             if ($klantId === 'new') {
                 $klant = new Klant();
-                $medewerkerId = $this->Session->read('Auth.Medewerker.id');
-                $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
-                $klant->setMedewerker($medewerker);
             } else {
                 $klant = $entityManager->find(Klant::class, $klantId);
             }
@@ -158,7 +179,59 @@ class OekKlantenController extends AppController
 
                 $this->Session->setFlash('Klant is opgeslagen.');
 
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(['action' => 'view', $oekKlant->getId()]);
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        $this->set('form', $form->createView());
+        $this->set('oekKlant', $oekKlant);
+    }
+
+    public function open($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $oekKlant = $entityManager->find(OekKlant::class, $id);
+
+        $oekAanmelding = new OekAanmelding();
+        $form = $this->createForm(OekAanmeldingType::class, $oekAanmelding);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $oekKlant->addOekAanmelding($oekAanmelding);
+                $entityManager->flush();
+
+                $this->Session->setFlash('Het dossier is heropend.');
+
+                return $this->redirect(['action' => 'view', $oekKlant->getId()]);
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        $this->set('form', $form->createView());
+        $this->set('oekKlant', $oekKlant);
+    }
+
+    public function close($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $oekKlant = $entityManager->find(OekKlant::class, $id);
+
+        $oekAfsluiting = new OekAfsluiting();
+        $form = $this->createForm(OekAfsluitingType::class, $oekAfsluiting);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            try {
+                $oekKlant->addOekAfsluiting($oekAfsluiting);
+                $entityManager->flush();
+
+                $this->Session->setFlash('Het dossier is afgesloten.');
+
+                return $this->redirect(['action' => 'view', $oekKlant->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
@@ -189,16 +262,6 @@ class OekKlantenController extends AppController
         $this->set('form', $form->createView());
     }
 
-    public function add_groep($oekKlantId)
-    {
-        return $this->add_to(OekKlantAddGroepType::class, $oekKlantId);
-    }
-
-    public function add_training($oekKlantId)
-    {
-        return $this->add_to(OekKlantAddTrainingType::class, $oekKlantId);
-    }
-
     /**
      * @return FormInterface
      */
@@ -210,40 +273,5 @@ class OekKlantenController extends AppController
         $filter->handleRequest($this->request);
 
         return $filter;
-    }
-
-    private function add_to($type, $oekKlantId)
-    {
-        /** @var OekKlant $oekKlant */
-        $entityManager = $this->getEntityManager();
-        $oekKlant = $entityManager->find(OekKlant::class, $oekKlantId);
-
-        $form = $this->createForm($type, new OekKlantFacade($oekKlant));
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            try {
-                $entityManager->flush();
-
-                switch ($type) {
-                    case OekKlantAddGroepType::class:
-                        $this->Session->setFlash('Deelnemer is aan groep toegevoegd.');
-                        break;
-                    case OekKlantAddTrainingType::class:
-                        $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
-                        break;
-                    default:
-                        $this->Session->setFlash('Deelnemer is toegevoegd.');
-                }
-
-                return $this->redirect(array('action' => 'view', $oekKlant->getId()));
-                // return $this->redirect(array('action' => 'index'));
-            } catch (\Exception $e) {
-                $form->addError(new FormError('Er is een fout opgetreden.'));
-            }
-        }
-
-        $this->set('form', $form->createView());
-        $this->set('oekKlant', $oekKlant);
     }
 }

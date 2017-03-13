@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
-use HsBundle\Filter\HsKlantFilter;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\HsFactuurFilter;
 use AppBundle\Form\AppDateType;

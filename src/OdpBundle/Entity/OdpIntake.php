@@ -3,8 +3,8 @@
 namespace OdpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\TimestampableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -13,7 +13,7 @@ use AppBundle\Entity\TimestampableTrait;
  */
 class OdpIntake
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -38,13 +38,6 @@ class OdpIntake
      */
     private $odpDeelnemer;
 
-    /**
-     * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $medewerker;
-
     public function getId()
     {
         return $this->id;
@@ -58,17 +51,5 @@ class OdpIntake
     public function getOdpDeelnemer()
     {
         return $this->odpDeelnemer;
-    }
-
-    public function getMedewerker()
-    {
-        return $this->medewerker;
-    }
-
-    public function setMedewerker(Medewerker $medewerker)
-    {
-        $this->medewerker = $medewerker;
-
-        return $this;
     }
 }

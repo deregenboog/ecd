@@ -242,39 +242,36 @@ class MedewerkersController extends AppController
                $this->autoRender = false;
 
                return true;
-               break;
            default:
                $messages[] = '____________ Error: no action defined for type '.$type;
            }
        }
+
        if (!empty($messages)) {
            $this->Session->setFlash(implode('<br />', $messages));
        }
    }
-   public function IueYRH4zBT8X() {
+
+    public function IueYRH4zBT8X()
+    {
         $this->loadModel('Geslacht');
 
         $this->Geslacht->recursive = -1;
         $retval = true;
-        $dbread = true;
-        $cacheread = true;
 
-        $first = $this->Geslacht->read('id',1);
-        if(empty($first) || $first['Geslacht']['id'] != 1 ) {
+        $first = $this->Geslacht->read('id', 1);
+        if (empty($first) || $first['Geslacht']['id'] != 1) {
             $retval = false;
         }
 
         $getbyid = $this->Geslacht->getById(1);
-        if(empty($getbyid) || $getbyid['id'] != 1 ) {
+        if (empty($getbyid) || $getbyid['id'] != 1) {
             $retval = false;
         }
 
-        $data = array(
-                $retval,
-        );
+        $data = [$retval];
 
-        $this->set(jsonVar,$data);
+        $this->set(jsonVar, $data);
         $this->render('/elements/json', 'ajax');
-
-   }
+    }
 }

@@ -9,7 +9,6 @@ use OdpBundle\Form\OdpHuurderSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpHuurderFilterType;
 use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
 use OdpBundle\Entity\HsMemo;
 use OdpBundle\Form\OdpHuurverzoekType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -198,7 +197,7 @@ class OdpHuurdersController extends AppController
     {
         $entityManager = $this->getEntityManager();
         $odpHuurder = $entityManager->find(OdpHuurder::class, $odpHuurderId);
-        $medewerker = $entityManager->find(Medewerker::class, $this->Session->read('user_id'));
+        $medewerker = $this->getMedewerker();
 
         $odpHuurverzoek = new OdpHuurverzoek();
         $odpHuurverzoek->setOdpHuurder($odpHuurder);

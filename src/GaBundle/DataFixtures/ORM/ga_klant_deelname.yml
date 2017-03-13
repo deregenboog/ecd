@@ -3,5 +3,3 @@ GaBundle\Entity\GaKlantDeelname:
         klant: '@klant_*'
         gaActiviteit: '@ga_activiteit_*'
         status: 'Aanwezig'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

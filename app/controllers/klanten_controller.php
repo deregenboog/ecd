@@ -12,8 +12,8 @@ class KlantenController extends AppController
     {
         $auth = parent::_isControllerAuthorized($controller);
 
-        if ($auth && $this->action == 'merge'
-            || $this->action == 'findDuplicates'
+        if ($auth
+            && $this->action == 'merge' || $this->action == 'findDuplicates'
         ) {
             $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]) || isset($this->userGroups[GROUP_DEVELOP]);
         }
@@ -38,21 +38,22 @@ class KlantenController extends AppController
             }
         }
 
-        $this->paginate = array(
-                'contain' => array(
-                    'LasteIntake' => array(
-                        'fields' => array(
+        $this->paginate = [
+            'contain' => [
+                'LasteIntake' => [
+                    'fields' => [
                             'locatie1_id',
                             'locatie2_id',
                             'locatie3_id',
                             'datum_intake',
-                        ),
-                    ),
-                    'Intake' => array(
-                        'fields' => array('datum_intake', 'id'),
-                        ),
-                    'Geslacht', ),
-                );
+                    ],
+                ],
+                'Intake' => [
+                    'fields' => ['datum_intake', 'id'],
+                ],
+                'Geslacht',
+            ],
+        ];
 
         $klanten = $this->paginate(null, $this->Filter->filterData);
         $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
@@ -104,7 +105,7 @@ class KlantenController extends AppController
             $this->set('zrmReport', $this->ZrmReport->get_zrm_report('Intake', $klant['Intake'][0]['id']));
         }
         $this->set('zrm_data', $zrm_data);
-        $this->set('diensten', $this->Klant->diensten($id));
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
     public function registratie($id = null)

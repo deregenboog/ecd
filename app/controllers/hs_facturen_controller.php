@@ -5,7 +5,6 @@ use App\Form\HsFactuurType;
 use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\HsKlus;
 use HsBundle\Form\HsFactuurFilterType;
-use HsBundle\Form\HsBetalingFilterType;
 
 class HsFacturenController extends AppController
 {
@@ -18,7 +17,6 @@ class HsFacturenController extends AppController
      * Use Twig.
      */
     public $view = 'AppTwig';
-
 
     private $enabledFilters = [
         'nummer',

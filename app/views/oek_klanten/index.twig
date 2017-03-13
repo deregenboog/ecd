@@ -23,15 +23,20 @@
             {{ form_errors(filter.klant.stadsdeel) }}
         </th>
         <th>
-            {{ form_widget(filter.aanmelding) }}
-            {{ form_errors(filter.aanmelding) }}
+            {{ form_widget(filter.training) }}
+            {{ form_errors(filter.training) }}
         </th>
         <th>
-            {{ form_widget(filter.afsluiting) }}
-            {{ form_errors(filter.afsluiting) }}
+            {{ form_widget(filter.aanmelddatum) }}
+            {{ form_errors(filter.aanmelddatum) }}
         </th>
         <th>
-            <button type="submit">Filteren</button>
+            {{ form_widget(filter.afsluitdatum) }}
+            {{ form_errors(filter.afsluitdatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
         </th>
         {{ form_end(filter) }}
     </tr>
@@ -46,10 +51,13 @@
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekKlant.aanmelding') }}
+            {{ knp_pagination_sortable(pagination, 'Training(en)', 'oekTraining.naam') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'oekKlant.afsluiting') }}
+            {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekAanmelding.datum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'oekAfsluiting.datum') }}
         </th>
         <th></th>
     </tr>
@@ -65,10 +73,17 @@
             {{ oekKlant.klant.werkgebied }}
         </td>
         <td>
-            {{ oekKlant.aanmelding ? oekKlant.aanmelding|date('d-m-Y') }}
+            <ul>
+                {% for oekTraining in oekKlant.oekTrainingen %}
+                    <li>{{ oekTraining.naam }}</li>
+                {% endfor %}
+            </ul>
         </td>
         <td>
-            {{ oekKlant.afsluiting ? oekKlant.afsluiting|date('d-m-Y') }}
+            {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
+        </td>
+        <td>
+            {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
         </td>
         <td>
             {{ html.viewLink({'action': 'view', 0: oekKlant.id})|raw }}

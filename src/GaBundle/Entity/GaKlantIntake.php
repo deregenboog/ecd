@@ -17,4 +17,9 @@ class GaKlantIntake extends GaIntake
      * @ORM\JoinColumn(name="foreign_key", nullable=false)
      */
     protected $klant;
+
+    public function getKlant()
+    {
+        return $this->klant;
+    }
 }

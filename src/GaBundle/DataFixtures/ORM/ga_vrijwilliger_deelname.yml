@@ -3,5 +3,3 @@ GaBundle\Entity\GaVrijwilligerDeelname:
         vrijwilliger: '@vrijwilliger_*'
         gaActiviteit: '@ga_activiteit_*'
         status: 'Aanwezig'
-        created: '<dateTimeThisDecade()>'
-        modified: '<dateTimeThisDecade()>'

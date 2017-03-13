@@ -1,4 +1,5 @@
 <?php
+
 namespace IzBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,11 +15,8 @@ use IzBundle\Filter\IzHulpvraagFilter;
 
 class IzHulpvraagFilterType extends IzKoppelingFilterType
 {
-
     /**
-     *
      * {@inheritdoc}
-     *
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,8 +26,8 @@ class IzHulpvraagFilterType extends IzKoppelingFilterType
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'attr' => [
-                    'placeholder' => 'dd-mm-jjjj'
-                ]
+                    'placeholder' => 'dd-mm-jjjj',
+                ],
             ]);
         }
 
@@ -38,7 +36,7 @@ class IzHulpvraagFilterType extends IzKoppelingFilterType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
-        
+
         if (in_array('izProject', $options['enabled_filters'])) {
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
@@ -48,7 +46,7 @@ class IzHulpvraagFilterType extends IzKoppelingFilterType
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
                         ->orderBy('izProject.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
-                }
+                },
             ]);
         }
 
@@ -61,21 +59,19 @@ class IzHulpvraagFilterType extends IzKoppelingFilterType
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
                         ->orderBy('medewerker.achternaam', 'ASC');
-                }
+                },
             ]);
         }
     }
 
     /**
-     *
      * {@inheritdoc}
-     *
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => IzHulpvraagFilter::class,
-            'enabled_filters' => []
+            'enabled_filters' => [],
         ]);
     }
 }

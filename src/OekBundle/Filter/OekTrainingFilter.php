@@ -5,6 +5,7 @@ namespace OekBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\OekGroep;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class OekTrainingFilter implements FilterInterface
 {
@@ -24,12 +25,12 @@ class OekTrainingFilter implements FilterInterface
     public $oekGroep;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $startdatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $einddatum;
 

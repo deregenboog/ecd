@@ -1,5 +1,162 @@
 services:
+    oek.event.diensten_lookup_subscriber:
+        class: OekBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
     oek.data_fixtures.faker_provider:
         class: OekBundle\DataFixtures\OekFakerProvider
         tags:
             - { name: hautelook_alice.faker.provider }
+
+    oek.repository.oek_klant:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OekBundle\Entity\OekKlant
+
+    oek.form.rapportage:
+        class: OekBundle\Form\OekRapportageType
+        tags:
+            - { name: form.type }
+
+    oek.report.klanten.per_groep:
+        class: OekBundle\Report\KlantenPerGroep
+        arguments:
+            - "@oek.repository.oek_klant"
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    oek.report.klanten.per_training:
+        class: OekBundle\Report\KlantenPerTraining
+        arguments:
+            - "@oek.repository.oek_klant"
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+#    oek.report.koppelingen.totaal:
+#        class: OekBundle\Report\KoppelingenTotaal
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.koppelingen.per_coordinator:
+#        class: OekBundle\Report\KoppelingenPerCoordinator
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.koppelingen.per_project:
+#        class: OekBundle\Report\KoppelingenPerProject
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.koppelingen.per_stadsdeel:
+#        class: OekBundle\Report\KoppelingenPerStadsdeel
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.koppelingen.per_postcodegebied:
+#        class: OekBundle\Report\KoppelingenPerPostcodegebied
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.koppelingen.per_project_stadsdeel:
+#        class: OekBundle\Report\KoppelingenPerProjectStadsdeel
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.koppelingen.per_project_postcodegebied:
+#        class: OekBundle\Report\KoppelingenPerProjectPostcodegebied
+#        arguments:
+#            - "@oek.repository.oek_hulpvraag"
+#        tags:
+#            - { name: oek.rapportage, category: Koppelingen }
+#
+#    oek.report.klanten.totaal:
+#        class: OekBundle\Report\KlantenTotaal
+#        arguments:
+#            - "@oek.repository.oek_klant"
+#        tags:
+#            - { name: oek.rapportage, category: Deelnemers }
+#
+#    oek.report.klanten.per_project:
+#        class: OekBundle\Report\KlantenPerProject
+#        arguments:
+#            - "@oek.repository.oek_klant"
+#        tags:
+#            - { name: oek.rapportage, category: Deelnemers }
+#
+#    oek.report.klanten.per_stadsdeel:
+#        class: OekBundle\Report\KlantenPerStadsdeel
+#        arguments:
+#            - "@oek.repository.oek_klant"
+#        tags:
+#            - { name: oek.rapportage, category: Deelnemers }
+#
+#    oek.report.klanten.per_project_stadsdeel:
+#        class: OekBundle\Report\KlantenPerProjectStadsdeel
+#        arguments:
+#            - "@oek.repository.oek_klant"
+#        tags:
+#            - { name: oek.rapportage, category: Deelnemers }
+#
+#    oek.report.vrijwilligers.totaal:
+#        class: OekBundle\Report\VrijwilligersTotaal
+#        arguments:
+#            - "@oek.repository.oek_vrijwilliger"
+#        tags:
+#            - { name: oek.rapportage, category: Vrijwilligers }
+#
+#    oek.report.vrijwilligers.totaal_namenlijst:
+#        class: OekBundle\Report\VrijwilligersTotaalNamenlijst
+#        arguments:
+#            - "@oek.repository.oek_vrijwilliger"
+#        tags:
+#            - { name: oek.rapportage, category: Vrijwilligers }
+#
+#    oek.report.vrijwilligers.per_project:
+#        class: OekBundle\Report\VrijwilligersPerProject
+#        arguments:
+#            - "@oek.repository.oek_vrijwilliger"
+#        tags:
+#            - { name: oek.rapportage, category: Vrijwilligers }
+#
+#    oek.report.vrijwilligers.per_project_namenlijst:
+#        class: OekBundle\Report\VrijwilligersPerProjectNamenlijst
+#        arguments:
+#            - "@oek.repository.oek_vrijwilliger"
+#        tags:
+#            - { name: oek.rapportage, category: Vrijwilligers }
+#
+#    oek.report.vrijwilligers.per_stadsdeel:
+#        class: OekBundle\Report\VrijwilligersPerStadsdeel
+#        arguments:
+#            - "@oek.repository.oek_vrijwilliger"
+#        tags:
+#            - { name: oek.rapportage, category: Vrijwilligers }
+#
+#    oek.report.vrijwilligers.per_project_stadsdeel:
+#        class: OekBundle\Report\VrijwilligersPerProjectStadsdeel
+#        arguments:
+#            - "@oek.repository.oek_vrijwilliger"
+#        tags:
+#            - { name: oek.rapportage, category: Vrijwilligers }
+#
+#    oek.data_fixtures.faker_provider:
+#        class: OekBundle\DataFixtures\OekFakerProvider
+#        tags:
+#            - { name: hautelook_alice.faker.provider }
+#

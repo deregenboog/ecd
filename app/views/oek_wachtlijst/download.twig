@@ -1,10 +1,24 @@
-Deelnemer{{ tab }}Stadsdeel{{ tab }}Telefoon{{ tab }}Mobiel
+Nummer{{ tab -}}
+Deelnemer{{ tab -}}
+Telefoon{{ tab -}}
+Mobiel{{ tab -}}
+Stadsdeel{{ tab -}}
+Groepen{{ tab -}}
+Aanmelddatum{{ tab -}}
+Verwezen door{{ tab -}}
+Afsluitdatum{{ tab -}}
+Verwezen naar
 {% for oekKlant in oekKlanten %}
+    {{- oekKlant.klant.id ~ tab -}}
     {{- oekKlant ~ tab -}}
-    {{- oekKlant.klant.werkgebied  ~ tab -}}
+    {{- oekKlant.klant.telefoon ~ tab -}}
+    {{- oekKlant.klant.mobiel ~ tab -}}
+    {{- oekKlant.klant.werkgebied ~ tab -}}
     {% for oekGroep in oekKlant.oekGroepen %}
         {{- oekGroep ~ " " -}}
     {% endfor %}{{- tab -}}
-    {{- oekKlant.klant.telefoon  ~ tab-}}
-    {{- oekKlant.klant.mobiel }}
+    {{- (oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y')) ~ tab -}}
+    {{- (oekKlant.oekAanmelding ? oekKlant.oekAanmelding.verwijzing) ~ tab -}}
+    {{- (oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y')) ~ tab -}}
+    {{- (oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.verwijzing) }}
 {% endfor %}
