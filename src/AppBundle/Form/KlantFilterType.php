@@ -29,11 +29,8 @@ class KlantFilterType extends AbstractType
             ]);
         }
         if (in_array('geboortedatum', $options['enabled_filters'])) {
-            $builder->add('geboortedatum', BirthdayType::class, [
+            $builder->add('geboortedatum', AppDateRangeType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ]);
         }
         if (in_array('stadsdeel', $options['enabled_filters'])) {
