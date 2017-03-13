@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Trainingen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>E-mail deelnemers van training {{ oekTraining }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Verzenden</button>
+    {{ form_end(form) }}
+{% endblock %}

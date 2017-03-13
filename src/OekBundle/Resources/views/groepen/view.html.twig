@@ -1,0 +1,120 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Groepen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ oekGroep }}</h1>
+
+    <p>
+        {{ html.editLink(path('oek_groepen_edit', {id: oekGroep.id})) }}
+        {{ html.link('Groep wijzigen', path('oek_groepen_edit', {id: oekGroep.id})) }}
+        {% if oekGroep.deletable %}
+            {{ html.deleteLink(path('oek_groepen_delete', {id: oekGroep.id})) }}
+            {{ html.link('Groep verwijderen', path('oek_groepen_delete', {id: oekGroep.id})) }}
+        {% endif %}
+    </p>
+
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ oekGroep.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ oekGroep.naam }}</dd>
+    </dl>
+
+    <h2>Wachtlijst</h2>
+    <p>
+        {% set link = path('oek_lidmaatschappen_add', {oekGroep: oekGroep.id}) %}
+        {{ html.addLink(link)|raw }}
+        {{ html.link('Deelnemer aan wachtlijst toevoegen', link)|raw }}
+    </p>
+    {% if oekGroep.oekKlanten.count == 0 %}
+        <p>Deze groep heeft nog geen wachtlijst.</p>
+    {% else %}
+        <table class="table table-hover">
+            <tr>
+                <th>#</th>
+                <th>Deelnemer</th>
+                <th>Stadsdeel</th>
+                <th>Aanmelddatum</th>
+                <th>Afsluitdatum</th>
+                <th></th>
+            </tr>
+            {% for oekKlant in oekGroep.oekKlanten %}
+                <tr>
+                    <td>
+                        {{ html.link(oekKlant.klant.id, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    </td>
+                    <td>
+                        {{ html.link(oekKlant.klant.naam, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    </td>
+                    <td>
+                        {{ oekKlant.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {% set delete_link = path('oek_lidmaatschappen_delete', {'oekKlant': oekKlant.id, 'oekGroep': oekGroep.id}) %}
+                        {{ html.deleteLink(delete_link)|raw }}
+                        {{ html.link('Deelnemer van wachtlijst verwijderen', delete_link)|raw }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <h2>Trainingen</h2>
+    <p>
+        {{ html.addLink(path('oek_trainingen_add', {'oekGroep': oekGroep.id})) }}
+        {{ html.link('Training toevoegen', path('oek_trainingen_add', {'oekGroep': oekGroep.id})) }}
+    </p>
+    {% if oekGroep.oekTrainingen.count == 0 %}
+        <p>Deze groep bevat nog geen trainingen.</p>
+    {% else %}
+        <table class="table table-hover">
+            <tr>
+                <th>#</th>
+                <th>Naam
+                </th>
+                <th>Deelnemers</th>
+                <th>Startdatum</th>
+                <th>Einddatum</th>
+                <th></th>
+            </tr>
+            {% for oekTraining in oekGroep.oekTrainingenToekomstig %}
+                <tr>
+                    <td>
+                        {{ html.link(oekTraining.id, path('oek_trainingen_view', {id: oekTraining.id})) }}
+                        {{ html.link(oekKlant.klant.id, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    </td>
+                    <td>
+                        {{ html.link(oekTraining.naam, path('oek_trainingen_view', {id: oekTraining.id})) }}
+                    </td>
+                    <td>{{ oekTraining.oekKlanten.count() }}</td>
+                    <td>
+                        {{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}
+                        {{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') ~ ' uur' }}
+                    </td>
+                    <td>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}</td>
+                    <td>
+                        {{ html.viewLink(path('oek_trainingen_view', {id: oekTraining.id})) }}
+                        {{ html.editLink(path('oek_trainingen_edit', {id: oekTraining.id})) }}
+                        {% if oekTraining.deletable %}
+                            {{ html.deleteLink(path('oek_trainingen_delete', {id: oekTraining.id})) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

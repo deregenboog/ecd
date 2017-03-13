@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Verwijzingen Door |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Verwijzing wijzigen</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Opslaan</button>
+    {{ form_end(form) }}
+{% endblock %}

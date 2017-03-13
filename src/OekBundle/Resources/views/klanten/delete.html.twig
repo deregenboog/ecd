@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Klanten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Deelnemer verwijderen</h1>
+    <p>
+        Weet u zeker dat u deelnemer <strong>{{ oekKlant }}</strong> wilt verwijderen?<br>
+        {{ form_start(form) }}
+        {{ html.link('Nee, terug', {'action': 'index'})|raw }}
+        <button type="submit">Ja, verwijderen</button>
+        {{ form_end(form) }}
+    </p>
+{% endblock %}

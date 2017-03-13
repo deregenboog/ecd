@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Deelnames |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Groep verwijderen</h1>
+    <p>
+        Weet u zeker dat u deelnemer <strong>{{ oekKlant }}</strong>
+        van wachtlijst <strong>{{ oekGroep }}</strong> wilt verwijderen?
+        <br>
+        {{ form_start(form) }}
+        {{ html.link('Nee, terug', path('oek_klanten_view', {id: oekKlant.id})) }}
+        <button type="submit">Ja, verwijderen</button>
+        {{ form_end(form) }}
+    </p>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% import '::html.macro.twig' as html %}
+<ul class="nav nav-tabs">
+    {{ html.navLink('Deelnemers', path('oek_klanten_index'), isActiveRoute('oek_klanten')) }}
+    {{ html.navLink('Wachtlijst', path('oek_wachtlijst_index'), isActiveRoute('oek_wachtlijst')) }}
+    {{ html.navLink('Groepen', path('oek_groepen_index'), isActiveRoute('oek_groepen')) }}
+    {{ html.navLink('Trainingen', path('oek_trainingen_index'), isActiveRoute('oek_trainingen')) }}
+    {{ html.navLink('Verwijzingen door', path('oek_verwijzingendoor_index'), isActiveRoute('oek_verwijzingendoor')) }}
+    {{ html.navLink('Verwijzingen naar', path('oek_verwijzingennaar_index'), isActiveRoute('oek_verwijzingennaar')) }}
+    {{ html.navLink('Rapportages', path('oek_rapportages_index'), isActiveRoute('oek_rapportages')) }}
+</ul>
