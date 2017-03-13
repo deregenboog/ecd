@@ -58,7 +58,7 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
-                        ->orderBy('medewerker.achternaam', 'ASC')
+                        ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
             ]);

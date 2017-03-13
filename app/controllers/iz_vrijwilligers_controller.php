@@ -1,13 +1,13 @@
 <?php
 
-use IzBundle\Service\KlantDaoInterface;
-use IzBundle\Form\IzKlantFilterType;
+use IzBundle\Service\VrijwilligerDaoInterface;
+use IzBundle\Form\IzVrijwilligerFilterType;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\KlantFilterType;
-use IzBundle\Form\IzKlantSelectType;
-use AppBundle\Entity\Klant;
+use AppBundle\Form\VrijwilligerFilterType;
+use IzBundle\Form\IzVrijwilligerSelectType;
+use AppBundle\Entity\Vrijwilliger;
 
-class IzKlantenController extends AppController
+class IzVrijwilligersController extends AppController
 {
     /**
      * Don't use CakePHP models.
@@ -20,20 +20,20 @@ class IzKlantenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'klant' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
 
     /**
-     * @var KlantDaoInterface
+     * @var VrijwilligerDaoInterface
      */
-    private $klantDao;
+    private $vrijwilligerDao;
 
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->klantDao = $this->container->get('iz.dao.klant');
+        $this->vrijwilligerDao = $this->container->get('iz.dao.vrijwilliger');
     }
 
     public function index()
@@ -46,7 +46,7 @@ class IzKlantenController extends AppController
         }
 
         $page = $this->getRequest()->get('page', 1);
-        $pagination = $this->klantDao->findAll($page, $form->getData());
+        $pagination = $this->vrijwilligerDao->findAll($page, $form->getData());
 
         $this->set('form', $form->createView());
         $this->set('pagination', $pagination);
@@ -54,40 +54,40 @@ class IzKlantenController extends AppController
 
     public function download(FilterInterface $filter)
     {
-        $klanten = $this->klantDao->findAll(null, $filter);
+        $vrijwilligers = $this->vrijwilligerDao->findAll(null, $filter);
 
         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
         $this->header('Content-type: text/csv');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
 
-        $this->set('klanten', $klanten);
+        $this->set('vrijwilligers', $vrijwilligers);
         $this->render('download', false);
     }
 
-    public function add($klantId = null)
+    public function add($vrijwilligerId = null)
     {
-        if ($klantId) {
-            if ($klantId === 'new') {
+        if ($vrijwilligerId) {
+            if ($vrijwilligerId === 'new') {
                 return $this->redirect([
-                    'controller' => 'klanten',
+                    'controller' => 'vrijwilligers',
                     'action' => 'add',
                 ]);
             } else {
                 return $this->redirect([
                     'controller' => 'iz_deelnemers',
                     'action' => 'toon_aanmelding',
-                    'Klant',
-                    $klantId,
+                    'Vrijwilliger',
+                    $vrijwilligerId,
                 ]);
             }
         }
 
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 
-        $selectionForm = $this->createForm(IzKlantSelectType::class, null, [
+        $selectionForm = $this->createForm(IzVrijwilligerSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
         $selectionForm->handleRequest($this->getRequest());
@@ -99,9 +99,9 @@ class IzKlantenController extends AppController
         }
 
         if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
-            $izKlant = $selectionForm->getData();
-            if ($izKlant->getKlant() instanceof Klant) {
-                return $this->redirect(['action' => 'add', $izKlant->getKlant()->getId()]);
+            $izVrijwilliger = $selectionForm->getData();
+            if ($izVrijwilliger->getVrijwilliger() instanceof Vrijwilliger) {
+                return $this->redirect(['action' => 'add', $izVrijwilliger->getVrijwilliger()->getId()]);
             }
 
             return $this->redirect(['action' => 'add', 'new']);
@@ -112,7 +112,7 @@ class IzKlantenController extends AppController
 
     private function createFilter()
     {
-        $form = $this->createForm(IzKlantFilterType::class, null, [
+        $form = $this->createForm(IzVrijwilligerFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
         $form->handleRequest($this->getRequest());

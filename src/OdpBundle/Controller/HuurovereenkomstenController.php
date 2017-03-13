@@ -30,7 +30,7 @@ class HuurovereenkomstenController extends SymfonyController
         'huurovereenkomst.id',
         'huurderKlant.achternaam',
         'verhuurderKlant.achternaam',
-        'medewerker.achternaam',
+        'medewerker.voornaam',
         'huurovereenkomst.startdatum',
         'huurovereenkomst.opzegdatum',
         'huurovereenkomst.einddatum',

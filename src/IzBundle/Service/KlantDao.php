@@ -26,14 +26,11 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('izKlant')
-            ->innerJoin('izKlant.izHulpvragen', 'izHulpvraag')
-            ->innerJoin('izHulpvraag.izProject', 'izProject')
-            ->innerJoin('izHulpvraag.medewerker', 'medewerker')
             ->innerJoin('izKlant.klant', 'klant')
-            ->where('izHulpvraag.izHulpaanbod IS NULL')
-            ->andWhere('izHulpvraag.einddatum IS NULL')
-            ->andWhere('izKlant.izAfsluiting IS NULL')
-            ->andWhere('klant.disabled = false')
+            ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')
+            ->leftJoin('izHulpvraag.izProject', 'izProject')
+            ->leftJoin('izHulpvraag.medewerker', 'medewerker')
+            ->where('klant.disabled = false')
         ;
 
         if ($filter) {
