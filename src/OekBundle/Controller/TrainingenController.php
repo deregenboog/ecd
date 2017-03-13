@@ -133,11 +133,13 @@ class TrainingenController extends SymfonyController
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
-            $entityManager->remove($oekTraining);
-            $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entityManager->remove($oekTraining);
+                $entityManager->flush();
 
-            $this->Session->setFlash('Training is verwijderd.');
+                $this->Session->setFlash('Training is verwijderd.');
+            }
 
             return $this->redirectToRoute('oek_trainingen_index');
         }

@@ -110,13 +110,15 @@ class GroepenController extends SymfonyController
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
-            $entityManager->remove($oekGroep);
-            $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entityManager->remove($oekGroep);
+                $entityManager->flush();
 
-            $this->Session->setFlash('Groep is verwijderd.');
+                $this->Session->setFlash('Groep is verwijderd.');
+            }
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirectToRoute('oek_groepen_index');
         }
 
         return ['form' => $form->createView(), 'oekGroep' => $oekGroep];

@@ -62,15 +62,16 @@ class LidmaatschappenController extends SymfonyController
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
-        if ($form->get('yes')->isClicked()) {
-            $entityManager->remove($oekLidmaatschap);
-            $entityManager->flush();
 
-            $this->Session->setFlash('Deelnemer is van wachtlijst verwijderd.');
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entityManager->remove($oekLidmaatschap);
+                $entityManager->flush();
 
-        }
+                $this->Session->setFlash('Deelnemer is van wachtlijst verwijderd.');
 
-        if ($form->isValid()) {
+            }
+
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);
         }
 

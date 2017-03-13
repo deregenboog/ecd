@@ -1,12 +1,18 @@
-{% include('hs_subnavigation.twig') %}
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Groepen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
 
 {% block content %}
     <h1>Groep verwijderen</h1>
     <p>
         Weet u zeker dat u groep <strong>{{ oekGroep }}</strong> wilt verwijderen?<br>
-        {{ form_start(form) }}
-        {{ html.link('Nee, terug', {'action': 'index'})|raw }}
-        <button type="submit">Ja, verwijderen</button>
-        {{ form_end(form) }}
+        {{ form(form) }}
     </p>
 {% endblock %}

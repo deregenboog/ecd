@@ -265,13 +265,15 @@ class KlantenController extends SymfonyController
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
-            $entityManager->remove($oekKlant);
-            $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entityManager->remove($oekKlant);
+                $entityManager->flush();
 
-            $this->Session->setFlash('Klant is verwijderd.');
+                $this->Session->setFlash('Klant is verwijderd.');
+            }
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirectToRoute('oek_klanten_index');
         }
 
         return ['form' => $form->createView(), 'oekKlant' => $oekKlant];

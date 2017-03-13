@@ -85,7 +85,7 @@ class DeelnamesController extends SymfonyController
     /**
      * @Route("/delete/{oekTraining}/{oekKlant}")
      */
-    public function delete()
+    public function delete($oekTraining, $oekKlant)
     {
         $entityManager = $this->getEntityManager();
         $repo = $entityManager->getRepository(OekDeelname::class);
@@ -95,15 +95,16 @@ class DeelnamesController extends SymfonyController
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
-        if ($form->get('yes')->isClicked()) {
-            $entityManager->remove($oekDeelname);
-            $entityManager->flush();
 
-            $this->Session->setFlash('Deelnemer is van training verwijderd.');
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entityManager->remove($oekDeelname);
+                $entityManager->flush();
 
-        }
+                $this->Session->setFlash('Deelnemer is van training verwijderd.');
 
-        if ($form->isValid()) {
+            }
+
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
         }
 
