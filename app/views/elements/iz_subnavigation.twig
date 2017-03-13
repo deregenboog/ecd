@@ -1,9 +1,9 @@
 <div id="subheader">
-    {{ html.link('Deelnemers', {
-        'controller': 'iz_deelnemers',
-        'action': 'index',
-        'Klant.selectie': 1
-    })|raw }}
+    {{ html.link(
+        'Deelnemers',
+        {'controller': 'iz_klanten', 'action': 'index'},
+        {'class': this.name == 'IzKlanten' ? 'selected' : ''}
+    )|raw }}
     &nbsp;&nbsp;
     {{ html.link('Vrijwilligers', {
         'controller': 'iz_deelnemers',
