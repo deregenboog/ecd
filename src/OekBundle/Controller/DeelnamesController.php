@@ -1,22 +1,22 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use OekBundle\Entity\OekKlant;
 use OekBundle\Entity\OekTraining;
 use OekBundle\Form\OekDeelnameType;
 use OekBundle\Entity\OekDeelname;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekDeelnamesController extends AppController
+/**
+ * @Route("/oek/deelnames")
+ */
+class DeelnamesController extends SymfonyController
 {
     /**
-     * Don't use CakePHP models.
+     * @Route("/add")
      */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     public function add()
     {
         $entityManager = $this->getEntityManager();
@@ -45,9 +45,12 @@ class OekDeelnamesController extends AppController
             return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekDeelname->getOekKlant()->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/edit")
+     */
     public function edit()
     {
         $entityManager = $this->getEntityManager();
@@ -75,6 +78,6 @@ class OekDeelnamesController extends AppController
             return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekDeelname->getOekKlant()->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 }

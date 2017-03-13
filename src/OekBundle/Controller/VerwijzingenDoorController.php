@@ -1,25 +1,25 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use OekBundle\Form\OekVerwijzingType;
 use OekBundle\Entity\OekVerwijzingDoor;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekVerwijzingenDoorController extends AppController
+/**
+ * @Route("/oek/verwijzingen_door")
+ */
+class VerwijzingenDoorController extends SymfonyController
 {
-    /**
-     * Don't use CakePHP models.
-     */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     private $sortFieldWhitelist = [
         'oekVerwijzing.id',
         'oekVerwijzing.naam',
     ];
 
+    /**
+     * @Route("/")
+     */
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(OekVerwijzingDoor::class);
@@ -32,9 +32,12 @@ class OekVerwijzingenDoorController extends AppController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('pagination', $pagination);
+        return compact('pagination');
     }
 
+    /**
+     * @Route("/add")
+     */
     public function add()
     {
         $oekVerwijzing = new OekVerwijzingDoor();
@@ -52,9 +55,12 @@ class OekVerwijzingenDoorController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/edit")
+     */
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
@@ -70,6 +76,6 @@ class OekVerwijzingenDoorController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 }

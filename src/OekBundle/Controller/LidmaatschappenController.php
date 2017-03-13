@@ -1,23 +1,23 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use OekBundle\Entity\OekGroep;
 use AppBundle\Form\ConfirmationType;
 use OekBundle\Form\OekLidmaatschapType;
 use OekBundle\Entity\OekLidmaatschap;
 use OekBundle\Entity\OekKlant;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekLidmaatschappenController extends AppController
+/**
+ * @Route("/oek/lidmaatschappen")
+ */
+class LidmaatschappenController extends SymfonyController
 {
     /**
-     * Don't use CakePHP models.
+     * @Route("/add")
      */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     public function add()
     {
         $entityManager = $this->getEntityManager();
@@ -46,9 +46,12 @@ class OekLidmaatschappenController extends AppController
             return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekLidmaatschap->getOekKlant()->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/delete")
+     */
     public function delete($oekLidmaatschapId)
     {
         $entityManager = $this->getEntityManager();
@@ -67,7 +70,6 @@ class OekLidmaatschappenController extends AppController
             return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekLidmaatschap->getOekKlant()->getId()]);
         }
 
-        $this->set('oekLidmaatschap', $oekLidmaatschap);
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView(), 'oekLidmaatschap' => $oekLidmaatschap];
     }
 }

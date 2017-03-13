@@ -1,26 +1,26 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use OekBundle\Entity\OekGroep;
 use OekBundle\Form\OekGroepType;
 use AppBundle\Form\ConfirmationType;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekGroepenController extends AppController
+/**
+ * @Route("/oek/groepen")
+ */
+class GroepenController extends SymfonyController
 {
-    /**
-     * Don't use CakePHP models.
-     */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     private $sortFieldWhitelist = [
         'oekGroep.id',
         'oekGroep.naam',
     ];
 
+    /**
+     * @Route("/")
+     */
     public function index()
     {
         $entityManager = $this->getEntityManager();
@@ -38,15 +38,22 @@ class OekGroepenController extends AppController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('pagination', $pagination);
+        return compact('pagination');
     }
 
+    /**
+     * @Route("/{id}/view")
+     */
     public function view($id)
     {
         $oekGroep = $this->getEntityManager()->find(OekGroep::class, $id);
-        $this->set('oekGroep', $oekGroep);
+
+        return compact('oekGroep');
     }
 
+    /**
+     * @Route("/add")
+     */
     public function add()
     {
         $entityManager = $this->getEntityManager();
@@ -65,9 +72,12 @@ class OekGroepenController extends AppController
             return $this->redirect(array('action' => 'view', $oekGroep->getId()));
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/edit")
+     */
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
@@ -85,9 +95,12 @@ class OekGroepenController extends AppController
             return $this->redirect(array('action' => 'view', $oekGroep->getId()));
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/delete")
+     */
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
@@ -106,7 +119,6 @@ class OekGroepenController extends AppController
             return $this->redirect(array('action' => 'index'));
         }
 
-        $this->set('oekGroep', $oekGroep);
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView(), 'oekGroep' => $oekGroep];
     }
 }

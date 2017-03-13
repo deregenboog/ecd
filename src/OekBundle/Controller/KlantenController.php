@@ -1,5 +1,8 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
 use OekBundle\Form\OekKlantType;
@@ -15,19 +18,13 @@ use OekBundle\Entity\OekAanmelding;
 use OekBundle\Form\OekAanmeldingType;
 use OekBundle\Form\OekAfsluitingType;
 use OekBundle\Entity\OekAfsluiting;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekKlantenController extends AppController
+/**
+ * @Route("/oek/klanten")
+ */
+class KlantenController extends SymfonyController
 {
-    /**
-     * Don't use CakePHP models.
-     */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'stadsdeel'],
         'training',
@@ -44,6 +41,9 @@ class OekKlantenController extends AppController
         'oekAfsluiting.datum',
     ];
 
+    /**
+     * @Route("/")
+     */
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
@@ -73,8 +73,7 @@ class OekKlantenController extends AppController
             'wrap-queries' => true, // because of HAVING clause in filter
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return ['filter' => $filter->createView(), 'pagination' => $pagination];
     }
 
     public function download(QueryBuilder $builder)
@@ -85,17 +84,24 @@ class OekKlantenController extends AppController
         $this->header('Content-type: text/csv');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
 
-        $this->set('oekKlanten', $oekKlanten);
         $this->render('download', false);
+
+        return compact('oekKlanten');
     }
 
+    /**
+     * @Route("/{id}/view")
+     */
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
         $oekKlant = $entityManager->find(OekKlant::class, $id);
-        $this->set('oekKlant', $oekKlant);
+        return compact('oekKlant');
     }
 
+    /**
+     * @Route("/add")
+     */
     public function add($klantId = null)
     {
         $entityManager = $this->getEntityManager();
@@ -162,9 +168,12 @@ class OekKlantenController extends AppController
             return $this->redirect(['action' => 'add', 'new']);
         }
 
-        $this->set('filterForm', $filterForm->createView());
+        return ['filterForm' => $filterForm->createView()];
     }
 
+    /**
+     * @Route("/{id}/edit")
+     */
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
@@ -185,10 +194,12 @@ class OekKlantenController extends AppController
             }
         }
 
-        $this->set('form', $form->createView());
-        $this->set('oekKlant', $oekKlant);
+        return ['form' => $form->createView(), 'oekKlant' => $oekKlant];
     }
 
+    /**
+     * @Route("/{id}/open")
+     */
     public function open($id)
     {
         $entityManager = $this->getEntityManager();
@@ -211,10 +222,12 @@ class OekKlantenController extends AppController
             }
         }
 
-        $this->set('form', $form->createView());
-        $this->set('oekKlant', $oekKlant);
+        return ['form' => $form->createView(), 'oekKlant' => $oekKlant];
     }
 
+    /**
+     * @Route("/{id}/close")
+     */
     public function close($id)
     {
         $entityManager = $this->getEntityManager();
@@ -237,10 +250,12 @@ class OekKlantenController extends AppController
             }
         }
 
-        $this->set('form', $form->createView());
-        $this->set('oekKlant', $oekKlant);
+        return ['form' => $form->createView(), 'oekKlant' => $oekKlant];
     }
 
+    /**
+     * @Route("/{id}/delete")
+     */
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
@@ -258,8 +273,7 @@ class OekKlantenController extends AppController
             return $this->redirect(array('action' => 'index'));
         }
 
-        $this->set('oekKlant', $oekKlant);
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView(), 'oekKlant' => $oekKlant];
     }
 
     /**

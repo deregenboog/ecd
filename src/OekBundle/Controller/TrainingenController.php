@@ -1,24 +1,21 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use OekBundle\Entity\OekTraining;
 use OekBundle\Form\OekTrainingFilterType;
 use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
 use OekBundle\Form\OekEmailMessageType;
 use OekBundle\Entity\OekGroep;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekTrainingenController extends AppController
+/**
+ * @Route("/oek/trainingen")
+ */
+class TrainingenController extends SymfonyController
 {
-    /**
-     * Don't use CakePHP models.
-     */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     private $enabledFilters = [
         'id',
         'naam',
@@ -35,6 +32,9 @@ class OekTrainingenController extends AppController
         'oekTraining.einddatum',
     ];
 
+    /**
+     * @Route("/")
+     */
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(OekTraining::class);
@@ -57,17 +57,22 @@ class OekTrainingenController extends AppController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return ['filter' => $filter->createView(), 'pagination' => $pagination];
     }
 
+    /**
+     * @Route("/{id}/view")
+     */
     public function view($id)
     {
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OekTraining::class);
-        $this->set('oekTraining', $repository->find($id));
+        return ['oekTraining' => $repository->find($id)];
     }
 
+    /**
+     * @Route("/add")
+     */
     public function add()
     {
         $entityManager = $this->getEntityManager();
@@ -89,9 +94,12 @@ class OekTrainingenController extends AppController
             return $this->redirect(['action' => 'view', $oekTraining->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/edit")
+     */
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
@@ -109,9 +117,12 @@ class OekTrainingenController extends AppController
             return $this->redirect(array('action' => 'view', $oekTraining->getId()));
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
+    /**
+     * @Route("/{id}/delete")
+     */
     public function delete($id)
     {
         $entityManager = $this->getEntityManager();
@@ -130,10 +141,12 @@ class OekTrainingenController extends AppController
             return $this->redirect(array('action' => 'index'));
         }
 
-        $this->set('oekTraining', $oekTraining);
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView(), 'oekTraining' => $oekTraining];
     }
 
+    /**
+     * @Route("/{id}/email_deelnemers")
+     */
     public function email_deelnemers($oekTrainingId)
     {
         /** @var OekTraining $oekTraining */
@@ -147,10 +160,10 @@ class OekTrainingenController extends AppController
         $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
-            /** @var Swift_Mailer $mailer */
+            /** @var \Swift_Mailer $mailer */
             $mailer = $this->container->get('mailer');
 
-            /** @var Swift_Mime_Message $message */
+            /** @var \Swift_Mime_Message $message */
             $message = $mailer->createMessage()
                 ->setFrom($form->get('from')->getData())
                 ->setTo($form->get('from')->getData())
@@ -171,7 +184,6 @@ class OekTrainingenController extends AppController
             ]);
         }
 
-        $this->set('form', $form->createView());
-        $this->set('oekTraining', $oekTraining);
+        return ['form' => $form->createView(), 'oekTraining' => $oekTraining];
     }
 }

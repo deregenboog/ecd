@@ -1,23 +1,20 @@
 <?php
 
+namespace OekBundle\Controller;
+
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
 use OekBundle\Form\OekKlantFilterType;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Routing\Annotation\Route;
 
-class OekWachtlijstController extends AppController
+/**
+ * @Route("/oek/wachtlijst")
+ */
+class WachtlijstController extends SymfonyController
 {
-    /**
-     * Don't use CakePHP models.
-     */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'stadsdeel'],
         'groep',
@@ -34,6 +31,9 @@ class OekWachtlijstController extends AppController
         'afsluitdatum',
     ];
 
+    /**
+     * @Route("/")
+     */
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
@@ -63,8 +63,7 @@ class OekWachtlijstController extends AppController
             'wrap-queries' => true, // because of HAVING clause in filter
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return ['filter' => $filter->createView(), 'pagination' => $pagination];
     }
 
     public function download(QueryBuilder $builder)
@@ -75,8 +74,7 @@ class OekWachtlijstController extends AppController
         $this->header('Content-type: text/csv');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
 
-        $this->set('oekKlanten', $oekKlanten);
-        $this->render('download', false);
+        return ['oekKlanten' => $oekKlanten, 'download' => false];
     }
 
     /**

@@ -1,19 +1,19 @@
 <?php
 
-use OekBundle\Form\OekRapportageType;
+namespace OekBundle\Controller;
 
-class OekRapportagesController extends AppController
+use AppBundle\Controller\SymfonyController;
+use OekBundle\Form\OekRapportageType;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/oek/rapportages")
+ */
+class RapportagesController extends SymfonyController
 {
     /**
-     * Don't use CakePHP models.
+     * @Route("/")
      */
-    public $uses = [];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     public function index()
     {
         $form = $this->createForm(OekRapportageType::class);
@@ -35,6 +35,6 @@ class OekRapportagesController extends AppController
             $this->set('reports', $report->getReports());
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 }
