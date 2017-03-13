@@ -1,4 +1,5 @@
-{{ include('elements/iz_subnavigation.twig') }}
+{% include 'elements/iz_subnavigation.twig' %}
+{% form_theme form 'form_div_layout.html.twig' %}
 
 <h2>Hulpvragen</h2>
 
@@ -44,7 +45,7 @@
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'izHulpvraag.startdatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Deelnemernummer', 'klant.id') }}
+                {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
