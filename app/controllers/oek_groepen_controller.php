@@ -32,7 +32,7 @@ class OekGroepenController extends AppController
             ->leftJoin('oekLidmaatschap.oekKlant', 'oekKlant')
             ->leftJoin('oekGroep.oekTrainingen', 'oekTraining');
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekGroep.naam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -54,7 +54,7 @@ class OekGroepenController extends AppController
         $oekGroep = new OekGroep();
 
         $form = $this->createForm(OekGroepType::class, $oekGroep);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->persist($oekGroep);
@@ -75,7 +75,7 @@ class OekGroepenController extends AppController
         $oekGroep = $repository->find($id);
 
         $form = $this->createForm(OekGroepType::class, $oekGroep);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->flush();
@@ -95,7 +95,7 @@ class OekGroepenController extends AppController
         $oekGroep = $repository->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($oekGroep);

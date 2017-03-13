@@ -19,7 +19,7 @@ class IzRapportagesController extends AppController
     public function index()
     {
         $form = $this->createForm(IzRapportageType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             // get reporting service

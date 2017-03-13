@@ -35,4 +35,14 @@ trait TimestampableTrait
     {
         $this->modified = new \DateTime();
     }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getModified()
+    {
+        return $this->modified;
+    }
 }

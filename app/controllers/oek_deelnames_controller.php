@@ -35,7 +35,7 @@ class OekDeelnamesController extends AppController
 
         $oekDeelname = new OekDeelname($oekTraining, $oekKlant);
         $form = $this->createForm(OekDeelnameType::class, $oekDeelname);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->persist($oekDeelname);
             $entityManager->flush();
@@ -66,7 +66,7 @@ class OekDeelnamesController extends AppController
 
         $oekDeelname = new OekDeelname($oekTraining, $oekKlant);
         $form = $this->createForm(OekDeelnameType::class, $oekDeelname, ['mode' => OekDeelnameType::MODE_EDIT]);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->flush();
 

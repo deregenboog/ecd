@@ -46,12 +46,12 @@ class OekTrainingenController extends AppController
         $filter = $this->createForm(OekTrainingFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekTraining.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -79,7 +79,7 @@ class OekTrainingenController extends AppController
         }
 
         $form = $this->createForm(OekTrainingType::class, $oekTraining);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->persist($oekTraining);
             $entityManager->flush();
@@ -99,7 +99,7 @@ class OekTrainingenController extends AppController
         $oekTraining = $repository->find($id);
 
         $form = $this->createForm(OekTrainingType::class, $oekTraining);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->flush();
@@ -119,7 +119,7 @@ class OekTrainingenController extends AppController
         $oekTraining = $repository->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($oekTraining);
@@ -144,7 +144,7 @@ class OekTrainingenController extends AppController
             'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
             'to' => $oekTraining->getOekKlanten(),
         ]);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             /** @var Swift_Mailer $mailer */

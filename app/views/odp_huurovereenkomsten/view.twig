@@ -1,0 +1,37 @@
+{% include 'odp_subnavigation.twig' %}
+
+<h1>Koppeling {{ odpHuurovereenkomst }}</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ odpHuurovereenkomst.id }}</dd>
+    <dt>Huurder</dt>
+    <dd>{{ html.link(odpHuurovereenkomst.odpHuurder.klant, {'controller': 'odp_huurders', 'action': 'view', 0: odpHuurovereenkomst.odpHuurder.id})|raw }}</dd>
+    <dt>Verhuurder</dt>
+    <dd>{{ html.link(odpHuurovereenkomst.odpVerhuurder.klant, {'controller': 'odp_verhuurders', 'action': 'view', 0: odpHuurovereenkomst.odpVerhuurder.id})|raw }}</dd>
+    <dt>Huurverzoek</dt>
+    <dd>{{ html.link(odpHuurovereenkomst.odpHuurverzoek, {'controller': 'odp_huurverzoeken', 'action': 'view', 0: odpHuurovereenkomst.odpHuurverzoek.id})|raw }}</dd>
+    <dt>Huuraanbod</dt>
+    <dd>{{ html.link(odpHuurovereenkomst.odpHuuraanbod, {'controller': 'odp_huuraanbiedingen', 'action': 'view', 0: odpHuurovereenkomst.odpHuuraanbod.id})|raw }}</dd>
+    <dt>Startdatum</dt>
+    <dd>{{ odpHuurovereenkomst.startdatum|date('d-m-Y') }}</dd>
+    <dt>Opzegdatum</dt>
+    <dd>{{ odpHuurovereenkomst.opzegdatum ? odpHuurovereenkomst.opzegdatum|date('d-m-Y') : '-' }}</dd>
+    <dt>Einddatum</dt>
+    <dd>{{ odpHuurovereenkomst.einddatum ? odpHuurovereenkomst.einddatum|date('d-m-Y') : '-' }}</dd>
+    <dt>Verslagen</dt>
+    <dd>
+        {% set link = {'controller': 'odp_verslagen', 'action': 'add', 'odpHuurovereenkomst': odpHuurovereenkomst.id} %}
+        {{ html.addLink(link)|raw }}
+        {{ html.link('Verslag toevoegen', link)|raw }}
+        <ul>
+            {% for odpVerslag in odpHuurovereenkomst.odpVerslagen %}
+                <li>
+                    {{ odpVerslag.medewerker }}
+                    ({{ odpVerslag.datum|date('d-m-Y') }})
+                    <pre>{{ odpVerslag.opmerking }}</pre>
+                </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>

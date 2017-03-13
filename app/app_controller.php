@@ -6,30 +6,30 @@ use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-//  Application Controller. Here we specify functions that can be shared with all controllers.
-
-class AppController extends Controller
+class AppController extends Controller implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     const FORMAT_HTML = 'html';
     const FORMAT_CSV = 'csv';
 
     /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-
-    /**
+     * Used to inject the container in CakePHP context.
+     *
      * @var ContainerInterface
      */
-    protected $container;
+    static public $staticContainer;
 
     /**
      * @var Request
@@ -39,10 +39,14 @@ class AppController extends Controller
     // The helpers we are going to use in all controllers. We do that for
     // default view, later we can specify helpers that will be used per
     // controller.
-    public $helpers = array('Date', 'Session', 'Html', 'Js', 'Format');
+    public $helpers = ['Date', 'Session', 'Html', 'Js', 'Format'];
 
     // setup components
-    public $components = array('Session', 'AuthExt', 'RequestHandler', 'DebugKit.Toolbar');
+    public $components = [
+        'Session',
+        'AuthExt',
+        'RequestHandler',
+    ];
 
     /**
      * User groups for the current logged in user.
@@ -103,7 +107,9 @@ class AppController extends Controller
             'IzViaPersonen',
             'IzRapportages',
         ],
-        'Groepsactiviteiten' => [
+        'groepsactiviteiten_klanten' => [
+            'groepsactiviteiten_klanten',
+            'groepsactiviteiten_vrijwilligers',
             'Groepsactiviteiten',
             'GroepsactiviteitenGroepen',
             'GroepsactiviteitenRedenen',
@@ -285,12 +291,17 @@ class AppController extends Controller
         $this->Session->setFlash($msg, 'default', ['class' => 'error-message']);
     }
 
+    public function getRequest()
+    {
+        return $this->container->get('request_stack')->getCurrentRequest();
+    }
+
     public function beforeFilter()
     {
-        global $kernel;
-
-        $this->container = $kernel->getContainer();
-        $this->request = Request::createFromGlobals();
+        if (!$this->container) {
+            // CakePHP-context only
+            $this->container = self::$staticContainer;
+        }
 
         // By authorizing controller and not actions, we can get rid of ACL and
         // keep things simple. See isAuthorized() above.
@@ -405,16 +416,17 @@ class AppController extends Controller
             unset($this->data['Medewerker']['password_confirm']);
         }
 
-        $menu_elements = Configure::read('all_menu_items');
-
-        $menu_allowed = [];
-        foreach ($menu_elements as $controller => $text) {
-            if ($this->_isControllerAuthorized($controller)) {
-                $menu_allowed[$controller] = $text;
+        if ($this->container) {
+            $menu_elements = $this->container->getParameter('all_menu_items');
+            $menu_allowed = [];
+            foreach ($menu_elements as $controller => $text) {
+                if ($this->_isControllerAuthorized($controller)) {
+                    $menu_allowed[$controller] = $text;
+                }
             }
+            $this->set(compact('menu_allowed'));
+            $this->set('menuControllers', $this->menuControllers);
         }
-        $this->set(compact('menu_allowed'));
-        $this->set('menuControllers', $this->menuControllers);
 
         // A hack to fix the problem that HABTM validation messages do not come
         // to the right place. Maybe it is fixed in latest Cakes, but we need
@@ -599,7 +611,9 @@ class AppController extends Controller
      */
     protected function getEntityManager()
     {
-        return $this->container->get('doctrine.orm.entity_manager');
+        if ($this->container) {
+            return $this->container->get('doctrine.orm.entity_manager');
+        }
     }
 
     /**
@@ -607,7 +621,9 @@ class AppController extends Controller
      */
     protected function getEventDispatcher()
     {
-        return $this->container->get('event_dispatcher');
+        if ($this->container) {
+            return $this->container->get('event_dispatcher');
+        }
     }
 
     /**
@@ -615,7 +631,9 @@ class AppController extends Controller
      */
     protected function getTemplatingEngine()
     {
-        return $this->container->get('templating');
+        if ($this->container) {
+            return $this->container->get('templating');
+        }
     }
 
     /**
@@ -623,7 +641,9 @@ class AppController extends Controller
      */
     protected function getPaginator()
     {
-        return $this->container->get('knp_paginator');
+        if ($this->container) {
+            return $this->container->get('knp_paginator');
+        }
     }
 
     /**
@@ -631,7 +651,9 @@ class AppController extends Controller
      */
     protected function getValidator()
     {
-        return $this->container->get('validator');
+        if ($this->container) {
+            return $this->container->get('validator');
+        }
     }
 
     /**
@@ -639,7 +661,9 @@ class AppController extends Controller
      */
     protected function getFormFactory()
     {
-        return $this->container->get('form.factory');
+        if ($this->container) {
+            return $this->container->get('form.factory');
+        }
     }
 
     /**
@@ -647,7 +671,9 @@ class AppController extends Controller
      */
     protected function getRouter()
     {
-        return $this->container->get('router');
+        if ($this->container) {
+            return $this->container->get('router');
+        }
     }
 
     /**

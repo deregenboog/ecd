@@ -11,6 +11,7 @@ use AppBundle\Form\StadsdeelFilterType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Filter\IzDeelnemerSelectie;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\FilterType;
 
 class IzDeelnemerSelectieType extends AbstractType
 {
@@ -85,5 +86,13 @@ class IzDeelnemerSelectieType extends AbstractType
             'data_class' => IzDeelnemerSelectie::class,
             'method' => 'GET',
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

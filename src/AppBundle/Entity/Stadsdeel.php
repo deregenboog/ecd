@@ -2,25 +2,22 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(name="stadsdelen")
+ * @ORM\Entity
+ * @ORM\Table(name="stadsdelen")
  */
 class Stadsdeel
 {
     /**
-     * @Id
-     * @Column(type="string")
+     * @ORM\Id
+     * @ORM\Column(type="string")
      */
     private $postcode;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $stadsdeel;
 

@@ -38,7 +38,7 @@ class HsFacturenController extends AppController
         $filter = $this->createForm(HsFactuurFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsFactuur::class);
@@ -53,7 +53,7 @@ class HsFacturenController extends AppController
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsFactuur.nummer',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -99,7 +99,7 @@ class HsFacturenController extends AppController
         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
         $form = $this->createForm(HsFactuurType::class, $hsFactuur);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager = $this->getEntityManager();
@@ -117,7 +117,7 @@ class HsFacturenController extends AppController
         $hsFactuur = $entityManager->find(HsFactuur::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($hsFactuur);

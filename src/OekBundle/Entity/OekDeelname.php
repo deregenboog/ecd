@@ -88,7 +88,7 @@ class OekDeelname
         return $this->status;
     }
 
-    public function setStatus(string $status)
+    public function setStatus($status)
     {
         $this->status = $status;
 

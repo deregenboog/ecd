@@ -16,16 +16,29 @@
     <dt>Startdatum</dt>
     <dd>{{ odpHuurverzoek.startdatum | date('d-m-Y') }}</dd>
     <dt>Einddatum</dt>
-    <dd>{{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum | date('d-m-Y') : 'onbepaald' }}</dd>
-    <dt>Opmerkingen</dt>
-    <dd>{{ odpHuurverzoek.opmerkingen }}</dd>
-    <dt>Huurovereenkomst</dt>
+    <dd>{{ odpHuurverzoek.einddatum ? odpHuurverzoek.einddatum|date('d-m-Y') : '-' }}</dd>
+    <dt>Koppeling</dt>
     <dd>
         {% if odpHuurverzoek.odpHuurovereenkomst %}
-            {{ html.link(odpHuurverzoek.odpHuurovereenkomst.id, {'controller': 'odp_huurovereenkomsten', 'action': 'view', 0: odpHuurverzoek.odpHuurovereenkomst.id}) | raw }}
+            {{ html.link(odpHuurverzoek.odpHuurovereenkomst, {'controller': 'odp_huurovereenkomsten', 'action': 'view', 0: odpHuurverzoek.odpHuurovereenkomst.id}) | raw }}
         {% else %}
             {{ html.addLink({'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
-            {{ html.link('Maak huurovereenkomst', {'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
+            {{ html.link('Maak koppeling', {'action': 'maak_huurovereenkomst', 0: odpHuurverzoek.id}) | raw }}
         {% endif %}
+    </dd>
+    <dt>Verslagen</dt>
+    <dd>
+        {% set link = {'controller': 'odp_verslagen', 'action': 'add', 'odpHuurverzoek': odpHuurverzoek.id} %}
+        {{ html.addLink(link)|raw }}
+        {{ html.link('Verslag toevoegen', link)|raw }}
+        <ul>
+            {% for odpVerslag in odpHuurverzoek.odpVerslagen %}
+                <li>
+                    {{ odpVerslag.medewerker }}
+                    ({{ odpVerslag.datum|date('d-m-Y') }})
+                    <pre>{{ odpVerslag.opmerking }}</pre>
+                </li>
+            {% endfor %}
+        </ul>
     </dd>
 </dl>

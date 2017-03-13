@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Verhuurders |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Verhuurder verwijderen</h1>
+    <p>
+        Weet u zeker dat u verhuurder
+        {{ html.link(verhuurder, path('odp_verhuurders_view', {id: verhuurder.id})) }}
+        wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

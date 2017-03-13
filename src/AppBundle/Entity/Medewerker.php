@@ -2,43 +2,43 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(name="medewerkers")
+ * @ORM\Entity
+ * @ORM\Table(name="medewerkers")
  */
 class Medewerker
 {
     use PersoonTrait;
 
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * Dummy property (for PersonTrait to work properly).
-     *
-     * @var string
-     */
-    private $roepnaam;
-
-    /**
-     * @Column(name="groups", type="simple_array", nullable=true)
+     * @ORM\Column(name="groups", type="simple_array", nullable=true)
      */
     private $groepen = [];
 
-    public function __construct()
+    public function getNaam()
     {
-        $this->klanten = new ArrayCollection();
+        $parts = [];
+
+        if ($this->voornaam) {
+            $parts[] = $this->voornaam;
+        }
+        if ($this->tussenvoegsel) {
+            $parts[] = $this->tussenvoegsel;
+        }
+        if ($this->achternaam) {
+            $parts[] = $this->achternaam;
+        }
+
+        return implode(' ', $parts);
     }
 
     public function getId()

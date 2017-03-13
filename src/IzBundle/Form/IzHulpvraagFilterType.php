@@ -12,6 +12,7 @@ use AppBundle\Form\KlantFilterType;
 use IzBundle\Entity\IzHulpvraag;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpvraagFilter;
+use AppBundle\Form\FilterType;
 
 class IzHulpvraagFilterType extends IzKoppelingFilterType
 {
@@ -73,5 +74,13 @@ class IzHulpvraagFilterType extends IzKoppelingFilterType
             'data_class' => IzHulpvraagFilter::class,
             'enabled_filters' => [],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

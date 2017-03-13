@@ -23,7 +23,7 @@ class HsMemosController extends AppController
 
         $form = $this->createForm(HsMemoType::class, $hsMemo);
         $form->get('referer')->setData($this->referer());
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -48,7 +48,7 @@ class HsMemosController extends AppController
 
         $form = $this->createForm(ConfirmationType::class);
         $form->get('referer')->setData($this->referer());
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($hsMemo);

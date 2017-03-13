@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
+use AppBundle\Form\FilterType;
 
 class IzKoppelingFilterType extends AbstractType
 {
@@ -84,11 +85,11 @@ class IzKoppelingFilterType extends AbstractType
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
                 },
-                ]);
+            ]);
         }
         if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
@@ -96,11 +97,11 @@ class IzKoppelingFilterType extends AbstractType
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
-                ->select('DISTINCT medewerker')
-                ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
                 ->orderBy('medewerker.achternaam', 'ASC');
                 },
-                ]);
+            ]);
         }
     }
 
@@ -113,5 +114,13 @@ class IzKoppelingFilterType extends AbstractType
             'data_class' => IzKoppelingFilter::class,
             'enabled_filters' => [],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

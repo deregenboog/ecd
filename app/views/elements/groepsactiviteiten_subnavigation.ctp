@@ -1,71 +1,19 @@
 <div id="subheader">
-    <?php
-        if ($this->name == 'Groepsactiviteiten'
-            && $this->action == 'index'
-            && empty($this->params['named'])
-        ) {
-            echo $html->link(
-                'Deelnemers',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                ),
-                array('class' => 'selected')
-            );
-        } else {
-            echo $html->link(
-                'Deelnemers',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                )
-            );
-        }
-    ?>
+    <?= $html->link(
+        'Deelnemers',
+        array(
+            'controller' => 'groepsactiviteiten_klanten',
+            'action' => 'index',
+        )
+    ) ?>
     &nbsp;&nbsp;
     <?= $html->link(
-            'Afgesloten deelnemers',
-            array(
-                'controller' => 'groepsactiviteiten',
-                'action' => 'afgesloten_klanten',
-            )
-        );
-    ?>
-    &nbsp;&nbsp;
-    <?php
-        if ($this->name == 'Groepsactiviteiten'
-            && $this->action == 'index'
-            && !empty($this->params['named'])
-        ) {
-            echo $html->link(
-                'Vrijwilligers',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                    'selectie' => 'Vrijwilliger',
-                ),
-                array('class' => 'selected')
-            );
-        } else {
-            echo $html->link(
-                'Vrijwilligers',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                    'selectie' => 'Vrijwilliger',
-                )
-            );
-        }
-    ?>
-    &nbsp;&nbsp;
-    <?= $html->link(
-            'Afgesloten vrijwilligers',
-            array(
-                'controller' => 'groepsactiviteiten',
-                'action' => 'afgesloten_vrijwilligers',
-            )
-        );
-    ?>
+        'Vrijwilligers',
+        array(
+            'controller' => 'groepsactiviteiten_vrijwilligers',
+            'action' => 'index',
+        )
+    ) ?>
     &nbsp;&nbsp;
     <?php
         if ($this->action == 'export') {

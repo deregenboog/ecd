@@ -40,7 +40,7 @@ class HsKlussenController extends AppController
             ->innerJoin('hsKlus.hsActiviteit', 'hsActiviteit')
             ->innerJoin('hsKlant.klant', 'klant');
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsKlus.datum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -97,7 +97,7 @@ class HsKlussenController extends AppController
             'mapped' => false,
             'attr' => ['rows' => 10, 'cols' => 80],
         ]);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $hsMemo = new HsMemo($hsKlus->getMedewerker());
@@ -125,7 +125,7 @@ class HsKlussenController extends AppController
         $hsKlus = $repository->find($id);
 
         $form = $this->createForm(HsKlusType::class, $hsKlus);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->flush();
@@ -145,7 +145,7 @@ class HsKlussenController extends AppController
         $hsKlus = $repository->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($hsKlus);
@@ -171,7 +171,7 @@ class HsKlussenController extends AppController
             ->setParameter('hsKlus', $hsKlus)
         ;
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsMemo.datum',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => ['hsMemo.datum'],
@@ -192,7 +192,7 @@ class HsKlussenController extends AppController
         $hsMemo = new HsMemo($medewerker);
 
         $form = $this->createForm(HsMemoType::class, $hsMemo)->remove('intake');
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {

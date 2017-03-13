@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Coördinatoren |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurder verwijderen</h1>
+    <p>
+        Weet u zeker dat u coördinator
+        {{ coordinator }}
+        wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

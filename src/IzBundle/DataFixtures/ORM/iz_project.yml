@@ -84,60 +84,10 @@ IzBundle\Entity\IzProject:
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: NULL
         heeftKoppelingen: true
-    iz_project_Maatje - Telefoon *:
-        naam: 'Maatje - Telefoon *'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_Maatje - E-mail *:
-        naam: 'Maatje - E-mail *'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_Studiemaatjes ST *:
-        naam: 'Studiemaatjes ST *'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_Maatje - Kwartiermaken *:
-        naam: 'Maatje - Kwartiermaken *'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_Sportmaatjes *:
-        naam: 'Sportmaatjes *'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_jongerenmaatje:
-        naam: 'jongerenmaatje'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_Time out:
-        naam: 'Time out'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
     iz_project_VJN - coach:
         naam: 'VJN - coach'
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: NULL
-        heeftKoppelingen: true
-    iz_project_BZ - buddy:
-        naam: 'BZ - buddy'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_VONK - maatje:
-        naam: 'VONK - maatje'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_VONK - maatje shv:
-        naam: 'VONK - maatje shv'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
         heeftKoppelingen: true
     iz_project_PM - maatje:
         naam: 'PM - maatje'
@@ -148,41 +98,6 @@ IzBundle\Entity\IzProject:
         naam: 'TC - coach'
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: NULL
-        heeftKoppelingen: true
-    iz_project_VJN - coach:
-        naam: 'VJN - coach'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_AV - maatje:
-        naam: 'AV - maatje'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_VONK - maatje shv:
-        naam: 'VONK - maatje shv'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_Papermate:
-        naam: 'Papermate'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_TC - coach:
-        naam: 'TC - coach'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_MZO - maatje:
-        naam: 'MZO - maatje'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
-        heeftKoppelingen: true
-    iz_project_AV - maatje jong:
-        naam: 'AV - maatje jong'
-        startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: '<(new Datetime("2014-01-01"))>'
         heeftKoppelingen: true
     iz_project_RBS - buddy:
         naam: 'RBS - buddy'

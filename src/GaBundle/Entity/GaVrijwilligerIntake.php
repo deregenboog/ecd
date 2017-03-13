@@ -22,4 +22,11 @@ class GaVrijwilligerIntake extends GaIntake
     {
         return $this->vrijwilliger;
     }
+
+    public function setVrijwilliger(Vrijwilliger $vrijwilliger)
+    {
+        $this->vrijwilliger = $vrijwilliger;
+
+        return $this;
+    }
 }

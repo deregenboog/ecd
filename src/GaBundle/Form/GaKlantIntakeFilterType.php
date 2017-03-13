@@ -22,43 +22,9 @@ class GaKlantIntakeFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('id', $options['enabled_filters'])) {
-            $builder->add('id', null, [
-                'attr' => ['placeholder' => 'Klantnummer'],
-            ]);
-        }
-
         if (key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
         }
-
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
-                'required' => false,
-                'class' => Medewerker::class,
-                'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('medewerker')
-                        ->select('DISTINCT medewerker')
-                        ->innerJoin(GaKlantIntake::class, 'gaKlantIntake', 'WITH', 'gaKlantIntake.medewerker = medewerker')
-                        ->orderBy('medewerker.achternaam', 'ASC')
-                        ;
-                },
-            ]);
-        }
-
-        if (in_array('afsluitdatum', $options['enabled_filters'])) {
-            $builder->add('afsluitdatum', AppDateRangeType::class, [
-                'required' => false,
-            ]);
-        }
-
-        $builder->add('filter', SubmitType::class, [
-            'label' => 'Filteren',
-        ]);
-
-        $builder->add('download', SubmitType::class, [
-            'label' => 'Downloaden',
-        ]);
     }
 
     /**
@@ -76,6 +42,6 @@ class GaKlantIntakeFilterType extends AbstractType
      */
     public function getParent()
     {
-        return FilterType::class;
+        return GaIntakeFilterType::class;
     }
 }

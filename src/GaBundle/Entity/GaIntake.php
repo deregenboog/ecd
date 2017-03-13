@@ -128,4 +128,24 @@ abstract class GaIntake
     {
         return false;
     }
+
+    public function getGespreksverslag()
+    {
+        return $this->gespreksverslag;
+    }
+
+    public function getIntakedatum()
+    {
+        return $this->intakedatum;
+    }
+
+    public function getGaAfsluiting()
+    {
+        return $this->gaAfsluiting;
+    }
+
+    public function isGezinMetKinderen()
+    {
+        return $this->gezinMetKinderen;
+    }
 }

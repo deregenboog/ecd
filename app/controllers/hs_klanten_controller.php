@@ -42,7 +42,7 @@ class HsKlantenController extends AppController
         $filter = $this->createForm(HsKlantFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(HsKlant::class);
@@ -56,7 +56,7 @@ class HsKlantenController extends AppController
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -93,7 +93,7 @@ class HsKlantenController extends AppController
                 'mapped' => false,
                 'attr' => ['rows' => 10, 'cols' => 80],
             ]);
-            $creationForm->handleRequest($this->request);
+            $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isValid()) {
                 try {
@@ -126,12 +126,12 @@ class HsKlantenController extends AppController
         $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->request);
+        $filterForm->handleRequest($this->getRequest());
 
         $selectionForm = $this->createForm(HsKlantSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
-        $selectionForm->handleRequest($this->request);
+        $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isValid()) {
             $this->set('selectionForm', $selectionForm->createView());
@@ -157,7 +157,7 @@ class HsKlantenController extends AppController
         $hsKlant = $entityManager->find(HsKlant::class, $id);
 
         $form = $this->createForm(HsKlantType::class, $hsKlant);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -181,7 +181,7 @@ class HsKlantenController extends AppController
         $hsKlant = $entityManager->find(HsKlant::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($hsKlant);
@@ -207,7 +207,7 @@ class HsKlantenController extends AppController
             ->setParameter('hsKlant', $hsKlant)
         ;
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'hsMemo.datum',
             'defaultSortDirection' => 'desc',
             'sortFieldWhitelist' => ['hsMemo.datum'],
@@ -231,7 +231,7 @@ class HsKlantenController extends AppController
         }
 
         $form = $this->createForm(HsMemoType::class, $hsMemo);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
