@@ -25,7 +25,6 @@ if (!defined('CORE_PATH')) {
     }
 }
 if (php_sapi_name() == 'cli-server') {
-    var_dump(''); die;
     $_SERVER['PHP_SELF'] = '/'.basename(__FILE__);
 }
 
@@ -40,6 +39,8 @@ spl_autoload_register(function($class) {
             break;
         case AppController::class:
             require_once __DIR__.'/app_controller.php';
+            break;
+        default:
             break;
     }
 });

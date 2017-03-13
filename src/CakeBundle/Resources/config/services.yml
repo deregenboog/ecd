@@ -151,6 +151,12 @@ parameters:
                 - IzRapportages
                 - IzVerslagen
                 - Attachments
+                - odp
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurovereenkomsten
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
                 - IzDeelnemers
@@ -167,6 +173,16 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
+                - odp
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Huurderafsluitingen
+                - OdpBundle\Controller\Verhuurderafsluitingen
+                - OdpBundle\Controller\Woningbouwcorporaties
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
                 - Vrijwilligers
@@ -280,6 +296,11 @@ parameters:
 services:
     cake.service.config:
         class: CakeBundle\Service\CakeConfiguration
+
+    cake.service.cache_warmer:
+        class: CakeBundle\Service\CakeCacheWarmer
+        tags:
+            - { name: kernel.cache_warmer, priority: 100 }
 
     cake.event.controller:
         class: CakeBundle\Event\KernelSubscriber

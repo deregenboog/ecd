@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class KernelSubscriber implements EventSubscriberInterface, ContainerAwareInterface
+class KernelSubscriber implements EventSubscriberInterface
 {
     /**
      * @var ContainerInterface
@@ -93,12 +93,6 @@ class KernelSubscriber implements EventSubscriberInterface, ContainerAwareInterf
         $response = $this->container->get('templating')->renderResponse($template, $this->controller->viewVars);
 
         $event->setResponse($response);
-    }
-
-    public function setContainer(ContainerInterface $container = null)
-    {
-        var_dump($container); die;
-        $this->container = $container;
     }
 
     private function setFlashMessage()

@@ -122,13 +122,13 @@ class VerhuurdersController extends SymfonyController
         ]);
         $selectionForm->handleRequest($this->getRequest());
 
-        if ($filterForm->isValid()) {
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $this->set('selectionForm', $selectionForm->createView());
 
             return;
         }
 
-        if ($selectionForm->isValid()) {
+        if ($selectionForm->isSubmitted() &&  $selectionForm->isValid()) {
             $verhuurder = $selectionForm->getData();
             if ($verhuurder->getKlant() instanceof Klant) {
                 $id = $verhuurder->getKlant()->getId();
