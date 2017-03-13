@@ -43,6 +43,6 @@ Gekoppeld
     {% endfor %}{{ tab -}}
     {%- for izHulpvraag in izKlant.izHulpvragen %}
         {{- izHulpvraag.medewerker ~ ' ' -}}
-    {% endfor %}
+    {% endfor %}{{ tab -}}
     {{- izKlant.gekoppeld ? 'ja' : 'nee' }}
 {% endfor %}
