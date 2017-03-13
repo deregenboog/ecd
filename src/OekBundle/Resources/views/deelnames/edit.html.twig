@@ -10,12 +10,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Deelname verwijderen</h1>
-    <p>
-        Weet u zeker dat u deelnemer <strong>{{ oekKlant }}</strong>
-        van training <strong>{{ oekGroep }}</strong> wilt verwijderen?
-        <br>
-        {{ form_start(form) }}
-        {{ form_end(form) }}
-    </p>
+    <h1>Status van deelname aan training wijzigen</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Opslaan</button>
+    {{ form_end(form) }}
 {% endblock %}

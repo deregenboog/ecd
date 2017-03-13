@@ -102,8 +102,9 @@ class KlantenController extends SymfonyController
     /**
      * @Route("/add")
      */
-    public function add($klantId = null)
+    public function add()
     {
+        $klantId = $this->getRequest()->query->get('klantId');
         $entityManager = $this->getEntityManager();
 
         if ($klantId) {
@@ -165,7 +166,7 @@ class KlantenController extends SymfonyController
                 return $this->redirectToRoute('oek_klanten_add', ['klantId' => $oekKlant->getKlant()->getId()]);
             }
 
-            return $this->redirect(['action' => 'add', 'new']);
+            return $this->redirectToRoute('oek_klanten_add', ['klantId' => 'new']);
         }
 
         return ['filterForm' => $filterForm->createView()];

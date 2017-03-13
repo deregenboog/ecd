@@ -23,15 +23,15 @@ class LidmaatschappenController extends SymfonyController
         $entityManager = $this->getEntityManager();
 
         $oekGroep = null;
-        if (isset($this->params['named']['oekGroep'])) {
+        if ($this->getRequest()->query->has('oekGroep')) {
             /** @var OekGroep $oekGroep */
-            $oekGroep = $entityManager->find(OekGroep::class, $this->params['named']['oekGroep']);
+            $oekGroep = $entityManager->find(OekGroep::class, $this->getRequest()->query->get('oekGroep'));
         }
 
         $oekKlant = null;
-        if (isset($this->params['named']['oekKlant'])) {
+        if ($this->getRequest()->query->has('oekKlant')) {
             /** @var OekKlant $oekKlant */
-            $oekKlant = $entityManager->find(OekKlant::class, $this->params['named']['oekKlant']);
+            $oekKlant = $entityManager->find(OekKlant::class, $this->getRequest()->query->get('oekKlant'));
         }
 
         $oekLidmaatschap = new OekLidmaatschap($oekGroep, $oekKlant);
@@ -43,7 +43,7 @@ class LidmaatschappenController extends SymfonyController
 
             $this->Session->setFlash('Deelnemer is aan wachtlijst toegevoegd.');
 
-            return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekLidmaatschap->getOekKlant()->getId()]);
+            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);
         }
 
         return ['form' => $form->createView()];
@@ -52,23 +52,26 @@ class LidmaatschappenController extends SymfonyController
     /**
      * @Route("/delete/{oekGroep}/{oekKlant}")
      */
-    public function delete($oekGroep_id, $oekKlant_id)
+    public function delete($oekGroep, $oekKlant)
     {
         $entityManager = $this->getEntityManager();
         $repo = $entityManager->getRepository(OekLidmaatschap::class);
 
         /** @var OekLidmaatschap $oekLidmaatschap */
-        $oekLidmaatschap = $repo->findOneBy(compact('oekGroep_id', 'oekKlant_id'));
+        $oekLidmaatschap = $repo->findOneBy(compact('oekGroep', 'oekKlant'));
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
-        if ($form->isValid()) {
+        if ($form->get('yes')->isClicked()) {
             $entityManager->remove($oekLidmaatschap);
             $entityManager->flush();
 
             $this->Session->setFlash('Deelnemer is van wachtlijst verwijderd.');
 
-            return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekLidmaatschap->getOekKlant()->getId()]);
+        }
+
+        if ($form->isValid()) {
+            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);
         }
 
         return ['form' => $form->createView(), 'oekLidmaatschap' => $oekLidmaatschap];

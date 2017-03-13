@@ -78,8 +78,9 @@ class TrainingenController extends SymfonyController
         $entityManager = $this->getEntityManager();
 
         $oekTraining = new OekTraining();
-        if (isset($this->params['named']['oekGroep'])) {
-            $oekGroep = $entityManager->find(OekGroep::class, $this->params['named']['oekGroep']);
+        if ($oekGroepId = $this->getRequest()->query->get('oekGroep')) {
+            /** @var OekGroep $oekGroep */
+            $oekGroep = $entityManager->find(OekGroep::class, $oekGroepId);
             $oekTraining->setOekGroep($oekGroep);
         }
 

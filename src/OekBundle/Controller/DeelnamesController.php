@@ -3,6 +3,7 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
+use AppBundle\Form\ConfirmationType;
 use OekBundle\Entity\OekKlant;
 use OekBundle\Entity\OekTraining;
 use OekBundle\Form\OekDeelnameType;
@@ -22,15 +23,15 @@ class DeelnamesController extends SymfonyController
         $entityManager = $this->getEntityManager();
 
         $oekTraining = null;
-        if (isset($this->params['named']['oekTraining'])) {
+        if ($this->getRequest()->query->has('oekTraining')) {
             /** @var OekTraining $oekTraining */
-            $oekTraining = $entityManager->find(OekTraining::class, $this->params['named']['oekTraining']);
+            $oekTraining = $entityManager->find(OekTraining::class, $this->getRequest()->query->get('oekTraining'));
         }
 
         $oekKlant = null;
-        if (isset($this->params['named']['oekKlant'])) {
+        if ($this->getRequest()->query->has('oekKlant')) {
             /** @var OekKlant $oekKlant */
-            $oekKlant = $entityManager->find(OekKlant::class, $this->params['named']['oekKlant']);
+            $oekKlant = $entityManager->find(OekKlant::class, $this->getRequest()->query->get('oekKlant'));
         }
 
         $oekDeelname = new OekDeelname($oekTraining, $oekKlant);
@@ -42,7 +43,7 @@ class DeelnamesController extends SymfonyController
 
             $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
 
-            return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekDeelname->getOekKlant()->getId()]);
+            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
         }
 
         return ['form' => $form->createView()];
@@ -56,15 +57,15 @@ class DeelnamesController extends SymfonyController
         $entityManager = $this->getEntityManager();
 
         $oekTraining = null;
-        if (isset($this->params['named']['oekTraining'])) {
+        if ($this->getRequest()->query->has('oekTraining')) {
             /** @var OekTraining $oekTraining */
-            $oekTraining = $entityManager->find(OekTraining::class, $this->params['named']['oekTraining']);
+            $oekTraining = $entityManager->find(OekTraining::class, $this->getRequest()->query->get('oekTraining'));
         }
 
         $oekKlant = null;
-        if (isset($this->params['named']['oekKlant'])) {
+        if ($this->getRequest()->query->has('oekKlant')) {
             /** @var OekKlant $oekKlant */
-            $oekKlant = $entityManager->find(OekKlant::class, $this->params['named']['oekKlant']);
+            $oekKlant = $entityManager->find(OekKlant::class, $this->getRequest()->query->get('oekKlant'));
         }
 
         $oekDeelname = new OekDeelname($oekTraining, $oekKlant);
@@ -75,9 +76,37 @@ class DeelnamesController extends SymfonyController
 
             $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
 
-            return $this->redirect(['controller' => 'oek_klanten', 'action' => 'view', $oekDeelname->getOekKlant()->getId()]);
+            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
         }
 
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/delete/{oekTraining}/{oekKlant}")
+     */
+    public function delete()
+    {
+        $entityManager = $this->getEntityManager();
+        $repo = $entityManager->getRepository(OekDeelname::class);
+
+        /** @var OekDeelname $oekDeelname */
+        $oekDeelname = $repo->findOneBy(compact('oekTraining', 'oekKlant'));
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+        if ($form->get('yes')->isClicked()) {
+            $entityManager->remove($oekDeelname);
+            $entityManager->flush();
+
+            $this->Session->setFlash('Deelnemer is van training verwijderd.');
+
+        }
+
+        if ($form->isValid()) {
+            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
+        }
+
+        return ['form' => $form->createView(), 'oekDeelname' => $oekDeelname];
     }
 }
