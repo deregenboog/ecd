@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Vrijwilligers |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Vrijwilliger toevoegen</h1>
+    {% if filterForm is defined %}
+        Zoek een bestaande vrijwilliger op (een deel van de) naam.
+        {{ form(filterForm) }}
+    {% endif %}
+    {% if selectionForm is defined %}
+        Selecteer een bestaande vrijwilliger en klik op "Verder".<br>
+        Selecteer niks en klik op "Verder" om een nieuwe vrijwilliger aan te maken.
+        {{ form(selectionForm) }}
+    {% endif %}
+    {% if creationForm is defined %}
+        {{ form(creationForm) }}
+    {% endif %}
+{% endblock %}

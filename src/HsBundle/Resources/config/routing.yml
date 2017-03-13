@@ -1,20 +1,9 @@
-hs_klanten_index:
-    path: hs_klanten
+hs_annotations:
+    resource: "@HsBundle/Controller"
+    type: annotation
 
-hs_vrijwilligers_index:
-    path: hs_vrijwilligers
-
-hs_klussen_index:
-    path: hs_klussen
-
-hs_facturen_index:
-    path: hs_facturen
-
-hs_betalingen_index:
-    path: hs_betalingen
-
-hs_activiteiten_index:
-    path: hs_activiteiten
-
-hs_declaratie_categorieen_index:
-    path: hs_declaratie_categorieen
+hs_index:
+    path: /hs
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: hs_klanten_index

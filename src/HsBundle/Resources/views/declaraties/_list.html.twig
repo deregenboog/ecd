@@ -1,0 +1,31 @@
+<h2>Declaraties</h2>
+{% if add_url is defined %}
+    <p>
+        {{ html.addLink(add_url) }}
+        {{ html.link('Declaratie toevoegen', add_url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Code</th>
+            <th>Info</th>
+            <th>Bedrag</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for declaratie in entity.declaraties %}
+            <tr>
+                <td>{{ declaratie.datum|date('d-m-Y') }}</td>
+                <td>{{ declaratie.declaratieCategorie }}</td>
+                <td>{{ declaratie.info }}</td>
+                <td>{{ declaratie.bedrag|money }}</td>
+                <td>
+                    {{ html.editLink(path('hs_declaraties_edit', {id: declaratie.id})) }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

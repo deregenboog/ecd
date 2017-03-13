@@ -1,0 +1,16 @@
+<h2>Vrijwilligers</h2>
+{% if add_url is defined %}
+    <p>
+        {{ html.addLink(add_url) }}
+        {{ html.link('Vrijwilliger toevoegen', add_url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    {% for vrijwilliger in entity.vrijwilligers %}
+        <tr>
+            <td>
+                {{ html.link(vrijwilliger, path('hs_vrijwilliger_view', {id: vrijwilliger.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

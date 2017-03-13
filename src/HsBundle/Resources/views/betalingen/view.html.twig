@@ -1,0 +1,110 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>
+    {{ factuur }}
+    {{ html.editLink({'action': 'edit', 0: factuur.id}) }}
+    {% if factuur.deletable %}
+        {{ html.deleteLink({'action': 'delete', 0: factuur.id}) }}
+    {% endif %}
+</h1>
+
+<dl>
+    <dt>#</dt>
+    <dd>{{ factuur.id }}</dd>
+    <dt>Datum</dt>
+    <dd>{{ factuur.datum|date('d-m-Y') }}</dd>
+    <dt>Betreft</dt>
+    <dd>{{ factuur }}</dd>
+    <dt>Klant</dt>
+    <dd>{{ factuur.klus.klant }}</dd>
+    <dt>Uren</dt>
+    <dd>
+        {% if factuur.registraties is empty %}
+            -
+        {% else %}
+            <table class="fixed">
+                <tr>
+                    <th>Datum</th>
+                    <th>Activiteit</th>
+                    <th>Start</th>
+                    <th>Eind</th>
+                    <th>Uren</th>
+                    <th>Tarief</th>
+                    <th>Totaal</th>
+                </tr>
+                {% set tarief = 2.5 %}
+                {% set totaal = 0.0 %}
+                {% for registratie in factuur.registraties %}
+                    {% set bedrag = registratie.uren * tarief %}
+                    <tr>
+                        <td>{{ registratie.datum|date('d-m-Y') }}</td>
+                        <td>{{ registratie.activiteit }}</td>
+                        <td>{{ registratie.start|date('H:i') }}</td>
+                        <td>{{ registratie.eind|date('H:i') }}</td>
+                        <td>{{ registratie.uren }}</td>
+                        <td>{{ tarief|money }}</td>
+                        <td>{{ bedrag|money }}</td>
+                    </tr>
+                    {% set totaal = totaal + bedrag %}
+                {% endfor %}
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Totaal</th>
+                        <th>{{ totaal|money }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        {% endif %}
+    </dd>
+    <dt>Declaraties</dt>
+    <dd>
+        {% if factuur.hsDeclaraties is empty %}
+            -
+        {% else %}
+            <table class="fixed">
+                <tr>
+                    <th>Datum</th>
+                    <th>Categorie</th>
+                    <th colspan="4">Info</th>
+                    <th>Totaal</th>
+                </tr>
+                {% set totaal = 0.0 %}
+                {% for hsDeclaratie in factuur.hsDeclaraties %}
+                    <tr>
+                        <td>{{ hsDeclaratie.datum|date('d-m-Y') }}</td>
+                        <td>{{ hsDeclaratie.hsDeclaratieCategorie }}</td>
+                        <td colspan="4">{{ hsDeclaratie.info }}</td>
+                        <td>{{ hsDeclaratie.bedrag|money }}</td>
+                    </tr>
+                    {% set totaal = totaal + hsDeclaratie.bedrag %}
+                {% endfor %}
+                <tfoot>
+                    <tr>
+                        <th colspan="6">Totaal</th>
+                        <th>{{ totaal|money }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        {% endif %}
+    </dd>
+    <dt>Totaal</dt>
+    <dd>
+        <table class="fixed">
+            <tr>
+                <th colspan="6"></th>
+                <th>Totaal</th>
+            </tr>
+            <tfoot>
+                <tr>
+                    <th colspan="6">Totaal</th>
+                    <th>{{ factuur.bedrag|money }}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </dd>
+</dl>

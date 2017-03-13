@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class SymfonyController extends \AppController
+abstract class SymfonyController extends \AppController
 {
     public $uses = [];
 
@@ -442,4 +442,8 @@ class SymfonyController extends \AppController
 
         return $this->container->get('security.csrf.token_manager')->isTokenValid(new CsrfToken($id, $token));
     }
+
+//     abstract protected function redirectToIndexAction();
+
+//     abstract protected function redirectToViewAction($id);
 }

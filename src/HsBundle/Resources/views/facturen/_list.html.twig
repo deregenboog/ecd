@@ -1,0 +1,35 @@
+<h2>Facturen</h2>
+{% if add_url is defined %}
+    <p>
+        {{ html.addLink(add_url) }}
+        {{ html.link('Factuur toevoegen', add_url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Datum</th>
+        <th>Klant</th>
+        <th>Bedrag</th>
+        <th>Betaald</th>
+        <th>Openstaand</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for factuur in entity.facturen %}
+        <tr>
+            <td>
+                {{ html.link(factuur.id, path('hs_facturen_view', {id: factuur.id})) }}
+            </td>
+            <td>{{ factuur.datum|date('d-m-Y') }}</td>
+            <td>{{ factuur.klus.klant }}</td>
+            <td>{{ factuur.bedrag|money }}</td>
+            <td>{{ factuur.betaald|money }}</td>
+            <td>{{ factuur.openstaand|money }}</td>
+            <td>
+                {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
+                {{ html.editLink(path('hs_facturen_edit', {id: factuur.id})) }}
+                {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

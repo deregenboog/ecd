@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Betalingen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Betaling verwijderen</h1>
+    Weet u zeker dat u {{ betaling }} wilt verwijderen?<br>
+	{{ form(form) }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% include('hs_subnavigation.twig') %}
+
+{% if klant is defined %}
+    <h1>Klus toevoegen voor {{ klant.klant }}</h1>
+{% else %}
+    <h1>HomeService-klus toevoegen</h1>
+{% endif %}
+
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Opslaan</button>
+{{ form_end(form) }}

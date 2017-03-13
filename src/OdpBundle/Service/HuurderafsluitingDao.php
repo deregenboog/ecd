@@ -3,6 +3,7 @@
 namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Huurderafsluiting;
+use AppBundle\Service\AbstractDao;
 
 class HuurderafsluitingDao extends AbstractDao implements HuurderafsluitingDaoInterface
 {

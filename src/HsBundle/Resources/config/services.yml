@@ -1,0 +1,40 @@
+services:
+    hs.dao.activiteit:
+        parent: app.dao.abstract
+        class: HsBundle\Service\ActiviteitDao
+
+    hs.dao.betaling:
+        parent: app.dao.abstract
+        class: HsBundle\Service\BetalingDao
+
+    hs.dao.declaratiecategorie:
+        parent: app.dao.abstract
+        class: HsBundle\Service\DeclaratieCategorieDao
+
+    hs.dao.declaratie:
+        parent: app.dao.abstract
+        class: HsBundle\Service\DeclaratieDao
+
+    hs.dao.factuur:
+        parent: app.dao.abstract
+        class: HsBundle\Service\FactuurDao
+
+    hs.dao.klant:
+        parent: app.dao.abstract
+        class: HsBundle\Service\KlantDao
+
+    hs.dao.klus:
+        parent: app.dao.abstract
+        class: HsBundle\Service\KlusDao
+
+    hs.dao.memo:
+        parent: app.dao.abstract
+        class: HsBundle\Service\MemoDao
+
+    hs.dao.registratie:
+        parent: app.dao.abstract
+        class: HsBundle\Service\RegistratieDao
+
+    hs.dao.vrijwilliger:
+        parent: app.dao.abstract
+        class: HsBundle\Service\VrijwilligerDao

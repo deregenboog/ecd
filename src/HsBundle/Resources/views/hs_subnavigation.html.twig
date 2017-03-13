@@ -1,0 +1,17 @@
+{% import '::html.macro.twig' as html %}
+<ul class="nav nav-tabs">
+    {{ html.navLink('Klanten', path('hs_klanten_index'), isActiveRoute('hs_klanten')) }}
+    {{ html.navLink('Vrijwilligers', path('hs_vrijwilligers_index'), isActiveRoute('hs_vrijwilligers')) }}
+    {{ html.navLink('Klussen', path('hs_klussen_index'), isActiveRoute('hs_klussen')) }}
+    {{ html.navLink('Facturen', path('hs_facturen_index'), isActiveRoute('hs_facturen')) }}
+    {{ html.navLink('Betalingen', path('hs_betalingen_index'), isActiveRoute('hs_betalingen')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('hs/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Activiteiten', path('hs_activiteiten_index'), isActiveRoute('hs_activiteiten')) }}
+            {{ html.navLink('Declaratiecategorieën', path('hs_declaratiecategorieen_index'), isActiveRoute('hs_declaratiecategorieen')) }}
+        </ul>
+    </li>
+</ul>

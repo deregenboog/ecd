@@ -4,15 +4,8 @@ services:
         tags:
             - { name: hautelook_alice.faker.provider }
 
-    odp.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
     odp.dao.coordinator:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: OdpBundle\Service\CoordinatorDao
 
     odp.dao.document:
@@ -21,13 +14,13 @@ services:
             - '@doctrine.orm.entity_manager'
 
     odp.dao.huurderafsluiting:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: OdpBundle\Service\HuurderafsluitingDao
 
     odp.dao.verhuurderafsluiting:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: OdpBundle\Service\VerhuurderafsluitingDao
 
     odp.dao.woningbouwcorporatie:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: OdpBundle\Service\WoningbouwcorporatieDao

@@ -4,6 +4,7 @@ namespace IzBundle\Service;
 
 use IzBundle\Entity\IzKlant;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {

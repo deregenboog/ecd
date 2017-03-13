@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\KlantFilter;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class KlantFilterType extends AbstractType
 {
@@ -33,6 +34,10 @@ class KlantFilterType extends AbstractType
         }
         if (in_array('stadsdeel', $options['enabled_filters'])) {
             $builder->add('stadsdeel', StadsdeelFilterType::class);
+        }
+
+        if (in_array('filter', $options['enabled_filters'])) {
+            $builder->add('filter', SubmitType::class);
         }
     }
 

@@ -4,6 +4,7 @@ namespace IzBundle\Service;
 
 use IzBundle\Entity\IzVrijwilliger;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {

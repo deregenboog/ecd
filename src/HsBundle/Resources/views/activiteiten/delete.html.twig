@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Activiteiten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Activiteit verwijderen</h1>
+    <p>Weet u zeker dat u entity {{ entity }} wilt verwijderen?</p>
+    {{ form(form) }}
+{% endblock %}

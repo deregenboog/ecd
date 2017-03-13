@@ -1,0 +1,10 @@
+{{ now|date('d-m-Y H:i:s') }}
+
+{% for klus in klussen -%}
+    {{ klus.klant ~ tab }}
+    {{ klus.klant.klant.werkgebied ~ tab }}
+    {{ 'wachttijd' }}
+    {{ 'memovelden klus' }}
+    {{ 'status' }}
+    {{ klus.activiteit }}
+{%- endfor %}

@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Declaraties |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Declaratie toevoegen voor {{ klus }}</h1>
+    {{ form(form) }}
+{% endblock %}

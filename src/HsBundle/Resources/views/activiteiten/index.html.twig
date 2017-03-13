@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Activiteiten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Activiteiten</h1>
+    <p>
+        {{ html.addLink(path('hs_activiteiten_add')) }}
+        {{ html.link('Activiteit toevoegen', path('hs_activiteiten_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'activiteit.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'activiteit.naam') }}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activiteit in pagination %}
+            <tr>
+                <td>
+                    {{ activiteit.id }}
+                </td>
+                <td>
+                    {{ activiteit.naam }}
+                </td>
+                <td>
+                    {{ html.viewLink(path('hs_activiteiten_view', {id: activiteit.id})) }}
+                    {{ html.editLink(path('hs_activiteiten_edit', {id: activiteit.id})) }}
+                    {% if activiteit.deletable %}
+                        {{ html.deleteLink(path('hs_activiteiten_delete', {id: activiteit.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

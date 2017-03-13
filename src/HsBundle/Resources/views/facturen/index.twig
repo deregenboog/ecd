@@ -1,0 +1,72 @@
+{% include 'hs_subnavigation.twig' %}
+
+<h1>Facturen</h1>
+
+<table>
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.nummer) }}
+            {{ form_errors(filter.nummer) }}
+        </th>
+        <th>
+            {{ form_widget(filter.datum) }}
+            {{ form_errors(filter.datum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.bedrag) }}
+            {{ form_errors(filter.bedrag) }}
+        </th>
+        <th>
+            {{ form_widget(filter.openstaand) }}
+            {{ form_label(filter.openstaand) }}
+            {{ form_errors(filter.openstaand) }}
+        </th>
+        <th>
+            <button type="submit">Filteren</button>
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'factuur.nummer') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Datum', 'factuur.datum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Bedrag', 'factuur.bedrag') }}
+        </th>
+        <th>Openstaand</th>
+        <th></th>
+    </tr>
+    {% for factuur in pagination %}
+        <tr>
+            <td>
+                {{ html.link(factuur.nummer, {'action': 'view', 0: factuur.id}) }}
+            </td>
+            <td>{{ factuur.datum|date('d-m-Y') }}</td>
+            <td>{{ factuur.klus.klant }}</td>
+            <td>{{ factuur.bedrag|money }}</td>
+            <td>{{ factuur.openstaand|money }}</td>
+            <td>
+                {{ html.viewLink({'action': 'view', 0: factuur.id}) }}
+                {{ html.editLink({'action': 'edit', 0: factuur.id}) }}
+                {% if factuur.deletable %}
+                    {{ html.deleteLink({'action': 'delete', 0: factuur.id}) }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

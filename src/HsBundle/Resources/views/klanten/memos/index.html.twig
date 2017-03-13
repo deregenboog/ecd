@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Klanten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Memo's van {{ klant }}</h1>
+    <p>
+        {{ html.viewLink({'action': 'view', 0: klant.id}) }}
+        {{ html.link('Klant bekijken', {'action': 'view', 0: klant.id}) }}
+        {{ html.addLink({'action': 'memos_add', 0: klant.id}) }}
+        {{ html.link('Memo toevoegen', {'action': 'memos_add', 0: klant.id}) }}
+    </p>
+    <table>
+        <tr>
+            <th>Datum</th>
+            <th>Intake</th>
+            <th>Medewerker</th>
+            <th>Memo</th>
+            <th>
+            </th>
+        </tr>
+        {% for memo in pagination %}
+            <tr>
+                <td>
+                    {{ memo.datum ? memo.datum|date('d-m-Y H:i') : '' }}
+                </td>
+                <td>
+                    {{ memo.intake ? 'ja' : 'nee' }}
+                </td>
+                <td>
+                    {{ memo.medewerker }}
+                </td>
+                <td>
+                    {{ memo.memo|nl2br }}
+                </td>
+                <td>
+                    {# html.editLink({'action': 'memos_edit', 0: klant.id}) #}
+                    {# html.deleteLink({'action': 'memos_delete', 0: klant.id}) #}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

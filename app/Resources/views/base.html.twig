@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <title>{% block title %}{% endblock title %}ECD | De Regenboog Groep</title>
+    <title>{% block title %}{% endblock %}ECD | De Regenboog Groep</title>
 
     <link href="{{ asset('rainbow.ico') }}" type="image/x-icon" rel="icon" />
     <link href="{{ asset('rainbow.ico') }}" type="image/x-icon" rel="shortcut icon" />
@@ -25,9 +25,7 @@
 <body>
     {% include '::header.html.twig' %}
     <div class="container-fluid">
-        {% block subnavigation %}
-        {% endblock subnavigation %}
-
+        {% block subnavigation %}{% endblock %}
         <div class="row">
             {% for type, flash_messages in app.session.flashBag.all %}
                 {% for flash_message in flash_messages %}
@@ -35,9 +33,9 @@
                 {% endfor %}
             {% endfor %}
         </div>
-
-        {% block content %}
-        {% endblock content %}
+        <div class="row">
+            {% block content %}{% endblock %}
+        </div>
     </div>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>

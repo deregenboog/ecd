@@ -1,0 +1,64 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Klanten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% set add_route = 'hs_klussen_add' %}
+{% set view_route = 'hs_klussen_view' %}
+{% set edit_route = 'hs_klussen_edit' %}
+{% set delete_route = 'hs_klussen_delete' %}
+
+{% block content_left %}
+    <h1>{{ entity }}</h1>
+    <p>
+        {{ html.editLink(path(edit_route, {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(edit_route, {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
+            {{ html.link('Verwijderen', path(delete_route, {id: entity.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Activiteit</dt>
+        <dd>{{ entity.activiteit }}</dd>
+        <dt>Klant</dt>
+        <dd>
+            {% if entity.klant %}
+                {{ html.link(entity.klant, path('hs_klanten_view', {id: entity.klant.id})) }}
+            {% else %}
+                HomeService
+            {% endif %}
+        </dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Datum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}</dd>
+        <dt>Vrijwilligers</dt>
+        <dd>
+            <ul>
+                {% for vrijwilliger in entity.vrijwilligers %}
+                    <li>
+                        {{ html.link(vrijwilliger, path('hs_vrijwilligers_view', {id: vrijwilliger.id})) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_klussen_memos_add', {id: entity.id})} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include '@Hs/registraties/_list.html.twig' with {add_url: path('hs_registraties_add', {klus: entity.id})} %}
+    {% include '@Hs/declaraties/_list.html.twig' with {add_url: path('hs_declaraties_add', {klus: entity.id})} %}
+    {% include '@Hs/facturen/_list.html.twig' with {add_url: path('hs_facturen_add', {klus: entity.id})} %}
+{% endblock %}

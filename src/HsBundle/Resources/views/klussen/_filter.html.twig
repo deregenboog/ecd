@@ -1,0 +1,31 @@
+{% if filter is defined %}
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.datum) }}
+            {{ form_errors(filter.datum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.stadsdeel) }}
+            {{ form_errors(filter.klant.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(filter.activiteit) }}
+            {{ form_errors(filter.activiteit) }}
+        </th>
+        <th></th>
+        <th>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+{% endif %}
