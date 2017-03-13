@@ -17,7 +17,7 @@ class GroepsactiviteitenRapportagesController extends AppController
     public function index()
     {
         $form = $this->createForm(GaRapportageType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             // get reporting service

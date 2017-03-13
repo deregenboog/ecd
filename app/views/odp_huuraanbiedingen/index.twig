@@ -26,11 +26,6 @@
             {{ form_errors(filter.einddatum) }}
         </th>
         <th>
-            {{ form_widget(filter.openstaand) }}
-            {{ form_label(filter.openstaand) }}
-            {{ form_errors(filter.openstaand) }}
-        </th>
-        <th>
             <button type="submit">Filteren</button>
         </th>
         {{ form_end(filter) }}
@@ -40,7 +35,7 @@
             {{ knp_pagination_sortable(pagination, '#', 'odpHuuraanbod.id') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Huurder', 'klant.achternaam') }}
+            {{ knp_pagination_sortable(pagination, 'Verhuurder', 'klant.achternaam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
@@ -52,9 +47,6 @@
             {{ knp_pagination_sortable(pagination, 'Einddatum', 'odpHuuraanbod.einddatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Huurovereenkomst', 'odpHuurovereenkomst.id') }}
-        </th>
-        <th>
         </th>
     </tr>
     {% for odpHuuraanbod in pagination %}
@@ -63,19 +55,16 @@
                 {{ html.link(odpHuuraanbod.id, {'action': 'view', 0: odpHuuraanbod.id})|raw }}
             </td>
             <td>
-                {{ html.link(odpHuuraanbod.klant.naam, {'controller': 'odp_verhuurders', 'action': 'view', 0: odpHuuraanbod.odpVerhuurder.id})|raw }}
+                {{ odpHuuraanbod.odpVerhuurder.klant.naam }}
             </td>
             <td>
-                {{ odpHuuraanbod.klant.werkgebied }}
+                {{ odpHuuraanbod.odpVerhuurder.klant.werkgebied }}
             </td>
             <td>
                 {{ odpHuuraanbod.startdatum | date('d-m-Y') }}
             </td>
             <td>
-                {{ odpHuuraanbod.einddatum ? odpHuuraanbod.einddatum | date('d-m-Y')  : 'onbepaald' }}
-            </td>
-            <td>
-                {{ odpHuuraanbod.odpHuurovereenkomst ? html.link(odpHuuraanbod.odpHuurovereenkomst.id, {'controller': 'odp_huurovereenkomsten', 'action': 'view', 0: odpHuuraanbod.odpHuurovereenkomst.id})|raw }}
+                {{ odpHuuraanbod.einddatum ? odpHuuraanbod.einddatum | date('d-m-Y') : '-' }}
             </td>
             <td>
                 {{ html.viewLink({'action': 'view', 0: odpHuuraanbod.id})|raw }}

@@ -4,9 +4,26 @@ class IntakesController extends AppController
 {
     public $name = 'Intakes';
 
-    public function index()
+    public function index($klantId)
     {
-        $this->Intake->recursive = 0;
+        $klant = $this->Intake->Klant->read(null, $klantId);
+
+        if (!$klant) {
+            $this->flashError(__('Ongeldige klant', true));
+            $this->redirect(['controller' => 'klanten', 'action' => 'index']);
+
+            return;
+        }
+
+        $this->paginate = [
+            'Intake' => [
+                'conditions' => [
+                    'klant_id' => $klantId,
+                ],
+            ],
+        ];
+
+        $this->set('klant', $klant);
         $this->set('intakes', $this->paginate());
     }
 

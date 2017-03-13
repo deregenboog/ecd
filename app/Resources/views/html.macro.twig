@@ -1,0 +1,29 @@
+{% macro link(label, url) %}
+    <a href="{{ url }}">{{ label }}</a>
+{% endmacro %}
+
+{% macro viewLink(url) %}
+    <a href="{{ url }}"><img src="{{ asset('/img/zoom.png') }}"></a>
+{% endmacro %}
+
+{% macro addLink(url) %}
+    <a href="{{ url }}"><img src="{{ asset('/img/add.png') }}"></a>
+{% endmacro %}
+
+{% macro editLink(url) %}
+    <a href="{{ url }}"><img src="{{ asset('/img/wrench.png') }}"></a>
+{% endmacro %}
+
+{% macro deleteLink(url) %}
+    <a href="{{ url }}"><img src="{{ asset('/img/delete.png') }}"></a>
+{% endmacro %}
+
+{% macro closeLink(url) %}
+    <a href="{{ url }}"><img src="{{ asset('/img/lock_open.png') }}"></a>
+{% endmacro %}
+
+{% macro navLink(label, url, active) %}
+    <li role="presentation" class="{{ active ? "active" }}">
+        <a href="{{ url }}" >{{ label }}</a>
+    </li>
+{% endmacro %}

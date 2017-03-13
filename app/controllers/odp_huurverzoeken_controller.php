@@ -27,7 +27,6 @@ class OdpHuurverzoekenController extends AppController
         'klant' => ['naam', 'stadsdeel'],
         'startdatum',
         'einddatum',
-        'openstaand',
     ];
 
     private $sortFieldWhitelist = [
@@ -36,7 +35,6 @@ class OdpHuurverzoekenController extends AppController
         'klant.werkgebied',
         'odpHuurverzoek.startdatum',
         'odpHuurverzoek.einddatum',
-        'odpHuurovereenkomst.id',
     ];
 
     public function index()
@@ -44,7 +42,7 @@ class OdpHuurverzoekenController extends AppController
         $filter = $this->createForm(OdpHuurverzoekFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $filter->handleRequest($this->request);
+        $filter->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OdpHuurverzoek::class);
@@ -52,14 +50,16 @@ class OdpHuurverzoekenController extends AppController
         $builder = $repository->createQueryBuilder('odpHuurverzoek')
             ->leftJoin('odpHuurverzoek.odpHuurovereenkomst', 'odpHuurovereenkomst')
             ->innerJoin('odpHuurverzoek.odpHuurder', 'odpHuurder')
-            ->innerJoin('odpHuurder.klant', 'klant');
+            ->innerJoin('odpHuurder.klant', 'klant')
+            ->where('odpHuurovereenkomst.id IS NULL');
+        ;
 
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-//             'defaultSortFieldName' => 'klant.achternaam',
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
+            'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
@@ -80,7 +80,7 @@ class OdpHuurverzoekenController extends AppController
         $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $id);
 
         $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -104,7 +104,7 @@ class OdpHuurverzoekenController extends AppController
         $odpHuurverzoek = $entityManager->find(OdpHuurverzoek::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             $entityManager->remove($odpHuurverzoek);
@@ -132,7 +132,7 @@ class OdpHuurverzoekenController extends AppController
         $odpHuurovereenkomst->setMedewerker($medewerker);
 
         $form = $this->createForm(OdpHuurovereenkomstType::class, $odpHuurovereenkomst);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             try {
@@ -141,15 +141,15 @@ class OdpHuurverzoekenController extends AppController
 
                 $this->Session->setFlash('Huurovereenkomst is opgeslagen.');
 
-                return $this->redirect(array('action' => 'view', $huurverzoekId));
+                return $this->redirect(['controller' => 'odp_huurovereenkomsten', 'action' => 'view', $odpHuurovereenkomst->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
         }
 
         $this->set('form', $form->createView());
-        $this->set('odpHuurovereenkomst', $odpHuurovereenkomst);
+        $this->set('odpHuurverzoek', $odpHuurverzoek);
 
-        $this->render('/odp_huurovereenkomsten/add');
+        $this->render('../odp_huurovereenkomsten/add');
     }
 }

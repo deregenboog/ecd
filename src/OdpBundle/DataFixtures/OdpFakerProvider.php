@@ -4,7 +4,7 @@ namespace OdpBundle\DataFixtures;
 
 use Faker\Provider\DateTime;
 
-final class OdpFakerProvider
+class OdpFakerProvider
 {
     /**
      * @return \DateTime|null

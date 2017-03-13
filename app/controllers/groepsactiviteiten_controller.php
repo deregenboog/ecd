@@ -158,194 +158,13 @@ class GroepsactiviteitenController extends AppController
         $this->set(compact('id', 'groepsactiviteitengroepen'));
     }
 
-    public function index()
-    {
-        $persoon_model = $this->getParam('selectie');
-        $fields = array(
-            'id' => true,
-            'name1st_part' => true,
-            'name2nd_part' => true,
-            'name' => false,
-            'geboortedatum' => true,
-            'medewerker_id' => true,
-            'bot' => false,
-            'iz_projecten' => false,
-            'werkgebied' => false,
-            'iz_coordinator' => false,
-            'medewerker_ids' => false,
-            'iz_datum_aanmelding' => false,
-            'last_zrm' => false,
-            'dummycol' => true,
-        );
-
-        if (empty($persoon_model)) {
-            if (!empty($this->params['named']['Vrijwilliger.selectie'])) {
-                $persoon_model = $this->params['named']['Vrijwilliger.selectie'];
-            }
-        }
-
-        if (empty($persoon_model)) {
-            $persoon_model = 'Klant';
-        }
-
-        $persoon_model = $this->check_persoon_model($persoon_model);
-        $persoon_groepsactiviteiten_groepen = 'GroepsactiviteitenGroepen'.$persoon_model;
-        $persoon_id_field = strtolower($persoon_model.'_id');
-        $table = Inflector::pluralize(Inflector::underscore($persoon_groepsactiviteiten_groepen));
-
-        $this->loadModel($persoon_model);
-        $this->ComponentLoader->load('Filter', array('persoon_model' => $persoon_model));
-
-        $join = array(
-           //'table' => $table,
-          'table' => "(select distinct {$persoon_id_field} as {$persoon_id_field} from $table where ( isnull(einddatum) or now() < einddatum ) )",
-          'alias' => $persoon_groepsactiviteiten_groepen,
-         'type' => 'INNER',
-           'conditions' => array(
-               "{$persoon_model}.id = {$persoon_groepsactiviteiten_groepen}.{$persoon_id_field}",
-            ),
-
-        );
-
-        if (false && $persoon_model == 'Klant') {
-            $join = array(
-                    'table' => "(select distinct foreign_key as {$persoon_id_field} from groepsactiviteiten_intakes where not isnull(intakedatum) and isnull(afsluitdatum))",
-                    'alias' => 'groepsactiviteiten_intakes',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        "{$persoon_model}.id = groepsactiviteiten_intakes.{$persoon_id_field}",
-                    ),
-                );
-        }
-        $this->paginate = array(
-            'contain' => array(
-                'Geslacht',
-                 $persoon_groepsactiviteiten_groepen,
-            ),
-            'joins' => array(
-                $join,
-            ),
-        );
-
-        $show_all = false;
-        if (isset($this->data[$persoon_model]['show_all']) && !empty($this->data[$persoon_model]['show_all'])) {
-            $show_all = true;
-        }
-
-        if ($show_all) {
-            unset($this->paginate['joins']);
-        }
-        $this->setMedewerkers();
-
-        unset($this->Filter->filterData[$persoon_model.'.selectie']);
-        unset($this->Filter->filterData['Groepsactiviteit.selectie']);
-        $personen = $this->paginate($persoon_model, $this->Filter->filterData);
-
-        if ($persoon_model == 'Klant') {
-            $personen = $this->{$persoon_model}->LasteIntake->completeKlantenIntakesWithLocationNames($personen);
-        }
-        $rowOnclickUrl = array(
-                'controller' => 'groepsactiviteiten',
-                'action' => 'view',
-                $persoon_model,
-        );
-
-        $this->set(compact('fields', 'personen', 'rowOnclickUrl', 'persoon_model'));
-
-        if ($this->RequestHandler->isAjax()) {
-            $this->render('/elements/personen_lijst', 'ajax');
-        }
-    }
-
-    public function afgesloten_klanten()
-    {
-        return $this->afgesloten('klant');
-    }
-
-    public function afgesloten_vrijwilligers()
-    {
-        return $this->afgesloten('vrijwilliger');
-    }
-
-    private function afgesloten($entityName)
-    {
-        $intakeClassesWhitelist = [
-            'klant' => GaKlantIntake::class,
-            'vrijwilliger' => GaVrijwilligerIntake::class,
-        ];
-
-        // Dit veroorzaakt een error als er een verkeerde entity name wordt meegegeven.
-        // Dus ik denk niet dat ik nog handmatig een exceptie daarvoor hoef te gooien?
-        $intakeClass = $intakeClassesWhitelist[$entityName];
-
-        $repository = $this->getEntityManager()->getRepository($intakeClass);
-        $builder = $repository->createQueryBuilder('intake')
-            ->innerJoin("intake.$entityName", $entityName)
-            ->innerJoin('intake.medewerker', 'medewerker')
-            ->andWhere("$entityName.disabled = false")
-            ->andWhere('intake.afsluitdatum <= :vandaag')
-            ->setParameter('vandaag', new \DateTime())
-        ;
-
-        $filter = $this->createFilter($entityName);
-        if ($filter->isValid()) {
-            $filter->getData()->applyTo($builder);
-            if ($filter->get('download')->isClicked()) {
-                return $this->download($builder, $entityName);
-            }
-        }
-
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => "$entityName.achternaam",
-            'defaultSortDirection' => 'asc',
-            'sortFieldWhitelist' => $this->sortFieldWhitelist,
-            'wrap-queries' => true, // because of HAVING clause in filter
-        ]);
-
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
-    }
-
-    /**
-     * @var string
-     *
-     * @return FormInterface
-     */
-    private function createFilter($entityName)
-    {
-        $filterTypeWhitelist = [
-            'klant' => GaKlantIntakeFilterType::class,
-            'vrijwilliger' => GaVrijwilligerIntakeFilterType::class,
-        ];
-
-        $filterType = $filterTypeWhitelist[$entityName];
-
-        $filter = $this->createForm($filterType, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->request);
-
-        return $filter;
-    }
-
-    private function download(QueryBuilder $builder, $entityName)
-    {
-        $intakes = $builder->getQuery()->getResult();
-        $filename = sprintf("groepsactiviteiten-gesloten-$entityName-dossiesr-%s.csv", (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: text/csv');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->set('intakes', $intakes);
-        $this->set('entityName', $entityName);
-        $this->render('download', false);
-    }
-
     public function view($persoon_model = 'Klant', $id = null)
     {
         $persoon_model = $this->check_persoon_model($persoon_model);
         $this->loadModel($persoon_model);
         if (!$id) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if ($persoon_model == 'Klant') {
@@ -361,7 +180,7 @@ class GroepsactiviteitenController extends AppController
         $this->loadModel($persoon_model);
         if (!$id) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
         $persoon_groepsactiviteiten_groepen = 'GroepsactiviteitenGroepen'.$persoon_model;
 
@@ -422,7 +241,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         $intake = $this->add_to_intake($persoon_model, $id, $this->data);
@@ -467,7 +286,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -646,7 +465,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -1029,7 +848,7 @@ class GroepsactiviteitenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Niet geldige reden', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         $this->loadModel('GroepsactiviteitenKlant');

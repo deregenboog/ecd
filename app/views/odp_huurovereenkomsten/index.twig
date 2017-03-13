@@ -1,6 +1,6 @@
 {% include 'odp_subnavigation.twig' %}
 
-<h1>Huurovereenkomsten</h1>
+<h1>Koppelingen</h1>
 
 <table>
     <tr>
@@ -18,8 +18,16 @@
             {{ form_errors(filter.odpVerhuurderKlant.naam) }}
         </th>
         <th>
+            {{ form_widget(filter.medewerker) }}
+            {{ form_errors(filter.medewerker) }}
+        </th>
+        <th>
             {{ form_widget(filter.startdatum) }}
             {{ form_errors(filter.startdatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.opzegdatum) }}
+            {{ form_errors(filter.opzegdatum) }}
         </th>
         <th>
             {{ form_widget(filter.einddatum) }}
@@ -41,7 +49,13 @@
             {{ knp_pagination_sortable(pagination, 'Verhuurder', 'odpVerhuurderKlant.achternaam') }}
         </th>
         <th>
+            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+        </th>
+        <th>
             {{ knp_pagination_sortable(pagination, 'Startdatum', 'odpHuurovereenkomst.startdatum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Opzegdatum', 'odpHuurovereenkomst.opzegdatum') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Einddatum', 'odpHuurovereenkomst.einddatum') }}
@@ -55,16 +69,22 @@
                 {{ html.link(odpHuurovereenkomst.id, {'action': 'view', 0: odpHuurovereenkomst.id})|raw }}
             </td>
             <td>
-                {{ html.link(odpHuurovereenkomst.odpHuurder.klant.naam, {'controller': 'odp_huurders' ,'action': 'view', 0: odpHuurovereenkomst.odpHuurder.id})|raw }}
+                {{ odpHuurovereenkomst.odpHuurder.klant }}
             </td>
             <td>
-                {{ html.link(odpHuurovereenkomst.odpVerhuurder.klant.naam, {'controller': 'odp_verhuurders' ,'action': 'view', 0: odpHuurovereenkomst.odpVerhuurder.id})|raw }}
+                {{ odpHuurovereenkomst.odpVerhuurder.klant }}
+            </td>
+            <td>
+                {{ odpHuurovereenkomst.medewerker }}
             </td>
             <td>
                 {{ odpHuurovereenkomst.startdatum | date('d-m-Y') }}
             </td>
             <td>
-                {{ odpHuurovereenkomst.einddatum ? odpHuurovereenkomst.einddatum | date('d-m-Y')  : 'onbepaald' }}
+                {{ odpHuurovereenkomst.opzegdatum ? odpHuurovereenkomst.opzegdatum | date('d-m-Y') : '-' }}
+            </td>
+            <td>
+                {{ odpHuurovereenkomst.einddatum ? odpHuurovereenkomst.einddatum | date('d-m-Y') : '-' }}
             </td>
             <td>
                 {{ html.viewLink({'action': 'view', 0: odpHuurovereenkomst.id})|raw }}

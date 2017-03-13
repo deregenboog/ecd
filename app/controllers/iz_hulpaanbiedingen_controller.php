@@ -40,7 +40,7 @@ class IzHulpaanbiedingenController extends AppController
         $form = $this->createForm(IzHulpaanbodFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,
         ]);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(IzHulpaanbod::class);
@@ -59,7 +59,7 @@ class IzHulpaanbiedingenController extends AppController
             $form->getData()->applyTo($builder);
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'izHulpaanbod.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,

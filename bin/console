@@ -5,16 +5,21 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Debug\Debug;
 
-// if you don't want to setup permissions the proper way, just uncomment the following PHP line
-// read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
-//umask(0000);
+umask(0000);
 
 set_time_limit(0);
 
-/**
- * @var Composer\Autoload\ClassLoader $loader
- */
-$loader = require __DIR__.'/../app/autoload.php';
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+if (!defined('WEBROOT_DIR')) {
+    define('WEBROOT_DIR', basename(dirname(__FILE__)));
+}
+if (!defined('WWW_ROOT')) {
+    define('WWW_ROOT', dirname(__FILE__).DS);
+}
+
+require __DIR__.'/../app/autoload.php';
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV') ?: 'dev');
@@ -25,5 +30,9 @@ if ($debug) {
 }
 
 $kernel = new AppKernel($env, $debug);
+$kernel->boot();
+
+require_once CORE_PATH.'cake'.DS.'bootstrap.php';
+
 $application = new Application($kernel);
 $application->run($input);

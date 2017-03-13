@@ -1,0 +1,26 @@
+<h2>Documenten</h2>
+<p>
+    {% if huurder is defined %}
+        {% set url = path('odp_documenten_add', {huurder: huurder.id}) %}
+    {% elseif verhuurder is defined %}
+        {% set url = path('odp_documenten_add', {verhuurder: verhuurder.id}) %}
+    {% elseif huurovereenkomst is defined %}
+        {% set url = path('odp_documenten_add', {huurovereenkomst: huurovereenkomst.id}) %}
+    {% endif %}
+    {{ html.addLink(url) }}
+    {{ html.link('Document toevoegen', url) }}
+</p>
+<table class="table">
+    {% for document in entity.documenten %}
+        <tr>
+            <td>{{ document.naam }}</td>
+            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

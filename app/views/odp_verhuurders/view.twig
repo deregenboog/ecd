@@ -14,17 +14,30 @@
     <dt>Naam</dt>
     <dd>{{ odpVerhuurder.klant.naam }}</dd>
     <dt>
-        Huuraanbiedingen
-        {{ html.addLink({'controller': 'odp_verhuurders', 'action': 'nieuw_huuraanbod', 0: odpVerhuurder.id})|raw }}
+        Huuraanbod
     </dt>
     <dd>
+        {% if odpVerhuurder.actiefOdpHuuraanbod %}
+            {{ html.link(odpVerhuurder.actiefOdpHuuraanbod, {'controller': 'odp_huuraanbiedingen', 'action': 'view', 0: odpVerhuurder.actiefOdpHuuraanbod.id})|raw }}
+        {% else %}
+            {% set link = {'controller': 'odp_verhuurders', 'action': 'nieuw_huuraanbod', 0: odpVerhuurder.id} %}
+            {{ html.addLink(link)|raw }}
+            {{ html.link('Huuraanbod maken', link)|raw }}
+        {% endif %}
+    </dd>
+    <dt>Verslagen</dt>
+    <dd>
+        {% set link = {'controller': 'odp_verslagen', 'action': 'add', 'odpVerhuurder': odpVerhuurder.id} %}
+        {{ html.addLink(link)|raw }}
+        {{ html.link('Verslag toevoegen', link)|raw }}
         <ul>
-            {% for odpHuuraanbod in odpVerhuurder.huuraanbiedingen %}
+            {% for odpVerslag in odpVerhuurder.odpVerslagen %}
                 <li>
-                    {{ html.link(odpHuuraanbod.id, {'controller': 'odp_huurverzoeken', 'action': 'view', 0: odpHuuraanbod.id})|raw }}
+                    {{ odpVerslag.medewerker }}
+                    ({{ odpVerslag.datum|date('d-m-Y') }})
+                    <pre>{{ odpVerslag.opmerking }}</pre>
                 </li>
             {% endfor %}
         </ul>
-        &nbsp;
     </dd>
 </dl>

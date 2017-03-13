@@ -17,7 +17,7 @@ class OekRapportagesController extends AppController
     public function index()
     {
         $form = $this->createForm(OekRapportageType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             // get reporting service

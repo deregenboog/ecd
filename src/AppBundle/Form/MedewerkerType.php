@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 
 class MedewerkerType extends AbstractType
 {
@@ -31,6 +32,10 @@ class MedewerkerType extends AbstractType
         $resolver->setDefaults([
             'class' => Medewerker::class,
             'data' => $this->medewerker,
+            'query_builder' => function (EntityRepository $repository) {
+                return $repository->createQueryBuilder('medewerker')
+                    ->orderBy('medewerker.voornaam');
+            },
         ]);
     }
 

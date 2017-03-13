@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Huurdersafsluitingen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurdersafsluitingen</h1>
+    <p>
+        {{ html.addLink(path('odp_huurderafsluitingen_add')) }}
+        {{ html.link('Huurderafsluiting toevoegen', path('odp_huurderafsluitingen_add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'huurderafsluiting.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'huurderafsluiting.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'huurderafsluiting.actief') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ entity.id }}
+                </td>
+                <td>
+                    {{ entity }}
+                </td>
+                <td>
+                    {{ entity.actief ? 'ja' : 'nee' }}
+                </td>
+                <td>
+                    {{ html.editLink(path('odp_huurderafsluitingen_edit', {'id': entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path('odp_huurderafsluitingen_delete', {'id': entity.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

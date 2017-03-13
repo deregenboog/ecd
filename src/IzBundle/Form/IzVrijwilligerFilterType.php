@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use IzBundle\Entity\IzVrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
+use AppBundle\Form\FilterType;
 
 class IzVrijwilligerFilterType extends AbstractType
 {
@@ -27,5 +28,13 @@ class IzVrijwilligerFilterType extends AbstractType
             'data_class' => IzVrijwilliger::class,
             'data' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

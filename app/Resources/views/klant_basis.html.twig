@@ -1,0 +1,47 @@
+<h2>Basisgegevens</h2>
+<p>
+    {{ html.editLink(path('app_klanten_edit', {id: klant.id})) }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id})) }}
+</p>
+<table class="table">
+    <tr>
+        <td>Voornaam</td>
+        <td>{{ klant.voornaam }}</td>
+    </tr>
+    <tr>
+        <td>Tussenvoegsel</td>
+        <td>{{ klant.tussenvoegsel }}</td>
+    </tr>
+    <tr>
+        <td>Achternaam</td>
+        <td>{{ klant.achternaam }}</td>
+    </tr>
+    <tr>
+        <td>Roepnaam</td>
+        <td>{{ klant.roepnaam }}</td>
+    </tr>
+    <tr>
+        <td>Geslacht</td>
+        <td>{{ klant.geslacht.volledig }}</td>
+    </tr>
+    <tr>
+        <td>Geboortedatum</td>
+        <td>{{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Geboorteland</td>
+        <td>{{ klant.land }}</td>
+    </tr>
+    <tr>
+        <td>Nationaliteit</td>
+        <td>{{ klant.nationaliteit }}</td>
+    </tr>
+    <tr>
+        <td>BSN</td>
+        <td>{{ klant.bsn }}</td>
+    </tr>
+    <tr>
+        <td>Medewerker</td>
+        <td>{{ klant.medewerker }}</td>
+    </tr>
+</table>

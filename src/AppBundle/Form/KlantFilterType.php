@@ -19,13 +19,13 @@ class KlantFilterType extends AbstractType
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Klantnummer'],
+                'attr' => ['placeholder' => 'Nummer'],
             ]);
         }
         if (in_array('naam', $options['enabled_filters'])) {
             $builder->add('naam', null, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Naam klant'],
+                'attr' => ['placeholder' => 'Naam'],
             ]);
         }
         if (in_array('geboortedatum', $options['enabled_filters'])) {
