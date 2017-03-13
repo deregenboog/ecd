@@ -25,6 +25,9 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Naam', 'oekVerwijzing.naam') }}
             </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'oekVerwijzing.actief') }}
+            </th>
             <th></th>
         </tr>
         {% for oekVerwijzing in pagination %}
@@ -34,6 +37,9 @@
                 </td>
                 <td>
                     {{ oekVerwijzing.naam }}
+                </td>
+                <td>
+                    {{ oekVerwijzing.actief ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
                     {{ html.editLink(path('oek_verwijzingennaar_edit', {id: oekVerwijzing.id})) }}
