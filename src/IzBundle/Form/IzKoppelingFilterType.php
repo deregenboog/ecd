@@ -87,7 +87,7 @@ class IzKoppelingFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
-                ->orderBy('medewerker.achternaam', 'ASC');
+                ->orderBy('medewerker.voornaam', 'ASC');
                 },
             ]);
         }
@@ -99,7 +99,7 @@ class IzKoppelingFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
-                ->orderBy('medewerker.achternaam', 'ASC');
+                ->orderBy('medewerker.voornaam', 'ASC');
                 },
             ]);
         }

@@ -5,25 +5,10 @@
             'action' => 'index',
         ));
         echo "&nbsp;&nbsp;";
-        if ($this->action == 'index'
-            && $this->name == 'IzDeelnemers'
-            && isset($this->params['named']['Vrijwilliger.selectie'])
-            && ! isset($this->params['named']['Vrijwilliger.wachtlijst'])
-        ) {
-            echo $html->link('Vrijwilligers', array(
-                'controller' => 'iz_deelnemers',
-                'action' => 'index',
-                'Vrijwilliger.selectie' => '1'
-            ), array(
-                'class' => 'selected'
-            ));
-        } else {
-            echo $html->link('Vrijwilligers', array(
-                'controller' => 'iz_deelnemers',
-                'action' => 'index',
-                'Vrijwilliger.selectie' => '1'
-            ));
-        }
+        echo $html->link('Vrijwilligers', array(
+            'controller' => 'iz_vrijwilligers',
+            'action' => 'index',
+        ));
         echo "&nbsp;&nbsp;";
         echo $html->link('Hulpvragen', array(
             'controller' => 'iz_hulpvragen',

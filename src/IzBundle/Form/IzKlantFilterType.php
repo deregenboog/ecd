@@ -5,17 +5,16 @@ namespace IzBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\KlantFilterType;
-use AppBundle\Form\FilterType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzHulpvraag;
+use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzKlantFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use IzBundle\Entity\IzHulpvraag;
+use AppBundle\Entity\Klant;
+use AppBundle\Form\KlantFilterType;
 
 class IzKlantFilterType extends AbstractType
 {
@@ -51,7 +50,7 @@ class IzKlantFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
-                        ->orderBy('medewerker.achternaam', 'ASC');
+                        ->orderBy('medewerker.voornaam', 'ASC');
                 },
             ]);
         }

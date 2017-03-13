@@ -5,11 +5,11 @@
         {'class': this.name == 'IzKlanten' ? 'selected' : ''}
     )|raw }}
     &nbsp;&nbsp;
-    {{ html.link('Vrijwilligers', {
-        'controller': 'iz_deelnemers',
-        'action': 'index',
-        'Vrijwilliger.selectie': 1,
-    })|raw }}
+    {{ html.link(
+        'Vrijwilligers',
+        {'controller': 'iz_vrijwilligers', 'action': 'index'},
+        {'class': this.name == 'IzVrijwilligers' ? 'selected' : ''}
+    )|raw }}
     &nbsp;&nbsp;
     {{ html.link(
         'Hulpvragen',
