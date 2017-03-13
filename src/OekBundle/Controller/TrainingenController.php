@@ -91,7 +91,7 @@ class TrainingenController extends SymfonyController
 
             $this->Session->setFlash('Training is opgeslagen.');
 
-            return $this->redirect(['action' => 'view', $oekTraining->getId()]);
+            return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
         }
 
         return ['form' => $form->createView()];
@@ -114,7 +114,7 @@ class TrainingenController extends SymfonyController
 
             $this->Session->setFlash('Training is opgeslagen.');
 
-            return $this->redirect(array('action' => 'view', $oekTraining->getId()));
+            return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
         }
 
         return ['form' => $form->createView()];
@@ -138,7 +138,7 @@ class TrainingenController extends SymfonyController
 
             $this->Session->setFlash('Training is verwijderd.');
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirectToRoute('oek_trainingen_index');
         }
 
         return ['form' => $form->createView(), 'oekTraining' => $oekTraining];

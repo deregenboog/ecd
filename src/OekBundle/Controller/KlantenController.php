@@ -126,7 +126,7 @@ class KlantenController extends SymfonyController
 
                     $this->Session->setFlash('Klant is opgeslagen.');
 
-                    return $this->redirect(array('action' => 'view', $oekKlant->getId()));
+                    return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
                 } catch (\Exception $e) {
                     if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
                         $this->Session->setFlash('Deze klant heeft al een Op-eigen-kracht-dossier.');
@@ -162,7 +162,7 @@ class KlantenController extends SymfonyController
         if ($selectionForm->isValid()) {
             $oekKlant = $selectionForm->getData();
             if ($oekKlant->getKlant() instanceof Klant) {
-                return $this->redirect(['action' => 'add', $oekKlant->getKlant()->getId()]);
+                return $this->redirectToRoute('oek_klanten_add', ['klantId' => $oekKlant->getKlant()->getId()]);
             }
 
             return $this->redirect(['action' => 'add', 'new']);
@@ -188,7 +188,7 @@ class KlantenController extends SymfonyController
 
                 $this->Session->setFlash('Klant is opgeslagen.');
 
-                return $this->redirect(['action' => 'view', $oekKlant->getId()]);
+                return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
@@ -216,7 +216,7 @@ class KlantenController extends SymfonyController
 
                 $this->Session->setFlash('Het dossier is heropend.');
 
-                return $this->redirect(['action' => 'view', $oekKlant->getId()]);
+                return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
@@ -244,7 +244,7 @@ class KlantenController extends SymfonyController
 
                 $this->Session->setFlash('Het dossier is afgesloten.');
 
-                return $this->redirect(['action' => 'view', $oekKlant->getId()]);
+                return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }

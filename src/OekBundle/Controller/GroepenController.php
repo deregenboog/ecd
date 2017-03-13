@@ -69,7 +69,7 @@ class GroepenController extends SymfonyController
 
             $this->Session->setFlash('Groep is aangemaakt.');
 
-            return $this->redirect(array('action' => 'view', $oekGroep->getId()));
+            return $this->redirectToRoute('oek_groepen_view', ['id' => $oekGroep->getId()]);
         }
 
         return ['form' => $form->createView()];
@@ -92,7 +92,7 @@ class GroepenController extends SymfonyController
 
             $this->Session->setFlash('Groep is gewijzigd.');
 
-            return $this->redirect(array('action' => 'view', $oekGroep->getId()));
+            return $this->redirectToRoute('oek_groepen_view', ['id' => $oekGroep->getId()]);
         }
 
         return ['form' => $form->createView()];

@@ -50,14 +50,15 @@ class LidmaatschappenController extends SymfonyController
     }
 
     /**
-     * @Route("/{id}/delete")
+     * @Route("/delete/{oekGroep}/{oekKlant}")
      */
-    public function delete($oekLidmaatschapId)
+    public function delete($oekGroep_id, $oekKlant_id)
     {
         $entityManager = $this->getEntityManager();
+        $repo = $entityManager->getRepository(OekLidmaatschap::class);
 
         /** @var OekLidmaatschap $oekLidmaatschap */
-        $oekLidmaatschap = $entityManager->find(OekLidmaatschap::class, $oekLidmaatschapId);
+        $oekLidmaatschap = $repo->findOneBy(compact('oekGroep_id', 'oekKlant_id'));
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());

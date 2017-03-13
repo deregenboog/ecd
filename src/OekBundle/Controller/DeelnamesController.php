@@ -49,7 +49,7 @@ class DeelnamesController extends SymfonyController
     }
 
     /**
-     * @Route("/{id}/edit")
+     * @Route("/edit")
      */
     public function edit()
     {
