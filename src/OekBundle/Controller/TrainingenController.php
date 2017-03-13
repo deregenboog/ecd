@@ -181,10 +181,7 @@ class TrainingenController extends SymfonyController
                 $this->flashError(__('Email kon niet worden verzonden', true));
             }
 
-            return $this->redirect([
-                'action' => 'view',
-                $oekTraining->getId(),
-            ]);
+            return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
         }
 
         return ['form' => $form->createView(), 'oekTraining' => $oekTraining];

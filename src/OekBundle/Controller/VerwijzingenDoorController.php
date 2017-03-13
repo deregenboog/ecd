@@ -15,6 +15,7 @@ class VerwijzingenDoorController extends SymfonyController
     private $sortFieldWhitelist = [
         'oekVerwijzing.id',
         'oekVerwijzing.naam',
+        'oekVerwijzing.actief',
     ];
 
     /**
@@ -52,7 +53,7 @@ class VerwijzingenDoorController extends SymfonyController
 
             $this->Session->setFlash('Verwijzing is aangemaakt.');
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirectToRoute('oek_verwijzingendoor_index');
         }
 
         return ['form' => $form->createView()];
@@ -73,7 +74,7 @@ class VerwijzingenDoorController extends SymfonyController
 
             $this->Session->setFlash('Verwijzing is gewijzigd.');
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirectToRoute('oek_verwijzingendoor_index');
         }
 
         return ['form' => $form->createView()];

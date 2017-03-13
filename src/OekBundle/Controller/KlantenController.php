@@ -135,7 +135,7 @@ class KlantenController extends SymfonyController
                         $this->Session->setFlash('Er is een fout opgetreden.');
                     }
                 } finally {
-                    return $this->redirect(array('action' => 'index'));
+                    return $this->redirectToRoute('oek_klanten_index');
                 }
             }
 
