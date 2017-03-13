@@ -1,0 +1,22 @@
+{% include 'iz_subnavigation.twig' %}
+
+<h1>Deelnemer toevoegen</h1>
+
+{% if filterForm is defined %}
+    {% form_theme filterForm 'form_div_layout.html.twig' %}
+    Zoek een bestaande deelnemer op nummer, naam en/of geboortedatum.
+    {{ form_start(filterForm) }}
+        {{ form_widget(filterForm) }}
+        <button type="submit">Verder</button>
+    {{ form_end(filterForm) }}
+{% endif %}
+
+{% if selectionForm is defined %}
+    {% form_theme selectionForm 'form_div_layout.html.twig' %}
+    Selecteer een bestaande deelnemer en klik op "Verder".<br>
+    Selecteer niks en klik op "Verder" om een nieuwe deelnemer aan te maken.
+    {{ form_start(selectionForm) }}
+        {{ form_widget(selectionForm) }}
+        <button type="submit">Verder</button>
+    {{ form_end(selectionForm) }}
+{% endif %}
