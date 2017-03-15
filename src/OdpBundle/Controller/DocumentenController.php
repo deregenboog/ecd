@@ -24,9 +24,9 @@ class DocumentenController extends SymfonyController
     private $documentDao;
 
     /**
-     * @Route("/odp/documenten/{filename}")
+     * @Route("/odp/documenten/download/{filename}")
      */
-    public function view($filename)
+    public function download($filename)
     {
         $document = $this->documentDao->findByFilename($filename);
 

@@ -79,7 +79,7 @@ class Document
         return $this->file;
     }
 
-    public function setFile(File $file)
+    public function setFile(File $file = null)
     {
         $this->file = $file;
         return $this;

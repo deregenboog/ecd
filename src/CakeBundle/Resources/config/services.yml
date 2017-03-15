@@ -160,6 +160,8 @@ parameters:
                 - OdpBundle\Controller\Huurverzoeken
                 - OdpBundle\Controller\Huuraanbiedingen
                 - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Verslagen
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
                 - IzKlanten
@@ -188,6 +190,8 @@ parameters:
                 - OdpBundle\Controller\Huurderafsluitingen
                 - OdpBundle\Controller\Verhuurderafsluitingen
                 - OdpBundle\Controller\Woningbouwcorporaties
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Verslagen
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
                 - Vrijwilligers
