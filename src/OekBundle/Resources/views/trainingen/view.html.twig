@@ -59,7 +59,8 @@
             <th>Status</th>
             <th></th>
         </tr>
-        {% for oekKlant in oekTraining.oekKlanten %}
+        {% for oekDeelname in oekTraining.oekDeelnames %}
+            {% set oekKlant = oekDeelname.getOekKlant() %}
             <tr>
                 <td>
                     {{ html.link(oekKlant.klant.id, path('oek_klanten_view', {id: oekKlant.id})) }}
@@ -74,7 +75,7 @@
                     {{ oekKlant.oekDeelname(oekTraining).status }}
                 </td>
                 <td>
-                    {{ html.editLink(path('oek_deelnames_edit', {'oekTraining': oekTraining.id, 'oekKlant': oekKlant.id})) }}
+                    {{ html.editLink(path('oek_deelnames_edit', {id: oekDeelname.id})) }}
                 </td>
             </tr>
         {% endfor %}

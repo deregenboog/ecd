@@ -50,31 +50,20 @@ class DeelnamesController extends SymfonyController
     }
 
     /**
-     * @Route("/edit")
+     * @Route("/{id}/edit")
      */
-    public function edit()
+    public function edit($id)
     {
         $entityManager = $this->getEntityManager();
 
-        $oekTraining = null;
-        if ($this->getRequest()->query->has('oekTraining')) {
-            /** @var OekTraining $oekTraining */
-            $oekTraining = $entityManager->find(OekTraining::class, $this->getRequest()->query->get('oekTraining'));
-        }
+        $oekDeelname = $entityManager->find(OekDeelname::class, $id);
 
-        $oekKlant = null;
-        if ($this->getRequest()->query->has('oekKlant')) {
-            /** @var OekKlant $oekKlant */
-            $oekKlant = $entityManager->find(OekKlant::class, $this->getRequest()->query->get('oekKlant'));
-        }
-
-        $oekDeelname = new OekDeelname($oekTraining, $oekKlant);
         $form = $this->createForm(OekDeelnameType::class, $oekDeelname, ['mode' => OekDeelnameType::MODE_EDIT]);
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'Deelnemer is aan training toegevoegd.');
+            $this->addFlash('success', 'Deelnamestatus is gewijzigd.');
 
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
         }

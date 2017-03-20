@@ -5,6 +5,7 @@ namespace OekBundle\Form;
 use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\OekKlant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,17 @@ class OekDeelnameType extends AbstractType
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        if ($options['mode'] === self::MODE_ADD) {
+            $this->buildAddForm($builder, $options);
+        } elseif ($options['mode'] === self::MODE_EDIT) {
+            $this->buildEditForm($builder, $options);
+        }
+
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+    }
+
+    private function buildAddForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data']->getOekTraining() instanceof OekTraining) {
             $builder->add('oekTraining', EntityType::class, [
@@ -83,8 +95,15 @@ class OekDeelnameType extends AbstractType
                 },
             ]);
         }
+    }
 
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+    private function buildEditForm(FormBuilderInterface $builder, array $options)
+    {
+        $statuses = OekDeelname::getAllStatuses();
+
+        $builder->add('status', ChoiceType::class, [
+            'choices' => array_combine($statuses, $statuses)
+        ]);
     }
 
     /**
