@@ -191,7 +191,7 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.'));
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
         }
 
@@ -219,7 +219,7 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.'));
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
         }
 
@@ -247,7 +247,7 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.'));
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
         }
 
