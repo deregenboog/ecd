@@ -112,8 +112,6 @@ class OekDeelname
 
     public function isDeletable()
     {
-        // todo implement
-
-        return false;
+        return $this->status === self::STATUS_AANGEMELD;
     }
 }
