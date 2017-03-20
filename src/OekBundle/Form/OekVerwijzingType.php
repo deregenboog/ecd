@@ -15,7 +15,7 @@ class OekVerwijzingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('naam');
-        $builder->add('actief', null, ['value' => true]);
+        $builder->add('actief', null, ['data' => true]);
     }
 
     /**
