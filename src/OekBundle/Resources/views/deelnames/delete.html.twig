@@ -12,8 +12,8 @@
 {% block content %}
     <h1>Deelname verwijderen</h1>
     <p>
-        Weet u zeker dat u deelnemer <strong>{{ oekKlant }}</strong>
-        van training <strong>{{ oekGroep }}</strong> wilt verwijderen?
+        Weet u zeker dat u deelnemer <strong>{{ oekDeelname.oekKlant }}</strong>
+        van training <strong>{{ oekDeelname.oekTraining }}</strong> wilt verwijderen?
         <br>
         {{ form(form) }}
     </p>

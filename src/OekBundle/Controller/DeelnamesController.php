@@ -72,15 +72,13 @@ class DeelnamesController extends SymfonyController
     }
 
     /**
-     * @Route("/delete/{oekTraining}/{oekKlant}")
+     * @Route("/{id}/delete")
      */
-    public function delete($oekTraining, $oekKlant)
+    public function delete($id)
     {
         $entityManager = $this->getEntityManager();
-        $repo = $entityManager->getRepository(OekDeelname::class);
 
-        /** @var OekDeelname $oekDeelname */
-        $oekDeelname = $repo->findOneBy(compact('oekTraining', 'oekKlant'));
+        $oekDeelname = $entityManager->find(OekDeelname::class, $id);
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());

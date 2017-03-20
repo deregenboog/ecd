@@ -76,6 +76,10 @@
                 </td>
                 <td>
                     {{ html.editLink(path('oek_deelnames_edit', {id: oekDeelname.id})) }}
+
+                    {% if oekDeelname.deletable %}
+                        {{ html.deleteLink(path('oek_deelnames_delete', {id: oekDeelname.id})) }}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

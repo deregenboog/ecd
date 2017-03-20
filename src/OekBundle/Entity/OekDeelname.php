@@ -109,4 +109,11 @@ class OekDeelname
 
         return $this;
     }
+
+    public function isDeletable()
+    {
+        // todo implement
+
+        return false;
+    }
 }
