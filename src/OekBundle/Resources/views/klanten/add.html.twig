@@ -23,16 +23,10 @@
     {% if selectionForm is defined %}
         Selecteer een bestaande deelnemer en klik op "Verder".<br>
         Selecteer niks en klik op "Verder" om een nieuwe deelnemer aan te maken.
-        {{ form_start(selectionForm) }}
-        {{ form_widget(selectionForm) }}
-        <button type="submit">Verder</button>
-        {{ form_end(selectionForm) }}
+        {{ form(selectionForm) }}
     {% endif %}
 
     {% if creationForm is defined %}
-        {{ form_start(creationForm) }}
-        {{ form_widget(creationForm) }}
-        <button type="submit">Opslaan</button>
-        {{ form_end(creationForm) }}
+        {{ form(creationForm) }}
     {% endif %}
 {% endblock %}

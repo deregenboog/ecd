@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -58,6 +59,8 @@ class OekKlantType extends AbstractType
                 'cols' => 50,
             ],
         ]);
+
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**

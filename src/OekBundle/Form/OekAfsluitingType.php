@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
@@ -25,6 +26,7 @@ class OekAfsluitingType extends AbstractType
                 'class' => OekVerwijzingNaar::class,
             ])
             ->add('medewerker', MedewerkerType::class)
+            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
 

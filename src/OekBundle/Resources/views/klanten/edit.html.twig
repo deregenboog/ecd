@@ -16,8 +16,5 @@
         Klik {{ html.link('hier', path('oek_klanten_view', {id: oekKlant.klant.id })) }}
         om naar het basisdossier van deze deelnemer te gaan.
     </p>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Opslaan</button>
-    {{ form_end(form) }}
+    {{ form(form) }}
 {% endblock %}
