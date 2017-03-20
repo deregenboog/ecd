@@ -135,6 +135,11 @@ class OekTraining
         return $this;
     }
 
+    public function getOekDeelnames()
+    {
+        return $this->oekDeelnames;
+    }
+
     public function getOekKlanten()
     {
         $oekKlanten = new ArrayCollection();

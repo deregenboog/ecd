@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Groepen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Groepen</h1>
+
+    <p>
+        {{ html.addLink(path('oek_groepen_add')) }}
+        {{ html.link('Groep toevoegen', path('oek_groepen_add')) }}
+    </p>
+
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'oekGroep.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'oekGroep.naam') }}
+            </th>
+            <th>
+                Deelnemers op wachtlijst
+            </th>
+            <th>
+                Trainingen
+            </th>
+            <th></th>
+        </tr>
+        {% for oekGroep in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(oekGroep.id, path('oek_groepen_view', {id: oekGroep.id})) }}
+                </td>
+                <td>
+                    {{ html.link(oekGroep.naam, path('oek_groepen_view', {id: oekGroep.id})) }}
+                </td>
+                <td>{{ oekGroep.oekKlanten.count }}</td>
+                <td>{{ oekGroep.oekTrainingen.count }}</td>
+                <td>
+                    {{ html.viewLink(path('oek_groepen_view', {id: oekGroep.id})) }}
+                    {{ html.editLink(path('oek_groepen_edit', {id: oekGroep.id})) }}
+                    {% if oekGroep.deletable %}
+                        {{ html.deleteLink(path('oek_groepen_delete', {id: oekGroep.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

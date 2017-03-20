@@ -219,7 +219,7 @@ parameters:
             iz_klanten: IZ
             groepsactiviteiten_klanten: Groepsactiviteiten
             hs_klanten: HomeService
-            oek_klanten: Op Eigen Kracht
+            oek: Op Eigen Kracht
             odp: Onder de Pannen
             Admin: Admin
 

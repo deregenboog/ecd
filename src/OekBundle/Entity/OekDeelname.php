@@ -48,6 +48,21 @@ class OekDeelname
      */
     private $status = self::STATUS_AANGEMELD;
 
+    /**
+     * Get all statuses defined in this class' constants
+     *
+     * @return array
+     */
+    public static function getAllStatuses()
+    {
+        $thisClass = new \ReflectionClass(__CLASS__);
+        $constants = $thisClass->getConstants();
+
+        return array_filter($constants, function($key) {
+            return strpos($key, 'STATUS') === 0;
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
     public function __construct(OekTraining $oekTraining = null, OekKlant $oekKlant = null)
     {
         $this->oekTraining = $oekTraining;
@@ -93,5 +108,10 @@ class OekDeelname
         $this->status = $status;
 
         return $this;
+    }
+
+    public function isDeletable()
+    {
+        return $this->status === self::STATUS_AANGEMELD;
     }
 }

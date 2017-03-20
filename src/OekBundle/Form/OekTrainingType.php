@@ -5,6 +5,7 @@ namespace OekBundle\Form;
 use AppBundle\Form\AppTimeType;
 use OekBundle\Entity\OekTraining;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
@@ -25,6 +26,7 @@ class OekTrainingType extends AbstractType
         $builder->add('startdatum', AppDateType::class);
         $builder->add('starttijd', AppTimeType::class);
         $builder->add('einddatum', AppDateType::class);
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**
