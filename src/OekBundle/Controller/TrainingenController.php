@@ -9,6 +9,7 @@ use OekBundle\Form\OekTrainingType;
 use AppBundle\Form\ConfirmationType;
 use OekBundle\Form\OekEmailMessageType;
 use OekBundle\Entity\OekGroep;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -73,19 +74,19 @@ class TrainingenController extends SymfonyController
     /**
      * @Route("/add")
      */
-    public function add()
+    public function add(Request $request)
     {
         $entityManager = $this->getEntityManager();
 
         $oekTraining = new OekTraining();
-        if ($oekGroepId = $this->getRequest()->query->get('oekGroep')) {
+        if ($oekGroepId = $request->get('oekGroep')) {
             /** @var OekGroep $oekGroep */
             $oekGroep = $entityManager->find(OekGroep::class, $oekGroepId);
             $oekTraining->setOekGroep($oekGroep);
         }
 
         $form = $this->createForm(OekTrainingType::class, $oekTraining);
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
         if ($form->isValid()) {
             $entityManager->persist($oekTraining);
             $entityManager->flush();
@@ -176,9 +177,9 @@ class TrainingenController extends SymfonyController
             ;
 
             if ($mailer->send($message)) {
-                $this->flash(__('Email is succesvol verzonden', true));
+                $this->addFlash('success', __('Email is succesvol verzonden', true));
             } else {
-                $this->flashError(__('Email kon niet worden verzonden', true));
+                $this->addFlash('danger', __('Email kon niet worden verzonden', true));
             }
 
             return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
