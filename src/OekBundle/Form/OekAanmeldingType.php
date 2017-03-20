@@ -2,6 +2,7 @@
 
 namespace OekBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,6 +25,11 @@ class OekAanmeldingType extends AbstractType
                 'label' => 'Verwijzing door',
                 'placeholder' => 'Selecteer een item',
                 'class' => OekVerwijzingDoor::class,
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository
+                        ->createQueryBuilder('verwijzing')
+                        ->where('verwijzing.actief = 1');
+                },
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
