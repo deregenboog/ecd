@@ -90,7 +90,7 @@ class TrainingenController extends SymfonyController
             $entityManager->persist($oekTraining);
             $entityManager->flush();
 
-            $this->Session->setFlash('Training is opgeslagen.');
+            $this->addFlash('success', 'Training is opgeslagen.');
 
             return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
         }
@@ -113,7 +113,7 @@ class TrainingenController extends SymfonyController
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->Session->setFlash('Training is opgeslagen.');
+            $this->addFlash('success', 'Training is opgeslagen.');
 
             return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
         }
@@ -138,7 +138,7 @@ class TrainingenController extends SymfonyController
                 $entityManager->remove($oekTraining);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Training is verwijderd.');
+                $this->addFlash('success', 'Training is verwijderd.');
             }
 
             return $this->redirectToRoute('oek_trainingen_index');

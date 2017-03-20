@@ -41,7 +41,7 @@ class DeelnamesController extends SymfonyController
             $entityManager->persist($oekDeelname);
             $entityManager->flush();
 
-            $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
+            $this->addFlash('success', 'Deelnemer is aan training toegevoegd.');
 
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
         }
@@ -74,7 +74,7 @@ class DeelnamesController extends SymfonyController
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->Session->setFlash('Deelnemer is aan training toegevoegd.');
+            $this->addFlash('success', 'Deelnemer is aan training toegevoegd.');
 
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);
         }
@@ -101,7 +101,7 @@ class DeelnamesController extends SymfonyController
                 $entityManager->remove($oekDeelname);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Deelnemer is van training verwijderd.');
+                $this->addFlash('success', 'Deelnemer is van training verwijderd.');
 
             }
 

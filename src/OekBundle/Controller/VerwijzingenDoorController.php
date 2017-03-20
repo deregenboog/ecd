@@ -51,7 +51,7 @@ class VerwijzingenDoorController extends SymfonyController
             $entityManager->persist($oekVerwijzing);
             $entityManager->flush();
 
-            $this->Session->setFlash('Verwijzing is aangemaakt.');
+            $this->addFlash('success', 'Verwijzing is aangemaakt.');
 
             return $this->redirectToRoute('oek_verwijzingendoor_index');
         }
@@ -72,7 +72,7 @@ class VerwijzingenDoorController extends SymfonyController
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->Session->setFlash('Verwijzing is gewijzigd.');
+            $this->addFlash('success', 'Verwijzing is gewijzigd.');
 
             return $this->redirectToRoute('oek_verwijzingendoor_index');
         }

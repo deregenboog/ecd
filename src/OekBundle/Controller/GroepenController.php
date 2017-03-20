@@ -67,7 +67,7 @@ class GroepenController extends SymfonyController
             $entityManager->persist($oekGroep);
             $entityManager->flush();
 
-            $this->Session->setFlash('Groep is aangemaakt.');
+            $this->addFlash('success', 'Groep is aangemaakt.');
 
             return $this->redirectToRoute('oek_groepen_view', ['id' => $oekGroep->getId()]);
         }
@@ -90,7 +90,7 @@ class GroepenController extends SymfonyController
         if ($form->isValid()) {
             $entityManager->flush();
 
-            $this->Session->setFlash('Groep is gewijzigd.');
+            $this->addFlash('success', 'Groep is gewijzigd.');
 
             return $this->redirectToRoute('oek_groepen_view', ['id' => $oekGroep->getId()]);
         }
@@ -115,7 +115,7 @@ class GroepenController extends SymfonyController
                 $entityManager->remove($oekGroep);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Groep is verwijderd.');
+                $this->addFlash('success', 'Groep is verwijderd.');
             }
 
             return $this->redirectToRoute('oek_groepen_index');

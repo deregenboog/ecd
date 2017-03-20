@@ -41,7 +41,7 @@ class LidmaatschappenController extends SymfonyController
             $entityManager->persist($oekLidmaatschap);
             $entityManager->flush();
 
-            $this->Session->setFlash('Deelnemer is aan wachtlijst toegevoegd.');
+            $this->addFlash('success', 'Deelnemer is aan wachtlijst toegevoegd.');
 
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);
         }
@@ -68,7 +68,7 @@ class LidmaatschappenController extends SymfonyController
                 $entityManager->remove($oekLidmaatschap);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Deelnemer is van wachtlijst verwijderd.');
+                $this->addFlash('success', 'Deelnemer is van wachtlijst verwijderd.');
 
             }
 

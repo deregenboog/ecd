@@ -125,14 +125,14 @@ class KlantenController extends SymfonyController
                     $entityManager->persist($oekKlant);
                     $entityManager->flush();
 
-                    $this->Session->setFlash('Klant is opgeslagen.');
+                    $this->addFlash('success', 'Klant is opgeslagen.');
 
                     return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
                 } catch (\Exception $e) {
                     if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
-                        $this->Session->setFlash('Deze klant heeft al een Op-eigen-kracht-dossier.');
+                        $this->addFlash('danger', 'Deze klant heeft al een Op-eigen-kracht-dossier.');
                     } else {
-                        $this->Session->setFlash('Er is een fout opgetreden.');
+                        $this->addFlash('danger', 'Er is een fout opgetreden.');
                     }
                 } finally {
                     return $this->redirectToRoute('oek_klanten_index');
@@ -187,7 +187,7 @@ class KlantenController extends SymfonyController
             try {
                 $entityManager->flush();
 
-                $this->Session->setFlash('Klant is opgeslagen.');
+                $this->addFlash('success', 'Klant is opgeslagen.');
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
@@ -215,7 +215,7 @@ class KlantenController extends SymfonyController
                 $oekKlant->addOekAanmelding($oekAanmelding);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Het dossier is heropend.');
+                $this->addFlash('success', 'Het dossier is heropend.');
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
@@ -243,7 +243,7 @@ class KlantenController extends SymfonyController
                 $oekKlant->addOekAfsluiting($oekAfsluiting);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Het dossier is afgesloten.');
+                $this->addFlash('success', 'Het dossier is afgesloten.');
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
@@ -270,7 +270,7 @@ class KlantenController extends SymfonyController
                 $entityManager->remove($oekKlant);
                 $entityManager->flush();
 
-                $this->Session->setFlash('Klant is verwijderd.');
+                $this->addFlash('success', 'Klant is verwijderd.');
             }
 
             return $this->redirectToRoute('oek_klanten_index');
