@@ -145,7 +145,7 @@ class KlantenController extends SymfonyController
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 
