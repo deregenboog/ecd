@@ -13,7 +13,7 @@
     <h1>Deelnemer {{ oekKlant.klant.naam }}</h1>
 
     <p>
-        {% set view_link = path('oek_klanten_view', {id: oekKlant.klant.id}) %}
+        {% set view_link = path('app_klanten_view', {id: oekKlant.klant.id}) %}
         {{ html.viewLink(view_link)|raw }}
         {{ html.link('Basisdossier bekijken', view_link)|raw }}
 
