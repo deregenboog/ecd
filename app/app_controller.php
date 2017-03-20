@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -29,7 +27,7 @@ class AppController extends Controller implements ContainerAwareInterface
      *
      * @var ContainerInterface
      */
-    static public $staticContainer;
+    public static $staticContainer;
 
     /**
      * @var Request
@@ -95,6 +93,8 @@ class AppController extends Controller implements ContainerAwareInterface
             'BotVerslagen',
         ],
         'IzDeelnemers' => [
+            'iz_klanten',
+            'iz_vrijwilligers',
             'IzDeelnemers',
             'IzProjecten',
             'IzIntervisiegroepen',

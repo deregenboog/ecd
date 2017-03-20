@@ -3,7 +3,6 @@
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Medewerker;
-use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Form\IzKoppelingFilterType;
 
 class IzKoppelingenController extends AppController

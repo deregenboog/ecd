@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Lidmaatschappen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Groep verwijderen</h1>
+    <p>
+        Weet u zeker dat u deelnemer <strong>{{ oekLidmaatschap.oekKlant }}</strong>
+        van wachtlijst <strong>{{ oekLidmaatschap.oekGroep }}</strong> wilt verwijderen?
+        <br>
+        {{ form(form) }}
+    </p>
+{% endblock %}

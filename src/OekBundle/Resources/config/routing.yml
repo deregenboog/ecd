@@ -1,17 +1,9 @@
-oek_klanten_index:
-    path: oek_klanten
+odp_annotations:
+    resource: "@OekBundle/Controller"
+    type: annotation
 
-oek_wachtlijst_index:
-    path: oek_wachtlijst
-
-oek_groepen_index:
-    path: oek_groepen
-
-oek_trainingen_index:
-    path: oek_trainingen
-
-oek_verwijzingen_naar_index:
-    path: oek_verwijzingen_naar
-
-oek_verwijzingen_door_index:
-    path: oek_verwijzingen_door
+oek_index:
+    path: /oek
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: oek_klanten_index

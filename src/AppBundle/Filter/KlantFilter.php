@@ -4,6 +4,7 @@ namespace AppBundle\Filter;
 
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class KlantFilter implements FilterInterface
 {
@@ -18,7 +19,7 @@ class KlantFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $geboortedatum;
 
@@ -47,10 +48,18 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->geboortedatum) {
-            $builder
-                ->andWhere("{$alias}.geboortedatum = :{$alias}_geboortedatum")
-                ->setParameter("{$alias}_geboortedatum", $this->geboortedatum)
-            ;
+            if ($this->geboortedatum->getStart()) {
+                $builder
+                    ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")
+                    ->setParameter("{$alias}_geboortedatum_van", $this->geboortedatum->getStart())
+                ;
+            }
+            if ($this->geboortedatum->getEnd()) {
+                $builder
+                    ->andWhere("{$alias}.geboortedatum <= :{$alias}_geboortedatum_tot")
+                    ->setParameter("{$alias}_geboortedatum_tot", $this->geboortedatum->getEnd())
+                ;
+            }
         }
 
         if (isset($this->stadsdeel)) {

@@ -1,0 +1,87 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Trainingen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/_partials/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ oekTraining }}</h1>
+
+    <p>
+        {{ html.editLink(path('oek_trainingen_edit', {id: oekTraining.id})) }}
+        {{ html.link('Training wijzigen', path('oek_trainingen_edit', {id: oekTraining.id})) }}
+        {% if oekTraining.deletable %}
+            {{ html.deleteLink(path('oek_trainingen_delete', {id: oekTraining.id})) }}
+        {% endif %}
+    </p>
+
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ oekTraining.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ oekTraining.naam }}</dd>
+        <dt>Groep</dt>
+        <dd>
+            {{ html.link(oekTraining.oekGroep, path('oek_groepen_view', {id: oekTraining.oekgroep.id})) }}
+        </dd>
+        <dt>Locatie</dt>
+        <dd>{{ oekTraining.locatie }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}&nbsp;</dd>
+        <dt>Starttijd</dt>
+        <dd>{{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') }}&nbsp;</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}&nbsp;</dd>
+    </dl>
+
+    <h2>Deelnemers</h2>
+
+    <p>
+        {% set add_link = path('oek_deelnames_add', {'oekTraining': oekTraining.id}) %}
+        {{ html.addLink(add_link)|raw }}
+        {{ html.link('Deelnemer aan training toevoegen', add_link)|raw }}
+        <br>
+        {% set email_link = path('oek_trainingen_email_deelnemers', {id: oekTraining.id}) %}
+        {{ html.editLink(email_link)|raw }}
+        {{ html.link('Deelnemers e-mailen', email_link)|raw }}
+    </p>
+
+    <table class="table table-hover">
+        <tr>
+            <th>#</th>
+            <th>Deelnemer</th>
+            <th>Stadsdeel</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for oekDeelname in oekTraining.oekDeelnames %}
+            {% set oekKlant = oekDeelname.getOekKlant() %}
+            <tr>
+                <td>
+                    {{ html.link(oekKlant.klant.id, path('oek_klanten_view', {id: oekKlant.id})) }}
+                </td>
+                <td>
+                    {{ html.link(oekKlant.klant.naam, path('oek_klanten_view', {id: oekKlant.id})) }}
+                </td>
+                <td>
+                    {{ oekKlant.klant.werkgebied }}
+                </td>
+                <td>
+                    {{ oekKlant.oekDeelname(oekTraining).status }}
+                </td>
+                <td>
+                    {{ html.editLink(path('oek_deelnames_edit', {id: oekDeelname.id})) }}
+
+                    {% if oekDeelname.deletable %}
+                        {{ html.deleteLink(path('oek_deelnames_delete', {id: oekDeelname.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

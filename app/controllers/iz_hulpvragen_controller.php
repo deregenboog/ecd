@@ -4,7 +4,6 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Medewerker;
 use IzBundle\Form\IzHulpvraagFilterType;
-use Symfony\Component\HttpFoundation\Request;
 
 class IzHulpvragenController extends AppController
 {
