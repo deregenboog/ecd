@@ -1,6 +1,7 @@
 {% import '::html.macro.twig' as html %}
 <ul class="nav nav-tabs">
     {{ html.navLink('Klanten', path('hs_klanten_index'), isActiveRoute('hs_klanten')) }}
+    {{ html.navLink('Dienstverleners', path('hs_dienstverleners_index'), isActiveRoute('hs_dienstverleners')) }}
     {{ html.navLink('Vrijwilligers', path('hs_vrijwilligers_index'), isActiveRoute('hs_vrijwilligers')) }}
     {{ html.navLink('Klussen', path('hs_klussen_index'), isActiveRoute('hs_klussen')) }}
     {{ html.navLink('Facturen', path('hs_facturen_index'), isActiveRoute('hs_facturen')) }}
