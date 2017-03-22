@@ -56,9 +56,14 @@ class IzKlantenController extends AppController
     {
         $klanten = $this->klantDao->findAll(null, $filter);
 
-        $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: text/csv');
+//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+//         $this->header('Content-type: text/csv');
+//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: application/vnd.ms-excel');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
 
         $this->set('klanten', $klanten);
         $this->render('download', false);
