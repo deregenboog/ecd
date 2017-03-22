@@ -227,7 +227,7 @@ parameters:
                 url: Vrijwilligers
             Registraties:
                 label: Registratie
-                url: Registratie
+                url: Registraties
             MaatschappelijkWerk:
                 label: Maatschappelijk werk
                 url: MaatschappelijkWerk
