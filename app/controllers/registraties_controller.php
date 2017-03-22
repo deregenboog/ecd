@@ -397,7 +397,7 @@ class RegistratiesController extends AppController
             'confirm' => false,
             'allow' => true,
             'message' => '',
-            );
+        );
 
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
@@ -479,7 +479,7 @@ class RegistratiesController extends AppController
         }
 
         render:
-            $this->set(compact('jsonVar', 'location'));
+            $this->set(compact('jsonVar'));
 
         $this->render('/elements/json', 'ajax');
     }
