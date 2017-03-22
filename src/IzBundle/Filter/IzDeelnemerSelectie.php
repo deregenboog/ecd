@@ -47,10 +47,12 @@ class IzDeelnemerSelectie implements FilterInterface
             }
 
             if ($this->stadsdelen) {
-                $builder
-                    ->andWhere('klant.werkgebied IN (:stadsdelen)')
-                    ->setParameter('stadsdelen', $this->stadsdelen)
-                ;
+                if (in_array('', $this->stadsdelen)) {
+                    $builder->andWhere("klant.werkgebied IS NULL OR klant.werkgebied = '' OR klant.werkgebied IN (:stadsdelen)");
+                } else {
+                    $builder->andWhere('klant.werkgebied IN (:stadsdelen)');
+                }
+                $builder->setParameter('stadsdelen', $this->stadsdelen);
             }
 
             if (in_array('geen_post', $this->communicatie)) {
@@ -73,10 +75,12 @@ class IzDeelnemerSelectie implements FilterInterface
             }
 
             if ($this->stadsdelen) {
-                $builder
-                    ->andWhere('vrijwilliger.werkgebied IN (:stadsdelen)')
-                    ->setParameter('stadsdelen', $this->stadsdelen)
-                ;
+                if (in_array('', $this->stadsdelen)) {
+                    $builder->andWhere("vrijwilliger.werkgebied IS NULL OR vrijwilliger.werkgebied = '' OR vrijwilliger.werkgebied IN (:stadsdelen)");
+                } else {
+                    $builder->andWhere('vrijwilliger.werkgebied IN (:stadsdelen)');
+                }
+                $builder->setParameter('stadsdelen', $this->stadsdelen);
             }
 
             if (in_array('geen_post', $this->communicatie)) {
