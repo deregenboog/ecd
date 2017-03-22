@@ -65,9 +65,14 @@ class GroepsactiviteitenKlantenController extends AppController
     {
         $intakes = $builder->getQuery()->getResult();
 
-        $filename = sprintf('groepsactiviteiten-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: text/csv');
+//         $filename = sprintf('groepsactiviteiten-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+//         $this->header('Content-type: text/csv');
+//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $filename = sprintf('groepsactiviteiten-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: application/vnd.ms-excel');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
 
         $this->set('intakes', $intakes);
         $this->render('download', false);
