@@ -83,7 +83,7 @@ class IzVrijwilligersController extends AppController
         }
 
         $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 
