@@ -47,7 +47,7 @@ class IzDeelnemerSelectie implements FilterInterface
             }
 
             if ($this->stadsdelen) {
-                if (in_array('', $this->stadsdelen)) {
+                if (in_array('-', $this->stadsdelen)) {
                     $builder->andWhere("klant.werkgebied IS NULL OR klant.werkgebied = '' OR klant.werkgebied IN (:stadsdelen)");
                 } else {
                     $builder->andWhere('klant.werkgebied IN (:stadsdelen)');
@@ -75,7 +75,7 @@ class IzDeelnemerSelectie implements FilterInterface
             }
 
             if ($this->stadsdelen) {
-                if (in_array('', $this->stadsdelen)) {
+                if (in_array('-', $this->stadsdelen)) {
                     $builder->andWhere("vrijwilliger.werkgebied IS NULL OR vrijwilliger.werkgebied = '' OR vrijwilliger.werkgebied IN (:stadsdelen)");
                 } else {
                     $builder->andWhere('vrijwilliger.werkgebied IN (:stadsdelen)');

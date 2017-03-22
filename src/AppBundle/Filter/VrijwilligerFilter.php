@@ -63,10 +63,14 @@ class VrijwilligerFilter implements FilterInterface
         }
 
         if (isset($this->stadsdeel)) {
-            $builder
-                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
-                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
-            ;
+            if ($this->stadsdeel == '-') {
+                $builder->andWhere("{$alias}.werkgebied IS NULL OR {$alias}.werkgebied = ''");
+            } else {
+                $builder
+                    ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+                ;
+            }
         }
     }
 }
