@@ -1503,7 +1503,7 @@ class IzDeelnemersController extends AppController
                     default:
                     case 'excel':
                         $this->header('Content-type: application/vnd.ms-excel');
-                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.csv";', date('Ymd_His')));
+                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.xls";', date('Ymd_His')));
                         $this->header('Content-Transfer-Encoding: binary');
 
                         $this->autoLayout = false;
