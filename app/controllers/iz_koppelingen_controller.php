@@ -60,7 +60,7 @@ class IzKoppelingenController extends AppController
             ->andWhere('vrijwilliger.disabled = false')
         ;
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $form->getData()->applyTo($builder);
         }
 

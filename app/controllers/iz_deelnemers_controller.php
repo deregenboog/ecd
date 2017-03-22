@@ -1284,7 +1284,7 @@ class IzDeelnemersController extends AppController
         $form = $this->createForm(IzEmailMessageType::class, null);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var Swift_Mailer $mailer */
             $mailer = $this->container->get('mailer');
 
@@ -1406,7 +1406,7 @@ class IzDeelnemersController extends AppController
         $form = $this->createForm(IzDeelnemerSelectieType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $izKlanten = new ArrayCollection([]);
             $izVrijwilligers = new ArrayCollection([]);
 
