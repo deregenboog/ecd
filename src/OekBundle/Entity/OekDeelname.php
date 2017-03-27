@@ -42,7 +42,7 @@ class OekDeelname
      *
      * @var OekDeelnameStatus[]
      *
-     * @ORM\ManyToMany(targetEntity="OekDeelnameStatus", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OekDeelnameStatus", cascade={"persist"}, mappedBy="oekDeelname")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $oekDeelnameStatussen;
@@ -52,7 +52,7 @@ class OekDeelname
      *
      * @var OekDeelnameStatus
      *
-     * @ORM\ManyToOne(targetEntity="OekDeelnameStatus", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="OekDeelnameStatus", cascade={"persist"})
      */
     private $oekDeelnameStatus;
 
@@ -111,7 +111,7 @@ class OekDeelname
 
     public function setOekDeelnameStatus(OekDeelnameStatus $oekDeelnameStatus)
     {
-        $this->oekDeelnameStatussen[] = $this->oekDeelnameStatus;
+        $this->oekDeelnameStatussen[] = $oekDeelnameStatus;
 
         $this->oekDeelnameStatus = $oekDeelnameStatus;
 
