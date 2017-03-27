@@ -37,4 +37,12 @@ class HsDeclaratieType extends AbstractType
             'data_class' => HsDeclaratie::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

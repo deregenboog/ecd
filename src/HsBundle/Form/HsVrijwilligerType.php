@@ -49,4 +49,12 @@ class HsVrijwilligerType extends AbstractType
             'data_class' => HsVrijwilliger::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

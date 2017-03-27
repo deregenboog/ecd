@@ -32,4 +32,12 @@ class HuurderafsluitingType extends AbstractType
             'data_class' => Huurderafsluiting::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

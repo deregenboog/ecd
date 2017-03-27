@@ -35,4 +35,12 @@ class VerhuurderCloseType extends AbstractType
             'data_class' => Verhuurder::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

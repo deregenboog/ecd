@@ -33,4 +33,12 @@ class VerhuurderafsluitingType extends AbstractType
             'data_class' => Verhuurderafsluiting::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

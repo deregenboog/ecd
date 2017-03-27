@@ -38,4 +38,12 @@ class OekTrainingType extends AbstractType
             'data_class' => OekTraining::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

@@ -54,4 +54,12 @@ class HuurverzoekType extends AbstractType
             'data_class' => Huurverzoek::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

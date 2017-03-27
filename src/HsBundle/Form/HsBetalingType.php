@@ -32,4 +32,12 @@ class HsBetalingType extends AbstractType
             'data_class' => HsBetaling::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

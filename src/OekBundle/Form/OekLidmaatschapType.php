@@ -100,4 +100,12 @@ class OekLidmaatschapType extends AbstractType
             'data_class' => OekLidmaatschap::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }
