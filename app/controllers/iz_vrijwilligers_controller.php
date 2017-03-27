@@ -1,11 +1,11 @@
 <?php
 
-use IzBundle\Service\VrijwilligerDaoInterface;
-use IzBundle\Form\IzVrijwilligerFilterType;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\VrijwilligerFilterType;
+use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerSelectType;
-use AppBundle\Entity\Vrijwilliger;
+use IzBundle\Service\VrijwilligerDaoInterface;
 
 class IzVrijwilligersController extends AppController
 {

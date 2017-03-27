@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Form\FilterType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class IzKoppelingFilterType extends AbstractType
 {
@@ -91,6 +92,7 @@ class IzKoppelingFilterType extends AbstractType
                 },
             ]);
         }
+
         if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
@@ -103,6 +105,11 @@ class IzKoppelingFilterType extends AbstractType
                 },
             ]);
         }
+
+        $builder
+            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
+            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
+        ;
     }
 
     /**

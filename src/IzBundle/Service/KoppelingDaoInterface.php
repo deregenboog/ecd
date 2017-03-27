@@ -2,11 +2,11 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzHulpvraag;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
 
-interface KlantDaoInterface
+interface KoppelingDaoInterface
 {
     /**
      * @param int             $page
@@ -24,17 +24,17 @@ interface KlantDaoInterface
     public function find($id);
 
     /**
-     * @param IzKlant $klant
+     * @param IzKlant $koppeling
      */
-    public function create(IzKlant $klant);
+    public function create(IzHulpvraag $koppeling);
 
     /**
-     * @param IzKlant $klant
+     * @param IzKlant $koppeling
      */
-    public function update(IzKlant $klant);
+    public function update(IzHulpvraag $koppeling);
 
     /**
-     * @param IzKlant $klant
+     * @param IzKlant $koppeling
      */
-    public function delete(IzKlant $klant);
+    public function delete(IzHulpvraag $koppeling);
 }
