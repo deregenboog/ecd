@@ -29,20 +29,6 @@ services:
         tags:
             - { name: form.type }
 
-    oek.report.klanten.per_groep:
-        class: OekBundle\Report\KlantenPerGroep
-        arguments:
-            - "@oek.repository.oek_klant"
-        tags:
-            - { name: oek.rapportage, category: Deelnemers }
-
-    oek.report.klanten.per_training:
-        class: OekBundle\Report\KlantenPerTraining
-        arguments:
-            - "@oek.repository.oek_klant"
-        tags:
-            - { name: oek.rapportage, category: Deelnemers }
-
     oek.report.klanten.per_training_stadsdeel:
         class: OekBundle\Report\KlantenPerTrainingStadsdeel
         arguments:
