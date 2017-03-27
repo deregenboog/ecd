@@ -58,8 +58,10 @@ class HuurdersController extends SymfonyController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return [
+            'filter' => $filter->createView(),
+            'pagination' => $pagination,
+        ];
     }
 
     /**
@@ -115,7 +117,7 @@ class HuurdersController extends SymfonyController
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam'],
         ]);
         $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
         $filterForm->handleRequest($this->getRequest());
