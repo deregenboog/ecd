@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="OekBundle\Repository\OekTrainingRepository")
  * @ORM\Table(name="oek_trainingen")
  * @ORM\HasLifecycleCallbacks
  */

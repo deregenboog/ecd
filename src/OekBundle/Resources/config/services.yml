@@ -18,6 +18,12 @@ services:
         arguments:
             - OekBundle\Entity\OekKlant
 
+    oek.repository.oek_training:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OekBundle\Entity\OekTraining
+
     oek.form.rapportage:
         class: OekBundle\Form\OekRapportageType
         tags:
@@ -36,6 +42,13 @@ services:
             - "@oek.repository.oek_klant"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
+
+    oek.report.trainingen.per_groep_en_stadsdeel:
+        class: OekBundle\Report\TrainingenPerGroepStadsdeel
+        arguments:
+            - "@oek.repository.oek_training"
+        tags:
+            - { name: oek.rapportage, category: Trainingen }
 
 #    oek.report.koppelingen.totaal:
 #        class: OekBundle\Report\KoppelingenTotaal
