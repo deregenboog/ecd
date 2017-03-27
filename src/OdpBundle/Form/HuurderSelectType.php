@@ -47,4 +47,12 @@ class HuurderSelectType extends AbstractType
             'filter' => null,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

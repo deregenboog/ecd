@@ -45,4 +45,12 @@ class OekAanmeldingType extends AbstractType
             'data_class' => OekAanmelding::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

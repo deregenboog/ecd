@@ -64,4 +64,12 @@ class HuurverzoekFilterType extends AbstractType
             'data_class' => HuurverzoekFilter::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

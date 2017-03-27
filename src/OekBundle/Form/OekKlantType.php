@@ -81,4 +81,12 @@ class OekKlantType extends AbstractType
     {
         return BaseType::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

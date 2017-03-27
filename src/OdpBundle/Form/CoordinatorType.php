@@ -39,4 +39,12 @@ class CoordinatorType extends AbstractType
             'data_class' => Coordinator::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

@@ -114,4 +114,12 @@ class HuurovereenkomstType extends AbstractType
             },
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

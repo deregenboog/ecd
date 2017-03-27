@@ -53,4 +53,12 @@ class KlantFilterType extends AbstractType
     {
         return FilterType::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
+    }
 }

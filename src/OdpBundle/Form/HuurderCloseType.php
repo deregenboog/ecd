@@ -36,4 +36,12 @@ class HuurderCloseType extends AbstractType
             'data_class' => Huurder::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

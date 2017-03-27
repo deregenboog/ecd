@@ -38,4 +38,12 @@ class StadsdeelFilterType extends AbstractType
     {
         return ChoiceType::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
+    }
 }

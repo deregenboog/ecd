@@ -29,4 +29,12 @@ class OekVerwijzingType extends AbstractType
             'data_class' => OekVerwijzing::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

@@ -56,4 +56,12 @@ class VerhuurderFilterType extends AbstractType
             'data_class' => VerhuurderFilter::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

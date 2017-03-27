@@ -95,4 +95,12 @@ class HuurovereenkomstFilterType extends AbstractType
             'data_class' => HuurovereenkomstFilter::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return \AppBundle\Form\BaseType::class;
+    }
 }

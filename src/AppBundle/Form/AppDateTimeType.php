@@ -28,4 +28,12 @@ class AppDateTimeType extends AbstractType
     {
         return DateTimeType::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
+    }
 }
