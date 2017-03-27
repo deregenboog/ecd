@@ -26,31 +26,8 @@ class FilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            foreach ($event->getForm()->all() as $child) {
-                $this->removeSubmitTypes($child);
-            }
-        });
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
         return BaseType::class;
-    }
-
-    private function removeSubmitTypes(FormInterface $form)
-    {
-        foreach ($form->all() as $name => $child) {
-            if ($child->getConfig()->getType()->getInnerType() instanceof SubmitType) {
-                $form->remove($name);
-            } else {
-                $this->removeSubmitTypes($child);
-            }
-        }
     }
 }
