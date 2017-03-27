@@ -4,6 +4,9 @@ namespace OekBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use OekBundle\Entity\OekAanmelding;
+use OekBundle\Entity\OekAfsluiting;
+use OekBundle\Report\AbstractKlantenVerwezen;
 
 class OekKlantRepository extends EntityRepository
 {
@@ -89,6 +92,29 @@ class OekKlantRepository extends EntityRepository
 //                 $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', oekKlant.id, oekProject.id)", $eindstand));
 //                 break;
 //         }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countByVerwijzing($verwezen, \DateTime $startDate, \DateTime $endDate)
+    {
+        $entities = [
+            AbstractKlantenVerwezen::DOOR => OekAanmelding::class,
+            AbstractKlantenVerwezen::NAAR => OekAfsluiting::class,
+        ];
+
+        $entity = $entities[$verwezen];
+
+        $builder = $this->getCountBuilder()
+            ->addSelect('oekVerwijzing.naam AS verwijzing')
+            ->innerJoin('oekKlant.oekDossierStatussen', 'oekDossierStatus')
+            ->innerJoin('oekDossierStatus.verwijzing', 'oekVerwijzing')
+            ->where("oekDossierStatus INSTANCE OF $entity")
+            ->where('oekDossierStatus.datum BETWEEN :startDate AND :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->groupBy('oekVerwijzing')
+        ;
 
         return $builder->getQuery()->getResult();
     }

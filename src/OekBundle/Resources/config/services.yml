@@ -43,6 +43,20 @@ services:
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
+    oek.report.klanten.verwezen_door:
+        class: OekBundle\Report\KlantenVerwezenDoor
+        arguments:
+            - "@oek.repository.oek_klant"
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    oek.report.klanten.verwezen_naar:
+        class: OekBundle\Report\KlantenVerwezenNaar
+        arguments:
+            - "@oek.repository.oek_klant"
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
     oek.report.trainingen.per_groep_en_stadsdeel:
         class: OekBundle\Report\TrainingenPerGroepStadsdeel
         arguments:
