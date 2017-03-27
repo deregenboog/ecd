@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
+use OekBundle\Entity\OekDeelnameStatus;
 use OekBundle\Entity\OekKlant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -99,7 +100,7 @@ class OekDeelnameType extends AbstractType
 
     private function buildEditForm(FormBuilderInterface $builder, array $options)
     {
-        $statuses = OekDeelname::getAllStatuses();
+        $statuses = OekDeelnameStatus::getAllStatuses();
 
         $builder->add('status', ChoiceType::class, [
             'choices' => array_combine($statuses, $statuses)
