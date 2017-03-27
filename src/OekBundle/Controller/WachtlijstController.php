@@ -74,7 +74,7 @@ class WachtlijstController extends SymfonyController
         $this->header('Content-type: text/csv');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
 
-        return ['oekKlanten' => $oekKlanten, 'download' => false];
+        return $this->render('@Oek/wachtlijst/download.csv.twig', compact('oekKlanten'));
     }
 
     /**

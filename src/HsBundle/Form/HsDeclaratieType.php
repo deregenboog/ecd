@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
 use HsBundle\Entity\HsDeclaratie;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use AppBundle\Form\BaseType;
 
 class HsDeclaratieType extends AbstractType
 {
@@ -36,5 +37,13 @@ class HsDeclaratieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsDeclaratie::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

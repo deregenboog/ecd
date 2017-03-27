@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsFactuur;
+use AppBundle\Form\BaseType;
 
 class HsFactuurType extends AbstractType
 {
@@ -25,5 +26,13 @@ class HsFactuurType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsFactuur::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsBetaling;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use AppBundle\Form\BaseType;
 
 class HsBetalingType extends AbstractType
 {
@@ -31,5 +32,13 @@ class HsBetalingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsBetaling::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

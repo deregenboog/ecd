@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use OdpBundle\Entity\Verslag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class HuurverzoekType extends AbstractType
 {
@@ -53,5 +54,13 @@ class HuurverzoekType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Huurverzoek::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

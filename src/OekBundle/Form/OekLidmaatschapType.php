@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OekBundle\Entity\OekGroep;
 use OekBundle\Entity\OekLidmaatschap;
+use AppBundle\Form\BaseType;
 
 class OekLidmaatschapType extends AbstractType
 {
@@ -99,5 +100,13 @@ class OekLidmaatschapType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OekLidmaatschap::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

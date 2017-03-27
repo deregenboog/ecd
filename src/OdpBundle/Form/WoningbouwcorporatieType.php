@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Entity\Woningbouwcorporatie;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class WoningbouwcorporatieType extends AbstractType
 {
@@ -30,5 +31,13 @@ class WoningbouwcorporatieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Woningbouwcorporatie::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -9,6 +9,7 @@ use HsBundle\Entity\HsMemo;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use AppBundle\Form\BaseType;
 
 class HsMemoType extends AbstractType
 {
@@ -34,5 +35,13 @@ class HsMemoType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsMemo::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -11,6 +11,7 @@ use AppBundle\Form\AppDateType;
 use OekBundle\Entity\OekVerwijzingNaar;
 use OekBundle\Entity\OekAfsluiting;
 use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\BaseType;
 
 class OekAfsluitingType extends AbstractType
 {
@@ -44,5 +45,13 @@ class OekAfsluitingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OekAfsluiting::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

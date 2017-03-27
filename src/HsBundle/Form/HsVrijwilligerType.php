@@ -10,6 +10,7 @@ use AppBundle\Form\VrijwilligerType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\BaseType;
 
 class HsVrijwilligerType extends AbstractType
 {
@@ -48,5 +49,13 @@ class HsVrijwilligerType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsVrijwilliger::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

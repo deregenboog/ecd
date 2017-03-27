@@ -11,6 +11,7 @@ use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
 
 class OekKlantSelectType extends AbstractType
 {
@@ -49,5 +50,13 @@ class OekKlantSelectType extends AbstractType
             'data_class' => OekKlant::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

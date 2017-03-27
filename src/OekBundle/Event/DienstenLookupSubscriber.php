@@ -8,6 +8,7 @@ use AppBundle\Event\DienstenLookupEvent;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
@@ -16,6 +17,11 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
      */
     private $entityManager;
 
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $generator;
+
     public static function getSubscribedEvents()
     {
         return [
@@ -23,9 +29,10 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, UrlGeneratorInterface $generator)
     {
         $this->entityManager = $entityManager;
+        $this->generator = $generator;
     }
 
     public function provideDienstenInfo(DienstenLookupEvent $event)
@@ -43,11 +50,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         if ($oekKlant instanceof OekKlant) {
             $event->addDienst([
                 'name' => 'Op eigen kracht',
-                'url' => [
-                    'controller' => 'oek_klanten',
-                    'action' => 'view',
-                    $oekKlant->getId(),
-                ],
+                'url' => $this->generator->generate('oek_klanten_view', ['id' => $oekKlant->getId()]),
                 'from' => $oekKlant->getOekAanmelding() ? $oekKlant->getOekAanmelding()->getDatum()->format('Y-m-d') : null,
                 'to' => $oekKlant->getOekAfsluiting() ? $oekKlant->getOekAfsluiting()->getDatum()->format('Y-m-d') : null,
                 'type' => 'date',

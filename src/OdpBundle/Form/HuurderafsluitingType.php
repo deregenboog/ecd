@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Entity\Woningbouwcorporatie;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Huurderafsluiting;
+use AppBundle\Form\BaseType;
 
 class HuurderafsluitingType extends AbstractType
 {
@@ -31,5 +32,13 @@ class HuurderafsluitingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Huurderafsluiting::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -44,4 +44,12 @@ class KlantType extends AbstractType
             'data' => null,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
+    }
 }

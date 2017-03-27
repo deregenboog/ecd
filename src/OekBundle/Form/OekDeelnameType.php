@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OekBundle\Entity\OekTraining;
 use OekBundle\Entity\OekDeelname;
+use AppBundle\Form\BaseType;
 
 class OekDeelnameType extends AbstractType
 {
@@ -115,5 +116,13 @@ class OekDeelnameType extends AbstractType
             'data_class' => OekDeelname::class,
             'mode' => self::MODE_ADD,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

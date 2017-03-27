@@ -9,6 +9,7 @@ use OdpBundle\Entity\Woningbouwcorporatie;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Huurderafsluiting;
 use OdpBundle\Entity\Verhuurderafsluiting;
+use AppBundle\Form\BaseType;
 
 class VerhuurderafsluitingType extends AbstractType
 {
@@ -32,5 +33,13 @@ class VerhuurderafsluitingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Verhuurderafsluiting::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
