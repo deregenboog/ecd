@@ -4,6 +4,7 @@ namespace AppBundle\Filter;
 
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class VrijwilligerFilter implements FilterInterface
 {
@@ -18,7 +19,7 @@ class VrijwilligerFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $geboortedatum;
 
@@ -27,12 +28,12 @@ class VrijwilligerFilter implements FilterInterface
      */
     public $stadsdeel;
 
-    public function applyTo(QueryBuilder $builder)
+    public function applyTo(QueryBuilder $builder, $alias = 'vrijwilliger')
     {
         if ($this->id) {
             $builder
-            ->andWhere('vrijwilliger.id = :vrijwilliger_id')
-            ->setParameter('vrijwilliger_id', $this->id)
+                ->andWhere("{$alias}.id = :{$alias}_id")
+                ->setParameter("{$alias}_id", $this->id)
             ;
         }
 
@@ -40,23 +41,31 @@ class VrijwilligerFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->naam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.roepnaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) LIKE :vrijwilliger_naam_part_{$i}")
-                    ->setParameter("vrijwilliger_naam_part_{$i}", "%{$part}%")
+                    ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam, {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_naam_part_{$i}")
+                    ->setParameter("{$alias}_naam_part_{$i}", "%{$part}%")
                 ;
             }
         }
 
         if ($this->geboortedatum) {
-            $builder
-                ->andWhere('vrijwilliger.geboortedatum = :vrijwilliger_geboortedatum')
-                ->setParameter('vrijwilliger_geboortedatum', $this->geboortedatum)
-            ;
+            if ($this->geboortedatum->getStart()) {
+                $builder
+                    ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")
+                    ->setParameter("{$alias}_geboortedatum_van", $this->geboortedatum->getStart())
+                ;
+            }
+            if ($this->geboortedatum->getEnd()) {
+                $builder
+                    ->andWhere("{$alias}.geboortedatum <= :{$alias}_geboortedatum_tot")
+                    ->setParameter("{$alias}_geboortedatum_tot", $this->geboortedatum->getEnd())
+                ;
+            }
         }
 
-        if (isset($this->stadsdeel['naam'])) {
+        if (isset($this->stadsdeel)) {
             $builder
-                ->andWhere('vrijwilliger.werkgebied = :vrijwilliger_stadsdeel')
-                ->setParameter('vrijwilliger_stadsdeel', $this->stadsdeel['naam'])
+                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
             ;
         }
     }

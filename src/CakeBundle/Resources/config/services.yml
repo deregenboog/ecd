@@ -144,6 +144,7 @@ parameters:
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
+                - iz_klanten
                 - IzDeelnemers
                 - IzHulpvragen
                 - IzHulpaanbiedingen
@@ -159,6 +160,7 @@ parameters:
                 - OdpBundle\Controller\Huurovereenkomsten
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
+                - iz_klanten
                 - IzDeelnemers
                 - IzHulpvragen
                 - IzHulpaanbiedingen
@@ -200,6 +202,7 @@ parameters:
                 - "*"
                 - Klanten
                 - Vrijwilligers
+                - iz_klanten
                 - IzDeelnemers
                 - IzVerslagen
                 - groepsactiviteiten_klanten
@@ -213,7 +216,7 @@ parameters:
             Rapportages: Rapportages
             Awbz: AWBZ
             PfoClienten: PFO
-            IzDeelnemers: IZ
+            iz_klanten: IZ
             groepsactiviteiten_klanten: Groepsactiviteiten
             hs_klanten: HomeService
             oek: Op Eigen Kracht

@@ -1,4 +1,19 @@
 services:
+    iz.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    iz.dao.klant:
+        parent: odp.dao
+        class: IzBundle\Service\KlantDao
+
+    iz.dao.vrijwilliger:
+        parent: odp.dao
+        class: IzBundle\Service\VrijwilligerDao
+
     iz.repository.iz_hulpvraag:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]

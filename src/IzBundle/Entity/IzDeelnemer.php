@@ -78,4 +78,18 @@ abstract class IzDeelnemer
     {
         return $this->afsluitDatum;
     }
+
+    public function isGekoppeld()
+    {
+        $now = new \DateTime();
+        foreach ($this->izKoppelingen as $koppelking) {
+            if ($koppelking->getKoppelingStartdatum() <= $now
+                && (!$koppelking->getKoppelingEinddatum() || $koppelking->getKoppelingEinddatum() >= $now)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

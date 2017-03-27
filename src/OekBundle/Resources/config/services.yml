@@ -3,6 +3,7 @@ services:
         class: OekBundle\Event\DienstenLookupSubscriber
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@router"
         tags:
             - { name: kernel.event_subscriber }
 

@@ -1,8 +1,17 @@
+iz_deelnemers_index:
+    path: /iz_deelnemers
+
+iz_klanten_index:
+    path: /iz_klanten
+
+iz_vrijwilligers_index:
+    path: /iz_vrijwilligers
+
 iz_hulpvragen_index:
-    path: iz_hulpvragen
+    path: /iz_hulpvragen
 
 iz_hulpaanbiedingen_index:
-    path: iz_hulpaanbiedingen
+    path: /iz_hulpaanbiedingen
 
 iz_koppelingen_index:
-    path: iz_koppelingen
+    path: /iz_koppelingen
