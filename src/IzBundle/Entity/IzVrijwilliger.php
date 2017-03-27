@@ -21,6 +21,7 @@ class IzVrijwilliger extends IzDeelnemer
     /**
      * @var ArrayCollection|IzHulpaanbod[]
      * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
+     * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpaanbiedingen;
 
