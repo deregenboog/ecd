@@ -2,7 +2,7 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +16,7 @@ use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 
-class IzKlantFilterType extends AbstractType
+class IzKlantFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

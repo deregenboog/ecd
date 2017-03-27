@@ -4,7 +4,7 @@ namespace OekBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\OekKlant;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OekBundle\Entity\OekGroep;
 use OekBundle\Entity\OekLidmaatschap;
 
-class OekLidmaatschapType extends AbstractType
+class OekLidmaatschapType extends BaseType
 {
     /**
      * {@inheritdoc}

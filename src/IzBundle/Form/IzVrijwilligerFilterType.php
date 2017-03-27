@@ -2,7 +2,7 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +16,7 @@ use IzBundle\Entity\IzHulpaanbod;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
 
-class IzVrijwilligerFilterType extends AbstractType
+class IzVrijwilligerFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

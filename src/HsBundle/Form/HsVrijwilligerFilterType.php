@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Vrijwilliger;
@@ -11,7 +11,7 @@ use HsBundle\Filter\HsVrijwilligerFilter;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class HsVrijwilligerFilterType extends AbstractType
+class HsVrijwilligerFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

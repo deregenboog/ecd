@@ -4,7 +4,7 @@ namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use OdpBundle\Entity\Huurverzoek;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppTextareaType;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormEvent;
 use OdpBundle\Entity\Verslag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class HuurverzoekType extends AbstractType
+class HuurverzoekType extends BaseType
 {
     /**
      * {@inheritdoc}

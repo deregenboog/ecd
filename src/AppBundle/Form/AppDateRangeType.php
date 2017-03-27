@@ -2,14 +2,13 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
-class AppDateRangeType extends AbstractType
+class AppDateRangeType extends BaseType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

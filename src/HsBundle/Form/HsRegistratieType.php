@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsRegistratie;
@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\AppTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
-class HsRegistratieType extends AbstractType
+class HsRegistratieType extends BaseType
 {
     /**
      * {@inheritdoc}

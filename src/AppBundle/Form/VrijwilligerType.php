@@ -2,12 +2,11 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Vrijwilliger;
 
-class VrijwilligerType extends AbstractType
+class VrijwilligerType extends BaseType
 {
     /**
      * {@inheritdoc}

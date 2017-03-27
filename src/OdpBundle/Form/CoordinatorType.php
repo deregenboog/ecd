@@ -2,7 +2,7 @@
 
 namespace OdpBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -10,7 +10,7 @@ use OdpBundle\Entity\Coordinator;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 
-class CoordinatorType extends AbstractType
+class CoordinatorType extends BaseType
 {
     /**
      * {@inheritdoc}

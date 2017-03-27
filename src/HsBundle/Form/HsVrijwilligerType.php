@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsVrijwilliger;
@@ -11,7 +11,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\EntityRepository;
 
-class HsVrijwilligerType extends AbstractType
+class HsVrijwilligerType extends BaseType
 {
     /**
      * {@inheritdoc}

@@ -2,13 +2,13 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsKlus;
 use AppBundle\Form\AppDateType;
 
-class HsKlusType extends AbstractType
+class HsKlusType extends BaseType
 {
     /**
      * {@inheritdoc}

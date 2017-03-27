@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
@@ -13,7 +13,7 @@ use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class HsFactuurFilterType extends AbstractType
+class HsFactuurFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

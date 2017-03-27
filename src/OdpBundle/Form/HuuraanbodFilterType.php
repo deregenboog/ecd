@@ -4,14 +4,14 @@ namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Filter\HuuraanbodFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class HuuraanbodFilterType extends AbstractType
+class HuuraanbodFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

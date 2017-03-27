@@ -2,7 +2,7 @@
 
 namespace GaBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -11,7 +11,7 @@ use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\FilterType;
 use GaBundle\Entity\GaVrijwilligerIntake;
 
-class GaVrijwilligerSelectType extends AbstractType
+class GaVrijwilligerSelectType extends BaseType
 {
     /**
      * {@inheritdoc}

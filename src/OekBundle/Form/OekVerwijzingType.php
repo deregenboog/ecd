@@ -2,13 +2,13 @@
 
 namespace OekBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OekBundle\Entity\OekVerwijzing;
 
-class OekVerwijzingType extends AbstractType
+class OekVerwijzingType extends BaseType
 {
     /**
      * {@inheritdoc}

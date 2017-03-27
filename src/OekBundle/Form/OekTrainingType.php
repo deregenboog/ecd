@@ -4,13 +4,13 @@ namespace OekBundle\Form;
 
 use AppBundle\Form\AppTimeType;
 use OekBundle\Entity\OekTraining;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
 
-class OekTrainingType extends AbstractType
+class OekTrainingType extends BaseType
 {
     /**
      * {@inheritdoc}

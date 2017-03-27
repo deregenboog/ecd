@@ -5,13 +5,13 @@ namespace OekBundle\Form;
 use OekBundle\Entity\OekGroep;
 use OekBundle\Filter\OekTrainingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
 
-class OekTrainingFilterType extends AbstractType
+class OekTrainingFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

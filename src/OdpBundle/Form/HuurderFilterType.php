@@ -2,7 +2,7 @@
 
 namespace OdpBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
@@ -12,7 +12,7 @@ use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 
-class HuurderFilterType extends AbstractType
+class HuurderFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

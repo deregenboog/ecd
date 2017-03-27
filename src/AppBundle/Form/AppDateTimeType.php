@@ -2,11 +2,10 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-class AppDateTimeType extends AbstractType
+class AppDateTimeType extends BaseType
 {
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsMemo;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class HsMemoType extends AbstractType
+class HsMemoType extends BaseType
 {
     /**
      * {@inheritdoc}

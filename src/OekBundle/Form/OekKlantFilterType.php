@@ -4,7 +4,7 @@ namespace OekBundle\Form;
 
 use OekBundle\Entity\OekGroep;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
@@ -15,7 +15,7 @@ use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OekBundle\Entity\OekTraining;
 
-class OekKlantFilterType extends AbstractType
+class OekKlantFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace OdpBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvents;
@@ -14,7 +14,7 @@ use AppBundle\Form\KlantType;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Entity\Verslag;
 
-class VerhuurderType extends AbstractType
+class VerhuurderType extends BaseType
 {
     /**
      * {@inheritdoc}

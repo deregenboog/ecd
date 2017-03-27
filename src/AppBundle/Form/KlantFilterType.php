@@ -2,12 +2,11 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\KlantFilter;
 
-class KlantFilterType extends AbstractType
+class KlantFilterType extends BaseType
 {
     /**
      * {@inheritdoc}

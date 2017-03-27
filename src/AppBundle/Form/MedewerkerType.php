@@ -2,14 +2,13 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
-class MedewerkerType extends AbstractType
+class MedewerkerType extends BaseType
 {
     /**
      * @var Medewerker

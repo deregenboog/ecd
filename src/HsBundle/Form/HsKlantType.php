@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -11,7 +11,7 @@ use AppBundle\Form\KlantType;
 use HsBundle\Entity\HsKlant;
 use AppBundle\Form\AppDateType;
 
-class HsKlantType extends AbstractType
+class HsKlantType extends BaseType
 {
     /**
      * {@inheritdoc}

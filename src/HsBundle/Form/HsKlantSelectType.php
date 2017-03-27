@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -11,7 +11,7 @@ use HsBundle\Entity\HsKlant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
 
-class HsKlantSelectType extends AbstractType
+class HsKlantSelectType extends BaseType
 {
     /**
      * {@inheritdoc}

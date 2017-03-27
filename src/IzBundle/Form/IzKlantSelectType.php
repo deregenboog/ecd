@@ -2,7 +2,7 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -10,7 +10,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzKlant;
 
-class IzKlantSelectType extends AbstractType
+class IzKlantSelectType extends BaseType
 {
     /**
      * {@inheritdoc}

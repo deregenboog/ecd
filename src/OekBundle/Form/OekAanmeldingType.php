@@ -3,7 +3,7 @@
 namespace OekBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use OekBundle\Entity\OekAanmelding;
 use OekBundle\Entity\OekVerwijzingDoor;
 use AppBundle\Form\MedewerkerType;
 
-class OekAanmeldingType extends AbstractType
+class OekAanmeldingType extends BaseType
 {
     /**
      * {@inheritdoc}

@@ -2,12 +2,12 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsFactuur;
 
-class HsFactuurType extends AbstractType
+class HsFactuurType extends BaseType
 {
     /**
      * {@inheritdoc}
