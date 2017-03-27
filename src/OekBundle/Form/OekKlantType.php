@@ -13,6 +13,7 @@ use OekBundle\Entity\OekKlant;
 use AppBundle\Form\MedewerkerType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use AppBundle\Form\BaseType;
 
 class OekKlantType extends AbstractType
 {
@@ -44,7 +45,7 @@ class OekKlantType extends AbstractType
 
         if (!$oekKlant->getOekAanmelding()) {
             $builder->add('oekAanmelding', OekAanmeldingType::class, [
-                'label' => false,
+                'label' => 'Aanmelding',
             ]);
             $builder->get('oekAanmelding')->remove('medewerker');
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
@@ -71,5 +72,13 @@ class OekKlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OekKlant::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
