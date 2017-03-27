@@ -96,6 +96,25 @@ class OekKlantRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countByTrainingAndStadsdeel($status, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getCountBuilder()
+            ->addSelect('oekTraining.naam AS training')
+            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->innerJoin('oekKlant.oekDeelnames', 'oekDeelname')
+            ->innerJoin('oekDeelname.oekDeelnameStatussen', 'oekDeelnameStatus')
+            ->innerJoin('oekDeelname.oekTraining', 'oekTraining')
+            ->where('oekDeelnameStatus.status = :status')
+            ->andWhere('oekDeelnameStatus.datum BETWEEN :startDate AND :endDate')
+            ->setParameter('status', $status)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->groupBy('oekTraining', 'klant.werkgebied')
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countByVerwijzing($verwezen, \DateTime $startDate, \DateTime $endDate)
     {
         $entities = [
