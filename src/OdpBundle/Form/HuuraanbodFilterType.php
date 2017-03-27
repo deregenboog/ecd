@@ -64,12 +64,4 @@ class HuuraanbodFilterType extends AbstractType
             'data_class' => HuuraanbodFilter::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

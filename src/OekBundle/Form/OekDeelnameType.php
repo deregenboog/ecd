@@ -116,12 +116,4 @@ class OekDeelnameType extends AbstractType
             'mode' => self::MODE_ADD,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

@@ -38,12 +38,4 @@ class DocumentType extends AbstractType
             'data_class' => Document::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

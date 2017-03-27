@@ -46,12 +46,4 @@ class MedewerkerType extends AbstractType
     {
         return EntityType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

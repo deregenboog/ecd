@@ -29,12 +29,4 @@ class AppTextareaType extends AbstractType
     {
         return TextareaType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

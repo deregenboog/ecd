@@ -21,12 +21,4 @@ class ConfirmationType extends AbstractType
             ->add('referer', HiddenType::class, ['mapped' => false])
         ;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

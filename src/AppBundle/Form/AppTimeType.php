@@ -26,12 +26,4 @@ class AppTimeType extends AbstractType
     {
         return TimeType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

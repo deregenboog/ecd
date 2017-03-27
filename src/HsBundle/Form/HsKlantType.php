@@ -48,12 +48,4 @@ class HsKlantType extends AbstractType
             'data_class' => HsKlant::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

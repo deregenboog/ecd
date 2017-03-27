@@ -28,12 +28,4 @@ class HsDeclaratieCategorieType extends AbstractType
             'data_class' => HsDeclaratieCategorie::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

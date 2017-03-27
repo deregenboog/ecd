@@ -45,12 +45,4 @@ class GaVrijwilligerIntakeFilterType extends AbstractType
     {
         return GaIntakeFilterType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

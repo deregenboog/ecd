@@ -31,12 +31,4 @@ class WoningbouwcorporatieType extends AbstractType
             'data_class' => Woningbouwcorporatie::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

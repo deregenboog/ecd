@@ -54,12 +54,4 @@ class HuuraanbodType extends AbstractType
             'data_class' => Huuraanbod::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

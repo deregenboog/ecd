@@ -58,12 +58,4 @@ class OekRapportageType extends AbstractType
             'method' => 'GET',
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

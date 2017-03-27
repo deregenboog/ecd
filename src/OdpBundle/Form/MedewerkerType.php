@@ -36,12 +36,4 @@ class MedewerkerType extends AbstractType
     {
         return 'odp_medewerker';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

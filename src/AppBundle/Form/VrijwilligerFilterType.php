@@ -56,12 +56,4 @@ class VrijwilligerFilterType extends AbstractType
     {
         return FilterType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

@@ -56,12 +56,4 @@ class HuurderFilterType extends AbstractType
             'data_class' => HuurderFilter::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

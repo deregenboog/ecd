@@ -48,12 +48,4 @@ class AppDateRangeType extends AbstractType
             'data_class' => AppDateRangeModel::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

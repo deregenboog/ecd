@@ -50,12 +50,4 @@ class HsRegistratieType extends AbstractType
             'data_class' => HsRegistratie::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

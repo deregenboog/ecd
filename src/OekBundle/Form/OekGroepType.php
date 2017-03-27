@@ -28,12 +28,4 @@ class OekGroepType extends AbstractType
             'data_class' => OekGroep::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

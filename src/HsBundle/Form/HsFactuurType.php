@@ -26,12 +26,4 @@ class HsFactuurType extends AbstractType
             'data_class' => HsFactuur::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

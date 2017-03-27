@@ -66,12 +66,4 @@ class IzEmailMessageType extends AbstractType
     {
         return EmailMessageType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

@@ -36,12 +36,4 @@ class VerslagType extends AbstractType
             'data_class' => Verslag::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

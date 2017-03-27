@@ -35,12 +35,4 @@ class HsMemoType extends AbstractType
             'data_class' => HsMemo::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

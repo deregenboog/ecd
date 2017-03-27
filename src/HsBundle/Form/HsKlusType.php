@@ -34,12 +34,4 @@ class HsKlusType extends AbstractType
             'data_class' => HsKlus::class,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }

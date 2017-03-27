@@ -33,12 +33,4 @@ class BaseType extends AbstractType
             }
         }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return BaseType::class;
-    }
 }

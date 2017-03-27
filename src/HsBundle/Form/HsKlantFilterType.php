@@ -53,12 +53,4 @@ class HsKlantFilterType extends AbstractType
     {
         return FilterType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return \AppBundle\Form\BaseType::class;
-    }
 }
