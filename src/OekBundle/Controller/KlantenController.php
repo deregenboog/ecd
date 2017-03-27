@@ -84,9 +84,7 @@ class KlantenController extends SymfonyController
         $this->header('Content-type: text/csv');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
 
-        $this->render('download', false);
-
-        return compact('oekKlanten');
+        return $this->render('@Oek/klanten/download.csv.twig', compact('oekKlanten'));
     }
 
     /**
@@ -145,7 +143,7 @@ class KlantenController extends SymfonyController
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 
