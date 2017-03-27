@@ -68,6 +68,7 @@ class TrainingenController extends SymfonyController
     {
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(OekTraining::class);
+
         return ['oekTraining' => $repository->find($id)];
     }
 

@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="OekBundle\Repository\OekTrainingRepository")
  * @ORM\Table(name="oek_trainingen")
  * @ORM\HasLifecycleCallbacks
  */
@@ -133,6 +133,15 @@ class OekTraining
         $this->einddatum = $einddatum;
 
         return $this;
+    }
+
+    public function getOekDeelname(OekKlant $oekKlant)
+    {
+        foreach ($this->oekDeelnames as $oekDeelname) {
+            if ($oekDeelname->getOekKlant() == $oekKlant) {
+                return $oekDeelname;
+            }
+        }
     }
 
     public function getOekDeelnames()

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/_partials/subnavigation.html.twig' %}
+    {% include '@Oek/oek_subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -75,7 +75,7 @@
             <ul>
                 {% for oekTraining in oekKlant.oekTrainingen %}
                     <li>
-                        {{ html.link(oekTraining, path('oek_trainingen_view', {id: oekTraining.id})) }}
+                        {{ html.link(oekTraining, path('oek_trainingen_view', {id: oekTraining.id})) }} | {{ oekTraining.oekDeelname(oekKlant).status }}
                     </li>
                 {% endfor %}
             </ul>

@@ -11,7 +11,6 @@ use OekBundle\Form\OekKlantSelectType;
 use Doctrine\DBAL\Driver\PDOException;
 use OekBundle\Form\OekKlantFilterType;
 use AppBundle\Form\ConfirmationType;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\OekAanmelding;
@@ -94,6 +93,7 @@ class KlantenController extends SymfonyController
     {
         $entityManager = $this->getEntityManager();
         $oekKlant = $entityManager->find(OekKlant::class, $id);
+
         return compact('oekKlant');
     }
 

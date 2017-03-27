@@ -69,7 +69,6 @@ class LidmaatschappenController extends SymfonyController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Deelnemer is van wachtlijst verwijderd.');
-
             }
 
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);

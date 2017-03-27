@@ -26,7 +26,7 @@ class OekAanmeldingType extends AbstractType
                 'label' => 'Verwijzing door',
                 'placeholder' => 'Selecteer een item',
                 'class' => OekVerwijzingDoor::class,
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository
                         ->createQueryBuilder('verwijzing')
                         ->where('verwijzing.actief = 1');
