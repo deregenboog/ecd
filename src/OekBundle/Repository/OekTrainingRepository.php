@@ -11,9 +11,12 @@ class OekTrainingRepository extends EntityRepository
     {
         $builder = $this->getCountBuilder()
             ->addSelect('oekGroep.naam AS groep')
-            ->addSelect('oekTraining.locatie AS stadsdeel')
+            ->addSelect('klant.werkgebied AS stadsdeel')
             ->innerJoin('oekTraining.oekGroep', 'oekGroep')
-            ->groupBy('oekGroep', 'oekTraining.locatie');
+            ->innerJoin('oekTraining.oekDeelnames', 'oekDeelname')
+            ->innerJoin('oekDeelname.oekKlant', 'oekKlant')
+            ->innerJoin('oekKlant.klant', 'klant')
+            ->groupBy('oekGroep', 'klant.werkgebied');
 
         $this->applyReportFilter($builder, $startDate, $endDate);
 
