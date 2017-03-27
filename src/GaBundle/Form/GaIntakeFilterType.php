@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use GaBundle\Entity\GaKlantIntake;
 use GaBundle\Filter\GaKlantIntakeFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\KlantFilterType;
@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use GaBundle\Filter\GaIntakeFilter;
 
-class GaIntakeFilterType extends BaseType
+class GaIntakeFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

@@ -3,7 +3,7 @@
 namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppTextareaType;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Document;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class DocumentType extends BaseType
+class DocumentType extends AbstractType
 {
     /**
      * {@inheritdoc}

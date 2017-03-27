@@ -2,7 +2,7 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -18,7 +18,7 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Form\FilterType;
 
-class IzKoppelingFilterType extends BaseType
+class IzKoppelingFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

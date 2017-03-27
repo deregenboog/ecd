@@ -2,7 +2,7 @@
 
 namespace OekBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,7 +10,7 @@ use AppBundle\Form\EmailMessageType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use OekBundle\Entity\OekKlant;
 
-class OekEmailMessageType extends BaseType
+class OekEmailMessageType extends AbstractType
 {
     /**
      * {@inheritdoc}

@@ -2,12 +2,12 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsDeclaratieCategorie;
 
-class HsDeclaratieCategorieType extends BaseType
+class HsDeclaratieCategorieType extends AbstractType
 {
     /**
      * {@inheritdoc}

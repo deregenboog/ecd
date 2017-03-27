@@ -5,13 +5,13 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Filter\HuurverzoekFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class HuurverzoekFilterType extends BaseType
+class HuurverzoekFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

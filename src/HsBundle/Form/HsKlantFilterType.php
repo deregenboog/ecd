@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
@@ -11,7 +11,7 @@ use HsBundle\Filter\HsKlantFilter;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class HsKlantFilterType extends BaseType
+class HsKlantFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

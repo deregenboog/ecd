@@ -2,14 +2,14 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
 use HsBundle\Entity\HsDeclaratie;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
-class HsDeclaratieType extends BaseType
+class HsDeclaratieType extends AbstractType
 {
     /**
      * {@inheritdoc}

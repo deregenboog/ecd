@@ -2,7 +2,7 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Entity\Woningbouwcorporatie;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Huurderafsluiting;
 use OdpBundle\Entity\Verhuurderafsluiting;
 
-class VerhuurderafsluitingType extends BaseType
+class VerhuurderafsluitingType extends AbstractType
 {
     /**
      * {@inheritdoc}

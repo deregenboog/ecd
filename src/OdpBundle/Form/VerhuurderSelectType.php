@@ -2,7 +2,7 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -11,7 +11,7 @@ use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Verhuurder;
 
-class VerhuurderSelectType extends BaseType
+class VerhuurderSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,7 +13,7 @@ use IzBundle\Filter\IzDeelnemerSelectie;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\FilterType;
 
-class IzDeelnemerSelectieType extends BaseType
+class IzDeelnemerSelectieType extends AbstractType
 {
     /**
      * {@inheritdoc}

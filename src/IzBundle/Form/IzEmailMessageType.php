@@ -2,7 +2,7 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\EmailMessageType;
@@ -10,7 +10,7 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class IzEmailMessageType extends BaseType
+class IzEmailMessageType extends AbstractType
 {
     /**
      * {@inheritdoc}

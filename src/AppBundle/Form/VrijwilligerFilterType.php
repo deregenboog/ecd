@@ -2,11 +2,12 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\VrijwilligerFilter;
 
-class VrijwilligerFilterType extends BaseType
+class VrijwilligerFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

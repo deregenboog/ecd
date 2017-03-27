@@ -2,12 +2,12 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Entity\Coordinator;
 use Doctrine\ORM\EntityRepository;
 
-class MedewerkerType extends BaseType
+class MedewerkerType extends AbstractType
 {
     /**
      * {@inheritdoc}

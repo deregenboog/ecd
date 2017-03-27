@@ -4,7 +4,7 @@ namespace OekBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\OekKlant;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OekBundle\Entity\OekTraining;
 use OekBundle\Entity\OekDeelname;
 
-class OekDeelnameType extends BaseType
+class OekDeelnameType extends AbstractType
 {
     const MODE_ADD = 'add';
     const MODE_EDIT = 'edit';

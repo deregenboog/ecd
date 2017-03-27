@@ -2,11 +2,12 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class AppTextareaType extends BaseType
+class AppTextareaType extends AbstractType
 {
     /**
      * {@inheritdoc}

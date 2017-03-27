@@ -2,12 +2,12 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsActiviteit;
 
-class HsActiviteitType extends BaseType
+class HsActiviteitType extends AbstractType
 {
     /**
      * {@inheritdoc}

@@ -3,14 +3,14 @@
 namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppTextareaType;
 use OdpBundle\Entity\Verslag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class VerslagType extends BaseType
+class VerslagType extends AbstractType
 {
     /**
      * {@inheritdoc}

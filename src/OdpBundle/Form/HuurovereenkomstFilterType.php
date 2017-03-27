@@ -4,7 +4,7 @@ namespace OdpBundle\Form;
 
 use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use OdpBundle\Filter\HuurovereenkomstFilter;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +15,7 @@ use OdpBundle\Entity\Huurovereenkomst;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class HuurovereenkomstFilterType extends BaseType
+class HuurovereenkomstFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

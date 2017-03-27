@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
@@ -12,7 +12,7 @@ use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use HsBundle\Filter\HsBetalingFilter;
 
-class HsBetalingFilterType extends BaseType
+class HsBetalingFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

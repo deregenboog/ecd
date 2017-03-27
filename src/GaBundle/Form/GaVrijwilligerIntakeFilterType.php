@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use GaBundle\Entity\GaVrijwilligerIntake;
 use GaBundle\Filter\GaVrijwilligerIntakeFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\FilterType;
@@ -16,7 +16,7 @@ use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class GaVrijwilligerIntakeFilterType extends BaseType
+class GaVrijwilligerIntakeFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}

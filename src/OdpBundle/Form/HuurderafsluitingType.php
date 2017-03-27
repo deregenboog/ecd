@@ -2,14 +2,14 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Entity\Woningbouwcorporatie;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Huurderafsluiting;
 
-class HuurderafsluitingType extends BaseType
+class HuurderafsluitingType extends AbstractType
 {
     /**
      * {@inheritdoc}

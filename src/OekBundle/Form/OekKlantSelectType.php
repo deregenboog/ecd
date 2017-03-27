@@ -2,7 +2,7 @@
 
 namespace OekBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use OekBundle\Entity\OekKlant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
 
-class OekKlantSelectType extends BaseType
+class OekKlantSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\HsVrijwilliger;
 
-class HsVrijwilligerSelectType extends BaseType
+class HsVrijwilligerSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}
