@@ -33,7 +33,7 @@ class VerhuurderSelectType extends AbstractType
                     return $builder;
                 },
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class, ['label' => 'Verder'])
         ;
     }
 

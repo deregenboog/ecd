@@ -12,7 +12,7 @@ use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 class GroepsactiviteitenKlantenController extends AppController
 {
     private $enabledFilters = [
-        'klant' => ['id', 'naam', 'geboortedatum'],
+        'klant' => ['id', 'naam', 'geboortedatumRange'],
         'medewerker',
         'intakedatum',
         'afsluitdatum',

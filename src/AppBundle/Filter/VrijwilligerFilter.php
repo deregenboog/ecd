@@ -19,10 +19,15 @@ class VrijwilligerFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var AppDateRangeModel
+     * @var \DateTime
      */
     public $geboortedatum;
-
+    
+    /**
+     * @var AppDateRangeModel
+     */
+    public $geboortedatumRange;
+    
     /**
      * @var string
      */
@@ -48,6 +53,13 @@ class VrijwilligerFilter implements FilterInterface
         }
 
         if ($this->geboortedatum) {
+            $builder
+                ->andWhere("{$alias}.geboortedatum = :{$alias}_geboortedatum")
+                ->setParameter("{$alias}_geboortedatum", $this->geboortedatum)
+            ;
+        }
+
+        if ($this->geboortedatumRange) {
             if ($this->geboortedatum->getStart()) {
                 $builder
                     ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")

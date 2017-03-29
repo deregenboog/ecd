@@ -11,7 +11,7 @@ use GaBundle\Form\GaVrijwilligerSelectType;
 class GroepsactiviteitenVrijwilligersController extends AppController
 {
     private $enabledFilters = [
-        'vrijwilliger' => ['id', 'naam', 'geboortedatum'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
         'medewerker',
         'intakedatum',
         'afsluitdatum',

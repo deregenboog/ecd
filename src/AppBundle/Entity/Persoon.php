@@ -54,9 +54,9 @@ class Persoon
     protected $email;
 
     /**
-     * @ORM\Column(name="BSN", type="string")
+     * @ORM\Column(name="BSN", type="string", nullable=true)
      */
-    protected $bsn = '';
+    protected $bsn;
 
     /**
      * @var Medewerker

@@ -20,7 +20,7 @@ class IzVrijwilligersController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'vrijwilliger' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];

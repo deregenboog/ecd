@@ -19,7 +19,7 @@ class IzHulpvragenController extends AppController
 
     private $enabledFilters = [
         'startdatum',
-        'klant' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];

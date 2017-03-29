@@ -19,9 +19,19 @@ class KlantFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var AppDateRangeModel
+     * @var string
+     */
+    public $bsn;
+
+    /**
+     * @var \DateTime
      */
     public $geboortedatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $geboortedatumRange;
 
     /**
      * @var string
@@ -47,7 +57,21 @@ class KlantFilter implements FilterInterface
             }
         }
 
+        if ($this->bsn) {
+            $builder
+                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
+                ->setParameter("{$alias}_bsn", $this->bsn)
+            ;
+        }
+
         if ($this->geboortedatum) {
+            $builder
+                ->andWhere("{$alias}.geboortedatum = :{$alias}_geboortedatum")
+                ->setParameter("{$alias}_geboortedatum", $this->geboortedatum)
+            ;
+        }
+
+        if ($this->geboortedatumRange) {
             if ($this->geboortedatum->getStart()) {
                 $builder
                     ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")
