@@ -40,25 +40,26 @@
             <td>Reden afsluiting</td>
             <td>{{ huurder.afsluiting }}</td>
         </tr>
-        <tr>
-            <td>Huurverzoek</td>
-            <td>
-                {% if huurder.actiefHuurverzoek %}
-                    {{ html.link(huurder.actiefHuurverzoek, path('odp_huurverzoeken_view', {id: huurder.actiefHuurverzoek.id})) }}
-                {% else %}
-                    {{ html.addLink(path('odp_huurverzoeken_add', {id: huurder.id})) }}
-                    {{ html.link('Huurverzoek maken', path('odp_huurverzoeken_add', {id: huurder.id})) }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Koppeling</td>
-            <td>
-                {% if huurder.actiefHuurverzoek and huurder.actiefHuurverzoek.huurovereenkomst %}
+        {% if huurder.actiefHuurverzoek and huurder.actiefHuurverzoek.huurovereenkomst %}
+            <tr>
+                <td>Koppeling</td>
+                <td>
                     {{ html.link(huurder.actiefHuurverzoek.huurovereenkomst, path('odp_huurovereenkomsten_view', {id: huurder.actiefHuurverzoek.huurovereenkomst.id})) }}
-                {% endif %}
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>Huurverzoek</td>
+                <td>
+                    {% if huurder.actiefHuurverzoek %}
+                        {{ html.link(huurder.actiefHuurverzoek, path('odp_huurverzoeken_view', {id: huurder.actiefHuurverzoek.id})) }}
+                    {% else %}
+                        {{ html.addLink(path('odp_huurverzoeken_add', {id: huurder.id})) }}
+                        {{ html.link('Huurverzoek maken', path('odp_huurverzoeken_add', {id: huurder.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endif %}
     </table>
     {% include '::klant_basis.html.twig' with {klant: huurder.klant} %}
 {% endblock %}

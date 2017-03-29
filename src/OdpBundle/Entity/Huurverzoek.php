@@ -71,7 +71,7 @@ class Huurverzoek
         if ($this->einddatum) {
             return sprintf(
                 '%s (%s t/m %s)',
-                $this->huurder,
+                $this->huurder->getKlant(),
                 $this->startdatum->format('d-m-Y'),
                 $this->einddatum->format('d-m-Y')
             );

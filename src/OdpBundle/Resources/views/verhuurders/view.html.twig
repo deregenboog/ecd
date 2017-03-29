@@ -40,25 +40,26 @@
             <td>Reden afsluiting</td>
             <td>{{ verhuurder.afsluiting ? verhuurder.afsluiting }}</td>
         </tr>
-        <tr>
-            <td>Huuraanbod</td>
-            <td>
-                {% if verhuurder.actiefHuuraanbod %}
-                    {{ html.link(verhuurder.actiefHuuraanbod, path('odp_huuraanbiedingen_view', {id: verhuurder.actiefHuuraanbod.id})) }}
-                {% else %}
-                    {{ html.addLink(path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
-                    {{ html.link('Huuraanbod maken', path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Koppeling</td>
-            <td>
-                {% if verhuurder.actiefHuuraanbod and verhuurder.actiefHuuraanbod.huurovereenkomst %}
+        {% if verhuurder.actiefHuuraanbod and verhuurder.actiefHuuraanbod.huurovereenkomst %}
+            <tr>
+                <td>Koppeling</td>
+                <td>
                     {{ html.link(verhuurder.actiefHuuraanbod.huurovereenkomst, path('odp_huurovereenkomsten_view', {id: verhuurder.actiefHuuraanbod.huurovereenkomst.id})) }}
-                {% endif %}
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>Huuraanbod</td>
+                <td>
+                    {% if verhuurder.actiefHuuraanbod %}
+                        {{ html.link(verhuurder.actiefHuuraanbod, path('odp_huuraanbiedingen_view', {id: verhuurder.actiefHuuraanbod.id})) }}
+                    {% else %}
+                        {{ html.addLink(path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
+                        {{ html.link('Huuraanbod maken', path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endif %}
     </table>
     {% include '::klant_basis.html.twig' with {klant: verhuurder.klant} %}
 {% endblock %}

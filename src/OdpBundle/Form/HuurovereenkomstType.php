@@ -23,13 +23,13 @@ class HuurovereenkomstType extends AbstractType
     {
         if ($options['data'] instanceof Huurovereenkomst) {
             if ($options['data']->getHuuraanbod()) {
-                $this->setHuurverzoek($builder, $options);
+                $this->addHuurverzoek($builder, $options['data']);
             } elseif ($options['data']->getHuurverzoek()) {
-                $this->setHuuraanbod($builder, $options);
+                $this->addHuuraanbod($builder, $options['data']);
             }
         } else {
-            $this->setHuuraanbod($builder, $options);
-            $this->setHuurverzoek($builder, $options);
+            $this->addHuuraanbod($builder);
+            $this->addHuurverzoek($builder);
         }
 
         $builder
@@ -51,28 +51,28 @@ class HuurovereenkomstType extends AbstractType
         ]);
     }
 
-    private function setHuurverzoek(FormBuilderInterface $builder, array $options)
+    private function addHuurverzoek(FormBuilderInterface $builder, Huurovereenkomst $huurovereenkomst = null)
     {
         $builder->add('huurverzoek', EntityType::class, [
             'class' => Huurverzoek::class,
-            'query_builder' => function (EntityRepository $repository) use ($options) {
-                $huurovereenkomst = $options['data'];
-
+            'placeholder' => 'Selecteer een huurverzoek',
+            'query_builder' => function (EntityRepository $repository) use ($huurovereenkomst) {
                 $builder = $repository->createQueryBuilder('huurverzoek')
-                    ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst');
+                    ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
+                    ->where('huurovereenkomst.id IS NULL')
+                ;
 
-                if (
-                    $huurovereenkomst instanceof Huurovereenkomst &&
-                    $huuraanbod = $huurovereenkomst->getHuuraanbod()
+                if ($huurovereenkomst instanceof Huurovereenkomst
+                    && $huuraanbod = $huurovereenkomst->getHuuraanbod() instanceof Huuraanbod
                 ) {
-                    $builder->where(new Orx([
+                    $builder
+                        ->andWhere(new Orx([
                             'huurverzoek.startdatum BETWEEN :start AND :eind',
                             'huurverzoek.startdatum >= :start AND :eind IS NULL',
                             'huurverzoek.einddatum BETWEEN :start AND :eind',
                             'huurverzoek.einddatum >= :start AND :eind IS NULL',
                             'huurverzoek.einddatum IS NULL',
                         ]))
-                        ->andWhere('huurovereenkomst.id IS NULL')
                         ->setParameter('start', $huuraanbod->getStartdatum())
                         ->setParameter('eind', $huuraanbod->getEinddatum())
                     ;
@@ -83,28 +83,28 @@ class HuurovereenkomstType extends AbstractType
         ]);
     }
 
-    private function setHuuraanbod(FormBuilderInterface $builder, array $options)
+    private function addHuuraanbod(FormBuilderInterface $builder, Huurovereenkomst $huurovereenkomst = null)
     {
         $builder->add('huuraanbod', EntityType::class, [
             'class' => Huuraanbod::class,
-            'query_builder' => function (EntityRepository $repository) use ($options) {
-                $huurovereenkomst = $options['data'];
-
+            'placeholder' => 'Selecteer een huuraanbod',
+            'query_builder' => function (EntityRepository $repository) use ($huurovereenkomst) {
                 $builder = $repository->createQueryBuilder('huuraanbod')
-                    ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst');
+                    ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
+                    ->where('huurovereenkomst.id IS NULL')
+                ;
 
-                if (
-                    $huurovereenkomst instanceof Huurovereenkomst &&
-                    $huurverzoek = $huurovereenkomst->getHuurverzoek()
+                if ($huurovereenkomst instanceof Huurovereenkomst
+                    && $huurverzoek = $huurovereenkomst->getHuurverzoek() instanceof Huurverzoek
                 ) {
-                    $builder->where(new Orx([
+                    $builder
+                        ->andWhere(new Orx([
                             'huuraanbod.startdatum BETWEEN :start AND :eind',
                             'huuraanbod.startdatum >= :start AND :eind IS NULL',
                             'huuraanbod.einddatum BETWEEN :start AND :eind',
                             'huuraanbod.einddatum >= :start AND :eind IS NULL',
                             'huuraanbod.einddatum IS NULL',
                         ]))
-                        ->andWhere('huurovereenkomst.id IS NULL')
                         ->setParameter('start', $huurverzoek->getStartdatum())
                         ->setParameter('eind', $huurverzoek->getEinddatum())
                     ;

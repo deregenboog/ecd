@@ -117,7 +117,7 @@ class HuurovereenkomstenController extends SymfonyController
                 return $this->redirectToRoute($routeBase.'_index');
             }
 
-            return $this->redirectToRoute($routeBase.'_view', ['id' => $entity->getId()]);
+            return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
         }
 
         $this->set('form', $form->createView());
