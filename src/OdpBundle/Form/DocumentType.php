@@ -2,15 +2,12 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\AppDateType;
+use OdpBundle\Entity\Document;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\AppTextareaType;
-use OdpBundle\Entity\Verslag;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use OdpBundle\Entity\Document;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class DocumentType extends AbstractType
 {

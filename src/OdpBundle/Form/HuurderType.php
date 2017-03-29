@@ -21,44 +21,42 @@ class HuurderType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!$options['data']->getKlant()->getId()) {
-            $builder->add('klant', KlantType::class);
-        } else {
+        if ($options['data']->getKlant()->getId()) {
             $builder->add('medewerker', MedewerkerType::class);
+        } else {
+            $builder
+                ->add('klant', KlantType::class)
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $event->getData()->setMedewerker($event->getData()->getKlant()->getMedewerker());
+                })
+            ;
         }
 
         $builder->add('aanmelddatum', AppDateType::class, ['data' => new \DateTime()]);
 
         if (!$options['data']->getId()) {
-            $builder->add('opmerking', TextareaType::class, [
-                'label' => 'Intakeverslag',
-                'required' => false,
-                'mapped' => false,
-                'attr' => ['rows' => 10],
-            ]);
+            $builder
+                ->add('opmerking', TextareaType::class, [
+                    'label' => 'Intakeverslag',
+                    'required' => false,
+                    'mapped' => false,
+                    'attr' => ['rows' => 10],
+                ])
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    if ($event->getForm()->get('opmerking')->getData()) {
+                        $verslag = new Verslag();
+                        $verslag
+                            ->setDatum($event->getData()->getAanmelddatum())
+                            ->setOpmerking($event->getForm()->get('opmerking')->getData())
+                            ->setMedewerker($event->getData()->getMedewerker())
+                        ;
+                        $event->getData()->addVerslag($verslag);
+                    }
+                })
+            ;
         }
 
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            /* @var $huurder Huurder */
-            $huurder = $event->getData();
-            $form = $event->getForm();
-
-            if (!$form->has('medewerker')) {
-                $huurder->setMedewerker($huurder->getKlant()->getMedewerker());
-            }
-
-            if ($form->has('opmerking') && $form->get('opmerking')->getData()) {
-                $verslag = new Verslag();
-                $verslag
-                    ->setDatum($huurder->getAanmelddatum())
-                    ->setOpmerking($form->get('opmerking')->getData())
-                    ->setMedewerker($huurder->getMedewerker())
-                ;
-                $huurder->addVerslag($verslag);
-            }
-        });
     }
 
     /**
