@@ -35,6 +35,12 @@ class HuuraanbodFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('einddatum', $options['enabled_filters'])) {
+            $builder->add('einddatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])

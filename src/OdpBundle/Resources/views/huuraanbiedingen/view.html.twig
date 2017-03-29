@@ -12,19 +12,24 @@
 {% block content_left %}
     <h1>
         Huuraanbod van {{ huuraanbod.verhuurder.klant }}
+    </h1>
+    <p>
         {{ html.editLink(path('odp_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
+        {{ html.link('Wijzigen', path('odp_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
         {% if huuraanbod.deletable %}
             {{ html.deleteLink(path('odp_huuraanbiedingen_delete', {id: huuraanbod.id})) }}
+            {{ html.link('Verwijderen', path('odp_huuraanbiedingen_delete', {id: huuraanbod.id})) }}
         {% endif %}
-    </h1>
-
-    <dl>
+    </p>
+    <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ huuraanbod.id }}</dd>
         <dt>Verhuurder</dt>
         <dd>{{ huuraanbod.verhuurder.klant }}</dd>
         <dt>Startdatum</dt>
         <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ huuraanbod.einddatum ? huuraanbod.einddatum | date('d-m-Y') : '-' }}</dd>
         <dt>Koppeling</dt>
         <dd>
             {% if huuraanbod.huurovereenkomst %}

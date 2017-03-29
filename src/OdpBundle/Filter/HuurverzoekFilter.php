@@ -19,6 +19,11 @@ class HuurverzoekFilter
     public $startdatum;
 
     /**
+     * @var AppDateRangeModel
+     */
+    public $einddatum;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -43,6 +48,21 @@ class HuurverzoekFilter
                 $builder
                     ->andWhere('huurverzoek.startdatum <= :startdatum_tot')
                     ->setParameter('startdatum_tot', $this->startdatum->getEnd())
+                ;
+            }
+        }
+
+        if ($this->einddatum) {
+            if ($this->einddatum->getStart()) {
+                $builder
+                    ->andWhere('huurverzoek.einddatum >= :einddatum_van')
+                    ->setParameter('einddatum_van', $this->einddatum->getStart())
+                ;
+            }
+            if ($this->einddatum->getEnd()) {
+                $builder
+                    ->andWhere('huurverzoek.einddatum <= :einddatum_tot')
+                    ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
         }

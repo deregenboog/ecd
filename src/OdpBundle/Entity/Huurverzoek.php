@@ -41,6 +41,11 @@ class Huurverzoek
     protected $startdatum;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $einddatum;
+
+    /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
@@ -63,6 +68,15 @@ class Huurverzoek
 
     public function __toString()
     {
+        if ($this->einddatum) {
+            return sprintf(
+                '%s (%s t/m %s)',
+                $this->huurder,
+                $this->startdatum->format('d-m-Y'),
+                $this->einddatum->format('d-m-Y')
+            );
+        }
+
         return sprintf(
             '%s (vanaf %s)',
             $this->huurder,
@@ -95,6 +109,18 @@ class Huurverzoek
     public function setStartdatum(\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
 
         return $this;
     }

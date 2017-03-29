@@ -19,6 +19,7 @@ class HuurverzoekenController extends SymfonyController
         'id',
         'klant' => ['naam', 'stadsdeel'],
         'startdatum',
+        'einddatum',
     ];
 
     private $sortFieldWhitelist = [
@@ -26,6 +27,7 @@ class HuurverzoekenController extends SymfonyController
         'klant.achternaam',
         'klant.werkgebied',
         'huurverzoek.startdatum',
+        'huurverzoek.einddatum',
     ];
 
     /**
