@@ -28,6 +28,11 @@ services:
         parent: odp.dao
         class: OdpBundle\Service\VerhuurderafsluitingDao
 
+    odp.dao.verslag:
+        class: OdpBundle\Service\VerslagDao
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
     odp.dao.woningbouwcorporatie:
         parent: odp.dao
         class: OdpBundle\Service\WoningbouwcorporatieDao
