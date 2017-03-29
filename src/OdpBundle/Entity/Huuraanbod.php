@@ -71,7 +71,7 @@ class Huuraanbod
         if ($this->einddatum) {
             return sprintf(
                 '%s (%s t/m %s)',
-                $this->verhuurder->getKlant(),
+                $this->verhuurder,
                 $this->startdatum->format('d-m-Y'),
                 $this->einddatum->format('d-m-Y')
             );
@@ -79,7 +79,7 @@ class Huuraanbod
 
         return sprintf(
             '%s (vanaf %s)',
-            $this->verhuurder->getKlant()->getWerkgebied(),
+            $this->verhuurder,
             $this->startdatum->format('d-m-Y')
         );
     }
