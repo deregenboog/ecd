@@ -25,8 +25,6 @@
         <dd>{{ huuraanbod.verhuurder.klant }}</dd>
         <dt>Startdatum</dt>
         <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
-        <dt>Einddatum</dt>
-        <dd>{{ huuraanbod.einddatum ? huuraanbod.einddatum | date('d-m-Y') : '-' }}</dd>
         <dt>Koppeling</dt>
         <dd>
             {% if huuraanbod.huurovereenkomst %}

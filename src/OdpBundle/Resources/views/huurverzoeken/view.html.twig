@@ -35,10 +35,6 @@
             <td>{{ huurverzoek.startdatum | date('d-m-Y') }}</td>
         </tr>
         <tr>
-            <td>Einddatum</td>
-            <td>{{ huurverzoek.einddatum ? huurverzoek.einddatum|date('d-m-Y') : '-' }}</td>
-        </tr>
-        <tr>
             <td>Koppeling</td>
             <td>
                 {% if huurverzoek.huurovereenkomst %}
