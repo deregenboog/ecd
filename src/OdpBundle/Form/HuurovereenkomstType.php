@@ -63,7 +63,7 @@ class HuurovereenkomstType extends AbstractType
                 ;
 
                 if ($huurovereenkomst instanceof Huurovereenkomst
-                    && $huuraanbod = $huurovereenkomst->getHuuraanbod() instanceof Huuraanbod
+                    && $huurovereenkomst->getHuuraanbod() instanceof Huuraanbod
                 ) {
                     $builder
                         ->andWhere(new Orx([
@@ -73,8 +73,8 @@ class HuurovereenkomstType extends AbstractType
                             'huurverzoek.einddatum >= :start AND :eind IS NULL',
                             'huurverzoek.einddatum IS NULL',
                         ]))
-                        ->setParameter('start', $huuraanbod->getStartdatum())
-                        ->setParameter('eind', $huuraanbod->getEinddatum())
+                        ->setParameter('start', $huurovereenkomst->getHuuraanbod()->getStartdatum())
+                        ->setParameter('eind', $huurovereenkomst->getHuuraanbod()->getEinddatum())
                     ;
                 }
 
@@ -95,7 +95,7 @@ class HuurovereenkomstType extends AbstractType
                 ;
 
                 if ($huurovereenkomst instanceof Huurovereenkomst
-                    && $huurverzoek = $huurovereenkomst->getHuurverzoek() instanceof Huurverzoek
+                    && $huurovereenkomst->getHuurverzoek() instanceof Huurverzoek
                 ) {
                     $builder
                         ->andWhere(new Orx([
@@ -105,8 +105,8 @@ class HuurovereenkomstType extends AbstractType
                             'huuraanbod.einddatum >= :start AND :eind IS NULL',
                             'huuraanbod.einddatum IS NULL',
                         ]))
-                        ->setParameter('start', $huurverzoek->getStartdatum())
-                        ->setParameter('eind', $huurverzoek->getEinddatum())
+                        ->setParameter('start', $huurovereenkomst->getHuurverzoek()->getStartdatum())
+                        ->setParameter('eind', $huurovereenkomst->getHuurverzoek()->getEinddatum())
                     ;
                 }
 
