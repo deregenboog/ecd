@@ -26,6 +26,7 @@ class GaVrijwilligerSelectType extends AbstractType
                     $builder = $repository->createQueryBuilder('vrijwilliger')
                         ->leftJoin(GaVrijwilligerIntake::class, 'gaVrijwilligerIntake', 'WITH', 'gaVrijwilligerIntake.vrijwilliger = vrijwilliger')
                         ->andWhere('gaVrijwilligerIntake.id IS NULL')
+                        ->orderBy('vrijwilliger.achternaam, vrijwilliger.tussenvoegsel, vrijwilliger.voornaam')
                     ;
 
                     if ($options['filter'] instanceof VrijwilligerFilter) {

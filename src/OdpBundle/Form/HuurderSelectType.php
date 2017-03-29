@@ -24,7 +24,9 @@ class HuurderSelectType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('klant')
                         ->leftJoin(Huurder::class, 'huurder', 'WITH', 'huurder.klant = klant')
-                        ->andWhere('huurder.id IS NULL');
+                        ->andWhere('huurder.id IS NULL')
+                        ->orderBy('klant.achternaam, klant.tussenvoegsel, klant.voornaam')
+                    ;
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);

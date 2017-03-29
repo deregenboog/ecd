@@ -21,14 +21,15 @@ class IzVrijwilligerSelectType extends AbstractType
             ->add('vrijwilliger', null, [
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('vrijwilliger');
+                    $builder = $repository->createQueryBuilder('vrijwilliger')
+                        ->leftJoin(IzVrijwilliger::class, 'izVrijwilliger', 'WITH', 'izVrijwilliger.vrijwilliger = vrijwilliger')
+                        ->andWhere('izVrijwilliger.id IS NULL')
+                        ->orderBy('vrijwilliger.achternaam, vrijwilliger.tussenvoegsel, vrijwilliger.voornaam')
+                    ;
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
                     }
-
-                    $builder->leftJoin(IzVrijwilliger::class, 'izVrijwilliger', 'WITH', 'izVrijwilliger.vrijwilliger = vrijwilliger')
-                        ->andWhere('izVrijwilliger.id IS NULL');
 
                     return $builder;
                 },
