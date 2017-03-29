@@ -19,11 +19,15 @@ class DocumentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('naam')
-            ->add('file', FileType::class, [
+        $builder->add('naam');
+
+        if (!$options['data']->getId()) {
+            $builder->add('file', FileType::class, [
                 'label' => 'Document',
-            ])
+            ]);
+        }
+
+        $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

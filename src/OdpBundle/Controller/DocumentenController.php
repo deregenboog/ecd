@@ -13,6 +13,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\SymfonyController;
 use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Service\DocumentDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ConfirmationType;
 
 class DocumentenController extends SymfonyController
 {
@@ -21,14 +23,14 @@ class DocumentenController extends SymfonyController
      *
      * @DI\Inject("odp.dao.document")
      */
-    private $documentDao;
+    private $dao;
 
     /**
      * @Route("/odp/documenten/download/{filename}")
      */
     public function download($filename)
     {
-        $document = $this->documentDao->findByFilename($filename);
+        $document = $this->dao->findByFilename($filename);
 
         $downloadHandler = $this->get('vich_uploader.download_handler');
 
@@ -61,6 +63,61 @@ class DocumentenController extends SymfonyController
         }
 
         $this->set('form', $form->createView());
+    }
+
+    /**
+     * @Route("/odp/verslagen/{id}/edit")
+     */
+    public function editAction(Request $request, $id, $redirect = null)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(DocumentType::class, $entity);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->dao->update($entity);
+                $this->addFlash('success', 'Document is bijgewerkt.');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToRoute('odp_index');
+        }
+
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/odp/verslagen/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $this->dao->delete($entity);
+                $this->addFlash('success', 'Document is verwijderd.');
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToRoute('odp_index');
+        }
+
+        return [
+            'form' => $form->createView(),
+            'entity' => $entity,
+        ];
     }
 
     private function findEntity(EntityManager $entityManager)
