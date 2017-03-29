@@ -36,6 +36,7 @@ class VerhuurderType extends AbstractType
         if (!$options['data']->getId()) {
             $builder->add('opmerking', TextareaType::class, [
                 'label' => 'Intakeverslag',
+                'required' => false,
                 'mapped' => false,
                 'attr' => ['rows' => 10],
             ]);
@@ -52,11 +53,11 @@ class VerhuurderType extends AbstractType
                 $verhuurder->setMedewerker($verhuurder->getKlant()->getMedewerker());
             }
 
-            if ($event->getForm()->has('opmerking')) {
+            if ($form->has('opmerking') && $form->get('opmerking')->getData()) {
                 $verslag = new Verslag();
                 $verslag
                     ->setDatum($verhuurder->getAanmelddatum())
-                    ->setOpmerking($event->getForm()->get('opmerking')->getData())
+                    ->setOpmerking($form->get('opmerking')->getData())
                     ->setMedewerker($verhuurder->getMedewerker())
                 ;
                 $verhuurder->addVerslag($verslag);
