@@ -27,6 +27,11 @@ class HuurovereenkomstFilter
     /**
      * @var AppDateRangeModel
      */
+    public $einddatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
     public $afsluitdatum;
 
     /**
