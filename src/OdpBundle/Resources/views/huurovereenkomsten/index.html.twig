@@ -43,6 +43,12 @@
                 {{ form_errors(filter.opzegdatum.end) }}
             </th>
             <th>
+                {{ form_widget(filter.einddatum.start) }}
+                {{ form_errors(filter.einddatum.start) }}
+                {{ form_widget(filter.einddatum.end) }}
+                {{ form_errors(filter.einddatum.end) }}
+            </th>
+            <th>
                 {{ form_widget(filter.afsluitdatum.start) }}
                 {{ form_errors(filter.afsluitdatum.start) }}
                 {{ form_widget(filter.afsluitdatum.end) }}
@@ -74,6 +80,9 @@
                 {{ knp_pagination_sortable(pagination, 'Opzegdatum', 'huurovereenkomst.opzegdatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Einddatum', 'huurovereenkomst.einddatum') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurovereenkomst.afsluitdatum') }}
             </th>
             <th>
@@ -98,6 +107,9 @@
                 </td>
                 <td>
                     {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') }}
                 </td>
                 <td>
                     {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum | date('d-m-Y') }}

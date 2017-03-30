@@ -83,6 +83,21 @@ class HuurovereenkomstFilter
             }
         }
 
+        if ($this->einddatum) {
+            if ($this->einddatum->getStart()) {
+                $builder
+                    ->andWhere('huurovereenkomst.einddatum >= :einddatum_van')
+                    ->setParameter('einddatum_van', $this->einddatum->getStart())
+                ;
+            }
+            if ($this->einddatum->getEnd()) {
+                $builder
+                    ->andWhere('huurovereenkomst.einddatum <= :einddatum_tot')
+                    ->setParameter('einddatum_tot', $this->einddatum->getEnd())
+                ;
+            }
+        }
+
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder

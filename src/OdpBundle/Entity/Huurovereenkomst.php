@@ -37,6 +37,11 @@ class Huurovereenkomst
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+    private $einddatum;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
     private $afsluitdatum;
 
     /**
@@ -86,6 +91,11 @@ class Huurovereenkomst
     public function __toString()
     {
         return implode(' - ', [$this->huurverzoek->getHuurder(), $this->huuraanbod->getVerhuurder()]);
+    }
+
+    public function isActief()
+    {
+        return $this->afsluiting === null;
     }
 
     public function getId()
@@ -203,4 +213,16 @@ class Huurovereenkomst
 
         return $this;
     }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum($einddatum)
+    {
+        $this->einddatum = $einddatum;
+        return $this;
+    }
+
 }

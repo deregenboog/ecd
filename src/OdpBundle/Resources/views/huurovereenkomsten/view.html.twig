@@ -23,7 +23,7 @@
             {{ html.link('Verwijderen', path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
         {% endif %}
     </p>
-    <dl>
+    <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ huurovereenkomst.id }}</dd>
         <dt>Huurder</dt>
@@ -38,8 +38,12 @@
         <dd>{{ huurovereenkomst.startdatum|date('d-m-Y') }}</dd>
         <dt>Opzegdatum</dt>
         <dd>{{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}</dd>
         <dt>Afsluitdatum</dt>
         <dd>{{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huurovereenkomst.afsluiting ? huurovereenkomst.afsluiting }}</dd>
     </dl>
 {% endblock %}
 

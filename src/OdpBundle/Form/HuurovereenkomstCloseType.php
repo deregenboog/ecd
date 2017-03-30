@@ -21,7 +21,7 @@ class HuurovereenkomstCloseType extends AbstractType
                 'required' => true,
                 'data' => new \DateTime(),
             ])
-            ->add('huurovereenkomstAfsluiting')
+            ->add('afsluiting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
