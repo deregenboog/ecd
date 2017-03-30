@@ -6,9 +6,30 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use OdpBundle\Form\AfsluitingType;
+use OdpBundle\Service\AfsluitingDaoInterface;
 
-class AfsluitingenController extends SymfonyController
+abstract class AfsluitingenController extends SymfonyController
 {
+    /**
+     * @var AfsluitingDaoInterface
+     */
+    protected $dao;
+
+    /**
+     * @var string
+     */
+    protected $entityClass;
+
+    /**
+     * @var string
+     */
+    protected $entityName;
+
+    /**
+     * @var string
+     */
+    protected $indexRouteName;
+
     /**
      * @Route("/")
      */
