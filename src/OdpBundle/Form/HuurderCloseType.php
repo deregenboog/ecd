@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use OdpBundle\Entity\Huurder;
+use OdpBundle\Entity\HuurderAfsluiting;
 
 class HuurderCloseType extends AbstractType
 {
@@ -19,6 +20,7 @@ class HuurderCloseType extends AbstractType
         $builder
             ->add('afsluitdatum', AppDateType::class, ['data' => new \DateTime()])
             ->add('afsluiting', null, [
+                'class' => HuurderAfsluiting::class,
                 'label' => 'Reden afsluiting',
                 'required' => true,
                 'placeholder' => 'Selecteer een item',

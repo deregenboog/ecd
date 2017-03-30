@@ -3,7 +3,6 @@
 namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Verslag;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface VerslagDaoInterface
 {

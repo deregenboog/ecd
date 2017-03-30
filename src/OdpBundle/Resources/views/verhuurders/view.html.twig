@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Verhuurders |
+    ODP | Verhuurders
 {% endblock %}
 
 {% block subnavigation %}
@@ -14,14 +14,16 @@
         Verhuurder {{ verhuurder.klant.naam }}
     </h1>
     <p>
-        {{ html.editLink(path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
-        {{ html.link('Wijzigen', path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
+        {% if verhuurder.actief %}
+            {{ html.editLink(path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
+            {{ html.link('Wijzigen', path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
+            {{ html.closeLink(path('odp_verhuurders_close', {id: verhuurder.id})) }}
+            {{ html.link('Afsluiten', path('odp_verhuurders_close', {id: verhuurder.id})) }}
+        {% endif %}
         {% if verhuurder.deletable %}
             {{ html.deleteLink(path('odp_verhuurders_delete', {'id': verhuurder.id})) }}
             {{ html.link('Verwijderen', path('odp_verhuurders_delete', {'id': verhuurder.id})) }}
         {% endif %}
-        {{ html.closeLink(path('odp_verhuurders_close', {id: verhuurder.id})) }}
-        {{ html.link('Afsluiten', path('odp_verhuurders_close', {id: verhuurder.id})) }}
     </p>
     <dl class="dl-horizontal">
         <dt>Naam</dt>
@@ -44,7 +46,7 @@
             <dd>
                 {% if verhuurder.actiefHuuraanbod %}
                     {{ html.link(verhuurder.actiefHuuraanbod, path('odp_huuraanbiedingen_view', {id: verhuurder.actiefHuuraanbod.id})) }}
-                {% else %}
+                {% elseif verhuurder.actief %}
                     {{ html.addLink(path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
                     {{ html.link('Huuraanbod maken', path('odp_huuraanbiedingen_add', {id: verhuurder.id})) }}
                 {% endif %}

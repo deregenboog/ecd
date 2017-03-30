@@ -52,7 +52,7 @@ class VerslagenController extends SymfonyController
             return $this->redirectToRoute($routeBase.'_view', ['id' => $entity->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
     /**

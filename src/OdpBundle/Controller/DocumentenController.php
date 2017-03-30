@@ -62,11 +62,11 @@ class DocumentenController extends SymfonyController
             return $this->redirectToRoute($routeBase.'_view', ['id' => $entity->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
     /**
-     * @Route("/odp/verslagen/{id}/edit")
+     * @Route("/odp/documenten/{id}/edit")
      */
     public function editAction(Request $request, $id, $redirect = null)
     {
@@ -93,7 +93,7 @@ class DocumentenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verslagen/{id}/delete")
+     * @Route("/odp/documenten/{id}/delete")
      */
     public function deleteAction(Request $request, $id)
     {

@@ -19,13 +19,6 @@ class Huurder extends Deelnemer
      */
     private $huurverzoeken;
 
-    /**
-     * @var Huurderafsluiting
-     *
-     * @ORM\ManyToOne(targetEntity="Huurderafsluiting", cascade={"persist"})
-     */
-    private $afsluiting;
-
     public function __construct()
     {
         parent::__construct();
@@ -33,9 +26,15 @@ class Huurder extends Deelnemer
         $this->huurverzoeken = new ArrayCollection();
     }
 
+    public function isActief()
+    {
+        return $this->afsluiting === null;
+    }
+
     public function isDeletable()
     {
         return 0 === count($this->huurverzoeken)
+            && 0 === count($this->documenten)
             && 0 === count($this->verslagen);
     }
 
@@ -70,7 +69,7 @@ class Huurder extends Deelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(Huurderafsluiting $afsluiting)
+    public function setAfsluiting(HuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
 

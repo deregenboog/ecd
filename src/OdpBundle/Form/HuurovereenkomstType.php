@@ -22,10 +22,12 @@ class HuurovereenkomstType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data'] instanceof Huurovereenkomst) {
-            if ($options['data']->getHuuraanbod()) {
-                $this->addHuurverzoek($builder, $options['data']);
-            } elseif ($options['data']->getHuurverzoek()) {
-                $this->addHuuraanbod($builder, $options['data']);
+            if (!$options['data']->getId()) {
+                if ($options['data']->getHuuraanbod()) {
+                    $this->addHuurverzoek($builder, $options['data']);
+                } elseif ($options['data']->getHuurverzoek()) {
+                    $this->addHuuraanbod($builder, $options['data']);
+                }
             }
         } else {
             $this->addHuuraanbod($builder);
@@ -36,7 +38,6 @@ class HuurovereenkomstType extends AbstractType
             ->add('medewerker', MedewerkerType::class)
             ->add('startdatum', AppDateType::class, ['data' => new \DateTime()])
             ->add('opzegdatum', AppDateType::class, ['required' => false])
-            ->add('einddatum', AppDateType::class, ['required' => false])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
@@ -69,12 +70,12 @@ class HuurovereenkomstType extends AbstractType
                         ->andWhere(new Orx([
                             'huurverzoek.startdatum BETWEEN :start AND :eind',
                             'huurverzoek.startdatum >= :start AND :eind IS NULL',
-                            'huurverzoek.einddatum BETWEEN :start AND :eind',
-                            'huurverzoek.einddatum >= :start AND :eind IS NULL',
-                            'huurverzoek.einddatum IS NULL',
+                            'huurverzoek.afsluitdatum BETWEEN :start AND :eind',
+                            'huurverzoek.afsluitdatum >= :start AND :eind IS NULL',
+                            'huurverzoek.afsluitdatum IS NULL',
                         ]))
                         ->setParameter('start', $huurovereenkomst->getHuuraanbod()->getStartdatum())
-                        ->setParameter('eind', $huurovereenkomst->getHuuraanbod()->getEinddatum())
+                        ->setParameter('eind', $huurovereenkomst->getHuuraanbod()->getAfsluitdatum())
                     ;
                 }
 
@@ -101,12 +102,12 @@ class HuurovereenkomstType extends AbstractType
                         ->andWhere(new Orx([
                             'huuraanbod.startdatum BETWEEN :start AND :eind',
                             'huuraanbod.startdatum >= :start AND :eind IS NULL',
-                            'huuraanbod.einddatum BETWEEN :start AND :eind',
-                            'huuraanbod.einddatum >= :start AND :eind IS NULL',
-                            'huuraanbod.einddatum IS NULL',
+                            'huuraanbod.afsluitdatum BETWEEN :start AND :eind',
+                            'huuraanbod.afsluitdatum >= :start AND :eind IS NULL',
+                            'huuraanbod.afsluitdatum IS NULL',
                         ]))
                         ->setParameter('start', $huurovereenkomst->getHuurverzoek()->getStartdatum())
-                        ->setParameter('eind', $huurovereenkomst->getHuurverzoek()->getEinddatum())
+                        ->setParameter('eind', $huurovereenkomst->getHuurverzoek()->getAfsluitdatum())
                     ;
                 }
 

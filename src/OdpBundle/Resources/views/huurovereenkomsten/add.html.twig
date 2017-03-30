@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurovereenkomsten |
+    ODP | Huurovereenkomsten
 {% endblock %}
 
 {% block subnavigation %}
@@ -20,8 +20,8 @@
             <dd>{{ huurverzoek.huurder.klant }}</dd>
             <dt>Startdatum</dt>
             <dd>{{ huurverzoek.startdatum | date('d-m-Y') }}</dd>
-            <dt>Einddatum</dt>
-            <dd>{{ huurverzoek.einddatum ? huurverzoek.einddatum|date('d-m-Y') : '-' }}</dd>
+            <dt>Afsluitdatum</dt>
+            <dd>{{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}</dd>
         </dl>
     {% endif %}
 
@@ -33,8 +33,8 @@
             <dd>{{ huuraanbod.verhuurder.klant }}</dd>
             <dt>Startdatum</dt>
             <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
-            <dt>Einddatum</dt>
-            <dd>{{ huuraanbod.einddatum ? huuraanbod.einddatum | date('d-m-Y') : '-' }}</dd>
+            <dt>Afsluitdatum</dt>
+            <dd>{{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum | date('d-m-Y') }}</dd>
         </dl>
     {% endif %}
 

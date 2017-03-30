@@ -38,19 +38,20 @@ class Huurverzoek
     /**
      * @ORM\Column(type="date")
      */
-    protected $startdatum;
+    private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    protected $einddatum;
+    private $afsluitdatum;
 
     /**
-     * @var bool
+     * @var HuurverzoekAfsluiting
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\ManyToOne(targetEntity="HuurverzoekAfsluiting", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $actief = true;
+    private $afsluiting;
 
     /**
      * @var ArrayCollection|Verslag[]
@@ -59,7 +60,7 @@ class Huurverzoek
      * @ORM\JoinTable(name="odp_huurverzoek_verslag")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
-    protected $verslagen;
+    private $verslagen;
 
     public function __construct()
     {
@@ -68,12 +69,12 @@ class Huurverzoek
 
     public function __toString()
     {
-        if ($this->einddatum) {
+        if ($this->afsluitdatum) {
             return sprintf(
                 '%s (%s t/m %s)',
                 $this->huurder,
                 $this->startdatum->format('d-m-Y'),
-                $this->einddatum->format('d-m-Y')
+                $this->afsluitdatum->format('d-m-Y')
             );
         }
 
@@ -113,14 +114,14 @@ class Huurverzoek
         return $this;
     }
 
-    public function getEinddatum()
+    public function getAfsluitdatum()
     {
-        return $this->einddatum;
+        return $this->afsluitdatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
-        $this->einddatum = $einddatum;
+        $this->afsluitdatum = $afsluitdatum;
 
         return $this;
     }
@@ -137,14 +138,7 @@ class Huurverzoek
 
     public function isActief()
     {
-        return $this->actief;
-    }
-
-    public function setActief($actief)
-    {
-        $this->actief = $actief;
-
-        return $this;
+        return $this->afsluiting === null;
     }
 
     public function getVerslagen()
@@ -155,6 +149,18 @@ class Huurverzoek
     public function addVerslag(Verslag $verslag)
     {
         $this->verslagen[] = $verslag;
+
+        return $this;
+    }
+
+    public function getAfsluiting()
+    {
+        return $this->afsluiting;
+    }
+
+    public function setAfsluiting(HuurverzoekAfsluiting $afsluiting)
+    {
+        $this->afsluiting = $afsluiting;
 
         return $this;
     }

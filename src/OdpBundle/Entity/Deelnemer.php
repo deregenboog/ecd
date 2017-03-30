@@ -51,10 +51,18 @@ abstract class Deelnemer
     protected $afsluitdatum;
 
     /**
+     * @var Afsluiting
+     *
+     * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $afsluiting;
+
+    /**
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(name="foreign_key", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $klant;
 

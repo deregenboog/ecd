@@ -7,10 +7,19 @@ use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="odp_verhuurder_afsluiting")
+ * @ORM\Table(name="odp_afsluitingen")
+ * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "huurder" = "HuurderAfsluiting",
+ *     "verhuurder" = "VerhuurderAfsluiting",
+ *     "huurverzoek" = "HuurverzoekAfsluiting",
+ *     "huuraanbod" = "HuuraanbodAfsluiting",
+ *     "huurovereenkomst" = "HuurovereenkomstAfsluiting"
+ * })
  */
-class Verhuurderafsluiting
+abstract class Afsluiting
 {
     use TimestampableTrait;
 
@@ -19,17 +28,17 @@ class Verhuurderafsluiting
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $naam;
+    protected $naam;
 
     /**
      * @ORM\Column(name="active", type="boolean", nullable=true)
      */
-    private $actief = true;
+    protected $actief = true;
 
     public function __toString()
     {
@@ -63,10 +72,5 @@ class Verhuurderafsluiting
         $this->actief = $actief;
 
         return $this;
-    }
-
-    public function isDeletable()
-    {
-        false;
     }
 }

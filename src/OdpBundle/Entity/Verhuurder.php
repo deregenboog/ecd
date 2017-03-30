@@ -33,13 +33,6 @@ class Verhuurder extends Deelnemer
      */
     private $woningbouwcorporatieToelichting;
 
-    /**
-     * @var Verhuurderafsluiting
-     *
-     * @ORM\ManyToOne(targetEntity="Verhuurderafsluiting", cascade={"persist"})
-     */
-    private $afsluiting;
-
     public function __construct()
     {
         parent::__construct();
@@ -47,9 +40,15 @@ class Verhuurder extends Deelnemer
         $this->huuraanbiedingen = new ArrayCollection();
     }
 
+    public function isActief()
+    {
+        return $this->afsluiting === null;
+    }
+
     public function isDeletable()
     {
         return 0 === count($this->huuraanbiedingen)
+            && 0 === count($this->documenten)
             && 0 === count($this->verslagen);
     }
 
@@ -108,7 +107,7 @@ class Verhuurder extends Deelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(Verhuurderafsluiting $afsluiting)
+    public function setAfsluiting(VerhuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
 

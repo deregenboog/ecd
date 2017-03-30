@@ -2,15 +2,14 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use OdpBundle\Entity\Huurovereenkomst;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use OdpBundle\Entity\Woningbouwcorporatie;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use OdpBundle\Entity\Huurderafsluiting;
-use OdpBundle\Entity\Verhuurderafsluiting;
 
-class VerhuurderafsluitingType extends AbstractType
+class HuurovereenkomstCloseType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,8 +17,11 @@ class VerhuurderafsluitingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('naam')
-            ->add('actief')
+            ->add('afsluitdatum', AppDateType::class, [
+                'required' => true,
+                'data' => new \DateTime(),
+            ])
+            ->add('huurovereenkomstAfsluiting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
@@ -30,7 +32,7 @@ class VerhuurderafsluitingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Verhuurderafsluiting::class,
+            'data_class' => Huurovereenkomst::class,
         ]);
     }
 }

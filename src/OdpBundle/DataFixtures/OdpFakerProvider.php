@@ -9,7 +9,7 @@ class OdpFakerProvider
     /**
      * @return \DateTime|null
      */
-    public function einddatum(\DateTime $startdatum = null)
+    public function afsluitdatum(\DateTime $startdatum = null)
     {
         if ($startdatum) {
             return DateTime::dateTimeBetween($startdatum);
