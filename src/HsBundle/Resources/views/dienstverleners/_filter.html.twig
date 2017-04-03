@@ -1,0 +1,29 @@
+{% if filter is defined %}
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.klant.id) }}
+            {{ form_errors(filter.klant.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.stadsdeel) }}
+            {{ form_errors(filter.klant.stadsdeel) }}
+        </th>
+        <th>
+        </th>
+        <th>
+            {{ form_widget(filter.openstaand) }}
+            {{ form_label(filter.openstaand) }}
+            {{ form_errors(filter.openstaand) }}
+        </th>
+        <th>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+{% endif %}

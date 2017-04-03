@@ -10,7 +10,7 @@ use HsBundle\Entity\Klant;
 use HsBundle\Form\KlantFilterType;
 use HsBundle\Form\KlantSelectType;
 use HsBundle\Form\KlantType;
-use HsBundle\Service\KlantDaoInterface;
+use HsBundle\Service\DienstverlenerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +23,9 @@ class DienstverlenersController extends SymfonyController
     use MemosAddControllerTrait, DocumentenAddControllerTrait;
 
     /**
-     * @var KlantDaoInterface
+     * @var DienstverlenerDaoInterface
      *
-     * @DI\Inject("hs.dao.klant")
+     * @DI\Inject("hs.dao.dienstverlener")
      */
     private $dao;
 

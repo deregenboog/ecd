@@ -33,9 +33,7 @@
                 {% endfor %}
             {% endfor %}
         </div>
-        <div class="row">
-            {% block content %}{% endblock %}
-        </div>
+        {% block content %}{% endblock %}
     </div>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>

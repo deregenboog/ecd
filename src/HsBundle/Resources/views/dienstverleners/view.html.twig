@@ -1,0 +1,37 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Dienstverleners |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>Dienstverlener {{ entity }}</h1>
+    <p>
+        {{ html.editLink(path('hs_dienstverleners_edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path('hs_dienstverleners_edit', {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('hs_dienstverleners_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('hs_dienstverleners_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity.klant.naam }}</dd>
+        <dt>Openstaand</dt>
+        <dd>{{ entity.openstaand|money }}</dd>
+    </dl>
+    {% include '@Hs/klussen/_list.html.twig' %}
+    {% include '@Hs/facturen/_list.html.twig' %}
+{% endblock %}
+
+{% block content_right %}
+    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_dienstverleners_memos_add', {id: entity.id})} %}
+    {% include '@Hs/documenten/_list.html.twig' with {add_url: path('hs_dienstverleners_documenten_add', {id: entity.id})} %}
+{% endblock %}

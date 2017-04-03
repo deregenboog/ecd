@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    HomeService | Dienstverleners |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% set add_route = 'hs_dienstverleners_add' %}
+{% set view_route = 'hs_dienstverleners_view' %}
+{% set edit_route = 'hs_dienstverleners_edit' %}
+{% set delete_route = 'hs_dienstverleners_delete' %}
+
+{% block content %}
+    <h1>Dienstverleners</h1>
+    <p>
+        {{ html.addLink(path(add_route)) }}
+        {{ html.link('Dienstverlener toevoegen', path(add_route)) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include '@Hs/dienstverleners/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'basisklant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Dienstverlener', 'basisklant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'basisklant.werkgebied') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
+                </th>
+                <th>Openstaand</th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(entity.klant.id, path(view_route, {id: entity.id})) }}
+                </td>
+                <td>
+                    {{ html.link(entity.klant.naam, path(view_route, {id: entity.id})) }}
+                </td>
+                <td>
+                    {{ entity.klant.werkgebied }}
+                </td>
+                <td>
+                    {{ entity.actief }}
+                </td>
+                <td>
+                    {{ entity.openstaand|money }}
+                </td>
+                <td>
+                    {{ html.viewLink(path(view_route, {id: entity.id})) }}
+                    {{ html.editLink(path(edit_route, {id: entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

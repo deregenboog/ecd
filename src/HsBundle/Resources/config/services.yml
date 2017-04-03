@@ -15,6 +15,10 @@ services:
         parent: app.dao.abstract
         class: HsBundle\Service\DeclaratieDao
 
+    hs.dao.dienstverlener:
+        parent: app.dao.abstract
+        class: HsBundle\Service\DienstverlenerDao
+
     hs.dao.factuur:
         parent: app.dao.abstract
         class: HsBundle\Service\FactuurDao

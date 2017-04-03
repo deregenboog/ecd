@@ -29,13 +29,13 @@ class VrijwilligerFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $geboortedatumRange;
-    
+
     /**
      * @var string
      */
     public $stadsdeel;
 
-    public function applyTo(QueryBuilder $builder, $this->alias = 'vrijwilliger')
+    public function applyTo(QueryBuilder $builder, $alias = 'vrijwilliger')
     {
         if ($this->id) {
             $builder
