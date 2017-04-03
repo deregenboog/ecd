@@ -8,7 +8,7 @@ use OekBundle\Repository\OekKlantRepository;
 
 class KlantenPerTrainingStadsdeel extends AbstractReport
 {
-    protected $title = 'Deelnemers per trainingen en stadsdeel';
+    protected $title = 'Deelnemers per training en stadsdeel';
 
     protected $xPath = 'stadsdeel';
 

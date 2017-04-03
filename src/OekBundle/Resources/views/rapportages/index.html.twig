@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends '::base-2-col.html.twig' %}
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
@@ -9,29 +9,14 @@
     {% include '@Oek/oek_subnavigation.html.twig' %}
 {% endblock %}
 
-{% block content %}
-    <h2>Rapportages</h2>
+{% block content_left %}
+    <h1>Rapportages</h1>
+    {{ form(form) }}
+{% endblock %}
 
-    <div class="actions">
-        <fieldset>
-            <legend>Opties</legend>
-            {{ form_start(form) }}
-            {{ form_row(form.startdatum) }}
-            {{ form_row(form.einddatum) }}
-            {{ form_row(form.rapport) }}
-            <button type="submit">Rapport tonen</button>
-            {{ form_end(form) }}
-        </fieldset>
-    </div>
-
-    <div class="form">
-        <fieldset id="fldRapportages">
-            <legend>Rapport {{ title is defined ? '"'~title~'"' }}</legend>
-            {% if reports is defined %}
-                {{ include('@Oek/rapportages/_pivot_tables.html.twig') }}
-            {% endif %}
-        </fieldset>
-    </div>
-
-    <iframe name="iframeExcel" style="display: none;"></iframe>
+{% block content_right %}
+    <h2>Rapport {{ title is defined ? '"'~title~'"' }}</h2>
+    {% if reports is defined %}
+        {{ include('@Oek/rapportages/_pivot_tables.html.twig') }}
+    {% endif %}
 {% endblock %}
