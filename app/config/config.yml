@@ -13,7 +13,7 @@ framework:
     default_locale: "%locale%"
     translator: { fallbacks: ["%locale%"] }
     secret: "%secret%"
-    session: ~
+#    session: ~
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
