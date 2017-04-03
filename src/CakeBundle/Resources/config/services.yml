@@ -63,6 +63,7 @@ parameters:
             GROUP_IZ_BEHEER: 10462
             GROUP_BEHEER_GROEPSACTIVITEIT: 10463
 
+        # group: [controllers]
         ACL.permissions:
             GROUP_REPORT:
                 - Rapportages
@@ -144,7 +145,8 @@ parameters:
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
-                - iz_klanten
+                - IzKlanten
+                - IzVrijwilligers
                 - IzDeelnemers
                 - IzHulpvragen
                 - IzHulpaanbiedingen
@@ -158,9 +160,12 @@ parameters:
                 - OdpBundle\Controller\Huurverzoeken
                 - OdpBundle\Controller\Huuraanbiedingen
                 - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Verslagen
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
-                - iz_klanten
+                - IzKlanten
+                - IzVrijwilligers
                 - IzDeelnemers
                 - IzHulpvragen
                 - IzHulpaanbiedingen
@@ -185,6 +190,8 @@ parameters:
                 - OdpBundle\Controller\Huurderafsluitingen
                 - OdpBundle\Controller\Verhuurderafsluitingen
                 - OdpBundle\Controller\Woningbouwcorporaties
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Verslagen
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
                 - Vrijwilligers
@@ -207,21 +214,50 @@ parameters:
                 - IzVerslagen
                 - groepsactiviteiten_klanten
 
+        # controller: {label, url}
         all_menu_items:
-            Hi5: Hi5
-            Klanten: Klantenlijst
-            Vrijwilligers: Vrijwilligers
-            Registraties: Registratie
-            MaatschappelijkWerk: Maatschappelijk werk
-            Rapportages: Rapportages
-            Awbz: AWBZ
-            PfoClienten: PFO
-            iz_klanten: IZ
-            groepsactiviteiten_klanten: Groepsactiviteiten
-            hs_klanten: HomeService
-            oek: Op Eigen Kracht
-            odp: Onder de Pannen
-            Admin: Admin
+            Hi5:
+                label: Hi5
+                url: Hi5
+            Klanten:
+                label: Klanten
+                url: Klanten
+            Vrijwilligers:
+                label: Vrijwilligers
+                url: Vrijwilligers
+            Registraties:
+                label: Registratie
+                url: Registraties
+            MaatschappelijkWerk:
+                label: Maatschappelijk werk
+                url: MaatschappelijkWerk
+            Rapportages:
+                label: Rapportages
+                url: Rapportages
+            Awbz:
+                label: AWBZ
+                url: Awbz
+            PfoClienten:
+                label: PFO
+                url: PfoClienten
+            IzKlanten:
+                label: IZ
+                url: iz_klanten
+            groepsactiviteiten_klanten:
+                label: Groepsactiviteiten
+                url: groepsactiviteiten_klanten
+            odp:
+                label: Onder de Pannen
+                url: odp
+            oek:
+                label: Op Eigen Kracht
+                url: oek
+            hs:
+                label: HomeService
+                url: hs
+            Admin:
+                label: Admin
+                url: Admin
 
         TBC_months_period: 6
 

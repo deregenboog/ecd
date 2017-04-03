@@ -1,11 +1,11 @@
 <?php
 
-use IzBundle\Service\KlantDaoInterface;
-use IzBundle\Form\IzKlantFilterType;
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\KlantFilterType;
+use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantSelectType;
-use AppBundle\Entity\Klant;
+use IzBundle\Service\KlantDaoInterface;
 
 class IzKlantenController extends AppController
 {
@@ -20,7 +20,7 @@ class IzKlantenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'klant' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
@@ -56,9 +56,14 @@ class IzKlantenController extends AppController
     {
         $klanten = $this->klantDao->findAll(null, $filter);
 
-        $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: text/csv');
+//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+//         $this->header('Content-type: text/csv');
+//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: application/vnd.ms-excel');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
 
         $this->set('klanten', $klanten);
         $this->render('download', false);
@@ -83,7 +88,7 @@ class IzKlantenController extends AppController
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 

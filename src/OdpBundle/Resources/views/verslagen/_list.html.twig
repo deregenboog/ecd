@@ -20,6 +20,10 @@
             <td>{{ verslag.datum|date('d-m-Y') }}</td>
             <td>{{ verslag.medewerker }}</td>
             <td><pre>{{ verslag.opmerking }}</pre></td>
+            <td>
+                {{ html.editLink(path('odp_verslagen_edit', {id: verslag.id, redirect: app.request.get('url')})) }}
+                {{ html.deleteLink(path('odp_verslagen_delete', {id: verslag.id, redirect: app.request.get('url')})) }}
+            </td>
         </tr>
     {% endfor %}
 </table>

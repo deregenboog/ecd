@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\VrijwilligerFilter;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -29,7 +30,13 @@ class VrijwilligerFilterType extends AbstractType
         }
 
         if (in_array('geboortedatum', $options['enabled_filters'])) {
-            $builder->add('geboortedatum', AppDateRangeType::class, [
+            $builder->add('geboortedatum', AppDateType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('geboortedatumRange', $options['enabled_filters'])) {
+            $builder->add('geboortedatumRange', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }

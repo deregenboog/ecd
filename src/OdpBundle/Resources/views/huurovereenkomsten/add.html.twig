@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurovereenkomsten |
+    ODP | Huurovereenkomsten
 {% endblock %}
 
 {% block subnavigation %}
@@ -13,28 +13,24 @@
     <h1>Koppeling maken</h1>
 
     {% if huurverzoek is defined %}
-        <dl>
+        <dl class="dl-horizontal">
             <dt>#</dt>
             <dd>{{ huurverzoek.id }}</dd>
             <dt>Huurder</dt>
             <dd>{{ huurverzoek.huurder.klant }}</dd>
             <dt>Startdatum</dt>
             <dd>{{ huurverzoek.startdatum | date('d-m-Y') }}</dd>
-            <dt>Einddatum</dt>
-            <dd>{{ huurverzoek.einddatum ? huurverzoek.einddatum|date('d-m-Y') : '-' }}</dd>
         </dl>
     {% endif %}
 
     {% if huuraanbod is defined %}
-        <dl>
+        <dl class="dl-horizontal">
             <dt>#</dt>
             <dd>{{ huuraanbod.id }}</dd>
             <dt>Verhuurder</dt>
             <dd>{{ huuraanbod.verhuurder.klant }}</dd>
             <dt>Startdatum</dt>
             <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
-            <dt>Einddatum</dt>
-            <dd>{{ huuraanbod.einddatum ? huuraanbod.einddatum | date('d-m-Y') : '-' }}</dd>
         </dl>
     {% endif %}
 

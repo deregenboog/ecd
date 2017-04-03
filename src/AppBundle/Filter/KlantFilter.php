@@ -19,9 +19,19 @@ class KlantFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var AppDateRangeModel
+     * @var string
+     */
+    public $bsn;
+
+    /**
+     * @var \DateTime
      */
     public $geboortedatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $geboortedatumRange;
 
     /**
      * @var string
@@ -47,7 +57,21 @@ class KlantFilter implements FilterInterface
             }
         }
 
+        if ($this->bsn) {
+            $builder
+                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
+                ->setParameter("{$alias}_bsn", $this->bsn)
+            ;
+        }
+
         if ($this->geboortedatum) {
+            $builder
+                ->andWhere("{$alias}.geboortedatum = :{$alias}_geboortedatum")
+                ->setParameter("{$alias}_geboortedatum", $this->geboortedatum)
+            ;
+        }
+
+        if ($this->geboortedatumRange) {
             if ($this->geboortedatum->getStart()) {
                 $builder
                     ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")
@@ -63,10 +87,14 @@ class KlantFilter implements FilterInterface
         }
 
         if (isset($this->stadsdeel)) {
-            $builder
-                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
-                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
-            ;
+            if ($this->stadsdeel == '-') {
+                $builder->andWhere("{$alias}.werkgebied IS NULL OR {$alias}.werkgebied = ''");
+            } else {
+                $builder
+                    ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+                ;
+            }
         }
     }
 }

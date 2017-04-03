@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurovereenkomsten |
+    ODP | Huurovereenkomsten
 {% endblock %}
 
 {% block subnavigation %}
@@ -11,7 +11,19 @@
 
 {% block content_left %}
     <h1>Koppeling {{ huurovereenkomst }}</h1>
-    <dl>
+    <p>
+        {% if huurovereenkomst.actief %}
+            {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+            {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+            {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+            {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+        {% endif %}
+        {% if huurovereenkomst.deletable %}
+            {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
+            {{ html.link('Verwijderen', path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ huurovereenkomst.id }}</dd>
         <dt>Huurder</dt>
@@ -25,9 +37,13 @@
         <dt>Startdatum</dt>
         <dd>{{ huurovereenkomst.startdatum|date('d-m-Y') }}</dd>
         <dt>Opzegdatum</dt>
-        <dd>{{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') : '-' }}</dd>
+        <dd>{{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}</dd>
         <dt>Einddatum</dt>
-        <dd>{{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') : '-' }}</dd>
+        <dd>{{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huurovereenkomst.afsluiting ? huurovereenkomst.afsluiting }}</dd>
     </dl>
 {% endblock %}
 

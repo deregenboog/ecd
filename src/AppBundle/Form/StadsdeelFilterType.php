@@ -27,6 +27,20 @@ class StadsdeelFilterType extends AbstractType
                 'Westpoort' => 'Westpoort',
                 'Zuid' => 'Zuid',
                 'Zuidoost' => 'Zuidoost',
+                'overig' => 'Overig',
+                'geen' => '-',
+            ],
+            'preferred_choices' => [
+                'Amstelveen' => 'Amstelveen',
+                'Centrum' => 'Centrum',
+                'Diemen' => 'Diemen',
+                'Nieuw-West' => 'Nieuw-West',
+                'Noord' => 'Noord',
+                'Oost' => 'Oost',
+                'West' => 'West',
+                'Westpoort' => 'Westpoort',
+                'Zuid' => 'Zuid',
+                'Zuidoost' => 'Zuidoost',
             ],
         ]);
     }

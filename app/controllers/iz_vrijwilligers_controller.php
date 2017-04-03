@@ -1,11 +1,11 @@
 <?php
 
-use IzBundle\Service\VrijwilligerDaoInterface;
-use IzBundle\Form\IzVrijwilligerFilterType;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\VrijwilligerFilterType;
+use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerSelectType;
-use AppBundle\Entity\Vrijwilliger;
+use IzBundle\Service\VrijwilligerDaoInterface;
 
 class IzVrijwilligersController extends AppController
 {
@@ -20,7 +20,7 @@ class IzVrijwilligersController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
-        'vrijwilliger' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
@@ -56,9 +56,14 @@ class IzVrijwilligersController extends AppController
     {
         $vrijwilligers = $this->vrijwilligerDao->findAll(null, $filter);
 
-        $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: text/csv');
+//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
+//         $this->header('Content-type: text/csv');
+//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+
+        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: application/vnd.ms-excel');
         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
 
         $this->set('vrijwilligers', $vrijwilligers);
         $this->render('download', false);
@@ -83,7 +88,7 @@ class IzVrijwilligersController extends AppController
         }
 
         $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 

@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huuraanbiedingen |
+    ODP | Huuraanbiedingen
 {% endblock %}
 
 {% block subnavigation %}
@@ -12,26 +12,35 @@
 {% block content_left %}
     <h1>
         Huuraanbod van {{ huuraanbod.verhuurder.klant }}
-        {{ html.editLink(path('odp_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
+    </h1>
+    <p>
+        {% if huuraanbod.actief %}
+            {{ html.editLink(path('odp_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
+            {{ html.link('Wijzigen', path('odp_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
+            {{ html.closeLink(path('odp_huuraanbiedingen_close', {id: huuraanbod.id})) }}
+            {{ html.link('Afsluiten', path('odp_huuraanbiedingen_close', {id: huuraanbod.id})) }}
+        {% endif %}
         {% if huuraanbod.deletable %}
             {{ html.deleteLink(path('odp_huuraanbiedingen_delete', {id: huuraanbod.id})) }}
+            {{ html.link('Verwijderen', path('odp_huuraanbiedingen_delete', {id: huuraanbod.id})) }}
         {% endif %}
-    </h1>
-
-    <dl>
+    </p>
+    <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ huuraanbod.id }}</dd>
         <dt>Verhuurder</dt>
-        <dd>{{ huuraanbod.verhuurder.klant }}</dd>
+        <dd>{{ html.link(huuraanbod.verhuurder.klant, path('odp_verhuurders_view', {id: huuraanbod.verhuurder.id})) }}</dd>
         <dt>Startdatum</dt>
         <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
-        <dt>Einddatum</dt>
-        <dd>{{ huuraanbod.einddatum ? huuraanbod.einddatum | date('d-m-Y') : '-' }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum | date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huuraanbod.afsluiting }}</dd>
         <dt>Koppeling</dt>
         <dd>
             {% if huuraanbod.huurovereenkomst %}
                 {{ html.link(huuraanbod.huurovereenkomst.id, path('odp_huurovereenkomsten_view', {id: huuraanbod.huurovereenkomst.id})) }}
-            {% else %}
+            {% elseif huuraanbod.actief %}
                 {{ html.addLink(path('odp_huurovereenkomsten_add', {huuraanbod: huuraanbod.id})) }}
                 {{ html.link('Maak koppeling', path('odp_huurovereenkomsten_add', {huuraanbod: huuraanbod.id})) }}
             {% endif %}

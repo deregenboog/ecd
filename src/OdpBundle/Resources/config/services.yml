@@ -20,13 +20,30 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
 
+    odp.dao.huuraanbodafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuuraanbodAfsluitingDao
+
     odp.dao.huurderafsluiting:
         parent: odp.dao
-        class: OdpBundle\Service\HuurderafsluitingDao
+        class: OdpBundle\Service\HuurderAfsluitingDao
+
+    odp.dao.huurovereenkomstafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuurovereenkomstAfsluitingDao
+
+    odp.dao.huurverzoekafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuurverzoekAfsluitingDao
 
     odp.dao.verhuurderafsluiting:
         parent: odp.dao
-        class: OdpBundle\Service\VerhuurderafsluitingDao
+        class: OdpBundle\Service\VerhuurderAfsluitingDao
+
+    odp.dao.verslag:
+        class: OdpBundle\Service\VerslagDao
+        arguments:
+            - '@doctrine.orm.entity_manager'
 
     odp.dao.woningbouwcorporatie:
         parent: odp.dao

@@ -51,7 +51,7 @@ class OdpVerslagenController extends AppController
 
         $form = $this->createForm(OdpVerslagType::class, new OdpVerslag());
         $form->handleRequest($this->getRequest());
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $controller = $this->resolveController($entity);
             try {
                 $entityManager->persist($entity->addOdpVerslag($form->getData()));

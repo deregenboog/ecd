@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use OdpBundle\Entity\Verhuurder;
 use AppBundle\Controller\SymfonyController;
+use OdpBundle\Form\HuuraanbodCloseType;
 
 class HuuraanbiedingenController extends SymfonyController
 {
@@ -19,7 +20,7 @@ class HuuraanbiedingenController extends SymfonyController
         'id',
         'klant' => ['naam', 'stadsdeel'],
         'startdatum',
-        'einddatum',
+        'afsluitdatum',
     ];
 
     private $sortFieldWhitelist = [
@@ -27,7 +28,7 @@ class HuuraanbiedingenController extends SymfonyController
         'klant.achternaam',
         'klant.werkgebied',
         'huuraanbod.startdatum',
-        'huuraanbod.einddatum',
+        'huuraanbod.afsluitdatum',
     ];
 
     /**
@@ -60,8 +61,10 @@ class HuuraanbiedingenController extends SymfonyController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return [
+            'filter' => $filter->createView(),
+            'pagination' => $pagination,
+        ];
     }
 
     /**
@@ -70,7 +73,8 @@ class HuuraanbiedingenController extends SymfonyController
     public function view($id)
     {
         $huuraanbod = $this->getEntityManager()->find(Huuraanbod::class, $id);
-        $this->set('huuraanbod', $huuraanbod);
+
+        return ['huuraanbod' => $huuraanbod];
     }
 
     /**
@@ -92,7 +96,7 @@ class HuuraanbiedingenController extends SymfonyController
             return $this->redirectToRoute('odp_verhuurders_view', ['id' => $verhuurder->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
     /**
@@ -118,8 +122,10 @@ class HuuraanbiedingenController extends SymfonyController
             }
         }
 
-        $this->set('form', $form->createView());
-        $this->set('huuraanbod', $huuraanbod);
+        return [
+            'huuraanbod' => $huuraanbod,
+            'form' => $form->createView(),
+        ];
     }
 
     /**
@@ -146,7 +152,38 @@ class HuuraanbiedingenController extends SymfonyController
             }
         }
 
-        $this->set('huuraanbod', $huuraanbod);
-        $this->set('form', $form->createView());
+        return [
+            'huuraanbod' => $huuraanbod,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/odp/huuraanbiedingen/{id}/close")
+     */
+    public function close($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $huuraanbod = $entityManager->find(Huuraanbod::class, $id);
+
+        $form = $this->createForm(HuuraanbodCloseType::class, $huuraanbod);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Huuraanbod is afgesloten.');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
+
+            return $this->redirectToRoute('odp_huuraanbiedingen_view', ['id' => $huuraanbod->getId()]);
+        }
+
+        return [
+            'huuraanbod' => $huuraanbod,
+            'form' => $form->createView(),
+        ];
     }
 }

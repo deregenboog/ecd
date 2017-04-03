@@ -139,6 +139,7 @@ class RegistratiesController extends AppController
             $this->set('locatie_id', $locatie_id);
 
             $loc_name = $locatie['naam'];
+            $this->set('locatie', $locatie);
             $this->set('locatie_name', $loc_name);
             $this->setRegistraties($locatie_id);
             $this->set('locaties', $this->Registratie->Locatie->find('list'));
@@ -396,7 +397,7 @@ class RegistratiesController extends AppController
             'confirm' => false,
             'allow' => true,
             'message' => '',
-            );
+        );
 
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
@@ -464,7 +465,7 @@ class RegistratiesController extends AppController
                 }
             }
 
-            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja') {
+            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja' && $location['Locatie']['tbc_check'] == 1) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
@@ -479,6 +480,7 @@ class RegistratiesController extends AppController
 
         render:
             $this->set(compact('jsonVar'));
+
         $this->render('/elements/json', 'ajax');
     }
 

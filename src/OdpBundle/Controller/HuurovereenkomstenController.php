@@ -13,6 +13,7 @@ use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Exception\OdpException;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Controller\SymfonyController;
+use OdpBundle\Form\HuurovereenkomstCloseType;
 
 class HuurovereenkomstenController extends SymfonyController
 {
@@ -24,6 +25,7 @@ class HuurovereenkomstenController extends SymfonyController
         'startdatum',
         'opzegdatum',
         'einddatum',
+        'afsluitdatum',
     ];
 
     private $sortFieldWhitelist = [
@@ -34,6 +36,7 @@ class HuurovereenkomstenController extends SymfonyController
         'huurovereenkomst.startdatum',
         'huurovereenkomst.opzegdatum',
         'huurovereenkomst.einddatum',
+        'huurovereenkomst.afsluitdatum',
     ];
 
     /**
@@ -71,8 +74,10 @@ class HuurovereenkomstenController extends SymfonyController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return [
+            'filter' => $filter->createView(),
+            'pagination' => $pagination,
+        ];
     }
 
     /**
@@ -117,10 +122,10 @@ class HuurovereenkomstenController extends SymfonyController
                 return $this->redirectToRoute($routeBase.'_index');
             }
 
-            return $this->redirectToRoute($routeBase.'_view', ['id' => $entity->getId()]);
+            return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
     /**
@@ -143,7 +148,30 @@ class HuurovereenkomstenController extends SymfonyController
             return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/odp/huurovereenkomsten/{id}/close")
+     */
+    public function close($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $huurovereenkomst = $entityManager->find(Huurovereenkomst::class, $id);
+
+        $form = $this->createForm(HuurovereenkomstCloseType::class, $huurovereenkomst);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
+
+            return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
+        }
+
+        return ['form' => $form->createView()];
     }
 
     private function findEntity(EntityManager $entityManager)

@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Verhuurders |
+    ODP | Verhuurders
 {% endblock %}
 
 {% block subnavigation %}
@@ -13,7 +13,7 @@
     <h1>Verhuurder toevoegen</h1>
 
     {% if filterForm is defined %}
-        <p>Zoek een bestaande verhuurder op klantnummer, naam en/of geboortedatum.</p>
+        <p>Zoek een bestaande verhuurder op naam, BSN of geboortedatum.</p>
         {{ form(filterForm) }}
     {% endif %}
 
