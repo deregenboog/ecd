@@ -13,10 +13,6 @@
     <h1>Deelnemer {{ oekKlant.klant.naam }}</h1>
 
     <p>
-        {% set view_link = path('app_klanten_view', {id: oekKlant.klant.id}) %}
-        {{ html.viewLink(view_link)|raw }}
-        {{ html.link('Basisdossier bekijken', view_link)|raw }}
-
         {% set edit_link = path('oek_klanten_edit', {id: oekKlant.id}) %}
         {{ html.editLink(edit_link)|raw }}
         {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
@@ -51,7 +47,7 @@
             </ul>&nbsp;
         </dd>
         <dt>Opmerking</dt>
-        <dd>{{ oekKlant.opmerking|nl2br }}&nbsp;</dd>
+        <dd><pre>{{ oekKlant.opmerking }}</pre></dd>
         <dt>Voedselbank klant</dt>
         <dd>{{ oekKlant.voedselbankKlant ? 'Ja' : 'Nee' }}</dd>
         <dt>
@@ -83,4 +79,5 @@
             </ul>
         </dd>
     </dl>
+    {% include '::klant_basis.html.twig' with {klant: oekKlant.klant} %}
 {% endblock %}

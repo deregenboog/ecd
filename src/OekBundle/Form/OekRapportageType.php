@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -46,6 +47,12 @@ class OekRapportageType extends AbstractType
                 'required' => true,
                 'placeholder' => 'Selecteer een rapport',
                 'choices' => $this->choices,
+            ])
+            ->add('show', SubmitType::class, [
+                'label' => 'Rapport tonen'
+            ])
+            ->add('download', SubmitType::class, [
+                'label' => 'Rapport downloaden'
             ])
         ;
     }
