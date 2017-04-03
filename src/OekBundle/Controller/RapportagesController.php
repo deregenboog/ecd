@@ -55,7 +55,7 @@ class RapportagesController extends SymfonyController
             }
         }
 
-        $response = $this->render('@Oek/rapportages/download.html.twig', $data);
+        $response = $this->render('@Oek/rapportages/download.csv.twig', $data);
 
         $filename = sprintf(
             '%s-%s-%s.xls',
