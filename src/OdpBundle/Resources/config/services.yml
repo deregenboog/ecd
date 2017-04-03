@@ -4,8 +4,15 @@ services:
         tags:
             - { name: hautelook_alice.faker.provider }
 
+    odp.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
     odp.dao.coordinator:
-        parent: app.dao.abstract
+        parent: odp.dao
         class: OdpBundle\Service\CoordinatorDao
 
     odp.dao.document:
@@ -13,14 +20,31 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
 
+    odp.dao.huuraanbodafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuuraanbodAfsluitingDao
+
     odp.dao.huurderafsluiting:
-        parent: app.dao.abstract
-        class: OdpBundle\Service\HuurderafsluitingDao
+        parent: odp.dao
+        class: OdpBundle\Service\HuurderAfsluitingDao
+
+    odp.dao.huurovereenkomstafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuurovereenkomstAfsluitingDao
+
+    odp.dao.huurverzoekafsluiting:
+        parent: odp.dao
+        class: OdpBundle\Service\HuurverzoekAfsluitingDao
 
     odp.dao.verhuurderafsluiting:
-        parent: app.dao.abstract
-        class: OdpBundle\Service\VerhuurderafsluitingDao
+        parent: odp.dao
+        class: OdpBundle\Service\VerhuurderAfsluitingDao
+
+    odp.dao.verslag:
+        class: OdpBundle\Service\VerslagDao
+        arguments:
+            - '@doctrine.orm.entity_manager'
 
     odp.dao.woningbouwcorporatie:
-        parent: app.dao.abstract
+        parent: odp.dao
         class: OdpBundle\Service\WoningbouwcorporatieDao

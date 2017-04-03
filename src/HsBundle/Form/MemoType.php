@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class MemoType extends AbstractType
 {
@@ -36,5 +37,13 @@ class MemoType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Memo::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

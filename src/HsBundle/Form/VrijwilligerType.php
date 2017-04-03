@@ -11,6 +11,7 @@ use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
 use AppBundle\Form\AppDateType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class VrijwilligerType extends AbstractType
 {
@@ -52,5 +53,13 @@ class VrijwilligerType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Vrijwilliger::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

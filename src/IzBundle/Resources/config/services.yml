@@ -7,6 +7,10 @@ services:
         parent: app.dao.abstract
         class: IzBundle\Service\VrijwilligerDao
 
+    iz.dao.koppeling:
+        parent: odp.dao
+        class: IzBundle\Service\KoppelingDao
+
     iz.repository.iz_hulpvraag:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]

@@ -58,8 +58,10 @@ class VerhuurdersController extends SymfonyController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return [
+            'filter' => $filter->createView(),
+            'pagination' => $pagination,
+        ];
     }
 
     /**
@@ -68,7 +70,8 @@ class VerhuurdersController extends SymfonyController
     public function view($id)
     {
         $verhuurder = $this->getEntityManager()->find(Verhuurder::class, $id);
-        $this->set('verhuurder', $verhuurder);
+
+        return ['verhuurder' => $verhuurder];
     }
 
     /**
@@ -106,13 +109,11 @@ class VerhuurdersController extends SymfonyController
                 }
             }
 
-            $this->set('creationForm', $creationForm->createView());
-
-            return;
+            return ['creationForm' => $creationForm->createView()];
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
         $filterForm->handleRequest($this->getRequest());
@@ -123,12 +124,10 @@ class VerhuurdersController extends SymfonyController
         $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $this->set('selectionForm', $selectionForm->createView());
-
-            return;
+            return ['selectionForm' => $selectionForm->createView()];
         }
 
-        if ($selectionForm->isSubmitted() &&  $selectionForm->isValid()) {
+        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
             $verhuurder = $selectionForm->getData();
             if ($verhuurder->getKlant() instanceof Klant) {
                 $id = $verhuurder->getKlant()->getId();
@@ -139,7 +138,7 @@ class VerhuurdersController extends SymfonyController
             return $this->redirectToRoute('odp_verhuurders_add', ['klantId' => $id]);
         }
 
-        $this->set('filterForm', $filterForm->createView());
+        return ['filterForm' => $filterForm->createView()];
     }
 
     /**
@@ -165,8 +164,10 @@ class VerhuurdersController extends SymfonyController
             }
         }
 
-        $this->set('form', $form->createView());
-        $this->set('verhuurder', $verhuurder);
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
     }
 
     /**
@@ -177,23 +178,23 @@ class VerhuurdersController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
-        $form = $this->createForm(VerhuurderCloseType::class);
+        $form = $this->createForm(VerhuurderCloseType::class, $verhuurder);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Huurder is afgesloten.');
+                $this->addFlash('success', 'Verhuurder is afgesloten.');
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
 
-            return $this->redirectToRoute('odp_huurders_view', ['id' => $verhuurder->getId()]);
+            return $this->redirectToRoute('odp_verhuurders_view', ['id' => $verhuurder->getId()]);
         }
 
         return [
-            'huurder' => $verhuurder,
+            'verhuurder' => $verhuurder,
             'form' => $form->createView(),
         ];
     }
@@ -222,7 +223,9 @@ class VerhuurdersController extends SymfonyController
             }
         }
 
-        $this->set('verhuurder', $verhuurder);
-        $this->set('form', $form->createView());
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
     }
 }

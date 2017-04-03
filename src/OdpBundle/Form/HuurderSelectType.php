@@ -10,6 +10,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Huurder;
+use AppBundle\Form\BaseType;
 
 class HuurderSelectType extends AbstractType
 {
@@ -24,7 +25,9 @@ class HuurderSelectType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('klant')
                         ->leftJoin(Huurder::class, 'huurder', 'WITH', 'huurder.klant = klant')
-                        ->andWhere('huurder.id IS NULL');
+                        ->andWhere('huurder.id IS NULL')
+                        ->orderBy('klant.achternaam, klant.tussenvoegsel, klant.voornaam')
+                    ;
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
@@ -46,5 +49,13 @@ class HuurderSelectType extends AbstractType
             'data_class' => Huurder::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

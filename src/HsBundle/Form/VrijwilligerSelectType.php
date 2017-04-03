@@ -11,6 +11,7 @@ use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\HsVrijwilliger;
 use HsBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class VrijwilligerSelectType extends AbstractType
 {
@@ -52,5 +53,13 @@ class VrijwilligerSelectType extends AbstractType
             'data_class' => Vrijwilliger::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

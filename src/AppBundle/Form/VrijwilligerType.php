@@ -19,7 +19,7 @@ class VrijwilligerType extends AbstractType
             ->add('tussenvoegsel')
             ->add('achternaam')
             ->add('geslacht')
-            ->add('geboortedatum', AppDateType::class)
+            ->add('geboortedatum', AppDateType::class, ['required' => false])
             ->add('email')
             ->add('medewerker')
             ->add('land')
@@ -36,5 +36,13 @@ class VrijwilligerType extends AbstractType
             'data_class' => Vrijwilliger::class,
             'data' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

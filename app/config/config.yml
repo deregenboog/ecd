@@ -70,5 +70,5 @@ vich_uploader:
             upload_destination: '%kernel.root_dir%/../archive/hs'
         odp_document:
             namer: vich_uploader.namer_uniqid
-            uri_prefix: /odp/documenten
+            uri_prefix: /odp/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/odp'

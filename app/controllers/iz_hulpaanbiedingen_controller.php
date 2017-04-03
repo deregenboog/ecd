@@ -18,7 +18,7 @@ class IzHulpaanbiedingenController extends AppController
 
     private $enabledFilters = [
         'startdatum',
-        'vrijwilliger' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
@@ -55,7 +55,7 @@ class IzHulpaanbiedingenController extends AppController
             ->andWhere('izVrijwilliger.izAfsluiting IS NULL')
             ->andWhere('vrijwilliger.disabled = false');
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $form->getData()->applyTo($builder);
         }
 

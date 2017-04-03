@@ -2,8 +2,10 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\AppDateType;
+use OdpBundle\Entity\Document;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppTextareaType;
@@ -11,6 +13,7 @@ use OdpBundle\Entity\Verslag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Document;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use AppBundle\Form\BaseType;
 
 class DocumentType extends AbstractType
 {
@@ -19,11 +22,15 @@ class DocumentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('naam')
-            ->add('file', FileType::class, [
+        $builder->add('naam');
+
+        if (!$options['data']->getId()) {
+            $builder->add('file', FileType::class, [
                 'label' => 'Document',
-            ])
+            ]);
+        }
+
+        $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
@@ -37,5 +44,13 @@ class DocumentType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Document::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

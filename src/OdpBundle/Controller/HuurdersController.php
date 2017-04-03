@@ -58,8 +58,10 @@ class HuurdersController extends SymfonyController
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 
-        $this->set('filter', $filter->createView());
-        $this->set('pagination', $pagination);
+        return [
+            'filter' => $filter->createView(),
+            'pagination' => $pagination,
+        ];
     }
 
     /**
@@ -109,13 +111,13 @@ class HuurdersController extends SymfonyController
                 }
             }
 
-            $this->set('creationForm', $creationForm->createView());
-
-            return;
+            return [
+                'creationForm' => $creationForm->createView(),
+            ];
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
+            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
         $filterForm->handleRequest($this->getRequest());
@@ -126,9 +128,7 @@ class HuurdersController extends SymfonyController
         $selectionForm->handleRequest($this->getRequest());
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $this->set('selectionForm', $selectionForm->createView());
-
-            return;
+            return ['selectionForm' => $selectionForm->createView()];
         }
 
         if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
@@ -142,7 +142,9 @@ class HuurdersController extends SymfonyController
             return $this->redirectToRoute('odp_huurders_add', ['klantId' => $id]);
         }
 
-        $this->set('filterForm', $filterForm->createView());
+        return [
+            'filterForm' => $filterForm->createView(),
+        ];
     }
 
     /**
@@ -168,8 +170,10 @@ class HuurdersController extends SymfonyController
             }
         }
 
-        $this->set('form', $form->createView());
-        $this->set('huurder', $huurder);
+        return [
+            'huurder' => $huurder,
+            'form' => $form->createView(),
+        ];
     }
 
     /**
@@ -225,7 +229,9 @@ class HuurdersController extends SymfonyController
             }
         }
 
-        $this->set('huurder', $huurder);
-        $this->set('form', $form->createView());
+        return [
+            'huurder' => $huurder,
+            'form' => $form->createView(),
+        ];
     }
 }

@@ -15,12 +15,10 @@ class AppDateRangeType extends AbstractType
     {
         $builder
             ->add('start', AppDateType::class, [
-                'label' => false,
-                'attr' => ['placeholder' => 'van (dd-mm-jjjj)'],
+                'label' => 'Van',
             ])
             ->add('end', AppDateType::class, [
-                'label' => false,
-                'attr' => ['placeholder' => 'tot (dd-mm-jjjj)'],
+                'label' => 'Tot',
             ])
         ;
 
@@ -47,5 +45,13 @@ class AppDateRangeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => AppDateRangeModel::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

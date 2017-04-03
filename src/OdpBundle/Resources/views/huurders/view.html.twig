@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurders |
+    ODP | Huurders
 {% endblock %}
 
 {% block subnavigation %}
@@ -14,52 +14,45 @@
         Huurder {{ huurder.klant }}
     </h1>
     <p>
-        {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
-        {{ html.link('Wijzigen', path('odp_huurders_edit', {id: huurder.id})) }}
+        {% if huurder.actief %}
+            {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
+            {{ html.link('Wijzigen', path('odp_huurders_edit', {id: huurder.id})) }}
+            {{ html.closeLink(path('odp_huurders_close', {id: huurder.id})) }}
+            {{ html.link('Afsluiten', path('odp_huurders_close', {id: huurder.id})) }}
+        {% endif %}
         {% if huurder.deletable %}
             {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}
             {{ html.link('Verwijderen', path('odp_huurders_delete', {id: huurder.id})) }}
         {% endif %}
-        {{ html.closeLink(path('odp_huurders_close', {id: huurder.id})) }}
-        {{ html.link('Afsluiten', path('odp_huurders_close', {id: huurder.id})) }}
     </p>
-    <table class="table">
-        <tr>
-            <td>Naam</td>
-            <td>{{ huurder.klant }}</td>
-        </tr>
-        <tr>
-            <td>Aanmelddatum</td>
-            <td>{{ huurder.aanmelddatum|date('d-m-Y') }}</td>
-        </tr>
-        <tr>
-            <td>Afsluitdatum</td>
-            <td>{{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}</td>
-        </tr>
-        <tr>
-            <td>Reden afsluiting</td>
-            <td>{{ huurder.afsluiting }}</td>
-        </tr>
-        <tr>
-            <td>Huurverzoek</td>
-            <td>
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ huurder.klant }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ huurder.medewerker }}</dd>
+        <dt>Aanmelddatum</dt>
+        <dd>{{ huurder.aanmelddatum|date('d-m-Y') }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huurder.afsluiting }}</dd>
+        {% if huurder.actiefHuurverzoek and huurder.actiefHuurverzoek.huurovereenkomst %}
+            <dt>Koppeling</dt>
+            <dd>
+                {{ html.link(huurder.actiefHuurverzoek.huurovereenkomst, path('odp_huurovereenkomsten_view', {id: huurder.actiefHuurverzoek.huurovereenkomst.id})) }}
+            </dd>
+        {% else %}
+            <dt>Huurverzoek</dt>
+            <dd>
                 {% if huurder.actiefHuurverzoek %}
                     {{ html.link(huurder.actiefHuurverzoek, path('odp_huurverzoeken_view', {id: huurder.actiefHuurverzoek.id})) }}
-                {% else %}
+                {% elseif huurder.actief %}
                     {{ html.addLink(path('odp_huurverzoeken_add', {id: huurder.id})) }}
                     {{ html.link('Huurverzoek maken', path('odp_huurverzoeken_add', {id: huurder.id})) }}
                 {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Koppeling</td>
-            <td>
-                {% if huurder.actiefHuurverzoek and huurder.actiefHuurverzoek.huurovereenkomst %}
-                    {{ html.link(huurder.actiefHuurverzoek.huurovereenkomst, path('odp_huurovereenkomsten_view', {id: huurder.actiefHuurverzoek.huurovereenkomst.id})) }}
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+            </dd>
+        {% endif %}
+    </dl>
     {% include '::klant_basis.html.twig' with {klant: huurder.klant} %}
 {% endblock %}
 

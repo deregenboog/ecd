@@ -3,9 +3,11 @@
 namespace OekBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OekBundle\Entity\OekVerwijzing;
+use AppBundle\Form\BaseType;
 
 class OekVerwijzingType extends AbstractType
 {
@@ -15,6 +17,8 @@ class OekVerwijzingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('naam');
+        $builder->add('actief', null, ['data' => true]);
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**
@@ -25,5 +29,13 @@ class OekVerwijzingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OekVerwijzing::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

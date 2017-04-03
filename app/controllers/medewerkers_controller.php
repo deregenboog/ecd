@@ -122,17 +122,12 @@ class MedewerkersController extends AppController
                 $this->flash(__('Welkom', true));
             }
 
-            $cont = $this->Session->read('AfterLogin.Controler');
-            $action = $this->Session->read('AfterLogin.Action');
-
-            if ($cont && $action && $action != 'login') {
-                $this->redirect(array(
-                    'controller' => $cont,
-                    'action' => $action,
-                ));
+            $afterLoginUrl = $this->Session->read('AfterLogin.Url');
+            if ($afterLoginUrl && strpos($afterLoginUrl, 'login') === false) {
+                return $this->redirect($afterLoginUrl);
+            } else {
+                return $this->redirect('/');
             }
-
-            $this->redirect('/');
         }
 
         unset($this->data['Medewerker']['passwd']);

@@ -36,7 +36,7 @@ class IzDeelnemerSelectieType extends AbstractType
                 ])
             ->add('stadsdelen', StadsdeelFilterType::class, [
                 'label' => 'Stadsdelen',
-                'required' => true,
+                'required' => false,
                 'multiple' => true,
             ])
             ->add('personen', ChoiceType::class, [

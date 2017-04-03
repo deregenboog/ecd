@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzKlant;
+use AppBundle\Form\BaseType;
 
 class IzKlantSelectType extends AbstractType
 {
@@ -21,14 +22,15 @@ class IzKlantSelectType extends AbstractType
             ->add('klant', null, [
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('klant');
+                    $builder = $repository->createQueryBuilder('klant')
+                        ->leftJoin(IzKlant::class, 'izKlant', 'WITH', 'izKlant.klant = klant')
+                        ->andWhere('izKlant.id IS NULL')
+                        ->orderBy('klant.achternaam, klant.tussenvoegsel, klant.voornaam')
+                    ;
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
                     }
-
-                    $builder->leftJoin(IzKlant::class, 'izKlant', 'WITH', 'izKlant.klant = klant')
-                        ->andWhere('izKlant.id IS NULL');
 
                     return $builder;
                 },
@@ -45,5 +47,13 @@ class IzKlantSelectType extends AbstractType
             'data_class' => IzKlant::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -13,6 +13,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantType;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Entity\Verslag;
+use AppBundle\Form\BaseType;
 
 class VerhuurderType extends AbstractType
 {
@@ -24,7 +25,12 @@ class VerhuurderType extends AbstractType
         if ($options['data']->getKlant()->getId()) {
             $builder->add('medewerker', MedewerkerType::class);
         } else {
-            $builder->add('klant', KlantType::class);
+            $builder
+                ->add('klant', KlantType::class)
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $event->getData()->setMedewerker($event->getData()->getKlant()->getMedewerker());
+                })
+            ;
         }
 
         $builder
@@ -34,34 +40,28 @@ class VerhuurderType extends AbstractType
         ;
 
         if (!$options['data']->getId()) {
-            $builder->add('opmerking', TextareaType::class, [
-                'label' => 'Intakeverslag',
-                'mapped' => false,
-                'attr' => ['rows' => 10],
-            ]);
+            $builder
+                ->add('opmerking', TextareaType::class, [
+                    'label' => 'Intakeverslag',
+                    'required' => false,
+                    'mapped' => false,
+                    'attr' => ['rows' => 10],
+                ])
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    if ($event->getForm()->get('opmerking')->getData()) {
+                        $verslag = new Verslag();
+                        $verslag
+                            ->setDatum($event->getData()->getAanmelddatum())
+                            ->setOpmerking($event->getForm()->get('opmerking')->getData())
+                            ->setMedewerker($event->getData()->getMedewerker())
+                        ;
+                        $event->getData()->addVerslag($verslag);
+                    }
+                })
+            ;
         }
 
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            /* @var $verhuurder Verhuurder */
-            $verhuurder = $event->getData();
-            $form = $event->getForm();
-
-            if (!$form->has('medewerker')) {
-                $verhuurder->setMedewerker($verhuurder->getKlant()->getMedewerker());
-            }
-
-            if ($event->getForm()->has('opmerking')) {
-                $verslag = new Verslag();
-                $verslag
-                    ->setDatum($verhuurder->getAanmelddatum())
-                    ->setOpmerking($event->getForm()->get('opmerking')->getData())
-                    ->setMedewerker($verhuurder->getMedewerker())
-                ;
-                $verhuurder->addVerslag($verslag);
-            }
-        });
     }
 
     /**
@@ -72,5 +72,13 @@ class VerhuurderType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Verhuurder::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

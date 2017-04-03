@@ -12,6 +12,7 @@ use AppBundle\Form\AppTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\BaseType;
 
 class RegistratieType extends AbstractType
 {
@@ -51,5 +52,13 @@ class RegistratieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Registratie::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -3,6 +3,7 @@ services:
         class: OekBundle\Event\DienstenLookupSubscriber
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@router"
         tags:
             - { name: kernel.event_subscriber }
 
@@ -17,24 +18,44 @@ services:
         arguments:
             - OekBundle\Entity\OekKlant
 
+    oek.repository.oek_training:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OekBundle\Entity\OekTraining
+
     oek.form.rapportage:
         class: OekBundle\Form\OekRapportageType
         tags:
             - { name: form.type }
 
-    oek.report.klanten.per_groep:
-        class: OekBundle\Report\KlantenPerGroep
+    oek.report.klanten.per_training_stadsdeel:
+        class: OekBundle\Report\KlantenPerTrainingStadsdeel
         arguments:
             - "@oek.repository.oek_klant"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
-    oek.report.klanten.per_training:
-        class: OekBundle\Report\KlantenPerTraining
+    oek.report.klanten.verwezen_door:
+        class: OekBundle\Report\KlantenVerwezenDoor
         arguments:
             - "@oek.repository.oek_klant"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
+
+    oek.report.klanten.verwezen_naar:
+        class: OekBundle\Report\KlantenVerwezenNaar
+        arguments:
+            - "@oek.repository.oek_klant"
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    oek.report.trainingen.per_groep_en_stadsdeel:
+        class: OekBundle\Report\TrainingenPerGroepStadsdeel
+        arguments:
+            - "@oek.repository.oek_training"
+        tags:
+            - { name: oek.rapportage, category: Trainingen }
 
 #    oek.report.koppelingen.totaal:
 #        class: OekBundle\Report\KoppelingenTotaal

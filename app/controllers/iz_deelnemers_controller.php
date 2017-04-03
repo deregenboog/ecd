@@ -1284,7 +1284,7 @@ class IzDeelnemersController extends AppController
         $form = $this->createForm(IzEmailMessageType::class, null);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var Swift_Mailer $mailer */
             $mailer = $this->container->get('mailer');
 
@@ -1406,7 +1406,7 @@ class IzDeelnemersController extends AppController
         $form = $this->createForm(IzDeelnemerSelectieType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $izKlanten = new ArrayCollection([]);
             $izVrijwilligers = new ArrayCollection([]);
 
@@ -1503,7 +1503,7 @@ class IzDeelnemersController extends AppController
                     default:
                     case 'excel':
                         $this->header('Content-type: application/vnd.ms-excel');
-                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.csv";', date('Ymd_His')));
+                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.xls";', date('Ymd_His')));
                         $this->header('Content-Transfer-Encoding: binary');
 
                         $this->autoLayout = false;

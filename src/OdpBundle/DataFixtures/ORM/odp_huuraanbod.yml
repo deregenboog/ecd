@@ -3,4 +3,4 @@ OdpBundle\Entity\Huuraanbod:
         verhuurder (unique): '@odp_verhuurder_*'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
-        einddatum: '<einddatum($startdatum)>'
+        afsluitdatum: '10%? <afsluitdatum($startdatum)>'

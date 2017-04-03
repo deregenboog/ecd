@@ -60,10 +60,6 @@
                 echo $this->Form->input('locatie1_id', array(
                     'label' => 'Toegang gebruikersruimte',
                     'empty' => '', ));
-                if ($klant['Klant']['geslacht_id'] == 2) {
-                    echo $this->Form->input('toegang_vrouwen_nacht_opvang', array(
-                        'label' => __('Heeft toegang tot de Vrouwen Nacht Opvang', true), ));
-                }
             ?>
         </fieldset>
 

@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurovereenkomsten |
+    ODP | Huurovereenkomsten
 {% endblock %}
 
 {% block subnavigation %}
@@ -49,6 +49,12 @@
                 {{ form_errors(filter.einddatum.end) }}
             </th>
             <th>
+                {{ form_widget(filter.afsluitdatum.start) }}
+                {{ form_errors(filter.afsluitdatum.start) }}
+                {{ form_widget(filter.afsluitdatum.end) }}
+                {{ form_errors(filter.afsluitdatum.end) }}
+            </th>
+            <th>
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
             </th>
@@ -77,6 +83,9 @@
                 {{ knp_pagination_sortable(pagination, 'Einddatum', 'huurovereenkomst.einddatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurovereenkomst.afsluitdatum') }}
+            </th>
+            <th>
             </th>
         </tr>
         {% for huurovereenkomst in pagination %}
@@ -97,10 +106,13 @@
                     {{ huurovereenkomst.startdatum | date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum | date('d-m-Y') : '-' }}
+                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum | date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') : '-' }}
+                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum | date('d-m-Y') }}
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}

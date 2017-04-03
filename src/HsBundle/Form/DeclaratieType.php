@@ -10,6 +10,7 @@ use HsBundle\Entity\Declaratie;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\BaseType;
 
 class DeclaratieType extends AbstractType
 {
@@ -39,5 +40,13 @@ class DeclaratieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Declaratie::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\EmailMessageType;
@@ -39,6 +40,7 @@ class OekEmailMessageType extends AbstractType
             ->remove('file3')
             ->add('from', HiddenType::class, ['data' => $options['from']])
             ->add('to', HiddenType::class, ['data' => implode(', ', $emails)])
+            ->add('submit', SubmitType::class, ['label' => 'Verzenden'])
         ;
     }
 

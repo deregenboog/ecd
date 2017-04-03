@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\Klus;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class KlusType extends AbstractType
 {
@@ -35,5 +36,13 @@ class KlusType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Klus::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

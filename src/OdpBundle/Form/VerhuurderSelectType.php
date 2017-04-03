@@ -10,6 +10,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Verhuurder;
+use AppBundle\Form\BaseType;
 
 class VerhuurderSelectType extends AbstractType
 {
@@ -24,7 +25,9 @@ class VerhuurderSelectType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('klant')
                         ->leftJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.klant = klant')
-                        ->andWhere('verhuurder.id IS NULL');
+                        ->andWhere('verhuurder.id IS NULL')
+                        ->orderBy('klant.achternaam, klant.tussenvoegsel, klant.voornaam')
+                    ;
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
@@ -33,7 +36,7 @@ class VerhuurderSelectType extends AbstractType
                     return $builder;
                 },
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class, ['label' => 'Verder'])
         ;
     }
 
@@ -46,5 +49,13 @@ class VerhuurderSelectType extends AbstractType
             'data_class' => Verhuurder::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

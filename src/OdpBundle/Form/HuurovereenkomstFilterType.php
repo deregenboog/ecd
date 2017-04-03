@@ -72,6 +72,12 @@ class HuurovereenkomstFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+            $builder->add('afsluitdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])

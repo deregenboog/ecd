@@ -14,8 +14,8 @@ class GroepsactiviteitenController extends AppController
     public $name = 'Groepsactiviteiten';
 
     private $enabledFilters = [
-        'klant' => ['id', 'naam', 'geboortedatum'],
-        'vrijwilliger' => ['id', 'naam', 'geboortedatum'],
+        'klant' => ['id', 'naam', 'geboortedatumRange'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
         'medewerker',
         'afsluitdatum',
     ];

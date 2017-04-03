@@ -87,7 +87,7 @@ class OdpHuurovereenkomstenController extends AppController
 
         $form = $this->createForm(OdpHuurovereenkomstType::class, $odpHuurovereenkomst);
         $form->handleRequest($this->getRequest());
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager->flush();
             } catch (\Exception $e) {

@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huuraanbiedingen |
+    ODP | Huuraanbiedingen
 {% endblock %}
 
 {% block subnavigation %}
@@ -34,10 +34,10 @@
                 {{ form_errors(filter.startdatum.end) }}
             </th>
             <th>
-                {{ form_widget(filter.einddatum.start) }}
-                {{ form_errors(filter.einddatum.start) }}
-                {{ form_widget(filter.einddatum.end) }}
-                {{ form_errors(filter.einddatum.end) }}
+                {{ form_widget(filter.afsluitdatum.start) }}
+                {{ form_errors(filter.afsluitdatum.start) }}
+                {{ form_widget(filter.afsluitdatum.end) }}
+                {{ form_errors(filter.afsluitdatum.end) }}
             </th>
             <th>
                 {{ form_widget(filter.filter) }}
@@ -59,7 +59,7 @@
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'huuraanbod.startdatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Einddatum', 'huuraanbod.einddatum') }}
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huuraanbod.afsluitdatum') }}
             </th>
             <th>
             </th>
@@ -79,7 +79,7 @@
                     {{ huuraanbod.startdatum | date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ huuraanbod.einddatum ? huuraanbod.einddatum | date('d-m-Y') : '-' }}
+                    {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum | date('d-m-Y') }}
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}

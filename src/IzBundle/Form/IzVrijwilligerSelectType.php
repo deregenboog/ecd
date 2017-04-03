@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzVrijwilliger;
+use AppBundle\Form\BaseType;
 
 class IzVrijwilligerSelectType extends AbstractType
 {
@@ -21,14 +22,15 @@ class IzVrijwilligerSelectType extends AbstractType
             ->add('vrijwilliger', null, [
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('vrijwilliger');
+                    $builder = $repository->createQueryBuilder('vrijwilliger')
+                        ->leftJoin(IzVrijwilliger::class, 'izVrijwilliger', 'WITH', 'izVrijwilliger.vrijwilliger = vrijwilliger')
+                        ->andWhere('izVrijwilliger.id IS NULL')
+                        ->orderBy('vrijwilliger.achternaam, vrijwilliger.tussenvoegsel, vrijwilliger.voornaam')
+                    ;
 
                     if ($options['filter'] instanceof FilterInterface) {
                         $options['filter']->applyTo($builder);
                     }
-
-                    $builder->leftJoin(IzVrijwilliger::class, 'izVrijwilliger', 'WITH', 'izVrijwilliger.vrijwilliger = vrijwilliger')
-                        ->andWhere('izVrijwilliger.id IS NULL');
 
                     return $builder;
                 },
@@ -45,5 +47,13 @@ class IzVrijwilligerSelectType extends AbstractType
             'data_class' => IzVrijwilliger::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

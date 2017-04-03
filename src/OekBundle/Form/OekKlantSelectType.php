@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -10,6 +11,7 @@ use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
 
 class OekKlantSelectType extends AbstractType
 {
@@ -35,6 +37,7 @@ class OekKlantSelectType extends AbstractType
                     return $builder;
                 },
             ])
+            ->add('submit', SubmitType::class, ['label' => 'Verder'])
         ;
     }
 
@@ -47,5 +50,13 @@ class OekKlantSelectType extends AbstractType
             'data_class' => OekKlant::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

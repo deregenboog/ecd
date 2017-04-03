@@ -11,6 +11,7 @@ use HsBundle\Entity\Klant;
 use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class KlantType extends AbstractType
 {
@@ -51,5 +52,13 @@ class KlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Klant::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

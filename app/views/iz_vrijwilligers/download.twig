@@ -38,11 +38,13 @@ Gekoppeld
     {{- (izVrijwilliger.izIntake ? izVrijwilliger.izIntake.stagiair ? 'ja' : 'nee') ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.geenPost ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.geenEmail ~ tab -}}
-    {%- for izHulpvraag in izVrijwilliger.izHulpaanbiedingen %}
-        {{- izHulpvraag.izProject ~ ' ' -}}
+    {%- for i, izHulpvraag in izVrijwilliger.izHulpaanbiedingen %}
+        {{- izHulpvraag.izProject -}}
+        {{- i + 1 < izVrijwilliger.izHulpaanbiedingen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
-    {%- for izHulpvraag in izVrijwilliger.izHulpaanbiedingen %}
-        {{- izHulpvraag.medewerker ~ ' ' -}}
+    {%- for i, izHulpvraag in izVrijwilliger.izHulpaanbiedingen %}
+        {{- izHulpvraag.medewerker -}}
+        {{- i + 1 < izVrijwilliger.izHulpaanbiedingen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
     {{- izVrijwilliger.gekoppeld ? 'ja' : 'nee' }}
 {% endfor %}

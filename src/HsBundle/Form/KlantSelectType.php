@@ -10,6 +10,7 @@ use HsBundle\Entity\Klant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class KlantSelectType extends AbstractType
 {
@@ -51,5 +52,13 @@ class KlantSelectType extends AbstractType
             'data_class' => Klant::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

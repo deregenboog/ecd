@@ -100,24 +100,6 @@
             <td><?php __('Toegang gebruikersruimte')?></td>
             <td><?php echo $format->printData($data['Locatie1']['naam']); ?></td>
         </tr>
-        <!--
-        <tr>
-            <td><?php __('locatie3')?></td>
-            <td><?php echo $format->printData($data['Locatie3']['naam']); ?></td>
-        </tr>
-         -->
-        <?php if ($klant['Klant']['geslacht_id'] == 2) {
-                echo $format->printTableLine(
-                __('Heeft toegang tot de Vrouwen Nacht Opvang', true),
-                $data['Intake']['toegang_vrouwen_nacht_opvang'],
-                FormatHelper::JANEE);
-            } ?>
-        <!--
-        <tr>
-            <td><?php __('mag_gebruiken')?></td>
-            <td><?php echo $data['Intake']['mag_gebruiken'] == '1' ? 'Ja' : 'Nee';?></td>
-        </tr>
-        -->
     </table>
 <?php if (!$plainText): ?>
     </fieldset>

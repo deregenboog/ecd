@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\DeclaratieCategorie;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class DeclaratieCategorieType extends AbstractType
 {
@@ -29,5 +30,13 @@ class DeclaratieCategorieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => DeclaratieCategorie::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

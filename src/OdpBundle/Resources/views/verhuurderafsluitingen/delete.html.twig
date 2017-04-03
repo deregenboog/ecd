@@ -1,20 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Odp/afsluitingen/delete.html.twig' %}
 
 {% block title %}
-    ODP | Verhuurderafsluitingen |
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Odp/odp_subnavigation.html.twig' %}
-{% endblock %}
-
-{% block content %}
-    <h1>Verhuurderafsluiting verwijderen</h1>
-    <p>
-        Weet u zeker dat u verhuurderafsluiting
-        {{ verhuurderafsluiting }}
-        wilt verwijderen?
-    </p>
-    {{ form(form) }}
+    ODP | Afsluitingen verhuurders
 {% endblock %}

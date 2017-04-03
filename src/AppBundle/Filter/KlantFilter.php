@@ -21,9 +21,19 @@ class KlantFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var AppDateRangeModel
+     * @var string
+     */
+    public $bsn;
+
+    /**
+     * @var \DateTime
      */
     public $geboortedatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $geboortedatumRange;
 
     /**
      * @var string
@@ -49,7 +59,21 @@ class KlantFilter implements FilterInterface
             }
         }
 
+        if ($this->bsn) {
+            $builder
+                ->andWhere("{$this->alias}.bsn= :{$this->alias}_bsn")
+                ->setParameter("{$this->alias}_bsn", $this->bsn)
+            ;
+        }
+
         if ($this->geboortedatum) {
+            $builder
+                ->andWhere("{$this->alias}.geboortedatum = :{$this->alias}_geboortedatum")
+                ->setParameter("{$this->alias}_geboortedatum", $this->geboortedatum)
+            ;
+        }
+
+        if ($this->geboortedatumRange) {
             if ($this->geboortedatum->getStart()) {
                 $builder
                     ->andWhere("{$this->alias}.geboortedatum >= :{$this->alias}_geboortedatum_van")
@@ -65,10 +89,14 @@ class KlantFilter implements FilterInterface
         }
 
         if (isset($this->stadsdeel)) {
+            if ($this->stadsdeel == '-') {
+                $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
+            } else {
             $builder
                 ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
                 ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
             ;
+            }
         }
     }
 }

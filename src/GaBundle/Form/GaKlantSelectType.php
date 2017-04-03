@@ -26,6 +26,7 @@ class GaKlantSelectType extends AbstractType
                     $builder = $repository->createQueryBuilder('klant')
                         ->leftJoin(GaKlantIntake::class, 'gaKlantIntake', 'WITH', 'gaKlantIntake.klant = klant')
                         ->andWhere('gaKlantIntake.id IS NULL')
+                        ->orderBy('klant.achternaam, klant.tussenvoegsel, klant.voornaam')
                     ;
 
                     if ($options['filter'] instanceof KlantFilter) {

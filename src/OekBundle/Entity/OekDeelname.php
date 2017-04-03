@@ -14,11 +14,6 @@ class OekDeelname
 {
     use TimestampableTrait;
 
-    const STATUS_AANGEMELD = 'Aangemeld';
-    const STATUS_GESTART = 'Gestart';
-    const STATUS_GEVOLGD = 'Gevolgd';
-    const STATUS_AFGEROND = 'Afgerond';
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -43,15 +38,29 @@ class OekDeelname
     private $oekKlant;
 
     /**
-     * @var string
-     * @ORM\Column
+     * History of states.
+     *
+     * @var OekDeelnameStatus[]
+     *
+     * @ORM\OneToMany(targetEntity="OekDeelnameStatus", cascade={"persist"}, mappedBy="oekDeelname")
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
-    private $status = self::STATUS_AANGEMELD;
+    private $oekDeelnameStatussen;
+
+    /**
+     * Current state.
+     *
+     * @var OekDeelnameStatus
+     *
+     * @ORM\OneToOne(targetEntity="OekDeelnameStatus", cascade={"persist"})
+     */
+    private $oekDeelnameStatus;
 
     public function __construct(OekTraining $oekTraining = null, OekKlant $oekKlant = null)
     {
         $this->oekTraining = $oekTraining;
         $this->oekKlant = $oekKlant;
+        $this->oekDeelnameStatus = new OekDeelnameStatus($this);
     }
 
     public function getId()
@@ -85,13 +94,32 @@ class OekDeelname
 
     public function getStatus()
     {
-        return $this->status;
+        return $this->oekDeelnameStatus->getStatus();
     }
 
     public function setStatus($status)
     {
-        $this->status = $status;
+        $oekDeelnameStatus = new OekDeelnameStatus($this);
+        $oekDeelnameStatus->setStatus($status);
+        $this->setOekDeelnameStatus($oekDeelnameStatus);
+    }
+
+    public function getOekDeelnameStatus()
+    {
+        return $this->oekDeelnameStatus;
+    }
+
+    public function setOekDeelnameStatus(OekDeelnameStatus $oekDeelnameStatus)
+    {
+        $this->oekDeelnameStatussen[] = $oekDeelnameStatus;
+
+        $this->oekDeelnameStatus = $oekDeelnameStatus;
 
         return $this;
+    }
+
+    public function isDeletable()
+    {
+        return $this->oekDeelnameStatus->getStatus() === OekDeelnameStatus::STATUS_AANGEMELD;
     }
 }
