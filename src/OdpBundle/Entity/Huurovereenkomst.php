@@ -40,6 +40,19 @@ class Huurovereenkomst
     private $einddatum;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $afsluitdatum;
+
+    /**
+     * @var HuurovereenkomstAfsluiting
+     *
+     * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $afsluiting;
+
+    /**
      * @var Huuraanbod
      * @ORM\ManyToOne(targetEntity="Huuraanbod")
      */
@@ -50,12 +63,6 @@ class Huurovereenkomst
      * @ORM\ManyToOne(targetEntity="Huurverzoek")
      */
     private $huurverzoek;
-
-    /**
-     * @var HuurovereenkomstAfsluiting
-     * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting")
-     */
-    private $huurovereenkomstAfsluiting;
 
     /**
      * @var ArrayCollection|Verslag[]
@@ -86,6 +93,11 @@ class Huurovereenkomst
         return implode(' - ', [$this->huurverzoek->getHuurder(), $this->huuraanbod->getVerhuurder()]);
     }
 
+    public function isActief()
+    {
+        return $this->afsluiting === null;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -103,14 +115,14 @@ class Huurovereenkomst
         return $this;
     }
 
-    public function getEinddatum()
+    public function getAfsluitdatum()
     {
-        return $this->einddatum;
+        return $this->afsluitdatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
-        $this->einddatum = $einddatum;
+        $this->afsluitdatum = $afsluitdatum;
 
         return $this;
     }
@@ -189,4 +201,28 @@ class Huurovereenkomst
 
         return $this;
     }
+
+    public function getAfsluiting()
+    {
+        return $this->afsluiting;
+    }
+
+    public function setAfsluiting(HuurovereenkomstAfsluiting $afsluiting)
+    {
+        $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum($einddatum)
+    {
+        $this->einddatum = $einddatum;
+        return $this;
+    }
+
 }

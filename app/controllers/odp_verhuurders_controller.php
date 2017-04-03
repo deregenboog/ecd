@@ -150,7 +150,7 @@ class OdpVerhuurdersController extends AppController
         $form = $this->createForm(OdpVerhuurderType::class, $odpVerhuurder);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager->flush();
 
@@ -174,7 +174,7 @@ class OdpVerhuurdersController extends AppController
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->remove($odpVerhuurder);
             $entityManager->flush();
 
@@ -194,7 +194,7 @@ class OdpVerhuurdersController extends AppController
 
         $form = $this->createForm(OdpHuuraanbodType::class, new OdpHuuraanbod());
         $form->handleRequest($this->getRequest());
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $odpVerhuurder->addOdpHuuraanbod($form->getData());
             $entityManager->flush();
 

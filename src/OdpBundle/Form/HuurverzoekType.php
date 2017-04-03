@@ -23,22 +23,25 @@ class HuurverzoekType extends AbstractType
     {
         $builder
             ->add('medewerker', MedewerkerType::class)
-            ->add('startdatum', AppDateType::class)
-            ->add('einddatum', AppDateType::class, ['required' => false])
+            ->add('startdatum', AppDateType::class, ['data' => new \DateTime()])
         ;
 
         if (!$options['data']->getId()) {
             $builder
-                ->add('opmerking', AppTextareaType::class, ['mapped' => false])
+                ->add('opmerking', AppTextareaType::class, [
+                    'required' => false,
+                    'mapped' => false,
+                ])
                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                    $huurverzoek = $event->getData();
-                    $verslag = new Verslag();
-                    $verslag
-                        ->setMedewerker($huurverzoek->getMedewerker())
-                        ->setDatum(new \DateTime())
-                        ->setOpmerking($event->getForm()->get('opmerking')->getData())
-                    ;
-                    $huurverzoek->addVerslag($verslag);
+                    if ($event->getForm()->get('opmerking')->getData()) {
+                        $verslag = new Verslag();
+                        $verslag
+                            ->setDatum($event->getData()->getAanmelddatum())
+                            ->setOpmerking($event->getForm()->get('opmerking')->getData())
+                            ->setMedewerker($event->getData()->getMedewerker())
+                        ;
+                        $event->getData()->addVerslag($verslag);
+                    }
                 })
             ;
         }

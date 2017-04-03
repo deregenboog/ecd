@@ -70,11 +70,14 @@ class WachtlijstController extends SymfonyController
     {
         $oekKlanten = $builder->getQuery()->getResult();
 
-        $filename = sprintf('op-eigen-kracht-wachtlijst-%s.csv', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: text/csv');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $response = $this->render('@Oek/wachtlijst/download.csv.twig', compact('oekKlanten'));
 
-        return $this->render('@Oek/wachtlijst/download.csv.twig', compact('oekKlanten'));
+        $filename = sprintf('op-eigen-kracht-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $response->headers->set('Content-type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
     }
 
     /**

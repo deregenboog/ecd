@@ -4,7 +4,14 @@
     {{ html.navLink('Wachtlijst', path('oek_wachtlijst_index'), isActiveRoute('oek_wachtlijst')) }}
     {{ html.navLink('Groepen', path('oek_groepen_index'), isActiveRoute('oek_groepen')) }}
     {{ html.navLink('Trainingen', path('oek_trainingen_index'), isActiveRoute('oek_trainingen')) }}
-    {{ html.navLink('Verwijzingen door', path('oek_verwijzingendoor_index'), isActiveRoute('oek_verwijzingendoor')) }}
-    {{ html.navLink('Verwijzingen naar', path('oek_verwijzingennaar_index'), isActiveRoute('oek_verwijzingennaar')) }}
     {{ html.navLink('Rapportages', path('oek_rapportages_index'), isActiveRoute('oek_rapportages')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('oek/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Verwijzingen door', path('oek_verwijzingendoor_index'), isActiveRoute('oek_verwijzingendoor')) }}
+            {{ html.navLink('Verwijzingen naar', path('oek_verwijzingennaar_index'), isActiveRoute('oek_verwijzingennaar')) }}
+        </ul>
+    </li>
 </ul>

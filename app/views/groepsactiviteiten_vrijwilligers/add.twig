@@ -4,7 +4,7 @@
 
 {% if filterForm is defined %}
     {% form_theme filterForm 'form_div_layout.html.twig' %}
-    Zoek een bestaande vrijwilliger op vrijwilligernummer, naam en/of geboortedatum.
+    Zoek een bestaande vrijwilliger op naam, BSN of geboortedatum.
     {{ form_start(filterForm) }}
         {{ form_widget(filterForm) }}
         <button type="submit">Verder</button>

@@ -19,22 +19,22 @@ interface KlantDaoInterface
     /**
      * @param int $id
      *
-     * @return Coordinator
+     * @return IzKlant
      */
     public function find($id);
 
     /**
-     * @param Coordinator $klant
+     * @param IzKlant $klant
      */
     public function create(IzKlant $klant);
 
     /**
-     * @param Coordinator $klant
+     * @param IzKlant $klant
      */
     public function update(IzKlant $klant);
 
     /**
-     * @param Coordinator $klant
+     * @param IzKlant $klant
      */
     public function delete(IzKlant $klant);
 }

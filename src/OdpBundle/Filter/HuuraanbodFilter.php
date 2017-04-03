@@ -21,7 +21,7 @@ class HuuraanbodFilter
     /**
      * @var AppDateRangeModel
      */
-    public $einddatum;
+    public $afsluitdatum;
 
     /**
      * @var KlantFilter
@@ -52,17 +52,17 @@ class HuuraanbodFilter
             }
         }
 
-        if ($this->einddatum) {
-            if ($this->einddatum->getStart()) {
+        if ($this->afsluitdatum) {
+            if ($this->afsluitdatum->getStart()) {
                 $builder
-                    ->andWhere('huuraanbod.einddatum >= :einddatum_van')
-                    ->setParameter('einddatum_van', $this->einddatum->getStart())
+                    ->andWhere('huuraanbod.afsluitdatum >= :afsluitdatum_van')
+                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
-            if ($this->einddatum->getEnd()) {
+            if ($this->afsluit->getEnd()) {
                 $builder
-                    ->andWhere('huuraanbod.einddatum <= :einddatum_tot')
-                    ->setParameter('einddatum_tot', $this->einddatum->getEnd())
+                    ->andWhere('huuraanbod.afsluitdatum <= :afsluitdatum_tot')
+                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
         }

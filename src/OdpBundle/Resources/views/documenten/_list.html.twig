@@ -21,6 +21,10 @@
                     Document downloaden
                 </a>
             </td>
+            <td>
+                {{ html.editLink(path('odp_documenten_edit', {id: document.id, redirect: app.request.get('url')})) }}
+                {{ html.deleteLink(path('odp_documenten_delete', {id: document.id, redirect: app.request.get('url')})) }}
+            </td>
         </tr>
     {% endfor %}
 </table>

@@ -25,7 +25,7 @@ class KlantType extends AbstractType
                         ->orderBy('geslacht.id', 'DESC');
                 },
             ])
-            ->add('geboortedatum', AppDateType::class)
+            ->add('geboortedatum', AppDateType::class, ['required' => false])
             ->add('bsn')
             ->add('email')
             ->add('medewerker', MedewerkerType::class)

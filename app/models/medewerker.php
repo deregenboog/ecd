@@ -224,24 +224,21 @@ class Medewerker extends AppModel
     public function uit_dienst()
     {
         $medewerkers = $this->find('all', array(
-                'fields' => array('id', 'username', 'active'),
-                'contain' => [],
+            'fields' => array('id', 'username', 'active'),
+            'contain' => [],
         ));
 
         $ldap_users = $this->getActiveUsers();
-
         if (!$ldap_users) {
             return false;
         }
 
-        $new = [];
-
         foreach ($medewerkers as $key => $medewerker) {
-            $medewerkers[$key]['Medewerker']['active'] = false;
-            $username = $medewerkers[$key]['Medewerker']['username'];
-
+            $username = $medewerker['Medewerker']['username'];
             if (in_array($username, $ldap_users)) {
                 $medewerkers[$key]['Medewerker']['active'] = true;
+            } else {
+                $medewerkers[$key]['Medewerker']['active'] = false;
             }
         }
 

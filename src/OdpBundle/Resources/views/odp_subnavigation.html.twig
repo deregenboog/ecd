@@ -10,9 +10,12 @@
             Beheer <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            {{ html.navLink('Afsluitingen huuraanbiedingen', path('odp_huuraanbodafsluitingen_index'), isActiveRoute('odp_huuraanbiedingafsluitingen')) }}
+            {{ html.navLink('Afsluitingen huurders', path('odp_huurderafsluitingen_index'), isActiveRoute('odp_huurderafsluitingen')) }}
+            {{ html.navLink('Afsluitingen huurverzoeken', path('odp_huurverzoekafsluitingen_index'), isActiveRoute('odp_huurverzoekafsluitingen')) }}
+            {{ html.navLink('Afsluitingen koppelingen', path('odp_huurovereenkomstafsluitingen_index'), isActiveRoute('odp_huurovereenkomstafsluitingen')) }}
+            {{ html.navLink('Afsluitingen verhuurders', path('odp_verhuurderafsluitingen_index'), isActiveRoute('odp_verhuurderafsluitingen')) }}
             {{ html.navLink('Coördinatoren', path('odp_coordinatoren_index'), isActiveRoute('odp_coordinatoren')) }}
-            {{ html.navLink('Huurderafsluitingen', path('odp_huurderafsluitingen_index'), isActiveRoute('odp_huurderafsluitingen')) }}
-            {{ html.navLink('Verhuurdersafsluitingen', path('odp_verhuurderafsluitingen_index'), isActiveRoute('odp_verhuurderafsluitingen')) }}
             {{ html.navLink('Woningbouwcorporaties', path('odp_woningbouwcorporaties_index'), isActiveRoute('odp_woningbouwcorporaties')) }}
         </ul>
     </li>

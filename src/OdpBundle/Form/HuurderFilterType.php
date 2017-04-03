@@ -26,11 +26,15 @@ class HuurderFilterType extends AbstractType
         }
 
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
-            $builder->add('aanmelddatum', AppDateRangeType::class);
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
         }
 
         if (in_array('afsluitdatum', $options['enabled_filters'])) {
-            $builder->add('afsluitdatum', AppDateRangeType::class);
+            $builder->add('afsluitdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
         }
 
         $builder

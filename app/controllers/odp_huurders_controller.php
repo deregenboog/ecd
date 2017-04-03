@@ -148,7 +148,7 @@ class OdpHuurdersController extends AppController
         $form = $this->createForm(OdpHuurderType::class, $odpHuurder);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager->flush();
 
@@ -172,7 +172,7 @@ class OdpHuurdersController extends AppController
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->remove($odpHuurder);
             $entityManager->flush();
 
@@ -196,7 +196,7 @@ class OdpHuurdersController extends AppController
         $form = $this->createForm(OdpHuurverzoekType::class, $odpHuurverzoek);
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($odpHuurverzoek);
             $entityManager->flush();
 

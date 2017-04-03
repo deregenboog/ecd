@@ -19,7 +19,7 @@ class IzHulpvragenController extends AppController
 
     private $enabledFilters = [
         'startdatum',
-        'klant' => ['id', 'naam', 'geboortedatum', 'stadsdeel'],
+        'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
@@ -56,7 +56,7 @@ class IzHulpvragenController extends AppController
             ->andWhere('izKlant.izAfsluiting IS NULL')
             ->andWhere('klant.disabled = false');
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $filter = $form->getData()->applyTo($builder);
         }
 

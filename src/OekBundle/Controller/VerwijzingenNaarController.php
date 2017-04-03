@@ -8,7 +8,7 @@ use OekBundle\Entity\OekVerwijzingNaar;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/verwijzingen_naar")
+ * @Route("/oek/admin/verwijzingen_naar")
  */
 class VerwijzingenNaarController extends SymfonyController
 {

@@ -384,8 +384,7 @@ class AppController extends Controller implements ContainerAwareInterface
             // $this->AuthExt->ajaxLogin above).
             $this->loadModel('Medewerker');
             if ($this->action != 'login') {
-                $this->Session->write('AfterLogin.Controler', $this->name);
-                $this->Session->write('AfterLogin.Action', $this->action);
+                $this->Session->write('AfterLogin.Url', $this->here);
             }
         }
 
@@ -419,9 +418,9 @@ class AppController extends Controller implements ContainerAwareInterface
         if ($this->container) {
             $menu_elements = $this->container->getParameter('all_menu_items');
             $menu_allowed = [];
-            foreach ($menu_elements as $controller => $text) {
+            foreach ($menu_elements as $controller => $props) {
                 if ($this->_isControllerAuthorized($controller)) {
-                    $menu_allowed[$controller] = $text;
+                    $menu_allowed[$props['url']] = $props['label'];
                 }
             }
             $this->set(compact('menu_allowed'));
