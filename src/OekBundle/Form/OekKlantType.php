@@ -61,6 +61,8 @@ class OekKlantType extends AbstractType
             ],
         ]);
 
+        $builder->add('voedselbankklant');
+
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
