@@ -52,6 +52,8 @@
         </dd>
         <dt>Opmerking</dt>
         <dd>{{ oekKlant.opmerking|nl2br }}&nbsp;</dd>
+        <dt>Voedselbank klant</dt>
+        <dd>{{ oekKlant.voedselbankKlant ? 'Ja' : 'Nee' }}</dd>
         <dt>
             Groepen
             {{ html.addLink(path('oek_lidmaatschappen_add', {oekKlant: oekKlant.id})) }}

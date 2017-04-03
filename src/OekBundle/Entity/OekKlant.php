@@ -81,6 +81,12 @@ class OekKlant
     private $oekDeelnames;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $voedselbankKlant = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -253,5 +259,24 @@ class OekKlant
     public function getOekDeelnames()
     {
         return $this->oekDeelnames;
+    }
+
+    /**
+     * @param bool $voedselbankKlant
+     * @return self
+     */
+    public function setVoedselbankKlant($voedselbankKlant)
+    {
+        $this->voedselbankKlant = $voedselbankKlant;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVoedselbankKlant()
+    {
+        return $this->voedselbankKlant;
     }
 }
