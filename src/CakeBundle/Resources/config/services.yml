@@ -162,6 +162,14 @@ parameters:
                 - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Documenten
                 - OdpBundle\Controller\Verslagen
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Wachtlijst
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
                 - IzKlanten
@@ -192,6 +200,16 @@ parameters:
                 - OdpBundle\Controller\Woningbouwcorporaties
                 - OdpBundle\Controller\Documenten
                 - OdpBundle\Controller\Verslagen
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
                 - Vrijwilligers
