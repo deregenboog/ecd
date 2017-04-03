@@ -47,10 +47,12 @@ class KlantenController extends SymfonyController
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
-            ->select('oekKlant, oekAanmelding, oekAfsluiting, oekDossierStatus, oekDeelname, oekTraining')
+            ->select('oekKlant, klant, oekAanmelding, oekAfsluiting, v1, v2, oekDossierStatus, oekDeelname, oekTraining')
             ->innerJoin('oekKlant.klant', 'klant')
             ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
             ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
+            ->leftJoin('oekAanmelding.verwijzing', 'v1')
+            ->leftJoin('oekAfsluiting.verwijzing', 'v2')
             ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
             ->leftJoin('oekKlant.oekDeelnames', 'oekDeelname')
             ->leftJoin('oekDeelname.oekTraining', 'oekTraining')

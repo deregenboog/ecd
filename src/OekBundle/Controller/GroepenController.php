@@ -3,6 +3,7 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
+use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\OekGroep;
 use OekBundle\Form\OekGroepType;
 use AppBundle\Form\ConfirmationType;
@@ -24,13 +25,19 @@ class GroepenController extends SymfonyController
     public function index()
     {
         $entityManager = $this->getEntityManager();
+        /** @var EntityRepository $repository */
         $repository = $entityManager->getRepository(OekGroep::class);
 
         $builder = $repository->createQueryBuilder('oekGroep')
-            ->select('oekGroep, oekLidmaatschap, oekKlant, oekTraining')
+            ->select(
+                'oekGroep, ' .
+                'count(distinct oekLidmaatschap) as oekLidmaatschappen, ' .
+                'count(distinct oekTraining) as oekTrainingen'
+            )
             ->leftJoin('oekGroep.oekLidmaatschappen', 'oekLidmaatschap')
-            ->leftJoin('oekLidmaatschap.oekKlant', 'oekKlant')
-            ->leftJoin('oekGroep.oekTrainingen', 'oekTraining');
+            ->leftJoin('oekGroep.oekTrainingen', 'oekTraining')
+            ->groupBy('oekGroep')
+        ;
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'oekGroep.naam',

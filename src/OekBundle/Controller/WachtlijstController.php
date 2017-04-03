@@ -38,10 +38,12 @@ class WachtlijstController extends SymfonyController
     {
         $repository = $this->getEntityManager()->getRepository(OekKlant::class);
         $builder = $repository->createQueryBuilder('oekKlant')
-            ->select('oekKlant, oekAanmelding, oekAfsluiting, oekDossierStatus, oekLidmaatschap, oekGroep')
+            ->select('oekKlant, klant, oekAanmelding, oekAfsluiting, v1, v2, oekDossierStatus, oekLidmaatschap, oekGroep')
             ->innerJoin('oekKlant.klant', 'klant')
             ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
             ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
+            ->leftJoin('oekAanmelding.verwijzing', 'v1')
+            ->leftJoin('oekAfsluiting.verwijzing', 'v2')
             ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
             ->innerJoin('oekKlant.oekLidmaatschappen', 'oekLidmaatschap')
             ->innerJoin('oekLidmaatschap.oekGroep', 'oekGroep')
