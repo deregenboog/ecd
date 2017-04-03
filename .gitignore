@@ -10,6 +10,12 @@
 !/app/tmp/sessions/.gitkeep
 !/app/tmp/tests/.gitkeep
 
+# Symfony cache/logs/sessions
+/var/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+
 # Backups
 /backups/*
 
