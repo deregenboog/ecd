@@ -46,7 +46,7 @@
         {{ html.addLink(add_link)|raw }}
         {{ html.link('Deelnemer aan training toevoegen', add_link)|raw }}
         <br>
-        {% set email_link = path('oek_trainingen_email_deelnemers', {id: oekTraining.id}) %}
+        {% set email_link = path('oek_trainingen_email', {id: oekTraining.id}) %}
         {{ html.editLink(email_link)|raw }}
         {{ html.link('Deelnemers e-mailen', email_link)|raw }}
     </p>

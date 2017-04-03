@@ -150,13 +150,13 @@ class TrainingenController extends SymfonyController
     }
 
     /**
-     * @Route("/{id}/email_deelnemers")
+     * @Route("/{id}/email")
      */
-    public function email_deelnemers($oekTrainingId)
+    public function email($id)
     {
         /** @var OekTraining $oekTraining */
         $oekTraining = $this->getEntityManager()->getRepository(OekTraining::class)
-            ->find($oekTrainingId);
+            ->find($id);
 
         $form = $this->createForm(OekEmailMessageType::class, null, [
             'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
@@ -186,6 +186,9 @@ class TrainingenController extends SymfonyController
             return $this->redirectToRoute('oek_trainingen_view', ['id' => $oekTraining->getId()]);
         }
 
-        return ['form' => $form->createView(), 'oekTraining' => $oekTraining];
+        return [
+            'form' => $form->createView(),
+            'oekTraining' => $oekTraining,
+        ];
     }
 }
