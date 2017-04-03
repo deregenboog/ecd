@@ -10,6 +10,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantType;
 use HsBundle\Entity\HsKlant;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 
 class HsKlantType extends AbstractType
 {
@@ -47,5 +48,13 @@ class HsKlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsKlant::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

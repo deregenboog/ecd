@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzKlant;
+use AppBundle\Form\BaseType;
 
 class IzKlantSelectType extends AbstractType
 {
@@ -45,5 +46,13 @@ class IzKlantSelectType extends AbstractType
             'data_class' => IzKlant::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

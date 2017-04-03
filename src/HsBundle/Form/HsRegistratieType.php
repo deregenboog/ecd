@@ -10,6 +10,7 @@ use AppBundle\Form\AppDateType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\AppTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use AppBundle\Form\BaseType;
 
 class HsRegistratieType extends AbstractType
 {
@@ -49,5 +50,13 @@ class HsRegistratieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsRegistratie::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

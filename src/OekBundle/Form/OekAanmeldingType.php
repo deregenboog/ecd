@@ -11,6 +11,7 @@ use AppBundle\Form\AppDateType;
 use OekBundle\Entity\OekAanmelding;
 use OekBundle\Entity\OekVerwijzingDoor;
 use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\BaseType;
 
 class OekAanmeldingType extends AbstractType
 {
@@ -25,7 +26,7 @@ class OekAanmeldingType extends AbstractType
                 'label' => 'Verwijzing door',
                 'placeholder' => 'Selecteer een item',
                 'class' => OekVerwijzingDoor::class,
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository
                         ->createQueryBuilder('verwijzing')
                         ->where('verwijzing.actief = 1');
@@ -44,5 +45,13 @@ class OekAanmeldingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OekAanmelding::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

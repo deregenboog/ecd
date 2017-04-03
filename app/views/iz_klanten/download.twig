@@ -38,11 +38,13 @@ Gekoppeld
     {{- (izKlant.izIntake ? izKlant.izIntake.gezinMetKinderen ? 'ja' : 'nee') ~ tab -}}
     {{- izKlant.klant.geenPost ~ tab -}}
     {{- izKlant.klant.geenEmail ~ tab -}}
-    {%- for izHulpvraag in izKlant.izHulpvragen %}
-        {{- izHulpvraag.izProject ~ ' ' -}}
+    {%- for i, izHulpvraag in izKlant.izHulpvragen %}
+        {{- izHulpvraag.izProject -}}
+        {{- i + 1 < izKlant.izHulpvragen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
-    {%- for izHulpvraag in izKlant.izHulpvragen %}
-        {{- izHulpvraag.medewerker ~ ' ' -}}
+    {%- for i, izHulpvraag in izKlant.izHulpvragen %}
+        {{- izHulpvraag.medewerker -}}
+        {{- i + 1 < izKlant.izHulpvragen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
     {{- izKlant.gekoppeld ? 'ja' : 'nee' }}
 {% endfor %}

@@ -10,6 +10,7 @@ use AppBundle\Entity\Klant;
 use HsBundle\Entity\HsKlant;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
 
 class HsKlantSelectType extends AbstractType
 {
@@ -47,5 +48,13 @@ class HsKlantSelectType extends AbstractType
             'data_class' => HsKlant::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -10,6 +10,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Huurder;
+use AppBundle\Form\BaseType;
 
 class HuurderSelectType extends AbstractType
 {
@@ -46,5 +47,13 @@ class HuurderSelectType extends AbstractType
             'data_class' => Huurder::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

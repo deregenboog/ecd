@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use OdpBundle\Entity\Verhuurder;
+use AppBundle\Form\BaseType;
 
 class VerhuurderCloseType extends AbstractType
 {
@@ -34,5 +35,13 @@ class VerhuurderCloseType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Verhuurder::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

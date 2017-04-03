@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsKlus;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 
 class HsKlusType extends AbstractType
 {
@@ -33,5 +34,13 @@ class HsKlusType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsKlus::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

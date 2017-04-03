@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 
 class OekTrainingType extends AbstractType
 {
@@ -37,5 +38,13 @@ class OekTrainingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OekTraining::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

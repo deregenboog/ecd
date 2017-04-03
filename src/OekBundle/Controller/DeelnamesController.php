@@ -89,7 +89,6 @@ class DeelnamesController extends SymfonyController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Deelnemer is van training verwijderd.');
-
             }
 
             return $this->redirectToRoute('oek_klanten_view', ['id' => $oekDeelname->getOekKlant()->getId()]);

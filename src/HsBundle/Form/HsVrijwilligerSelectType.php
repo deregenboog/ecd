@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\HsVrijwilliger;
+use AppBundle\Form\BaseType;
 
 class HsVrijwilligerSelectType extends AbstractType
 {
@@ -46,5 +47,13 @@ class HsVrijwilligerSelectType extends AbstractType
             'data_class' => HsVrijwilliger::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

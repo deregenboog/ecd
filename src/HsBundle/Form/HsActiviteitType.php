@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\HsActiviteit;
+use AppBundle\Form\BaseType;
 
 class HsActiviteitType extends AbstractType
 {
@@ -27,5 +28,13 @@ class HsActiviteitType extends AbstractType
         $resolver->setDefaults([
             'data_class' => HsActiviteit::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
