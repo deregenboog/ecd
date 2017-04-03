@@ -45,7 +45,7 @@ class RapportagesController extends SymfonyController
     {
         $data = $this->extractDataFromReport($report);
 
-        foreach($data['reports'] as &$subReport) {
+        foreach ($data['reports'] as &$subReport) {
             if ($firstRow = reset($subReport['data'])) {
                 $subReport['columns'] = array_keys($firstRow);
                 array_unshift($subReport['columns'], $subReport['yDescription']);

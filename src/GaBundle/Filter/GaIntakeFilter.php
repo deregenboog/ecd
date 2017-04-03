@@ -4,7 +4,6 @@ namespace GaBundle\Filter;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 

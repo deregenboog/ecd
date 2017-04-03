@@ -49,10 +49,10 @@ class IzRapportageType extends AbstractType
                 'choices' => $this->choices,
             ])
             ->add('show', SubmitType::class, [
-                'label' => 'Rapport tonen'
+                'label' => 'Rapport tonen',
             ])
             ->add('download', SubmitType::class, [
-                'label' => 'Rapport downloaden'
+                'label' => 'Rapport downloaden',
             ])
         ;
     }
