@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\KlantFilter;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class KlantFilterType extends AbstractType
 {

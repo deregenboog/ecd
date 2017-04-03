@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\HuurderAfsluiting;
+use AppBundle\Form\BaseType;
 
 class HuurderCloseType extends AbstractType
 {
@@ -37,5 +38,13 @@ class HuurderCloseType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Huurder::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -5,7 +5,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ConfirmationType extends AbstractType
@@ -20,5 +19,13 @@ class ConfirmationType extends AbstractType
             ->add('no', SubmitType::class, ['label' => 'Nee'])
             ->add('referer', HiddenType::class, ['mapped' => false])
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

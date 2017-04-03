@@ -10,6 +10,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Verhuurder;
+use AppBundle\Form\BaseType;
 
 class VerhuurderSelectType extends AbstractType
 {
@@ -48,5 +49,13 @@ class VerhuurderSelectType extends AbstractType
             'data_class' => Verhuurder::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -74,6 +74,7 @@ class Locatie
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 
@@ -85,6 +86,7 @@ class Locatie
     public function setNachtopvang($nachtopvang)
     {
         $this->nachtopvang = $nachtopvang;
+
         return $this;
     }
 
@@ -96,6 +98,7 @@ class Locatie
     public function setGebruikersruimte($gebruikersruimte)
     {
         $this->gebruikersruimte = $gebruikersruimte;
+
         return $this;
     }
 
@@ -107,6 +110,7 @@ class Locatie
     public function setMaatschappelijkWerk($maatschappelijkWerk)
     {
         $this->maatschappelijkWerk = $maatschappelijkWerk;
+
         return $this;
     }
 
@@ -118,6 +122,7 @@ class Locatie
     public function setTbcCheck($tbcCheck)
     {
         $this->tbcCheck = $tbcCheck;
+
         return $this;
     }
 
@@ -129,6 +134,7 @@ class Locatie
     public function setDatumVan(\DateTime $datumVan)
     {
         $this->datumVan = $datumVan;
+
         return $this;
     }
 
@@ -140,6 +146,7 @@ class Locatie
     public function setDatumTot(\DateTime $datumTot)
     {
         $this->datumTot = $datumTot;
+
         return $this;
     }
 }

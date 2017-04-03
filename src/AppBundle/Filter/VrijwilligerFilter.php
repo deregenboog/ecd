@@ -22,12 +22,12 @@ class VrijwilligerFilter implements FilterInterface
      * @var \DateTime
      */
     public $geboortedatum;
-    
+
     /**
      * @var AppDateRangeModel
      */
     public $geboortedatumRange;
-    
+
     /**
      * @var string
      */

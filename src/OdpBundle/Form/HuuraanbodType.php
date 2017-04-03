@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use OdpBundle\Entity\Verslag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 
 class HuuraanbodType extends AbstractType
 {
@@ -56,5 +57,13 @@ class HuuraanbodType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Huuraanbod::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

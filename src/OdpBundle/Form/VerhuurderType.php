@@ -13,6 +13,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantType;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Entity\Verslag;
+use AppBundle\Form\BaseType;
 
 class VerhuurderType extends AbstractType
 {
@@ -71,5 +72,13 @@ class VerhuurderType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Verhuurder::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

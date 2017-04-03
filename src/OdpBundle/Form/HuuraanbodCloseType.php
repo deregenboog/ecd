@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\BaseType;
 
 class HuuraanbodCloseType extends AbstractType
 {
@@ -37,5 +38,13 @@ class HuuraanbodCloseType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Huuraanbod::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

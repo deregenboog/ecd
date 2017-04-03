@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use OdpBundle\Entity\Coordinator;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\BaseType;
 
 class CoordinatorType extends AbstractType
 {
@@ -38,5 +39,13 @@ class CoordinatorType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Coordinator::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

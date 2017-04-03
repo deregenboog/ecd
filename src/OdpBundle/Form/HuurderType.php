@@ -13,6 +13,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantType;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Verslag;
+use AppBundle\Form\BaseType;
 
 class HuurderType extends AbstractType
 {
@@ -67,5 +68,13 @@ class HuurderType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Huurder::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

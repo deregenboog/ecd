@@ -1,0 +1,8 @@
+OekBundle\Entity\OekTraining:
+    oek_training_{1..40}:
+        naam: 'Training <current()>'
+        oek_groep: '@oek_groep_*'
+        startdatum: '<dateTimeThisDecade()>'
+        starttijd: '<dateTimeThisDecade()>'
+        einddatum: '<dateTimeThisDecade()>'
+        locatie: '<word()>'

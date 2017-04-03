@@ -1,0 +1,15 @@
+{% for report in reports %}
+{{- report.title }}
+{% for column in report.columns %}
+    {{- column ~ tab -}}
+{% endfor %}
+
+{% for cell, row in report.data %}
+    {{- cell ~ tab -}}
+    {% for column in row %}
+        {{- column ~ tab -}}
+    {% endfor %}
+
+{% endfor %}
+
+{% endfor %}

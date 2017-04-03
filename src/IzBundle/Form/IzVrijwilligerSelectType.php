@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzVrijwilliger;
+use AppBundle\Form\BaseType;
 
 class IzVrijwilligerSelectType extends AbstractType
 {
@@ -46,5 +47,13 @@ class IzVrijwilligerSelectType extends AbstractType
             'data_class' => IzVrijwilliger::class,
             'filter' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
