@@ -84,7 +84,7 @@ class OekKlant
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $voedselbankKlant = false;
+    private $voedselbankklant = false;
 
     /**
      * @var string
@@ -262,12 +262,12 @@ class OekKlant
     }
 
     /**
-     * @param bool $voedselbankKlant
+     * @param bool $voedselbankklant
      * @return self
      */
-    public function setVoedselbankKlant($voedselbankKlant)
+    public function setVoedselbankklant($voedselbankklant)
     {
-        $this->voedselbankKlant = $voedselbankKlant;
+        $this->voedselbankklant = $voedselbankklant;
 
         return $this;
     }
@@ -275,8 +275,8 @@ class OekKlant
     /**
      * @return bool
      */
-    public function isVoedselbankKlant()
+    public function isVoedselbankklant()
     {
-        return $this->voedselbankKlant;
+        return $this->voedselbankklant;
     }
 }

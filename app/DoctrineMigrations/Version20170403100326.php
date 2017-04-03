@@ -18,7 +18,7 @@ class Version20170403100326 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE oek_klanten ADD voedselbankKlant TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE oek_klanten ADD voedselbankklant TINYINT(1) NOT NULL');
     }
 
     /**
@@ -26,9 +26,6 @@ class Version20170403100326 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE oek_klanten DROP voedselbankKlant');
+        $this->throwIrreversibleMigrationException();
     }
 }
