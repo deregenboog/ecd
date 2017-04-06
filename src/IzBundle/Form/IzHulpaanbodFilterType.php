@@ -13,8 +13,9 @@ use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpaanbodFilter;
 use AppBundle\Form\FilterType;
+use Symfony\Component\Form\AbstractType;
 
-class IzHulpaanbodFilterType extends IzKoppelingFilterType
+class IzHulpaanbodFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -81,6 +82,6 @@ class IzHulpaanbodFilterType extends IzKoppelingFilterType
      */
     public function getParent()
     {
-        return FilterType::class;
+        return IzKoppelingFilterType::class;
     }
 }
