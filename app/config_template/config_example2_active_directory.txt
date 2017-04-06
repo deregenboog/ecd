@@ -1,0 +1,37 @@
+<?php
+
+Configure::write('debug',  1);
+
+$ldap['active_directory'] = true;
+$ldap['host'] = 'ldaps://yourserver/';
+$ldap['port'] = 636;
+$ldap['baseDn'] = 'CN=Users,DC=yourdomain,DC=ext';
+$ldap['username'] = 'YOURDOMAIN\\user';
+$ldap['password'] = '******'; // default user to connect, activie directory does not allow annon access
+
+define('GROUP_ADMIN', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_DEVELOP', 'CN=develop,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_VOLONTEERS', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_STAGE', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_PORTIER', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_MLO', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_MAATSCHAPPELIJK', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_HI5', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_TRAJECTBEGELEIDER', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_WERKBEGELEIDER', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_TEAMLEIDERS', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
+define('GROUP_PFO', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext') ;
+define('GROUP_BACK_ON_TRACK_COORDINATOR', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext') ;
+define('GROUP_BACK_ON_TRACK_COACH', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext') ;
+define('GROUP_GROEPSACTIVITEIT', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext') ;
+define('GROUP_IZ', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext') ;
+define('GROUP_REPORT', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext') ;
+
+define('GROUP_IZ_BEHEER', 'CN=beheer,CN=Users,DC=yourdomain,DC=ext') ;
+define('GROUP_BEHEER_GROEPSACTIVITEIT', 'CN=beheerga,CN=Users,DC=yourdomain,DC=ext') ;
+
+
+$ldap['groups'] = array(
+        'werkbegeleiders' => 'CN=werkbegeleiders,CN=Users,DC=yourdomain,DC=ext',
+        'trajectbegeleiders' => 'CN=trajectbegeleiders,CN=Users,DC=yourdomain,DC=ext',
+);
