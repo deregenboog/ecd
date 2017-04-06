@@ -5,7 +5,7 @@ bin/console app:database:backup --env=prod
 
 # Pull code and install dependencies
 git pull
-./composer install
+./composer.phar install
 
 # Migrations: dry run shows queries to be executed
 bin/console doctrine:migrations:migrate --dry-run --env=prod
