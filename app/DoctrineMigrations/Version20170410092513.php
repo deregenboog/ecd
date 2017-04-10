@@ -17,9 +17,9 @@ class Version20170410092513 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql("ALTER TABLE vrijwilligers ADD vog_aangevraagd TINYINT(1) NOT NULL");
-        $this->addSql("ALTER TABLE vrijwilligers ADD vog_aanwezig TINYINT(1) NOT NULL");
-        $this->addSql("ALTER TABLE vrijwilligers ADD overeenkomst_aanwezig TINYINT(1) NOT NULL");
+        $this->addSql("ALTER TABLE vrijwilligers ADD vog_aangevraagd TINYINT(1) NOT NULL DEFAULT '0'");
+        $this->addSql("ALTER TABLE vrijwilligers ADD vog_aanwezig TINYINT(1) NOT NULL DEFAULT '0'");
+        $this->addSql("ALTER TABLE vrijwilligers ADD overeenkomst_aanwezig TINYINT(1) NOT NULL DEFAULT '0'");
     }
 
     /**
