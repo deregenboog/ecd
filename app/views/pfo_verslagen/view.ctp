@@ -25,7 +25,7 @@
         <dd<?php if ($i++ % 2 == 0) {
     echo $class;
 }?>>
-            <?php echo utf8_encode($pfoVerslag['PfoVerslag']['verslag']); ?>
+            <?php echo $pfoVerslag['PfoVerslag']['verslag']; ?>
             &nbsp;
         </dd>
     </dl>
