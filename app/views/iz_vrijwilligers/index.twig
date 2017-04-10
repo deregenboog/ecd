@@ -1,12 +1,11 @@
 {% include 'elements/iz_subnavigation.twig' %}
-{% form_theme form 'form_div_layout.html.twig' %}
 
 <h2>Vrijwilligers</h2>
 <p>
     {{ html.addLink({'action': 'add'})|raw }}
     {{ html.link('Vrijwilliger toevoegen', {'action': 'add'})|raw }}
 </p>
-<table class="table">
+<table class="table index filtered">
     <tr>
         {{ form_start(form) }}
         <th>
@@ -59,7 +58,6 @@
     </tr>
 
     {% for i, izVrijwilliger in pagination %}
-        {% set class = (i % 2 == 0) ? 'altrow' : '' %}
         {% set url = html.url({
             'controller': 'iz_deelnemers',
             'action': 'toon_aanmelding',
@@ -67,10 +65,7 @@
             1: izVrijwilliger.vrijwilliger.id,
             2: izVrijwilliger.id
         }) %}
-        <tr class="vrijwilligerslijst-row {{ class }}"
-                onMouseOver="this.style.cursor='pointer'"
-                onClick="location.href='{{ url }}';"
-                id='vrijwilligers_{{ izVrijwilliger.vrijwilliger.id }}'>
+        <tr onMouseOver="this.style.cursor='pointer'" onClick="location.href='{{ url }}';">
             <td>
                 {{ html.link(izVrijwilliger.vrijwilliger.id, url)|raw }}
             </td>

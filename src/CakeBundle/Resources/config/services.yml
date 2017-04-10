@@ -214,6 +214,7 @@ parameters:
                 - Klanten
                 - Vrijwilligers
                 - Attachments
+                - Groepsactiviteiten
                 - groepsactiviteiten_klanten
                 - groepsactiviteiten_vrijwilligers
                 - GroepsactiviteitenIntakes

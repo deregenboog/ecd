@@ -14,8 +14,9 @@ use IzBundle\Entity\IzHulpvraag;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpvraagFilter;
 use AppBundle\Form\FilterType;
+use Symfony\Component\Form\AbstractType;
 
-class IzHulpvraagFilterType extends IzKoppelingFilterType
+class IzHulpvraagFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -87,6 +88,6 @@ class IzHulpvraagFilterType extends IzKoppelingFilterType
      */
     public function getParent()
     {
-        return FilterType::class;
+        return IzKoppelingFilterType::class;
     }
 }
