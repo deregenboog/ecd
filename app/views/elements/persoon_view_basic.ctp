@@ -55,6 +55,21 @@ $controller = strtolower(Inflector::pluralize($name));
 				$data['Medewerker']['tussenvoegsel'].' '.
 				$data['Medewerker']['achternaam']; ?></td>
 		</tr>
+
+		<?php if ($name === 'vrijwilligers'): ?>
+		    <tr>
+		        <td>VOG aangevraagd</td>
+		        <td><?= $data[$model]['vog_aangevraagd'] ? 'Ja' : 'Nee' ?></td>
+		    </tr>
+		    <tr>
+		        <td>VOG aanwezig</td>
+		        <td><?= $data[$model]['vog_aanwezig'] ? 'Ja' : 'Nee' ?></td>
+		    </tr>
+		    <tr>
+		        <td>Vrijwilligersovereenkomst aanwezig</td>
+		        <td><?= $data[$model]['overeenkomst_aanwezig'] ? 'Ja' : 'Nee' ?></td>
+		    </tr>
+		<?php endif; ?>
 	</table>
 	<div class="editWrench">
 		<?php 
