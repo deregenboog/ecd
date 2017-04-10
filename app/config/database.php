@@ -115,5 +115,6 @@ class DATABASE_CONFIG
         $this->default['login'] = $conn->getUsername();
         $this->default['password'] = $conn->getPassword();
         $this->default['database'] = $conn->getDatabase();
+        $this->default['encoding'] = $conn->getParams()['charset'];
     }
 }
