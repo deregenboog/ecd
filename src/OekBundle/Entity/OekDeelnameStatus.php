@@ -26,7 +26,7 @@ class OekDeelnameStatus
     /**
      * @var OekKlant
      *
-     * @ORM\ManyToOne(targetEntity="OekDeelname")
+     * @ORM\ManyToOne(targetEntity="OekDeelname", inversedBy="oekDeelnameStatussen")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $oekDeelname;
