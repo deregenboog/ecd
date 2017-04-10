@@ -15,6 +15,7 @@ $default = array(
 	'iz_datum_aanmelding' => false,
 	'last_zrm' => false,
 	'dummycol' => false,
+	'overeenkomst_aanwezig' => true,
 );
 if (empty($fields)) {
 	$fields = array();
@@ -98,6 +99,12 @@ $paginator->options(array(
 	if ($fields['werkgebied']) {
 ?>
 	<th class="werkgebiedCol">Werkgebied</th>
+<?php } ?>
+
+<?php
+	if ($fields['overeenkomst_aanwezig']) {
+?>
+	<th class="overeenkomstCol">Vrijwilligersovereenkomst</th>
 <?php } ?>
 
 
@@ -271,6 +278,16 @@ foreach ($personen as $persoon):
 	<td class="">
 
 	<?= $persoon[$persoon_model]['werkgebied']; ?>
+	&nbsp;
+	</td>
+<?php } ?>
+
+<?php
+	if ($fields['overeenkomst_aanwezig']) {
+?>
+	<td class="">
+
+	<?= $persoon[$persoon_model]['overeenkomst_aanwezig'] ? 'Ja' : 'Nee'; ?>
 	&nbsp;
 	</td>
 <?php } ?>

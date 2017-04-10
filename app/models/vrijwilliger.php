@@ -17,6 +17,7 @@ class Vrijwilliger extends AppModel
         'geslacht_id', 'geboortedatum', 'land_id', 'nationaliteit_id',
         'BSN', 'adres', 'postcode', 'plaats', 'email', 'mobiel',
         'telefoon', 'geen_post', 'geen_email', 'overleden',
+        'vog_aangevraagd', 'vog_aanwezig', 'overeenkomst_aanwezig',
     );
 
     public $actsAs = array(
