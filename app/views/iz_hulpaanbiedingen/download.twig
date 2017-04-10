@@ -1,0 +1,17 @@
+Startdatum{{ tab -}}
+Vrijwilligernummer{{ tab -}}
+Naam{{ tab -}}
+Geboortedatum{{ tab -}}
+Project{{ tab -}}
+Medewerker{{ tab -}}
+Werkgebied
+{% for izHulpaanbod in hulpaanbiedingen %}
+    {% set izVrijwilliger = izHulpaanbod.izVrijwilliger %}
+    {{- izHulpaanbod.startdatum|date('d-m-Y') ~ tab -}}
+    {{- izVrijwilliger.vrijwilliger.id ~ tab -}}
+    {{- izVrijwilliger.vrijwilliger.naam ~ tab -}}
+    {{- (izVrijwilliger.vrijwilliger.geboortedatum ? izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') : '') ~ tab -}}
+    {{- izHulpaanbod.izProject ~ tab -}}
+    {{- izHulpaanbod.medewerker ~ tab -}}
+    {{- izVrijwilliger.vrijwilliger.werkgebied }}
+{% endfor %}

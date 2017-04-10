@@ -1,0 +1,19 @@
+Startdatum{{ tab -}}
+Nummer{{ tab -}}
+Deelnemer{{ tab -}}
+Geboortedatum{{ tab -}}
+Project{{ tab -}}
+Medewerker{{ tab -}}
+Werkgebied{{ tab -}}
+Laatste ZRM
+{% for izHulpvraag in hulpvragen %}
+    {% set izKlant = izHulpvraag.izKlant %}
+    {{- izHulpvraag.startdatum|date('d-m-Y') ~ tab -}}
+    {{- izKlant.klant.id ~ tab -}}
+    {{- izKlant.klant.naam ~ tab -}}
+    {{- (izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') : '') ~ tab -}}
+    {{- izHulpvraag.izProject ~ tab -}}
+    {{- izHulpvraag.medewerker ~ tab -}}
+    {{- izKlant.klant.werkgebied ~ tab -}}
+    {{ izHulpvraag.izKlant.klant.laatsteZrm is empty ? "" : izHulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
+{% endfor %}

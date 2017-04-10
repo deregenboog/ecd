@@ -10,7 +10,6 @@
             <th>
                 {{ form_widget(form.startdatum) }}
                 {{ form_errors(form.startdatum) }}
-                <button type="submit">Filteren</button>
             </th>
             <th>
                 {{ form_widget(form.vrijwilliger.id) }}
@@ -37,6 +36,8 @@
                 {{ form_errors(form.vrijwilliger.stadsdeel) }}
             </th>
             <th>
+                {{ form_widget(form.filter) }}
+                {{ form_widget(form.download) }}
             </th>
             {{ form_end(form) }}
         </tr>
@@ -62,6 +63,7 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
             </th>
+            <th></th>
         </tr>
         {% for i, izHulpaanbod in pagination %}
             {% set class = (i % 2 == 0) ? 'altrow' : '' %}
@@ -97,6 +99,7 @@
                 <td>
                     {{ izHulpaanbod.izVrijwilliger.vrijwilliger.werkgebied }}
                 </td>
+                <td></td>
             </tr>
         {% endfor %}
     </table>

@@ -10,7 +10,6 @@
             <th>
                 {{ form_widget(form.startdatum) }}
                 {{ form_errors(form.startdatum) }}
-                <button type="submit">Filteren</button>
             </th>
             <th>
                 {{ form_widget(form.klant.id) }}
@@ -37,6 +36,8 @@
                 {{ form_errors(form.klant.stadsdeel) }}
             </th>
             <th>
+                {{ form_widget(form.filter) }}
+                {{ form_widget(form.download) }}
             </th>
             {{ form_end(form) }}
         </tr>
