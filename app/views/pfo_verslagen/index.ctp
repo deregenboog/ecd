@@ -18,7 +18,7 @@
     <tr<?php echo $class;?>>
         <td><?php echo $pfoVerslag['PfoVerslag']['id']; ?>&nbsp;</td>
         <td><?php echo $pfoVerslag['PfoVerslag']['contact_type']; ?>&nbsp;</td>
-        <td><?php echo utf8_encode($pfoVerslag['PfoVerslag']['verslag']); ?>&nbsp;</td>
+        <td><?php echo $pfoVerslag['PfoVerslag']['verslag']; ?>&nbsp;</td>
         <td class="actions">
             <?php echo $this->Html->link(__('View', true), array('action' => 'view', $pfoVerslag['PfoVerslag']['id'])); ?>
             <?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $pfoVerslag['PfoVerslag']['id'])); ?>

@@ -37,7 +37,7 @@
                 <p>Aanwezig: <?= $aanwezig; ?></p>
                 <h4>Verslag:</h4>
                 <p>
-                <?= nl2br(h(utf8_encode($data['PfoVerslag']['verslag']))) ?>
+                <?= nl2br(h($data['PfoVerslag']['verslag'])) ?>
                 </p>
                 <div>&nbsp;</div>
                 <a id='toevoegen<?= $tag ?>' href='#' >Bewerk Verslag</a>
@@ -87,7 +87,7 @@
             'type' => 'textarea',
             'rows' => 15,
             'cols' => 110,
-            'value' => utf8_encode($data['PfoVerslag']['verslag']),
+            'value' => $data['PfoVerslag']['verslag'],
         ));
         $label = "Aanpassen";
         if ($new) {
