@@ -22,12 +22,12 @@ class VrijwilligerFilter implements FilterInterface
      * @var \DateTime
      */
     public $geboortedatum;
-    
+
     /**
      * @var AppDateRangeModel
      */
     public $geboortedatumRange;
-    
+
     /**
      * @var string
      */
@@ -60,16 +60,16 @@ class VrijwilligerFilter implements FilterInterface
         }
 
         if ($this->geboortedatumRange) {
-            if ($this->geboortedatum->getStart()) {
+            if ($this->geboortedatumRange->getStart()) {
                 $builder
                     ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")
-                    ->setParameter("{$alias}_geboortedatum_van", $this->geboortedatum->getStart())
+                    ->setParameter("{$alias}_geboortedatum_van", $this->geboortedatumRange->getStart())
                 ;
             }
-            if ($this->geboortedatum->getEnd()) {
+            if ($this->geboortedatumRange->getEnd()) {
                 $builder
                     ->andWhere("{$alias}.geboortedatum <= :{$alias}_geboortedatum_tot")
-                    ->setParameter("{$alias}_geboortedatum_tot", $this->geboortedatum->getEnd())
+                    ->setParameter("{$alias}_geboortedatum_tot", $this->geboortedatumRange->getEnd())
                 ;
             }
         }

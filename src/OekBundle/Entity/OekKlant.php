@@ -263,6 +263,7 @@ class OekKlant
 
     /**
      * @param bool $voedselbankklant
+     *
      * @return self
      */
     public function setVoedselbankklant($voedselbankklant)

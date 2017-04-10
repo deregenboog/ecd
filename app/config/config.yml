@@ -13,7 +13,10 @@ framework:
     default_locale: "%locale%"
     translator: { fallbacks: ["%locale%"] }
     secret: "%secret%"
-    session: ~
+    session:
+        name: ECD
+        cookie_lifetime: 86400 # 60*60*24
+        save_path: '%kernel.root_dir%/../var/sessions'
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
