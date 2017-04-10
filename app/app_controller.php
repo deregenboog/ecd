@@ -371,7 +371,7 @@ class AppController extends Controller implements ContainerAwareInterface
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
-                        'id' => $auth['Medewerker']['id'],
+                        'id' => @$auth['Medewerker']['id'],
                         'username' => $auth['Medewerker']['username'],
                     ]];
                 }

@@ -22,14 +22,13 @@ class LdapUser extends AppModel
         parent::__construct($id, $table, $ds);
 
         $config = Configure::read('LDAP.configuration');
-
         foreach ($config as $key => $val) {
             $this->$key = $val;
         }
 
         $this->ds = ldap_connect($this->host, $this->port);
         ldap_set_option($this->ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($this->ds, LDAP_OPT_NETWORK_TIMEOUT, 2);
+        ldap_set_option($this->ds, LDAP_OPT_NETWORK_TIMEOUT, 15);
 
         if ($this->active_directory) {
             $this->uid = 'sAMAccountName';
@@ -210,8 +209,8 @@ class LdapUser extends AppModel
         if (!empty($result[0])) {
             $connect = $this->ds;
 
-            if (($res_id = ldap_search($connect, $this->baseDn,
-                "{$this->uid}=$uid")) == false) {
+            $res_id = ldap_search($connect, $this->baseDn, "{$this->uid}=$uid");
+            if ($res_id == false) {
                 return false;
             }
 
@@ -228,14 +227,15 @@ class LdapUser extends AppModel
             if (($user_dn = ldap_get_dn($connect, $entry_id)) == false) {
                 return false;
             }
+
             if (ldap_bind($this->ds, $user_dn, $password)) {
                 return true;
             } else {
                 return false;
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     private function convert_from_ldap($data)

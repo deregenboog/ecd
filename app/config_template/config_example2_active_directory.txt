@@ -7,7 +7,7 @@ $ldap['host'] = 'ldaps://yourserver/';
 $ldap['port'] = 636;
 $ldap['baseDn'] = 'CN=Users,DC=yourdomain,DC=ext';
 $ldap['username'] = 'YOURDOMAIN\\user';
-$ldap['password'] = '******'; // default user to connect, activie directory does not allow annon access
+$ldap['password'] = '******'; // default user to connect, active directory does not allow annon access
 
 define('GROUP_ADMIN', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
 define('GROUP_DEVELOP', 'CN=develop,CN=Users,DC=yourdomain,DC=ext');
