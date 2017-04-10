@@ -58,6 +58,12 @@ if (!empty($this->data[$persoon_model]['postcodegebied'])) {
 		echo $this->Form->input('BSN');
 		echo $this->Form->input('medewerker_id', array('empty' => ''));
 
+        if ($name === 'vrijwilligers') {
+            echo $this->Form->input('vog_aangevraagd', array('label' => 'VOG aangevraagd'));
+            echo $this->Form->input('vog_aanwezig', array('label' => 'VOG aanwezig'));
+            echo $this->Form->input('overeenkomst_aanwezig', array('label' => 'Vrijwilligersovereenkomst aanwezig'));
+        }
+
 	?>
 	</div>
 	</fieldset>
