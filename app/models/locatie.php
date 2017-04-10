@@ -90,7 +90,7 @@ class Locatie extends AppModel
         return $unregister;
     }
 
-    public function locaties($conditions = array())
+    public function locaties($conditions = [])
     {
         $cachekey = 'Locatie.all';
 
@@ -103,6 +103,10 @@ class Locatie extends AppModel
             return $locaties;
         }
 
+        $conditions[] = ['OR' => [
+            ['datum_tot' => '0000-00-00'],
+            ['datum_tot >' => date('Y-m-d')],
+        ]];
         $locaties = $this->find('list', array('conditions' => $conditions));
         Cache::write($cachekey, $locaties);
 

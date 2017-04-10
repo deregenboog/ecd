@@ -10,7 +10,7 @@ class CommonFixture
      * are going to be included for the TestCase.
      *
      */
-    public $fixturesTypeIncluded = array();
+    public $fixturesTypeIncluded = [];
 
     /* Group of fixtures which can be included in the TestCase.
      * To include these groups is necessary to pass as a second
@@ -55,7 +55,7 @@ class CommonFixture
 
     );
 
-    public function __construct(&$testCaseObj, $fixturesType = array())
+    public function __construct(&$testCaseObj, $fixturesType = [])
     {
         // Auto load all empty fixtures
 
@@ -85,7 +85,7 @@ class CommonFixture
 
     public function diff_fixtures()
     {
-        $fix = array();
+        $fix = [];
         $f = false;
         foreach ($this->testCaseObj->fixtures as $test_fixture) {
             $f = false;
@@ -124,11 +124,11 @@ class CommonFixture
 
     public function mergeFixtures()
     {
-        $testCaseFixtures = array();
+        $testCaseFixtures = [];
         if (!empty($this->fixturesTypeIncluded)) {
             $includedFixtures = $this->fixturesTypeIncluded;
         } else {
-            $includedFixtures = array();
+            $includedFixtures = [];
         }
 
         // The fixtures explicited in the test have priority:
@@ -170,7 +170,7 @@ class CommonFixture
 
     public function getCommonFixtures($fixtureType)
     {
-        $fixtures = array();
+        $fixtures = [];
         if (isset($this->commonFixtures[$fixtureType])) {
             $fixtures = $this->commonFixtures[$fixtureType];
         }

@@ -6,10 +6,10 @@ class Vrijwilliger extends AppModel
     public $displayField = 'achternaam';
 
     public $virtualFields = array(
-            'name' => "CONCAT_WS(' ', `Vrijwilliger`.`voornaam`, `Vrijwilliger`.`tussenvoegsel`, `Vrijwilliger`.`achternaam`)",
-            'name1st_part' => "CONCAT_WS(' ', `Vrijwilliger`.`voornaam`, `Vrijwilliger`.`roepnaam`)",
-            'name2nd_part' => "CONCAT_WS(' ', `Vrijwilliger`.`tussenvoegsel`, `Vrijwilliger`.`achternaam`)",
-            'klant_nummer' => "CONCAT('V',`Vrijwilliger`.`id`)",
+        'name' => "CONCAT_WS(' ', Vrijwilliger.voornaam, Vrijwilliger.tussenvoegsel, Vrijwilliger.achternaam)",
+        'name1st_part' => "CONCAT_WS(' ', Vrijwilliger.voornaam, Vrijwilliger.roepnaam)",
+        'name2nd_part' => "CONCAT_WS(' ', Vrijwilliger.tussenvoegsel, Vrijwilliger.achternaam)",
+        'klant_nummer' => "CONCAT('V', Vrijwilliger.id)",
     );
 
     public $watchfields = array(
@@ -20,12 +20,12 @@ class Vrijwilliger extends AppModel
     );
 
     public $actsAs = array(
-            'Containable',
+        'Containable',
     );
 
     public $paginate = array(
-            'contain' => array('Geslacht'),
-            //'limit' => 2,
+        'contain' => array('Geslacht'),
+// 		'limit' => 2,
     );
     public $validate = array(
             'achternaam' => array(
@@ -163,34 +163,33 @@ class Vrijwilliger extends AppModel
             'order' => 'created desc',
         ),
     );
+
     public $hasOne = array(
         'IzDeelnemer' => array(
-                    'className' => 'IzDeelnemer',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                            'IzDeelnemer.model' => 'Vrijwilliger',
-                    ),
-                    'order' => '',
-                    'dependent' => true,
-           ),
-            'GroepsactiviteitenIntake' => array(
-                    'className' => 'GroepsactiviteitenIntake',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                        'GroepsactiviteitenIntake.model' => 'Vrijwilliger',
-                    ),
-                    'order' => '',
-                    'dependent' => true,
+            'className' => 'IzDeelnemer',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array(
+                'IzDeelnemer.model' => 'Vrijwilliger',
             ),
-
+            'dependent' => true,
+        ),
+        'GroepsactiviteitenIntake' => array(
+            'className' => 'GroepsactiviteitenIntake',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array(
+                'GroepsactiviteitenIntake.model' => 'Vrijwilliger',
+            ),
+            'dependent' => true,
+        ),
     );
-    public function beforeSave($options = array())
+
+    public function beforeSave($options = [])
     {
         if (empty($this->id) && empty($this->data['Vrijwilliger']['id'])) {
             $this->send_admin_email = true;
             $this->changes = $this->data;
             if (isset($this->data['Vrijwilliger'])) {
-                $this->changes = array();
+                $this->changes = [];
                 foreach ($this->watchfields as $watch) {
                     if (isset($this->data['Vrijwilliger'][$watch])) {
                         $this->changes[$watch] = $this->data['Vrijwilliger'][$watch];
@@ -204,7 +203,7 @@ class Vrijwilliger extends AppModel
                 $compare = $this->data['Vrijwilliger'];
             }
             $this->send_admin_email = false;
-            $this->changes = array();
+            $this->changes = [];
             foreach ($this->watchfields as $watch) {
                 if (!isset($current[$watch]) || !isset($compare[$watch])) {
                     continue;
@@ -221,7 +220,7 @@ class Vrijwilliger extends AppModel
 
     public function get_selectie($data, $only_email = false)
     {
-        $conditions = array();
+        $conditions = [];
 
         if (!empty($data['Groepsactiviteit']['werkgebieden'])) {
             $conditions['Vrijwilliger.werkgebied'] = $data['Groepsactiviteit']['werkgebieden'];
@@ -243,7 +242,7 @@ class Vrijwilliger extends AppModel
         }
 
         if (!empty($data['Groepsactiviteit']['communicatie_type'])) {
-            $or = array();
+            $or = [];
             if (in_array('communicatie_email', $data['Groepsactiviteit']['communicatie_type'])) {
                 $or['GroepsactiviteitenGroepenVrijwilliger.communicatie_email'] = 1;
             }
@@ -266,12 +265,12 @@ class Vrijwilliger extends AppModel
 
         $contain = array('GroepsactiviteitenIntake');
 
-        $joins = array();
+        $joins = [];
 
         $joins[] = array(
             'table' => $join_table,
             'alias' => 'GroepsactiviteitenGroepenVrijwilliger',
-            'type' => 'INNER',
+            'type' => 'inner',
             'conditions' => $join_conditions,
 
         );

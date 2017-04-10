@@ -24,7 +24,7 @@ class Opmerking extends AppModel
     public $validate = array(
         'categorie_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Selecteer een categorie',
                 'allowEmpty' => false,
                 'required' => true,

@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Huurovereenkomsten
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Koppelingen</h1>
+    <table class="table table-hover">
+        <tr>
+            {{ form_start(filter) }}
+            <th>
+                {{ form_widget(filter.id) }}
+                {{ form_errors(filter.id) }}
+            </th>
+            <th>
+                {{ form_widget(filter.huurderKlant.naam) }}
+                {{ form_errors(filter.huurderKlant.naam) }}
+            </th>
+            <th>
+                {{ form_widget(filter.verhuurderKlant.naam) }}
+                {{ form_errors(filter.verhuurderKlant.naam) }}
+            </th>
+            <th>
+                {{ form_widget(filter.medewerker) }}
+                {{ form_errors(filter.medewerker) }}
+            </th>
+            <th>
+                {{ form_widget(filter.startdatum.start) }}
+                {{ form_errors(filter.startdatum.start) }}
+                {{ form_widget(filter.startdatum.end) }}
+                {{ form_errors(filter.startdatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.opzegdatum.start) }}
+                {{ form_errors(filter.opzegdatum.start) }}
+                {{ form_widget(filter.opzegdatum.end) }}
+                {{ form_errors(filter.opzegdatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.einddatum.start) }}
+                {{ form_errors(filter.einddatum.start) }}
+                {{ form_widget(filter.einddatum.end) }}
+                {{ form_errors(filter.einddatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.afsluitdatum.start) }}
+                {{ form_errors(filter.afsluitdatum.start) }}
+                {{ form_widget(filter.afsluitdatum.end) }}
+                {{ form_errors(filter.afsluitdatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </th>
+            {{ form_end(filter) }}
+        </tr>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'huurovereenkomst.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Huurder', 'huurderKlant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Verhuurder', 'verhuurderKlant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Startdatum', 'huurovereenkomst.startdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Opzegdatum', 'huurovereenkomst.opzegdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Einddatum', 'huurovereenkomst.einddatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurovereenkomst.afsluitdatum') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for huurovereenkomst in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(huurovereenkomst.id, path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.huurder.klant }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.verhuurder.klant }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.medewerker }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.startdatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+                    {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+                    {% if huurovereenkomst.deletable %}
+                        {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

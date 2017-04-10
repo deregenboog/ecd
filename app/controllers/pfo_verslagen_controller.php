@@ -78,7 +78,7 @@ class PfoVerslagenController extends AppController
             //debug($this->data); die();
             if ($this->PfoVerslag->save($this->data)) {
                 $id = $this->PfoVerslag->id;
-                $pf = array();
+                $pf = [];
                 $pf[] = array(
                         'PfoClientenVerslag' => array(
                                 'pfo_client_id' => $this->data['PfoClientenVerslag']['pfo_current_client_id'],

@@ -8,8 +8,8 @@
  * @license http://blog.fbollon.net DWYWWI (Do whatever you want with it)
  */
 
- // We don't use it at all in this project, it is commited as a reference in
- // case we need it in the future.
+// We don't use it at all in this project, it is commited as a reference in
+// case we need it in the future.
 
 class LdapSource extends DataSource
 {
@@ -115,7 +115,7 @@ class LdapSource extends DataSource
      *
      * @return unknown
      */
-    public function read(&$model, $queryData = array(), $recursive = null)
+    public function read(&$model, $queryData = [], $recursive = null)
     {
         $this->__scrubQueryData($queryData);
 
@@ -168,7 +168,7 @@ class LdapSource extends DataSource
 
                     if (isset($db) && $db != null) {
                         $stack = array($assoc);
-                        $array = array();
+                        $array = [];
                         $db->queryAssociation($model, $linkModel, $type, $assoc, $assocData, $array, true, $resultSet, $model->recursive - 1, $stack);
                         unset($db);
                     }
@@ -258,7 +258,7 @@ class LdapSource extends DataSource
                                 } else {
                                     $db = &ConnectionManager :: getDataSource($deepModel->useDbConfig);
                                 }
-                                $queryData = array();
+                                $queryData = [];
                                 $db->queryAssociation($linkModel, $deepModel, $type1, $assoc1, $assocData1, $queryData, true, $fetch, $recursive - 1, $tmpStack);
                             }
                         }
@@ -322,14 +322,14 @@ class LdapSource extends DataSource
     /**
      * Function required but not really implemented.
      */
-     public function describe(&$model)
-     {
-         $fields[] = array('name' => '--NotYetImplemented--',
+    public function describe(&$model)
+    {
+        $fields[] = array('name' => '--NotYetImplemented--',
                         'type' => '--NotYetImplemented--',
                         'null' => '--NotYetImplemented--', );
 
-         return $fields;
-     }
+        return $fields;
+    }
 
     /**
      * Function not supported.
@@ -344,7 +344,7 @@ class LdapSource extends DataSource
      */
     public function fetchAll($query, $cache = true)
     {
-        return array();
+        return [];
     }
 
     // Logs --------------------------------------------------------------
@@ -463,7 +463,7 @@ class LdapSource extends DataSource
     public function __conditionsArrayToString($conditions)
     {
         $ops_rec = array('and' => array('prefix' => '&'), 'or' => array('prefix' => '|'));
-        $ops_neg = array('and not' => array(), 'or not' => array(), 'not equals' => array());
+        $ops_neg = array('and not' => [], 'or not' => [], 'not equals' => []);
         $ops_ter = array('equals' => array('null' => '*'));
 
         $ops = array_merge($ops_rec, $ops_neg, $ops_ter);
@@ -515,7 +515,7 @@ class LdapSource extends DataSource
         }
     }
 
-    public function _executeQuery($queryData = array(), $cache = true)
+    public function _executeQuery($queryData = [], $cache = true)
     {
         $t = getMicrotime();
         $query = $this->_queryToString($queryData);
@@ -592,7 +592,7 @@ class LdapSource extends DataSource
 
     public function _ldapFormat(&$model, $data)
     {
-        $res = array();
+        $res = [];
         foreach ($data as $key => $row) {
             if ($key === 'count') {
                 continue;
@@ -656,7 +656,7 @@ class LdapSource extends DataSource
         } else {
             if ($merge[0][$association] === false) {
                 if (!isset($data[$association])) {
-                    $data[$association] = array();
+                    $data[$association] = [];
                 }
             } else {
                 foreach ($merge as $i => $row) {
@@ -684,7 +684,7 @@ class LdapSource extends DataSource
         }
 
         if (!isset($data['conditions'])) {
-            $data['conditions'] = array();
+            $data['conditions'] = [];
         }
 
         if (!isset($data['targetDn'])) {
@@ -692,11 +692,11 @@ class LdapSource extends DataSource
         }
 
         if (!isset($data['fields']) && empty($data['fields'])) {
-            $data['fields'] = array();
+            $data['fields'] = [];
         }
 
         if (!isset($data['order']) && empty($data['order'])) {
-            $data['order'] = array();
+            $data['order'] = [];
         }
 
         if (!isset($data['limit'])) {

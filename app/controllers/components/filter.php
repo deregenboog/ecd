@@ -18,7 +18,7 @@ class FilterComponent extends Object
 
     public $url = '';
 
-    public $filterData = array();
+    public $filterData = [];
 
     public $default = array(
         'persoon_model' => 'Klant',
@@ -74,10 +74,10 @@ class FilterComponent extends Object
     public function process(&$controller, $whiteList = null)
     {
         $controller = $this->_prepareFilter($controller);
-        $ret = array();
+        $ret = [];
         if (isset($controller->data)) {
             foreach ($controller->data as $key => $value) {
-                $columns = array();
+                $columns = [];
 
                 if (isset($controller->{$key})) {
                     $columns = $controller->{$key}->getColumnTypes();
@@ -134,7 +134,7 @@ class FilterComponent extends Object
 
     public function _prepareFilter(&$controller)
     {
-        $filter = array();
+        $filter = [];
         if (isset($controller->data)) {
             foreach ($controller->data as $model => $fields) {
                 if (is_array($fields)) {
@@ -166,7 +166,7 @@ class FilterComponent extends Object
     public function _checkParams(&$controller)
     {
         if (empty($controller->params['named'])) {
-            $filter = array();
+            $filter = [];
         }
 
         App::import('Sanitize');
@@ -188,7 +188,7 @@ class FilterComponent extends Object
         if (!empty($filter)) {
             return $filter;
         } else {
-            return array();
+            return [];
         }
     }
 

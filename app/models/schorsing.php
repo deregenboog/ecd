@@ -16,7 +16,7 @@ class Schorsing extends AppModel
         ),
         'klant_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
             ),
         ),
         'remark' => array(
@@ -106,10 +106,11 @@ class Schorsing extends AppModel
     );
 
     public $actsAs = array('Containable');
-    public $contain = array(
-        'Locatie' => array('fields' => array('naam')),
-        'Reden' => array('fields' => array('naam')),
-    );
+
+    public $contain = [
+        'Locatie' => ['fields' => ['id', 'naam']],
+        'Reden' => ['fields' => ['naam']],
+    ];
 
     public function check_dummy($field)
     {
@@ -212,7 +213,7 @@ class Schorsing extends AppModel
             'conditions' => $conditions,
             'contain' => $this->contain,
         ));
-    }//getActiveSchorsingen
+    }
 
     /**
      * Calculates the expiry date of the last active schorsing.
@@ -350,14 +351,14 @@ class Schorsing extends AppModel
         if ($schCount == 0) {
             $unseenSch = $this->countUnSeenSchorsingen($klant_id);
             if ($unseenSch > 0) {
-                $schorsing = _('schorsing verlopen');
+                $schorsing = __('schorsing verlopen', true);
             } else {
-                $schorsing = _('geen');
+                $schorsing = __('geen', true);
             }
         } elseif ($schCount == 1) {
-            $schorsing = '1 '._('schorsing');
+            $schorsing = '1 ' . __('schorsing', true);
         } else {
-            $schorsing = $schCount.' '._('schorsingen');
+            $schorsing = $schCount . ' ' . __('schorsingen', true);
         }
 
         return $schorsing;

@@ -47,7 +47,7 @@ class Reden extends AppModel
     {
         $redenen = $this->get_schorsing_redenen();
 
-        $violent_options = array();
+        $violent_options = [];
 
         foreach ($redenen as $key => $reden) {
             if (in_array($reden, $this->violent)) {

@@ -30,7 +30,7 @@ class Doorverwijzer extends AppModel
             'fields' => array('type', 'id', 'naam'),
         ));
 
-        $result = array();
+        $result = [];
 
         if (empty($all)) {
             return $result;

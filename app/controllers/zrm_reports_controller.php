@@ -23,8 +23,6 @@ class ZrmReportsController extends AppController
     public function add()
     {
         if (!empty($this->data)) {
-            //debug($this->params); debug($this->data); die('dddd');
-
             $this->ZrmReport->create();
             if ($this->ZrmReport->save($this->data)) {
                 $this->Session->setFlash(__('The zrm report has been saved', true));

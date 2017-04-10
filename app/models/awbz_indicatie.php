@@ -15,7 +15,7 @@ class AwbzIndicatie extends AppModel
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -37,7 +37,7 @@ class AwbzIndicatie extends AppModel
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -60,7 +60,7 @@ class AwbzIndicatie extends AppModel
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -70,7 +70,7 @@ class AwbzIndicatie extends AppModel
         ),
         'activering_per_week' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -88,7 +88,7 @@ class AwbzIndicatie extends AppModel
         ),
         'hoofdaannemer_id' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
@@ -143,7 +143,7 @@ class AwbzIndicatie extends AppModel
         return true;
     }
 
-    public function getLatestAndCloseToExpireForEachClient($options = array())
+    public function getLatestAndCloseToExpireForEachClient($options = [])
     {
         if (isset($options['geslacht']) && !empty($options['geslacht'])) {
             App::import('Sanitize');
@@ -154,39 +154,39 @@ class AwbzIndicatie extends AppModel
         }
 
         $sql_query = '
-			SELECT
-				AwbzIndicatie.id, AwbzIndicatie.klant_id,
-				AwbzIndicatie.begindatum, AwbzIndicatie.einddatum,
-				AwbzIndicatie.created, AwbzIndicatie.aangevraagd_id,
-				AwbzIndicatie.aangevraagd_datum,
-				CONCAT_WS(\' \',
-					Medewerker.voornaam, Medewerker.tussenvoegsel, Medewerker.achternaam
-					) AS aangevraagd_naam,
-				`Klant`.`voornaam`, `Klant`.`roepnaam`,
-				CONCAT_WS(\' \', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)
-					AS name2nd_part
-			FROM (
-				SELECT * FROM awbz_indicaties
-				ORDER BY
-					awbz_indicaties.begindatum DESC,
-					awbz_indicaties.created DESC
-			) AS `AwbzIndicatie`
-			LEFT JOIN
-				klanten AS `Klant` ON AwbzIndicatie.klant_id = Klant.id
-			LEFT JOIN
-				medewerkers AS `Medewerker` ON Medewerker.id = AwbzIndicatie.aangevraagd_id
-			WHERE
-				! aangevraagd_niet
-				AND einddatum <= "' .date('Y-m-d', strtotime('+75 days')).'"
-				AND einddatum >= "' .date('Y-m-d', strtotime('today')).'"
-				AND NOT EXISTS (SELECT * 
-								  FROM awbz_indicaties ind2
-								 WHERE ind2.einddatum > AwbzIndicatie.einddatum
-								   AND ind2.klant_id = AwbzIndicatie.klant_id)
-			'.$geslacht_condition.'
-			GROUP BY
-				klant_id;
-		';
+            SELECT
+                AwbzIndicatie.id, AwbzIndicatie.klant_id,
+                AwbzIndicatie.begindatum, AwbzIndicatie.einddatum,
+                AwbzIndicatie.created, AwbzIndicatie.aangevraagd_id,
+                AwbzIndicatie.aangevraagd_datum,
+                CONCAT_WS(\' \',
+                    Medewerker.voornaam, Medewerker.tussenvoegsel, Medewerker.achternaam
+                    ) AS aangevraagd_naam,
+                `Klant`.`voornaam`, `Klant`.`roepnaam`,
+                CONCAT_WS(\' \', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)
+                    AS name2nd_part
+            FROM (
+                SELECT * FROM awbz_indicaties
+                ORDER BY
+                    awbz_indicaties.begindatum DESC,
+                    awbz_indicaties.created DESC
+            ) AS `AwbzIndicatie`
+            LEFT JOIN
+                klanten AS `Klant` ON AwbzIndicatie.klant_id = Klant.id
+            LEFT JOIN
+                medewerkers AS `Medewerker` ON Medewerker.id = AwbzIndicatie.aangevraagd_id
+            WHERE
+                ! aangevraagd_niet
+                AND einddatum <= "' .date('Y-m-d', strtotime('+75 days')).'"
+                AND einddatum >= "' .date('Y-m-d', strtotime('today')).'"
+                AND NOT EXISTS (SELECT *
+                                  FROM awbz_indicaties ind2
+                                 WHERE ind2.einddatum > AwbzIndicatie.einddatum
+                                   AND ind2.klant_id = AwbzIndicatie.klant_id)
+            '.$geslacht_condition.'
+            GROUP BY
+                klant_id;
+        ';
 
         $result = $this->query($sql_query);
 
@@ -202,45 +202,45 @@ class AwbzIndicatie extends AppModel
         $thisMonthEnd = date('Y-m-d', strtotime('-1 day', $nextMonthStartTs));
 
         $sql_query = "
-			select klant_id,
-				   klanten.voornaam, tussenvoegsel, achternaam, roepnaam, geboortedatum, BSN
-				   hoofdaannemer_id, hoofdaannemers.naam,
-				   round(sum((datediff(indicaties_end, indicaties_start) + 1) / 7 * begeleiding_per_week)) begeleiding,
-				   round(sum((datediff(indicaties_end, indicaties_start) + 1) / 7 * activering_per_week)) activering,
-				   round(sum(if(is_location_other, aanpassing_verslag, 0))) verslag_other_location,
-				   round(sum(if(is_location_other, 0, aanpassing_verslag))) verslag_also_regisered,
-				   round(sum(registratie)) registratie
-			  from (select ind.klant_id,
-						   hoofdaannemer_id,
-						   least(greatest(cast('$thisMonthStart' as date), begindatum), cast('$thisMonthEnd' as date)) indicaties_start,
-						   greatest(least(cast('$thisMonthEnd' as date), einddatum), cast('$thisMonthStart' as date)) indicaties_end,
-						   begeleiding_per_week, activering_per_week,
-						   (vers.locatie_id <=> 0) as is_location_other,
-						   sum(vers.aanpassing_verslag/60) / greatest(1, coalesce(count(distinct reg.id), 1)) aanpassing_verslag,
-						   sum(hour(timediff(reg.buiten, reg.binnen))) / greatest(1, coalesce(count(distinct vers.id), 1)) as registratie
-					  from awbz_indicaties ind
-					  left join verslagen vers 
-						on (vers.klant_id = ind.klant_id
-					   and vers.datum >= '$thisMonthStart'
-					   and vers.datum < '$nextMonthStart'
-					   and vers.datum >= ind.begindatum
-					   and vers.datum <= ind.einddatum
-						   )
-					  left join registraties reg 
-						on (reg.klant_id = ind.klant_id
-					   and reg.binnen >= '$thisMonthStart'
-					   and reg.binnen < '$nextMonthStart'
-					   and reg.binnen >= ind.begindatum
-					   and date(reg.buiten) <= ind.einddatum
-						   )
-					 where ind.begindatum < '$nextMonthStart'
-					   and ind.einddatum >= '$thisMonthStart'
-					   and vers.contactsoort_id = 3
-					 group by klant_id, hoofdaannemer_id, indicaties_start, indicaties_end, begeleiding_per_week, activering_per_week, (vers.locatie_id <=> 0)
-					 ) Info
-			  join klanten on (Info.klant_id = klanten.id)
-			  join hoofdaannemers on (Info.hoofdaannemer_id = hoofdaannemers.id)
-			 group by hoofdaannemers.naam, achternaam, voornaam, tussenvoegsel, klant_id, roepnaam, geboortedatum, BSN, hoofdaannemer_id";
+            select klant_id,
+                   klanten.voornaam, tussenvoegsel, achternaam, roepnaam, geboortedatum, BSN
+                   hoofdaannemer_id, hoofdaannemers.naam,
+                   round(sum((datediff(indicaties_end, indicaties_start) + 1) / 7 * begeleiding_per_week)) begeleiding,
+                   round(sum((datediff(indicaties_end, indicaties_start) + 1) / 7 * activering_per_week)) activering,
+                   round(sum(if(is_location_other, aanpassing_verslag, 0))) verslag_other_location,
+                   round(sum(if(is_location_other, 0, aanpassing_verslag))) verslag_also_regisered,
+                   round(sum(registratie)) registratie
+              from (select ind.klant_id,
+                           hoofdaannemer_id,
+                           least(greatest(cast('$thisMonthStart' as date), begindatum), cast('$thisMonthEnd' as date)) indicaties_start,
+                           greatest(least(cast('$thisMonthEnd' as date), einddatum), cast('$thisMonthStart' as date)) indicaties_end,
+                           begeleiding_per_week, activering_per_week,
+                           (vers.locatie_id <=> 0) as is_location_other,
+                           sum(vers.aanpassing_verslag/60) / greatest(1, coalesce(count(distinct reg.id), 1)) aanpassing_verslag,
+                           sum(hour(timediff(reg.buiten, reg.binnen))) / greatest(1, coalesce(count(distinct vers.id), 1)) as registratie
+                      from awbz_indicaties ind
+                      left join verslagen vers
+                        on (vers.klant_id = ind.klant_id
+                       and vers.datum >= '$thisMonthStart'
+                       and vers.datum < '$nextMonthStart'
+                       and vers.datum >= ind.begindatum
+                       and vers.datum <= ind.einddatum
+                           )
+                      left join registraties reg
+                        on (reg.klant_id = ind.klant_id
+                       and reg.binnen >= '$thisMonthStart'
+                       and reg.binnen < '$nextMonthStart'
+                       and reg.binnen >= ind.begindatum
+                       and date(reg.buiten) <= ind.einddatum
+                           )
+                     where ind.begindatum < '$nextMonthStart'
+                       and ind.einddatum >= '$thisMonthStart'
+                       and vers.contactsoort_id = 3
+                     group by klant_id, hoofdaannemer_id, indicaties_start, indicaties_end, begeleiding_per_week, activering_per_week, (vers.locatie_id <=> 0)
+                     ) Info
+              join klanten on (Info.klant_id = klanten.id)
+              join hoofdaannemers on (Info.hoofdaannemer_id = hoofdaannemers.id)
+             group by hoofdaannemers.naam, achternaam, voornaam, tussenvoegsel, klant_id, roepnaam, geboortedatum, BSN, hoofdaannemer_id";
         $result = $this->query($sql_query);
 
         return $result;

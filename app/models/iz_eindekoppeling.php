@@ -36,7 +36,7 @@ class IzEindekoppeling extends AppModel
     {
         $key = $this->cachekey;
 
-        $conditions = array();
+        $conditions = [];
 
         if (empty($all)) {
             $conditions = array(
@@ -51,7 +51,7 @@ class IzEindekoppeling extends AppModel
 
         $iz_eindekoppeling_list = $this->find('list', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
         ));
 
         $iz_eindekoppeling_list = array('' => '') + $iz_eindekoppeling_list;

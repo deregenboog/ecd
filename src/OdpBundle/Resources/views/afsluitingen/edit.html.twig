@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Afsluiting wijzigen</h1>
+    {{ form(form) }}
+{% endblock %}

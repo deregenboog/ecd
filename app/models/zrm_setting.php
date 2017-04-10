@@ -37,7 +37,7 @@ class ZrmSetting extends AppModel
         $zrm_settings = $this->find('all');
         $ids = Set::ClassicExtract($zrm_settings, '{n}.ZrmSetting.id');
 
-        $data = array();
+        $data = [];
 
         foreach ($settings as $setting) {
             if (in_array($setting['id'], $ids)) {
@@ -59,15 +59,15 @@ class ZrmSetting extends AppModel
         $zrm_settings = registry_get('ZrmSettings', 'ZrmSettings', true);
 
         if (!$zrm_settings) {
-            $required_fields = array();
-            $zrm_models = array();
+            $required_fields = [];
+            $zrm_models = [];
             App::import('Model', 'ZrmReport');
 
             $zrm_report = new ZrmReport();
             $fields = $this->find('all');
 
             foreach ($fields as $k => $f) {
-                $zrm_models[$f['ZrmSetting']['request_module']] = array();
+                $zrm_models[$f['ZrmSetting']['request_module']] = [];
 
                 foreach ($zrm_report->zrm_items as $k => $v) {
                     if (!empty($f['ZrmSetting'][$k])) {

@@ -1,12 +1,10 @@
 <?php
-/*
+/**
 * Extend the Auth component, but override login parts to use LDAP and multiple
 * groups.
 * Code based on
-* http://bakery.cakephp.org/articles/view/authext-a-small-auth-extension-to-set-permission-on-user-belonging-to-several-groups-roles
-*
+* http://bakery.cakephp.org/articles/view/authext-a-small-auth-extension-to-set-permission-on-user-belonging-to-several-groups-roles.
 */
-
 App::import('component', 'Auth');
 
 class AuthExtComponent extends AuthComponent
@@ -32,12 +30,10 @@ class AuthExtComponent extends AuthComponent
         $posted_data = $this->data;
 
         if (empty($data[$alias.'.username'])
-                || empty($posted_data[$alias]['passwd'])) {
+            || empty($posted_data[$alias]['passwd'])
+        ) {
             return $this->_loggedIn;
         }
-
-        // debug( $data[$alias.'.username']);
-        // debug( $posted_data[$alias]['passwd']);
 
         if (!$model->LdapUser->testConnection()) {
             $this->Session->setFlash('LDAP server not accessible.');
@@ -46,8 +42,9 @@ class AuthExtComponent extends AuthComponent
         }
 
         if ($model->LdapUser->auth(
-                    $data[$alias.'.username'],
-                    $posted_data[$alias]['passwd'])) {
+            $data[$alias.'.username'],
+            $posted_data[$alias]['passwd'])
+        ) {
             $this->_loggedIn = true;
 
             $ldap = $model->LdapUser->read(null, $data[$alias.'.username']);
@@ -64,7 +61,7 @@ class AuthExtComponent extends AuthComponent
             if (!empty($groups)) {
                 $user[$this->userModel]['LdapUser']['Groups'] = $groups;
                 // Store group IDs in an accesible array, for Acl:
-                $acl_groups = array();
+                $acl_groups = [];
                 foreach ($groups as $g) {
                     $acl_groups[] = $g['gidnumber'];
                 }
@@ -75,21 +72,20 @@ class AuthExtComponent extends AuthComponent
             // The 'auth' flash is not shown in the view if it is shown in
             // the login view, so I removed it from there and left it only in
             // the default layout.
-            $this->Session->setFlash($this->loginError, $this->flashElement, array(), 'auth');
+            $this->Session->setFlash($this->loginError, $this->flashElement, [], 'auth');
         }
 
         return $this->_loggedIn;
     }
 
     // override this to find the right aro/aco. If we use Auth->authorize =
-    // 'controller' we don't need this at all (we just call the standar
-    // isAuthorize method, see http://book.cakephp.org/view/396/authorize).
+    // 'controller' we don't need this at all (we just call the standard
+    // isAuthorized() method, see http://book.cakephp.org/view/396/authorize).
     // This is left here in case we want to authorize on actions, while having
     // multiple groups.
-
     public function isAuthorized($type = null, $object = null, $user = null)
     {
-        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // ACL disabled with a flag
             return true;
         }

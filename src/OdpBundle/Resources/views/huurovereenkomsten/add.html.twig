@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Huurovereenkomsten
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Koppeling maken</h1>
+
+    {% if huurverzoek is defined %}
+        <dl class="dl-horizontal">
+            <dt>#</dt>
+            <dd>{{ huurverzoek.id }}</dd>
+            <dt>Huurder</dt>
+            <dd>{{ huurverzoek.huurder.klant }}</dd>
+            <dt>Startdatum</dt>
+            <dd>{{ huurverzoek.startdatum | date('d-m-Y') }}</dd>
+        </dl>
+    {% endif %}
+
+    {% if huuraanbod is defined %}
+        <dl class="dl-horizontal">
+            <dt>#</dt>
+            <dd>{{ huuraanbod.id }}</dd>
+            <dt>Verhuurder</dt>
+            <dd>{{ huuraanbod.verhuurder.klant }}</dd>
+            <dt>Startdatum</dt>
+            <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
+        </dl>
+    {% endif %}
+
+    {{ form(form) }}
+{% endblock %}

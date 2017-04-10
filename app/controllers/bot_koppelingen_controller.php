@@ -51,7 +51,7 @@ class BotKoppelingenController extends AppController
         ),
         'BotVerslag' => array(
             'fields' => array('*'),
-            'Medewerker' => array(),
+            'Medewerker' => [],
         ),
         'Document' => array(
             'conditions' => array(
@@ -82,7 +82,7 @@ class BotKoppelingenController extends AppController
         }
 
         $bot_koppelingen = $this->BotKoppeling->find('all', array(
-                'contain' => array(),
+                'contain' => [],
                 'conditions' => array('BotKoppeling.back_on_track_id' => $back_on_track_id),
                 'order' => 'startdatum ASC, einddatum ASC',
         ));

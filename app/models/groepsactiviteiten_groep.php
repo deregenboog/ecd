@@ -3,50 +3,50 @@
 class GroepsactiviteitenGroep extends AppModel
 {
     public $name = 'GroepsactiviteitenGroep';
+
     public $displayField = 'naam';
 
     public $actsAs = array('Containable');
 
     public $validate = array(
-            'naam' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een reden in',
-                            'allowEmpty' => false,
-                            'required' => true,
-                    ),
+        'naam' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een reden in',
+                'allowEmpty' => false,
+                'required' => true,
             ),
-            'werkgebied' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een werkgebied in',
-                            'allowEmpty' => false,
-                            'required' => true,
-                    ),
+        ),
+        'werkgebied' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een werkgebied in',
+                'allowEmpty' => false,
+                'required' => true,
             ),
-            'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
-                                    'notEmpty',
-                            ),
-                            'message' => 'Voer een startdatum in',
-                            'allowEmpty' => false,
-                            'required' => true,
-                    ),
+        ),
+        'startdatum' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
+                ),
+                'message' => 'Voer een startdatum in',
+                'allowEmpty' => false,
+                'required' => true,
             ),
-            'einddatum' => array(
-                    'datecompare' => array(
-                            'rule' => array(
-                                    'compareDates',
-                            ),
-                            'message' => 'Einddatum moet later dan startdatum zijn',
-                    ),
+        ),
+        'einddatum' => array(
+            'datecompare' => array(
+                'rule' => array(
+                    'compareDates',
+                ),
+                'message' => 'Einddatum moet later dan startdatum zijn',
             ),
-
+        ),
     );
 
     public function compareDates()
@@ -112,9 +112,10 @@ class GroepsactiviteitenGroep extends AppModel
     );
 
     public $list_cache_key = 'GroepsactiviteitenGroep.list_cache_key';
+
     public $list_cache_key_all = 'GroepsactiviteitenGroep.list_cache_key_all';
 
-    public function save($data = null, $validate = true, $fieldList = array())
+    public function save($data = null, $validate = true, $fieldList = [])
     {
         Cache::delete($this->list_cache_key);
         Cache::delete($this->list_cache_key_all);
@@ -147,7 +148,7 @@ class GroepsactiviteitenGroep extends AppModel
 
     public function get_group_selection($data, $groepsactiviteiten_groep, $active = true)
     {
-        $result = array();
+        $result = [];
 
         $cnt = 0;
 
@@ -177,7 +178,7 @@ class GroepsactiviteitenGroep extends AppModel
     public function get_non_selected_open_groups($active_groups, $groepsactiviteiten_groep)
     {
         $now = time();
-        $result = array();
+        $result = [];
 
         $tmp = Set::classicExtract($active_groups, '{n}.groepsactiviteiten_groep_id');
 
@@ -211,7 +212,7 @@ class GroepsactiviteitenGroep extends AppModel
             return $groepsactiviteiten_groep;
         }
 
-        $conditions = array();
+        $conditions = [];
 
         if (empty($all)) {
             $conditions = array(
@@ -225,7 +226,7 @@ class GroepsactiviteitenGroep extends AppModel
 
         $groepsactiviteiten_groep = $this->find('all', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
             'order' => 'naam asc',
         ));
 
@@ -238,7 +239,7 @@ class GroepsactiviteitenGroep extends AppModel
     {
         $groepsactiviteiten_groep = $this->get_groepsactiviteiten_groep($all);
 
-        $groepsactiviteiten_list = array();
+        $groepsactiviteiten_list = [];
 
         foreach ($groepsactiviteiten_groep as $gr) {
             $groepsactiviteiten_list[$gr['GroepsactiviteitenGroep']['id']] = $gr['GroepsactiviteitenGroep']['naam'].' ('.$gr['GroepsactiviteitenGroep']['werkgebied'].') ';

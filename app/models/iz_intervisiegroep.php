@@ -69,7 +69,7 @@ class IzIntervisiegroep extends AppModel
         }
 
         if ($all) {
-            $conditions = array();
+            $conditions = [];
         } else {
             $conditions = array(
                 'OR' => array(
@@ -97,7 +97,7 @@ class IzIntervisiegroep extends AppModel
                 'order' => 'naam',
         ));
 
-        $ig = array();
+        $ig = [];
 
         foreach ($intervisigroepenlists as $intervisigroepenlist) {
             $n = $intervisigroepenlist['IzIntervisiegroep']['naam'];

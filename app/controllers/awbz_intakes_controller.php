@@ -106,11 +106,6 @@ class AwbzIntakesController extends AppController
 
         $indicaties_counter = $this->_get_indicaties_counter($klant_id);
 
-        if ($this->AwbzIntake->Klant->goesToInfobalie($klant)) {
-            $infobaliedoelgroepen = $this->AwbzIntake->Infobaliedoelgroep->find('list');
-            $this->set(compact('infobaliedoelgroepen'));
-        }
-
         $zrm_data = $this->ZrmReport->zrm_data();
 
         $this->set(compact('zrm_data', 'primary_problems', 'klant', 'medewerkers',
@@ -302,7 +297,7 @@ class AwbzIntakesController extends AppController
             return;
         }
 
-        $addresses = array();
+        $addresses = [];
         if ((isset($intake['informele_zorg_ignore']) &&
             !$intake['informele_zorg_ignore'] && $intake['informele_zorg'])
             ||

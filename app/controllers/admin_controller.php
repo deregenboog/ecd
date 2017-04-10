@@ -3,8 +3,8 @@
 class AdminController extends AppController
 {
     public $name = 'Admin';
-    public $uses = array();
-    public $components = array();
+    public $uses = [];
+    public $components = [];
 
     public function index()
     {

@@ -1,0 +1,22 @@
+{% include 'elements/iz_subnavigation.twig' %}
+{% form_theme form 'form_div_layout.html.twig' %}
+
+<h2>Rapportages</h2>
+
+<div class="actions">
+    <fieldset>
+        <legend>Opties</legend>
+        {{ form(form) }}
+    </fieldset>
+</div>
+
+<div class="form">
+    <fieldset id="fldRapportages">
+        <legend>Rapport {{ title is defined ? '"'~title~'"' }}</legend>
+        {% if reports is defined %}
+            {% include 'iz_rapportages/pivot_tables.twig' %}}
+        {% endif %}
+    </fieldset>
+</div>
+
+<iframe name="iframeExcel" style="display: none;"></iframe>

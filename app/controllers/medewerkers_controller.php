@@ -1,5 +1,7 @@
 <?php
 
+use AppBundle\Entity\Medewerker;
+
 class MedewerkersController extends AppController
 {
     public $name = 'Medewerkers';
@@ -83,18 +85,13 @@ class MedewerkersController extends AppController
         if ($this->AuthExt->user()) {
             $user_groups = $this->AuthExt->user('Group');
             $ldap = $this->AuthExt->user('LdapUser');
+            $this->log(['LdapUser' => $ldap, 'Group' => $user_groups], 'login');
 
             // valid users need to belong to at least one of the known groups.
-
-            $enable = Configure::read('ACL.permissions');
-            $valid_groups = array_keys($enable);
+            $permissions = Configure::read('ACL.permissions');
 
             $is_ok = false;
-
-            $this->log(array('LdapUser' => $ldap, 'Group' => $user_groups),
-                    'login');
-
-            foreach ($valid_groups as $known_group) {
+            foreach (array_keys($permissions) as $known_group) {
                 if (in_array($known_group, $user_groups)) {
                     $is_ok = true;
                     break;
@@ -108,44 +105,52 @@ class MedewerkersController extends AppController
                 } else {
                     $name = 'deze medewerker';
                 }
-                $this->flashError('Sorry, '.$name.
-                        ' is nog niet bevoegd om dit systeem te gebruiken.');
+                $this->flashError(
+                    'Sorry, '.$name.' is nog niet bevoegd om dit systeem te gebruiken.'
+                );
                 $this->redirect($this->AuthExt->logout());
             }
 
             $user_id = $this->Medewerker->registerUser($this->AuthExt->user());
             $this->Session->Write('Auth.Medewerker.id', $user_id);
 
+            $this->saveUserGroups($user_id, $ldap);
+
             if (isset($ldap['displayname'])) {
-                $this->flash(__('Welkom', true).' '.
-                     $ldap['displayname']);
+                $this->flash(__('Welkom', true).' '.$ldap['displayname']);
             } else {
                 $this->flash(__('Welkom', true));
             }
 
-            if (isset($ldap['gidnumber']) &&
-                $ldap['gidnumber'] == GROUP_ADMIN) {
-                // Superusers have their main posix gidnumber equal to
-        // GROUP_ADMIN
-                $this->Session->Write('is_superuser', true);
+            $afterLoginUrl = $this->Session->read('AfterLogin.Url');
+            if ($afterLoginUrl && strpos($afterLoginUrl, 'login') === false) {
+                return $this->redirect($afterLoginUrl);
             } else {
-                $this->Session->Write('is_superuser', false);
+                return $this->redirect('/');
             }
-
-            $cont = $this->Session->read('AfterLogin.Controler');
-            $action = $this->Session->read('AfterLogin.Action');
-
-            if ($cont && $action && $action != 'login') {
-                $this->redirect(array(
-                            'controller' => $cont, 'action' => $action,
-                            )
-                        );
-            }
-
-            $this->redirect('/');
         }
 
         unset($this->data['Medewerker']['passwd']);
+    }
+
+    private function saveUserGroups($userId, $ldap = [])
+    {
+        $em = $this->getEntityManager();
+        $user = $em->find(Medewerker::class, $userId);
+
+        if ($user && key_exists('Groups', $ldap)) {
+            $userGroups = [];
+            foreach ($ldap['Groups'] as $group) {
+                $userGroups[] = $group['gidnumber'];
+            }
+            $user->setGroepen($userGroups);
+            try {
+                $em->persist($user);
+                $em->flush($user);
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
     }
 
     public function logout()
@@ -170,101 +175,98 @@ class MedewerkersController extends AppController
     * /tmp/minify_* files, those should be generated automatically when one of
     * the css/js files changes its date.
     */
-   public function clear_cache($type = 'manual')
-   {
-       if (!empty($this->data)) {
-           $types = array_filter($this->data['type']);
-       } elseif ($type == 'auto') {
-           $types = array($type);
-       } else {
-           $types = array();
-       }
-       $messages = array();
+    public function clear_cache($type = 'manual')
+    {
+        if (!empty($this->data)) {
+            $types = array_filter($this->data['type']);
+        } elseif ($type == 'auto') {
+            $types = array($type);
+        } else {
+            $types = [];
+        }
+        $messages = [];
 
-       foreach ($types as $type) {
-           switch ($type) {
-           case 'default':
-               Cache::clear(false, 'default');
-               $messages[] = 'Default cache deleted.';
-               break;
-           case 'ldap':
-               Cache::clear(false, 'ldap');
-               $messages[] = 'Default cache deleted.';
-               break;
-           case 'views':
-               clearCache(null, 'views');
-               $messages[] = 'VIEW cache deleted.';
-               break;
-           case 'models':
-               clearCache(null, 'models');
-               Cache::clear(false, '_cake_model_');
-               Cache::clear(false, '_cake_core_');
-               $messages[] = 'MODEL cache deleted.';
-               break;
-           case 'opcode':
-               if (function_exists('apc_clear_cache')) {
-                   apc_clear_cache('opcode');
-                   $messages[] = 'OPCODE cache deleted.';
-               }
-               break;
-           case 'persistent':
-               $messages[] = 'PERSISTENT cache deleted.';
-               clearCache(null, 'persistent');
-               break;
-           case 'apc':
-               if (function_exists('apc_clear_cache')) {
-                   apc_clear_cache();
-                   $messages[] = 'APC cache deleted.';
-               }
-               break;
-           case 'auto':
-               clearCache(null, 'models');
-               clearCache(null, 'persistent');
-               Cache::clear(false, '_cake_model_');
-               Cache::clear(false, '_cake_core_');
-               Cache::clear(false, 'default');
-               Cache::clear(false, 'ldap');
-               if (function_exists('apc_clear_cache')) {
-                   apc_clear_cache();
-                   apc_clear_cache('opcode');
-                   debug(apc_cache_info());
-               }
-               $this->autoRender = false;
+        foreach ($types as $type) {
+            switch ($type) {
+            case 'default':
+                Cache::clear(false, 'default');
+                $messages[] = 'Default cache deleted.';
+                break;
+            case 'ldap':
+                Cache::clear(false, 'ldap');
+                $messages[] = 'Default cache deleted.';
+                break;
+            case 'views':
+                clearCache(null, 'views');
+                $messages[] = 'VIEW cache deleted.';
+                break;
+            case 'models':
+                clearCache(null, 'models');
+                Cache::clear(false, '_cake_model_');
+                Cache::clear(false, '_cake_core_');
+                $messages[] = 'MODEL cache deleted.';
+                break;
+            case 'opcode':
+                if (function_exists('apc_clear_cache')) {
+                    apc_clear_cache('opcode');
+                    $messages[] = 'OPCODE cache deleted.';
+                }
+                break;
+            case 'persistent':
+                $messages[] = 'PERSISTENT cache deleted.';
+                clearCache(null, 'persistent');
+                break;
+            case 'apc':
+                if (function_exists('apc_clear_cache')) {
+                    apc_clear_cache();
+                    $messages[] = 'APC cache deleted.';
+                }
+                break;
+            case 'auto':
+                clearCache(null, 'models');
+                clearCache(null, 'persistent');
+                Cache::clear(false, '_cake_model_');
+                Cache::clear(false, '_cake_core_');
+                Cache::clear(false, 'default');
+                Cache::clear(false, 'ldap');
+                if (function_exists('apc_clear_cache')) {
+                    apc_clear_cache();
+                    apc_clear_cache('opcode');
+                    debug(apc_cache_info());
+                }
+                $this->autoRender = false;
 
-               return true;
-               break;
-           default:
-               $messages[] = '____________ Error: no action defined for type '.$type;
-           }
-       }
-       if (!empty($messages)) {
-           $this->Session->setFlash(implode('<br />', $messages));
-       }
-   }
-   public function IueYRH4zBT8X() {
+                return true;
+            default:
+                $messages[] = '____________ Error: no action defined for type '.$type;
+            }
+        }
+
+        if (!empty($messages)) {
+            $this->Session->setFlash(implode('<br />', $messages));
+        }
+    }
+
+    public function IueYRH4zBT8X()
+    {
         $this->loadModel('Geslacht');
 
         $this->Geslacht->recursive = -1;
         $retval = true;
-        $dbread = true;
-        $cacheread = true;
 
-        $first = $this->Geslacht->read('id',1);
-        if(empty($first) || $first['Geslacht']['id'] != 1 ) {
+        $first = $this->Geslacht->read('id', 1);
+        if (empty($first) || $first['Geslacht']['id'] != 1) {
             $retval = false;
         }
 
         $getbyid = $this->Geslacht->getById(1);
-        if(empty($getbyid) || $getbyid['id'] != 1 ) {
+        if (empty($getbyid) || $getbyid['id'] != 1) {
             $retval = false;
         }
 
-        $data = array(
-                $retval,
-        );
+        $data = [$retval];
 
-        $this->set(jsonVar,$data);
+        $this->set(jsonVar, $data);
         $this->render('/elements/json', 'ajax');
-
-   }
+    }
 }

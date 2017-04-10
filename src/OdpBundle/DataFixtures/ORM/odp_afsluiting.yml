@@ -1,0 +1,19 @@
+OdpBundle\Entity\HuuraanbodAfsluiting:
+    odp_afsluiting_huuraanbod_{1..5}:
+        naam: 'Reden <current()> afsluiting huuraanbod'
+
+OdpBundle\Entity\HuurderAfsluiting:
+    odp_afsluiting_huurder_{1..5}:
+        naam: 'Reden <current()> afsluiting huurder'
+
+OdpBundle\Entity\HuurovereenkomstAfsluiting:
+    odp_afsluiting_huurovereenkomst_{1..5}:
+        naam: 'Reden <current()> afsluiting koppeling'
+
+OdpBundle\Entity\HuurverzoekAfsluiting:
+    odp_afsluiting_huurverzoek_{1..5}:
+        naam: 'Reden <current()> afsluiting huurverzoek'
+
+OdpBundle\Entity\VerhuurderAfsluiting:
+    odp_afsluiting_verhuurder_{1..5}:
+        naam: 'Reden <current()> afsluiting verhuurder'

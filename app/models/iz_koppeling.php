@@ -3,6 +3,7 @@
 class IzKoppeling extends AppModel
 {
     public $name = 'IzKoppeling';
+
     public $displayField = 'iz_deelnemer_id';
 
     public $actsAs = array('Containable');
@@ -169,10 +170,10 @@ class IzKoppeling extends AppModel
             $all[$key][$model] = $this->IzDeelnemer->{$model}->getById($a['IzDeelnemer']['foreign_key']);
         }
 
-        $projects = array();
+        $projects = [];
 
         foreach ($project_ids as $p_id) {
-            $projects[$p_id] = array();
+            $projects[$p_id] = [];
         }
 
         foreach ($all as $a) {

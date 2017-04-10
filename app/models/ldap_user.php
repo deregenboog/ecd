@@ -22,6 +22,7 @@ class LdapUser extends AppModel
         parent::__construct($id, $table, $ds);
 
         $config = Configure::read('LDAP.configuration');
+
         foreach ($config as $key => $val) {
             $this->$key = $val;
         }
@@ -124,7 +125,7 @@ class LdapUser extends AppModel
         $members = registry_get($type, $gid, true, 'ldap');
 
         if (!$members) {
-            $members = array();
+            $members = [];
 
             if ($this->active_directory) {
                 $r = ldap_search($this->ds, $gid, 'cn=*');
@@ -169,7 +170,7 @@ class LdapUser extends AppModel
 
     public function getGroups($uid = null)
     {
-        $group_array = array();
+        $group_array = [];
 
         if ($uid) {
             if ($this->active_directory) {
@@ -198,7 +199,7 @@ class LdapUser extends AppModel
 
             $group_array[] = $group;
         }
-        //debug($group_array);
+
         return $group_array;
     }
 
@@ -239,7 +240,7 @@ class LdapUser extends AppModel
 
     private function convert_from_ldap($data)
     {
-        $final = array();
+        $final = [];
 
         foreach ($data as $key => $row) {
             if ($key === 'count') {

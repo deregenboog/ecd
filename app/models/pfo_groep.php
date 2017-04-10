@@ -6,7 +6,7 @@ class PfoGroep extends AppModel
     public $displayField = 'naam';
     public function get_list($current_id = null)
     {
-        $dr = array();
+        $dr = [];
         $all = $this->find('all', array(
         ));
         $now = time();

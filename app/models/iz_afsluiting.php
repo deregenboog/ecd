@@ -23,7 +23,7 @@ class IzAfsluiting extends AppModel
     {
         $key = $this->cachekey;
 
-        $conditions = array();
+        $conditions = [];
 
         if (empty($all)) {
             $key = $this->active_key;
@@ -40,7 +40,7 @@ class IzAfsluiting extends AppModel
 
         $iz_afsluiting_list = $this->find('list', array(
             'conditions' => $conditions,
-            'contain' => array(),
+            'contain' => [],
         ));
 
         $iz_afsluiting_list = array('' => '') + $iz_afsluiting_list;

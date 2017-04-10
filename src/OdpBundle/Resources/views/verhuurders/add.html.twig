@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Verhuurders
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Verhuurder toevoegen</h1>
+
+    {% if filterForm is defined %}
+        <p>Zoek een bestaande verhuurder op naam, BSN of geboortedatum.</p>
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if selectionForm is defined %}
+        <p>
+            Selecteer een bestaande verhuurder en klik op "Verder".<br>
+            Selecteer niks en klik op "Verder" om een nieuwe verhuurder aan te maken.
+        </p>
+        {{ form(selectionForm) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {{ form(creationForm) }}
+    {% endif %}
+{% endblock %}

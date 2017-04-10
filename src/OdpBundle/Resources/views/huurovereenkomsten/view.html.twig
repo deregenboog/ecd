@@ -1,0 +1,53 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Huurovereenkomsten
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>Koppeling {{ huurovereenkomst }}</h1>
+    <p>
+        {% if huurovereenkomst.actief %}
+            {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+            {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+            {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+            {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+        {% endif %}
+        {% if huurovereenkomst.deletable %}
+            {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
+            {{ html.link('Verwijderen', path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ huurovereenkomst.id }}</dd>
+        <dt>Huurder</dt>
+        <dd>{{ html.link(huurovereenkomst.huurder.klant, path('odp_huurders_view', {id: huurovereenkomst.huurder.id})) }}</dd>
+        <dt>Verhuurder</dt>
+        <dd>{{ html.link(huurovereenkomst.verhuurder.klant, path('odp_verhuurders_view', {id: huurovereenkomst.verhuurder.id})) }}</dd>
+        <dt>Huurverzoek</dt>
+        <dd>{{ html.link(huurovereenkomst.huurverzoek, path('odp_huurverzoeken_view', {id: huurovereenkomst.huurverzoek.id})) }}</dd>
+        <dt>Huuraanbod</dt>
+        <dd>{{ html.link(huurovereenkomst.huuraanbod, path('odp_huuraanbiedingen_view', {id: huurovereenkomst.huuraanbod.id})) }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ huurovereenkomst.startdatum|date('d-m-Y') }}</dd>
+        <dt>Opzegdatum</dt>
+        <dd>{{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huurovereenkomst.afsluiting ? huurovereenkomst.afsluiting }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    {% include 'OdpBundle:verslagen:_list.html.twig' with {entity: huurovereenkomst} %}
+    {% include 'OdpBundle:documenten:_list.html.twig' with {entity: huurovereenkomst} %}
+{% endblock %}

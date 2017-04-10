@@ -2,57 +2,57 @@
 
 /** General Style Info **/
 body {
-	background: #759c46;
-	color: #fff;
-	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
-	font-size: 70%;
-	margin: 0;
+    background: #759c46;
+    color: #fff;
+    font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+    font-size: 70%;
+    margin: 0;
 }
 
 p {
-	margin: 5px;
+    margin: 5px;
 }
 
 a {
-	color: #003d4c;
-	text-decoration: underline;
-	font-weight: bold;
+    color: #003d4c;
+    text-decoration: underline;
+    font-weight: bold;
 }
 a:hover {
-	color: #367889;
-	text-decoration:none;
+    color: #367889;
+    text-decoration:none;
 }
 a img {
-	border:none;
+    border:none;
 }
 
 h1, h2, h3, h4 {
-	font-weight: normal;
+    font-weight: normal;
     /* A max size, not to run over the background logo */
     max-width:640px;
 }
 h1 {
-	background:#fff;
-	color: #003d4c;
+    background:#fff;
+    color: #003d4c;
            font-size: 200%;
 }
 h2 {
-	background:#fff;
-	color: #759c46;
-	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-	font-size: 180%;
+    background:#fff;
+    color: #759c46;
+    font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
+    font-size: 180%;
 }
 h3 {
-	color: #759c46;
-	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-	font-size: 140%;
+    color: #759c46;
+    font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
+    font-size: 140%;
 }
 h4 {
-	color: #993;
-	font-weight: normal;
+    color: #993;
+    font-weight: normal;
 }
 ul, li {
-	margin: 0 10px;
+    margin: 0 10px;
 }
 
 .clear {
@@ -63,48 +63,48 @@ ul, li {
 /* tables */
 
 table:not(.ui-datepicker-calendar) {
-	background: #fff;
-	border: 1px solid #DDD;
-	border-bottom:0;
-	border-spacing: 0;
-	clear: both;
-	color: #333;
-	margin-bottom: 10px;
-	width: 100%;
+    background: #fff;
+    border: 1px solid #DDD;
+    border-bottom:0;
+    border-spacing: 0;
+    clear: both;
+    color: #333;
+    margin-bottom: 10px;
+    width: 100%;
 }
 th {
-	border:0;
-	border-bottom:2px solid #555;
-	text-align: left;
-	padding:4px;
+    border:0;
+    border-bottom:2px solid #555;
+    text-align: left;
+    padding:4px;
 }
 th a {
-	display: block;
-	padding: 2px 4px;
-	text-decoration: none;
+    display: block;
+    padding: 2px 4px;
+    text-decoration: none;
 }
 th a.asc:after {
-	content: ' ⇣';
+    content: ' ⇣';
 }
 th a.desc:after {
-	content: ' ⇡';
+    content: ' ⇡';
 }
 table tr td {
-	background: #fff;
-	padding: 6px;
-	text-align: left;
-	vertical-align: top;
-	border-bottom:1px solid #ddd;
+    background: #fff;
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom:1px solid #ddd;
 }
 table.fixedwidth tr td:nth-child(1) {
-	 width:300px;
+     width:300px;
 }
 table tr:nth-child(2n) td{
-	background: #f5f5f5;
+    background: #f5f5f5;
 }
 
 table tr td.white-background {
-	background: #fff;
+    background: #fff;
 }
 
 table tr td.white-background h2 {
@@ -112,15 +112,19 @@ table tr td.white-background h2 {
 }
 
 table .altrow td {
-	background: #f5f5f5;
+    background: #f5f5f5;
 }
 td.actions {
-	text-align: center;
-	white-space: nowrap;
+    text-align: center;
+    white-space: nowrap;
 }
 table td.actions a {
-	margin: 0px 6px;
-	padding:2px 5px;
+    margin: 0px 6px;
+    padding:2px 5px;
+}
+
+table.fixed {
+    table-layout: fixed;
 }
 
 .actions fieldset.fix-size {
@@ -136,76 +140,76 @@ table td.actions a {
 }
 
 .cake-sql-log table {
-	background: #f4f4f4;
+    background: #f4f4f4;
 }
 .cake-sql-log td {
-	padding: 4px 8px;
-	text-align: left;
-	font-family: Monaco, Consolas, "Courier New", monospaced;
+    padding: 4px 8px;
+    text-align: left;
+    font-family: Monaco, Consolas, "Courier New", monospaced;
 }
 .cake-sql-log caption {
-	color:#fff;
+    color:#fff;
 }
 
 .numeric {
     text-align: right;
 }
 
-/* 
+/*
  * css for index table and the filter table above it, fixed width
  * classes can also be aplied to other tables, (like the registratie table)
  */
 table.index{
-	width: 965px;
-	margin: 1em 0 1em 0;
+    width: 965px;
+    margin: 1em 0 1em 0;
 }
 
 table.filtered{
-	border-top: 0;
-	margin-top: 0;
+    border-top: 0;
+    margin-top: 0;
 }
 
 table.filter{
-	width: 965px;
-	margin-top: 1em;
-	margin-bottom: 0;
-	padding: 0;
-	border-top: 1px solid #DDD;
-	border-left: 1px solid #DDD;
-	border-right: 1px solid #DDD;
+    width: 965px;
+    margin-top: 1em;
+    margin-bottom: 0;
+    padding: 0;
+    border-top: 1px solid #DDD;
+    border-left: 1px solid #DDD;
+    border-right: 1px solid #DDD;
 }
 
 table.filter td, table.index th{
-	background-color: #e8f9d4;
+    background-color: #e8f9d4;
     vertical-align: top;
 }
 
 
 table.filter td{
-	padding: 3px 3px 0 3px;
-	border: 0;
+    padding: 3px 3px 0 3px;
+    border: 0;
 }
 
 table.filter div.input{
-	margin:0;
-	padding:0;
+    margin:0;
+    padding:0;
 }
 
 table.filter div.input input, table.index thead input{
-	border: 1px solid #666;
-	margin: 0;
-	height: 15px;
-	width: 93%;
+    border: 1px solid #666;
+    margin: 0;
+    height: 15px;
+    width: 93%;
 }
 
 table.filter .klantnrCol div.input input{
-	padding: 0;
-	margin: 0;
-	height: 19px;
+    padding: 0;
+    margin: 0;
+    height: 19px;
 }
 
 table.index td, table.index th{
-	padding: 3px;
+    padding: 3px;
 }
 /*
  * particular columns for filter and index table
@@ -247,11 +251,11 @@ table td.backIconCol, table th.backIconCol{width: 0; padding: 0; height: 0;}
 /*end of index/filter alignment*/
 
 table.index a{
-	padding: 0;
+    padding: 0;
 }
 
 table.noborders, table.noborders th, table.noborders tr, table.noborders td{
-	border: 0;
+    border: 0;
 }
 
 td.clickable{
@@ -278,25 +282,25 @@ div#subheader {
 /**tables end**/
 
 .twoDivs{
-	text-align: center;
-	display: block;
+    text-align: center;
+    display: block;
 }
 
 .rightDiv, .leftDiv{
-	margin: 0;
-	text-align: left; 
-	width: 390px;
-	display: inline-block;
-	padding: 15px;
+    margin: 0;
+    text-align: left;
+    width: 390px;
+    display: inline-block;
+    padding: 15px;
 }
 
 .rightDiv{
-	border-left: 1px solid #DDD;
-	padding-left: 55px;
+    border-left: 1px solid #DDD;
+    padding-left: 55px;
 }
 .center3cDiv, .right3cDiv, .left3cDiv{
     margin: 0;
-    text-align: left; 
+    text-align: left;
     width: 240px;
     display: inline-block;
     padding: 28px;
@@ -307,18 +311,18 @@ div#subheader {
     padding-left: 35px;
 }
 .centeredContentWrap{
-	display: block;
-	text-align: center;
+    display: block;
+    text-align: center;
 }
 
 .centered{
-	margin: auto;
-	width: auto;
-	display: inline-block;
+    margin: auto;
+    width: auto;
+    display: inline-block;
 }
 
 .centered fieldset{
-	text-align: left
+    text-align: left
 }
 
 /*forms*/
@@ -331,87 +335,87 @@ div.aligned label{
 
 
 .editWrenchFloat{
-	text-align: right;
-	float: right;
+    text-align: right;
+    float: right;
 }
 
 .editWrench *,
 .editWrenchFloat *{
-	display: inline-block;
-	vertical-align: top;
-	padding: 0;
-	margin: 0 .2em 0 0;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0;
+    margin: 0 .2em 0 0;
 }
 
 .editWrenchFloat div{
-	border: 1px solid #DDD;
+    border: 1px solid #DDD;
     -moz-border-radius: 4px;
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 .editWrenchFloat input{
-	margin: .1em;
-	float: right;
-	vertical-align: middle;
+    margin: .1em;
+    float: right;
+    vertical-align: middle;
 }
 
 .editWrenchFloat label{
-	margin: .2em;
-	float: none;
+    margin: .2em;
+    float: none;
 }
 
 .editWrench{
-	width: 100%;
-	text-align: right;
+    width: 100%;
+    text-align: right;
 }
 
 /**elements end**/
 
 .small-inline-textfield *{
-	display: inline-block;
-	vertical-align: top;
-	height: 1em;
-	float: none;
+    display: inline-block;
+    vertical-align: top;
+    height: 1em;
+    float: none;
 }
 
 .small-inline-textfield #SchorsingMoreDays{
-	width: 2em;
-	height: 1.1em;
-	position: relative;
-	top: -.4em;
+    width: 2em;
+    height: 1.1em;
+    position: relative;
+    top: -.4em;
 }
 
 table.index a {
-	color: #333;
-	text-decoration:none;
-	font-weight: normal;
+    color: #333;
+    text-decoration:none;
+    font-weight: normal;
 }
 table.index a:hover {
-	color: #367889;
-	text-decoration:underline;
+    color: #367889;
+    text-decoration:underline;
 }
 
 table.index #table_footer a{
-	color: #003D4C;;
-	text-decoration:none;
-	font-weight: bold;
+    color: #003D4C;;
+    text-decoration:none;
+    font-weight: bold;
 }
 table.index #table_footer a:hover {
-	color: #367889;
-	text-decoration:underline;
+    color: #367889;
+    text-decoration:underline;
 }
 
 div:not(.datePicker) table tr:hover td {
-	background: #E8F9D4;
+    background: #E8F9D4;
 }
 
 table.index tr#table_footer:hover td {
-	background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 div:not(.datePicker) table tr:hover:nth-child(2n) td {
-	background: #E8F9D4;
+    background: #E8F9D4;
 }
 
 table.ui-datepicker-calendar tr td,
@@ -428,9 +432,9 @@ table.ui-datepicker-calendar tr:hover td{
 }
 
 input[type=checkbox].compact, .registratie-ok-icon{
-	clear: none;
+    clear: none;
     margin: 0px 0px 0px .75em;
-	width: auto;
+    width: auto;
 }
 
 .ajax_text {
@@ -440,18 +444,18 @@ input[type=checkbox].compact, .registratie-ok-icon{
 .ajax_text:hover {
     padding-left: 0.75em;
     cursor: pointer;
-	/* background: #EFE url('../img/time_go.png') no-repeat right; */
-	background: #EFE;
+    /* background: #EFE url('../img/time_go.png') no-repeat right; */
+    background: #EFE;
     margin: 2px;
     margin-top: -1px;
     margin-left: -1px;
     height: 15px;
     padding-bottom: 0;
     margin-bottom: 0;
-	border-top: 1px solid #DDD;
-	border-left: 1px solid #DDD;
-	border-right: 1px solid #ABA;
-	border-bottom: 1px solid #ABA;
+    border-top: 1px solid #DDD;
+    border-left: 1px solid #DDD;
+    border-right: 1px solid #ABA;
+    border-bottom: 1px solid #ABA;
 }
 
 #loading {
@@ -468,12 +472,12 @@ input[type=checkbox].compact, .registratie-ok-icon{
 /* images next to links */
 
 .back{
-	background: white url('../img/arrow_left.png') no-repeat left top;
-	padding: 0 0 1px 2em;	
+    background: white url('../img/arrow_left.png') no-repeat left top;
+    padding: 0 0 1px 2em;
 }
 .checkout{
-	background: white url('../img/user_go.png') no-repeat left top;
-	padding: 0 0 1px 2em;
+    background: white url('../img/user_go.png') no-repeat left top;
+    padding: 0 0 1px 2em;
 }
 
 /*page specific styles and details*/
@@ -482,11 +486,11 @@ input[type=checkbox].compact, .registratie-ok-icon{
 headers followed by p with "commentary" text
 */
 .commentedHeader{
-	display: inline-block;
+    display: inline-block;
 }
 p.headerComment{
-	display: inline-block;
-	margin: 0;
+    display: inline-block;
+    margin: 0;
 }
 
 /*
@@ -494,11 +498,11 @@ lists that have text which wraps to the next line and is aligned with
 the first line
 */
 ul.wrappedList li{
-	white-space: normal;
-	list-style-position: outside;
-	margin-left: 13px;
-	padding-left: 0;
-	
+    white-space: normal;
+    list-style-position: outside;
+    margin-left: 13px;
+    padding-left: 0;
+
 }
 
 /*
@@ -507,10 +511,10 @@ next several definitions go together ex: margins = paddings
 they have to be updated accordingly so that the layout stays intact
 */
 div.borderedContent{
-	margin: 24px 0 0 0;
-	border: 1px solid #ccc;
-	background: white;
-	padding: 15px;
+    margin: 24px 0 0 0;
+    border: 1px solid #ccc;
+    background: white;
+    padding: 15px;
 }
 
 .verslagen .cell{
@@ -665,16 +669,16 @@ div.verslagen.form{
 
 
 fieldset {
-	border: 1px solid #ccc;
-	margin-bottom: 1em;
-	padding: 16px 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 1em;
+    padding: 16px 20px;
     background: white;
 }
 fieldset legend {
-	background:#fff;
-	color: #759c46;
-	font-size: 120%;
-	font-weight: bold;
+    background:#fff;
+    color: #759c46;
+    font-size: 120%;
+    font-weight: bold;
 }
 
 fieldset.inline-labels label{
@@ -705,13 +709,13 @@ fieldset.inline-labels label{
     font-weight: normal;
     text-decoration: none;
     background: -moz-linear-gradient(center top , #fff, #EE0000) repeat scroll 0 0;
-	text-shadow: #ff8888 0px 1px 0px;
+    text-shadow: #ff8888 0px 1px 0px;
 }
 
 #KlantEditForm div.submit a:hover{
     background: -moz-linear-gradient(center top , #EE0000, #660000) repeat scroll 0 0;
     color: #fff;
-	text-shadow: none;
+    text-shadow: none;
 }
 
 .awbz-indicatie{
@@ -768,7 +772,7 @@ ul.tabs li a {
          text-decoration: none
 }
 
-@media print { 
+@media print {
 
     *{
         overflow: visible !important;
@@ -781,9 +785,9 @@ ul.tabs li a {
         font-size: 10px;
     }
 
-	body {
-		background: none !important;
-	}
+    body {
+        background: none !important;
+    }
 
     #header, div.editWrench, .cake-sql-log, #footer, a{
         display: none;
@@ -822,13 +826,13 @@ ul.tabs li a {
 
 }
 #Hi5EvaluatieParagraph input{
-	clear: none;
-	float: none;
+    clear: none;
+    float: none;
 }
 
 .hi5contactjournal {
-	margin-bottom: 15px;
-	elevation: 43grad;
+    margin-bottom: 15px;
+    elevation: 43grad;
 }
 
 .noborder {
@@ -918,27 +922,27 @@ ul.tabs li a {
 }
 
 .zrmreport p {
-	display: block;
-	background: green;
-	color: white;
+    display: block;
+    background: green;
+    color: white;
 }
 
 .zrmreport caption {
-	text-align: left;
+    text-align: left;
     font-size: 1.5em;
     font-weight: bold;
 }
 
 .zrmedit td {
-	#background-color: #009f31;
-	color: green;
+    #background-color: #009f31;
+    color: green;
 }
 
 .entryenabled {
-	color: green;
+    color: green;
 }
 .entrydisabled {
-	color: red;
+    color: red;
 }
 
 /*
@@ -980,4 +984,14 @@ ul#groepen {
 ul#groepen li {
     list-style-type: none;
     margin: 0.3em 0;
+}
+
+ul.pagination > li {
+    margin: 5px;
+    float: left;
+    list-style: none;
+}
+
+.sr-only {
+    display: none;
 }

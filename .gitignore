@@ -1,9 +1,35 @@
-/app/config
-/app/tmp
-/archive
+/app/config/parameters.yml
+
+# Temp dir
+/app/tmp/*
+!/app/tmp/cache/models/.gitkeep
+!/app/tmp/cache/persistent/.gitkeep
+!/app/tmp/cache/views/.gitkeep
+!/app/tmp/etiketten/.gitkeep
+!/app/tmp/logs/.gitkeep
+!/app/tmp/sessions/.gitkeep
+!/app/tmp/tests/.gitkeep
+
+# Symfony cache/logs/sessions
+/var/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+
+# Backups
+/backups/*
+
+# SQL data
+/app/sql/*
+!/app/sql/00-schema.sql
+!/app/sql/10-data.sql
+
+# Uploads
+/archive/*
+!/archive/.gitkeep
 
 # Docker
-/.data/*
+/.mysql/*
 
 # Composer
 /vendor/*
@@ -12,4 +38,15 @@
 /.settings/*
 /.project
 /.buildpath
+
+# PhpStorm
+.idea
+
+# Custom tools
+/bin/*
+!/bin/console
+!/bin/docker-build.sh
+!/bin/docker-up.sh
+!/bin/docker-stop.sh
+/app/bootstrap.php.cache
 

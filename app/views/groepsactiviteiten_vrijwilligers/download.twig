@@ -1,0 +1,38 @@
+Nummer{{ tab -}}
+Voornaam{{ tab -}}
+Tussenvoegsel{{ tab -}}
+Achternaam{{ tab -}}
+Geslacht{{ tab -}}
+Geboortedatum{{ tab -}}
+E-mail{{ tab -}}
+Adres{{ tab -}}
+Postcode{{ tab -}}
+Woonplaats{{ tab -}}
+Telefoon{{ tab -}}
+Mobiel{{ tab -}}
+Geen post{{ tab -}}
+Geen e-mail{{ tab -}}
+Werkgebied{{ tab -}}
+Intakedatum{{ tab -}}
+Afsluitdatum{{ tab -}}
+Gezin met kinderen
+{% for intake in intakes %}
+    {{- intake.vrijwilliger.id ~ tab -}}
+    {{- intake.vrijwilliger.voornaam ~ tab -}}
+    {{- intake.vrijwilliger.tussenvoegsel ~ tab -}}
+    {{- intake.vrijwilliger.achternaam ~ tab -}}
+    {{- intake.vrijwilliger.geslacht ~ tab -}}
+    {{- intake.vrijwilliger.geboortedatum ? intake.vrijwilliger.geboortedatum|date('d-m-Y') ~ tab -}}
+    {{- intake.vrijwilliger.email ~ tab -}}
+    {{- intake.vrijwilliger.adres ~ tab -}}
+    {{- intake.vrijwilliger.postcode ~ tab -}}
+    {{- intake.vrijwilliger.plaats ~ tab -}}
+    {{- intake.vrijwilliger.telefoon ~ tab -}}
+    {{- intake.vrijwilliger.mobiel ~ tab -}}
+    {{- intake.vrijwilliger.geenPost ~ tab -}}
+    {{- intake.vrijwilliger.geenEmail ~ tab -}}
+    {{- intake.vrijwilliger.werkgebied ~ tab -}}
+    {{- intake.intakedatum ? intake.afsluitdatum|date('d-m-Y') ~ tab -}}
+    {{- intake.afsluitdatum ? intake.afsluitdatum|date('d-m-Y') ~ tab -}}
+    {{- intake.gezinMetKinderen }}
+{% endfor %}

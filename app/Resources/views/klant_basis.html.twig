@@ -1,0 +1,36 @@
+<h2>Basisgegevens</h2>
+<p>
+    {{ html.editLink(path('app_klanten_edit', {id: klant.id})) }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id})) }}
+</p>
+<dl class="dl-horizontal">
+    <dt>Naam</dt>
+    <dd>{{ klant }}</dd>
+    <dt>Geslacht</dt>
+    <dd>{{ klant.geslacht.volledig }}</dd>
+    <dt>Geboortedatum</dt>
+    <dd>{{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}</dd>
+    <dt>Geboorteland</dt>
+    <dd>{{ klant.land }}</dd>
+    <dt>Nationaliteit</dt>
+    <dd>{{ klant.nationaliteit }}</dd>
+    <dt>BSN</dt>
+    <dd>{{ klant.bsn }}</dd>
+    <dt>Medewerker</dt>
+    <dd>{{ klant.medewerker }}</dd>
+    <dt>Adres</dt>
+    <dd>
+        {{ klant.adres }}<br>
+        {{ klant.postcode }} {{ klant.plaats }}
+    </dd>
+    <dt>Werkgebied</dt>
+    <dd>{{ klant.werkgebied }}</dd>
+    <dt>Postcodegebied</dt>
+    <dd>{{ klant.postcodegebied }}</dd>
+    <dt>Mobiel</dt>
+    <dd>{{ klant.mobiel }}</dd>
+    <dt>Telefoon</dt>
+    <dd>{{ klant.telefoon }}</dd>
+    <dt>E-mail</dt>
+    <dd>{{ klant.email }}</dd>
+</dl>

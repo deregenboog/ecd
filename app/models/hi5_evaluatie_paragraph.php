@@ -26,7 +26,7 @@ class Hi5EvaluatieParagraph extends AppModel
                 'recursive' => 2,
         ));
 
-        $paragraphResult = array();
+        $paragraphResult = [];
 
         foreach ($paragraphList as $paragraphDetails) {
             $paragraphId = $paragraphDetails['Hi5EvaluatieParagraph']['id'];

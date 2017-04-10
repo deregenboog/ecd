@@ -24,7 +24,7 @@ class Nationaliteit extends AppModel
 
     public $cachekey = 'NationaliteitenList';
 
-    public function beforeSave($options = array())
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
 

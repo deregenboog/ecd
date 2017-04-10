@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Afsluiting verwijderen</h1>
+    <p>
+        Weet u zeker dat u afsluiting <strong>{{ afsluiting }}</strong> wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

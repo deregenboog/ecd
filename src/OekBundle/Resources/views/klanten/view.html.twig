@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Klanten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/oek_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Deelnemer {{ oekKlant.klant.naam }}</h1>
+
+    <p>
+        {% set edit_link = path('oek_klanten_edit', {id: oekKlant.id}) %}
+        {{ html.editLink(edit_link)|raw }}
+        {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
+
+        {% if oekKlant.deletable %}
+            {% set delete_link = path('oek_klanten_delete', {id: oekKlant.id}) %}
+            {{ html.deleteLink(delete_link)|raw }}
+        {% endif %}
+
+        {% if oekKlant.oekAfsluiting %}
+            {% set open_link = path('oek_klanten_open', {id: oekKlant.id}) %}
+            {{ html.addLink(open_link)|raw }}
+            {{ html.link('Dossier heropenen', open_link)|raw }}
+        {% else %}
+            {% set close_link = path('oek_klanten_close', {id: oekKlant.id}) %}
+            {{ html.deleteLink(close_link)|raw }}
+            {{ html.link('Dossier afsluiten', close_link)|raw }}
+        {% endif %}
+    </p>
+
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ oekKlant.klant.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ oekKlant.klant.naam }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ oekKlant.medewerker }}</dd>
+        <dt>Historie</dt>
+        <dd>
+            <ul>
+                {% for oekDossierStatus in oekKlant.oekDossierStatussen %}
+                    <li>{{ oekDossierStatus }}</li>
+                {% endfor %}
+            </ul>&nbsp;
+        </dd>
+        <dt>Opmerking</dt>
+        <dd>{% if oekKlant.opmerking %}<pre>{{ oekKlant.opmerking }}</pre>{% endif %}</dd>
+        <dt>Voedselbankklant</dt>
+        <dd>{{ oekKlant.voedselbankklant ? 'Ja' : 'Nee' }}</dd>
+        <dt>
+            Groepen
+            {{ html.addLink(path('oek_lidmaatschappen_add', {oekKlant: oekKlant.id})) }}
+        </dt>
+        <dd>
+            <ul>
+                {% for oekLidmaatschap in oekKlant.oekLidmaatschappen %}
+                    <li>
+                        {{ html.link(oekLidmaatschap.oekGroep, path('oek_groepen_view', {id: oekLidmaatschap.oekgroep.id})) }}
+                        {% set delete_link = path('oek_lidmaatschappen_delete', {oekKlant: oekLidmaatschap.oekKlant.id, oekGroep: oekLidmaatschap.oekgroep.id}) %}
+                        {{ html.deleteLink(delete_link)|raw }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>
+            Trainingen
+            {{ html.addLink(path('oek_deelnames_add', {oekKlant: oekKlant.id})) }}
+        </dt>
+        <dd>
+            <ul>
+                {% for oekTraining in oekKlant.oekTrainingen %}
+                    <li>
+                        {{ html.link(oekTraining, path('oek_trainingen_view', {id: oekTraining.id})) }} | {{ oekTraining.oekDeelname(oekKlant).status }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    {% include '::klant_basis.html.twig' with {klant: oekKlant.klant} %}
+{% endblock %}

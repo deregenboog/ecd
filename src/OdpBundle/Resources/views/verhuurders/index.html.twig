@@ -1,0 +1,101 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ODP | Verhuurders
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Verhuurders</h1>
+    <p>
+        {{ html.addLink(path('odp_verhuurders_add')) }}
+        {{ html.link('Verhuurder toevoegen', path('odp_verhuurders_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            {{ form_start(filter) }}
+            <th>
+                {{ form_widget(filter.klant.id) }}
+                {{ form_errors(filter.klant.id) }}
+            </th>
+            <th>
+                {{ form_widget(filter.klant.naam) }}
+                {{ form_errors(filter.klant.naam) }}
+            </th>
+            <th>
+                {{ form_widget(filter.klant.stadsdeel) }}
+                {{ form_errors(filter.klant.stadsdeel) }}
+            </th>
+                <th>
+                    {{ form_widget(filter.aanmelddatum) }}
+                    {{ form_errors(filter.aanmelddatum) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.afsluitdatum) }}
+                    {{ form_errors(filter.afsluitdatum) }}
+                </th>
+            <th>
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </th>
+            {{ form_end(filter) }}
+        </tr>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Verhuurder', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+            </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'verhuurder.aanmelddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'verhuurder.afsluitdatum') }}
+                </th>
+            <th></th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for verhuurder in pagination %}
+        <tr>
+            <td>
+                {{ html.link(verhuurder.klant.id, path('odp_verhuurders_view', {'id': verhuurder.id}))}}
+            </td>
+            <td>
+                {{ html.link(verhuurder.klant.naam, path('odp_verhuurders_view', {'id': verhuurder.id}))}}
+            </td>
+            <td>
+                {{ verhuurder.klant.werkgebied }}
+            </td>
+                <td>
+                    {{ verhuurder.aanmelddatum ? verhuurder.aanmelddatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}
+                </td>
+            <td>
+                {{ html.viewLink(path('odp_verhuurders_view', {'id': verhuurder.id}))}}
+                {{ html.editLink(path('odp_verhuurders_edit', {'id': verhuurder.id}))}}
+                {% if verhuurder.deletable %}
+                    {{ html.deleteLink(path('odp_verhuurders_delete', {'id': verhuurder.id}))}}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

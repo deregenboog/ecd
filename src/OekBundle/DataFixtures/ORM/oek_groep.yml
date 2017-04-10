@@ -1,0 +1,9 @@
+OekBundle\Entity\OekGroep:
+    oek_groep_1:
+        naam: 'OEK basis'
+    oek_groep_2:
+        naam: 'OEK psychiatrie'
+    oek_groep_3:
+        naam: 'OEK werk aan je toekomst'
+    oek_groep_4:
+        naam: 'OEK daklozen'

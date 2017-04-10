@@ -1,0 +1,14 @@
+_app:
+    resource: "@AppBundle/Resources/config/routing.yml"
+
+_iz:
+    resource: "@IzBundle/Resources/config/routing.yml"
+
+_ga:
+    resource: "@GaBundle/Resources/config/routing.yml"
+
+_odp:
+    resource: "@OdpBundle/Resources/config/routing.yml"
+
+_oek:
+    resource: "@OekBundle/Resources/config/routing.yml"

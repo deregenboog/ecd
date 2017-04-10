@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    OEK | Trainingen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/oek_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Training wijzigen</h1>
+
+    {{ form(form) }}
+{% endblock %}

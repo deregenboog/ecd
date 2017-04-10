@@ -1,0 +1,609 @@
+AppBundle\Entity\Land:
+    land_Onbekend:
+        land: 'Onbekend'
+        afkorting2: ''
+        afkorting3: ''
+    land_Canada:
+        land: 'Canada'
+        afkorting2: ''
+        afkorting3: ''
+    land_Frankrijk:
+        land: 'Frankrijk'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zwitserland:
+        land: 'Zwitserland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Cuba:
+        land: 'Cuba'
+        afkorting2: ''
+        afkorting3: ''
+    land_Suriname:
+        land: 'Suriname'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tunesië:
+        land: 'Tunesië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oostenrijk:
+        land: 'Oostenrijk'
+        afkorting2: ''
+        afkorting3: ''
+    land_België:
+        land: 'België'
+        afkorting2: ''
+        afkorting3: ''
+    land_Iran:
+        land: 'Iran'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nieuwzeeland:
+        land: 'Nieuwzeeland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zuidafrika:
+        land: 'Zuidafrika'
+        afkorting2: ''
+        afkorting3: ''
+    land_Denemarken:
+        land: 'Denemarken'
+        afkorting2: ''
+        afkorting3: ''
+    land_Hongarije:
+        land: 'Hongarije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Saoediarabië:
+        land: 'Saoediarabië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Liberia:
+        land: 'Liberia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Etiopië:
+        land: 'Etiopië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Chili:
+        land: 'Chili'
+        afkorting2: ''
+        afkorting3: ''
+    land_Marokko:
+        land: 'Marokko'
+        afkorting2: ''
+        afkorting3: ''
+    land_Togo:
+        land: 'Togo'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ghana:
+        land: 'Ghana'
+        afkorting2: ''
+        afkorting3: ''
+    land_Angola:
+        land: 'Angola'
+        afkorting2: ''
+        afkorting3: ''
+    land_Filipijnen:
+        land: 'Filipijnen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mali:
+        land: 'Mali'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ivoorkust:
+        land: 'Ivoorkust'
+        afkorting2: ''
+        afkorting3: ''
+    land_Colombia:
+        land: 'Colombia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Albanië:
+        land: 'Albanië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kameroen:
+        land: 'Kameroen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Singapore:
+        land: 'Singapore'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zweden:
+        land: 'Zweden'
+        afkorting2: ''
+        afkorting3: ''
+    land_Cyprus:
+        land: 'Cyprus'
+        afkorting2: ''
+        afkorting3: ''
+    land_Irak:
+        land: 'Irak'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mauritius:
+        land: 'Mauritius'
+        afkorting2: ''
+        afkorting3: ''
+    land_Jemen:
+        land: 'Jemen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Slovenië:
+        land: 'Slovenië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zaïre:
+        land: 'Zaïre'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kroatië:
+        land: 'Kroatië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Rusland:
+        land: 'Rusland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Armenië:
+        land: 'Armenië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bhutan:
+        land: 'Bhutan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Frans Guyana:
+        land: 'Frans Guyana'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guadeloupe:
+        land: 'Guadeloupe'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kaapverdische Eilanden:
+        land: 'Kaapverdische Eilanden'
+        afkorting2: ''
+        afkorting3: ''
+    land_Martinique:
+        land: 'Martinique'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guinee Bissau:
+        land: 'Guinee Bissau'
+        afkorting2: ''
+        afkorting3: ''
+    land_Wallis en Futuna:
+        land: 'Wallis en Futuna'
+        afkorting2: ''
+        afkorting3: ''
+    land_Aruba:
+        land: 'Aruba'
+        afkorting2: ''
+        afkorting3: ''
+    land_Burkina Faso:
+        land: 'Burkina Faso'
+        afkorting2: ''
+        afkorting3: ''
+    land_Azerbajdsjan:
+        land: 'Azerbajdsjan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Belarus (Wit-Rusland):
+        land: 'Belarus (Wit-Rusland)'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kazachstan:
+        land: 'Kazachstan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Macedonië:
+        land: 'Macedonië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Servië:
+        land: 'Servië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bonaire:
+        land: 'Bonaire'
+        afkorting2: ''
+        afkorting3: ''
+    land_Curaçao:
+        land: 'Curaçao'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sint Maarten:
+        land: 'Sint Maarten'
+        afkorting2: ''
+        afkorting3: ''
+    land_Moldavië:
+        land: 'Moldavië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Burundi:
+        land: 'Burundi'
+        afkorting2: ''
+        afkorting3: ''
+    land_Finland:
+        land: 'Finland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Griekenland:
+        land: 'Griekenland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guatemala:
+        land: 'Guatemala'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nigeria:
+        land: 'Nigeria'
+        afkorting2: ''
+        afkorting3: ''
+    land_Libië:
+        land: 'Libië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ierland:
+        land: 'Ierland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Brazilië:
+        land: 'Brazilië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Rwanda:
+        land: 'Rwanda'
+        afkorting2: ''
+        afkorting3: ''
+    land_Venezuela:
+        land: 'Venezuela'
+        afkorting2: ''
+        afkorting3: ''
+    land_IJsland:
+        land: 'IJsland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Somalia:
+        land: 'Somalia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Verenigde Staten van Amerika:
+        land: 'Verenigde Staten van Amerika'
+        afkorting2: ''
+        afkorting3: ''
+    land_Australië:
+        land: 'Australië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Jamaica:
+        land: 'Jamaica'
+        afkorting2: ''
+        afkorting3: ''
+    land_Luxemburg:
+        land: 'Luxemburg'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mauritanië:
+        land: 'Mauritanië'
+        afkorting2: ''
+        afkorting3: ''
+    land_China:
+        land: 'China'
+        afkorting2: ''
+        afkorting3: ''
+    land_Afghanistan:
+        land: 'Afghanistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Indonesië:
+        land: 'Indonesië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guyana:
+        land: 'Guyana'
+        afkorting2: ''
+        afkorting3: ''
+    land_Noorwegen:
+        land: 'Noorwegen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Duitsland:
+        land: 'Duitsland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nederland:
+        land: 'Nederland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Israël:
+        land: 'Israël'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nepal:
+        land: 'Nepal'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zuidkorea:
+        land: 'Zuidkorea'
+        afkorting2: ''
+        afkorting3: ''
+    land_Spanje:
+        land: 'Spanje'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oekraine:
+        land: 'Oekraine'
+        afkorting2: ''
+        afkorting3: ''
+    land_Grootbrittannië:
+        land: 'Grootbrittannië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Niger:
+        land: 'Niger'
+        afkorting2: ''
+        afkorting3: ''
+    land_Haïti:
+        land: 'Haïti'
+        afkorting2: ''
+        afkorting3: ''
+    land_Jordanië:
+        land: 'Jordanië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Turkije:
+        land: 'Turkije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Joegoslavië:
+        land: 'Joegoslavië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Algerije:
+        land: 'Algerije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oezbekistan:
+        land: 'Oezbekistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sierra Leone:
+        land: 'Sierra Leone'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tadzjikistan:
+        land: 'Tadzjikistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Georgië:
+        land: 'Georgië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bosnië-Herzegovina:
+        land: 'Bosnië-Herzegovina'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tsjechië:
+        land: 'Tsjechië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Slowakije:
+        land: 'Slowakije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Democratische Republiek Congo:
+        land: 'Democratische Republiek Congo'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oeganda:
+        land: 'Oeganda'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kenya:
+        land: 'Kenya'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mexico:
+        land: 'Mexico'
+        afkorting2: ''
+        afkorting3: ''
+    land_Gambia:
+        land: 'Gambia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Syrië:
+        land: 'Syrië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nederlandse Antillen:
+        land: 'Nederlandse Antillen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Egypte:
+        land: 'Egypte'
+        afkorting2: ''
+        afkorting3: ''
+    land_Argentinië:
+        land: 'Argentinië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Honduras:
+        land: 'Honduras'
+        afkorting2: ''
+        afkorting3: ''
+    land_Pakistan:
+        land: 'Pakistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Senegal:
+        land: 'Senegal'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bulgarije:
+        land: 'Bulgarije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Dominicaanse Republiek:
+        land: 'Dominicaanse Republiek'
+        afkorting2: ''
+        afkorting3: ''
+    land_Polen:
+        land: 'Polen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Rusland (oud):
+        land: 'Rusland (oud)'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tanzania:
+        land: 'Tanzania'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sri Lanka:
+        land: 'Sri Lanka'
+        afkorting2: ''
+        afkorting3: ''
+    land_Soedan:
+        land: 'Soedan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Japan:
+        land: 'Japan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Panama:
+        land: 'Panama'
+        afkorting2: ''
+        afkorting3: ''
+    land_Uruguay:
+        land: 'Uruguay'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ecuador:
+        land: 'Ecuador'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guinee:
+        land: 'Guinee'
+        afkorting2: ''
+        afkorting3: ''
+    land_Libanon:
+        land: 'Libanon'
+        afkorting2: ''
+        afkorting3: ''
+    land_Italië:
+        land: 'Italië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Koeweit:
+        land: 'Koeweit'
+        afkorting2: ''
+        afkorting3: ''
+    land_India:
+        land: 'India'
+        afkorting2: ''
+        afkorting3: ''
+    land_Roemenië:
+        land: 'Roemenië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tsjechoslowakije:
+        land: 'Tsjechoslowakije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Peru:
+        land: 'Peru'
+        afkorting2: ''
+        afkorting3: ''
+    land_Portugal:
+        land: 'Portugal'
+        afkorting2: ''
+        afkorting3: ''
+    land_Palestina:
+        land: 'Palestina'
+        afkorting2: ''
+        afkorting3: ''
+    land_Letland:
+        land: 'Letland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Estland:
+        land: 'Estland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Litouwen:
+        land: 'Litouwen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Saarland:
+        land: 'Saarland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Goudkust:
+        land: 'Goudkust'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bangladesh:
+        land: 'Bangladesh'
+        afkorting2: ''
+        afkorting3: ''
+    land_Duitse Democratische Republiek:
+        land: 'Duitse Democratische Republiek'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zimbabwe:
+        land: 'Zimbabwe'
+        afkorting2: ''
+        afkorting3: ''
+    land_Eritrea:
+        land: 'Eritrea'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kongo:
+        land: 'Kongo'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kongo Kinshasa:
+        land: 'Kongo Kinshasa'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sovjetunie:
+        land: 'Sovjetunie'
+        afkorting2: ''
+        afkorting3: ''
+    land_Korea:
+        land: 'Korea'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oem el Koewein:
+        land: 'Oem el Koewein'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bondsrepubliek Duitsland:
+        land: 'Bondsrepubliek Duitsland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Westelijke Sahara:
+        land: 'Westelijke Sahara'
+        afkorting2: ''
+        afkorting3: ''
+    land_Overig:
+        land: 'Overig'
+        afkorting2: ''
+        afkorting3: ''
+    land_Trinidad en Tobago:
+        land: 'Trinidad en Tobago'
+        afkorting2: ''
+        afkorting3: ''
+    land_Vietnam:
+        land: 'Vietnam'
+        afkorting2: ''
+        afkorting3: ''

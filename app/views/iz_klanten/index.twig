@@ -1,0 +1,116 @@
+{% include 'elements/iz_subnavigation.twig' %}
+
+<h2>Deelnemers</h2>
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Deelnemer toevoegen', {'action': 'add'})|raw }}
+</p>
+<table class="table index filtered">
+    <tr>
+        {{ form_start(form) }}
+        <th>
+            {{ form_widget(form.klant.id) }}
+            {{ form_errors(form.klant.id) }}
+        </th>
+        <th>
+            {{ form_widget(form.klant.naam) }}
+            {{ form_errors(form.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(form.klant.geboortedatumRange) }}
+            {{ form_errors(form.klant.geboortedatumRange) }}
+        </th>
+        <th>
+            {{ form_widget(form.izProject) }}
+            {{ form_errors(form.izProject) }}
+        </th>
+        <th>
+            {{ form_widget(form.medewerker) }}
+            {{ form_errors(form.medewerker) }}
+        </th>
+        <th>
+            {{ form_widget(form.klant.stadsdeel) }}
+            {{ form_errors(form.klant.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(form.filter) }}
+            {{ form_widget(form.download) }}
+        </th>
+        {{ form_end(form) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Werkgebied', 'klant.werkgebied') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
+        </th>
+    </tr>
+
+    {% for i, izKlant in pagination %}
+        {% set url = html.url({
+            'controller': 'iz_deelnemers',
+            'action': 'toon_aanmelding',
+            0: 'Klant',
+            1: izKlant.klant.id,
+            2: izKlant.id
+        }) %}
+        <tr onMouseOver="this.style.cursor='pointer'" onClick="location.href='{{ url }}';">
+            <td>
+                {{ html.link(izKlant.klant.id, url)|raw }}
+            </td>
+            <td>
+                {{ html.link(izKlant.klant, url)|raw }}
+            </td>
+            <td>
+                {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
+            </td>
+            <td>
+                <ul>
+                    {% for izHulpvraag in izKlant.izHulpvragen %}
+                        <li>{{ izHulpvraag.izProject }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {% for izHulpvraag in izKlant.izHulpvragen %}
+                        <li>{{ izHulpvraag.medewerker }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {{ izKlant.klant.werkgebied }}
+            </td>
+            {% set zrm = izKlant.klant.laatsteZrm|date('U') %}
+            {% if zrm < '-6 months'|date('U') %}
+                {% set style = 'color: red; font-weight: bold;' %}
+            {% elseif zrm < '-5 months'|date('U') %}
+                {% set style = 'color: orange; font-weight: bold;' %}
+            {% else %}
+                {% set style = '' %}
+            {% endif %}
+            <td style="{{ style }}">
+            {{ izKlant.klant.laatsteZrm is empty ? "" : izKlant.klant.laatsteZrm|date('d-m-Y') }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>
