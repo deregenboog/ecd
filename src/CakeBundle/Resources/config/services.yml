@@ -214,12 +214,22 @@ parameters:
                 - Klanten
                 - Vrijwilligers
                 - Attachments
+                - Groepsactiviteiten
                 - groepsactiviteiten_klanten
                 - groepsactiviteiten_vrijwilligers
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
+                - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
+                - groepsactiviteiten_klanten
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
             GROUP_WERKBEGELEIDER: []
