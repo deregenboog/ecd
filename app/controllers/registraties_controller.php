@@ -472,9 +472,13 @@ class RegistratiesController extends AppController
             }
 
             if (count($klant['Opmerking']) > 0) {
-                $jsonVar['message'] .= $sep.'Laatste opmerking: '.end($klant['Opmerking'])['beschrijving'];
-                $jsonVar['confirm'] = true;
-                $sep = $separator;
+                $laatsteOpmerking = end($klant['Opmerking']);
+                if (!$laatsteOpmerking['gezien']) {
+                    $datum = new DateTime($laatsteOpmerking['created']);
+                    $jsonVar['message'] .= $sep.'Laatste opmerking ('.$datum->format('d-m-Y').'): '.$laatsteOpmerking['beschrijving'];
+                    $jsonVar['confirm'] = true;
+                    $sep = $separator;
+                }
             }
         }
 
