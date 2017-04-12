@@ -2,6 +2,7 @@
 
 namespace IzBundle\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -64,6 +65,11 @@ class IzHulpaanbodFilterType extends AbstractType
                 },
             ]);
         }
+
+        $builder
+            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
+            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
+        ;
     }
 
     /**

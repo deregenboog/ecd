@@ -11,17 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Vrijwilliger extends Persoon
 {
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="vog_aangevraagd", type="boolean")
      */
     protected $vogAangevraagd = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="vog_aanwezig", type="boolean")
      */
     protected $vogAanwezig = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="overeenkomst_aanwezig", type="boolean")
      */
     protected $overeenkomstAanwezig = false;
 

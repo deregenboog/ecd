@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Medewerker;
@@ -57,7 +58,11 @@ class IzHulpvragenController extends AppController
             ->andWhere('klant.disabled = false');
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $filter = $form->getData()->applyTo($builder);
+            $form->getData()->applyTo($builder);
+
+            if ($form->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -68,5 +73,18 @@ class IzHulpvragenController extends AppController
 
         $this->set('form', $form->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        $hulpvragen = $builder->getQuery()->getResult();
+
+        $filename = sprintf('iz-hulpvragen-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: application/vnd.ms-excel');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
+
+        $this->set('hulpvragen', $hulpvragen);
+        $this->render('download', false);
     }
 }

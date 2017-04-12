@@ -1,6 +1,7 @@
 {% include 'elements/iz_subnavigation.twig' %}
 
 <h2>Hulpaanbiedingen</h2>
+
 <table class="table index filtered">
     <tr>
         {{ form_start(form) }}
@@ -31,6 +32,8 @@
         <th>
             {{ form_widget(form.vrijwilliger.stadsdeel) }}
             {{ form_errors(form.vrijwilliger.stadsdeel) }}
+        </th>
+        <th>
             {{ form_widget(form.filter) }}
             {{ form_widget(form.download) }}
         </th>
@@ -58,6 +61,7 @@
         <th>
             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
         </th>
+        <th></th>
     </tr>
     {% for i, izHulpaanbod in pagination %}
         {% set url = html.url({
@@ -89,6 +93,7 @@
             <td>
                 {{ izHulpaanbod.izVrijwilliger.vrijwilliger.werkgebied }}
             </td>
+            <td></td>
         </tr>
     {% endfor %}
 </table>
