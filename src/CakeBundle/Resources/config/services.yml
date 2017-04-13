@@ -118,6 +118,31 @@ parameters:
                 - BotVerslagen
                 - Vrijwilligers
                 - groepsactiviteiten_klanten
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -159,12 +184,12 @@ parameters:
                 - IzVerslagen
                 - Attachments
                 - odp
-                - OdpBundle\Controller\Huurders
-                - OdpBundle\Controller\Verhuurders
-                - OdpBundle\Controller\Huurverzoeken
-                - OdpBundle\Controller\Huuraanbiedingen
-                - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
                 - oek
                 - OekBundle\Controller\Deelnames
@@ -193,17 +218,20 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
                 - odp
-                - OdpBundle\Controller\Huurders
-                - OdpBundle\Controller\Verhuurders
-                - OdpBundle\Controller\Huurverzoeken
-                - OdpBundle\Controller\Huuraanbiedingen
-                - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Coordinatoren
-                - OdpBundle\Controller\Huurderafsluitingen
-                - OdpBundle\Controller\Verhuurderafsluitingen
-                - OdpBundle\Controller\Woningbouwcorporaties
                 - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
                 - oek
                 - OekBundle\Controller\Deelnames
                 - OekBundle\Controller\Groepen
