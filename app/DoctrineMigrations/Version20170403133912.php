@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20170327153011 extends AbstractMigration
+class Version20170403133912 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -24,7 +24,7 @@ class Version20170327153011 extends AbstractMigration
         $this->addSql('CREATE TABLE oek_groepen (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE oek_trainingen (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, startdatum DATE NOT NULL, starttijd TIME NOT NULL, einddatum DATE DEFAULT NULL, locatie VARCHAR(255) DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, oekGroep_id INT NOT NULL, INDEX IDX_B0D582D43B3F0A5 (oekGroep_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE oek_deelname_statussen (id INT AUTO_INCREMENT NOT NULL, datum DATE NOT NULL, status VARCHAR(255) NOT NULL, oekDeelname_id INT NOT NULL, INDEX IDX_4CBB9BCD6D7A74BD (oekDeelname_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE oek_klanten (id INT AUTO_INCREMENT NOT NULL, klant_id INT NOT NULL, medewerker_id INT NOT NULL, opmerking LONGTEXT DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, oekDossierStatus_id INT DEFAULT NULL, oekAanmelding_id INT DEFAULT NULL, oekAfsluiting_id INT DEFAULT NULL, INDEX IDX_A501F8F723473A1F (oekDossierStatus_id), INDEX IDX_A501F8F7C45AE93C (oekAanmelding_id), INDEX IDX_A501F8F7B99C329A (oekAfsluiting_id), UNIQUE INDEX UNIQ_A501F8F73C427B2F (klant_id), INDEX IDX_A501F8F73D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE oek_klanten (id INT AUTO_INCREMENT NOT NULL, klant_id INT NOT NULL, medewerker_id INT NOT NULL, voedselbankklant TINYINT(1) NOT NULL, opmerking LONGTEXT DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, oekDossierStatus_id INT DEFAULT NULL, oekAanmelding_id INT DEFAULT NULL, oekAfsluiting_id INT DEFAULT NULL, INDEX IDX_A501F8F723473A1F (oekDossierStatus_id), INDEX IDX_A501F8F7C45AE93C (oekAanmelding_id), INDEX IDX_A501F8F7B99C329A (oekAfsluiting_id), UNIQUE INDEX UNIQ_A501F8F73C427B2F (klant_id), INDEX IDX_A501F8F73D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE oekklant_oekdossierstatus (oekklant_id INT NOT NULL, oekdossierstatus_id INT NOT NULL, INDEX IDX_1EF9C0A61833A719 (oekklant_id), INDEX IDX_1EF9C0A6B689C3C1 (oekdossierstatus_id), PRIMARY KEY(oekklant_id, oekdossierstatus_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE oek_lidmaatschappen (id INT AUTO_INCREMENT NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, oekGroep_id INT NOT NULL, oekKlant_id INT NOT NULL, INDEX IDX_7B0B7DFF43B3F0A5 (oekGroep_id), INDEX IDX_7B0B7DFFE145C54F (oekKlant_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE oek_dossier_statussen ADD CONSTRAINT FK_D8FAC765E145C54F FOREIGN KEY (oekKlant_id) REFERENCES oek_klanten (id)');

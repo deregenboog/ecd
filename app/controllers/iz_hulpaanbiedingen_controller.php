@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Form\IzHulpaanbodFilterType;
@@ -57,6 +58,10 @@ class IzHulpaanbiedingenController extends AppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $form->getData()->applyTo($builder);
+
+            if ($form->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -67,5 +72,18 @@ class IzHulpaanbiedingenController extends AppController
 
         $this->set('form', $form->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        $hulpaanbiedingen = $builder->getQuery()->getResult();
+
+        $filename = sprintf('iz-hulpaanbiedingen-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $this->header('Content-type: application/vnd.ms-excel');
+        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
+
+        $this->set('hulpaanbiedingen', $hulpaanbiedingen);
+        $this->render('download', false);
     }
 }

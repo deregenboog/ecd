@@ -12,9 +12,9 @@
 {% block content %}
     <h1>Dienstverlener wijzigen</h1>
     <p>
-        Hier kunt u alleen de Homeservice-gegevens voor deze klant wijzigen.
-        Klik {{ html.link('hier', path('app_dienstverleners_edit', {id: klant.klant.id})) }}
-        om naar het basisdossier van deze klant te gaan.
+        Hier kunt u alleen de Homeservice-gegevens voor deze dienstverlener wijzigen.
+        Klik {{ html.link('hier', path('app_dienstverleners_edit', {id: dienstverlener.klant.id})) }}
+        om naar het basisdossier van deze dienstverlener te gaan.
     </p>
     {{ form(form) }}
 {% endblock %}

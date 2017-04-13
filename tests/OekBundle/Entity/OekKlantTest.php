@@ -10,12 +10,10 @@ use OekBundle\Entity\OekVerwijzingNaar;
 
 class OekKlantTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     */
     public function testCanOpenDossier()
     {
         $oekKlant = new OekKlant();
-        $oekKlant->addOekDossierStatus($this->getOekAanmelding());
+        $oekKlant->addOekAanmelding($this->getOekAanmelding());
 
         $this->assertInstanceOf(OekAanmelding::class, $oekKlant->getOekDossierStatus());
     }
@@ -26,7 +24,7 @@ class OekKlantTest extends \PHPUnit_Framework_TestCase
     public function testCannotCloseNonOpenDossier()
     {
         $oekKlant = new OekKlant();
-        $oekKlant->addOekDossierStatus($this->getOekAfsluiting());
+        $oekKlant->addOekAfsluiting($this->getOekAfsluiting());
     }
 
     /**
@@ -35,8 +33,8 @@ class OekKlantTest extends \PHPUnit_Framework_TestCase
     public function testCannotOpenOpenDossier()
     {
         $oekKlant = new OekKlant();
-        $oekKlant->addOekDossierStatus($this->getOekAanmelding());
-        $oekKlant->addOekDossierStatus($this->getOekAanmelding());
+        $oekKlant->addOekAanmelding($this->getOekAanmelding());
+        $oekKlant->addOekAanmelding($this->getOekAanmelding());
     }
 
     /**
@@ -44,9 +42,9 @@ class OekKlantTest extends \PHPUnit_Framework_TestCase
     public function testCanReopenClosedDossier()
     {
         $oekKlant = new OekKlant();
-        $oekKlant->addOekDossierStatus($this->getOekAanmelding());
-        $oekKlant->addOekDossierStatus($this->getOekAfsluiting());
-        $oekKlant->addOekDossierStatus($this->getOekAanmelding());
+        $oekKlant->addOekAanmelding($this->getOekAanmelding());
+        $oekKlant->addOekAfsluiting($this->getOekAfsluiting());
+        $oekKlant->addOekAanmelding($this->getOekAanmelding());
     }
 
     /**
@@ -55,8 +53,8 @@ class OekKlantTest extends \PHPUnit_Framework_TestCase
     public function testCannotCloseClosedDossier()
     {
         $oekKlant = new OekKlant();
-        $oekKlant->addOekDossierStatus($this->getOekAfsluiting());
-        $oekKlant->addOekDossierStatus($this->getOekAfsluiting());
+        $oekKlant->addOekAanmelding($this->getOekAfsluiting());
+        $oekKlant->addOekAfsluiting($this->getOekAfsluiting());
     }
 
     private function getOekAanmelding()

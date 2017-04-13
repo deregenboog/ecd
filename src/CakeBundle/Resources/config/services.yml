@@ -43,25 +43,29 @@ parameters:
                 trajectbegeleiders: 10194
 
         ACL.groups:
-            GROUP_ADMIN: 10105
-            GROUP_DEVELOP: 10422
-            GROUP_VOLONTEERS: 1025
-            GROUP_STAGE: 1026
-            GROUP_PORTIER: 10103
-            GROUP_MLO: 10104
-            GROUP_MAATSCHAPPELIJK: 10117
-            GROUP_HI5: 10097
-            GROUP_TRAJECTBEGELEIDER: 10194
-            GROUP_WERKBEGELEIDER: 10195
-            GROUP_TEAMLEIDERS: 10105
-            GROUP_PFO: 10123
-            GROUP_BACK_ON_TRACK_COORDINATOR: 10404
-            GROUP_BACK_ON_TRACK_COACH: 10403
-            GROUP_GROEPSACTIVITEIT: 10396
-            GROUP_IZ: 10460
-            GROUP_REPORT: 10570
-            GROUP_IZ_BEHEER: 10462
-            GROUP_BEHEER_GROEPSACTIVITEIT: 10463
+            GROUP_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DEVELOP: "CN=ECD Develop,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_MAATSCHAPPELIJK: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HI5: "CN=ECD Hi5,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_TRAJECTBEGELEIDER: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_TEAMLEIDERS: "CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_PFO: "CN=ECD PFO,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_BACK_ON_TRACK_COORDINATOR: "CN=ECD Back On Track Coordinator,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_BACK_ON_TRACK_COACH: "CN=ECD Back on Track Coach,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_GROEPSACTIVITEIT: "CN=ECD Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_IZ: "CN=ECD IZ,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_REPORT: "CN=ECD Report,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_IZ_BEHEER: "CN=ECD IZ Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_BEHEER_GROEPSACTIVITEIT: "CN=ECD Beheer Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_OEK: "CN=ECD Op Eigen Kracht,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
 
         # group: [controllers]
         ACL.permissions:
@@ -114,6 +118,31 @@ parameters:
                 - BotVerslagen
                 - Vrijwilligers
                 - groepsactiviteiten_klanten
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -123,7 +152,7 @@ parameters:
                 - BackOnTrack
                 - BotVerslagen
                 - BotKoppelingen
-            GROUP_VOLONTEERS:
+            GROUP_VOLUNTEERS:
                 - Registraties
             GROUP_STAGE:
                 - Intakes
@@ -155,12 +184,12 @@ parameters:
                 - IzVerslagen
                 - Attachments
                 - odp
-                - OdpBundle\Controller\Huurders
-                - OdpBundle\Controller\Verhuurders
-                - OdpBundle\Controller\Huurverzoeken
-                - OdpBundle\Controller\Huuraanbiedingen
-                - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
                 - oek
                 - OekBundle\Controller\Deelnames
@@ -189,17 +218,20 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
                 - odp
-                - OdpBundle\Controller\Huurders
-                - OdpBundle\Controller\Verhuurders
-                - OdpBundle\Controller\Huurverzoeken
-                - OdpBundle\Controller\Huuraanbiedingen
-                - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Coordinatoren
-                - OdpBundle\Controller\Huurderafsluitingen
-                - OdpBundle\Controller\Verhuurderafsluitingen
-                - OdpBundle\Controller\Woningbouwcorporaties
                 - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
                 - oek
                 - OekBundle\Controller\Deelnames
                 - OekBundle\Controller\Groepen
@@ -214,14 +246,73 @@ parameters:
                 - Klanten
                 - Vrijwilligers
                 - Attachments
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
                 - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
                 - groepsactiviteiten_vrijwilligers
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
+                - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
+            GROUP_OEK:
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Wachtlijst
+            GROUP_OEK_BEHEER:
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
+            GROUP_ODP:
+                - odp
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+            GROUP_ODP_BEHEER:
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
             GROUP_WERKBEGELEIDER: []
             GROUP_DEVELOP:
                 - "*"

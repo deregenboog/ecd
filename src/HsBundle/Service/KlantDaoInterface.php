@@ -2,11 +2,11 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Klant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
 
-interface DienstverlenerDaoInterface
+interface KlantDaoInterface
 {
     /**
      * @param int $page
@@ -18,22 +18,22 @@ interface DienstverlenerDaoInterface
     /**
      * @param int $id
      *
-     * @return Dienstverlener
+     * @return Klant
      */
     public function find($id);
 
     /**
-     * @param Dienstverlener $dienstverlener
+     * @param Klant $klant
      */
-    public function create(Dienstverlener $dienstverlener);
+    public function create(Klant $klant);
 
     /**
-     * @param Dienstverlener $dienstverlener
+     * @param Klant $klant
      */
-    public function update(Dienstverlener $dienstverlener);
+    public function update(Klant $klant);
 
     /**
-     * @param Dienstverlener $dienstverlener
+     * @param Klant $klant
      */
-    public function delete(Dienstverlener $dienstverlener);
+    public function delete(Klant $klant);
 }

@@ -222,7 +222,7 @@ class Huurovereenkomst
     public function setEinddatum($einddatum)
     {
         $this->einddatum = $einddatum;
+
         return $this;
     }
-
 }

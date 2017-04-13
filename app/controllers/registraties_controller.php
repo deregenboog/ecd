@@ -13,7 +13,7 @@ class RegistratiesController extends AppController
         }
 
         $user_groups = $this->AuthExt->user('Group');
-        $volonteers = Configure::read('ACL.volonteers');
+        $volunteers = Configure::read('ACL.volunteers');
 
         if (empty($user_groups)) {
             return false;
@@ -33,11 +33,12 @@ class RegistratiesController extends AppController
 
         $username = $this->AuthExt->user('username');
 
-        if (isset($volonteers[$username])) {
+        if (isset($volunteers[$username])) {
             if (isset($action_locaties_filter[$this->action])) {
                 if (!empty($this->params['pass'])) {
-                    if (!isset($this->params['pass'][$action_locaties_filter[$this->action]]) ||
-                    ($this->params['pass'][$action_locaties_filter[$this->action]] !== $volonteers[$username])) {
+                    if (!isset($this->params['pass'][$action_locaties_filter[$this->action]])
+                        || ($this->params['pass'][$action_locaties_filter[$this->action]] != $volunteers[$username])
+                    ) {
                         return false;
                     }
                 }
@@ -472,9 +473,13 @@ class RegistratiesController extends AppController
             }
 
             if (count($klant['Opmerking']) > 0) {
-                $jsonVar['message'] .= $sep.'Laatste opmerking: '.end($klant['Opmerking'])['beschrijving'];
-                $jsonVar['confirm'] = true;
-                $sep = $separator;
+                $laatsteOpmerking = end($klant['Opmerking']);
+                if (!$laatsteOpmerking['gezien']) {
+                    $datum = new DateTime($laatsteOpmerking['created']);
+                    $jsonVar['message'] .= $sep.'Laatste opmerking ('.$datum->format('d-m-Y').'): '.$laatsteOpmerking['beschrijving'];
+                    $jsonVar['confirm'] = true;
+                    $sep = $separator;
+                }
             }
         }
 

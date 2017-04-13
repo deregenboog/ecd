@@ -33,7 +33,8 @@
         "knplabs/knp-paginator-bundle": "^2.5",
         "jms/di-extra-bundle": "^1.8",
         "symfony/assetic-bundle": "^2.8",
-        "vich/uploader-bundle": "^1.4"
+        "vich/uploader-bundle": "^1.4",
+        "backup-manager/backup-manager": "^1.1"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer": "^1.12",

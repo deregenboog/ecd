@@ -14,7 +14,10 @@ framework:
     default_locale: "%locale%"
     translator: { fallbacks: ["%locale%"] }
     secret: "%secret%"
-    session: ~
+    session:
+        name: ECD
+        cookie_lifetime: 86400 # 60*60*24
+        save_path: '%kernel.root_dir%/../var/sessions'
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
@@ -41,6 +44,7 @@ doctrine:
         dbname: "%database_name%"
         user: "%database_user%"
         password: "%database_password%"
+        charset: "utf8"
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true

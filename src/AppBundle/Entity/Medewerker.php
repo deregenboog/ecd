@@ -20,7 +20,7 @@ class Medewerker
     private $id;
 
     /**
-     * @ORM\Column(name="groups", type="simple_array", nullable=true)
+     * @ORM\Column(name="groups", type="json_array", nullable=true)
      */
     private $groepen = [];
 

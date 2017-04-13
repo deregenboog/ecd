@@ -1,0 +1,43 @@
+Startdatum{{ tab -}}
+Project{{ tab -}}
+Medewerker{{ tab -}}
+Nummer{{ tab -}}
+Intakedatum{{ tab -}}
+Afsluitdatum{{ tab -}}
+Geslacht{{ tab -}}
+Voornaam{{ tab -}}
+Tussenvoegsel{{ tab -}}
+Achternaam{{ tab -}}
+Geboortedatum{{ tab -}}
+E-mail{{ tab -}}
+Adres{{ tab -}}
+Postcode{{ tab -}}
+Woonplaats{{ tab -}}
+Mobiel{{ tab -}}
+Telefoon{{ tab -}}
+Werkgebied{{ tab -}}
+Postcodegebied{{ tab -}}
+Laatste ZRM
+{% for izHulpvraag in hulpvragen %}
+    {{- izHulpvraag.startdatum|date('d-m-Y') ~ tab -}}
+    {{- izHulpvraag.izProject ~ tab -}}
+    {{- izHulpvraag.medewerker ~ tab -}}
+    {% set izKlant = izHulpvraag.izKlant %}
+    {{- izKlant.klant.id ~ tab -}}
+    {{- (izKlant.izIntake ? izKlant.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
+    {{- (izKlant.afsluitDatum ? izKlant.afsluitDatum|date('d-m-Y')) ~ tab -}}
+    {{- izKlant.klant.geslacht ~ tab -}}
+    {{- izKlant.klant.voornaam ~ tab -}}
+    {{- izKlant.klant.tussenvoegsel ~ tab -}}
+    {{- izKlant.klant.achternaam ~ tab -}}
+    {{- (izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y')) ~ tab -}}
+    {{- izKlant.klant.email ~ tab -}}
+    {{- izKlant.klant.adres ~ tab -}}
+    {{- izKlant.klant.postcode ~ tab -}}
+    {{- izKlant.klant.plaats ~ tab -}}
+    {{- izKlant.klant.mobiel ~ tab -}}
+    {{- izKlant.klant.telefoon ~ tab -}}
+    {{- izKlant.klant.werkgebied ~ tab -}}
+    {{- izKlant.klant.postcodegebied ~ tab -}}
+    {{ izHulpvraag.izKlant.klant.laatsteZrm is empty ? "" : izHulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
+{% endfor %}

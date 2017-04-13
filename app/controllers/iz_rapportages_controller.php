@@ -3,6 +3,7 @@
 use IzBundle\Form\IzRapportageType;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzKlant;
+use IzBundle\Report\AbstractReport;
 
 class IzRapportagesController extends AppController
 {
@@ -31,6 +32,10 @@ class IzRapportagesController extends AppController
                 ->setEndDate($form->get('einddatum')->getData())
             ;
 
+            if ($form->get('download')->isClicked()) {
+                return $this->download($report);
+            }
+
             $this->set('title', $report->getTitle());
             $this->set('startDate', $report->getStartDate());
             $this->set('endDate', $report->getEndDate());
@@ -38,6 +43,45 @@ class IzRapportagesController extends AppController
         }
 
         $this->set('form', $form->createView());
+    }
+
+    public function download(AbstractReport $report)
+    {
+        $data = $this->extractDataFromReport($report);
+
+        foreach($data['reports'] as &$subReport) {
+            if ($firstRow = reset($subReport['data'])) {
+                $subReport['columns'] = array_keys($firstRow);
+                array_unshift($subReport['columns'], $subReport['yDescription']);
+            } else {
+                // Geen rijen dus geen kolommen.
+                $subReport['columns'] = ['Geen data.'];
+            }
+        }
+
+        $filename = sprintf(
+            '%s-%s-%s.xls',
+            $report->getTitle(),
+            $report->getStartDate()->format('d-m-Y'),
+            $report->getEndDate()->format('d-m-Y')
+        );
+
+        $this->header('Content-type: application/vnd.ms-excel');
+        $this->header('Content-Disposition: ' . sprintf('attachment; filename="%s";', $filename));
+        $this->header('Content-Transfer-Encoding: binary');
+
+        $this->set($data);
+        $this->render('download.csv', false);
+    }
+
+    private function extractDataFromReport(AbstractReport $report)
+    {
+        return [
+            'title' => $report->getTitle(),
+            'startDate' => $report->getStartDate(),
+            'endDate' => $report->getEndDate(),
+            'reports' => $report->getReports(),
+        ];
     }
 
     // private function report_vrijwilligers_aanmeldingen(

@@ -33,7 +33,8 @@
             </th>
             <th></th>
         </tr>
-        {% for oekGroep in pagination %}
+        {% for row in pagination %}
+            {% set oekGroep = row.0 %}
             <tr>
                 <td>
                     {{ html.link(oekGroep.id, path('oek_groepen_view', {id: oekGroep.id})) }}
@@ -41,8 +42,8 @@
                 <td>
                     {{ html.link(oekGroep.naam, path('oek_groepen_view', {id: oekGroep.id})) }}
                 </td>
-                <td>{{ oekGroep.oekKlanten.count }}</td>
-                <td>{{ oekGroep.oekTrainingen.count }}</td>
+                <td>{{ row.oekLidmaatschappen }}</td>
+                <td>{{ row.oekTrainingen }}</td>
                 <td>
                     {{ html.viewLink(path('oek_groepen_view', {id: oekGroep.id})) }}
                     {{ html.editLink(path('oek_groepen_edit', {id: oekGroep.id})) }}

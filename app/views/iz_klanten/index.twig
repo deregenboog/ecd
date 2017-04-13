@@ -1,12 +1,11 @@
 {% include 'elements/iz_subnavigation.twig' %}
-{% form_theme form 'form_div_layout.html.twig' %}
 
 <h2>Deelnemers</h2>
 <p>
     {{ html.addLink({'action': 'add'})|raw }}
     {{ html.link('Deelnemer toevoegen', {'action': 'add'})|raw }}
 </p>
-<table class="table">
+<table class="table index filtered">
     <tr>
         {{ form_start(form) }}
         <th>
@@ -64,7 +63,6 @@
     </tr>
 
     {% for i, izKlant in pagination %}
-        {% set class = (i % 2 == 0) ? 'altrow' : '' %}
         {% set url = html.url({
             'controller': 'iz_deelnemers',
             'action': 'toon_aanmelding',
@@ -72,10 +70,7 @@
             1: izKlant.klant.id,
             2: izKlant.id
         }) %}
-        <tr class="klantenlijst-row {{ class }}"
-                onMouseOver="this.style.cursor='pointer'"
-                onClick="location.href='{{ url }}';"
-                id='klanten_{{ izKlant.klant.id }}'>
+        <tr onMouseOver="this.style.cursor='pointer'" onClick="location.href='{{ url }}';">
             <td>
                 {{ html.link(izKlant.klant.id, url)|raw }}
             </td>

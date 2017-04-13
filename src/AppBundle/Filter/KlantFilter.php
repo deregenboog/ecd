@@ -74,13 +74,13 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->geboortedatumRange) {
-            if ($this->geboortedatum->getStart()) {
+            if ($this->geboortedatumRange->getStart()) {
                 $builder
                     ->andWhere("{$this->alias}.geboortedatum >= :{$this->alias}_geboortedatum_van")
                     ->setParameter("{$this->alias}_geboortedatum_van", $this->geboortedatum->getStart())
                 ;
             }
-            if ($this->geboortedatum->getEnd()) {
+            if ($this->geboortedatumRange->getEnd()) {
                 $builder
                     ->andWhere("{$this->alias}.geboortedatum <= :{$this->alias}_geboortedatum_tot")
                     ->setParameter("{$this->alias}_geboortedatum_tot", $this->geboortedatum->getEnd())

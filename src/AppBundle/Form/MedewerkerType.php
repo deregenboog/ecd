@@ -8,6 +8,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class MedewerkerType extends AbstractType
 {
@@ -24,6 +27,15 @@ class MedewerkerType extends AbstractType
         }
     }
 
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            if (!$event->getData()) {
+                $event->getForm()->setData($this->medewerker);
+            }
+        });
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,7 +43,6 @@ class MedewerkerType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Medewerker::class,
-            'data' => $this->medewerker,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('medewerker')
                     ->orderBy('medewerker.voornaam');

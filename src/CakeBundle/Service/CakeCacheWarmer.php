@@ -9,7 +9,7 @@ use Symfony\Component\ClassLoader\MapClassLoader;
 class CakeCacheWarmer implements CacheWarmerInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function warmUp($cacheDir)
     {
@@ -30,7 +30,7 @@ class CakeCacheWarmer implements CacheWarmerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isOptional()
     {
@@ -41,11 +41,10 @@ class CakeCacheWarmer implements CacheWarmerInterface
     {
         $classes = [];
         $tokens = token_get_all($phpCode);
-        for ($i = 2; $i < count($tokens); $i++) {
+        for ($i = 2; $i < count($tokens); ++$i) {
             if ($tokens[$i - 2][0] == T_CLASS
                 && $tokens[$i - 1][0] == T_WHITESPACE
-                && $tokens[$i][0] == T_STRING)
-            {
+                && $tokens[$i][0] == T_STRING) {
                 $className = $tokens[$i][1];
                 $classes[] = $className;
             }

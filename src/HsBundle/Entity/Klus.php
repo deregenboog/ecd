@@ -113,7 +113,7 @@ class Klus implements MemoSubjectInterface
 
     public function __toString()
     {
-        return sprintf('Klus #%d',$this->id);
+        return sprintf('%s %d', $this->activiteit, $this->id);
     }
 
     public function getId()

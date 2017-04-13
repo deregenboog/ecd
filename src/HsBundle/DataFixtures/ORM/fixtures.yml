@@ -21,6 +21,11 @@ HsBundle\Entity\Klant:
         klant (unique): '@klant_*'
         inschrijving: '<dateTimeThisDecade()>'
 
+HsBundle\Entity\Dienstverlener:
+    hs_dienstverlener_{1..25}:
+        klant (unique): '@klant_*'
+        inschrijving: '<dateTimeThisDecade()>'
+
 HsBundle\Entity\Vrijwilliger:
     hs_vrijwilliger_{1..25}:
         vrijwilliger (unique): '@vrijwilliger_*'

@@ -27,6 +27,7 @@
 	echo '<td class="achternaamCol">'.$form->input('achternaam', $dd).'</td>';
 	echo '<td class="gebortedatumCol">'.$form->input('geboortedatum', $dd).'</td>';
 	echo '<td class="medewerkerCol">'.$form->input('medewerker_id', $dm).'</td>';
+	echo '<td class="overeenkomstCol">'.$form->input('overeenkomst_aanwezig', array('type' => 'select', 'options' => array('' => '', 0 => 'Nee', 1 => 'Ja'), 'label' => false)).'</td>';
 	echo '<td colspan="5"></td>';
 	echo '</tr></table>';
 
@@ -38,6 +39,8 @@
 	$this->Js->get('#filters');
 	$this->Js->event('keyup', 'ajaxFilter("'.$ajax_url.'")');
 	$this->Js->get('#VrijwilligerMedewerkerId');
+	$this->Js->event('change', 'ajaxFilter("'.$ajax_url.'")');
+	$this->Js->get('#VrijwilligerOvereenkomstAanwezig');
 	$this->Js->event('change', 'ajaxFilter("'.$ajax_url.'")');
 
 	echo $this->Js->writeBuffer();
