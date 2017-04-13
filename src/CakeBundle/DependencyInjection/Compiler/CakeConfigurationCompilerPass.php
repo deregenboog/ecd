@@ -40,7 +40,7 @@ class CakeConfigurationCompilerPass implements CompilerPassInterface
          */
         $config->set('Cache.disable', $container->getParameter('kernel.debug'));
 
-        $config->set('ACL.volonteers', $params['volunteers']);
+        $config->set('ACL.volunteers', $params['volunteers']);
         $config->set('ACL.groups', $params['ACL.groups']);
         // define constants for acl groups
         foreach ($params['ACL.groups'] as $name => $id) {

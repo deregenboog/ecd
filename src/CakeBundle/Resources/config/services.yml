@@ -45,7 +45,7 @@ parameters:
         ACL.groups:
             GROUP_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_DEVELOP: "CN=ECD Develop,CN=Users,DC=cluster,DC=deregenboog"
-            GROUP_VOLONTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
@@ -123,7 +123,7 @@ parameters:
                 - BackOnTrack
                 - BotVerslagen
                 - BotKoppelingen
-            GROUP_VOLONTEERS:
+            GROUP_VOLUNTEERS:
                 - Registraties
             GROUP_STAGE:
                 - Intakes
