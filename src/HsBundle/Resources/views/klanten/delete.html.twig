@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Klanten |
+    Homeservice | Klanten |
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,10 +10,9 @@
 {% endblock %}
 
 {% block content %}
-<h1>Memo toevoegen voor {{ klant }}</h1>
-
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Opslaan</button>
-{{ form_end(form) }}
+    <h1>Klant verwijderen</h1>
+    <p>
+        Weet u zeker dat u klant <strong>{{ entity }}</strong> wilt verwijderen?<br>
+        {{ form(form) }}
+    </p>
 {% endblock %}

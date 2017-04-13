@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Klussen |
+    Homeservice | Klussen |
 {% endblock %}
 
 {% block subnavigation %}
@@ -31,15 +31,14 @@
                     {{ knp_pagination_sortable(pagination, 'Datum', 'klus.datum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Klant', 'basisklant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'basisklant.werkgebied') }}
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Activiteit', 'activiteit.naam') }}
                 </th>
-                <th>Vrijwilligers</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -51,15 +50,8 @@
                 </td>
                 <td>{{ entity.datum|date('d-m-Y') }}</td>
                 <td>{{ entity.klant }}</td>
-                <td>{{ entity.klant.klant.werkgebied }}</td>
+                <td>{{ entity.klant.werkgebied }}</td>
                 <td>{{ entity.activiteit }}</td>
-                <td>
-                    <ul>
-                        {% for vrijwilliger in entity.vrijwilligers %}
-                            <li>{{ vrijwilliger }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
                 <td>
                     {{ html.viewLink(path(view_route, {id: entity.id})) }}
                     {{ html.editLink(path(edit_route, {id: entity.id})) }}

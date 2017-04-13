@@ -10,6 +10,7 @@ use HsBundle\Service\DeclaratieCategorieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use HsBundle\Entity\Declaratie;
 
 /**
  * @Route("/hs/admin/declaratiecategorieen")
@@ -81,7 +82,7 @@ class DeclaratieCategorieenController extends SymfonyController
             $this->dao->update($entity);
             $this->addFlash('success', 'Declaratiecategorie is opgeslagen.');
 
-            return $this->redirectToViewAction($entity->getId());
+            return $this->redirectToView($entity);
         }
 
         return [
@@ -124,8 +125,8 @@ class DeclaratieCategorieenController extends SymfonyController
         return $this->redirectToRoute('hs_declaratiecategorieen_index');
     }
 
-    private function redirectToViewAction($id)
+    private function redirectToView(DeclaratieCategorie $entity)
     {
-        return $this->redirectToRoute('hs_declaratiecategorieen_view', ['id' => $id]);
+        return $this->redirectToRoute('hs_declaratiecategorieen_view', ['id' => $entity->getId()]);
     }
 }

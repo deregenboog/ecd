@@ -1,20 +1,28 @@
 <?php
 
-namespace OekBundle\Event;
+namespace HsBundle\Event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Klant;
 use OekBundle\Entity\OekKlant;
+use HsBundle\Service\KlantDaoInterface;
+use HsBundle\Entity\Klant;
+use HsBundle\Service\DienstverlenerDaoInterface;
+use HsBundle\Entity\Dienstverlener;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var EntityManager
+     * @var DienstverlenerDaoInterface
      */
-    private $entityManager;
+    private $dienstverlenerDao;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $generator;
 
     public static function getSubscribedEvents()
     {
@@ -23,33 +31,24 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        DienstverlenerDaoInterface $dienstverlenerDao,
+        UrlGeneratorInterface $generator
+    ) {
+        $this->dienstverlenerDao = $dienstverlenerDao;
+        $this->generator = $generator;
     }
 
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
-        $klant = $event->getKlant();
-        if (!$klant instanceof Klant) {
-            $klant = $this->entityManager->find(Klant::class, $event->getKlantId());
-            // store in event for subsequent subscribers to use
-            $event->setKlant($klant);
-        }
+        $dienstverlener = $this->dienstverlenerDao->findOneByKlant($event->getKlant());
 
-        $oekKlant = $this->entityManager->getRepository(OekKlant::class)
-            ->findOneBy(['klant' => $klant]);
-
-        if ($oekKlant instanceof OekKlant) {
+        if ($dienstverlener instanceof Dienstverlener) {
             $event->addDienst([
-                'name' => 'Op eigen kracht',
-                'url' => [
-                    'controller' => 'oek_klanten',
-                    'action' => 'view',
-                    $oekKlant->getId(),
-                ],
-                'from' => $oekKlant->getOekAanmelding() ? $oekKlant->getOekAanmelding()->getDatum()->format('Y-m-d') : null,
-                'to' => $oekKlant->getOekAfsluiting() ? $oekKlant->getOekAfsluiting()->getDatum()->format('Y-m-d') : null,
+                'name' => 'Homeservice',
+                'url' => $this->generator->generate('hs_dienstverlener_view', ['id' => $dienstverlener->getId()]),
+                'from' => $dienstverlener->getInschrijving() ? $dienstverlener->getInschrijving()->format('Y-m-d') : null,
+                'to' => null,
                 'type' => 'date',
                 'value' => '',
             ]);

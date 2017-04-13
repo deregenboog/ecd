@@ -15,14 +15,24 @@ class KlantFilter implements FilterInterface
     public $id;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $openstaand;
+    public $naam;
 
     /**
-     * @var KlantFilter
+     * @var string
      */
-    public $klant;
+    public $stadsdeel;
+
+    /**
+     * @var bool
+     */
+    public $actief;
+
+    /**
+     * @var bool
+     */
+    public $negatiefSaldo;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -33,18 +43,33 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        if ($this->openstaand) {
-            $builder
-                ->innerJoin("{$this->alias}.klussen", 'klus')
-                ->innerJoin('klus.facturen', 'factuur')
-                ->innerJoin('factuur.betalingen', 'betaling')
-                ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')
-            ;
+        if ($this->naam) {
+            $parts = preg_split('/\s+/', $this->naam);
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', {$this->alias}.voornaam, {$this->alias}.roepnaam, {$this->alias}.tussenvoegsel, {$this->alias}.achternaam) LIKE :{$this->alias}_naam_part_{$i}")
+                    ->setParameter("{$this->alias}_naam_part_{$i}", "%{$part}%")
+                ;
+            }
         }
 
-        if ($this->klant) {
-            $this->klant->alias = 'basisklant';
-            $this->klant->applyTo($builder);
+        if (isset($this->stadsdeel)) {
+            if ($this->stadsdeel == '-') {
+                $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
+            } else {
+                $builder
+                    ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
+                    ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
+                ;
+            }
+        }
+
+        if ($this->actief) {
+            $builder->andWhere("{$this->alias}.actief = true");
+        }
+
+        if ($this->negatiefSaldo) {
+            $builder->andWhere("{$this->alias}.saldo < 0");
         }
     }
 }

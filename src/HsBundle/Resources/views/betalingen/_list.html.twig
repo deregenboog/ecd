@@ -1,0 +1,31 @@
+<h2 onClick="$('#betalingen_list').toggle()">Betalingen</h2>
+<div id="betalingen_list">
+    {% if add_url is defined %}
+        <p>
+            {{ html.addLink(add_url) }}
+            {{ html.link('Betaling toevoegen', add_url) }}
+        </p>
+    {% endif %}
+    <table class="table table-hover">
+        <tr>
+            <th>Datum</th>
+            <th>Referentie</th>
+            <th colspan="4">Info</th>
+            <th>Bedrag</th>
+        </tr>
+        {% for betaling in entity.betalingen %}
+            <tr>
+                <td>{{ betaling.datum|date('d-m-Y') }}</td>
+                <td>{{ betaling.referentie }}</td>
+                <td colspan="4">{{ betaling.info }}</td>
+                <td>{{ betaling.bedrag|money }}</td>
+            </tr>
+        {% endfor %}
+        <tfoot>
+            <tr>
+                <th colspan="6">Totaal</th>
+                <th>{{ entity.betaald|money }}</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

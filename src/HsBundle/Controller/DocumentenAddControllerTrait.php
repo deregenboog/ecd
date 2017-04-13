@@ -26,7 +26,7 @@ trait DocumentenAddControllerTrait
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
 
-            return $this->redirectToView($entity->getId());
+            return $this->redirectToView($entity);
         }
 
         return [

@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\BaseType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use HsBundle\Entity\Document;
 
 class DeclaratieType extends AbstractType
 {
@@ -28,8 +32,26 @@ class DeclaratieType extends AbstractType
             ])
             ->add('info')
             ->add('bedrag', MoneyType::class)
-            ->add('submit', SubmitType::class)
         ;
+
+        if (!$options['data']->getDocument()) {
+            $builder
+                ->add('file', FileType::class, [
+                    'label' => 'Document',
+                    'mapped' => false,
+                ])
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    if ($file = $event->getForm()->get('file')->getData()) {
+                        $declaratie = $event->getData();
+                        $document = new Document();
+                        $document->setFile($file);
+                        $declaratie->setDocument($document);
+                    }
+                })
+            ;
+        }
+
+        $builder->add('submit', SubmitType::class);
     }
 
     /**

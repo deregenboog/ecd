@@ -25,7 +25,7 @@ class FactuurFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $openstaand;
+    public $negatiefSaldo;
 
     /**
      * @var KlantFilter
@@ -55,7 +55,7 @@ class FactuurFilter implements FilterInterface
             ;
         }
 
-        if ($this->openstaand) {
+        if ($this->negatiefSaldo) {
             $builder
                 ->leftJoin('factuur.betalingen', 'betaling')
                 ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')

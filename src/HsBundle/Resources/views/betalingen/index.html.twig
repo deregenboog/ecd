@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Betalingen |
+    Homeservice | Betalingen |
 {% endblock %}
 
 {% block subnavigation %}
@@ -19,20 +19,20 @@
             <tr>
                 {{ form_start(filter) }}
                 <th>
-                    {{ form_widget(filter.factuur.nummer) }}
-                    {{ form_errors(filter.factuur.nummer) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
-                </th>
-                <th>
                     {{ form_widget(filter.datum) }}
                     {{ form_errors(filter.datum) }}
                 </th>
                 <th>
                     {{ form_widget(filter.referentie) }}
                     {{ form_errors(filter.referentie) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.factuur.nummer) }}
+                    {{ form_errors(filter.factuur.nummer) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
                 </th>
                 <th>
                     {{ form_widget(filter.bedrag) }}
@@ -46,16 +46,16 @@
             </tr>
             <tr>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Factuur', 'factuur.nummer') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Klant', 'basisklant.achternaam') }}
-                </th>
-                <th>
                     {{ knp_pagination_sortable(pagination, 'Datum', 'betaling.datum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Referentie', 'betaling.referentie') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Factuur', 'factuur.nummer') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'basisklant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Bedrag', 'betaling.bedrag') }}
@@ -67,16 +67,12 @@
         <tbody>
             {% for betaling in pagination %}
                 <tr>
-                    <td>{{ html.link(betaling.factuur.nummer, {'controller': 'hs_facturen', 'action': 'view', 0: betaling.factuur.id}) }}</td>
-                    <td>{{ betaling.factuur.klus.klant }}</td>
                     <td>{{ betaling.datum|date('d-m-Y') }}</td>
                     <td>{{ betaling.referentie }}</td>
+                    <td>{{ html.link(betaling.factuur.nummer, path('hs_facturen_view', {id: betaling.factuur.id})) }}</td>
+                    <td>{{ betaling.factuur.klant }}</td>
                     <td>{{ betaling.bedrag|money }}</td>
                     <td>
-                        {{ html.editLink({'action': 'edit', 0: betaling.id}) }}
-                        {% if betaling.deletable %}
-                            {{ html.deleteLink({'action': 'delete', 0: betaling.id}) }}
-                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

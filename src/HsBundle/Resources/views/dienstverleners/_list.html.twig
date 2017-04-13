@@ -1,0 +1,41 @@
+<h2 onClick="$('#dienstverleners_list').toggle()">Dienstverleners</h2>
+<div id="dienstverleners_list">
+    {% if add_url is defined %}
+        <p>
+            {{ html.addLink(add_url) }}
+            {{ html.link('Dienstverlener toevoegen', add_url) }}
+        </p>
+    {% endif %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Dienstverlener</th>
+                <th>Stadsdeel</th>
+                <th>Rijbewijs</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dienstverlener in entity.dienstverleners %}
+                <tr>
+                    <td>
+                        {{ html.link(dienstverlener.klant.id, path('hs_dienstverleners_view', {id: dienstverlener.id})) }}
+                    </td>
+                    <td>
+                        {{ html.link(dienstverlener.klant.naam, path('hs_dienstverleners_view', {id: dienstverlener.id})) }}
+                    </td>
+                    <td>
+                        {{ dienstverlener.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ dienstverlener.rijbewijs ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ html.deleteLink(path('hs_klussen_dienstverleners_delete', {klusId: entity.id, dienstverlenerId: dienstverlener.id})) }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

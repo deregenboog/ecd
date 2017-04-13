@@ -1,16 +1,18 @@
-<h2>Memo's</h2>
-{% if add_url is defined %}
-    <p>
-        {{ html.addLink(add_url) }}
-        {{ html.link('Memo toevoegen', add_url) }}
-    </p>
-{% endif %}
-<table class="table table-hover">
-    {% for memo in entity.memos %}
-        <tr>
-            <td>{{ memo.datum|date('d-m-Y') }}</td>
-            <td>{{ memo.medewerker }}</td>
-            <td><pre>{{ memo.memo }}</pre></td>
-        </tr>
-    {% endfor %}
-</table>
+<h2 onClick="$('#memos_list').toggle()">Memo's</h2>
+<div id="memos_list">
+    {% if add_url is defined %}
+        <p>
+            {{ html.addLink(add_url) }}
+            {{ html.link('Memo toevoegen', add_url) }}
+        </p>
+    {% endif %}
+    <table class="table table-hover">
+        {% for memo in entity.memos %}
+            <tr>
+                <td>{{ memo.datum|date('d-m-Y') }}</td>
+                <td>{{ memo.medewerker }}</td>
+                <td><pre>{{ memo.memo }}</pre></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

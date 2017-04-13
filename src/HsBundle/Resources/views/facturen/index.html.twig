@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Facturen |
+    Homeservice | Facturen |
 {% endblock %}
 
 {% block subnavigation %}
@@ -13,35 +13,7 @@
     <h1>Facturen</h1>
     <table class="table table-hover">
         <thead>
-            <tr>
-                {{ form_start(filter) }}
-                <th>
-                    {{ form_widget(filter.nummer) }}
-                    {{ form_errors(filter.nummer) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.datum) }}
-                    {{ form_errors(filter.datum) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.bedrag) }}
-                    {{ form_errors(filter.bedrag) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.openstaand) }}
-                    {{ form_label(filter.openstaand) }}
-                    {{ form_errors(filter.openstaand) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.filter) }}
-                    {{ form_widget(filter.download) }}
-                </th>
-                {{ form_end(filter) }}
-            </tr>
+            {% include '@Hs/facturen/_filter.html.twig' %}
             <tr>
                 <th>
                     {{ knp_pagination_sortable(pagination, '#', 'factuur.nummer') }}
@@ -55,7 +27,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Bedrag', 'factuur.bedrag') }}
                 </th>
-                <th>Openstaand</th>
+                <th>Saldo</th>
                 <th></th>
             </tr>
         </thead>
@@ -63,17 +35,17 @@
             {% for factuur in pagination %}
                 <tr>
                     <td>
-                        {{ html.link(factuur.nummer, {'action': 'view', 0: factuur.id}) }}
+                        {{ html.link(factuur.nummer, path('hs_facturen_view', {id: factuur.id})) }}
                     </td>
                     <td>{{ factuur.datum|date('d-m-Y') }}</td>
-                    <td>{{ factuur.klus.klant }}</td>
+                    <td>{{ factuur.klant }}</td>
                     <td>{{ factuur.bedrag|money }}</td>
-                    <td>{{ factuur.openstaand|money }}</td>
+                    <td>{{ factuur.saldo|money }}</td>
                     <td>
-                        {{ html.viewLink({'action': 'view', 0: factuur.id}) }}
-                        {{ html.editLink({'action': 'edit', 0: factuur.id}) }}
+                        {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
+                        {{ html.editLink(path('hs_facturen_edit', {id: factuur.id})) }}
                         {% if factuur.deletable %}
-                            {{ html.deleteLink({'action': 'delete', 0: factuur.id}) }}
+                            {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
                         {% endif %}
                     </td>
                 </tr>

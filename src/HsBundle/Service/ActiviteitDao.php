@@ -4,6 +4,7 @@ namespace HsBundle\Service;
 
 use HsBundle\Entity\Activiteit;
 use AppBundle\Service\AbstractDao;
+use AppBundle\Filter\FilterInterface;
 
 class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
 {
@@ -23,7 +24,7 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
     /**
      * {inheritdoc}
      */
-    public function findAll($page = 1)
+    public function findAll($page = 1, FilterInterface $filter = null)
     {
         return parent::findAll($page);
     }

@@ -2,54 +2,30 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Vrijwilligers |
+    Homeservice | Vrijwilligers |
 {% endblock %}
 
 {% block subnavigation %}
     {% include '@Hs/hs_subnavigation.html.twig' %}
 {% endblock %}
 
+{% set add_route = 'hs_vrijwilligers_add' %}
+{% set view_route = 'hs_vrijwilligers_view' %}
+{% set edit_route = 'hs_vrijwilligers_edit' %}
+{% set delete_route = 'hs_vrijwilligers_delete' %}
+
 {% block content %}
     <h1>Vrijwilligers</h1>
     <p>
-        {{ html.addLink(path('hs_vrijwilligers_add')) }}
-        {{ html.link('Vrijwilliger toevoegen', path('hs_vrijwilligers_add')) }}
+        {{ html.addLink(path(add_route)) }}
+        {{ html.link('Vrijwilliger toevoegen', path(add_route)) }}
     </p>
     <table class="table table-hover">
         <thead>
-            <tr>
-                {{ form_start(filter) }}
-                <th>
-                    {{ form_widget(filter.vrijwilliger.id) }}
-                    {{ form_errors(filter.vrijwilliger.id) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.vrijwilliger.naam) }}
-                    {{ form_errors(filter.vrijwilliger.naam) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.vrijwilliger.stadsdeel) }}
-                    {{ form_errors(filter.vrijwilliger.stadsdeel) }}
-                </th>
-                <th>
-                    {{ form_label(filter.dragend) }}
-                    {{ form_widget(filter.dragend) }}
-                    {{ form_errors(filter.dragend) }}
-                </th>
-                <th>
-                    {{ form_label(filter.rijbewijs) }}
-                    {{ form_widget(filter.rijbewijs) }}
-                    {{ form_errors(filter.rijbewijs) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.filter) }}
-                    {{ form_widget(filter.download) }}
-                </th>
-                {{ form_end(filter) }}
-            </tr>
+            {% include '@Hs/vrijwilligers/_filter.html.twig' %}
             <tr>
                 <th>
-                    {{ knp_pagination_sortable(pagination, '#', 'vrijwilliger.id') }}
+                    {{ knp_pagination_sortable(pagination, '#', 'basisvrijwilliger.id') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'basisvrijwilliger.achternaam') }}
@@ -57,32 +33,34 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'basisvrijwilliger.werkgebied') }}
                 </th>
-                <th>Dragend</th>
-                <th>Rijbewijs</th>
-                <th></th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Rijbewijs', 'vrijwilliger.rijbewijs') }}
+                </th>
+                <th>
+                </th>
             </tr>
         </thead>
         <tbody>
-        {% for vrijwilliger in pagination %}
+        {% for entity in pagination %}
             <tr>
                 <td>
-                    {{ html.link(vrijwilliger.vrijwilliger.id, path('hs_vrijwilligers_view', {'id': vrijwilliger.id})) }}
+                    {{ html.link(entity.vrijwilliger.id, path(view_route, {id: entity.id})) }}
                 </td>
                 <td>
-                    {{ html.link(vrijwilliger.vrijwilliger.naam, path('hs_vrijwilligers_view', {'id': vrijwilliger.id})) }}
+                    {{ html.link(entity.vrijwilliger.naam, path(view_route, {id: entity.id})) }}
                 </td>
                 <td>
-                    {{ vrijwilliger.vrijwilliger.werkgebied }}
+                    {{ entity.vrijwilliger.werkgebied }}
                 </td>
                 <td>
-                    {{ vrijwilliger.dragend ? 'Ja' : 'Nee' }}
+                    {{ entity.rijbewijs ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
-                    {{ vrijwilliger.rijbewijs ? 'Ja' : (vrijwilliger.rijbewijs is null ? 'Onbekend' : 'Nee') }}
-                </td>
-                <td>
-                    {{ html.viewLink(path('hs_vrijwilligers_view', {id: vrijwilliger.id})) }}
-                    {{ html.editLink(path('hs_vrijwilligers_edit', {id: vrijwilliger.id})) }}
+                    {{ html.viewLink(path(view_route, {id: entity.id})) }}
+                    {{ html.editLink(path(edit_route, {id: entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

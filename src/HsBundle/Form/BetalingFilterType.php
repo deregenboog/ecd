@@ -49,13 +49,10 @@ class BetalingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('filter', $options['enabled_filters'])) {
-            $builder->add('filter', SubmitType::class);
-        }
-
-        if (in_array('download', $options['enabled_filters'])) {
-            $builder->add('download', SubmitType::class);
-        }
+        $builder
+            ->add('filter', SubmitType::class)
+            ->add('download', SubmitType::class)
+        ;
     }
 
     /**

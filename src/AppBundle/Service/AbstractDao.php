@@ -5,6 +5,8 @@ namespace AppBundle\Service;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
+use AppBundle\Filter\FilterInterface;
 
 class AbstractDao
 {
@@ -46,7 +48,7 @@ class AbstractDao
         $this->itemsPerPage = $itemsPerPage;
     }
 
-    public function findAll($page = 1)
+    public function findAll($page = 1, FilterInterface $filter = null)
     {
         if (!$this->alias) {
             throw new \RuntimeException('Alias must be set');
@@ -54,7 +56,20 @@ class AbstractDao
 
         $builder = $this->repository->createQueryBuilder($this->alias);
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        return $this->doFindAll($builder, $page, $filter);
+    }
+
+    protected function doFindAll(QueryBuilder $builder, $page = 1, FilterInterface $filter = null)
+    {
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
     public function find($id)

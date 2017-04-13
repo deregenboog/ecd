@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Betalingen |
+    Homeservice | Betalingen |
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,6 +10,6 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Betaling toevoegen</h1>
+    <h1>Betaling toevoegen aan factuur {{ factuur }}</h1>
     {{ form(form) }}
 {% endblock %}

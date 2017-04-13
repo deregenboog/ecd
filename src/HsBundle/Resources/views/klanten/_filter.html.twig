@@ -2,23 +2,26 @@
     <tr>
         {{ form_start(filter) }}
         <th>
-            {{ form_widget(filter.klant.id) }}
-            {{ form_errors(filter.klant.id) }}
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
         </th>
         <th>
-            {{ form_widget(filter.klant.naam) }}
-            {{ form_errors(filter.klant.naam) }}
+            {{ form_widget(filter.naam) }}
+            {{ form_errors(filter.naam) }}
         </th>
         <th>
-            {{ form_widget(filter.klant.stadsdeel) }}
-            {{ form_errors(filter.klant.stadsdeel) }}
+            {{ form_widget(filter.stadsdeel) }}
+            {{ form_errors(filter.stadsdeel) }}
         </th>
         <th>
+            {{ form_widget(filter.actief) }}
+            {{ form_label(filter.actief) }}
+            {{ form_errors(filter.actief) }}
         </th>
         <th>
-            {{ form_widget(filter.openstaand) }}
-            {{ form_label(filter.openstaand) }}
-            {{ form_errors(filter.openstaand) }}
+            {{ form_widget(filter.negatiefSaldo) }}
+            {{ form_label(filter.negatiefSaldo) }}
+            {{ form_errors(filter.negatiefSaldo) }}
         </th>
         <th>
             {{ form_widget(filter.filter) }}

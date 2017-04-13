@@ -25,13 +25,6 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('dragend', $options['enabled_filters'])) {
-            $builder->add('dragend', CheckboxType::class, [
-                'label' => 'Dragend',
-                'required' => false,
-            ]);
-        }
-
         if (in_array('rijbewijs', $options['enabled_filters'])) {
             $builder->add('rijbewijs', CheckboxType::class, [
                 'label' => 'Rijbewijs',
@@ -45,13 +38,10 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('filter', $options['enabled_filters'])) {
-            $builder->add('filter', SubmitType::class);
-        }
-
-        if (in_array('download', $options['enabled_filters'])) {
-            $builder->add('download', SubmitType::class);
-        }
+        $builder
+            ->add('filter', SubmitType::class)
+            ->add('download', SubmitType::class)
+        ;
     }
 
     /**

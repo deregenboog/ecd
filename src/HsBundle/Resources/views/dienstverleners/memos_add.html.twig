@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Dienstverleners |
+    Homeservice | Dienstverleners |
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,10 +10,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>Memo toevoegen voor {{ klant }}</h1>
-
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Opslaan</button>
-{{ form_end(form) }}
+    <h1>Memo toevoegen voor {{ klant }}</h1>
+    {{ form(form) }}
 {% endblock %}

@@ -38,10 +38,10 @@ class FactuurFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('openstaand', $options['enabled_filters'])) {
-            $builder->add('openstaand', CheckboxType::class, [
+        if (in_array('negatiefSaldo', $options['enabled_filters'])) {
+            $builder->add('negatiefSaldo', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Openstaand',
+                'label' => 'Alleen openstaande facturen',
             ]);
         }
 
@@ -49,13 +49,10 @@ class FactuurFilterType extends AbstractType
             $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
         }
 
-        if (in_array('filter', $options['enabled_filters'])) {
-            $builder->add('filter', SubmitType::class);
-        }
-
-        if (in_array('download', $options['enabled_filters'])) {
-            $builder->add('download', SubmitType::class);
-        }
+        $builder
+            ->add('filter', SubmitType::class)
+            ->add('download', SubmitType::class)
+        ;
     }
 
     /**

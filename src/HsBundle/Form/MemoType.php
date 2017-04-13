@@ -22,7 +22,6 @@ class MemoType extends AbstractType
         $builder
             ->add('medewerker')
             ->add('datum', AppDateTimeType::class, ['data' => new \DateTime('now')])
-            ->add('intake')
             ->add('memo', TextareaType::class, ['attr' => ['cols' => 80, 'rows' => 20]])
             ->add('referer', HiddenType::class, ['mapped' => false])
             ->add('submit', SubmitType::class)

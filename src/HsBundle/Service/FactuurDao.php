@@ -30,12 +30,11 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     public function findAll($page = 1, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin('factuur.klus', 'klus')
-            ->innerJoin('klus.klant', 'klant')
-            ->innerJoin('klant.klant', 'basisklant')
+//             ->innerJoin('factuur.klussen', 'klus')
+            ->innerJoin('factuur.klant', 'klant')
         ;
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        return $this->doFindAll($builder, $page, $filter);
     }
 
     /**

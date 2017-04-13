@@ -22,6 +22,7 @@ class BetalingType extends AbstractType
             ->add('datum', AppDateType::class)
             ->add('bedrag', MoneyType::class)
             ->add('referentie')
+            ->add('info')
             ->add('submit', SubmitType::class)
         ;
     }

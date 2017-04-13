@@ -13,7 +13,7 @@ interface ActiviteitDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1);
+    public function findAll($page = 1, FilterInterface $filter = null);
 
     /**
      * @param int $id

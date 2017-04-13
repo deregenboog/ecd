@@ -30,16 +30,11 @@ class BetalingDao extends AbstractDao implements BetalingDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin('betaling.factuur', 'factuur')
-            ->innerJoin('factuur.klus', 'klus')
+            ->innerJoin('factuur.klussen', 'klus')
             ->innerJoin('klus.klant', 'klant')
-            ->innerJoin('klant.klant', 'basisklant')
         ;
 
-        if ($filter) {
-            $filter->applyTo($builder);
-        }
-
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        return $this->doFindAll($builder, $page, $filter);
     }
 
     /**

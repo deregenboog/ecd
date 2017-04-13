@@ -18,7 +18,18 @@ HsBundle\Entity\DeclaratieCategorie:
 
 HsBundle\Entity\Klant:
     hs_klant_{1..25}:
-        klant (unique): '@klant_*'
+        roepnaam: '<firstname()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        geslacht: '@geslacht_*'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        werkgebied: 'Centrum'
+        medewerker: '@medewerker_*'
         inschrijving: '<dateTimeThisDecade()>'
 
 HsBundle\Entity\Dienstverlener:
@@ -40,3 +51,16 @@ HsBundle\Entity\Klus:
         einddatum: '<dateTimeThisDecade()>'
         onHold: false
         activiteit: '@hs_activiteit_*'
+
+HsBundle\Entity\Registratie:
+    hs_registratie_{1..100}:
+        __construct: ['@hs_klus_*', '@hs_dienstverlener_*']
+        activiteit: '@hs_activiteit_*'
+        medewerker: '@medewerker_*'
+        datum: '<dateTimeThisDecade()>'
+        start: '10:00'
+        eind: '13:00'
+
+#HsBundle\Entity\Factuur:
+#    hs_factuur_{1..10}:
+#        __construct: ['@hs_klant_*']

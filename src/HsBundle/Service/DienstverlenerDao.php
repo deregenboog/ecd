@@ -5,6 +5,7 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Dienstverlener;
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Entity\Klant;
 
 class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterface
 {
@@ -38,7 +39,11 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
             $filter->applyTo($builder);
         }
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
     /**
@@ -47,6 +52,16 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     public function find($id)
     {
         return parent::find($id);
+    }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Dienstverlener
+     */
+    public function findOneByKlant(Klant $klant)
+    {
+        return $this->repository->findOneBy(['klant' => $klant]);
     }
 
     /**

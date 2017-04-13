@@ -61,8 +61,8 @@ class KlantFilter implements FilterInterface
 
         if ($this->bsn) {
             $builder
-                ->andWhere("{$this->alias}.bsn= :{$this->alias}_bsn")
-                ->setParameter("{$this->alias}_bsn", $this->bsn)
+                ->andWhere("{$this->alias}.bsn LIKE :{$this->alias}_bsn")
+                ->setParameter("{$this->alias}_bsn", "%{$this->bsn}%")
             ;
         }
 
@@ -92,10 +92,10 @@ class KlantFilter implements FilterInterface
             if ($this->stadsdeel == '-') {
                 $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
             } else {
-            $builder
-                ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
-                ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
-            ;
+                $builder
+                    ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
+                    ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
+                ;
             }
         }
     }

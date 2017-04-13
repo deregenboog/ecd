@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Dienstverleners |
+    Homeservice | Dienstverleners |
 {% endblock %}
 
 {% block subnavigation %}
@@ -23,15 +23,16 @@
         <dt>#</dt>
         <dd>{{ entity.id }}</dd>
         <dt>Naam</dt>
-        <dd>{{ entity.klant.naam }}</dd>
-        <dt>Openstaand</dt>
-        <dd>{{ entity.openstaand|money }}</dd>
+        <dd>{{ entity }}</dd>
+        <dt>Rijbewijs</dt>
+        <dd>{{ entity.rijbewijs ? 'Ja' : (entity.rijbewijs is null ? 'Onbekend' : 'Nee') }}</dd>
     </dl>
-    {% include '@Hs/klussen/_list.html.twig' %}
-    {% include '@Hs/facturen/_list.html.twig' %}
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_dienstverleners_memos_add', {id: entity.id})} %}
+    {% include '@Hs/documenten/_list.html.twig' with {add_url: path('hs_dienstverleners_documenten_add', {id: entity.id})} %}
 {% endblock %}
 
 {% block content_right %}
-    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_dienstverleners_memos_add', {id: entity.id})} %}
-    {% include '@Hs/documenten/_list.html.twig' with {add_url: path('hs_dienstverleners_documenten_add', {id: entity.id})} %}
+    {% include '@Hs/klussen/_list.html.twig' %}
+    {% include '@Hs/registraties/_list.html.twig' %}
 {% endblock %}

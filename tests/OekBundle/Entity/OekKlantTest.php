@@ -53,7 +53,8 @@ class OekKlantTest extends \PHPUnit_Framework_TestCase
     public function testCannotCloseClosedDossier()
     {
         $oekKlant = new OekKlant();
-        $oekKlant->addOekAanmelding($this->getOekAfsluiting());
+        $oekKlant->addOekAanmelding($this->getOekAanmelding());
+        $oekKlant->addOekAfsluiting($this->getOekAfsluiting());
         $oekKlant->addOekAfsluiting($this->getOekAfsluiting());
     }
 

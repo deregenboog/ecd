@@ -17,15 +17,10 @@ class VrijwilligerFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $dragend;
-
-    /**
-     * @var bool
-     */
     public $rijbewijs;
 
     /**
-     * @var VrijwilligerFilter
+     * @var AppBundle\Filter\VrijwilligerFilter
      */
     public $vrijwilliger;
 
@@ -36,10 +31,6 @@ class VrijwilligerFilter implements FilterInterface
                 ->andWhere("{$this->alias}.id = :{$this->alias}_id")
                 ->setParameter("{$this->alias}_id", $this->id)
             ;
-        }
-
-        if ($this->dragend) {
-            $builder->andWhere("{$this->alias}.dragend = true");
         }
 
         if ($this->rijbewijs) {

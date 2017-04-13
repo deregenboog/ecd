@@ -12,7 +12,7 @@
         <th>Klant</th>
         <th>Bedrag</th>
         <th>Betaald</th>
-        <th>Openstaand</th>
+        <th>Saldo</th>
         <th>&nbsp;</th>
     </tr>
     {% for factuur in entity.facturen %}
@@ -21,10 +21,10 @@
                 {{ html.link(factuur.id, path('hs_facturen_view', {id: factuur.id})) }}
             </td>
             <td>{{ factuur.datum|date('d-m-Y') }}</td>
-            <td>{{ factuur.klus.klant }}</td>
+            <td>{{ factuur.klant }}</td>
             <td>{{ factuur.bedrag|money }}</td>
             <td>{{ factuur.betaald|money }}</td>
-            <td>{{ factuur.openstaand|money }}</td>
+            <td>{{ factuur.saldo|money }}</td>
             <td>
                 {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
                 {{ html.editLink(path('hs_facturen_edit', {id: factuur.id})) }}

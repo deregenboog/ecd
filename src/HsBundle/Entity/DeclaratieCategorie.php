@@ -43,8 +43,9 @@ class DeclaratieCategorie
      */
     private $declaraties;
 
-    public function __construct()
+    public function __construct($naam = null)
     {
+        $this->naam = $naam;
         $this->declaraties = new ArrayCollection();
         $this->created = $this->modified = new \DateTime();
     }
@@ -74,6 +75,14 @@ class DeclaratieCategorie
     public function getDeclaraties()
     {
         return $this->declaraties;
+    }
+
+    public function addDeclaratie(Declaratie $declaratie)
+    {
+        $this->declaraties[] = $declaratie;
+        $declaratie->setDeclaratieCategorie($this);
+
+        return $this;
     }
 
     public function isDeletable()

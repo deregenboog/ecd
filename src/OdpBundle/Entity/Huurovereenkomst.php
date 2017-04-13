@@ -54,13 +54,13 @@ class Huurovereenkomst
 
     /**
      * @var Huuraanbod
-     * @ORM\ManyToOne(targetEntity="Huuraanbod")
+     * @ORM\OneToOne(targetEntity="Huuraanbod", inversedBy="huurovereenkomst")
      */
     private $huuraanbod;
 
     /**
      * @var Huurverzoek
-     * @ORM\ManyToOne(targetEntity="Huurverzoek")
+     * @ORM\OneToOne(targetEntity="Huurverzoek", inversedBy="huurovereenkomst")
      */
     private $huurverzoek;
 

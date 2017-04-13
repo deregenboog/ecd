@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use HsBundle\Entity\Activiteit;
 
 class KlusFilterType extends AbstractType
 {
@@ -34,15 +36,16 @@ class KlusFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('activiteit', $options['enabled_filters'])) {
-            $builder->add('activiteit', null, [
-                'required' => false,
-            ]);
-        }
-
         if (key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
+            ]);
+        }
+
+        if (in_array('activiteit', $options['enabled_filters'])) {
+            $builder->add('activiteit', EntityType::class, [
+                'required' => false,
+                'class' => Activiteit::class,
             ]);
         }
 

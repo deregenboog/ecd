@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use HsBundle\Service\RegistratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use HsBundle\Entity\Arbeider;
 
 /**
  * @Route("/hs/registraties")
@@ -27,12 +28,12 @@ class RegistratiesController extends SymfonyController
     private $dao;
 
     /**
-     * @Route("/add/{klus}/{vrijwilliger}")
+     * @Route("/add/{klus}/{arbeider}")
      * @ParamConverter()
      */
-    public function add(Klus $klus, Vrijwilliger $vrijwilliger = null)
+    public function add(Klus $klus, Arbeider $arbeider = null)
     {
-        $entity = new Registratie($klus, $vrijwilliger);
+        $entity = new Registratie($klus, $arbeider);
         $form = $this->createForm(RegistratieType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,10 +62,10 @@ class RegistratiesController extends SymfonyController
             return $this->redirectToView($entity);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
-    private function redirectToView($entity)
+    private function redirectToView(Registratie $entity)
     {
         return $this->redirectToRoute('hs_klussen_view', ['id' => $entity->getKlus()->getId()]);
     }

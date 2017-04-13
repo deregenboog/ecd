@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Betalingen |
+    Homeservice | Dienstverleners |
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Betaling verwijderen</h1>
-    Weet u zeker dat u {{ betaling }} wilt verwijderen?<br>
-	{{ form(form) }}
+    <h1>Dienstverlener verwijderen</h1>
+    <p>Weet u zeker dat u dienstverlener {{ entity }} wilt verwijderen?</p>
+    {{ form(form) }}
 {% endblock %}

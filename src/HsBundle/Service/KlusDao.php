@@ -15,8 +15,8 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
         'sortFieldWhitelist' => [
             'klus.id',
             'klus.datum',
-            'basisklant.achternaam',
-            'basisklant.werkgebied',
+            'klant.achternaam',
+            'klant.werkgebied',
             'activiteit.naam',
         ],
     ];
@@ -33,10 +33,9 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin('klus.klant', 'klant')
             ->innerJoin('klus.activiteit', 'activiteit')
-            ->innerJoin('klant.klant', 'basisklant');
         ;
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        return $this->doFindAll($builder, $page, $filter);
     }
 
     /**

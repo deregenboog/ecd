@@ -40,10 +40,16 @@ class Factuur
     private $bedrag;
 
     /**
-     * @var Klus
-     * @ORM\ManyToOne(targetEntity="Klus", inversedBy="facturen")
+     * @var Klant
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
      */
-    private $klus;
+    private $klant;
+
+    /**
+     * @var ArrayCollection|Klus[]
+     * @ORM\ManyToMany(targetEntity="Klus", inversedBy="facturen")
+     */
+    private $klussen;
 
     /**
      * @var ArrayCollection|Registratie[]
@@ -65,41 +71,71 @@ class Factuur
      */
     private $betalingen;
 
-    public function __construct(Klus $klus = null)
+    public function __construct(Klant $klant, $nummer, $betreft)
     {
+        $this->klant = $klant;
+        $this->nummer = $nummer;
+        $this->betreft = $betreft;
+
+        $this->betalingen = new ArrayCollection();
+        $this->declaraties = new ArrayCollection();
+        $this->klussen = new ArrayCollection();
+        $this->registraties = new ArrayCollection();
+
         $this->setDatum(new \DateTime());
-        $this->setKlus($klus);
 
-        $firstDayOfPrevMonth = new \DateTime('first day of previous month');
-        $lastDayOfPrevMonth = new \DateTime('last day of previous month');
-        $lastDayOfPrevMonth = new \DateTime('last day of this month');
+//         $start = new \DateTime('first day of previous month');
+// //         $end = new \DateTime('last day of previous month');
+//         $end = new \DateTime('last day of this month');
 
-        $this->nummer = sprintf(
-            '%d/%d',
-            $klus->getKlant()->getId(),
-            $lastDayOfPrevMonth->format('ymd')
-        );
+//         $this->nummer = sprintf(
+//             '%d/%d',
+//             $klant->getId(),
+//             $end->format('ymd')
+//         );
 
-        $this->betreft = sprintf(
-            'Factuurnr: %s van %s t/m %s',
-            $this->nummer,
-            $firstDayOfPrevMonth->format('d-m-Y'),
-            $lastDayOfPrevMonth->format('d-m-Y')
-        );
+//         $this->betreft = sprintf(
+//             'Factuurnr: %s van %s t/m %s',
+//             $this->nummer,
+//             $start->format('d-m-Y'),
+//             $end->format('d-m-Y')
+//         );
 
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('factuur'))
-            ->andWhere(Criteria::expr()->lte('datum', $lastDayOfPrevMonth))
-        ;
-        $this->setRegistraties($klus->getRegistraties()->matching($criteria));
-        $this->setDeclaraties($klus->getDeclaraties()->matching($criteria));
+//         $criteria = Criteria::create()
+//             ->where(Criteria::expr()->isNull('factuur'))
+//             ->andWhere(Criteria::expr()->lte('datum', $end))
+//         ;
 
-        $this->calculate();
+//         foreach ($klant->getKlussen() as $klus) {
+//             foreach ($klus->getDeclaraties()->matching($criteria) as $declaratie) {
+//                 $this->declaraties->add($declaratie);
+//                 if (!$this->klussen->contains($klus)) {
+//                     $this->klussen->add($klus);
+//                 }
+//             }
+//             foreach ($klus->getRegistraties()->matching($criteria) as $registratie) {
+//                 $this->registraties->add($registratie);
+//                 if (!$this->klussen->contains($klus)) {
+//                     $this->klussen->add($klus);
+//                 }
+//             }
+//         }
+
+//         $this->calculate();
     }
 
     public function __toString()
     {
         return $this->nummer;
+    }
+
+    public function isEmpty()
+    {
+        return count($this->declaraties) === 0
+            && count($this->registraties) === 0
+            && count($this->betalingen) === 0
+            && count($this->klussen) === 0
+        ;
     }
 
     public function getId()
@@ -124,17 +160,9 @@ class Factuur
         return $this;
     }
 
-    public function getKlus()
+    public function getKlussen()
     {
-        return $this->klus;
-    }
-
-    private function setKlus(Klus $klus)
-    {
-        $this->klus = $klus;
-        $klus->getFacturen()->add($this);
-
-        return $this;
+        return $this->klussen;
     }
 
     public function getKlant()
@@ -154,11 +182,13 @@ class Factuur
         return $this->registraties;
     }
 
-    private function setRegistraties(ArrayCollection $registraties)
+    public function addRegistratie(Registratie $registratie)
     {
-        $this->registraties = $registraties;
-        foreach ($registraties as $registratie) {
-            $registratie->setFactuur($this);
+        $this->registraties[] = $registratie;
+        $registratie->setFactuur($this);
+
+        if (!$this->klussen->contains($registratie->getKlus())) {
+            $this->klussen->add($registratie->getKlus());
         }
 
         return $this;
@@ -169,29 +199,14 @@ class Factuur
         return $this->declaraties;
     }
 
-    private function setDeclaraties(ArrayCollection $declaraties)
+    private function addDeclaratie(Declaratie $declaratie)
     {
-        $this->declaraties = $declaraties;
-        foreach ($declaraties as $declaratie) {
-            $declaratie->setFactuur($this);
+        $this->declaraties[] = $declaratie;
+        $declaratie->setFactuur($this);
+
+        if (!$this->klussen->contains($declaratie->getKlus())) {
+            $this->klussen->add($declaratie->getKlus());
         }
-
-        return $this;
-    }
-
-    private function calculate()
-    {
-        $bedrag = 0.0;
-
-        foreach ($this->registraties as $registratie) {
-            $bedrag += 2.5 * $registratie->getUren();
-        }
-
-        foreach ($this->declaraties as $declaratie) {
-            $bedrag += $declaratie->getBedrag();
-        }
-
-        $this->bedrag = $bedrag;
 
         return $this;
     }
@@ -201,10 +216,16 @@ class Factuur
         return $this->bedrag;
     }
 
+    public function setBedrag($bedrag)
+    {
+        $this->bedrag = $bedrag;
+
+        return $this;
+    }
+
     public function isDeletable()
     {
-        // @todo
-        return true;
+        return count($this->betalingen) === 0;
     }
 
     public function getBetalingen()
@@ -222,7 +243,7 @@ class Factuur
         return $betaald;
     }
 
-    public function getOpenstaand()
+    public function getSaldo()
     {
         return $this->bedrag - $this->getBetaald();
     }

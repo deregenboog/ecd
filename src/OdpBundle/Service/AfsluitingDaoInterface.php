@@ -4,6 +4,7 @@ namespace OdpBundle\Service;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use OdpBundle\Entity\Afsluiting;
+use AppBundle\Filter\FilterInterface;
 
 interface AfsluitingDaoInterface
 {
@@ -12,7 +13,7 @@ interface AfsluitingDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1);
+    public function findAll($page = 1, FilterInterface $filter = null);
 
     /**
      * @param int $id

@@ -3,70 +3,64 @@
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\ManyToOne;
 use AppBundle\Entity\Medewerker;
 
 /**
- * @Entity
- * @Table(name="hs_registraties")
+ * @ORM\Entity
+ * @ORM\Table(name="hs_registraties")
  */
 class Registratie
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var \DateTime
-     * @Column(type="date")
+     * @ORM\Column(type="date")
      */
     private $datum;
 
     /**
      * @var \DateTime
-     * @Column(type="time")
+     * @ORM\Column(type="time")
      */
     private $start;
 
     /**
      * @var \DateTime
-     * @Column(type="time")
+     * @ORM\Column(type="time")
      */
     private $eind;
 
     /**
      * @var float
-     * @Column(type="float", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $reiskosten;
 
     /**
      * @var Klus
-     * @ManyToOne(targetEntity="Klus", inversedBy="registraties")
+     * @ORM\ManyToOne(targetEntity="Klus", inversedBy="registraties")
      */
     private $klus;
 
     /**
      * @var Factuur
-     * @ManyToOne(targetEntity="Factuur", inversedBy="registraties")
+     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties")
      * @ORM\JoinColumn(nullable=true)
      */
     private $factuur;
 
     /**
-     * @var Vrijwilliger
-     * @ManyToOne(targetEntity="Vrijwilliger", inversedBy="registraties")
+     * @var Arbeider
+     * @ORM\ManyToOne(targetEntity="Arbeider", inversedBy="registraties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $vrijwilliger;
+    private $arbeider;
 
     /**
      * @var Activiteit
@@ -77,17 +71,17 @@ class Registratie
 
     /**
      * @var Medewerker
-     * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
     private $medewerker;
 
-    public function __construct(Klus $klus, Vrijwilliger $vrijwilliger = null)
+    public function __construct(Klus $klus, Arbeider $arbeider = null)
     {
         $this->datum = $klus->getDatum();
         $this->klus = $klus;
         $this->activiteit = $klus->getActiviteit();
-        $this->vrijwilliger = $vrijwilliger;
+        $this->arbeider = $arbeider;
     }
 
     public function getId()
@@ -148,17 +142,17 @@ class Registratie
         return $this->klus;
     }
 
-    public function getVrijwilliger()
-    {
-        return $this->vrijwilliger;
-    }
+//     public function getArbeider()
+//     {
+//         return $this->arbeider;
+//     }
 
-    public function setVrijwilliger(Vrijwilliger $vrijwilliger)
-    {
-        $this->vrijwilliger = $vrijwilliger;
+//     public function setArbeider(Arbeider $arbeider)
+//     {
+//         $this->arbeider = $arbeider;
 
-        return $this;
-    }
+//         return $this;
+//     }
 
     public function getFactuur()
     {
@@ -206,5 +200,17 @@ class Registratie
     public function getDagdelen()
     {
         return $this->getUren() > 3 ? 2 : 1;
+    }
+
+    public function getArbeider()
+    {
+        return $this->arbeider;
+    }
+
+    public function setArbeider(Arbeider $arbeider)
+    {
+        $this->arbeider = $arbeider;
+
+        return $this;
     }
 }

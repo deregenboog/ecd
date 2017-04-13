@@ -2,14 +2,16 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Vrijwilliger;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 
 interface VrijwilligerDaoInterface
 {
     /**
      * @param int $page
+     * @param FilterInterface $filter
      *
      * @return PaginationInterface
      */
@@ -21,6 +23,13 @@ interface VrijwilligerDaoInterface
      * @return Vrijwilliger
      */
     public function find($id);
+
+    /**
+     * @param AppVrijwilliger $vrijwilliger
+     *
+     * @return Dienstverlener
+     */
+    public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger);
 
     /**
      * @param Vrijwilliger $vrijwilliger

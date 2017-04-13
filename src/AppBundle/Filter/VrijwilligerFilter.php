@@ -40,7 +40,7 @@ class VrijwilligerFilter implements FilterInterface
      */
     public $stadsdeel;
 
-    public function applyTo(QueryBuilder $builder, $alias = 'vrijwilliger')
+    public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
             $builder
@@ -61,8 +61,8 @@ class VrijwilligerFilter implements FilterInterface
 
         if ($this->bsn) {
             $builder
-                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
-                ->setParameter("{$alias}_bsn", $this->bsn)
+                ->andWhere("{$this->alias}.bsn LIKE :{$this->alias}_bsn")
+                ->setParameter("{$this->alias}_bsn", "%{$this->bsn}%")
             ;
         }
 

@@ -61,12 +61,19 @@ class Klus implements MemoSubjectInterface
      */
     private $activiteit;
 
+    private $dienstverlener;
+
     private $vrijwilliger;
+
+    /**
+     * @var ArrayCollection|Dienstverlener[]
+     * @ORM\ManyToMany(targetEntity="Dienstverlener", inversedBy="klussen")
+     */
+    private $dienstverleners;
 
     /**
      * @var ArrayCollection|Vrijwilliger[]
      * @ORM\ManyToMany(targetEntity="Vrijwilliger", inversedBy="klussen")
-     * @ORM\JoinTable(name="hs_klus_vrijwilliger")
      */
     private $vrijwilligers;
 
@@ -84,17 +91,9 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @var ArrayCollection|Factuur[]
-     * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klus")
+     * @ORM\ManyToMany(targetEntity="Factuur", mappedBy="klussen")
      */
     private $facturen;
-
-//     /**
-//      * @var ArrayCollection|Memo[]
-//      *
-//      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist", "remove"})
-//      * @ORM\JoinTable(name="hs_vrijwilliger_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
-//      */
-//     protected $memos;
 
     /**
      * @var Medewerker
@@ -107,8 +106,10 @@ class Klus implements MemoSubjectInterface
     {
         $this->klant = $klant;
         $this->medewerker = $medewerker;
+        $this->dienstverleners = new ArrayCollection();
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();
+        $this->facturen = new ArrayCollection();
     }
 
     public function __toString()
@@ -157,22 +158,33 @@ class Klus implements MemoSubjectInterface
         return $this;
     }
 
+    public function getDienstverleners()
+    {
+        return $this->dienstverleners;
+    }
+
+    public function addDienstverlener($dienstverlener)
+    {
+        $this->dienstverleners->add($dienstverlener);
+        $dienstverlener->getKlussen()->add($this);
+
+        return $this;
+    }
+
+    public function removeDienstverlener($dienstverlener)
+    {
+        $this->dienstverleners->removeElement($dienstverlener);
+        $dienstverlener->getKlussen()->removeElement($this);
+
+        return $this;
+    }
+
     public function getVrijwilligers()
     {
         return $this->vrijwilligers;
     }
 
-    public function getVrijwilliger()
-    {
-        return null;
-    }
-
-    public function setVrijwilliger(Vrijwilliger $vrijwilliger)
-    {
-        return $this->addVrijwilliger($vrijwilliger);
-    }
-
-    public function addVrijwilliger($vrijwilliger)
+    public function addVrijwilliger(Vrijwilliger $vrijwilliger)
     {
         $this->vrijwilligers->add($vrijwilliger);
         $vrijwilliger->getKlussen()->add($this);
@@ -217,6 +229,10 @@ class Klus implements MemoSubjectInterface
 
     public function isDeletable()
     {
+        return true;
+
+        // @todo
+
         return count($this->facturen) === 0
             && count($this->registraties) === 0;
     }
@@ -263,7 +279,7 @@ class Klus implements MemoSubjectInterface
         return $bedrag;
     }
 
-    public function getOpenstaand()
+    public function getSaldo()
     {
         return $this->getGefactureerd() - $this->getBetaald();
     }

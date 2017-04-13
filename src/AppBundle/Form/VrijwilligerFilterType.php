@@ -51,9 +51,7 @@ class VrijwilligerFilterType extends AbstractType
             $builder->add('stadsdeel', StadsdeelFilterType::class);
         }
 
-        if (in_array('filter', $options['enabled_filters'])) {
-            $builder->add('filter', SubmitType::class);
-        }
+        $builder->add('filter', SubmitType::class);
     }
 
     /**

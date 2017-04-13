@@ -26,3 +26,11 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'
             - '%pagination.items_per_page%'
+
+    app.dao.klant:
+        parent: app.dao.abstract
+        class: AppBundle\Service\KlantDao
+
+    app.dao.vrijwilliger:
+        parent: app.dao.abstract
+        class: AppBundle\Service\VrijwilligerDao

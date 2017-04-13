@@ -2,10 +2,10 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Vrijwilliger;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Service\AbstractDao;
+use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Vrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -38,6 +38,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             $filter->applyTo($builder);
         }
 
+        if ($page <= 0) {
+            return $builder->getQuery()->getResult();
+        }
+
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
     }
 
@@ -47,6 +51,16 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function find($id)
     {
         return parent::find($id);
+    }
+
+    /**
+     * @param AppVrijwilliger $vrijwilliger
+     *
+     * @return Dienstverlener
+     */
+    public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger)
+    {
+        return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
     }
 
     /**

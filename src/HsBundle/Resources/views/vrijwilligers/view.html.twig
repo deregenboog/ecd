@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Vrijwilligers |
+    Homeservice | Vrijwilligers |
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content_left %}
-    <h1>Vrijwilliger: {{ entity }}</h1>
+    <h1>Vrijwilliger {{ entity }}</h1>
     <p>
         {{ html.editLink(path('hs_vrijwilligers_edit', {id: entity.id})) }}
         {{ html.link('Wijzigen', path('hs_vrijwilligers_edit', {id: entity.id})) }}
@@ -24,15 +24,15 @@
         <dd>{{ entity.id }}</dd>
         <dt>Naam</dt>
         <dd>{{ entity }}</dd>
-        <dt>Dragend</dt>
-        <dd>{{ entity.dragend ? 'Ja' : 'Nee' }}</dd>
         <dt>Rijbewijs</dt>
         <dd>{{ entity.rijbewijs ? 'Ja' : (entity.rijbewijs is null ? 'Onbekend' : 'Nee') }}</dd>
     </dl>
-    {% include '@Hs/klussen/_list.html.twig' %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_vrijwilligers_memos_add', {id: entity.id})} %}
+    {% include '@Hs/documenten/_list.html.twig' with {add_url: path('hs_vrijwilligers_documenten_add', {id: entity.id})} %}
 {% endblock %}
 
 {% block content_right %}
-    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_vrijwilligers_memos_add', {id: entity.id})} %}
-    {% include '@Hs/documenten/_list.html.twig' with {add_url: path('hs_vrijwilligers_documenten_add', {id: entity.id})} %}
+    {% include '@Hs/klussen/_list.html.twig' %}
+    {% include '@Hs/registraties/_list.html.twig' %}
 {% endblock %}

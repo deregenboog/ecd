@@ -5,6 +5,7 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Dienstverlener;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Entity\Klant;
 
 interface DienstverlenerDaoInterface
 {
@@ -21,6 +22,13 @@ interface DienstverlenerDaoInterface
      * @return Dienstverlener
      */
     public function find($id);
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Dienstverlener
+     */
+    public function findOneByKlant(Klant $klant);
 
     /**
      * @param Dienstverlener $dienstverlener

@@ -1,12 +1,19 @@
-{% include('hs_subnavigation.twig') %}
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
 
-{% if klant is defined %}
-    <h1>Klus toevoegen voor {{ klant.klant }}</h1>
-{% else %}
-    <h1>HomeService-klus toevoegen</h1>
-{% endif %}
+{% block title %}
+    Homeservice | Facturen |
+{% endblock %}
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Opslaan</button>
-{{ form_end(form) }}
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% if klant is defined %}
+        <h1>Klus toevoegen voor {{ klant }}</h1>
+    {% else %}
+        <h1>Homeservice-klus toevoegen</h1>
+    {% endif %}
+    {{ form(form) }}
+{% endblock %}

@@ -11,6 +11,7 @@ use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use HsBundle\Filter\KlantFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\StadsdeelFilterType;
 
 class KlantFilterType extends AbstractType
 {
@@ -25,16 +26,28 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('openstaand', $options['enabled_filters'])) {
-            $builder->add('openstaand', CheckboxType::class, [
+        if (in_array('naam', $options['enabled_filters'])) {
+            $builder->add('naam', null, [
                 'required' => false,
-                'label' => 'Met openstaande factuur',
+                'attr' => ['placeholder' => 'Naam'],
             ]);
         }
 
-        if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', AppKlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
+        if (in_array('stadsdeel', $options['enabled_filters'])) {
+            $builder->add('stadsdeel', StadsdeelFilterType::class);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen actieve klanten',
+            ]);
+        }
+
+        if (in_array('negatiefSaldo', $options['enabled_filters'])) {
+            $builder->add('negatiefSaldo', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Met negatief saldo',
             ]);
         }
 

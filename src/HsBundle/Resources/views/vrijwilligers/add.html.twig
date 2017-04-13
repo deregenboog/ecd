@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Vrijwilligers |
+    Homeservice | Vrijwilligers |
 {% endblock %}
 
 {% block subnavigation %}
@@ -15,11 +15,35 @@
         Zoek een bestaande vrijwilliger op naam, BSN of geboortedatum.
         {{ form(filterForm) }}
     {% endif %}
-    {% if selectionForm is defined %}
-        Selecteer een bestaande vrijwilliger en klik op "Verder".<br>
-        Selecteer niks en klik op "Verder" om een nieuwe vrijwilliger aan te maken.
-        {{ form(selectionForm) }}
+
+    {% if vrijwilligers is defined %}
+        <p>
+            Selecteer de gewenste vrijwilliger in onderstaande lijst of klik op
+            "Nieuwe vrijwilliger" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.addLink(path('hs_vrijwilligers_add', {vrijwilligerId: 'new'}))|raw }}
+            {{ html.link('Nieuwe vrijwilliger', path('hs_vrijwilligers_add', {vrijwilligerId: 'new'}))|raw }}
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>BSN</th>
+                    <th>Geboortedatum</th>
+                </tr>
+            </thead>
+            {% for entity in vrijwilligers %}
+                {% set url = path('hs_vrijwilligers_add', {vrijwilligerId: entity.id}) %}
+                <tr>
+                    <td>{{ html.link(entity, url)|raw }}</td>
+                    <td>{{ html.link(entity.bsn, url)|raw }}</td>
+                    <td>{{ html.link(entity.geboortedatum ? entity.geboortedatum|date('d-m-Y'), url)|raw }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
+
     {% if creationForm is defined %}
         {{ form(creationForm) }}
     {% endif %}

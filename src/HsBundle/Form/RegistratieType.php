@@ -22,13 +22,15 @@ class RegistratieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('vrijwilliger', null, [
-                'placeholder' => 'Selecteer een vrijwilliger',
+            ->add('arbeider', null, [
+                'placeholder' => 'Selecteer een dienstverlener of vrijwilliger',
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('vrijwilliger')
-                        ->innerJoin('vrijwilliger.klussen', 'klus')
-                        ->where('klus = :klus')
-                        ->setParameter('klus', $options['data']->getKlus());
+                    return $repository->createQueryBuilder('arbeider')
+                        ->where('arbeider IN (:dienstverleners)')
+                        ->orWhere('arbeider IN (:vrijwilligers)')
+                        ->setParameter('dienstverleners', $options['data']->getKlus()->getDienstverleners())
+                        ->setParameter('vrijwilligers', $options['data']->getKlus()->getVrijwilligers())
+                    ;
                 },
             ])
             ->add('medewerker', MedewerkerType::class)

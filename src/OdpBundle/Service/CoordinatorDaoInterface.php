@@ -4,6 +4,7 @@ namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Coordinator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use AppBundle\Filter\FilterInterface;
 
 interface CoordinatorDaoInterface
 {
@@ -12,7 +13,7 @@ interface CoordinatorDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1);
+    public function findAll($page = 1, FilterInterface $filter = null);
 
     /**
      * @param int $id

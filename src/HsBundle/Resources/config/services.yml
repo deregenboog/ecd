@@ -42,3 +42,17 @@ services:
     hs.dao.vrijwilliger:
         parent: app.dao.abstract
         class: HsBundle\Service\VrijwilligerDao
+
+    hs.form.type.klant:
+        class: HsBundle\Form\KlantType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    hs.subscriber.klant:
+        class: HsBundle\Event\KlantUpdater
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    hs.factory.factuur:
+        class: HsBundle\Service\FactuurFactory

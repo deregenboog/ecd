@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Klanten |
+    Homeservice | Klanten |
 {% endblock %}
 
 {% block subnavigation %}
@@ -11,10 +11,5 @@
 
 {% block content %}
     <h1>Klant wijzigen</h1>
-    <p>
-        Hier kunt u alleen de Homeservice-gegevens voor deze klant wijzigen.
-        Klik {{ html.link('hier', path('app_klanten_edit', {id: klant.klant.id})) }}
-        om naar het basisdossier van deze klant te gaan.
-    </p>
     {{ form(form) }}
 {% endblock %}

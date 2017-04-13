@@ -7,6 +7,8 @@ use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
 use AppBundle\Controller\SymfonyController;
 use Symfony\Component\Routing\Annotation\Route;
+use HsBundle\Service\MemoDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/hs/memos")
@@ -14,31 +16,38 @@ use Symfony\Component\Routing\Annotation\Route;
 class MemosController extends SymfonyController
 {
     /**
+     * @var MemoDaoInterface
+     *
+     * @DI\Inject("hs.dao.memo")
+     */
+    private $dao;
+
+    /**
      * @Route("/{id}/edit")
      */
     public function edit($id)
     {
-        $entityManager = $this->getEntityManager();
-        $memo = $entityManager->find(Memo::class, $id);
+        $entity = $this->dao->find($id);
 
-        $form = $this->createForm(MemoType::class, $memo);
+        $form = $this->createForm(MemoType::class, $entity);
         $form->get('referer')->setData($this->referer());
         $form->handleRequest($this->getRequest());
-
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $entityManager->flush();
-
+                $this->dao->update($entity);
                 $this->addFlash('success', 'Memo is opgeslagen.');
 
-                return $this->redirect($form->get('referer')->getData());
             } catch (\Exception $e) {
-                $form->addError(new FormError('Er is een fout opgetreden.'));
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
+
+            return $this->redirect($form->get('referer')->getData());
         }
 
-        $this->set('form', $form->createView());
-        $this->set('memo', $memo);
+        return [
+            'memo' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     /**
@@ -46,23 +55,26 @@ class MemosController extends SymfonyController
      */
     public function delete($id)
     {
-        $entityManager = $this->getEntityManager();
-        $memo = $entityManager->find(Memo::class, $id);
+        $entity = $this->dao->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
-        $form->get('referer')->setData($this->referer());
         $form->handleRequest($this->getRequest());
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->remove($memo);
-            $entityManager->flush();
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $this->dao->delete($entity);
+                    $this->addFlash('success', 'Memo is verwijderd.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
 
-            $this->addFlash('success', 'Memo is verwijderd.');
-
-            return $this->redirect($form->get('referer')->getData());
+            return $this->redirectToIndex();
         }
 
-        $this->set('memo', $memo);
-        $this->set('form', $form->createView());
+        return [
+            'memo' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 }

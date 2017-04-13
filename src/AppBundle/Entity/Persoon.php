@@ -12,7 +12,7 @@ use AppBundle\Model\TimestampableTrait;
  */
 class Persoon
 {
-    use TimestampableTrait;
+    use NameTrait, AddressTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -22,36 +22,10 @@ class Persoon
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $voornaam;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $roepnaam;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $tussenvoegsel;
-
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
-    protected $achternaam;
-
-    /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
      */
     protected $geboortedatum;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\Email
-     */
-    protected $email;
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
@@ -60,46 +34,31 @@ class Persoon
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $medewerker;
 
     /**
      * @var Geslacht
-     * @ORM\ManyToOne(targetEntity="Geslacht")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $geslacht;
 
     /**
      * @var Land
-     * @ORM\ManyToOne(targetEntity="Land")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $land;
 
     /**
      * @var Nationaliteit
-     * @ORM\ManyToOne(targetEntity="Nationaliteit")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Nationaliteit")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $nationaliteit;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $adres;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $postcode;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $plaats;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -112,24 +71,14 @@ class Persoon
     protected $postcodegebied;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $mobiel;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $telefoon;
-
-    /**
      * @ORM\Column(name="geen_post", type="boolean")
      */
-    protected $geenPost;
+    protected $geenPost = false;
 
     /**
      * @ORM\Column(name="geen_email", type="boolean")
      */
-    protected $geenEmail;
+    protected $geenEmail = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -141,82 +90,9 @@ class Persoon
      */
     protected $disabled = false;
 
-    public function __toString()
-    {
-        return $this->getNaam();
-    }
-
-    public function getNaam()
-    {
-        $parts = [];
-
-        if ($this->voornaam) {
-            $parts[] = $this->voornaam;
-        }
-        if ($this->roepnaam) {
-            $parts[] = "({$this->roepnaam})";
-        }
-        if ($this->tussenvoegsel) {
-            $parts[] = $this->tussenvoegsel;
-        }
-        if ($this->achternaam) {
-            $parts[] = $this->achternaam;
-        }
-
-        return implode(' ', $parts);
-    }
-
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getVoornaam()
-    {
-        return $this->voornaam;
-    }
-
-    public function setVoornaam($voornaam)
-    {
-        $this->voornaam = $voornaam;
-
-        return $this;
-    }
-
-    public function getRoepnaam()
-    {
-        return $this->roepnaam;
-    }
-
-    public function setRoepnaam($roepnaam)
-    {
-        $this->roepnaam = $roepnaam;
-
-        return $this;
-    }
-
-    public function getTussenvoegsel()
-    {
-        return $this->tussenvoegsel;
-    }
-
-    public function setTussenvoegsel($tussenvoegsel)
-    {
-        $this->tussenvoegsel = $tussenvoegsel;
-
-        return $this;
-    }
-
-    public function getAchternaam()
-    {
-        return $this->achternaam;
-    }
-
-    public function setAchternaam($achternaam)
-    {
-        $this->achternaam = $achternaam;
-
-        return $this;
     }
 
     public function getGeslacht()
@@ -241,43 +117,6 @@ class Persoon
         $this->geboortedatum = $geboortedatum;
 
         return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email = null)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getAdres()
-    {
-        return $this->adres;
-    }
-
-    public function getPostcode()
-    {
-        return $this->postcode;
-    }
-
-    public function getPlaats()
-    {
-        return $this->plaats;
-    }
-
-    public function getMobiel()
-    {
-        return $this->mobiel;
-    }
-
-    public function getTelefoon()
-    {
-        return $this->telefoon;
     }
 
     public function getPostcodegebied()
@@ -358,41 +197,6 @@ class Persoon
     public function setNationaliteit(Nationaliteit $nationaliteit)
     {
         $this->nationaliteit = $nationaliteit;
-
-        return $this;
-    }
-
-    public function setAdres($adres)
-    {
-        $this->adres = $adres;
-
-        return $this;
-    }
-
-    public function setPostcode($postcode)
-    {
-        $this->postcode = $postcode;
-
-        return $this;
-    }
-
-    public function setPlaats($plaats)
-    {
-        $this->plaats = $plaats;
-
-        return $this;
-    }
-
-    public function setMobiel($mobiel)
-    {
-        $this->mobiel = $mobiel;
-
-        return $this;
-    }
-
-    public function setTelefoon($telefoon)
-    {
-        $this->telefoon = $telefoon;
 
         return $this;
     }

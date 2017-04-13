@@ -14,6 +14,9 @@ use HsBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Memo;
 
 /**
  * @Route("/hs/klanten")
@@ -30,8 +33,11 @@ class KlantenController extends SymfonyController
     private $dao;
 
     private $enabledFilters = [
-        'openstaand',
-        'klant' => ['id', 'naam', 'stadsdeel'],
+        'id',
+        'naam',
+        'stadsdeel',
+        'actief',
+        'negatiefSaldo',
         'filter',
         'download',
     ];
@@ -59,63 +65,24 @@ class KlantenController extends SymfonyController
      */
     public function add(Request $request)
     {
-        if ($klantId = $request->get('klantId')) {
-            if ($klantId === 'new') {
-                $appKlant = new AppKlant();
-            } else {
-                $appKlant = $this->getEntityManager()->find(AppKlant::class, $klantId);
+        $klant = new Klant();
+        $form = $this->getForm($klant)->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->dao->create($klant);
+                $this->addFlash('success', 'Klant is opgeslagen.');
+
+                return $this->redirectToRoute('hs_klanten_memos_add', ['id' => $klant->getId()]);
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.'.$e->getMessage());
             }
 
-            $klant = new Klant($appKlant);
-            $creationForm = $this->getForm($klant)->handleRequest($this->getRequest());
-
-            if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-                try {
-                    $this->dao->create($klant);
-                    $this->addFlash('success', 'Klant is opgeslagen.');
-
-                    return $this->redirectToRoute('hs_klanten_memos_add', ['id' => $klant->getId()]);
-                } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
-                }
-
-                return $this->redirectToIndex();
-            }
-
-            return [
-                'creationForm' => $creationForm->createView(),
-            ];
-        }
-
-        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
-            'enabled_filters' => ['naam'],
-        ]);
-        $filterForm->handleRequest($this->getRequest());
-
-        $selectionForm = $this->createForm(KlantSelectType::class, null, [
-            'filter' => $filterForm->getData(),
-        ]);
-        $selectionForm->handleRequest($this->getRequest());
-
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            return [
-                'selectionForm' => $selectionForm->createView(),
-            ];
-        }
-
-        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
-            $klant = $selectionForm->getData();
-            if ($klant->getKlant() instanceof AppKlant) {
-                $klantId = $klant->getKlant()->getId();
-            } else {
-                $klantId = 'new';
-            }
-
-            return $this->redirectToRoute('hs_klanten_add', ['klantId' => $klantId]);
+            return $this->redirectToIndex();
         }
 
         return [
-            'filterForm' => $filterForm->createView(),
+            'creationForm' => $form->createView(),
         ];
     }
 
@@ -144,7 +111,7 @@ class KlantenController extends SymfonyController
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Klant is opgeslagen.');
 
-                return $this->redirectToView($entity->getId());
+                return $this->redirectToView($entity);
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
@@ -166,8 +133,10 @@ class KlantenController extends SymfonyController
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->delete($entity);
-            $this->addFlash('success', 'Klant is verwijderd.');
+            if ($form->get('yes')->isClicked()) {
+                $this->dao->delete($entity);
+                $this->addFlash('success', 'Klant is verwijderd.');
+            }
 
             return $this->redirectToIndex();
         }
@@ -195,8 +164,8 @@ class KlantenController extends SymfonyController
         return $this->redirectToRoute('hs_klanten_index');
     }
 
-    private function redirectToView($id)
+    private function redirectToView(Klant $entity)
     {
-        return $this->redirectToRoute('hs_klanten_view', ['id' => $id]);
+        return $this->redirectToRoute('hs_klanten_view', ['id' => $entity->getId()]);
     }
 }

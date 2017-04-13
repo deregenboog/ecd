@@ -4,8 +4,12 @@ namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Klant as AppKlant;
 use Doctrine\Common\Collections\Criteria;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Entity\NameTrait;
+use AppBundle\Entity\AddressTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Entity\Stadsdeel;
 
 /**
  * @ORM\Entity
@@ -14,7 +18,7 @@ use Doctrine\Common\Collections\Criteria;
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use MemoSubjectTrait, DocumentSubjectTrait;
+    use NameTrait, AddressTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -22,6 +26,11 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $werkgebied;
 
     /**
      * @ORM\Column(type="date", nullable=false)
@@ -44,27 +53,16 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $actief = true;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $modified;
-
-    /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $onHold = false;
 
     /**
-     * @var Klant
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $klant;
+    private $bewindvoerder;
 
     /**
      * @var ArrayCollection|Klus[]
@@ -72,58 +70,25 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      */
     private $klussen;
 
-//     /**
-//      * @var ArrayCollection|Memo[]
-//      *
-//      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist", "remove"})
-//      * @ORM\JoinTable(name="hs_klant_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
-//      */
-//     protected $memos;
+    /**
+     * @var ArrayCollection|Factuur[]
+     * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klant")
+     */
+    private $facturen;
 
     /**
-     * @ORM\PrePersist
+     * @ORM\Column(type="decimal", scale=2)
      */
-    public function onPrePersist()
-    {
-        $this->created = $this->modified = new \DateTime();
-    }
+    private $saldo = 0.0;
 
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
+    public function __construct()
     {
-        $this->modified = new \DateTime();
-    }
-
-    public function __construct(AppKlant $klant = null)
-    {
-        if ($klant) {
-            $this->klant = $klant;
-        }
         $this->klussen = new ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        return (string) $this->klant;
     }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getKlant()
-    {
-        return $this->klant;
-    }
-
-    public function setKlant(AppKlant $klant)
-    {
-        $this->klant = $klant;
-
-        return $this;
     }
 
     public function getInschrijving()
@@ -150,14 +115,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function isActief()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('einddatum'))
-            ->orWhere(Criteria::expr()->gte('einddatum', new \DateTime('today')));
-
-        $actief = count($this->klussen->matching($criteria)) > 0;
-        $this->setActief($actief);
-
-        return $actief;
+        return $this->actief;
     }
 
     public function setActief($actief)
@@ -170,8 +128,8 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function getGefactureerd()
     {
         $bedrag = 0.0;
-        foreach ($this->klussen as $klus) {
-            $bedrag += $klus->getGefactureerd();
+        foreach ($this->facturen as $factuur) {
+            $bedrag += $factuur->getBedrag();
         }
 
         return $bedrag;
@@ -180,28 +138,16 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function getBetaald()
     {
         $bedrag = 0.0;
-        foreach ($this->klussen as $klus) {
-            $bedrag += $klus->getBetaald();
+        foreach ($this->facturen as $factuur) {
+            $bedrag += $factuur->getBetaald();
         }
 
         return $bedrag;
     }
 
-    public function getOpenstaand()
-    {
-        return $this->getGefactureerd() - $this->getBetaald();
-    }
-
     public function getFacturen()
     {
-        $facturen = new ArrayCollection();
-        foreach ($this->klussen as $klus) {
-            foreach ($klus->getFacturen() as $factuur) {
-                $facturen->add($factuur);
-            }
-        }
-
-        return $facturen;
+        return $this->facturen;
     }
 
     public function isOnHold()
@@ -212,6 +158,64 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function setOnHold($onHold)
     {
         $this->onHold = $onHold;
+
+        return $this;
+    }
+
+    public function getUitschrijving()
+    {
+        return $this->uitschrijving;
+    }
+
+    public function setUitschrijving($uitschrijving)
+    {
+        $this->uitschrijving = $uitschrijving;
+        return $this;
+    }
+
+    public function getLaatsteContact()
+    {
+        return $this->laatsteContact;
+    }
+
+    public function setLaatsteContact($laatsteContact)
+    {
+        $this->laatsteContact = $laatsteContact;
+        return $this;
+    }
+
+    public function getBewindvoerder()
+    {
+        return $this->bewindvoerder;
+    }
+
+    public function setBewindvoerder($bewindvoerder)
+    {
+        $this->bewindvoerder = $bewindvoerder;
+
+        return $this;
+    }
+
+    public function getWerkgebied()
+    {
+        return $this->werkgebied;
+    }
+
+    public function setWerkgebied($werkgebied)
+    {
+        $this->werkgebied = $werkgebied;
+
+        return $this;
+    }
+
+    public function getSaldo()
+    {
+        return $this->saldo;
+    }
+
+    public function setSaldo($saldo)
+    {
+        $this->saldo = $saldo;
 
         return $this;
     }

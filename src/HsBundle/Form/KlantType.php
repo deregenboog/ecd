@@ -12,33 +12,52 @@ use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Stadsdeel;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class KlantType extends AbstractType
 {
+    private $werkgebiedChoices = [];
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->werkgebiedChoices = $this->getWerkgebiedChoices($entityManager);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data'] instanceof Klant
-            && $options['data']->getKlant() instanceof AppKlant
-            && $options['data']->getKlant()->getId()
-        ) {
-            $builder->add('klant', null, [
-                'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('klant')
-                        ->where('klant = :klant')
-                        ->setParameter('klant', $options['data']->getKlant())
-                    ;
-                },
-            ]);
-        } else {
-            $builder->add('klant', AppKlantType::class);
-        }
-
         $builder
+            ->add('voornaam')
+            ->add('tussenvoegsel')
+            ->add('achternaam')
+            ->add('roepnaam')
+            ->add('geslacht', null, [
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('geslacht')
+                        ->orderBy('geslacht.id', 'DESC');
+                },
+            ])
+            ->add('medewerker', MedewerkerType::class)
+            ->add('adres')
+            ->add('postcode')
+            ->add('plaats')
+            ->add('werkgebied', ChoiceType::class, [
+                'label' => 'Stadsdeel',
+                'required' => false,
+                'choices' => $this->werkgebiedChoices,
+            ])
+            ->add('email')
+            ->add('mobiel')
+            ->add('telefoon')
             ->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('bewindvoerder', TextareaType::class, ['required' => false])
             ->add('onHold')
             ->add('submit', SubmitType::class)
         ;
@@ -60,5 +79,24 @@ class KlantType extends AbstractType
     public function getParent()
     {
         return BaseType::class;
+    }
+
+    private function getWerkgebiedChoices(EntityManager $entityManager)
+    {
+        $stadsdelen = $entityManager->getRepository(Stadsdeel::class)
+            ->createQueryBuilder('stadsdeel')
+            ->select('stadsdeel.stadsdeel')
+            ->distinct(true)
+            ->orderBy('stadsdeel.stadsdeel')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $choices = [];
+        foreach ($stadsdelen as $stadsdeel) {
+            $choices[$stadsdeel['stadsdeel']] = $stadsdeel['stadsdeel'];
+        }
+
+        return $choices;
     }
 }

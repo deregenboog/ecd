@@ -46,10 +46,10 @@ class Betaling
      */
     private $factuur;
 
-    public function __construct(Factuur $factur)
+    public function __construct(Factuur $factuur)
     {
         $this->datum = new \DateTime('today');
-        $this->factuur = $factur;
+        $this->factuur = $factuur;
     }
 
     public function __toString()

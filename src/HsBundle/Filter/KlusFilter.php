@@ -5,6 +5,7 @@ namespace HsBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use HsBundle\Entity\Activiteit;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class KlusFilter implements FilterInterface
 {
@@ -14,54 +15,53 @@ class KlusFilter implements FilterInterface
     public $id;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
-    public $datum = null;
-
-    /**
-     * @var Activiteit
-     */
-    public $activiteit;
+    public $datum;
 
     /**
      * @var KlantFilter
      */
     public $klant;
 
+    /**
+     * @var Activiteit
+     */
+    public $activiteit;
+
     public function applyTo(QueryBuilder $builder)
     {
-//         if ($this->nummer) {
-//             $builder
-//                 ->andWhere('factuur.nummer LIKE :nummer')
-//                 ->setParameter('nummer', "%{$this->nummer}%")
-//             ;
-//         }
+        if ($this->id) {
+            $builder
+                ->andWhere('klus.id = :id')
+                ->setParameter('id', $this->id)
+            ;
+        }
 
-//         if ($this->datum instanceof \DateTime) {
-//             $builder
-//                 ->andWhere('factuur.datum = :datum')
-//                 ->setParameter('datum', $this->datum)
-//             ;
-//         }
+        if ($this->datum) {
+            if ($this->datum->getStart()) {
+                $builder
+                    ->andWhere('klus.datum >= :datum_van')
+                    ->setParameter('datum_van', $this->datum->getStart())
+                ;
+            }
+            if ($this->datum->getEnd()) {
+                $builder
+                    ->andWhere('klus.datum <= :datum_tot')
+                    ->setParameter('datum_tot', $this->datum->getEnd())
+                ;
+            }
+        }
 
-//         if ($this->bedrag) {
-//             $builder
-//                 ->andWhere('factuur.bedrag = :bedrag')
-//                 ->setParameter('bedrag', $this->bedrag)
-//             ;
-//         }
+        if ($this->activiteit) {
+            $builder
+                ->andWhere('klus.activiteit = :activiteit')
+                ->setParameter('activiteit', $this->activiteit)
+            ;
+        }
 
-//         if ($this->openstaand) {
-//             $builder
-//                 ->leftJoin('factuur.betalingen', 'betaling')
-//                 ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')
-//                 ->orHaving('SUM(factuur.bedrag) > 0 AND COUNT(betaling) = 0')
-//                 ->groupBy('factuur')
-//             ;
-//         }
-
-//         if ($this->klant) {
-//             $this->klant->applyTo($builder);
-//         }
+        if ($this->klant) {
+            $this->klant->applyTo($builder);
+        }
     }
 }

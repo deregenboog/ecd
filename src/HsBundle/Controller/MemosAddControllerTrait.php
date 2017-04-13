@@ -16,8 +16,7 @@ trait MemosAddControllerTrait
     {
         $entity = $this->dao->find($id);
 
-        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
-        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+        $medewerker = $this->getMedewerker();
 
         $memo = new Memo($medewerker);
         if (count($entity->getMemos()) === 0) {
@@ -36,11 +35,11 @@ trait MemosAddControllerTrait
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
 
-            return $this->redirectToView($entity->getId());
+            return $this->redirectToView($entity);
         }
 
         return [
-            'klant' => $entity,
+            'entity' => $entity,
             'form' => $form->createView(),
         ];
     }

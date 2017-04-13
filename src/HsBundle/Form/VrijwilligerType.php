@@ -2,16 +2,16 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
+use Doctrine\ORM\EntityRepository;
+use HsBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
-use HsBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
-use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
 
 class VrijwilligerType extends AbstractType
 {
@@ -39,7 +39,6 @@ class VrijwilligerType extends AbstractType
 
         $builder
             ->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('dragend', null, ['label' => 'Dragende vrijwilliger'])
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
             ->add('submit', SubmitType::class)
         ;

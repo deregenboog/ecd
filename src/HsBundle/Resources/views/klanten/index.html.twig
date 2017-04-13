@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Klanten |
+    Homeservice | Klanten |
 {% endblock %}
 
 {% block subnavigation %}
@@ -25,18 +25,20 @@
             {% include '@Hs/klanten/_filter.html.twig' %}
             <tr>
                 <th>
-                    {{ knp_pagination_sortable(pagination, '#', 'basisklant.id') }}
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Klant', 'basisklant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'basisklant.werkgebied') }}
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
                 </th>
-                <th>Openstaand</th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Saldo', 'klant.saldo') }}
+                </th>
                 <th>
                 </th>
             </tr>
@@ -45,19 +47,19 @@
             {% for entity in pagination %}
             <tr>
                 <td>
-                    {{ html.link(entity.klant.id, path(view_route, {id: entity.id})) }}
+                    {{ html.link(entity.id, path(view_route, {id: entity.id})) }}
                 </td>
                 <td>
-                    {{ html.link(entity.klant.naam, path(view_route, {id: entity.id})) }}
+                    {{ html.link(entity.naam, path(view_route, {id: entity.id})) }}
                 </td>
                 <td>
-                    {{ entity.klant.werkgebied }}
+                    {{ entity.werkgebied }}
                 </td>
                 <td>
-                    {{ entity.actief }}
+                    {{ entity.actief ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
-                    {{ entity.openstaand|money }}
+                    {{ entity.saldo|money }}
                 </td>
                 <td>
                     {{ html.viewLink(path(view_route, {id: entity.id})) }}

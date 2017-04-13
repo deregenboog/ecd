@@ -79,7 +79,7 @@ class ActiviteitenController extends SymfonyController
             $this->dao->update($entity);
             $this->addFlash('success', 'Activiteit is opgeslagen.');
 
-            return $this->redirectToViewAction($entity->getId());
+            return $this->redirectToView($entity);
         }
 
         return [
@@ -116,14 +116,14 @@ class ActiviteitenController extends SymfonyController
     {
         return $this->createForm(ActiviteitType::class, $data);
     }
-    
+
     private function redirectToIndexAction()
     {
         return $this->redirectToRoute('hs_activiteiten_index');
     }
 
-    private function redirectToViewAction($id)
+    private function redirectToView(Activiteit $entity)
     {
-        return $this->redirectToRoute('hs_activiteiten_view', ['id' => $id]);
+        return $this->redirectToRoute('hs_activiteiten_view', ['id' => $entity->getId()]);
     }
 }

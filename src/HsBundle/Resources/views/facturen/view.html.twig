@@ -1,135 +1,44 @@
-{% include 'hs_subnavigation.twig' %}
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
 
-<h1>
-    {{ factuur }}
-    {{ html.editLink({'action': 'edit', 0: factuur.id}) }}
-    {% if factuur.deletable %}
-        {{ html.deleteLink({'action': 'delete', 0: factuur.id}) }}
-    {% endif %}
-</h1>
+{% block title %}
+    Homeservice | Facturen |
+{% endblock %}
 
-<p>
-    {{ html.addLink({'controller': 'hs_betalingen', 'action': 'add', 0: factuur.id}) }}
-    {{ html.link('Betaling toevoegen', {'controller': 'hs_betalingen', 'action': 'add', 0: factuur.id}) }}
-</p>
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
 
-<dl>
-    <dt>#</dt>
-    <dd>{{ factuur.nummer }}</dd>
-    <dt>Betreft</dt>
-    <dd>{{ factuur.betreft }}</dd>
-    <dt>Datum</dt>
-    <dd>{{ factuur.datum|date('d-m-Y') }}</dd>
-    <dt>Klant</dt>
-    <dd>{{ factuur.klus.klant }}</dd>
-    <dt>Totaal</dt>
-    <dd>{{ factuur.bedrag|money }}</dd>
-    <dt>Betaald</dt>
-    <dd>{{ factuur.betaald|money }}</dd>
-    <dt>Openstaand</dt>
-    <dd>{{ factuur.openstaand|money }}</dd>
-    <dt>Uren</dt>
-    <dd>
-        {% if factuur.registraties is empty %}
-            -
-        {% else %}
-            <table class="fixed">
-                <tr>
-                    <th>Datum</th>
-                    <th>Activiteit</th>
-                    <th>Start</th>
-                    <th>Eind</th>
-                    <th>Uren</th>
-                    <th>Tarief</th>
-                    <th>Totaal</th>
-                </tr>
-                {% set tarief = 2.5 %}
-                {% set totaal = 0.0 %}
-                {% for registratie in factuur.registraties %}
-                    {% set bedrag = registratie.uren * tarief %}
-                    <tr>
-                        <td>{{ registratie.datum|date('d-m-Y') }}</td>
-                        <td>{{ registratie.activiteit }}</td>
-                        <td>{{ registratie.start|date('H:i') }}</td>
-                        <td>{{ registratie.eind|date('H:i') }}</td>
-                        <td>{{ registratie.uren }}</td>
-                        <td>{{ tarief|money }}</td>
-                        <td>{{ bedrag|money }}</td>
-                    </tr>
-                    {% set totaal = totaal + bedrag %}
-                {% endfor %}
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>Totaal</th>
-                        <th>{{ totaal|money }}</th>
-                    </tr>
-                </tfoot>
-            </table>
+{% block content_left %}
+    <h1>Factuur {{ entity }}</h1>
+    <p>
+        {{ html.viewLink(path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
+        {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('hs_facturen_delete', {id: entity.id})) }}
+            {{ html.link('Factuur verwijderen', path('hs_facturen_delete', {id: entity.id})) }}
         {% endif %}
-    </dd>
-    <dt>Declaraties</dt>
-    <dd>
-        {% if factuur.hsDeclaraties is empty %}
-            -
-        {% else %}
-            <table class="fixed">
-                <tr>
-                    <th>Datum</th>
-                    <th>Categorie</th>
-                    <th colspan="4">Info</th>
-                    <th>Totaal</th>
-                </tr>
-                {% set totaal = 0.0 %}
-                {% for hsDeclaratie in factuur.hsDeclaraties %}
-                    <tr>
-                        <td>{{ hsDeclaratie.datum|date('d-m-Y') }}</td>
-                        <td>{{ hsDeclaratie.hsDeclaratieCategorie }}</td>
-                        <td colspan="4">{{ hsDeclaratie.info }}</td>
-                        <td>{{ hsDeclaratie.bedrag|money }}</td>
-                    </tr>
-                    {% set totaal = totaal + hsDeclaratie.bedrag %}
-                {% endfor %}
-                <tfoot>
-                    <tr>
-                        <th colspan="6">Totaal</th>
-                        <th>{{ totaal|money }}</th>
-                    </tr>
-                </tfoot>
-            </table>
-        {% endif %}
-    </dd>
-    <dt>Betalingen</dt>
-    <dd>
-        {% if factuur.betalingen is empty %}
-            -
-        {% else %}
-            <table class="fixed">
-                <tr>
-                    <th>Datum</th>
-                    <th>Referentie</th>
-                    <th colspan="4">Info</th>
-                    <th>Bedrag</th>
-                </tr>
-                {% for betaling in factuur.betalingen %}
-                    <tr>
-                        <td>{{ betaling.datum|date('d-m-Y') }}</td>
-                        <td>{{ betaling.referentie }}</td>
-                        <td colspan="4">{{ betaling.info }}</td>
-                        <td>{{ betaling.bedrag|money }}</td>
-                    </tr>
-                {% endfor %}
-                <tfoot>
-                    <tr>
-                        <th colspan="6">Totaal</th>
-                        <th>{{ factuur.betaald|money }}</th>
-                    </tr>
-                </tfoot>
-            </table>
-        {% endif %}
-    </dd>
-</dl>
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.nummer }}</dd>
+        <dt>Betreft</dt>
+        <dd>{{ entity.betreft }}</dd>
+        <dt>Datum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+        <dt>Klant</dt>
+        <dd>{{ html.link(entity.klant, path('hs_klanten_view', {id: entity.klant.id})) }}</dd>
+        <dt>Totaal</dt>
+        <dd>{{ entity.bedrag|money }}</dd>
+        <dt>Betaald</dt>
+        <dd>{{ entity.betaald|money }}</dd>
+        <dt>Saldo</dt>
+        <dd>{{ entity.saldo|money }}</dd>
+    </dl>
+    {% include '@Hs/registraties/_list.html.twig' %}
+    {% include '@Hs/declaraties/_list.html.twig' %}
+{% endblock %}
+
+{% block content_right %}
+    {% include '@Hs/betalingen/_list.html.twig' with {add_url: path('hs_betalingen_add', {factuurId: entity.id})} %}
+{% endblock %}

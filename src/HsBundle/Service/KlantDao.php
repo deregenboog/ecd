@@ -9,14 +9,14 @@ use AppBundle\Filter\FilterInterface;
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'basisklant.achternaam',
+        'defaultSortFieldName' => 'klant.achternaam',
         'defaultSortDirection' => 'asc',
         'wrap-queries' => true, // because of HAVING clause in filter
         'sortFieldWhitelist' => [
             'klant.actief',
-            'basisklant.id',
-            'basisklant.achternaam',
-            'basisklant.werkgebied',
+            'klant.id',
+            'klant.achternaam',
+            'klant.werkgebied',
         ],
     ];
 
@@ -29,13 +29,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function findAll($page = 1, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin('klant.klant', 'basisklant')
-            ->andWhere('basisklant.disabled = false')
-        ;
+        $builder = $this->repository->createQueryBuilder($this->alias);
 
         if ($filter) {
-            $filter->klant->alias = 'basisklant';
             $filter->applyTo($builder);
         }
 

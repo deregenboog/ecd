@@ -396,7 +396,7 @@ parameters:
                 label: Op Eigen Kracht
                 url: oek
             hs:
-                label: HomeService
+                label: Homeservice
                 url: hs
             Admin:
                 label: Admin

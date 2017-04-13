@@ -4,6 +4,7 @@ namespace HsBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use HsBundle\Entity\DeclaratieCategorie;
+use AppBundle\Filter\FilterInterface;
 
 class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieDaoInterface
 {
@@ -23,7 +24,7 @@ class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieD
     /**
      * {inheritdoc}
      */
-    public function findAll($page = 1)
+    public function findAll($page = 1, FilterInterface $filter = null)
     {
         return parent::findAll($page);
     }

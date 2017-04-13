@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    HomeService | Dienstverleners |
+    Homeservice | Dienstverleners |
 {% endblock %}
 
 {% block subnavigation %}
@@ -13,7 +13,7 @@
     <h1>Dienstverlener wijzigen</h1>
     <p>
         Hier kunt u alleen de Homeservice-gegevens voor deze dienstverlener wijzigen.
-        Klik {{ html.link('hier', path('app_dienstverleners_edit', {id: dienstverlener.klant.id})) }}
+        Klik {{ html.link('hier', path('app_klanten_edit', {id: entity.klant.id})) }}
         om naar het basisdossier van deze dienstverlener te gaan.
     </p>
     {{ form(form) }}

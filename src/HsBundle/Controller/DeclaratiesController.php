@@ -11,6 +11,7 @@ use HsBundle\Service\RegistratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/hs/declaraties")
@@ -28,11 +29,11 @@ class DeclaratiesController extends SymfonyController
      * @Route("/add/{klus}")
      * @ParamConverter()
      */
-    public function add(Klus $klus)
+    public function add(Request $request, Klus $klus)
     {
         $entity = new Declaratie($klus);
         $form = $this->createForm(DeclaratieType::class, $entity);
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dao->create($entity);
 
@@ -48,21 +49,21 @@ class DeclaratiesController extends SymfonyController
     /**
      * @Route("/{id}/edit")
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $entity = $this->dao->find($id);
         $form = $this->createForm(DeclaratieType::class, $entity);
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dao->update($entity);
 
             return $this->redirectToView($entity);
         }
 
-        $this->set('form', $form->createView());
+        return ['form' => $form->createView()];
     }
 
-    private function redirectToView($entity)
+    private function redirectToView(Declaratie $entity)
     {
         return $this->redirectToRoute('hs_klussen_view', ['id' => $entity->getKlus()->getId()]);
     }

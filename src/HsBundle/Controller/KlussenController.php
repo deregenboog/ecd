@@ -16,6 +16,16 @@ use HsBundle\Service\KlusDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
 use HsBundle\Form\KlusFilterType;
+use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Vrijwilliger;
+use HsBundle\Service\VrijwilligerDaoInterface;
+use HsBundle\Service\DienstverlenerDaoInterface;
+use HsBundle\Form\VrijwilligerSelectType;
+use HsBundle\Form\DienstverlenerSelectType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Filter\FilterInterface;
+use HsBundle\Service\KlantDaoInterface;
 
 /**
  * @Route("/hs/klussen")
@@ -31,6 +41,27 @@ class KlussenController extends SymfonyController
      */
     private $dao;
 
+    /**
+     * @var KlantDaoInterface
+     *
+     * @DI\Inject("hs.dao.klant")
+     */
+    private $klantDao;
+
+    /**
+     * @var DienstverlenerDaoInterface
+     *
+     * @DI\Inject("hs.dao.dienstverlener")
+     */
+    private $dienstverlenerDao;
+
+    /**
+     * @var VrijwilligerDaoInterface
+     *
+     * @DI\Inject("hs.dao.vrijwilliger")
+     */
+    private $vrijwilligerDao;
+
     private $enabledFilters = [
         'id',
         'datum',
@@ -45,42 +76,37 @@ class KlussenController extends SymfonyController
      */
     public function index(Request $request)
     {
-        $filter = $this->getFilter()->handleRequest($request);
-        if ($filter->isSubmitted() && $filter->isValid()) {
-            $pagination = $this->dao->findAll($request->get('page', 1), $filter->getData());
+        $form = $this->getFilter()->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData();
         } else {
-            $pagination = $this->dao->findAll($request->get('page', 1));
+            $filter = null;
         }
 
+        if ($form->get('download')->isClicked()) {
+            return $this->download($filter);
+        }
+
+        $pagination = $this->dao->findAll($request->get('page', 1), $filter);
+
         return [
-            'filter' => $filter->createView(),
+            'filter' => $form->createView(),
             'pagination' => $pagination,
         ];
     }
 
-    /**
-     * @Route("/download")
-     */
-    public function download()
+    private function download(FilterInterface $filter)
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(Klus::class);
+        $collection = $this->dao->findAll(0, $filter);
 
-        $builder = $repository->createQueryBuilder('klus')
-            ->innerJoin('klus.klant', 'klant')
-            ->innerJoin('klus.activiteit', 'activiteit')
-            ->innerJoin('klant.klant', 'klant');
-        $klussen = $builder->getQuery()->getResult();
+        $response = $this->render('@Hs/klussen/download.csv.twig', ['collection' => $collection]);
 
-        $now = new \DateTime();
+        $filename = sprintf('homeservice-klussen-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $response->headers->set('Content-type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
 
-        $this->autoLayout = false;
-        $this->layout = false;
-        $this->header('Content-type: text/csv');
-        $this->header(sprintf('Content-Disposition: attachment; filename="homeservice-klussen-%s.csv";', $now->format('d-m-Y')));
-
-        $this->set('now', $now);
-        $this->set('klussen', $klussen);
+        return $response;
     }
 
     /**
@@ -98,44 +124,35 @@ class KlussenController extends SymfonyController
     /**
      * @Route("/add")
      */
-    public function add($klantId = null)
+    public function add(Request $request)
     {
-        $entityManager = $this->getEntityManager();
-
-        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
-        $medewerker = $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
-
-        if ($klantId) {
-            $klant = $entityManager->find(Klant::class, $klantId);
-            $klus = new Klus($klant, $medewerker);
-        } else {
-            $klus = new Klus(null, $medewerker);
+        $medewerker = $this->getMedewerker();
+        $klant = null;
+        if ($request->query->has('klantId')) {
+            $klant = $this->klantDao->find($request->query->get('klantId'));
         }
+        $klus = new Klus($klant, $medewerker);
 
         $form = $this->createForm(KlusType::class, $klus);
-        $form->add('memo', TextareaType::class, [
-            'mapped' => false,
-            'attr' => ['rows' => 10, 'cols' => 80],
-        ]);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $memo = new Memo($klus->getMedewerker());
-            $memo->setMemo($form->get('memo')->getData());
-            $klus->addMemo($memo);
+            try {
+                $this->dao->create($klus);
+                $this->addFlash('success', 'Klus is opgeslagen.');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
 
-            $entityManager->persist($klus);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Klus is opgeslagen.');
-
-            return $this->redirect(array('action' => 'view', $klus->getId()));
+            return $this->redirectToView($klus);
         }
 
-        $this->set('form', $form->createView());
-        if (isset($klant)) {
-            $this->set('klant', $klant);
+        $params = ['form' => $form->createView()];
+        if ($klant) {
+            $params['klant'] = $klant;
         }
+
+        return $params;
     }
 
     /**
@@ -143,19 +160,26 @@ class KlussenController extends SymfonyController
      */
     public function edit($id)
     {
-        $klus = $this->dao->find($id);
+        $entity = $this->dao->find($id);
 
-        $form = $this->createForm(KlusType::class, $klus);
+        $form = $this->createForm(KlusType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->update($klus);
 
-            $this->addFlash('success', 'Klus is opgeslagen.');
+            try {
+                $this->dao->update($entity);
+                $this->addFlash('success', 'Klus is opgeslagen.');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
 
-            return $this->redirectToView($klus);
+            return $this->redirectToView($entity);
         }
 
-        $this->set('form', $form->createView());
+        return [
+            'klus' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     /**
@@ -163,24 +187,143 @@ class KlussenController extends SymfonyController
      */
     public function delete($id)
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(Klus::class);
-        $klus = $repository->find($id);
+        $entity = $this->dao->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->remove($klus);
-            $entityManager->flush();
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $this->dao->delete($entity);
+                    $this->addFlash('success', 'Klus is verwijderd.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
 
-            $this->addFlash('success', 'Klus is verwijderd.');
-
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirectToIndex();
         }
 
-        $this->set('klus', $klus);
-        $this->set('form', $form->createView());
+        return [
+            'klus' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/dienstverleners/add")
+     */
+    public function dienstverleners_add($id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createFormBuilder($entity)
+            ->add('dienstverleners', null, [
+                'mapped' => false,
+                'query_builder' => function (EntityRepository $repository) use ($entity) {
+                    return $repository->createQueryBuilder('dienstverlener')
+                        ->leftJoin('dienstverlener.klussen', 'klus', 'WITH', 'klus = :klus')
+                        ->where('klus.id IS NULL')
+                        ->setParameter('klus', $entity)
+                    ;
+                },
+            ])
+            ->add('submit', SubmitType::class)
+            ->getForm()
+        ;
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($form->get('dienstverleners')->getData() as $dienstverlener) {
+                $entity->addDienstverlener($dienstverlener);
+            }
+
+            try {
+                $this->dao->update($entity);
+                $this->addFlash('success', 'Dienstverlener is toegevoegd.');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{klusId}/dienstverleners/{dienstverlenerId}/delete")
+     */
+    public function dienstverleners_delete($klusId, $dienstverlenerId)
+    {
+        $entity = $this->dao->find($klusId);
+        $dienstverlener = $this->dienstverlenerDao->find($dienstverlenerId);
+
+        $entity->getDienstverleners()->removeElement($dienstverlener);
+        $this->dao->update($entity);
+
+        return $this->redirectToView($entity);
+    }
+
+    /**
+     * @Route("/{id}/vrijwilligers/add")
+     */
+    public function vrijwilligers_add($id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createFormBuilder($entity)
+            ->add('vrijwilligers', null, [
+                'mapped' => false,
+                'query_builder' => function (EntityRepository $repository) use ($entity) {
+                    return $repository->createQueryBuilder('vrijwilliger')
+                        ->leftJoin('vrijwilliger.klussen', 'klus', 'WITH', 'klus = :klus')
+                        ->where('klus.id IS NULL')
+                        ->setParameter('klus', $entity)
+                    ;
+                },
+            ])
+            ->add('submit', SubmitType::class)
+            ->getForm()
+        ;
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                foreach ($form->get('vrijwilligers')->getData() as $vrijwilliger) {
+                    $entity->addVrijwilliger($vrijwilliger);
+                }
+                $this->dao->update($entity);
+                $this->addFlash('success', 'Vrijwilliger(s) is/zijn toegevoegd.');
+            } catch (\Exception $e) {
+                var_dump($e); die;
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{klusId}/vrijwilligers/{vrijwilligerId}/delete")
+     */
+    public function vrijwilligers_delete($klusId, $vrijwilligerId)
+    {
+        $entity = $this->dao->find($klusId);
+        $vrijwilliger = $this->vrijwilligerDao->find($vrijwilligerId);
+
+        $entity->getVrijwilligers()->removeElement($vrijwilliger);
+        $this->dao->update($entity);
+
+        return $this->redirectToView($entity);
     }
 
     private function getFilter()
@@ -190,7 +333,12 @@ class KlussenController extends SymfonyController
         ]);
     }
 
-    private function redirectToView($entity)
+    private function redirectToIndex()
+    {
+        return $this->redirectToRoute('hs_klussen_index');
+    }
+
+    private function redirectToView(Klus $entity)
     {
         return $this->redirectToRoute('hs_klussen_view', ['id' => $entity->getId()]);
     }

@@ -1,9 +1,18 @@
-{% include('hs_subnavigation.twig') %}
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
 
-<h1>Factuur verwijderen</h1>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    Weet u zeker dat u {{ factuur }} wilt verwijderen?<br>
-    {{ html.link('Nee, terug', {'action': 'view', 0: factuur.id}) }}
-    <button type="submit">Ja, verwijderen</button>
-{{ form_end(form) }}
+{% block title %}
+    Homeservice | Klanten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/hs_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Factuur verwijderen</h1>
+    <p>
+        Weet u zeker dat u factuur {{ entity }} wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}
