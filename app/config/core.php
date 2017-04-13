@@ -333,7 +333,7 @@ Cache::config('association_query', array(
 
 define('GROUP_ADMIN', $params['groups']['GROUP_ADMIN']); // sys_teamleider
 define('GROUP_DEVELOP', $params['groups']['GROUP_DEVELOP']); // (group ecd_admin)
-define('GROUP_VOLONTEERS', $params['groups']['GROUP_VOLONTEERS']); // registratie_vrijwilliger
+define('GROUP_VOLUNTEERS', $params['groups']['GROUP_VOLUNTEERS']); // registratie_vrijwilliger
 define('GROUP_STAGE', $params['groups']['GROUP_STAGE']); // stagiaires_ecd
 define('GROUP_PORTIER', $params['groups']['GROUP_PORTIER']); // sys_portiers
 define('GROUP_MLO', $params['groups']['GROUP_MLO']); // sys_mlo

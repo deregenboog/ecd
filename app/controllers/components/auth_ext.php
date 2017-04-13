@@ -41,10 +41,7 @@ class AuthExtComponent extends AuthComponent
             return $this->_loggedIn;
         }
 
-        if ($model->LdapUser->auth(
-            $data[$alias.'.username'],
-            $posted_data[$alias]['passwd'])
-        ) {
+        if ($model->LdapUser->auth($data[$alias.'.username'], $posted_data[$alias]['passwd'])) {
             $this->_loggedIn = true;
 
             $ldap = $model->LdapUser->read(null, $data[$alias.'.username']);

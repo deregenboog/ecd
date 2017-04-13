@@ -45,7 +45,7 @@ parameters:
         ACL.groups:
             GROUP_ADMIN: 10105
             GROUP_DEVELOP: 10422
-            GROUP_VOLONTEERS: 1025
+            GROUP_VOLUNTEERS: 1025
             GROUP_STAGE: 1026
             GROUP_PORTIER: 10103
             GROUP_MLO: 10104
@@ -123,7 +123,7 @@ parameters:
                 - BackOnTrack
                 - BotVerslagen
                 - BotKoppelingen
-            GROUP_VOLONTEERS:
+            GROUP_VOLUNTEERS:
                 - Registraties
             GROUP_STAGE:
                 - Intakes
