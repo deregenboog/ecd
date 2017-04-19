@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Vrijwilliger;
+use Doctrine\ORM\EntityRepository;
 
 class VrijwilligerType extends AbstractType
 {
@@ -18,12 +19,30 @@ class VrijwilligerType extends AbstractType
             ->add('voornaam')
             ->add('tussenvoegsel')
             ->add('achternaam')
-            ->add('geslacht')
+            ->add('roepnaam')
+            ->add('geslacht', null, [
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('geslacht')
+                        ->orderBy('geslacht.id', 'DESC');
+                },
+            ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
-            ->add('email')
-            ->add('medewerker')
             ->add('land')
             ->add('nationaliteit')
+            ->add('bsn', null, ['label' => 'BSN'])
+            ->add('medewerker', MedewerkerType::class)
+            ->add('adres')
+            ->add('postcode')
+            ->add('plaats')
+            ->add('email')
+            ->add('mobiel')
+            ->add('telefoon')
+            ->add('opmerking')
+            ->add('geenPost', null, ['label' => 'Geen post'])
+            ->add('geenEmail')
+            ->add('vogAangevraagd')
+            ->add('vogAanwezig')
+            ->add('overeenkomstAanwezig')
         ;
     }
 

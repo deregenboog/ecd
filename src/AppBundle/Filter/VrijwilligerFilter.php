@@ -19,6 +19,11 @@ class VrijwilligerFilter implements FilterInterface
     public $naam;
 
     /**
+     * @var string
+     */
+    public $bsn;
+
+    /**
      * @var \DateTime
      */
     public $geboortedatum;
@@ -50,6 +55,13 @@ class VrijwilligerFilter implements FilterInterface
                     ->setParameter("{$alias}_naam_part_{$i}", "%{$part}%")
                 ;
             }
+        }
+
+        if ($this->bsn) {
+            $builder
+                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
+                ->setParameter("{$alias}_bsn", $this->bsn)
+            ;
         }
 
         if ($this->geboortedatum) {

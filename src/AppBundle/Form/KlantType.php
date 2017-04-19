@@ -19,6 +19,7 @@ class KlantType extends AbstractType
             ->add('voornaam')
             ->add('tussenvoegsel')
             ->add('achternaam')
+            ->add('roepnaam')
             ->add('geslacht', null, [
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
@@ -26,11 +27,19 @@ class KlantType extends AbstractType
                 },
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
-            ->add('bsn')
-            ->add('email')
-            ->add('medewerker', MedewerkerType::class)
             ->add('land')
             ->add('nationaliteit')
+            ->add('bsn', null, ['label' => 'BSN'])
+            ->add('medewerker', MedewerkerType::class)
+            ->add('adres')
+            ->add('postcode')
+            ->add('plaats')
+            ->add('email')
+            ->add('mobiel')
+            ->add('telefoon')
+            ->add('opmerking')
+            ->add('geenPost', null, ['label' => 'Geen post'])
+            ->add('geenEmail')
         ;
     }
 

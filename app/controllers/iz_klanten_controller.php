@@ -6,6 +6,8 @@ use AppBundle\Form\KlantFilterType;
 use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantSelectType;
 use IzBundle\Service\KlantDaoInterface;
+use IzBundle\Entity\IzKlant;
+use AppBundle\Form\KlantType;
 
 class IzKlantenController extends AppController
 {
@@ -73,10 +75,23 @@ class IzKlantenController extends AppController
     {
         if ($klantId) {
             if ($klantId === 'new') {
-                return $this->redirect([
-                    'controller' => 'klanten',
-                    'action' => 'add',
-                ]);
+                $creationForm = $this->createForm(KlantType::class);
+                $creationForm->handleRequest($this->getRequest());
+                if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+                    $klant = $creationForm->getData();
+                    $this->getEntityManager()->persist($klant);
+                    $this->getEntityManager()->flush();
+
+                    return $this->redirect([
+                        'controller' => 'iz_deelnemers',
+                        'action' => 'toon_aanmelding',
+                        'Klant',
+                        $klant->getId(),
+                    ]);
+                }
+                $this->set('creationForm', $creationForm->createView());
+
+                return;
             } else {
                 return $this->redirect([
                     'controller' => 'iz_deelnemers',
@@ -88,28 +103,20 @@ class IzKlantenController extends AppController
         }
 
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['naam'],
+            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 
-        $selectionForm = $this->createForm(IzKlantSelectType::class, null, [
-            'filter' => $filterForm->getData(),
-        ]);
-        $selectionForm->handleRequest($this->getRequest());
-
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $this->set('selectionForm', $selectionForm->createView());
+            $builder = $this->getEntityManager()->getRepository(Klant::class)
+                ->createQueryBuilder('klant')
+                ->where('klant.disabled = false')
+                ->orderBy('klant.achternaam')
+            ;
+            $filterForm->getData()->applyTo($builder);
+            $this->set('klanten', $builder->getQuery()->getResult());
 
             return;
-        }
-
-        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
-            $izKlant = $selectionForm->getData();
-            if ($izKlant->getKlant() instanceof Klant) {
-                return $this->redirect(['action' => 'add', $izKlant->getKlant()->getId()]);
-            }
-
-            return $this->redirect(['action' => 'add', 'new']);
         }
 
         $this->set('filterForm', $filterForm->createView());
