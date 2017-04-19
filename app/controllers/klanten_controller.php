@@ -407,7 +407,7 @@ class KlantenController extends AppController
                'conditions' => array('Nationaliteit.naam !=' => 'Onbekend'),
         ));
 
-        $this->setMedewerkers($this->data['Klant']['medewerker_id']);
+        $this->setMedewerkers([$this->data['Klant']['medewerker_id']]);
         $this->set('amocCountries', Configure::read('Landen.AMOC'));
         $werkgebieden = Configure::read('Werkgebieden');
         $postcodegebieden = Configure::read('Postcodegebieden');

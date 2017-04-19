@@ -95,7 +95,7 @@ class BotKoppelingenController extends AppController
         $this->data['BotKoppeling']['back_on_track_id'] = $back_on_track_id;
         $this->data['BotKoppeling']['klant_id'] = $klantId;
 
-        $this->setMedewerkers(null, array(GROUP_BACK_ON_TRACK_COACH, GROUP_BACK_ON_TRACK_COORDINATOR));
+        $this->setMedewerkers([], [GROUP_BACK_ON_TRACK_COACH, GROUP_BACK_ON_TRACK_COORDINATOR]);
 
         $this->set('bot_koppelingen', $bot_koppelingen);
         $this->set('klant', $klant);
@@ -126,7 +126,7 @@ class BotKoppelingenController extends AppController
             $this->redirect(array('controller' => 'back_on_track', 'action' => 'index'));
         }
 
-        $this->setMedewerkers(null, array(GROUP_BACK_ON_TRACK_COACH, GROUP_BACK_ON_TRACK_COORDINATOR));
+        $this->setMedewerkers([], [GROUP_BACK_ON_TRACK_COACH, GROUP_BACK_ON_TRACK_COORDINATOR]);
         $this->index($klant_id, $back_on_track_id);
 
         $this->render('index');
@@ -162,7 +162,7 @@ class BotKoppelingenController extends AppController
 
         $this->data = $k;
 
-        $this->setMedewerkers($k['BotKoppeling']['medewerker_id'], array(GROUP_BACK_ON_TRACK_COACH, GROUP_BACK_ON_TRACK_COORDINATOR));
+        $this->setMedewerkers([$k['BotKoppeling']['medewerker_id']], [GROUP_BACK_ON_TRACK_COACH, GROUP_BACK_ON_TRACK_COORDINATOR]);
 
         $this->index($klant_id, $back_on_track_id);
 

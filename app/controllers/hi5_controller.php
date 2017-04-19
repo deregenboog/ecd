@@ -226,24 +226,20 @@ class Hi5Controller extends AppController
         }
 
         $tb = Configure::read('LDAP.configuration.groups.trajectbegeleiders');
-
-        $trajectbegeleider_id = null;
-
+        $trajectbegeleider_ids = [];
         if (isset($this->Klant->data['Traject']['trajectbegeleider_id'])) {
-            $trajectbegeleider_id = $this->Klant->data['Traject']['trajectbegeleider_id'];
+            $trajectbegeleider_ids[] = $this->Klant->data['Traject']['trajectbegeleider_id'];
         }
-
-        $trajectbegeleiders = array('' => '') + $this->Klant->Medewerker->getMedewerkers($trajectbegeleider_id, array($tb));
+        $trajectbegeleiders = ['' => '']
+            + $this->Klant->Medewerker->getMedewerkers($trajectbegeleider_ids, [$tb]);
 
         $wb = Configure::read('LDAP.configuration.groups.werkbegeleiders');
-
-        $werkbegeleider_id = null;
-
+        $werkbegeleider_ids = [];
         if (isset($this->Klant->data['Traject']['werkbegeleider_id'])) {
-            $trajectbegeleider_id = $this->Klant->data['Traject']['werkbegeleider_id'];
+            $werkbegeleider_ids[] = $this->Klant->data['Traject']['werkbegeleider_id'];
         }
-
-        $werkbegeleiders = array('' => '') + $this->Klant->Medewerker->getMedewerkers(null, array($wb));
+        $werkbegeleiders = ['' => '']
+            + $this->Klant->Medewerker->getMedewerkers($werkbegeleider_ids, [$wb]);
 
         $this->_leftMenuInfo($id);
 

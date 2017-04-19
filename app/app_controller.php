@@ -253,18 +253,19 @@ class AppController extends Controller implements ContainerAwareInterface
      * Function to set medewerker parameters in the view
      * group_ids array of ecd groups.
      *
-     * @param unknown_type $medewerker_ids can be an array of medewerkers with should be in the array even when inactive
+     * @param unknown_type $medewerker_ids can be an array of medewerkers which should be in the array even when inactive
      */
-    public function setMedewerkers($medewerker_ids = null,  $group_ids = null)
+    public function setMedewerkers(array $medewerker_ids = [], array $group_ids = [])
     {
         if (!isset($this->Medewerkers)) {
             $this->Medewerker = ClassRegistry::init('Medewerker');
         }
-        $viewmedewerkers = array('' => '');
-        $viewmedewerkers += $this->Medewerker->getMedewerkers(null, null, true);
+
+        $viewmedewerkers = ['' => ''];
+        $viewmedewerkers += $this->Medewerker->getMedewerkers([], [], true);
         $this->set('viewmedewerkers', $viewmedewerkers);
 
-        $medewerkers = array('' => '');
+        $medewerkers = ['' => ''];
         $medewerkers += $this->Medewerker->getMedewerkers($medewerker_ids, $group_ids, false);
         $this->set('medewerkers', $medewerkers);
 
