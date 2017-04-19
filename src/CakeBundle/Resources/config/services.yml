@@ -171,6 +171,34 @@ parameters:
                 - AwbzIntakes
                 - Hi5
                 - Attachments
+            GROUP_TEAMLEIDERS:
+                - Admin
+                - Attachments
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - BackOnTrack
+                - BotVerslagen
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
+                - Hi5
+                - Intakes
+                - Klanten
+                - MaatschappelijkWerk
+                - MwInventarisaties
+                - Opmerkingen
+                - Rapportages
+                - Registraties
+                - Schorsingen
+                - Verslagen
+                - Vrijwilligers
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
