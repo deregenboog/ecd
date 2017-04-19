@@ -153,13 +153,16 @@ class Medewerker extends AppModel
         return $cstr;
     }
 
-    private function listByLdapGroupId(array $group_ids)
+    private function listByLdapGroupId(array $groupIds)
     {
-        $cacheKey = 'Medewerker_listByLdapGroupId_'.$this->cacheKey($group_ids);
+        $cacheKey = 'Medewerker_listByLdapGroupId_'.$this->cacheKey($groupIds);
         $usernames = Cache::read($cacheKey, 'ldap');
 
         if (!$usernames) {
-            $usernames = $this->LdapUser->getMembers($group_ids[0]);
+            $usernames = [];
+            foreach ($groupIds as $groupId) {
+                $usernames = array_merge($usernames, $this->LdapUser->getMembers($groupId));
+            }
             Cache::write($cacheKey, $usernames, 'ldap');
         }
 
