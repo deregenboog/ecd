@@ -143,6 +143,11 @@ parameters:
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
                 - OekBundle\Controller\Wachtlijst
+                - PfoClienten
+                - PfoRapporten
+                - PfoAardRelaties
+                - PfoGroepen
+                - PfoVerslagen
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
