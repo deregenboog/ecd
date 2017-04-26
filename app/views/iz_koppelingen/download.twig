@@ -19,6 +19,7 @@ Mobiel deelnemer{{ tab -}}
 Telefoon deelnemer{{ tab -}}
 Werkgebied deelnemer{{ tab -}}
 Postcodegebied deelnemer{{ tab -}}
+Ontstaan contact{{ tab -}}
 Nummer vrijwilliger{{ tab -}}
 Intakedatum vrijwilliger{{ tab -}}
 Afsluitdatum vrijwilliger{{ tab -}}
@@ -34,7 +35,8 @@ Woonplaats vrijwilliger{{ tab -}}
 Mobiel vrijwilliger{{ tab -}}
 Telefoon vrijwilliger{{ tab -}}
 Werkgebied vrijwilliger{{ tab -}}
-Postcodegebied vrijwilliger
+Postcodegebied vrijwilliger{{ tab -}}
+Binnengekomen via
 {% for izHulpvraag in koppelingen %}
     {{- (izHulpvraag.koppelingStartdatum ? izHulpvraag.koppelingStartdatum|date('d-m-Y')) ~ tab -}}
     {{- (izHulpvraag.koppelingEinddatum ? izHulpvraag.koppelingEinddatum|date('d-m-Y')) ~ tab -}}
@@ -58,6 +60,7 @@ Postcodegebied vrijwilliger
     {{- izKlant.klant.telefoon ~ tab -}}
     {{- izKlant.klant.werkgebied ~ tab -}}
     {{- izKlant.klant.postcodegebied ~ tab -}}
+    {{- izKlant.izOntstaanContact ~ tab -}}
     {% set izVrijwilliger = izHulpvraag.izHulpaanbod.izVrijwilliger %}
     {{- izVrijwilliger.vrijwilliger.id ~ tab -}}
     {{- (izVrijwilliger.izIntake ? izVrijwilliger.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
@@ -74,5 +77,6 @@ Postcodegebied vrijwilliger
     {{- izVrijwilliger.vrijwilliger.mobiel ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.telefoon ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.werkgebied ~ tab -}}
-    {{- izVrijwilliger.vrijwilliger.postcodegebied }}
+    {{- izVrijwilliger.vrijwilliger.postcodegebied ~ tab -}}
+    {{- izVrijwilliger.izBinnengekomenVia }}
 {% endfor %}

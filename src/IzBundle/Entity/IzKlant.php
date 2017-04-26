@@ -25,6 +25,13 @@ class IzKlant extends IzDeelnemer
      */
     private $izHulpvragen;
 
+    /**
+     * @var IzOntstaanContact
+     * @ORM\ManyToOne(targetEntity="IzOntstaanContact")
+     * @ORM\JoinColumn(name="contact_ontstaan")
+     */
+    protected $izOntstaanContact;
+
     public function __construct()
     {
         $this->izHulpvragen = new ArrayCollection();
@@ -50,5 +57,17 @@ class IzKlant extends IzDeelnemer
     public function getIzHulpvragen()
     {
         return $this->izHulpvragen;
+    }
+
+    public function getIzOntstaanContact()
+    {
+        return $this->izOntstaanContact;
+    }
+
+    public function setIzOntstaanContact(IzOntstaanContact $izOntstaanContact)
+    {
+        $this->izOntstaanContact = $izOntstaanContact;
+
+        return $this;
     }
 }
