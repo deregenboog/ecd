@@ -4,3 +4,4 @@ IzBundle\Entity\IzKlant:
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
         izAfsluiting: '30%? @iz_afsluiting_*'
+        izOntstaanContact: '30%? @iz_ontstaan_contacten_*'
