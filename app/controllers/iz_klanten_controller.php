@@ -22,6 +22,8 @@ class IzKlantenController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'afsluitDatum',
+        'openDossiers',
         'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',

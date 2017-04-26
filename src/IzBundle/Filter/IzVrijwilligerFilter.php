@@ -7,9 +7,20 @@ use IzBundle\Entity\IzProject;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class IzVrijwilligerFilter implements FilterInterface
 {
+    /**
+     * @var AppDateRangeModel
+     */
+    public $afsluitDatum;
+
+    /**
+     * @var boolean
+     */
+    public $openDossiers;
+
     /**
      * @var VrijwilligerFilter
      */
@@ -27,6 +38,28 @@ class IzVrijwilligerFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
+        if ($this->afsluitDatum) {
+            if ($this->afsluitDatum->getStart()) {
+                $builder
+                    ->andWhere('izVrijwilliger.afsluitDatum >= :izVrijwilliger_afsluitDatum_van')
+                    ->setParameter('izVrijwilliger_afsluitDatum_van', $this->afsluitDatum->getStart())
+                ;
+            }
+            if ($this->afsluitDatum->getEnd()) {
+                $builder
+                    ->andWhere('izVrijwilliger.afsluitDatum <= :izVrijwilliger_afsluitDatum_tot')
+                    ->setParameter('izVrijwilliger_afsluitDatum_tot', $this->afsluitDatum->getEnd())
+                ;
+            }
+        }
+
+        if ($this->openDossiers) {
+            $builder
+                ->andWhere('izVrijwilliger.afsluitDatum IS NULL OR izVrijwilliger.afsluitDatum > :now')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
+
         if ($this->vrijwilliger) {
             $this->vrijwilliger->applyTo($builder);
         }

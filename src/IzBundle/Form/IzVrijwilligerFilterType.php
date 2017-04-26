@@ -15,6 +15,9 @@ use IzBundle\Filter\IzVrijwilligerFilter;
 use IzBundle\Entity\IzHulpaanbod;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use AppBundle\Form\AppDateRangeType;
 
 class IzVrijwilligerFilterType extends AbstractType
 {
@@ -23,6 +26,19 @@ class IzVrijwilligerFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (in_array('afsluitDatum', $options['enabled_filters'])) {
+            $builder->add('afsluitDatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('openDossiers', $options['enabled_filters'])) {
+            $builder->add('openDossiers', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen open dossiers',
+            ]);
+        }
+
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
             $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['vrijwilliger'],

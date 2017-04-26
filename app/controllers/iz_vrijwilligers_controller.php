@@ -21,6 +21,8 @@ class IzVrijwilligersController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'afsluitDatum',
+        'openDossiers',
         'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
