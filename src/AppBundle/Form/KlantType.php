@@ -7,9 +7,24 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Doctrine\ORM\EntityManager;
+use AppBundle\Entity\Stadsdeel;
+use AppBundle\Entity\Postcodegebied;
 
 class KlantType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -40,6 +55,31 @@ class KlantType extends AbstractType
             ->add('opmerking')
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                /* @var Klant $data */
+                $data = $event->getData();
+                if ($data->getPostcode()) {
+                    $data->setPostcode(preg_replace('/\s/', '', strtoupper($data->getPostcode())));
+
+                    try {
+                        $stadsdeel = $this->entityManager->getRepository(Stadsdeel::class)->findOneByPostcode($data->getPostcode());
+                        if ($stadsdeel) {
+                            $data->setWerkgebied($stadsdeel->getStadsdeel());
+                        }
+                    } catch (\Exception $e) {
+                        // ignore
+                    }
+
+                    try {
+                        $postcodegebied = $this->entityManager->getRepository(Postcodegebied::class)->findOneByPostcode($data->getPostcode());
+                        if ($postcodegebied) {
+                            $data->setPostcodegebied($postcodegebied->getPostcodegebied());
+                        }
+                    } catch (\Exception $e) {
+                        // ignore
+                    }
+                }
+            });
         ;
     }
 

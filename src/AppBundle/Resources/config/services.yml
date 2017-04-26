@@ -8,6 +8,12 @@ services:
         tags:
             - { name: twig.extension }
 
+    app.form.type.klant:
+        class: AppBundle\Form\KlantType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
     app.form.type.medewerker:
         class: AppBundle\Form\MedewerkerType
         arguments: ["@doctrine.orm.entity_manager"]

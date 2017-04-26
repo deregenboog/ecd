@@ -285,6 +285,13 @@ class Persoon
         return $this->postcodegebied;
     }
 
+    public function setPostcodegebied($postcodegebied)
+    {
+        $this->postcodegebied = $postcodegebied;
+
+        return $this;
+    }
+
     public function isGeenPost()
     {
         return $this->geenPost;

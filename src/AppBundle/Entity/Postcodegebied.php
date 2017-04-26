@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostcodegebiedRepository")
  * @ORM\Table(name="postcodegebieden")
  */
 class Postcodegebied
@@ -33,6 +33,11 @@ class Postcodegebied
     private $tot;
 
     public function __toString()
+    {
+        return $this->postcodegebied;
+    }
+
+    public function getPostcodegebied()
     {
         return $this->postcodegebied;
     }
