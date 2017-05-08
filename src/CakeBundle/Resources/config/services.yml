@@ -118,6 +118,7 @@ parameters:
                 - BotVerslagen
                 - Vrijwilligers
                 - groepsactiviteiten_klanten
+                - Medewerkers
                 - odp
                 - OdpBundle\Controller\Coordinatoren
                 - OdpBundle\Controller\Documenten
