@@ -23,7 +23,7 @@ class HuuraanbodType extends AbstractType
     {
         $builder
             ->add('medewerker', MedewerkerType::class)
-            ->add('startdatum', AppDateType::class, ['data' => new \DateTime()])
+            ->add('startdatum', AppDateType::class)
         ;
 
         if (!$options['data']->getId()) {

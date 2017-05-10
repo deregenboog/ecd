@@ -20,9 +20,7 @@ class VerslagType extends AbstractType
     {
         $builder
             ->add('medewerker', MedewerkerType::class)
-            ->add('datum', AppDateType::class, [
-                'data' => new \DateTime(),
-            ])
+            ->add('datum', AppDateType::class)
             ->add('opmerking', AppTextareaType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

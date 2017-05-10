@@ -33,7 +33,7 @@ class HuurderType extends AbstractType
             ;
         }
 
-        $builder->add('aanmelddatum', AppDateType::class, ['data' => new \DateTime()]);
+        $builder->add('aanmelddatum', AppDateType::class);
 
         if (!$options['data']->getId()) {
             $builder

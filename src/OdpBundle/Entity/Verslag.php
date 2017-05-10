@@ -34,6 +34,11 @@ class Verslag
      */
     private $opmerking;
 
+    public function __construct()
+    {
+        $this->datum = new \DateTime();
+    }
+
     public function getId()
     {
         return $this->id;

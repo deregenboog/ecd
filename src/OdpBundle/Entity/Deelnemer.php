@@ -86,6 +86,8 @@ abstract class Deelnemer
 
     public function __construct()
     {
+        $this->aanmelddatum = new \DateTime();
+
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }
