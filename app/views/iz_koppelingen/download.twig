@@ -60,7 +60,7 @@ Binnengekomen via
     {{- izKlant.klant.telefoon ~ tab -}}
     {{- izKlant.klant.werkgebied ~ tab -}}
     {{- izKlant.klant.postcodegebied ~ tab -}}
-    {{- izKlant.izOntstaanContact ? izKlant.izOntstaanContact.naam ~ tab -}}
+    {{- (izKlant.izOntstaanContact ? izKlant.izOntstaanContact.naam) ~ tab -}}
     {% set izVrijwilliger = izHulpvraag.izHulpaanbod.izVrijwilliger %}
     {{- izVrijwilliger.vrijwilliger.id ~ tab -}}
     {{- (izVrijwilliger.izIntake ? izVrijwilliger.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
@@ -78,5 +78,5 @@ Binnengekomen via
     {{- izVrijwilliger.vrijwilliger.telefoon ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.werkgebied ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.postcodegebied ~ tab -}}
-    {{- izVrijwilliger.izBinnengekomenVia ? izVrijwilliger.izBinnengekomenVia.naam }}
+    {{- (izVrijwilliger.izBinnengekomenVia ? izVrijwilliger.izBinnengekomenVia.naam) }}
 {% endfor %}
