@@ -33,6 +33,11 @@
             {{ form_errors(form.klant.stadsdeel) }}
         </th>
         <th>
+            {{ form_widget(form.afsluitDatum) }}
+            {{ form_errors(form.afsluitDatum) }}
+            {{ form_widget(form.openDossiers) }}
+        </th>
+        <th>
             {{ form_widget(form.filter) }}
             {{ form_widget(form.download) }}
         </th>
@@ -56,6 +61,9 @@
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'klant.werkgebied') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izKlant.afsluitDatum') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
@@ -97,6 +105,9 @@
             <td>
                 {{ izKlant.klant.werkgebied }}
             </td>
+            <td>
+                {{ izKlant.afsluitdatum ? izKlant.afsluitdatum|date('d-m-Y') }}
+            </td>
             {% set zrm = izKlant.klant.laatsteZrm|date('U') %}
             {% if zrm < '-6 months'|date('U') %}
                 {% set style = 'color: red; font-weight: bold;' %}
@@ -106,7 +117,7 @@
                 {% set style = '' %}
             {% endif %}
             <td style="{{ style }}">
-            {{ izKlant.klant.laatsteZrm is empty ? "" : izKlant.klant.laatsteZrm|date('d-m-Y') }}
+                {{ izKlant.klant.laatsteZrm is empty ? "" : izKlant.klant.laatsteZrm|date('d-m-Y') }}
             </td>
         </tr>
     {% endfor %}

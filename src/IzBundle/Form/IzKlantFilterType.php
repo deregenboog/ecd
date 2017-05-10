@@ -15,6 +15,9 @@ use IzBundle\Filter\IzKlantFilter;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use AppBundle\Form\AppDateRangeType;
 
 class IzKlantFilterType extends AbstractType
 {
@@ -23,6 +26,19 @@ class IzKlantFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (in_array('afsluitDatum', $options['enabled_filters'])) {
+            $builder->add('afsluitDatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('openDossiers', $options['enabled_filters'])) {
+            $builder->add('openDossiers', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen open dossiers',
+            ]);
+        }
+
         if (key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],

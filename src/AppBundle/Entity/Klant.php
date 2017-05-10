@@ -25,7 +25,7 @@ class Klant extends Persoon
     private $intakes;
 
     /**
-     * @ORM\Column(name="laatste_TBC_controle", type="date")
+     * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
      */
     private $laatsteTbcControle;
 

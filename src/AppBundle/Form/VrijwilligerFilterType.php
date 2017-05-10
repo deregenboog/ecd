@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\VrijwilligerFilter;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class VrijwilligerFilterType extends AbstractType
@@ -27,6 +26,12 @@ class VrijwilligerFilterType extends AbstractType
             $builder->add('naam', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Naam'],
+            ]);
+        }
+
+        if (in_array('bsn', $options['enabled_filters'])) {
+            $builder->add('bsn', null, [
+                'required' => false,
             ]);
         }
 

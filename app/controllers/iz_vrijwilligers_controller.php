@@ -6,6 +6,7 @@ use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerSelectType;
 use IzBundle\Service\VrijwilligerDaoInterface;
+use AppBundle\Form\VrijwilligerType;
 
 class IzVrijwilligersController extends AppController
 {
@@ -20,6 +21,8 @@ class IzVrijwilligersController extends AppController
     public $view = 'AppTwig';
 
     private $enabledFilters = [
+        'afsluitDatum',
+        'openDossiers',
         'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
@@ -73,10 +76,23 @@ class IzVrijwilligersController extends AppController
     {
         if ($vrijwilligerId) {
             if ($vrijwilligerId === 'new') {
-                return $this->redirect([
-                    'controller' => 'vrijwilligers',
-                    'action' => 'add',
-                ]);
+                $creationForm = $this->createForm(VrijwilligerType::class);
+                $creationForm->handleRequest($this->getRequest());
+                if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+                    $vrijwilliger = $creationForm->getData();
+                    $this->getEntityManager()->persist($vrijwilliger);
+                    $this->getEntityManager()->flush();
+
+                    return $this->redirect([
+                        'controller' => 'iz_deelnemers',
+                        'action' => 'toon_aanmelding',
+                        'Vrijwilliger',
+                        $vrijwilliger->getId(),
+                    ]);
+                }
+                $this->set('creationForm', $creationForm->createView());
+
+                return;
             } else {
                 return $this->redirect([
                     'controller' => 'iz_deelnemers',
@@ -88,28 +104,20 @@ class IzVrijwilligersController extends AppController
         }
 
         $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
-            'enabled_filters' => ['naam'],
+            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($this->getRequest());
 
-        $selectionForm = $this->createForm(IzVrijwilligerSelectType::class, null, [
-            'filter' => $filterForm->getData(),
-        ]);
-        $selectionForm->handleRequest($this->getRequest());
-
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $this->set('selectionForm', $selectionForm->createView());
+            $builder = $this->getEntityManager()->getRepository(Vrijwilliger::class)
+                ->createQueryBuilder('vrijwilliger')
+                ->where('vrijwilliger.disabled = false')
+                ->orderBy('vrijwilliger.achternaam')
+            ;
+            $filterForm->getData()->applyTo($builder);
+            $this->set('vrijwilligers', $builder->getQuery()->getResult());
 
             return;
-        }
-
-        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
-            $izVrijwilliger = $selectionForm->getData();
-            if ($izVrijwilliger->getVrijwilliger() instanceof Vrijwilliger) {
-                return $this->redirect(['action' => 'add', $izVrijwilliger->getVrijwilliger()->getId()]);
-            }
-
-            return $this->redirect(['action' => 'add', 'new']);
         }
 
         $this->set('filterForm', $filterForm->createView());

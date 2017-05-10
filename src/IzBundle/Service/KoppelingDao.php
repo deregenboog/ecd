@@ -27,13 +27,16 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('izHulpvraag')
+            ->addSelect('medewerker, izProject, izKlant, izOntstaanContact, klant, izHulpaanbod, izVrijwilliger, vrijwilliger, izBinnengekomenVia')
             ->innerJoin('izHulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
+            ->leftJoin('izKlant.izOntstaanContact', 'izOntstaanContact')
             ->innerJoin('izHulpvraag.izProject', 'izProject')
             ->innerJoin('izHulpvraag.medewerker', 'medewerker')
             ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
             ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+            ->leftJoin('izVrijwilliger.izBinnengekomenVia', 'izBinnengekomenVia')
             ->andWhere('klant.disabled = false')
             ->andWhere('vrijwilliger.disabled = false')
         ;

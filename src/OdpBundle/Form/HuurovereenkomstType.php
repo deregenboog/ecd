@@ -37,7 +37,7 @@ class HuurovereenkomstType extends AbstractType
 
         $builder
             ->add('medewerker', MedewerkerType::class)
-            ->add('startdatum', AppDateType::class, ['data' => new \DateTime()])
+            ->add('startdatum', AppDateType::class)
             ->add('opzegdatum', AppDateType::class, ['required' => false])
             ->add('einddatum', AppDateType::class, ['required' => false])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])

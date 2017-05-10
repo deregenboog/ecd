@@ -120,7 +120,6 @@ class LdapUser extends AppModel
     public function getMembers($gid)
     {
         $type = 'ldapGetMembers';
-        $members = array();
         $members = registry_get($type, $gid, true, 'ldap');
 
         if (!$members) {
@@ -134,7 +133,6 @@ class LdapUser extends AppModel
 
             if ($r) {
                 $l = ldap_get_entries($this->ds, $r);
-
                 $m = $this->convert_from_ldap($l);
 
                 if (!$this->active_directory) {
@@ -150,7 +148,7 @@ class LdapUser extends AppModel
                 } else {
                     if (!empty($m[0]['LdapUser']['member'])) {
                         foreach ($m[0]['LdapUser']['member'] as $member) {
-                            $r = ldap_search($this->ds, $member, 'objectClass=person', array('sAMAccountName'));
+                            $r = ldap_search($this->ds, $member, 'objectClass=person', ['sAMAccountName']);
                             if ($r) {
                                 $l = ldap_get_entries($this->ds, $r);
                                 $m = $this->convert_from_ldap($l);

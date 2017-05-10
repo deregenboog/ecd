@@ -65,7 +65,7 @@ class SchorsingenController extends AppController
                     if (!isset($this->Medewerkers)) {
                         $this->Medewerker = ClassRegistry::init('Medewerker');
                     }
-                    $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
+                    $medewerkers = $this->Medewerker->getMedewerkers([], [], true);
                     $medewerker = $medewerkers[$this->Session->read('Auth.Medewerker.id')];
                     $klant = [];
                     $locatie = $this->Schorsing->Locatie->getById($this->data['Schorsing']['locatie_id']);

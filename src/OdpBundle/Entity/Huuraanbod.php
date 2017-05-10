@@ -64,6 +64,8 @@ class Huuraanbod
 
     public function __construct()
     {
+        $this->startdatum = new \DateTime();
+
         $this->verslagen = new ArrayCollection();
     }
 

@@ -198,10 +198,7 @@ class Hi5Controller extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-
-            $this->redirect(array(
-                'action' => 'index',
-            ));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Klant->setHi5Info($id);
@@ -225,25 +222,19 @@ class Hi5Controller extends AppController
             $this->data = $this->Klant->data;
         }
 
-        $tb = Configure::read('LDAP.configuration.groups.trajectbegeleiders');
-
-        $trajectbegeleider_id = null;
-
+        $trajectbegeleider_ids = [];
         if (isset($this->Klant->data['Traject']['trajectbegeleider_id'])) {
-            $trajectbegeleider_id = $this->Klant->data['Traject']['trajectbegeleider_id'];
+            $trajectbegeleider_ids[] = $this->Klant->data['Traject']['trajectbegeleider_id'];
         }
+        $trajectbegeleiders = ['' => '']
+            + $this->Klant->Medewerker->getMedewerkers($trajectbegeleider_ids, [GROUP_TRAJECTBEGELEIDER]);
 
-        $trajectbegeleiders = array('' => '') + $this->Klant->Medewerker->getMedewerkers($trajectbegeleider_id, array($tb));
-
-        $wb = Configure::read('LDAP.configuration.groups.werkbegeleiders');
-
-        $werkbegeleider_id = null;
-
+        $werkbegeleider_ids = [];
         if (isset($this->Klant->data['Traject']['werkbegeleider_id'])) {
-            $trajectbegeleider_id = $this->Klant->data['Traject']['werkbegeleider_id'];
+            $werkbegeleider_ids[] = $this->Klant->data['Traject']['werkbegeleider_id'];
         }
-
-        $werkbegeleiders = array('' => '') + $this->Klant->Medewerker->getMedewerkers(null, array($wb));
+        $werkbegeleiders = ['' => '']
+            + $this->Klant->Medewerker->getMedewerkers($werkbegeleider_ids, [GROUP_WERKBEGELEIDER]);
 
         $this->_leftMenuInfo($id);
 

@@ -84,6 +84,8 @@ class Huurovereenkomst
 
     public function __construct()
     {
+        $this->startdatum = new \DateTime();
+
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }

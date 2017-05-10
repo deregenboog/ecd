@@ -31,6 +31,13 @@
         <th>
             {{ form_widget(form.vrijwilliger.stadsdeel) }}
             {{ form_errors(form.vrijwilliger.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(form.afsluitDatum) }}
+            {{ form_errors(form.afsluitDatum) }}
+            {{ form_widget(form.openDossiers) }}
+        </th>
+        <th>
             {{ form_widget(form.filter) }}
             {{ form_widget(form.download) }}
         </th>
@@ -54,6 +61,11 @@
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izVrijwilliger.afsluitDatum') }}
+        </th>
+        <th>
         </th>
     </tr>
 
@@ -91,6 +103,11 @@
             </td>
             <td>
                 {{ izVrijwilliger.vrijwilliger.werkgebied }}
+            </td>
+            <td>
+                {{ izVrijwilliger.afsluitdatum ? izVrijwilliger.afsluitdatum|date('d-m-Y') }}
+            </td>
+            <td>
             </td>
         </tr>
     {% endfor %}

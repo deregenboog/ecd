@@ -18,6 +18,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.werkgebied',
             'klant.laatsteZrm',
             'medewerker.voornaam',
+            'izKlant.afsluitDatum',
             'izProject.naam',
         ],
     ];
