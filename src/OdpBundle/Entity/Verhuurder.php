@@ -59,23 +59,10 @@ class Verhuurder extends Deelnemer
 
     public function addHuuraanbod(Huuraanbod $huuraanbod)
     {
-        if ($this->getActiefHuuraanbod()) {
-            throw new OdpException('Een verhuurder kan slechts één actief huuraanbod tegelijk hebben');
-        }
-
         $this->huuraanbiedingen[] = $huuraanbod;
         $huuraanbod->setVerhuurder($this);
 
         return $this;
-    }
-
-    public function getActiefHuuraanbod()
-    {
-        foreach ($this->huuraanbiedingen as $huuraanbod) {
-            if ($huuraanbod->isActief()) {
-                return $huuraanbod;
-            }
-        }
     }
 
     public function getWoningbouwcorporatie()
