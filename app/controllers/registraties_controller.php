@@ -452,7 +452,7 @@ class RegistratiesController extends AppController
 
         if ($jsonVar['allow']) {
             if ($klant['Klant']['new_intake_needed'] < 0) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake. Toch inchecken?';
+                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }

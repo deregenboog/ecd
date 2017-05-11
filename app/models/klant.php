@@ -516,7 +516,7 @@ class Klant extends AppModel
 
         foreach ($klanten as $key => $k) {
             $datum_intake = strtotime($k['LasteIntake']['datum_intake']);
-            $klanten[$key]['Klant']['new_intake_needed'] = 180 - (time() - $datum_intake) / DAY;
+            $klanten[$key]['Klant']['new_intake_needed'] = 365 - (time() - $datum_intake) / DAY;
 
             $lastTBC = strtotime($k['Klant']['laatste_TBC_controle']);
             $needed = 'Ja';
@@ -535,7 +535,7 @@ class Klant extends AppModel
     {
         $tbc_valid = Configure::read('TBC_months_period') * 30 * DAY;
 
-        $this->virtualFields['new_intake_needed'] = '(180 - (DATEDIFF(CURDATE(),`LasteIntake`.`datum_intake`)))';
+        $this->virtualFields['new_intake_needed'] = '(365 - (DATEDIFF(CURDATE(),`LasteIntake`.`datum_intake`)))';
 
         $this->virtualFields['new_TBC_check_needed'] = 'IF(DATEDIFF(CURDATE(),`Klant`.`laatste_TBC_controle`) < '.$tbc_valid.', "Nee", "Ja")';
     }
