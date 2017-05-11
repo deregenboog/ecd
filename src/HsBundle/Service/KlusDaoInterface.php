@@ -36,4 +36,8 @@ interface KlusDaoInterface
      * @param Klus $klus
      */
     public function delete(Klus $klus);
+
+    public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 }

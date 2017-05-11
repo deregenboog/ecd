@@ -69,4 +69,47 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $this->doDelete($entity);
     }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klant')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->innerJoin('klant.klussen', 'klus')
+            ->groupBy('klant.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klant')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->groupBy('klant.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klant.inschrijving >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klant.inschrijving <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
 }

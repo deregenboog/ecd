@@ -45,4 +45,8 @@ interface VrijwilligerDaoInterface
      * @param Vrijwilliger $vrijwilliger
      */
     public function delete(Vrijwilliger $vrijwilliger);
+
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 }

@@ -86,4 +86,49 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     {
         $this->doDelete($entity);
     }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('vrijwilliger')
+            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, basisvrijwilliger.werkgebied AS stadsdeel')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->innerJoin('vrijwilliger.registraties', 'registratie')
+            ->groupBy('basisvrijwilliger.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('vrijwilliger')
+            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, basisvrijwilliger.werkgebied AS stadsdeel')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->groupBy('basisvrijwilliger.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('vrijwilliger.inschrijving >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('vrijwilliger.inschrijving <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
 }

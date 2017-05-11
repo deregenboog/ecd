@@ -49,6 +49,8 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
         dql:
+            datetime_functions:
+                date: Luxifer\DQL\Datetime\Date
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
 

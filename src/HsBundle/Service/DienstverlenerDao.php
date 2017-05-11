@@ -87,4 +87,49 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     {
         $this->doDelete($entity);
     }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('dienstverlener')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->innerJoin('dienstverlener.registraties', 'registratie')
+            ->groupBy('klant.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('dienstverlener')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->groupBy('klant.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('dienstverlener.inschrijving >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('dienstverlener.inschrijving <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
 }

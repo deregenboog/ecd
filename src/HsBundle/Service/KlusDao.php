@@ -69,4 +69,50 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     {
         $this->doDelete($entity);
     }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klus')
+            ->select('COUNT(klus.id) AS aantal, klant.werkgebied AS stadsdeel')
+            ->innerJoin('klus.dienstverleners', 'dienstverlener')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->groupBy('klant.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}
+     */
+    public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klus')
+            ->select('COUNT(klus.id) AS aantal, basisvrijwilliger.werkgebied AS stadsdeel')
+            ->innerJoin('klus.vrijwilligers', 'vrijwilliger')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->groupBy('basisvrijwilliger.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
 }

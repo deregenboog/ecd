@@ -56,3 +56,45 @@ services:
 
     hs.factory.factuur:
         class: HsBundle\Service\FactuurFactory
+
+    hs.form.rapportage:
+        class: HsBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    hs.report.klanten.per_stadsdeel:
+        class: HsBundle\Report\KlantenPerStadsdeel
+        arguments:
+            - "@hs.dao.klant"
+        tags:
+            - { name: hs.rapportage, category: Klanten }
+
+    hs.report.klanten.nieuw_per_stadsdeel:
+        class: HsBundle\Report\NieuweKlantenPerStadsdeel
+        arguments:
+            - "@hs.dao.klant"
+        tags:
+            - { name: hs.rapportage, category: Klanten }
+
+    hs.report.arbeiders.per_stadsdeel:
+        class: HsBundle\Report\ArbeidersPerStadsdeel
+        arguments:
+            - "@hs.dao.dienstverlener"
+            - "@hs.dao.vrijwilliger"
+        tags:
+            - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
+
+    hs.report.arbeiders.nieuw_per_stadsdeel:
+        class: HsBundle\Report\NieuweArbeidersPerStadsdeel
+        arguments:
+            - "@hs.dao.dienstverlener"
+            - "@hs.dao.vrijwilliger"
+        tags:
+            - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
+
+    hs.report.koppelingen.per_stadsdeel:
+        class: HsBundle\Report\KoppelingenPerStadsdeel
+        arguments:
+            - "@hs.dao.klus"
+        tags:
+            - { name: hs.rapportage, category: Koppelingen }

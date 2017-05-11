@@ -44,4 +44,8 @@ interface DienstverlenerDaoInterface
      * @param Dienstverlener $dienstverlener
      */
     public function delete(Dienstverlener $dienstverlener);
+
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 }
