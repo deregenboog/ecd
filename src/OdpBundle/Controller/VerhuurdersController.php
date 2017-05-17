@@ -17,6 +17,8 @@ use OdpBundle\Form\VerhuurderCloseType;
 
 class VerhuurdersController extends SymfonyController
 {
+    public $title = 'Verhuurders';
+
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'stadsdeel'],
         'aanmelddatum',

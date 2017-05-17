@@ -20,6 +20,8 @@ use AppBundle\Form\ConfirmationType;
 
 class VerslagenController extends SymfonyController
 {
+    public $title = 'Verslagen';
+
     /**
      * @var VerslagDaoInterface
      *

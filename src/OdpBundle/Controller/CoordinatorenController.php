@@ -12,6 +12,8 @@ use AppBundle\Form\ConfirmationType;
 
 class CoordinatorenController extends SymfonyController
 {
+    public $title = 'Coördinatoren';
+
     /**
      * @var CoordinatorDaoInterface
      *

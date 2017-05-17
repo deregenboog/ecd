@@ -17,6 +17,8 @@ use OdpBundle\Form\HuurderCloseType;
 
 class HuurdersController extends SymfonyController
 {
+    public $title = 'Huurders';
+
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'stadsdeel'],
         'aanmelddatum',

@@ -16,6 +16,8 @@ use OdpBundle\Form\HuuraanbodCloseType;
 
 class HuuraanbiedingenController extends SymfonyController
 {
+    public $title = 'Huuraanbiedingen';
+
     private $enabledFilters = [
         'id',
         'klant' => ['naam', 'stadsdeel'],
