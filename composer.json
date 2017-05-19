@@ -35,7 +35,8 @@
         "symfony/assetic-bundle": "^2.8",
         "vich/uploader-bundle": "^1.4",
         "backup-manager/backup-manager": "^1.1",
-        "stof/doctrine-extensions-bundle": "^1.2"
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "shivas/versioning-bundle": "^1.4"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer": "^1.12",

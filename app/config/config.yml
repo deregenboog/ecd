@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: services.yml }
+    - { resource: version.yml, ignore_errors: true }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -33,6 +34,8 @@ twig:
 #        - form_div_layout.html.twig
         - bootstrap_3_horizontal_layout.html.twig
     cache: '%kernel.cache_dir%/twig'
+    globals:
+        app_version: v%application_version%
 
 # Doctrine Configuration
 doctrine:
@@ -83,3 +86,7 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/odp'
+
+shivas_versioning:
+    version_parameter: application_version
+    version_file: version.yml

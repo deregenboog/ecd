@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c99a7a79144335f523eb27273b9daabc",
+    "content-hash": "a673cf293583743b77a07d844871ff09",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
@@ -1093,6 +1093,58 @@
                 "uploadable"
             ],
             "time": "2017-04-23T08:59:41+00:00"
+        },
+        {
+            "name": "herrera-io/version",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kherge-abandoned/php-version.git",
+                "reference": "d39d9642b92a04d8b8a28b871b797a35a2545e85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kherge-abandoned/php-version/zipball/d39d9642b92a04d8b8a28b871b797a35a2545e85",
+                "reference": "d39d9642b92a04d8b8a28b871b797a35a2545e85",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "herrera-io/phpunit-test-case": "1.*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Herrera\\Version": "src/lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Herrera",
+                    "email": "kevin@herrera.io",
+                    "homepage": "http://kevin.herrera.io"
+                }
+            ],
+            "description": "A library for creating, editing, and comparing semantic versioning numbers.",
+            "homepage": "http://github.com/herrera-io/php-version",
+            "keywords": [
+                "semantic",
+                "version"
+            ],
+            "abandoned": true,
+            "time": "2014-05-27T05:29:25+00:00"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2200,6 +2252,57 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2017-02-18T17:53:25+00:00"
+        },
+        {
+            "name": "shivas/versioning-bundle",
+            "version": "1.4.2",
+            "target-dir": "Shivas/VersioningBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shivas/versioning-bundle.git",
+                "reference": "5e80126b0a3a834e4ff6a79b3c8e09b6cb6ee734"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/5e80126b0a3a834e4ff6a79b3c8e09b6cb6ee734",
+                "reference": "5e80126b0a3a834e4ff6a79b3c8e09b6cb6ee734",
+                "shasum": ""
+            },
+            "require": {
+                "herrera-io/version": "~1.0",
+                "php": ">=5.3.3",
+                "symfony/process": "~2.2|~3.0",
+                "symfony/symfony": "~2.8|~3.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0@dev"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Shivas\\VersioningBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Audrius Karabanovas",
+                    "email": "audrius@karabanovas.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Symfony2|3 application versioning, simple console command to manage version (with handlers e.g. git tag) of your application using Semantic Versioning 2.0.0 recomendations",
+            "homepage": "https://github.com/shivas/versioning-bundle",
+            "keywords": [
+                "semantic",
+                "semver",
+                "version",
+                "versioning"
+            ],
+            "time": "2017-02-06T11:51:22+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

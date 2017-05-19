@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new CakeBundle\CakeBundle(),
             new AppBundle\AppBundle(),
             new InloopBundle\InloopBundle(),
