@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -15,6 +16,7 @@ use AppBundle\Model\RequiredMedewerkerTrait;
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Huurder" = "Huurder", "Verhuurder" = "Verhuurder"})
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 abstract class Deelnemer
 {
@@ -33,6 +35,7 @@ abstract class Deelnemer
      * @var Intake
      *
      * @ORM\OneToOne(targetEntity="Intake", mappedBy="deelnemer")
+     * @Gedmo\Versioned
      */
     protected $intake;
 
@@ -40,6 +43,7 @@ abstract class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
+     * @Gedmo\Versioned
      */
     protected $aanmelddatum;
 
@@ -47,6 +51,7 @@ abstract class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(name="afsluitdatum", type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $afsluitdatum;
 
@@ -55,6 +60,7 @@ abstract class Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     protected $afsluiting;
 
@@ -63,6 +69,7 @@ abstract class Deelnemer
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $klant;
 

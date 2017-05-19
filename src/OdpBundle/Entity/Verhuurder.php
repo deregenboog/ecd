@@ -5,10 +5,12 @@ namespace OdpBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use OdpBundle\Exception\OdpException;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Verhuurder extends Deelnemer
 {
@@ -23,6 +25,7 @@ class Verhuurder extends Deelnemer
      * @var Woningbouwcorporatie
      *
      * @ORM\ManyToOne(targetEntity="Woningbouwcorporatie", inversedBy="verhuurders")
+     * @Gedmo\Versioned
      */
     private $woningbouwcorporatie;
 
@@ -30,6 +33,7 @@ class Verhuurder extends Deelnemer
      * @var string
      *
      * @ORM\Column(name="woningbouwcorporatie_toelichting", nullable=true)
+     * @Gedmo\Versioned
      */
     private $woningbouwcorporatieToelichting;
 

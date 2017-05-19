@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 
@@ -16,6 +17,7 @@ use AppBundle\Model\RequiredMedewerkerTrait;
  *     "OekAanmelding" = "OekAanmelding",
  *     "OekAfsluiting" = "OekAfsluiting"
  * })
+ * @Gedmo\Loggable
  */
 abstract class OekDossierStatus
 {
@@ -33,17 +35,20 @@ abstract class OekDossierStatus
      *
      * @ORM\ManyToOne(targetEntity="OekKlant")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $oekKlant;
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $datum;
 
     /**
      * @ORM\ManyToOne(targetEntity="OekVerwijzing")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $verwijzing;
 

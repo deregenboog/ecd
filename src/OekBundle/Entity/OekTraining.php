@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
@@ -10,6 +11,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\Entity(repositoryClass="OekBundle\Repository\OekTrainingRepository")
  * @ORM\Table(name="oek_trainingen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class OekTraining
 {
@@ -24,26 +26,31 @@ class OekTraining
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="time")
+     * @Gedmo\Versioned
      */
     private $starttijd;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     private $locatie;
 
@@ -57,6 +64,7 @@ class OekTraining
      * @var OekGroep
      * @ORM\ManyToOne(targetEntity="OekGroep", inversedBy="oekTrainingen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $oekGroep;
 

@@ -3,11 +3,13 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_via_personen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class IzViaPersoon
 {
@@ -20,11 +22,13 @@ class IzViaPersoon
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     private $actief = true;
 

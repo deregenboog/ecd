@@ -3,12 +3,14 @@
 namespace InloopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="intakes")
+ * @Gedmo\Loggable
  */
 class Intake
 {
@@ -25,6 +27,7 @@ class Intake
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="intakes")
+     * @Gedmo\Versioned
      */
     private $klant;
 
@@ -32,6 +35,7 @@ class Intake
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @Gedmo\Versioned
      */
     private $medewerker;
 
@@ -39,6 +43,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="datum_intake", type="date")
+     * @Gedmo\Versioned
      */
     private $intakedatum;
 
@@ -54,6 +59,7 @@ class Intake
      * @var bool
      *
      * @ORM\Column(name="toegang_inloophuis", type="boolean")
+     * @Gedmo\Versioned
      */
     private $toegangInloophuis;
 

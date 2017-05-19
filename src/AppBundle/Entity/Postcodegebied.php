@@ -3,10 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostcodegebiedRepository")
  * @ORM\Table(name="postcodegebieden")
+ * @Gedmo\Loggable
  */
 class Postcodegebied
 {
@@ -19,16 +21,19 @@ class Postcodegebied
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $postcodegebied;
 
     /**
      * @ORM\Column(type="integer")
+     * @Gedmo\Versioned
      */
     private $van;
 
     /**
      * @ORM\Column(type="integer")
+     * @Gedmo\Versioned
      */
     private $tot;
 

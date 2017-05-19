@@ -47,11 +47,23 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        mappings:
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                is_bundle: false
+                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
         dql:
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
 
 jms_di_extra: ~
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            loggable: true
 
 knp_paginator: ~
 

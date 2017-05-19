@@ -3,6 +3,7 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping\Id;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
@@ -14,6 +15,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"hulpvraag" = "IzHulpvraag", "hulpaanbod" = "IzHulpaanbod"})
+ * @Gedmo\Loggable
  */
 abstract class IzKoppeling
 {
@@ -28,26 +30,31 @@ abstract class IzKoppeling
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $einddatum;
 
     /**
      * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $koppelingStartdatum;
 
     /**
      * @ORM\Column(name="koppeling_einddatum", type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $koppelingEinddatum;
 
     /**
      * @ORM\Column(name="koppeling_succesvol", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $koppelingSuccesvol;
 
@@ -55,6 +62,7 @@ abstract class IzKoppeling
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $medewerker;
 
@@ -62,6 +70,7 @@ abstract class IzKoppeling
      * @var IzProject
      * @ORM\ManyToOne(targetEntity="IzProject")
      * @ORM\JoinColumn(name="project_id", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $izProject;
 
@@ -69,6 +78,7 @@ abstract class IzKoppeling
      * @var IzEindeKoppeling
      * @ORM\ManyToOne(targetEntity="IzEindeKoppeling")
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
+     * @Gedmo\Versioned
      */
     protected $izEindeKoppeling;
 
@@ -76,6 +86,7 @@ abstract class IzKoppeling
      * @var IzDeelnemer
      * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izKoppelingen")
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     * @Gedmo\Versioned
      */
     private $izDeelnemer;
 

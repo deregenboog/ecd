@@ -5,11 +5,13 @@ namespace OdpBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_woningbouwcorporaties")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Woningbouwcorporatie
 {
@@ -24,11 +26,13 @@ class Woningbouwcorporatie
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     private $actief = true;
 

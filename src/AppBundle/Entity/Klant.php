@@ -3,17 +3,20 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Intake;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="klanten")
+ * @Gedmo\Loggable
  */
 class Klant extends Persoon
 {
     /**
      * @ORM\Column(name="MezzoID", type="integer")
+     * @Gedmo\Versioned
      */
     private $mezzoId = 0;
 
@@ -26,6 +29,7 @@ class Klant extends Persoon
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $laatsteTbcControle;
 
@@ -34,21 +38,25 @@ class Klant extends Persoon
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Intake")
      * @ORM\JoinColumn(name="laste_intake_id")
+     * @Gedmo\Versioned
      */
     private $laatsteIntake;
 
     /**
      * @ORM\Column(name="laatste_registratie_id", type="integer")
+     * @Gedmo\Versioned
      */
     private $laatsteRegistratieId;
 
     /**
      * @ORM\Column(name="last_zrm", type="date")
+     * @Gedmo\Versioned
      */
     private $laatsteZrm;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $overleden = false;
 

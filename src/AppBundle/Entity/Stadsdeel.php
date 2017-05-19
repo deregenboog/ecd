@@ -3,21 +3,25 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="stadsdelen")
+ * @Gedmo\Loggable
  */
 class Stadsdeel
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $postcode;
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $stadsdeel;
 

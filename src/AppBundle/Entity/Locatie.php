@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="locaties")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Locatie
 {
@@ -23,36 +25,43 @@ class Locatie
 
     /**
      * @ORM\Column(name="naam", nullable=false)
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="nachtopvang", type="boolean", nullable=false, options={"default"=0})
+     * @Gedmo\Versioned
      */
     private $nachtopvang = false;
 
     /**
      * @ORM\Column(name="gebruikersruimte", type="boolean", nullable=false, options={"default"=0})
+     * @Gedmo\Versioned
      */
     private $gebruikersruimte = false;
 
     /**
      * @ORM\Column(name="maatschappelijkwerk", type="boolean", nullable=false, options={"default"=0})
+     * @Gedmo\Versioned
      */
     private $maatschappelijkWerk = false;
 
     /**
      * @ORM\Column(name="tbc_check", type="boolean", nullable=false, options={"default"=0})
+     * @Gedmo\Versioned
      */
     private $tbcCheck = false;
 
     /**
      * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $datumVan;
 
     /**
      * @ORM\Column(name="datum_tot", type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $datumTot;
 

@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\Criteria;
@@ -11,6 +12,7 @@ use Doctrine\Common\Collections\Criteria;
  * @ORM\Entity
  * @ORM\Table(name="oek_groepen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class OekGroep
 {
@@ -25,6 +27,7 @@ class OekGroep
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $naam;
 
