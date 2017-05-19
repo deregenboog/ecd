@@ -17,6 +17,12 @@
     padding-right: 8px;
 }
 
+footer {
+    color: white;
+    background: #759c46;
+    padding: 8px;
+}
+
 a {
     color: #003d4c;
 }
