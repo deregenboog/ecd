@@ -7,11 +7,13 @@ use Doctrine\ORM\Mapping\Id;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_huurovereenkomsten")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Huurovereenkomst
 {
@@ -26,21 +28,25 @@ class Huurovereenkomst
 
     /**
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $opzegdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $afsluitdatum;
 
@@ -49,18 +55,21 @@ class Huurovereenkomst
      *
      * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     private $afsluiting;
 
     /**
      * @var Huuraanbod
      * @ORM\ManyToOne(targetEntity="Huuraanbod")
+     * @Gedmo\Versioned
      */
     private $huuraanbod;
 
     /**
      * @var Huurverzoek
      * @ORM\ManyToOne(targetEntity="Huurverzoek")
+     * @Gedmo\Versioned
      */
     private $huurverzoek;
 

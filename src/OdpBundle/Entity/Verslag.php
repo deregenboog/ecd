@@ -5,11 +5,13 @@ namespace OdpBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_verslagen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Verslag
 {
@@ -26,11 +28,13 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $opmerking;
 
