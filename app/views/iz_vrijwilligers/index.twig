@@ -9,37 +9,31 @@
     <tr>
         {{ form_start(form) }}
         <th>
-            {{ form_widget(form.vrijwilliger.id) }}
-            {{ form_errors(form.vrijwilliger.id) }}
+            {{ form_row(form.vrijwilliger.id) }}
         </th>
         <th>
-            {{ form_widget(form.vrijwilliger.naam) }}
-            {{ form_errors(form.vrijwilliger.naam) }}
+            {{ form_row(form.vrijwilliger.voornaam) }}
+            {{ form_row(form.vrijwilliger.achternaam) }}
         </th>
         <th>
-            {{ form_widget(form.vrijwilliger.geboortedatumRange) }}
-            {{ form_errors(form.vrijwilliger.geboortedatumRange) }}
+            {{ form_row(form.vrijwilliger.geboortedatumRange) }}
         </th>
         <th>
-            {{ form_widget(form.izProject) }}
-            {{ form_errors(form.izProject) }}
+            {{ form_row(form.izProject) }}
         </th>
         <th>
-            {{ form_widget(form.medewerker) }}
-            {{ form_errors(form.medewerker) }}
+            {{ form_row(form.medewerker) }}
         </th>
         <th>
-            {{ form_widget(form.vrijwilliger.stadsdeel) }}
-            {{ form_errors(form.vrijwilliger.stadsdeel) }}
+            {{ form_row(form.vrijwilliger.stadsdeel) }}
         </th>
         <th>
-            {{ form_widget(form.afsluitDatum) }}
-            {{ form_errors(form.afsluitDatum) }}
-            {{ form_widget(form.openDossiers) }}
+            {{ form_row(form.afsluitDatum) }}
+            {{ form_row(form.openDossiers) }}
         </th>
         <th>
-            {{ form_widget(form.filter) }}
-            {{ form_widget(form.download) }}
+            {{ form_row(form.filter) }}
+            {{ form_row(form.download) }}
         </th>
         {{ form_end(form) }}
     </tr>

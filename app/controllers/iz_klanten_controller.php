@@ -24,7 +24,7 @@ class IzKlantenController extends AppController
     private $enabledFilters = [
         'afsluitDatum',
         'openDossiers',
-        'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
+        'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];

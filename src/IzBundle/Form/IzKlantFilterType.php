@@ -29,6 +29,7 @@ class IzKlantFilterType extends AbstractType
         if (in_array('afsluitDatum', $options['enabled_filters'])) {
             $builder->add('afsluitDatum', AppDateRangeType::class, [
                 'required' => false,
+                'label' => false,
             ]);
         }
 
@@ -48,6 +49,7 @@ class IzKlantFilterType extends AbstractType
         if (in_array('izProject', $options['enabled_filters'])) {
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
+                'label' => 'Project',
                 'class' => IzProject::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')

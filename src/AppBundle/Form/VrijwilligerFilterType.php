@@ -18,6 +18,7 @@ class VrijwilligerFilterType extends AbstractType
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
                 'required' => false,
+                'label' => 'Nummer',
                 'attr' => ['placeholder' => 'Nummer'],
             ]);
         }
@@ -26,6 +27,20 @@ class VrijwilligerFilterType extends AbstractType
             $builder->add('naam', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Naam'],
+            ]);
+        }
+
+        if (in_array('voornaam', $options['enabled_filters'])) {
+            $builder->add('voornaam', null, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Voornaam'],
+            ]);
+        }
+
+        if (in_array('achternaam', $options['enabled_filters'])) {
+            $builder->add('achternaam', null, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Achternaam'],
             ]);
         }
 
@@ -44,6 +59,7 @@ class VrijwilligerFilterType extends AbstractType
         if (in_array('geboortedatumRange', $options['enabled_filters'])) {
             $builder->add('geboortedatumRange', AppDateRangeType::class, [
                 'required' => false,
+                'label' => false,
             ]);
         }
 

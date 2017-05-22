@@ -19,7 +19,7 @@ class IzHulpaanbiedingenController extends AppController
 
     private $enabledFilters = [
         'startdatum',
-        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
+        'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
