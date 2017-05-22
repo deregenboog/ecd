@@ -13,24 +13,52 @@ class LdapUser extends AppModel
     public $ds;
     public $bind;
 
+    public $active_directory = false;
+    public $username = null;
+    public $password = null;
+
     public function __construct($id = false, $table = null, $ds = null)
     {
         parent::__construct($id, $table, $ds);
 
         $config = Configure::read('LDAP.configuration');
-
         foreach ($config as $key => $val) {
             $this->$key = $val;
         }
 
         $this->ds = ldap_connect($this->host, $this->port);
         ldap_set_option($this->ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-        $this->bind = ldap_bind($this->ds);
+        ldap_set_option($this->ds, LDAP_OPT_NETWORK_TIMEOUT, 15);
+
+        if ($this->active_directory) {
+            $this->uid = 'sAMAccountName';
+            $this->group = 'group';
+            $this->user = 'user';
+            $this->memberUid = 'member';
+            $this->gidnumber = 'cn';
+            $this->gidnumber = 'distinguishedname';
+            $this->bind = ldap_bind($this->ds, $this->username, $this->password);
+        } else {
+            $this->uid = 'uid';
+            $this->group = 'posixgroup';
+            $this->user = 'posixAccount';
+            $this->memberUid = 'memberUid';
+            $this->gidnumber = 'gidnumber';
+            $this->gidnumber = 'gidnumber';
+            $this->bind = ldap_bind($this->ds);
+        }
+
+        if (!$this->testConnection()) {
+            debug('Cannot connect to ldapserver');
+            die;
+        }
     }
 
     public function __destruct()
     {
-        ldap_close($this->ds);
+        if (is_resource($this->ds)) {
+            ldap_close($this->ds);
+        }
     }
 
     public function findAll($attribute = 'uid', $value = '*')
@@ -72,10 +100,18 @@ class LdapUser extends AppModel
 
     public function read($fields, $uid)
     {
-        $r = ldap_search($this->ds, $this->baseDn, 'uid='.$uid);
+        $query = "(&(objectClass={$this->user})({$this->uid}={$uid}))";
+        $r = ldap_search($this->ds, $this->baseDn, $query);
+
         if ($r) {
             $l = ldap_get_entries($this->ds, $r);
+
             $convert = $this->convert_from_ldap($l);
+
+            if ($this->active_directory) {
+                $convert[0]['LdapUser']['displayname'] = $convert[0]['LdapUser']['cn'];
+                $convert[0]['LdapUser']['uidnumber'] = '0';
+            }
 
             return $convert[0];
         }
@@ -88,20 +124,37 @@ class LdapUser extends AppModel
 
         if (!$members) {
             $members = [];
-            $r = ldap_search($this->ds, 'ou=groups,'.$this->baseDn, 'gidNumber='.$gid);
+
+            if ($this->active_directory) {
+                $r = ldap_search($this->ds, $gid, 'cn=*');
+            } else {
+                $r = ldap_search($this->ds, 'ou=groups,'.$this->baseDn, 'gidNumber='.$gid);
+            }
 
             if ($r) {
                 $l = ldap_get_entries($this->ds, $r);
-
                 $m = $this->convert_from_ldap($l);
 
-                if (count($m) == 1) {
-                    if (is_array($m[0]['LdapUser']['memberuid'])) {
-                        foreach ($m[0]['LdapUser']['memberuid'] as $member) {
-                            $members[] = $member;
+                if (!$this->active_directory) {
+                    if (count($m) == 1) {
+                        if (is_array($m[0]['LdapUser']['memberuid'])) {
+                            foreach ($m[0]['LdapUser']['memberuid'] as $member) {
+                                $members[] = $member;
+                            }
+                        } else {
+                            $members[] = $m[0]['LdapUser']['memberuid'];
                         }
-                    } else {
-                        $members[] = $m[0]['LdapUser']['memberuid'];
+                    }
+                } else {
+                    if (!empty($m[0]['LdapUser']['member'])) {
+                        foreach ($m[0]['LdapUser']['member'] as $member) {
+                            $r = ldap_search($this->ds, $member, 'objectClass=person', ['sAMAccountName']);
+                            if ($r) {
+                                $l = ldap_get_entries($this->ds, $r);
+                                $m = $this->convert_from_ldap($l);
+                                $members[] = $m[0]['LdapUser']['samaccountname'];
+                            }
+                        }
                     }
                 }
             }
@@ -115,62 +168,47 @@ class LdapUser extends AppModel
     public function getGroups($uid = null)
     {
         $group_array = [];
-        $r = ldap_search($this->ds, $this->baseDn, 'uid='.$uid);
 
-        if ($r) {
-            if ($uid) {
-                $query = '(&(objectClass=posixgroup)(memberUid='.$uid.'))';
-            } else {
-                $query = 'objectClass=posixgroup';
+        if ($uid) {
+            if ($this->active_directory) {
+                $user = $this->read(null, $uid);
+
+                if (!empty($user)) {
+                    $uid = $user['LdapUser']['distinguishedname'];
+                }
             }
+            $query = "(&(objectClass={$this->group})({$this->memberUid}={$uid}))";
+        } else {
+            $query = "objectClass={$this->group}";
+        }
 
-            $r = ldap_search($this->ds, $this->baseDn, $query);
-            $l = ldap_get_entries($this->ds, $r);
+        $r = ldap_search($this->ds, $this->baseDn, $query);
+        $l = ldap_get_entries($this->ds, $r);
 
-            $groups = $this->convert_from_ldap($l);
-            $group_array = [];
+        $groups = $this->convert_from_ldap($l);
+        $group_array = array();
 
-            foreach ($groups as $g) {
-                $gid = $g['LdapUser']['gidnumber'];
-                $cn = $g['LdapUser']['cn'];
-                $group['gidnumber'] = $gid;
-                $group['cn'] = $cn;
-                $group_array[] = $group;
-            }
+        foreach ($groups as $g) {
+            $cn = $g['LdapUser']['cn'];
+            $group['gidnumber'] = $g['LdapUser'][$this->gidnumber];
+            $group['cn'] = $cn;
+            $group_array[] = $group;
+
+            $group_array[] = $group;
         }
 
         return $group_array;
     }
 
-    public function save($data)
-    {
-        $dn = 'uid='.$data['LdapUser']['uid'].','.$this->baseDn;
-
-        foreach ($data['LdapUser'] as $field => $value):
-         $data_ldap[$field][0] = $value;
-        endforeach;
-
-        $data_ldap['objectClass'] = array('account', 'posixAccount', 'top', 'shadowAccount');
-
-        return ldap_add($this->ds, $dn, $data_ldap);
-    }
-
-    public function del($uid)
-    {
-        $dn = "uid=$uid,".$this->baseDn;
-
-        return ldap_delete($this->ds, $dn);
-    }
-
     public function auth($uid, $password)
     {
-        $result = $this->findAll('uid', $uid);
+        $result = $this->findAll($this->uid, $uid);
 
         if (!empty($result[0])) {
             $connect = $this->ds;
 
-            if (($res_id = ldap_search($connect, $this->baseDn,
-                           "uid=$uid")) == false) {
+            $res_id = ldap_search($connect, $this->baseDn, "{$this->uid}=$uid");
+            if ($res_id == false) {
                 return false;
             }
 
@@ -193,25 +231,9 @@ class LdapUser extends AppModel
             } else {
                 return false;
             }
-        } else {
-            return false;
-        }
-    }
-
-    public function findLargestUidNumber()
-    {
-        $r = ldap_search($this->ds, $this->baseDn, 'uidnumber=*');
-        if ($r) {
-            ldap_sort($this->ds, $r, 'uidnumber');
-
-            $result = ldap_get_entries($this->ds, $r);
-            $count = $result['count'];
-            $biguid = $result[$count - 1]['uidnumber'][0];
-
-            return $biguid;
         }
 
-        return null;
+        return false;
     }
 
     private function convert_from_ldap($data)
@@ -242,17 +264,5 @@ class LdapUser extends AppModel
         }
 
         return $final;
-    }
-
-    public function disabled_users()
-    {
-        $users = null;
-        $result = ldap_search($this->ds, 'ou=people,'.$this->baseDn, 'uid=robert');
-
-        if ($result) {
-            $users = ldap_get_entries($this->ds, $result);
-        }
-
-        return $users;
     }
 }

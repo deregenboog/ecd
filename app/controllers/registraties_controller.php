@@ -13,7 +13,7 @@ class RegistratiesController extends AppController
         }
 
         $user_groups = $this->AuthExt->user('Group');
-        $volonteers = Configure::read('ACL.volonteers');
+        $volunteers = Configure::read('ACL.volunteers');
 
         if (empty($user_groups)) {
             return false;
@@ -33,11 +33,12 @@ class RegistratiesController extends AppController
 
         $username = $this->AuthExt->user('username');
 
-        if (isset($volonteers[$username])) {
+        if (isset($volunteers[$username])) {
             if (isset($action_locaties_filter[$this->action])) {
                 if (!empty($this->params['pass'])) {
-                    if (!isset($this->params['pass'][$action_locaties_filter[$this->action]]) ||
-                    ($this->params['pass'][$action_locaties_filter[$this->action]] !== $volonteers[$username])) {
+                    if (!isset($this->params['pass'][$action_locaties_filter[$this->action]])
+                        || ($this->params['pass'][$action_locaties_filter[$this->action]] != $volunteers[$username])
+                    ) {
                         return false;
                     }
                 }
@@ -119,6 +120,7 @@ class RegistratiesController extends AppController
             $this->set('locatie_id', $locatie_id);
 
             $loc_name = $locatie['naam'];
+            $this->set('locatie', $locatie);
             $this->set('locatie_name', $loc_name);
             $this->setRegistraties($locatie_id);
             $this->set('locaties', $this->Registratie->Locatie->find('list'));
@@ -376,7 +378,7 @@ class RegistratiesController extends AppController
             'confirm' => false,
             'allow' => true,
             'message' => '',
-            );
+        );
 
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
@@ -430,34 +432,40 @@ class RegistratiesController extends AppController
 
         if ($jsonVar['allow']) {
             if ($klant['Klant']['new_intake_needed'] < 0) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake. Toch inchecken?';
+                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
 
-            $schorsing = $this->Registratie->Klant->Schorsing->countActiveSchorsingenMsg($klant_id);
-
-            if ($schorsing == 'Hier geschorst') {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
-                $sep = $separator;
-                $jsonVar['confirm'] = true;
+            $actieveSchorsingen = $this->Registratie->Klant->Schorsing->getActiveSchorsingen($klant_id);
+            foreach ($actieveSchorsingen as $actieveSchorsing) {
+                if ($actieveSchorsing['Locatie']['id'] == $location['Locatie']['id']) {
+                    $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+                    $sep = $separator;
+                    $jsonVar['confirm'] = true;
+                }
             }
 
-            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja') {
+            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja' && $location['Locatie']['tbc_check'] == 1) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
             }
 
             if (count($klant['Opmerking']) > 0) {
-                $jsonVar['message'] .= $sep.'Laatste opmerking: '.end($klant['Opmerking'])['beschrijving'];
-                $jsonVar['confirm'] = true;
-                $sep = $separator;
+                $laatsteOpmerking = end($klant['Opmerking']);
+                if (!$laatsteOpmerking['gezien']) {
+                    $datum = new DateTime($laatsteOpmerking['created']);
+                    $jsonVar['message'] .= $sep.'Laatste opmerking ('.$datum->format('d-m-Y').'): '.$laatsteOpmerking['beschrijving'];
+                    $jsonVar['confirm'] = true;
+                    $sep = $separator;
+                }
             }
         }
 
         render:
             $this->set(compact('jsonVar'));
+
         $this->render('/elements/json', 'ajax');
     }
 

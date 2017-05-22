@@ -1,4 +1,6 @@
 <?php
+use Doctrine\DBAL\Driver\PDOMySql\Driver;
+
 /**
  * This is core configuration file.
  *
@@ -70,24 +72,24 @@
 class DATABASE_CONFIG
 {
     public $default = array(
-        'driver' => 'mysql',
+        'driver' => '',
         'persistent' => false,
-        'host' => 'localhost',
-        'login' => 'user',
-        'password' => 'password',
-        'database' => 'database_name',
-        'encoding' => 'utf8',
+        'host' => '',
+        'login' => '',
+        'password' => '',
+        'database' => '',
+        'encoding' => '',
         'prefix' => '',
     );
 
     public $test = array(
-        'driver' => 'mysql',
+        'driver' => '',
         'persistent' => false,
-        'host' => 'localhost',
-        'login' => 'user',
-        'password' => 'password',
-        'database' => 'test_database_name',
-        'encoding' => 'utf8',
+        'host' => '',
+        'login' => '',
+        'password' => '',
+        'database' => '',
+        'encoding' => '',
         'prefix' => '',
     );
 
@@ -97,10 +99,22 @@ class DATABASE_CONFIG
 
         $container = $kernel->getContainer();
 
-        $this->default['host'] = $container->getParameter('database_host');
-        $this->default['port'] = $container->getParameter('database_port');
-        $this->default['login'] = $container->getParameter('database_user');
-        $this->default['password'] = $container->getParameter('database_password');
-        $this->default['database'] = $container->getParameter('database_name');
+        /* @var $conn Doctrine\DBAL\Connection */
+        $conn = $container->get('database_connection');
+
+        switch ($conn->getDriver()->getName()) {
+            case 'pdo_mysql':
+                $this->default['driver'] = 'mysql';
+                break;
+            default:
+                throw new \Exception('Unsupported database driver: '. $conn->getDriver()->getName());
+        }
+
+        $this->default['host'] = $conn->getHost();
+        $this->default['port'] = $conn->getPort();
+        $this->default['login'] = $conn->getUsername();
+        $this->default['password'] = $conn->getPassword();
+        $this->default['database'] = $conn->getDatabase();
+        $this->default['encoding'] = $conn->getParams()['charset'];
     }
 }

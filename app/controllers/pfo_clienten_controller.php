@@ -31,12 +31,12 @@ class PfoClientenController extends AppController
         $groepen += $this->PfoGroep->get_list($current_groep);
         $aard_relatie += $this->PfoAardRelatie->get_list($current_aardrelatie);
 
-        $medewerker_id = null;
+        $medewerker_ids = [];
         if (!empty($data['PfoClient']['medewerker_id'])) {
-            $medewerker_id = $data['PfoClient']['medewerker_id'];
+            $medewerker_ids[] = $data['PfoClient']['medewerker_id'];
         }
+        $this->setMedewerkers($medewerker_ids, [GROUP_PFO]);
 
-        $this->setMedewerkers($medewerker_id, array(GROUP_PFO));
         $geslachten = $this->PfoClient->Geslacht->find('list');
         $contact_type = $this->PfoVerslag->contact_type;
 

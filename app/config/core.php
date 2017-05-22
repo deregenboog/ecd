@@ -1,4 +1,9 @@
 <?php
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 /**
  * This is core configuration file.
  *
@@ -19,24 +24,10 @@
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-global $kernel;
-$container = $kernel->getContainer();
-$params = $container->getParameter('cake');
 
-    /*
-     * CakePHP Debug Level:.
-     *
-     * Production Mode:
-     * 	0: No error messages, errors, or warnings shown. Flash messages redirect.
-     *
-     * Development Mode:
-     * 	1: Errors and warnings shown, model caches refreshed, flash messages halted.
-     * 	2: As in 1, but also with full debug messages and SQL output.
-     *
-     * In production mode, flash messages redirect after a time interval.
-     * In development mode, you need to click the flash message to continue.
-     */
-    Configure::write('debug', $params['debug'] ? $params['debug_level'] : 0);
+$params = parse_ini_file('config.ini', true);
+
+\Configure::write('LDAP.configuration', $params['ldap']);
 
 /*
  * CakePHP Log Level:
@@ -89,12 +80,6 @@ $params = $container->getParameter('cake');
  * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
  */
     Configure::write('Routing.prefixes', ['admin']);
-
-/*
- * Turn off all caching application-wide.
- *
- */
-    Configure::write('Cache.disable', $params['Cache.disable']);
 
 /*
  * Enable cache checking.
@@ -167,13 +152,13 @@ $params = $container->getParameter('cake');
  * characters."
  * @link http://php.net/session_name
  */
-    Configure::write('Session.cookie', $params['Session.cookie']);
+    Configure::write('Session.cookie', $params['session']['cookie']);
 
 /*
  * Session time out time (in seconds).
  * Actual value depends on 'Security.level' setting.
  */
-    Configure::write('Session.timeout', $params['Session.timeout']);
+    Configure::write('Session.timeout', $params['session']['timeout']);
 
 /*
  * If set to false, sessions are not automatically started.
@@ -204,12 +189,11 @@ $params = $container->getParameter('cake');
 /*
  * A random string used in security hashing methods.
  */
-    Configure::write('Security.salt', $params['Security.salt']);
-
+    \Configure::write('Security.salt', $params['security']['salt']);
 /*
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-    Configure::write('Security.cipherSeed', $params['Security.cipherSeed']);
+    \Configure::write('Security.cipherSeed', $params['security']['cipherSeed']);
 
 /*
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -347,54 +331,25 @@ Cache::config('association_query', array(
     'prefix' => $prefix,
 ));
 
-Configure::write('ACL.volonteers', $params['volunteers']);
-Configure::write('LDAP.configuration', $params['ldap']);
-
-define('GROUP_ADMIN', $params['GROUP_ADMIN']); // sys_teamleider
-define('GROUP_DEVELOP', $params['GROUP_DEVELOP']); // (group ecd_admin)
-define('GROUP_VOLONTEERS', $params['GROUP_VOLONTEERS']); // registratie_vrijwilliger
-define('GROUP_STAGE', $params['GROUP_STAGE']); // stagiaires_ecd
-define('GROUP_PORTIER', $params['GROUP_PORTIER']); // sys_portiers
-define('GROUP_MLO', $params['GROUP_MLO']); // sys_mlo
-define('GROUP_MAATSCHAPPELIJK', $params['GROUP_MAATSCHAPPELIJK']); // maatschappelijk_werk
-define('GROUP_HI5', $params['GROUP_HI5']); // sys_hi5
-define('GROUP_TRAJECTBEGELEIDER', $params['GROUP_TRAJECTBEGELEIDER']);
-define('GROUP_WERKBEGELEIDER', $params['GROUP_WERKBEGELEIDER']);
-define('GROUP_TEAMLEIDERS', $params['GROUP_TEAMLEIDERS']);
-define('GROUP_PFO', $params['GROUP_PFO']); // pfondersteuning_data
-define('GROUP_BACK_ON_TRACK_COORDINATOR', $params['GROUP_BACK_ON_TRACK_COORDINATOR']);
-define('GROUP_BACK_ON_TRACK_COACH', $params['GROUP_BACK_ON_TRACK_COACH']);
-define('GROUP_GROEPSACTIVITEIT', $params['GROUP_GROEPSACTIVITEIT']);
-define('GROUP_IZ', $params['GROUP_IZ']);
-define('GROUP_REPORT', $params['GROUP_REPORT']);
-define('GROUP_IZ_BEHEER', $params['GROUP_IZ_BEHEER']);
-define('GROUP_BEHEER_GROEPSACTIVITEIT', $params['GROUP_BEHEER_GROEPSACTIVITEIT']);
-
-// convert group names to group ids
-foreach ($params['ACL.permissions'] as $key => $value) {
-    $params['ACL.permissions'][$params[$key]] = $value;
-    unset($params['ACL.permissions'][$key]);
-}
-Configure::write('ACL.permissions', $params['ACL.permissions']);
-
-/* Disable ACL with a flag. This only works in debug mode. */
-Configure::write('ACL.disabled', $params['ACL.disabled'] && Configure::read('debug') > 0);
-
-Configure::write('all_menu_items', $params['all_menu_items']);
-
-Configure::write('TBC_months_period', $params['TBC_months_period']);
-
-// aanwezig, afwezig
-Configure::write('Afmeldstatus', $params['Afmeldstatus']);
-Configure::write('Postcodegebieden', $params['Postcodegebieden']);
-Configure::write('Werkgebieden', $params['Werkgebieden']);
-Configure::write('Persoontypen', $params['Persoontypen']);
-Configure::write('IzFase', $params['IzFase']);
-Configure::write('Communicatietypen', $params['Communicatietypen']);
-Configure::write('options_medewerker', $params['options_medewerker']);
-
-// list of klant countries indicating that the klant should be sent to AMOC
-Configure::write('Landen.AMOC', $params['Landen.AMOC']);
+define('GROUP_ADMIN', $params['groups']['GROUP_ADMIN']); // sys_teamleider
+define('GROUP_DEVELOP', $params['groups']['GROUP_DEVELOP']); // (group ecd_admin)
+define('GROUP_VOLUNTEERS', $params['groups']['GROUP_VOLUNTEERS']); // registratie_vrijwilliger
+define('GROUP_STAGE', $params['groups']['GROUP_STAGE']); // stagiaires_ecd
+define('GROUP_PORTIER', $params['groups']['GROUP_PORTIER']); // sys_portiers
+define('GROUP_MLO', $params['groups']['GROUP_MLO']); // sys_mlo
+define('GROUP_MAATSCHAPPELIJK', $params['groups']['GROUP_MAATSCHAPPELIJK']); // maatschappelijk_werk
+define('GROUP_HI5', $params['groups']['GROUP_HI5']); // sys_hi5
+define('GROUP_TRAJECTBEGELEIDER', $params['groups']['GROUP_TRAJECTBEGELEIDER']);
+define('GROUP_WERKBEGELEIDER', $params['groups']['GROUP_WERKBEGELEIDER']);
+define('GROUP_TEAMLEIDERS', $params['groups']['GROUP_TEAMLEIDERS']);
+define('GROUP_PFO', $params['groups']['GROUP_PFO']); // pfondersteuning_data
+define('GROUP_BACK_ON_TRACK_COORDINATOR', $params['groups']['GROUP_BACK_ON_TRACK_COORDINATOR']);
+define('GROUP_BACK_ON_TRACK_COACH', $params['groups']['GROUP_BACK_ON_TRACK_COACH']);
+define('GROUP_GROEPSACTIVITEIT', $params['groups']['GROUP_GROEPSACTIVITEIT']);
+define('GROUP_IZ', $params['groups']['GROUP_IZ']);
+define('GROUP_REPORT', $params['groups']['GROUP_REPORT']);
+define('GROUP_IZ_BEHEER', $params['groups']['GROUP_IZ_BEHEER']);
+define('GROUP_BEHEER_GROEPSACTIVITEIT', $params['groups']['GROUP_BEHEER_GROEPSACTIVITEIT']);
 
 define('PFO_CLIENTEN_ALL', null);
 define('PFO_CLIENTEN_HOOFDCLIENT', 1);
@@ -411,42 +366,6 @@ include APP.'plugins/media/config/core.php';
 
 Configure::write('openingTimeCorrectionSec', 30 * MINUTE);
 Configure::write('attachment.max_size', '10M');
-
-/*
- * Setting language to Dutch for month selection fields.
- */
-Configure::write('Config.language', $params['Config.language']);
-Configure::write('Calendar.dateDisplayFormat', $params['Calendar.dateDisplayFormat']);
-
-// e-mail addresses for the intake notifications:
-if (isset($_SERVER ['HTTP_HOST']) && $_SERVER ['HTTP_HOST'] == 'ecd.deregenboog.org') {
-    Configure::write('informele_zorg_mail', 'jschmidt@deregenboog.org');
-    Configure::write('dagbesteding_mail', 'bnieuwburg@deregenboog.org');
-    Configure::write('inloophuis_mail', 'adbruijn@deregenboog.org');
-    Configure::write('hulpverlening_mail', 'jvloo@deregenboog.org');
-    Configure::write('agressie_mail', 'tvhamond@deregenboog.org');
-    Configure::write('administratiebedrijf', 'administratiebedrijf@deregenboog.org ');
-} elseif (isset($_SERVER ['HTTP_HOST']) && $_SERVER ['HTTP_HOST'] == 'dev-ecd.deregenboog.org') {
-    Configure::write('informele_zorg_mail', 'robert@accelcloud.com');
-    Configure::write('dagbesteding_mail', 'robert@accelcloud.com');
-    Configure::write('inloophuis_mail', 'robert@accelcloud.com');
-    Configure::write('hulpverlening_mail', 'robert@accelcloud.com');
-    Configure::write('agressie_mail', 'robert@accelcloud.com');
-    Configure::write('administratiebedrijf', 'robert@accelcloud.com');
-} else {
-    // Configure::write('informele_zorg_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('dagbesteding_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('inloophuis_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('hulpverlening_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('agressie_mail', 'bhuttinga@deregenboog.org');
-    // Configure::write('administratiebedrijf', 'bhuttinga@deregenboog.org');
-    Configure::write('informele_zorg_mail', 'robert@accelcloud.com');
-    Configure::write('dagbesteding_mail', 'robert@accelcloud.com');
-    Configure::write('inloophuis_mail', 'robert@accelcloud.com');
-    Configure::write('hulpverlening_mail', 'robert@accelcloud.com');
-    Configure::write('agressie_mail', 'robert@accelcloud.com');
-    Configure::write('administratiebedrijf', 'robert@accelcloud.com');
-}
 
 /**
  * Translate a string, and replace variables in it as given by the $params

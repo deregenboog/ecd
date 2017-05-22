@@ -3,11 +3,13 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
+ * @Gedmo\Loggable
  */
 class IzKlant extends IzDeelnemer
 {
@@ -15,14 +17,24 @@ class IzKlant extends IzDeelnemer
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
      * @ORM\JoinColumn(name="foreign_key", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
      * @var ArrayCollection|IzHulpvraag[]
      * @ORM\OneToMany(targetEntity="IzHulpvraag", mappedBy="izKlant")
+     * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpvragen;
+
+    /**
+     * @var IzOntstaanContact
+     * @ORM\ManyToOne(targetEntity="IzOntstaanContact")
+     * @ORM\JoinColumn(name="contact_ontstaan")
+     * @Gedmo\Versioned
+     */
+    protected $izOntstaanContact;
 
     public function __construct()
     {
@@ -49,5 +61,17 @@ class IzKlant extends IzDeelnemer
     public function getIzHulpvragen()
     {
         return $this->izHulpvragen;
+    }
+
+    public function getIzOntstaanContact()
+    {
+        return $this->izOntstaanContact;
+    }
+
+    public function setIzOntstaanContact(IzOntstaanContact $izOntstaanContact)
+    {
+        $this->izOntstaanContact = $izOntstaanContact;
+
+        return $this;
     }
 }

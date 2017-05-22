@@ -1282,11 +1282,14 @@ class IzDeelnemersController extends AppController
     public function email_selectie()
     {
         $form = $this->createForm(IzEmailMessageType::class, null);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
-            // create message
-            $message = \Swift_Message::newInstance()
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Swift_Mailer $mailer */
+            $mailer = $this->container->get('mailer');
+
+            /** @var Swift_Mime_Message $message */
+            $message = $mailer->createMessage()
                 ->setFrom($form->get('from')->getData())
                 ->setTo(explode(', ', $form->get('to')->getData()))
                 ->setSubject($form->get('subject')->getData())
@@ -1304,7 +1307,7 @@ class IzDeelnemersController extends AppController
                 $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
             }
 
-            if ($this->container->get('mailer')->send($message)) {
+            if ($mailer->send($message)) {
                 $this->flash(__('Email is succesvol verzonden', true));
             } else {
                 $this->flashError(__('Email kon niet worden verzonden', true));
@@ -1401,9 +1404,9 @@ class IzDeelnemersController extends AppController
         $this->view = 'AppTwig';
 
         $form = $this->createForm(IzDeelnemerSelectieType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $izKlanten = new ArrayCollection([]);
             $izVrijwilligers = new ArrayCollection([]);
 
@@ -1500,7 +1503,7 @@ class IzDeelnemersController extends AppController
                     default:
                     case 'excel':
                         $this->header('Content-type: application/vnd.ms-excel');
-                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.csv";', date('Ymd_His')));
+                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.xls";', date('Ymd_His')));
                         $this->header('Content-Transfer-Encoding: binary');
 
                         $this->autoLayout = false;

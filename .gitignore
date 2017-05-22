@@ -10,6 +10,15 @@
 !/app/tmp/sessions/.gitkeep
 !/app/tmp/tests/.gitkeep
 
+# Symfony cache/logs/sessions
+/var/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+
+# Backups
+/backups/*
+
 # SQL data
 /app/sql/*
 !/app/sql/00-schema.sql
@@ -30,6 +39,9 @@
 /.project
 /.buildpath
 
+# PhpStorm
+.idea
+
 # Custom tools
 /bin/*
 !/bin/console
@@ -37,3 +49,4 @@
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
+

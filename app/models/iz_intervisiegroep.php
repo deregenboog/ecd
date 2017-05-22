@@ -89,7 +89,7 @@ class IzIntervisiegroep extends AppModel
             );
         }
 
-        $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->Medewerker->getMedewerkers([], [], true);
 
         $intervisigroepenlists = $this->find('all', array(
                 'conditions' => $conditions,

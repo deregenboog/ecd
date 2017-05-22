@@ -1,0 +1,4 @@
+AppBundle\Entity\Medewerker:
+    medewerker_{1..50}:
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'

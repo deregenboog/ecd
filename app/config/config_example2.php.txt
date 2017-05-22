@@ -8,7 +8,7 @@ $ldap['baseDn'] = 'dc=toltech,dc=nl';
 
 define( 'GROUP_ADMIN', 10021 );
 define( 'GROUP_DEVELOP', 10021 );
-define( 'GROUP_VOLONTEERS', 10021 );
+define( 'GROUP_VOLUNTEERS', 10021 );
 define( 'GROUP_STAGE', 10021 );
 define( 'GROUP_PORTIER', 10021 );
 define( 'GROUP_MLO', 10021 );
@@ -29,6 +29,6 @@ define( 'GROUP_BEHEER_GROEPSACTIVITEIT' , 10021) ;
 
 
 $ldap['groups'] = array(
-		'werkbegeleiders' => 10021,
-		'trajectbegeleiders' => 20004,
+        'werkbegeleiders' => 10021,
+        'trajectbegeleiders' => 20004,
 );

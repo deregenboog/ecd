@@ -327,13 +327,11 @@ class VerslagenController extends AppController
             $this->Verslag->InventarisatiesVerslagen->getInvPaths($v);
         }
 
-        $medewerker_id = null;
-
+        $medewerker_ids = [];
         if (isset($verslag['Verslag']['medewerker_id'])) {
-            $medewerker_id = $verslag['Verslag']['medewerker_id'];
+            $medewerker_ids[] = $verslag['Verslag']['medewerker_id'];
         }
-
-        $this->setMedewerkers($medewerker_id);
+        $this->setMedewerkers($medewerker_ids);
 
         $klant_contain = $this->Verslag->Klant->contain;
         $klant = $this->Verslag->Klant->find('first', array(
@@ -436,16 +434,13 @@ class VerslagenController extends AppController
         ));
 
         $medewerker_ids = [];
-
         if (isset($this->data['Verslaginfo']['trajectbegeleider_id'])) {
             $medewerker_ids[] = $this->data['Verslaginfo']['trajectbegeleider_id'];
         }
-
         if (isset($this->data['Verslaginfo']['casemanager_id'])) {
             $medewerker_ids[] = $this->data['Verslaginfo']['casemanager_id'];
         }
-
-        $medewerkers = $this->setMedewerkers($medewerker_ids);
+        $this->setMedewerkers($medewerker_ids);
 
         $this->set(compact('klant'));
     }

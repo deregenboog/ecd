@@ -2,5 +2,27 @@ services:
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
+        arguments:
+            - '@request_stack'
+            - '%locale%'
         tags:
             - { name: twig.extension }
+
+    app.form.type.klant:
+        class: AppBundle\Form\KlantType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    app.form.type.medewerker:
+        class: AppBundle\Form\MedewerkerType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    app.event.kernel_subscriber:
+        class: AppBundle\Event\KernelSubscriber
+        arguments:
+            - '@twig'
+        tags:
+            - { name: kernel.event_subscriber }

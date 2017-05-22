@@ -76,10 +76,10 @@
 	
 	echo $this->Form->create('BotKoppeling', array('url' => $url));
 
-	$msg = _('Koppeling toevoegen');
+    $msg = __('Koppeling toevoegen', true);
 	
 	if ($action == 'edit') {
-		$msg = _('Wijzig bestaande koppeling');
+        $msg = __('Wijzig bestaande koppeling', true);
 	}
 ?>
 			<legend><?= $msg; ?></legend>

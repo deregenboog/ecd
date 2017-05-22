@@ -44,11 +44,10 @@ class Medewerker extends AppModel
     public function getMembers($gid)
     {
         $m = $this->LdapUser->getMembers($gid);
-        $members = $this->find('list', array(
-            'conditions' => array('username' => $m),
+        $members = $this->find('list', [
+            'conditions' => ['username' => $m],
             'contain' => [],
-
-        ));
+        ]);
 
         return $members;
     }
@@ -154,94 +153,93 @@ class Medewerker extends AppModel
         return $cstr;
     }
 
-    public function listByLdapGroupId($group_ids)
+    private function listByLdapGroupId(array $groupIds)
     {
-        $cacheKey = 'Medewerker_listByLdapGroupId_'.$this->cacheKey($group_ids);
-        $users = Cache::read($cacheKey, 'ldap');
-        //$users = null; // ignore cache
+        $cacheKey = 'Medewerker_listByLdapGroupId_'.$this->cacheKey($groupIds);
+        $usernames = Cache::read($cacheKey, 'ldap');
 
-        if (!$users) {
-            $ldapUsers = $this->LdapUser->findAll('gidnumber', $group_ids);
-            $users = array_values(
-                    Set::flatten(
-                            Set::classicExtract($ldapUsers, '{n}.LdapUser.memberuid')
-                    )
-            );
-
-            Cache::write($cacheKey, $users, 'ldap');
+        if (!$usernames) {
+            $usernames = [];
+            foreach ($groupIds as $groupId) {
+                $usernames = array_merge($usernames, $this->LdapUser->getMembers($groupId));
+            }
+            Cache::write($cacheKey, $usernames, 'ldap');
         }
 
-        return $users;
+        return $usernames;
     }
 
-    public function getMedewerkers($medewerker_ids = null, $group_ids = null, $all_users = false)
-    {
+    public function getMedewerkers(
+        array $medewerker_ids = [],
+        array $group_ids = [],
+        $all_users = false
+    ) {
         $cacheKey = 'Medewerker_getMedewerkers'.$this->cacheKey($group_ids).$this->cacheKey($medewerker_ids);
-        $medewerkers = Cache::read($cacheKey, 'ldap');
+        $usernames = Cache::read($cacheKey, 'ldap');
 
-        if (!empty($medewerkes)) {
-            return $medewerkers;
+        if (!empty($usernames)) {
+            return $usernames;
         }
 
-        $medewerkers = [];
+        $usernames = [];
         if (!empty($group_ids)) {
-            $medewerkers = $this->listByLdapGroupId($group_ids);
+            $usernames = [];
+            foreach ($group_ids as $groupId) {
+                $usernames = array_merge($usernames, $this->listByLdapGroupId($group_ids));
+            }
         }
 
-        $options = array(
+        $options = [
             'contain' => [],
+            'conditions' => [],
             'order' => 'voornaam, achternaam',
-        );
-        $options['conditions'] = [];
+        ];
+
         if (!$all_users) {
-            $options['conditions'] = array('active' => true);
+            $options['conditions'] = ['active' => true];
         }
 
         if (!empty($group_ids)) {
-            $options['conditions']['username'] = $medewerkers;
+            $options['conditions']['username'] = $usernames;
         }
 
         if (!empty($medewerker_ids)) {
             if (!empty($options['conditions'])) {
-                $options['conditions'] = array(
+                $options['conditions'] = [
                     'OR' => array(
                         'AND' => $options['conditions'],
                         'id' => $medewerker_ids,
                     ),
-                );
+                ];
             } else {
-                $options['conditions'] = array(
-                    'id' => $medewerker_ids,
-                );
+                $options['conditions'] = ['id' => $medewerker_ids];
             }
         }
-        $medewerkers = $this->find('list', $options);
-        Cache::write($cacheKey, $medewerkers, 'ldap');
 
-        return $medewerkers;
+        $usernames = $this->find('list', $options);
+        Cache::write($cacheKey, $usernames, 'ldap');
+
+        return $usernames;
     }
 
     public function uit_dienst()
     {
         $medewerkers = $this->find('all', array(
-                'fields' => array('id', 'username', 'active'),
-                'contain' => [],
+            'fields' => array('id', 'username', 'active'),
+            'contain' => [],
         ));
 
         $ldap_users = $this->getActiveUsers();
-
         if (!$ldap_users) {
             return false;
         }
 
-        $new = [];
-
         foreach ($medewerkers as $key => $medewerker) {
-            $medewerkers[$key]['Medewerker']['active'] = false;
-            $username = $medewerkers[$key]['Medewerker']['username'];
-
+            $username = $medewerker['Medewerker']['username'];
             if (in_array($username, $ldap_users)) {
                 $medewerkers[$key]['Medewerker']['active'] = true;
+            } else {
+                $medewerkers[$key]['Medewerker']['active'] = false;
             }
         }
 

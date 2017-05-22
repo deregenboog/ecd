@@ -1,12 +1,44 @@
 <?php
 
+use Doctrine\ORM\QueryBuilder;
+use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Entity\GaVrijwilligerIntake;
+use GaBundle\Form\GaKlantIntakeFilterType;
+use GaBundle\Form\GaVrijwilligerIntakeFilterType;
+use Symfony\Component\Form\FormInterface;
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Vrijwilliger;
+
 class GroepsactiviteitenController extends AppController
 {
     public $name = 'Groepsactiviteiten';
 
+    private $enabledFilters = [
+        'klant' => ['id', 'naam', 'geboortedatumRange'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
+        'medewerker',
+        'afsluitdatum',
+    ];
+
+    private $sortFieldWhitelist = [
+        'klant.id',
+        'klant.achternaam',
+        'klant.geboortedatum',
+        'vrijwilliger.id',
+        'vrijwilliger.achternaam',
+        'vrijwilliger.geboortedatum',
+        'medewerker.achternaam',
+        'intake.afsluitdatum',
+    ];
+
     public $components = array(
             'ComponentLoader',
     );
+
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
 
     private function setmetadata($persoon_model, $id)
     {
@@ -126,112 +158,13 @@ class GroepsactiviteitenController extends AppController
         $this->set(compact('id', 'groepsactiviteitengroepen'));
     }
 
-    public function index()
-    {
-        $persoon_model = $this->getParam('selectie');
-        $fields = array(
-            'id' => true,
-            'name1st_part' => true,
-            'name2nd_part' => true,
-            'name' => false,
-            'geboortedatum' => true,
-            'medewerker_id' => true,
-            'bot' => false,
-            'iz_projecten' => false,
-            'werkgebied' => false,
-            'iz_coordinator' => false,
-            'medewerker_ids' => false,
-            'iz_datum_aanmelding' => false,
-            'last_zrm' => false,
-            'dummycol' => true,
-        );
-
-        if (empty($persoon_model)) {
-            if (!empty($this->params['named']['Vrijwilliger.selectie'])) {
-                $persoon_model = $this->params['named']['Vrijwilliger.selectie'];
-            }
-        }
-
-        if (empty($persoon_model)) {
-            $persoon_model = 'Klant';
-        }
-
-        $persoon_model = $this->check_persoon_model($persoon_model);
-        $persoon_groepsactiviteiten_groepen = 'GroepsactiviteitenGroepen'.$persoon_model;
-        $persoon_id_field = strtolower($persoon_model.'_id');
-        $table = Inflector::pluralize(Inflector::underscore($persoon_groepsactiviteiten_groepen));
-
-        $this->loadModel($persoon_model);
-        $this->ComponentLoader->load('Filter', array('persoon_model' => $persoon_model));
-
-        $join = array(
-           //'table' => $table,
-          'table' => "(select distinct {$persoon_id_field} as {$persoon_id_field} from $table where ( isnull(einddatum) or now() < einddatum ) )",
-          'alias' => $persoon_groepsactiviteiten_groepen,
-         'type' => 'INNER',
-           'conditions' => array(
-               "{$persoon_model}.id = {$persoon_groepsactiviteiten_groepen}.{$persoon_id_field}",
-            ),
-
-        );
-
-        if (false && $persoon_model == 'Klant') {
-            $join = array(
-                    'table' => "(select distinct foreign_key as {$persoon_id_field} from groepsactiviteiten_intakes where not isnull(intakedatum) and isnull(afsluitdatum))",
-                    'alias' => 'groepsactiviteiten_intakes',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        "{$persoon_model}.id = groepsactiviteiten_intakes.{$persoon_id_field}",
-                    ),
-                );
-        }
-        $this->paginate = array(
-            'contain' => array(
-                'Geslacht',
-                 $persoon_groepsactiviteiten_groepen,
-            ),
-            'joins' => array(
-                $join,
-            ),
-        );
-
-        $show_all = false;
-        if (isset($this->data[$persoon_model]['show_all']) && !empty($this->data[$persoon_model]['show_all'])) {
-            $show_all = true;
-        }
-
-        if ($show_all) {
-            unset($this->paginate['joins']);
-        }
-        $this->setMedewerkers();
-
-        unset($this->Filter->filterData[$persoon_model.'.selectie']);
-        unset($this->Filter->filterData['Groepsactiviteit.selectie']);
-        $personen = $this->paginate($persoon_model, $this->Filter->filterData);
-
-        if ($persoon_model == 'Klant') {
-            $personen = $this->{$persoon_model}->LasteIntake->completeKlantenIntakesWithLocationNames($personen);
-        }
-        $rowOnclickUrl = array(
-                'controller' => 'groepsactiviteiten',
-                'action' => 'view',
-                $persoon_model,
-        );
-
-        $this->set(compact('fields', 'personen', 'rowOnclickUrl', 'persoon_model'));
-
-        if ($this->RequestHandler->isAjax()) {
-            $this->render('/elements/personen_lijst', 'ajax');
-        }
-    }
-
     public function view($persoon_model = 'Klant', $id = null)
     {
         $persoon_model = $this->check_persoon_model($persoon_model);
         $this->loadModel($persoon_model);
         if (!$id) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if ($persoon_model == 'Klant') {
@@ -247,7 +180,7 @@ class GroepsactiviteitenController extends AppController
         $this->loadModel($persoon_model);
         if (!$id) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
         $persoon_groepsactiviteiten_groepen = 'GroepsactiviteitenGroepen'.$persoon_model;
 
@@ -308,7 +241,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         $intake = $this->add_to_intake($persoon_model, $id, $this->data);
@@ -353,7 +286,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -532,7 +465,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -915,7 +848,7 @@ class GroepsactiviteitenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Niet geldige reden', true));
-            $this->redirect(array('action' => 'index'));
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         $this->loadModel('GroepsactiviteitenKlant');
@@ -1176,11 +1109,11 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select g.naam, g.werkgebied, g.id as groep_id, klant_id as p_id, a.id as groepsactiviteit_id
-			from groepsactiviteiten_groepen g
-			join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = a.id
-			where pg.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            from groepsactiviteiten_groepen g
+            join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = a.id
+            where pg.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1219,11 +1152,11 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select g.naam, g.werkgebied, g.id as groep_id, vrijwilliger_id as p_id, a.id as groepsactiviteit_id
-			from groepsactiviteiten_groepen g
-			join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = a.id
-			where pg.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            from groepsactiviteiten_groepen g
+            join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = a.id
+            where pg.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1298,10 +1231,10 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select p.werkgebied, p.id from klanten p
-			join groepsactiviteiten_klanten gp on gp.klant_id = p.id
-			join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
-			where gp.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            join groepsactiviteiten_klanten gp on gp.klant_id = p.id
+            join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
+            where gp.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1337,10 +1270,10 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select p.werkgebied, p.id from vrijwilligers p
-		join groepsactiviteiten_vrijwilligers gp on gp.vrijwilliger_id = p.id
-		join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
-		where gp.afmeld_status = 'Aanwezig' and
-		a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+        join groepsactiviteiten_vrijwilligers gp on gp.vrijwilliger_id = p.id
+        join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
+        where gp.afmeld_status = 'Aanwezig' and
+        a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1391,11 +1324,11 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select pg.klant_id as persoon_id, g.id as groepsactiviteit_id, gg.werkgebied as werkgebied
-			from groepsactiviteiten g
-			join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = g.id
-			where pg.afmeld_status = 'Aanwezig' and
-			g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
+            from groepsactiviteiten g
+            join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = g.id
+            where pg.afmeld_status = 'Aanwezig' and
+            g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1432,11 +1365,11 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select pg.vrijwilliger_id as persoon_id, g.id as groepsactiviteit_id, gg.werkgebied as werkgebied
-			from groepsactiviteiten g
-			join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = g.id
-			where  pg.afmeld_status = 'Aanwezig' and
-			 g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
+            from groepsactiviteiten g
+            join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = g.id
+            where  pg.afmeld_status = 'Aanwezig' and
+             g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 

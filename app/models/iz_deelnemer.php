@@ -168,7 +168,7 @@ class IzDeelnemer extends AppModel
         $query = '';
 
         $projectlist = $this->IzDeelnemersIzProject->IzProject->projectLists(true);
-        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers([], [], true);
 
         $query = "select p.id, 'Vrijwilliger' as model, voornaam, geslacht_id, tussenvoegsel, achternaam, geboortedatum, email, adres, postcode, werkgebied, plaats, mobiel, telefoon, CONCAT_WS(' ', `voornaam`, `tussenvoegsel`, `achternaam`) as name, p.medewerker_id, iz.id as iz_deelnemer_id, group_concat(ip.iz_project_id) as project_ids from vrijwilligers p join iz_deelnemers iz on iz.foreign_key = p.id and iz.model = 'Vrijwilliger' left join iz_deelnemers_iz_projecten ip on ip.iz_deelnemer_id = iz.id	";
         if (!empty($params['IzDeelnemer']['intervisiegroep_id'])) {
@@ -325,7 +325,7 @@ class IzDeelnemer extends AppModel
         $projectlist = $this->IzDeelnemersIzProject->IzProject->projectLists(true);
         $projects = $this->IzDeelnemersIzProject->IzProject->getProjects();
         $heeft_koppelingen = Set::Combine($projects, '{n}.IzProject.id', '{n}.IzProject.heeft_koppelingen');
-        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers([], [], true);
 
         foreach ($params['IzDeelnemer']['persoon_model'] as $model) {
             $query = $this->getQuery($model, $params);

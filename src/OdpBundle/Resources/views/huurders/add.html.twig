@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Onder de Pannen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurder toevoegen</h1>
+
+    {% if filterForm is defined %}
+        Zoek een bestaande huurder op naam, BSN of geboortedatum.
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if selectionForm is defined %}
+        <p>
+            Selecteer een bestaande huurder en klik op "Verder".<br>
+            Selecteer niks en klik op "Verder" om een nieuwe huurder aan te maken.
+        </p>
+        {{ form(selectionForm) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {{ form(creationForm) }}
+    {% endif %}
+{% endblock %}

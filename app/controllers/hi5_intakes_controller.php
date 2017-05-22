@@ -98,7 +98,7 @@ class Hi5IntakesController extends AppController
 
         $klanten = $this->Hi5Intake->Klant->find('list');
 
-        $this->setMedewerkers($this->data['Hi5Instake']['medewerker_id']);
+        $this->setMedewerkers([$this->data['Hi5Instake']['medewerker_id']]);
 
         $verblijfstatussen = $this->Hi5Intake->Verblijfstatus->find('list');
         $legitimaties = $this->Hi5Intake->Legitimatie->find('list');

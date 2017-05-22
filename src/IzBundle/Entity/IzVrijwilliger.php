@@ -3,11 +3,13 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
+ * @Gedmo\Loggable
  */
 class IzVrijwilliger extends IzDeelnemer
 {
@@ -15,14 +17,24 @@ class IzVrijwilliger extends IzDeelnemer
      * @var Vrijwilliger
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger")
      * @ORM\JoinColumn(name="foreign_key", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $vrijwilliger;
 
     /**
      * @var ArrayCollection|IzHulpaanbod[]
      * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
+     * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpaanbiedingen;
+
+    /**
+     * @var IzViaPersoon
+     * @ORM\ManyToOne(targetEntity="IzViaPersoon")
+     * @ORM\JoinColumn(name="binnengekomen_via")
+     * @Gedmo\Versioned
+     */
+    protected $izBinnengekomenVia;
 
     public function __construct()
     {
@@ -49,5 +61,17 @@ class IzVrijwilliger extends IzDeelnemer
     public function getIzHulpaanbiedingen()
     {
         return $this->izHulpaanbiedingen;
+    }
+
+    public function getIzBinnengekomenVia()
+    {
+        return $this->izBinnengekomenVia;
+    }
+
+    public function setIzBinnengekomenVia(IzViaPersoon $izBinnengekomenVia)
+    {
+        $this->izBinnengekomenVia = $izBinnengekomenVia;
+
+        return $this;
     }
 }

@@ -1,0 +1,124 @@
+{% include 'elements/iz_subnavigation.twig' %}
+
+<h2>Vrijwilligers</h2>
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Vrijwilliger toevoegen', {'action': 'add'})|raw }}
+</p>
+<table class="table index filtered">
+    <tr>
+        {{ form_start(form) }}
+        <th>
+            {{ form_row(form.vrijwilliger.id) }}
+        </th>
+        <th>
+            {{ form_row(form.vrijwilliger.voornaam) }}
+            {{ form_row(form.vrijwilliger.achternaam) }}
+        </th>
+        <th>
+            {{ form_row(form.vrijwilliger.geboortedatumRange) }}
+        </th>
+        <th>
+            {{ form_row(form.izProject) }}
+        </th>
+        <th>
+            {{ form_row(form.medewerker) }}
+        </th>
+        <th>
+            {{ form_row(form.vrijwilliger.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_row(form.afsluitDatum) }}
+        </th>
+        <th>
+            {{ form_row(form.filter) }}
+            {{ form_row(form.download) }}
+        </th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th colspan="2">
+            {{ form_row(form.zonderActiefHulpaanbod) }}<br>
+            {{ form_row(form.zonderActieveKoppeling) }}
+        </th>
+        <th></th>
+        <th>
+            {{ form_row(form.openDossiers) }}
+        </th>
+        <th></th>
+        {{ form_end(form) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Nummer', 'vrijwilliger.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izVrijwilliger.afsluitDatum') }}
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    {% for i, izVrijwilliger in pagination %}
+        {% set url = html.url({
+            'controller': 'iz_deelnemers',
+            'action': 'toon_aanmelding',
+            0: 'Vrijwilliger',
+            1: izVrijwilliger.vrijwilliger.id,
+            2: izVrijwilliger.id
+        }) %}
+        <tr onMouseOver="this.style.cursor='pointer'" onClick="location.href='{{ url }}';">
+            <td>
+                {{ html.link(izVrijwilliger.vrijwilliger.id, url)|raw }}
+            </td>
+            <td>
+                {{ html.link(izVrijwilliger.vrijwilliger, url)|raw }}
+            </td>
+            <td>
+                {{ izVrijwilliger.vrijwilliger.geboortedatum ? izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
+            </td>
+            <td>
+                <ul>
+                    {% for izHulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                        <li>{{ izHulpaanbod.izProject }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {% for izHulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                        <li>{{ izHulpaanbod.medewerker }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {{ izVrijwilliger.vrijwilliger.werkgebied }}
+            </td>
+            <td>
+                {{ izVrijwilliger.afsluitdatum ? izVrijwilliger.afsluitdatum|date('d-m-Y') }}
+            </td>
+            <td>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>
