@@ -1,0 +1,35 @@
+<h2>Trajecten</h2>
+<p>
+    {% if deelnemer is defined %}
+        {% set url = path('dagbesteding_trajecten_add', {deelnemer: deelnemer.id}) %}
+        {% set entity = deelnemer %}
+    {% elseif trajectbegeleider is defined %}
+        {% set entity = trajectbegeleider %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Traject toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table">
+    <tr>
+        <th>Stadsdeel</th>
+        <th>Startdatum</th>
+        <th>Afsluitdatum</th>
+        <th></th>
+    </tr>
+    {% for traject in entity.trajecten %}
+        <tr>
+            <td>{{ traject.deelnemer.klant.werkgebied }}</td>
+            <td>
+                {{ traject.startdatum ? traject.startdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ traject.afsluitdatum ? traject.afsluitdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ html.viewlink(path('dagbesteding_trajecten_view', {id: traject.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

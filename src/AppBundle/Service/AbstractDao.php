@@ -1,10 +1,11 @@
 <?php
 
-namespace OdpBundle\Service;
+namespace AppBundle\Service;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\EntityManager;
+use AppBundle\Filter\FilterInterface;
 
 class AbstractDao
 {
@@ -42,9 +43,13 @@ class AbstractDao
         $this->itemsPerPage = $itemsPerPage;
     }
 
-    public function findAll($page = 1)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
     }

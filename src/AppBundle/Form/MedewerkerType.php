@@ -43,6 +43,7 @@ class MedewerkerType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Medewerker::class,
+            'placeholder' => 'Selecteer een medewerker',
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('medewerker')
                     ->orderBy('medewerker.voornaam');

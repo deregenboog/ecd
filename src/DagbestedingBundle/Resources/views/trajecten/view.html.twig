@@ -1,0 +1,53 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>
+        Huurverzoek van {{ huurverzoek.deelnemer.klant }}
+    </h1>
+    <p>
+        {% if huurverzoek.actief %}
+            {{ html.editLink(path('dagbesteding_huurverzoeken_edit', {id: huurverzoek.id})) }}
+            {{ html.link('Wijzigen', path('dagbesteding_huurverzoeken_edit', {id: huurverzoek.id})) }}
+            {{ html.closeLink(path('dagbesteding_huurverzoeken_close', {id: huurverzoek.id})) }}
+            {{ html.link('Afsluiten', path('dagbesteding_huurverzoeken_close', {id: huurverzoek.id})) }}
+        {% endif %}
+        {% if huurverzoek.deletable %}
+            {{ html.deleteLink(path('dagbesteding_huurverzoeken_delete', {id: huurverzoek.id})) }}
+            {{ html.link('Verwijderen', path('dagbesteding_huurverzoeken_delete', {id: huurverzoek.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ huurverzoek.id }}</dd>
+        <dt>Deelnemer</dt>
+        <dd>{{ html.link(huurverzoek.deelnemer.klant, path('dagbesteding_deelnemers_view', {id: huurverzoek.deelnemer.id})) }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ huurverzoek.startdatum | date('d-m-Y') }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huurverzoek.afsluiting }}</dd>
+        <dt>Koppeling</dt>
+        <dd>
+            {% if huurverzoek.huurovereenkomst %}
+                {{ html.link(huurverzoek.huurovereenkomst, path('dagbesteding_huurovereenkomsten_view', {id: huurverzoek.huurovereenkomst.id})) }}
+            {% elseif huurverzoek.actief %}
+                {{ html.addLink(path('dagbesteding_huurovereenkomsten_add', {huurverzoek: huurverzoek.id})) }}
+                {{ html.link('Maak koppeling', path('dagbesteding_huurovereenkomsten_add', {huurverzoek: huurverzoek.id})) }}
+            {% endif %}
+        </dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    {% include 'DagbestedingBundle:verslagen:_list.html.twig' with {entity: huurverzoek} %}
+{% endblock %}

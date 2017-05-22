@@ -1,0 +1,70 @@
+services:
+    dagbesteding.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { class: DagbestedingBundle\Entity\Deelnemer, key: deelnemer }
+              - { class: DagbestedingBundle\Entity\Traject, key: traject }
+
+    dagbesteding.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { class: DagbestedingBundle\Entity\Deelnemer, key: deelnemer }
+              - { class: DagbestedingBundle\Entity\Traject, key: traject }
+
+    dagbesteding.event.diensten_lookup_subscriber:
+        class: DagbestedingBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    dagbesteding.data_fixtures.faker_provider:
+        class: DagbestedingBundle\DataFixtures\DagbestedingFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }
+
+    dagbesteding.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    dagbesteding.dao.deelnemer:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\DeelnemerDao
+
+    dagbesteding.dao.deelnemerafsluiting:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\DeelnemerAfsluitingDao
+
+    dagbesteding.dao.document:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\DocumentDao
+
+    dagbesteding.dao.locatie:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\LocatieDao
+
+    dagbesteding.dao.project:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\ProjectDao
+
+    dagbesteding.dao.traject:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\TrajectDao
+
+    dagbesteding.dao.trajectafsluiting:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\TrajectAfsluitingDao
+
+    dagbesteding.dao.trajectbegeleider:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\TrajectbegeleiderDao
+
+    dagbesteding.dao.verslag:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\VerslagDao

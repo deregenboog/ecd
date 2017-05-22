@@ -1,0 +1,26 @@
+<h2>Documenten</h2>
+<p>
+    {% if deelnemer is defined %}
+        {% set url = path('dagbesteding_documenten_add', {deelnemer: deelnemer.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {{ html.addLink(url) }}
+    {{ html.link('Document toevoegen', url) }}
+</p>
+<table class="table">
+    {% for document in entity.documenten %}
+        <tr>
+            <td>{{ document.naam }}</td>
+            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+            <td>
+                {{ html.editLink(path('dagbesteding_documenten_edit', {id: document.id, redirect: app.request.get('url')})) }}
+                {{ html.deleteLink(path('dagbesteding_documenten_delete', {id: document.id, redirect: app.request.get('url')})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

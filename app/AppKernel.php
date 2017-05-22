@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new GaBundle\GaBundle(),
             new OekBundle\OekBundle(),
             new OdpBundle\OdpBundle(),
+            new DagbestedingBundle\DagbestedingBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

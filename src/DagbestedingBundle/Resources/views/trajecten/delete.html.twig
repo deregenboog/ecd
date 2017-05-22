@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurverzoek verwijderen</h1>
+    <p>
+        Weet u zeker dat u huurverzoek
+        {{ html.link(huurverzoek, path('dagbesteding_huurverzoeken_view', {id: huurverzoek.id})) }}
+        wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

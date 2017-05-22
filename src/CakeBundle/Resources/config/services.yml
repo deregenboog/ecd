@@ -395,6 +395,9 @@ parameters:
             oek:
                 label: Op Eigen Kracht
                 url: oek
+            dagbesteding:
+                label: Dagbesteding
+                url: dagbesteding
             Admin:
                 label: Admin
                 url: Admin

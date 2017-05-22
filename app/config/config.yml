@@ -67,6 +67,7 @@ stof_doctrine_extensions:
     orm:
         default:
             loggable: true
+            timestampable: true
 
 knp_paginator: ~
 

@@ -1,0 +1,32 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>
+        Trajectbegeleider {{ entity.medewerker }}
+    </h1>
+    <p>
+        {{ html.editLink(path('dagbesteding_trajectbegeleiders_edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path('dagbesteding_trajectbegeleiders_edit', {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('dagbesteding_trajectbegeleiders_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('dagbesteding_trajectbegeleiders_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    {% include 'DagbestedingBundle:trajecten:_list.html.twig' with {trajectbegeleider: entity} %}
+{% endblock %}
