@@ -29,12 +29,25 @@
         </th>
         <th>
             {{ form_row(form.afsluitDatum) }}
-            {{ form_row(form.openDossiers) }}
         </th>
         <th>
             {{ form_row(form.filter) }}
             {{ form_row(form.download) }}
         </th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th colspan="2">
+            {{ form_row(form.zonderActiefHulpaanbod) }}<br>
+            {{ form_row(form.zonderActieveKoppeling) }}
+        </th>
+        <th></th>
+        <th>
+            {{ form_row(form.openDossiers) }}
+        </th>
+        <th></th>
         {{ form_end(form) }}
     </tr>
     <tr>

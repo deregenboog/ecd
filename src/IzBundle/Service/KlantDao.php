@@ -20,6 +20,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'izKlant.afsluitDatum',
             'izProject.naam',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = IzKlant::class;
