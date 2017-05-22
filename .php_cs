@@ -1,6 +1,6 @@
 <?php
 
-$finder = Symfony\CS\Finder::create()
+$finder = PhpCsFixer\Finder::create()
     ->exclude('config')
     ->exclude('config_sql')
     ->exclude('config_template')
@@ -16,7 +16,11 @@ $finder = Symfony\CS\Finder::create()
     ->in('src')
 ;
 
-return Symfony\CS\Config::create()
-    ->fixers(['-psr0'])
-    ->finder($finder)
+return PhpCsFixer\Config::create()
+    ->setRules([
+        'psr0' => false,
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+    ])
+    ->setFinder($finder)
 ;
