@@ -12,7 +12,6 @@
         'label' => 'Datum van', ));
     echo $this->Date->input('Schorsing.datum_tot', null, array('required' => true,
         'label' => 'Datum tot en met', ));
-    echo $this->Form->hidden('locatie_id');
     echo $this->Form->hidden('klant_id');
 
     echo $form->input('Reden', array(

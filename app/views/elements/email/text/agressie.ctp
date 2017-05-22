@@ -1,6 +1,7 @@
 Geachte mevrouw/ heer,
 
 Onderstaande mevrouw/heer heeft een agressie schorsing gekregen.
+
 Met vriendelijke groet,
 
 <?php

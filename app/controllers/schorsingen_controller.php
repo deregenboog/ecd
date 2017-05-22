@@ -1,33 +1,30 @@
 <?php
 
-use AppBundle\Entity\Schorsing;
-use InloopBundle\Form\SchorsingType;
-
 class SchorsingenController extends AppController
 {
     public $name = 'Schorsingen';
 
     public function index($klant_id, $locatie_id = null)
     {
-        if ($klant_id == null && $locatie_id == null) {
-            $this->flashError(__('Missing client id and location id', true));
-            $this->redirect(array('controller' => 'klanten')); //TODO: redirect to correct place
+        if (!$klant_id) {
+            $this->flashError(__('Klant niet gevonden', true));
+            $this->redirect(['controller' => 'klanten']);
         }
+
         $this->Schorsing->recursive = -1;
 
         $active_schorsingen = $this->Schorsing->getActiveSchorsingen($klant_id);
         $expired_schorsingen = $this->Schorsing->getExpiredSchorsingen($klant_id);
-
         $klant = $this->Schorsing->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
+            'conditions' => ['Klant.id' => $klant_id],
             'contain' => $this->Schorsing->Klant->contain,
-            'fields' => array('voornaam', 'tussenvoegsel', 'achternaam',
-                'roepnaam', 'geboortedatum', 'BSN', 'laatste_TBC_controle', 'id',
-            ),
+            'fields' => [
+                'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam',
+                'geboortedatum', 'BSN', 'laatste_TBC_controle', 'id',
+            ],
         ));
 
-        $this->set(compact('active_schorsingen', 'expired_schorsingen', 'klant'));
-        $this->set(compact('locatie_id', 'klant_id'));
+        $this->set(compact('active_schorsingen', 'expired_schorsingen', 'klant', 'locatie_id', 'klant_id'));
     }
 
     public function view($id = null)
@@ -39,39 +36,104 @@ class SchorsingenController extends AppController
         $this->set('schorsing', $this->Schorsing->read(null, $id));
     }
 
-    private function sendSchorsingEmail(Schorsing $schorsing)
+    public function add($klant_id = null, $locatie_id = null)
     {
+        if (!$klant_id) {
+            $this->flashError(__('Klant niet gevonden', true));
+            $this->redirect(['controller' => 'klanten']);
+        }
+
+        if (!empty($this->data)) {
+            // changing the days fields data into dates:
+            if (!$this->Schorsing->calculateDates($this->data)) {
+                $this->flashError(__('Please choose the number of days', true));
+            } else {
+                $this->Schorsing->create();
+
+                if ($this->Schorsing->save($this->data)) {
+                    $this->flash(__('The schorsing has been saved', true));
+                    $this->sendSchorsingEmail($this->Schorsing->id, $klant_id, $locatie_id);
+
+                    $redirect_url = ['action' => 'index', $klant_id];
+                    if (isset($locatie_id)) {
+                        $redirect_url[] = $locatie_id;
+                    }
+
+                    $this->redirect($redirect_url);
+                } else {
+                    $this->flashError(__('The schorsing could not be saved. Please, try again.', true));
+                }
+            }
+        }
+
+        if ($klant_id) {
+            $violent_options = $this->Schorsing->Reden->get_violent_options();
+            $this->Schorsing->Klant->recursive = -1;
+            $klant = $this->Schorsing->Klant->find('first', [
+                'conditions' => ['Klant.id' => $klant_id],
+                'fields' => ['voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam', 'id'],
+            ]);
+
+            if (!$klant) {
+                $this->flashError(__('Klant niet gevonden.', true));
+                $this->redirect(['controller' => 'klanten']);
+            }
+
+            // if locatie_id is given we add schorsing to a particular locatie
+            // and the locatie_id field is hidden in the form
+            // otherwise we provide a dropdown with locations
+            if ($locatie_id) {
+                $this->set('locaties', $this->Schorsing->Locatie->find('list', [
+                    'conditions' => ['Locatie.id' => $locatie_id],
+                ]));
+                $this->set(compact('locatie_id'));
+            } else {
+                $this->set('locaties', $this->Schorsing->Locatie->find('list', [
+                    'conditions' => ['OR' => [
+                        ['datum_tot' => '0000-00-00'],
+                        ['datum_tot >' => date('Y-m-d')],
+                    ]],
+                ]));
+            }
+
+            $this->set(compact('klant_id', 'redenen', 'klant', 'violent_options'));
+        }
+
+        $violent_options = $this->Schorsing->Reden->get_violent_options();
+        $redenen = $this->Schorsing->Reden->get_schorsing_redenen();
+        $this->set(compact('klanten', 'redenen', 'violent_options'));
+    }
+
+    private function sendSchorsingEmail($schorsing_id)
+    {
+        $schorsing = $this->Schorsing->find($schorsing_id);
+
         if (!isset($this->Medewerker)) {
             $this->loadModel('Medewerker');
         }
-
-        $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->Medewerker->getMedewerkers([], [], true);
         $medewerker = $medewerkers[$this->Session->read('Auth.Medewerker.id')];
 
-        var_dump($schorsing->Locatie, $this->data['Schorsing']); die;
+        $content = [
+            'Message' => ['Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie'],
+            'medewerker' => $medewerker,
+            'Schorsing' => $schorsing['Schorsing'],
+        ];
 
-        $locatie = $this->Schorsing->Locatie->getById($schorsing->locatie_id);
-
-//         $content = [
-//             'Message' => ['Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie'],
-//             'medewerker' => $medewerker,
-//             'Schorsing' => $schorsing,
-//         ];
-
-        var_dump($schorsing); die;
-
-        if (is_array($schorsing->datum_tot)) {
-            var_dump($schorsing); die;
-
-            $content['Schorsing']['datum_tot'] = implode('-', $schorsing['datum_tot']);
+        $locaties = [];
+        foreach ($schorsing['Locatie'] as $locatie) {
+            $locaties[] = $locatie['naam'];
         }
+        $content['Schorsing']['locatie_naam'] = implode(', ', $locaties);
 
-        $content['Schorsing']['reden'] = '';
-        foreach ($this->data['Reden']['Reden'] as $reden) {
-            $content['Schorsing']['reden'] .= $redenen[$reden].', ';
+        $redenen = [];
+        foreach ($schorsing['Reden'] as $reden) {
+            $redenen[] = $reden['naam'];
         }
+        $content['Schorsing']['reden'] = implode(', ', $redenen);
+
         $options_medewerker = Configure::read('options_medewerker');
-        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker'] ])) {
+        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker']])) {
             $content['Schorsing']['aggressie_tegen_medewerker'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker'] ];
         }
         if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker2'] ])) {
@@ -83,126 +145,43 @@ class SchorsingenController extends AppController
         if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker4'] ])) {
             $content['Schorsing']['aggressie_tegen_medewerker4'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker4'] ];
         }
-        //$content['Reden'] = $this->
-        $content['Schorsing']['locatie_naam'] = $locatie['naam'];
+
         if (!empty($content['Schorsing']['aangifte'])) {
             $content['Schorsing']['aangifte'] = 'ja';
         } else {
             $content['Schorsing']['aangifte'] = 'nee';
         }
-        $content['Schorsing']['locatie_naam'] = $locatie['naam'];
+
         if (!empty($content['Schorsing']['nazorg'])) {
             $content['Schorsing']['nazorg'] = 'ja';
         } else {
             $content['Schorsing']['nazorg'] = 'nee';
         }
+
         unset($content['Schorsing']['id']);
         unset($content['Schorsing']['locatie_id']);
         unset($content['Schorsing']['klant_id']);
         unset($content['Schorsing']['id']);
+
+        $klant_id = $schorsing['Klant']['id'];
         $content['Klant'] = $this->Schorsing->Klant->getAllById($klant_id, array('Geslacht'));
 
-        $url = array('controller' => 'schorsingen', 'action' => 'index', $klant_id, $locatie_id);
-        $content['url'] = Router::url($url, true);
-        $this->_genericSendEmail(array(
-            'to' => Configure::read('agressie_mail'),
+        $content['url'] = Router::url(['controller' => 'schorsingen', 'action' => 'index', $klant_id], true);
+
+        if (count($locaties) > 2) {
+            $subject = 'Agressiemelding '.count($locaties).' locaties door medewerker '.$medewerker;
+        } else {
+            $subject = 'Agressiemelding '.implode('/', $locaties).' door medewerker '.$medewerker;
+        }
+
+        $address = Configure::read('agressie_mail');
+
+        $this->_genericSendEmail([
+            'to' => [$address],
             'content' => $content,
             'template' => 'agressie',
-            'subject' => "Agressiemelding {$locatie['naam']}, door {$medewerker}",
-        ));
-    }
-
-    public function add($klant_id = null, $locatie_id = null)
-    {
-        // Use Twig.
-        $this->view = 'AppTwig';
-
-        $form = $this->createForm(SchorsingType::class, new \InloopBundle\Entity\Schorsing());
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            var_dump($form->getData()); die;
-        }
-
-        $this->set('form', $form->createView());
-
-        return;
-
-        if (!$klant_id) {
-            $this->flashError(__('Klant niet gevonden', true));
-
-            return $this->redirect(['controller' => 'klanten']);
-        }
-
-        $redenen = $this->Schorsing->Reden->get_schorsing_redenen();
-
-        if (!empty($this->data)) {
-            // changing the days fields data into dates:
-            if (!$this->Schorsing->calculateDates($this->data)) {
-                $this->flashError(__('Please choose the number of days', true));
-            } else {
-
-                $data = $this->data;
-                foreach ($this->data['Schorsing']['locatie_id'] as $locatieId) {
-                    $data['Schorsing']['locatie_id'] = $locatieId;
-                    $this->Schorsing->create();
-                    if ($this->Schorsing->save($data)) {
-
-                        $this->sendSchorsingEmail($this->Schorsing);
-
-                        $this->flash(__('The schorsing has been saved', true));
-
-                        $redirect_url = array('action' => 'index', $klant_id);
-                        if (isset($locatie_id)) {
-                            $redirect_url[] = $locatie_id;
-                        }
-
-                        $this->redirect($redirect_url);
-                    } else {
-                        $this->flashError(__('The schorsing could not be saved. Please, try again.', true));
-                    }
-                }
-            }
-        }
-
-        if ($klant_id) {
-            // $redenen = $this->Schorsing->Reden->find('list');
-
-            $violent_options = $this->Schorsing->Reden->get_violent_options();
-            $this->Schorsing->Klant->recursive = -1;
-            $klant = $this->Schorsing->Klant->find('first', [
-                'conditions' => ['Klant.id' => $klant_id],
-                'fields' => ['voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam', 'id'],
-            ]);
-
-            if (!$klant) {
-                $this->flashError(__('Klant niet gevonden.', true));
-
-                return $this->redirect(['controller' => 'klanten']);
-            }
-
-            // if locatie_id is given we add schorsing to a particular locatie
-            // and the locatie_id field is hidden in the form
-            // otherwise we provide a dropdown with locations
-            if ($locatie_id) {
-                $locatie = $this->Schorsing->Locatie->find('first', [
-                    'conditions' => ['Locatie.id' => $locatie_id],
-                    'recursive' => -1,
-                ]);
-
-                if (!$locatie) {
-                    $this->flashError(__('Locatie niet gevonden.', true));
-
-                    return $this->redirect(['controller' => 'klanten']);
-                }
-
-                $this->set(compact('locatie_id', 'locatie'));
-            } else {
-                $this->set('locaties', $this->Schorsing->Locatie->find('list'));
-            }
-
-            $this->set(compact('klant_id', 'redenen', 'klant', 'violent_options'));
-        }
+            'subject' => $subject,
+        ]);
     }
 
     public function edit($id = null)
@@ -211,6 +190,7 @@ class SchorsingenController extends AppController
             $this->flashError(__('Invalid schorsing', true));
             $this->redirect(array('action' => 'index'));
         }
+
         if (!empty($this->data)) {
             if ($this->Schorsing->save($this->data)) {
                 $this->flash(__('The schorsing has been saved', true));
@@ -219,13 +199,20 @@ class SchorsingenController extends AppController
                 $this->flashError(__('The schorsing could not be saved. Please, try again.', true));
             }
         }
+
         if (empty($this->data)) {
             $this->data = $this->Schorsing->read(null, $id);
         }
+
         $violent_options = $this->Schorsing->Reden->get_violent_options();
-        $locaties = $this->Schorsing->Locatie->find('list');
+        $locaties = $this->Schorsing->Locatie->find('list', [
+            'conditions' => ['OR' => [
+                ['datum_tot' => '0000-00-00'],
+                ['datum_tot >' => date('Y-m-d')],
+            ]],
+        ]);
         $klanten = $this->Schorsing->Klant->find('list');
-        $redenen = $this->Schorsing->Reden->find('list');
+        $redenen = $this->Schorsing->Reden->get_schorsing_redenen();
         $this->set(compact('locaties', 'klanten', 'redenen', 'violent_options'));
     }
 
@@ -259,9 +246,6 @@ class SchorsingenController extends AppController
 
     public function get_pdf($schorsing_id = null, $eng = 0)
     {
-
-//		  Configure::write('debug', 0);
-
         if (empty($schorsing_id)) {
             $this->flashError(__('Invalid schorsing', true));
             $this->redirect('/');
@@ -282,52 +266,59 @@ class SchorsingenController extends AppController
                 'Locatie' => array(
                     'fields' => array('naam'),
                 ),
+                'Reden' => array(
+                    'fields' => array('naam'),
+                ),
             ),
         ));
+
         if (empty($schorsing)) {
             $this->flashError(__('Invalid schorsing', true));
             $this->redirect('/');
         }
+
+        $redenen = [];
+        if (!empty($schorsing['Reden'])) {
+            foreach ($schorsing['Reden'] as $reden) {
+                if ($reden['SchorsingenReden']['reden_id'] == 100) {
+                    $redenen[] = $reden['naam'].': '.$schorsing['Schorsing']['overig_reden'];
+                } else {
+                    $redenen[] = $reden['naam'];
+                }
+            }
+        }
+
         $opmerking_uit_schorsing = $schorsing['Schorsing']['remark'];
         $bijzonderheden = $schorsing['Schorsing']['bijzonderheden'];
         $locatiehoofd = $schorsing['Schorsing']['locatiehoofd'];
-
-    //schorsing data:
-        //note
-
-        //dates
 
         //schorsing start date
         $begindatum_schorsing = $schorsing['Schorsing']['datum_van'];
 
         //calculating the other times
-
         $begin = new DateTime($schorsing['Schorsing']['datum_van']);
 
         //schorsing end date
         $end = new DateTime($schorsing['Schorsing']['datum_tot']);
 
-        //for english version we use DateTime format to get the proper format
-        //of the dates
         if ($eng) {
+            // for english version we use DateTime format to get the proper format of the dates
             $format = 'F j, Y';
             $begindatum_schorsing = $begin->format($format);
-
-        //for Dutch we just send DB date format back to the view where it's
-        //formatted
         } else {
+            //for Dutch we just send DB date format back to the view where it's formatted
             $format = 'Y-m-d';
         }
 
-        //a day when the schorsing will have expired:
+        // a day when the schorsing will have expired:
         $end->add(new DateInterval('P1D'));
         $einddatum_schorsing_pp = $end->format($format);
 
-        //calculating the period
+        // calculating the period
         $difference = $end->diff($begin);
         $lengte_schorsing = $difference->format('%a');
 
-        //formatting the text dependend on the number of days:
+        // formatting the text dependend on the number of days:
         if ($lengte_schorsing == 1) {
             if ($eng) {
                 $lengte_schorsing = '1 day';
@@ -343,20 +334,34 @@ class SchorsingenController extends AppController
             }
         }
 
-    //client data
+        // client data
         $klant_naam = $schorsing['Klant']['name'];
-        $locatie = $schorsing['Locatie']['naam'];
         $adres = $schorsing['Klant']['LasteIntake']['postadres'];
         $postcode = $schorsing['Klant']['LasteIntake']['postcode'];
         $woonplaats = $schorsing['Klant']['LasteIntake']['woonplaats'];
         $geslacht = $schorsing['Klant']['Geslacht']['afkorting'];
 
-    //setting everything to the view
+        $locaties = [];
+        foreach ($schorsing['Locatie'] as $locatie) {
+            $locaties[] = $locatie['naam'];
+        }
+        $locatie = implode(', ', $locaties);
+
+        // setting everything to the view
         $this->set(compact(
-            'bijzonderheden', 'locatiehoofd',
-            'klant_naam', 'locatie', 'adres', 'postcode', 'woonplaats',
-            'opmerking_uit_schorsing', 'begindatum_schorsing',
-            'einddatum_schorsing_pp', 'lengte_schorsing', 'geslacht'
+            'bijzonderheden',
+            'locatiehoofd',
+            'klant_naam',
+            'locatie',
+            'adres',
+            'postcode',
+            'woonplaats',
+            'redenen',
+            'opmerking_uit_schorsing',
+            'begindatum_schorsing',
+            'einddatum_schorsing_pp',
+            'lengte_schorsing',
+            'geslacht'
         ));
 
         $this->layout = 'pdf'; //this will use the pdf.ctp layout

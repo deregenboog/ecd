@@ -5,20 +5,18 @@
             $url_params .= "/$locatie_id";
         }
     ?>
-    <?= $form->create('Schorsing', ['url' =>"/schorsingen/add/$url_params", 'class' => 'centered']) ?>
+    <?= $form->create('Schorsing', [
+            'url' =>"/schorsingen/add/$url_params",
+            'class' => 'centered',
+    ]) ?>
     <fieldset>
         <legend>Nieuwe schorsing</legend>
-        <?php if (isset($locatie_id)): ?>
-            <?= $form->hidden('locatie_id', ['value' => $locatie['Locatie']['id']])?>
-        <?php elseif (isset($locaties)): ?>
-            <?= $this->Form->input('locatie_id', [
-                'type' => 'select',
-                'multiple' => true,
-                'label' => 'Locatie(s)',
-                'size' => 20,
-            ])
-        ?>
-        <?php endif; ?>
+        <?= $this->Form->input('Locatie', [
+            'type' => 'select',
+            'multiple' => 'checkbox',
+            'label' => 'Locatie(s)',
+            'size' => 20,
+        ]) ?>
 
         <?= $form->hidden('klant_id', ['value' => $klant['Klant']['id']]) ?>
         <?= $form->hidden('datum_van', ['value' => date('Y-m-d')]) ?>
@@ -65,7 +63,8 @@
             <div class="checkbox">
                 <input id="SchorsingDays4" type="radio" name="data[Schorsing][days]" value="-1"> </input>
                 <?= $form->label('Days4', 'schorsing tot en met ') ?>
-                <br/><?= $dateInput ?>
+                <br/>
+                <?= $dateInput ?>
             </div>
             <?= $js->get('.date')->event('change', "document.getElementById('SchorsingDays4').checked = true") ?>
             <?= $js->writeBuffer() ?>
@@ -96,7 +95,7 @@
                                 <?= $this->Form->input('aggressie_doelwit', array('type' => 'text', 'legend' => false, 'fieldset' => false, 'label' =>__('Betrokkene'))) ?>
                             </td>
                             <td>
-                                $this->Form->input('aggressie_tegen_medewerker', array('type' => 'radio', 'options' => $options_medewerker, 'legend' => false, 'fieldset' => false))
+                                <?= $this->Form->input('aggressie_tegen_medewerker', array('type' => 'radio', 'options' => $options_medewerker, 'legend' => false, 'fieldset' => false)) ?>
                             </td>
                             </tr>
                         </table>
@@ -148,9 +147,14 @@
                 </div>
             </div>
         </div>
+        <?= $form->input('remark', array('label' => 'En als opmerking:', 'type' => 'textarea')) ?>
+        <?= $form->input('locatiehoofd', array('label' => 'Locatiehoofd:', 'type' => 'text')) ?>
+        <?= $form->input('bijzonderheden', array('label' => 'Bijzonderheden:', 'type' => 'textarea')) ?>
     </fieldset>
     <?= $form->end(__('Submit', true)) ?>
-    <p><?= $html->link('Annuleren', "/schorsingen/index/$url_params") ?></p>
+    <p>
+        <?= $html->link('Annuleren', "/schorsingen/index/$url_params") ?>
+    </p>
 </div>
 
 <?php
