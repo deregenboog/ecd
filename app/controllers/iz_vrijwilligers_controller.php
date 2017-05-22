@@ -26,6 +26,8 @@ class IzVrijwilligersController extends AppController
         'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
+        'zonderActiefHulpaanbod',
+        'zonderActieveKoppeling',
     ];
 
     /**

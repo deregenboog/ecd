@@ -19,6 +19,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'izVrijwilliger.afsluitDatum',
             'izProject.naam',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = IzVrijwilliger::class;

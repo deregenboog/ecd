@@ -73,10 +73,10 @@ class IzKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('zonderActiefHulpaanbod', $options['enabled_filters'])) {
-            $builder->add('zonderActiefHulpaanbod', CheckboxType::class, [
+        if (in_array('zonderActieveHulpvraag', $options['enabled_filters'])) {
+            $builder->add('zonderActieveHulpvraag', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen dossiers zonder actief hulpaanbod',
+                'label' => 'Alleen dossiers zonder actieve hulpvraag',
             ]);
         }
 

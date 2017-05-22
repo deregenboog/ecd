@@ -73,6 +73,20 @@ class IzVrijwilligerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('zonderActiefHulpaanbod', $options['enabled_filters'])) {
+            $builder->add('zonderActiefHulpaanbod', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen dossiers zonder actief hulpaanbod',
+            ]);
+        }
+
+        if (in_array('zonderActieveKoppeling', $options['enabled_filters'])) {
+            $builder->add('zonderActieveKoppeling', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen dossiers zonder actieve koppeling',
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])

@@ -39,7 +39,7 @@ class IzKlantFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $zonderActiefHulpaanbod;
+    public $zonderActieveHulpvraag;
 
     /**
      * @var bool
@@ -88,7 +88,7 @@ class IzKlantFilter implements FilterInterface
             ;
         }
 
-        if ($this->zonderActiefHulpaanbod) {
+        if ($this->zonderActieveHulpvraag) {
             $builder
                 ->leftJoin('izKlant.izHulpvragen', 'actieveIzHulpvraag', 'WITH', $builder->expr()->andX(
                     'actieveIzHulpvraag.izHulpaanbod IS NULL',
@@ -104,10 +104,11 @@ class IzKlantFilter implements FilterInterface
             $builder
                 ->leftJoin('izKlant.izHulpvragen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
                     'actieveIzKoppeling.izHulpaanbod IS NOT NULL',
-                    'actieveIzKoppeling.koppelingEinddatum IS NULL'
+                    'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
                 ))
                 ->addGroupBy('izKlant.id')
                 ->andHaving('COUNT(actieveIzKoppeling) = 0')
+                ->setParameter('now', new \DateTime())
             ;
         }
     }

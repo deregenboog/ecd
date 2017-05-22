@@ -27,7 +27,7 @@ class IzKlantenController extends AppController
         'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
-        'zonderActiefHulpaanbod',
+        'zonderActieveHulpvraag',
         'zonderActieveKoppeling',
     ];
 
