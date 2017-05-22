@@ -16,6 +16,8 @@ use OdpBundle\Form\HuurverzoekCloseType;
 
 class HuurverzoekenController extends SymfonyController
 {
+    public $title = 'Huurverzoeken';
+
     private $enabledFilters = [
         'id',
         'klant' => ['naam', 'stadsdeel'],

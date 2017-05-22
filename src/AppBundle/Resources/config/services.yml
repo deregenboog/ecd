@@ -19,3 +19,10 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
+
+    app.event.kernel_subscriber:
+        class: AppBundle\Event\KernelSubscriber
+        arguments:
+            - '@twig'
+        tags:
+            - { name: kernel.event_subscriber }

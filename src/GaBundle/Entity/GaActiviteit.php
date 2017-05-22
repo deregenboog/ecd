@@ -3,6 +3,7 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
@@ -10,6 +11,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class GaActiviteit
 {
@@ -30,26 +32,31 @@ class GaActiviteit
      *
      * @ORM\ManyToOne(targetEntity="GaGroep", inversedBy="gaActiviteiten")
      * @ORM\JoinColumn(name="groepsactiviteiten_groep_id", nullable=false)
+     * @Gedmo\Versioned
      */
     private $gaGroep;
 
     /**
      * @ORM\Column(nullable=true)
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(name="time", type="time", nullable=true)
+     * @Gedmo\Versioned
      */
     private $tijd;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     private $afgesloten;
 

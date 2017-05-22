@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Verslagen
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -17,7 +17,7 @@
         <dt>Datum</dt>
         <dd>{{ entity.datum ? entity.datum|date('d-m-Y') }}</dd>
         <dt>Verslag</dt>
-        <dd><pre>{{ entity.opmerking }}</pre></dd>
+        <dd>{{ entity.opmerking|nl2br }}</dd>
     </dl>
     <p>
         Weet u zeker dat u bovenstaand verslag wilt verwijderen?

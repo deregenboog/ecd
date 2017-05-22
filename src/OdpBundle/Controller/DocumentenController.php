@@ -18,6 +18,8 @@ use AppBundle\Form\ConfirmationType;
 
 class DocumentenController extends SymfonyController
 {
+    public $title = 'Documenten';
+
     /**
      * @var DocumentDaoInterface
      *

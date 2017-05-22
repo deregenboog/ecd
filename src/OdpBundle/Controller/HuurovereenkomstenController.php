@@ -17,6 +17,8 @@ use OdpBundle\Form\HuurovereenkomstCloseType;
 
 class HuurovereenkomstenController extends SymfonyController
 {
+    public $title = 'Koppelingen';
+
     private $enabledFilters = [
         'id',
         'huurderKlant' => ['naam'],

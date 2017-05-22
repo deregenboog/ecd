@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Persoon
 {
@@ -23,38 +25,45 @@ class Persoon
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $voornaam;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $roepnaam;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $tussenvoegsel;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $achternaam;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $geboortedatum;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      * @Assert\Email
      */
     protected $email;
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $bsn;
 
@@ -62,6 +71,7 @@ class Persoon
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $medewerker;
 
@@ -69,6 +79,7 @@ class Persoon
      * @var Geslacht
      * @ORM\ManyToOne(targetEntity="Geslacht")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $geslacht;
 
@@ -76,6 +87,7 @@ class Persoon
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $land;
 
@@ -83,61 +95,73 @@ class Persoon
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $nationaliteit;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $adres;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $postcode;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $plaats;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $werkgebied;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $postcodegebied;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $mobiel;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $telefoon;
 
     /**
      * @ORM\Column(name="geen_post", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $geenPost;
 
     /**
      * @ORM\Column(name="geen_email", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $geenEmail;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $opmerking;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     protected $disabled = false;
 

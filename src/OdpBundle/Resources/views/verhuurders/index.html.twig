@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Verhuurders
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Verhuurders</h1>
+    <h1>{{ title }}</h1>
     <p>
         {{ html.addLink(path('odp_verhuurders_add')) }}
         {{ html.link('Verhuurder toevoegen', path('odp_verhuurders_add')) }}

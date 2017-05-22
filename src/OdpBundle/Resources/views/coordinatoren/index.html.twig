@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Coördinatoren
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Coördinatoren</h1>
+    <h1>{{ title }}</h1>
     <p>
         {{ html.addLink(path('odp_coordinatoren_add')) }}
         {{ html.link('Coördinator toevoegen', path('odp_coordinatoren_add')) }}

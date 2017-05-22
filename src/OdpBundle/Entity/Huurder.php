@@ -47,23 +47,10 @@ class Huurder extends Deelnemer
 
     public function addHuurverzoek(Huurverzoek $huurverzoek)
     {
-        if ($this->getActiefHuurverzoek()) {
-            throw new OdpException('Een huurder kan slechts één actief huurverzoek tegelijk hebben');
-        }
-
         $this->huurverzoeken[] = $huurverzoek;
         $huurverzoek->setHuurder($this);
 
         return $this;
-    }
-
-    public function getActiefHuurverzoek()
-    {
-        foreach ($this->huurverzoeken as $huurverzoek) {
-            if ($huurverzoek->isActief()) {
-                return $huurverzoek;
-            }
-        }
     }
 
     public function getAfsluiting()

@@ -3,6 +3,7 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
@@ -19,6 +20,7 @@ use AppBundle\Model\TimestampableTrait;
  *     "OpenHuis" = "GaGroepOpenHuis",
  *     "Organisatie" = "GaGroepOrganisatie"
  * })
+ * @Gedmo\Loggable
  */
 abstract class GaGroep
 {
@@ -33,26 +35,31 @@ abstract class GaGroep
 
     /**
      * @ORM\Column(length=100, nullable=false)
+     * @Gedmo\Versioned
      */
     protected $naam;
 
     /**
      * @ORM\Column(length=20, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $werkgebied;
 
     /**
      * @ORM\Column(name="activiteiten_registreren", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $activiteitenRegistreren;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $einddatum;
 

@@ -3,6 +3,7 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
@@ -13,6 +14,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "IzKlant", "Vrijwilliger" = "IzVrijwilliger"})
+ * @Gedmo\Loggable
  */
 abstract class IzDeelnemer
 {
@@ -34,16 +36,19 @@ abstract class IzDeelnemer
     /**
      * @var IzIntake
      * @ORM\OneToOne(targetEntity="IzIntake", mappedBy="izDeelnemer")
+     * @Gedmo\Versioned
      */
     protected $izIntake;
 
     /**
      * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $afsluitDatum;
 
     /**
      * @ORM\Column(name="datum_aanmelding", type="date")
+     * @Gedmo\Versioned
      */
     protected $datumAanmelding;
 
@@ -51,6 +56,7 @@ abstract class IzDeelnemer
      * @var IzAfsluiting
      * @ORM\ManyToOne(targetEntity="IzAfsluiting")
      * @ORM\JoinColumn(name="iz_afsluiting_id")
+     * @Gedmo\Versioned
      */
     protected $izAfsluiting;
 

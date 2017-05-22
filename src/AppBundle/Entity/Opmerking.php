@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="opmerkingen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Opmerking
 {

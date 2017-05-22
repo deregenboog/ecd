@@ -36,7 +36,6 @@ class HuuraanbodType extends AbstractType
                     if ($event->getForm()->get('opmerking')->getData()) {
                         $verslag = new Verslag();
                         $verslag
-                            ->setDatum($event->getData()->getAanmelddatum())
                             ->setOpmerking($event->getForm()->get('opmerking')->getData())
                             ->setMedewerker($event->getData()->getMedewerker())
                         ;

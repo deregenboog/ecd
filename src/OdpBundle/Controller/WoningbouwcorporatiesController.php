@@ -12,6 +12,8 @@ use AppBundle\Form\ConfirmationType;
 
 class WoningbouwcorporatiesController extends SymfonyController
 {
+    public $title = 'Woningbouwcorporaties';
+
     /**
      * @var WoningbouwcorporatieDaoInterface
      *

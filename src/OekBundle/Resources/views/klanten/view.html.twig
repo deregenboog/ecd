@@ -49,7 +49,7 @@
             </ul>&nbsp;
         </dd>
         <dt>Opmerking</dt>
-        <dd>{% if oekKlant.opmerking %}<pre>{{ oekKlant.opmerking }}</pre>{% endif %}</dd>
+        <dd>{% if oekKlant.opmerking %}{{ oekKlant.opmerking|nl2br }}{% endif %}</dd>
         <dt>Voedselbankklant</dt>
         <dd>{{ oekKlant.voedselbankklant ? 'Ja' : 'Nee' }}</dd>
         <dt>
