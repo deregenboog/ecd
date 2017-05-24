@@ -89,10 +89,14 @@ class SchorsingenController extends AppController
                 $this->set(compact('locatie_id'));
             } else {
                 $this->set('locaties', $this->Schorsing->Locatie->find('list', [
-                    'conditions' => ['OR' => [
-                        ['datum_tot' => '0000-00-00'],
-                        ['datum_tot >' => date('Y-m-d')],
-                    ]],
+                    'conditions' => [
+                        ['datum_van <>' => '0000-00-00'],
+                        ['datum_van <=' => date('Y-m-d')],
+                        ['OR' => [
+                            ['datum_tot' => '0000-00-00'],
+                            ['datum_tot >=' => date('Y-m-d')],
+                        ]],
+                    ],
                 ]));
             }
 
@@ -206,11 +210,16 @@ class SchorsingenController extends AppController
 
         $violent_options = $this->Schorsing->Reden->get_violent_options();
         $locaties = $this->Schorsing->Locatie->find('list', [
-            'conditions' => ['OR' => [
-                ['datum_tot' => '0000-00-00'],
-                ['datum_tot >' => date('Y-m-d')],
-            ]],
+            'conditions' => [
+                ['datum_van <>' => '0000-00-00'],
+                ['datum_van <=' => date('Y-m-d')],
+                ['OR' => [
+                    ['datum_tot' => '0000-00-00'],
+                    ['datum_tot >=' => date('Y-m-d')],
+                ]],
+            ],
         ]);
+
         $klanten = $this->Schorsing->Klant->find('list');
         $redenen = $this->Schorsing->Reden->get_schorsing_redenen();
         $this->set(compact('locaties', 'klanten', 'redenen', 'violent_options'));
