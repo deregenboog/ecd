@@ -10,21 +10,32 @@ class VerslagenController extends AppController
 
     public function index()
     {
-        $laaste_rapportage = null;
+        $laatste_rapportage = null;
 
         if (is_array($this->data['verslagen']['laatste_rapportage'])) {
-            if (!empty($this->data['verslagen']['laatste_rapportage']['year']) &&
-              !empty($this->data['verslagen']['laatste_rapportage']['year']) &&
-              !empty($this->data['verslagen']['laatste_rapportage']['day'])) {
-                $this->data['verslagen']['laatste_rapportage'] = $this->data['verslagen']['laatste_rapportage']['year'].'-'.$this->data['verslagen']['laatste_rapportage']['month'].'-'.$this->data['verslagen']['laatste_rapportage']['day'];
-                $laaste_rapportage = $this->data['verslagen']['laatste_rapportage'];
+            if (!empty($this->data['verslagen']['laatste_rapportage']['year'])
+                && !empty($this->data['verslagen']['laatste_rapportage']['year'])
+                && !empty($this->data['verslagen']['laatste_rapportage']['day'])
+            ) {
+                $this->data['verslagen']['laatste_rapportage'] = implode('-', [
+                    $this->data['verslagen']['laatste_rapportage']['year'],
+                    $this->data['verslagen']['laatste_rapportage']['month'],
+                    $this->data['verslagen']['laatste_rapportage']['day'],
+                ]);
+                $laatste_rapportage = $this->data['verslagen']['laatste_rapportage'];
             } else {
                 unset($this->data['verslagen']['laatste_rapportage']);
             }
         }
 
+        $alleKlanten = false;
+        if ($this->data && isset($this->data['Klant']['alle_klanten'])) {
+            $alleKlanten = true;
+            unset($this->data['Klant']['alle_klanten']);
+        }
+
         if (isset($this->params['named']['verslagen.laatste_rapportage'])) {
-            $laaste_rapportage = $this->params['named']['verslagen.laatste_rapportage'];
+            $laatste_rapportage = $this->params['named']['verslagen.laatste_rapportage'];
         }
 
         $this->ComponentLoader->load('Filter');
@@ -50,27 +61,18 @@ class VerslagenController extends AppController
             ],
         ];
 
-        if (!empty($laaste_rapportage)) {
-            $table = 'SELECT klant_id, MAX(datum) AS laatste_rapportage
-                FROM verslagen
-                GROUP BY klant_id';
-
-            $joins = [
-                [
-                   'table' => "( {$table} )",
-                   'alias' => 'verslagen',
-                   'type' => 'INNER',
-                   'conditions' => [
-                       'Klant.id = verslagen.klant_id',
-                   ],
-                ],
-            ];
-
-            $this->paginate['joins'] = $joins;
+        $joinType = 'INNER';
+        if (empty($laatste_rapportage) && $alleKlanten) {
+            $joinType = 'LEFT';
         }
+        $this->paginate['joins'] = [[
+           'table' => "(SELECT klant_id, MAX(datum) AS laatste_rapportage FROM verslagen GROUP BY klant_id)",
+           'alias' => 'verslagen',
+           'type' => $joinType,
+           'conditions' => ['Klant.id = verslagen.klant_id'],
+        ]];
 
         $this->Medewerker = ClassRegistry::init('Medewerker');
-
         $medewerkers = ['' => ''];
         $medewerkers += $this->Medewerker->find('list', [
             'joins' => [[
@@ -87,7 +89,6 @@ class VerslagenController extends AppController
         foreach ($klanten as $key => $klant) {
             $klanten[$key]['Klant']['laatste_verslag_datum'] = null;
             $l = count($klant['Verslag']);
-
             if ($l > 0) {
                 $klanten[$key]['Klant']['laatste_verslag_datum'] = $klant['Verslag'][$l - 1]['datum'];
             }
