@@ -115,14 +115,10 @@ class VerslagenController extends AppController
 
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
-
-            $this->redirect([
-                    'action' => 'index',
-            ]);
+            $this->redirect(['action' => 'index']);
         }
 
         $contain = $this->Verslag->Klant->contain;
-
         $contain['Document'] = [
             'conditions' => [
                 'Document.group' => Attachment::GROUP_MW,
@@ -137,8 +133,16 @@ class VerslagenController extends AppController
             'contain' => $contain,
         ]);
 
+        if (!$klant) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(['action' => 'index']);
+        }
+
         $persoon = $this->Verslag->Klant->getAllById($klant_id);
         $diensten = $this->Verslag->Klant->diensten($persoon);
+
+        $this->loadModel('ZrmReport');
+        $lastZrmReport = $this->ZrmReport->get_last_zrm_report($klant_id);
 
         $verslaginfo = $this->Verslag->Klant->Verslaginfo->find('first', [
             'conditions' => [
@@ -160,15 +164,7 @@ class VerslagenController extends AppController
             $this->Verslag->InventarisatiesVerslagen->getInvPaths($verslag);
         }
 
-        if (!$klant) {
-            $this->flashError(__('Invalid klant', true));
-
-            $this->redirect([
-                    'action' => 'index',
-            ]);
-        }
-
-        $this->set(compact('klant', 'verslagen', 'verslaginfo', 'medewerkers', 'persoon', 'diensten'));
+        $this->set(compact('klant', 'verslagen', 'verslaginfo', 'medewerkers', 'persoon', 'diensten', 'lastZrmReport'));
     }
 
     public function add($klant_id = null)
