@@ -67,7 +67,7 @@ class RegistratiesController extends AppController
                         'LasteIntake.verblijfstatus_id NOT ' => 7,
                         array(
                             'LasteIntake.verblijfstatus_id' => 7,
-                            'DATE_ADD(Klant.first_intake_date, INTERVAL 6 MONTH) < now()',
+                            'DATE_ADD(Klant.first_intake_date, INTERVAL 3 MONTH) < now()',
                         ),
                     ),
                 );

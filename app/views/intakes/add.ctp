@@ -52,7 +52,7 @@
             <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             N.B. Als een klant niet rechthebbend is, heeft hij/zij de eerste drie maanden alleen
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            toegang tot AMOC. Na zes maanden mag de klant ook naar de andere inloophuizen.
+            toegang tot AMOC. Na drie maanden mag de klant ook naar de andere inloophuizen.
             <br/><br/>
             <?= $this->Form->input('locatie1_id', [
                 'label' => 'Toegang gebruikersruimte',
