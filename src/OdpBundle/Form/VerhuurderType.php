@@ -35,6 +35,7 @@ class VerhuurderType extends AbstractType
 
         $builder
             ->add('aanmelddatum', AppDateType::class)
+            ->add('rekeningnummer', null, ['required' => false])
             ->add('woningbouwcorporatie')
             ->add('woningbouwcorporatieToelichting', null, ['label' => 'Woningbouwcorporatie anders/toelichting'])
         ;

@@ -56,6 +56,13 @@ abstract class Deelnemer
     protected $afsluitdatum;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $rekeningnummer;
+
+    /**
      * @var Afsluiting
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
@@ -170,6 +177,18 @@ abstract class Deelnemer
     public function addDocument(Document $document)
     {
         $this->documenten[] = $document;
+
+        return $this;
+    }
+
+    public function getRekeningnummer()
+    {
+        return $this->rekeningnummer;
+    }
+
+    public function setRekeningnummer($rekeningnummer)
+    {
+        $this->rekeningnummer = $rekeningnummer;
 
         return $this;
     }

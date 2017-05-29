@@ -22,13 +22,6 @@ class Huurder extends Deelnemer
     private $huurverzoeken;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $rekeningnummer;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
@@ -75,18 +68,6 @@ class Huurder extends Deelnemer
     public function setAfsluiting(HuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
-
-        return $this;
-    }
-
-    public function getRekeningnummer()
-    {
-        return $this->rekeningnummer;
-    }
-
-    public function setRekeningnummer($rekeningnummer)
-    {
-        $this->rekeningnummer = $rekeningnummer;
 
         return $this;
     }
