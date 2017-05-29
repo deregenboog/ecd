@@ -155,9 +155,11 @@ class ZrmReport extends AppModel
         if (empty($this->zrm_required_fields)) {
             $this->zrm_data();
         }
+
         if (!isset($this->data['ZrmReport']['request_module'])) {
             return true;
         }
+
         if (empty($this->data['ZrmReport']['request_module'])) {
             return true;
         }
@@ -170,6 +172,7 @@ class ZrmReport extends AppModel
         if (empty($r)) {
             return true;
         }
+
         foreach ($field as $k => $f) {
             if (in_array($k, $r) && empty($this->data['ZrmReport'][$k])) {
                 return false;
