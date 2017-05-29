@@ -1,5 +1,10 @@
 <?php
 
+use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\Aanmelding;
+use AppBundle\Entity\Klant;
+
 class IntakesController extends AppController
 {
     public $name = 'Intakes';
@@ -57,14 +62,16 @@ class IntakesController extends AppController
         $this->set(compact('title_for_layout', 'zrm_data', 'zrmReport'));
     }
 
-    public function add($klant_id = null)
+    public function add($klant_id)
     {
-        if ($klant_id == null) {
+        if (!$klant_id) {
             $this->flashError('Geen klant Id opgegeven');
             $this->redirect(['controller' => 'klanten', 'action' => 'index']);
         }
 
         $this->loadModel('ZrmReport');
+        $entityManager = $this->getEntityManager();
+        $klant = $entityManager->find(Klant::class, $klant_id);
 
         if (!empty($this->data)) {
             $this->Intake->create();
@@ -78,6 +85,15 @@ class IntakesController extends AppController
                 $this->ZrmReport->create();
                 if ($this->ZrmReport->save($this->data)) {
                     $this->Intake->commit();
+
+                    // create "Aanmelding"
+                    $entityManager->persist(new Aanmelding($klant, $this->getMedewerker()));
+                    $entityManager->persist($klant);
+                    $entityManager->flush();
+
+                    // invalidate cache
+                    Cache::delete('active_klant_ids');
+
                     $this->flash(__('De intake is opgeslagen', true));
 
                     $this->sendIntakeNotification($this->Intake->id, $this->data);
@@ -97,8 +113,13 @@ class IntakesController extends AppController
         $this->Intake->Klant->recursive = 1;
         $klant = $this->Intake->Klant->read(null, $klant_id);
 
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($klant_id);
+
         $datum_intake = date('Y-m-d');
-        if (empty($this->data) && !empty($klant['Klant']['laste_intake_id'])) {
+        if (empty($this->data)
+            && !empty($klant['Klant']['laste_intake_id'])
+            && !$status instanceof Afsluiting
+        ) {
             $current = $this->Intake->findById($klant['Klant']['laste_intake_id']);
             if (isset($current['Intake']['id'])) {
                 unset($current['Intake']['id']);

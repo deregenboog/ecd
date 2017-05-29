@@ -1,5 +1,11 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Form\AfsluitingType;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\DossierStatus;
+
 class KlantenController extends AppController
 {
     public $name = 'Klanten';
@@ -74,19 +80,24 @@ class KlantenController extends AppController
     public function view($id = null)
     {
         $this->loadModel('ZrmReport');
-        if (!$id) {
-            $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
-        }
 
         $klant = $this->Klant->find('first', array(
             'conditions' => array('Klant.id' => $id),
         ));
 
+        if (!$klant) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(array('action' => 'index'));
+        }
+
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($id);
+        $this->set(compact('status'));
+
         $registraties = $this->Klant->Registratie->find('all', array(
             'conditions' => array('Registratie.klant_id' => $klant['Klant']['id']),
             'order' => 'binnen desc',
-            'limit' => 3, ));
+            'limit' => 3,
+        ));
 
         $opmerkingen = $this->Klant->Opmerking->find('all', array(
             'conditions' => array('Klant.id' => $id, 'Opmerking.gezien' => false),
@@ -101,11 +112,41 @@ class KlantenController extends AppController
         if (isset($klant['Intake'][0])) {
             $newestintake = $this->Klant->Intake->read(null, $klant['Intake'][0]['id']);
             $this->set('newestintake', $newestintake);
-
             $this->set('zrmReport', $this->ZrmReport->get_zrm_report('Intake', $klant['Intake'][0]['id']));
         }
         $this->set('zrm_data', $zrm_data);
         $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
+    }
+
+    public function close($id)
+    {
+        $this->view = 'AppTwig';
+        $entityManager = $this->getEntityManager();
+
+        $klant = $entityManager->getRepository(Klant::class)->find($id);
+
+        if (!$klant instanceof Klant) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(array('action' => 'index'));
+        }
+
+        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+        $form = $this->createForm(AfsluitingType::class, $afsluiting);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($klant);
+            $entityManager->persist($form->getData());
+            $entityManager->flush();
+
+            // invalidate cache
+            Cache::delete('active_klant_ids');
+
+            $this->flash('Dossier is afgesloten');
+            $this->redirect(['action' => 'view', $klant->getId()]);
+        }
+
+        $this->set('klant', $klant);
+        $this->set('form', $form->createView());
     }
 
     public function registratie($id = null)

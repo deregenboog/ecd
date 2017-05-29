@@ -1,0 +1,89 @@
+<?php
+
+namespace InloopBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="inloop_afsluiting_redenen")
+ * @Gedmo\Loggable
+ */
+class RedenAfsluiting
+{
+    use TimestampableTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $naam;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $actief = true;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="integer")
+     * @Gedmo\Versioned
+     */
+    private $gewicht = 0;
+
+    public function __toString()
+    {
+        return $this->naam;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function isActief()
+    {
+        return $this->actief;
+    }
+
+    public function setActief($actief)
+    {
+        $this->actief = $actief;
+
+        return $this;
+    }
+
+    public function isDeletable()
+    {
+        return false;
+    }
+}

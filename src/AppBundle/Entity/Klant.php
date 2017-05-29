@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Intake;
 use Doctrine\Common\Collections\ArrayCollection;
+use InloopBundle\Entity\DossierStatus;
 
 /**
  * @ORM\Entity
@@ -41,6 +42,15 @@ class Klant extends Persoon
      * @Gedmo\Versioned
      */
     private $laatsteIntake;
+
+    /**
+     * @var DossierStatus
+     *
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $huidigeStatus;
 
     /**
      * @ORM\Column(name="laatste_registratie_id", type="integer")
@@ -102,4 +112,16 @@ class Klant extends Persoon
 
         return $this;
     }
+
+    public function getHuidigeStatus()
+    {
+        return $this->huidigeStatus;
+    }
+
+    public function setHuidigeStatus(DossierStatus $huidigeStatus)
+    {
+        $this->huidigeStatus = $huidigeStatus;
+        return $this;
+    }
+
 }

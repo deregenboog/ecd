@@ -1,0 +1,8 @@
+<div class="actions">
+    {{ this.element('klantbasic')|raw }}
+</div>
+<div class="klanten view">
+    <h2>Inloop-dossier afsluiten</h2>
+    {{ form(form) }}
+    {{ html.link('Terug', {controller: 'klanten', action: 'view', 0: klant.id})|raw }}
+</div>

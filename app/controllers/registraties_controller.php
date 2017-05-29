@@ -1,5 +1,9 @@
 <?php
 
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Entity\Aanmelding;
+
 class RegistratiesController extends AppController
 {
     public $name = 'Registraties';
@@ -73,12 +77,17 @@ class RegistratiesController extends AppController
                 );
             }
 
+            // limit to "Klanten" with "Aanmelding"
+            $activeKlantIds = $this->getEntityManager()->getRepository(DossierStatus::class)->getActiveKlantIds();
+            $conditions[] = ['Klant.id'=> $activeKlantIds];
+
             $conditions[] = array(
                 'OR' => array(
                     'Klant.overleden NOT' => 1,
                     'Klant.overleden' => null,
                 ),
             );
+
             $this->log($conditions, 'registratie');
 
             $this->paginate['Klant'] = array(
@@ -108,9 +117,7 @@ class RegistratiesController extends AppController
             $this->Klant->recursive = -1;
 
             $klanten = $this->paginate('Klant');
-
             $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
-
             $klanten = $this->Klant->completeVirtualFields($klanten);
 
             $this->Klant->Schorsing->get_schorsing_messages($klanten, $locatie_id);
