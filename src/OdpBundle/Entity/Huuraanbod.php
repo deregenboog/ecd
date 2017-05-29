@@ -61,6 +61,18 @@ class Huuraanbod
     private $afsluiting;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $datumToestemmingAangevraagd;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $datumToestemmingToegekend;
+
+    /**
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
@@ -170,6 +182,30 @@ class Huuraanbod
     public function setAfsluiting(HuuraanbodAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function getDatumToestemmingAangevraagd()
+    {
+        return $this->datumToestemmingAangevraagd;
+    }
+
+    public function setDatumToestemmingAangevraagd($datumToestemmingAangevraagd = null)
+    {
+        $this->datumToestemmingAangevraagd = $datumToestemmingAangevraagd;
+
+        return $this;
+    }
+
+    public function getDatumToestemmingToegekend()
+    {
+        return $this->datumToestemmingToegekend;
+    }
+
+    public function setDatumToestemmingToegekend($datumToestemmingToegekend = null)
+    {
+        $this->datumToestemmingToegekend = $datumToestemmingToegekend;
 
         return $this;
     }

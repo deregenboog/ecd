@@ -9,6 +9,8 @@
     <tr>
         <th>Stadsdeel</th>
         <th>Startdatum</th>
+        <th>Toestemming aangevraagd</th>
+        <th>Toestemming toegekend</th>
         <th>Afsluitdatum</th>
         <th></th>
     </tr>
@@ -18,6 +20,12 @@
                 <td>{{ huuraanbod.verhuurder.klant.werkgebied }}</td>
                 <td>
                     {{ huuraanbod.startdatum ? huuraanbod.startdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huuraanbod.datumToestemmingAangevraagd ? huuraanbod.datumToestemmingAangevraagd|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huuraanbod.datumToestemmingToegekend ? huuraanbod.datumToestemmingToegekend|date('d-m-Y') }}
                 </td>
                 <td>
                     {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum|date('d-m-Y') }}
