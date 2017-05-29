@@ -44,6 +44,7 @@ class Version20170529073058 extends AbstractMigration
         ');
 
         // add options for "RedenAfsluiting"
+        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, created, modified) VALUES ('>3 jaar geen inloophuis bezocht', 1, NOW(), NOW())");
         $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, created, modified) VALUES ('Gerepatrieerd', 1, NOW(), NOW())");
         $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, created, modified) VALUES ('Overleden', 1, NOW(), NOW())");
         $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, gewicht, created, modified) VALUES ('Overig', 1, 100, NOW(), NOW())");

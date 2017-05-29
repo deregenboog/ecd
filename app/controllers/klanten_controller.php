@@ -5,6 +5,7 @@ use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Repository\DossierStatusRepository;
 
 class KlantenController extends AppController
 {
@@ -139,7 +140,7 @@ class KlantenController extends AppController
             $entityManager->flush();
 
             // invalidate cache
-            Cache::delete('active_klant_ids');
+            Cache::delete(DossierStatusRepository::CACHE_KEY_ACTIVE_KLANT_IDS);
 
             $this->flash('Dossier is afgesloten');
             $this->redirect(['action' => 'view', $klant->getId()]);

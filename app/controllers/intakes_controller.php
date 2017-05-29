@@ -4,6 +4,7 @@ use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\Aanmelding;
 use AppBundle\Entity\Klant;
+use InloopBundle\Repository\DossierStatusRepository;
 
 class IntakesController extends AppController
 {
@@ -92,7 +93,7 @@ class IntakesController extends AppController
                     $entityManager->flush();
 
                     // invalidate cache
-                    Cache::delete('active_klant_ids');
+                    Cache::delete(DossierStatusRepository::CACHE_KEY_ACTIVE_KLANT_IDS);
 
                     $this->flash(__('De intake is opgeslagen', true));
 
