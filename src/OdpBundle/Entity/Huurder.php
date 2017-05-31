@@ -21,6 +21,13 @@ class Huurder extends Deelnemer
      */
     private $huurverzoeken;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $startdatumAutomatischeIncasso;
+
     public function __construct()
     {
         parent::__construct();
@@ -61,6 +68,18 @@ class Huurder extends Deelnemer
     public function setAfsluiting(HuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function getStartdatumAutomatischeIncasso()
+    {
+        return $this->startdatumAutomatischeIncasso;
+    }
+
+    public function setStartdatumAutomatischeIncasso(\DateTime $startdatumAutomatischeIncasso = null)
+    {
+        $this->startdatumAutomatischeIncasso = $startdatumAutomatischeIncasso;
 
         return $this;
     }

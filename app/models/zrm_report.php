@@ -5,24 +5,24 @@ class ZrmReport extends AppModel
     public $name = 'ZrmReport';
 
     public $zrm_items = array(
-            'inkomen' => 'Inkomen',
-            'dagbesteding' => 'Dagbesteding',
-            'huisvesting' => 'Huisvesting',
-            'gezinsrelaties' => 'Gezinsrelaties',
-            'geestelijke_gezondheid' => 'Geestelijke gezondheid',
-            'fysieke_gezondheid' => 'Fysieke gezondheid',
-            'verslaving' => 'Verslaving',
-            'adl_vaardigheden' => 'ADL-vaardigheden',
-            'sociaal_netwerk' => 'Sociaal netwerk',
-            'maatschappelijke_participatie' => 'Maatschappelijke participatie',
-            'justitie' => 'Justitie',
+        'inkomen' => 'Inkomen',
+        'dagbesteding' => 'Dagbesteding',
+        'huisvesting' => 'Huisvesting',
+        'gezinsrelaties' => 'Gezinsrelaties',
+        'geestelijke_gezondheid' => 'Geestelijke gezondheid',
+        'fysieke_gezondheid' => 'Fysieke gezondheid',
+        'verslaving' => 'Verslaving',
+        'adl_vaardigheden' => 'ADL-vaardigheden',
+        'sociaal_netwerk' => 'Sociaal netwerk',
+        'maatschappelijke_participatie' => 'Maatschappelijke participatie',
+        'justitie' => 'Justitie',
     );
 
     public $zrm_models = array(
-            'Intake' => [],
-            'MaatschappelijkWerk' => [],
-            'Awbz' => [],
-            'Hi5' => [],
+        'Intake' => [],
+        'MaatschappelijkWerk' => [],
+        'Awbz' => [],
+        'Hi5' => [],
     );
 
     public $belongsTo = array(
@@ -45,93 +45,93 @@ class ZrmReport extends AppModel
     );
 
     public $validate = array(
-            'request_module' => array(
-                'notempty' => array(
-                    'rule' => array(
-                        'notEmpty',
-                    ),
-                    'message' => 'Voer een module in',
-                    'required' => true,
+        'request_module' => array(
+            'notempty' => array(
+                'rule' => array(
+                    'notEmpty',
                 ),
-             ),
-            'inkomen' => array(
+                'message' => 'Voer een module in',
+                'required' => true,
+            ),
+         ),
+        'inkomen' => array(
+            'allowEmpty' => true,
+            'checkRequired' => array(
+
+                'rule' => array('checkRequired'),
+                'message' => 'verplicht veld Inkomen',
+            ),
+        ),
+        'dagbesteding' => array(
                 'allowEmpty' => true,
                 'checkRequired' => array(
-
-                    'rule' => array('checkRequired'),
-                    'message' => 'verplicht veld Inkomen',
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Dagbesteding',
                 ),
-            ),
-            'dagbesteding' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Dagbesteding',
-                    ),
-            ),
-            'huisvesting' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Huisvesting',
-                    ),
-            ),
-            'gezinsrelaties' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Gezinsrelaties',
-                    ),
-            ),
-            'geestelijke_gezondheid' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Geestelijke gezondheid',
-                    ),
-            ),
-            'fysieke_gezondheid' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Fysieke gezondheid',
-                    ),
-            ),
-            'verslaving' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Verslaving',
-                    ),
-            ),
-            'adl_vaardigheden' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld ADL-vaardigheden',
-                    ),
-            ),
-            'sociaal_netwerk' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Sociaal netwerk',
-                    ),
-            ),
-            'maatschappelijke_participatie' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Maatschappelijke participatie',
-                    ),
-            ),
-            'justitie' => array(
-                    'allowEmpty' => true,
-                    'checkRequired' => array(
-                            'rule' => array('checkRequired'),
-                            'message' => 'verplicht veld Justitie',
-                    ),
-            ),
+        ),
+        'huisvesting' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Huisvesting',
+                ),
+        ),
+        'gezinsrelaties' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Gezinsrelaties',
+                ),
+        ),
+        'geestelijke_gezondheid' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Geestelijke gezondheid',
+                ),
+        ),
+        'fysieke_gezondheid' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Fysieke gezondheid',
+                ),
+        ),
+        'verslaving' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Verslaving',
+                ),
+        ),
+        'adl_vaardigheden' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld ADL-vaardigheden',
+                ),
+        ),
+        'sociaal_netwerk' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Sociaal netwerk',
+                ),
+        ),
+        'maatschappelijke_participatie' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Maatschappelijke participatie',
+                ),
+        ),
+        'justitie' => array(
+                'allowEmpty' => true,
+                'checkRequired' => array(
+                        'rule' => array('checkRequired'),
+                        'message' => 'verplicht veld Justitie',
+                ),
+        ),
 
     );
 
@@ -155,9 +155,11 @@ class ZrmReport extends AppModel
         if (empty($this->zrm_required_fields)) {
             $this->zrm_data();
         }
+
         if (!isset($this->data['ZrmReport']['request_module'])) {
             return true;
         }
+
         if (empty($this->data['ZrmReport']['request_module'])) {
             return true;
         }
@@ -170,6 +172,7 @@ class ZrmReport extends AppModel
         if (empty($r)) {
             return true;
         }
+
         foreach ($field as $k => $f) {
             if (in_array($k, $r) && empty($this->data['ZrmReport'][$k])) {
                 return false;

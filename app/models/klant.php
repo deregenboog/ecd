@@ -10,10 +10,10 @@ class Klant extends AppModel
     public $order = 'Klant.achternaam ASC';
 
     public $virtualFields = array(
-            'name' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
-            'name1st_part' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`roepnaam`)",
-            'name2nd_part' => "CONCAT_WS(' ', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
-            'klant_nummer' => "CONCAT('K',`Klant`.`id`)",
+        'name' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
+        'name1st_part' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`roepnaam`)",
+        'name2nd_part' => "CONCAT_WS(' ', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
+        'klant_nummer' => "CONCAT('K',`Klant`.`id`)",
     );
 
     public $displayField = 'name';
@@ -229,7 +229,7 @@ class Klant extends AppModel
                     'dependent' => false,
                     'conditions' => '',
                     'fields' => '',
-                    'order' => '',
+                    'order' => 'Verslag.datum ASC',
                     'limit' => '',
                     'offset' => '',
                     'exclusive' => '',

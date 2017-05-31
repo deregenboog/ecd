@@ -21,8 +21,8 @@ class Medewerker extends AppModel
     );
 
     public $order = array(
-            'voornaam ASC',
-            'achternaam ASC',
+        'voornaam ASC',
+        'achternaam ASC',
     );
 
     public $hasMany = [];

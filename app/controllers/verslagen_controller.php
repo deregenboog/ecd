@@ -4,79 +4,91 @@ class VerslagenController extends AppController
 {
     public $name = 'Verslagen';
 
-    public $components = array(
-            'ComponentLoader',
-    );
+    public $components = [
+        'ComponentLoader',
+    ];
 
     public function index()
     {
-        $laaste_rapportage = null;
+        $laatste_rapportage = null;
 
         if (is_array($this->data['verslagen']['laatste_rapportage'])) {
-            if (!empty($this->data['verslagen']['laatste_rapportage']['year']) &&
-              !empty($this->data['verslagen']['laatste_rapportage']['year']) &&
-              !empty($this->data['verslagen']['laatste_rapportage']['day'])) {
-                $this->data['verslagen']['laatste_rapportage'] = $this->data['verslagen']['laatste_rapportage']['year'].'-'.$this->data['verslagen']['laatste_rapportage']['month'].'-'.$this->data['verslagen']['laatste_rapportage']['day'];
-                $laaste_rapportage = $this->data['verslagen']['laatste_rapportage'];
+            if (!empty($this->data['verslagen']['laatste_rapportage']['year'])
+                && !empty($this->data['verslagen']['laatste_rapportage']['year'])
+                && !empty($this->data['verslagen']['laatste_rapportage']['day'])
+            ) {
+                $this->data['verslagen']['laatste_rapportage'] = implode('-', [
+                    $this->data['verslagen']['laatste_rapportage']['year'],
+                    $this->data['verslagen']['laatste_rapportage']['month'],
+                    $this->data['verslagen']['laatste_rapportage']['day'],
+                ]);
+                $laatste_rapportage = $this->data['verslagen']['laatste_rapportage'];
             } else {
                 unset($this->data['verslagen']['laatste_rapportage']);
             }
         }
 
+        $alleKlanten = false;
+        if ($this->data && isset($this->data['Klant']['alle_klanten'])) {
+            $alleKlanten = true;
+            unset($this->data['Klant']['alle_klanten']);
+        }
+
         if (isset($this->params['named']['verslagen.laatste_rapportage'])) {
-            $laaste_rapportage = $this->params['named']['verslagen.laatste_rapportage'];
+            $laatste_rapportage = $this->params['named']['verslagen.laatste_rapportage'];
         }
 
         $this->ComponentLoader->load('Filter');
 
-        $this->paginate = array(
-                'contain' => array(
-                    'LasteIntake' => array(
-                        'fields' => array(
-                            'locatie1_id',
-                            'locatie2_id',
-                            'locatie3_id',
-                            'datum_intake',
-                        ),
-                    ),
-                    'Verslag' => array('datum'),
-                    'Intake' => array(
-                        'fields' => array(
-                            'datum_intake',
-                            'id',
-                        ),
-                    ),
-                    'Geslacht',
-                ),
-        );
+        $this->paginate = [
+            'contain' => [
+                'LasteIntake' => [
+                    'fields' => [
+                        'locatie1_id',
+                        'locatie2_id',
+                        'locatie3_id',
+                        'datum_intake',
+                    ],
+                ],
+                'Verslag' => ['datum'],
+                'Intake' => [
+                    'fields' => [
+                        'datum_intake',
+                        'id',
+                    ],
+                ],
+                'Geslacht',
+            ],
+        ];
 
-        if (!empty($laaste_rapportage)) {
-            $table = 'select klant_id, max(datum) as laatste_rapportage from verslagen group by klant_id';
-
-            $joins = array(
-                array(
-                   'table' => "( {$table} )",
-                       'alias' => 'verslagen',
-                       'type' => 'INNER',
-                       'conditions' => array(
-                       'Klant.id = verslagen.klant_id',
-                   ),
-                ),
-            );
-
-            $this->paginate['joins'] = $joins;
+        $joinType = 'INNER';
+        if (empty($laatste_rapportage) && $alleKlanten) {
+            $joinType = 'LEFT';
         }
+        $this->paginate['joins'] = [[
+           'table' => "(SELECT klant_id, MAX(datum) AS laatste_rapportage FROM verslagen GROUP BY klant_id)",
+           'alias' => 'verslagen',
+           'type' => $joinType,
+           'conditions' => ['Klant.id = verslagen.klant_id'],
+        ]];
 
         $this->Medewerker = ClassRegistry::init('Medewerker');
-
-        $medewerkers = array('' => '');
-        $medewerkers += $this->Medewerker->find('list');
+        $medewerkers = ['' => ''];
+        $medewerkers += $this->Medewerker->find('list', [
+            'joins' => [[
+                'table' => 'verslagen',
+                'alias' => 'Verslag',
+                'type' => 'INNER',
+                'conditions' => [
+                    'Medewerker.id = Verslag.medewerker_id',
+                ]],
+            ],
+        ]);
 
         $klanten = $this->paginate('Klant', $this->Filter->filterData);
         foreach ($klanten as $key => $klant) {
             $klanten[$key]['Klant']['laatste_verslag_datum'] = null;
             $l = count($klant['Verslag']);
-
             if ($l > 0) {
                 $klanten[$key]['Klant']['laatste_verslag_datum'] = $klant['Verslag'][$l - 1]['datum'];
             }
@@ -84,10 +96,10 @@ class VerslagenController extends AppController
 
         $klanten = $this->Verslag->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
 
-        $rowOnclickUrl = array(
-                'controller' => 'verslagen',
-                'action' => 'view',
-        );
+        $rowOnclickUrl = [
+            'controller' => 'verslagen',
+            'action' => 'view',
+        ];
 
         $this->set(compact('klanten', 'rowOnclickUrl', 'medewerkers'));
         $this->set('maatschappelijkwerk', true);
@@ -103,60 +115,56 @@ class VerslagenController extends AppController
 
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
-
-            $this->redirect(array(
-                    'action' => 'index',
-            ));
+            $this->redirect(['action' => 'index']);
         }
 
         $contain = $this->Verslag->Klant->contain;
-
-        $contain['Document'] = array(
-            'conditions' => array(
+        $contain['Document'] = [
+            'conditions' => [
                 'Document.group' => Attachment::GROUP_MW,
                 'is_active' => 1,
-            ),
-        );
+            ],
+        ];
 
-        $klant = $this->Verslag->Klant->find('first', array(
-            'conditions' => array(
+        $klant = $this->Verslag->Klant->find('first', [
+            'conditions' => [
                 'Klant.id' => $klant_id,
-            ),
+            ],
             'contain' => $contain,
-        ));
+        ]);
+
+        if (!$klant) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(['action' => 'index']);
+        }
 
         $persoon = $this->Verslag->Klant->getAllById($klant_id);
         $diensten = $this->Verslag->Klant->diensten($persoon);
 
-        $verslaginfo = $this->Verslag->Klant->Verslaginfo->find('first', array(
-            'conditions' => array(
+        $this->loadModel('ZrmReport');
+        $lastZrmReport = $this->ZrmReport->get_last_zrm_report($klant_id);
+
+        $verslaginfo = $this->Verslag->Klant->Verslaginfo->find('first', [
+            'conditions' => [
                 'Verslaginfo.klant_id' => $klant_id,
-            ),
-        ));
+            ],
+        ]);
 
         $medewerkers = $this->Verslag->Medewerker->find('list');
 
-        $verslagen = $this->Verslag->find('all', array(
-            'conditions' => array(
+        $verslagen = $this->Verslag->find('all', [
+            'conditions' => [
                 'Verslag.klant_id' => $klant_id,
-            ),
+            ],
             'contain' => $this->Verslag->contain,
             'order' => 'Verslag.datum DESC, created DESC',
-        ));
+        ]);
 
         foreach ($verslagen as &$verslag) {
             $this->Verslag->InventarisatiesVerslagen->getInvPaths($verslag);
         }
 
-        if (!$klant) {
-            $this->flashError(__('Invalid klant', true));
-
-            $this->redirect(array(
-                    'action' => 'index',
-            ));
-        }
-
-        $this->set(compact('klant', 'verslagen', 'verslaginfo', 'medewerkers', 'persoon', 'diensten'));
+        $this->set(compact('klant', 'verslagen', 'verslaginfo', 'medewerkers', 'persoon', 'diensten', 'lastZrmReport'));
     }
 
     public function add($klant_id = null)
@@ -170,11 +178,11 @@ class VerslagenController extends AppController
         if (!empty($this->data)) {
             $this->Verslag->create();
 
-            foreach (array(
+            foreach ([
                     'advocaat',
                     'contact',
                     'opmerking',
-            ) as $field) {
+            ] as $field) {
                 if (array_key_exists($field, $this->data['Verslag']) && !empty($this->data['Verslag'][$field])) {
                     $this->data['Verslag'][$field] = str_replace('\n', '<br/>',
                         $this->data['Verslag'][$field]);
@@ -184,10 +192,10 @@ class VerslagenController extends AppController
             $this->Verslag->set($this->data);
             if ($this->Verslag->saveAll($this->data)) {
                 $this->flash(__('The verslag has been saved', true));
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'view',
                     $this->data['Verslag']['klant_id'],
-                ));
+                ]);
             } else {
                 $this->flashError(__('The verslag could not be saved. Please, try again.', true));
             }
@@ -199,17 +207,17 @@ class VerslagenController extends AppController
 
         if (empty($klant_id)) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array(
+            $this->redirect([
                 'action' => 'index',
-            ));
+            ]);
         } else {
-            $verslagen = $this->Verslag->find('all', array(
-                'conditions' => array(
+            $verslagen = $this->Verslag->find('all', [
+                'conditions' => [
                     'Verslag.klant_id' => $klant_id,
-                ),
+                ],
                 'contain' => $this->Verslag->contain,
                 'order' => 'Verslag.datum DESC',
-            ));
+            ]);
 
             foreach ($verslagen as &$verslag) {
                 $this->Verslag->InventarisatiesVerslagen->getInvPaths($verslag);
@@ -218,16 +226,16 @@ class VerslagenController extends AppController
             $this->setMedewerkers();
 
             $klant_contain = $this->Verslag->Klant->contain;
-            $klant = $this->Verslag->Klant->find('first', array(
-                'conditions' => array(
+            $klant = $this->Verslag->Klant->find('first', [
+                'conditions' => [
                     'Klant.id' => $klant_id,
-                ),
+                ],
                 'contain' => $klant_contain,
-            ));
+            ]);
 
             if (!$klant) {
                 $this->flashError(__('Client doesn\'t exist!', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $klant_id = $klant['Klant']['id'];
             }
@@ -250,17 +258,17 @@ class VerslagenController extends AppController
             $verslag_id = $this->data['Verslag']['id'];
         }
 
-        $verslag = $this->Verslag->find('first', array('conditions' => array('Verslag.id' => $verslag_id)));
+        $verslag = $this->Verslag->find('first', ['conditions' => ['Verslag.id' => $verslag_id]]);
         $inventarisaties = $this->Verslag->InventarisatiesVerslagen->Inventarisatie->getTree();
 
         $this->ComponentLoader->load('Filter');
 
         if (!empty($this->data)) {
-            foreach (array(
+            foreach ([
                     'advocaat',
                     'contact',
                     'opmerking',
-            ) as $field) {
+            ] as $field) {
                 if (array_key_exists($field, $this->data['Verslag']) && !empty($this->data['Verslag'][$field])) {
                     $this->data['Verslag'][$field] = str_replace('\n', '<br/>',
                         $this->data['Verslag'][$field]);
@@ -272,15 +280,15 @@ class VerslagenController extends AppController
             if ($this->Verslag->saveAll($this->data)) {
                 $idsToRemove = Set::classicExtract($verslag['InventarisatiesVerslagen'], '{n}.id');
 
-                $this->Verslag->InventarisatiesVerslagen->deleteAll(array(
+                $this->Verslag->InventarisatiesVerslagen->deleteAll([
                     'InventarisatiesVerslagen.id' => $idsToRemove,
-                ));
+                ]);
 
                 $this->Session->setFlash(__('The verslag has been saved', true));
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'view',
                     $this->data['Verslag']['klant_id'],
-                ));
+                ]);
             } else {
                 $this->Session->setFlash(__('The verslag could not be saved. Please, try again.', true));
             }
@@ -315,13 +323,13 @@ class VerslagenController extends AppController
 
         $klant_id = $verslag['Verslag']['klant_id'];
 
-        $verslagen = $this->Verslag->find('all', array(
-            'conditions' => array(
+        $verslagen = $this->Verslag->find('all', [
+            'conditions' => [
                 'Verslag.klant_id' => $klant_id,
-            ),
+            ],
             'contain' => $this->Verslag->contain,
             'order' => 'Verslag.datum DESC',
-        ));
+        ]);
 
         foreach ($verslagen as &$v) {
             $this->Verslag->InventarisatiesVerslagen->getInvPaths($v);
@@ -334,16 +342,16 @@ class VerslagenController extends AppController
         $this->setMedewerkers($medewerker_ids);
 
         $klant_contain = $this->Verslag->Klant->contain;
-        $klant = $this->Verslag->Klant->find('first', array(
-            'conditions' => array(
+        $klant = $this->Verslag->Klant->find('first', [
+            'conditions' => [
                 'Klant.id' => $klant_id,
-            ),
+            ],
             'contain' => $klant_contain,
-        ));
+        ]);
 
         if (!$klant) {
             $this->Session->setFlash(__('Client doesn\'t exist!', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         } else {
             $klant_id = $klant['Klant']['id'];
         }
@@ -362,12 +370,12 @@ class VerslagenController extends AppController
     {
         $this->ComponentLoader->load('Filter');
 
-        $inventarisaties = $this->Verslag->InventarisatiesVerslagen->Inventarisatie->getTree(array(
+        $inventarisaties = $this->Verslag->InventarisatiesVerslagen->Inventarisatie->getTree([
             'id',
             'actie',
             'titel',
             'depth',
-        ));
+        ]);
 
         $inventarisaties_couts = $this->Verslag->InventarisatiesVerslagen->getInventarisatiesCount($inventarisaties);
 
@@ -382,28 +390,28 @@ class VerslagenController extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid id for verslag', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         if ($this->Verslag->delete($id)) {
             $this->flashError(__('Verslag deleted', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         $this->flashError(__('Verslag was not deleted', true));
 
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function verslaginfo($klantId = null)
     {
         if (empty($klantId)) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -416,22 +424,22 @@ class VerslagenController extends AppController
             if ($result) {
                 $this->flash(__('The verslag has been saved', true));
 
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'view',
                     $result['Verslaginfo']['klant_id'],
-                ));
+                ]);
             }
         } else {
-            $this->data = $this->Verslag->Klant->Verslaginfo->find('first', array(
-                'conditions' => array(
+            $this->data = $this->Verslag->Klant->Verslaginfo->find('first', [
+                'conditions' => [
                     'Verslaginfo.klant_id' => $klantId,
-                ),
-            ));
+                ],
+            ]);
         }
 
-        $klant = $this->Verslag->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klantId),
-        ));
+        $klant = $this->Verslag->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klantId],
+        ]);
 
         $medewerker_ids = [];
         if (isset($this->data['Verslaginfo']['trajectbegeleider_id'])) {

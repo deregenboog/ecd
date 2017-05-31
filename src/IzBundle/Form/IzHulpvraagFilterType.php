@@ -44,6 +44,7 @@ class IzHulpvraagFilterType extends AbstractType
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
+                'label' => 'Project',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')

@@ -48,27 +48,6 @@ class RegistratiesController extends AppController
         return true;
     }
 
-    /*
-    |  1 | Blaka Watra					  |
-    |  2 | Princehof					  |
-    |  5 | AMOC							  |
-    |  9 | De Eik						  |
-    | 10 | De Kloof						  |
-    | 11 | Makom						  |
-    | 12 | Nachtopvang De Regenboog Groep |
-    | 13 | Ondro Bong					  |
-    | 14 | Oud West						  |
-    | 15 | De Spreekbuis				  |
-    | 16 | Tabe Rienks Huis				  |
-    | 17 | Vrouwen Nacht Opvang			  |
-    | 18 | Westerpark					  |
-    | 19 | Droogbak						  |
-    | 20 | Valentijn					  |
-    | 21 | Blaka Watra Gebruikersruimte   |
-    | 22 | Amoc Gebruikersruimte		  |
-    | 23 | Noorderpark					  |
-    */
-
     public function index($locatie_id = null)
     {
         if ($locatie_id && $locatie = $this->Registratie->Locatie->getById($locatie_id)) {
@@ -76,7 +55,7 @@ class RegistratiesController extends AppController
             $conditions = $this->Filter->filterData;
 
             $conditions[] = array('LasteIntake.toegang_inloophuis' => 1);
-            if (!empty($locatie['gebruikersruimte'])) { //Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
+            if (!empty($locatie['gebruikersruimte'])) { // Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
                 $conditions[] = array('LasteIntake.locatie1_id' => $locatie_id);
             } elseif ($locatie['id'] == 17) { // Vrouwen Nacht Opvang
                 $conditions[]['Geslacht.afkorting'] = 'V';
@@ -93,6 +72,7 @@ class RegistratiesController extends AppController
                     ),
                 );
             }
+
             $conditions[] = array(
                 'OR' => array(
                     'Klant.overleden NOT' => 1,

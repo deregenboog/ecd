@@ -33,7 +33,11 @@ class HuurderType extends AbstractType
             ;
         }
 
-        $builder->add('aanmelddatum', AppDateType::class);
+        $builder
+            ->add('aanmelddatum', AppDateType::class)
+            ->add('rekeningnummer', null, ['required' => false])
+            ->add('startdatumAutomatischeIncasso', AppDateType::class, ['required' => false])
+        ;
 
         if (!$options['data']->getId()) {
             $builder

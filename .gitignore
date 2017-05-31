@@ -49,4 +49,4 @@
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
-
+/.php_cs.cache

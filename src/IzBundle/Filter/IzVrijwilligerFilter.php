@@ -36,6 +36,16 @@ class IzVrijwilligerFilter implements FilterInterface
      */
     public $medewerker;
 
+    /**
+     * @var bool
+     */
+    public $zonderActiefHulpaanbod;
+
+    /**
+     * @var bool
+     */
+    public $zonderActieveKoppeling;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->afsluitDatum) {
@@ -75,6 +85,30 @@ class IzVrijwilligerFilter implements FilterInterface
             $builder
                 ->andWhere('izHulpaanbod.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
+            ;
+        }
+
+        if ($this->zonderActiefHulpaanbod) {
+            $builder
+                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actiefIzHulpaanbod', 'WITH', $builder->expr()->andX(
+                    'actiefIzHulpaanbod.izHulpvraag IS NULL',
+                    'actiefIzHulpaanbod.einddatum IS NULL OR actiefIzHulpaanbod.einddatum >= :now'
+                ))
+                ->addGroupBy('izVrijwilliger.id')
+                ->andHaving('COUNT(actiefIzHulpaanbod) = 0')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
+
+        if ($this->zonderActieveKoppeling) {
+            $builder
+                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
+                    'actieveIzKoppeling.izHulpvraag IS NOT NULL',
+                    'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
+                ))
+                ->addGroupBy('izVrijwilliger.id')
+                ->andHaving('COUNT(actieveIzKoppeling) = 0')
+                ->setParameter('now', new \DateTime())
             ;
         }
     }

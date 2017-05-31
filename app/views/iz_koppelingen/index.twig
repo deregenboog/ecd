@@ -5,41 +5,33 @@
     <tr>
         {{ form_start(form) }}
             <th>
-                {{ form_widget(form.klant.naam) }}
-                {{ form_errors(form.klant.naam) }}
+                {{ form_row(form.klant.voornaam) }}
+                {{ form_row(form.klant.achternaam) }}
             </th>
             <th>
-                {{ form_widget(form.vrijwilliger.naam) }}
-                {{ form_errors(form.vrijwilliger.naam) }}
+                {{ form_row(form.vrijwilliger.voornaam) }}
+                {{ form_row(form.vrijwilliger.achternaam) }}
             </th>
             <th>
-                {{ form_widget(form.koppelingStartdatum) }}
-                {{ form_errors(form.koppelingStartdatum) }}
+                {{ form_row(form.koppelingStartdatum) }}
             </th>
             <th>
-                {{ form_widget(form.koppelingEinddatum) }}
-                {{ form_errors(form.koppelingEinddatum) }}
-                {{ form_widget(form.lopendeKoppelingen) }}
-                {{ form_label(form.lopendeKoppelingen) }}
-                {{ form_errors(form.lopendeKoppelingen) }}
+                {{ form_row(form.koppelingEinddatum) }}
+                {{ form_row(form.lopendeKoppelingen) }}
             </th>
             <th>
-                {{ form_widget(form.izProject) }}
-                {{ form_errors(form.izProject) }}
+                {{ form_row(form.izProject) }}
             </th>
             <th>
-                {{ form_widget(form.izHulpvraagMedewerker) }}
-                {{ form_errors(form.izHulpvraagMedewerker) }}
+                {{ form_row(form.izHulpvraagMedewerker) }}
             </th>
             <th>
-                {{ form_widget(form.izHulpaanbodMedewerker) }}
-                {{ form_errors(form.izHulpaanbodMedewerker) }}
+                {{ form_row(form.izHulpaanbodMedewerker) }}
             </th>
             <th>
-                {{ form_widget(form.klant.stadsdeel) }}
-                {{ form_errors(form.klant.stadsdeel) }}
-                {{ form_widget(form.filter) }}
-                {{ form_widget(form.download) }}
+                {{ form_row(form.klant.stadsdeel) }}
+                {{ form_row(form.filter) }}
+                {{ form_row(form.download) }}
             </th>
         {{ form_end(form) }}
     </tr>

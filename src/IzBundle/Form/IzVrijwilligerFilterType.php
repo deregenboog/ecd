@@ -29,6 +29,7 @@ class IzVrijwilligerFilterType extends AbstractType
         if (in_array('afsluitDatum', $options['enabled_filters'])) {
             $builder->add('afsluitDatum', AppDateRangeType::class, [
                 'required' => false,
+                'label' => false,
             ]);
         }
 
@@ -48,6 +49,7 @@ class IzVrijwilligerFilterType extends AbstractType
         if (in_array('izProject', $options['enabled_filters'])) {
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
+                'label' => 'Project',
                 'class' => IzProject::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
@@ -68,6 +70,20 @@ class IzVrijwilligerFilterType extends AbstractType
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
                         ->orderBy('medewerker.voornaam', 'ASC');
                 },
+            ]);
+        }
+
+        if (in_array('zonderActiefHulpaanbod', $options['enabled_filters'])) {
+            $builder->add('zonderActiefHulpaanbod', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen dossiers zonder actief hulpaanbod',
+            ]);
+        }
+
+        if (in_array('zonderActieveKoppeling', $options['enabled_filters'])) {
+            $builder->add('zonderActieveKoppeling', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen dossiers zonder actieve koppeling',
             ]);
         }
 

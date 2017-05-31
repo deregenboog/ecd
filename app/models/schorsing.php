@@ -3,16 +3,21 @@
 class Schorsing extends AppModel
 {
     public $name = 'Schorsing';
+
     public $validate = array(
         'datum_van' => array(
             'date' => array(
-                'rule' => array('date'),
-            ),
+                'rule' => array(
+                    'date'
+                )
+            )
         ),
         'datum_tot' => array(
             'date' => array(
-                'rule' => array('date'),
-            ),
+                'rule' => array(
+                    'date'
+                )
+            )
         ),
         'klant_id' => array(
             'notempty' => array(
@@ -20,96 +25,118 @@ class Schorsing extends AppModel
             ),
         ),
         'remark' => array(
-            'rule' => array('check_agressie'),
+            'rule' => array(
+                'check_agressie',
+            ),
             'message' => 'Reden verplicht bij agressie!',
         ),
         'agressie' => array(
-                'rule' => array('check_for_doelwit'),
+            'rule' => array(
+                'check_for_doelwit',
+            ),
                 'message' => 'Aangeven tegen welke medewerker(s) de agressie is gericht!',
         ),
         'aggressie_doelwit' => array(
-            'rule' => array('check_doelwit'),
+            'rule' => array(
+                'check_doelwit',
+            ),
             'message' => 'Aangeven wat de functie van de medewerker is!',
         ),
             'aggressie_tegen_medewerker' => array(
-                    'rule' => array('check_dummy'),
-                    'message' => 'Aangeven (ja / nee ) of de agressie is gericht tegen een medewerker!',
+            'rule' => array(
+                'check_dummy'
+            ),
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
             ),
             'aggressie_doelwit2' => array(
-                    'rule' => array('check_doelwit'),
-                    'message' => 'Aangeven wat de functie van de medewerker is!',
+            'rule' => array(
+                'check_doelwit'
+            ),
+            'message' => 'Aangeven wat de functie van de medewerker is!'
             ),
             'aggressie_tegen_medewerker2' => array(
-                    'rule' => array('check_dummy'),
-                    'message' => 'Aangeven (ja / nee ) of de agressie is gericht tegen een medewerker!',
+            'rule' => array(
+                'check_dummy'
+            ),
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
             ),
             'aggressie_doelwit3' => array(
-                    'rule' => array('check_doelwit'),
-                    'message' => 'Aangeven wat de functie van de medewerker is!',
+            'rule' => array(
+                'check_doelwit'
+            ),
+            'message' => 'Aangeven wat de functie van de medewerker is!'
             ),
             'aggressie_tegen_medewerker3' => array(
-                    'rule' => array('check_dummy'),
-                    'message' => 'Aangeven (ja / nee ) of de agressie is gericht tegen een medewerker!',
+            'rule' => array(
+                'check_dummy'
+            ),
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
             ),
             'aggressie_doelwit4' => array(
-                    'rule' => array('check_doelwit'),
-                    'message' => 'Aangeven wat de functie van de medewerker is!',
+            'rule' => array(
+                'check_doelwit'
+            ),
+            'message' => 'Aangeven wat de functie van de medewerker is!'
             ),
             'aggressie_tegen_medewerker4' => array(
-                    'rule' => array('check_dummy'),
-                    'message' => 'Aangeven (ja / nee ) of de agressie is gericht tegen een medewerker!',
+            'rule' => array(
+                'check_dummy'
+            ),
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
             ),
         'aangifte' => array(
-            'rule' => array('check_dummy'),
-            'message' => 'Aangeven of aangifte is gedaan (ja / nee ) is verplicht bij agressie!',
+            'rule' => array(
+                'check_dummy'
+            ),
+            'message' => 'Aangeven of aangifte is gedaan (ja/nee) is verplicht bij agressie!'
         ),
         'nazorg' => array(
-            'rule' => array('check_dummy'),
-            'message' => 'Aangeven of nazorg nogig (ja / nee) is verplicht bij agressie!',
+            'rule' => array(
+                'check_dummy'
         ),
+            'message' => 'Aangeven of nazorg nogig (ja/nee) is verplicht bij agressie!'
+        )
     );
-    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     public $belongsTo = array(
-        'Locatie' => array(
-            'className' => 'Locatie',
-            'foreignKey' => 'locatie_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-        ),
         'Klant' => array(
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
         ),
     );
 
     public $hasAndBelongsToMany = array(
+        'Locatie' => array(
+            'className' => 'Locatie',
+            'joinTable' => 'schorsing_locatie',
+            'foreignKey' => 'schorsing_id',
+            'associationForeignKey' => 'locatie_id',
+        ),
         'Reden' => array(
             'className' => 'Reden',
             'joinTable' => 'schorsingen_redenen',
             'foreignKey' => 'schorsing_id',
             'associationForeignKey' => 'reden_id',
             'unique' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => '',
         ),
     );
 
-    public $actsAs = array('Containable');
+    public $actsAs = [
+        'Containable',
+    ];
 
     public $contain = [
-        'Locatie' => ['fields' => ['id', 'naam']],
-        'Reden' => ['fields' => ['naam']],
+        'Locatie' => [
+            'fields' => [
+                'id',
+                'naam',
+            ]
+        ],
+        'Reden' => [
+            'fields' => [
+                'naam',
+            ]
+        ]
     ];
 
     public function check_dummy($field)
@@ -122,13 +149,16 @@ class Schorsing extends AppModel
         if (!$this->is_violent()) {
             return true;
         }
+
         if (empty($this->data['Schorsing']['agressie'])) {
             return true;
         }
-        if (empty($this->data['Schorsing']['aggressie_doelwit']) &&
-                empty($this->data['Schorsing']['aggressie_doelwit2']) &&
-                empty($this->data['Schorsing']['aggressie_doelwit3']) &&
-                empty($this->data['Schorsing']['aggressie_doelwit4'])) {
+
+        if (empty($this->data['Schorsing']['aggressie_doelwit'])
+            && empty($this->data['Schorsing']['aggressie_doelwit2'])
+            && empty($this->data['Schorsing']['aggressie_doelwit3'])
+            && empty($this->data['Schorsing']['aggressie_doelwit4'])
+        ) {
             return false;
         }
 
@@ -164,7 +194,6 @@ class Schorsing extends AppModel
 
     public function is_violent()
     {
-        $first_key = 'remark';
         $reden = $this->data['Reden']['Reden'];
         $violent_options = $this->Reden->get_violent_options();
         if (empty($reden)) {
@@ -186,16 +215,10 @@ class Schorsing extends AppModel
     public function beforeValidate($options)
     {
         //for the gezien field do not validate Reden
-        if (
-            empty($options['fieldList']) ||
-            $options['fieldList'] != array('gezien')
-        ) {
-            if (
-                (!isset($this->data['Reden']['Reden'])
-                || empty($this->data['Reden']['Reden']))
-            ) {
+        if (empty($options['fieldList']) || $options['fieldList'] != ['gezien']) {
+            if ((!isset($this->data['Reden']['Reden']) || empty($this->data['Reden']['Reden']))) {
                 $this->invalidate('non_existent_field'); // fake validation error on Schorsing
-                    $this->Reden->invalidate('Reden', 'Selecteer minstens één optie');
+                $this->Reden->invalidate('Reden', 'Selecteer minstens één optie');
             }
         }
 
@@ -269,7 +292,7 @@ class Schorsing extends AppModel
             'conditions' => $conditions,
             'contain' => $this->contain,
         ));
-    }//getExpiredSchorsingen
+    }
 
     public function countActiveSchorsingen($klant_id, $locatie_id = null)
     {
@@ -282,7 +305,9 @@ class Schorsing extends AppModel
             $c['Schorsing.locatie_id'] = $locatie_id;
         }
 
-        return $this->find('count', array('conditions' => $c));
+        return $this->find('count', array(
+            'conditions' => $c
+        ));
     }
 
     //returns 0 if there are expired and not seen Schorsingen
@@ -335,8 +360,7 @@ class Schorsing extends AppModel
                 $van = $data['Schorsing']['datum_van'];
             }
 
-            $data['Schorsing']['datum_tot'] =
-                date('Y-m-d', strtotime("+ $days days", strtotime($van)));
+            $data['Schorsing']['datum_tot'] = date('Y-m-d', strtotime("+ $days days", strtotime($van)));
 
             unset($data['Schorsing']['days']);
             unset($data['Schorsing']['more_days']);

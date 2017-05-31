@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace InloopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -64,6 +64,16 @@ class Locatie
      * @Gedmo\Versioned
      */
     private $datumTot;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $created;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $modified;
 
     public function __toString()
     {

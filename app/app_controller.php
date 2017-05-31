@@ -483,6 +483,7 @@ class AppController extends Controller implements ContainerAwareInterface
         if (method_exists($this->Email, 'startup')) {
             $this->Email->startup($this);
         }
+
         $defaults = array(
             'template' => 'default',
             'from_id' => null,
@@ -499,7 +500,8 @@ class AppController extends Controller implements ContainerAwareInterface
             'from' => 'noreply@deregenboog.org',
             'replyTo' => 'noreply@deregenboog.org',
             'returnPath' => 'noreply@deregenboog.org',
-            'sendAs' => 'text', );
+            'sendAs' => 'text',
+        );
 
         $params = array_merge($defaults, $parameters);
         $this->set('params', $params);
@@ -523,6 +525,7 @@ class AppController extends Controller implements ContainerAwareInterface
 
         foreach ($params['to'] as $user_id => $to) {
             $this->Email->to = $to;
+
             // First render the email and store the contents in the session.
             $this->Email->delivery = 'debug';
             $this->Email->send();
