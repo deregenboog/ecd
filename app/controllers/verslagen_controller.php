@@ -75,6 +75,9 @@ class VerslagenController extends AppController
         $this->Medewerker = ClassRegistry::init('Medewerker');
         $medewerkers = ['' => ''];
         $medewerkers += $this->Medewerker->find('list', [
+            'conditions' => [
+                ['active' => true],
+            ],
             'joins' => [[
                 'table' => 'verslagen',
                 'alias' => 'Verslag',
