@@ -18,7 +18,7 @@ Telefoon{{ tab -}}
 Werkgebied{{ tab -}}
 Postcodegebied{{ tab -}}
 Laatste ZRM
-{% for izHulpvraag in hulpvragen %}
+{% autoescape false %}{% for izHulpvraag in hulpvragen %}
     {{- izHulpvraag.startdatum|date('d-m-Y') ~ tab -}}
     {{- izHulpvraag.izProject ~ tab -}}
     {{- izHulpvraag.medewerker ~ tab -}}
@@ -40,4 +40,4 @@ Laatste ZRM
     {{- izKlant.klant.werkgebied ~ tab -}}
     {{- izKlant.klant.postcodegebied ~ tab -}}
     {{ izHulpvraag.izKlant.klant.laatsteZrm is empty ? "" : izHulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
-{% endfor %}
+{% endfor %}{% endautoescape %}

@@ -21,7 +21,7 @@
 {{- "Geen post" ~ tab -}}
 {{- "Geen email" ~ tab -}}
 {{- "Projecten" ~ tab }}
-{% for izKlant in izKlanten %}
+{% autoescape false %}{% for izKlant in izKlanten %}
     {{- "K" ~ izKlant.klant.id ~ tab -}}
     {{- (izKlant.izIntake and izKlant.izIntake.intakeDatum ? izKlant.izIntake.intakeDatum|date('d-m-Y') : '') ~ tab -}}
     {{- (izKlant.afsluitDatum ? izKlant.afsluitDatum|date('d-m-Y') : '') ~ tab -}}
@@ -102,4 +102,4 @@
         {% endfor %}
     {% endspaceless -%}
     {{- izProjecten|join(', ') }}
-{% endfor %}
+{% endfor %}{% endautoescape %}

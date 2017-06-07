@@ -37,7 +37,7 @@ Telefoon vrijwilliger{{ tab -}}
 Werkgebied vrijwilliger{{ tab -}}
 Postcodegebied vrijwilliger{{ tab -}}
 Binnengekomen via
-{% for izHulpvraag in koppelingen %}
+{% autoescape false %}{% for izHulpvraag in koppelingen %}
     {{- (izHulpvraag.koppelingStartdatum ? izHulpvraag.koppelingStartdatum|date('d-m-Y')) ~ tab -}}
     {{- (izHulpvraag.koppelingEinddatum ? izHulpvraag.koppelingEinddatum|date('d-m-Y')) ~ tab -}}
     {{- izHulpvraag.izProject ~ tab -}}
@@ -79,4 +79,4 @@ Binnengekomen via
     {{- izVrijwilliger.vrijwilliger.werkgebied ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.postcodegebied ~ tab -}}
     {{- (izVrijwilliger.izBinnengekomenVia ? izVrijwilliger.izBinnengekomenVia.naam) }}
-{% endfor %}
+{% endfor %}{% endautoescape %}

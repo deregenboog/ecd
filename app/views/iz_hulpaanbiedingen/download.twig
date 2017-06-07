@@ -17,7 +17,7 @@ Mobiel{{ tab -}}
 Telefoon{{ tab -}}
 Werkgebied{{ tab -}}
 Postcodegebied
-{% for izHulpaanbod in hulpaanbiedingen %}
+{% autoescape false %}{% for izHulpaanbod in hulpaanbiedingen %}
     {{- izHulpaanbod.startdatum|date('d-m-Y') ~ tab -}}
     {{- izHulpaanbod.izProject ~ tab -}}
     {{- izHulpaanbod.medewerker ~ tab -}}
@@ -38,4 +38,4 @@ Postcodegebied
     {{- izVrijwilliger.vrijwilliger.telefoon ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.werkgebied ~ tab -}}
     {{- izVrijwilliger.vrijwilliger.postcodegebied }}
-{% endfor %}
+{% endfor %}{% endautoescape %}

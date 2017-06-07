@@ -19,7 +19,7 @@ Geen e-mail{{ tab -}}
 Project(en){{ tab -}}
 Medewerker(s){{ tab -}}
 Gekoppeld
-{% for izVrijwilliger in vrijwilligers %}
+{% autoescape false %}{% for izVrijwilliger in vrijwilligers %}
     {{- izVrijwilliger.vrijwilliger.id ~ tab -}}
     {{- (izVrijwilliger.izIntake ? izVrijwilliger.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
     {{- (izVrijwilliger.afsluitDatum ? izVrijwilliger.afsluitDatum|date('d-m-Y')) ~ tab -}}
@@ -47,4 +47,4 @@ Gekoppeld
         {{- i + 1 < izVrijwilliger.izHulpaanbiedingen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
     {{- izVrijwilliger.gekoppeld ? 'ja' : 'nee' }}
-{% endfor %}
+{% endfor %}{% endautoescape %}

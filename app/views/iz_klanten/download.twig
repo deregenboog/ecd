@@ -19,7 +19,7 @@ Geen e-mail{{ tab -}}
 Project(en){{ tab -}}
 Medewerker(s){{ tab -}}
 Gekoppeld
-{% for izKlant in klanten %}
+{% autoescape false %}{% for izKlant in klanten %}
     {{- izKlant.klant.id ~ tab -}}
     {{- (izKlant.izIntake ? izKlant.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
     {{- (izKlant.afsluitDatum ? izKlant.afsluitDatum|date('d-m-Y')) ~ tab -}}
@@ -47,4 +47,4 @@ Gekoppeld
         {{- i + 1 < izKlant.izHulpvragen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
     {{- izKlant.gekoppeld ? 'ja' : 'nee' }}
-{% endfor %}
+{% endfor %}{% endautoescape %}
