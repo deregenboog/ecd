@@ -98,4 +98,9 @@ abstract class IzDeelnemer
 
         return false;
     }
+
+    public function getDatumAanmelding()
+    {
+        return $this->datumAanmelding;
+    }
 }

@@ -23,7 +23,7 @@ class OpmerkingenController extends AppController
             'conditions' => array('Opmerking.klant_id' => $klant_id),
         ));
 
-        $this->set('diensten', $this->Opmerking->Klant->diensten($klant_id));
+        $this->set('diensten', $this->Opmerking->Klant->diensten($klant_id, $this->getEventDispatcher()));
         $this->set(compact('opmerkingen', 'klant'));
     }
 
@@ -55,7 +55,7 @@ class OpmerkingenController extends AppController
 
         $klant = $this->Opmerking->Klant->findById($klant_id);
 
-        $this->set('diensten', $this->Opmerking->Klant->diensten($klant_id));
+        $this->set('diensten', $this->Opmerking->Klant->diensten($klant_id, $this->getEventDispatcher()));
         $this->set(compact(array('categorieen', 'klant')));
     }
 

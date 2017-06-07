@@ -1,4 +1,12 @@
 services:
+    iz.event.diensten_lookup_subscriber:
+        class: IzBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
     iz.dao:
         abstract: true
         arguments:

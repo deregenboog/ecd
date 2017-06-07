@@ -141,7 +141,7 @@ class Hi5Controller extends AppController
 
         $persoon = $this->Klant->getAllById($id);
 
-        $diensten = $this->Klant->diensten($persoon);
+        $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
 
         $this->set(compact('countContactjournalWB', 'countContactjournalTB', 'diensten', 'persoon'));
     }

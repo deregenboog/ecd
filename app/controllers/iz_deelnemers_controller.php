@@ -381,11 +381,9 @@ class IzDeelnemersController extends AppController
         }
 
         $diensten = [];
-
         if ($persoon_model == 'Klant') {
-            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
+            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
-
         $this->set('diensten', $diensten);
 
         $ontstaanContactList = $this->IzOntstaanContact->ontstaanContactList();
@@ -490,7 +488,7 @@ class IzDeelnemersController extends AppController
         $diensten = [];
 
         if ($persoon_model == 'Klant') {
-            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
+            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
 
         $this->set('diensten', $diensten);
@@ -533,7 +531,7 @@ class IzDeelnemersController extends AppController
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
+            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
         $this->set('diensten', $diensten);
 
@@ -617,7 +615,7 @@ class IzDeelnemersController extends AppController
         $diensten = [];
 
         if ($persoon_model == 'Klant') {
-            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
+            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
 
         $this->set('diensten', $diensten);
@@ -964,7 +962,7 @@ class IzDeelnemersController extends AppController
         $diensten = [];
 
         if ($persoon_model == 'Klant') {
-            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key);
+            $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
 
         $this->set('diensten', $diensten);
@@ -1164,7 +1162,7 @@ class IzDeelnemersController extends AppController
         $diensten = [];
 
         if ($this->data['IzDeelnemer']['model'] == 'Klant') {
-            $diensten = $this->IzDeelnemer->Klant->diensten($this->data['IzDeelnemer']['foreign_key']);
+            $diensten = $this->IzDeelnemer->Klant->diensten($this->data['IzDeelnemer']['foreign_key'], $this->getEventDispatcher());
         }
 
         $this->set('diensten', $diensten);

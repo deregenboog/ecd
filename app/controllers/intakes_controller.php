@@ -51,7 +51,7 @@ class IntakesController extends AppController
         $zrm_data = $this->ZrmReport->zrm_data();
 
         $zrmReport = $this->ZrmReport->get_zrm_report('Intake', $id, $intake['Klant']['id']);
-        $this->set('diensten', $this->Intake->Klant->diensten($intake['Intake']['klant_id']));
+        $this->set('diensten', $this->Intake->Klant->diensten($intake['Intake']['klant_id'], $this->getEventDispatcher()));
 
         $klant = $this->Intake->Klant->findById($intake['Intake']['klant_id']);
         $this->set(compact('title_for_layout', 'zrm_data', 'zrmReport'));
@@ -139,7 +139,7 @@ class IntakesController extends AppController
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
         $zrm_data = $this->ZrmReport->zrm_data();
-        $this->set('diensten', $this->Intake->Klant->diensten($klant_id));
+        $this->set('diensten', $this->Intake->Klant->diensten($klant_id, $this->getEventDispatcher()));
 
         $this->set(compact('zrm_data', 'primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
@@ -234,7 +234,7 @@ class IntakesController extends AppController
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
 
-        $this->set('diensten', $this->Intake->Klant->diensten($this->data['Intake']['klant_id']));
+        $this->set('diensten', $this->Intake->Klant->diensten($this->data['Intake']['klant_id'], $this->getEventDispatcher()));
         $this->set(compact('primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
             'verslavingsperiodes', 'woonsituaties', 'locatie1s', 'locatie2s',
