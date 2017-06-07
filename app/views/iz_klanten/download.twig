@@ -24,9 +24,9 @@ Gekoppeld
     {{- (izKlant.izIntake ? izKlant.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
     {{- (izKlant.afsluitDatum ? izKlant.afsluitDatum|date('d-m-Y')) ~ tab -}}
     {{- izKlant.klant.geslacht ~ tab -}}
-    {{- izKlant.klant.voornaam|raw|convert_encoding('Windows-1252', 'UTF-8') ~ tab -}}
-    {{- izKlant.klant.tussenvoegsel|raw|convert_encoding('Windows-1252', 'UTF-8') ~ tab -}}
-    {{- izKlant.klant.achternaam|raw|convert_encoding('Windows-1252', 'UTF-8') ~ tab -}}
+    {{- izKlant.klant.voornaam|raw|convert_encoding('ISO-8859-1', 'UTF-8') ~ tab -}}
+    {{- izKlant.klant.tussenvoegsel|raw|convert_encoding('ISO-8859-1', 'UTF-8') ~ tab -}}
+    {{- izKlant.klant.achternaam|raw|convert_encoding('ISO-8859-1', 'UTF-8') ~ tab -}}
     {{- (izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y')) ~ tab -}}
     {{- izKlant.klant.email ~ tab -}}
     {{- izKlant.klant.adres ~ tab -}}
