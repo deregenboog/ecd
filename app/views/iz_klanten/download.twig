@@ -19,14 +19,14 @@ Geen e-mail{{ tab -}}
 Project(en){{ tab -}}
 Medewerker(s){{ tab -}}
 Gekoppeld
-{% for izKlant in klanten %}
+{% autoescape false %}{% for izKlant in klanten %}
     {{- izKlant.klant.id ~ tab -}}
     {{- (izKlant.izIntake ? izKlant.izIntake.intakeDatum|date('d-m-Y')) ~ tab -}}
     {{- (izKlant.afsluitDatum ? izKlant.afsluitDatum|date('d-m-Y')) ~ tab -}}
     {{- izKlant.klant.geslacht ~ tab -}}
-    {{- izKlant.klant.voornaam|raw|convert_encoding('Windows-1252', 'UTF-8') ~ tab -}}
-    {{- izKlant.klant.tussenvoegsel|raw|convert_encoding('Windows-1252', 'UTF-8') ~ tab -}}
-    {{- izKlant.klant.achternaam|raw|convert_encoding('Windows-1252', 'UTF-8') ~ tab -}}
+    {{- izKlant.klant.voornaam ~ tab -}}
+    {{- izKlant.klant.tussenvoegsel ~ tab -}}
+    {{- izKlant.klant.achternaam ~ tab -}}
     {{- (izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y')) ~ tab -}}
     {{- izKlant.klant.email ~ tab -}}
     {{- izKlant.klant.adres ~ tab -}}
@@ -47,4 +47,4 @@ Gekoppeld
         {{- i + 1 < izKlant.izHulpvragen|length ? ' | ' -}}
     {% endfor %}{{ tab -}}
     {{- izKlant.gekoppeld ? 'ja' : 'nee' }}
-{% endfor %}
+{% endfor %}{% endautoescape %}
