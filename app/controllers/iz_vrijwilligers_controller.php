@@ -61,17 +61,11 @@ class IzVrijwilligersController extends AppController
     {
         $vrijwilligers = $this->vrijwilligerDao->findAll(null, $filter);
 
-//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-
+        $this->autoRender = false;
         $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('vrijwilligers', $vrijwilligers);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.vrijwilligers');
+        $export->create($vrijwilligers)->send($filename);
     }
 
     public function add($vrijwilligerId = null)

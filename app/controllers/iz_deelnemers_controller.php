@@ -1500,14 +1500,14 @@ class IzDeelnemersController extends AppController
                         return $this->render('email_selectie');
                     default:
                     case 'excel':
-                        $this->header('Content-type: application/vnd.ms-excel');
-                        $this->header(sprintf('Content-Disposition: attachment; filename="selecties_%s.xls";', date('Ymd_His')));
-                        $this->header('Content-Transfer-Encoding: binary');
 
-                        $this->autoLayout = false;
-                        $this->layout = false;
+                        $this->autoRender = false;
+                        $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 
-                        return $this->render('selecties_excel');
+                        $export = $this->container->get('iz.export.selectie');
+                        $export->create($izKlanten)->create($izVrijwilligers)->send($filename);
+
+                        return;
                 }
             } else {
                 $this->Session->setFlash('Geen personen gevonden');

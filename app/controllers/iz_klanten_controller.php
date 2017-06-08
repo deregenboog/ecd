@@ -64,8 +64,8 @@ class IzKlantenController extends AppController
         $this->autoRender = false;
         $filename = sprintf('iz-deelnemers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        $export = new IzKlantenExport($klanten);
-        $export->create()->send($filename);
+        $export = $this->container->get('iz.export.klanten');
+        $export->create($klanten)->send($filename);
     }
 
     public function add($klantId = null)

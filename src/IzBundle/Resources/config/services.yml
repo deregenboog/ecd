@@ -1,3 +1,6 @@
+imports:
+    - { resource: exports.yml }
+
 services:
     iz.event.diensten_lookup_subscriber:
         class: IzBundle\Event\DienstenLookupSubscriber

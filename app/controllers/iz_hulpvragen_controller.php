@@ -79,12 +79,10 @@ class IzHulpvragenController extends AppController
     {
         $hulpvragen = $builder->getQuery()->getResult();
 
+        $this->autoRender = false;
         $filename = sprintf('iz-hulpvragen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('hulpvragen', $hulpvragen);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.hulpvragen');
+        $export->create($hulpvragen)->send($filename);
     }
 }

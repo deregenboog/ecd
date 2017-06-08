@@ -52,6 +52,12 @@ class IzIntake
     private $gezinMetKinderen;
 
     /**
+     * @ORM\Column(name="stagiair", type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $stagiair;
+
+    /**
      * @var IzDeelnemer
      * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
@@ -101,6 +107,11 @@ class IzIntake
     public function isGezinMetKinderen()
     {
         return $this->gezinMetKinderen;
+    }
+
+    public function isStagiair()
+    {
+        return $this->stagiair;
     }
 
     public function getMedewerker()

@@ -58,13 +58,11 @@ class IzKoppelingenController extends AppController
     {
         $koppelingen = $this->koppelingDao->findAll(null, $filter);
 
+        $this->autoRender = false;
         $filename = sprintf('iz-koppelingen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('koppelingen', $koppelingen);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.koppelingen');
+        $export->create($koppelingen)->send($filename);
     }
 
     private function createFilter()

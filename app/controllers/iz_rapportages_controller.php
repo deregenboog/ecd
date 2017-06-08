@@ -49,16 +49,7 @@ class IzRapportagesController extends AppController
     {
         $data = $this->extractDataFromReport($report);
 
-        foreach($data['reports'] as &$subReport) {
-            if ($firstRow = reset($subReport['data'])) {
-                $subReport['columns'] = array_keys($firstRow);
-                array_unshift($subReport['columns'], $subReport['yDescription']);
-            } else {
-                // Geen rijen dus geen kolommen.
-                $subReport['columns'] = ['Geen data.'];
-            }
-        }
-
+        $this->autoRender = false;
         $filename = sprintf(
             '%s-%s-%s.xls',
             $report->getTitle(),
@@ -66,12 +57,8 @@ class IzRapportagesController extends AppController
             $report->getEndDate()->format('d-m-Y')
         );
 
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header('Content-Disposition: ' . sprintf('attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
-
-        $this->set($data);
-        $this->render('download.csv', false);
+        $export = $this->container->get('iz.export.report');
+        $export->create($data)->send($filename);
     }
 
     private function extractDataFromReport(AbstractReport $report)
