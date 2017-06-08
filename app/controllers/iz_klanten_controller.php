@@ -3,11 +3,10 @@
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\KlantFilterType;
-use IzBundle\Form\IzKlantFilterType;
-use IzBundle\Form\IzKlantSelectType;
-use IzBundle\Service\KlantDaoInterface;
-use IzBundle\Entity\IzKlant;
 use AppBundle\Form\KlantType;
+use IzBundle\Export\IzKlantenExport;
+use IzBundle\Form\IzKlantFilterType;
+use IzBundle\Service\KlantDaoInterface;
 
 class IzKlantenController extends AppController
 {
@@ -62,17 +61,11 @@ class IzKlantenController extends AppController
     {
         $klanten = $this->klantDao->findAll(null, $filter);
 
-//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->autoRender = false;
+        $filename = sprintf('iz-deelnemers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
-
-        $this->set('klanten', $klanten);
-        $this->render('download', false);
+        $export = new IzKlantenExport($klanten);
+        $export->create()->send($filename);
     }
 
     public function add($klantId = null)
