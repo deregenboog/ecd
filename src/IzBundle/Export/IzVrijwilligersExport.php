@@ -7,12 +7,44 @@ use AppBundle\Export\GenericExport;
 
 class IzVrijwilligersExport extends GenericExport
 {
-    public function getProjecten(IzVrijwilliger $izVrijwilliger)
+    public function getOpenstaandeProjecten(IzVrijwilliger $izVrijwilliger)
     {
         $projecten = [];
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
-            $projecten[] = $izHulpaanbod->getIzProject();
+            if ($izHulpaanbod->getIzHulpvraag() === null) {
+                $projecten[] = $izHulpaanbod->getIzProject();
+            }
+        }
+
+        return implode(', ', array_unique($projecten));
+    }
+
+    public function getLopendeProjecten(IzVrijwilliger $izVrijwilliger)
+    {
+        $projecten = [];
+
+        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
+            if ($izHulpaanbod->getIzHulpvraag()
+                && ($izHulpaanbod->getKoppelingEinddatum() === null || $izHulpaanbod->getKoppelingEinddatum() > new \DateTime())
+            ) {
+                $projecten[] = $izHulpaanbod->getIzProject();
+            }
+        }
+
+        return implode(', ', array_unique($projecten));
+    }
+
+    public function getAfgeslotenProjecten(IzVrijwilliger $izVrijwilliger)
+    {
+        $projecten = [];
+
+        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
+            if ($izHulpaanbod->getIzHulpvraag()
+                && ($izHulpaanbod->getKoppelingEinddatum() <= new \DateTime())
+            ) {
+                $projecten[] = $izHulpaanbod->getIzProject();
+            }
         }
 
         return implode(', ', array_unique($projecten));

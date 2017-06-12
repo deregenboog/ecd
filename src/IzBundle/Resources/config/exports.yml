@@ -22,7 +22,9 @@ services:
                 Gezin met kinderen: { expression: 'entity.getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
                 Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
-                Projecten: { expression: 'export.getProjecten(entity)' }
+                Openstaande projecten: { expression: 'export.getOpenstaandeProjecten(entity)' }
+                Lopende projecten: { expression: 'export.getLopendeProjecten(entity)' }
+                Afgesloten projecten: { expression: 'export.getAfgeslotenProjecten(entity)' }
                 Medewerkers: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
 
@@ -49,7 +51,9 @@ services:
                 Stagiair: { expression: 'entity.getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
                 Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
-                Projecten: { expression: 'export.getProjecten(entity)' }
+                Openstaande projecten: { expression: 'export.getOpenstaandeProjecten(entity)' }
+                Lopende projecten: { expression: 'export.getLopendeProjecten(entity)' }
+                Afgesloten projecten: { expression: 'export.getAfgeslotenProjecten(entity)' }
                 Medewerkers: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
 
