@@ -5,6 +5,7 @@ services:
             - IzBundle\Entity\IzKlant
             -
                 Nummer: { expression: 'entity.getKlant().getId()' }
+                Aanmelddatum: { expression: 'entity.getDatumAanmelding()', type: 'date' }
                 Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
@@ -34,6 +35,7 @@ services:
             - IzBundle\Entity\IzVrijwilliger
             -
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Aanmelddatum: { expression: 'entity.getDatumAanmelding()', type: 'date' }
                 Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
