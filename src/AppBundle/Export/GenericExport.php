@@ -4,6 +4,7 @@ namespace AppBundle\Export;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use AppBundle\Export\ExportException;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
 class GenericExport extends AbstractExport
 {
@@ -32,6 +33,9 @@ class GenericExport extends AbstractExport
     public function create($entities)
     {
         $language = new ExpressionLanguage();
+        $language->register('empty', function($array) {}, function($arguments, $array) {
+            return empty($array);
+        });
 
         $sheet = $this->prepare();
 
@@ -40,7 +44,11 @@ class GenericExport extends AbstractExport
 
         foreach ($entities as $entity) {
 
-            if (!$entity instanceof $this->class) {
+            if ($this->class === 'array') {
+                if (!is_array($entity)) {
+                    throw new ExportException('Class %s only supports array\'s', __CLASS__);
+                }
+            } elseif (!$entity instanceof $this->class) {
                 throw new ExportException(sprintf('Class %s only supports %s (%s given)', __CLASS__, $this->class, get_class($entity)));
             }
 
@@ -64,6 +72,9 @@ class GenericExport extends AbstractExport
                 if (!is_null($value)) {
                     switch (@$config['type']) {
                         case 'date':
+                            if (!$value instanceof \DateTime) {
+                                $value = new \DateTime($value);
+                            }
                             $value = \PHPExcel_Shared_Date::PHPToExcel($value);
                             $sheet->setCellValueByColumnAndRow($column, $row, $value);
                             $sheet->getCellByColumnAndRow($column, $row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
