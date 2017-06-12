@@ -68,6 +68,8 @@ class IzKlantFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC');
                 },
             ]);

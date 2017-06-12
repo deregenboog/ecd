@@ -45,6 +45,8 @@ class MedewerkerType extends AbstractType
             'class' => Medewerker::class,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('medewerker')
+                    ->where('medewerker.actief = :true')
+                    ->setParameter('true', true)
                     ->orderBy('medewerker.voornaam');
             },
         ]);

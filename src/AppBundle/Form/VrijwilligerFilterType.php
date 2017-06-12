@@ -77,6 +77,8 @@ class VrijwilligerFilterType extends AbstractType
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
