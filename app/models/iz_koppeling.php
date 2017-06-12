@@ -114,15 +114,17 @@ class IzKoppeling extends AppModel
 
     public function beforeSave($options = [])
     {
-        $izDeelnemerId = $this->data['IzDeelnemer']['id'];
-        $izDeelnemer = $this->IzDeelnemer->findById($izDeelnemerId);
+        if (isset($this->data['IzDeelnemer']['id'])) {
+            $izDeelnemerId = $this->data['IzDeelnemer']['id'];
+            $izDeelnemer = $this->IzDeelnemer->findById($izDeelnemerId);
 
-        if ($izDeelnemer) {
-            if ($izDeelnemer['IzDeelnemer']['model'] == 'Klant') {
-                $this->data['IzKoppeling']['discr'] = 'hulpvraag';
-            }
-            if ($izDeelnemer['IzDeelnemer']['model'] == 'Vrijwilliger') {
-                $this->data['IzKoppeling']['discr'] = 'hulpaanbod';
+            if ($izDeelnemer) {
+                if ($izDeelnemer['IzDeelnemer']['model'] == 'Klant') {
+                    $this->data['IzKoppeling']['discr'] = 'hulpvraag';
+                }
+                if ($izDeelnemer['IzDeelnemer']['model'] == 'Vrijwilliger') {
+                    $this->data['IzKoppeling']['discr'] = 'hulpaanbod';
+                }
             }
         }
 
