@@ -10,9 +10,13 @@ use GaBundle\Form\GaVrijwilligerSelectType;
 
 class GroepsactiviteitenVrijwilligersController extends AppController
 {
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
+
     private $enabledFilters = [
-        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
-        'medewerker',
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'medewerker'],
         'intakedatum',
         'afsluitdatum',
         'open',
@@ -26,11 +30,6 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         'intake.intakedatum',
         'intake.afsluitdatum',
     ];
-
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
 
     public function index()
     {
@@ -65,17 +64,11 @@ class GroepsactiviteitenVrijwilligersController extends AppController
     {
         $intakes = $builder->getQuery()->getResult();
 
-//         $filename = sprintf('groepsactiviteiten-vrijwilligers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-
+        $this->autoRender = false;
         $filename = sprintf('groepsactiviteiten-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('intakes', $intakes);
-        $this->render('download', false);
+        $export = $this->container->get('ga.export.vrijwilligers');
+        $export->create($intakes)->send($filename);
     }
 
     public function add()

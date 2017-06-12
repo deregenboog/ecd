@@ -5,6 +5,7 @@ namespace AppBundle\Filter;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Entity\Medewerker;
 
 class VrijwilligerFilter implements FilterInterface
 {
@@ -47,6 +48,11 @@ class VrijwilligerFilter implements FilterInterface
      * @var string
      */
     public $stadsdeel;
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
 
     public function applyTo(QueryBuilder $builder, $alias = 'vrijwilliger')
     {
@@ -125,6 +131,13 @@ class VrijwilligerFilter implements FilterInterface
                     ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
                 ;
             }
+        }
+
+        if ($this->medewerker) {
+            $builder
+                ->andWhere("{$alias}.medewerker = :{$alias}_medewerker")
+                ->setParameter("{$alias}_medewerker", $this->medewerker)
+            ;
         }
     }
 }

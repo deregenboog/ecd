@@ -1,3 +1,6 @@
+imports:
+    - { resource: exports.yml }
+
 services:
     ga.repository.ga_groep_buurtmaatjes:
         class: Doctrine\ORM\EntityRepository

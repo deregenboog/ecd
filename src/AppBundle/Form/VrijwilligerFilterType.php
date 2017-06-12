@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Medewerker;
+use Doctrine\ORM\EntityRepository;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -65,6 +68,19 @@ class VrijwilligerFilterType extends AbstractType
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
             $builder->add('stadsdeel', StadsdeelFilterType::class);
+        }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
+                },
+            ]);
         }
 
         $builder->add('filter', SubmitType::class);

@@ -1,0 +1,48 @@
+services:
+    ga.export.klanten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - GaBundle\Entity\GaIntake
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Intakedatum: { expression: 'entity.getIntakeDatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                Gezin met kinderen: { expression: 'entity.isGezinMetKinderen() ? "ja" : "nee"' }
+                Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
+
+    ga.export.vrijwilligers:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - GaBundle\Entity\GaIntake
+            -
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Intakedatum: { expression: 'entity.getIntakeDatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+                Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+                Gezin met kinderen: { expression: 'entity.isGezinMetKinderen() ? "ja" : "nee"' }
+                Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
