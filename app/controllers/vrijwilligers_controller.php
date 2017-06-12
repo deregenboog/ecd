@@ -5,7 +5,7 @@ class VrijwilligersController extends AppController
     public $name = 'Vrijwilligers';
 
     public $components = array(
-            'Filter' => array('persoon_model' => 'Vrijwilliger'),
+        'Filter' => array('persoon_model' => 'Vrijwilliger'),
     );
 
     public function index()
@@ -15,7 +15,6 @@ class VrijwilligersController extends AppController
         $this->paginate = array(
             'contain' => array(
                 'Geslacht',
-
             ),
         );
 
@@ -33,8 +32,8 @@ class VrijwilligersController extends AppController
         }
 
         $rowOnclickUrl = array(
-                'controller' => 'vrijwilligers',
-                'action' => 'edit',
+            'controller' => 'vrijwilligers',
+            'action' => 'edit',
         );
 
         $this->set(compact('personen', 'rowOnclickUrl', 'persoon_model'));
