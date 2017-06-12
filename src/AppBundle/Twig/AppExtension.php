@@ -34,6 +34,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         return [
             new \Twig_SimpleFilter('tabless', [$this, 'tablessFilter']),
             new \Twig_SimpleFilter('money', [$this, 'moneyFilter']),
+            new \Twig_SimpleFilter('unique', [$this, 'uniqueFilter']),
         ];
     }
 
@@ -45,6 +46,11 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function moneyFilter($value)
     {
         return money_format('%(#1n', $value);
+    }
+
+    public function uniqueFilter(array $values)
+    {
+        return array_unique($values);
     }
 
     public function isActiveRoute($patterns)

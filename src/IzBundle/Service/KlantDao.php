@@ -4,6 +4,7 @@ namespace IzBundle\Service;
 
 use IzBundle\Entity\IzKlant;
 use AppBundle\Filter\FilterInterface;
+use Doctrine\ORM\Query\Expr;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -27,12 +28,19 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
+        $expr = new Expr();
+
         $builder = $this->repository->createQueryBuilder('izKlant')
+            ->select('izKlant, klant, izHulpvraag, izProject, medewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')
             ->leftJoin('izHulpvraag.izProject', 'izProject')
-            ->leftJoin('izHulpvraag.medewerker', 'medewerker')
+            ->leftJoin('izHulpvraag.medewerker', 'medewerker', 'WITH', $expr->andX(
+                $expr->orX('izHulpvraag.einddatum IS NULL', 'izHulpvraag.einddatum > :now'),
+                $expr->orX('izHulpvraag.koppelingEinddatum IS NULL', 'izHulpvraag.koppelingEinddatum > :now')
+            ))
             ->where('klant.disabled = false')
+            ->setParameter('now', new \DateTime())
         ;
 
         if ($filter) {

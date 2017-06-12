@@ -55,7 +55,9 @@ class IzVrijwilligersExport extends GenericExport
         $medewerkers = [];
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
-            $medewerkers[] = $izHulpaanbod->getMedewerker();
+            if ($izHulpaanbod->getMedewerker()) {
+                $medewerkers[] = $izHulpaanbod->getMedewerker();
+            }
         }
 
         return implode(', ', array_unique($medewerkers));

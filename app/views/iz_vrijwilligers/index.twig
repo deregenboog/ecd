@@ -95,16 +95,23 @@
                 {{ izVrijwilliger.vrijwilliger.geboortedatum ? izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
+                {% set izProjecten = [] %}
+                {% for izHulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                    {% set izProjecten = izProjecten|merge([izHulpaanbod.izProject]) %}
+                {% endfor %}
+                {% set izProjecten = izProjecten|unique %}
                 <ul>
-                    {% for izHulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
-                        <li>{{ izHulpaanbod.izProject }}</li>
+                    {% for izProject in izProjecten %}
+                        <li>{{ izProject }}</li>
                     {% endfor %}
                 </ul>
             </td>
             <td>
                 <ul>
                     {% for izHulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
-                        <li>{{ izHulpaanbod.medewerker }}</li>
+                        {% if izHulpaanbod.medewerker %}
+                            <li>{{ izHulpaanbod.medewerker }}</li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </td>

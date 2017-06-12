@@ -55,7 +55,9 @@ class IzKlantenExport extends GenericExport
         $medewerkers = [];
 
         foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            $medewerkers[] = $izHulpvraag->getMedewerker();
+            if ($izHulpvraag->getMedewerker()) {
+                $medewerkers[] = $izHulpvraag->getMedewerker();
+            }
         }
 
         return implode(', ', array_unique($medewerkers));
