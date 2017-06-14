@@ -47,6 +47,8 @@ class IzRapportagesController extends AppController
 
     public function download(AbstractReport $report)
     {
+        ini_set('memory_limit', '512M');
+
         $data = $this->extractDataFromReport($report);
 
         $this->autoRender = false;

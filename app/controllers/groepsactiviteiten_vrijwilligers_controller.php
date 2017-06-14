@@ -62,6 +62,8 @@ class GroepsactiviteitenVrijwilligersController extends AppController
 
     public function download(QueryBuilder $builder)
     {
+        ini_set('memory_limit', '512M');
+
         $intakes = $builder->getQuery()->getResult();
 
         $this->autoRender = false;

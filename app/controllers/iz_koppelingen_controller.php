@@ -56,6 +56,8 @@ class IzKoppelingenController extends AppController
 
     public function download(FilterInterface $filter)
     {
+        ini_set('memory_limit', '512M');
+
         $koppelingen = $this->koppelingDao->findAll(null, $filter);
 
         $this->autoRender = false;

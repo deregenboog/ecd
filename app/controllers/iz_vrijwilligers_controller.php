@@ -59,6 +59,8 @@ class IzVrijwilligersController extends AppController
 
     public function download(FilterInterface $filter)
     {
+        ini_set('memory_limit', '512M');
+
         $vrijwilligers = $this->vrijwilligerDao->findAll(null, $filter);
 
         $this->autoRender = false;

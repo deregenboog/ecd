@@ -77,6 +77,8 @@ class IzHulpaanbiedingenController extends AppController
 
     public function download(QueryBuilder $builder)
     {
+        ini_set('memory_limit', '512M');
+
         $hulpaanbiedingen = $builder->getQuery()->getResult();
 
         $this->autoRender = false;

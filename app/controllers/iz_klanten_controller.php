@@ -59,6 +59,8 @@ class IzKlantenController extends AppController
 
     public function download(FilterInterface $filter)
     {
+        ini_set('memory_limit', '512M');
+
         $klanten = $this->klantDao->findAll(null, $filter);
 
         $this->autoRender = false;

@@ -77,6 +77,7 @@ class GroepsactiviteitenGroepenController extends AppController
 
     public function export($id, $persoon_model = 'Klant')
     {
+        ini_set('memory_limit', '512M');
         $this->autoLayout = false;
         $this->layout = false;
 
