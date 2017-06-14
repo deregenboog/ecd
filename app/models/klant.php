@@ -1135,14 +1135,17 @@ class Klant extends AppModel
     }
     public function diensten($id, EventDispatcherInterface $eventDispatcher = null)
     {
+        $diensten = [];
+
         if (is_array($id)) {
             $id = $id['Klant']['id'];
         }
         $klant = $this->getAllById($id);
+
         if (empty($klant)) {
-            return [];
+            return $diensten;
         }
-        $diensten = [];
+
         if (!empty($klant['GroepsactiviteitenIntake'])) {
             $diensten[] = array(
                 'name' => 'GA',
@@ -1153,16 +1156,7 @@ class Klant extends AppModel
                 'value' => '',
             );
         }
-        if (!empty($klant['IzDeelnemer'])) {
-            $diensten[] = array(
-                'name' => 'Iz',
-                'url' => array('controller' => 'iz_deelnemers', 'action' => 'toon_aanmelding', 'Klant', $klant['Klant']['id'], $klant['IzDeelnemer']['id']),
-                'from' => $klant['IzDeelnemer']['datum_aanmelding'],
-                'to' => $klant['IzDeelnemer']['datumafsluiting'],
-                'type' => 'date',
-                'value' => '',
-            );
-        }
+
         if (!empty($klant['Verslag'][0])) {
             $diensten[] = array(
                 'name' => 'Mw',
@@ -1173,6 +1167,7 @@ class Klant extends AppModel
                 'value' => '',
             );
         }
+
         if (!empty($klant['Hi5Intake'][0])) {
             $diensten[] = array(
                 'name' => 'Hi5',
@@ -1183,6 +1178,7 @@ class Klant extends AppModel
                 'value' => '',
             );
         }
+
         $all = $this->Intake->Locatie1->locaties();
         $locaties = array_unique(Set::ClassicExtract($klant['Registratie'], '{n}.locatie_id'));
         $value = '';
@@ -1196,6 +1192,7 @@ class Klant extends AppModel
                 $value .= $locatie_id;
             }
         }
+
         if (!empty($klant['Hi5Intake'][0])) {
             $diensten[] = array(
                 'name' => 'Locaties',
@@ -1206,6 +1203,7 @@ class Klant extends AppModel
                 'value' => $value,
             );
         }
+
         if (!empty($klant['LasteIntake']['locatie1_id'])) {
             $diensten[] = array(
                 'name' => 'Gebr. ruimte',

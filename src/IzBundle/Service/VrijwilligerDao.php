@@ -5,6 +5,7 @@ namespace IzBundle\Service;
 use IzBundle\Entity\IzVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\Query\Expr;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -27,12 +28,19 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
+        $expr = new Expr();
+
         $builder = $this->repository->createQueryBuilder('izVrijwilliger')
+            ->select('izVrijwilliger, vrijwilliger, izHulpaanbod, izProject, medewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
             ->leftJoin('izHulpaanbod.izProject', 'izProject')
-            ->leftJoin('izHulpaanbod.medewerker', 'medewerker')
+            ->leftJoin('izHulpaanbod.medewerker', 'medewerker', 'WITH', $expr->andX(
+                $expr->orX('izHulpaanbod.einddatum IS NULL', 'izHulpaanbod.einddatum > :now'),
+                $expr->orX('izHulpaanbod.koppelingEinddatum IS NULL', 'izHulpaanbod.koppelingEinddatum > :now')
+            ))
             ->where('vrijwilliger.disabled = false')
+            ->setParameter('now', new \DateTime())
         ;
 
         if ($filter) {

@@ -133,7 +133,7 @@ class KlantenController extends AppController
         $this->set('registraties', $registraties);
 
         $this->set('klant_id', $id);
-        $this->set('diensten', $this->Klant->diensten($id));
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
     public function zrm_add($id)
@@ -178,7 +178,7 @@ class KlantenController extends AppController
         $this->set('referer', $this->referer());
         $this->set('klant_id', $id);
         $this->set('zrm_data', $zrm_data);
-        $this->set('diensten', $this->Klant->diensten($id));
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
     public function add($step = 1)

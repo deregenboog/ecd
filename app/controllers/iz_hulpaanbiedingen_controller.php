@@ -4,6 +4,7 @@ use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Form\IzHulpaanbodFilterType;
+use IzBundle\Export\IzHulpaanbiedingenExport;
 
 class IzHulpaanbiedingenController extends AppController
 {
@@ -76,14 +77,14 @@ class IzHulpaanbiedingenController extends AppController
 
     public function download(QueryBuilder $builder)
     {
+        ini_set('memory_limit', '512M');
+
         $hulpaanbiedingen = $builder->getQuery()->getResult();
 
+        $this->autoRender = false;
         $filename = sprintf('iz-hulpaanbiedingen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('hulpaanbiedingen', $hulpaanbiedingen);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.hulpaanbiedingen');
+        $export->create($hulpaanbiedingen)->send($filename);
     }
 }

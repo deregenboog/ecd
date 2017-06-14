@@ -22,6 +22,11 @@ class Medewerker
     private $id;
 
     /**
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $actief;
+
+    /**
      * @ORM\Column(name="groups", type="json_array", nullable=true)
      */
     private $groepen = [];

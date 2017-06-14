@@ -16,7 +16,7 @@ class IzKlant extends IzDeelnemer
     /**
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(name="foreign_key", nullable=false)
+     * @ORM\JoinColumn(name="foreign_key", nullable=true)
      * @Gedmo\Versioned
      */
     protected $klant;

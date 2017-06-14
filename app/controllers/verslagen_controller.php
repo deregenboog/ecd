@@ -75,6 +75,9 @@ class VerslagenController extends AppController
         $this->Medewerker = ClassRegistry::init('Medewerker');
         $medewerkers = ['' => ''];
         $medewerkers += $this->Medewerker->find('list', [
+            'conditions' => [
+                ['active' => true],
+            ],
             'joins' => [[
                 'table' => 'verslagen',
                 'alias' => 'Verslag',
@@ -139,7 +142,7 @@ class VerslagenController extends AppController
         }
 
         $persoon = $this->Verslag->Klant->getAllById($klant_id);
-        $diensten = $this->Verslag->Klant->diensten($persoon);
+        $diensten = $this->Verslag->Klant->diensten($persoon, $this->getEventDispatcher());
 
         $this->loadModel('ZrmReport');
         $lastZrmReport = $this->ZrmReport->get_last_zrm_report($klant_id);

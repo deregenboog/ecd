@@ -96,16 +96,23 @@
                 {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
+                {% set izProjecten = [] %}
+                {% for izHulpvraag in izKlant.izHulpvragen %}
+                    {% set izProjecten = izProjecten|merge([izHulpvraag.izProject]) %}
+                {% endfor %}
+                {% set izProjecten = izProjecten|unique %}
                 <ul>
-                    {% for izHulpvraag in izKlant.izHulpvragen %}
-                        <li>{{ izHulpvraag.izProject }}</li>
+                    {% for izProject in izProjecten %}
+                        <li>{{ izProject }}</li>
                     {% endfor %}
                 </ul>
             </td>
             <td>
                 <ul>
                     {% for izHulpvraag in izKlant.izHulpvragen %}
-                        <li>{{ izHulpvraag.medewerker }}</li>
+                        {% if izHulpvraag.medewerker %}
+                            <li>{{ izHulpvraag.medewerker }}</li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </td>

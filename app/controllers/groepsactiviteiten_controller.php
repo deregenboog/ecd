@@ -256,7 +256,7 @@ class GroepsactiviteitenController extends AppController
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $has_active_groepen = false;
@@ -301,7 +301,7 @@ class GroepsactiviteitenController extends AppController
         $persoon = $this->{$persoon_model}->getAllById($id);
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $this->set(compact('persoon', 'persoon_model', 'diensten'));
@@ -361,7 +361,7 @@ class GroepsactiviteitenController extends AppController
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         if (!empty($persoon['GroepsactiviteitenIntake']['id']) && empty($this->data['ZrmReport'])) {
@@ -499,7 +499,7 @@ class GroepsactiviteitenController extends AppController
         $diensten = [];
 
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $groepsactiviteiten_redenen = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->GroepsactiviteitenReden->get_groepsactiviteiten_reden_list();
@@ -585,7 +585,7 @@ class GroepsactiviteitenController extends AppController
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $this->set(compact('diensten', 'groepsactiviteiten', 'newgroepsactiviteiten', 'persoon', 'persoon_model', 'activiteiten', 'persoon_id_field', 'persoon_groepsactiviteiten', 'groepsactiviteitengroepen_list_view', 'groepsactiviteitengroepen_list'));

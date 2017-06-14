@@ -32,7 +32,7 @@ class GaKlantLidmaatschap
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="klant_id", nullable=false)
      * @Gedmo\Versioned
      */
     private $klant;
@@ -77,5 +77,10 @@ class GaKlantLidmaatschap
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getKlant()
+    {
+        return $this->klant;
     }
 }

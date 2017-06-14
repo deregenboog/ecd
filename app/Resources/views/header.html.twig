@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
                 {% for controller, label in menu_allowed %}
-                    {{ html.navLink(label, relative_path("/" ~ controller, controller)) }}
+                    {{ html.navLink(label, relative_path("/" ~ controller, controller), isActiveRoute(controller ~ '_')) }}
                 {% endfor %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

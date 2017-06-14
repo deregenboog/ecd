@@ -119,13 +119,30 @@ class Medewerker extends AppModel
 
         $users = Cache::read($cacheKey, 'ldap');
         if (!$users) {
-            $ldapUsers = $this->LdapUser->findAll('loginshell', '/bin/bash');
+            $ldapUsers = $this->LdapUser->findAll('accountexpires');
 
-            $users = array_values(
-                Set::flatten(
-                    Set::classicExtract($ldapUsers, '{n}.LdapUser.uid')
-                )
-            );
+            $winBase = new DateTime('1601-01-01');
+            $unixBase = new DateTime('1970-01-01');
+            $interval = $winBase->diff($unixBase);
+            $diff = $interval->days * 24 * 60 * 60;
+            $now = new DateTime('now');
+
+            $users = [];
+            foreach ($ldapUsers as $ldapUser) {
+                $accountExpires = $ldapUser['LdapUser']['accountexpires'];
+                if ($accountExpires == LdapUser::ACCOUNT_EXPIRES_NEVER) {
+                    $users[] = $ldapUser['LdapUser']['samaccountname'];
+                } else {
+                    // @see http://php.net/manual/en/ref.ldap.php#116606
+                    // divide by 10.000.000 to get seconds from 100-nanosecond intervals
+                    $accountExpires = round($accountExpires / 10000000);
+                    $unixTimestamp = ($accountExpires - $diff);
+                    $expiration = (new DateTime())->setTimestamp($unixTimestamp);
+                    if ($expiration > $now) {
+                        $users[] = $ldapUser['LdapUser']['samaccountname'];
+                    }
+                }
+            }
 
             Cache::write($cacheKey, $users, 'ldap');
         }

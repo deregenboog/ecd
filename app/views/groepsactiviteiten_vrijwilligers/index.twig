@@ -24,8 +24,8 @@
             {{ form_errors(filter.vrijwilliger.geboortedatumRange) }}
         </th>
         <th>
-            {{ form_widget(filter.medewerker) }}
-            {{ form_errors(filter.medewerker) }}
+            {{ form_widget(filter.vrijwilliger.medewerker) }}
+            {{ form_errors(filter.vrijwilliger.medewerker) }}
         </th>
         <th>
             {{ form_widget(filter.intakedatum) }}
@@ -55,7 +55,7 @@
             {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+            {{ knp_pagination_sortable(pagination, 'Medewerker basisdossier', 'medewerker.achternaam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakedatum') }}

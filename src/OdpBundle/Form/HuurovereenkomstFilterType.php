@@ -48,6 +48,8 @@ class HuurovereenkomstFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Huurovereenkomst::class, 'huurovereenkomst', 'WITH', 'huurovereenkomst.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },

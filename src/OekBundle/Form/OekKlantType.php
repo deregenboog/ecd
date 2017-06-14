@@ -43,11 +43,12 @@ class OekKlantType extends AbstractType
 
         $builder->add('medewerker', MedewerkerType::class);
 
+        $builder->add('oekAanmelding', OekAanmeldingType::class, [
+            'label' => 'Aanmelding',
+        ]);
+        $builder->get('oekAanmelding')->remove('medewerker');
+
         if (!$oekKlant->getOekAanmelding()) {
-            $builder->add('oekAanmelding', OekAanmeldingType::class, [
-                'label' => 'Aanmelding',
-            ]);
-            $builder->get('oekAanmelding')->remove('medewerker');
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $oekKlant = $event->getData();
                 $oekKlant->getOekAanmelding()->setMedewerker($oekKlant->getMedewerker());

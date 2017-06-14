@@ -143,6 +143,18 @@ abstract class IzKoppeling
         return $this;
     }
 
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
     public function getKoppelingStartdatum()
     {
         return $this->koppelingStartdatum;
