@@ -1398,6 +1398,8 @@ class IzDeelnemersController extends AppController
 
     public function selecties()
     {
+        ini_set('memory_limit', '512M');
+
         // render with Twig
         $this->view = 'AppTwig';
 
@@ -1411,7 +1413,15 @@ class IzDeelnemersController extends AppController
             if (in_array('klanten', $form->getData()->personen)) {
                 $repository = $this->getEntityManager()->getRepository(IzKlant::class);
                 $builder = $repository->createQueryBuilder('izKlant')
-                    ->innerJoin('izKlant.klant', 'klant');
+                    ->select('izKlant, klant, geslacht, izIntake, medewerkerIzIntake, izHulpvraag, medewerkerIzHulpvraag, izProject')
+                    ->innerJoin('izKlant.klant', 'klant')
+                    ->leftJoin('klant.geslacht', 'geslacht')
+                    ->leftJoin('izKlant.izIntake', 'izIntake')
+                    ->leftJoin('izIntake.medewerker', 'medewerkerIzIntake')
+                    ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')
+                    ->leftJoin('izHulpvraag.medewerker', 'medewerkerIzHulpvraag')
+                    ->leftJoin('izHulpvraag.izProject', 'izProject')
+                ;
                 $form->getData()->applyTo($builder);
                 $izKlanten = $builder->getQuery()->getResult();
             }
@@ -1419,7 +1429,15 @@ class IzDeelnemersController extends AppController
             if (in_array('vrijwilligers', $form->getData()->personen)) {
                 $repository = $this->getEntityManager()->getRepository(IzVrijwilliger::class);
                 $builder = $repository->createQueryBuilder('izVrijwilliger')
-                    ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger');
+                    ->select('izVrijwilliger, vrijwilliger, geslacht, izIntake, medewerkerIzIntake, izHulpaanbod, medewerkerIzHulpaanbod, izProject')
+                    ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+                    ->leftJoin('vrijwilliger.geslacht', 'geslacht')
+                    ->leftJoin('izVrijwilliger.izIntake', 'izIntake')
+                    ->leftJoin('izIntake.medewerker', 'medewerkerIzIntake')
+                    ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
+                    ->leftJoin('izHulpaanbod.medewerker', 'medewerkerIzHulpaanbod')
+                    ->leftJoin('izHulpaanbod.izProject', 'izProject')
+                ;
                 $form->getData()->applyTo($builder);
                 $izVrijwilligers = $builder->getQuery()->getResult();
             }
@@ -1480,7 +1498,6 @@ class IzDeelnemersController extends AppController
                         return $this->render();
 
                     case 'email':
-
                         // convert IzKlant and IzVrijwilliger collections to IzDeelnemer collection
                         $izDeelnemers = $this->getEntityManager()->getRepository(IzDeelnemer::class)
                             ->createQueryBuilder('izDeelnemer')
@@ -1498,9 +1515,9 @@ class IzDeelnemersController extends AppController
                         $this->set('form', $form->createView());
 
                         return $this->render('email_selectie');
+
                     default:
                     case 'excel':
-
                         $this->autoRender = false;
                         $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 

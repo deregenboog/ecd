@@ -6,3 +6,4 @@
 </IfModule>
 
 php_value memory_limit 256M
+php_value max_execution_time 600
