@@ -18,7 +18,6 @@ class TrajectbegeleidersController extends AbstractController
     protected $entityName = 'Trajectbegeleider';
     protected $entityClass = Trajectbegeleider::class;
     protected $formClass = TrajectbegeleiderType::class;
-    protected $filterFormClass;
     protected $baseRouteName = 'dagbesteding_trajectbegeleiders_';
 
     /**
@@ -27,4 +26,12 @@ class TrajectbegeleidersController extends AbstractController
      * @DI\Inject("dagbesteding.dao.trajectbegeleider")
      */
     protected $dao;
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction($id)
+    {
+        return $this->redirectToIndex();
+    }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use DagbestedingBundle\Entity\Deelnemer;
-use DagbestedingBundle\Entity\DeelnemerAfsluiting;
+use DagbestedingBundle\Entity\Deelnemerafsluiting;
 use AppBundle\Form\BaseType;
 
 class DeelnemerCloseType extends AbstractType
@@ -21,7 +21,7 @@ class DeelnemerCloseType extends AbstractType
         $builder
             ->add('afsluitdatum', AppDateType::class, ['data' => new \DateTime()])
             ->add('afsluiting', null, [
-                'class' => DeelnemerAfsluiting::class,
+                'class' => Deelnemerafsluiting::class,
                 'label' => 'Reden afsluiting',
                 'required' => true,
                 'placeholder' => 'Selecteer een item',

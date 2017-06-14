@@ -6,13 +6,14 @@ use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use DagbestedingBundle\Entity\Traject;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use DagbestedingBundle\Entity\Resultaatgebied;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use DagbestedingBundle\Entity\Trajectsoort;
+use DagbestedingBundle\Entity\Resultaatgebiedsoort;
+use DagbestedingBundle\Entity\Trajectafsluiting;
 
 class TrajectType extends AbstractType
 {
@@ -21,26 +22,41 @@ class TrajectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('type', ChoiceType::class, ['choices' => Traject::TYPES])
-            ->add('resultaatgebied', ChoiceType::class, [
-                'choices' => Resultaatgebied::TYPES,
-                'mapped' => false,
-            ])
-            ->add('startdatum', AppDateType::class)
-            ->add('begeleider')
-            ->add('locaties')
-            ->add('projecten')
-        ;
+        switch ($options['mode']) {
+            case BaseType::MODE_CLOSE:
+                $builder
+                    ->add('afsluitdatum', AppDateType::class, ['data' => new \DateTime()])
+                    ->add('afsluiting', null, [
+                        'class' => Trajectafsluiting::class,
+                        'label' => 'Reden afsluiting',
+                        'required' => true,
+                        'placeholder' => 'Selecteer een item',
+                    ])
+                    ->add('submit', SubmitType::class, ['label' => 'Afsluiten'])
+                ;
+                break;
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-            $traject = $event->getData();
-            $resultaatgebied = new Resultaatgebied($traject);
-            $resultaatgebied->setType($event->getForm()->get('resultaatgebied')->getData());
-            $traject->addResultaatgebied($resultaatgebied);
-        });
-
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+            case BaseType::MODE_ADD:
+            case BaseType::MODE_EDIT:
+            default:
+                $builder
+                    ->add('soort', EntityType::class, [
+                        'class' => Trajectsoort::class,
+                        'placeholder' => '',
+                    ])
+                    ->add('resultaatgebiedsoort', EntityType::class, [
+                        'class' => Resultaatgebiedsoort::class,
+                        'label' => 'Resultaatgebied',
+                        'placeholder' => '',
+                    ])
+                    ->add('startdatum', AppDateType::class)
+                    ->add('begeleider')
+                    ->add('locaties')
+                    ->add('projecten')
+                    ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+                ;
+                break;
+        }
     }
 
     /**
@@ -50,6 +66,7 @@ class TrajectType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Traject::class,
+            'mode' => BaseType::MODE_ADD,
         ]);
     }
 

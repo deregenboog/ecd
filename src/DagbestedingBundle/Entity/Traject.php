@@ -3,9 +3,9 @@
 namespace DagbestedingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 /**
  * @ORM\Entity
@@ -15,14 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Traject
 {
-    use TimestampableTrait;
-
-    const TYPES = [
-        'wmo' => 'WMO',
-        'ovk' => 'OVK',
-    ];
-
-    const RAPPORTAGETERMIJN = '+6 months';
+    const TERMIJN_RAPPORTAGE = '+6 months';
+    const TERMIJN_EIND = '+1 year';
 
     /**
      * @ORM\Id
@@ -34,38 +28,57 @@ class Traject
     /**
      * @var Deelnemer
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="trajecten")
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $deelnemer;
 
     /**
-     * @ORM\Column
+     * @var Trajectsoort
+     * @ORM\ManyToOne(targetEntity="Trajectsoort", inversedBy="trajecten")
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    private $type = self::TYPES['wmo'];
+    private $soort;
+
+    /**
+     * @var Resultaatgebied
+     * @ORM\OneToOne(targetEntity="Resultaatgebied", cascade={"persist"})
+     * @Gedmo\Versioned
+     */
+    private $resultaatgebied;
 
     /**
      * @var ArrayCollection|Resultaatgebied[]
      * @ORM\OneToMany(targetEntity="Resultaatgebied", mappedBy="traject", cascade={"persist"})
+     * @ORM\OrderBy({"startdatum" = "DESC", "id" = "DESC"})
      */
     private $resultaatgebieden;
 
     /**
-     * @var Resultaatgebied
-     * @ORM\OneToOne(targetEntity="Resultaatgebied")
+     * @var ArrayCollection|Dagdeel[]
+     * @ORM\OneToMany(targetEntity="Dagdeel", mappedBy="traject", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
-    private $huidigResultaatgebied;
+    private $dagdelen;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
+     * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $einddatum;
+
+    /**
      * @var ArrayCollection|Rapportage[]
      *
-     * @ORM\OneToMany(targetEntity="Rapportage", mappedBy="traject", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Rapportage", mappedBy="traject", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"datum" = "ASC", "id" = "ASC"})
      */
     private $rapportages;
 
@@ -78,15 +91,16 @@ class Traject
     /**
      * @var Trajectbegeleider
      *
-     * @ORM\ManyToOne(targetEntity="Trajectbegeleider")
+     * @ORM\ManyToOne(targetEntity="Trajectbegeleider", inversedBy="trajecten")
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $begeleider;
 
     /**
-     * @var TrajectAfsluiting
+     * @var Trajectafsluiting
      *
-     * @ORM\ManyToOne(targetEntity="TrajectAfsluiting", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Trajectafsluiting", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -96,7 +110,7 @@ class Traject
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
-     * @ORM\JoinTable(name="dagbesteding_huurverzoek_verslag")
+     * @ORM\JoinTable(name="dagbesteding_traject_verslag")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -105,6 +119,7 @@ class Traject
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="dagbesteding_traject_document")
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -113,6 +128,7 @@ class Traject
      * @var ArrayCollection|Werklocatie[]
      *
      * @ORM\ManyToMany(targetEntity="Locatie")
+     * @ORM\JoinTable(name="dagbesteding_traject_locatie")
      * @ORM\OrderBy({"naam" = "ASC"})
      */
     private $locaties;
@@ -121,17 +137,21 @@ class Traject
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Project")
+     * @ORM\JoinTable(name="dagbesteding_traject_project")
      * @ORM\OrderBy({"naam" = "ASC"})
      */
     private $projecten;
 
     public function __construct()
     {
-        $this->startdatum = new \DateTime();
-
-        $this->rapportages = new ArrayCollection();
-        $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
+        $this->locaties = new ArrayCollection();
+        $this->projecten = new ArrayCollection();
+        $this->rapportages = new ArrayCollection();
+        $this->resultaatgebieden = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
+
+        $this->setStartdatum(new \DateTime());
     }
 
     public function __toString()
@@ -176,19 +196,30 @@ class Traject
 
     public function setStartdatum(\DateTime $startdatum = null)
     {
-        //         if ($this->startdatum) {
-//             $rapportagedatum = (clone $this->startdatum)->modify(self::RAPPORTAGETERMIJN);
-//             $this->removeRapportageDatum($rapportagedatum);
-//         }
+        if ($this->startdatum) {
+            $rapportagedatum = clone $this->startdatum;
+            $rapportagedatum->modify(self::TERMIJN_RAPPORTAGE);
+            $einddatum = clone $this->startdatum;
+            $einddatum->modify(self::TERMIJN_EIND);
+            foreach ($this->rapportages as $rapportage) {
+                if ($rapportage->isDeletable()
+                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
+                ) {
+                    $this->removeRapportage($rapportage);
+                }
+            }
+        }
 
         $this->startdatum = $startdatum;
 
         $rapportagedatum = clone $startdatum;
-        $rapportagedatum->modify(self::RAPPORTAGETERMIJN);
+        $rapportagedatum->modify(self::TERMIJN_RAPPORTAGE);
         $this->addRapportage(new Rapportage($rapportagedatum));
 
-//         $einddatum = (clone $startdatum)->modify(self::RAPPORTAGETERMIJN);
-//         $this->addRapportageDatum($rapportagedatum);
+        $einddatum = clone $startdatum;
+        $einddatum->modify(self::TERMIJN_EIND);
+        $this->addRapportage(new Rapportage($einddatum));
+        $this->setEinddatum($einddatum);
 
         return $this;
     }
@@ -203,11 +234,6 @@ class Traject
         $this->afsluitdatum = $afsluitdatum;
 
         return $this;
-    }
-
-    public function getHuurovereenkomst()
-    {
-        return $this->huurovereenkomst;
     }
 
     public function isDeletable()
@@ -237,7 +263,7 @@ class Traject
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(HuurverzoekAfsluiting $afsluiting)
+    public function setAfsluiting(Trajectafsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
 
@@ -278,26 +304,31 @@ class Traject
         return $this;
     }
 
-    public function getType()
+    public function getSoort()
     {
-        return $this->type;
+        return $this->soort;
     }
 
-    public function setType($type)
+    public function setSoort(Trajectsoort $soort)
     {
-        $this->type = $type;
+        $this->soort = $soort;
 
         return $this;
     }
 
-    public function getHuidigResultaatgebied()
+    public function getResultaatgebied()
     {
-        return $this->huidigResultaatgebied;
+        return $this->resultaatgebied;
     }
 
-    public function setHuidigResultaatgebied(Resultaatgebied $huidigResultaatgebied)
+    public function setResultaatgebied(Resultaatgebied $resultaatgebied)
     {
-        $this->huidigResultaatgebied = $huidigResultaatgebied;
+        // set current
+        $this->resultaatgebied = $resultaatgebied;
+
+        // add to history
+        $this->resultaatgebieden[] = $resultaatgebied;
+        $resultaatgebied->setTraject($this);
 
         return $this;
     }
@@ -307,10 +338,18 @@ class Traject
         return $this->resultaatgebieden;
     }
 
-    public function addResultaatgebied(Resultaatgebied $resultaatgebied)
+    public function getResultaatgebiedsoort()
     {
-        $this->resultaatgebieden[] = $resultaatgebied;
-        $resultaatgebied->setTraject($this);
+        if ($this->resultaatgebied) {
+            return $this->resultaatgebied->getSoort();
+        }
+    }
+
+    public function setResultaatgebiedsoort(Resultaatgebiedsoort $soort)
+    {
+        if ($soort != $this->getResultaatgebiedsoort()) {
+            $this->setResultaatgebied(new Resultaatgebied($soort));
+        }
 
         return $this;
     }
@@ -349,5 +388,74 @@ class Traject
         $this->projecten[] = $project;
 
         return $this;
+    }
+
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum($einddatum)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
+    public function getDagdelen()
+    {
+        return $this->dagdelen;
+    }
+
+    public function addDagdeel(Dagdeel $dagdeel)
+    {
+        $this->dagdelen[] = $dagdeel;
+        $dagdeel->setTraject($this);
+
+        return $this;
+    }
+
+    public function removeDagdeel(Dagdeel $dagdeel)
+    {
+        $this->dagdelen->removeElement($dagdeel);
+        $dagdeel->setTraject(null);
+
+        return $this;
+    }
+
+    public function countDagdelenByMonth()
+    {
+        $date = new \DateTime('first day of this month');
+        $start = new \DateTime($this->startdatum->format('Y-m-01'));
+
+        if (count($this->dagdelen) > 0) {
+            $eersteDagdeel = $this->dagdelen[count($this->dagdelen)-1];
+            if ($eersteDagdeel->getDatum() < $this->startdatum) {
+                $start = new \DateTime($eersteDagdeel->getDatum()->format('Y-m-01'));
+            }
+        }
+
+        $months = [];
+        while ($date >= $start) {
+            $months[$date->format('Y-m')] = [
+                'maand' => clone $date,
+                'aantal' => 0,
+            ];
+            $date->modify('-1 month');
+        }
+
+        foreach ($this->dagdelen as $dagdeel) {
+            if (!array_key_exists($dagdeel->getDatum()->format('Y-m'), $months)) {
+                $months[$dagdeel->getDatum()->format('Y-m')] = [
+                    'maand' => clone $dagdeel->getDatum(),
+                    'aantal' => 0,
+                ];
+            }
+            ++$months[$dagdeel->getDatum()->format('Y-m')]['aantal'];
+        }
+
+        krsort($months);
+
+        return $months;
     }
 }

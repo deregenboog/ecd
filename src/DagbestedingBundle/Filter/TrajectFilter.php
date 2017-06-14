@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Filter;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
+use DagbestedingBundle\Entity\Trajectbegeleider;
 
 class TrajectFilter implements FilterInterface
 {
@@ -14,9 +15,34 @@ class TrajectFilter implements FilterInterface
     public $id;
 
     /**
+     * @var KlantFilter
+     */
+    public $klant;
+
+    /**
+     * @var Trajectsoort
+     */
+    public $soort;
+
+    /**
+     * @var ResultaatgebiedFilter
+     */
+    public $resultaatgebied;
+
+    /**
+     * @var Trajectbegeleider
+     */
+    public $begeleider;
+
+    /**
      * @var \DateTime
      */
-    public $aanmelddatum;
+    public $startdatum;
+
+    /**
+     * @var \DateTime
+     */
+    public $einddatum;
 
     /**
      * @var \DateTime
@@ -24,30 +50,71 @@ class TrajectFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
-     * @var KlantFilter
+     * @var RapportageFilter
      */
-    public $klant;
+    public $rapportage;
 
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
             $builder
-                ->andWhere('deelnemer.id = :id')
+                ->andWhere('traject.id = :id')
                 ->setParameter('id', $this->id)
             ;
         }
 
-        if ($this->aanmelddatum) {
-            if ($this->aanmelddatum->getStart()) {
+        if ($this->klant) {
+            $this->klant->applyTo($builder);
+        }
+
+        if ($this->soort) {
+            $builder
+                ->andWhere('traject.soort = :soort')
+                ->setParameter('soort', $this->soort)
+            ;
+        }
+
+        if ($this->resultaatgebied) {
+            $this->resultaatgebied->applyTo($builder);
+        }
+
+        if ($this->begeleider) {
+            $builder
+                ->andWhere('traject.begeleider = :begeleider')
+                ->setParameter('begeleider', $this->begeleider)
+            ;
+        }
+
+        if ($this->startdatum) {
+            if ($this->startdatum->getStart()) {
                 $builder
-                ->andWhere('deelnemer.aanmelddatum >= :aanmelddatum_van')
-                ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+                    ->andWhere('traject.startdatum >= :startdatum_van')
+                    ->setParameter('startdatum_van', $this->startdatum->getStart())
                 ;
             }
-            if ($this->aanmelddatum->getEnd()) {
+            if ($this->startdatum->getEnd()) {
                 $builder
-                ->andWhere('deelnemer.aanmelddatum <= :aanmelddatum_tot')
-                ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+                    ->andWhere('traject.startdatum <= :startdatum_tot')
+                    ->setParameter('startdatum_tot', $this->startdatum->getEnd())
+                ;
+            }
+        }
+
+        if ($this->rapportage) {
+            $this->rapportage->applyTo($builder);
+        }
+
+        if ($this->einddatum) {
+            if ($this->einddatum->getStart()) {
+                $builder
+                    ->andWhere('traject.einddatum >= :einddatum_van')
+                    ->setParameter('einddatum_van', $this->einddatum->getStart())
+                ;
+            }
+            if ($this->einddatum->getEnd()) {
+                $builder
+                    ->andWhere('traject.einddatum <= :einddatum_tot')
+                    ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
         }
@@ -55,20 +122,16 @@ class TrajectFilter implements FilterInterface
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder
-                ->andWhere('deelnemer.afsluitdatum >= :afsluitdatum_van')
+                ->andWhere('traject.afsluitdatum >= :afsluitdatum_van')
                 ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
             if ($this->afsluitdatum->getEnd()) {
                 $builder
-                ->andWhere('deelnemer.afsluitdatum <= :afsluitdatum_tot')
+                ->andWhere('traject.afsluitdatum <= :afsluitdatum_tot')
                 ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
-        }
-
-        if ($this->klant) {
-            $this->klant->applyTo($builder);
         }
     }
 }

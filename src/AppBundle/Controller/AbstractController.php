@@ -7,6 +7,9 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Export\GenericExport;
+use AppBundle\Export\ExportInterface;
 
 class AbstractController extends SymfonyController
 {
@@ -51,6 +54,11 @@ class AbstractController extends SymfonyController
     protected $dao;
 
     /**
+     * @var ExportInterface
+     */
+    protected $export;
+
+    /**
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -61,6 +69,9 @@ class AbstractController extends SymfonyController
             $form = $this->createForm($this->filterFormClass);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->has('download') && $form->get('download')->isClicked()) {
+                    return $this->download($form->getData());
+                }
                 $filter = $form->getData();
             }
         }
@@ -72,6 +83,30 @@ class AbstractController extends SymfonyController
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
         ];
+    }
+
+    protected function download(FilterInterface $filter)
+    {
+        ini_set('memory_limit', '512M');
+        $this->autoRender = false;
+
+        $filename = $this->getDownloadFilename();
+        $collection = $this->dao->findAll(null, $filter);
+        $collection = [];
+
+        $this->export->create($collection)->send($filename);
+    }
+
+    protected function getDownloadFilename()
+    {
+        $refl = new \ReflectionClass($this);
+
+        return sprintf(
+            '%s-%s-%s.xlsx',
+            strtolower(str_replace('Bundle\\Controller', '', $refl->getNamespaceName())),
+            strtolower(str_replace('Controller', '', $refl->getShortName())),
+            (new \DateTime())->format('Y-m-d')
+        );
     }
 
     /**
@@ -87,23 +122,9 @@ class AbstractController extends SymfonyController
      */
     public function addAction(Request $request)
     {
-        $form = $this->createForm($this->formClass);
-        $form->handleRequest($request);
+        $entity = new $this->entityClass;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $this->dao->create($form->getData());
-                $this->addFlash('success', $this->entityName.' is opgeslagen.');
-            } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
-            }
-
-            return $this->redirectToView($form->getData());
-        }
-
-        return [
-            'form' => $form->createView(),
-        ];
+        return $this->processForm($request, $entity);
     }
 
     /**
@@ -113,15 +134,28 @@ class AbstractController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
+        return $this->processForm($request, $entity);
+    }
+
+    protected function processForm(Request $request, $entity)
+    {
         $form = $this->createForm($this->formClass, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->dao->update($entity);
+                if ($entity->getId()) {
+                    $this->dao->update($entity);
+                } else {
+                    $this->dao->create($entity);
+                }
                 $this->addFlash('success', $this->entityName.' is opgeslagen.');
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
             }
 
             return $this->redirectToView($entity);
@@ -148,8 +182,16 @@ class AbstractController extends SymfonyController
                 $this->dao->delete($entity);
                 $this->addFlash('success', $this->entityName.' is verwijderd.');
 
+                if ($url = $request->get('redirect')) {
+                    return $this->redirect($url);
+                }
+
                 return $this->redirectToIndex();
             } else {
+                if ($url = $request->get('redirect')) {
+                    return $this->redirect($url);
+                }
+
                 return $this->redirectToView($entity);
             }
         }

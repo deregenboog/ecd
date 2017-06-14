@@ -21,7 +21,9 @@ class DeelnemerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data']->getKlant()->getId()) {
-            $builder->add('medewerker', MedewerkerType::class);
+            $builder
+                ->add('medewerker', MedewerkerType::class)
+            ;
         } else {
             $builder
                 ->add('klant', KlantType::class)
@@ -31,31 +33,14 @@ class DeelnemerType extends AbstractType
             ;
         }
 
-        $builder->add('aanmelddatum', AppDateType::class);
-
-//         if (!$options['data']->getId()) {
-//             $builder
-//                 ->add('opmerking', TextareaType::class, [
-//                     'label' => 'Intakeverslag',
-//                     'required' => false,
-//                     'mapped' => false,
-//                     'attr' => ['rows' => 10],
-//                 ])
-//                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-//                     if ($event->getForm()->get('opmerking')->getData()) {
-//                         $verslag = new Verslag();
-//                         $verslag
-//                             ->setDatum($event->getData()->getAanmelddatum())
-//                             ->setOpmerking($event->getForm()->get('opmerking')->getData())
-//                             ->setMedewerker($event->getData()->getMedewerker())
-//                         ;
-//                         $event->getData()->addVerslag($verslag);
-//                     }
-//                 })
-//             ;
-//         }
-
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+        $builder
+            ->add('risDossiernummer')
+            ->add('aanmelddatum', AppDateType::class)
+            ->add('afsluitdatum', AppDateType::class, [
+                'required' => false,
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+        ;
     }
 
     /**

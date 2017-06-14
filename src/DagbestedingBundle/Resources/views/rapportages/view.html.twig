@@ -1,0 +1,77 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>
+        Rapportagemoment {{ entity.datum|date('d-m-Y') }}
+    </h1>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Datum</dt>
+        <dd>
+            {% set color = (entity.status == 'done') ? 'green' : (entity.status == 'almost') ? 'orange' : (entity.status == 'late') ? 'red' : 'black' %}
+            <span style="color: {{ color }}">{{ entity.datum|date('d-m-Y') }}</span>
+        </dd>
+        <dt>Traject</dt>
+        <dd>{{ html.link(entity.traject.soort, path('dagbesteding_trajecten_view', {id: entity.traject.id})) }}</dd>
+        <dt>Deelnemer</dt>
+        <dd>{{ html.link(entity.traject.deelnemer.klant, path('dagbesteding_deelnemers_view', {id: entity.traject.deelnemer.id})) }}</dd>
+        <dt>Resultaatgebied</dt>
+        <dd>{{ entity.traject.resultaatgebied.soort }} (sinds {{ entity.traject.resultaatgebied.startdatum|date('d-m-Y') }})</dd>
+        {% if entity.traject.resultaatgebieden|length > 1 %}
+            <dt>Eerdere resultaatgebieden</dt>
+            <dd>
+                <ul>
+                {% for i, resultaatgebied in entity.traject.resultaatgebieden %}
+                    {% if i > 0 %}
+                        <li>{{ resultaatgebied.soort }} (sinds {{ resultaatgebied.startdatum|date('d-m-Y') }})</li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </dd>
+        {% endif %}
+        <dt>Startdatum</dt>
+        <dd>{{ entity.traject.startdatum|date('d-m-Y') }}</dd>
+        <dt>Geplande einddatum</dt>
+        <dd>{{ entity.traject.einddatum|date('d-m-Y') }}</dd>
+        <dt>Werklocatie(s)</dt>
+        <dd>
+            <ul>
+                {% for locatie in entity.traject.locaties %}
+                    <li>{{ locatie }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Project(en)</dt>
+        <dd>
+            <ul>
+                {% for project in entity.traject.projecten %}
+                    <li>{{ project }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Begeleider</dt>
+        <dd>{{ entity.traject.begeleider }}</dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.traject.afsluitdatum ? entity.traject.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ entity.traject.afsluiting }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    {% include 'DagbestedingBundle:documenten:_list.html.twig' with {rapportage: entity} %}
+{% endblock %}

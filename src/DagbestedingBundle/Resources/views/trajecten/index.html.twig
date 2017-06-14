@@ -12,7 +12,7 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <table class="table table-hover">
-{#        <tr>
+        <tr>
             {{ form_start(filter) }}
             <th>
                 {{ form_widget(filter.id) }}
@@ -23,14 +23,28 @@
                 {{ form_errors(filter.klant.naam) }}
             </th>
             <th>
-                {{ form_widget(filter.klant.stadsdeel) }}
-                {{ form_errors(filter.klant.stadsdeel) }}
+                {{ form_widget(filter.soort) }}
+                {{ form_errors(filter.soort) }}
+            </th>
+            <th>
+                {{ form_widget(filter.resultaatgebied.soort) }}
+                {{ form_errors(filter.resultaatgebied.soort) }}
+            </th>
+            <th>
+                {{ form_widget(filter.begeleider) }}
+                {{ form_errors(filter.begeleider) }}
             </th>
             <th>
                 {{ form_widget(filter.startdatum.start) }}
                 {{ form_errors(filter.startdatum.start) }}
                 {{ form_widget(filter.startdatum.end) }}
                 {{ form_errors(filter.startdatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.rapportage.datum.start) }}
+                {{ form_errors(filter.rapportage.datum.start) }}
+                {{ form_widget(filter.rapportage.datum.end) }}
+                {{ form_errors(filter.rapportage.datum.end) }}
             </th>
             <th>
                 {{ form_widget(filter.afsluitdatum.start) }}
@@ -44,12 +58,21 @@
             </th>
             {{ form_end(filter) }}
         </tr>
-#}        <tr>
+        <tr>
             <th>
                 {{ knp_pagination_sortable(pagination, '#', 'traject.id') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Soort', 'trajectsoort.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Resultaatgebied', 'resultaatgebiedsoort.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Trajectbegeleider', 'begeleider.achternaam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
@@ -58,10 +81,7 @@
                 {{ knp_pagination_sortable(pagination, 'Rapportagedata', 'rapportage.datum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Geplande einddatum', 'traject.einddatum') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Resultaat', 'traject.resultaat') }}
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'traject.afsluitdatum') }}
             </th>
             <th>
             </th>
@@ -75,17 +95,29 @@
                 {{ traject.deelnemer.klant.naam }}
             </td>
             <td>
+                {{ traject.soort }}
+            </td>
+            <td>
+                {{ traject.resultaatgebied.soort }}
+            </td>
+            <td>
+                {{ traject.begeleider }}
+            </td>
+            <td>
                 {{ traject.startdatum|date('d-m-Y') }}
             </td>
             <td>
-                {% for rapportage in traject.rapportages %}
-                    {{ rapportage.datum|date('d-m-Y') }}
-                {% endfor %}
+                <ul>
+                    {% for rapportage in traject.rapportages %}
+                        <li>{{ rapportage.datum|date('d-m-Y') }}</li>
+                    {% endfor %}
+                </ul>
             </td>
             <td>
-                {{ traject.afsluitdatum ? traject.afsluitdatum | date('d-m-Y') }}
-            </td>
-            <td>
+                {% if traject.afsluitdatum %}
+                    {{ traject.afsluitdatum ? traject.afsluitdatum|date('d-m-Y') }}<br>
+                    ({{ traject.afsluiting }})
+                {% endif %}
             </td>
             <td>
                 {{ html.viewLink(path('dagbesteding_trajecten_view', {id: traject.id})) }}

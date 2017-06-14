@@ -2,14 +2,15 @@
 
 namespace DagbestedingBundle\Report;
 
-use Doctrine\ORM\EntityRepository;
+use AppBundle\Service\AbstractDao;
+use AppBundle\Report\Table;
 
 abstract class AbstractReport
 {
     /**
-     * EntityRepository.
+     * @var AbstractDao
      */
-    protected $repository;
+    protected $dao;
 
     /**
      * @var \DateTime
@@ -51,8 +52,6 @@ abstract class AbstractReport
 
     abstract protected function init();
 
-    abstract protected function build();
-
     public function getTitle()
     {
         return $this->title;
@@ -88,5 +87,20 @@ abstract class AbstractReport
         $this->build();
 
         return $this->reports;
+    }
+
+    protected function build()
+    {
+        foreach ($this->tables as $title => $table) {
+            $table = new Table($table, $this->xPath, $this->yPath, $this->nPath);
+            $table->setStartDate($this->startDate)->setEndDate($this->endDate);
+
+            $this->reports[] = [
+                'title' => $title,
+                'xDescription' => $this->xDescription,
+                'yDescription' => $this->yDescription,
+                'data' => $table->render(),
+            ];
+        }
     }
 }

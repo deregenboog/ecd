@@ -13,8 +13,8 @@ use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Export\GenericExport;
 
 /**
  * @Route("/deelnemers")
@@ -34,6 +34,13 @@ class DeelnemersController extends AbstractController
      * @DI\Inject("dagbesteding.dao.deelnemer")
      */
     protected $dao;
+
+    /**
+     * @var GenericExport
+     *
+     * @DI\Inject("dagbesteding.export.deelnemers")
+     */
+    protected $export;
 
     /**
      * @Route("/add")
@@ -74,7 +81,6 @@ class DeelnemersController extends AbstractController
         $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
-        $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
         $filterForm->handleRequest($request);
 
         $selectionForm = $this->createForm(DeelnemerSelectType::class, null, [

@@ -48,13 +48,21 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ->findOneBy(['klant' => $klant]);
 
         if ($deelnemer instanceof Deelnemer) {
+            if ($deelnemer->getAfsluitdatum()) {
+                $value = sprintf('Van %s tot %s', $deelnemer->getAanmelddatum()->format('d-m-Y'), $deelnemer->getAfsluitdatum()->format('d-m-Y'));
+            } else {
+                $value = sprintf('Sinds %s', $deelnemer->getAanmelddatum()->format('d-m-Y'));
+            }
+
+            if (count($deelnemer->getTrajecten()) > 0) {
+                $value .= sprintf(' (trajectbegeleider: %s)', (string) $deelnemer->getTrajecten()[0]->getBegeleider());
+            }
+
             $event->addDienst([
                 'name' => 'Dagbesteding',
                 'url' => $this->generator->generate('dagbesteding_deelnemers_view', ['id' => $deelnemer->getId()]),
-                'from' => $deelnemer->getAanmelddatum() ? $deelnemer->getAanmelddatum()->format('Y-m-d') : null,
-                'to' => $deelnemer->getAfsluitdatum() ? $deelnemer->getAfsluitdatum()->format('Y-m-d') : null,
-                'type' => 'date',
-                'value' => '',
+                'type' => 'string',
+                'value' => $value,
             ]);
         }
     }

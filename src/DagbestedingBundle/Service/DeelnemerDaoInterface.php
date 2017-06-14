@@ -8,6 +8,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface DeelnemerDaoInterface
 {
+    const FASE_BEGINSTAND = 'beginstand';
+    const FASE_GESTART = 'gestart';
+    const FASE_GESTOPT = 'gestopt';
+    const FASE_EINDSTAND = 'eindstand';
+
     /**
      * @param int             $page
      * @param FilterInterface $filter
@@ -37,4 +42,12 @@ interface DeelnemerDaoInterface
      * @param Deelnemer $deelnemer
      */
     public function delete(Deelnemer $deelnemer);
+
+    public function countByBegeleider($fase, \DateTime $startdate, \DateTime $enddate);
+
+    public function countByLocatie($fase, \DateTime $startdate, \DateTime $enddate);
+
+    public function countByProject($fase, \DateTime $startdate, \DateTime $enddate);
+
+    public function countByResultaatgebiedsoort($fase, \DateTime $startdate, \DateTime $enddate);
 }

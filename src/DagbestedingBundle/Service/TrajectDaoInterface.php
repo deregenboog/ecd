@@ -5,9 +5,15 @@ namespace DagbestedingBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use DagbestedingBundle\Entity\Traject;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use DagbestedingBundle\Form\DagdelenModel;
 
 interface TrajectDaoInterface
 {
+    const FASE_BEGINSTAND = 'beginstand';
+    const FASE_GESTART = 'gestart';
+    const FASE_GESTOPT = 'gestopt';
+    const FASE_EINDSTAND = 'eindstand';
+
     /**
      * @param int             $page
      * @param FilterInterface $filter
@@ -37,4 +43,9 @@ interface TrajectDaoInterface
      * @param Traject $traject
      */
     public function delete(Traject $traject);
+
+    /**
+     * @param Traject $traject
+     */
+    public function updateDagdelen(DagdelenModel $dagdelenModel);
 }

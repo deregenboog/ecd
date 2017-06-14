@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Service;
 
 use DagbestedingBundle\Entity\Trajectbegeleider;
 use AppBundle\Service\AbstractDao;
+use AppBundle\Filter\FilterInterface;
 
 class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoInterface
 {
@@ -18,7 +19,7 @@ class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoIn
 
     protected $class = Trajectbegeleider::class;
 
-    public function findAll($page = 1)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('trajectbegeleider')
             ->innerJoin('trajectbegeleider.medewerker', 'medewerker');

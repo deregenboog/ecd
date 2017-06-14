@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Contactpersoon verwijderen</h1>
+    <dl class="dl-horizontal">
+        <dt>Soort</dt>
+        <dd>{{ entity.soorten[entity.soort] }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity.naam }}</dd>
+        <dt>Telefoon</dt>
+        <dd>{{ entity.telefoon }}</dd>
+        <dt>E-mail</dt>
+        <dd>{{ entity.email }}</dd>
+        <dt>Opmerking</dt>
+        <dd>{{ entity.opmerking }}</dd>
+    </dl>
+    <p>
+        Weet u zeker dat u bovenstaande contactpersoon wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

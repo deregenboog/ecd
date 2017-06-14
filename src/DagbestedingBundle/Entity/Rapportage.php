@@ -4,9 +4,9 @@ namespace DagbestedingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\OptionalMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Rapportage
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait, OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -44,19 +44,36 @@ class Rapportage
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="dagbesteding_rapportage_document")
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
 
-    public function __construct(\DateTime $datum)
+    public function __construct(\DateTime $datum = null)
     {
         $this->datum = $datum;
+
         $this->documenten = new ArrayCollection();
     }
 
     public function __toString()
     {
         return 'Rapportage van '.$this->datum->format('d-m-Y');
+    }
+
+    public function getStatus()
+    {
+        if (count($this->documenten) > 0) {
+            return 'done';
+        }
+
+        if ($this->datum < new \DateTime()) {
+            return 'late';
+        }
+
+        if ($this->datum < new \DateTime('+1 month')) {
+            return 'almost';
+        }
     }
 
     public function getId()
@@ -96,5 +113,12 @@ class Rapportage
     public function isDeletable()
     {
         return 0 === count($this->documenten);
+    }
+
+    public function setDatum(\DateTime $datum)
+    {
+        $this->datum = $datum;
+
+        return $this;
     }
 }

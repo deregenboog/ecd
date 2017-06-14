@@ -1,0 +1,17 @@
+<h2>Dagdelen</h2>
+<table class="table">
+    <tr>
+        <th>Maand</th>
+        <th>Dagdelen</th>
+        <th></th>
+    </tr>
+    {% for dagdeel in entity.countDagdelenByMonth %}
+        <tr>
+            <td>{{ dagdeel.maand|date('m-Y') }}</td>
+            <td>{{ dagdeel.aantal }}</td>
+            <td>
+                {{ html.editlink(path('dagbesteding_trajecten_editdagdelen', {id: traject.id, month: dagdeel.maand|date('Y-m')})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

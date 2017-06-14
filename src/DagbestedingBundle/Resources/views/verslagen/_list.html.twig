@@ -2,9 +2,13 @@
 <p>
     {% if deelnemer is defined %}
         {% set url = path('dagbesteding_verslagen_add', {deelnemer: deelnemer.id, redirect: app.request.get('url')}) %}
+    {% elseif traject is defined %}
+        {% set url = path('dagbesteding_verslagen_add', {traject: traject.id, redirect: app.request.get('url')}) %}
     {% endif %}
-    {{ html.addLink(url) }}
-    {{ html.link('Verslag toevoegen', url) }}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Verslag toevoegen', url) }}
+    {% endif %}
 </p>
 <table class="table">
     {% for verslag in entity.verslagen %}

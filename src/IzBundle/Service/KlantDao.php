@@ -29,8 +29,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $expr = new Expr();
-
         $builder = $this->repository->createQueryBuilder('izKlant')
             ->select('izKlant, klant, izHulpvraag, izProject, medewerker')
             ->innerJoin('izKlant.klant', 'klant')
@@ -38,7 +36,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('izHulpvraag.izProject', 'izProject')
             ->leftJoin('izHulpvraag.medewerker', 'medewerker')
             ->where('klant.disabled = false')
-            ->setParameter('now', new \DateTime())
         ;
 
         if ($filter) {

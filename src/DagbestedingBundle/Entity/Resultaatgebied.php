@@ -3,8 +3,6 @@
 namespace DagbestedingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -15,15 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Resultaatgebied
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    const TYPES = [
-        'nvt' => 'n.v.t.',
-        '2' => '2 Meedoen',
-        '3' => '3 Meewerken',
-        '4' => '4 Arbeidsmatige activering',
-    ];
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -39,10 +28,11 @@ class Resultaatgebied
     private $traject;
 
     /**
-     * @ORM\Column
+     * @var Resultaatgebiedsoort
+     * @ORM\ManyToOne(targetEntity="Resultaatgebiedsoort", inversedBy="resultaatgebieden")
      * @Gedmo\Versioned
      */
-    private $type = self::TYPES['nvt'];
+    private $soort;
 
     /**
      * @ORM\Column(type="date")
@@ -50,8 +40,9 @@ class Resultaatgebied
      */
     private $startdatum;
 
-    public function __construct()
+    public function __construct(Resultaatgebiedsoort $soort = null)
     {
+        $this->soort = $soort;
         $this->setStartdatum(new \DateTime());
     }
 
@@ -94,14 +85,14 @@ class Resultaatgebied
         return false;
     }
 
-    public function getType()
+    public function getSoort()
     {
-        return $this->type;
+        return $this->soort;
     }
 
-    public function setType($type)
+    public function setSoort(Resultaatgebiedsoort $soort)
     {
-        $this->type = $type;
+        $this->soort = $soort;
 
         return $this;
     }

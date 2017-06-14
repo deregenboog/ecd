@@ -1,17 +1,41 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
 services:
+    dagbesteding.contactpersoon.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+
+    dagbesteding.dagdeel.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
+
     dagbesteding.document.entities:
         class: ArrayObject
         arguments:
             -
-              - { class: DagbestedingBundle\Entity\Deelnemer, key: deelnemer }
-              - { class: DagbestedingBundle\Entity\Traject, key: traject }
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
+              - { key: rapportage, dao: '@dagbesteding.dao.rapportage' }
+
+    dagbesteding.rapportage.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
 
     dagbesteding.verslag.entities:
         class: ArrayObject
         arguments:
             -
-              - { class: DagbestedingBundle\Entity\Deelnemer, key: deelnemer }
-              - { class: DagbestedingBundle\Entity\Traject, key: traject }
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
 
     dagbesteding.event.diensten_lookup_subscriber:
         class: DagbestedingBundle\Event\DienstenLookupSubscriber
@@ -25,46 +49,3 @@ services:
         class: DagbestedingBundle\DataFixtures\DagbestedingFakerProvider
         tags:
             - { name: hautelook_alice.faker.provider }
-
-    dagbesteding.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
-    dagbesteding.dao.deelnemer:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DeelnemerDao
-
-    dagbesteding.dao.deelnemerafsluiting:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DeelnemerAfsluitingDao
-
-    dagbesteding.dao.document:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DocumentDao
-
-    dagbesteding.dao.locatie:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\LocatieDao
-
-    dagbesteding.dao.project:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ProjectDao
-
-    dagbesteding.dao.traject:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectDao
-
-    dagbesteding.dao.trajectafsluiting:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectAfsluitingDao
-
-    dagbesteding.dao.trajectbegeleider:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectbegeleiderDao
-
-    dagbesteding.dao.verslag:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\VerslagDao

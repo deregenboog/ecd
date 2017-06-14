@@ -2,9 +2,15 @@
 <p>
     {% if deelnemer is defined %}
         {% set url = path('dagbesteding_documenten_add', {deelnemer: deelnemer.id, redirect: app.request.get('url')}) %}
+    {% elseif traject is defined %}
+        {% set url = path('dagbesteding_documenten_add', {traject: traject.id, redirect: app.request.get('url')}) %}
+    {% elseif rapportage is defined %}
+        {% set url = path('dagbesteding_documenten_add', {rapportage: rapportage.id, redirect: app.request.get('url')}) %}
     {% endif %}
-    {{ html.addLink(url) }}
-    {{ html.link('Document toevoegen', url) }}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Document toevoegen', url) }}
+    {% endif %}
 </p>
 <table class="table">
     {% for document in entity.documenten %}

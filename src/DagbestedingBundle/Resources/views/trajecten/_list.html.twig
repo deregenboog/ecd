@@ -13,14 +13,16 @@
 </p>
 <table class="table">
     <tr>
-        <th>Stadsdeel</th>
+        <th>Soort</th>
+        <th>Resultaatgebied</th>
         <th>Startdatum</th>
         <th>Afsluitdatum</th>
         <th></th>
     </tr>
     {% for traject in entity.trajecten %}
         <tr>
-            <td>{{ traject.deelnemer.klant.werkgebied }}</td>
+            <td>{{ traject.soort }}</td>
+            <td>{{ traject.resultaatgebied }}</td>
             <td>
                 {{ traject.startdatum ? traject.startdatum|date('d-m-Y') }}
             </td>

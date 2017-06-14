@@ -8,8 +8,10 @@ use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use DagbestedingBundle\Filter\TrajectFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use DagbestedingBundle\Entity\Trajectsoort;
+use DagbestedingBundle\Entity\Trajectbegeleider;
 
 class TrajectFilterType extends AbstractType
 {
@@ -29,8 +31,41 @@ class TrajectFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
+
+        if (in_array('soort', $options['enabled_filters'])) {
+            $builder->add('soort', EntityType::class, [
+                'class' => Trajectsoort::class,
+                'required' => false,
+            ]);
+        }
+
+        if (array_key_exists('resultaatgebied', $options['enabled_filters'])) {
+            $builder->add('resultaatgebied', ResultaatgebiedFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['resultaatgebied'],
+            ]);
+        }
+
+        if (in_array('begeleider', $options['enabled_filters'])) {
+            $builder->add('begeleider', EntityType::class, [
+                'class' => Trajectbegeleider::class,
+                'required' => false,
+            ]);
+        }
+
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (array_key_exists('rapportage', $options['enabled_filters'])) {
+            $builder->add('rapportage', RapportageFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['rapportage'],
+            ]);
+        }
+
+        if (in_array('einddatum', $options['enabled_filters'])) {
+            $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
@@ -40,11 +75,6 @@ class TrajectFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
     }
 
     /**
@@ -62,6 +92,18 @@ class TrajectFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TrajectFilter::class,
+            'enabled_filters' => [
+                'id',
+                'klant' => ['naam'],
+                'soort',
+                'resultaatgebied' => ['soort'],
+                'begeleider',
+                'startdatum',
+                'rapportage' => ['datum'],
+                'afsluitdatum',
+                'filter',
+                'download',
+            ],
         ]);
     }
 }

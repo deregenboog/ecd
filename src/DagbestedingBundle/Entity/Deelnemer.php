@@ -34,7 +34,7 @@ class Deelnemer
      * @ORM\Column(nullable=true)
      * @Gedmo\Versioned
      */
-    private $risDossierNummer;
+    private $risDossiernummer;
 
     /**
      * @var \DateTime
@@ -74,6 +74,7 @@ class Deelnemer
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
+     * @ORM\JoinTable(name="dagbesteding_deelnemer_verslag")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -82,6 +83,7 @@ class Deelnemer
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="dagbesteding_deelnemer_document")
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -94,10 +96,20 @@ class Deelnemer
      */
     private $trajecten;
 
+    /**
+     * @var ArrayCollection|Contactpersoon[]
+     *
+     * @ORM\OneToMany(targetEntity="Contactpersoon", mappedBy="deelnemer", cascade={"persist"})
+     * @ORM\OrderBy({"soort" = "DESC"})
+     */
+    private $contactpersonen;
+
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
 
+        $this->trajecten = new ArrayCollection();
+        $this->contactpersonen = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }
@@ -146,7 +158,7 @@ class Deelnemer
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -194,7 +206,7 @@ class Deelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(DeelnemerAfsluiting $afsluiting)
+    public function setAfsluiting(Deelnemerafsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
 
@@ -209,6 +221,31 @@ class Deelnemer
     public function setTrajecten($trajecten)
     {
         $this->trajecten = $trajecten;
+
+        return $this;
+    }
+
+    public function getRisDossiernummer()
+    {
+        return $this->risDossiernummer;
+    }
+
+    public function setRisDossiernummer($risDossiernummer)
+    {
+        $this->risDossiernummer = $risDossiernummer;
+
+        return $this;
+    }
+
+    public function getContactpersonen()
+    {
+        return $this->contactpersonen;
+    }
+
+    public function addContactpersoon(Contactpersoon $contactpersoon)
+    {
+        $this->contactpersonen[] = $contactpersoon;
+        $contactpersoon->setDeelnemer($this);
 
         return $this;
     }
