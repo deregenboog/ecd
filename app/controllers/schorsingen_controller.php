@@ -52,7 +52,7 @@ class SchorsingenController extends AppController
 
                 if ($this->Schorsing->save($this->data)) {
                     $this->flash(__('The schorsing has been saved', true));
-                    $this->sendSchorsingEmail($this->Schorsing->id, $klant_id, $locatie_id);
+                    $this->sendSchorsingEmail($this->Schorsing->id, $klant_id);
 
                     $redirect_url = ['action' => 'index', $klant_id];
                     if (isset($locatie_id)) {
@@ -110,7 +110,7 @@ class SchorsingenController extends AppController
 
     private function sendSchorsingEmail($schorsing_id)
     {
-        $schorsing = $this->Schorsing->find($schorsing_id);
+        $schorsing = $this->Schorsing->findById($schorsing_id);
 
         if (!isset($this->Medewerker)) {
             $this->loadModel('Medewerker');
