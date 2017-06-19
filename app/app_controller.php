@@ -484,7 +484,7 @@ class AppController extends Controller implements ContainerAwareInterface
             $this->Email->startup($this);
         }
 
-        $defaults = array(
+        $defaults = [
             'template' => 'default',
             'from_id' => null,
             'to' => [],
@@ -501,7 +501,7 @@ class AppController extends Controller implements ContainerAwareInterface
             'replyTo' => 'noreply@deregenboog.org',
             'returnPath' => 'noreply@deregenboog.org',
             'sendAs' => 'text',
-        );
+        ];
 
         $params = array_merge($defaults, $parameters);
         $this->set('params', $params);
