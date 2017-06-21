@@ -389,10 +389,18 @@ class RegistratiesController extends AppController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
-        if (
-            !empty($location['Locatie']['gebruikersruimte']) &&
-            !empty($klant['LasteIntake']['mag_gebruiken']) &&
-            !$klant['Klant']['laatste_TBC_controle']
+        if (!empty($location['Locatie']['gebruikersruimte'])
+            && !empty($klant['LasteIntake']['mag_gebruiken'])
+            && new \DateTime($klant['LasteIntake']['datum_intake']) < new \DateTime('-2 months')
+        ) {
+            $jsonVar['allow'] = false;
+            $jsonVar['message'] = 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
+            goto render;
+        }
+
+        if (!empty($location['Locatie']['gebruikersruimte'])
+            && !empty($klant['LasteIntake']['mag_gebruiken'])
+            && !$klant['Klant']['laatste_TBC_controle']
         ) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze klant heeft geen TBC controle gehad en kan niet worden ingecheckt bij een locatie met een gebruikersruimte.';

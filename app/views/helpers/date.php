@@ -615,7 +615,7 @@ class DateHelper extends AppHelper
         if ($days == 0) {
             return 'vandaag';
         } elseif ($days < 7) {
-            return __tr(':days dagen', array('days' => $days));
+            return __tr(':days dagen', array('days' => floor($days)));
         } elseif ($days < 30) {
             return __tr(':weeks weken', array('weeks' => floor($days / 7)));
         } elseif ($days < 365) {

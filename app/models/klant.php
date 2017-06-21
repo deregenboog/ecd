@@ -543,7 +543,7 @@ class Klant extends AppModel
     public function update_last_intakes()
     {
         $ids = $this->find('list', array(
-                'fields' => 'id',
+            'fields' => 'id',
         ));
 
         foreach ($ids as $id) {
