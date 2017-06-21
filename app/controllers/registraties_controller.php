@@ -389,13 +389,21 @@ class RegistratiesController extends AppController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
-        if (!empty($location['Locatie']['gebruikersruimte'])
-            && !empty($klant['LasteIntake']['mag_gebruiken'])
-            && new \DateTime($klant['LasteIntake']['datum_intake']) < new \DateTime('-2 months')
-        ) {
-            $jsonVar['allow'] = false;
-            $jsonVar['message'] = 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
-            goto render;
+        if (!empty($location['Locatie']['gebruikersruimte'])) {
+            $this->loadModel('Registratie');
+            $laatsteRegistratie = $this->Registratie->find('first', [
+                'conditions' => [
+                    'klant_id' => $klant['Klant']['id'],
+                    'locatie_id' => $location['Locatie']['id'],
+                ],
+                'order' => ['Registratie.binnen' => 'DESC'],
+                'recursive' => -1,
+            ]);
+            if (new \DateTime($laatsteRegistratie['Registratie']['binnen']) < new \DateTime('-2 months')) {
+                $jsonVar['allow'] = false;
+                $jsonVar['message'] = 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
+                goto render;
+            }
         }
 
         if (!empty($location['Locatie']['gebruikersruimte'])
