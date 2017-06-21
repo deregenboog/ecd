@@ -10,6 +10,11 @@ use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
+use InloopBundle\Entity\RedenAfsluiting;
 
 class AfsluitingType extends AbstractType
 {
@@ -30,6 +35,36 @@ class AfsluitingType extends AbstractType
                     ;
                 },
             ])
+        ;
+
+        $builder->get('reden')->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+            $form = $event->getForm();
+            if ($form->getData() && $form->getData()->isLand()) {
+                $form->getParent()->add('land', null, [
+                    'required' => true,
+                    'placeholder' => '',
+                    'label' => 'Land van bestemming',
+                ]);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
+            if (!$form->has('land') && array_key_exists('land', $event->getData())) {
+                unset($data['land']);
+                $event->setData($data);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+            $form = $event->getForm();
+            if ($form->has('land') && !$form->get('land')->getData()) {
+                $form->get('land')->addError(new FormError('Selecteer een land'));
+            }
+        });
+
+        $builder
             ->add('toelichting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

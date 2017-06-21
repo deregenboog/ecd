@@ -41,12 +41,20 @@ class RedenAfsluiting
     private $actief = true;
 
     /**
-     * @var bool
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $gewicht = 0;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $land = false;
 
     public function __toString()
     {
@@ -78,6 +86,18 @@ class RedenAfsluiting
     public function setActief($actief)
     {
         $this->actief = $actief;
+
+        return $this;
+    }
+
+    public function isLand()
+    {
+        return $this->land;
+    }
+
+    public function setLand($land)
+    {
+        $this->land = $land;
 
         return $this;
     }

@@ -3,6 +3,13 @@
 </div>
 <div class="klanten view">
     <h2>Inloop-dossier afsluiten</h2>
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.datum) }}
+    {{ form_row(form.reden) }}
+    {{ form.land is defined ? form_row(form.land) }}
+    {{ form_row(form.toelichting) }}
+    {{ form_row(form.reden) }}
+    {{ form_end(form) }}
     {{ html.link('Terug', {controller: 'klanten', action: 'view', 0: klant.id})|raw }}
 </div>

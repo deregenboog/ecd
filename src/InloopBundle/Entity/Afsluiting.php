@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Afsluiting extends DossierStatus
 {
     /**
+     * @var RedenAfsluiting
+     *
      * @ORM\ManyToOne(targetEntity="RedenAfsluiting")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
@@ -28,6 +30,12 @@ class Afsluiting extends DossierStatus
      * @Gedmo\Versioned
      */
     protected $toelichting;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
+     * @Gedmo\Versioned
+     */
+    protected $land;
 
     public function __toString()
     {
@@ -61,4 +69,15 @@ class Afsluiting extends DossierStatus
         return $this;
     }
 
+    public function getLand()
+    {
+        return $this->land;
+    }
+
+    public function setLand($land = null)
+    {
+        $this->land = $land;
+
+        return $this;
+    }
 }
