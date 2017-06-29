@@ -1,0 +1,35 @@
+<h2>Vragen</h2>
+<p>
+    {% if client is defined %}
+        {% set entity = client %}
+        {% set url = path('clip_vragen_add', {client: entity.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Vraag toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table">
+    <tr>
+        <th>Soort</th>
+        <th>Communicatiekanaal</th>
+        <th>Startdatum</th>
+        <th>Afsluitdatum</th>
+        <th></th>
+    </tr>
+    {% for vraag in entity.vragen %}
+        <tr>
+            <td>{{ vraag.soort }}</td>
+            <td>{{ vraag.communicatiekanaal }}</td>
+            <td>
+                {{ vraag.startdatum ? vraag.startdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ vraag.afsluitdatum ? vraag.afsluitdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ html.viewlink(path('clip_vragen_view', {id: vraag.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

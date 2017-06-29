@@ -455,6 +455,9 @@ parameters:
             dagbesteding:
                 label: Dagbesteding
                 url: dagbesteding
+            clip:
+                label: Clip
+                url: clip
             Admin:
                 label: Admin
                 url: Admin

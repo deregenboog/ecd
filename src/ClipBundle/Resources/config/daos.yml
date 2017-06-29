@@ -1,0 +1,47 @@
+services:
+    clip.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    clip.dao.behandelaar:
+        parent: clip.dao
+        class: ClipBundle\Service\BehandelaarDao
+
+    clip.dao.client:
+        parent: clip.dao
+        class: ClipBundle\Service\ClientDao
+
+    clip.dao.communicatiekanaal:
+        parent: clip.dao
+        class: ClipBundle\Service\CommunicatiekanaalDao
+
+    clip.dao.contactmoment:
+        parent: clip.dao
+        class: ClipBundle\Service\ContactmomentDao
+
+    clip.dao.document:
+        parent: clip.dao
+        class: ClipBundle\Service\DocumentDao
+
+    clip.dao.hulpvrager:
+        parent: clip.dao
+        class: ClipBundle\Service\HulpvragerDao
+
+    clip.dao.leeftijdscategorie:
+        parent: clip.dao
+        class: ClipBundle\Service\LeeftijdscategorieDao
+
+    clip.dao.viacategorie:
+        parent: clip.dao
+        class: ClipBundle\Service\ViacategorieDao
+
+    clip.dao.vraag:
+        parent: clip.dao
+        class: ClipBundle\Service\VraagDao
+
+    clip.dao.vraagsoort:
+        parent: clip.dao
+        class: ClipBundle\Service\VraagsoortDao

@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use DagbestedingBundle\Exception\DagbestedingException;
 
 class AbstractChildController extends AbstractController
 {
@@ -23,6 +22,10 @@ class AbstractChildController extends AbstractController
      */
     public function addAction(Request $request)
     {
+        if (!$this->addMethod) {
+            throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
+        }
+
         list($parentEntity, $parentDao) = $this->getParentConfig($request);
         $entity = new $this->entityClass();
 
@@ -33,7 +36,7 @@ class AbstractChildController extends AbstractController
             try {
                 $parentEntity->{$this->addMethod}($entity);
                 $parentDao->update($parentEntity);
-                $this->addFlash('success', $this->entityName.' is toegevoegd.');
+                $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
@@ -47,6 +50,7 @@ class AbstractChildController extends AbstractController
 
         return [
             'entity' => $entity,
+            'parent_entity' => $parentEntity,
             'form' => $form->createView(),
         ];
     }
@@ -62,6 +66,6 @@ class AbstractChildController extends AbstractController
             }
         }
 
-        throw new DagbestedingException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+        throw new \RuntimeException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
     }
 }

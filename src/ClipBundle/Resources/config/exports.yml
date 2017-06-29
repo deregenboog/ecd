@@ -1,0 +1,47 @@
+services:
+    clip.export.clienten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - ClipBundle\Entity\Client
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+
+    clip.export.vragen:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - ClipBundle\Entity\Vraag
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Soort: { expression: 'entity.getSoort()' }
+                Medewerker: { expression: 'entity.getMedewerker()' }
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getClient().getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getClient().getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getClient().getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getClient().getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getClient().getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getClient().getKlant().getEmail()' }
+                Adres: { expression: 'entity.getClient().getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getClient().getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getClient().getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getClient().getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getClient().getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getClient().getKlant().getWerkgebied()' }
+                Aanmelddatum: { expression: 'entity.getClient().getAanmelddatum()', type: 'date' }
+
+    clip.export.report:
+        class: ClipBundle\Export\ReportExport

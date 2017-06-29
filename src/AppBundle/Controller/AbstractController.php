@@ -131,7 +131,7 @@ class AbstractController extends SymfonyController
                 } else {
                     $this->dao->create($entity);
                 }
-                $this->addFlash('success', $this->entityName.' is opgeslagen.');
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
@@ -162,7 +162,7 @@ class AbstractController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 $this->dao->delete($entity);
-                $this->addFlash('success', $this->entityName.' is verwijderd.');
+                $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
                 if ($url = $request->get('redirect')) {
                     return $this->redirect($url);

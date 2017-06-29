@@ -1,0 +1,122 @@
+ClipBundle\Entity\Hulpvrager:
+    clip_hulpvragersoort_1:
+        naam: 'Cliënt'
+    clip_hulpvragersoort_2:
+        naam: 'Naaste'
+    clip_hulpvragersoort_3:
+        naam: 'Hulpverlener'
+    clip_hulpvragersoort_4:
+        naam: 'Overig'
+    clip_hulpvragersoort_5:
+        naam: 'Onbekend'
+
+ClipBundle\Entity\Viacategorie:
+    clip_viacategorie_1:
+        naam: 'Poster'
+    clip_viacategorie_2:
+        naam: 'Folder'
+    clip_viacategorie_3:
+        naam: 'Via bericht/advertentie in de media'
+    clip_viacategorie_4:
+        naam: 'Via internet/website'
+    clip_viacategorie_5:
+        naam: 'Verwezen door hulpverlener'
+    clip_viacategorie_6:
+        naam: 'Via DAC'
+    clip_viacategorie_7:
+        naam: 'Via via'
+    clip_viacategorie_8:
+        naam: 'Anders'
+    clip_viacategorie_9:
+        naam: 'Onbekend'
+
+ClipBundle\Entity\Leeftijdscategorie:
+    clip_leeftijdscategorie_1:
+        naam: 'Tot 18 jaar'
+    clip_leeftijdscategorie_2:
+        naam: '18 tm 34 jaar'
+    clip_leeftijdscategorie_3:
+        naam: '35 t/m 54 jaar'
+    clip_leeftijdscategorie_4:
+        naam: '55 t/m 64 jaar'
+    clip_leeftijdscategorie_5:
+        naam: '65 jaar en ouder'
+    clip_leeftijdscategorie_6:
+        naam: 'Onbekend'
+
+ClipBundle\Entity\Vraagsoort:
+    clip_vraagsoort_1:
+        naam: 'Cliëntenhulp'
+    clip_vraagsoort_2:
+        naam: 'Ziektes/Gezondheidszorg'
+    clip_vraagsoort_3:
+        naam: 'Sociale contacten'
+    clip_vraagsoort_4:
+        naam: 'Cursussen en scholing'
+    clip_vraagsoort_5:
+        naam: 'Sociale vaardigheidstraining/Assertiviteitstraining'
+    clip_vraagsoort_6:
+        naam: 'Werken'
+    clip_vraagsoort_7:
+        naam: 'Financiën'
+    clip_vraagsoort_8:
+        naam: 'Rechten/Klachten'
+    clip_vraagsoort_9:
+        naam: 'Wonen'
+    clip_vraagsoort_10:
+        naam: 'PGB'
+    clip_vraagsoort_11:
+        naam: 'Hart luchten'
+    clip_vraagsoort_12:
+        naam: 'Overig'
+
+ClipBundle\Entity\Communicatiekanaal:
+    clip_communicatiekanaal_1:
+        naam: 'Anders'
+    clip_communicatiekanaal_2:
+        naam: 'Bibliotheek'
+    clip_communicatiekanaal_3:
+        naam: 'Chat'
+    clip_communicatiekanaal_4:
+        naam: 'E-mail'
+    clip_communicatiekanaal_5:
+        naam: 'Inloop'
+    clip_communicatiekanaal_6:
+        naam: 'Locatie De Waterheuvel'
+    clip_communicatiekanaal_7:
+        naam: 'Locatie Robert Koch'
+    clip_communicatiekanaal_8:
+        naam: 'Locatie DAC Noord'
+    clip_communicatiekanaal_9:
+        naam: 'Locatie Zuidoost'
+    clip_communicatiekanaal_10:
+        naam: 'Markt Zuidoost'
+    clip_communicatiekanaal_11:
+        naam: 'Telefoon'
+    clip_communicatiekanaal_12:
+        naam: 'Via voorlichtingsbijeenkomsten/markten'
+    clip_communicatiekanaal_12:
+        naam: 'Website'
+    clip_communicatiekanaal_12:
+        naam: 'Onbekend'
+
+ClipBundle\Entity\Behandelaar:
+    clip_behandelaar_{1..5}:
+        medewerker (unique): '@medewerker_*'
+
+ClipBundle\Entity\Client:
+    clip_client_{1..20}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+        viacategorie: '@clip_viacategorie_*'
+
+ClipBundle\Entity\Vraag:
+    clip_vraag_{1..25}:
+        client: '@clip_client_*'
+        soort: '@clip_vraagsoort_*'
+        leeftijdscategorie: '@clip_leeftijdscategorie_*'
+        medewerker: '@medewerker_*'
+        omschrijving: '<sentence()>'
+        communicatiekanaal: '@clip_communicatiekanaal_*'
+        hulpvrager: '@clip_hulpvragersoort_*'

@@ -1,0 +1,30 @@
+<h2>Documenten</h2>
+<p>
+    {% if client is defined %}
+        {% set url = path('clip_documenten_add', {client: client.id, redirect: app.request.get('url')}) %}
+    {% elseif vraag is defined %}
+        {% set url = path('clip_documenten_add', {vraag: vraag.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Document toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table">
+    {% for document in entity.documenten %}
+        <tr>
+            <td>{{ document.naam }}</td>
+            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+            <td>
+                {{ html.editLink(path('clip_documenten_edit', {id: document.id, redirect: app.request.get('url')})) }}
+                {{ html.deleteLink(path('clip_documenten_delete', {id: document.id, redirect: app.request.get('url')})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

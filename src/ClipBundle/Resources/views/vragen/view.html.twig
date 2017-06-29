@@ -1,0 +1,68 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>
+        {{ entity }}
+    </h1>
+{% endblock %}
+
+{% block content_left %}
+    <h2>{{ entity_name|capitalize }}</h2>
+    <p>
+        {% if entity.actief %}
+            {{ html.editLink(path('clip_vragen_edit', {id: entity.id})) }}
+            {{ html.link('Wijzigen', path('clip_vragen_edit', {id: entity.id})) }}
+            {{ html.closeLink(path('clip_vragen_close', {id: entity.id})) }}
+            {{ html.link('Afsluiten', path('clip_vragen_close', {id: entity.id})) }}
+        {% endif %}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('clip_vragen_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('clip_vragen_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Cliënt</dt>
+        <dd>{{ html.link(entity.client, path('clip_clienten_view', {id: entity.client.id})) }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Leeftijdscategorie</dt>
+        <dd>{{ entity.leeftijdscategorie }}</dd>
+        <dt>Communicatiekanaal</dt>
+        <dd>{{ entity.communicatiekanaal }}</dd>
+        <dt>Soort</dt>
+        <dd>{{ entity.soort }}</dd>
+        <dt>Omschrijving</dt>
+        <dd>{{ entity.omschrijving }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+    </dl>
+
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#contactmomenten">Contactmomenten</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="contactmomenten" class="tab-pane active">
+            {% include 'ClipBundle:contactmomenten:_list.html.twig' with {vraag: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'ClipBundle:documenten:_list.html.twig' with {vraag: entity} %}
+        </div>
+    </div>
+{% endblock %}

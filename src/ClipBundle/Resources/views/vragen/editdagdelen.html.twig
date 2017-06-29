@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Dagdelen invoeren</h1>
+    {{ form_start(form) }}
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th colspan="4">
+                        <span class="pull-right">
+                            {{ form_widget(form.submit1) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Datum</th>
+                    <th>Ochtend</th>
+                    <th>Middag</th>
+                    <th>Avond</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for datum, dagdeel in form.dagdelen %}
+                    <tr>
+                        <td>{{ datum }}</td>
+                        <td>{{ form_widget(dagdeel.ochtendAanwezig, {label: false}) }}</td>
+                        <td>{{ form_widget(dagdeel.middagAanwezig, {label: false}) }}</td>
+                        <td>{{ form_widget(dagdeel.avondAanwezig, {label: false}) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <span class="pull-right">
+                            {{ form_widget(form.submit2) }}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    {{ form_end(form) }}
+{% endblock %}
