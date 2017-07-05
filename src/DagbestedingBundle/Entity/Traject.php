@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 /**
  * @ORM\Entity
@@ -409,6 +408,13 @@ class Traject
 
     public function addDagdeel(Dagdeel $dagdeel)
     {
+        foreach ($this->dagdelen as $existing) {
+            if ($dagdeel->isEqualTo($existing)) {
+                // ignore, already in collection
+                return $this;
+            }
+        }
+
         $this->dagdelen[] = $dagdeel;
         $dagdeel->setTraject($this);
 
@@ -417,19 +423,27 @@ class Traject
 
     public function removeDagdeel(Dagdeel $dagdeel)
     {
-        $this->dagdelen->removeElement($dagdeel);
-        $dagdeel->setTraject(null);
+        foreach ($this->dagdelen as $existing) {
+            if ($dagdeel->isEqualTo($existing)) {
+                $this->dagdelen->removeElement($existing);
+                $existing->setTraject(null);
+            }
+        }
 
         return $this;
     }
 
     public function countDagdelenByMonth()
     {
+        $key = function (\DateTime $date) {
+            return $date->format('Y-m');
+        };
+
         $date = new \DateTime('first day of this month');
         $start = new \DateTime($this->startdatum->format('Y-m-01'));
 
         if (count($this->dagdelen) > 0) {
-            $eersteDagdeel = $this->dagdelen[count($this->dagdelen)-1];
+            $eersteDagdeel = $this->dagdelen[count($this->dagdelen) - 1];
             if ($eersteDagdeel->getDatum() < $this->startdatum) {
                 $start = new \DateTime($eersteDagdeel->getDatum()->format('Y-m-01'));
             }
@@ -437,21 +451,21 @@ class Traject
 
         $months = [];
         while ($date >= $start) {
-            $months[$date->format('Y-m')] = [
+            $months[$key($date)] = [
                 'maand' => clone $date,
-                'aantal' => 0,
+                'projecten' => [],
             ];
+            foreach ($this->projecten as $project) {
+                $months[$key($date)]['projecten'][$project->getId()] = [
+                    'project' => $project,
+                    'aantal' => 0,
+                ];
+            }
             $date->modify('-1 month');
         }
 
         foreach ($this->dagdelen as $dagdeel) {
-            if (!array_key_exists($dagdeel->getDatum()->format('Y-m'), $months)) {
-                $months[$dagdeel->getDatum()->format('Y-m')] = [
-                    'maand' => clone $dagdeel->getDatum(),
-                    'aantal' => 0,
-                ];
-            }
-            ++$months[$dagdeel->getDatum()->format('Y-m')]['aantal'];
+            ++$months[$key($dagdeel->getDatum())]['projecten'][$dagdeel->getProject()->getId()]['aantal'];
         }
 
         krsort($months);

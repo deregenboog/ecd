@@ -6,7 +6,6 @@ use AppBundle\Form\BaseType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DagdeelType extends AbstractType
 {
@@ -15,11 +14,7 @@ class DagdeelType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('ochtendAanwezig', CheckboxType::class, ['required' => false])
-            ->add('middagAanwezig', CheckboxType::class, ['required' => false])
-            ->add('avondAanwezig', CheckboxType::class, ['required' => false])
-        ;
+        $builder->add('aanwezig', CheckboxType::class, ['required' => false]);
     }
 
     /**

@@ -46,3 +46,4 @@ DagbestedingBundle\Entity\Traject:
         begeleider: '@dagbesteding_trajectbegeleider_*'
         soort: '@dagbesteding_trajectsoort_*'
         resultaatgebiedsoort: '@dagbesteding_resultaatgebiedsoort_*'
+        projects: '<numberBetween(1, 3)>x @dagbesteding_project_*'

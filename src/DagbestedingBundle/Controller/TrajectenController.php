@@ -14,6 +14,7 @@ use DagbestedingBundle\Service\TrajectDaoInterface;
 use DagbestedingBundle\Form\DagdelenModel;
 use DagbestedingBundle\Form\DagdelenType;
 use AppBundle\Form\Model\AppDateRangeModel;
+use DagbestedingBundle\Entity\Project;
 
 /**
  * @Route("/trajecten")
@@ -97,9 +98,9 @@ class TrajectenController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/dagdelen/edit/{month}")
+     * @Route("/{id}/dagdelen/edit/{project}/{month}")
      */
-    public function editDagdelenAction(Request $request, Traject $id, $month)
+    public function editDagdelenAction(Request $request, Traject $id, Project $project, $month)
     {
         $entity = $id;
 
@@ -107,13 +108,13 @@ class TrajectenController extends AbstractController
         $end = new \DateTime('last day of '.$start->format('M Y'));
         $range = new AppDateRangeModel($start, $end);
 
-        $form = $this->createForm(DagdelenType::class, new DagdelenModel($entity, $range));
+        $form = $this->createForm(DagdelenType::class, new DagdelenModel($entity, $project, $range));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($entity->getId()) {
-                    $this->dao->updateDagdelen($form->getData());
+                    $this->dao->update($form->getData()->getTraject());
                 }
                 $this->addFlash('success', 'De dagdelen zijn opgeslagen.');
             } catch (\Exception $e) {

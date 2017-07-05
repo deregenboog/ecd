@@ -32,9 +32,9 @@
                 {% for datum, dagdeel in form.dagdelen %}
                     <tr>
                         <td>{{ datum }}</td>
-                        <td>{{ form_widget(dagdeel.ochtendAanwezig, {label: false}) }}</td>
-                        <td>{{ form_widget(dagdeel.middagAanwezig, {label: false}) }}</td>
-                        <td>{{ form_widget(dagdeel.avondAanwezig, {label: false}) }}</td>
+                        <td>{{ dagdeel.ochtend is defined ? form_widget(dagdeel.ochtend.aanwezig, {label: false}) }}</td>
+                        <td>{{ dagdeel.middag is defined ? form_widget(dagdeel.middag.aanwezig, {label: false}) }}</td>
+                        <td>{{ dagdeel.avond is defined ? form_widget(dagdeel.avond.aanwezig, {label: false}) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

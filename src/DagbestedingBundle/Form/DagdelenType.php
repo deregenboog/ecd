@@ -19,7 +19,10 @@ class DagdelenType extends AbstractType
         $builder
             ->add('submit1', SubmitType::class, ['label' => 'Opslaan'])
             ->add('dagdelen', CollectionType::class, [
-                'entry_type' => DagdeelType::class,
+                'entry_type' => CollectionType::class,
+                'entry_options' => [
+                    'entry_type' => DagdeelType::class,
+                ],
             ])
             ->add('submit2', SubmitType::class, ['label' => 'Opslaan'])
         ;

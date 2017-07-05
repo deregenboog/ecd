@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use DagbestedingBundle\Entity\Traject;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use DagbestedingBundle\Form\DagdelenModel;
 
 interface TrajectDaoInterface
 {
@@ -43,9 +42,4 @@ interface TrajectDaoInterface
      * @param Traject $traject
      */
     public function delete(Traject $traject);
-
-    /**
-     * @param Traject $traject
-     */
-    public function updateDagdelen(DagdelenModel $dagdelenModel);
 }

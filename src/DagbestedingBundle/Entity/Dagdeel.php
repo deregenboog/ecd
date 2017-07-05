@@ -42,6 +42,14 @@ class Dagdeel
     private $traject;
 
     /**
+     * @var Project
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $project;
+
+    /**
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
@@ -53,8 +61,9 @@ class Dagdeel
      */
     private $dagdeel;
 
-    public function __construct(\DateTime $datum, $dagdeel)
+    public function __construct(Project $project, \DateTime $datum, $dagdeel)
     {
+        $this->project = $project;
         $this->datum = $datum;
         $this->dagdeel = $dagdeel;
 
@@ -97,10 +106,28 @@ class Dagdeel
         return $this->dagdeel;
     }
 
+    public function getProject()
+    {
+        return $this->project;
+    }
+
 //     public function setDagdeel($dagdeel)
 //     {
 //         $this->dagdeel = $dagdeel;
 
 //         return $this;
 //     }
+
+    /**
+     * @param Dagdeel $dagdeel
+     *
+     * @return bool
+     */
+    public function isEqualTo(Dagdeel $dagdeel)
+    {
+        return $this->datum == $dagdeel->getDatum()
+            && $this->project == $dagdeel->getProject()
+            && $this->dagdeel == $dagdeel->getDagdeel()
+        ;
+    }
 }

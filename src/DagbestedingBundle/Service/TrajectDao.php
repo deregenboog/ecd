@@ -6,10 +6,6 @@ use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Traject;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
-use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\EntityManager;
-use DagbestedingBundle\Entity\Dagdeel;
-use DagbestedingBundle\Form\DagdelenModel;
 
 class TrajectDao extends AbstractDao implements TrajectDaoInterface
 {
@@ -116,29 +112,5 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
             default:
                 throw new \InvalidArgumentException(sprintf('Ongeldige fase "%s"', $fase));
         }
-    }
-
-    /**
-     * @param Traject $traject
-     */
-    public function updateDagdelen(DagdelenModel $dagdelenModel)
-    {
-        // remove existing
-        $this->entityManager->getRepository(Dagdeel::class)->createQueryBuilder('dagdeel')
-            ->delete()
-            ->where('dagdeel.traject = :traject')
-            ->andWhere('dagdeel.datum >= :start')
-            ->andWhere('dagdeel.datum <= :end')
-            ->setParameters([
-                'traject' => $dagdelenModel->getTraject(),
-                'start' => $dagdelenModel->getDateRange()->getStart(),
-                'end' => $dagdelenModel->getDateRange()->getEnd(),
-            ])
-            ->getQuery()
-            ->execute()
-        ;
-
-        // persist
-        return $this->update($dagdelenModel->getTraject());
     }
 }
