@@ -1,4 +1,33 @@
 services:
+    dagbesteding.export.dagdelen:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - DagbestedingBundle\Entity\Dagdeel
+            -
+                Nummer: { expression: 'entity.getTraject().getDeelnemer().getKlant().getId()' }
+                Ris-dossiernummer: { expression: 'entity.getTraject().getDeelnemer().getRisDossiernummer()' }
+                Geslacht: { expression: 'entity.getTraject().getDeelnemer().getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getTraject().getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getTraject().getDeelnemer().getKlant().getEmail()' }
+                Adres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getTraject().getDeelnemer().getKlant().getWerkgebied()' }
+                Aanmelddatum: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
+                Reden afsluiting: { expression: 'entity.getTraject().getDeelnemer().getAfsluiting()' }
+                Startdatum: { expression: 'entity.getTraject().getStartdatum()', type: 'date' }
+                Einddatum: { expression: 'entity.getTraject().getEinddatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getTraject().getAfsluitdatum()', type: 'date' }
+                Project: { expression: 'entity.getProject()' }
+                Datum: { expression: 'entity.getDatum()', type: 'date' }
+                Dagdeel: { expression: 'entity.getDagdeel()' }
+
     dagbesteding.export.deelnemers:
         class: AppBundle\Export\GenericExport
         arguments:

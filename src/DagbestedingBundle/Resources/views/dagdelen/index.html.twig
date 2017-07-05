@@ -1,0 +1,99 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {{ form_start(filter) }}
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.project) }}
+                    {{ form_errors(filter.project) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.datum.start) }}
+                    {{ form_errors(filter.datum.start) }}
+                    {{ form_widget(filter.datum.end) }}
+                    {{ form_errors(filter.datum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.dagdeel) }}
+                    {{ form_errors(filter.dagdeel) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.filter) }}
+                    {{ form_widget(filter.download) }}
+                </th>
+                {{ form_end(filter) }}
+            </tr>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Datum', 'dagdeel.datum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Dagdeel', 'dagdeel.dagdeel') }}
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dagdeel in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(dagdeel.traject.deelnemer.klant.id, path('dagbesteding_deelnemers_view', {id: dagdeel.id})) }}
+                </td>
+                <td>
+                    {{ html.link(dagdeel.traject.deelnemer.klant, path('dagbesteding_deelnemers_view', {id: dagdeel.id})) }}
+                </td>
+                <td>
+                    {{ dagdeel.project }}
+                </td>
+                <td>
+                    {{ dagdeel.datum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ dagdeel.dagdeel }}
+                </td>
+                <td>
+                    {{ html.editlink(path('dagbesteding_trajecten_editdagdelen', {
+                        id: dagdeel.traject.id,
+                        project: dagdeel.project.id,
+                        month: dagdeel.datum|date('Y-m'),
+                        redirect: app.request.get('url')
+                    })) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

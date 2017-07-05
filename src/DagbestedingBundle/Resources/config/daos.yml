@@ -10,6 +10,10 @@ services:
         parent: dagbesteding.dao
         class: DagbestedingBundle\Service\ContactpersoonDao
 
+    dagbesteding.dao.dagdeel:
+        parent: dagbesteding.dao
+        class: DagbestedingBundle\Service\DagdeelDao
+
     dagbesteding.dao.deelnemer:
         parent: dagbesteding.dao
         class: DagbestedingBundle\Service\DeelnemerDao

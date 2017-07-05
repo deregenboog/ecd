@@ -7,6 +7,7 @@
 <ul class="nav nav-tabs">
     {{ html.navLink('Deelnemers', path('dagbesteding_deelnemers_index'), isActiveRoute('dagbesteding_deelnemers')) }}
     {{ html.navLink('Trajecten', path('dagbesteding_trajecten_index'), isActiveRoute('dagbesteding_trajecten')) }}
+    {{ html.navLink('Dagdelen', path('dagbesteding_dagdelen_index'), isActiveRoute('dagbesteding_dagdelen')) }}
     {{ html.navLink('Rapportages', path('dagbesteding_reporting_index'), isActiveRoute('dagbesteding_reporting')) }}
     <li role="presentation" class="dropdown {{ isActivePath('dagbesteding/admin') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">

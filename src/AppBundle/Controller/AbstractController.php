@@ -8,7 +8,6 @@ use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Export\GenericExport;
 use AppBundle\Export\ExportInterface;
 
 class AbstractController extends SymfonyController
@@ -92,7 +91,6 @@ class AbstractController extends SymfonyController
 
         $filename = $this->getDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
-        $collection = [];
 
         $this->export->create($collection)->send($filename);
     }

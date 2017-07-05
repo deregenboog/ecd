@@ -32,12 +32,12 @@ class GenericExport extends AbstractExport
 
     public function create($entities)
     {
+        $sheet = $this->prepare();
+
         $language = new ExpressionLanguage();
         $language->register('empty', function($array) {}, function($arguments, $array) {
             return empty($array);
         });
-
-        $sheet = $this->prepare();
 
         $column = 0;
         $row = 2;
