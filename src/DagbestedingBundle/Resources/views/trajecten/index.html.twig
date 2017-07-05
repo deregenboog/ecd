@@ -109,7 +109,8 @@
             <td>
                 <ul>
                     {% for rapportage in traject.rapportages %}
-                        <li>{{ rapportage.datum|date('d-m-Y') }}</li>
+                        {% set color = (rapportage.status == 'done') ? 'green' : (rapportage.status == 'almost') ? 'orange' : (rapportage.status == 'late') ? 'red' : 'black' %}
+                        <li><span style="color: {{ color }}">{{ rapportage.datum|date('d-m-Y') }}</span></li>
                     {% endfor %}
                 </ul>
             </td>
