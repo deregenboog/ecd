@@ -61,14 +61,10 @@ class VerslagenController extends AppController
             ],
         ];
 
-        $joinType = 'INNER';
-        if (empty($laatste_rapportage) && $alleKlanten) {
-            $joinType = 'LEFT';
-        }
         $this->paginate['joins'] = [[
            'table' => "(SELECT klant_id, MAX(datum) AS laatste_rapportage FROM verslagen GROUP BY klant_id)",
            'alias' => 'verslagen',
-           'type' => $joinType,
+           'type' => (empty($laatste_rapportage) && $alleKlanten) ? 'LEFT' : 'INNER',
            'conditions' => ['Klant.id = verslagen.klant_id'],
         ]];
 
@@ -86,6 +82,7 @@ class VerslagenController extends AppController
                     'Medewerker.id = Verslag.medewerker_id',
                 ]],
             ],
+            'group' => ['Medewerker.id'],
         ]);
 
         $klanten = $this->paginate('Klant', $this->Filter->filterData);
@@ -96,7 +93,6 @@ class VerslagenController extends AppController
                 $klanten[$key]['Klant']['laatste_verslag_datum'] = $klant['Verslag'][$l - 1]['datum'];
             }
         }
-
         $klanten = $this->Verslag->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
 
         $rowOnclickUrl = [
