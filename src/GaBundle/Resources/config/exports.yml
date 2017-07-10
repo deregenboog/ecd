@@ -95,3 +95,28 @@ services:
                 Werkgebied: { expression: 'entity["Vrijwilliger"]["werkgebied"]' }
                 Geen post: { expression: 'entity["Vrijwilliger"]["geen_post"] ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity["Vrijwilliger"]["geen_email"] ? "ja" : "nee"' }
+
+    ga.export.selectie:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - array
+            -
+                Nummer: { expression: 'entity["id"]' }
+                Voornaam: { expression: 'entity["voornaam"]' }
+                Tussenvoegsel: { expression: 'entity["tussenvoegsel"]' }
+                Achternaam: { expression: 'entity["achternaam"]' }
+                Geboortedatum: { expression: 'entity["geboortedatum"]', type: 'date' }
+                E-mail: { expression: 'entity["email"]' }
+                Adres: { expression: 'entity["adres"]' }
+                Postcode: { expression: 'entity["postcode"]' }
+                Woonplaats: { expression: 'entity["plaats"]' }
+                Telefoon: { expression: 'entity["telefoon"]' }
+                Mobiel: { expression: 'entity["mobiel"]' }
+                Geen post: { expression: 'entity["geen_post"]' }
+                Geen email: { expression: 'entity["geen_email"]' }
+                Geslacht: { expression: 'entity["geslacht"]' }
+                Werkgebied: { expression: 'entity["werkgebied"]' }
+                Startdatum: { expression: 'entity["startdatum"]', type: 'date' }
+                Datum intake: { expression: 'entity["intakedatum"]', type: 'date' }
+                Datum afsluiting: { expression: 'entity["afsluitdatum"]', type: 'date' }
+                Gezin met kinderen: { expression: 'entity["gezin_met_kinderen"]' }

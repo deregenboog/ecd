@@ -65,16 +65,6 @@ class Locatie
      */
     private $datumTot;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $modified;
-
     public function __toString()
     {
         return $this->naam;

@@ -63,8 +63,38 @@ class Intake
      */
     private $toegangInloophuis;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="mag_gebruiken", type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $magGebruiken;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+    }
+
+    public function isToegangInloophuis()
+    {
+        return $this->toegangInloophuis;
+    }
+
+    public function setToegangInloophuis($toegangInloophuis)
+    {
+        $this->toegangInloophuis = $toegangInloophuis;
+
+        return $this;
+    }
+
+    public function getIntakedatum()
+    {
+        return $this->intakedatum;
     }
 }

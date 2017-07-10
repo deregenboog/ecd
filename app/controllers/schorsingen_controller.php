@@ -15,14 +15,14 @@ class SchorsingenController extends AppController
 
         $active_schorsingen = $this->Schorsing->getActiveSchorsingen($klant_id);
         $expired_schorsingen = $this->Schorsing->getExpiredSchorsingen($klant_id);
-        $klant = $this->Schorsing->Klant->find('first', array(
+        $klant = $this->Schorsing->Klant->find('first', [
             'conditions' => ['Klant.id' => $klant_id],
             'contain' => $this->Schorsing->Klant->contain,
             'fields' => [
                 'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam',
                 'geboortedatum', 'BSN', 'laatste_TBC_controle', 'id',
             ],
-        ));
+        ]);
 
         $this->set(compact('active_schorsingen', 'expired_schorsingen', 'klant', 'locatie_id', 'klant_id'));
     }
@@ -31,7 +31,7 @@ class SchorsingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid schorsing', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('schorsing', $this->Schorsing->read(null, $id));
     }
@@ -52,7 +52,7 @@ class SchorsingenController extends AppController
 
                 if ($this->Schorsing->save($this->data)) {
                     $this->flash(__('The schorsing has been saved', true));
-                    $this->sendSchorsingEmail($this->Schorsing->id, $klant_id, $locatie_id);
+                    $this->sendSchorsingEmail($this->Schorsing->id, $klant_id);
 
                     $redirect_url = ['action' => 'index', $klant_id];
                     if (isset($locatie_id)) {
@@ -110,7 +110,7 @@ class SchorsingenController extends AppController
 
     private function sendSchorsingEmail($schorsing_id)
     {
-        $schorsing = $this->Schorsing->find($schorsing_id);
+        $schorsing = $this->Schorsing->findById($schorsing_id);
 
         if (!isset($this->Medewerker)) {
             $this->loadModel('Medewerker');
@@ -138,16 +138,16 @@ class SchorsingenController extends AppController
 
         $options_medewerker = Configure::read('options_medewerker');
         if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker']])) {
-            $content['Schorsing']['aggressie_tegen_medewerker'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker'] ];
+            $content['Schorsing']['aggressie_tegen_medewerker'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker']];
         }
-        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker2'] ])) {
-            $content['Schorsing']['aggressie_tegen_medewerker2'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker2'] ];
+        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker2']])) {
+            $content['Schorsing']['aggressie_tegen_medewerker2'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker2']];
         }
-        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker3'] ])) {
-            $content['Schorsing']['aggressie_tegen_medewerker3'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker3'] ];
+        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker3']])) {
+            $content['Schorsing']['aggressie_tegen_medewerker3'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker3']];
         }
-        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker4'] ])) {
-            $content['Schorsing']['aggressie_tegen_medewerker4'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker4'] ];
+        if (isset($options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker4']])) {
+            $content['Schorsing']['aggressie_tegen_medewerker4'] = $options_medewerker[$content['Schorsing']['aggressie_tegen_medewerker4']];
         }
 
         if (!empty($content['Schorsing']['aangifte'])) {
@@ -168,7 +168,7 @@ class SchorsingenController extends AppController
         unset($content['Schorsing']['id']);
 
         $klant_id = $schorsing['Klant']['id'];
-        $content['Klant'] = $this->Schorsing->Klant->getAllById($klant_id, array('Geslacht'));
+        $content['Klant'] = $this->Schorsing->Klant->getAllById($klant_id, ['Geslacht']);
 
         $content['url'] = Router::url(['controller' => 'schorsingen', 'action' => 'index', $klant_id], true);
 
@@ -192,13 +192,13 @@ class SchorsingenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid schorsing', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->Schorsing->save($this->data)) {
                 $this->flash(__('The schorsing has been saved', true));
-                $this->redirect(array('action' => 'index', $this->data['Schorsing']['klant_id']));
+                $this->redirect(['action' => 'index', $this->data['Schorsing']['klant_id']]);
             } else {
                 $this->flashError(__('The schorsing could not be saved. Please, try again.', true));
             }
@@ -229,14 +229,20 @@ class SchorsingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for schorsing', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
-        if ($this->Schorsing->delete($id)) {
-            $this->flashError(__('Schorsing deleted', true));
-            $this->redirect(array('action' => 'index'));
+
+        $schorsing = $this->Schorsing->findById($id);
+
+        if (in_array('CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))) {
+            if ($this->Schorsing->delete($id)) {
+                $this->flashError(__('Schorsing deleted', true));
+            } else {
+                $this->flashError(__('Schorsing was not deleted', true));
+            }
         }
-        $this->flashError(__('Schorsing was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+
+        $this->redirect(['action' => 'index', $schorsing['Klant']['id']]);
     }
 
     public function gezien($id)
@@ -260,26 +266,26 @@ class SchorsingenController extends AppController
             $this->redirect('/');
         }
 
-        $schorsing = &$this->Schorsing->find('first', array(
-            'conditions' => array('Schorsing.id' => $schorsing_id),
-            'contain' => array(
-                'Klant' => array(
-                    'fields' => array('name'),
-                    'LasteIntake' => array(
-                        'fields' => array('postcode', 'woonplaats', 'postadres'),
-                    ),
-                    'Geslacht' => array(
-                        'fields' => array('afkorting'),
-                    ),
-                ),
-                'Locatie' => array(
-                    'fields' => array('naam'),
-                ),
-                'Reden' => array(
-                    'fields' => array('naam'),
-                ),
-            ),
-        ));
+        $schorsing = &$this->Schorsing->find('first', [
+            'conditions' => ['Schorsing.id' => $schorsing_id],
+            'contain' => [
+                'Klant' => [
+                    'fields' => ['name'],
+                    'LasteIntake' => [
+                        'fields' => ['postcode', 'woonplaats', 'postadres'],
+                    ],
+                    'Geslacht' => [
+                        'fields' => ['afkorting'],
+                    ],
+                ],
+                'Locatie' => [
+                    'fields' => ['naam'],
+                ],
+                'Reden' => [
+                    'fields' => ['naam'],
+                ],
+            ],
+        ]);
 
         if (empty($schorsing)) {
             $this->flashError(__('Invalid schorsing', true));
