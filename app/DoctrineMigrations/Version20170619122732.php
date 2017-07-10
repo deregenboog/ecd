@@ -19,6 +19,7 @@ class Version20170619122732 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE dagbesteding_afsluitingen (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL, discr VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE dagbesteding_dagdelen (id INT AUTO_INCREMENT NOT NULL, traject_id INT NOT NULL, project_id INT NOT NULL, datum DATE NOT NULL, dagdeel VARCHAR(255) NOT NULL, INDEX IDX_54F41972A0CADD4 (traject_id), INDEX IDX_54F41972166D1F9C (project_id), UNIQUE INDEX unique_traject_datum_dagdeel_idx (traject_id, datum, dagdeel), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE dagbesteding_resultaatgebieden (id INT AUTO_INCREMENT NOT NULL, traject_id INT DEFAULT NULL, soort_id INT DEFAULT NULL, startdatum DATE NOT NULL, INDEX IDX_4F7529D3A0CADD4 (traject_id), INDEX IDX_4F7529D33DEE50DF (soort_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE dagbesteding_rapportages (id INT AUTO_INCREMENT NOT NULL, traject_id INT DEFAULT NULL, medewerker_id INT DEFAULT NULL, datum DATE NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, INDEX IDX_FBA61484A0CADD4 (traject_id), INDEX IDX_FBA614843D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE dagbesteding_rapportage_document (rapportage_id INT NOT NULL, document_id INT NOT NULL, INDEX IDX_8ED5B83668A3850 (rapportage_id), INDEX IDX_8ED5B83C33F7837 (document_id), PRIMARY KEY(rapportage_id, document_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
@@ -38,6 +39,8 @@ class Version20170619122732 extends AbstractMigration
         $this->addSql('CREATE TABLE dagbesteding_traject_project (traject_id INT NOT NULL, project_id INT NOT NULL, INDEX IDX_9DF4F8B0A0CADD4 (traject_id), INDEX IDX_9DF4F8B0166D1F9C (project_id), PRIMARY KEY(traject_id, project_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE dagbesteding_trajectbegeleiders (id INT AUTO_INCREMENT NOT NULL, medewerker_id INT DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, UNIQUE INDEX UNIQ_EA2465533D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE dagbesteding_locaties (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE dagbesteding_dagdelen ADD CONSTRAINT FK_54F41972A0CADD4 FOREIGN KEY (traject_id) REFERENCES dagbesteding_trajecten (id)');
+        $this->addSql('ALTER TABLE dagbesteding_dagdelen ADD CONSTRAINT FK_54F41972166D1F9C FOREIGN KEY (project_id) REFERENCES dagbesteding_projecten (id)');
         $this->addSql('ALTER TABLE dagbesteding_resultaatgebieden ADD CONSTRAINT FK_4F7529D3A0CADD4 FOREIGN KEY (traject_id) REFERENCES dagbesteding_trajecten (id)');
         $this->addSql('ALTER TABLE dagbesteding_resultaatgebieden ADD CONSTRAINT FK_4F7529D33DEE50DF FOREIGN KEY (soort_id) REFERENCES dagbesteding_resultaatgebiedsoorten (id)');
         $this->addSql('ALTER TABLE dagbesteding_rapportages ADD CONSTRAINT FK_FBA61484A0CADD4 FOREIGN KEY (traject_id) REFERENCES dagbesteding_trajecten (id)');
@@ -68,7 +71,6 @@ class Version20170619122732 extends AbstractMigration
         $this->addSql('ALTER TABLE dagbesteding_traject_project ADD CONSTRAINT FK_9DF4F8B0A0CADD4 FOREIGN KEY (traject_id) REFERENCES dagbesteding_trajecten (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE dagbesteding_traject_project ADD CONSTRAINT FK_9DF4F8B0166D1F9C FOREIGN KEY (project_id) REFERENCES dagbesteding_projecten (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE dagbesteding_trajectbegeleiders ADD CONSTRAINT FK_EA2465533D707F64 FOREIGN KEY (medewerker_id) REFERENCES medewerkers (id)');
-        $this->addSql('CREATE UNIQUE INDEX unique_traject_datum_dagdeel_idx ON dagbesteding_dagdelen (traject_id, datum, dagdeel)');
     }
 
     /**

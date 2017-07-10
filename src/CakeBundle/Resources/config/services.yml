@@ -153,22 +153,22 @@ parameters:
                 - PfoGroepen
                 - PfoVerslagen
                 - dagbesteding
-                - DagbestedingBundle\Controller\AfsluitingenController
-                - DagbestedingBundle\Controller\ContactpersonenController
-                - DagbestedingBundle\Controller\DagdelenController
-                - DagbestedingBundle\Controller\DeelnemerafsluitingenController
-                - DagbestedingBundle\Controller\DeelnemersController
-                - DagbestedingBundle\Controller\DocumentenController
-                - DagbestedingBundle\Controller\LocatiesController
-                - DagbestedingBundle\Controller\ProjectenController
-                - DagbestedingBundle\Controller\RapportagesController
-                - DagbestedingBundle\Controller\ReportingController
-                - DagbestedingBundle\Controller\ResultaatgebiedsoortenController
-                - DagbestedingBundle\Controller\TrajectafsluitingenController
-                - DagbestedingBundle\Controller\TrajectbegeleidersController
-                - DagbestedingBundle\Controller\TrajectenController
-                - DagbestedingBundle\Controller\TrajectsoortenController
-                - DagbestedingBundle\Controller\VerslagenController
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -378,35 +378,35 @@ parameters:
                 - groepsactiviteiten_klanten
             GROUP_ADMINISTRATIEBEDRIJF:
                 - dagbesteding
-                - DagbestedingBundle\Controller\DagdelenController
+                - DagbestedingBundle\Controller\Dagdelen
             GROUP_DAGBESTEDING:
                 - dagbesteding
-                - DagbestedingBundle\Controller\ContactpersonenController
-                - DagbestedingBundle\Controller\DagdelenController
-                - DagbestedingBundle\Controller\DeelnemersController
-                - DagbestedingBundle\Controller\DocumentenController
-                - DagbestedingBundle\Controller\RapportagesController
-                - DagbestedingBundle\Controller\ReportingController
-                - DagbestedingBundle\Controller\TrajectenController
-                - DagbestedingBundle\Controller\VerslagenController
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Verslagen
             GROUP_DAGBESTEDING_BEHEER:
                 - dagbesteding
-                - DagbestedingBundle\Controller\AfsluitingenController
-                - DagbestedingBundle\Controller\ContactpersonenController
-                - DagbestedingBundle\Controller\DagdelenController
-                - DagbestedingBundle\Controller\DeelnemerafsluitingenController
-                - DagbestedingBundle\Controller\DeelnemersController
-                - DagbestedingBundle\Controller\DocumentenController
-                - DagbestedingBundle\Controller\LocatiesController
-                - DagbestedingBundle\Controller\ProjectenController
-                - DagbestedingBundle\Controller\RapportagesController
-                - DagbestedingBundle\Controller\ReportingController
-                - DagbestedingBundle\Controller\ResultaatgebiedsoortenController
-                - DagbestedingBundle\Controller\TrajectafsluitingenController
-                - DagbestedingBundle\Controller\TrajectbegeleidersController
-                - DagbestedingBundle\Controller\TrajectenController
-                - DagbestedingBundle\Controller\TrajectsoortenController
-                - DagbestedingBundle\Controller\VerslagenController
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
 
         # controller: {label, url}
         all_menu_items:
