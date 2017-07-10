@@ -1,0 +1,46 @@
+<?php
+
+namespace DagbestedingBundle\Form;
+
+use AppBundle\Form\AppDateType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppTextareaType;
+use DagbestedingBundle\Entity\Verslag;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
+
+class VerslagType extends AbstractType
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('medewerker', MedewerkerType::class)
+            ->add('datum', AppDateType::class)
+            ->add('opmerking', AppTextareaType::class)
+            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Verslag::class,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
+    }
+}

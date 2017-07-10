@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name }} verwijderen</h1>
+    <p>
+        Weet u zeker dat u {{ entity_name|lower }} <strong>{{ entity }}</strong> wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

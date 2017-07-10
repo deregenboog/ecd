@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Rapportagemoment verwijderen</h1>
+    <dl class="dl-horizontal">
+        <dt>Datum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+    </dl>
+    <p>
+        Weet u zeker dat u bovenstaand rapportagemoment wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

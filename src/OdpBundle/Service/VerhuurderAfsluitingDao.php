@@ -4,6 +4,7 @@ namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Afsluiting;
 use OdpBundle\Entity\VerhuurderAfsluiting;
+use AppBundle\Service\AbstractDao;
 
 class VerhuurderAfsluitingDao extends AbstractDao implements AfsluitingDaoInterface
 {

@@ -67,6 +67,7 @@ stof_doctrine_extensions:
     orm:
         default:
             loggable: true
+            timestampable: true
 
 knp_paginator: ~
 
@@ -82,6 +83,10 @@ assetic:
 vich_uploader:
     db_driver: orm
     mappings:
+        dagbesteding_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /dagbesteding/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/dagbesteding'
         odp_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download

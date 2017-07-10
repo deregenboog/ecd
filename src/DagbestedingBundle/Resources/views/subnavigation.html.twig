@@ -1,0 +1,26 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('dagbesteding_index') }}">Dagbesteding</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Deelnemers', path('dagbesteding_deelnemers_index'), isActiveRoute('dagbesteding_deelnemers')) }}
+    {{ html.navLink('Trajecten', path('dagbesteding_trajecten_index'), isActiveRoute('dagbesteding_trajecten')) }}
+    {{ html.navLink('Dagdelen', path('dagbesteding_dagdelen_index'), isActiveRoute('dagbesteding_dagdelen')) }}
+    {{ html.navLink('Rapportages', path('dagbesteding_reporting_index'), isActiveRoute('dagbesteding_reporting')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('dagbesteding/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Afsluitingen deelnemers', path('dagbesteding_deelnemerafsluitingen_index'), isActiveRoute('dagbesteding_deelnemerafsluitingen')) }}
+            {{ html.navLink('Afsluitingen trajecten', path('dagbesteding_trajectafsluitingen_index'), isActiveRoute('dagbesteding_trajectafsluitingen')) }}
+            {{ html.navLink('Projecten', path('dagbesteding_projecten_index'), isActiveRoute('dagbesteding_projecten')) }}
+            {{ html.navLink('Trajectbegeleiders', path('dagbesteding_trajectbegeleiders_index'), isActiveRoute('dagbesteding_trajectbegeleiders')) }}
+            {{ html.navLink('Soorten resultaatgebieden', path('dagbesteding_resultaatgebiedsoorten_index'), isActiveRoute('dagbesteding_resultaatgebiedsoorten')) }}
+            {{ html.navLink('Soorten trajecten', path('dagbesteding_trajectsoorten_index'), isActiveRoute('dagbesteding_trajectsoorten')) }}
+            {{ html.navLink('Werklocaties', path('dagbesteding_locaties_index'), isActiveRoute('dagbesteding_locaties')) }}
+        </ul>
+    </li>
+</ul>

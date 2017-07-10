@@ -11,6 +11,10 @@ use Symfony\Component\Form\FormInterface;
 
 class BaseType extends AbstractType
 {
+    const MODE_ADD = 'add';
+    const MODE_EDIT = 'edit';
+    const MODE_CLOSE = 'close';
+
     /**
      * {@inheritdoc}
      */

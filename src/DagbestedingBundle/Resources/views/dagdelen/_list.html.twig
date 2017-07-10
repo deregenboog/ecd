@@ -1,0 +1,24 @@
+<h2>Dagdelen</h2>
+<table class="table">
+    <tr>
+        <th>Maand</th>
+        {% for project in entity.projecten %}
+            <th>{{ project }}</th>
+        {% endfor %}
+    </tr>
+    {% for maand in entity.countDagdelenByMonth %}
+        <tr>
+            <td>{{ maand.maand|date('m-Y') }}</td>
+            {% for project in maand.projecten %}
+                <td>
+                    {{ project['aantal'] }}
+                    {{ html.editlink(path('dagbesteding_trajecten_editdagdelen', {
+                        id: traject.id,
+                        project: project.project.id,
+                        month: maand.maand|date('Y-m')
+                    })) }}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>

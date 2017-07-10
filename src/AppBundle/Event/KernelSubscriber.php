@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use AppBundle\Controller\AbstractController;
 
 class KernelSubscriber implements EventSubscriberInterface
 {
@@ -33,9 +34,10 @@ class KernelSubscriber implements EventSubscriberInterface
     {
         $controller = $event->getController();
 
-        if (is_array($controller) && isset($controller[0]->title)) {
-            $title = $controller[0]->title;
-            $this->twig->addGlobal('title', $title);
+        if (is_array($controller) && $controller[0] instanceof AbstractController) {
+            $this->twig->addGlobal('title', $controller[0]->getTitle());
+            $this->twig->addGlobal('entity_name', $controller[0]->getEntityName());
+            $this->twig->addGlobal('route_base', $controller[0]->getBaseRouteName());
         }
     }
 }

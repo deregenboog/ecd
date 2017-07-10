@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Document verwijderen</h1>
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity.naam }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Document</dt>
+        <dd>
+            <a href="{{ vich_uploader_asset(entity, 'file') }}" alt="{{ entity.naam }}">
+                Document downloaden
+            </a>
+        </dd>
+    </dl>
+    <p>
+        Weet u zeker dat u bovenstaand document wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

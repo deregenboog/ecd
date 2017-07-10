@@ -12,3 +12,6 @@ _odp:
 
 _oek:
     resource: "@OekBundle/Resources/config/routing.yml"
+
+_dagbesteding:
+    resource: "@DagbestedingBundle/Resources/config/routing.yml"

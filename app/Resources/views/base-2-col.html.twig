@@ -36,12 +36,14 @@
             {% endfor %}
         </div>
 
+        {% block content_top %}{% endblock %}
         <div class="col-xs-6">
             {% block content_left %}{% endblock %}
         </div>
         <div class="col-xs-6">
             {% block content_right %}{% endblock %}
         </div>
+        {% block content_bottom %}{% endblock %}
     </div>
     {% include '::footer.html.twig' %}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>

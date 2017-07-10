@@ -4,6 +4,7 @@ namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Verslag;
 use Doctrine\ORM\EntityManager;
+use AppBundle\Service\AbstractDao;
 
 class VerslagDao extends AbstractDao implements VerslagDaoInterface
 {

@@ -1,0 +1,40 @@
+services:
+    dagbesteding.form.rapportage:
+        class: DagbestedingBundle\Form\ReportingType
+        tags:
+            - { name: form.type }
+
+    dagbesteding.report.deelnemers_per_begeleider:
+        class: DagbestedingBundle\Report\DeelnemersPerBegeleider
+        arguments:
+            - "@dagbesteding.dao.deelnemer"
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.deelnemers_per_locatie:
+        class: DagbestedingBundle\Report\DeelnemersPerLocatie
+        arguments:
+            - "@dagbesteding.dao.deelnemer"
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.deelnemers_per_project:
+        class: DagbestedingBundle\Report\DeelnemersPerProject
+        arguments:
+            - "@dagbesteding.dao.deelnemer"
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.deelnemers_per_resultaatgebiedsoort:
+        class: DagbestedingBundle\Report\DeelnemersPerResultaatgebiedsoort
+        arguments:
+            - "@dagbesteding.dao.deelnemer"
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.trajecten_per_afsluiting:
+        class: DagbestedingBundle\Report\TrajectenPerAfsluiting
+        arguments:
+            - "@dagbesteding.dao.traject"
+        tags:
+            - { name: dagbesteding.rapportage, category: Trajecten }

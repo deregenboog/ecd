@@ -1,0 +1,10 @@
+dagbesteding_annotations:
+    resource: "@DagbestedingBundle/Controller"
+    type: annotation
+    prefix: /dagbesteding
+
+dagbesteding_index:
+    path: /dagbesteding
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: dagbesteding_deelnemers_index

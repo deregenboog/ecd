@@ -66,6 +66,9 @@ parameters:
             GROUP_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
 
         # group: [controllers]
         ACL.permissions:
@@ -356,6 +359,37 @@ parameters:
                 - IzDeelnemers
                 - IzVerslagen
                 - groepsactiviteiten_klanten
+            GROUP_ADMINISTRATIEBEDRIJF:
+                - dagbesteding
+                - DagbestedingBundle\Controller\DagdelenController
+            GROUP_DAGBESTEDING:
+                - dagbesteding
+                - DagbestedingBundle\Controller\ContactpersonenController
+                - DagbestedingBundle\Controller\DagdelenController
+                - DagbestedingBundle\Controller\DeelnemersController
+                - DagbestedingBundle\Controller\DocumentenController
+                - DagbestedingBundle\Controller\RapportagesController
+                - DagbestedingBundle\Controller\ReportingController
+                - DagbestedingBundle\Controller\TrajectenController
+                - DagbestedingBundle\Controller\VerslagenController
+            GROUP_DAGBESTEDING_BEHEER:
+                - dagbesteding
+                - DagbestedingBundle\Controller\AfsluitingenController
+                - DagbestedingBundle\Controller\ContactpersonenController
+                - DagbestedingBundle\Controller\DagdelenController
+                - DagbestedingBundle\Controller\DeelnemerafsluitingenController
+                - DagbestedingBundle\Controller\DeelnemersController
+                - DagbestedingBundle\Controller\DocumentenController
+                - DagbestedingBundle\Controller\LocatiesController
+                - DagbestedingBundle\Controller\ProjectenController
+                - DagbestedingBundle\Controller\RapportagesController
+                - DagbestedingBundle\Controller\ReportingController
+                - DagbestedingBundle\Controller\ResultaatgebiedsoortenController
+                - DagbestedingBundle\Controller\TrajectafsluitingenController
+                - DagbestedingBundle\Controller\TrajectbegeleidersController
+                - DagbestedingBundle\Controller\TrajectenController
+                - DagbestedingBundle\Controller\TrajectsoortenController
+                - DagbestedingBundle\Controller\VerslagenController
 
         # controller: {label, url}
         all_menu_items:
@@ -395,6 +429,9 @@ parameters:
             oek:
                 label: Op Eigen Kracht
                 url: oek
+            dagbesteding:
+                label: Dagbesteding
+                url: dagbesteding
             Admin:
                 label: Admin
                 url: Admin

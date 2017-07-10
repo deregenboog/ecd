@@ -28,6 +28,8 @@ class IzKlantenController extends AppController
         'medewerker',
         'zonderActieveHulpvraag',
         'zonderActieveKoppeling',
+        'filter',
+        'download',
     ];
 
     /**

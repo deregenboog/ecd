@@ -24,7 +24,7 @@ class Medewerker
     /**
      * @ORM\Column(name="active", type="boolean")
      */
-    private $actief;
+    private $actief = true;
 
     /**
      * @ORM\Column(name="groups", type="json_array", nullable=true)

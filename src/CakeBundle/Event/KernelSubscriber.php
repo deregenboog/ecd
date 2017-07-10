@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use AppBundle\Controller\AbstractController;
 
 class KernelSubscriber implements EventSubscriberInterface
 {
@@ -46,8 +47,8 @@ class KernelSubscriber implements EventSubscriberInterface
             $parts = explode(':', $this->controller->getRequest()->attributes->get('_controller'));
             $this->controller->params['action'] = end($parts);
 
-            $controller[0]->constructClasses();
-            $controller[0]->startupProcess();
+            $this->controller->constructClasses();
+            $this->controller->startupProcess();
         }
     }
 
@@ -83,10 +84,17 @@ class KernelSubscriber implements EventSubscriberInterface
 
         $route = $this->controller->getRequest()->attributes->get('_route');
         $parts = explode('_', $route);
-        $parts[0] = '@'.ucfirst($parts[0]);
-        $template = implode('/', $parts).'.html.twig';
 
-        $response = $this->container->get('templating')->renderResponse($template, $this->controller->viewVars);
+        $bundle = '@'.ucfirst(reset($parts));
+        $path = next($parts);
+        $template = next($parts);
+
+        if ($this->controller instanceof AbstractController && $this->controller->getTemplatePath()) {
+            $path = $this->controller->getTemplatePath();
+        }
+
+        $location = implode('/', [$bundle, $path, $template]).'.html.twig';
+        $response = $this->container->get('templating')->renderResponse($location, $this->controller->viewVars);
 
         $event->setResponse($response);
     }
