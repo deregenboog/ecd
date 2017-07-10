@@ -107,7 +107,7 @@ $data = array(
     array('Locatie(s)', $locatie),
     array('Naam locatiehoofd', $locatiehoofd),
     array('Reden schorsing', implode("\n", $redenen) . "\n\n" .$opmerking_uit_schorsing),
-    array('Duur schorsing', $lengte_schorsing),
+    array('Duur schorsing', sprintf('%s (%s t/m %s)', $lengte_schorsing, $begindatum_schorsing, $einddatum_schorsing_pp)),
     array('Bijzonderheden', $bijzonderheden),
     array('Hoe kunt u bezwaar maken', 'Bent u het niet eens met uw schorsing, dan kunt u een afspraak maken voor een gesprek met het locatiehoofd of met de regiomanager.
 
