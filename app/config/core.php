@@ -331,25 +331,9 @@ Cache::config('association_query', array(
     'prefix' => $prefix,
 ));
 
-define('GROUP_ADMIN', $params['groups']['GROUP_ADMIN']); // sys_teamleider
-define('GROUP_DEVELOP', $params['groups']['GROUP_DEVELOP']); // (group ecd_admin)
-define('GROUP_VOLUNTEERS', $params['groups']['GROUP_VOLUNTEERS']); // registratie_vrijwilliger
-define('GROUP_STAGE', $params['groups']['GROUP_STAGE']); // stagiaires_ecd
-define('GROUP_PORTIER', $params['groups']['GROUP_PORTIER']); // sys_portiers
-define('GROUP_MLO', $params['groups']['GROUP_MLO']); // sys_mlo
-define('GROUP_MAATSCHAPPELIJK', $params['groups']['GROUP_MAATSCHAPPELIJK']); // maatschappelijk_werk
-define('GROUP_HI5', $params['groups']['GROUP_HI5']); // sys_hi5
-define('GROUP_TRAJECTBEGELEIDER', $params['groups']['GROUP_TRAJECTBEGELEIDER']);
-define('GROUP_WERKBEGELEIDER', $params['groups']['GROUP_WERKBEGELEIDER']);
-define('GROUP_TEAMLEIDERS', $params['groups']['GROUP_TEAMLEIDERS']);
-define('GROUP_PFO', $params['groups']['GROUP_PFO']); // pfondersteuning_data
-define('GROUP_BACK_ON_TRACK_COORDINATOR', $params['groups']['GROUP_BACK_ON_TRACK_COORDINATOR']);
-define('GROUP_BACK_ON_TRACK_COACH', $params['groups']['GROUP_BACK_ON_TRACK_COACH']);
-define('GROUP_GROEPSACTIVITEIT', $params['groups']['GROUP_GROEPSACTIVITEIT']);
-define('GROUP_IZ', $params['groups']['GROUP_IZ']);
-define('GROUP_REPORT', $params['groups']['GROUP_REPORT']);
-define('GROUP_IZ_BEHEER', $params['groups']['GROUP_IZ_BEHEER']);
-define('GROUP_BEHEER_GROEPSACTIVITEIT', $params['groups']['GROUP_BEHEER_GROEPSACTIVITEIT']);
+foreach ($params['groups'] as $key => $value) {
+    define($key, $value);
+}
 
 define('PFO_CLIENTEN_ALL', null);
 define('PFO_CLIENTEN_HOOFDCLIENT', 1);

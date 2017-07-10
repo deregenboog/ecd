@@ -155,7 +155,9 @@ parameters:
                 - dagbesteding
                 - DagbestedingBundle\Controller\Afsluitingen
                 - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
                 - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
                 - DagbestedingBundle\Controller\Deelnemerafsluitingen
                 - DagbestedingBundle\Controller\Deelnemers
                 - DagbestedingBundle\Controller\Documenten
@@ -378,10 +380,12 @@ parameters:
                 - groepsactiviteiten_klanten
             GROUP_ADMINISTRATIEBEDRIJF:
                 - dagbesteding
-                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Trajecten
             GROUP_DAGBESTEDING:
                 - dagbesteding
                 - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
                 - DagbestedingBundle\Controller\Dagdelen
                 - DagbestedingBundle\Controller\Deelnemers
                 - DagbestedingBundle\Controller\Documenten
@@ -393,7 +397,9 @@ parameters:
                 - dagbesteding
                 - DagbestedingBundle\Controller\Afsluitingen
                 - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
                 - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
                 - DagbestedingBundle\Controller\Deelnemerafsluitingen
                 - DagbestedingBundle\Controller\Deelnemers
                 - DagbestedingBundle\Controller\Documenten

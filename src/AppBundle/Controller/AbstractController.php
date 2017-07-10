@@ -15,16 +15,6 @@ class AbstractController extends SymfonyController
     /**
      * @var string
      */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $entityName;
-
-    /**
-     * @var string
-     */
     protected $entityClass;
 
     /**
@@ -36,11 +26,6 @@ class AbstractController extends SymfonyController
      * @var string
      */
     protected $filterFormClass;
-
-    /**
-     * @var string
-     */
-    protected $baseRouteName;
 
     /**
      * @var string
@@ -200,24 +185,9 @@ class AbstractController extends SymfonyController
         ];
     }
 
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function getEntityName()
-    {
-        return $this->entityName;
-    }
-
     public function getTemplatePath()
     {
         return $this->templatePath;
-    }
-
-    public function getBaseRouteName()
-    {
-        return $this->baseRouteName;
     }
 
     protected function redirectToIndex()

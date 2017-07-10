@@ -122,9 +122,11 @@
             </td>
             <td>
                 {{ html.viewLink(path('dagbesteding_trajecten_view', {id: traject.id})) }}
-                {{ html.editLink(path('dagbesteding_trajecten_edit', {id: traject.id})) }}
-                {% if traject.deletable %}
-                    {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: traject.id})) }}
+                {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+                    {{ html.editLink(path('dagbesteding_trajecten_edit', {id: traject.id})) }}
+                    {% if traject.deletable %}
+                        {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: traject.id})) }}
+                    {% endif %}
                 {% endif %}
             </td>
         </tr>

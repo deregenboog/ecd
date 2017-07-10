@@ -21,6 +21,21 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class SymfonyController extends \AppController
 {
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $entityName;
+
+    /**
+     * @var string
+     */
+    protected $baseRouteName;
+
     public $uses = [];
 
     /**
@@ -441,5 +456,20 @@ class SymfonyController extends \AppController
         }
 
         return $this->container->get('security.csrf.token_manager')->isTokenValid(new CsrfToken($id, $token));
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getEntityName()
+    {
+        return $this->entityName;
+    }
+
+    public function getBaseRouteName()
+    {
+        return $this->baseRouteName;
     }
 }

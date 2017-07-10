@@ -17,18 +17,20 @@
 
 {% block content_left %}
     <h2>Traject dagbesteding</h2>
-    <p>
-        {% if entity.actief %}
-            {{ html.editLink(path('dagbesteding_trajecten_edit', {id: entity.id})) }}
-            {{ html.link('Wijzigen', path('dagbesteding_trajecten_edit', {id: entity.id})) }}
-            {{ html.closeLink(path('dagbesteding_trajecten_close', {id: entity.id})) }}
-            {{ html.link('Afsluiten', path('dagbesteding_trajecten_close', {id: entity.id})) }}
-        {% endif %}
-        {% if entity.deletable %}
-            {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: entity.id})) }}
-            {{ html.link('Verwijderen', path('dagbesteding_trajecten_delete', {id: entity.id})) }}
-        {% endif %}
-    </p>
+    {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+        <p>
+            {% if entity.actief %}
+                {{ html.editLink(path('dagbesteding_trajecten_edit', {id: entity.id})) }}
+                {{ html.link('Wijzigen', path('dagbesteding_trajecten_edit', {id: entity.id})) }}
+                {{ html.closeLink(path('dagbesteding_trajecten_close', {id: entity.id})) }}
+                {{ html.link('Afsluiten', path('dagbesteding_trajecten_close', {id: entity.id})) }}
+            {% endif %}
+            {% if entity.deletable %}
+                {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: entity.id})) }}
+                {{ html.link('Verwijderen', path('dagbesteding_trajecten_delete', {id: entity.id})) }}
+            {% endif %}
+        </p>
+    {% endif %}
     <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ entity.id }}</dd>
@@ -84,28 +86,32 @@
 {% endblock %}
 
 {% block content_right %}
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#dagdelen">Dagdelen</a></li>
-        <li><a data-toggle="tab" href="#rapportages">Rapportages</a></li>
-        <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
-        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="dagdelen" class="tab-pane active">
-            {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+    {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#dagdelen">Dagdelen</a></li>
+            <li><a data-toggle="tab" href="#rapportages">Rapportages</a></li>
+            <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
+            <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+            <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="dagdelen" class="tab-pane active">
+                {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+            </div>
+            <div id="rapportages" class="tab-pane">
+                {% include 'DagbestedingBundle:rapportages:_list.html.twig' with {traject: entity} %}
+            </div>
+            <div id="contactpersonen" class="tab-pane">
+                {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity.deelnemer} %}
+            </div>
+            <div id="verslagen" class="tab-pane">
+                {% include 'DagbestedingBundle:verslagen:_list.html.twig' with {traject: entity} %}
+            </div>
+            <div id="documenten" class="tab-pane">
+                {% include 'DagbestedingBundle:documenten:_list.html.twig' with {traject: entity} %}
+            </div>
         </div>
-        <div id="rapportages" class="tab-pane">
-            {% include 'DagbestedingBundle:rapportages:_list.html.twig' with {traject: entity} %}
-        </div>
-        <div id="contactpersonen" class="tab-pane">
-            {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity.deelnemer} %}
-        </div>
-        <div id="verslagen" class="tab-pane">
-            {% include 'DagbestedingBundle:verslagen:_list.html.twig' with {traject: entity} %}
-        </div>
-        <div id="documenten" class="tab-pane">
-            {% include 'DagbestedingBundle:documenten:_list.html.twig' with {traject: entity} %}
-        </div>
-    </div>
+    {% else %}
+        {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+    {% endif %}
 {% endblock %}
