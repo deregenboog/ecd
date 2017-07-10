@@ -152,6 +152,23 @@ parameters:
                 - PfoAardRelaties
                 - PfoGroepen
                 - PfoVerslagen
+                - dagbesteding
+                - DagbestedingBundle\Controller\AfsluitingenController
+                - DagbestedingBundle\Controller\ContactpersonenController
+                - DagbestedingBundle\Controller\DagdelenController
+                - DagbestedingBundle\Controller\DeelnemerafsluitingenController
+                - DagbestedingBundle\Controller\DeelnemersController
+                - DagbestedingBundle\Controller\DocumentenController
+                - DagbestedingBundle\Controller\LocatiesController
+                - DagbestedingBundle\Controller\ProjectenController
+                - DagbestedingBundle\Controller\RapportagesController
+                - DagbestedingBundle\Controller\ReportingController
+                - DagbestedingBundle\Controller\ResultaatgebiedsoortenController
+                - DagbestedingBundle\Controller\TrajectafsluitingenController
+                - DagbestedingBundle\Controller\TrajectbegeleidersController
+                - DagbestedingBundle\Controller\TrajectenController
+                - DagbestedingBundle\Controller\TrajectsoortenController
+                - DagbestedingBundle\Controller\VerslagenController
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
