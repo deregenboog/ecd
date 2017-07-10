@@ -102,7 +102,7 @@ $locatie;
 $logo = $html->url('/img/logo.png', true);
 $data = array(
     array('SCHORSINGSFORMULIER'),
-    array("Op {$datum_van_vandaag} bent u geschorst bij locatie(s) {$locatie}. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken."),
+    array("Op {$begindatum_schorsing} bent u geschorst bij locatie(s) {$locatie}. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken."),
     array('Naam bezoeker', $klant_naam),
     array('Locatie(s)', $locatie),
     array('Naam locatiehoofd', $locatiehoofd),
