@@ -8,13 +8,13 @@ use DagbestedingBundle\Entity\Trajectsoort;
 class TrajectsoortDao extends AbstractDao implements TrajectsoortDaoInterface
 {
     protected $paginationOptions = [
-//         'defaultSortFieldName' => 'klant.achternaam',
-//         'defaultSortDirection' => 'asc',
-//         'sortFieldWhitelist' => [
-//             'klant.id',
-//             'klant.achternaam',
-//             'klant.werkgebied',
-//         ],
+        'defaultSortFieldName' => 'trajectsoort.naam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'trajectsoort.id',
+            'trajectsoort.naam',
+            'trajectsoort.actief',
+        ],
     ];
 
     protected $class = Trajectsoort::class;

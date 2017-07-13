@@ -9,13 +9,13 @@ use AppBundle\Filter\FilterInterface;
 class ProjectDao extends AbstractDao implements ProjectDaoInterface
 {
     protected $paginationOptions = [
-//         'defaultSortFieldName' => 'klant.achternaam',
-//         'defaultSortDirection' => 'asc',
-//         'sortFieldWhitelist' => [
-//             'klant.id',
-//             'klant.achternaam',
-//             'klant.werkgebied',
-//         ],
+        'defaultSortFieldName' => 'project.naam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'project.id',
+            'project.naam',
+            'project.actief',
+        ],
     ];
 
     protected $class = Project::class;

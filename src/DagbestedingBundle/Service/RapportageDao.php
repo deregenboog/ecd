@@ -8,32 +8,9 @@ use AppBundle\Filter\FilterInterface;
 
 class RapportageDao extends AbstractDao implements RapportageDaoInterface
 {
-    protected $paginationOptions = [
-//         'defaultSortFieldName' => 'klant.achternaam',
-//         'defaultSortDirection' => 'asc',
-//         'sortFieldWhitelist' => [
-//             'klant.id',
-//             'klant.achternaam',
-//             'klant.werkgebied',
-//         ],
-    ];
-
     protected $class = Rapportage::class;
 
     protected $alias = 'rapportage';
-
-//     public function findAll($page = null, FilterInterface $filter = null)
-//     {
-//         $builder = $this->repository->createQueryBuilder($this->alias)
-//             ->innerJoin('rapportage.klant', 'klant')
-//         ;
-
-//         if ($filter) {
-//             $filter->applyTo($builder);
-//         }
-
-//         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
-//     }
 
     public function create(Rapportage $rapportage)
     {

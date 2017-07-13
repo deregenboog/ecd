@@ -8,13 +8,13 @@ use DagbestedingBundle\Entity\Locatie;
 class LocatieDao extends AbstractDao implements LocatieDaoInterface
 {
     protected $paginationOptions = [
-//         'defaultSortFieldName' => 'klant.achternaam',
-//         'defaultSortDirection' => 'asc',
-//         'sortFieldWhitelist' => [
-//             'klant.id',
-//             'klant.achternaam',
-//             'klant.werkgebied',
-//         ],
+        'defaultSortFieldName' => 'locatie.naam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'locatie.id',
+            'locatie.naam',
+            'locatie.actief',
+        ],
     ];
 
     protected $class = Locatie::class;

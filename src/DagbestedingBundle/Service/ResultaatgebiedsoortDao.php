@@ -8,13 +8,13 @@ use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 class ResultaatgebiedsoortDao extends AbstractDao implements ResultaatgebiedsoortDaoInterface
 {
     protected $paginationOptions = [
-//         'defaultSortFieldName' => 'klant.achternaam',
-//         'defaultSortDirection' => 'asc',
-//         'sortFieldWhitelist' => [
-//             'klant.id',
-//             'klant.achternaam',
-//             'klant.werkgebied',
-//         ],
+        'defaultSortFieldName' => 'resultaatgebiedsoort.naam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'resultaatgebiedsoort.id',
+            'resultaatgebiedsoort.naam',
+            'resultaatgebiedsoort.actief',
+        ],
     ];
 
     protected $class = Resultaatgebiedsoort::class;
