@@ -28,6 +28,7 @@ services:
                 Afgesloten projecten: { expression: 'export.getAfgeslotenProjecten(entity)' }
                 Medewerkers: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
+                Ontstaan contact: { expression: 'entity.getIzOntstaanContact()' }
 
     iz.export.vrijwilligers:
         class: IzBundle\Export\IzVrijwilligersExport
@@ -58,6 +59,7 @@ services:
                 Afgesloten projecten: { expression: 'export.getAfgeslotenProjecten(entity)' }
                 Medewerkers: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
+                Binnengekomen via: { expression: 'entity.getIzBinnengekomenVia()' }
 
     iz.export.hulpvragen:
         class: AppBundle\Export\GenericExport
@@ -83,6 +85,7 @@ services:
                 Telefoon: { expression: 'entity.getIzKlant().getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
+                Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
                 Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()', type: 'date' }
 
     iz.export.hulpaanbiedingen:
@@ -109,6 +112,7 @@ services:
                 Telefoon: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getPostcodegebied()' }
+                Binnengekomen via: { expression: 'entity.getIzVrijwilliger().getIzBinnengekomenVia()' }
 
     iz.export.koppelingen:
         class: AppBundle\Export\GenericExport
