@@ -7,7 +7,7 @@
         </div>
     <?php endif; ?>
     <?php $zrmDagen = 183; ?>
-    <?php if ($lastZrmReport && new \DateTime("-{$zrmDagen} days") > new \DateTime($lastZrmReport['ZrmReport']['created'])): ?>
+    <?php if ($lastZrmReport && new \DateTime("-{$zrmDagen} days") > new \DateTime($lastZrmReport[$zrmReportModel]['created'])): ?>
         <div class="warning">
             LET OP: laatste ZRM is meer dan <?= $zrmDagen ?> dagen oud. Klik
             <?= $this->Html->link('hier', ['controller' => 'klanten', 'action' => 'zrm_add', $klant['Klant']['id']]) ?>

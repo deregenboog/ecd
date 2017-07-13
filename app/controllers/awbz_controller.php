@@ -55,10 +55,8 @@ class AwbzController extends AppController
         $this->set(compact('klant', 'hoofdaannemers', 'intake_type'));
     }
 
-    public function zrm($id = null)
+    public function zrm($id)
     {
-        $this->loadModel('ZrmReport');
-
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
             $this->redirect(array('action' => 'index'));
@@ -67,16 +65,21 @@ class AwbzController extends AppController
         $klant = $this->Klant->read(null, $id);
         $this->set('klant', $klant);
 
-        $zrmReports = $this->ZrmReport->find('all', array(
-                'conditions' => array('klant_id' => $id),
-                'order' => 'created DESC',
-        ));
+        $zrmReports = [];
+        $zrmData = [];
 
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $model) {
+            $this->loadModel($model);
+            $zrmReports[$model] = $this->{$model}->find('all', array(
+                'conditions' => array('klant_id' => $id),
+                'order' => $model.'.created DESC',
+            ));
+            $zrmData[$model] = $this->{$model}->zrm_data();
+        }
 
         $this->set('zrmReports', $zrmReports);
-        $this->set('klant_id', $id);
-        $this->set('zrm_data', $zrm_data);
+        $this->set('zrmData', $zrmData);
     }
 
     public function rapportage()

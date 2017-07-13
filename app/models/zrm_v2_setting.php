@@ -1,10 +1,10 @@
 <?php
 
-class ZrmSetting extends AppModel
-{
-    public $name = 'ZrmSetting';
+App::import('Model', 'ZrmSetting');
 
-    public $displayField = 'request_module';
+class ZrmV2Setting extends ZrmSetting
+{
+    public $name = 'ZrmV2Setting';
 
     public function update_table()
     {
@@ -36,7 +36,7 @@ class ZrmSetting extends AppModel
         ];
 
         $zrm_settings = $this->find('all');
-        $ids = Set::ClassicExtract($zrm_settings, '{n}.ZrmSetting.id');
+        $ids = Set::ClassicExtract($zrm_settings, '{n}.ZrmV2Setting.id');
 
         $data = [];
 
@@ -46,7 +46,7 @@ class ZrmSetting extends AppModel
             }
 
             $data[] = [
-                'ZrmSetting' => $setting,
+                'ZrmV2Setting' => $setting,
             ];
         }
 
@@ -57,20 +57,20 @@ class ZrmSetting extends AppModel
 
     public function required_fields()
     {
-        $zrm_settings = registry_get('ZrmSettings', 'ZrmSettings', true);
+        $zrm_settings = registry_get('ZrmV2Settings', 'ZrmV2Settings', true);
 
         if (!$zrm_settings) {
             $required_fields = [];
             $zrm_models = [];
-            App::import('Model', 'ZrmReport');
-            $zrm_report = new ZrmReport();
+            App::import('Model', 'ZrmV2Report');
+            $zrm_report = new ZrmV2Report();
             $fields = $this->find('all');
 
             foreach ($fields as $k => $f) {
-                $zrm_models[$f['ZrmSetting']['request_module']] = [];
+                $zrm_models[$f['ZrmV2Setting']['request_module']] = [];
                 foreach ($zrm_report->zrm_items as $k => $v) {
-                    if (!empty($f['ZrmSetting'][$k])) {
-                        $required_fields[$f['ZrmSetting']['request_module']][] = $k;
+                    if (!empty($f['ZrmV2Setting'][$k])) {
+                        $required_fields[$f['ZrmV2Setting']['request_module']][] = $k;
                     }
                 }
             }
@@ -80,7 +80,7 @@ class ZrmSetting extends AppModel
                 'zrm_models' => $zrm_models,
             ];
 
-            registry_set('ZrmSettings', 'ZrmSettings', $zrm_settings, true);
+            registry_set('ZrmV2Settings', 'ZrmV2Settings', $zrm_settings, true);
         }
 
         return $zrm_settings;
@@ -88,6 +88,6 @@ class ZrmSetting extends AppModel
 
     public function clear_cache()
     {
-        registry_delete('ZrmSettings', 'ZrmSettings', true);
+        registry_delete('ZrmV2Settings', 'ZrmV2Settings', true);
     }
 }

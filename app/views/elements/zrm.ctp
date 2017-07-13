@@ -1,15 +1,15 @@
 <?php
 
-if (empty($model) || empty($zrm_data)) {
+if (empty($model) || empty($zrmData)) {
     echo 'The zrm_widget can not be displayed, please supply all parameters';
 
     return;
 }
 
-$zrm_required_fields = $zrm_data['zrm_required_fields'];
-$zrm_items = $zrm_data['zrm_items'];
-$zrm_models = $zrm_data['zrm_models'];
-$zrm_names = $zrm_data['zrm_names'];
+$zrm_required_fields = $zrmData['zrm_required_fields'];
+$zrm_items = $zrmData['zrm_items'];
+$zrm_models = $zrmData['zrm_models'];
+$zrm_names = $zrmData['zrm_names'];
 
 switch ($model) {
     case 'IzIntake':
@@ -58,37 +58,31 @@ if ($request_module == 'Klant' || $request_module == 'Intake') {
     }
 }
 
-if (!empty($this->data['ZrmReport']['request_module'])) {
-    $request_module = $this->data['ZrmReport']['request_module'];
+if (!empty($this->data[$zrmReportModel]['request_module'])) {
+    $request_module = $this->data[$zrmReportModel]['request_module'];
 }
 ?>
 
 <h2>
-    Zelfredzaamheidsmatrix
-    <?php
-        if (!empty($request_module)) {
-            if (isset($zrm_names[$request_module])) {
-                echo $zrm_names[$request_module];
-            } else {
-                echo $request_module;
-            }
-        }
-    ?>
+    Zelfredzaamheidmatrix
+    <?php if (!empty($request_module)): ?>
+        <?= (isset($zrm_names[$request_module])) ? $zrm_names[$request_module] : $request_module; ?>
+    <?php endif; ?>
 </h2>
 <table class="zrm">
     <thead>
         <tr>
             <th>
                 <?php
-                    if (empty($this->data['ZrmReport']['id'])) {
+                    if (empty($this->data[$zrmReportModel]['id'])) {
                         if (is_array($options)) {
-                            echo $this->Form->input('ZrmReport.request_module', ['type' => 'select', 'options' => $options, 'label' => '']);
+                            echo $this->Form->input($zrmReportModel.'.request_module', ['type' => 'select', 'options' => $options, 'label' => '']);
                         } else {
-                            echo $this->Form->input('ZrmReport.request_module', ['type' => 'hidden', 'value' => $request_module]);
+                            echo $this->Form->input($zrmReportModel.'.request_module', ['type' => 'hidden', 'value' => $request_module]);
                         }
                     } else {
-                        echo $this->Form->input('ZrmReport.request_module', ['type' => 'hidden', 'value' => $request_module]);
-                        echo $this->Form->input('ZrmReport.id', ['type' => 'hidden', 'value' => $this->data['ZrmReport']['id']]);
+                        echo $this->Form->input($zrmReportModel.'.request_module', ['type' => 'hidden', 'value' => $request_module]);
+                        echo $this->Form->input($zrmReportModel.'.id', ['type' => 'hidden', 'value' => $this->data[$zrmReportModel]['id']]);
                     }
                 ?>
                 Domein
@@ -98,7 +92,7 @@ if (!empty($this->data['ZrmReport']['request_module'])) {
             <th>3 – beperkt<br />zelfredzaam</th>
             <th>4 – voldoende<br />zelfredzaam</th>
             <th>5 – volledig<br />zelfredzaam</th>
-            <th>99 –onbesproken</th>
+            <th>99 – onbesproken</th>
         </tr>
     </thead>
     <tbody>
@@ -108,7 +102,7 @@ if (!empty($this->data['ZrmReport']['request_module'])) {
                     <b><?= $v ?></b>
                 </td>
                 <td>
-                    <?= $this->Form->input('ZrmReport.'.$k, [
+                    <?= $this->Form->input($zrmReportModel.'.'.$k, [
                         'type' => 'radio',
                         'legend' => '',
                         'required' => false, // this is printed out

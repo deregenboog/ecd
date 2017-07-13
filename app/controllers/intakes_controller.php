@@ -27,34 +27,42 @@ class IntakesController extends AppController
         $this->set('intakes', $this->paginate());
     }
 
-    public function view($id = null)
+    public function view($id)
     {
-        if (!$id) {
+        // get intake
+        $intake = $this->Intake->read(null, $id);
+        if (!$intake) {
             $this->flashError(__('Invalid intake', true));
             $this->redirect(['action' => 'index']);
         }
 
-        $intake = $this->Intake->read(null, $id);
+        // get client associated with intake
         $klant = $this->Intake->Klant->read(null, $intake['Klant']['id']);
 
+        // get ZRM associated with intake
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $id);
+            if ($zrmReport) {
+                break;
+            }
+        }
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+
+        // create title
         App::import('Helper', 'Date');
-        $dateHelper = new DateHelper();
+        $title_for_layout = sprintf(
+            ' - Intake van %s op %s',
+            $intake['Klant']['name'],
+            (new DateHelper())->show($intake['Intake']['datum_intake'])
+        );
 
-        $title_for_layout = ' - Intake van '.
-            $intake['Klant']['name'].' op '.
-            $dateHelper->show($intake['Intake']['datum_intake']);
-
+        // set template vars
         $this->set('intake', $intake);
         $this->set('klant', $klant);
-
-        $this->loadModel('ZrmReport');
-        $zrm_data = $this->ZrmReport->zrm_data();
-
-        $zrmReport = $this->ZrmReport->get_zrm_report('Intake', $id, $intake['Klant']['id']);
         $this->set('diensten', $this->Intake->Klant->diensten($intake['Intake']['klant_id'], $this->getEventDispatcher()));
-
-        $klant = $this->Intake->Klant->findById($intake['Intake']['klant_id']);
-        $this->set(compact('title_for_layout', 'zrm_data', 'zrmReport'));
+        $this->set(compact('title_for_layout', 'zrmData', 'zrmReport', 'zrmReportModel'));
     }
 
     public function add($klant_id = null)
@@ -64,19 +72,21 @@ class IntakesController extends AppController
             $this->redirect(['controller' => 'klanten', 'action' => 'index']);
         }
 
-        $this->loadModel('ZrmReport');
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
 
         if (!empty($this->data)) {
             $this->Intake->create();
             $this->Intake->begin();
 
             if ($this->Intake->saveAll($this->data, ['atomic' => false])) {
-                $this->data['ZrmReport']['model'] = 'Intake';
-                $this->data['ZrmReport']['foreign_key'] = $this->Intake->id;
-                $this->data['ZrmReport']['klant_id'] = $klant_id;
+                $this->data[$zrmReportModel]['model'] = 'Intake';
+                $this->data[$zrmReportModel]['foreign_key'] = $this->Intake->id;
+                $this->data[$zrmReportModel]['klant_id'] = $klant_id;
 
-                $this->ZrmReport->create();
-                if ($this->ZrmReport->save($this->data)) {
+                $this->{$zrmReportModel}->create();
+                if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->Intake->commit();
                     $this->flash(__('De intake is opgeslagen', true));
 
@@ -138,10 +148,11 @@ class IntakesController extends AppController
 
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
         $this->set('diensten', $this->Intake->Klant->diensten($klant_id, $this->getEventDispatcher()));
 
-        $this->set(compact('zrm_data', 'primary_problems', 'klant', 'medewerkers',
+        $this->set(compact(
+            'zrmReportModel', 'zrmData', 'primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
             'verslavingsperiodes', 'woonsituaties', 'locatie1s', 'locatie2s',
             'locatie3s',
@@ -154,25 +165,34 @@ class IntakesController extends AppController
 
     public function edit($id = null)
     {
-        $this->loadModel('ZrmReport');
-
         if (!$id && empty($this->data)) {
             $this->flashError(__('Ongeldige intake', true));
             $this->redirect(['action' => 'index']);
         }
 
+        // get ZRM associated with intake
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $id);
+            if ($zrmReport) {
+                break;
+            }
+        }
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+
         if (!empty($this->data)) {
             $this->Intake->begin();
 
             if ($this->Intake->save($this->data)) {
-                $this->ZrmReport->update_zrm_data_for_edit(
+                $this->{$zrmReportModel}->update_zrm_data_for_edit(
                     $this->data,
                     'Intake',
                     $id,
                     $this->data['Intake']['klant_id']
                 );
 
-                if ($this->ZrmReport->save($this->data)) {
+                if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->Intake->commit();
                     $this->sendIntakeNotification($this->Intake->id, $this->data);
                     $this->flash(__('De intake is opgeslagen', true));
@@ -194,10 +214,10 @@ class IntakesController extends AppController
             if ($dateCreated < new \DateTime('-7 days')) {
                 $this->flashError(__('You can only edit intakes that have been created last week.', true));
                 $this->redirect([
-                        'controller' => 'klanten',
-                        'action' => 'view',
-                        $this->data['Intake']['klant_id'],
-                        ]);
+                    'controller' => 'klanten',
+                    'action' => 'view',
+                    $this->data['Intake']['klant_id'],
+                ]);
             }
         }
 
@@ -235,7 +255,8 @@ class IntakesController extends AppController
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
 
         $this->set('diensten', $this->Intake->Klant->diensten($this->data['Intake']['klant_id'], $this->getEventDispatcher()));
-        $this->set(compact('primary_problems', 'klant', 'medewerkers',
+        $this->set(compact(
+            'primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
             'verslavingsperiodes', 'woonsituaties', 'locatie1s', 'locatie2s',
             'locatie3s',
@@ -247,13 +268,12 @@ class IntakesController extends AppController
 
         $this->Intake->Klant->recursive = 1;
         $klant = $this->Intake->Klant->findById($this->data['Intake']['klant_id']);
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
 
-        if (empty($this->data['ZrmReport'])) {
-            $zrm = $this->ZrmReport->get_zrm_report('Intake', $id, $this->data['Intake']['klant_id']);
-            $this->data['ZrmReport'] = $zrm['ZrmReport'];
+        if (empty($this->data[$zrmReportModel])) {
+            $this->data[$zrmReportModel] = $zrmReport[$zrmReportModel];
         }
-        $this->set(compact('klant', 'zrm_data'));
+        $this->set(compact('klant', 'zrmData', 'zrmReportModel'));
     }
 
     public function delete($id = null)

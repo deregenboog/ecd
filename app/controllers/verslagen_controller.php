@@ -140,8 +140,15 @@ class VerslagenController extends AppController
         $persoon = $this->Verslag->Klant->getAllById($klant_id);
         $diensten = $this->Verslag->Klant->diensten($persoon, $this->getEventDispatcher());
 
-        $this->loadModel('ZrmReport');
-        $lastZrmReport = $this->ZrmReport->get_last_zrm_report($klant_id);
+        // get last ZRM
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $lastZrmReport = $this->{$zrmReportModel}->get_last_zrm_report($klant_id);
+            if ($lastZrmReport) {
+                break;
+            }
+        }
 
         $verslaginfo = $this->Verslag->Klant->Verslaginfo->find('first', [
             'conditions' => [
@@ -163,7 +170,10 @@ class VerslagenController extends AppController
             $this->Verslag->InventarisatiesVerslagen->getInvPaths($verslag);
         }
 
-        $this->set(compact('klant', 'verslagen', 'verslaginfo', 'medewerkers', 'persoon', 'diensten', 'lastZrmReport'));
+        $this->set(compact(
+            'klant', 'verslagen', 'verslaginfo', 'medewerkers', 'persoon', 'diensten',
+            'lastZrmReport', 'zrmReportModel'
+        ));
     }
 
     public function add($klant_id = null)

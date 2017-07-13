@@ -119,7 +119,6 @@ class AppController extends Controller implements ContainerAwareInterface
             'Groepsactiviteiten',
             'GroepsactiviteitenGroepen',
             'GroepsactiviteitenRedenen',
-            'GroepsactiviteitenIntakes',
             'GroepsactiviteitenVerslagen',
             'GroepsactiviteitenRapportages',
             'GroepsactiviteitenAfsluitingen',

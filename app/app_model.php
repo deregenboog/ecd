@@ -3,18 +3,20 @@
 class AppModel extends Model
 {
     public $actsAs = array(
-            'Logable' => array(
-                'change' => 'full',
-                'description_ids' => 'false',
-                'displayField' => 'username',
-                'foreignKey' => 'foreign_key',
-                'userModel' => 'Medewerker',
-                'userKey' => 'medewerker_id',
-                ),
-            );
+        'Logable' => array(
+            'change' => 'full',
+            'description_ids' => 'false',
+            'displayField' => 'username',
+            'foreignKey' => 'foreign_key',
+            'userModel' => 'Medewerker',
+            'userKey' => 'medewerker_id',
+        ),
+    );
 
     public $debug_caching = false;
+
     public $beforeSaveData = [];
+
     public $ignore_caching_for = array('Log');
 
     /*

@@ -73,38 +73,43 @@ class KlantenController extends AppController
 
     public function view($id = null)
     {
-        $this->loadModel('ZrmReport');
-        if (!$id) {
+        $klant = $this->Klant->find('first', ['conditions' => ['Klant.id' => $id]]);
+        if (!$klant) {
             $this->flashError(__('Invalid klant', true));
             $this->redirect(array('action' => 'index'));
         }
 
-        $klant = $this->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $id),
-        ));
-
-        $registraties = $this->Klant->Registratie->find('all', array(
-            'conditions' => array('Registratie.klant_id' => $klant['Klant']['id']),
+        $registraties = $this->Klant->Registratie->find('all', [
+            'conditions' => ['Registratie.klant_id' => $klant['Klant']['id']],
             'order' => 'binnen desc',
-            'limit' => 3, ));
+            'limit' => 3,
+        ]);
 
-        $opmerkingen = $this->Klant->Opmerking->find('all', array(
-            'conditions' => array('Klant.id' => $id, 'Opmerking.gezien' => false),
+        $opmerkingen = $this->Klant->Opmerking->find('all', [
+            'conditions' => ['Klant.id' => $id, 'Opmerking.gezien' => false],
             'contain' => $this->Klant->Opmerking->contain,
             'limit' => 10,
-        ));
+        ]);
 
-        $this->set(compact('registraties', 'opmerkingen', 'klant'));
-
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $this->set(compact('klant', 'registraties', 'opmerkingen'));
 
         if (isset($klant['Intake'][0])) {
-            $newestintake = $this->Klant->Intake->read(null, $klant['Intake'][0]['id']);
-            $this->set('newestintake', $newestintake);
+            $newestIntake = $this->Klant->Intake->read(null, $klant['Intake'][0]['id']);
+            $this->set('newestintake', $newestIntake);
 
-            $this->set('zrmReport', $this->ZrmReport->get_zrm_report('Intake', $klant['Intake'][0]['id']));
+            // get ZRM associated with intake
+            $this->loadModel(ZrmReport::class);
+            foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+                $this->loadModel($zrmReportModel);
+                $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $newestIntake['Intake']['id']);
+                if ($zrmReport) {
+                    break;
+                }
+            }
         }
-        $this->set('zrm_data', $zrm_data);
+
+        $this->set('zrmReport', $zrmReport);
+        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
         $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
@@ -138,12 +143,13 @@ class KlantenController extends AppController
 
     public function zrm_add($id)
     {
-        $this->loadModel('ZrmReport');
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
 
         if (!empty($this->data)) {
-            $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Klant', $id, $id);
-
-            if ($this->ZrmReport->save($this->data)) {
+            $this->{$zrmReportModel}->update_zrm_data_for_edit($this->data, 'Klant', $id, $id);
+            if ($this->{$zrmReportModel}->save($this->data)) {
                 $this->flash(__('ZRM opgeslagen', true));
                 $this->redirect($this->data['Klant']['referer']);
             } else {
@@ -153,32 +159,39 @@ class KlantenController extends AppController
             $this->data['Klant']['referer'] = $this->referer();
         }
 
-        $this->set('zrm_data', $this->ZrmReport->zrm_data());
         $this->set('id', $id);
+        $this->set('model', $zrmReportModel);
+        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
+        $this->set('zrmReportModel', $zrmReportModel);
     }
 
-    public function zrm($id = null)
+    public function zrm($id)
     {
-        $this->loadModel('ZrmReport');
-        if (!$id) {
+        $klant = $this->Klant->read(null, $id);
+        if (!$klant) {
             $this->flashError(__('Invalid klant', true));
             $this->redirect(array('action' => 'index'));
         }
 
-        $klant = $this->Klant->read(null, $id);
-        $this->set('klant', $klant);
+        $zrmReports = [];
+        $zrmData = [];
 
-        $zrmReports = $this->ZrmReport->find('all', array(
-                'conditions' => array('klant_id' => $id),
-                'order' => 'ZrmReport.created DESC',
-        ));
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReports[$zrmReportModel] = $this->{$zrmReportModel}->find('all', [
+                'conditions' => ['klant_id' => $id],
+                'order' => $zrmReportModel.'.created DESC',
+            ]);
+            $zrmData[$zrmReportModel] = $this->{$zrmReportModel}->zrm_data();
+        }
 
-        $this->set('zrmReports', $zrmReports);
-        $this->set('referer', $this->referer());
         $this->set('klant_id', $id);
-        $this->set('zrm_data', $zrm_data);
+        $this->set('klant', $klant);
+        $this->set('referer', $this->referer());
         $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
+        $this->set('zrmReports', $zrmReports);
+        $this->set('zrmData', $zrmData);
     }
 
     public function add($step = 1)

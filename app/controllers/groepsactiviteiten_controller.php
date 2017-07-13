@@ -311,10 +311,25 @@ class GroepsactiviteitenController extends AppController
 
     public function intakes($persoon_model, $foreign_key)
     {
-        $this->loadModel('ZrmReport');
         $persoon_model = $this->check_persoon_model($persoon_model);
-
         $this->loadModel($persoon_model);
+        $persoon = $this->{$persoon_model}->getAllById($foreign_key);
+
+        $zrm = false;
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            if (!empty($persoon['GroepsactiviteitenIntake']['id'])) {
+                $zrm = $this->{$zrmReportModel}->get_zrm_report('GroepsactiviteitenIntake', $persoon['GroepsactiviteitenIntake']['id']);
+                if ($zrm) {
+                    break;
+                }
+            }
+        }
+        if (!$zrm) {
+            $zrmReportModel = ZrmReport::getZrmReportModel();
+        }
+
         if (!empty($this->data)) {
             if (empty($this->data['GroepsactiviteitenIntake']['id'])) {
                 $this->{$persoon_model}->GroepsactiviteitenIntake->create();
@@ -322,23 +337,19 @@ class GroepsactiviteitenController extends AppController
                 $this->data['GroepsactiviteitenIntake']['foreign_key'] = $foreign_key;
                 $this->data['GroepsactiviteitenIntake']['medewerker_id'] = $this->Session->read('Auth.Medewerker.id');
             }
-
             $this->data['GroepsactiviteitenIntake']['gespreksverslag'] = htmlentities($this->data['GroepsactiviteitenIntake']['gespreksverslag']);
             $this->{$persoon_model}->begin();
-            $saved = false;
 
             $retval = $this->{$persoon_model}->GroepsactiviteitenIntake->save($this->data);
 
+            $saved = false;
             if ($retval) {
                 if ($persoon_model == 'Klant') {
-                    $this->data['ZrmReport']['model'] = 'GroepsactiviteitenIntake';
-
-                    $this->data['ZrmReport']['foreign_key'] = $this->{$persoon_model}->GroepsactiviteitenIntake->id;
-                    $this->data['ZrmReport']['klant_id'] = $foreign_key;
-
-                    $this->ZrmReport->create();
-
-                    if ($this->ZrmReport->save($this->data)) {
+                    $this->data[$zrmReportModel]['model'] = 'GroepsactiviteitenIntake';
+                    $this->data[$zrmReportModel]['foreign_key'] = $this->{$persoon_model}->GroepsactiviteitenIntake->id;
+                    $this->data[$zrmReportModel]['klant_id'] = $foreign_key;
+                    $this->{$zrmReportModel}->create();
+                    if ($this->{$zrmReportModel}->save($this->data)) {
                         $saved = true;
                     }
                 } else {
@@ -354,26 +365,22 @@ class GroepsactiviteitenController extends AppController
                 $this->flash(__('De intake is niet opgeslagen', true));
                 $this->{$persoon_model}->rollback();
             }
+        } else {
+            if ($zrm) {
+                $this->data[$zrmReportModel] = $zrm[$zrmReportModel];
+            }
         }
-
-        $persoon = $this->{$persoon_model}->getAllById($foreign_key);
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
-        if (!empty($persoon['GroepsactiviteitenIntake']['id']) && empty($this->data['ZrmReport'])) {
-            $zrm = $this->ZrmReport->get_zrm_report('GroepsactiviteitenIntake',
-                    $persoon['GroepsactiviteitenIntake']['id'],
-                    $foreign_key);
-            $this->data['ZrmReport'] = $zrm['ZrmReport'];
-        }
-
-        $zrm_data = $this->ZrmReport->zrm_data();
-        $this->set(compact('persoon', 'persoon_model', 'zrm_data', 'diensten'));
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+        $this->set(compact('persoon', 'persoon_model', 'zrmData', 'zrmReportModel', 'diensten'));
         $this->setMedewerkers();
         $this->setmetadata($persoon_model, $foreign_key);
+
         $this->render('view');
     }
 
@@ -1029,12 +1036,14 @@ class GroepsactiviteitenController extends AppController
 
     public function zrm_add($id)
     {
-        $this->loadModel('ZrmReport');
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
 
         if (!empty($this->data)) {
-            $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Groepsactiviteit', $id, $id);
+            $this->{$zrmReportModel}->update_zrm_data_for_edit($this->data, 'Groepsactiviteit', $id, $id);
 
-            if ($this->ZrmReport->save($this->data)) {
+            if ($this->{$zrmReportModel}->save($this->data)) {
                 $this->flash(__('ZRM opgeslagen', true));
                 $this->redirect(['action' => 'view', $id]);
             } else {
@@ -1042,7 +1051,7 @@ class GroepsactiviteitenController extends AppController
             }
         }
 
-        $this->set('zrm_data', $this->ZrmReport->zrm_data());
+        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
         $this->set('id', $id);
     }
 

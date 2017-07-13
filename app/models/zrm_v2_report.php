@@ -1,52 +1,25 @@
 <?php
 
-class ZrmReport extends AppModel
-{
-    static public $zrmReportModels = [
-        'ZrmV2Report' => '2017-08-01',
-        'ZrmReport' => '2010-01-01',
-    ];
+App::import('Model', 'ZrmReport');
 
-    public $name = 'ZrmReport';
+class ZrmV2Report extends ZrmReport
+{
+    public $name = 'ZrmV2Report';
 
     public $zrm_items = [
-        'inkomen' => 'Inkomen',
-        'dagbesteding' => 'Dagbesteding',
+        'financien' => 'Financiën',
+        'werk_opleiding' => 'Werk en Opleiding',
+        'tijdsbesteding' => 'Tijdsbesteding',
         'huisvesting' => 'Huisvesting',
-        'gezinsrelaties' => 'Gezinsrelaties',
+        'huiselijke_relaties' => 'Huiselijke relaties',
         'geestelijke_gezondheid' => 'Geestelijke gezondheid',
-        'fysieke_gezondheid' => 'Fysieke gezondheid',
-        'verslaving' => 'Verslaving',
-        'adl_vaardigheden' => 'ADL-vaardigheden',
+        'lichamelijke_gezondheid' => 'Lichamelijke gezondheid',
+        'middelengebruik' => 'Middelengebruik',
+        'basale_adl' => 'Basale ADL',
+        'instrumentele_adl' => 'Instrumentele ADL',
         'sociaal_netwerk' => 'Sociaal netwerk',
         'maatschappelijke_participatie' => 'Maatschappelijke participatie',
         'justitie' => 'Justitie',
-    ];
-
-    public $zrm_models = [
-        'Intake' => [],
-        'MaatschappelijkWerk' => [],
-        'Awbz' => [],
-        'Hi5' => [],
-    ];
-
-    public $belongsTo = [
-        'Klant' => [
-            'className' => 'Klant',
-            'foreignKey' => 'klant_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-        ],
-    ];
-
-    public $zrm_names = [
-        'Intake' => 'Registratie',
-        'MaatschappelijkWerk' => 'MaatschappelijkWerk',
-        'Awbz' => 'Awbz',
-        'Hi5' => 'Hi5',
-        'GroepsactiviteitenIntake' => 'Groepsactiviteiten',
-        'IzIntake' => 'IZ Intake',
     ];
 
     public $validate = [
@@ -57,18 +30,25 @@ class ZrmReport extends AppModel
                 'required' => true,
             ],
          ],
-        'inkomen' => [
+        'financien' => [
             'allowEmpty' => true,
             'checkRequired' => [
                 'rule' => ['checkRequired'],
-                'message' => 'Verplicht veld: Inkomen',
+                'message' => 'Verplicht veld: Financiën',
             ],
         ],
-        'dagbesteding' => [
+        'werk_opleiding' => [
             'allowEmpty' => true,
             'checkRequired' => [
                 'rule' => ['checkRequired'],
-                'message' => 'Verplicht veld: Dagbesteding',
+                'message' => 'Verplicht veld: Werk en Opleiding',
+            ],
+        ],
+        'tijdsbesteding' => [
+            'allowEmpty' => true,
+            'checkRequired' => [
+                'rule' => ['checkRequired'],
+                'message' => 'Verplicht veld: Tijdsbesteding',
             ],
         ],
         'huisvesting' => [
@@ -78,11 +58,11 @@ class ZrmReport extends AppModel
                 'message' => 'Verplicht veld: Huisvesting',
             ],
         ],
-        'gezinsrelaties' => [
+        'huiselijke_relaties' => [
             'allowEmpty' => true,
             'checkRequired' => [
                 'rule' => ['checkRequired'],
-                'message' => 'Verplicht veld: Gezinsrelaties',
+                'message' => 'Verplicht veld: Huiselijke relaties',
             ],
         ],
         'geestelijke_gezondheid' => [
@@ -92,25 +72,32 @@ class ZrmReport extends AppModel
                 'message' => 'Verplicht veld: Geestelijke gezondheid',
             ],
         ],
-        'fysieke_gezondheid' => [
+        'lichamelijke_gezondheid' => [
             'allowEmpty' => true,
             'checkRequired' => [
                 'rule' => ['checkRequired'],
-                'message' => 'Verplicht veld: Fysieke gezondheid',
+                'message' => 'Verplicht veld: Lichamelijke gezondheid',
             ],
         ],
-        'verslaving' => [
+        'middelengebruik' => [
             'allowEmpty' => true,
             'checkRequired' => [
                 'rule' => ['checkRequired'],
-                'message' => 'Verplicht veld: Verslaving',
+                'message' => 'Verplicht veld: Middelengebruik',
             ],
         ],
-        'adl_vaardigheden' => [
+        'basale_adl' => [
             'allowEmpty' => true,
             'checkRequired' => [
                 'rule' => ['checkRequired'],
-                'message' => 'Verplicht veld: ADL-vaardigheden',
+                'message' => 'Verplicht veld: Basale ADL',
+            ],
+        ],
+        'instrumentele_adl' => [
+            'allowEmpty' => true,
+            'checkRequired' => [
+                'rule' => ['checkRequired'],
+                'message' => 'Verplicht veld: Instrumentele ADL',
             ],
         ],
         'sociaal_netwerk' => [
@@ -136,27 +123,10 @@ class ZrmReport extends AppModel
         ],
     ];
 
-    static public function getZrmReportModels()
-    {
-        return array_keys(self::$zrmReportModels);
-    }
-
-    static public function getZrmReportModel()
-    {
-        $today = new \DateTime('today');
-        foreach (self::$zrmReportModels as $zrmReportModel => $date) {
-            if ($today >= new \DateTime($date)) {
-                return $zrmReportModel;
-            }
-        }
-
-        return $zrmReportModel;
-    }
-
     public function afterSave($created)
     {
-        if (!empty($this->data['ZrmReport']['klant_id'])) {
-            $klant_id = $this->data['ZrmReport']['klant_id'];
+        if (!empty($this->data['ZrmV2Report']['klant_id'])) {
+            $klant_id = $this->data['ZrmV2Report']['klant_id'];
             $this->Klant->recursive = -1;
             $klant = $this->Klant->read(null, $klant_id);
 
@@ -174,25 +144,25 @@ class ZrmReport extends AppModel
             $this->zrm_data();
         }
 
-        if (!isset($this->data['ZrmReport']['request_module'])) {
+        if (!isset($this->data['ZrmV2Report']['request_module'])) {
             return true;
         }
 
-        if (empty($this->data['ZrmReport']['request_module'])) {
+        if (empty($this->data['ZrmV2Report']['request_module'])) {
             return true;
         }
 
-        if (!isset($this->zrm_required_fields[$this->data['ZrmReport']['request_module']])) {
+        if (!isset($this->zrm_required_fields[$this->data['ZrmV2Report']['request_module']])) {
             return true;
         }
 
-        $r = $this->zrm_required_fields[$this->data['ZrmReport']['request_module']];
+        $r = $this->zrm_required_fields[$this->data['ZrmV2Report']['request_module']];
         if (empty($r)) {
             return true;
         }
 
         foreach ($field as $k => $f) {
-            if (in_array($k, $r) && empty($this->data['ZrmReport'][$k])) {
+            if (in_array($k, $r) && empty($this->data['ZrmV2Report'][$k])) {
                 return false;
             }
         }
@@ -203,8 +173,8 @@ class ZrmReport extends AppModel
     public function zrm_data()
     {
         if (!isset($this->zrm_required_fields)) {
-            App::import('Model', 'ZrmSetting');
-            $setting = new ZrmSetting();
+            App::import('Model', 'ZrmV2Setting');
+            $setting = new ZrmV2Setting();
             $s = $setting->required_fields();
             $this->zrm_required_fields = $s['required_fields'];
             $this->zrm_models = $s['zrm_models'];
@@ -237,16 +207,16 @@ class ZrmReport extends AppModel
 
     public function update_zrm_data_for_edit(&$zrm, $model, $foreign_key, $klant_id)
     {
-        if (empty($zrm['ZrmReport']['model'])) {
-            $zrm['ZrmReport']['model'] = $model;
+        if (empty($zrm['ZrmV2Report']['model'])) {
+            $zrm['ZrmV2Report']['model'] = $model;
         }
 
-        if (empty($zrm['ZrmReport']['foreign_key'])) {
-            $zrm['ZrmReport']['foreign_key'] = $foreign_key;
+        if (empty($zrm['ZrmV2Report']['foreign_key'])) {
+            $zrm['ZrmV2Report']['foreign_key'] = $foreign_key;
         }
 
-        if (empty($zrm['ZrmReport']['klant_id'])) {
-            $zrm['ZrmReport']['klant_id'] = $klant_id;
+        if (empty($zrm['ZrmV2Report']['klant_id'])) {
+            $zrm['ZrmV2Report']['klant_id'] = $klant_id;
         }
 
         return $zrm;
@@ -260,7 +230,7 @@ class ZrmReport extends AppModel
             'conditions' => [
                 'klant_id' => $klant_id,
             ],
-            'order' => 'ZrmReport.created DESC',
+            'order' => 'ZrmV2Report.created DESC',
         ]);
 
         return $zrm;
@@ -275,7 +245,7 @@ class ZrmReport extends AppModel
                 'model' => $model,
                 'foreign_key' => $foreign_key,
             ],
-            'order' => 'ZrmReport.created DESC',
+            'order' => 'ZrmV2Report.created DESC',
         ]);
 
         return $zrm;

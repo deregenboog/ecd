@@ -12,7 +12,6 @@ class AwbzIntakesController extends AppController
 
     public function view($id = null)
     {
-        $this->loadModel('ZrmReport');
         if (!$id) {
             $this->flashError(__('Invalid intake', true));
             $this->redirect(array('action' => 'index'));
@@ -23,36 +22,42 @@ class AwbzIntakesController extends AppController
 
         App::import('Helper', 'Date');
         $dateHelper = new DateHelper();
+        $title_for_layout = ' - AwbzIntake van '.$intake['Klant']['name'].' op '.$dateHelper->show($intake['AwbzIntake']['datum_intake']);
 
-        $title_for_layout = ' - AwbzIntake van '.
-            $intake['Klant']['name'].' op '.
-            $dateHelper->show($intake['AwbzIntake']['datum_intake']);
+        $indicaties_counter = $this->_get_indicaties_counter($intake['Klant']['id']);
 
-        $indicaties_counter =
-            $this->_get_indicaties_counter($intake['Klant']['id']);
+        $this->set(compact('klant', 'intake', 'title_for_layout', 'indicaties_counter'));
 
-        $this->set('intake', $intake);
-        $this->set('klant', $klant);
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReport = $this->{$zrmReportModel}->get_zrm_report('AwbzIntake', $id);
+            if ($zrmReport) {
+                break;
+            }
+        }
 
-        $zrmReport = $this->ZrmReport->get_zrm_report('AwbzIntake', $id, $intake['Klant']['id']);
-        $this->set(compact('title_for_layout', 'indicaties_counter', 'zrmReport', 'zrm_data'));
+        $this->set('zrmReport', $zrmReport);
+        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
     }
 
     public function add($klant_id = null)
     {
-        $this->loadModel('ZrmReport');
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
+
         if (!empty($this->data)) {
             $this->AwbzIntake->create();
             if ($this->AwbzIntake->saveAll($this->data)) {
                 $this->AwbzIntake->begin();
-                $this->data['ZrmReport']['model'] = 'AwbzIntake';
-                $this->data['ZrmReport']['foreign_key'] = $this->AwbzIntake->id;
-                $this->data['ZrmReport']['klant_id'] = $klant_id;
+                $this->data[$zrmReportModel]['model'] = 'AwbzIntake';
+                $this->data[$zrmReportModel]['foreign_key'] = $this->AwbzIntake->id;
+                $this->data[$zrmReportModel]['klant_id'] = $klant_id;
 
-                $this->ZrmReport->create();
+                $this->{$zrmReportModel}->create();
 
-                if ($this->ZrmReport->save($this->data)) {
+                if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->AwbzIntake->commit();
                     $this->sendAwbzIntakeNotification($this->AwbzIntake->id, $this->data);
                     $this->flash(__('De intake is opgeslagen', true));
@@ -106,9 +111,9 @@ class AwbzIntakesController extends AppController
 
         $indicaties_counter = $this->_get_indicaties_counter($klant_id);
 
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
 
-        $this->set(compact('zrm_data', 'primary_problems', 'klant', 'medewerkers',
+        $this->set(compact('zrmData', 'zrmReportModel', 'primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
             'verslavingsperiodes', 'woonsituaties', 'locatie1s', 'locatie2s',
             'inkomens', 'instanties', 'verslavingsgebruikswijzen',
@@ -167,8 +172,6 @@ class AwbzIntakesController extends AppController
 
     public function edit($id = null)
     {
-        $this->loadModel('ZrmReport');
-
         if (!$id && empty($this->data)) {
             $this->flashError(__('Ongeldige intake', true));
             $this->redirect(array(
@@ -177,40 +180,38 @@ class AwbzIntakesController extends AppController
             ));
         }
 
+        // get ZRM associated with intake
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrm = $this->{$zrmReportModel}->get_zrm_report('AwbzIntake', $id);
+            if ($zrm) {
+                break;
+            }
+        }
+
         if (!empty($this->data)) {
             $this->AwbzIntake->begin();
-
             if ($this->AwbzIntake->save($this->data)) {
-                $this->ZrmReport->update_zrm_data_for_edit($this->data, 'AwbzIntake', $id, $this->data['AwbzIntake']['klant_id']);
-                debug($this->data['ZrmReport']);
-                $this->ZrmReport->create();
-
-                if ($this->ZrmReport->save($this->data)) {
+                $this->{$zrmReportModel}->update_zrm_data_for_edit($this->data, 'AwbzIntake', $id, $this->data['AwbzIntake']['klant_id']);
+                $this->{$zrmReportModel}->create();
+                if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->sendAwbzIntakeNotification($this->AwbzIntake->id, $this->data);
                     $this->flash(__('De intake is opgeslagen', true));
                     $this->AwbzIntake->commit();
                     $this->redirect(array('controller' => 'awbz', 'action' => 'view', $this->data['AwbzIntake']['klant_id']));
                 }
-
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
             } else {
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
             }
-
             $this->AwbzIntake->rollback();
-        }
-        if (empty($this->data)) {
+        } else {
             $this->AwbzIntake->recursive = 1;
             $this->data = $this->AwbzIntake->read(null, $id);
         }
 
         $klant_id = $this->data['AwbzIntake']['klant_id'];
-
-        $view_redirect_url = array(
-            'controller' => 'awbz',
-            'action' => 'view',
-            $klant_id,
-        );
 
         if ($this->data['AwbzIntake']['datum_intake'] != date('Y-m-d')) {
             $this->flashError(__(
@@ -220,13 +221,13 @@ class AwbzIntakesController extends AppController
         }
 
         $logged_in_user_id = $this->Session->read('Auth.Medewerker.id');
-
         if ($this->data['AwbzIntake']['medewerker_id'] != $logged_in_user_id) {
-            $this->flashError(__(
-                'You can only edit intakes that you created.',
-                true
+            $this->flashError(__('You can only edit intakes that you created.', true));
+            $this->redirect(array(
+                'controller' => 'awbz',
+                'action' => 'view',
+                $klant_id,
             ));
-            $this->redirect($view_redirect_url);
         }
 
         $informele_zorg_mail = Configure::read('informele_zorg_mail');
@@ -264,13 +265,15 @@ class AwbzIntakesController extends AppController
         ));
 
         $klant = $this->AwbzIntake->Klant->findById($klant_id);
-        $zrm_data = $this->ZrmReport->zrm_data();
 
-        if (empty($this->data['ZrmReport'])) {
-            $zrm = $this->ZrmReport->get_zrm_report('AwbzIntake', $id, $this->data['AwbzIntake']['klant_id']);
-            $this->data['ZrmReport'] = $zrm['ZrmReport'];
+        if (empty($this->data[$zrmReportModel])) {
+            $zrm = $this->{$zrmReportModel}->get_zrm_report('AwbzIntake', $id);
+            $this->data[$zrmReportModel] = $zrm[$zrmReportModel];
         }
-        $this->set(compact('klant', 'zrm_data'));
+
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+        $this->set('zrmReportModel', $zrmReportModel);
+        $this->set(compact('klant', 'zrmData'));
     }
 
     public function delete($id = null)

@@ -167,11 +167,11 @@
         </fieldset>
 
         <fieldset id="zrm" style="display : block;">
-            <legend>Zelfredzaamheid matrix</legend>
+            <legend>Zelfredzaamheidmatrix</legend>
             <p>
                 Vul onderstaande matrix in
             </p>
-            <?= $this->element('zrm', ['model' => 'Intake', 'zrm_data' => $zrm_data]) ?>
+            <?= $this->element('zrm', ['model' => 'Intake', 'zrmData' => $zrmData]) ?>
         </fieldset>
     </fieldset>
     <?php echo $this->Form->end(__('Submit', true)); ?>

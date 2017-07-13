@@ -49,7 +49,7 @@ class ZrmSettingsController extends AppController
 
         $zrm_settings = $this->ZrmSetting->find('all');
         $this->set('zrm_settings', $zrm_settings);
-        $this->set('zrm_data', $this->ZrmReport->zrm_data());
+        $this->set('zrmData', $this->ZrmReport->zrm_data());
     }
 
     public function edit($id = null)

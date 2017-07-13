@@ -33,7 +33,6 @@ class IzHulpaanbiedingenController extends AppController
         'vrijwilliger.achternaam',
         'vrijwilliger.geboortedatum',
         'vrijwilliger.werkgebied',
-        'vrijwilliger.laatsteZrm',
         'medewerker.achternaam',
     ];
 
