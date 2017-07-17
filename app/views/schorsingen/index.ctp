@@ -122,6 +122,17 @@
                             ['method' => 'post', 'async' => false]
                         )
                     ) ?>
+                    <?php if (in_array('CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))): ?>
+                        <?= $html->link(
+                            $html->image('delete.png'),
+                            ['action' => 'delete', $schId],
+                            [
+                                'escape' => false,
+                                'title' => __('delete', true),
+                                'onclick' => "return confirm('Weet u zeker dat u deze schorsing wilt verwijderen?');",
+                            ]
+                        ) ?>
+                    <?php endif; ?>
                 </div>
                 Op locatie(s)
                 <ul>
