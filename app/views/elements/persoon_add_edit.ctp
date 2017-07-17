@@ -121,8 +121,8 @@
             }
         }
         $(document).ready(function() {
-            $('.postcode').keyup(updateArea);
             $('.postcode').change(updateArea);
+            $('.postcode').ready($('.postcode').change()); // trigger change handler on ready
         });
     ");
 ?>
