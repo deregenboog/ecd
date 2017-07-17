@@ -12,7 +12,8 @@
     <?= $this->Html->css('regenboog') ?>
     <?= $this->Html->css('jquery-ui-1.8.11.custom') ?>
     <?= $scripts_for_layout ?>
-    <?= $html->script('jquery') ?>
+    <?= $html->script('jquery-1.12.4.min') ?>
+    <?= $html->script('jquery-migrate-1.4.1.min') ?>
     <?= $html->script('datepicker') ?>
     <?= $html->script('jquery-ui-1.8.11.custom.min') ?>
     <?= $html->script('jquery.ui.datepicker-nl') ?>
