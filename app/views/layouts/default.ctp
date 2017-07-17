@@ -3,10 +3,10 @@
 <head>
     <?= $this->Html->charset('UTF-8') ?>
     <title>
-        <?php __('DRG Intakeregistratie'); ?>
+        <?php __('ECD'); ?>
         <?= $title_for_layout; ?>
     </title>
-    <?= $html->meta('icon', $html->url('/rainbow.ico')) ?>
+    <?= $html->meta('icon', $html->url('/favicon.ico')) ?>
     <?= $this->Html->css('cake.generic', 'stylesheet', array('media' => 'screen')) ?>
     <?= $this->Html->css('datepicker') ?>
     <?= $this->Html->css('regenboog') ?>
@@ -24,7 +24,7 @@
     <div id="container">
         <div id="header">
             <div id="title">
-                <?= $this->Html->link(__('DRG Intakeregistratie', true), '/') ?>
+                <?= $this->Html->link($this->Html->image('drg-logo-50px.jpg'), '/', ['escape' => false]) ?>
                 <?php
                     $user = $this->Session->read('Auth.Medewerker.LdapUser.displayname');
                     if (!$user) {
