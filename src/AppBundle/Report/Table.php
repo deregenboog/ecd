@@ -131,7 +131,7 @@ class Table
                 }
             } elseif (empty($yValues)) {
                 foreach ($xValues as $xValue) {
-                    if ($row[$this->xPath] === $xValue) {
+                    if ($row[$this->xPath] === (string) $xValue) {
                         $aantal = $row[$this->nPath];
                         if ($this->yTotals) {
                             $data['Totaal'][$xValue] += $aantal;
@@ -143,7 +143,7 @@ class Table
                 }
             } else {
                 foreach ($yValues as $yValue) {
-                    if ($row[$this->yPath] === $yValue) {
+                    if ($row[$this->yPath] === (string) $yValue) {
                         if (empty($xValues)) {
                             $aantal = $row[$this->nPath];
                             if ($this->xTotals) {
@@ -154,7 +154,7 @@ class Table
                             }
                         } else {
                             foreach ($xValues as $xValue) {
-                                if ($row[$this->xPath] === $xValue) {
+                                if ($row[$this->xPath] === (string) $xValue) {
                                     $aantal = $row[$this->nPath];
                                     $data[$yValue][$xValue] += $aantal;
                                     if ($this->xTotals) {
