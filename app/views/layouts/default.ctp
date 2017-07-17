@@ -25,19 +25,6 @@
         <div id="header">
             <div id="title">
                 <?= $this->Html->link($this->Html->image('drg-logo-50px.jpg'), '/', ['escape' => false]) ?>
-                <?php
-                    $user = $this->Session->read('Auth.Medewerker.LdapUser.displayname');
-                    if (!$user) {
-                        $user = $this->Session->read('Auth.Medewerker.LdapUser.cn');
-                    }
-                    if (!$user) {
-                        $user = $this->Session->read('Auth.Medewerker.LdapUser.givenname');
-                    }
-                    if ($user) {
-                        echo " -  Ingelogd als $user - ";
-                        echo $this->Html->link(__('Logout', true), '/medewerkers/logout');
-                    }
-                ?>
             </div>
             <ul id="tabs">
                 <?php foreach ($menu_allowed as $controller => $text): ?>
@@ -51,7 +38,19 @@
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <?php if (!$user): ?>
+                <?php
+                    $user = $this->Session->read('Auth.Medewerker.LdapUser.displayname');
+                    if (!$user) {
+                        $user = $this->Session->read('Auth.Medewerker.LdapUser.cn');
+                    }
+                    if (!$user) {
+                        $user = $this->Session->read('Auth.Medewerker.LdapUser.givenname');
+                    }
+                ?>
+                <?php if ($user): ?>
+                    <?= $this->Html->link(__('Logout', true), '/medewerkers/logout') ?>
+                    (ingelogd als <?= $user ?>)
+                <?php else: ?>
                     <li>
                         <?= $this->Html->link(__('Login', true), '/medewerkers/login') ?>
                     </li>
