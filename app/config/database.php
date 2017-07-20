@@ -97,6 +97,15 @@ class DATABASE_CONFIG
     {
         global $kernel;
 
+        // In case this is called by a Cake console command no kernel has been
+        // booted. For now use this ugly hack.
+        // @todo Improve this!
+        if (!$kernel) {
+            require __DIR__.'/../autoload.php';
+            $kernel = new AppKernel('dev', true);
+            $kernel->boot();
+        }
+
         $container = $kernel->getContainer();
 
         /* @var $conn Doctrine\DBAL\Connection */
