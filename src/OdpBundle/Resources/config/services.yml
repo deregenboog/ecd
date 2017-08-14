@@ -1,3 +1,6 @@
+imports:
+    - { resource: exports.yml }
+
 services:
     odp.event.diensten_lookup_subscriber:
         class: OdpBundle\Event\DienstenLookupSubscriber

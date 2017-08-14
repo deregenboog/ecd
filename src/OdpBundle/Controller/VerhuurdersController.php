@@ -2,19 +2,24 @@
 
 namespace OdpBundle\Controller;
 
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
-use AppBundle\Form\ConfirmationType;
-use OdpBundle\Entity\Verhuurder;
-use OdpBundle\Form\VerhuurderType;
-use OdpBundle\Form\VerhuurderSelectType;
-use OdpBundle\Form\VerhuurderFilterType;
 use AppBundle\Controller\SymfonyController;
+use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Form\KlantFilterType;
+use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Form\VerhuurderCloseType;
+use OdpBundle\Form\VerhuurderFilterType;
+use OdpBundle\Form\VerhuurderSelectType;
+use OdpBundle\Form\VerhuurderType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 
+/**
+ * @Route("/odp/verhuurders")
+ */
 class VerhuurdersController extends SymfonyController
 {
     public $title = 'Verhuurders';
@@ -34,7 +39,7 @@ class VerhuurdersController extends SymfonyController
     ];
 
     /**
-     * @Route("/odp/verhuurders")
+     * @Route("/")
      */
     public function index()
     {
@@ -52,6 +57,9 @@ class VerhuurdersController extends SymfonyController
         $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -66,8 +74,23 @@ class VerhuurdersController extends SymfonyController
         ];
     }
 
+    private function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $verhuurders = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('onder-de-pannen-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
+        /** @var $export ExportInterface */
+        $export = $this->container->get('odp.export.verhuurders');
+
+        return $export->create($verhuurders)->getResponse($filename);
+    }
+
     /**
-     * @Route("/odp/verhuurders/{id}/view")
+     * @Route("/{id}/view")
      */
     public function view($id)
     {
@@ -77,7 +100,7 @@ class VerhuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verhuurders/add")
+     * @Route("/add")
      */
     public function add($klantId = null)
     {
@@ -144,7 +167,7 @@ class VerhuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verhuurders/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -173,7 +196,7 @@ class VerhuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verhuurders/{id}/close")
+     * @Route("/{id}/close")
      */
     public function close($id)
     {
@@ -202,7 +225,7 @@ class VerhuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verhuurders/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function delete($id)
     {

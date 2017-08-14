@@ -2,18 +2,23 @@
 
 namespace OdpBundle\Controller;
 
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
+use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
-use OdpBundle\Form\HuurverzoekType;
-use OdpBundle\Form\HuurverzoekFilterType;
-use AppBundle\Form\ConfirmationType;
-use Symfony\Component\Form\FormError;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use OdpBundle\Entity\Huurder;
-use AppBundle\Controller\SymfonyController;
 use OdpBundle\Form\HuurverzoekCloseType;
+use OdpBundle\Form\HuurverzoekFilterType;
+use OdpBundle\Form\HuurverzoekType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
 
+/**
+ * @Route("/odp/huurverzoeken")
+ */
 class HuurverzoekenController extends SymfonyController
 {
     public $title = 'Huurverzoeken';
@@ -34,15 +39,10 @@ class HuurverzoekenController extends SymfonyController
     ];
 
     /**
-     * @Route("/odp/huurverzoeken")
+     * @Route("/")
      */
     public function index()
     {
-        $filter = $this->createForm(HuurverzoekFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->getRequest());
-
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(Huurverzoek::class);
 
@@ -52,8 +52,15 @@ class HuurverzoekenController extends SymfonyController
             ->innerJoin('huurder.klant', 'klant')
             ->where('huurovereenkomst.id IS NULL');
 
+        $filter = $this->createForm(HuurverzoekFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -68,8 +75,23 @@ class HuurverzoekenController extends SymfonyController
         ];
     }
 
+    private function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $huurverzoeken = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('onder-de-pannen-huurverzoeken-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
+        /** @var $export ExportInterface */
+        $export = $this->container->get('odp.export.huurverzoeken');
+
+        return $export->create($huurverzoeken)->getResponse($filename);
+    }
+
     /**
-     * @Route("/odp/huurverzoeken/{id}/view")
+     * @Route("/{id}/view")
      */
     public function view($id)
     {
@@ -110,7 +132,7 @@ class HuurverzoekenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurverzoeken/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -139,7 +161,7 @@ class HuurverzoekenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurverzoeken/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function delete($id)
     {
@@ -169,7 +191,7 @@ class HuurverzoekenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurverzoeken/{id}/close")
+     * @Route("/{id}/close")
      */
     public function close($id)
     {
