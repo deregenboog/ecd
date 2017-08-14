@@ -2,11 +2,11 @@
 
 namespace IzBundle\Export;
 
-use AppBundle\Export\AbstractExport;
+use AppBundle\Export\ExportException;
+use AppBundle\Export\GenericExport;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
-use AppBundle\Export\GenericExport;
 
 class IzSelectionExport extends GenericExport
 {
@@ -30,25 +30,18 @@ class IzSelectionExport extends GenericExport
      */
     private $configuration2;
 
-    /**
-     * @var array
-     */
-    private $headers1;
-
-    /**
-     * @var array
-     */
-    private $headers2;
-
     public function __construct($class1, array $configuration1, $class2, array $configuration2)
     {
+        $this->headers = $this->getHeaders($configuration1);
+        if ($this->headers !== $this->getHeaders($configuration2)) {
+            throw new ExportException('Headers must match between configurations');
+        }
+
         $this->class1 = $class1;
         $this->configuration1 = $configuration1;
-        $this->headers1 = $this->getHeaders($configuration1);
 
         $this->class2 = $class2;
         $this->configuration2 = $configuration2;
-        $this->headers2 = $this->getHeaders($configuration2);
     }
 
     /**
@@ -56,21 +49,18 @@ class IzSelectionExport extends GenericExport
      */
     protected function prepare()
     {
-        if (!$this->excel) {
+        if ($this->excel) {
+            $sheet = $this->excel->getActiveSheet();
+        } else {
             $this->excel = new \PHPExcel();
             $sheet = $this->excel->getActiveSheet();
-            $sheet->setTitle('Deelnemers');
-        } else {
-            $sheet = new \PHPExcel_Worksheet($this->excel, 'Vrijwilligers');
-            $this->excel->addSheet($sheet);
-        }
-
-        $column = 0;
-        foreach ($this->headers as $header) {
-            $sheet->setCellValueByColumnAndRow($column, 1, $header, true)
+            $column = 0;
+            foreach ($this->headers as $header) {
+                $sheet->setCellValueByColumnAndRow($column, 1, $header, true)
                 ->getStyle()->getFont()->setBold(true);
-            $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
-            ++$column;
+                $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
+                ++$column;
+            }
         }
 
         return $sheet;
@@ -81,16 +71,13 @@ class IzSelectionExport extends GenericExport
         if (!$this->excel) {
             $this->class = $this->class1;
             $this->configuration = $this->configuration1;
-            $this->headers = $this->headers1;
 
             parent::create($entities);
         } else {
             $this->class = $this->class2;
             $this->configuration = $this->configuration2;
-            $this->headers = $this->headers2;
 
             parent::create($entities);
-            $this->excel->setActiveSheetIndex(0);
         }
 
         return $this;

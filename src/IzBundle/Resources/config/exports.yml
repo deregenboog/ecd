@@ -167,7 +167,7 @@ services:
         arguments:
             - IzBundle\Entity\IzKlant
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
+                Nummer: { expression: '"K" ~ entity.getKlant().getId()' }
                 Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
@@ -189,9 +189,10 @@ services:
                 Medewerker intake: { expression: 'export.getMedewerkerIntake(entity)' }
                 Medewerkers koppelingen: { expression: 'export.getMedewerkers(entity)' }
                 Gezin met kinderen: { expression: 'entity.getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
+                Stagiair: { expression: 'null' }
             - IzBundle\Entity\IzVrijwilliger
             -
-                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Nummer: { expression: '"V" ~ entity.getVrijwilliger().getId()' }
                 Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
@@ -212,4 +213,5 @@ services:
                 Projecten: { expression: 'export.getProjecten(entity)' }
                 Medewerker intake: { expression: 'export.getMedewerkerIntake(entity)' }
                 Medewerkers koppelingen: { expression: 'export.getMedewerkers(entity)' }
+                Gezin met kinderen: { expression: 'null' }
                 Stagiair: { expression: 'entity.getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
