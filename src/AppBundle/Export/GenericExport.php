@@ -23,6 +23,11 @@ class GenericExport extends AbstractExport
      */
     protected $headers;
 
+    /**
+     * @var int
+     */
+    protected $row = 2;
+
     public function __construct($class, array $configuration)
     {
         $this->class = $class;
@@ -40,7 +45,6 @@ class GenericExport extends AbstractExport
         });
 
         $column = 0;
-        $row = 2;
 
         foreach ($entities as $entity) {
 
@@ -76,11 +80,11 @@ class GenericExport extends AbstractExport
                                 $value = new \DateTime($value);
                             }
                             $value = \PHPExcel_Shared_Date::PHPToExcel($value);
-                            $sheet->setCellValueByColumnAndRow($column, $row, $value);
-                            $sheet->getCellByColumnAndRow($column, $row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
+                            $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
                             break;
                         default:
-                            $sheet->setCellValueByColumnAndRow($column, $row, $value);
+                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
                             break;
                     }
                 }
@@ -89,7 +93,7 @@ class GenericExport extends AbstractExport
             }
 
             $column = 0;
-            ++$row;
+            ++$this->row;
         }
 
         return $this;
