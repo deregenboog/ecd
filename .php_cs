@@ -18,10 +18,10 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 return PhpCsFixer\Config::create()
-    ->setRules([
-        'psr0' => false,
-        '@Symfony' => true,
-        'array_syntax' => ['syntax' => 'short'],
-    ])
-    ->setFinder($finder)
+->setRules([
+    'psr0' => false,
+    '@Symfony' => true,
+    'array_syntax' => ['syntax' => 'short'],
+])
+->setFinder($finder)
 ;

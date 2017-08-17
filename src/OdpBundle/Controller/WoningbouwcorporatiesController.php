@@ -10,6 +10,9 @@ use OdpBundle\Form\WoningbouwcorporatieType;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 
+/**
+ * @Route("/odp/admin/woningbouwcorporaties")
+ */
 class WoningbouwcorporatiesController extends SymfonyController
 {
     public $title = 'Woningbouwcorporaties';
@@ -22,7 +25,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     private $woningbouwcorporatieDao;
 
     /**
-     * @Route("/odp/admin/woningbouwcorporaties")
+     * @Route("/")
      */
     public function index()
     {
@@ -35,7 +38,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/admin/woningbouwcorporaties/add")
+     * @Route("/add")
      */
     public function add()
     {
@@ -60,7 +63,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/admin/woningbouwcorporaties/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -84,7 +87,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/admin/woningbouwcorporaties/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function delete($id)
     {

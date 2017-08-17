@@ -1,0 +1,82 @@
+services:
+    odp.export.huurders:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OdpBundle\Entity\Huurder
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
+
+    odp.export.verhuurders:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OdpBundle\Entity\Verhuurder
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
+
+    odp.export.huurverzoeken:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OdpBundle\Entity\Huurverzoek
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Huurder: { expression: 'entity.getHuurder()' }
+                Stadsdeel: { expression: 'entity.getHuurder().getKlant().getWerkgebied()' }
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+
+    odp.export.huuraanbiedingen:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OdpBundle\Entity\Huuraanbod
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Verhuurder: { expression: 'entity.getVerhuurder()' }
+                Stadsdeel: { expression: 'entity.getVerhuurder().getKlant().getWerkgebied()' }
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+
+    odp.export.koppelingen:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OdpBundle\Entity\Huurovereenkomst
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Huurder: { expression: 'entity.getHuurder()' }
+                Verhuurder: { expression: 'entity.getVerhuurder()' }
+                Medewerker: { expression: 'entity.getMedewerker()' }
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+                Opzegdatum: { expression: 'entity.getOpzegdatum()', type: 'date' }
+                Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }

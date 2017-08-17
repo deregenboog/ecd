@@ -18,19 +18,17 @@ class Postcodegebied extends AppModel
     {
         $postcode = substr($postcode, 0, 4);
 
-        $conditions = [
-            'van <=' => $postcode,
-            'tot >=' => $postcode,
-        ];
-
         $result = $this->find('first', [
-            'conditions' => $conditions,
+            'conditions' => [
+                'van <=' => $postcode,
+                'tot >=' => $postcode,
+            ],
         ]);
 
         if (!empty($result['Postcodegebied']['postcodegebied'])) {
             return $result['Postcodegebied']['postcodegebied'];
-        } else {
-            return self::DEFAULT_POSTCODEGEBIED;
         }
+
+        return self::DEFAULT_POSTCODEGEBIED;
     }
 }

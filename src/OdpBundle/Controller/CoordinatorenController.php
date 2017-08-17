@@ -10,6 +10,9 @@ use OdpBundle\Form\CoordinatorType;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 
+/**
+ * @Route("/odp/admin/coordinatoren")
+ */
 class CoordinatorenController extends SymfonyController
 {
     public $title = 'Coördinatoren';
@@ -22,7 +25,7 @@ class CoordinatorenController extends SymfonyController
     private $coordinatorDao;
 
     /**
-     * @Route("/odp/admin/coordinatoren")
+     * @Route("/")
      */
     public function index()
     {
@@ -35,7 +38,7 @@ class CoordinatorenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/admin/coordinatoren/add")
+     * @Route("/add")
      */
     public function add()
     {
@@ -60,7 +63,7 @@ class CoordinatorenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/admin/coordinatoren/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -84,7 +87,7 @@ class CoordinatorenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/admin/coordinatoren/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function delete($id)
     {

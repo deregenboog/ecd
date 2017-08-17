@@ -3,6 +3,7 @@
 namespace AppBundle\Export;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 interface ExportInterface
 {
@@ -12,6 +13,15 @@ interface ExportInterface
      * @return ExportInterface
      */
     public function create($entities);
+
+    /**
+     * @param string $filename
+     *
+     * @return Response
+     *
+     * @throws ExportException
+     */
+    public function getResponse($filename);
 
     /**
      * @param string $filename

@@ -3,16 +3,17 @@
 <head>
     <?= $this->Html->charset('UTF-8') ?>
     <title>
-        <?php __('DRG Intakeregistratie'); ?>
+        <?php __('ECD'); ?>
         <?= $title_for_layout; ?>
     </title>
-    <?= $html->meta('icon', $html->url('/rainbow.ico')) ?>
+    <?= $html->meta('icon', $html->url('/favicon.ico')) ?>
     <?= $this->Html->css('cake.generic', 'stylesheet', array('media' => 'screen')) ?>
     <?= $this->Html->css('datepicker') ?>
     <?= $this->Html->css('regenboog') ?>
     <?= $this->Html->css('jquery-ui-1.8.11.custom') ?>
     <?= $scripts_for_layout ?>
-    <?= $html->script('jquery') ?>
+    <?= $html->script('jquery-1.12.4.min') ?>
+    <?= $html->script('jquery-migrate-1.4.1.min') ?>
     <?= $html->script('datepicker') ?>
     <?= $html->script('jquery-ui-1.8.11.custom.min') ?>
     <?= $html->script('jquery.ui.datepicker-nl') ?>
@@ -23,20 +24,7 @@
     <div id="container">
         <div id="header">
             <div id="title">
-                <?= $this->Html->link(__('DRG Intakeregistratie', true), '/') ?>
-                <?php
-                    $user = $this->Session->read('Auth.Medewerker.LdapUser.displayname');
-                    if (!$user) {
-                        $user = $this->Session->read('Auth.Medewerker.LdapUser.cn');
-                    }
-                    if (!$user) {
-                        $user = $this->Session->read('Auth.Medewerker.LdapUser.givenname');
-                    }
-                    if ($user) {
-                        echo " -  Ingelogd als $user - ";
-                        echo $this->Html->link(__('Logout', true), '/medewerkers/logout');
-                    }
-                ?>
+                <?= $this->Html->link($this->Html->image('drg-logo-50px.jpg'), '/', ['escape' => false]) ?>
             </div>
             <ul id="tabs">
                 <?php foreach ($menu_allowed as $controller => $text): ?>
@@ -50,7 +38,19 @@
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <?php if (!$user): ?>
+                <?php
+                    $user = $this->Session->read('Auth.Medewerker.LdapUser.displayname');
+                    if (!$user) {
+                        $user = $this->Session->read('Auth.Medewerker.LdapUser.cn');
+                    }
+                    if (!$user) {
+                        $user = $this->Session->read('Auth.Medewerker.LdapUser.givenname');
+                    }
+                ?>
+                <?php if ($user): ?>
+                    <?= $this->Html->link(__('Logout', true), '/medewerkers/logout') ?>
+                    (ingelogd als <?= $user ?>)
+                <?php else: ?>
                     <li>
                         <?= $this->Html->link(__('Login', true), '/medewerkers/login') ?>
                     </li>

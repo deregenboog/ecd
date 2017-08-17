@@ -2,6 +2,8 @@
 
 namespace AppBundle\Export;
 
+use Symfony\Component\HttpFoundation\Response;
+
 abstract class AbstractExport implements ExportInterface
 {
     /**
@@ -25,6 +27,24 @@ abstract class AbstractExport implements ExportInterface
         header('Cache-Control: max-age=0');
 
         $this->getWriter()->save('php://output');
+    }
+
+    public function getResponse($filename)
+    {
+        if (!$this->excel instanceof \PHPExcel) {
+            throw new ExportException('Call create() before calling getResponse()!');
+        }
+
+        ob_start();
+        $this->getWriter()->save('php://output');
+        $content = ob_get_clean();
+
+        return new Response($content, Response::HTTP_OK, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => sprintf(': attachment; filename="%s";', $filename),
+            'Content-Transfer-Encoding' => 'UTF-8',
+            'Cache-Control' => 'max-age=0',
+        ]);
     }
 
     protected function getWriter()

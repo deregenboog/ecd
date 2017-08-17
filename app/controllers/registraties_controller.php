@@ -399,7 +399,11 @@ class RegistratiesController extends AppController
                 'order' => ['Registratie.binnen' => 'DESC'],
                 'recursive' => -1,
             ]);
-            if (new \DateTime($laatsteRegistratie['Registratie']['binnen']) < new \DateTime('-2 months')) {
+            if (new \DateTime($laatsteRegistratie['Registratie']['binnen']) < new \DateTime('-2 months')
+                && ($location['Locatie']['id'] != $klant['LasteIntake']['locatie1_id']
+                    || new \DateTime($klant['LasteIntake']['datum_intake']) < new \DateTime('-2 months')
+                )
+            ) {
                 $jsonVar['allow'] = false;
                 $jsonVar['message'] = 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
                 goto render;

@@ -950,19 +950,10 @@ ul.tabs li a {
  * Menu selected items
  */
  ul#tabs a.selected {
-
-    padding: 5px 10px 0px;
-
+    padding: 5px 10px;
     background-color: #E8F9D4;
-
     color: #003D4C;
-
-    border-left: 1px solid #003D4C;
-
-    border-right: 1px solid #003D4C;
-
-    border-top: 1px solid #003D4C;
-
+    border: 1px solid #003D4C;
 }
 
 div#subheader a {

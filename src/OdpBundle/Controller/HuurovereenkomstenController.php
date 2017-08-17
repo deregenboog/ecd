@@ -2,19 +2,24 @@
 
 namespace OdpBundle\Controller;
 
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
+use OdpBundle\Entity\Huurverzoek;
+use OdpBundle\Exception\OdpException;
+use OdpBundle\Form\HuurovereenkomstCloseType;
 use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use OdpBundle\Entity\Huurverzoek;
-use OdpBundle\Entity\Huuraanbod;
-use OdpBundle\Exception\OdpException;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Controller\SymfonyController;
-use OdpBundle\Form\HuurovereenkomstCloseType;
 
+/**
+ * @Route("/odp/huurovereenkomsten")
+ */
 class HuurovereenkomstenController extends SymfonyController
 {
     public $title = 'Koppelingen';
@@ -42,15 +47,10 @@ class HuurovereenkomstenController extends SymfonyController
     ];
 
     /**
-     * @Route("/odp/huurovereenkomsten")
+     * @Route("/")
      */
     public function index()
     {
-        $filter = $this->createForm(HuurovereenkomstFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->getRequest());
-
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(Huurovereenkomst::class);
 
@@ -66,8 +66,15 @@ class HuurovereenkomstenController extends SymfonyController
             ->andWhere('verhuurderKlant.disabled = false')
         ;
 
+        $filter = $this->createForm(HuurovereenkomstFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -82,8 +89,23 @@ class HuurovereenkomstenController extends SymfonyController
         ];
     }
 
+    private function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $overeenkomsten = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('onder-de-pannen-koppelingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
+        /** @var $export ExportInterface */
+        $export = $this->container->get('odp.export.koppelingen');
+
+        return $export->create($overeenkomsten)->getResponse($filename);
+    }
+
     /**
-     * @Route("/odp/huurovereenkomsten/{id}/view")
+     * @Route("/{id}/view")
      */
     public function view($id)
     {
@@ -93,7 +115,7 @@ class HuurovereenkomstenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurovereenkomsten/add")
+     * @Route("/add")
      */
     public function add()
     {
@@ -131,7 +153,7 @@ class HuurovereenkomstenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurovereenkomsten/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -154,7 +176,7 @@ class HuurovereenkomstenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurovereenkomsten/{id}/close")
+     * @Route("/{id}/close")
      */
     public function close($id)
     {

@@ -16,6 +16,9 @@ use OdpBundle\Service\DocumentDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ConfirmationType;
 
+/**
+ * @Route("/odp/documenten")
+ */
 class DocumentenController extends SymfonyController
 {
     public $title = 'Documenten';
@@ -28,7 +31,7 @@ class DocumentenController extends SymfonyController
     private $dao;
 
     /**
-     * @Route("/odp/documenten/download/{filename}")
+     * @Route("/download/{filename}")
      */
     public function download($filename)
     {
@@ -40,7 +43,7 @@ class DocumentenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/documenten/add")
+     * @Route("/add")
      */
     public function add()
     {
@@ -68,7 +71,7 @@ class DocumentenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/documenten/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function editAction(Request $request, $id, $redirect = null)
     {
@@ -95,7 +98,7 @@ class DocumentenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/documenten/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function deleteAction(Request $request, $id)
     {
