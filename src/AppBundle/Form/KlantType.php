@@ -80,7 +80,6 @@ class KlantType extends AbstractType
                     }
                 }
             });
-        ;
     }
 
     /**

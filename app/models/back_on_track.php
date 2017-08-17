@@ -4,51 +4,51 @@ class BackOnTrack extends AppModel
 {
     public $name = 'BackOnTrack';
 
-    public $actsAs = array(
+    public $actsAs = [
             'Containable',
-    );
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $hasMany = array(
-        'BotKoppeling' => array(
+    public $hasMany = [
+        'BotKoppeling' => [
             'className' => 'BotKoppeling',
             'foreignKey' => 'back_on_track_id',
             'dependent' => false,
             'conditions' => '',
             'fields' => '',
             'order' => 'startdatum ASC, einddatum ASC',
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-            'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    public $validate = [
+            'startdatum' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een startdatum in',
                             //'allowEmpty' => false,
                             'required' => true,
-                    ),
-            ),
-            'intakedatum' => array(
-                    'rule' => array('validate_intakedatum'),
+                    ],
+            ],
+            'intakedatum' => [
+                    'rule' => ['validate_intakedatum'],
                     'message' => 'Datum intake groter dan datum aanmelding',
-            ),
-            'einddatum' => array(
-                    'rule' => array('validate_einddatum'),
+            ],
+            'einddatum' => [
+                    'rule' => ['validate_einddatum'],
                     'message' => 'Datum intake groter dan datum aanmelding',
-            ),
-    );
+            ],
+    ];
 
     public function validate_intakedatum($check)
     {

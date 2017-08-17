@@ -3,9 +3,9 @@
 class RapportagesController extends AppController
 {
     public $name = 'Rapportages';
-    public $uses = array('Klant', 'Locatie', 'Registratie', 'Schorsing');
-    public $components = array('Filter', 'Session', 'SqlReport');
-    public $helpers = array('Time');
+    public $uses = ['Klant', 'Locatie', 'Registratie', 'Schorsing'];
+    public $components = ['Filter', 'Session', 'SqlReport'];
+    public $helpers = ['Time'];
 
     public function beforeFilter()
     {
@@ -20,26 +20,26 @@ class RapportagesController extends AppController
 
     public function lijst()
     {
-        $this->paginate = array(
-            'contain' => array(
-                'LasteIntake' => array(
-                    'fields' => array(
+        $this->paginate = [
+            'contain' => [
+                'LasteIntake' => [
+                    'fields' => [
                         'locatie1_id',
                         'locatie2_id',
                         'locatie3_id',
                         'datum_intake',
-                    ),
-                ),
-                'Intake' => array(
-                    'fields' => array('datum_intake', 'id'),
-                ),
-                'Geslacht', ),
-        );
+                    ],
+                ],
+                'Intake' => [
+                    'fields' => ['datum_intake', 'id'],
+                ],
+                'Geslacht', ],
+        ];
         $this->Klant->showDisabled = false;
         $this->set('filter_options', $this->Filter->filterData);
         $klanten = $this->paginate('Klant', $this->Filter->filterData);
         $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
-        $rowOnclickUrl = array('controller' => 'rapportages', 'action' => 'klant');
+        $rowOnclickUrl = ['controller' => 'rapportages', 'action' => 'klant'];
         $this->set(compact('klanten', 'rowOnclickUrl'));
 
         if ($this->RequestHandler->isAjax()) {
@@ -51,7 +51,7 @@ class RapportagesController extends AppController
     {
         if (empty($id)) { //when there's no client we redirect to the list of clients
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'lijst'));
+            $this->redirect(['action' => 'lijst']);
 
             return;
         }
@@ -69,33 +69,32 @@ class RapportagesController extends AppController
         $klant = $this->Klant->findById($id);
 
         if ($this->data) {
-
             //relies on $this->data
             $this->_prepare_dates($date_from, $date_to);
 
-            $con = array(
+            $con = [
                 'binnen >=' => $date_from,
                 'binnen <' => $this->_add_day($date_to),
-            );
-            $consusp = array('Schorsing.datum_van >=' => $date_from,
-                'Schorsing.datum_van <=' => $date_to, );
+            ];
+            $consusp = ['Schorsing.datum_van >=' => $date_from,
+                'Schorsing.datum_van <=' => $date_to, ];
 
             //$klant = $this->Klant->find('first', array('conditions' => array('Klant.id' => $id), 'contain' => 'Klant'));
 
-            $count['visits'] = $this->Registratie->find('count', array('conditions' => array_merge($con, array('klant_id' => $id))));
-            $count['shower'] = $this->Registratie->find('count', array('conditions' => array_merge($con, array('klant_id' => $id, 'douche' => 1))));
-            $count['clothes'] = $this->Registratie->find('count', array('conditions' => array_merge($con, array('klant_id' => $id, 'kleding' => 1))));
-            $count['meals'] = $this->Registratie->find('count', array('conditions' => array_merge($con, array('klant_id' => $id, 'maaltijd' => 1))));
-            $count['activation'] = $this->Registratie->find('count', array('conditions' => array_merge($con, array('klant_id' => $id, 'activering' => 1))));
-            $count['suspension'] = $this->Schorsing->find('count', array('conditions' => array_merge($consusp, array('klant_id' => $id))));
-            $lastRegistration = $this->Registratie->find('first', array(
-                        'conditions' => array_merge($con, array('klant_id' => $id)),
-                        'fields' => array('max(binnen) as max'),
-                        ));
-            $countLocation = $this->Registratie->find('all', array(
-                        'fields' => array('Locatie.naam', 'count(1) as count'),
+            $count['visits'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id])]);
+            $count['shower'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'douche' => 1])]);
+            $count['clothes'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'kleding' => 1])]);
+            $count['meals'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'maaltijd' => 1])]);
+            $count['activation'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'activering' => 1])]);
+            $count['suspension'] = $this->Schorsing->find('count', ['conditions' => array_merge($consusp, ['klant_id' => $id])]);
+            $lastRegistration = $this->Registratie->find('first', [
+                        'conditions' => array_merge($con, ['klant_id' => $id]),
+                        'fields' => ['max(binnen) as max'],
+                        ]);
+            $countLocation = $this->Registratie->find('all', [
+                        'fields' => ['Locatie.naam', 'count(1) as count'],
                         'group' => 'locatie_id',
-                        'conditions' => array_merge($con, array('Registratie.klant_id' => $id)), ));
+                        'conditions' => array_merge($con, ['Registratie.klant_id' => $id]), ]);
         } else {
             $this->data['date_from'] = date('Y-m-d', time() - YEAR);
             $this->data['date_to'] = date('Y-m-d', time() - DAY);
@@ -118,39 +117,39 @@ class RapportagesController extends AppController
         $intake_cond = [];
         $locatie_cond = [];
 
-        $date_cond = array(
+        $date_cond = [
                 'binnen >=' => $date_from,
                 'binnen <' => $this->_add_day($date_to),
-                );
-        $verslagen_dates = array(
+                ];
+        $verslagen_dates = [
                 'datum >=' => $date_from,
                 'datum <' => $this->_add_day($date_to),
-                );
+                ];
 
         $klant_created_cond =
-            array('Klant.created <' => $this->_add_day($date_to));
+            ['Klant.created <' => $this->_add_day($date_to)];
 
         if (
                 !empty($this->data['options']['geslacht_id']) &&
                 $this->data['options']['geslacht_id'] != 0
           ) {
-            $geslacht_cond = array(
+            $geslacht_cond = [
                     'Klant.geslacht_id' => $this->data['options']['geslacht_id'],
-                    );
+                    ];
         }
 
         if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
             $locatie_id = $this->data['options']['location'];
-            $locatie_cond = array('locatie_id' => $locatie_id);
-            $locatie_intake_cond = array('locatie2_id' => $locatie_id);
-            $intake_cond['OR'] = array(
+            $locatie_cond = ['locatie_id' => $locatie_id];
+            $locatie_intake_cond = ['locatie2_id' => $locatie_id];
+            $intake_cond['OR'] = [
                     'locatie1_id' => $locatie_id,
                     'locatie2_id' => $locatie_id,
                     'locatie3_id' => $locatie_id,
-                    );
+                    ];
         }
 
-        $landen_cond = array('land_id' => $this->data['options']['land_id']);
+        $landen_cond = ['land_id' => $this->data['options']['land_id']];
 
         if (empty($this->data['options']['land_id'])) {
             $this->flashError(__('No country selected', true));
@@ -160,40 +159,40 @@ class RapportagesController extends AppController
 
     // We take out the intake_cond, so we always find all klanten regardless of the location choosen
     // this collection we have to filter down based on the actual registraties
-        $klanten = $this->Klant->find('all', array(
+        $klanten = $this->Klant->find('all', [
                     'conditions' => $landen_cond + $geslacht_cond
                     + $klant_created_cond,
-                    'fields' => array('id', 'laste_intake_id'), ));
+                    'fields' => ['id', 'laste_intake_id'], ]);
 
         $klanten = Set::combine($klanten, '{n}.Klant.id', '{n}.Klant.laste_intake_id');
         $klanten_list_all = array_keys($klanten);
-        $klanten_id_cond = array('klant_id' => $klanten_list_all);
+        $klanten_id_cond = ['klant_id' => $klanten_list_all];
 
         if (!empty($locatie_cond)) {
-            $registraties = $this->Registratie->find('all', array(
-            'fields' => array('klant_id'),
+            $registraties = $this->Registratie->find('all', [
+            'fields' => ['klant_id'],
             'conditions' => $klanten_id_cond + $locatie_cond + $date_cond,
             //$klanten_id_cond + $locatie_cond
-        ));
+        ]);
 
             $klanten_list = array_unique(Set::ClassicExtract($registraties, '{n}.Registratie.klant_id'));
             $klanten_list_verslag = [];
             $verslagen = [];
             $verslagen = $this->Klant->Verslag->find('list',
-                    array(
-                        'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array('id', 'klant_id'),
-                    )
+                    [
+                        'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => ['id', 'klant_id'],
+                    ]
                 );
 
             $klanten_list_verslag = array_unique(Set::ClassicExtract($verslagen, '{n}.Verslag.klant_id'));
 
             $intakes = [];
             $intakes = $this->Klant->Intake->find('list',
-                    array(
+                    [
                         'conditions' =>
                         //$klanten_id_cond + $locatie_intake_cond + $verslagen_dates
-                        $klanten_id_cond + $locatie_intake_cond, 'fields' => array('id', 'klant_id'),
-                    )
+                        $klanten_id_cond + $locatie_intake_cond, 'fields' => ['id', 'klant_id'],
+                    ]
                 );
 
             $klanten_list_intake = array_unique(Set::ClassicExtract($intakes, '{n}.Intake.klant_id'));
@@ -218,12 +217,12 @@ class RapportagesController extends AppController
         //debug(count($klanten_list_verslag));
         //debug(count($klanten)) ;
         }
-        $klanten_id_cond = array('klant_id' => array_keys($klanten));
-        $klanten_cond = array('id' => array_keys($klanten));
+        $klanten_id_cond = ['klant_id' => array_keys($klanten)];
+        $klanten_cond = ['id' => array_keys($klanten)];
 
         $count['amoc_landen'] = $this->Klant->Geboorteland->find('list',
-                array('conditions' => array('id' => $this->data['options']['land_id']),
-                    'order' => 'land', ));
+                ['conditions' => ['id' => $this->data['options']['land_id']],
+                    'order' => 'land', ]);
 
         $count['primaireproblematiek'] = $this->Klant->Intake->PrimaireProblematiek->find('list');
 
@@ -232,33 +231,33 @@ class RapportagesController extends AppController
         $count['totalClients'] = count($klanten);
         $this->Klant->recursive = -1;
         $count['totalNewClients'] = $this->Klant->find('count',
-                array('conditions' => $klanten_cond
-                    + array('created >=' => $date_from), ));
+                ['conditions' => $klanten_cond
+                    + ['created >=' => $date_from], ]);
 
-        $count['uniqueVisits'] = $this->Registratie->find('count', array(
-                    'fields' => array('COUNT(DISTINCT Registratie.klant_id) AS count'),
+        $count['uniqueVisits'] = $this->Registratie->find('count', [
+                    'fields' => ['COUNT(DISTINCT Registratie.klant_id) AS count'],
                     'conditions' => $klanten_id_cond + $locatie_cond + $date_cond,
-                    ));
-        $count['totalVisits'] = $this->Registratie->find('count', array(
+                    ]);
+        $count['totalVisits'] = $this->Registratie->find('count', [
                     'conditions' => $klanten_id_cond + $locatie_cond + $date_cond,
-                    ));
+                    ]);
 
         $verslagen = $this->Klant->Verslag->find('list',
-                array(
-                    'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => array('id', 'klant_id'),
-                    )
+                [
+                    'conditions' => $klanten_id_cond + $locatie_cond + $verslagen_dates, 'fields' => ['id', 'klant_id'],
+                    ]
                 );
 
         $count['totalVerslagen'] = count($verslagen);
 
-        $dvw_cond = array('verslag_id' => array_keys($verslagen));
+        $dvw_cond = ['verslag_id' => array_keys($verslagen)];
 
         $this->Klant->Verslag->InventarisatiesVerslagen->recursive = -1;
         $dvw = $this->Klant->Verslag->InventarisatiesVerslagen->find('all',
-                array('conditions' => $dvw_cond,
-                    'fields' => array('doorverwijzer_id', 'COUNT(id) as count'),
+                ['conditions' => $dvw_cond,
+                    'fields' => ['doorverwijzer_id', 'COUNT(id) as count'],
                     'group' => 'doorverwijzer_id',
-                    )
+                    ]
                 );
 
         $count['count_per_doorverwijzers'] = Set::combine($dvw, '{n}.InventarisatiesVerslagen.doorverwijzer_id', '{n}.0.count');
@@ -266,25 +265,25 @@ class RapportagesController extends AppController
 
         $this->Klant->recursive = -1;
 
-        $countries = $this->Klant->find('all', array(
+        $countries = $this->Klant->find('all', [
                     'conditions' => $klanten_cond,
-                    'fields' => array('land_id', 'COUNT(id) as count'),
+                    'fields' => ['land_id', 'COUNT(id) as count'],
                     'order' => 'land_id',
-                    'group' => 'land_id', ));
+                    'group' => 'land_id', ]);
 
         $count['clientsPerCountry'] = Set::combine($countries, '{n}.Klant.land_id', '{n}.0.count');
 
-        $birthdates = $this->Klant->find('all', array(
+        $birthdates = $this->Klant->find('all', [
                     'conditions' => $klanten_cond,
-                    'fields' => array('YEAR(geboortedatum) as year', 'COUNT(id) as count'),
+                    'fields' => ['YEAR(geboortedatum) as year', 'COUNT(id) as count'],
                     'group' => '1',
-                    'order' => 'year', ));
+                    'order' => 'year', ]);
 
-        $ages = $this->Klant->find('all', array(
+        $ages = $this->Klant->find('all', [
                     'conditions' => $klanten_cond,
-                    'fields' => array("DATE_FORMAT(FROM_DAYS(TO_DAYS('$date_to')-TO_DAYS(geboortedatum)), '%Y')+0 as age", 'COUNT(id) as count'),
+                    'fields' => ["DATE_FORMAT(FROM_DAYS(TO_DAYS('$date_to')-TO_DAYS(geboortedatum)), '%Y')+0 as age", 'COUNT(id) as count'],
                     'group' => '1',
-                    'order' => 'age', ));
+                    'order' => 'age', ]);
 
         $count['birthdates'] = Set::combine($birthdates, '{n}.0.year', '{n}.0.count');
         $count['ages'] = Set::combine($ages, '{n}.0.age', '{n}.0.count');
@@ -306,11 +305,11 @@ class RapportagesController extends AppController
 
         $this->Klant->Intake->recursive = -1;
 
-        $problems = $this->Klant->Intake->find('all', array('conditions' => array('Intake.id' => $klanten),
-                    'fields' => array('primaireproblematiek_id as problem',
-                        'COUNT(Intake.id) as count', ),
+        $problems = $this->Klant->Intake->find('all', ['conditions' => ['Intake.id' => $klanten],
+                    'fields' => ['primaireproblematiek_id as problem',
+                        'COUNT(Intake.id) as count', ],
                     'group' => '1',
-                    'order' => 'problem', ));
+                    'order' => 'problem', ]);
 
         $count['primaryProblems'] = Set::combine($problems, '{n}.Intake.problem', '{n}.0.count');
     //debug($count);
@@ -323,11 +322,11 @@ class RapportagesController extends AppController
         // Gather data for a location specific report
         $con = [];
 
-        $references = array('het voorgande jaar', 'het afgelope jaar', 'dezelfde periode een jaar eerder');
+        $references = ['het voorgande jaar', 'het afgelope jaar', 'dezelfde periode een jaar eerder'];
 
         $amocCountries = Configure::read('Landen.AMOC');
-        $landen = $this->Klant->Geboorteland->find('list', array('conditions' => array('id' => $amocCountries), 'order' => 'land'));
-        $landen += array(1 => '1');
+        $landen = $this->Klant->Geboorteland->find('list', ['conditions' => ['id' => $amocCountries], 'order' => 'land']);
+        $landen += [1 => '1'];
 
         // Set extra constraints if user has given a location and/or date-range
         $date_from = null;
@@ -345,15 +344,15 @@ class RapportagesController extends AppController
                 $this->data['options']['reference_id'], $date_from, $date_to);
             $ref = $this->_generateInfobalieStats($ref_from, $ref_to);
         } else {
-            $this->data = array(
-                'date_from' => array('year' => date('Y'), 'month' => '01',
-                    'day' => '01', ),
+            $this->data = [
+                'date_from' => ['year' => date('Y'), 'month' => '01',
+                    'day' => '01', ],
                 'date_to' => date('Y-m-d', time() - DAY),
-                    );
+                    ];
         }
 
         $this->Locatie->recursive = -1;
-        $locations = $this->Locatie->find('list', array('fields' => array('Locatie.id', 'Locatie.naam')));
+        $locations = $this->Locatie->find('list', ['fields' => ['Locatie.id', 'Locatie.naam']]);
 
         $this->set(compact(
             'locations', 'date_to', 'date_from', 'ref_from', 'ref_to',
@@ -413,17 +412,17 @@ class RapportagesController extends AppController
         if ($this->data) {
             $this->_prepare_dates($date_from, $date_to);
 
-            $con = array(
+            $con = [
                 'binnen >=' => $date_from,
                 'binnen <' => $this->_add_day($date_to),
-            );
-            $consusp = array(
+            ];
+            $consusp = [
                 'Schorsing.datum_van >=' => $date_from,
                 //this is a date field so it doesn't have to be incremented by
                 //one day as it has no time and <= operator will return the
                 //correct values
                 'Schorsing.datum_van <=' => $date_to,
-            );
+            ];
             $date_until = mysql_escape_string($this->_add_day($date_to));
             $date_from = mysql_escape_string($date_from);
 
@@ -443,40 +442,40 @@ class RapportagesController extends AppController
             $this->Klant->query($qu);
 
             //new clients conditions
-            $klant_cond = array(
+            $klant_cond = [
                 'Klant.created >=' => $date_from,
                 'Klant.created <' => $this->_add_day($date_to),
-            );
+            ];
             //intake
-            $intake_cond = array(
+            $intake_cond = [
                 'Intake.created >=' => $date_from,
                 'Intake.created <' => $this->_add_day($date_to),
-            );
+            ];
 
             if (
                 !empty($this->data['options']['geslacht_id']) &&
                 $this->data['options']['geslacht_id'] != 0
             ) {
-                $geslacht_cond = array(
+                $geslacht_cond = [
                     'Klant.geslacht_id' => $this->data['options']['geslacht_id'],
-                );
+                ];
             }
         }
 
         if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
             $locatie_id = $this->data['options']['location'];
-            $con = array_merge($con, array('locatie_id' => $locatie_id));
-            $consusp = array_merge($consusp, array('locatie_id' => $locatie_id));
-            $klant_cond['OR'] = array(
+            $con = array_merge($con, ['locatie_id' => $locatie_id]);
+            $consusp = array_merge($consusp, ['locatie_id' => $locatie_id]);
+            $klant_cond['OR'] = [
                 'LasteIntake.locatie1_id' => $locatie_id,
                 'LasteIntake.locatie2_id' => $locatie_id,
                 'LasteIntake.locatie3_id' => $locatie_id,
-            );
-            $intake_cond['OR'] = array(
+            ];
+            $intake_cond['OR'] = [
                 'Intake.locatie1_id' => $locatie_id,
                 'Intake.locatie2_id' => $locatie_id,
                 'Intake.locatie3_id' => $locatie_id,
-            );
+            ];
         }
 
         if ($this->data) {
@@ -485,10 +484,10 @@ class RapportagesController extends AppController
             $intake_cond = $intake_cond + $geslacht_cond;
 
             // We now change the report and use the temporary table
-            $count['uniqueVisits'] = $this->Registratie->find('count', array(
-                'fields' => array('COUNT(DISTINCT Registratie.klant_id) AS count'),
+            $count['uniqueVisits'] = $this->Registratie->find('count', [
+                'fields' => ['COUNT(DISTINCT Registratie.klant_id) AS count'],
                 'conditions' => $con,
-            ));
+            ]);
 
 //             $count['totalVisits'] = $this->Registratie->find('count', array(
 //                 'conditions' => $con
@@ -504,8 +503,8 @@ class RapportagesController extends AppController
             $count['meals'] = $r[0][0]['maaltijd'];
             $count['activation'] = $r[0][0]['activering'];
 
-            $count['suspensions'] = $this->Schorsing->find('count', array('conditions' => array_merge($consusp)));
-            $count['intakes'] = $this->Klant->Intake->find('count', array('conditions' => $intake_cond));
+            $count['suspensions'] = $this->Schorsing->find('count', ['conditions' => array_merge($consusp)]);
+            $count['intakes'] = $this->Klant->Intake->find('count', ['conditions' => $intake_cond]);
 
             $q = 'select count(distinct klant_id) as cnt from tmp_registrations ';
             $r = $this->Klant->query($q);
@@ -557,13 +556,13 @@ class RapportagesController extends AppController
         if ($this->data) {
             $this->_prepare_dates($date_from, $date_to);
 
-            $con = array(
+            $con = [
                 'binnen >=' => $date_from,
                 'binnen <' => $this->_add_day($date_to),
-            );
+            ];
 
             if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
-                $con = array_merge($con, array('locatie_id' => $this->data['options']['location']));
+                $con = array_merge($con, ['locatie_id' => $this->data['options']['location']]);
                 $current_location = $this->data['options']['location'];
             }
 
@@ -571,33 +570,35 @@ class RapportagesController extends AppController
                 !empty($this->data['options']['geslacht_id']) &&
                 $this->data['options']['geslacht_id'] != 0
             ) {
-                $geslacht_cond = array(
+                $geslacht_cond = [
                     'Klant.geslacht_id' => $this->data['options']['geslacht_id'],
-                );
+                ];
             }
         }//if data exists
         $this->Registratie->Behaviors->attach('Containable');
 
-        $registratie_counts = $this->Registratie->find('all', array(
+        $registratie_counts = $this->Registratie->find('all', [
             'conditions' => array_merge($con, $geslacht_cond),
-            'contain' => array(
-                'Klant' => array(
-                    'fields' => array(
+            'contain' => [
+                'Klant' => [
+                    'fields' => [
                         'CONCAT_WS(\' \', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`) as name',
                         'roepnaam',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
             'order' => 'Registratie.klant_id',
-            'fields' => array('count(*) as cnt'),
-            'group' => array('klant_id'),
-        ));
+            'fields' => ['count(*) as cnt'],
+            'group' => ['klant_id'],
+        ]);
 
         //setting stuff
-        $locations = $this->Locatie->find('list', array('fields' => array('Locatie.id', 'Locatie.naam')));
+        $locations = $this->Locatie->find('list', ['fields' => ['Locatie.id', 'Locatie.naam']]);
 
         $this->set(compact('current_location', 'locations', 'date_to', 'date_from', 'registratie_counts'));
-    }//locatie_klant
+    }
+
+//locatie_klant
 
     public function schorsingen()
     {
@@ -607,8 +608,7 @@ class RapportagesController extends AppController
         $current_location = 'Alle locaties';
 
         if ($this->data) {
-
-        //setting the conditions depending on the data recieved from the form
+            //setting the conditions depending on the data recieved from the form
 
         //location
             if (isset($this->data['options']) &&
@@ -635,10 +635,10 @@ class RapportagesController extends AppController
 
         // Strange query: get Schorsingen, and reorganize them per klant!
 
-        $schorsingen = $this->Klant->Schorsing->find('all', array(
+        $schorsingen = $this->Klant->Schorsing->find('all', [
             'conditions' => $conditions,
             'order' => 'Schorsing.klant_id',
-        ));
+        ]);
 
         //counting all schorsingen and active schorsingen for each client
         if (!empty($schorsingen)) {
@@ -653,12 +653,12 @@ class RapportagesController extends AppController
                     //set the new id:
                     $previous_klant_id = $schorsing['Klant']['id'];
                     //create an array index for the client
-                    $clients[$previous_klant_id] = array(
+                    $clients[$previous_klant_id] = [
                         'total_sch' => 1,
                         'active_sch' => 0,
                         'name' => $schorsing['Klant']['name'],
                         'roepnaam' => $schorsing['Klant']['roepnaam'],
-                    );
+                    ];
                 }
                 $clients[$previous_klant_id]['Schorsing'][] = $schorsing;
 
@@ -673,7 +673,7 @@ class RapportagesController extends AppController
         }//end of if empty
 
         //setting stuff
-        $locations = $this->Locatie->find('list', array('fields' => array('Locatie.id', 'Locatie.naam')));
+        $locations = $this->Locatie->find('list', ['fields' => ['Locatie.id', 'Locatie.naam']]);
 
         $this->set(compact('current_location', 'locations', 'date_to', 'date_from', 'clients'));
     }
@@ -702,50 +702,50 @@ class RapportagesController extends AppController
     public function awbz_hoofdaannemers()
     {
         $this->Klant->AwbzIndicatie->recursive = -1;
-        $data = $this->Klant->AwbzIndicatie->find('all', array(
-            'joins' => array(
-                array(
+        $data = $this->Klant->AwbzIndicatie->find('all', [
+            'joins' => [
+                [
                     'table' => 'klanten',
                     'alias' => 'Klant',
                     'type' => 'left',
                     'foreignKey' => false,
-                    'conditions' => array('AwbzIndicatie.klant_id = Klant.id'),
-                ),
-                array(
+                    'conditions' => ['AwbzIndicatie.klant_id = Klant.id'],
+                ],
+                [
                     'table' => 'hoofdaannemers',
                     'alias' => 'Hoofdaannemer',
                     'type' => 'left',
                     'foreignKey' => false,
-                    'conditions' => array('AwbzIndicatie.hoofdaannemer_id = Hoofdaannemer.id'),
-                ),
-            ),
-            'fields' => array('AwbzIndicatie.*', 'Klant.*', 'Hoofdaannemer.naam'),
+                    'conditions' => ['AwbzIndicatie.hoofdaannemer_id = Hoofdaannemer.id'],
+                ],
+            ],
+            'fields' => ['AwbzIndicatie.*', 'Klant.*', 'Hoofdaannemer.naam'],
             'order' => 'AwbzIndicatie.hoofdaannemer_id, Klant.id',
             'limit' => 20,
-        ));
+        ]);
 
         //The details query for each client is separate as this piece of code\
         //doesn't have to be so fast and the query combining it all together
         //would be very complicated
 
-        $this->Klant->Registratie->virtualFields = array(
+        $this->Klant->Registratie->virtualFields = [
             'total_seconds' => 'sum(time_to_sec(timediff(buiten,binnen)))',
-        );
-        $this->Klant->Verslag->virtualFields = array(
+        ];
+        $this->Klant->Verslag->virtualFields = [
             'total_minutes' => 'sum(Verslag.aanpassing_verslag)',
-        );
-        $contain = array(
-            'Registratie' => array('total_seconds'),
-            'Verslag' => array('total_minutes'),
-        );
+        ];
+        $contain = [
+            'Registratie' => ['total_seconds'],
+            'Verslag' => ['total_minutes'],
+        ];
 
         foreach ($data as &$row) {
             $klant_id = $row['Klant']['id'];
             $klant =
-                $this->Klant->find('all', array(
-                    'conditions' => array('Klant.id' => $klant_id),
+                $this->Klant->find('all', [
+                    'conditions' => ['Klant.id' => $klant_id],
                     'contain' => $contain,
-                ));
+                ]);
             $row['Klant']['name1st_part'] = $klant[0]['Klant']['name1st_part'];
             $row['Klant']['name2nd_part'] = $klant[0]['Klant']['name2nd_part'];
         //if the registration and the verslag times are there, calculate the
@@ -804,7 +804,7 @@ class RapportagesController extends AppController
         $ref_from = date('Y-m-d', $start);
         $ref_to = date('Y-m-d', $end);
 
-        return array($ref_from, $ref_to);
+        return [$ref_from, $ref_to];
     }
 
     //changes array dates into YYYY-MM-DD dates (needed by the db queries)
@@ -846,10 +846,10 @@ class RapportagesController extends AppController
     public function management()
     {
         if (!$this->data) {
-            $this->data = array(
-                'date_from' => array('year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'),
-                'date_to' => array('year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'),
-            );
+            $this->data = [
+                'date_from' => ['year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'],
+                'date_to' => ['year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'],
+            ];
         }
         //dates
         $date_from = null;
@@ -901,10 +901,10 @@ class RapportagesController extends AppController
     public function activering()
     {
         if (!$this->data) {
-            $this->data = array(
-                    'date_from' => array('year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'),
-                    'date_to' => array('year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'),
-            );
+            $this->data = [
+                    'date_from' => ['year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'],
+                    'date_to' => ['year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'],
+            ];
         }
         //dates
         $date_from = null;
@@ -973,16 +973,16 @@ class RapportagesController extends AppController
             $reports[$key]['result'] = $dataSource->query($sql);
             if ($file == 'management_reports.sql' && empty($reports[$key]['result'])) {
                 $log = $dataSource->getLog(false, false);
-                $addresses = array('phpdevelop@toltech.nl');
+                $addresses = ['phpdevelop@toltech.nl'];
                 $error = "Problem in ECD management report. Maybe there's bad input data that makes a bad query, but it could also be that the temporary table regenboog-live.tmp_visits is missing. This happened before, on low disk space.\n\n".$sql;
                 $this->log($error);
                 if (!$email) {
-                    $this->_genericSendEmail(array(
+                    $this->_genericSendEmail([
                                 'to' => $addresses,
                                 'content' => $error,
                                 'template' => 'blank',
                                 'subject' => 'ECD error',
-                                ));
+                                ]);
                     ++$email;
                 }
             }
@@ -1072,14 +1072,14 @@ class RapportagesController extends AppController
             preg_match_all('/^([^-].*)\n/m', $report, $matches);
             $sql = implode("\n", $matches[1]);
 
-            $reports[] = array(
+            $reports[] = [
                 'head' => $head,
                 'fields' => $fields,
                 'isArray' => $isArray,
                 'isDisabled' => $isDisabled,
                 'hasSummary' => $hasSummary,
                 'sql' => $sql,
-            );
+            ];
         }
 
         return $reports;
@@ -1089,9 +1089,9 @@ class RapportagesController extends AppController
     {
         $this->Locatie->recursive = -1;
         $locations = $this->Locatie->find('list',
-            array('fields' => array('Locatie.id', 'Locatie.naam'))
+            ['fields' => ['Locatie.id', 'Locatie.naam']]
         );
-        $this->set('locations',  $locations);
+        $this->set('locations', $locations);
     }
 
     public function ajaxGeenHulpverlenerscontact()

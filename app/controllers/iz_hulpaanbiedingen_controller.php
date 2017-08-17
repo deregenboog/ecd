@@ -4,7 +4,6 @@ use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Form\IzHulpaanbodFilterType;
-use IzBundle\Export\IzHulpaanbiedingenExport;
 
 class IzHulpaanbiedingenController extends AppController
 {

@@ -3,13 +3,8 @@
 namespace AppBundle\Event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use AppBundle\Controller\AbstractController;
 use AppBundle\Controller\SymfonyController;
 
 class KernelSubscriber implements EventSubscriberInterface

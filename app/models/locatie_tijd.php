@@ -5,21 +5,21 @@ class LocatieTijd extends AppModel
     public $name = 'LocatieTijd';
     public $displayField = 'sluitingstijd';
 
-    public $belongsTo = array(
-        'Locatie' => array(
+    public $belongsTo = [
+        'Locatie' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
     public function getLocationClosingTimes()
     {
-        $recs = $this->find('all', array(
+        $recs = $this->find('all', [
             'recursive' => -1,
-        ));
+        ]);
 
         $result = [];
         foreach ($recs as $rec) {
@@ -27,7 +27,7 @@ class LocatieTijd extends AppModel
             $dayOfWeek = $rec['LocatieTijd']['dag_van_de_week'];
             $closingTime = $rec['LocatieTijd']['sluitingstijd'];
             if (empty($result[$locationId])) {
-                $result[$locationId] = array($dayOfWeek => $closingTime);
+                $result[$locationId] = [$dayOfWeek => $closingTime];
             } else {
                 $result[$locationId][$dayOfWeek] = $closingTime;
             }
@@ -86,35 +86,35 @@ class LocatieTijd extends AppModel
         $prevDayOfWeek = $dayOfWeek - 1 == -1 ? 0 : $dayOfWeek - 1;
         $nextDayOfWeek = $dayOfWeek + 1 == 7 ? 0 : $dayOfWeek + 1;
 
-        $isOpen = $this->find('count', array(
+        $isOpen = $this->find('count', [
             'recursive' => -1,
-            'conditions' => array(
+            'conditions' => [
                 'locatie_id' => $locationId,
-                'OR' => array(
-                    array(
+                'OR' => [
+                    [
                         'dag_van_de_week' => $prevDayOfWeek,
                         "'$dateTime' BETWEEN ".
                             "DATE_SUB(DATE_ADD('$prevDate', INTERVAL openingstijd HOUR_SECOND), INTERVAL $openingTimeCorrection SECOND) ".
                             ' AND '.
                             "DATE_ADD(DATE_ADD('$prevDate', INTERVAL sluitingstijd HOUR_SECOND), INTERVAL $openingTimeCorrection SECOND) ",
-                    ),
-                    array(
+                    ],
+                    [
                         'dag_van_de_week' => $dayOfWeek,
                         "'$dateTime' BETWEEN ".
                             "DATE_SUB(DATE_ADD('$date', INTERVAL openingstijd HOUR_SECOND), INTERVAL $openingTimeCorrection SECOND) ".
                             ' AND '.
                             "DATE_ADD(DATE_ADD('$date', INTERVAL sluitingstijd HOUR_SECOND), INTERVAL $openingTimeCorrection SECOND) ",
-                    ),
-                    array(
+                    ],
+                    [
                         'dag_van_de_week' => $nextDayOfWeek,
                         "'$dateTime' BETWEEN ".
                             "DATE_SUB(DATE_ADD('$nextDate', INTERVAL openingstijd HOUR_SECOND), INTERVAL $openingTimeCorrection SECOND) ".
                             ' AND '.
                             "DATE_ADD(DATE_ADD('$nextDate', INTERVAL sluitingstijd HOUR_SECOND), INTERVAL $openingTimeCorrection SECOND) ",
-                    ),
-                ),
-            ),
-        ));
+                    ],
+                ],
+            ],
+        ]);
 
         return (bool) $isOpen;
     }

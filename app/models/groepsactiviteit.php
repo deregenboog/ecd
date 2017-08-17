@@ -5,20 +5,20 @@ class Groepsactiviteit extends AppModel
     public $name = 'Groepsactiviteit';
     public $displayField = 'naam';
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $belongsTo = array(
-        'GroepsactiviteitenGroep' => array(
+    public $belongsTo = [
+        'GroepsactiviteitenGroep' => [
             'className' => 'GroepsactiviteitenGroep',
             'foreignKey' => 'groepsactiviteiten_groep_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $hasMany = array(
-        'GroepsactiviteitenVrijwilliger' => array(
+    public $hasMany = [
+        'GroepsactiviteitenVrijwilliger' => [
             'className' => 'GroepsactiviteitenVrijwilliger',
             'foreignKey' => 'groepsactiviteit_id',
             'dependent' => false,
@@ -30,8 +30,8 @@ class Groepsactiviteit extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'GroepsactiviteitenKlant' => array(
+        ],
+        'GroepsactiviteitenKlant' => [
             'className' => 'GroepsactiviteitenKlant',
             'foreignKey' => 'groepsactiviteit_id',
             'dependent' => false,
@@ -43,47 +43,47 @@ class Groepsactiviteit extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $paginate = array(
-        'contain' => array(
+    public $paginate = [
+        'contain' => [
             'GroepsactiviteitenGroep',
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-        'groepsactiviteiten_groep_id' => array(
-            'notempty' => array(
-                    'rule' => array(
+    public $validate = [
+        'groepsactiviteiten_groep_id' => [
+            'notempty' => [
+                    'rule' => [
                             'notEmpty',
-                    ),
+                    ],
                     'message' => 'Voer een groep in',
                     'allowEmpty' => false,
                     'required' => true,
-            ),
-        ),
-        'datum' => array(
-            'notempty' => array(
-                'rule' => array(
+            ],
+        ],
+        'datum' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een datum in',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-        'naam' => array(
-                    'notempty' => array(
-                            'rule' => array(
+            ],
+        ],
+        'naam' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een naam in',
                             'allowEmpty' => false,
                             'required' => true,
-                    ),
-            ),
-    );
+                    ],
+            ],
+    ];
 
     public function addCount($groepsactiviteiten)
     {
@@ -99,9 +99,9 @@ class Groepsactiviteit extends AppModel
 
     public function groeps_activiteiten()
     {
-        $result = $this->find('all', array(
+        $result = $this->find('all', [
             'contain' => [],
-        ));
+        ]);
 
         return $result;
     }
@@ -109,11 +109,10 @@ class Groepsactiviteit extends AppModel
     public function groeps_activiteiten_list($active_groeps = [])
     {
         $result = [];
-        $data = $this->find('all', array(
-                'contain' => array('GroepsactiviteitenGroep'),
+        $data = $this->find('all', [
+                'contain' => ['GroepsactiviteitenGroep'],
                 'order' => 'GroepsactiviteitenGroep.naam asc, Groepsactiviteit.datum asc',
-
-        ));
+        ]);
         $all = $this->GroepsactiviteitenGroep->get_groepsactiviteiten_list();
         $keys = array_keys($all);
         $group = [];

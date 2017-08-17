@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -105,7 +104,7 @@ class AbstractController extends SymfonyController
      */
     public function addAction(Request $request)
     {
-        $entity = new $this->entityClass;
+        $entity = new $this->entityClass();
 
         return $this->processForm($request, $entity);
     }

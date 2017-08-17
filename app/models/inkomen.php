@@ -6,8 +6,8 @@ class Inkomen extends AppModel
     public $displayField = 'naam';
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-    public $hasAndBelongsToMany = array(
-        'Intake' => array(
+    public $hasAndBelongsToMany = [
+        'Intake' => [
             'className' => 'Intake',
             'joinTable' => 'inkomens_intakes',
             'foreignKey' => 'inkomen_id',
@@ -21,8 +21,8 @@ class Inkomen extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'AwbzIntake' => array(
+        ],
+        'AwbzIntake' => [
             'className' => 'AwbzIntake',
             'joinTable' => 'inkomens_awbz_intakes',
             'foreignKey' => 'inkomen_id',
@@ -36,6 +36,6 @@ class Inkomen extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

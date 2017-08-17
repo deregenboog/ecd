@@ -3,8 +3,8 @@
 class AwbzController extends AppController
 {
     public $name = 'Awbz';
-    public $uses = array('Klant');
-    public $components = array('Filter', 'RequestHandler', 'Session');
+    public $uses = ['Klant'];
+    public $components = ['Filter', 'RequestHandler', 'Session'];
 
     public function index()
     {
@@ -27,25 +27,25 @@ class AwbzController extends AppController
     {
         if (!$klant_id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Klant->recursive = -1;
 
-        $contain = array(
+        $contain = [
             'Geslacht',
-            'Geboorteland' => array('fields' => 'land'),
-            'Nationaliteit' => array('fields' => 'naam'),
+            'Geboorteland' => ['fields' => 'land'],
+            'Nationaliteit' => ['fields' => 'naam'],
             'Medewerker',
             'AwbzIntake',
-            'AwbzIndicatie' => array('Hoofdaannemer'),
-            'AwbzHoofdaannemer' => array('Hoofdaannemer'),
-        );
+            'AwbzIndicatie' => ['Hoofdaannemer'],
+            'AwbzHoofdaannemer' => ['Hoofdaannemer'],
+        ];
 
-        $klant = $this->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
+        $klant = $this->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
             'contain' => $contain,
-        ));
+        ]);
 
         $hoofdaannemers =
             $this->Klant->AwbzHoofdaannemer->Hoofdaannemer->find('list');
@@ -61,16 +61,16 @@ class AwbzController extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $klant = $this->Klant->read(null, $id);
         $this->set('klant', $klant);
 
-        $zrmReports = $this->ZrmReport->find('all', array(
-                'conditions' => array('klant_id' => $id),
+        $zrmReports = $this->ZrmReport->find('all', [
+                'conditions' => ['klant_id' => $id],
                 'order' => 'created DESC',
-        ));
+        ]);
 
         $zrm_data = $this->ZrmReport->zrm_data();
 

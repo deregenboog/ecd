@@ -5,8 +5,8 @@ class Categorie extends AppModel
     public $name = 'Categorie';
     public $displayField = 'naam';
 
-    public $hasMany = array(
-        'Opmerking' => array(
+    public $hasMany = [
+        'Opmerking' => [
             'className' => 'Opmerking',
             'foreignKey' => 'categorie_id',
             'dependent' => false,
@@ -18,6 +18,6 @@ class Categorie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

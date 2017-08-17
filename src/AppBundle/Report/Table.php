@@ -191,13 +191,13 @@ class Table
                 if (!$x || !$y) {
                     continue;
                 }
-                $url = array(
+                $url = [
                     'controller' => $this->controller,
                     'action' => $this->action,
                     'Query.name' => $this->report,
                     'Query.from' => $this->startDate->format('Y-m-d'),
                     'Query.until' => $this->endDate->format('Y-m-d'),
-                );
+                ];
                 if ($this->xPath && $y !== 'Totaal') {
                     $url[$this->xPath] = $y;
                 }
@@ -213,8 +213,8 @@ class Table
 
     protected function getAxisLabels()
     {
-        $xLabels = array();
-        $yLabels = array();
+        $xLabels = [];
+        $yLabels = [];
         foreach ($this->result as $row) {
             if ($this->xPath) {
                 $xLabel = $row[$this->xPath];
@@ -232,12 +232,12 @@ class Table
             sort($yLabels);
         }
 
-        return array($xLabels, $yLabels);
+        return [$xLabels, $yLabels];
     }
 
     protected function initializePivotStructure($xLabels, $yLabels)
     {
-        $data = array();
+        $data = [];
         foreach ($yLabels as $yLabel) {
             foreach ($xLabels as $xLabel) {
                 $data[$yLabel][$xLabel] = 0;

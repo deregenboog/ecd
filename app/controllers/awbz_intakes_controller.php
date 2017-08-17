@@ -15,7 +15,7 @@ class AwbzIntakesController extends AppController
         $this->loadModel('ZrmReport');
         if (!$id) {
             $this->flashError(__('Invalid intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $intake = $this->AwbzIntake->read(null, $id);
@@ -56,7 +56,7 @@ class AwbzIntakesController extends AppController
                     $this->AwbzIntake->commit();
                     $this->sendAwbzIntakeNotification($this->AwbzIntake->id, $this->data);
                     $this->flash(__('De intake is opgeslagen', true));
-                    $this->redirect(array('controller' => 'awbz', 'action' => 'view', $klant_id));
+                    $this->redirect(['controller' => 'awbz', 'action' => 'view', $klant_id]);
                 }
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
             } else {
@@ -71,7 +71,7 @@ class AwbzIntakesController extends AppController
 
         if ($klant_id == null) {
             $this->flashError('Geen klant Id opgegeven');
-            $this->redirect(array('controller' => 'klanten', 'action' => 'index'));
+            $this->redirect(['controller' => 'klanten', 'action' => 'index']);
         }
         $klant = $this->AwbzIntake->Klant->read(null, $klant_id);
 
@@ -88,7 +88,7 @@ class AwbzIntakesController extends AppController
         $hulpverlening_mail = Configure::read('hulpverlening_mail');
 
         $this->setMedewerkers();
-        $verblijfstatussen = $this->AwbzIntake->Verblijfstatus->find('list', array('order' => 'Verblijfstatus.naam ASC'));
+        $verblijfstatussen = $this->AwbzIntake->Verblijfstatus->find('list', ['order' => 'Verblijfstatus.naam ASC']);
         $legitimaties = $this->AwbzIntake->Legitimatie->find('list');
         $verslavingsfrequenties = $this->AwbzIntake->Verslavingsfrequentie->find('list');
         $verslavingsperiodes = $this->AwbzIntake->Verslavingsperiode->find('list');
@@ -121,12 +121,12 @@ class AwbzIntakesController extends AppController
     public function _get_data_from_last_intakes($klant)
     {
         $this->AwbzIntake->recursive = -1;
-        $last_awbz_intake = $this->AwbzIntake->find('first', array(
-            'conditions' => array(
+        $last_awbz_intake = $this->AwbzIntake->find('first', [
+            'conditions' => [
                 'AwbzIntake.klant_id' => $klant['Klant']['id'],
-            ),
+            ],
             'order' => 'AwbzIntake.datum_intake DESC, AwbzIntake.created DESC',
-        ));
+        ]);
 
         $last_r_intake = $klant['LasteIntake'];
 
@@ -148,9 +148,9 @@ class AwbzIntakesController extends AppController
             }
 
             if ($r_date > $awbz_date) {
-                foreach (array('postadres', 'postcode', 'woonplaats',
+                foreach (['postadres', 'postcode', 'woonplaats',
                     'verblijfstatus_id', 'verblijf_in_NL_sinds',
-                    'verblijf_in_amsterdam_sinds', ) as $field
+                    'verblijf_in_amsterdam_sinds', ] as $field
                 ) {
                     if (!empty($last_r_intake[$field]));
                     $this->data['AwbzIntake'][$field] =
@@ -171,10 +171,10 @@ class AwbzIntakesController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->flashError(__('Ongeldige intake', true));
-            $this->redirect(array(
+            $this->redirect([
                 'controller' => 'awbz',
                 'action' => 'index',
-            ));
+            ]);
         }
 
         if (!empty($this->data)) {
@@ -189,7 +189,7 @@ class AwbzIntakesController extends AppController
                     $this->sendAwbzIntakeNotification($this->AwbzIntake->id, $this->data);
                     $this->flash(__('De intake is opgeslagen', true));
                     $this->AwbzIntake->commit();
-                    $this->redirect(array('controller' => 'awbz', 'action' => 'view', $this->data['AwbzIntake']['klant_id']));
+                    $this->redirect(['controller' => 'awbz', 'action' => 'view', $this->data['AwbzIntake']['klant_id']]);
                 }
 
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
@@ -206,11 +206,11 @@ class AwbzIntakesController extends AppController
 
         $klant_id = $this->data['AwbzIntake']['klant_id'];
 
-        $view_redirect_url = array(
+        $view_redirect_url = [
             'controller' => 'awbz',
             'action' => 'view',
             $klant_id,
-        );
+        ];
 
         if ($this->data['AwbzIntake']['datum_intake'] != date('Y-m-d')) {
             $this->flashError(__(
@@ -236,7 +236,7 @@ class AwbzIntakesController extends AppController
 
         $this->setMedewerkers();
 
-        $verblijfstatussen = $this->AwbzIntake->Verblijfstatus->find('list', array('order' => 'Verblijfstatus.naam ASC'));
+        $verblijfstatussen = $this->AwbzIntake->Verblijfstatus->find('list', ['order' => 'Verblijfstatus.naam ASC']);
         $legitimaties = $this->AwbzIntake->Legitimatie->find('list');
         $verslavingsfrequenties = $this->AwbzIntake->Verslavingsfrequentie->find('list');
         $verslavingsperiodes = $this->AwbzIntake->Verslavingsperiode->find('list');
@@ -277,14 +277,14 @@ class AwbzIntakesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Ongeldige id voor intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->AwbzIntake->delete($id)) {
             $this->flashError(__('AwbzIntake verwijderd', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('AwbzIntake is niet verwijderd', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function sendAwbzIntakeNotification($intake_id, &$data)
@@ -335,24 +335,24 @@ class AwbzIntakesController extends AppController
         }
 
         if (count($addresses) > 0) {
-            $intake = $this->AwbzIntake->find('first', array(
-                'conditions' => array('AwbzIntake.id' => $intake_id),
+            $intake = $this->AwbzIntake->find('first', [
+                'conditions' => ['AwbzIntake.id' => $intake_id],
                 'contain' => $this->AwbzIntake->contain,
-            ));
+            ]);
 
-            $this->_genericSendEmail(array(
+            $this->_genericSendEmail([
                 'to' => $addresses,
                 'content' => $intake,
-            ));
+            ]);
         }
     }
 
     public function _get_indicaties_counter($klant_id)
     {
         $indicaties_counter =
-            $this->AwbzIntake->Klant->AwbzIndicatie->find('count', array(
-                'conditions' => array('AwbzIndicatie.klant_id' => $klant_id),
-            ));
+            $this->AwbzIntake->Klant->AwbzIndicatie->find('count', [
+                'conditions' => ['AwbzIndicatie.klant_id' => $klant_id],
+            ]);
 
         if ($indicaties_counter > 1) {
             return "($indicaties_counter indicaties)";

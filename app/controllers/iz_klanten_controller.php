@@ -4,7 +4,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
-use IzBundle\Export\IzKlantenExport;
 use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Service\KlantDaoInterface;
 

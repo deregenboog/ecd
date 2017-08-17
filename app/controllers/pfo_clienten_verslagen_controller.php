@@ -14,7 +14,7 @@ class PfoClientenVerslagenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid pfo clienten verslag', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('pfoClientenVerslag', $this->PfoClientenVerslag->read(null, $id));
     }
@@ -25,7 +25,7 @@ class PfoClientenVerslagenController extends AppController
             $this->PfoClientenVerslag->create();
             if ($this->PfoClientenVerslag->save($this->data)) {
                 $this->Session->setFlash(__('The pfo clienten verslag has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo clienten verslag could not be saved. Please, try again.', true));
             }
@@ -39,12 +39,12 @@ class PfoClientenVerslagenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid pfo clienten verslag', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->PfoClientenVerslag->save($this->data)) {
                 $this->Session->setFlash(__('The pfo clienten verslag has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo clienten verslag could not be saved. Please, try again.', true));
             }
@@ -61,13 +61,13 @@ class PfoClientenVerslagenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo clienten verslag', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->PfoClientenVerslag->delete($id)) {
             $this->Session->setFlash(__('Pfo clienten verslag deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->Session->setFlash(__('Pfo clienten verslag was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

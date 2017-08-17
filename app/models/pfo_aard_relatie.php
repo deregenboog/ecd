@@ -8,8 +8,8 @@ class PfoAardRelatie extends AppModel
     public function get_list($current_id = null)
     {
         $dr = [];
-        $all = $this->find('all', array(
-        ));
+        $all = $this->find('all', [
+        ]);
         $now = time();
         foreach ($all as $a) {
             $startdatum = strtotime($a['PfoAardRelatie']['startdatum']);

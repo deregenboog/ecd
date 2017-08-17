@@ -3,53 +3,53 @@
 class AwbzHoofdaannemer extends AppModel
 {
     public $name = 'AwbzHoofdaannemer';
-    public $actsAs = array('FixDates');
+    public $actsAs = ['FixDates'];
 
-    public $validate = array(
-        'begindatum' => array(
-            'date' => array(
-                'rule' => array('date'),
+    public $validate = [
+        'begindatum' => [
+            'date' => [
+                'rule' => ['date'],
                 'message' => 'Datum',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notempty' => array(
+            ],
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'hoofdaannemer_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'hoofdaannemer_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Hoofdaannemer' => array(
+        ],
+        'Hoofdaannemer' => [
             'className' => 'Hoofdaannemer',
             'foreignKey' => 'hoofdaannemer_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }

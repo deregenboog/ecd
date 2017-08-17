@@ -6,48 +6,48 @@ class GroepsactiviteitenGroep extends AppModel
 
     public $displayField = 'naam';
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $validate = array(
-        'naam' => array(
-            'notempty' => array(
-                'rule' => array(
+    public $validate = [
+        'naam' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een reden in',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-        'werkgebied' => array(
-            'notempty' => array(
-                'rule' => array(
+            ],
+        ],
+        'werkgebied' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een werkgebied in',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-        'startdatum' => array(
-            'notempty' => array(
-                'rule' => array(
+            ],
+        ],
+        'startdatum' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een startdatum in',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-        'einddatum' => array(
-            'datecompare' => array(
-                'rule' => array(
+            ],
+        ],
+        'einddatum' => [
+            'datecompare' => [
+                'rule' => [
                     'compareDates',
-                ),
+                ],
                 'message' => 'Einddatum moet later dan startdatum zijn',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function compareDates()
     {
@@ -69,8 +69,8 @@ class GroepsactiviteitenGroep extends AppModel
         return true;
     }
 
-    public $hasMany = array(
-        'Groepsactiviteit' => array(
+    public $hasMany = [
+        'Groepsactiviteit' => [
             'className' => 'Groepsactiviteit',
             'foreignKey' => 'groepsactiviteiten_groep_id',
             'dependent' => false,
@@ -82,8 +82,8 @@ class GroepsactiviteitenGroep extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'GroepsactiviteitenGroepenVrijwilliger' => array(
+        ],
+        'GroepsactiviteitenGroepenVrijwilliger' => [
             'className' => 'GroepsactiviteitenGroepenVrijwilliger',
             'foreignKey' => 'groepsactiviteiten_groep_id',
             'dependent' => false,
@@ -95,8 +95,8 @@ class GroepsactiviteitenGroep extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'GroepsactiviteitenGroepenKlant' => array(
+        ],
+        'GroepsactiviteitenGroepenKlant' => [
              'className' => 'GroepsactiviteitenGroepenKlant',
              'foreignKey' => 'groepsactiviteiten_groep_id',
              'dependent' => false,
@@ -108,8 +108,8 @@ class GroepsactiviteitenGroep extends AppModel
              'exclusive' => '',
              'finderQuery' => '',
              'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public $list_cache_key = 'GroepsactiviteitenGroep.list_cache_key';
 
@@ -215,20 +215,20 @@ class GroepsactiviteitenGroep extends AppModel
         $conditions = [];
 
         if (empty($all)) {
-            $conditions = array(
-                'OR' => array(
+            $conditions = [
+                'OR' => [
                     'einddatum ' => null,
                     'einddatum > ' => date('Y-m-d'),
-                ),
+                ],
                 'activiteiten_registreren' => 1,
-            );
+            ];
         }
 
-        $groepsactiviteiten_groep = $this->find('all', array(
+        $groepsactiviteiten_groep = $this->find('all', [
             'conditions' => $conditions,
             'contain' => [],
             'order' => 'naam asc',
-        ));
+        ]);
 
         Cache::write($key, $groepsactiviteiten_groep);
 

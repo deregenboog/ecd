@@ -5,47 +5,46 @@ class GroepsactiviteitenGroepenKlant extends AppModel
     public $name = 'GroepsactiviteitenGroepenKlant';
     public $displayField = 'groepsactiviteiten_groep_id';
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $validate = array(
-            'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    public $validate = [
+            'startdatum' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een startdatum in',
                             'allowEmpty' => false,
                             'required' => false,
-                    ),
-            ),
-            'einddatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'einddatum' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een einddatum in',
                             'allowEmpty' => false,
                             'required' => false,
-                    ),
-                    'datecompare' => array(
-                            'rule' => array(
+                    ],
+                    'datecompare' => [
+                            'rule' => [
                                     'compareDates',
-                            ),
+                            ],
                             'message' => 'Einddatum moet later dan startdatum zijn',
-                    ),
-            ),
-            'groepsactiviteiten_reden_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'groepsactiviteiten_reden_id' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een groepsactiviteiten_reden_id in',
                             'allowEmpty' => false,
                             'required' => false,
-                    ),
-            ),
-
-    );
+                    ],
+            ],
+    ];
 
     public function compareDates()
     {
@@ -65,43 +64,43 @@ class GroepsactiviteitenGroepenKlant extends AppModel
         return true;
     }
 
-    public $belongsTo = array(
-        'GroepsactiviteitenGroep' => array(
+    public $belongsTo = [
+        'GroepsactiviteitenGroep' => [
             'className' => 'GroepsactiviteitenGroep',
             'foreignKey' => 'groepsactiviteiten_groep_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Klant' => array(
+        ],
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'GroepsactiviteitenReden' => array(
+        ],
+        'GroepsactiviteitenReden' => [
             'className' => 'GroepsactiviteitenReden',
             'foreignKey' => 'groepsactiviteiten_reden_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
     public function Add2Group($klant_id, $groepsactiviteiten_groep_id)
     {
-        $conditions = array(
+        $conditions = [
             'klant_id' => $klant_id,
             'groepsactiviteiten_groep_id' => $groepsactiviteiten_groep_id,
-        );
-        $gag = $this->find('first', array(
+        ];
+        $gag = $this->find('first', [
             'conditions' => $conditions,
-            'fields' => array('id'),
-        ));
+            'fields' => ['id'],
+        ]);
 
         if (empty($gag)) {
-            $data = array(
+            $data = [
                 'groepsactiviteiten_groep_id' => $groepsactiviteiten_groep_id,
                 'klant_id' => $klant_id,
                 'groepsactiviteiten_reden_id' => null,
@@ -110,7 +109,7 @@ class GroepsactiviteitenGroepenKlant extends AppModel
                 'communicatie_email' => 1,
                 'communicatie_telefoon' => 1,
                 'communicatie_post' => 1,
-            );
+            ];
             unset($this->validate['einddatum']);
             unset($this->validate['groepsactiviteiten_reden_id']);
             $this->create();

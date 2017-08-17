@@ -68,7 +68,7 @@ class DatabaseFixEncodingCommand extends ContainerAwareCommand
             $search = utf8_encode($replacement);
             $query = "UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '{$search}', '{$replacement}');";
             $numRows = $connection->executeUpdate($query, [$search, $replacement]);
-            $output->writeln($query . " ({$numRows} affected)");
+            $output->writeln($query." ({$numRows} affected)");
         }
     }
 }

@@ -6,54 +6,53 @@ class Verslaginfo extends AppModel
 
     public $displayField = 'klant_id';
 
-    public $validate = array(
-        'klant_id' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-            ),
-        ),
-        'casemanager_email' => array(
-            'email' => array(
-                'rule' => array('email'),
+    public $validate = [
+        'klant_id' => [
+            'numeric' => [
+                'rule' => ['numeric'],
+            ],
+        ],
+        'casemanager_email' => [
+            'email' => [
+                'rule' => ['email'],
                 'message' => 'Niet een geldig e-mailadres.',
                 'allowEmpty' => true,
                 'required' => false,
-            ),
-        ),
-        'trajectbegeleider_email' => array(
-            'email' => array(
-                'rule' => array('email'),
+            ],
+        ],
+        'trajectbegeleider_email' => [
+            'email' => [
+                'rule' => ['email'],
                 'message' => 'Niet een geldig e-mailadres.',
                 'allowEmpty' => true,
                 'required' => false,
-            ),
-        ),
-        'trajecthouder_extern_email' => array(
-            'email' => array(
-                'rule' => array('email'),
+            ],
+        ],
+        'trajecthouder_extern_email' => [
+            'email' => [
+                'rule' => ['email'],
                 'message' => 'Niet een geldig e-mailadres.',
                 'allowEmpty' => true,
                 'required' => false,
-            ),
-        ),
-        'klantmanager_email' => array(
-            'email' => array(
-                'rule' => array('email'),
+            ],
+        ],
+        'klantmanager_email' => [
+            'email' => [
+                'rule' => ['email'],
                 'message' => 'Niet een geldig e-mailadres.',
                 'allowEmpty' => true,
                 'required' => false,
-            ),
-        ),
+            ],
+        ],
+    ];
 
-    );
-
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }

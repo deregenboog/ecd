@@ -4,7 +4,7 @@ class ZrmReport extends AppModel
 {
     public $name = 'ZrmReport';
 
-    public $zrm_items = array(
+    public $zrm_items = [
         'inkomen' => 'Inkomen',
         'dagbesteding' => 'Dagbesteding',
         'huisvesting' => 'Huisvesting',
@@ -16,124 +16,122 @@ class ZrmReport extends AppModel
         'sociaal_netwerk' => 'Sociaal netwerk',
         'maatschappelijke_participatie' => 'Maatschappelijke participatie',
         'justitie' => 'Justitie',
-    );
+    ];
 
-    public $zrm_models = array(
+    public $zrm_models = [
         'Intake' => [],
         'MaatschappelijkWerk' => [],
         'Awbz' => [],
         'Hi5' => [],
-    );
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $zrm_names = array(
+    public $zrm_names = [
         'Intake' => 'Registratie',
         'MaatschappelijkWerk' => 'MaatschappelijkWerk',
         'Awbz' => 'Awbz',
         'Hi5' => 'Hi5',
         'GroepsactiviteitenIntake' => 'Groepsactiviteiten',
         'IzIntake' => 'IZ Intake',
-    );
+    ];
 
-    public $validate = array(
-        'request_module' => array(
-            'notempty' => array(
-                'rule' => array(
+    public $validate = [
+        'request_module' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een module in',
                 'required' => true,
-            ),
-         ),
-        'inkomen' => array(
+            ],
+         ],
+        'inkomen' => [
             'allowEmpty' => true,
-            'checkRequired' => array(
-
-                'rule' => array('checkRequired'),
+            'checkRequired' => [
+                'rule' => ['checkRequired'],
                 'message' => 'verplicht veld Inkomen',
-            ),
-        ),
-        'dagbesteding' => array(
+            ],
+        ],
+        'dagbesteding' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Dagbesteding',
-                ),
-        ),
-        'huisvesting' => array(
+                ],
+        ],
+        'huisvesting' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Huisvesting',
-                ),
-        ),
-        'gezinsrelaties' => array(
+                ],
+        ],
+        'gezinsrelaties' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Gezinsrelaties',
-                ),
-        ),
-        'geestelijke_gezondheid' => array(
+                ],
+        ],
+        'geestelijke_gezondheid' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Geestelijke gezondheid',
-                ),
-        ),
-        'fysieke_gezondheid' => array(
+                ],
+        ],
+        'fysieke_gezondheid' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Fysieke gezondheid',
-                ),
-        ),
-        'verslaving' => array(
+                ],
+        ],
+        'verslaving' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Verslaving',
-                ),
-        ),
-        'adl_vaardigheden' => array(
+                ],
+        ],
+        'adl_vaardigheden' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld ADL-vaardigheden',
-                ),
-        ),
-        'sociaal_netwerk' => array(
+                ],
+        ],
+        'sociaal_netwerk' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Sociaal netwerk',
-                ),
-        ),
-        'maatschappelijke_participatie' => array(
+                ],
+        ],
+        'maatschappelijke_participatie' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Maatschappelijke participatie',
-                ),
-        ),
-        'justitie' => array(
+                ],
+        ],
+        'justitie' => [
                 'allowEmpty' => true,
-                'checkRequired' => array(
-                        'rule' => array('checkRequired'),
+                'checkRequired' => [
+                        'rule' => ['checkRequired'],
                         'message' => 'verplicht veld Justitie',
-                ),
-        ),
-
-    );
+                ],
+        ],
+    ];
 
     public function afterSave($created)
     {
@@ -210,12 +208,12 @@ class ZrmReport extends AppModel
             $this->zrm_models[$model] = $groups;
         }
 
-        return array(
+        return [
             'zrm_items' => $this->zrm_items,
             'zrm_required_fields' => $this->zrm_required_fields,
             'zrm_models' => $this->zrm_models,
             'zrm_names' => $this->zrm_names,
-        );
+        ];
     }
 
     public function update_zrm_data_for_edit(&$zrm, $model, $foreign_key, $klant_id)
@@ -237,33 +235,33 @@ class ZrmReport extends AppModel
 
     public function get_last_zrm_report($klant_id)
     {
-        $conditions = array(
+        $conditions = [
             'klant_id' => $klant_id,
-        );
+        ];
 
         $this->recursive = -1;
 
-        $zrm = $this->find('first', array(
+        $zrm = $this->find('first', [
                 'conditions' => $conditions,
                 'order' => 'ZrmReport.created DESC',
-        ));
+        ]);
 
         return $zrm;
     }
 
     public function get_zrm_report($model, $foreign_key)
     {
-        $conditions = array(
+        $conditions = [
             'model' => $model,
             'foreign_key' => $foreign_key,
-        );
+        ];
 
         $this->recursive = -1;
 
-        $zrm = $this->find('first', array(
+        $zrm = $this->find('first', [
             'conditions' => $conditions,
             'order' => 'ZrmReport.created DESC',
-        ));
+        ]);
 
         return $zrm;
     }

@@ -4,39 +4,39 @@ class Verslag extends AppModel
 {
     public $name = 'Verslag';
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Locatie' => array(
+        ],
+        'Locatie' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Contactsoort' => array(
+        ],
+        'Contactsoort' => [
             'className' => 'Contactsoort',
             'foreignKey' => 'contactsoort_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $hasMany = array(
-        'InventarisatiesVerslagen' => array(
+    public $hasMany = [
+        'InventarisatiesVerslagen' => [
             'className' => 'InventarisatiesVerslagen',
             'foreignKey' => 'verslag_id',
             'dependent' => false,
@@ -48,31 +48,31 @@ class Verslag extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $contain = array(
-        'InventarisatiesVerslagen' => array(
+    public $contain = [
+        'InventarisatiesVerslagen' => [
             'fields' => [],
-            'Inventarisatie' => array('fields' => array('titel', 'id')),
-            'Doorverwijzer' => array('fields' => array('naam')),
-        ),
-        'Medewerker' => array('fields' => 'name'),
-        'Locatie' => array('fields' => 'naam'),
-        'Contactsoort' => array('fields' => array('id', 'text')),
-    );
+            'Inventarisatie' => ['fields' => ['titel', 'id']],
+            'Doorverwijzer' => ['fields' => ['naam']],
+        ],
+        'Medewerker' => ['fields' => 'name'],
+        'Locatie' => ['fields' => 'naam'],
+        'Contactsoort' => ['fields' => ['id', 'text']],
+    ];
 
-    public $validate = array(
-        'contactsoort_id' => array(
-            'notempty' => array(
-                'rule' => array('minLength', 1),
+    public $validate = [
+        'contactsoort_id' => [
+            'notempty' => [
+                'rule' => ['minLength', 1],
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function beforeSave($options = [])
     {

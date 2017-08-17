@@ -5,18 +5,18 @@ class QueueTask extends AppModel
     public $name = 'QueueTask';
     public $displayField = 'action';
 
-    public $hasMany = array(
-        'Document' => array(
+    public $hasMany = [
+        'Document' => [
             'className' => 'Attachment',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
+            'conditions' => [
                     'Document.model' => 'QueueTask',
                     'is_active' => 1,
-            ),
+            ],
             'dependent' => true,
             'order' => 'created desc',
-        ),
-    );
+        ],
+    ];
 
     public function beforeSave($options = [])
     {

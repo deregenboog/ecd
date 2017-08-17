@@ -25,7 +25,7 @@ class GroepsactiviteitenIntakesController extends AppController
                 if ($this->ZrmReport->save($this->data)) {
                     $this->Intake->commit();
                     $this->flash(__('De intake is opgeslagen', true));
-                    $this->redirect(array('controller' => 'klanten', 'action' => 'view', $klant_id));
+                    $this->redirect(['controller' => 'klanten', 'action' => 'view', $klant_id]);
                 }
 
                 $this->Session->setFlash(__('Success', true));
@@ -34,6 +34,6 @@ class GroepsactiviteitenIntakesController extends AppController
             }
         }
 
-        $this->redirect(array('controller' => 'Groepsactiviteiten', 'action' => 'intakes', $persoon_model, $foreign_key));
+        $this->redirect(['controller' => 'Groepsactiviteiten', 'action' => 'intakes', $persoon_model, $foreign_key]);
     }
 }

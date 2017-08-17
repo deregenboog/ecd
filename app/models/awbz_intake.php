@@ -4,25 +4,25 @@ class AwbzIntake extends AppModel
 {
     public $name = 'AwbzIntake';
     public $order = 'AwbzIntake.datum_intake DESC';
-    public $validate = array(
-        'locatie1_id' => array(
-            'notempty' => array(
+    public $validate = [
+        'locatie1_id' => [
+            'notempty' => [
                 'rule' => 'notempty',
                 'message' => 'Dit veld is verplicht',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-        'locatie2_id' => array(
-            'not_equal_to_locatie1' => array(
+            ],
+        ],
+        'locatie2_id' => [
+            'not_equal_to_locatie1' => [
                 'rule' => 'checkLocation',
                 'message' => 'De twee gekozen opvanghuizen moeten van elkaar verschillen',
                 'allowEmpty' => true,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
+            ],
+        ],
         'doelgroep' => [
             'notempty' => [
                 'rule' => 'notEmpty',
@@ -31,105 +31,104 @@ class AwbzIntake extends AppModel
                 'required' => true,
             ],
         ],
-    );
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Verblijfstatus' => array(
+        ],
+        'Verblijfstatus' => [
             'className' => 'Verblijfstatus',
             'foreignKey' => 'verblijfstatus_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Legitimatie' => array(
+        ],
+        'Legitimatie' => [
             'className' => 'Legitimatie',
             'foreignKey' => 'legitimatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'PrimaireProblematiek' => array(
+        ],
+        'PrimaireProblematiek' => [
             'className' => 'Verslaving',
             'foreignKey' => 'primaireproblematiek_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'PrimaireProblematieksfrequentie' => array(
+        ],
+        'PrimaireProblematieksfrequentie' => [
             'className' => 'Verslavingsfrequentie',
             'foreignKey' => 'primaireproblematieksfrequentie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'PrimaireProblematieksperiode' => array(
+        ],
+        'PrimaireProblematieksperiode' => [
             'className' => 'Verslavingsperiode',
             'foreignKey' => 'primaireproblematieksperiode_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Verslavingsfrequentie' => array(
+        ],
+        'Verslavingsfrequentie' => [
             'className' => 'Verslavingsfrequentie',
             'foreignKey' => 'verslavingsfrequentie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Verslavingsperiode' => array(
+        ],
+        'Verslavingsperiode' => [
             'className' => 'Verslavingsperiode',
             'foreignKey' => 'verslavingsperiode_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Woonsituatie' => array(
+        ],
+        'Woonsituatie' => [
             'className' => 'Woonsituatie',
             'foreignKey' => 'woonsituatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Locatie1' => array(
+        ],
+        'Locatie1' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie1_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Locatie2' => array(
+        ],
+        'Locatie2' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie2_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Infobaliedoelgroep' => array(
+        ],
+        'Infobaliedoelgroep' => [
             'className' => 'Infobaliedoelgroep',
             'foreignKey' => 'infobaliedoelgroep_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
+        ],
+    ];
 
-    );
-
-    public $hasAndBelongsToMany = array(
-        'Inkomen' => array(
+    public $hasAndBelongsToMany = [
+        'Inkomen' => [
             'className' => 'Inkomen',
             'joinTable' => 'inkomens_awbz_intakes',
             'foreignKey' => 'awbz_intake_id',
@@ -143,8 +142,8 @@ class AwbzIntake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Instantie' => array(
+        ],
+        'Instantie' => [
             'className' => 'Instantie',
             'joinTable' => 'instanties_awbz_intakes',
             'foreignKey' => 'awbz_intake_id',
@@ -158,8 +157,8 @@ class AwbzIntake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Verslavingsgebruikswijze' => array(
+        ],
+        'Verslavingsgebruikswijze' => [
             'className' => 'Verslavingsgebruikswijze',
             'joinTable' => 'awbz_intakes_verslavingsgebruikswijzen',
             'foreignKey' => 'awbz_intake_id',
@@ -173,8 +172,8 @@ class AwbzIntake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Primaireproblematieksgebruikswijze' => array(
+        ],
+        'Primaireproblematieksgebruikswijze' => [
             'className' => 'Primaireproblematieksgebruikswijze',
             'joinTable' => 'awbz_intakes_primaireproblematieksgebruikswijzen',
             'foreignKey' => 'awbz_intake_id',
@@ -188,8 +187,8 @@ class AwbzIntake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Verslaving' => array(
+        ],
+        'Verslaving' => [
             'className' => 'Verslaving',
             'joinTable' => 'awbz_intakes_verslavingen',
             'foreignKey' => 'awbz_intake_id',
@@ -203,55 +202,55 @@ class AwbzIntake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $contain = array('Klant' => array(
-            'Medewerker' => array(
-                'fields' => array('name', 'email'),
-            ),
-            'Geboorteland' => array('fields' => array('land')),
-            'Nationaliteit' => array('fields' => array('naam')),
-            'Geslacht' => array('fields' => array('volledig', 'afkorting')),
-            'fields' => array('voornaam', 'tussenvoegsel', 'achternaam',
+    public $contain = ['Klant' => [
+            'Medewerker' => [
+                'fields' => ['name', 'email'],
+            ],
+            'Geboorteland' => ['fields' => ['land']],
+            'Nationaliteit' => ['fields' => ['naam']],
+            'Geslacht' => ['fields' => ['volledig', 'afkorting']],
+            'fields' => ['voornaam', 'tussenvoegsel', 'achternaam',
                 'roepnaam', 'geboortedatum', 'BSN', 'laatste_TBC_controle',
-            ),
-        ),
-        'Medewerker' => array(
-            'fields' => array('name', 'email'),
-        ),
-        'Verblijfstatus' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Legitimatie' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Verslaving' => array(
-            'fields' => array('naam'),
-        ),
-        'Verslavingsfrequentie' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Verslavingsperiode' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Woonsituatie' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Locatie1' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Locatie2' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Inkomen' => array('fields' => array('naam')),
-        'Instantie' => array('fields' => array('naam')),
-        'PrimaireProblematiek' => array(
-            'fields' => array('naam'),
-        ),
-    );
+            ],
+        ],
+        'Medewerker' => [
+            'fields' => ['name', 'email'],
+        ],
+        'Verblijfstatus' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Legitimatie' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Verslaving' => [
+            'fields' => ['naam'],
+        ],
+        'Verslavingsfrequentie' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Verslavingsperiode' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Woonsituatie' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Locatie1' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Locatie2' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Inkomen' => ['fields' => ['naam']],
+        'Instantie' => ['fields' => ['naam']],
+        'PrimaireProblematiek' => [
+            'fields' => ['naam'],
+        ],
+    ];
 
     public function checkLocation()
     {
@@ -274,8 +273,8 @@ class AwbzIntake extends AppModel
 
     public function getIntakeCountForClant($id)
     {
-        return $this->find('count', array(
-            'conditions' => array('klant_id' => $id), ));
+        return $this->find('count', [
+            'conditions' => ['klant_id' => $id], ]);
     }
 
     public function set_last_intake($klant_id)
@@ -298,14 +297,14 @@ class AwbzIntake extends AppModel
 
     public function uniqueForUser($data)
     {
-        $conditions = array(
+        $conditions = [
             'AwbzIntake.klant_id' => $this->data['AwbzIntake']['klant_id'],
             'AwbzIntake.datum_intake' => $data['datum_intake'],
-        );
+        ];
         if (array_key_exists('id', $this->data['Intake'])) {
             $conditions['AwbzIntake.id !='] = $this->data['AwbzIntake']['id'];
         }
-        $check = $this->find('count', array('conditions' => $conditions));
+        $check = $this->find('count', ['conditions' => $conditions]);
         if ($check > 0) {
             return false;
         } else {

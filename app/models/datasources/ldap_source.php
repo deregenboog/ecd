@@ -15,13 +15,14 @@ class LdapSource extends DataSource
 {
     public $description = 'Ldap Data Source';
 
-    public $_baseConfig = array(
+    public $_baseConfig = [
         'host' => 'localhost',
         'port' => 389,
         'version' => 3,
-    );
+    ];
 
     // Lifecycle --------------------------------------------------------------
+
     /**
      * Constructor.
      */
@@ -106,6 +107,7 @@ class LdapSource extends DataSource
     }
 
     // CRUD --------------------------------------------------------------
+
     /**
      * The "R" in CRUD.
      *
@@ -129,7 +131,7 @@ class LdapSource extends DataSource
         $queryData['targetDn'] = $model->useTable;
         $queryData['type'] = 'search';
         if (empty($queryData['order'])) {
-            $queryData['order'] = array($model->primaryKey);
+            $queryData['order'] = [$model->primaryKey];
         }
 
         // Associations links --------------------------
@@ -167,7 +169,7 @@ class LdapSource extends DataSource
                     }
 
                     if (isset($db) && $db != null) {
-                        $stack = array($assoc);
+                        $stack = [$assoc];
                         $array = [];
                         $db->queryAssociation($model, $linkModel, $type, $assoc, $assocData, $array, true, $resultSet, $model->recursive - 1, $stack);
                         unset($db);
@@ -302,6 +304,7 @@ class LdapSource extends DataSource
     }
 
     // Usefull public (static) functions--------------------------------------------
+
     /**
      * Convert Active Directory timestamps to unix ones.
      *
@@ -316,17 +319,20 @@ class LdapSource extends DataSource
         $unix_timestamp = $date_timestamp - $epoch_diff;
 
         return $unix_timestamp;
-    }// convertTimestamp_ADToUnix
+    }
+
+// convertTimestamp_ADToUnix
 
     // Wont be implemeneted -----------------------------------------------------
+
     /**
      * Function required but not really implemented.
      */
     public function describe(&$model)
     {
-        $fields[] = array('name' => '--NotYetImplemented--',
+        $fields[] = ['name' => '--NotYetImplemented--',
                         'type' => '--NotYetImplemented--',
-                        'null' => '--NotYetImplemented--', );
+                        'null' => '--NotYetImplemented--', ];
 
         return $fields;
     }
@@ -348,6 +354,7 @@ class LdapSource extends DataSource
     }
 
     // Logs --------------------------------------------------------------
+
     /**
      * Log given LDAP query.
      *
@@ -358,13 +365,13 @@ class LdapSource extends DataSource
     {
         ++$this->_queriesCnt;
         $this->_queriesTime += $this->took;
-        $this->_queriesLog[] = array(
+        $this->_queriesLog[] = [
             'query' => $query,
             'error' => $this->error,
             'affected' => $this->affected,
             'numRows' => $this->numRows,
             'took' => $this->took,
-        );
+        ];
         if (count($this->_queriesLog) > $this->_queriesLogMax) {
             array_pop($this->_queriesLog);
         }
@@ -438,7 +445,7 @@ class LdapSource extends DataSource
         if (is_array($conditions)) {
             // Conditions expressed as an array
             if (empty($conditions)) {
-                $conditions = array('equals' => array($key => null));
+                $conditions = ['equals' => [$key => null]];
             }
 
             $res = $this->__conditionsArrayToString($conditions);
@@ -448,11 +455,12 @@ class LdapSource extends DataSource
                 $conditions = $key.'='.trim($conditions);
             }
 
-            $res = str_replace(array("$name.$key", ' = '), array($key, '='), $conditions);
+            $res = str_replace(["$name.$key", ' = '], [$key, '='], $conditions);
         }
 
         return $res;
     }
+
     /**
      * Convert an array into a ldap condition string.
      *
@@ -462,9 +470,9 @@ class LdapSource extends DataSource
      */
     public function __conditionsArrayToString($conditions)
     {
-        $ops_rec = array('and' => array('prefix' => '&'), 'or' => array('prefix' => '|'));
-        $ops_neg = array('and not' => [], 'or not' => [], 'not equals' => []);
-        $ops_ter = array('equals' => array('null' => '*'));
+        $ops_rec = ['and' => ['prefix' => '&'], 'or' => ['prefix' => '|']];
+        $ops_neg = ['and not' => [], 'or not' => [], 'not equals' => []];
+        $ops_ter = ['equals' => ['null' => '*']];
 
         $ops = array_merge($ops_rec, $ops_neg, $ops_ter);
 
@@ -485,7 +493,7 @@ class LdapSource extends DataSource
 
                 $tmp = '('.$ops_rec[$operand]['prefix'];
                 foreach ($children as $key => $value) {
-                    $child = array($key => $value);
+                    $child = [$key => $value];
                     $tmp .= $this->__conditionsArrayToString($child);
                 }
 
@@ -497,15 +505,15 @@ class LdapSource extends DataSource
 
                 $next_operand = trim(str_replace('not', '', $operand));
 
-                return '(!'.$this->__conditionsArrayToString(array($next_operand => $children)).')';
-            } elseif (in_array($operand,  array_keys($ops_ter))) {
+                return '(!'.$this->__conditionsArrayToString([$next_operand => $children]).')';
+            } elseif (in_array($operand, array_keys($ops_ter))) {
                 $tmp = '';
                 foreach ($children as $key => $value) {
                     if (!is_array($value)) {
                         $tmp .= '('.$key.'='.((is_null($value)) ? $ops_ter['equals']['null'] : $value).')';
                     } else {
                         foreach ($value as $subvalue) {
-                            $tmp .= $this->__conditionsArrayToString(array('equals' => array($key => $subvalue)));
+                            $tmp .= $this->__conditionsArrayToString(['equals' => [$key => $subvalue]]);
                         }
                     }
                 }
@@ -621,8 +629,8 @@ class LdapSource extends DataSource
     public function _ldapQuote($str)
     {
         return str_replace(
-                array('\\', ' ', '*', '(', ')'),
-                array('\\5c', '\\20', '\\2a', '\\28', '\\29'),
+                ['\\', ' ', '*', '(', ')'],
+                ['\\5c', '\\20', '\\2a', '\\28', '\\29'],
                 $str
         );
     }

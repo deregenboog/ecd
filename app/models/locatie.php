@@ -6,8 +6,8 @@ class Locatie extends AppModel
     public $displayField = 'naam';
     public $order = 'naam ASC';
 
-    public $hasMany = array(
-        'Registratie' => array(
+    public $hasMany = [
+        'Registratie' => [
             'className' => 'Registratie',
             'foreignKey' => 'locatie_id',
             'dependent' => false,
@@ -19,8 +19,8 @@ class Locatie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'Schorsing' => array(
+        ],
+        'Schorsing' => [
             'className' => 'Schorsing',
             'foreignKey' => 'locatie_id',
             'dependent' => false,
@@ -32,8 +32,8 @@ class Locatie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'Intake1' => array(
+        ],
+        'Intake1' => [
             'className' => 'Intake',
             'foreignKey' => 'locatie1_id',
             'dependent' => false,
@@ -45,8 +45,8 @@ class Locatie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'Intake2' => array(
+        ],
+        'Intake2' => [
             'className' => 'Intake',
             'foreignKey' => 'locatie2_id',
             'dependent' => false,
@@ -58,8 +58,8 @@ class Locatie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public function isDayFacility($locationId)
     {
@@ -107,7 +107,7 @@ class Locatie extends AppModel
             ['datum_tot' => '0000-00-00'],
             ['datum_tot >' => date('Y-m-d')],
         ]];
-        $locaties = $this->find('list', array('conditions' => $conditions));
+        $locaties = $this->find('list', ['conditions' => $conditions]);
         Cache::write($cachekey, $locaties);
 
         return $locaties;

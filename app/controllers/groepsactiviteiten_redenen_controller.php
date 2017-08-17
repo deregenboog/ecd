@@ -16,7 +16,7 @@ class GroepsactiviteitenRedenenController extends AppController
             $this->GroepsactiviteitenReden->create();
             if ($this->GroepsactiviteitenReden->save($this->data)) {
                 $this->Session->setFlash(__('De reden is opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('Reden kan niet worden opgeslagen', true));
             }
@@ -27,13 +27,13 @@ class GroepsactiviteitenRedenenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Niet geldige reden', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             $this->data['GroepsactiviteitenReden']['id'] = $id;
             if ($this->GroepsactiviteitenReden->save($this->data)) {
                 $this->Session->setFlash(__('De reden is opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('Reden kan niet worden opgeslagen', true));
             }

@@ -171,6 +171,7 @@ class OdsEtikettenBehavior extends ModelBehavior
         }
         $this->nodeValue($l->item(0), $value);
     }
+
     private function setNextRow($row, $rowdata)
     {
         foreach ($rowdata as $attribute => $value) {

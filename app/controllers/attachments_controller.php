@@ -12,11 +12,11 @@ class AttachmentsController extends AppController
         Configure :: write('debug', 0);
         $this->autoRender = false;
 
-        $file_record = $this->Attachment->find('first', array(
-            'conditions' => array(
+        $file_record = $this->Attachment->find('first', [
+            'conditions' => [
                 'Attachment.id' => $id,
-            ),
-                ));
+            ],
+                ]);
 
         if (!$file_record) {
             $this->flashError(__('The file you requested could not be found in the database.', true));

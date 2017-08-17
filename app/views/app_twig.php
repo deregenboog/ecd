@@ -18,15 +18,15 @@ class AppTwigView extends TwigView
      *
      * @var array
      */
-    public $twigOptions = array(
+    public $twigOptions = [
         'fileExtension' => '.twig',
-        'extensions' => array(
+        'extensions' => [
 //             'i18n',
 //             'number',
 //             'text',
 //             'time',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Constructor.
@@ -93,7 +93,7 @@ class AppTwigView extends TwigView
 // 		$this->Twig->addExtension($escaper);
 
         // Add custom TwigView Extensions
-        $this->twigLoadedExtensions = array();
+        $this->twigLoadedExtensions = [];
         foreach ($this->twigOptions['extensions'] as $extensionName) {
             if ($extensionClassName = $this->_loadTwigExtension($extensionName)) {
                 $this->Twig->addExtension(new $extensionClassName());

@@ -2,7 +2,6 @@
 
 namespace AppBundle\Export;
 
-use AppBundle\Export\ExportException;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractExport implements ExportInterface
@@ -44,7 +43,7 @@ abstract class AbstractExport implements ExportInterface
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'Content-Disposition' => sprintf(': attachment; filename="%s";', $filename),
             'Content-Transfer-Encoding' => 'UTF-8',
-            'Cache-Control' =>  'max-age=0',
+            'Cache-Control' => 'max-age=0',
         ]);
     }
 

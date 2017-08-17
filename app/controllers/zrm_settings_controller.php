@@ -14,7 +14,7 @@ class ZrmSettingsController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid zrm setting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('zrmSetting', $this->ZrmSetting->read(null, $id));
     }
@@ -26,7 +26,7 @@ class ZrmSettingsController extends AppController
             if ($this->ZrmSetting->save($this->data)) {
                 $this->ZrmSetting->clear_cache();
                 $this->Session->setFlash(__('The zrm setting has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The zrm setting could not be saved. Please, try again.', true));
             }
@@ -56,13 +56,13 @@ class ZrmSettingsController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid zrm setting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->ZrmSetting->save($this->data)) {
                 $this->ZrmSetting->clear_cache();
                 $this->Session->setFlash(__('The zrm setting has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The zrm setting could not be saved. Please, try again.', true));
             }
@@ -76,21 +76,21 @@ class ZrmSettingsController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for zrm setting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->ZrmSetting->delete($id)) {
             $this->Session->setFlash(__('Zrm setting deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Zrm setting was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function update_table()
     {
         $this->ZrmSetting->update_table();
-        $this->redirect(array('controller' => 'admin'));
+        $this->redirect(['controller' => 'admin']);
     }
 }

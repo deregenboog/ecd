@@ -11,13 +11,13 @@
 
 class DateHelper extends AppHelper
 {
-    public $helpers = array('Form', 'Js', 'Html');
+    public $helpers = ['Form', 'Js', 'Html'];
 
     public $datePickerClasses =
             'highlight-days-67 split-date no-transparency';
 
     public $field_names = //to fill the name= attribute according to the marker
-            array('m' => '[month]', 'M' => '[month]', 'd' => '[day]', 'y' => '[year]');
+            ['m' => '[month]', 'M' => '[month]', 'd' => '[day]', 'y' => '[year]'];
 
     public $picker_count = 0;
 
@@ -45,7 +45,6 @@ class DateHelper extends AppHelper
         //checking name
         if ($name == null) {
             throw new Exception('missing name! check the /app/views/helpers/date_picker.php');
-
             return;
         }
 
@@ -78,7 +77,6 @@ class DateHelper extends AppHelper
         $regexp = '/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/';
         if ($date != 'empty' && !preg_match($regexp, $date)) {
             throw new Exception('wrong date! check the /app/views/helpers/date.php | '.$date.' |');
-
             return;
         }
 
@@ -116,7 +114,6 @@ class DateHelper extends AppHelper
                     case 'rangeHigh':
                         if (!preg_match($regexp, $value)) {
                             throw new Exception('wrong date! check the /app/views/helpers/date_picker.php');
-
                             return;
                         }
                         $rangeHigh = ' range-high-'.$value;
@@ -126,7 +123,6 @@ class DateHelper extends AppHelper
                     case 'rangeLow':
                         if (!preg_match($regexp, $value)) {
                             throw new Exception('wrong date! check the /app/views/helpers/date_picker.php');
-
                             return;
                         }
                         $rangeLow = ' range-low-'.$value;
@@ -155,7 +151,7 @@ class DateHelper extends AppHelper
 
         //writing label
         if ($label != null) {
-            $labelFor = str_replace(array('[', ']'), array('', ''), $name);
+            $labelFor = str_replace(['[', ']'], ['', ''], $name);
             $labelFor = substr($labelFor, 4);
             $output_string = '<div class="input date'.$required.'"><label for="'.$labelFor.'-'.$id.'">'.$label.'</label>';
         }
@@ -258,18 +254,20 @@ class DateHelper extends AppHelper
         $output = $format[0].$sep.$format[1].$sep.$format[2];
 
         return $output;
-    }//show
+    }
+
+//show
 
     public function show_time($date, $user_options = null)
     {
         if (empty($date) || $date == '0000-00-00') {
             return '';
         }
-        $defaults = array(
+        $defaults = [
                 'sep' => '&nbsp;',
                 'short' => false,
                 'format' => 'Calendar.timeDisplayFormat',
-                );
+                ];
         $options = Set::merge($defaults, $user_options);
         $format = Configure::read($options['format']);
 
@@ -340,14 +338,14 @@ class DateHelper extends AppHelper
         if ($default == 'empty'); elseif ($default != null) {
             $default = explode('-', $default);
         } else {
-            $default = array(
+            $default = [
                 date('Y'),
                 '01',
                 '01',
-            );
+            ];
         }
 
-        $months = array(
+        $months = [
             __('January', true),
             __('February', true),
             __('March', true),
@@ -360,7 +358,7 @@ class DateHelper extends AppHelper
             __('October', true),
             __('November', true),
             __('December', true),
-        );
+        ];
         if ($disabled) { //when the form is disabled:
             switch ($type) {
                 case 'm':
@@ -454,7 +452,9 @@ class DateHelper extends AppHelper
                     } //for
             } //switch
         }//else
-    } //create inputs
+    }
+
+ //create inputs
 
 /*
  * generate cake-style ids
@@ -500,11 +500,11 @@ class DateHelper extends AppHelper
      *
      */
 
-    public function datepicker($fieldname, $options = array())
+    public function datepicker($fieldname, $options = [])
     {
-        $defaults = array(
+        $defaults = [
             'required' => false,
-        );
+        ];
 
         $options = $options + $defaults;
 
@@ -541,10 +541,10 @@ class DateHelper extends AppHelper
 
     //showing the eraser to clear the field when needed
         if (!$options['required']) {
-            $o .= $this->Html->image('/img/eraser.png', array(
+            $o .= $this->Html->image('/img/eraser.png', [
                 'id' => $field_id.'-clear',
                 'class' => 'clear-date',
-            ));
+            ]);
         }
 
     //end of the wrapping div
@@ -615,13 +615,13 @@ class DateHelper extends AppHelper
         if ($days == 0) {
             return 'vandaag';
         } elseif ($days < 7) {
-            return __tr(':days dagen', array('days' => floor($days)));
+            return __tr(':days dagen', ['days' => floor($days)]);
         } elseif ($days < 30) {
-            return __tr(':weeks weken', array('weeks' => floor($days / 7)));
+            return __tr(':weeks weken', ['weeks' => floor($days / 7)]);
         } elseif ($days < 365) {
-            return __tr(':months maanden', array('months' => floor($days / 30)));
+            return __tr(':months maanden', ['months' => floor($days / 30)]);
         } else {
-            return __tr(':years jaren', array('years' => floor($days / 365)));
+            return __tr(':years jaren', ['years' => floor($days / 365)]);
         }
     }
 } //class

@@ -4,7 +4,6 @@ namespace DagbestedingBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Contactpersoon;
-use AppBundle\Filter\FilterInterface;
 
 class ContactpersoonDao extends AbstractDao implements ContactpersoonDaoInterface
 {

@@ -13,7 +13,6 @@ use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpaanbodFilter;
-use AppBundle\Form\FilterType;
 use Symfony\Component\Form\AbstractType;
 
 class IzHulpaanbodFilterType extends AbstractType

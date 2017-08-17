@@ -14,7 +14,7 @@ class VerslavingsgebruikswijzenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid verslavingsgebruikswijze', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('verslavingsgebruikswijze', $this->Verslavingsgebruikswijze->read(null, $id));
     }
@@ -25,7 +25,7 @@ class VerslavingsgebruikswijzenController extends AppController
             $this->Verslavingsgebruikswijze->create();
             if ($this->Verslavingsgebruikswijze->save($this->data)) {
                 $this->flash(__('The verslavingsgebruikswijze has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verslavingsgebruikswijze could not be saved. Please, try again.', true));
             }
@@ -38,12 +38,12 @@ class VerslavingsgebruikswijzenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid verslavingsgebruikswijze', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Verslavingsgebruikswijze->save($this->data)) {
                 $this->flash(__('The verslavingsgebruikswijze has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verslavingsgebruikswijze could not be saved. Please, try again.', true));
             }
@@ -59,13 +59,13 @@ class VerslavingsgebruikswijzenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verslavingsgebruikswijze', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Verslavingsgebruikswijze->delete($id)) {
             $this->flashError(__('Verslavingsgebruikswijze deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Verslavingsgebruikswijze was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

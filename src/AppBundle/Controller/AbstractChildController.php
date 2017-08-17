@@ -24,7 +24,7 @@ class AbstractChildController extends AbstractController
     public function addAction(Request $request)
     {
         list($parentEntity, $parentDao) = $this->getParentConfig($request);
-        $entity = new $this->entityClass;
+        $entity = new $this->entityClass();
 
         $form = $this->createForm($this->formClass, $entity);
         $form->handleRequest($request);

@@ -4,9 +4,6 @@ namespace DagbestedingBundle\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\SymfonyController;
-use AppBundle\Form\ConfirmationType;
-use DagbestedingBundle\Form\AfsluitingType;
-use DagbestedingBundle\Service\AfsluitingDaoInterface;
 
 /**
  * @Route

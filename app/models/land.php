@@ -33,7 +33,7 @@ class Land extends AppModel
         foreach ($this->preferredCountries as $preferredCountry) {
             $key = array_search($preferredCountry, $landen);
             if (false !== $key) {
-                unset($landen[ $key]);
+                unset($landen[$key]);
                 $landen = [(string) $key => $preferredCountry] + $landen;
             }
         }

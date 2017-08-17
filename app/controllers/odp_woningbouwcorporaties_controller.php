@@ -1,9 +1,6 @@
 <?php
 
-use AppBundle\Entity\Klant;
-use OdpBundle\Entity\OdpHuurder;
 use OdpBundle\Entity\OdpHuurovereenkomst;
-use OdpBundle\Form\OdpHuurovereenkomstFilterType;
 use OdpBundle\Form\OdpHuurovereenkomstType;
 use OdpBundle\Entity\OdpWoningbouwcorporatie;
 use OdpBundle\Service\OdpWoningbouwcorporatieDaoInterface;
@@ -35,7 +32,8 @@ class OdpWoningbouwcorporatiesController extends AppController
 
     public function index()
     {
-        var_dump($this->odpWoningbouwcorporatieDao); die;
+        var_dump($this->odpWoningbouwcorporatieDao);
+        die;
         $dao = $this->container->get('odp.dao.odp_woningbouwcorporatie');
 
         $pagination = $dao->findAll($this->getRequest()->get('page', 1), [

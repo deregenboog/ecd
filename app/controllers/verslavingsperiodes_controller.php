@@ -14,7 +14,7 @@ class VerslavingsperiodesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid verslavingsperiode', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('verslavingsperiode', $this->Verslavingsperiode->read(null, $id));
     }
@@ -25,7 +25,7 @@ class VerslavingsperiodesController extends AppController
             $this->Verslavingsperiode->create();
             if ($this->Verslavingsperiode->save($this->data)) {
                 $this->flashError(__('The verslavingsperiode has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verslavingsperiode could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class VerslavingsperiodesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid verslavingsperiode', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Verslavingsperiode->save($this->data)) {
                 $this->flashError(__('The verslavingsperiode has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verslavingsperiode could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class VerslavingsperiodesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verslavingsperiode', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Verslavingsperiode->delete($id)) {
             $this->flashError(__('Verslavingsperiode deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Verslavingsperiode was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }
