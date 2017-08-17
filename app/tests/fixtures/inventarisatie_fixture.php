@@ -4,5 +4,5 @@
 class InventarisatieFixture extends CakeTestFixture
 {
     public $name = 'Inventarisatie';
-    public $import = array('model' => 'Inventarisatie', 'records' => true);
+    public $import = ['model' => 'Inventarisatie', 'records' => true];
 }

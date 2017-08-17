@@ -5,36 +5,36 @@ class VrijwilligerFixture extends CakeTestFixture
 {
     public $name = 'Vrijwilliger';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'voornaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'tussenvoegsel' => array('type' => 'string', 'null' => true, 'default' => null),
-        'achternaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'roepnaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'geslacht_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-        'geboortedatum' => array('type' => 'date', 'null' => true, 'default' => null, 'key' => 'index'),
-        'land_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-        'nationaliteit_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-        'BSN' => array('type' => 'string', 'null' => false, 'default' => null),
-        'medewerker_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'adres' => array('type' => 'string', 'null' => true, 'default' => null),
-        'postcode' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 6),
-        'werkgebied' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20),
-        'plaats' => array('type' => 'string', 'null' => true, 'default' => null),
-        'email' => array('type' => 'string', 'null' => true, 'default' => null),
-        'mobiel' => array('type' => 'string', 'null' => true, 'default' => null),
-        'telefoon' => array('type' => 'string', 'null' => true, 'default' => null),
-        'opmerking' => array('type' => 'text', 'null' => true, 'default' => null),
-        'geen_post' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
-        'disabled' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_klanten_geboortedatum' => array('column' => 'geboortedatum', 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'voornaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'tussenvoegsel' => ['type' => 'string', 'null' => true, 'default' => null],
+        'achternaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'roepnaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'geslacht_id' => ['type' => 'integer', 'null' => false, 'default' => '0'],
+        'geboortedatum' => ['type' => 'date', 'null' => true, 'default' => null, 'key' => 'index'],
+        'land_id' => ['type' => 'integer', 'null' => false, 'default' => '1'],
+        'nationaliteit_id' => ['type' => 'integer', 'null' => false, 'default' => '1'],
+        'BSN' => ['type' => 'string', 'null' => false, 'default' => null],
+        'medewerker_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'adres' => ['type' => 'string', 'null' => true, 'default' => null],
+        'postcode' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 6],
+        'werkgebied' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20],
+        'plaats' => ['type' => 'string', 'null' => true, 'default' => null],
+        'email' => ['type' => 'string', 'null' => true, 'default' => null],
+        'mobiel' => ['type' => 'string', 'null' => true, 'default' => null],
+        'telefoon' => ['type' => 'string', 'null' => true, 'default' => null],
+        'opmerking' => ['type' => 'text', 'null' => true, 'default' => null],
+        'geen_post' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 4],
+        'disabled' => ['type' => 'boolean', 'null' => true, 'default' => '0'],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1], 'idx_klanten_geboortedatum' => ['column' => 'geboortedatum', 'unique' => 0]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'voornaam' => 'Lorem ipsum dolor sit amet',
             'tussenvoegsel' => 'Lorem ipsum dolor sit amet',
@@ -58,6 +58,6 @@ class VrijwilligerFixture extends CakeTestFixture
             'disabled' => 1,
             'created' => '2014-05-03 15:18:15',
             'modified' => '2014-05-03 15:18:15',
-        ),
-    );
+        ],
+    ];
 }

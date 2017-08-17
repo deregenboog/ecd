@@ -6,32 +6,31 @@ class RapportageRegistratieFixture extends CakeTestFixture
     public $name = 'RapportageRegistratie';
     public $table = 'registraties';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'locatie_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'klant_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'binnen' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
-        'buiten' => array('type' => 'timestamp', 'null' => true, 'default' => null),
-        'douche' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'kleding' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'maaltijd' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'activering' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'locatie_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'klant_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'binnen' => ['type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'],
+        'buiten' => ['type' => 'timestamp', 'null' => true, 'default' => null],
+        'douche' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'kleding' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'maaltijd' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'activering' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
     /*
      * two checked out registraties and two "active"
     */
-    public $records = array(
-
+    public $records = [
     //registered on 2010-08-17:
     //4 unique clients
     //3 showers, 2 meals
     //times in: 4', 10', 60', 15'
-        array(
+        [
             'id' => 1,
             'locatie_id' => 1,
             'klant_id' => 3,
@@ -43,8 +42,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
             'modified' => '2010-08-17 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'locatie_id' => 1,
             'klant_id' => 4,
@@ -56,8 +55,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
             'modified' => '2010-08-17 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'locatie_id' => 1,
             'klant_id' => 12,
@@ -69,8 +68,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
             'modified' => '2010-08-17 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 4,
             'locatie_id' => 1,
             'klant_id' => 11,
@@ -82,12 +81,12 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-17 15:05:47',
             'modified' => '2010-08-17 15:05:47',
-        ),
+        ],
     //registered on 2010-08-18:
     //4 unique clients (the same clients as on 2010-08-18
     //1 shower, 3 meals
     //times in: 24', 20', 60', 15'
-        array(
+        [
             'id' => 5,
             'locatie_id' => 1,
             'klant_id' => 3,
@@ -99,8 +98,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
             'modified' => '2010-08-18 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 6,
             'locatie_id' => 1,
             'klant_id' => 4,
@@ -112,8 +111,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
             'modified' => '2010-08-18 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 7,
             'locatie_id' => 1,
             'klant_id' => 12,
@@ -125,8 +124,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
             'modified' => '2010-08-18 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 8,
             'locatie_id' => 1,
             'klant_id' => 11,
@@ -138,12 +137,12 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-18 15:05:47',
             'modified' => '2010-08-18 15:05:47',
-        ),
+        ],
     //registered on 2010-08-19:
     //3 unique clients (client 4 registered for two periods)
     //2 showers, 4 meals
     //times in: 48', 30' + 5h 7', 25'
-        array(
+        [
             'id' => 9,
             'locatie_id' => 1,
             'klant_id' => 3,
@@ -155,8 +154,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
             'modified' => '2010-08-19 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 10,
             'locatie_id' => 1,
             'klant_id' => 4,
@@ -168,8 +167,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
             'modified' => '2010-08-19 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 11,
             'locatie_id' => 1,
             'klant_id' => 4,
@@ -181,8 +180,8 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
             'modified' => '2010-08-19 15:05:47',
-        ),
-        array(
+        ],
+        [
             'id' => 12,
             'locatie_id' => 1,
             'klant_id' => 11,
@@ -194,6 +193,6 @@ class RapportageRegistratieFixture extends CakeTestFixture
             'activering' => 1,
             'created' => '2010-08-19 15:05:47',
             'modified' => '2010-08-19 15:05:47',
-        ),
-    );
+        ],
+    ];
 }

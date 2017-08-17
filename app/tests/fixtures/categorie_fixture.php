@@ -4,5 +4,5 @@
 class CategorieFixture extends CakeTestFixture
 {
     public $name = 'Categorie';
-    public $import = array('model' => 'Categorie', 'records' => true);
+    public $import = ['model' => 'Categorie', 'records' => true];
 }

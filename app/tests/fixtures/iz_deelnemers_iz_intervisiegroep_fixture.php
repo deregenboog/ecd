@@ -5,23 +5,23 @@ class IzDeelnemersIzIntervisiegroepFixture extends CakeTestFixture
 {
     public $name = 'IzDeelnemersIzIntervisiegroep';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'iz_deelnemer_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'iz_intervisiegroep_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'iz_deelnemer_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'iz_intervisiegroep_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'iz_deelnemer_id' => 1,
             'iz_intervisiegroep_id' => 1,
             'created' => '2014-08-20 15:12:16',
             'modified' => '2014-08-20 15:12:16',
-        ),
-    );
+        ],
+    ];
 }

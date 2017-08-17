@@ -1,47 +1,51 @@
 <?php
+
 /* IzViaPersonen Test cases generated on: 2014-12-12 15:12:41 : 1418393621*/
 App::import('Controller', 'IzViaPersonen');
 
-class TestIzViaPersonenController extends IzViaPersonenController {
-	var $autoRender = false;
+class TestIzViaPersonenController extends IzViaPersonenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class IzViaPersonenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.iz_via_persoon');
+class IzViaPersonenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.iz_via_persoon'];
 
-	function startTest() {
-		$this->IzViaPersonen =& new TestIzViaPersonenController();
-		$this->IzViaPersonen->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->IzViaPersonen = new TestIzViaPersonenController();
+        $this->IzViaPersonen->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->IzViaPersonen);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->IzViaPersonen);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

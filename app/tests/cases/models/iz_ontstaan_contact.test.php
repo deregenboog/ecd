@@ -5,7 +5,7 @@ App::import('Model', 'IzOntstaanContact');
 
 class IzOntstaanContactTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.iz_ontstaan_contact');
+    public $fixtures = ['app.iz_ontstaan_contact'];
 
     public function startTest()
     {

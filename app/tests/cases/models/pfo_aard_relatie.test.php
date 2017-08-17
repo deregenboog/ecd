@@ -5,7 +5,7 @@ App::import('Model', 'PfoAardRelatie');
 
 class PfoAardRelatieTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.pfo_aard_relatie');
+    public $fixtures = ['app.pfo_aard_relatie'];
 
     public function startTest()
     {

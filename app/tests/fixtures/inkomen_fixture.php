@@ -4,5 +4,5 @@
 class InkomenFixture extends CakeTestFixture
 {
     public $name = 'Inkomen';
-    public $import = array('model' => 'Inkomen', 'records' => true);
+    public $import = ['model' => 'Inkomen', 'records' => true];
 }

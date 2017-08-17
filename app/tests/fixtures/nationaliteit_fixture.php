@@ -4,5 +4,5 @@
 class NationaliteitFixture extends CakeTestFixture
 {
     public $name = 'Nationaliteit';
-    public $import = array('model' => 'Nationaliteit', 'records' => true);
+    public $import = ['model' => 'Nationaliteit', 'records' => true];
 }

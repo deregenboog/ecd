@@ -5,27 +5,27 @@ class ZrmSettingFixture extends CakeTestFixture
 {
     public $name = 'ZrmSetting';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'request_module' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50),
-        'inkomen' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'dagbesteding' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'huisvesting' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'gezinsrelaties' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'fysieke_gezondheid' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'verslaving' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'adl_vaardigheden' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'sociaal_netwerk' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'maatschappelijke_participatie' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'justitie' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'request_module' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50],
+        'inkomen' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'dagbesteding' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'huisvesting' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'gezinsrelaties' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'fysieke_gezondheid' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'verslaving' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'adl_vaardigheden' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'sociaal_netwerk' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'maatschappelijke_participatie' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'justitie' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'request_module' => 'Lorem ipsum dolor sit amet',
             'inkomen' => 1,
@@ -40,6 +40,6 @@ class ZrmSettingFixture extends CakeTestFixture
             'justitie' => 1,
             'created' => '2013-11-26 17:54:39',
             'modified' => '2013-11-26 17:54:39',
-        ),
-    );
+        ],
+    ];
 }

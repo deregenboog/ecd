@@ -2,7 +2,6 @@
 
 namespace Tests\IzBundle\Report;
 
-use IzBundle\Report\KlantenPerProject;
 use IzBundle\Repository\IzKlantRepository;
 use IzBundle\Report\KlantenPerProjectStadsdeel;
 

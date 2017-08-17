@@ -5,7 +5,7 @@ App::import('Model', 'ZrmReport');
 
 class ZrmReportTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.zrm_report');
+    public $fixtures = ['app.zrm_report'];
 
     public function startTest()
     {

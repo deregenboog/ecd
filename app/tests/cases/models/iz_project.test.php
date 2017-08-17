@@ -5,7 +5,7 @@ App::import('Model', 'IzProject');
 
 class IzProjectTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.iz_project');
+    public $fixtures = ['app.iz_project'];
 
     public function startTest()
     {

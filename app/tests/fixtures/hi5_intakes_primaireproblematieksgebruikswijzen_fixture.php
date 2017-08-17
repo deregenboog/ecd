@@ -5,9 +5,9 @@ class Hi5IntakesPrimaireproblematieksgebruikswijzenFixture extends CakeTestFixtu
 {
     public $name = 'Hi5IntakesPrimaireproblematieksgebruikswijzen';
     public $table = 'hi5_intakes_primaireproblematieksgebruikswijzen';
-    public $import = array(
+    public $import = [
             'model' => 'Hi5IntakesPrimaireproblematieksgebruikswijzen',
             'records' => true,
             'table' => 'hi5_intakes_primaireproblematieksgebruikswijzen',
-    );
+    ];
 }

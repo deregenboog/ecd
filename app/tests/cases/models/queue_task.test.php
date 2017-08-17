@@ -5,7 +5,7 @@ App::import('Model', 'QueueTask');
 
 class QueueTaskTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.queue_task');
+    public $fixtures = ['app.queue_task'];
 
     public function startTest()
     {

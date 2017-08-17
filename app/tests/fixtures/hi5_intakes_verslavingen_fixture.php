@@ -5,9 +5,9 @@ class Hi5IntakesVerslavingenFixture extends CakeTestFixture
 {
     public $name = 'Hi5IntakesVerslavingen';
     public $table = 'hi5_intakes_verslavingen';
-    public $import = array(
+    public $import = [
             'model' => 'Hi5IntakesVerslavingen',
             'records' => true,
             'table' => 'hi5_intakes_verslavingen',
-    );
+    ];
 }

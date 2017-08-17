@@ -5,38 +5,38 @@ class PfoClientFixture extends CakeTestFixture
 {
     public $name = 'PfoClient';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-        'roepnaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'tussenvoegsel' => array('type' => 'string', 'null' => true, 'default' => null),
-        'achternaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'geslacht_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'geboortedatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'adres' => array('type' => 'string', 'null' => true, 'default' => null),
-        'postcode' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50),
-        'woonplaats' => array('type' => 'string', 'null' => true, 'default' => null),
-        'telefoon' => array('type' => 'string', 'null' => true, 'default' => null),
-        'telefoon_mobiel' => array('type' => 'string', 'null' => true, 'default' => null),
-        'email' => array('type' => 'string', 'null' => true, 'default' => null),
-        'notitie' => array('type' => 'text', 'null' => true, 'default' => null),
-        'medewerker_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'groep' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50),
-        'pfo_clientencol' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50),
-        'dubbele_diagnose' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'eerdere_hulpverlening' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'via' => array('type' => 'text', 'null' => true, 'default' => null),
-        'hulpverleners' => array('type' => 'text', 'null' => true, 'default' => null),
-        'contacten' => array('type' => 'text', 'null' => true, 'default' => null),
-        'begeleidings_formulier' => array('type' => 'date', 'null' => true, 'default' => null),
-        'brief_huisarts' => array('type' => 'date', 'null' => true, 'default' => null),
-        'evaluatie_formulier' => array('type' => 'date', 'null' => true, 'default' => null),
-        'datum_afgesloten' => array('type' => 'date', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'],
+        'roepnaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'tussenvoegsel' => ['type' => 'string', 'null' => true, 'default' => null],
+        'achternaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'geslacht_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'geboortedatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'adres' => ['type' => 'string', 'null' => true, 'default' => null],
+        'postcode' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 50],
+        'woonplaats' => ['type' => 'string', 'null' => true, 'default' => null],
+        'telefoon' => ['type' => 'string', 'null' => true, 'default' => null],
+        'telefoon_mobiel' => ['type' => 'string', 'null' => true, 'default' => null],
+        'email' => ['type' => 'string', 'null' => true, 'default' => null],
+        'notitie' => ['type' => 'text', 'null' => true, 'default' => null],
+        'medewerker_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'groep' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 50],
+        'pfo_clientencol' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 50],
+        'dubbele_diagnose' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'eerdere_hulpverlening' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'via' => ['type' => 'text', 'null' => true, 'default' => null],
+        'hulpverleners' => ['type' => 'text', 'null' => true, 'default' => null],
+        'contacten' => ['type' => 'text', 'null' => true, 'default' => null],
+        'begeleidings_formulier' => ['type' => 'date', 'null' => true, 'default' => null],
+        'brief_huisarts' => ['type' => 'date', 'null' => true, 'default' => null],
+        'evaluatie_formulier' => ['type' => 'date', 'null' => true, 'default' => null],
+        'datum_afgesloten' => ['type' => 'date', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'roepnaam' => 'Lorem ipsum dolor sit amet',
             'tussenvoegsel' => 'Lorem ipsum dolor sit amet',
@@ -62,6 +62,6 @@ class PfoClientFixture extends CakeTestFixture
             'brief_huisarts' => '2013-06-04',
             'evaluatie_formulier' => '2013-06-04',
             'datum_afgesloten' => '2013-06-04',
-        ),
-    );
+        ],
+    ];
 }
