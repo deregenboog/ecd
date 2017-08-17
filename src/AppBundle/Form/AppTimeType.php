@@ -16,6 +16,7 @@ class AppTimeType extends AbstractType
         $resolver->setDefaults([
             'widget' => 'single_text',
             'attr' => ['placeholder' => 'uu:mm'],
+            'html5' => false,
         ]);
     }
 
