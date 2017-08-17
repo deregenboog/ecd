@@ -79,6 +79,7 @@
             </td>
             <td>
                 {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum | date('d-m-Y') }}
+                {{ huurverzoek.afsluiting ? '('~huurverzoek.afsluiting~')' }}
             </td>
             <td>
                 {{ html.viewLink(path('odp_huurverzoeken_view', {id: huurverzoek.id})) }}

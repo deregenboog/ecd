@@ -62,6 +62,8 @@ class HuurovereenkomstenController extends SymfonyController
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
             ->innerJoin('huurder.klant', 'huurderKlant')
             ->innerJoin('verhuurder.klant', 'verhuurderKlant')
+            ->leftJoin('huurovereenkomst.afsluiting', 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
             ->andWhere('huurderKlant.disabled = false')
             ->andWhere('verhuurderKlant.disabled = false')
         ;

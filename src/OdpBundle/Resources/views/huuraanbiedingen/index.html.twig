@@ -80,6 +80,7 @@
                 </td>
                 <td>
                     {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum | date('d-m-Y') }}
+                    {{ huuraanbod.afsluiting ? '('~huuraanbod.afsluiting~')' }}
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}

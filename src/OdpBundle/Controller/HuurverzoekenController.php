@@ -50,7 +50,10 @@ class HuurverzoekenController extends SymfonyController
             ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huurverzoek.huurder', 'huurder')
             ->innerJoin('huurder.klant', 'klant')
-            ->where('huurovereenkomst.id IS NULL');
+            ->leftJoin('huurverzoek.afsluiting', 'afsluiting')
+            ->andWhere('huurovereenkomst.id IS NULL')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+        ;
 
         $filter = $this->createForm(HuurverzoekFilterType::class, null, [
             'enabled_filters' => $this->enabledFilters,

@@ -48,6 +48,8 @@ class VerhuurdersController extends SymfonyController
 
         $builder = $repository->createQueryBuilder('verhuurder')
             ->innerJoin('verhuurder.klant', 'klant')
+            ->leftJoin('verhuurder.afsluiting', 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
             ->andWhere('klant.disabled = false')
         ;
 

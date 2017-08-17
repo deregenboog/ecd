@@ -83,6 +83,7 @@
                 </td>
                 <td>
                     {{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}
+                    {{ verhuurder.afsluiting ? '('~verhuurder.afsluiting~')' }}
                 </td>
             <td>
                 {{ html.viewLink(path('odp_verhuurders_view', {'id': verhuurder.id}))}}

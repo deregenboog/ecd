@@ -15,6 +15,7 @@ class HuurovereenkomstAfsluitingDao extends AbstractDao implements AfsluitingDao
             'afsluiting.id',
             'afsluiting.naam',
             'afsluiting.actief',
+            'afsluiting.tonen',
         ],
     ];
 

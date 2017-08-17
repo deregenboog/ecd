@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VerhuurderAfsluitingenController extends AfsluitingenController
 {
+    public $title = 'Afsluitingen verhuurders';
+
     /**
      * @var VerhuurderAfsluitingDaoInterface
      *

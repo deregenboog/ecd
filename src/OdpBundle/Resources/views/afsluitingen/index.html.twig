@@ -27,6 +27,9 @@
                 {{ knp_pagination_sortable(pagination, 'Actief', 'afsluiting.actief') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Tonen in lijst', 'afsluiting.tonen') }}
+            </th>
+            <th>
             </th>
         </tr>
         {% for entity in pagination %}
@@ -41,8 +44,13 @@
                     {{ entity.actief ? 'ja' : 'nee' }}
                 </td>
                 <td>
+                    {{ entity.tonen ? 'ja' : 'nee' }}
+                </td>
+                <td>
                     {{ html.editLink(path(route_base ~ 'edit', {'id': entity.id})) }}
-                    {{ html.deleteLink(path(route_base ~ 'delete', {'id': entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path(route_base ~ 'delete', {'id': entity.id})) }}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

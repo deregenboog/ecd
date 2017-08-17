@@ -44,6 +44,12 @@ abstract class Afsluiting
      */
     protected $actief = true;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $tonen = true;
+
     public function __toString()
     {
         return $this->getNaam();
@@ -74,6 +80,18 @@ abstract class Afsluiting
     public function setActief($actief)
     {
         $this->actief = $actief;
+
+        return $this;
+    }
+
+    public function isTonen()
+    {
+        return $this->tonen;
+    }
+
+    public function setTonen($tonen)
+    {
+        $this->tonen = $tonen;
 
         return $this;
     }
