@@ -6,8 +6,8 @@ class Doorverwijzer extends AppModel
     public $displayField = 'naam';
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-    public $hasMany = array(
-        'InventarisatiesVerslagen' => array(
+    public $hasMany = [
+        'InventarisatiesVerslagen' => [
             'className' => 'InventarisatiesVerslagen',
             'foreignKey' => 'doorverwijzer_id',
             'dependent' => false,
@@ -19,16 +19,16 @@ class Doorverwijzer extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public function &getLists()
     {
         $this->recursive = -1;
-        $all = &$this->find('all', array(
+        $all = &$this->find('all', [
             'order' => 'type, naam ASC',
-            'fields' => array('type', 'id', 'naam'),
-        ));
+            'fields' => ['type', 'id', 'naam'],
+        ]);
 
         $result = [];
 

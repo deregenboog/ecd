@@ -99,11 +99,11 @@ class OdpHuurdersController extends AppController
 
                     $this->Session->setFlash('Huurder is opgeslagen.');
 
-                    return $this->redirect(array('action' => 'view', $odpHuurder->getId()));
+                    return $this->redirect(['action' => 'view', $odpHuurder->getId()]);
                 } catch (\Exception $e) {
                     $this->Session->setFlash('Er is een fout opgetreden.');
 
-                    return $this->redirect(array('action' => 'index'));
+                    return $this->redirect(['action' => 'index']);
                 }
             }
 

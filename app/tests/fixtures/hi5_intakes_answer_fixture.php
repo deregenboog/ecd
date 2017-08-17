@@ -5,9 +5,9 @@ class Hi5IntakesAnswerFixture extends CakeTestFixture
 {
     public $name = 'Hi5IntakesAnswer';
     public $table = 'hi5_intakes_answers';
-    public $import = array(
+    public $import = [
             'model' => 'Hi5IntakesAnswer',
             'records' => true,
             'table' => 'hi5_intakes_answers',
-    );
+    ];
 }

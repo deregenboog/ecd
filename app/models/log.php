@@ -24,13 +24,13 @@ class Log extends AppModel
             $limit = 1;
         }
         $this->recursive = -1;
-        $options = array('limit' => $limit);
-        $options['conditions'] = array(
+        $options = ['limit' => $limit];
+        $options['conditions'] = [
             'model' => $models,
             'foreign_key' => $foreignKeys,
             'action' => $actions,
             'user_id' => $userIds,
-        );
+        ];
         $options['conditions'] = array_filter($options['conditions']);
         $results = $this->find('all', $options);
 

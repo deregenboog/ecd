@@ -5,22 +5,22 @@ class IzVerslag extends AppModel
     public $name = 'IzVerslag';
     public $displayField = 'medewerker_id';
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $belongsTo = array(
-        'IzDeelnemer' => array(
+    public $belongsTo = [
+        'IzDeelnemer' => [
             'className' => 'IzDeelnemer',
             'foreignKey' => 'iz_deelnemer_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }

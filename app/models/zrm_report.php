@@ -2,7 +2,7 @@
 
 class ZrmReport extends AppModel
 {
-    static public $zrmReportModels = [
+    public static $zrmReportModels = [
         'ZrmV2Report' => '2017-08-01',
         'ZrmReport' => '2010-01-01',
     ];
@@ -136,12 +136,12 @@ class ZrmReport extends AppModel
         ],
     ];
 
-    static public function getZrmReportModels()
+    public static function getZrmReportModels()
     {
         return array_keys(self::$zrmReportModels);
     }
 
-    static public function getZrmReportModel()
+    public static function getZrmReportModel()
     {
         $today = new \DateTime('today');
         foreach (self::$zrmReportModels as $zrmReportModel => $date) {

@@ -5,9 +5,9 @@ class AwbzIntakesVerslavingsgebruikswijzeFixture extends CakeTestFixture
 {
     public $name = 'AwbzIntakesVerslavingsgebruikswijze';
     public $table = 'awbz_intakes_verslavingsgebruikswijzen';
-    public $import = array(
+    public $import = [
             'model' => 'AwbzIntakesVerslavingsgebruikswijze',
             'records' => true,
             'table' => 'awbz_intakes_verslavingsgebruikswijzen',
-    );
+    ];
 }

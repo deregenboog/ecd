@@ -14,7 +14,7 @@ class InkomensController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid inkomen', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('inkomen', $this->Inkomen->read(null, $id));
     }
@@ -25,7 +25,7 @@ class InkomensController extends AppController
             $this->Inkomen->create();
             if ($this->Inkomen->save($this->data)) {
                 $this->flashError(__('The inkomen has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The inkomen could not be saved. Please, try again.', true));
             }
@@ -38,12 +38,12 @@ class InkomensController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid inkomen', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Inkomen->save($this->data)) {
                 $this->flashError(__('The inkomen has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The inkomen could not be saved. Please, try again.', true));
             }
@@ -59,13 +59,13 @@ class InkomensController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for inkomen', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Inkomen->delete($id)) {
             $this->flashError(__('Inkomen deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Inkomen was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

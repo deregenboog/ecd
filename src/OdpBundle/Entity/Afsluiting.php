@@ -20,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "huurovereenkomst" = "HuurovereenkomstAfsluiting"
  * })
  * @Gedmo\Loggable
-*/
+ */
 abstract class Afsluiting
 {
     use TimestampableTrait;

@@ -14,7 +14,7 @@ class WoonsituatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid woonsituatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('woonsituatie', $this->Woonsituatie->read(null, $id));
     }
@@ -25,7 +25,7 @@ class WoonsituatiesController extends AppController
             $this->Woonsituatie->create();
             if ($this->Woonsituatie->save($this->data)) {
                 $this->flashError(__('The woonsituatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The woonsituatie could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class WoonsituatiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid woonsituatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Woonsituatie->save($this->data)) {
                 $this->flashError(__('The woonsituatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The woonsituatie could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class WoonsituatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for woonsituatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Woonsituatie->delete($id)) {
             $this->flashError(__('Woonsituatie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Woonsituatie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

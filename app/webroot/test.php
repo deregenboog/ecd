@@ -12,7 +12,7 @@
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html
  * @since         CakePHP(tm) v 1.2.0.4433
  *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License

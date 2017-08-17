@@ -4,5 +4,5 @@
 class LegitimatieFixture extends CakeTestFixture
 {
     public $name = 'Legitimatie';
-    public $import = array('model' => 'Legitimatie', 'records' => true);
+    public $import = ['model' => 'Legitimatie', 'records' => true];
 }

@@ -4,10 +4,10 @@ class Nationaliteit extends AppModel
 {
     public $name = 'Nationaliteit';
     public $displayField = 'naam';
-    public $order = array('id');
+    public $order = ['id'];
 
-    public $hasMany = array(
-        'Klant' => array(
+    public $hasMany = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'nationaliteit_id',
             'dependent' => false,
@@ -19,8 +19,8 @@ class Nationaliteit extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public $cachekey = 'NationaliteitenList';
 

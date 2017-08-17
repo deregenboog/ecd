@@ -3,8 +3,6 @@
 namespace AppBundle\Export;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use AppBundle\Export\ExportException;
-use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
 class GenericExport extends AbstractExport
 {
@@ -35,7 +33,7 @@ class GenericExport extends AbstractExport
         $sheet = $this->prepare();
 
         $language = new ExpressionLanguage();
-        $language->register('empty', function($array) {}, function($arguments, $array) {
+        $language->register('empty', function ($array) {}, function ($arguments, $array) {
             return empty($array);
         });
 
@@ -43,7 +41,6 @@ class GenericExport extends AbstractExport
         $row = 2;
 
         foreach ($entities as $entity) {
-
             if ($this->class === 'array') {
                 if (!is_array($entity)) {
                     throw new ExportException('Class %s only supports array\'s', __CLASS__);

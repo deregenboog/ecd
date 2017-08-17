@@ -5,17 +5,17 @@ class StadsdeelFixture extends CakeTestFixture
 {
     public $name = 'Stadsdeel';
 
-    public $fields = array(
-        'postcode' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'stadsdeel' => array('type' => 'string', 'null' => false, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'postcode', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'postcode' => ['type' => 'string', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'stadsdeel' => ['type' => 'string', 'null' => false, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'postcode', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'postcode' => 'Lorem ipsum dolor sit amet',
             'stadsdeel' => 'Lorem ipsum dolor sit amet',
-        ),
-    );
+        ],
+    ];
 }

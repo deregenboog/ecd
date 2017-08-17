@@ -5,24 +5,24 @@ class MedewerkerFixture extends CakeTestFixture
 {
     public $name = 'Medewerker';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'username' => array('type' => 'string', 'null' => false, 'default' => null),
-        'voornaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'tussenvoegsel' => array('type' => 'string', 'null' => true, 'default' => null),
-        'achternaam' => array('type' => 'string', 'null' => true, 'default' => null),
-        'email' => array('type' => 'string', 'null' => true, 'default' => null),
-        'eerste_bezoek' => array('type' => 'datetime', 'null' => false, 'default' => null),
-        'laatste_bezoek' => array('type' => 'datetime', 'null' => false, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'uidnumber' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'username' => ['type' => 'string', 'null' => false, 'default' => null],
+        'voornaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'tussenvoegsel' => ['type' => 'string', 'null' => true, 'default' => null],
+        'achternaam' => ['type' => 'string', 'null' => true, 'default' => null],
+        'email' => ['type' => 'string', 'null' => true, 'default' => null],
+        'eerste_bezoek' => ['type' => 'datetime', 'null' => false, 'default' => null],
+        'laatste_bezoek' => ['type' => 'datetime', 'null' => false, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'uidnumber' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1005,
             'username' => 'aradolov',
             'voornaam' => 'Arkadiy',
@@ -34,8 +34,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2010-11-26 10:23:21',
             'modified' => '2012-01-10 10:45:12',
             'uidnumber' => 20475,
-        ),
-        array(
+        ],
+        [
             'id' => 1006,
             'username' => 'ewout',
             'voornaam' => 'Ewout',
@@ -47,8 +47,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2010-11-18 11:05:19',
             'modified' => '2010-11-24 10:06:04',
             'uidnumber' => 1006,
-        ),
-        array(
+        ],
+        [
             'id' => 1007,
             'username' => 'arniemantsverdriet',
             'voornaam' => 'Rose-Anne',
@@ -60,8 +60,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2011-01-04 13:48:28',
             'modified' => '2011-01-05 12:19:56',
             'uidnumber' => 1007,
-        ),
-        array(
+        ],
+        [
             'id' => 1008,
             'username' => 'mvissie',
             'voornaam' => 'Melissa',
@@ -73,8 +73,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2010-11-04 17:33:58',
             'modified' => '2011-08-19 11:39:29',
             'uidnumber' => 20479,
-        ),
-        array(
+        ],
+        [
             'id' => 1010,
             'username' => 'cstinger',
             'voornaam' => 'Charlotte',
@@ -86,8 +86,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2010-11-09 14:58:41',
             'modified' => '2011-01-26 09:06:22',
             'uidnumber' => 1010,
-        ),
-        array(
+        ],
+        [
             'id' => 1013,
             'username' => 'vjbennenk',
             'voornaam' => 'Vanessa',
@@ -99,8 +99,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2011-01-12 07:50:54',
             'modified' => '2011-01-20 07:53:22',
             'uidnumber' => 1013,
-        ),
-        array(
+        ],
+        [
             'id' => 1015,
             'username' => 'jkalf',
             'voornaam' => 'Jeroen',
@@ -112,8 +112,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2011-01-20 11:22:53',
             'modified' => '2011-01-27 12:01:42',
             'uidnumber' => 1015,
-        ),
-        array(
+        ],
+        [
             'id' => 1017,
             'username' => 'stage-deeik-a',
             'voornaam' => 'Stage',
@@ -125,8 +125,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2010-12-28 11:28:34',
             'modified' => '2010-12-28 11:28:34',
             'uidnumber' => 1017,
-        ),
-        array(
+        ],
+        [
             'id' => 20002,
             'username' => 'adbruijn',
             'voornaam' => 'Ad',
@@ -138,8 +138,8 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2011-01-11 16:20:11',
             'modified' => '2011-07-05 14:02:47',
             'uidnumber' => 20002,
-        ),
-        array(
+        ],
+        [
             'id' => 20004,
             'username' => 'asuuroverste',
             'voornaam' => 'Anita',
@@ -151,6 +151,6 @@ class MedewerkerFixture extends CakeTestFixture
             'created' => '2010-11-04 00:08:06',
             'modified' => '2012-01-02 17:07:34',
             'uidnumber' => 20004,
-        ),
-    );
+        ],
+    ];
 }

@@ -5,9 +5,9 @@ class AwbzIntakesPrimaireproblematieksgebruikswijzeFixture extends CakeTestFixtu
 {
     public $name = 'AwbzIntakesPrimaireproblematieksgebruikswijze';
     public $table = 'awbz_intakes_primaireproblematieksgebruikswijzen';
-    public $import = array(
+    public $import = [
             'model' => 'AwbzIntakesPrimaireproblematieksgebruikswijze',
             'records' => true,
             'table' => 'awbz_intakes_primaireproblematieksgebruikswijzen',
-    );
+    ];
 }

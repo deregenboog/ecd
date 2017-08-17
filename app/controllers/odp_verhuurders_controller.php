@@ -7,10 +7,8 @@ use OdpBundle\Form\OdpHuuraanbodType;
 use OdpBundle\Form\OdpVerhuurderType;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Form\OdpVerhuurderSelectType;
-use Doctrine\DBAL\Driver\PDOException;
 use OdpBundle\Form\OdpVerhuurderFilterType;
 use AppBundle\Form\ConfirmationType;
-use OdpBundle\Entity\HsMemo;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormError;
 
@@ -101,11 +99,11 @@ class OdpVerhuurdersController extends AppController
 
                     $this->Session->setFlash('Verhuurder is opgeslagen.');
 
-                    return $this->redirect(array('action' => 'view', $odpVerhuurder->getId()));
+                    return $this->redirect(['action' => 'view', $odpVerhuurder->getId()]);
                 } catch (\Exception $e) {
                     $this->Session->setFlash('Er is een fout opgetreden.');
 
-                    return $this->redirect(array('action' => 'index'));
+                    return $this->redirect(['action' => 'index']);
                 }
             }
 
@@ -156,7 +154,7 @@ class OdpVerhuurdersController extends AppController
 
                 $this->Session->setFlash('Klant is opgeslagen.');
 
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(['action' => 'index']);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
@@ -180,7 +178,7 @@ class OdpVerhuurdersController extends AppController
 
             $this->Session->setFlash('Klant is verwijderd.');
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         }
 
         $this->set('odpVerhuurder', $odpVerhuurder);

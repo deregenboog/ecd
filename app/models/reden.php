@@ -5,13 +5,13 @@ class Reden extends AppModel
     public $name = 'Reden';
     public $displayField = 'naam';
 
-    public $violent = array(
+    public $violent = [
         'Fysieke agressie',
         'Verbale agressie',
-    );
+    ];
 
-    public $hasAndBelongsToMany = array(
-        'Schorsing' => array(
+    public $hasAndBelongsToMany = [
+        'Schorsing' => [
             'className' => 'Schorsing',
             'joinTable' => 'schorsingen_redenen',
             'foreignKey' => 'reden_id',
@@ -25,8 +25,8 @@ class Reden extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public function get_schorsing_redenen()
     {

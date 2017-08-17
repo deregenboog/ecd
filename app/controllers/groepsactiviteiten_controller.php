@@ -785,7 +785,6 @@ class GroepsactiviteitenController extends AppController
                 $personen = $this->Groepsactiviteit->get_personen($this->data);
 
                 if ($this->data['Groepsactiviteit']['export'] == 'csv') {
-
                     $this->autoRender = false;
                     $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 

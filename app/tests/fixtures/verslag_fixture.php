@@ -4,5 +4,5 @@
 class VerslagFixture extends CakeTestFixture
 {
     public $name = 'Verslag';
-    public $import = array('model' => 'Verslag', 'records' => true);
+    public $import = ['model' => 'Verslag', 'records' => true];
 }

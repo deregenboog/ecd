@@ -30,7 +30,7 @@ class FormatHelper extends AppHelper
      */
     const UL_LIST_CHECKBOXES = 'ullistcheckboxes';
 
-    public $helpers = array('date', 'html');
+    public $helpers = ['date', 'html'];
 
     /*
      * prints a '-' when the DB data is empty.
@@ -191,10 +191,10 @@ class FormatHelper extends AppHelper
     public function collect($array, $field = 'naam')
     {
         if (!is_array($array)) {
-            return array();
+            return [];
         }
 
-        $result = array();
+        $result = [];
         foreach ($array as $item) {
             $result[] = $item[$field];
         }

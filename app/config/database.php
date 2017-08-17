@@ -1,4 +1,5 @@
 <?php
+
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 
 /**
@@ -16,7 +17,7 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver;
  *
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 0.2.9
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -71,7 +72,7 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver;
  */
 class DATABASE_CONFIG
 {
-    public $default = array(
+    public $default = [
         'driver' => '',
         'persistent' => false,
         'host' => '',
@@ -80,9 +81,9 @@ class DATABASE_CONFIG
         'database' => '',
         'encoding' => '',
         'prefix' => '',
-    );
+    ];
 
-    public $test = array(
+    public $test = [
         'driver' => '',
         'persistent' => false,
         'host' => '',
@@ -91,7 +92,7 @@ class DATABASE_CONFIG
         'database' => '',
         'encoding' => '',
         'prefix' => '',
-    );
+    ];
 
     public function __construct()
     {
@@ -107,7 +108,7 @@ class DATABASE_CONFIG
                 $this->default['driver'] = 'mysql';
                 break;
             default:
-                throw new \Exception('Unsupported database driver: '. $conn->getDriver()->getName());
+                throw new \Exception('Unsupported database driver: '.$conn->getDriver()->getName());
         }
 
         $this->default['host'] = $conn->getHost();

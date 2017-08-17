@@ -36,9 +36,9 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         $repository = $this->getEntityManager()->getRepository(GaVrijwilligerIntake::class);
         $builder = $repository->createQueryBuilder('intake')
             ->select('intake, vrijwilliger, medewerker')
-            ->innerJoin("intake.vrijwilliger", 'vrijwilliger')
+            ->innerJoin('intake.vrijwilliger', 'vrijwilliger')
             ->innerJoin('vrijwilliger.medewerker', 'medewerker')
-            ->andWhere("vrijwilliger.disabled = false")
+            ->andWhere('vrijwilliger.disabled = false')
         ;
 
         $filter = $this->createFilter();
@@ -50,7 +50,7 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => "vrijwilliger.achternaam",
+            'defaultSortFieldName' => 'vrijwilliger.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
             'wrap-queries' => true, // because of HAVING clause in filter

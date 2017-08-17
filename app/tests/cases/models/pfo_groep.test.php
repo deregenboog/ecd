@@ -5,7 +5,7 @@ App::import('Model', 'PfoGroep');
 
 class PfoGroepTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.pfo_groep');
+    public $fixtures = ['app.pfo_groep'];
 
     public function startTest()
     {

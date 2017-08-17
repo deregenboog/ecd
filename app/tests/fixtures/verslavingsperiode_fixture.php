@@ -4,5 +4,5 @@
 class VerslavingsperiodeFixture extends CakeTestFixture
 {
     public $name = 'Verslavingsperiode';
-    public $import = array('model' => 'Verslavingsperiode', 'records' => true);
+    public $import = ['model' => 'Verslavingsperiode', 'records' => true];
 }

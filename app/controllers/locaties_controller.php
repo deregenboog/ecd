@@ -14,7 +14,7 @@ class LocatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid locatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('locatie', $this->Locatie->read(null, $id));
     }
@@ -25,7 +25,7 @@ class LocatiesController extends AppController
             $this->Locatie->create();
             if ($this->Locatie->save($this->data)) {
                 $this->flashError(__('The locatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The locatie could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class LocatiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid locatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Locatie->save($this->data)) {
                 $this->flashError(__('The locatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The locatie could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class LocatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for locatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Locatie->delete($id)) {
             $this->flashError(__('Locatie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Locatie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

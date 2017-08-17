@@ -5,9 +5,9 @@ class Hi5IntakesVerslavingsgebruikswijzenFixture extends CakeTestFixture
 {
     public $name = 'Hi5IntakesVerslavingsgebruikswijzen';
     public $table = 'hi5_intakes_verslavingsgebruikswijzen';
-    public $import = array(
+    public $import = [
             'model' => 'Hi5IntakesVerslavingsgebruikswijzen',
             'records' => true,
             'table' => 'hi5_intakes_verslavingsgebruikswijzen',
-    );
+    ];
 }

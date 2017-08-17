@@ -15,7 +15,6 @@ use IzBundle\Filter\IzKlantFilter;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
 

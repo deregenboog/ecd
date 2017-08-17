@@ -14,7 +14,7 @@ class InstantiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid instantie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('instantie', $this->Instantie->read(null, $id));
     }
@@ -25,7 +25,7 @@ class InstantiesController extends AppController
             $this->Instantie->create();
             if ($this->Instantie->save($this->data)) {
                 $this->flashError(__('The instantie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The instantie could not be saved. Please, try again.', true));
             }
@@ -38,12 +38,12 @@ class InstantiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid instantie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Instantie->save($this->data)) {
                 $this->flashError(__('The instantie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The instantie could not be saved. Please, try again.', true));
             }
@@ -59,13 +59,13 @@ class InstantiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for instantie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Instantie->delete($id)) {
             $this->flashError(__('Instantie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Instantie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

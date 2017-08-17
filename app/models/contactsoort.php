@@ -6,11 +6,11 @@ class Contactsoort extends AppModel
 
     public $displayField = 'text';
 
-    public $validate = array(
-        'text' => array(
-            'notempty' => array(
+    public $validate = [
+        'text' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 }

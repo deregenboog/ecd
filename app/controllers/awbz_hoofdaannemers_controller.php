@@ -3,7 +3,7 @@
 class AwbzHoofdaannemersController extends AppController
 {
     public $name = 'AwbzHoofdaannemers';
-    public $uses = array('AwbzHoofdaannemer');
+    public $uses = ['AwbzHoofdaannemer'];
 
     public function add($klant_id = null)
     {
@@ -22,13 +22,13 @@ class AwbzHoofdaannemersController extends AppController
                 $this->data['AwbzHoofdaannemer']['klant_id'] = $klant_id;
 
                 $this->AwbzHoofdaannemer->recursive = -1;
-                $previous = $this->AwbzHoofdaannemer->find('first', array(
-                    'conditions' => array(
+                $previous = $this->AwbzHoofdaannemer->find('first', [
+                    'conditions' => [
                         'AwbzHoofdaannemer.klant_id' => $klant_id,
                         'AwbzHoofdaannemer.einddatum' => null,
-                    ),
+                    ],
                     'order' => 'AwbzHoofdaannemer.begindatum DESC',
-                ));
+                ]);
 
                 if (!$this->AwbzHoofdaannemer->save($this->data)) {
                     $this->flashError(__('Couldn\'t save', true));
@@ -64,20 +64,20 @@ class AwbzHoofdaannemersController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid awbz Hoofdaannemer', true));
-            $this->redirect(array(
+            $this->redirect([
                 'controller' => 'awbz',
                 'action' => 'index',
-            ));
+            ]);
         }
 
         if (!empty($this->data)) {
             if ($this->AwbzHoofdaannemer->save($this->data)) {
                 $this->flashError(__('The awbz Hoofdaannemer has been saved', true));
-                $this->redirect(array(
+                $this->redirect([
                     'controller' => 'awbz',
                     'action' => 'view',
                     $this->data['AwbzHoofdaannemer']['klant_id'],
-                ));
+                ]);
             } else {
                 $this->flashError(__('The awbz Hoofdaannemer could not be saved. Please, try again.', true));
             }
@@ -89,9 +89,9 @@ class AwbzHoofdaannemersController extends AppController
 
         $klant_id = $this->data['AwbzHoofdaannemer']['klant_id'];
 
-        $klant = $this->AwbzHoofdaannemer->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
-        ));
+        $klant = $this->AwbzHoofdaannemer->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
+        ]);
 
         $hoofdaannemers = $this->AwbzHoofdaannemer->Hoofdaannemer->find('list');
         $this->set(compact('klant', 'hoofdaannemers'));
@@ -121,10 +121,10 @@ class AwbzHoofdaannemersController extends AppController
 
     public function _render_ajax_view($klant_id)
     {
-        $klant = $this->AwbzHoofdaannemer->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
-            'contain' => array('AwbzHoofdaannemer' => array('Hoofdaannemer')),
-        ));
+        $klant = $this->AwbzHoofdaannemer->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
+            'contain' => ['AwbzHoofdaannemer' => ['Hoofdaannemer']],
+        ]);
 
         $hoofdaannemers = $this->AwbzHoofdaannemer->Hoofdaannemer->find('list');
 

@@ -5,9 +5,9 @@ class InventarisatiesVerslagFixture extends CakeTestFixture
 {
     public $name = 'InventarisatiesVerslag';
     public $table = 'inventarisaties_verslagen';
-    public $import = array(
+    public $import = [
             'model' => 'InventarisatiesVerslag',
             'records' => true,
             'table' => 'inventarisaties_verslagen',
-    );
+    ];
 }

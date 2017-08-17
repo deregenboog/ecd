@@ -3,116 +3,115 @@
 class AwbzIndicatie extends AppModel
 {
     public $name = 'AwbzIndicatie';
-    public $actsAs = array('FixDates');
-    public $validate = array(
-        'begindatum' => array(
-            'date' => array(
-                'rule' => array('date'),
+    public $actsAs = ['FixDates'];
+    public $validate = [
+        'begindatum' => [
+            'date' => [
+                'rule' => ['date'],
                 'message' => 'Datum',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notempty' => array(
+            ],
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'periodsDontOverlap' => array(
-                'rule' => array('periodsDontOverlap'),
+            ],
+            'periodsDontOverlap' => [
+                'rule' => ['periodsDontOverlap'],
                 'message' => 'Datums van indicaties mogen niet overlappen',
-                ),
-        ),
-        'einddatum' => array(
-            'date' => array(
-                'rule' => array('date'),
+                ],
+        ],
+        'einddatum' => [
+            'date' => [
+                'rule' => ['date'],
                 'message' => 'Datum',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notempty' => array(
+            ],
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'periodsDontOverlap' => array(
-                'rule' => array('periodsDontOverlap'),
+            ],
+            'periodsDontOverlap' => [
+                'rule' => ['periodsDontOverlap'],
                 'message' => 'Datums van indicaties mogen niet overlappen',
-                ),
-
-        ),
-        'begeleiding_per_week' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
+                ],
+        ],
+        'begeleiding_per_week' => [
+            'numeric' => [
+                'rule' => ['numeric'],
                 //'message' => 'Your custom message here',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notempty' => array(
+            ],
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'activering_per_week' => array(
-            'notempty' => array(
+            ],
+        ],
+        'activering_per_week' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'numeric' => array(
-                'rule' => array('numeric'),
+            ],
+            'numeric' => [
+                'rule' => ['numeric'],
                 //'message' => 'Your custom message here',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'hoofdaannemer_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'hoofdaannemer_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
-        ),
-        'Hoofdaannemer' => array(
+        ],
+        'Hoofdaannemer' => [
             'className' => 'Hoofdaannemer',
             'foreignKey' => 'hoofdaannemer_id',
             'order' => 'Hoofdaannemer.naam ASC',
-        ),
-        'Aangevraagd' => array(
+        ],
+        'Aangevraagd' => [
             'className' => 'Medewerker',
             'foreignKey' => 'aangevraagd_id',
-        ),
-    );
+        ],
+    ];
 
     public function periodsDontOverlap($val)
     {
@@ -125,16 +124,16 @@ class AwbzIndicatie extends AppModel
         foreach ($val as $field => $date) {
         }
 
-        $conditions = array(
+        $conditions = [
                 'begindatum <=' => $date, 'einddatum >=' => $date,
                 'klant_id' => $d['klant_id'],
-            );
+            ];
 
         if (!empty($d['id'])) {
-            $conditions['NOT'] = array('id' => $d['id']);
+            $conditions['NOT'] = ['id' => $d['id']];
         }
 
-        $hits = $this->find('list', array('conditions' => $conditions));
+        $hits = $this->find('list', ['conditions' => $conditions]);
 
         if ($hits) {
             return false;
@@ -177,8 +176,8 @@ class AwbzIndicatie extends AppModel
                 medewerkers AS `Medewerker` ON Medewerker.id = AwbzIndicatie.aangevraagd_id
             WHERE
                 ! aangevraagd_niet
-                AND einddatum <= "' .date('Y-m-d', strtotime('+75 days')).'"
-                AND einddatum >= "' .date('Y-m-d', strtotime('today')).'"
+                AND einddatum <= "'.date('Y-m-d', strtotime('+75 days')).'"
+                AND einddatum >= "'.date('Y-m-d', strtotime('today')).'"
                 AND NOT EXISTS (SELECT *
                                   FROM awbz_indicaties ind2
                                  WHERE ind2.einddatum > AwbzIndicatie.einddatum

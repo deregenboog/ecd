@@ -151,6 +151,7 @@ class Schorsing
     public function setDatumVan($datumVan)
     {
         $this->datumVan = $datumVan;
+
         return $this;
     }
 
@@ -162,6 +163,7 @@ class Schorsing
     public function setDatumTot($datumTot)
     {
         $this->datumTot = $datumTot;
+
         return $this;
     }
 
@@ -173,6 +175,7 @@ class Schorsing
     public function setOpmerking($opmerking)
     {
         $this->opmerking = $opmerking;
+
         return $this;
     }
 
@@ -184,6 +187,7 @@ class Schorsing
     public function setBijzonderheden($bijzonderheden)
     {
         $this->bijzonderheden = $bijzonderheden;
+
         return $this;
     }
 
@@ -195,6 +199,7 @@ class Schorsing
     public function setRedenOverig($redenOverig)
     {
         $this->redenOverig = $redenOverig;
+
         return $this;
     }
 
@@ -206,6 +211,7 @@ class Schorsing
     public function setGezien($gezien)
     {
         $this->gezien = $gezien;
+
         return $this;
     }
 
@@ -217,6 +223,7 @@ class Schorsing
     public function setAangifte($aangifte)
     {
         $this->aangifte = $aangifte;
+
         return $this;
     }
 
@@ -228,6 +235,7 @@ class Schorsing
     public function setNazorg($nazorg)
     {
         $this->nazorg = $nazorg;
+
         return $this;
     }
 
@@ -239,6 +247,7 @@ class Schorsing
     public function setAgressie($agressie)
     {
         $this->agressie = $agressie;
+
         return $this;
     }
 
@@ -250,6 +259,7 @@ class Schorsing
     public function setDoelwitAgressie1($doelwitAgressie1)
     {
         $this->doelwitAgressie1 = $doelwitAgressie1;
+
         return $this;
     }
 
@@ -261,6 +271,7 @@ class Schorsing
     public function setDoelwitAgressie2($doelwitAgressie2)
     {
         $this->doelwitAgressie2 = $doelwitAgressie2;
+
         return $this;
     }
 
@@ -272,6 +283,7 @@ class Schorsing
     public function setDoelwitAgressie3($doelwitAgressie3)
     {
         $this->doelwitAgressie3 = $doelwitAgressie3;
+
         return $this;
     }
 
@@ -283,6 +295,7 @@ class Schorsing
     public function setDoelwitAgressie4($doelwitAgressie4)
     {
         $this->doelwitAgressie4 = $doelwitAgressie4;
+
         return $this;
     }
 
@@ -294,6 +307,7 @@ class Schorsing
     public function setTypeDoelwitAgressie1($typeDoelwitAgressie1)
     {
         $this->typeDoelwitAgressie1 = $typeDoelwitAgressie1;
+
         return $this;
     }
 
@@ -305,6 +319,7 @@ class Schorsing
     public function setTypeDoelwitAgressie2($typeDoelwitAgressie2)
     {
         $this->typeDoelwitAgressie2 = $typeDoelwitAgressie2;
+
         return $this;
     }
 
@@ -316,6 +331,7 @@ class Schorsing
     public function setTypeDoelwitAgressie3($typeDoelwitAgressie3)
     {
         $this->typeDoelwitAgressie3 = $typeDoelwitAgressie3;
+
         return $this;
     }
 
@@ -327,6 +343,7 @@ class Schorsing
     public function setTypeDoelwitAgressie4($typeDoelwitAgressie4)
     {
         $this->typeDoelwitAgressie4 = $typeDoelwitAgressie4;
+
         return $this;
     }
 
@@ -338,6 +355,7 @@ class Schorsing
     public function setLocatiehoofd($locatiehoofd)
     {
         $this->locatiehoofd = $locatiehoofd;
+
         return $this;
     }
 
@@ -349,6 +367,7 @@ class Schorsing
     public function setLocaties($locaties)
     {
         $this->locaties = $locaties;
+
         return $this;
     }
 
@@ -360,6 +379,7 @@ class Schorsing
     public function setKlant($klant)
     {
         $this->klant = $klant;
+
         return $this;
     }
 
@@ -371,6 +391,7 @@ class Schorsing
     public function setCreated($created)
     {
         $this->created = $created;
+
         return $this;
     }
 
@@ -382,6 +403,7 @@ class Schorsing
     public function setModified($modified)
     {
         $this->modified = $modified;
+
         return $this;
     }
 

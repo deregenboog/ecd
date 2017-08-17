@@ -4,44 +4,44 @@ class Opmerking extends AppModel
 {
     public $name = 'Opmerking';
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Categorie' => array(
+        ],
+        'Categorie' => [
             'className' => 'Categorie',
             'foreignKey' => 'categorie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-        'categorie_id' => array(
-            'notempty' => array(
+    public $validate = [
+        'categorie_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Selecteer een categorie',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $contain = array(
-        'Categorie' => array('fields' => array('naam')),
-        'Klant' => array('fields' => array('name', 'id')),
-    );
+    public $contain = [
+        'Categorie' => ['fields' => ['naam']],
+        'Klant' => ['fields' => ['name', 'id']],
+    ];
 
     public function countUnSeenOpmerkingen($klant_id)
     {
-        $opts = array('conditions' => array('Opmerking.klant_id' => $klant_id));
+        $opts = ['conditions' => ['Opmerking.klant_id' => $klant_id]];
         $all = $this->find('count', $opts);
         if (!$all) {
             return null;

@@ -4,5 +4,5 @@
 class AwbzHoofdaannemerFixture extends CakeTestFixture
 {
     public $name = 'AwbzHoofdaannemer';
-    public $import = array('model' => 'AwbzHoofdaannemer', 'records' => true);
+    public $import = ['model' => 'AwbzHoofdaannemer', 'records' => true];
 }

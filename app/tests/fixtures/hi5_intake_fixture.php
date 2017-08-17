@@ -4,5 +4,5 @@
 class Hi5IntakeFixture extends CakeTestFixture
 {
     public $name = 'Hi5Intake';
-    public $import = array('model' => 'Hi5Intake', 'records' => true);
+    public $import = ['model' => 'Hi5Intake', 'records' => true];
 }

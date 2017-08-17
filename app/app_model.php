@@ -2,22 +2,22 @@
 
 class AppModel extends Model
 {
-    public $actsAs = array(
-        'Logable' => array(
+    public $actsAs = [
+        'Logable' => [
             'change' => 'full',
             'description_ids' => 'false',
             'displayField' => 'username',
             'foreignKey' => 'foreign_key',
             'userModel' => 'Medewerker',
             'userKey' => 'medewerker_id',
-        ),
-    );
+        ],
+    ];
 
     public $debug_caching = false;
 
     public $beforeSaveData = [];
 
-    public $ignore_caching_for = array('Log');
+    public $ignore_caching_for = ['Log'];
 
     /*
      * this function sets the field gezien to !gezien (the oposite boolean val)
@@ -34,7 +34,7 @@ class AppModel extends Model
         $row = &$this->read(null, $id);
         if (!empty($row)) {
             $this->set('gezien', !$row[$this->alias]['gezien'] ? 1 : 0);
-            if ($this->save(null, true, array('gezien'))) {
+            if ($this->save(null, true, ['gezien'])) {
                 return $row[$this->alias]['gezien'];
             }
         }
@@ -57,6 +57,7 @@ class AppModel extends Model
 
         return $result;
     }
+
     public function has_this_data_changed($current, $original)
     {
         return $this->check_diff_multi($current[$this->alias], $original[$this->alias]);
@@ -127,12 +128,12 @@ class AppModel extends Model
 
             return $result;
         }
-        $result = $this->find('first', array(
-            'conditions' => array(
+        $result = $this->find('first', [
+            'conditions' => [
                 $this->primaryKey => $id,
-            ),
+            ],
             'recursive' => -1,
-          )
+          ]
         );
         if ($result) {
             $result = $result[$this->alias];
@@ -165,7 +166,7 @@ class AppModel extends Model
             $result[$this->alias] = $hit;
         } else {
             if ($emptyIfNotFound) {
-                return array($this->alias => $this->getDummy());
+                return [$this->alias => $this->getDummy()];
             } else {
                 return false;
             }
@@ -219,7 +220,7 @@ class AppModel extends Model
             }
         }
 
-        $result = current($this->afterFind(array($result), true));
+        $result = current($this->afterFind([$result], true));
 
         return $result;
     }
@@ -239,7 +240,7 @@ class AppModel extends Model
                 $current = $hit[$this->alias];
             } else {
                 $id = $hit['id'];
-                $hit = array($this->alias => $hit);
+                $hit = [$this->alias => $hit];
             }
             $result[] = Set::merge($hit, $this->getAllById($id, $contain));
         }
@@ -259,7 +260,7 @@ class AppModel extends Model
         $key = $this->getCacheKeyRelations($id);
         $allRelations = registry_get('relations', $key, true);
         if ($this->debug_caching) {
-            $this->log(array('refreshCachedBelongsToRelations allRelations' => $allRelations), 'as_'.$this->name);
+            $this->log(['refreshCachedBelongsToRelations allRelations' => $allRelations], 'as_'.$this->name);
         }
         if (!$allRelations) {
             $allRelations = $this->getRelatedToId($id, false);
@@ -320,13 +321,13 @@ class AppModel extends Model
         }
 
         $this->recursive = -1;
-        $conditions = array($this->alias.'.'.$this->primaryKey => $id);
-        $result = $this->find('first', array(
+        $conditions = [$this->alias.'.'.$this->primaryKey => $id];
+        $result = $this->find('first', [
                     'conditions' => $conditions,
-                ));
+                ]);
         $related_ids = [];
         if ($this->debug_caching) {
-            $this->log(array('conditions' => $conditions, 'result' => $result), 'as_'.$this->name);
+            $this->log(['conditions' => $conditions, 'result' => $result], 'as_'.$this->name);
         }
 
         if (is_array($result)) {
@@ -335,24 +336,24 @@ class AppModel extends Model
                 $fk = $info['foreignKey'];
                 $pk = $this->{$model}->primaryKey;
                 if ($this->debug_caching) {
-                    $this->log('my parent '.$model.' is in '.$fk,   'as_'.$this->name);
+                    $this->log('my parent '.$model.' is in '.$fk, 'as_'.$this->name);
                 }
                 if (!empty($result[$this->alias][$fk])) {
-                    $related_ids[$model] = array(
+                    $related_ids[$model] = [
                             $pk => $result[$this->alias][$fk],
-                            );
+                            ];
                     if ($this->debug_caching) {
-                        $this->log('that is '.$pk.' => '.$result[$this->alias][$fk],   'as_'.$this->name);
+                        $this->log('that is '.$pk.' => '.$result[$this->alias][$fk], 'as_'.$this->name);
                     }
                 } else {
                     if ($this->debug_caching) {
-                        $this->log('that is empty!',   'as_'.$this->name);
+                        $this->log('that is empty!', 'as_'.$this->name);
                     }
                 }
             }
         }
         if ($this->debug_caching) {
-            $this->log(array('conditions' => $conditions, 'result' => $result, 'belongsTo' => $this->belongsTo), 'as_'.$this->name);
+            $this->log(['conditions' => $conditions, 'result' => $result, 'belongsTo' => $this->belongsTo], 'as_'.$this->name);
         }
 
         if (!empty($result[$this->alias]['model'])
@@ -397,25 +398,25 @@ class AppModel extends Model
             }
             $this->{$model}->recursive = -1;
             $table = $this->{$model}->useTable;
-            $conditions = array($info['foreignKey'] => $id);
+            $conditions = [$info['foreignKey'] => $id];
             if (is_array($info['conditions'])) {
                 $conditions += $info['conditions'];
             }
             $order = $info['order'];
-            $options = array(
+            $options = [
                 'conditions' => $conditions,
                 'order' => $order,
                 'fields' => $this->{$model}->primaryKey,
-            );
+            ];
             if (isset($this->hasOne[$model])) {
                 $options['limit'] = 1;
             }
             $ids = $this->{$model}->find('list', $options);
 
             if (!empty($ids)) {
-                $ids = array($model => array_keys($ids));
+                $ids = [$model => array_keys($ids)];
             } else {
-                $ids = array($model => []);
+                $ids = [$model => []];
             }
             $relations = array_merge($relations, $ids);
         }

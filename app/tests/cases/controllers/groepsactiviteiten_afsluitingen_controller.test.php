@@ -1,47 +1,51 @@
 <?php
+
 /* GroepsactiviteitenAfsluitingen Test cases generated on: 2015-11-22 08:11:28 : 1448175928*/
 App::import('Controller', 'GroepsactiviteitenAfsluitingen');
 
-class TestGroepsactiviteitenAfsluitingenController extends GroepsactiviteitenAfsluitingenController {
-	var $autoRender = false;
+class TestGroepsactiviteitenAfsluitingenController extends GroepsactiviteitenAfsluitingenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class GroepsactiviteitenAfsluitingenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.groepsactiviteiten_afsluiting');
+class GroepsactiviteitenAfsluitingenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.groepsactiviteiten_afsluiting'];
 
-	function startTest() {
-		$this->GroepsactiviteitenAfsluitingen =& new TestGroepsactiviteitenAfsluitingenController();
-		$this->GroepsactiviteitenAfsluitingen->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->GroepsactiviteitenAfsluitingen = new TestGroepsactiviteitenAfsluitingenController();
+        $this->GroepsactiviteitenAfsluitingen->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->GroepsactiviteitenAfsluitingen);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->GroepsactiviteitenAfsluitingen);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

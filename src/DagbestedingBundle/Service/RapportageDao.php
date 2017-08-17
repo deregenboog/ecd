@@ -4,7 +4,6 @@ namespace DagbestedingBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Rapportage;
-use AppBundle\Filter\FilterInterface;
 
 class RapportageDao extends AbstractDao implements RapportageDaoInterface
 {

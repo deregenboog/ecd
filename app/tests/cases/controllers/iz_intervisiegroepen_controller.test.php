@@ -1,47 +1,51 @@
 <?php
+
 /* IzIntervisiegroepen Test cases generated on: 2014-08-05 16:08:18 : 1407248478*/
 App::import('Controller', 'IzIntervisiegroepen');
 
-class TestIzIntervisiegroepenController extends IzIntervisiegroepenController {
-	var $autoRender = false;
+class TestIzIntervisiegroepenController extends IzIntervisiegroepenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class IzIntervisiegroepenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.iz_intervisiegroep');
+class IzIntervisiegroepenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.iz_intervisiegroep'];
 
-	function startTest() {
-		$this->IzIntervisiegroepen =& new TestIzIntervisiegroepenController();
-		$this->IzIntervisiegroepen->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->IzIntervisiegroepen = new TestIzIntervisiegroepenController();
+        $this->IzIntervisiegroepen->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->IzIntervisiegroepen);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->IzIntervisiegroepen);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

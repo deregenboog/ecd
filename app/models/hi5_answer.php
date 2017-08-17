@@ -6,22 +6,22 @@ class Hi5Answer extends AppModel
 
     public $displayField = 'answer';
 
-    public $belongsTo = array(
-            'Hi5Question' => array(
+    public $belongsTo = [
+            'Hi5Question' => [
                     'className' => 'Hi5Question',
                     'foreignKey' => 'hi5_question_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-            'Hi5AnswerType' => array(
+            ],
+            'Hi5AnswerType' => [
                     'className' => 'Hi5AnswerType',
                     'foreignKey' => 'hi5_answer_type_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
+            ],
+    ];
 
     public function processPostedData($posted_data)
     {
@@ -42,7 +42,7 @@ class Hi5Answer extends AppModel
             $result[] = $item;
         }
 
-        return array('Hi5Answer' => $result);
+        return ['Hi5Answer' => $result];
     }
 
     public function processRetrievedData($retrievedData)
@@ -55,6 +55,6 @@ class Hi5Answer extends AppModel
             $retrievedData[$ans_id] = $block['Hi5IntakesAnswer'];
         }
 
-        return array('Hi5Answer' => $retrievedData);
+        return ['Hi5Answer' => $retrievedData];
     }
 }

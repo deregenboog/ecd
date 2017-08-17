@@ -14,7 +14,7 @@ class IzOntstaanContactenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz ontstaan contact', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('izOntstaanContact', $this->IzOntstaanContact->read(null, $id));
     }
@@ -26,7 +26,7 @@ class IzOntstaanContactenController extends AppController
 
             if ($this->IzOntstaanContact->save($this->data)) {
                 $this->Session->setFlash(__('The iz ontstaan contact has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz ontstaan contact could not be saved. Please, try again.', true));
             }
@@ -37,13 +37,13 @@ class IzOntstaanContactenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz ontstaan contact', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->IzOntstaanContact->save($this->data)) {
                 $this->Session->setFlash(__('The iz ontstaan contact has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz ontstaan contact could not be saved. Please, try again.', true));
             }
@@ -58,15 +58,15 @@ class IzOntstaanContactenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz ontstaan contact', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->IzOntstaanContact->delete($id)) {
             $this->Session->setFlash(__('Iz ontstaan contact deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Iz ontstaan contact was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

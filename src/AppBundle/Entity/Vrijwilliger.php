@@ -40,11 +40,13 @@ class Vrijwilliger extends Persoon
 
     /**
      * @param bool $vogAangevraagd
+     *
      * @return Vrijwilliger
      */
     public function setVogAangevraagd($vogAangevraagd)
     {
         $this->vogAangevraagd = $vogAangevraagd;
+
         return $this;
     }
 
@@ -58,11 +60,13 @@ class Vrijwilliger extends Persoon
 
     /**
      * @param bool $vogAanwezig
+     *
      * @return Vrijwilliger
      */
     public function setVogAanwezig($vogAanwezig)
     {
         $this->vogAanwezig = $vogAanwezig;
+
         return $this;
     }
 
@@ -76,11 +80,13 @@ class Vrijwilliger extends Persoon
 
     /**
      * @param bool $overeenkomstAanwezig
+     *
      * @return Vrijwilliger
      */
     public function setOvereenkomstAanwezig($overeenkomstAanwezig)
     {
         $this->overeenkomstAanwezig = $overeenkomstAanwezig;
+
         return $this;
     }
 }

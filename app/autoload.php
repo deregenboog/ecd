@@ -29,8 +29,8 @@ if (php_sapi_name() == 'cli-server') {
 }
 
 // CakePHP autoloading
-spl_autoload_register(function($class) {
-    switch($class) {
+spl_autoload_register(function ($class) {
+    switch ($class) {
         case ErrorHandler::class:
             require_once __DIR__.'/../cake/libs/error.php';
             break;

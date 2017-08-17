@@ -6,22 +6,22 @@ class Hi5Question extends AppModel
 
     public $displayField = 'question';
 
-    public $hasMany = array(
-            'Hi5Answer' => array(
+    public $hasMany = [
+            'Hi5Answer' => [
                     'className' => 'Hi5Answer',
                     'foreignKey' => 'hi5_question_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
+            ],
+    ];
 
     public function getQuestions()
     {
-        $questionList = $this->find('all', array(
+        $questionList = $this->find('all', [
                 'recursive' => 2,
                 'order' => 'order ASC',
-        ));
+        ]);
 
         $questionResult = [];
 

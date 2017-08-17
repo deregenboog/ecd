@@ -8,6 +8,7 @@ interface ExportInterface
 {
     /**
      * @param array|ArrayCollection $entities
+     *
      * @return ExportInterface
      */
     public function create($entities);

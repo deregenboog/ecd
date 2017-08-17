@@ -4,5 +4,5 @@
 class Hi5AnswerTypeFixture extends CakeTestFixture
 {
     public $name = 'Hi5AnswerType';
-    public $import = array('model' => 'Hi5AnswerType', 'records' => true);
+    public $import = ['model' => 'Hi5AnswerType', 'records' => true];
 }

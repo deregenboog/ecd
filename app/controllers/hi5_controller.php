@@ -260,10 +260,10 @@ class Hi5Controller extends AppController
 
         if (!($this->permissions & HI5_CREATE_INTAKES)) {
             $this->flashError(__('You are not allowed to add intakes', true));
-            $this->redirect(array(
+            $this->redirect([
                 'action' => 'view',
                 $id,
-            ));
+            ]);
         }
 
         $this->_leftMenuInfo($id);

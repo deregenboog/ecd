@@ -4,122 +4,122 @@ class Schorsing extends AppModel
 {
     public $name = 'Schorsing';
 
-    public $validate = array(
-        'datum_van' => array(
-            'date' => array(
-                'rule' => array(
-                    'date'
-                )
-            )
-        ),
-        'datum_tot' => array(
-            'date' => array(
-                'rule' => array(
-                    'date'
-                )
-            )
-        ),
-        'klant_id' => array(
-            'notempty' => array(
+    public $validate = [
+        'datum_van' => [
+            'date' => [
+                'rule' => [
+                    'date',
+                ],
+            ],
+        ],
+        'datum_tot' => [
+            'date' => [
+                'rule' => [
+                    'date',
+                ],
+            ],
+        ],
+        'klant_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
-            ),
-        ),
-        'remark' => array(
-            'rule' => array(
+            ],
+        ],
+        'remark' => [
+            'rule' => [
                 'check_agressie',
-            ),
+            ],
             'message' => 'Reden verplicht bij agressie!',
-        ),
-        'agressie' => array(
-            'rule' => array(
+        ],
+        'agressie' => [
+            'rule' => [
                 'check_for_doelwit',
-            ),
+            ],
                 'message' => 'Aangeven tegen welke medewerker(s) de agressie is gericht!',
-        ),
-        'aggressie_doelwit' => array(
-            'rule' => array(
+        ],
+        'aggressie_doelwit' => [
+            'rule' => [
                 'check_doelwit',
-            ),
+            ],
             'message' => 'Aangeven wat de functie van de medewerker is!',
-        ),
-            'aggressie_tegen_medewerker' => array(
-            'rule' => array(
-                'check_dummy'
-            ),
-            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
-            ),
-            'aggressie_doelwit2' => array(
-            'rule' => array(
-                'check_doelwit'
-            ),
-            'message' => 'Aangeven wat de functie van de medewerker is!'
-            ),
-            'aggressie_tegen_medewerker2' => array(
-            'rule' => array(
-                'check_dummy'
-            ),
-            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
-            ),
-            'aggressie_doelwit3' => array(
-            'rule' => array(
-                'check_doelwit'
-            ),
-            'message' => 'Aangeven wat de functie van de medewerker is!'
-            ),
-            'aggressie_tegen_medewerker3' => array(
-            'rule' => array(
-                'check_dummy'
-            ),
-            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
-            ),
-            'aggressie_doelwit4' => array(
-            'rule' => array(
-                'check_doelwit'
-            ),
-            'message' => 'Aangeven wat de functie van de medewerker is!'
-            ),
-            'aggressie_tegen_medewerker4' => array(
-            'rule' => array(
-                'check_dummy'
-            ),
-            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!'
-            ),
-        'aangifte' => array(
-            'rule' => array(
-                'check_dummy'
-            ),
-            'message' => 'Aangeven of aangifte is gedaan (ja/nee) is verplicht bij agressie!'
-        ),
-        'nazorg' => array(
-            'rule' => array(
-                'check_dummy'
-        ),
-            'message' => 'Aangeven of nazorg nogig (ja/nee) is verplicht bij agressie!'
-        )
-    );
+        ],
+            'aggressie_tegen_medewerker' => [
+            'rule' => [
+                'check_dummy',
+            ],
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!',
+            ],
+            'aggressie_doelwit2' => [
+            'rule' => [
+                'check_doelwit',
+            ],
+            'message' => 'Aangeven wat de functie van de medewerker is!',
+            ],
+            'aggressie_tegen_medewerker2' => [
+            'rule' => [
+                'check_dummy',
+            ],
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!',
+            ],
+            'aggressie_doelwit3' => [
+            'rule' => [
+                'check_doelwit',
+            ],
+            'message' => 'Aangeven wat de functie van de medewerker is!',
+            ],
+            'aggressie_tegen_medewerker3' => [
+            'rule' => [
+                'check_dummy',
+            ],
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!',
+            ],
+            'aggressie_doelwit4' => [
+            'rule' => [
+                'check_doelwit',
+            ],
+            'message' => 'Aangeven wat de functie van de medewerker is!',
+            ],
+            'aggressie_tegen_medewerker4' => [
+            'rule' => [
+                'check_dummy',
+            ],
+            'message' => 'Aangeven (ja/nee) of de agressie is gericht tegen een medewerker!',
+            ],
+        'aangifte' => [
+            'rule' => [
+                'check_dummy',
+            ],
+            'message' => 'Aangeven of aangifte is gedaan (ja/nee) is verplicht bij agressie!',
+        ],
+        'nazorg' => [
+            'rule' => [
+                'check_dummy',
+        ],
+            'message' => 'Aangeven of nazorg nogig (ja/nee) is verplicht bij agressie!',
+        ],
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
-        ),
-    );
+        ],
+    ];
 
-    public $hasAndBelongsToMany = array(
-        'Locatie' => array(
+    public $hasAndBelongsToMany = [
+        'Locatie' => [
             'className' => 'Locatie',
             'joinTable' => 'schorsing_locatie',
             'foreignKey' => 'schorsing_id',
             'associationForeignKey' => 'locatie_id',
-        ),
-        'Reden' => array(
+        ],
+        'Reden' => [
             'className' => 'Reden',
             'joinTable' => 'schorsingen_redenen',
             'foreignKey' => 'schorsing_id',
             'associationForeignKey' => 'reden_id',
             'unique' => true,
-        ),
-    );
+        ],
+    ];
 
     public $actsAs = [
         'Containable',
@@ -130,13 +130,13 @@ class Schorsing extends AppModel
             'fields' => [
                 'id',
                 'naam',
-            ]
+            ],
         ],
         'Reden' => [
             'fields' => [
                 'naam',
-            ]
-        ]
+            ],
+        ],
     ];
 
     public function check_dummy($field)
@@ -227,15 +227,15 @@ class Schorsing extends AppModel
 
     public function getActiveSchorsingen($klant_id)
     {
-        $conditions = array(
+        $conditions = [
             'Schorsing.klant_id' => $klant_id,
             'Schorsing.datum_tot >=' => date('Y-m-d'),
-        );
+        ];
 
-        return $this->find('all', array(
+        return $this->find('all', [
             'conditions' => $conditions,
             'contain' => $this->contain,
-        ));
+        ]);
     }
 
     /**
@@ -247,77 +247,77 @@ class Schorsing extends AppModel
      */
     public function getLastActiveSchorsingExpiry($klant_id, $locatie_id)
     {
-        $result = $this->find('first', array(
+        $result = $this->find('first', [
             'recursive' => -1,
-            'conditions' => array(
+            'conditions' => [
                 'Schorsing.klant_id' => $klant_id,
                 'Schorsing.datum_tot >=' => date('Y-m-d'),
                 'Schorsing.locatie_id' => $locatie_id,
-            ),
-            'fields' => array(
+            ],
+            'fields' => [
                 'max(Schorsing.datum_tot) max_expiry',
-            ),
-        ));
+            ],
+        ]);
 
         return $result[0]['max_expiry'];
     }
 
     public function getLastActiveSchorsing($klant_id)
     {
-        $result = $this->find('first', array(
+        $result = $this->find('first', [
             'recursive' => -1,
-            'conditions' => array(
+            'conditions' => [
                 'Schorsing.klant_id' => $klant_id,
                 'Schorsing.datum_tot >=' => date('Y-m-d'),
-            ),
+            ],
             'order' => 'Schorsing.datum_tot DESC',
-            'fields' => array(
+            'fields' => [
                 'locatie_id',
                 'datum_tot',
                 'datum_van',
-            ),
-        ));
+            ],
+        ]);
 
         return $result;
     }
 
     public function getExpiredSchorsingen($klant_id)
     {
-        $conditions = array(
+        $conditions = [
             'Schorsing.klant_id' => $klant_id,
             'Schorsing.datum_tot <' => date('Y-m-d'),
-        );
+        ];
 
-        return $this->find('all', array(
+        return $this->find('all', [
             'conditions' => $conditions,
             'contain' => $this->contain,
-        ));
+        ]);
     }
 
     public function countActiveSchorsingen($klant_id, $locatie_id = null)
     {
-        $c = array(
+        $c = [
             'Schorsing.datum_tot >=' => date('Y-m-d'),
             'Schorsing.klant_id' => $klant_id,
-        );
+        ];
 
         if ($locatie_id) {
             $c['Schorsing.locatie_id'] = $locatie_id;
         }
 
-        return $this->find('count', array(
-            'conditions' => $c
-        ));
+        return $this->find('count', [
+            'conditions' => $c,
+        ]);
     }
 
     //returns 0 if there are expired and not seen Schorsingen
     //returns null if there are no expired Schorsingen at all
     public function countUnSeenSchorsingen($klant_id)
     {
-        $opt = array('conditions' => array(
+        $opt = ['conditions' => [
             'Schorsing.datum_tot <' => date('Y-m-d'),
             'Schorsing.klant_id' => $klant_id,
-        ));
+        ]];
         if ($this->find('count', $opt) > 0) {
             $opt['conditions']['Schorsing.gezien'] = 0;
 
@@ -380,9 +380,9 @@ class Schorsing extends AppModel
                 $schorsing = __('geen', true);
             }
         } elseif ($schCount == 1) {
-            $schorsing = '1 ' . __('schorsing', true);
+            $schorsing = '1 '.__('schorsing', true);
         } else {
-            $schorsing = $schCount . ' ' . __('schorsingen', true);
+            $schorsing = $schCount.' '.__('schorsingen', true);
         }
 
         return $schorsing;
@@ -390,12 +390,12 @@ class Schorsing extends AppModel
 
     public function get_schorsing_msg($klant_id, $locatie_id = null)
     {
-        $result = array(
+        $result = [
             'schorsingen' => null,
             'schorsing_datum_van' => null,
             'schorsing_datum_tot' => null,
             'schorsing_locatie_id' => null,
-        );
+        ];
 
         $result['schorsingen'] = $this->countActiveSchorsingenMsg($klant_id);
 

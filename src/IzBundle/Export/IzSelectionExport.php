@@ -2,7 +2,6 @@
 
 namespace IzBundle\Export;
 
-use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;

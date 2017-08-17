@@ -14,7 +14,7 @@ class IzEindekoppelingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz eindekoppeling', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('izEindekoppeling', $this->IzEindekoppeling->read(null, $id));
     }
@@ -25,7 +25,7 @@ class IzEindekoppelingenController extends AppController
             $this->IzEindekoppeling->create();
             if ($this->IzEindekoppeling->save($this->data)) {
                 $this->Session->setFlash(__('The iz eindekoppeling has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz eindekoppeling could not be saved. Please, try again.', true));
             }
@@ -36,13 +36,13 @@ class IzEindekoppelingenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz eindekoppeling', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->IzEindekoppeling->save($this->data)) {
                 $this->Session->setFlash(__('The iz eindekoppeling has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz eindekoppeling could not be saved. Please, try again.', true));
             }
@@ -57,14 +57,14 @@ class IzEindekoppelingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz eindekoppeling', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->IzEindekoppeling->delete($id)) {
             $this->Session->setFlash(__('Iz eindekoppeling deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Iz eindekoppeling was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

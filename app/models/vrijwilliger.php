@@ -5,120 +5,120 @@ class Vrijwilliger extends AppModel
     public $name = 'Vrijwilliger';
     public $displayField = 'achternaam';
 
-    public $virtualFields = array(
+    public $virtualFields = [
         'name' => "CONCAT_WS(' ', Vrijwilliger.voornaam, Vrijwilliger.tussenvoegsel, Vrijwilliger.achternaam)",
         'name1st_part' => "CONCAT_WS(' ', Vrijwilliger.voornaam, Vrijwilliger.roepnaam)",
         'name2nd_part' => "CONCAT_WS(' ', Vrijwilliger.tussenvoegsel, Vrijwilliger.achternaam)",
         'klant_nummer' => "CONCAT('V', Vrijwilliger.id)",
-    );
+    ];
 
-    public $watchfields = array(
+    public $watchfields = [
         'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam',
         'geslacht_id', 'geboortedatum', 'land_id', 'nationaliteit_id',
         'BSN', 'adres', 'postcode', 'plaats', 'email', 'mobiel',
         'telefoon', 'geen_post', 'geen_email', 'overleden',
         'vog_aangevraagd', 'vog_aanwezig', 'overeenkomst_aanwezig',
-    );
+    ];
 
-    public $actsAs = array(
+    public $actsAs = [
         'Containable',
-    );
+    ];
 
-    public $paginate = array(
-        'contain' => array('Geslacht'),
+    public $paginate = [
+        'contain' => ['Geslacht'],
 // 		'limit' => 2,
-    );
-    public $validate = array(
-            'achternaam' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    ];
+    public $validate = [
+            'achternaam' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een achternaam in',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
-                    ),
-            ),
-            'land_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'land_id' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Kies een land',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
-                    ),
-            ),
-            'medewerker_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'medewerker_id' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Kies een medewerker',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
-                    ),
-            ),
-            'nationaliteit_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'nationaliteit_id' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Kies een nationaliteit',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
-                    ),
-            ),
-            'email' => array(
-                    'email' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'email' => [
+                    'email' => [
+                            'rule' => [
                                     'email',
-                            ),
+                            ],
                             'message' => 'Een geldig E-Mail adres invoeren',
                             'allowEmpty' => true,
                             'required' => false,
                             //'last' => false, // Stop validation after this rule
-                    ),
-            ),
-    );
+                    ],
+            ],
+    ];
 
-    public $belongsTo = array(
-        'Geslacht' => array(
+    public $belongsTo = [
+        'Geslacht' => [
             'className' => 'Geslacht',
             'foreignKey' => 'geslacht_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Geboorteland' => array(
+        ],
+        'Geboorteland' => [
             'className' => 'Land',
             'foreignKey' => 'land_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Nationaliteit' => array(
+        ],
+        'Nationaliteit' => [
             'className' => 'Nationaliteit',
             'foreignKey' => 'nationaliteit_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $hasMany = array(
-        'GroepsactiviteitenVrijwilliger' => array(
+    public $hasMany = [
+        'GroepsactiviteitenVrijwilliger' => [
             'className' => 'GroepsactiviteitenVrijwilliger',
             'foreignKey' => 'vrijwilliger_id',
             'dependent' => false,
@@ -130,8 +130,8 @@ class Vrijwilliger extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'GroepsactiviteitenGroepenVrijwilliger' => array(
+        ],
+        'GroepsactiviteitenGroepenVrijwilliger' => [
             'className' => 'GroepsactiviteitenGroepenVrijwilliger',
             'foreignKey' => 'vrijwilliger_id',
             'dependent' => false,
@@ -143,46 +143,46 @@ class Vrijwilliger extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'GroepsactiviteitenVerslag' => array(
+        ],
+        'GroepsactiviteitenVerslag' => [
             'className' => 'GroepsactiviteitenVerslag',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
+            'conditions' => [
                 'GroepsactiviteitenVerslag.model' => 'Vrijwilliger',
-            ),
+            ],
             'order' => 'GroepsactiviteitenVerslag.created DESC',
             'dependent' => true,
-        ),
-        'GroepsactiviteitenDocument' => array(
+        ],
+        'GroepsactiviteitenDocument' => [
             'className' => 'Attachment',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
+            'conditions' => [
                 'GroepsactiviteitenDocument.model' => 'Vrijwilliger',
                 'is_active' => 1,
-            ),
+            ],
             'dependent' => true,
             'order' => 'created desc',
-        ),
-    );
+        ],
+    ];
 
-    public $hasOne = array(
-        'IzDeelnemer' => array(
+    public $hasOne = [
+        'IzDeelnemer' => [
             'className' => 'IzDeelnemer',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
+            'conditions' => [
                 'IzDeelnemer.model' => 'Vrijwilliger',
-            ),
+            ],
             'dependent' => true,
-        ),
-        'GroepsactiviteitenIntake' => array(
+        ],
+        'GroepsactiviteitenIntake' => [
             'className' => 'GroepsactiviteitenIntake',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
+            'conditions' => [
                 'GroepsactiviteitenIntake.model' => 'Vrijwilliger',
-            ),
+            ],
             'dependent' => true,
-        ),
-    );
+        ],
+    ];
 
     public function beforeSave($options = [])
     {
@@ -232,9 +232,9 @@ class Vrijwilliger extends AppModel
             $conditions['email NOT'] = '';
         }
 
-        $join_conditions = array(
+        $join_conditions = [
                 'Vrijwilliger.id = GroepsactiviteitenGroepenVrijwilliger.vrijwilliger_id',
-        );
+        ];
 
         $join_table = Inflector::pluralize(Inflector::underscore('GroepsactiviteitenGroepenVrijwilliger'));
 
@@ -259,29 +259,28 @@ class Vrijwilliger extends AppModel
             $join_conditions['OR'] = $or;
         }
 
-        $join_conditions['OR'] = array(
+        $join_conditions['OR'] = [
                 'GroepsactiviteitenGroepenVrijwilliger.einddatum' => null,
                 'GroepsactiviteitenGroepenVrijwilliger.einddatum >=' => date('Y-m-d'),
-        );
+        ];
 
-        $contain = array('GroepsactiviteitenIntake');
+        $contain = ['GroepsactiviteitenIntake'];
 
         $joins = [];
 
-        $joins[] = array(
+        $joins[] = [
             'table' => $join_table,
             'alias' => 'GroepsactiviteitenGroepenVrijwilliger',
             'type' => 'inner',
             'conditions' => $join_conditions,
+        ];
 
-        );
-
-        $options = array(
+        $options = [
             'conditions' => $conditions,
             'joins' => $joins,
             'contain' => $contain,
-            'group' => array('Vrijwilliger.id'),
-            'fields' => array('id', 'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam', 'geslacht_id',
+            'group' => ['Vrijwilliger.id'],
+            'fields' => ['id', 'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam', 'geslacht_id',
                 'geboortedatum', 'land_id', 'nationaliteit_id', 'BSN', 'medewerker_id', 'adres',
                 'postcode', 'werkgebied', 'postcodegebied', 'plaats', 'email', 'mobiel', 'telefoon',
                 'opmerking', 'geen_post', 'geen_email', 'disabled', 'created', 'modified', 'geen_email', 'name',
@@ -305,8 +304,8 @@ class Vrijwilliger extends AppModel
                 'GroepsactiviteitenIntake.afsluitdatum',
                 'count(*) as count',
                 'min(GroepsactiviteitenGroepenVrijwilliger.startdatum) as startdatum',
-            ),
-        );
+            ],
+        ];
 
         $personen = $this->find('all', $options);
 

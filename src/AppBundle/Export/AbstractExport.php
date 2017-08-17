@@ -2,8 +2,6 @@
 
 namespace AppBundle\Export;
 
-use AppBundle\Export\ExportException;
-
 abstract class AbstractExport implements ExportInterface
 {
     /**

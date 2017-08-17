@@ -18,11 +18,11 @@ class CommonFixture
      * basic,hotel,negotiation,organization or common
      */
 
-    public $commonFixtures = array(
+    public $commonFixtures = [
         // Fixtures which should be included in almost all tests.
-        'empty' => array(
-            ),
-        'full_klant' => array(
+        'empty' => [
+            ],
+        'full_klant' => [
              'app.awbz_indicatie', 'app.awbz_intake',
              'app.inkomens_awbz_intake', 'app.instanties_awbz_intake',
              'app.awbz_intakes_verslavingsgebruikswijze',
@@ -51,9 +51,8 @@ class CommonFixture
              'app.inventarisatie', 'app.doorverwijzer', 'app.notitie',
              'app.awbz_hoofdaannemer', 'app.hoofdaannemer', 'app.opmerking',
              'app.categorie', 'app.verslaginfo',
-       ),
-
-    );
+       ],
+    ];
 
     public function __construct(&$testCaseObj, $fixturesType = [])
     {

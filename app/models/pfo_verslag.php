@@ -3,19 +3,19 @@
 class PfoVerslag extends AppModel
 {
     public $name = 'PfoVerslag';
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
     //The Associations below have been created with all possible keys, those that are not needed can be removed
-    public $belongsTo = array(
-            'Medewerker' => array(
+    public $belongsTo = [
+            'Medewerker' => [
                     'className' => 'Medewerker',
                     'foreignKey' => 'medewerker_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
-    public $hasMany = array(
-        'PfoClientenVerslag' => array(
+            ],
+    ];
+    public $hasMany = [
+        'PfoClientenVerslag' => [
             'className' => 'PfoClientenVerslag',
             'foreignKey' => 'pfo_verslag_id',
             'dependent' => false,
@@ -27,12 +27,12 @@ class PfoVerslag extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
-    public $contact_type = array(
+        ],
+    ];
+    public $contact_type = [
         'In persoon' => 'In persoon',
         'Telefonisch' => 'Telefonisch',
         'E-Mail' => 'E-Mail',
         'Extern' => 'Extern',
-    );
+    ];
 }

@@ -2,29 +2,29 @@
 
 class FilterComponent extends Object
 {
-    public $fieldFormatting = array(
+    public $fieldFormatting = [
         'string' => "LIKE '%s%%'",
         'text' => "LIKE '%%%s%%'",
         'datetime' => "LIKE '%%%s%%'",
         'date' => "LIKE '%%%s%%'",
         'datetimegt' => '%s',
-    );
+    ];
 
-    public $paginatorParams = array(
+    public $paginatorParams = [
         'page',
         'sort',
         'direction',
-    );
+    ];
 
     public $url = '';
 
     public $filterData = [];
 
-    public $default = array(
+    public $default = [
         'persoon_model' => 'Klant',
-    );
+    ];
 
-    public function initialize(&$controller,  $settings)
+    public function initialize(&$controller, $settings)
     {
         if ($controller->action != 'index' && $controller->action != 'vrijwilligers_index') {
             return;
@@ -37,10 +37,10 @@ class FilterComponent extends Object
         $this->filterDataForRegenboog();
 
         $url .= '/';
-        $controller->set('filter_options', array('url' => array($url)));
+        $controller->set('filter_options', ['url' => [$url]]);
 
         if (isset($controller->data['reset']) || isset($controller->data['cancel'])) {
-            $controller->redirect(array('action' => 'index'));
+            $controller->redirect(['action' => 'index']);
         }
     }
 
@@ -56,7 +56,7 @@ class FilterComponent extends Object
                     array_push($this->filterData['OR'], $position);
                     array_push($this->filterData['OR'], $roepnaam);
                 } else {
-                    $this->filterData['OR'] = array($position, $roepnaam);
+                    $this->filterData['OR'] = [$position, $roepnaam];
                 }
 
                 unset($this->filterData[$i]);
@@ -86,7 +86,7 @@ class FilterComponent extends Object
                 }
 
                 if ($key == 'verslagen') {
-                    $columns = array('laatste_rapportage' => 'datetimegt');
+                    $columns = ['laatste_rapportage' => 'datetimegt'];
                 }
 
                 if (!empty($columns)) {
@@ -150,7 +150,7 @@ class FilterComponent extends Object
 
             $sanit = new Sanitize();
 
-            $controller->data = $sanit->clean($controller->data, array('encode' => false));
+            $controller->data = $sanit->clean($controller->data, ['encode' => false]);
             $filter = $controller->data;
         }
 
@@ -171,7 +171,7 @@ class FilterComponent extends Object
 
         App::import('Sanitize');
         $sanit = new Sanitize();
-        $controller->params['named'] = $sanit->clean($controller->params['named'], array('encode' => false));
+        $controller->params['named'] = $sanit->clean($controller->params['named'], ['encode' => false]);
 
         foreach ($controller->params['named'] as $field => $value) {
             if (!in_array($field, $this->paginatorParams)) {

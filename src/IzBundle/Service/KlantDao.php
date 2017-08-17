@@ -5,7 +5,6 @@ namespace IzBundle\Service;
 use IzBundle\Entity\IzKlant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query\Expr;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {

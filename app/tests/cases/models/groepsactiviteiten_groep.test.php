@@ -5,7 +5,7 @@ App::import('Model', 'GroepsactiviteitenGroep');
 
 class GroepsactiviteitenGroepTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.groepsactiviteiten_groep', 'app.groepsactiviteit', 'app.groepsactiviteiten_vrijwilligers');
+    public $fixtures = ['app.groepsactiviteiten_groep', 'app.groepsactiviteit', 'app.groepsactiviteiten_vrijwilligers'];
 
     public function startTest()
     {

@@ -5,9 +5,9 @@ class InstantiesAwbzIntakeFixture extends CakeTestFixture
 {
     public $name = 'InstantiesAwbzIntake';
     public $table = 'instanties_awbz_intakes';
-    public $import = array(
+    public $import = [
             'model' => 'InstantiesAwbzIntake',
             'records' => true,
             'table' => 'instanties_awbz_intakes',
-    );
+    ];
 }

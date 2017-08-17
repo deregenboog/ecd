@@ -117,7 +117,7 @@ class GroepsactiviteitenGroepenController extends AppController
         $this->autoRender = false;
         $filename = "{$groep}_{$persoon_model}_lijst.xls";
 
-        switch($persoon_model) {
+        switch ($persoon_model) {
             case 'Vrijwilliger':
                 $export = $this->container->get('ga.export.groepsleden_vrijwilligers');
                 break;
