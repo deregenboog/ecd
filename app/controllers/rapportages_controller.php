@@ -1,5 +1,9 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Registratie;
+use InloopBundle\Entity\Locatie;
+
 class RapportagesController extends AppController
 {
     public $name = 'Rapportages';
@@ -1169,6 +1173,77 @@ class RapportagesController extends AppController
 
     public function gerepatrieerd()
     {
+        $date_from = null;
+        $date_to = null;
+
+        if ($this->data) {
+            $this->_prepare_dates($date_from, $date_to);
+            $date_from = mysql_escape_string($date_from);
+            $date_until = mysql_escape_string($this->_add_day($date_to));
+
+            $this->loadModel(\Klant::class);
+            $repatrieringen = $this->Klant->find('all', [
+                'fields' => ['COUNT(Klant.id) AS aantal', 'Afsluiting.land_id'],
+                'joins' => [
+                    [
+                        'table' => 'inloop_dossier_statussen',
+                        'alias' => 'Afsluiting',
+                        'type' => 'INNER',
+                        'conditions' => [
+                            'Afsluiting.class' => 'Afsluiting',
+                            'Afsluiting.id = Klant.huidigeStatus_id',
+                            ['NOT' => ['Afsluiting.land_id' => null]],
+                            'Afsluiting.datum >=' => $date_from,
+                            'Afsluiting.datum <' => $date_until,
+                        ],
+                    ],
+                ],
+                'group' => ['Afsluiting.land_id'],
+                'order' => ['aantal DESC'],
+                'recursive' => -1,
+            ]);
+
+            $this->loadModel(\Land::class);
+            $landen = $this->Land->find('list');
+
+            $this->set(compact('repatrieringen', 'landen'));
+        }
+
+        $this->set(compact('date_from', 'date_until'));
+    }
+
+    public function herintakes()
+    {
+        $em = $this->getEntityManager();
+
+        $data = [];
+
+        $locaties = $em->getRepository(Locatie::class)->findAll();
+        foreach ($locaties as $locatie) {
+            $klanten = $em->getRepository(Klant::class)->createQueryBuilder('klant')
+                ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.intakedatum < :year_ago')
+                ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
+                ->andWhere('registratie.locatie = :locatie')
+                ->andWhere('registratie.binnen >= :month_ago')
+                ->setParameters([
+                    'month_ago' => new \DateTime('-1 month'),
+                    'year_ago' => new \DateTime('-1 year'),
+                    'locatie' => $locatie,
+                ])
+                ->getQuery()
+                ->setMaxResults(100)
+                ->getResult()
+            ;
+
+            if (count($klanten) > 0) {
+                var_dump($klanten); die;
+            }
+        }
+
+        var_dump($data); die;
+
+
+
         $date_from = null;
         $date_to = null;
 

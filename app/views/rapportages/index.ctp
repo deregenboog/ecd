@@ -14,4 +14,5 @@
     <li><?php echo $html->link('Ladisrapportage', array('action' => 'ladis'))?></li>
     <li><?php echo $html->link('PFO rapportage', array('controller' => 'PfoClienten', 'action' => 'rapportage'))?></li>
     <li><?php echo $html->link('Gerepatrieerd', array('action' => 'gerepatrieerd'))?></li>
+    <li><?php echo $html->link('Her-intakes', array('action' => 'herintakes'))?></li>
 </ul>
