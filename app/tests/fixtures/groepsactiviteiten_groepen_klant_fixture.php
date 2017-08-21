@@ -5,24 +5,24 @@ class GroepsactiviteitenGroepenKlantFixture extends CakeTestFixture
 {
     public $name = 'GroepsactiviteitenGroepenKlant';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'groepsactiviteiten_groep_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'klant_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'groepsactiviteiten_reden_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'startdatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'einddatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'communicatie_email' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'communicatie_telefoon' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'communicatie_post' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'groepsactiviteiten_groep_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'klant_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'groepsactiviteiten_reden_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'startdatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'einddatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'communicatie_email' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'communicatie_telefoon' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'communicatie_post' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'groepsactiviteiten_groep_id' => 1,
             'klant_id' => 1,
@@ -34,6 +34,6 @@ class GroepsactiviteitenGroepenKlantFixture extends CakeTestFixture
             'communicatie_post' => 1,
             'created' => '2014-05-04 13:39:16',
             'modified' => '2014-05-04 13:39:16',
-        ),
-    );
+        ],
+    ];
 }

@@ -52,7 +52,6 @@ class OdpHuurverzoekenController extends AppController
             ->innerJoin('odpHuurverzoek.odpHuurder', 'odpHuurder')
             ->innerJoin('odpHuurder.klant', 'klant')
             ->where('odpHuurovereenkomst.id IS NULL');
-        ;
 
         if ($filter->isValid()) {
             $filter->getData()->applyTo($builder);
@@ -88,7 +87,7 @@ class OdpHuurverzoekenController extends AppController
 
                 $this->Session->setFlash('Klant is opgeslagen.');
 
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(['action' => 'index']);
             } catch (\Exception $e) {
                 $form->addError(new FormError('Er is een fout opgetreden.'));
             }
@@ -112,7 +111,7 @@ class OdpHuurverzoekenController extends AppController
 
             $this->Session->setFlash('Klant is verwijderd.');
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         }
 
         $this->set('odpHuurverzoek', $odpHuurverzoek);

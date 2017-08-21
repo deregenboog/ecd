@@ -3,8 +3,8 @@
 class PfoClientenController extends AppController
 {
     public $name = 'PfoClienten';
-    public $uses = array('PfoClient', 'PfoVerslag');
-    public $components = array('Filter', 'RequestHandler', 'Session');
+    public $uses = ['PfoClient', 'PfoVerslag'];
+    public $components = ['Filter', 'RequestHandler', 'Session'];
 
     private function set_view_variables($id = null, $data = null)
     {
@@ -20,8 +20,8 @@ class PfoClientenController extends AppController
         $aard_relatie = [];
 
         if (empty($id)) {
-            $groepen = array('' => '');
-            $aard_relatie = array('' => '');
+            $groepen = ['' => ''];
+            $aard_relatie = ['' => ''];
         }
 
         $this->PfoAardRelatie = ClassRegistry::init('PfoAardRelatie');
@@ -76,7 +76,7 @@ class PfoClientenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid pfo client', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $pfoClient = $this->PfoClient->read_complete($id);
@@ -125,7 +125,7 @@ class PfoClientenController extends AppController
             if ($saved) {
                 $this->PfoClient->commit();
                 $this->Session->setFlash(__('The pfo client has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->PfoClient->rollback();
                 $this->Session->setFlash(__('The pfo client could not be saved. Please, try again.', true));
@@ -138,7 +138,7 @@ class PfoClientenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid pfo client', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->data['controll']['hoofdclient']) {
@@ -169,15 +169,15 @@ class PfoClientenController extends AppController
             // 2) Delete everything where my supportgroup is connected to
             // 3) If I select a client as a hoofdclient, this hoofdclient can
             // not be connected to anyone else
-            $conditions = array(
-                'OR' => array(
-                    array('pfo_client_id' => $id), //1
-                    array('pfo_supportgroup_client_id' => $id), //1
-                    array('pfo_client_id' => $ids), //2
-                    array('pfo_supportgroup_client_id' => $ids), //2
-                    array('pfo_supportgroup_client_id' => $id_hc), //3
-                ),
-            );
+            $conditions = [
+                'OR' => [
+                    ['pfo_client_id' => $id], //1
+                    ['pfo_supportgroup_client_id' => $id], //1
+                    ['pfo_client_id' => $ids], //2
+                    ['pfo_supportgroup_client_id' => $ids], //2
+                    ['pfo_supportgroup_client_id' => $id_hc], //3
+                ],
+            ];
 
             $this->PfoClient->begin();
             $del = $this->PfoClient->PfoClientenSupportgroup->deleteAll($conditions);
@@ -185,7 +185,7 @@ class PfoClientenController extends AppController
             if ($this->PfoClient->saveAll($this->data)) {
                 $this->Session->setFlash(__('The pfo client has been saved', true));
                 $this->PfoClient->commit();
-                $this->redirect(array('action' => 'view', $id));
+                $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->PfoClient->rollback();
                 $this->Session->setFlash(__('The pfo client could not be saved. Please, try again.', true));
@@ -202,17 +202,18 @@ class PfoClientenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo client', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->PfoClient->delete($id)) {
             $this->Session->setFlash(__('Pfo client deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Pfo client was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
+
     public function upload($id = null, $group = null)
     {
         if (empty($id)) {
@@ -237,10 +238,10 @@ class PfoClientenController extends AppController
             }
 
             if ($this->PfoClient->Document->save($this->data)) {
-                $this->redirect(array(
+                $this->redirect([
                         'action' => 'view',
                         $id,
-                ));
+                ]);
             } else {
                 $this->flashError(__('The document could not be saved. Please, try again.', true));
             }
@@ -249,6 +250,7 @@ class PfoClientenController extends AppController
             $this->data['Document']['group'] = $group;
         }
     }
+
     public function beheer()
     {
     }

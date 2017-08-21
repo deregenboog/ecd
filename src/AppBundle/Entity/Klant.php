@@ -121,6 +121,7 @@ class Klant extends Persoon
     public function setHuidigeStatus(DossierStatus $huidigeStatus)
     {
         $this->huidigeStatus = $huidigeStatus;
+
         return $this;
     }
 }

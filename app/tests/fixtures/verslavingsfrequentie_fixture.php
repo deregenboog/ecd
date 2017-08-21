@@ -4,5 +4,5 @@
 class VerslavingsfrequentieFixture extends CakeTestFixture
 {
     public $name = 'Verslavingsfrequentie';
-    public $import = array('model' => 'Verslavingsfrequentie', 'records' => true);
+    public $import = ['model' => 'Verslavingsfrequentie', 'records' => true];
 }

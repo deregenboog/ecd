@@ -3,7 +3,7 @@
 class PopulatorController extends AppController
 {
     public $name = 'Populator';
-    public $uses = array('Klant', 'Intake');
+    public $uses = ['Klant', 'Intake'];
 
     public function populate($number = 30)
     {
@@ -11,17 +11,17 @@ class PopulatorController extends AppController
 
         for ($i = 0; $i < $number; ++$i) {
             $this->Klant->create();
-            $data = array(
+            $data = [
                 'voornaam' => $this->genRandom('words', 1),
                 'achternaam' => $this->genRandom('words', 1),
                 'roepnaam' => $this->genRandom('words', 1),
                 'geboortedatum' => $this->genRandom('date'),
                 'geslacht_id' => rand(1, 5),
                 'laatste_TBC_controle' => $this->genRandom('date'),
-            );
+            ];
             //debug($data['name'] . ' ' . $data['created']);
             for ($j = 0; $j < rand(0, 10); ++$j) {
-                $data['Intake'][$j] = array(
+                $data['Intake'][$j] = [
                     'medewerker_id' => 1,
                     'datum_intake' => $this->genRandom('date'),
                     'verblijfstatus_id' => rand(1, 4),
@@ -42,12 +42,14 @@ class PopulatorController extends AppController
                     'locatie2_id' => rand(1, 18),
                     'indruk' => $this->genRandom('paragraph', 20),
                     'doelgroep' => 1,
-                );
+                ];
             }
             debug($data);
             var_dump($this->Klant->saveAll($data));
         }//for
-    }//populate
+    }
+
+//populate
 
     public function genRandom($type = 'letters', $length = 10)
     {
@@ -64,7 +66,7 @@ class PopulatorController extends AppController
             case 'date':
                 return rand(1920, 2000).'-'.rand(1, 12).'-'.rand(1, 29);
             case 'words':
-                $words = array('foo', 'annihilation', 'bar', 'wicked', 'grabbing', 'teddy', 'bears', 'red', 'completely', 'Jeżozwierz', 'annoying', 'forever', 'better', 'than', 'mother', 'blast', 'smelly', 'rope', 'maintained', 'ugly');
+                $words = ['foo', 'annihilation', 'bar', 'wicked', 'grabbing', 'teddy', 'bears', 'red', 'completely', 'Jeżozwierz', 'annoying', 'forever', 'better', 'than', 'mother', 'blast', 'smelly', 'rope', 'maintained', 'ugly'];
                 $string = '';
                 for ($p = 0; $p < $length; ++$p) {
                     $string .= $words[rand(0, count($words) - 1)];

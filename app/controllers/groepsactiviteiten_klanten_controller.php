@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormInterface;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use GaBundle\Form\GaKlantSelectType;
-use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 
 class GroepsactiviteitenKlantenController extends AppController
 {
@@ -37,9 +36,9 @@ class GroepsactiviteitenKlantenController extends AppController
     {
         $repository = $this->getEntityManager()->getRepository(GaKlantIntake::class);
         $builder = $repository->createQueryBuilder('intake')
-            ->innerJoin("intake.klant", 'klant')
+            ->innerJoin('intake.klant', 'klant')
             ->innerJoin('intake.medewerker', 'medewerker')
-            ->andWhere("klant.disabled = false")
+            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createFilter();
@@ -51,7 +50,7 @@ class GroepsactiviteitenKlantenController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => "klant.achternaam",
+            'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
             'wrap-queries' => true, // because of HAVING clause in filter

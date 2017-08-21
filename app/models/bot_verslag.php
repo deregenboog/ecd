@@ -4,29 +4,29 @@ class BotVerslag extends AppModel
 {
     public $name = 'BotVerslag';
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
-    public $actsAs = array('Containable');
+        ],
+    ];
+    public $actsAs = ['Containable'];
 
-    public $contact_type = array(
+    public $contact_type = [
         'In persoon' => 'In persoon',
         'Telefonisch' => 'Telefonisch',
         'E-Mail' => 'E-Mail',
-    );
+    ];
 
     public function getContactTypes()
     {

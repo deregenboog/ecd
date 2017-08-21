@@ -4,7 +4,6 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping\Id;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
 

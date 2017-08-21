@@ -4,20 +4,19 @@ class VrijwilligersController extends AppController
 {
     public $name = 'Vrijwilligers';
 
-    public $components = array(
-            'Filter' => array('persoon_model' => 'Vrijwilliger'),
-    );
+    public $components = [
+            'Filter' => ['persoon_model' => 'Vrijwilliger'],
+    ];
 
     public function index()
     {
         $persoon_model = 'Vrijwilliger';
 
-        $this->paginate = array(
-            'contain' => array(
+        $this->paginate = [
+            'contain' => [
                 'Geslacht',
-
-            ),
-        );
+            ],
+        ];
 
         $this->setMedewerkers();
 
@@ -32,10 +31,10 @@ class VrijwilligersController extends AppController
             $personen = $this->{$persoon_model}->LasteIntake->completeKlantenIntakesWithLocationNames($personen);
         }
 
-        $rowOnclickUrl = array(
+        $rowOnclickUrl = [
                 'controller' => 'vrijwilligers',
                 'action' => 'edit',
-        );
+        ];
 
         $this->set(compact('personen', 'rowOnclickUrl', 'persoon_model'));
 
@@ -48,7 +47,7 @@ class VrijwilligersController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->set('vrijwilliger', $this->Vrijwilliger->read(null, $id));
@@ -62,16 +61,16 @@ class VrijwilligersController extends AppController
 
             if ($this->Vrijwilliger->save($this->data)) {
                 $this->Session->setFlash(__('The vrijwilliger has been saved', true));
-                $referer = array('action' => 'index');
+                $referer = ['action' => 'index'];
                 $this->flash(__('The vrijwilliger has been saved', true));
 
                 if (!empty($this->data['Vrijwilliger']['referer'])) {
                     $referer = $this->data['Vrijwilliger']['referer'];
                     if (preg_match('/IzDeelnemers/', $this->data['Vrijwilliger']['referer'])) {
-                        $referer = array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Vrijwilliger', $this->Vrijwilliger->id);
+                        $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Vrijwilliger', $this->Vrijwilliger->id];
                     }
                     if (preg_match('/iz_deelnemers/', $this->data['Vrijwilliger']['referer'])) {
-                        $referer = array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Vrijwilliger', $this->Vrijwilliger->id);
+                        $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Vrijwilliger', $this->Vrijwilliger->id];
                     }
                 }
 
@@ -103,7 +102,7 @@ class VrijwilligersController extends AppController
 
         $content = [];
 
-        $url = array('controller' => 'vrijwilligers', 'action' => 'view', $id);
+        $url = ['controller' => 'vrijwilligers', 'action' => 'view', $id];
 
         $content['url'] = Router::url($url, true);
         $content['changes'] = $this->Vrijwilliger->changes;
@@ -123,12 +122,12 @@ class VrijwilligersController extends AppController
             unset($content['changes']['nationaliteit_id']);
         }
 
-        $this->_genericSendEmail(array(
-            'to' => array($mailto),
+        $this->_genericSendEmail([
+            'to' => [$mailto],
             'content' => $content,
             'template' => 'crm',
             'subject' => 'Er heeft een update in het ECD plaatsgevonden',
-        ));
+        ]);
     }
 
     public function edit($id = null)
@@ -137,7 +136,7 @@ class VrijwilligersController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -183,15 +182,15 @@ class VrijwilligersController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
-        $data = array(
-            'Vrijwilliger' => array(
+        $data = [
+            'Vrijwilliger' => [
                  'id' => $id,
                  'disabled' => true,
-             ),
-        );
+             ],
+        ];
 
         $this->Vrijwilliger->create();
 
@@ -200,21 +199,21 @@ class VrijwilligersController extends AppController
 
         if ($this->Vrijwilliger->save($data)) {
             $this->Session->setFlash(__('Vrijwilliger deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Vrijwilliger was not deleted', true));
-        $this->redirect(array('action' => 'edit', $id));
+        $this->redirect(['action' => 'edit', $id]);
     }
 
     public function get_stadsdeel()
     {
         $postcode = $this->getParam('postcode');
 
-        $result = array(
+        $result = [
             'stadsdeel' => false,
             'message' => 'Error',
-        );
+        ];
 
         if ($postcode) {
             $this->loadModel('Stadsdeel');

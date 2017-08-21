@@ -5,28 +5,28 @@ class ZrmReportFixture extends CakeTestFixture
 {
     public $name = 'ZrmReport';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'model' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50),
-        'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'request_module' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50),
-        'inkomen' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'dagbesteding' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'huisvesting' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'gezinsrelaties' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'geestelijke_gezondheid' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'fysieke_gezondheid' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'verslaving' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'adl_vaardigheden' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'sociaal_netwerk' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'maatschappelijke_participatie' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'justitie' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'model' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50],
+        'foreign_key' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'request_module' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50],
+        'inkomen' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'dagbesteding' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'huisvesting' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'gezinsrelaties' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'geestelijke_gezondheid' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'fysieke_gezondheid' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'verslaving' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'adl_vaardigheden' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'sociaal_netwerk' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'maatschappelijke_participatie' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'justitie' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'model' => 'Lorem ipsum dolor sit amet',
             'foreign_key' => 1,
@@ -42,6 +42,6 @@ class ZrmReportFixture extends CakeTestFixture
             'sociaal_netwerk' => 1,
             'maatschappelijke_participatie' => 1,
             'justitie' => 1,
-        ),
-    );
+        ],
+    ];
 }

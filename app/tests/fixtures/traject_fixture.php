@@ -4,5 +4,5 @@
 class TrajectFixture extends CakeTestFixture
 {
     public $name = 'Traject';
-    public $import = array('model' => 'Traject', 'records' => true);
+    public $import = ['model' => 'Traject', 'records' => true];
 }

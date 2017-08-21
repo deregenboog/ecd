@@ -14,7 +14,7 @@ class VerslavingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid verslaving', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('verslaving', $this->Verslaving->read(null, $id));
     }
@@ -25,7 +25,7 @@ class VerslavingenController extends AppController
             $this->Verslaving->create();
             if ($this->Verslaving->save($this->data)) {
                 $this->flash(__('The verslaving has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verslaving could not be saved. Please, try again.', true));
             }
@@ -38,12 +38,12 @@ class VerslavingenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid verslaving', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Verslaving->save($this->data)) {
                 $this->flash(__('The verslaving has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verslaving could not be saved. Please, try again.', true));
             }
@@ -59,13 +59,13 @@ class VerslavingenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verslaving', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Verslaving->delete($id)) {
             $this->flashError(__('Verslaving deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Verslaving was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

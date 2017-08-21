@@ -5,26 +5,26 @@ class RegistratieFixture extends CakeTestFixture
 {
     public $name = 'Registratie';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'locatie_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'klant_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-        'binnen' => array('type' => 'datetime', 'null' => false, 'default' => null),
-        'buiten' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'douche' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'mw' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'kleding' => array('type' => 'boolean', 'null' => false, 'default' => null),
-        'maaltijd' => array('type' => 'boolean', 'null' => false, 'default' => null),
-        'activering' => array('type' => 'boolean', 'null' => false, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'gbrv' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_registraties_klant_id_locatie_id' => array('column' => array('klant_id', 'locatie_id'), 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'locatie_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'klant_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'],
+        'binnen' => ['type' => 'datetime', 'null' => false, 'default' => null],
+        'buiten' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'douche' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'mw' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'kleding' => ['type' => 'boolean', 'null' => false, 'default' => null],
+        'maaltijd' => ['type' => 'boolean', 'null' => false, 'default' => null],
+        'activering' => ['type' => 'boolean', 'null' => false, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'gbrv' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1], 'idx_registraties_klant_id_locatie_id' => ['column' => ['klant_id', 'locatie_id'], 'unique' => 0]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'locatie_id' => 1,
             'klant_id' => 1,
@@ -38,8 +38,8 @@ class RegistratieFixture extends CakeTestFixture
             'created' => '2011-10-16 12:41:22',
             'modified' => '2011-10-16 14:41:22',
             'gbrv' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'locatie_id' => 6,
             'klant_id' => 1,
@@ -53,8 +53,8 @@ class RegistratieFixture extends CakeTestFixture
             'created' => '2013-09-16 12:41:22',
             'modified' => '2013-09-16 13:41:22',
             'gbrv' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'locatie_id' => 3,
             'klant_id' => 1,
@@ -68,7 +68,6 @@ class RegistratieFixture extends CakeTestFixture
             'created' => '2013-10-15 12:21:22',
             'modified' => '2013-10-15 13:51:22',
             'gbrv' => 0,
-        ),
-
-    );
+        ],
+    ];
 }

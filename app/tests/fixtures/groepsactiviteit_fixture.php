@@ -5,21 +5,21 @@ class GroepsactiviteitFixture extends CakeTestFixture
 {
     public $name = 'Groepsactiviteit';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'groepsactiviteiten_groep_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'naam' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100),
-        'datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'time' => array('type' => 'time', 'null' => true, 'default' => null),
-        'afgesloten' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'groepsactiviteiten_groep_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'naam' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 100],
+        'datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'time' => ['type' => 'time', 'null' => true, 'default' => null],
+        'afgesloten' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'groepsactiviteiten_groep_id' => 1,
             'naam' => 'Lorem ipsum dolor sit amet',
@@ -28,6 +28,6 @@ class GroepsactiviteitFixture extends CakeTestFixture
             'afgesloten' => 1,
             'created' => '2014-05-03 15:14:30',
             'modified' => '2014-05-03 15:14:30',
-        ),
-    );
+        ],
+    ];
 }

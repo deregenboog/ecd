@@ -4,5 +4,5 @@
 class GeslachtFixture extends CakeTestFixture
 {
     public $name = 'Geslacht';
-    public $import = array('model' => 'Geslacht', 'records' => true);
+    public $import = ['model' => 'Geslacht', 'records' => true];
 }

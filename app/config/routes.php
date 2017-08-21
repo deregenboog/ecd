@@ -16,7 +16,7 @@
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 0.2.9
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -26,16 +26,16 @@
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, /app/views/pages/home.ctp)...
      */
-    Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+    Router::connect('/', ['controller' => 'pages', 'action' => 'display', 'home']);
 /*
  * ...and connect the rest of 'Pages' controller's urls.
  */
-    Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+    Router::connect('/pages/*', ['controller' => 'pages', 'action' => 'display']);
 
     //some aliases that make maatschappelijk_werk in the url go to verslagen_controller
-    Router::connect('/maatschappelijk_werk/', array('controller' => 'verslagen', 'action' => 'index'));
-    Router::connect('/MaatschappelijkWerk/', array('controller' => 'verslagen', 'action' => 'index'));
-    Router::connect('/maatschappelijk_werk', array('controller' => 'verslagen', 'action' => 'index'));
-    Router::connect('/MaatschappelijkWerk', array('controller' => 'verslagen', 'action' => 'index'));
-    Router::connect('/maatschappelijk_werk/:action/*', array('controller' => 'verslagen', 'action' => 'index'));
-    Router::connect('/MaatschappelijkWerk/:action/*', array('controller' => 'verslagen', 'action' => 'index'));
+    Router::connect('/maatschappelijk_werk/', ['controller' => 'verslagen', 'action' => 'index']);
+    Router::connect('/MaatschappelijkWerk/', ['controller' => 'verslagen', 'action' => 'index']);
+    Router::connect('/maatschappelijk_werk', ['controller' => 'verslagen', 'action' => 'index']);
+    Router::connect('/MaatschappelijkWerk', ['controller' => 'verslagen', 'action' => 'index']);
+    Router::connect('/maatschappelijk_werk/:action/*', ['controller' => 'verslagen', 'action' => 'index']);
+    Router::connect('/MaatschappelijkWerk/:action/*', ['controller' => 'verslagen', 'action' => 'index']);

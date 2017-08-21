@@ -245,7 +245,7 @@ class AppController extends Controller implements ContainerAwareInterface
     {
         if (!$this->user_is_administrator) {
             $this->flashError(__('Action restricted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
     }
 
@@ -484,7 +484,7 @@ class AppController extends Controller implements ContainerAwareInterface
             $this->Email->startup($this);
         }
 
-        $defaults = array(
+        $defaults = [
             'template' => 'default',
             'from_id' => null,
             'to' => [],
@@ -501,7 +501,7 @@ class AppController extends Controller implements ContainerAwareInterface
             'replyTo' => 'noreply@deregenboog.org',
             'returnPath' => 'noreply@deregenboog.org',
             'sendAs' => 'text',
-        );
+        ];
 
         $params = array_merge($defaults, $parameters);
         $this->set('params', $params);
@@ -573,7 +573,7 @@ class AppController extends Controller implements ContainerAwareInterface
 
     protected function applyFilter()
     {
-        if (empty($this->data) && empty($this->params ['named'])) {
+        if (empty($this->data) && empty($this->params['named'])) {
             return false;
         }
 
@@ -590,19 +590,19 @@ class AppController extends Controller implements ContainerAwareInterface
                             }
                         }
                     }
-                    $filters ["$model.$field"] = $value;
+                    $filters["$model.$field"] = $value;
                 }
             }
             $this->redirect($filters);
         }
 
         // put named params in $this->data for auto form values
-        foreach ($this->params ['named'] as $filter => $value) {
+        foreach ($this->params['named'] as $filter => $value) {
             $matches = [];
             if (preg_match('/^([A-z]*)\.([A-z]*)$/', $filter, $matches)) {
                 array_shift($matches);
                 list($model, $field) = $matches;
-                $this->data [$model] [$field] = $value;
+                $this->data[$model][$field] = $value;
             }
         }
 

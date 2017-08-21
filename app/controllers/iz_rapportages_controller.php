@@ -49,7 +49,7 @@ class IzRapportagesController extends AppController
     {
         $data = $this->extractDataFromReport($report);
 
-        foreach($data['reports'] as &$subReport) {
+        foreach ($data['reports'] as &$subReport) {
             if ($firstRow = reset($subReport['data'])) {
                 $subReport['columns'] = array_keys($firstRow);
                 array_unshift($subReport['columns'], $subReport['yDescription']);
@@ -67,7 +67,7 @@ class IzRapportagesController extends AppController
         );
 
         $this->header('Content-type: application/vnd.ms-excel');
-        $this->header('Content-Disposition: ' . sprintf('attachment; filename="%s";', $filename));
+        $this->header('Content-Disposition: '.sprintf('attachment; filename="%s";', $filename));
         $this->header('Content-Transfer-Encoding: binary');
 
         $this->set($data);

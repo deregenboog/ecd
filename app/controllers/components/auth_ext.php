@@ -95,9 +95,9 @@ class AuthExtComponent extends AuthComponent
                 // get the roles from the Session, and set the proper Aro path
                 $groups = $this->user($this->parentModel);
                 // check using our Roles Aro paths
-                $valid = $this->Acl->check(array(
-                            $this->parentModel => array('id' => $groups),
-                            ),
+                $valid = $this->Acl->check([
+                            $this->parentModel => ['id' => $groups],
+                            ],
                         $this->action());
             } elseif ($type == 'controller') {
                 // Call the controller function 'isAuthorized', that can be

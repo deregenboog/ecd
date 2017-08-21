@@ -13,10 +13,10 @@ class AppTimeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'widget' => 'single_text',
             'attr' => ['placeholder' => 'uu:mm'],
-        ));
+        ]);
     }
 
     /**

@@ -31,7 +31,7 @@ class SqlReportComponent extends Component
     private function _readManagementReportConfig($file)
     {
         $reports = [];
-        $fieldProperties = array('name', 'label', 'helper', 'function');
+        $fieldProperties = ['name', 'label', 'helper', 'function'];
         $queries = simplexml_load_file(APP.'/config/'.$file.'.xml');
         foreach ($queries as $query) {
             $head = $query->head->__toString();
@@ -46,14 +46,14 @@ class SqlReportComponent extends Component
                 $fields[] = $fld;
             }
 
-            $reports[] = array(
+            $reports[] = [
                 'head' => $head,
                 'fields' => $fields,
                 'isArray' => $query['type'] == 'array',
                 'isDisabled' => $query['disabled'] == 1,
                 'hasSummary' => $query['summary'] == 1,
                 'sql' => $query->sql->__toString(),
-            );
+            ];
         }
 
         return $reports;

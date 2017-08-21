@@ -3,14 +3,12 @@
 namespace InloopBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Aanmelding;
-use Doctrine\ORM\Query\ResultSetMapping;
 use AppBundle\Entity\Klant;
 
 class DossierStatusRepository extends EntityRepository
 {
-    CONST CACHE_KEY_ACTIVE_KLANT_IDS = 'active_klant_ids';
+    const CACHE_KEY_ACTIVE_KLANT_IDS = 'active_klant_ids';
 
     public function findCurrentByKlantId($id)
     {
@@ -26,7 +24,7 @@ class DossierStatusRepository extends EntityRepository
     /**
      * Returns the ids of "Klant" entities that have "Aanmelding" as most recent status, rather than "Afsluiting".
      *
-     * @return array Array of ids.
+     * @return array array of ids
      */
     public function getActiveKlantIds()
     {

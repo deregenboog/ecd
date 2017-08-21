@@ -13,8 +13,6 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
-use InloopBundle\Entity\RedenAfsluiting;
 
 class AfsluitingType extends AbstractType
 {
@@ -28,7 +26,7 @@ class AfsluitingType extends AbstractType
             ->add('reden', null, [
                 'required' => true,
                 'placeholder' => 'Selecteer een reden',
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('reden')
                         ->where('reden.actief = true')
                         ->orderBy('reden.gewicht, reden.naam')
@@ -37,7 +35,7 @@ class AfsluitingType extends AbstractType
             ])
         ;
 
-        $builder->get('reden')->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+        $builder->get('reden')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             if ($form->getData() && $form->getData()->isLand()) {
                 $form->getParent()->add('land', null, [
@@ -48,7 +46,7 @@ class AfsluitingType extends AbstractType
             }
         });
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             if ($form->has('land') && !$form->get('land')->getData()) {
                 $form->get('land')->addError(new FormError('Selecteer een land'));

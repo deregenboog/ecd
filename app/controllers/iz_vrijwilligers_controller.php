@@ -4,7 +4,6 @@ use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerFilterType;
-use IzBundle\Form\IzVrijwilligerSelectType;
 use IzBundle\Service\VrijwilligerDaoInterface;
 use AppBundle\Form\VrijwilligerType;
 

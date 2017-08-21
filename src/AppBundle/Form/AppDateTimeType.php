@@ -13,12 +13,12 @@ class AppDateTimeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'date_widget' => 'single_text',
             'time_widget' => 'single_text',
             'date_format' => 'dd-MM-yyyy',
             'attr' => ['placeholder' => 'dd-mm-jjjj'],
-        ));
+        ]);
     }
 
     /**

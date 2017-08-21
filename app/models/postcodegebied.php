@@ -6,26 +6,26 @@ class Postcodegebied extends AppModel
 
     public $name = 'Postcodegebied';
     public $primaryKey = 'postcode';
-    public $validate = array(
-        'postcode' => array(
-            'alphanumeric' => array(
-                'rule' => array('alphanumeric'),
-            ),
-        ),
-    );
+    public $validate = [
+        'postcode' => [
+            'alphanumeric' => [
+                'rule' => ['alphanumeric'],
+            ],
+        ],
+    ];
 
     public function getPostcodegebiedByPostcode($postcode)
     {
         $postcode = substr($postcode, 0, 4);
 
-        $conditions = array(
+        $conditions = [
             'van <=' => $postcode,
             'tot >=' => $postcode,
-        );
+        ];
 
-        $result = $this->find('first', array(
+        $result = $this->find('first', [
             'conditions' => $conditions,
-        ));
+        ]);
 
         if (!empty($result['Postcodegebied']['postcodegebied'])) {
             return $result['Postcodegebied']['postcodegebied'];

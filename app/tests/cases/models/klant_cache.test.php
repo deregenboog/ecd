@@ -14,15 +14,15 @@ class SimpleIntake extends Intake
     public $hasMany = [];
     public $hasAndBelongsToMany = [];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'SimpleKlant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }
 
 class SimpleRegistratie extends Registratie
@@ -33,15 +33,15 @@ class SimpleRegistratie extends Registratie
     public $hasMany = [];
     public $hasAndBelongsToMany = [];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'SimpleKlant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }
 
 class SimpleKlant extends Klant
@@ -52,43 +52,43 @@ class SimpleKlant extends Klant
 
     public $hasOne = [];
 
-    public $belongsTo = array(
-            'Geboorteland' => array(
+    public $belongsTo = [
+            'Geboorteland' => [
                     'className' => 'Land',
                     'foreignKey' => 'land_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-            'LasteIntake' => array(
+            ],
+            'LasteIntake' => [
                     'className' => 'SimpleIntake',
                     'foreignKey' => 'laste_intake_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-            'LaatsteRegistratie' => array(
+            ],
+            'LaatsteRegistratie' => [
                     'className' => 'SimpleRegistratie',
                     'foreignKey' => 'laatste_registratie_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
+            ],
+    ];
 
-    public $hasMany = array(
-            'Intake' => array(
+    public $hasMany = [
+            'Intake' => [
                     'className' => 'SimpleIntake',
                     'foreignKey' => 'klant_id',
                     'dependent' => false,
                     'conditions' => '',
                     'fields' => '',
-                    'order' => array(
+                    'order' => [
                             'Intake.datum_intake DESC',
                             'Intake.modified DESC',
-                    ),
-            ),
-            'Registratie' => array(
+                    ],
+            ],
+            'Registratie' => [
                     'className' => 'SimpleRegistratie',
                     'foreignKey' => 'klant_id',
                     'dependent' => false,
@@ -100,15 +100,15 @@ class SimpleKlant extends Klant
                     'exclusive' => '',
                     'finderQuery' => '',
                     'counterQuery' => '',
-                ),
-            );
+                ],
+            ];
 }
 
 class KlantCacheTestCase extends CakeTestCase
 {
     // var $fixtures = array('app.klant');
 
-    public $fixtures = array('app.klant', 'app.geslacht', 'app.land', 'app.ldap_user', 'app.intake', 'app.registratie', 'app.medewerker', 'app.log');
+    public $fixtures = ['app.klant', 'app.geslacht', 'app.land', 'app.ldap_user', 'app.intake', 'app.registratie', 'app.medewerker', 'app.log'];
 
     public function startTest()
     {
@@ -128,7 +128,7 @@ class KlantCacheTestCase extends CakeTestCase
     {
         $this->assertFalse(registry_isset('test', 'key'));
 
-        registry_set('test', 'key', array('some value', 'other value'));
+        registry_set('test', 'key', ['some value', 'other value']);
         $this->assertTrue(registry_isset('test', 'key'));
 
         $res = registry_get('test', 'key');
@@ -181,8 +181,8 @@ class KlantCacheTestCase extends CakeTestCase
             ' when searched in '
             .print_r($relationCache, true)
         )) {
-            debug(array('found only' => array_keys($relationCache),
-                'expected also' => array_keys($this->Model->belongsTo), ));
+            debug(['found only' => array_keys($relationCache),
+                'expected also' => array_keys($this->Model->belongsTo), ]);
         }
     }
 
@@ -200,8 +200,8 @@ class KlantCacheTestCase extends CakeTestCase
             ' when searched in '
             .print_r($relationCache, true)
         )) {
-            debug(array('found only' => array_keys($relationCache),
-                'expected also' => array_keys($this->Model->hasMany), ));
+            debug(['found only' => array_keys($relationCache),
+                'expected also' => array_keys($this->Model->hasMany), ]);
         }
     }
 
@@ -283,7 +283,7 @@ class KlantCacheTestCase extends CakeTestCase
             }
         }
         $this->assertTrue(empty($foundCaches), 'After deleting, the relations cache of the parent objects should be empty,
-            but found some not deleted ones: ' .implode(', ', $foundCaches)
+            but found some not deleted ones: '.implode(', ', $foundCaches)
         );
     }
 
@@ -312,7 +312,7 @@ class KlantCacheTestCase extends CakeTestCase
         $this->assertFalse($res);
 
         $this->Model->setComputedPropertyById($id, 'prop_1', 'value');
-        $prop_2 = array('a' => 1, 'b' => 2);
+        $prop_2 = ['a' => 1, 'b' => 2];
         $this->Model->setComputedPropertyById($id, 'prop_2', $prop_2);
 
         $res = $this->Model->getComputedPropertyById($id, 'prop_1');
@@ -333,10 +333,10 @@ class KlantCacheTestCase extends CakeTestCase
 
         $fromCache = $this->Model->getAllById($id);
 
-        $fromFind = $this->Model->find('first', array(
-            'conditions' => array($this->Model->alias.'.id' => $id),
+        $fromFind = $this->Model->find('first', [
+            'conditions' => [$this->Model->alias.'.id' => $id],
             'recursive' => 1,
-        ));
+        ]);
 
         $this->assertEqual($fromCache, $fromFind);
 
@@ -396,8 +396,8 @@ class KlantCacheTestCase extends CakeTestCase
 
         $countBefore = count($before['Intake']);
 
-        $data = array(
-            'Intake' => array(
+        $data = [
+            'Intake' => [
                 'klant_id' => 1,
                 'medewerker_id' => 1,
                 'datum_intake' => '2013-10-15',
@@ -437,10 +437,9 @@ class KlantCacheTestCase extends CakeTestCase
                 'locatie3_id' => 4,
                 'infobaliedoelgroep_id' => 1,
                 'toegang_vrouwen_nacht_opvang' => 1,
-            ),
-            'Inkomen' => array('Inkomen' => array(0 => '1')),
-
-        );
+            ],
+            'Inkomen' => ['Inkomen' => [0 => '1']],
+        ];
 
         if (!$this->Model->Intake->save($data, false)) {
             debug($this->Model->Intake->validationErrors);
@@ -460,11 +459,11 @@ class KlantCacheTestCase extends CakeTestCase
 
         $countBefore = count($before['Registratie']);
 
-        $data = array(
+        $data = [
             'locatie_id' => 3,
             'klant_id' => 1,
             'binnen' => date('Y-m-d H:i:s'),
-        );
+        ];
 
         if (!$this->Model->Registratie->save($data, false)) {
             debug($this->Model->Intake->validationErrors);

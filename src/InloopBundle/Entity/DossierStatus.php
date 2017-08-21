@@ -5,7 +5,6 @@ namespace InloopBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Entity\Medewerker;

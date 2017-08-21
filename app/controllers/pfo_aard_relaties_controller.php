@@ -14,7 +14,7 @@ class PfoAardRelatiesController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid pfo aard relatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('pfoAardRelatie', $this->PfoAardRelatie->read(null, $id));
     }
@@ -25,7 +25,7 @@ class PfoAardRelatiesController extends AppController
             $this->PfoAardRelatie->create();
             if ($this->PfoAardRelatie->save($this->data)) {
                 $this->Session->setFlash(__('The pfo aard relatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo aard relatie could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class PfoAardRelatiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid pfo aard relatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->PfoAardRelatie->save($this->data)) {
                 $this->Session->setFlash(__('The pfo aard relatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo aard relatie could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class PfoAardRelatiesController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo aard relatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->PfoAardRelatie->delete($id)) {
             $this->Session->setFlash(__('Pfo aard relatie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->Session->setFlash(__('Pfo aard relatie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

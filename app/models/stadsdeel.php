@@ -6,18 +6,18 @@ class Stadsdeel extends AppModel
 
     public $name = 'Stadsdeel';
     public $primaryKey = 'postcode';
-    public $validate = array(
-        'postcode' => array(
-            'alphanumeric' => array(
-                'rule' => array('alphanumeric'),
+    public $validate = [
+        'postcode' => [
+            'alphanumeric' => [
+                'rule' => ['alphanumeric'],
                 //'message' => 'Your custom message here',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function getStadsdeelByPostcode($postcode)
     {

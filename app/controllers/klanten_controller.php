@@ -5,7 +5,6 @@ use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\DossierStatus;
-use InloopBundle\Repository\DossierStatusRepository;
 
 class KlantenController extends AppController
 {

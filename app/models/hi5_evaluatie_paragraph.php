@@ -4,8 +4,8 @@ class Hi5EvaluatieParagraph extends AppModel
 {
     public $name = 'Hi5EvaluatieParagraph';
 
-    public $hasMany = array(
-            'Hi5EvaluatieQuestion' => array(
+    public $hasMany = [
+            'Hi5EvaluatieQuestion' => [
                     'className' => 'Hi5EvaluatieQuestion',
                     'foreignKey' => 'hi5_evaluatie_paragraph_id',
                     'dependent' => false,
@@ -17,14 +17,14 @@ class Hi5EvaluatieParagraph extends AppModel
                     'exclusive' => '',
                     'finderQuery' => '',
                     'counterQuery' => '',
-            ),
-    );
+            ],
+    ];
 
     public function getParagraphs()
     {
-        $paragraphList = $this->find('all', array(
+        $paragraphList = $this->find('all', [
                 'recursive' => 2,
-        ));
+        ]);
 
         $paragraphResult = [];
 

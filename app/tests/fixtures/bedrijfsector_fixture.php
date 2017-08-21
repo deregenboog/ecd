@@ -4,5 +4,5 @@
 class BedrijfsectorFixture extends CakeTestFixture
 {
     public $name = 'Bedrijfsector';
-    public $import = array('model' => 'Bedrijfsector', 'records' => true);
+    public $import = ['model' => 'Bedrijfsector', 'records' => true];
 }

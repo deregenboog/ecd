@@ -4,5 +4,5 @@
 class DoorverwijzerFixture extends CakeTestFixture
 {
     public $name = 'Doorverwijzer';
-    public $import = array('model' => 'Doorverwijzer', 'records' => true);
+    public $import = ['model' => 'Doorverwijzer', 'records' => true];
 }

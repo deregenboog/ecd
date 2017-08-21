@@ -5,8 +5,8 @@ class Bedrijfsector extends AppModel
     public $name = 'Bedrijfsector';
     public $displayField = 'name';
 
-    public $hasMany = array(
-            'Bedrijfitem' => array(
+    public $hasMany = [
+            'Bedrijfitem' => [
                     'className' => 'Bedrijfitem',
                     'foreignKey' => 'bedrijfsector_id',
                     'dependent' => false,
@@ -18,8 +18,8 @@ class Bedrijfsector extends AppModel
                     'exclusive' => '',
                     'finderQuery' => '',
                     'counterQuery' => '',
-            ),
-    );
+            ],
+    ];
 
     public function getNestedSectors()
     {
@@ -27,11 +27,11 @@ class Bedrijfsector extends AppModel
         $nestedList = [];
 
         foreach ($list as $key => $value) {
-            $nestedList[$key] = $this->Bedrijfitem->find('list', array(
-                'conditions' => array(
+            $nestedList[$key] = $this->Bedrijfitem->find('list', [
+                'conditions' => [
                     'bedrijfsector_id' => $key,
-                ),
-            ));
+                ],
+            ]);
         }
 
         return $nestedList;

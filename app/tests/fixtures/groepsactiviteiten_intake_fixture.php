@@ -5,24 +5,24 @@ class GroepsactiviteitenIntakeFixture extends CakeTestFixture
 {
     public $name = 'GroepsactiviteitenIntake';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'model' => array('type' => 'string', 'null' => false, 'default' => null),
-        'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-        'gespreksverslag' => array('type' => 'text', 'null' => true, 'default' => null),
-        'informele_zorg' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
-        'dagbesteding' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
-        'inloophuis' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
-        'hulpverlening' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
-        'intakedatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'groepsactiviteiten_intakes_foreign_key_model_idx' => array('column' => array('foreign_key', 'model'), 'unique' => 0)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'model' => ['type' => 'string', 'null' => false, 'default' => null],
+        'foreign_key' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'],
+        'gespreksverslag' => ['type' => 'text', 'null' => true, 'default' => null],
+        'informele_zorg' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 4],
+        'dagbesteding' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 4],
+        'inloophuis' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 4],
+        'hulpverlening' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 4],
+        'intakedatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1], 'groepsactiviteiten_intakes_foreign_key_model_idx' => ['column' => ['foreign_key', 'model'], 'unique' => 0]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'model' => 'Lorem ipsum dolor sit amet',
             'foreign_key' => 1,
@@ -34,6 +34,6 @@ class GroepsactiviteitenIntakeFixture extends CakeTestFixture
             'intakedatum' => '2014-05-07',
             'created' => '2014-05-07 13:20:57',
             'modified' => '2014-05-07 13:20:57',
-        ),
-    );
+        ],
+    ];
 }

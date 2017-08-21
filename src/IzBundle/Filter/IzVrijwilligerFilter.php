@@ -17,7 +17,7 @@ class IzVrijwilligerFilter implements FilterInterface
     public $afsluitDatum;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $openDossiers;
 

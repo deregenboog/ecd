@@ -3,36 +3,36 @@
 class Medewerker extends AppModel
 {
     public $name = 'Medewerker';
-    public $users = array('Containable');
+    public $users = ['Containable'];
 
     public $displayField = 'name';
-    public $validate = array(
-        'achternaam' => array(
-            'notempty' => array(
-                'rule' => array(
+    public $validate = [
+        'achternaam' => [
+            'notempty' => [
+                'rule' => [
                     'notempty',
-                ),
-            ),
-        ),
-    );
+                ],
+            ],
+        ],
+    ];
 
-    public $actsAs = array(
+    public $actsAs = [
         'Containable',
-    );
+    ];
 
-    public $order = array(
+    public $order = [
         'voornaam ASC',
         'achternaam ASC',
-    );
+    ];
 
     public $hasMany = [];
 
-    public $belongsTo = array(
-        'LdapUser' => array(
+    public $belongsTo = [
+        'LdapUser' => [
             'className' => 'LdapUser',
             'foreignKey' => 'uidnumber',
-        ),
-    );
+        ],
+    ];
 
     public function __construct($id = false, $table = null, $ds = null)
     {
@@ -67,12 +67,12 @@ class Medewerker extends AppModel
         $user['laatste_bezoek'] = date('Y-m-d H:i:s');
         $user['email'] = $ldapData['mail'];
 
-        $exists = $this->find('list', array(
-            'conditions' => array(
+        $exists = $this->find('list', [
+            'conditions' => [
                 'username' => $username,
-            ),
+            ],
             'limit' => 1,
-        ));
+        ]);
 
         if (!$exists) {
             $user['eerste_bezoek'] = date('Y-m-d H:i:s');
@@ -102,11 +102,11 @@ class Medewerker extends AppModel
                 )
             );
 
-            $users = $this->find('list', array(
-                'conditions' => array(
+            $users = $this->find('list', [
+                'conditions' => [
                     'username' => $userNames,
-                ),
-            ));
+                ],
+            ]);
             Cache::write($cacheKey, $users, 'ldap');
         }
 
@@ -206,10 +206,10 @@ class Medewerker extends AppModel
         if (!empty($medewerker_ids)) {
             if (!empty($options['conditions'])) {
                 $options['conditions'] = [
-                    'OR' => array(
+                    'OR' => [
                         'AND' => $options['conditions'],
                         'id' => $medewerker_ids,
-                    ),
+                    ],
                 ];
             } else {
                 $options['conditions'] = ['id' => $medewerker_ids];
@@ -224,10 +224,10 @@ class Medewerker extends AppModel
 
     public function uit_dienst()
     {
-        $medewerkers = $this->find('all', array(
-            'fields' => array('id', 'username', 'active'),
+        $medewerkers = $this->find('all', [
+            'fields' => ['id', 'username', 'active'],
             'contain' => [],
-        ));
+        ]);
 
         $ldap_users = $this->getActiveUsers();
         if (!$ldap_users) {

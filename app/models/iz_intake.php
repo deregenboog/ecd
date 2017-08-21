@@ -8,35 +8,35 @@ class IzIntake extends AppModel
     const DECISION_VALUE_NO = 0;
     const DECISION_VALUE_YES = 1;
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $belongsTo = array(
-        'IzDeelnemer' => array(
+    public $belongsTo = [
+        'IzDeelnemer' => [
             'className' => 'IzDeelnemer',
             'foreignKey' => 'iz_deelnemer_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-        'medewerker_id' => array(
-            'notempty' => array(
-                'rule' => array(
+    public $validate = [
+        'medewerker_id' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Een medewerker selecteren',
                 'allowEmpty' => false,
                 'required' => false,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 }

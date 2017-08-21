@@ -14,7 +14,7 @@ class LegitimatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid legitimatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('legitimatie', $this->Legitimatie->read(null, $id));
     }
@@ -25,7 +25,7 @@ class LegitimatiesController extends AppController
             $this->Legitimatie->create();
             if ($this->Legitimatie->save($this->data)) {
                 $this->flashError(__('The legitimatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The legitimatie could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class LegitimatiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid legitimatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Legitimatie->save($this->data)) {
                 $this->flashError(__('The legitimatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The legitimatie could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class LegitimatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for legitimatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Legitimatie->delete($id)) {
             $this->flashError(__('Legitimatie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Legitimatie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

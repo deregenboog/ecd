@@ -8,22 +8,22 @@ class GroepsactiviteitenGroepenController extends AppController
     {
         $this->GroepsactiviteitenGroep->recursive = 0;
 
-        $conditions = array(
-            'OR' => array(
+        $conditions = [
+            'OR' => [
                 'einddatum ' => null,
                 'einddatum > ' => date('Y-m-d'),
-            ),
-        );
+            ],
+        ];
 
         if (!empty($showall)) {
-            $conditions = array(
+            $conditions = [
                'einddatum <= ' => date('Y-m-d'),
-            );
+            ];
         }
 
-        $this->paginate = array(
+        $this->paginate = [
             'conditions' => $conditions,
-        );
+        ];
 
         $this->set('groepsactiviteitenGroepen', $this->paginate());
     }
@@ -35,7 +35,7 @@ class GroepsactiviteitenGroepenController extends AppController
 
             if ($this->GroepsactiviteitenGroep->save($this->data)) {
                 $this->Session->setFlash(__('De groep is opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('Groep kan niet worden opgeslagen', true));
             }
@@ -48,7 +48,7 @@ class GroepsactiviteitenGroepenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Niet geldige groep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -56,7 +56,7 @@ class GroepsactiviteitenGroepenController extends AppController
 
             if ($this->GroepsactiviteitenGroep->save($this->data)) {
                 $this->Session->setFlash(__('De groep is opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('Groep kan niet worden opgeslagen', true));
             }
@@ -81,16 +81,16 @@ class GroepsactiviteitenGroepenController extends AppController
 
         $this->loadModel($model);
 
-        $params = array(
-            'contain' => array($persoon_model => array('GroepsactiviteitenIntake')),
-            'conditions' => array(
+        $params = [
+            'contain' => [$persoon_model => ['GroepsactiviteitenIntake']],
+            'conditions' => [
                 'groepsactiviteiten_groep_id' => $id,
-                'OR' => array(
+                'OR' => [
                     'einddatum > now()',
                     'einddatum' => null,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $members = $this->{$model}->find('all', $params);
 

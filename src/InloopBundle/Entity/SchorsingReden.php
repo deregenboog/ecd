@@ -50,6 +50,7 @@ class SchorsingReden
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 

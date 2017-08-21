@@ -66,7 +66,7 @@ class VerslagenController extends AppController
             $joinType = 'LEFT';
         }
         $this->paginate['joins'] = [[
-           'table' => "(SELECT klant_id, MAX(datum) AS laatste_rapportage FROM verslagen GROUP BY klant_id)",
+           'table' => '(SELECT klant_id, MAX(datum) AS laatste_rapportage FROM verslagen GROUP BY klant_id)',
            'alias' => 'verslagen',
            'type' => $joinType,
            'conditions' => ['Klant.id = verslagen.klant_id'],
@@ -81,7 +81,7 @@ class VerslagenController extends AppController
                 'type' => 'INNER',
                 'conditions' => [
                     'Medewerker.id = Verslag.medewerker_id',
-                ]],
+                ], ],
             ],
         ]);
 

@@ -4,8 +4,6 @@ namespace InloopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -66,6 +64,7 @@ class Afsluiting extends DossierStatus
     public function setToelichting($toelichting)
     {
         $this->toelichting = $toelichting;
+
         return $this;
     }
 

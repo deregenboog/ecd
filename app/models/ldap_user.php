@@ -186,7 +186,7 @@ class LdapUser extends AppModel
         $l = ldap_get_entries($this->ds, $r);
 
         $groups = $this->convert_from_ldap($l);
-        $group_array = array();
+        $group_array = [];
 
         foreach ($groups as $g) {
             $cn = $g['LdapUser']['cn'];

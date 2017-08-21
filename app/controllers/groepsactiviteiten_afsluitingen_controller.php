@@ -14,7 +14,7 @@ class GroepsactiviteitenAfsluitingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid groepsactiviteiten afsluiting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('groepsactiviteitenAfsluiting', $this->GroepsactiviteitenAfsluiting->read(null, $id));
     }
@@ -25,7 +25,7 @@ class GroepsactiviteitenAfsluitingenController extends AppController
             $this->GroepsactiviteitenAfsluiting->create();
             if ($this->GroepsactiviteitenAfsluiting->save($this->data)) {
                 $this->Session->setFlash(__('The groepsactiviteiten afsluiting has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The groepsactiviteiten afsluiting could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class GroepsactiviteitenAfsluitingenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid groepsactiviteiten afsluiting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->GroepsactiviteitenAfsluiting->save($this->data)) {
                 $this->Session->setFlash(__('The groepsactiviteiten afsluiting has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The groepsactiviteiten afsluiting could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class GroepsactiviteitenAfsluitingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for groepsactiviteiten afsluiting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->GroepsactiviteitenAfsluiting->delete($id)) {
             $this->Session->setFlash(__('Groepsactiviteiten afsluiting deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->Session->setFlash(__('Groepsactiviteiten afsluiting was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

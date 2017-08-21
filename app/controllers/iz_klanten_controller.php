@@ -4,9 +4,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\KlantFilterType;
 use IzBundle\Form\IzKlantFilterType;
-use IzBundle\Form\IzKlantSelectType;
 use IzBundle\Service\KlantDaoInterface;
-use IzBundle\Entity\IzKlant;
 use AppBundle\Form\KlantType;
 
 class IzKlantenController extends AppController

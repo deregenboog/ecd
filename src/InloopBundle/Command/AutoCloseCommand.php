@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Command;
 
-use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,9 +47,11 @@ class AutoCloseCommand extends ContainerAwareCommand
             ;
         } catch (NonUniqueResultException $e) {
             $output->writeln("Reden '{$this->redenPattern}' is niet uniek!");
+
             return;
         } catch (NoResultException $e) {
             $output->writeln("Reden '{$this->redenPattern}' niet gevonden!");
+
             return;
         }
 

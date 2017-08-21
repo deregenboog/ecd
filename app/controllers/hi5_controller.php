@@ -4,15 +4,15 @@ class Hi5Controller extends AppController
 {
     public $name = 'Hi5';
 
-    public $components = array(
+    public $components = [
             'ComponentLoader',
             'RequestHandler',
             'Session',
-    );
+    ];
 
-    public $uses = array(
+    public $uses = [
             'Klant',
-    );
+    ];
 
     private $permissions = 0;
 
@@ -48,7 +48,6 @@ class Hi5Controller extends AppController
         $this->ComponentLoader->load('Filter');
 
         if (isset(
-
             $this->params['named'])) {
             if (isset($this->params['named']['showDisabled'])) {
                 $this->Klant->showDisabled = $this->params['named']['showDisabled'];
@@ -65,44 +64,44 @@ class Hi5Controller extends AppController
             $show_all = true;
         }
 
-        $this->paginate['Klant'] = array(
-            'contain' => array(
-                'Geslacht' => array(
-                    'fields' => array(
+        $this->paginate['Klant'] = [
+            'contain' => [
+                'Geslacht' => [
+                    'fields' => [
                         'afkorting',
                         'volledig',
-                    ),
-                ),
-                'Hi5Intake' => array(
-                    'fields' => array(
+                    ],
+                ],
+                'Hi5Intake' => [
+                    'fields' => [
                         'locatie1_id',
                         'locatie2_id',
                         'locatie3_id',
                         'datum_intake',
-                    ),
+                    ],
                     'order' => 'datum_intake DESC',
-                    'Locatie1' => array(
+                    'Locatie1' => [
                         'naam',
-                    ),
-                    'Locatie2' => array(
+                    ],
+                    'Locatie2' => [
                         'naam',
-                    ),
-                    'Locatie3' => array(
+                    ],
+                    'Locatie3' => [
                         'naam',
-                    ),
-                ),
-            ),
-           'joins' => array(
-                array(
+                    ],
+                ],
+            ],
+           'joins' => [
+                [
                    'table' => 'trajecten',
                    'alias' => 'Traject',
                    'type' => 'INNER',
-                   'conditions' => array(
+                   'conditions' => [
                         'Klant.id = Traject.klant_id',
-                   ),
-                ),
-            ),
-        );
+                   ],
+                ],
+            ],
+        ];
 
         if ($show_all) {
             unset($this->paginate['Klant']['joins']);
@@ -121,23 +120,23 @@ class Hi5Controller extends AppController
     {
         $this->Klant->setHi5Info($id);
 
-        $countContactjournalTB = $this->Klant->Contactjournal->find('count', array(
-            'conditions' => array(
+        $countContactjournalTB = $this->Klant->Contactjournal->find('count', [
+            'conditions' => [
                 'Contactjournal.klant_id' => $id,
                 'Contactjournal.is_tb' => true,
-            ),
-        ));
+            ],
+        ]);
 
-        $countContactjournalWB = $this->Klant->Contactjournal->find('count', array(
-            'conditions' => array(
+        $countContactjournalWB = $this->Klant->Contactjournal->find('count', [
+            'conditions' => [
                 'Contactjournal.klant_id' => $id,
                 'Contactjournal.is_tb' => false,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->set(array(
+        $this->set([
             'klant' => &$this->Klant->data,
-        ));
+        ]);
 
         $persoon = $this->Klant->getAllById($id);
 
@@ -186,9 +185,9 @@ class Hi5Controller extends AppController
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
 
-            $this->redirect(array(
+            $this->redirect([
                 'action' => 'index',
-            ));
+            ]);
         }
 
         $this->_leftMenuInfo($id);
@@ -213,10 +212,10 @@ class Hi5Controller extends AppController
             if ($result) {
                 $this->flash(__('Gegevens traject-en werkbegeleiding opgeslagen.', true));
 
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'view',
                     $id,
-                ));
+                ]);
             }
         } else {
             $this->data = $this->Klant->data;
@@ -238,11 +237,11 @@ class Hi5Controller extends AppController
 
         $this->_leftMenuInfo($id);
 
-        $this->set(array(
+        $this->set([
             'klant' => $this->Klant->data,
             'trajectbegeleiders' => $trajectbegeleiders,
             'werkbegeleiders' => $werkbegeleiders,
-        ));
+        ]);
     }
 
     public function add_intake($id = null)
@@ -252,17 +251,17 @@ class Hi5Controller extends AppController
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
 
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         if (!($this->permissions & HI5_CREATE_INTAKES)) {
             $this->flashError(__('You are not allowed to add intakes', true));
-            $this->redirect(array(
+            $this->redirect([
                 'action' => 'view',
                 $id,
-            ));
+            ]);
         }
 
         $this->_leftMenuInfo($id);
@@ -274,7 +273,7 @@ class Hi5Controller extends AppController
 
             $this->Klant->Hi5Intake->begin();
 
-            if ($this->Klant->Hi5Intake->saveAll($this->data, array('atomic' => false))) {
+            if ($this->Klant->Hi5Intake->saveAll($this->data, ['atomic' => false])) {
                 $this->data['ZrmReport']['model'] = 'Hi5Intake';
                 $this->data['ZrmReport']['foreign_key'] = $this->Klant->Hi5Intake->id;
                 $this->data['ZrmReport']['klant_id'] = $this->data['Hi5Intake']['klant_id'];
@@ -284,7 +283,7 @@ class Hi5Controller extends AppController
                 if ($this->ZrmReport->save($this->data)) {
                     $this->Klant->Hi5Intake->commit();
                     $this->flash(__('De Hi5 intake is opgeslagen.', true));
-                    $this->redirect(array('action' => 'view', $id));
+                    $this->redirect(['action' => 'view', $id]);
                 }
 
                 $this->flashError(__('De Hi5 intake niet opgeslagen.', true));
@@ -294,13 +293,13 @@ class Hi5Controller extends AppController
 
             $this->Klant->Hi5Intake->rollback();
         } else {
-            $this->data = $this->Klant->Hi5Intake->find('first', array(
-                'conditions' => array(
+            $this->data = $this->Klant->Hi5Intake->find('first', [
+                'conditions' => [
                         'klant_id' => $id,
-                ),
-                'order' => array('Hi5Intake.datum_intake desc', 'Hi5Intake.created desc'),
+                ],
+                'order' => ['Hi5Intake.datum_intake desc', 'Hi5Intake.created desc'],
                 'limit' => 1,
-            ));
+            ]);
 
             if ($this->data) {
                 unset($this->data['Hi5Intake']['id']);
@@ -326,9 +325,9 @@ class Hi5Controller extends AppController
 
         $this->setMedewerkers();
 
-        $verblijfstatussen = $this->Klant->Hi5Intake->Verblijfstatus->find('list', array(
+        $verblijfstatussen = $this->Klant->Hi5Intake->Verblijfstatus->find('list', [
                 'order' => 'Verblijfstatus.naam ASC',
-        ));
+        ]);
 
         $primary_problems = $this->Klant->Hi5Intake->PrimaireProblematiek->find('list');
 
@@ -363,17 +362,17 @@ class Hi5Controller extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $klant = $this->Klant->read(null, $id);
 
         $this->set('klant', $klant);
 
-        $zrmReports = $this->ZrmReport->find('all', array(
-                'conditions' => array('klant_id' => $id),
+        $zrmReports = $this->ZrmReport->find('all', [
+                'conditions' => ['klant_id' => $id],
                 'order' => 'ZrmReport.created DESC',
-        ));
+        ]);
 
         $zrm_data = $this->ZrmReport->zrm_data();
 
@@ -389,9 +388,9 @@ class Hi5Controller extends AppController
         $this->loadModel('ZrmReport');
         if (!$intakeId) {
             $this->flashError(__('Invalid Intake', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         $intaker_id = $this->Session->read('Auth.Medewerker.id');
@@ -404,13 +403,13 @@ class Hi5Controller extends AppController
 
             $this->Klant->Hi5Intake->commit();
 
-            if ($this->Klant->Hi5Intake->saveAll($this->data, array('atomic' => false))) {
+            if ($this->Klant->Hi5Intake->saveAll($this->data, ['atomic' => false])) {
                 $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Hi5Intake', $intakeId, $this->data['Hi5Intake']['klant_id']);
 
                 if ($this->ZrmReport->save($this->data)) {
                     $this->Klant->Hi5Intake->commit();
                     $this->flash(__('The intake has been saved.', true));
-                    $this->redirect(array('action' => 'view', $this->data['Hi5Intake']['klant_id']));
+                    $this->redirect(['action' => 'view', $this->data['Hi5Intake']['klant_id']]);
                 }
             }
 
@@ -420,38 +419,38 @@ class Hi5Controller extends AppController
             $this->data['Hi5Answer'] = $save;
         } else {
             $this->data = $this->Klant->Hi5Intake->find('first',
-                array(
-                        'conditions' => array(
+                [
+                        'conditions' => [
                                 'Hi5Intake.id' => $intakeId,
-                        ),
-                ));
+                        ],
+                ]);
 
             if ($this->data['Hi5Intake']['medewerker_id'] != $intaker_id) { // only edit your own intakes
                 $this->flashError(__('You can only edit your own intakes', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'index',
                             $this->data['Hi5Intake']['klant_id'],
-                    ));
+                    ]);
             }
 
             if (date('Y-m-d', strtotime($this->data['Hi5Intake']['created'])) !== date('Y-m-d')) { // only edit your own intakes
                 $this->flashError(
                     __('You can only edit intakes the same day of their creation', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $this->data['Hi5Intake']['klant_id'],
-                    ));
+                    ]);
             }
 
             if (!($this->permissions & HI5_CREATE_INTAKES)) {
                 $this->flashError(__('You are not allowed to edit intakes', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $this->data['Hi5Intake']['klant_id'],
-                    ));
+                    ]);
             }
             $this->data['Hi5Answer'] = $this->Klant->Hi5Intake->Hi5Answer->processRetrievedData($this->data['Hi5Answer']);
         }
@@ -470,9 +469,9 @@ class Hi5Controller extends AppController
 
         $this->setMedewerkers();
 
-        $verblijfstatussen = $this->Klant->Hi5Intake->Verblijfstatus->find('list', array(
+        $verblijfstatussen = $this->Klant->Hi5Intake->Verblijfstatus->find('list', [
                 'order' => 'Verblijfstatus.naam ASC',
-        ));
+        ]);
 
         $primary_problems = $this->Klant->Hi5Intake->PrimaireProblematiek->find('list');
 
@@ -517,17 +516,17 @@ class Hi5Controller extends AppController
     {
         if (!$klantId) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         if (!($this->permissions & HI5_CREATE_EVALUATIONS)) {
             $this->flashError(__('You are not allowed to add evaluations', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'view',
                     $klantId,
-            ));
+            ]);
         }
 
         $this->_leftMenuInfo($klantId);
@@ -547,10 +546,10 @@ class Hi5Controller extends AppController
             if ($result) {
                 $this->flash(__('The evaluation has been saved.', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $klantId,
-                    ));
+                    ]);
             } else {
                 $this->flashError('Fout op het formulier.');
             }
@@ -571,9 +570,9 @@ class Hi5Controller extends AppController
     {
         if (!$evaluatieId) {
             $this->flashError(__('Invalid Evaluatie', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         $intaker_id = $this->Session->read('Auth.Medewerker.id');
@@ -593,19 +592,19 @@ class Hi5Controller extends AppController
             if ($result) {
                 $this->flash(__('The evaluation has been saved.', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $this->data['Hi5Evaluatie']['klant_id'],
-                    ));
+                    ]);
             }
 
             $this->data = $this->Klant->Hi5Evaluatie->read();
         } else {
-            $this->data = $this->Klant->Hi5Evaluatie->find('first', array(
-                'conditions' => array(
+            $this->data = $this->Klant->Hi5Evaluatie->find('first', [
+                'conditions' => [
                     'Hi5Evaluatie.id' => $evaluatieId,
-                ),
-            ));
+                ],
+            ]);
 
             $this->data['Hi5EvaluatieQuestion'] = $this->Klant->Hi5Evaluatie->Hi5EvaluatieQuestion->processRetrievedData(
                 $this->data['Hi5EvaluatieQuestion']);
@@ -615,28 +614,28 @@ class Hi5Controller extends AppController
             if ($this->data['Hi5Evaluatie']['medewerker_id'] != $intaker_id) {
                 $this->flashError(__('You can only edit your own evaluaties', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $this->data['Hi5Evaluatie']['klant_id'],
-                    ));
+                    ]);
             }
 
             if (date('Y-m-d', strtotime($this->data['Hi5Evaluatie']['created'])) !== date('Y-m-d')) {
                 $this->flashError(__('You can only edit evaluaties the same day of their creation', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $this->data['Hi5Evaluatie']['klant_id'],
-                    ));
+                    ]);
             }
 
             if (!$this->permissions & HI5_CREATE_EVALUATIONS) {
                 $this->flashError(__('You are not allowed to edit intakes', true));
                 $this->redirect(
-                    array(
+                    [
                             'action' => 'view',
                             $this->data['Hi5Evaluatie']['klant_id'],
-                    ));
+                    ]);
             }
         }
 
@@ -660,17 +659,17 @@ class Hi5Controller extends AppController
 
         if (!$intakeId) {
             $this->flashError(__('Invalid Intake', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
-        $intake = $this->Klant->Hi5Intake->find('first', array(
-            'conditions' => array(
+        $intake = $this->Klant->Hi5Intake->find('first', [
+            'conditions' => [
                 'Hi5Intake.id' => $intakeId,
-            ),
+            ],
             'recursive' => 2,
-            'contain' => array(
+            'contain' => [
                 'Medewerker',
                 'Verblijfstatus',
                 'Locatie1',
@@ -686,16 +685,16 @@ class Hi5Controller extends AppController
                 'Verslavingsgebruikswijze',
                 'Inkomen',
                 'Woonsituatie',
-                'Bedrijfitem1' => array(
+                'Bedrijfitem1' => [
                     'Bedrijfsector',
-                ),
-                'Bedrijfitem2' => array(
+                ],
+                'Bedrijfitem2' => [
                     'Bedrijfsector',
-                ),
+                ],
                 'Primaireproblematieksgebruikswijze',
                 'Hi5Answer',
-            ),
-        ));
+            ],
+        ]);
 
         $hi5Questions = $this->Klant->Hi5Intake->Hi5Answer->Hi5Question->getQuestions();
 
@@ -720,10 +719,9 @@ class Hi5Controller extends AppController
 
         $this->set('legitimaties', $this->Klant->Hi5Intake->Legitimatie->find('list'));
 
-        $this->set('verblijfstatussen', $this->Klant->Hi5Intake->Verblijfstatus->find('list', array(
+        $this->set('verblijfstatussen', $this->Klant->Hi5Intake->Verblijfstatus->find('list', [
             'order' => 'Verblijfstatus.naam ASC',
-
-        )));
+        ]));
 
         $this->set('problems', $this->Klant->Hi5Intake->PrimaireProblematiek->find('list'));
 
@@ -753,17 +751,17 @@ class Hi5Controller extends AppController
     {
         if (!$evaluatieId) {
             $this->flashError(__('Invalid Evaluatie', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
-        $evaluatie = $this->Klant->Hi5Evaluatie->find('first', array(
-            'conditions' => array(
+        $evaluatie = $this->Klant->Hi5Evaluatie->find('first', [
+            'conditions' => [
                 'Hi5Evaluatie.id' => $evaluatieId,
-            ),
+            ],
             'recursive' => 1,
-        ));
+        ]);
 
         $this->set('evaluatie', $evaluatie);
 
@@ -778,15 +776,15 @@ class Hi5Controller extends AppController
 
     private function _getContactJournals($klantId, $isTb)
     {
-        $contactJournals = $this->Klant->Contactjournal->find('all', array(
-            'conditions' => array(
+        $contactJournals = $this->Klant->Contactjournal->find('all', [
+            'conditions' => [
                 'Contactjournal.klant_id' => $klantId,
                 'Contactjournal.is_tb' => (bool) $isTb,
-            ),
-            'order' => array(
+            ],
+            'order' => [
                 'Contactjournal.datum DESC',
-            ),
-        ));
+            ],
+        ]);
 
         $this->set(compact('contactJournals'));
     }
@@ -795,9 +793,9 @@ class Hi5Controller extends AppController
     {
         if (!$klantId) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         $this->_leftMenuInfo($klantId);
@@ -810,21 +808,21 @@ class Hi5Controller extends AppController
             if ($result) {
                 $this->flash(__('Notitie succesvol opgeslagen.', true));
 
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'contactjournal',
                     $klantId,
                     $isTb,
-                ));
+                ]);
             } else {
                 $this->flashError('Fout op het formulier.');
             }
         } else {
-            $this->data = array(
-                'Contactjournal' => array(
+            $this->data = [
+                'Contactjournal' => [
                     'klant_id' => $klantId,
                     'is_tb' => $isTb,
-                ),
-            );
+                ],
+            ];
         }
 
         $this->setMedewerkers();
@@ -834,18 +832,18 @@ class Hi5Controller extends AppController
     {
         if ($isTb && !($this->permissions & HI5_CREATE_TB_CJ)) {
             $this->flashError(__('You are not allowed to view, edit or create trajectbegeleider contactjournal', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'view',
                     $klantId,
-            ));
+            ]);
         }
 
         if (!$isTb && !($this->permissions & HI5_CREATE_WB_CJ)) {
             $this->flashError(__('You are not allowed to view, edit or create werkbegeleider contactjournal', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'view',
                     $klantId,
-            ));
+            ]);
         }
     }
 
@@ -853,9 +851,9 @@ class Hi5Controller extends AppController
     {
         if (!$contactjournalId) {
             $this->flashError(__('Invalid contactjournal', true));
-            $this->redirect(array(
+            $this->redirect([
                     'action' => 'index',
-            ));
+            ]);
         }
 
         $this->Klant->Contactjournal->id = $contactjournalId;
@@ -872,11 +870,11 @@ class Hi5Controller extends AppController
 
             if ($result) {
                 $this->flash(__('Notitie succesvol opgeslagen.', true));
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'contactjournal',
                     $contactjournal['Contactjournal']['klant_id'],
                     $contactjournal['Contactjournal']['is_tb'],
-                ));
+                ]);
             } else {
                 $this->flashError('Fout op het formulier.');
             }
@@ -898,9 +896,9 @@ class Hi5Controller extends AppController
         if (!$contactjournalId) {
             $this->flashError(__('Invalid contactjournal', true));
 
-            $this->redirect(array(
+            $this->redirect([
                 'action' => 'index',
-            ));
+            ]);
         }
         $this->Klant->Contactjournal->id = $contactjournalId;
 
@@ -912,11 +910,11 @@ class Hi5Controller extends AppController
 
         if ($result) {
             $this->flash(__('Notitie verwijderd.', true));
-            $this->redirect(array(
+            $this->redirect([
                 'action' => 'contactjournal',
                 $contactjournal['Contactjournal']['klant_id'],
                 $contactjournal['Contactjournal']['is_tb'],
-            ));
+            ]);
         }
     }
 }

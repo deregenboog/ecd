@@ -14,7 +14,7 @@ class IzAfsluitingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz afsluiting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('izAfsluiting', $this->IzAfsluiting->read(null, $id));
     }
@@ -25,7 +25,7 @@ class IzAfsluitingenController extends AppController
             $this->IzAfsluiting->create();
             if ($this->IzAfsluiting->save($this->data)) {
                 $this->Session->setFlash(__('The iz afsluiting has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz afsluiting could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class IzAfsluitingenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz afsluiting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->IzAfsluiting->save($this->data)) {
                 $this->Session->setFlash(__('The iz afsluiting has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz afsluiting could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class IzAfsluitingenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz afsluiting', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->IzAfsluiting->delete($id)) {
             $this->Session->setFlash(__('Iz afsluiting deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->Session->setFlash(__('Iz afsluiting was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

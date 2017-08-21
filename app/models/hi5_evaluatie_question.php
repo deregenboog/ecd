@@ -4,15 +4,15 @@ class Hi5EvaluatieQuestion extends AppModel
 {
     public $name = 'Hi5EvaluatieQuestion';
 
-    public $belongsTo = array(
-            'Hi5EvaluatieParagraph' => array(
+    public $belongsTo = [
+            'Hi5EvaluatieParagraph' => [
                     'className' => 'Hi5EvaluatieParagraph',
                     'foreignKey' => 'hi5_evaluatie_paragraph_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
+            ],
+    ];
 
     public function processPostedData($questionData)
     {
@@ -24,7 +24,7 @@ class Hi5EvaluatieQuestion extends AppModel
             $return[] = $item;
         }
 
-        return array('Hi5EvaluatieQuestion' => $return);
+        return ['Hi5EvaluatieQuestion' => $return];
     }
 
     public function processRetrievedData($retrievedData)
@@ -33,6 +33,6 @@ class Hi5EvaluatieQuestion extends AppModel
             $retrievedData[$q_id] = $block['Hi5EvaluatiesHi5EvaluatieQuestion'];
         }
 
-        return array('Hi5EvaluatieQuestion' => $retrievedData);
+        return ['Hi5EvaluatieQuestion' => $retrievedData];
     }
 }

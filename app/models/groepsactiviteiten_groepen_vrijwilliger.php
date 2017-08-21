@@ -5,47 +5,46 @@ class GroepsactiviteitenGroepenVrijwilliger extends AppModel
     public $name = 'GroepsactiviteitenGroepenVrijwilliger';
     public $displayField = 'groepsactiviteiten_groep_id';
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $validate = array(
-            'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    public $validate = [
+            'startdatum' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een startdatum in',
                             'allowEmpty' => false,
                             'required' => false,
-                    ),
-            ),
-            'einddatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'einddatum' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een einddatum in',
                             'allowEmpty' => false,
                             'required' => false,
-                    ),
-                    'datecompare' => array(
-                            'rule' => array(
+                    ],
+                    'datecompare' => [
+                            'rule' => [
                                     'compareDates',
-                            ),
+                            ],
                             'message' => 'Einddatum moet later dan startdatum zijn',
-                    ),
-            ),
-            'groepsactiviteiten_reden_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'groepsactiviteiten_reden_id' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een groepsactiviteiten_reden_id in',
                             'allowEmpty' => false,
                             'required' => false,
-                    ),
-            ),
-
-    );
+                    ],
+            ],
+    ];
 
     public function compareDates()
     {
@@ -65,27 +64,27 @@ class GroepsactiviteitenGroepenVrijwilliger extends AppModel
         return true;
     }
 
-    public $belongsTo = array(
-        'GroepsactiviteitenGroep' => array(
+    public $belongsTo = [
+        'GroepsactiviteitenGroep' => [
             'className' => 'GroepsactiviteitenGroep',
             'foreignKey' => 'groepsactiviteiten_groep_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Vrijwilliger' => array(
+        ],
+        'Vrijwilliger' => [
             'className' => 'Vrijwilliger',
             'foreignKey' => 'vrijwilliger_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'GroepsactiviteitenReden' => array(
+        ],
+        'GroepsactiviteitenReden' => [
             'className' => 'GroepsactiviteitenReden',
             'foreignKey' => 'groepsactiviteiten_reden_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }

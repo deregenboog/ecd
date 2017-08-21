@@ -1,14 +1,12 @@
 <?php
 
-use InloopBundle\Entity\Afsluiting;
-use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Aanmelding;
 
 class RegistratiesController extends AppController
 {
     public $name = 'Registraties';
-    public $components = array('Filter', 'RequestHandler', 'Session');
-    public $uses = array('Registratie', 'Klant');
+    public $components = ['Filter', 'RequestHandler', 'Session'];
+    public $uses = ['Registratie', 'Klant'];
 
     public function isAuthorized()
     {
@@ -23,7 +21,7 @@ class RegistratiesController extends AppController
             return false;
         }
 
-        $action_locaties_filter = array(
+        $action_locaties_filter = [
             'index' => 0,
             'ajaxUpdateShowerList' => 1,
             'ajaxUpdateMWList' => 1,
@@ -33,7 +31,7 @@ class RegistratiesController extends AppController
             'delete' => 1,
             'sortRegistraties' => 0,
             'setRegistraties' => 0,
-        );
+        ];
 
         $username = $this->AuthExt->user('username');
 
@@ -58,35 +56,35 @@ class RegistratiesController extends AppController
             $this->disableCache();
             $conditions = $this->Filter->filterData;
 
-            $conditions[] = array('LasteIntake.toegang_inloophuis' => 1);
+            $conditions[] = ['LasteIntake.toegang_inloophuis' => 1];
             if (!empty($locatie['gebruikersruimte'])) { // Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
-                $conditions[] = array('LasteIntake.locatie1_id' => $locatie_id);
+                $conditions[] = ['LasteIntake.locatie1_id' => $locatie_id];
             } elseif ($locatie['id'] == 17) { // Vrouwen Nacht Opvang
                 $conditions[]['Geslacht.afkorting'] = 'V';
                 $conditions[]['LasteIntake.toegang_vrouwen_nacht_opvang'] = 1;
             } elseif ($locatie['id'] == 5) { // Amoc
             } elseif ($locatie['id'] == 12) { //Nachtopvang De Regenboog Groep
             } else { // Rest
-                $conditions[] = array('OR' => array(
+                $conditions[] = ['OR' => [
                         'LasteIntake.verblijfstatus_id NOT ' => 7,
-                        array(
+                        [
                             'LasteIntake.verblijfstatus_id' => 7,
                             'DATE_ADD(Klant.first_intake_date, INTERVAL 3 MONTH) < now()',
-                        ),
-                    ),
-                );
+                        ],
+                    ],
+                ];
             }
 
-            $conditions[] = array(
-                'OR' => array(
+            $conditions[] = [
+                'OR' => [
                     'Klant.overleden NOT' => 1,
                     'Klant.overleden' => null,
-                ),
-            );
+                ],
+            ];
 
             $this->log($conditions, 'registratie');
 
-            $this->paginate['Klant'] = array(
+            $this->paginate['Klant'] = [
                 'joins' => [
                     [
                         'table' => 'inloop_dossier_statussen',
@@ -97,28 +95,28 @@ class RegistratiesController extends AppController
                         ],
                     ],
                 ],
-                'contain' => array(
-                    'Geslacht' => array(
-                        'fields' => array(
+                'contain' => [
+                    'Geslacht' => [
+                        'fields' => [
                             'afkorting',
                             'volledig',
-                        ),
-                    ),
-                    'LasteIntake' => array(
-                        'fields' => array(
+                        ],
+                    ],
+                    'LasteIntake' => [
+                        'fields' => [
                             'locatie1_id',
                             'locatie2_id',
                             'locatie3_id',
                             'datum_intake',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'conditions' => $conditions,
-                'order' => array(
+                'order' => [
                     'Klant.achternaam' => 'asc',
                     'Klant.voornaam' => 'asc',
-                ),
-            );
+                ],
+            ];
 
             $this->Klant->recursive = -1;
 
@@ -183,12 +181,12 @@ class RegistratiesController extends AppController
             $this->set('fieldname', key($this->data['Registratie']));
             $this->data['Registratie']['id'] = $registratie_id;
             $this->Registratie->save($this->data);
-            $this->set('registratie', $this->Registratie->find('first', array(
-                'conditions' => array(
+            $this->set('registratie', $this->Registratie->find('first', [
+                'conditions' => [
                     'Registratie.id' => $registratie_id,
-                ),
-                'contain' => array('Klant' => array('Intake')),
-            )));
+                ],
+                'contain' => ['Klant' => ['Intake']],
+            ]));
             $this->render('/elements/registratie_checkboxes', 'ajax');
         } else {
             $this->autoRender = false;
@@ -217,7 +215,7 @@ class RegistratiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid registratie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->set('registratie', $this->Registratie->read(null, $id));
@@ -241,10 +239,10 @@ class RegistratiesController extends AppController
     public function registratieCheckOutAll($locatie_id = null)
     {
         if ($locatie_id) {
-            $conditions = array('conditions' => array(
+            $conditions = ['conditions' => [
                         'locatie_id' => $locatie_id,
-                        'buiten' => null, ),
-                        'contain' => array('Klant'), );
+                        'buiten' => null, ],
+                        'contain' => ['Klant'], ];
             $registraties = $this->Registratie->find('list', $conditions);
             foreach ($registraties as $registratie_id) {
                 $this->Registratie->registratieCheckOut($registratie_id);
@@ -281,13 +279,13 @@ class RegistratiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid registratie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->Registratie->save($this->data)) {
                 $this->flashError(__('The registratie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The registratie could not be saved. Please, try again.', true));
             }
@@ -366,9 +364,9 @@ class RegistratiesController extends AppController
     public function set_last_registrations()
     {
         $this->Registratie->Klant->recursive = -1;
-        $klanten = $this->Registratie->Klant->find('all', array(
-            'fields' => array('id', 'laatste_registratie_id'),
-        ));
+        $klanten = $this->Registratie->Klant->find('all', [
+            'fields' => ['id', 'laatste_registratie_id'],
+        ]);
 
         foreach ($klanten as $klant) {
             if (empty($klant['Klant']['laatste_registratie_id'])) {
@@ -381,17 +379,17 @@ class RegistratiesController extends AppController
     {
         $this->Klant->set_registration_virtual_fields();
         $this->Klant->contain[] = 'LaatsteRegistratie';
-        $klant = &$this->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
-        ));
+        $klant = &$this->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
+        ]);
         $this->Registratie->Locatie->recursive = -1;
         $location = $this->Registratie->Locatie->read(null, $locatie_id);
 
-        $jsonVar = array(
+        $jsonVar = [
             'confirm' => false,
             'allow' => true,
             'message' => '',
-        );
+        ];
 
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
@@ -508,9 +506,9 @@ class RegistratiesController extends AppController
         $this->Registratie->set($fieldname, $new_val);
 
         if ($this->Registratie->save()) {
-            $jsonVar = array('new_val' => $new_val, 'prev_val' => $prev_val);
+            $jsonVar = ['new_val' => $new_val, 'prev_val' => $prev_val];
         } else {
-            $jsonVar = array('new_val' => $prev_val, 'prev_val' => $prev_val);
+            $jsonVar = ['new_val' => $prev_val, 'prev_val' => $prev_val];
         }
 
         $this->set(compact('jsonVar'));
