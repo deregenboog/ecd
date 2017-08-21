@@ -139,9 +139,6 @@ class KlantenController extends AppController
             $entityManager->persist($form->getData());
             $entityManager->flush();
 
-            // invalidate cache
-            Cache::delete(DossierStatusRepository::CACHE_KEY_ACTIVE_KLANT_IDS);
-
             $this->flash('Dossier is afgesloten');
             $this->redirect(['action' => 'view', $klant->getId()]);
         }

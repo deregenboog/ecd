@@ -19,7 +19,7 @@ class Afsluiting extends DossierStatus
      * @var RedenAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="RedenAfsluiting")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      * @Assert\NotNull
      */

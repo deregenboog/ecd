@@ -77,10 +77,6 @@ class RegistratiesController extends AppController
                 );
             }
 
-            // limit to "Klanten" with "Aanmelding"
-            $activeKlantIds = $this->getEntityManager()->getRepository(DossierStatus::class)->getActiveKlantIds();
-            $conditions[] = ['Klant.id'=> $activeKlantIds];
-
             $conditions[] = array(
                 'OR' => array(
                     'Klant.overleden NOT' => 1,
@@ -91,6 +87,16 @@ class RegistratiesController extends AppController
             $this->log($conditions, 'registratie');
 
             $this->paginate['Klant'] = array(
+                'joins' => [
+                    [
+                        'table' => 'inloop_dossier_statussen',
+                        'type' => 'INNER',
+                        'conditions' => [
+                            'inloop_dossier_statussen.id = Klant.huidigeStatus_id',
+                            'inloop_dossier_statussen.class' => 'Aanmelding',
+                        ],
+                    ],
+                ],
                 'contain' => array(
                     'Geslacht' => array(
                         'fields' => array(

@@ -34,6 +34,10 @@
             <dd><?= $status->getDatum()->format('d-m-Y') ?></dd>
             <dt>Reden afsluiting</dt>
             <dd><?= $status->getReden() ?></dd>
+            <?php if ($status->getReden()->isLand()): ?>
+                <dt>Bestemming</dt>
+                <dd><?= $status->getLand() ?></dd>
+            <?php endif; ?>
             <dt>Toelichting</dt>
             <dd><?= $status->getToelichting() ?></dd>
         </dl>

@@ -123,5 +123,4 @@ class Klant extends Persoon
         $this->huidigeStatus = $huidigeStatus;
         return $this;
     }
-
 }

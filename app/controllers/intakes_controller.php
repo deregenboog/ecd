@@ -88,12 +88,9 @@ class IntakesController extends AppController
                     $this->Intake->commit();
 
                     // create "Aanmelding"
-                    $entityManager->persist(new Aanmelding($klant, $this->getMedewerker()));
                     $entityManager->persist($klant);
+                    $entityManager->persist(new Aanmelding($klant, $this->getMedewerker()));
                     $entityManager->flush();
-
-                    // invalidate cache
-                    Cache::delete(DossierStatusRepository::CACHE_KEY_ACTIVE_KLANT_IDS);
 
                     $this->flash(__('De intake is opgeslagen', true));
 

@@ -48,15 +48,6 @@ class AfsluitingType extends AbstractType
             }
         });
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
-            $data = $event->getData();
-            $form = $event->getForm();
-            if (!$form->has('land') && array_key_exists('land', $event->getData())) {
-                unset($data['land']);
-                $event->setData($data);
-            }
-        });
-
         $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
             $form = $event->getForm();
             if ($form->has('land') && !$form->get('land')->getData()) {
@@ -77,6 +68,7 @@ class AfsluitingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Afsluiting::class,
+            'allow_extra_fields' => true,
         ]);
     }
 
