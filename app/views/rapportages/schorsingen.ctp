@@ -20,7 +20,7 @@
                 <tr>
                     <th>#</th>
                     <th>Naam (roepnaam)</th>
-                    <th>Locatie</th>
+                    <th>Locatie(s)</th>
                     <th>Begindatum</th>
                     <th>Einddatum</th>
                 </tr>
@@ -38,7 +38,13 @@
                             echo '('.$klant['roepnaam'].')';
                         } ?>
                     </td>
-                    <td><?= $sch['Locatie']['naam']; ?></td>
+                    <td>
+                        <ul>
+                            <?php foreach ($sch['Locatie'] as $locatie): ?>
+                                <li><?= $locatie['naam'] ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </td>
                     <td><?=  $format->printData($date->show($sch['Schorsing']['datum_van'])); ?></td>
                     <td><?=  $format->printData($date->show($sch['Schorsing']['datum_tot'])); ?></td>
                 </tr>
