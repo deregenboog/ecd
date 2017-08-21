@@ -902,13 +902,14 @@ class IzDeelnemersController extends AppController
                 $koppelingen[$key]['IzKoppeling']['section'] = 2;
 
                 $k = $this->IzDeelnemer->IzKoppeling->getAllById($koppeling['IzKoppeling']['iz_koppeling_id']);
-                $p = $this->IzDeelnemer->{$k['IzDeelnemer']['model']}->getById($k['IzDeelnemer']['foreign_key']);
-
-                $koppelingen[$key]['IzKoppeling']['name_of_koppeling'] = $p['name'];
-                $koppelingen[$key]['IzKoppeling']['iz_deelnemer_id_of_other'] = $k['IzKoppeling']['iz_deelnemer_id'];
-                $koppelingen[$key]['IzKoppeling']['koppeling_of_other'] = $koppeling['IzKoppeling']['iz_koppeling_id'];
-                $koppelingen[$key]['IzKoppeling']['foreing_key_of_other'] = $p['id'];
-                $koppelingen[$key]['IzKoppeling']['model_of_other'] = $k['IzDeelnemer']['model'];
+                if ($k) {
+                    $p = $this->IzDeelnemer->{$k['IzDeelnemer']['model']}->getById($k['IzDeelnemer']['foreign_key']);
+                    $koppelingen[$key]['IzKoppeling']['name_of_koppeling'] = $p['name'];
+                    $koppelingen[$key]['IzKoppeling']['iz_deelnemer_id_of_other'] = $k['IzKoppeling']['iz_deelnemer_id'];
+                    $koppelingen[$key]['IzKoppeling']['koppeling_of_other'] = $koppeling['IzKoppeling']['iz_koppeling_id'];
+                    $koppelingen[$key]['IzKoppeling']['foreing_key_of_other'] = $p['id'];
+                    $koppelingen[$key]['IzKoppeling']['model_of_other'] = $k['IzDeelnemer']['model'];
+                }
             }
 
             if (!empty($koppeling['IzKoppeling']['koppeling_einddatum']) && strtotime($koppeling['IzKoppeling']['koppeling_einddatum']) <= $now) {
