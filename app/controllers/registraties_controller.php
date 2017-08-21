@@ -465,10 +465,12 @@ class RegistratiesController extends AppController
 
             $actieveSchorsingen = $this->Registratie->Klant->Schorsing->getActiveSchorsingen($klant_id);
             foreach ($actieveSchorsingen as $actieveSchorsing) {
-                if ($actieveSchorsing['Locatie']['id'] == $location['Locatie']['id']) {
-                    $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
-                    $sep = $separator;
-                    $jsonVar['confirm'] = true;
+                foreach ($actieveSchorsing['Locatie'] as $actieveSchorsingLocatie) {
+                    if ($actieveSchorsingLocatie['id'] == $location['Locatie']['id']) {
+                        $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+                        $sep = $separator;
+                        $jsonVar['confirm'] = true;
+                    }
                 }
             }
 
