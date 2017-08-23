@@ -45,9 +45,9 @@ class HuurovereenkomstFilter
     public $actief;
 
     /**
-     * @var KlantFilter
+     * @var HuurderFilter
      */
-    public $huurderKlant;
+    public $huurder;
 
     /**
      * @var KlantFilter
@@ -142,8 +142,8 @@ class HuurovereenkomstFilter
             ;
         }
 
-        if ($this->huurderKlant) {
-            $this->huurderKlant->applyTo($builder, 'huurderKlant');
+        if ($this->huurder) {
+            $this->huurder->applyTo($builder);
         }
 
         if ($this->verhuurderKlant) {

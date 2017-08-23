@@ -21,11 +21,12 @@ class Huurder extends Deelnemer
     private $huurverzoeken;
 
     /**
-     * @var \DateTime
+     * @var bool
      *
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
-    private $startdatumAutomatischeIncasso;
+    private $automatischeIncasso;
 
     public function __construct()
     {
@@ -71,14 +72,14 @@ class Huurder extends Deelnemer
         return $this;
     }
 
-    public function getStartdatumAutomatischeIncasso()
+    public function isAutomatischeIncasso()
     {
-        return $this->startdatumAutomatischeIncasso;
+        return $this->automatischeIncasso;
     }
 
-    public function setStartdatumAutomatischeIncasso(\DateTime $startdatumAutomatischeIncasso = null)
+    public function setAutomatischeIncasso($automatischeIncasso)
     {
-        $this->startdatumAutomatischeIncasso = $startdatumAutomatischeIncasso;
+        $this->automatischeIncasso = (bool) $automatischeIncasso;
 
         return $this;
     }

@@ -30,9 +30,9 @@ class HuurovereenkomstFilterType extends AbstractType
             ]);
         }
 
-        if (array_key_exists('huurderKlant', $options['enabled_filters'])) {
-            $builder->add('huurderKlant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['huurderKlant'],
+        if (array_key_exists('huurder', $options['enabled_filters'])) {
+            $builder->add('huurder', HuurderFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['huurder'],
             ]);
         }
 
@@ -119,7 +119,7 @@ class HuurovereenkomstFilterType extends AbstractType
             'data_class' => HuurovereenkomstFilter::class,
             'enabled_filters' => [
                 'id',
-                'huurderKlant' => ['naam'],
+                'huurder' => ['automatischeIncasso', 'klant' => ['naam']],
                 'verhuurderKlant' => ['naam'],
                 'medewerker',
                 'startdatum',

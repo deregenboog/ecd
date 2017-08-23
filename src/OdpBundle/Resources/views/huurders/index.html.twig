@@ -32,6 +32,10 @@
                     {{ form_errors(filter.klant.stadsdeel) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.automatischeIncasso) }}
+                    {{ form_errors(filter.automatischeIncasso) }}
+                </th>
+                <th>
                     {{ form_widget(filter.aanmelddatum) }}
                     {{ form_errors(filter.aanmelddatum) }}
                 </th>
@@ -56,6 +60,9 @@
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'huurder.automatischeIncasso') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'huurder.aanmelddatum') }}
                 </th>
                 <th>
@@ -77,6 +84,9 @@
                 </td>
                 <td>
                     {{ huurder.klant.werkgebied }}
+                </td>
+                <td>
+                    {{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
                     {{ huurder.aanmelddatum ? huurder.aanmelddatum|date('d-m-Y') }}

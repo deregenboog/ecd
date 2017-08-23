@@ -24,12 +24,6 @@ class HuurdersController extends SymfonyController
 {
     public $title = 'Huurders';
 
-    private $enabledFilters = [
-        'klant' => ['id', 'naam', 'stadsdeel'],
-        'aanmelddatum',
-        'afsluitdatum',
-    ];
-
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
@@ -53,9 +47,7 @@ class HuurdersController extends SymfonyController
             ->andWhere('klant.disabled = false')
         ;
 
-        $filter = $this->createForm(HuurderFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $filter = $this->createForm(HuurderFilterType::class);
         $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);

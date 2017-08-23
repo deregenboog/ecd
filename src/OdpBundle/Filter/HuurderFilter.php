@@ -13,6 +13,11 @@ class HuurderFilter
     public $id;
 
     /**
+     * @var int
+     */
+    public $automatischeIncasso;
+
+    /**
      * @var \DateTime
      */
     public $aanmelddatum;
@@ -34,6 +39,18 @@ class HuurderFilter
                 ->andWhere('huurder.id = :id')
                 ->setParameter('id', $this->id)
             ;
+        }
+
+        if (is_int($this->automatischeIncasso)) {
+            switch ($this->automatischeIncasso) {
+                case 0:
+                    $builder->andWhere('huurder.automatischeIncasso IS NULL OR huurder.automatischeIncasso = :automatische_incasso');
+                    break;
+                case 1:
+                    $builder->andWhere('huurder.automatischeIncasso = :automatische_incasso');
+                    break;
+            }
+            $builder->setParameter('automatische_incasso', $this->automatischeIncasso);
         }
 
         if ($this->aanmelddatum) {

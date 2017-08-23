@@ -35,6 +35,7 @@ class HuurovereenkomstenController extends SymfonyController
         'huurovereenkomst.einddatum',
         'huurovereenkomst.vorm',
         'huurovereenkomst.afsluitdatum',
+        'huurder.automatischeIncasso',
     ];
 
     /**
@@ -51,12 +52,10 @@ class HuurovereenkomstenController extends SymfonyController
             ->innerJoin('huurovereenkomst.medewerker', 'medewerker')
             ->innerJoin('huurverzoek.huurder', 'huurder')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
-            ->innerJoin('huurder.klant', 'huurderKlant')
+            ->innerJoin('huurder.klant', 'klant')
             ->innerJoin('verhuurder.klant', 'verhuurderKlant')
             ->leftJoin('huurovereenkomst.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-            ->andWhere('huurderKlant.disabled = false')
-            ->andWhere('verhuurderKlant.disabled = false')
         ;
 
         $filter = $this->createForm(HuurovereenkomstFilterType::class);

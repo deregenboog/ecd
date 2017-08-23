@@ -37,8 +37,10 @@
         <dd>{{ huurder.aanmelddatum|date('d-m-Y') }}</dd>
         <dt>Rekeningnummer</dt>
         <dd>{{ huurder.rekeningnummer }}</dd>
-        <dt>Start auto. incasso</dt>
-        <dd>{{ huurder.startdatumAutomatischeIncasso ? huurder.startdatumAutomatischeIncasso|date('d-m-Y') }}</dd>
+        <dt>Automatische incasso</dt>
+        <dd>{{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>Afsluitdatum</dt>
         <dd>{{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>

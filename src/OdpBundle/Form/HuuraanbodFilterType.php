@@ -29,6 +29,7 @@ class HuuraanbodFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
+
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,

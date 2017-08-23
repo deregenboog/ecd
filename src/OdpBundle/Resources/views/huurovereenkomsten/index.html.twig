@@ -19,8 +19,8 @@
                 {{ form_errors(filter.id) }}
             </th>
             <th>
-                {{ form_widget(filter.huurderKlant.naam) }}
-                {{ form_errors(filter.huurderKlant.naam) }}
+                {{ form_widget(filter.huurder.klant.naam) }}
+                {{ form_errors(filter.huurder.klant.naam) }}
             </th>
             <th>
                 {{ form_widget(filter.verhuurderKlant.naam) }}
@@ -60,6 +60,10 @@
                 {{ form_widget(filter.actief) }}
             </th>
             <th>
+                {{ form_widget(filter.huurder.automatischeIncasso) }}
+                {{ form_errors(filter.huurder.automatischeIncasso) }}
+            </th>
+            <th>
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
             </th>
@@ -94,6 +98,9 @@
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurovereenkomst.afsluitdatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'huurder.automatischeIncasso') }}
+            </th>
+            <th>
             </th>
         </tr>
         {% for huurovereenkomst in pagination %}
@@ -125,6 +132,9 @@
                 <td>
                     {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum | date('d-m-Y') }}
                     {{ huurovereenkomst.afsluiting ? '('~huurovereenkomst.afsluiting~')' }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
