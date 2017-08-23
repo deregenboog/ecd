@@ -233,6 +233,38 @@ class HuurdersController extends SymfonyController
     }
 
     /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopen($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $huurder = $entityManager->find(Huurder::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $huurder->reopen();
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Huurder is heropend.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
+
+            return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
+        }
+
+        return [
+            'huurder' => $huurder,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
      * @Route("/{id}/delete")
      */
     public function delete($id)

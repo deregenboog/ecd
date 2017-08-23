@@ -19,6 +19,9 @@
             {{ html.link('Wijzigen', path('odp_huurders_edit', {id: huurder.id})) }}
             {{ html.closeLink(path('odp_huurders_close', {id: huurder.id})) }}
             {{ html.link('Afsluiten', path('odp_huurders_close', {id: huurder.id})) }}
+        {% else %}
+            {{ html.addLink(path('odp_huurders_reopen', {id: huurder.id})) }}
+            {{ html.link('Heropenen', path('odp_huurders_reopen', {id: huurder.id})) }}
         {% endif %}
         {% if huurder.deletable %}
             {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}

@@ -227,6 +227,38 @@ class VerhuurdersController extends SymfonyController
     }
 
     /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopen($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $verhuurder = $entityManager->find(Verhuurder::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $verhuurder->reopen();
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Huurder is heropend.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
+
+            return $this->redirectToRoute('odp_verhuurders_view', ['id' => $verhuurder->getId()]);
+        }
+
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
      * @Route("/{id}/delete")
      */
     public function delete($id)

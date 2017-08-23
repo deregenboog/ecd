@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Onder de Pannen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurder heropenen</h1>
+    <p>Weet u zeker dat u het dossier van verhuurder {{ verhuurder }} wilt heropenen?
+    {{ form(form) }}
+{% endblock %}
