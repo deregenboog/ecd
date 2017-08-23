@@ -16,6 +16,7 @@ use OdpBundle\Form\HuurovereenkomstCloseType;
 use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/odp/huurovereenkomsten")
@@ -186,6 +187,38 @@ class HuurovereenkomstenController extends SymfonyController
         }
 
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopen($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $huurovereenkomst = $entityManager->find(Huurovereenkomst::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $huurovereenkomst->reopen();
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Koppeling is heropend.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
+
+            return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
+        }
+
+        return [
+            'huurovereenkomst' => $huurovereenkomst,
+            'form' => $form->createView(),
+        ];
     }
 
     private function findEntity(EntityManager $entityManager)

@@ -17,6 +17,9 @@
             {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
             {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
             {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+        {% else %}
+            {{ html.addLink(path('odp_huurovereenkomsten_reopen', {id: huurovereenkomst.id})) }}
+            {{ html.link('Heropenen', path('odp_huurovereenkomsten_reopen', {id: huurovereenkomst.id})) }}
         {% endif %}
         {% if huurovereenkomst.deletable %}
             {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}

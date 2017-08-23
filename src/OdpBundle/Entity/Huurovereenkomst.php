@@ -154,6 +154,14 @@ class Huurovereenkomst
         return $this;
     }
 
+    public function reopen()
+    {
+        $this->afsluitdatum = null;
+        $this->afsluiting = null;
+
+        return $this;
+    }
+
     public function getHuuraanbod()
     {
         return $this->huuraanbod;
