@@ -9,7 +9,10 @@ use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="iz_deelnemers")
+ * @ORM\Table(
+ *     name="iz_deelnemers",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_model_foreign_key_idx", columns={"model", "foreign_key"})}
+ * )
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
