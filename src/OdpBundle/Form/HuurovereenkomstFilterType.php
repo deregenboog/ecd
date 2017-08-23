@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OdpBundle\Entity\Huurovereenkomst;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class HuurovereenkomstFilterType extends AbstractType
 {
@@ -71,6 +72,13 @@ class HuurovereenkomstFilterType extends AbstractType
         if (in_array('einddatum', $options['enabled_filters'])) {
             $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('vorm', $options['enabled_filters'])) {
+            $builder->add('vorm', ChoiceType::class, [
+                'required' => false,
+                'choices' => Huurovereenkomst::getVormChoices(),
             ]);
         }
 

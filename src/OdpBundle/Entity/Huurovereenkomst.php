@@ -19,6 +19,16 @@ class Huurovereenkomst
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
 
+    static public function getVormChoices()
+    {
+        return [
+            'Hospitaverhuur' => 'Hospitaverhuur',
+            'Kostgangerschap' => 'Kostgangerschap',
+            'Kleine schuld, grote winst' => 'Kleine schuld, grote winst',
+            'Anders' => 'Anders',
+        ];
+    }
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -43,6 +53,12 @@ class Huurovereenkomst
      * @Gedmo\Versioned
      */
     private $einddatum;
+
+    /**
+     * @ORM\Column(length=50, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $vorm;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -235,5 +251,15 @@ class Huurovereenkomst
         $this->einddatum = $einddatum;
 
         return $this;
+    }
+
+    public function getVorm()
+    {
+        return $this->vorm;
+    }
+
+    public function setVorm($vorm)
+    {
+        $this->vorm = $vorm;
     }
 }

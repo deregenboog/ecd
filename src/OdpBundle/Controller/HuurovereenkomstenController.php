@@ -32,6 +32,7 @@ class HuurovereenkomstenController extends SymfonyController
         'startdatum',
         'opzegdatum',
         'einddatum',
+        'vorm',
         'afsluitdatum',
     ];
 
@@ -43,6 +44,7 @@ class HuurovereenkomstenController extends SymfonyController
         'huurovereenkomst.startdatum',
         'huurovereenkomst.opzegdatum',
         'huurovereenkomst.einddatum',
+        'huurovereenkomst.vorm',
         'huurovereenkomst.afsluitdatum',
     ];
 

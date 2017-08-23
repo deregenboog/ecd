@@ -30,6 +30,11 @@ class HuurovereenkomstFilter
     public $einddatum;
 
     /**
+     * @var string
+     */
+    public $vorm;
+
+    /**
      * @var AppDateRangeModel
      */
     public $afsluitdatum;
@@ -101,6 +106,13 @@ class HuurovereenkomstFilter
                     ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->vorm) {
+            $builder
+                ->andWhere('huurovereenkomst.vorm = :vorm')
+                ->setParameter('vorm', $this->vorm)
+            ;
         }
 
         if ($this->afsluitdatum) {
