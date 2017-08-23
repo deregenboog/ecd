@@ -38,6 +38,8 @@ class VerhuurderType extends AbstractType
             ->add('rekeningnummer', null, ['required' => false])
             ->add('woningbouwcorporatie')
             ->add('woningbouwcorporatieToelichting', null, ['label' => 'Woningbouwcorporatie anders/toelichting'])
+            ->add('wpi')
+            ->add('klantmanager')
         ;
 
         if (!$options['data']->getId()) {

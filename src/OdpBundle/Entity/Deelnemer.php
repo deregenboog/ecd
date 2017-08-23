@@ -63,6 +63,20 @@ abstract class Deelnemer
     protected $rekeningnummer;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $wpi;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $klantmanager;
+
+    /**
      * @var Afsluiting
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
@@ -199,5 +213,25 @@ abstract class Deelnemer
         $this->rekeningnummer = $rekeningnummer;
 
         return $this;
+    }
+
+    public function getWpi()
+    {
+        return $this->wpi;
+    }
+
+    public function setWpi($wpi)
+    {
+        $this->wpi = $wpi;
+    }
+
+    public function getKlantmanager()
+    {
+        return $this->klantmanager;
+    }
+
+    public function setKlantmanager($klantmanager)
+    {
+        $this->klantmanager = $klantmanager;
     }
 }
