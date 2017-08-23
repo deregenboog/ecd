@@ -15,6 +15,7 @@ use OdpBundle\Entity\Huurovereenkomst;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuurovereenkomstFilterType extends AbstractType
 {
@@ -88,6 +89,13 @@ class HuurovereenkomstFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Actieve koppelingen',
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
@@ -109,6 +117,18 @@ class HuurovereenkomstFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurovereenkomstFilter::class,
+            'enabled_filters' => [
+                'id',
+                'huurderKlant' => ['naam'],
+                'verhuurderKlant' => ['naam'],
+                'medewerker',
+                'startdatum',
+                'opzegdatum',
+                'einddatum',
+                'vorm',
+                'afsluitdatum',
+                'actief',
+            ],
         ]);
     }
 }

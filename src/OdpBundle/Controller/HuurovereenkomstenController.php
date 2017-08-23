@@ -24,18 +24,6 @@ class HuurovereenkomstenController extends SymfonyController
 {
     public $title = 'Koppelingen';
 
-    private $enabledFilters = [
-        'id',
-        'huurderKlant' => ['naam'],
-        'verhuurderKlant' => ['naam'],
-        'medewerker',
-        'startdatum',
-        'opzegdatum',
-        'einddatum',
-        'vorm',
-        'afsluitdatum',
-    ];
-
     private $sortFieldWhitelist = [
         'huurovereenkomst.id',
         'huurderKlant.achternaam',
@@ -70,9 +58,7 @@ class HuurovereenkomstenController extends SymfonyController
             ->andWhere('verhuurderKlant.disabled = false')
         ;
 
-        $filter = $this->createForm(HuurovereenkomstFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $filter = $this->createForm(HuurovereenkomstFilterType::class);
         $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);

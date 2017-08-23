@@ -40,6 +40,11 @@ class HuurovereenkomstFilter
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $actief;
+
+    /**
      * @var KlantFilter
      */
     public $huurderKlant;
@@ -128,6 +133,13 @@ class HuurovereenkomstFilter
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere('huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :now')
+                ->setParameter('now', new \DateTime())
+            ;
         }
 
         if ($this->huurderKlant) {
