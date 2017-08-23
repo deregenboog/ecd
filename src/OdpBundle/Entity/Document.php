@@ -35,6 +35,13 @@ class Document
     private $naam;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date")
+     */
+    private $datum;
+
+    /**
      * @var string
      * @ORM\Column
      * @Gedmo\Versioned
@@ -46,6 +53,11 @@ class Document
      * @Vich\UploadableField(mapping="odp_document", fileNameProperty="filename")
      */
     private $file;
+
+    public function __construct()
+    {
+        $this->datum = new \DateTime();
+    }
 
     public function getId()
     {
@@ -84,6 +96,18 @@ class Document
     public function setFile(File $file = null)
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function getDatum()
+    {
+        return $this->datum;
+    }
+
+    public function setDatum(\DateTime $datum)
+    {
+        $this->datum = $datum;
 
         return $this;
     }

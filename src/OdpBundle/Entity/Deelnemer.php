@@ -104,11 +104,11 @@ abstract class Deelnemer
     protected $verslagen;
 
     /**
-     * @var ArrayCollection|Verslag[]
+     * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinTable(name="odp_deelnemer_document")
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     protected $documenten;
 
