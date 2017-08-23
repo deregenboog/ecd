@@ -4,6 +4,7 @@ namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Coordinator;
 use AppBundle\Service\AbstractDao;
+use AppBundle\Filter\FilterInterface;
 
 class CoordinatorDao extends AbstractDao implements CoordinatorDaoInterface
 {
@@ -18,7 +19,7 @@ class CoordinatorDao extends AbstractDao implements CoordinatorDaoInterface
 
     protected $class = Coordinator::class;
 
-    public function findAll($page = 1)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('coordinator')
             ->innerJoin('coordinator.medewerker', 'medewerker');
