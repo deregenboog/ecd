@@ -17,6 +17,7 @@ class Huurder extends Deelnemer
      * @var ArrayCollection|Huurverzoek[]
      *
      * @ORM\OneToMany(targetEntity="Huurverzoek", mappedBy="huurder", cascade={"persist"})
+     * @ORM\OrderBy({"startdatum" = "DESC", "id" = "DESC"})
      */
     private $huurverzoeken;
 
