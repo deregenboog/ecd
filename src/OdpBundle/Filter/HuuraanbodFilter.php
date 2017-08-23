@@ -24,6 +24,11 @@ class HuuraanbodFilter
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $actief;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -65,6 +70,13 @@ class HuuraanbodFilter
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
+                ->setParameter('now', new \DateTime())
+            ;
         }
 
         if ($this->klant) {

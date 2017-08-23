@@ -23,13 +23,6 @@ class HuurverzoekenController extends SymfonyController
 {
     public $title = 'Huurverzoeken';
 
-    private $enabledFilters = [
-        'id',
-        'klant' => ['naam', 'stadsdeel'],
-        'startdatum',
-        'afsluitdatum',
-    ];
-
     private $sortFieldWhitelist = [
         'huurverzoek.id',
         'klant.achternaam',
@@ -55,9 +48,7 @@ class HuurverzoekenController extends SymfonyController
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 
-        $filter = $this->createForm(HuurverzoekFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $filter = $this->createForm(HuurverzoekFilterType::class);
         $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
