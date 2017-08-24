@@ -103,13 +103,13 @@ class KlantenController extends AppController
                 $this->loadModel($zrmReportModel);
                 $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $newestIntake['Intake']['id']);
                 if ($zrmReport) {
+                    $this->set('zrmReport', $zrmReport);
+                    $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
                     break;
                 }
             }
         }
 
-        $this->set('zrmReport', $zrmReport);
-        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
         $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
