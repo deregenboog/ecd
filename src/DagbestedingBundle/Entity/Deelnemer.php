@@ -64,7 +64,7 @@ class Deelnemer
     /**
      * @var Klant
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
