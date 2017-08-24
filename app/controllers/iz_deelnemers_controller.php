@@ -427,6 +427,11 @@ class IzDeelnemersController extends AppController
             }
         }
 
+        if (!isset($zrmData)) {
+            $zrmReportModel = $this->ZrmReport->getZrmReportModel();
+            $zrmData = $this->{$zrmReportModel}->zrm_data();
+        }
+
         if (!empty($this->data)) {
             if (!empty($iz_intake)) {
                 $this->data['IzIntake']['id'] = $iz_intake['IzIntake']['id'];
