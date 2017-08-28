@@ -50,6 +50,7 @@ class TrajectenController extends AbstractController
     public function addAction(Request $request, Deelnemer $deelnemer)
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
+            $this->addFlash('danger', 'U bent niet bevoegd trajecten aan te maken.');
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
@@ -81,6 +82,8 @@ class TrajectenController extends AbstractController
     public function editAction(Request $request, $id)
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
+            $this->addFlash('danger', 'U bent niet bevoegd trajecten te wijzigen.');
+
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
@@ -93,6 +96,7 @@ class TrajectenController extends AbstractController
     public function deleteAction(Request $request, $id)
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
+            $this->addFlash('danger', 'U bent niet bevoegd trajecten te verwijderen.');
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
@@ -105,6 +109,7 @@ class TrajectenController extends AbstractController
     public function closeAction(Request $request, Traject $id)
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
+            $this->addFlash('danger', 'U bent niet bevoegd trajecten af te sluiten.');
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
