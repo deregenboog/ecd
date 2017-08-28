@@ -4,6 +4,13 @@ services:
         tags:
             - { name: form.type }
 
+    dagbesteding.report.dagdelen_per_deelnemer:
+        class: DagbestedingBundle\Report\DagdelenPerDeelnemer
+        arguments:
+            - "@dagbesteding.dao.dagdeel"
+        tags:
+            - { name: dagbesteding.rapportage, category: Dagdelen }
+
     dagbesteding.report.deelnemers_per_begeleider:
         class: DagbestedingBundle\Report\DeelnemersPerBegeleider
         arguments:

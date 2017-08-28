@@ -43,11 +43,5 @@ interface DagdeelDaoInterface
      */
     public function delete(Dagdeel $dagdeel);
 
-    public function countByBegeleider($fase, \DateTime $startdate, \DateTime $enddate);
-
-    public function countByLocatie($fase, \DateTime $startdate, \DateTime $enddate);
-
-    public function countByProject($fase, \DateTime $startdate, \DateTime $enddate);
-
-    public function countByResultaatgebiedsoort($fase, \DateTime $startdate, \DateTime $enddate);
+    public function countByDeelnemer(\DateTime $startdate, \DateTime $enddate);
 }

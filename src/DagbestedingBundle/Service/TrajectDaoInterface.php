@@ -42,4 +42,6 @@ interface TrajectDaoInterface
      * @param Traject $traject
      */
     public function delete(Traject $traject);
+
+    public function countByAfsluiting($fase, \DateTime $startdate, \DateTime $enddate);
 }

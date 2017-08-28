@@ -71,7 +71,7 @@ class ReportingController extends AbstractController
             $report->getEndDate()->format('d-m-Y')
         );
 
-        $this->export->create($data)->send($filename);
+        return $this->export->create($data)->getResponse($filename);
     }
 
     private function extractDataFromReport(AbstractReport $report)

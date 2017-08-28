@@ -61,101 +61,21 @@ class DagdeelDao extends AbstractDao implements DagdeelDaoInterface
         $this->doDelete($dagdeel);
     }
 
-    public function countByBegeleider($fase, \DateTime $startdate, \DateTime $enddate)
+    public function countByDeelnemer(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select('COUNT('.$this->alias.') AS aantal, CONCAT_WS(\' \', medewerker.voornaam, medewerker.achternaam) AS groep')
-            ->innerJoin($this->alias.'.trajecten', 'traject')
-            ->innerJoin('traject.begeleider', 'begeleider')
-            ->innerJoin('begeleider.medewerker', 'medewerker')
-            ->groupBy('medewerker.id')
+            ->select($this->alias.'.aanwezigheid, COUNT('.$this->alias.'.aanwezigheid) AS aantal, CONCAT_WS(\' \', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam')
+            ->innerJoin($this->alias.'.traject', 'traject')
+            ->innerJoin('traject.deelnemer', 'deelnemer')
+            ->innerJoin('deelnemer.klant', 'klant')
+            ->where($this->alias.'.datum BETWEEN :start_date AND :end_date')
+            ->setParameters([
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+            ])
+            ->groupBy($this->alias.'.aanwezigheid, deelnemer.id')
         ;
 
-        $this->applyFilter($builder, $fase, $startdate, $enddate);
-
         return $builder->getQuery()->getResult();
-    }
-
-    public function countByLocatie($fase, \DateTime $startdate, \DateTime $enddate)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select('COUNT('.$this->alias.') AS aantal, locatie.naam AS groep')
-            ->innerJoin($this->alias.'.trajecten', 'traject')
-            ->innerJoin('traject.locaties', 'locatie')
-            ->groupBy('locatie.naam')
-        ;
-
-        $this->applyFilter($builder, $fase, $startdate, $enddate);
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function countByProject($fase, \DateTime $startdate, \DateTime $enddate)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select('COUNT('.$this->alias.') AS aantal, project.naam AS groep')
-            ->innerJoin($this->alias.'.trajecten', 'traject')
-            ->innerJoin('traject.projecten', 'project')
-            ->groupBy('project.naam')
-        ;
-
-        $this->applyFilter($builder, $fase, $startdate, $enddate);
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function countByResultaatgebiedsoort($fase, \DateTime $startdate, \DateTime $enddate)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select('COUNT('.$this->alias.') AS aantal, soort.naam AS groep')
-            ->innerJoin($this->alias.'.trajecten', 'traject')
-            ->innerJoin('traject.resultaatgebied', 'resultaatgebied')
-            ->innerJoin('resultaatgebied.soort', 'soort')
-            ->groupBy('soort.naam')
-        ;
-
-        $this->applyFilter($builder, $fase, $startdate, $enddate);
-
-        return $builder->getQuery()->getResult();
-    }
-
-    protected function applyFilter(QueryBuilder $builder, $fase, \DateTime $startdate, \DateTime $enddate)
-    {
-        switch ($fase) {
-            case self::FASE_BEGINSTAND:
-                $builder
-                    ->where('traject.startdatum < :startdate')
-                    ->andWhere('traject.einddatum IS NULL OR traject.einddatum >= :startdate')
-                    ->setParameter('startdate', $startdate)
-                ;
-                break;
-            case self::FASE_GESTART:
-                $builder
-                    ->where('traject.startdatum BETWEEN :startdate AND :enddate')
-                    ->setParameters([
-                        'startdate' => $startdate,
-                        'enddate' => $enddate,
-                    ])
-                ;
-                break;
-            case self::FASE_GESTOPT:
-                $builder
-                    ->where('traject.einddatum BETWEEN :startdate AND :enddate')
-                    ->setParameters([
-                        'startdate' => $startdate,
-                        'enddate' => $enddate,
-                    ])
-                ;
-                break;
-            case self::FASE_EINDSTAND:
-                $builder
-                    ->where('traject.startdatum < :enddate')
-                    ->andWhere('traject.einddatum IS NULL OR traject.einddatum > :enddate')
-                    ->setParameter('enddate', $enddate)
-                ;
-                break;
-            default:
-                throw new \InvalidArgumentException(sprintf('Ongeldige fase "%s"', $fase));
-        }
     }
 }

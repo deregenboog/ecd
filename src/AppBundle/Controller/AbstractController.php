@@ -76,7 +76,7 @@ class AbstractController extends SymfonyController
         $filename = $this->getDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
-        $this->export->create($collection)->send($filename);
+        return $this->export->create($collection)->getResponse($filename);
     }
 
     protected function getDownloadFilename()
