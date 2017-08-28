@@ -68,9 +68,10 @@ class Dagdeel
     private $aanwezigheid;
 
     /**
-     * @param Project $project
+     * @param Project   $project
      * @param \DateTime $datum
-     * @param string $dagdeel
+     * @param string    $dagdeel
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct(Project $project, \DateTime $datum, $dagdeel, $aanwezigheid = null)

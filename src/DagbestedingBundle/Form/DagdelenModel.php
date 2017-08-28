@@ -2,10 +2,7 @@
 
 namespace DagbestedingBundle\Form;
 
-use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Dagdeel;
-use Doctrine\Common\Collections\Criteria;
-use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
 use Symfony\Component\Validator\Constraints as Assert;
 

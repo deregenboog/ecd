@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\Common\Collections\Criteria;
-use DagbestedingBundle\Form\DagdelenModel;
 use DagbestedingBundle\Form\DagdelenRangeModel;
 
 /**

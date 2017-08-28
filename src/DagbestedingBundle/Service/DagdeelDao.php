@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Service;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Dagdeel;
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
 
 class DagdeelDao extends AbstractDao implements DagdeelDaoInterface
 {

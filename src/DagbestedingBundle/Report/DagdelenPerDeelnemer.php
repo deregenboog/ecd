@@ -2,7 +2,6 @@
 
 namespace DagbestedingBundle\Report;
 
-use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use DagbestedingBundle\Service\DagdeelDaoInterface;
 
 class DagdelenPerDeelnemer extends AbstractReport

@@ -11,8 +11,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use DagbestedingBundle\Form\DagdelenModel;
-use DagbestedingBundle\Form\DagdelenType;
 use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Form\DagdelenRangeType;
@@ -51,6 +49,7 @@ class TrajectenController extends AbstractController
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten aan te maken.');
+
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
@@ -97,6 +96,7 @@ class TrajectenController extends AbstractController
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten te verwijderen.');
+
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
@@ -110,6 +110,7 @@ class TrajectenController extends AbstractController
     {
         if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten af te sluiten.');
+
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
