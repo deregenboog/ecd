@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+{% import _self as macro %}
+
+{% macro color(value) %}
+    {% if value == 'A' %}
+        {% set color = 'green' %}
+    {% elseif value == 'Z' %}
+        {% set color = 'orange' %}
+    {% elseif value == 'O' %}
+        {% set color = 'red' %}
+    {% elseif value == 'V' %}
+        {% set color = 'blue' %}
+    {% else %}
+        {% set color = 'black' %}
+    {% endif %}
+    <span style="color: {{ color }}">{{ value }}</span>
+{% endmacro %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Dagdelen</h1>
+    <p>
+        {% if traject.actief %}
+            {{ html.editLink(path('dagbesteding_trajecten_editdagdelen', {
+                id: traject.id,
+                project: project.id,
+                month: date_range.start|date('Y-m')
+            })) }}
+            {{ html.link('Bewerken', path('dagbesteding_trajecten_editdagdelen', {
+                id: traject.id,
+                project: project.id,
+                month: date_range.start|date('Y-m')
+            })) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Traject</dt>
+        <dd>{{ html.link(traject, path('dagbesteding_trajecten_view', {id: traject.id})) }}</dd>
+        <dt>Project</dt>
+        <dd>{{ project }}</dd>
+        <dt>Deelnemer</dt>
+        <dd>{{ traject.deelnemer }}</dd>
+    </dl>
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Ochtend</th>
+                <th>Middag</th>
+                <th>Avond</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for datum, dagdelen in traject.aanwezigheidByDateRangeAndProject(date_range, project) %}
+                <tr>
+                    <td>{{ datum|date('d-m-Y') }}</td>
+                    <td>{{ macro.color(dagdelen.ochtend) }}</td>
+                    <td>{{ macro.color(dagdelen.middag) }}</td>
+                    <td>{{ macro.color(dagdelen.avond) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

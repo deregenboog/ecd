@@ -61,11 +61,24 @@ class Dagdeel
      */
     private $dagdeel;
 
-    public function __construct(Project $project, \DateTime $datum, $dagdeel)
+    /**
+     * @ORM\Column(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $aanwezigheid;
+
+    /**
+     * @param Project $project
+     * @param \DateTime $datum
+     * @param string $dagdeel
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(Project $project, \DateTime $datum, $dagdeel, $aanwezigheid = null)
     {
         $this->project = $project;
         $this->datum = $datum;
         $this->dagdeel = $dagdeel;
+        $this->aanwezigheid = $aanwezigheid;
 
         if (!in_array($dagdeel, self::DAGDELEN)) {
             throw new \InvalidArgumentException('Dagdeel "'.$dagdeel.'" is niet geldig.');
@@ -125,9 +138,21 @@ class Dagdeel
      */
     public function isEqualTo(Dagdeel $dagdeel)
     {
-        return $this->datum == $dagdeel->getDatum()
-            && $this->project == $dagdeel->getProject()
-            && $this->dagdeel == $dagdeel->getDagdeel()
+        return $this->getProject() == $dagdeel->getProject()
+            && $this->getDatum() == $dagdeel->getDatum()
+            && $this->getDagdeel() == $dagdeel->getDagdeel()
         ;
+    }
+
+    public function getAanwezigheid()
+    {
+        return $this->aanwezigheid;
+    }
+
+    public function setAanwezigheid($aanwezigheid)
+    {
+        $this->aanwezigheid = $aanwezigheid;
+
+        return $this;
     }
 }

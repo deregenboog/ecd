@@ -5,6 +5,10 @@ namespace DagbestedingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\Common\Collections\Criteria;
+use DagbestedingBundle\Form\DagdelenModel;
+use DagbestedingBundle\Form\DagdelenRangeModel;
 
 /**
  * @ORM\Entity
@@ -458,18 +462,101 @@ class Traject
             foreach ($this->projecten as $project) {
                 $months[$key($date)]['projecten'][$project->getId()] = [
                     'project' => $project,
-                    'aantal' => 0,
+                    'A' => 0,
+                    'Z' => 0,
+                    'O' => 0,
+                    'V' => 0,
                 ];
             }
             $date->modify('-1 month');
         }
 
         foreach ($this->dagdelen as $dagdeel) {
-            ++$months[$key($dagdeel->getDatum())]['projecten'][$dagdeel->getProject()->getId()]['aantal'];
+            ++$months[$key($dagdeel->getDatum())]['projecten'][$dagdeel->getProject()->getId()][$dagdeel->getAanwezigheid()];
         }
 
         krsort($months);
 
         return $months;
+    }
+
+    public function getAanwezigheidByDateRangeAndProject(AppDateRangeModel $dateRange, Project $project)
+    {
+        // create empty data structure
+        $dagdelen = [];
+        $datum = clone $dateRange->getStart();
+        while ($datum <= $dateRange->getEnd()) {
+            $key = $datum->format(DagdelenRangeModel::DATE_FORMAT);
+            $dagdelen[$key] = [
+                Dagdeel::DAGDEEL_OCHTEND => '',
+                Dagdeel::DAGDEEL_MIDDAG => '',
+                Dagdeel::DAGDEEL_AVOND => '',
+            ];
+            $datum->modify('+1 day');
+        }
+
+        // fill data
+        $existingDagdelen = $this->getDagdelenByDateRangeAndProject($dateRange, $project);
+        foreach ($existingDagdelen as $dagdeel) {
+            $key = $dagdeel->getDatum()->format(DagdelenRangeModel::DATE_FORMAT);
+            $dagdelen[$key][$dagdeel->getDagdeel()] = $dagdeel->getAanwezigheid();
+        }
+
+        return $dagdelen;
+    }
+
+    public function getDagdelenByDateRangeAndProject(AppDateRangeModel $dateRange, Project $project)
+    {
+        // fill with existing entities
+        $criteria = new Criteria();
+        $criteria
+            ->where($criteria->expr()->eq('project', $project))
+            ->andWhere($criteria->expr()->gte('datum', $dateRange->getStart()))
+            ->andWhere($criteria->expr()->lte('datum', $dateRange->getEnd()))
+        ;
+
+        return $this->getDagdelen()->matching($criteria);
+    }
+
+    public function getDagdelenByDateRangeAndNotProject(AppDateRangeModel $dateRange, Project $project)
+    {
+        // fill with existing entities
+        $criteria = new Criteria();
+        $criteria
+            ->where($criteria->expr()->neq('project', $project))
+            ->andWhere($criteria->expr()->gte('datum', $dateRange->getStart()))
+            ->andWhere($criteria->expr()->lte('datum', $dateRange->getEnd()))
+        ;
+
+        return $this->getDagdelen()->matching($criteria);
+    }
+
+    public function updateDagdelenByDateRangeAndProject(AppDateRangeModel $dateRange, Project $project, ArrayCollection $newDagdelen)
+    {
+        $existingDagdelen = $this->getDagdelenByDateRangeAndProject($dateRange, $project);
+
+        foreach ($existingDagdelen as $existingDagdeel) {
+            foreach ($newDagdelen as $newDagdeel) {
+                if ($newDagdeel->isEqualTo($existingDagdeel)) {
+                    if ($newDagdeel->getAanwezigheid()) {
+                        // update value
+                        $existingDagdeel->setAanwezigheid($newDagdeel->getAanwezigheid());
+                    } else {
+                        // remove entity
+                        $this->removeDagdeel($existingDagdeel);
+                    }
+                    $newDagdelen->removeElement($newDagdeel);
+                    continue;
+                }
+            }
+        }
+
+        foreach ($newDagdelen as $newDagdeel) {
+            if ($newDagdeel->getAanwezigheid()) {
+                $this->addDagdeel($newDagdeel);
+            }
+        }
+
+        return $this;
     }
 }

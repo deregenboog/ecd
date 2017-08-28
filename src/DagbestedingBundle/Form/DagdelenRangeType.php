@@ -8,10 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 
-class DagdelenType extends AbstractType
+class DagdelenRangeType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,9 +17,11 @@ class DagdelenType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dagdelen', CollectionType::class, [
-                'entry_type' => DagdeelType::class,
+            ->add('submit_top', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('dagdelen_range', CollectionType::class, [
+                'entry_type' => DagdelenType::class,
             ])
+            ->add('submit_bottom', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
 
@@ -31,7 +31,7 @@ class DagdelenType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => DagdelenModel::class,
+            'data_class' => DagdelenRangeModel::class,
         ]);
     }
 

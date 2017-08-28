@@ -15,6 +15,8 @@ use DagbestedingBundle\Form\DagdelenModel;
 use DagbestedingBundle\Form\DagdelenType;
 use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Form\DagdelenRangeType;
+use DagbestedingBundle\Form\DagdelenRangeModel;
 
 /**
  * @Route("/trajecten")
@@ -130,6 +132,22 @@ class TrajectenController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/dagdelen/view/{project}/{month}")
+     */
+    public function viewDagdelenAction(Request $request, Traject $id, Project $project, $month)
+    {
+        $start = new \DateTime($month.'-01 00:00:00');
+        $end = new \DateTime('last day of '.$start->format('M Y'));
+        $range = new AppDateRangeModel($start, $end);
+
+        return [
+            'traject' => $id,
+            'project' => $project,
+            'date_range' => $range,
+        ];
+    }
+
+    /**
      * @Route("/{id}/dagdelen/edit/{project}/{month}")
      */
     public function editDagdelenAction(Request $request, Traject $id, Project $project, $month)
@@ -140,9 +158,8 @@ class TrajectenController extends AbstractController
         $end = new \DateTime('last day of '.$start->format('M Y'));
         $range = new AppDateRangeModel($start, $end);
 
-        $form = $this->createForm(DagdelenType::class, new DagdelenModel($entity, $project, $range));
+        $form = $this->createForm(DagdelenRangeType::class, new DagdelenRangeModel($entity, $project, $range));
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($entity->getId()) {

@@ -7,13 +7,11 @@ use DagbestedingBundle\Entity\Dagdeel;
 use Doctrine\Common\Collections\Criteria;
 use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class DagdelenModel
 {
-    /**
-     * @var Traject
-     */
-    private $traject;
+    const DATE_FORMAT = 'd-m-Y';
 
     /**
      * @var Project
@@ -21,117 +19,21 @@ class DagdelenModel
     private $project;
 
     /**
-     * @var AppDateRangeModel
+     * @var \DateTime
      */
-    private $dateRange;
+    private $datum;
 
-    public function __construct(Traject $traject, Project $project, AppDateRangeModel $dateRange)
+    public $dagdelen = [];
+
+    public function __construct(Project $project, \DateTime $datum)
     {
-        $this->traject = $traject;
         $this->project = $project;
-        $this->dateRange = $dateRange;
-    }
-
-    public function getDagdelen()
-    {
-        $key = function (\DateTime $date) {
-            return $date->format('d-m-Y');
-        };
-
-        $dagdelen = [];
-        $datum = clone $this->dateRange->getStart();
-
-        while ($datum <= $this->dateRange->getEnd()) {
-            $dagdelen[$datum->format('d-m-Y')] = [
-                'ochtend' => ['aanwezig' => false],
-                'middag' => ['aanwezig' => false],
-                'avond' => ['aanwezig' => false],
-            ];
-            $datum->modify('+1 day');
-        }
-
-        $criteria = new Criteria();
-        $criteria
-            ->where($criteria->expr()->eq('project', $this->project))
-            ->andWhere($criteria->expr()->gte('datum', $this->dateRange->getStart()))
-            ->andWhere($criteria->expr()->lte('datum', $this->dateRange->getEnd()))
-        ;
-        foreach ($this->traject->getDagdelen()->matching($criteria) as $dagdeel) {
-            switch ($dagdeel->getDagdeel()) {
-                case Dagdeel::DAGDEEL_OCHTEND:
-                    $dagdelen[$key($dagdeel->getDatum())]['ochtend']['aanwezig'] = true;
-                    break;
-                case Dagdeel::DAGDEEL_MIDDAG:
-                    $dagdelen[$key($dagdeel->getDatum())]['middag']['aanwezig'] = true;
-                    break;
-                case Dagdeel::DAGDEEL_AVOND:
-                    $dagdelen[$key($dagdeel->getDatum())]['avond']['aanwezig'] = true;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // remove "dagdelen" for other projects
-        $criteria = new Criteria();
-        $criteria
-            ->where($criteria->expr()->neq('project', $this->project))
-            ->andWhere($criteria->expr()->gte('datum', $this->dateRange->getStart()))
-            ->andWhere($criteria->expr()->lte('datum', $this->dateRange->getEnd()))
-        ;
-        foreach ($this->traject->getDagdelen()->matching($criteria) as $dagdeel) {
-            switch ($dagdeel->getDagdeel()) {
-                case Dagdeel::DAGDEEL_OCHTEND:
-                    unset($dagdelen[$key($dagdeel->getDatum())]['ochtend']);
-                    break;
-                case Dagdeel::DAGDEEL_MIDDAG:
-                    unset($dagdelen[$key($dagdeel->getDatum())]['middag']);
-                    break;
-                case Dagdeel::DAGDEEL_AVOND:
-                    unset($dagdelen[$key($dagdeel->getDatum())]['avond']);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return $dagdelen;
-    }
-
-    /**
-     * @param DagdeelModel[] $dagdelen
-     */
-    public function setDagdelen(array $dagdelen)
-    {
-        foreach ($dagdelen as $datum => $dagdeel) {
-            $ochtend = new Dagdeel($this->project, new \DateTime($datum), Dagdeel::DAGDEEL_OCHTEND);
-            if (@$dagdeel['ochtend']['aanwezig']) {
-                $this->traject->addDagdeel($ochtend);
-            } else {
-                $this->traject->removeDagdeel($ochtend);
-            }
-
-            $middag = new Dagdeel($this->project, new \DateTime($datum), Dagdeel::DAGDEEL_MIDDAG);
-            if (@$dagdeel['middag']['aanwezig']) {
-                $this->traject->addDagdeel($middag);
-            } else {
-                $this->traject->removeDagdeel($middag);
-            }
-
-            $avond = new Dagdeel($this->project, new \DateTime($datum), Dagdeel::DAGDEEL_AVOND);
-            if (@$dagdeel['avond']['aanwezig']) {
-                $this->traject->addDagdeel($avond);
-            } else {
-                $this->traject->removeDagdeel($avond);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getTraject()
-    {
-        return $this->traject;
+        $this->datum = $datum;
+        $this->dagdelen = [
+            Dagdeel::DAGDEEL_OCHTEND => new DagdeelModel(),
+            Dagdeel::DAGDEEL_MIDDAG => new DagdeelModel(),
+            Dagdeel::DAGDEEL_AVOND => new DagdeelModel(),
+        ];
     }
 
     public function getProject()
@@ -139,8 +41,98 @@ class DagdelenModel
         return $this->project;
     }
 
-    public function getDateRange()
+    public function getDatum()
     {
-        return $this->dateRange;
+        return $this->datum;
+    }
+
+    public function getDagdelen()
+    {
+        return $this->dagdelen;
+    }
+
+    public function setDagdeel(Dagdeel $dagdeel)
+    {
+        $this->dagdelen[$dagdeel->getDagdeel()]->setAanwezigheid($dagdeel->getAanwezigheid());
+
+        return $this;
+    }
+
+    public function removeDagdeel(Dagdeel $dagdeel)
+    {
+        unset($this->dagdelen[$dagdeel->getDagdeel()]);
+
+        return $this;
+    }
+
+    /**
+     * @Assert\Valid
+     */
+    public function getOchtend()
+    {
+        return $this->getDagdeelModel(Dagdeel::DAGDEEL_OCHTEND);
+    }
+
+    public function setOchtend(DagdeelModel $dagdeelModel)
+    {
+        return $this->setDagdeelModel(Dagdeel::DAGDEEL_OCHTEND, $dagdeelModel);
+    }
+
+    /**
+     * @Assert\Valid
+     */
+    public function getMiddag()
+    {
+        return $this->getDagdeelModel(Dagdeel::DAGDEEL_MIDDAG);
+    }
+
+    public function setMiddag(DagdeelModel $dagdeelModel)
+    {
+        return $this->setDagdeelModel(Dagdeel::DAGDEEL_MIDDAG, $dagdeelModel);
+    }
+
+    /**
+     * @Assert\Valid
+     */
+    public function getAvond()
+    {
+        return $this->getDagdeelModel(Dagdeel::DAGDEEL_AVOND);
+    }
+
+    public function setAvond(DagdeelModel $dagdeelModel)
+    {
+        return $this->setDagdeelModel(Dagdeel::DAGDEEL_AVOND, $dagdeelModel);
+    }
+
+    private function getDagdeelModel($dagdeelNaam)
+    {
+        if (array_key_exists($dagdeelNaam, $this->dagdelen)) {
+            return $this->dagdelen[$dagdeelNaam];
+        }
+
+        return;
+
+        foreach ($this->dagdelen as $dagdeel) {
+            if ($dagdeel->getDagdeel() === $dagdeelNaam) {
+                return new DagdeelModel($dagdeel->getAanwezigheid());
+            }
+        }
+
+        return new DagdeelModel();
+    }
+
+    private function setDagdeelModel($dagdeelNaam, DagdeelModel $dagdeelModel)
+    {
+        foreach ($this->dagdelen as $dagdeel) {
+            if ($dagdeel->getDagdeel() === $dagdeelNaam) {
+                $dagdeel->setAanwezigheid($dagdeelModel->getAanwezigheid());
+
+                return $this;
+            }
+        }
+
+        $this->addDagdeel(new Dagdeel($this->project, $this->datum, $dagdeelNaam, $dagdeelModel->getAanwezigheid()));
+
+        return $this;
     }
 }

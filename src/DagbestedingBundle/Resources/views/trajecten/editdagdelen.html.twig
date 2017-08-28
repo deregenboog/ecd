@@ -12,12 +12,13 @@
 {% block content %}
     <h1>Dagdelen invoeren</h1>
     {{ form_start(form) }}
+        {{ form_errors(form) }}
         <table class="table table-hover table-condensed">
             <thead>
                 <tr>
                     <th colspan="4">
                         <span class="pull-right">
-                            {{ form_widget(form.submit1) }}
+                            {{ form_widget(form.submit_top) }}
                         </span>
                     </th>
                 </tr>
@@ -29,12 +30,27 @@
                 </tr>
             </thead>
             <tbody>
-                {% for datum, dagdeel in form.dagdelen %}
+                {% for datum, child in form.dagdelen_range %}
                     <tr>
                         <td>{{ datum }}</td>
-                        <td>{{ dagdeel.ochtend is defined ? form_widget(dagdeel.ochtend.aanwezig, {label: false}) }}</td>
-                        <td>{{ dagdeel.middag is defined ? form_widget(dagdeel.middag.aanwezig, {label: false}) }}</td>
-                        <td>{{ dagdeel.avond is defined ? form_widget(dagdeel.avond.aanwezig, {label: false}) }}</td>
+                        <td>
+                            {% if child.dagdelen.ochtend is defined %}
+                                {{ form_widget(child.dagdelen.ochtend.aanwezigheid) }}
+                                {{ form_errors(child.dagdelen.ochtend.aanwezigheid) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if child.dagdelen.middag is defined %}
+                                {{ form_widget(child.dagdelen.middag.aanwezigheid) }}
+                                {{ form_errors(child.dagdelen.middag.aanwezigheid) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if child.dagdelen.avond is defined %}
+                                {{ form_widget(child.dagdelen.avond.aanwezigheid) }}
+                                {{ form_errors(child.dagdelen.avond.aanwezigheid) }}
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -42,7 +58,7 @@
                 <tr>
                     <td colspan="4">
                         <span class="pull-right">
-                            {{ form_widget(form.submit2) }}
+                            {{ form_widget(form.submit_bottom) }}
                         </span>
                     </td>
                 </tr>
