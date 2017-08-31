@@ -387,7 +387,7 @@ class IzDeelnemersController extends AppController
         $this->set('diensten', $diensten);
 
         $ontstaanContactList = $this->IzOntstaanContact->ontstaanContactList();
-        $viaPersoon = $this->IzViaPersoon->viaPersoon();
+        $viaPersoon = $this->IzViaPersoon->viaPersoon($this->data['IzDeelnemer']['binnengekomen_via']);
 
         $projectlists = $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists();
         $this->set(compact('projectlists', 'ontstaanContactList', 'persoon', 'viaPersoon'));

@@ -3,9 +3,11 @@
 class IzViaPersoon extends AppModel
 {
     public $name = 'IzViaPersoon';
+
     public $displayField = 'naam';
 
     public $cachekey = 'IzViaPersoon';
+
     public $cachekeyall = 'IzViaPersoonAll';
 
     public function beforeSave(&$model)
