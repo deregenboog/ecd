@@ -3,7 +3,7 @@
 class ZrmReport extends AppModel
 {
     public static $zrmReportModels = [
-        'ZrmV2Report' => '2017-09-04',
+        'ZrmV2Report' => '2017-10-05',
         'ZrmReport' => '2010-01-01',
     ];
 
