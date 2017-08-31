@@ -12,6 +12,7 @@ use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuurderFilterType extends AbstractType
 {
@@ -33,6 +34,12 @@ class HuurderFilterType extends AbstractType
                     'Ja' => 1,
                     'Nee' => 0,
                 ],
+            ]);
+        }
+
+        if (in_array('wpi', $options['enabled_filters'])) {
+            $builder->add('wpi', CheckboxType::class, [
+                'required' => false,
             ]);
         }
 
@@ -74,6 +81,7 @@ class HuurderFilterType extends AbstractType
                 'automatischeIncasso',
                 'aanmelddatum',
                 'afsluitdatum',
+                'wpi',
             ],
         ]);
     }

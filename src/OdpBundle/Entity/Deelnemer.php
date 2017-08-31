@@ -63,9 +63,9 @@ abstract class Deelnemer
     protected $rekeningnummer;
 
     /**
-     * @var string
+     * @var bool
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     protected $wpi;
 
@@ -215,9 +215,9 @@ abstract class Deelnemer
         return $this;
     }
 
-    public function getWpi()
+    public function isWpi()
     {
-        return $this->wpi;
+        return (bool) $this->wpi;
     }
 
     public function setWpi($wpi)

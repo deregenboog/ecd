@@ -24,18 +24,13 @@ class VerhuurdersController extends SymfonyController
 {
     public $title = 'Verhuurders';
 
-    private $enabledFilters = [
-        'klant' => ['id', 'naam', 'stadsdeel'],
-        'aanmelddatum',
-        'afsluitdatum',
-    ];
-
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
         'klant.werkgebied',
         'verhuurder.aanmelddatum',
         'verhuurder.afsluitdatum',
+        'verhuurder.wpi',
     ];
 
     /**
@@ -53,9 +48,7 @@ class VerhuurdersController extends SymfonyController
             ->andWhere('klant.disabled = false')
         ;
 
-        $filter = $this->createForm(VerhuurderFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $filter = $this->createForm(VerhuurderFilterType::class);
         $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
