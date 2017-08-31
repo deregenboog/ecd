@@ -49,10 +49,10 @@
         <dd>{{ verhuurder.woningbouwcorporatieToelichting }}</dd>
     </dl>
     <dl class="dl-horizontal">
-        <dt>WPI</dt>
-        <dd>{{ verhuurder.wpi }}</dd>
         <dt>Klantmanager</dt>
         <dd>{{ verhuurder.klantmanager }}</dd>
+        <dt>WPI</dt>
+        <dd>{{ verhuurder.wpi ? 'Ja' : 'Nee' }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: verhuurder.klant} %}
 {% endblock %}
