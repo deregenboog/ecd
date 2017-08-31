@@ -63,7 +63,7 @@ class IzVrijwilligersController extends AppController
         $vrijwilligers = $this->vrijwilligerDao->findAll(null, $filter);
 
         $this->autoRender = false;
-        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        $filename = sprintf('iz-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
 
         $export = $this->container->get('iz.export.vrijwilligers');
         $export->create($vrijwilligers)->send($filename);
