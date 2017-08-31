@@ -24,7 +24,15 @@ class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoIn
         $builder = $this->repository->createQueryBuilder('trajectbegeleider')
             ->innerJoin('trajectbegeleider.medewerker', 'medewerker');
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
     public function create(Trajectbegeleider $trajectbegeleider)

@@ -36,7 +36,7 @@ class DeelnemerSelectType extends AbstractType
                     return $builder;
                 },
             ])
-            ->add('next', SubmitType::class)
+            ->add('next', SubmitType::class, ['label' => 'Verder'])
         ;
     }
 

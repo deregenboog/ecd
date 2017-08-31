@@ -18,8 +18,8 @@ class Version20170831101720 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql("UPDATE odp_deelnemers SET wpi = '0' WHERE wpi IS NULL");
         $this->addSql("UPDATE odp_deelnemers SET wpi = '1' WHERE wpi IS NOT NULL");
+        $this->addSql("UPDATE odp_deelnemers SET wpi = '0' WHERE wpi IS NULL");
         $this->addSql('ALTER TABLE odp_deelnemers CHANGE wpi wpi TINYINT(1) NOT NULL DEFAULT 0');
     }
 

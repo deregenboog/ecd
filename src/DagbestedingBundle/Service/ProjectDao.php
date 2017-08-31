@@ -22,11 +22,6 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
 
     protected $alias = 'project';
 
-    public function findAll($page = null, FilterInterface $filter = null)
-    {
-        return parent::findAll($page, $filter);
-    }
-
     public function create(Project $project)
     {
         $this->doCreate($project);
