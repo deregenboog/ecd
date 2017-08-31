@@ -37,8 +37,8 @@ class HuurderType extends AbstractType
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
             ->add('automatischeIncasso', null, ['required' => false])
-            ->add('wpi')
             ->add('klantmanager')
+            ->add('wpi')
         ;
 
         if (!$options['data']->getId()) {

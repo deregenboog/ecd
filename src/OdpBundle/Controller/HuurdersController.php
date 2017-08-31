@@ -30,6 +30,7 @@ class HuurdersController extends SymfonyController
         'klant.werkgebied',
         'huurder.aanmelddatum',
         'huurder.afsluitdatum',
+        'huurder.wpi',
     ];
 
     /**

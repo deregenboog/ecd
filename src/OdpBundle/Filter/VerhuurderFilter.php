@@ -27,6 +27,11 @@ class VerhuurderFilter
      */
     public $klant;
 
+    /**
+     * @var bool
+     */
+    public $wpi;
+    
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -66,6 +71,13 @@ class VerhuurderFilter
             }
         }
 
+        if ($this->wpi) {
+            $builder
+                ->andWhere('verhuurder.wpi = :wpi')
+                ->setParameter('wpi', $this->wpi)
+            ;
+        }
+        
         if ($this->klant) {
             $this->klant->applyTo($builder);
         }

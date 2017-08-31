@@ -28,6 +28,10 @@
                     {{ form_errors(filter.klant.naam) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.wpi) }}
+                    {{ form_errors(filter.wpi) }}
+                </th>
+                <th>
                     {{ form_widget(filter.klant.stadsdeel) }}
                     {{ form_errors(filter.klant.stadsdeel) }}
                 </th>
@@ -57,6 +61,9 @@
                     {{ knp_pagination_sortable(pagination, 'Huurder', 'klant.achternaam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'WPI', 'huurder.wpi') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
                 </th>
                 <th>
@@ -75,34 +82,37 @@
         </thead>
         <tbody>
             {% for huurder in pagination %}
-            <tr>
-                <td>
-                    {{ html.link(huurder.klant.id, path('odp_huurders_view', {id: huurder.id})) }}
-                </td>
-                <td>
-                    {{ html.link(huurder.klant, path('odp_huurders_view', {id: huurder.id})) }}
-                </td>
-                <td>
-                    {{ huurder.klant.werkgebied }}
-                </td>
-                <td>
-                    {{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
-                </td>
-                <td>
-                    {{ huurder.aanmelddatum ? huurder.aanmelddatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}
-                    {{ huurder.afsluiting ? '('~huurder.afsluiting~')' }}
-                </td>
-                <td>
-                    {{ html.viewLink(path('odp_huurders_view', {id: huurder.id})) }}
-                    {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
-                    {% if huurder.deletable %}
-                        {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}
-                    {% endif %}
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        {{ html.link(huurder.klant.id, path('odp_huurders_view', {id: huurder.id})) }}
+                    </td>
+                    <td>
+                        {{ html.link(huurder.klant, path('odp_huurders_view', {id: huurder.id})) }}
+                    </td>
+                    <td>
+                        {{ huurder.wpi }}
+                    </td>
+                    <td>
+                        {{ huurder.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ huurder.aanmelddatum ? huurder.aanmelddatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}
+                        {{ huurder.afsluiting ? '('~huurder.afsluiting~')' }}
+                    </td>
+                    <td>
+                        {{ html.viewLink(path('odp_huurders_view', {id: huurder.id})) }}
+                        {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
+                        {% if huurder.deletable %}
+                            {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}
+                        {% endif %}
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
