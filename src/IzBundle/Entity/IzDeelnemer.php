@@ -92,8 +92,9 @@ abstract class IzDeelnemer
     {
         $now = new \DateTime();
         foreach ($this->izKoppelingen as $koppelking) {
-            if ($koppelking->getKoppelingStartdatum() <= $now
-                && (!$koppelking->getKoppelingEinddatum() || $koppelking->getKoppelingEinddatum() >= $now)
+            if ($koppelking->isGekoppeld()
+                && $koppelking->getKoppelingStartdatum() <= $now
+                && (is_null($koppelking->getKoppelingEinddatum()) || $koppelking->getKoppelingEinddatum() >= $now)
             ) {
                 return true;
             }
