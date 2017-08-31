@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Rapportages |
+    Dagbesteding | Rapportages |
 {% endblock %}
 
 {% block subnavigation %}
@@ -17,6 +17,6 @@
 {% block content_right %}
     <h2>Rapport {{ title ? '"'~title~'"' }}</h2>
     {% if reports is defined %}
-        {{ include('@Oek/rapportages/_pivot_tables.html.twig') }}
+        {{ include('@Dagbesteding/rapportages/_pivot_tables.html.twig') }}
     {% endif %}
 {% endblock %}
