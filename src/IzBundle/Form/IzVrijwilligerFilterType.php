@@ -17,6 +17,7 @@ use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
+use IzBundle\Entity\IzIntake;
 
 class IzVrijwilligerFilterType extends AbstractType
 {
@@ -59,10 +60,28 @@ class IzVrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+        if (in_array('izIntakeMedewerker', $options['enabled_filters'])) {
+            $builder->add('izIntakeMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
+                'label' => 'Medewerker intake',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzIntake::class, 'izIntake', 'WITH', 'izIntake.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
+                },
+            ]);
+        }
+
+        if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
+            $builder->add('izHulpaanbodMedewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'label' => 'Medewerker hulpaanbod',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
@@ -102,6 +121,16 @@ class IzVrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzVrijwilligerFilter::class,
+            'enabled_filters' => [
+                'afsluitDatum',
+                'openDossiers',
+                'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'izProject',
+                'izIntakeMedewerker',
+                'izHulpaanbodMedewerker',
+                'zonderActiefHulpaanbod',
+                'zonderActieveKoppeling',
+            ],
         ]);
     }
 

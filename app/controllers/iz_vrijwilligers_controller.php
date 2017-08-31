@@ -19,16 +19,6 @@ class IzVrijwilligersController extends AppController
      */
     public $view = 'AppTwig';
 
-    private $enabledFilters = [
-        'afsluitDatum',
-        'openDossiers',
-        'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
-        'izProject',
-        'medewerker',
-        'zonderActiefHulpaanbod',
-        'zonderActieveKoppeling',
-    ];
-
     /**
      * @var VrijwilligerDaoInterface
      */
@@ -122,9 +112,7 @@ class IzVrijwilligersController extends AppController
 
     private function createFilter()
     {
-        $form = $this->createForm(IzVrijwilligerFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $form = $this->createForm(IzVrijwilligerFilterType::class);
         $form->handleRequest($this->getRequest());
 
         return $form;

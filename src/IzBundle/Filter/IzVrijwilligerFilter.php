@@ -34,7 +34,12 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $medewerker;
+    public $izIntakeMedewerker;
+
+    /**
+     * @var Medewerker
+     */
+    public $izHulpaanbodMedewerker;
 
     /**
      * @var bool
@@ -81,10 +86,17 @@ class IzVrijwilligerFilter implements FilterInterface
             ;
         }
 
-        if ($this->medewerker) {
+        if ($this->izIntakeMedewerker) {
             $builder
-                ->andWhere('izHulpaanbod.medewerker = :medewerker')
-                ->setParameter('medewerker', $this->medewerker)
+                ->andWhere('izIntakeMedewerker = :izIntakeMedewerker')
+                ->setParameter('izIntakeMedewerker', $this->izIntakeMedewerker)
+            ;
+        }
+
+        if ($this->izHulpaanbodMedewerker) {
+            $builder
+                ->andWhere('izHulpaanbodMedewerker = :izHulpaanbodMedewerker')
+                ->setParameter('izHulpaanbodMedewerker', $this->izHulpaanbodMedewerker)
             ;
         }
 
