@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
 
 class HuuraanbodCloseType extends AbstractType
 {
@@ -18,6 +19,8 @@ class HuuraanbodCloseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $huuraanbod = $options['data'];
+
         $builder
             ->add('afsluitdatum', AppDateType::class, ['data' => new \DateTime()])
             ->add('afsluiting', null, [
@@ -25,6 +28,16 @@ class HuuraanbodCloseType extends AbstractType
                 'label' => 'Reden afsluiting',
                 'required' => true,
                 'placeholder' => 'Selecteer een item',
+                'query_builder' => function(EntityRepository $repository) use ($huuraanbod) {
+                    $builder = $repository->createQueryBuilder('afsluiting')
+                        ->where('afsluiting.actief = true')
+                    ;
+                    if ($huuraanbod instanceof Huuraanbod) {
+                        $builder->orWhere('afsluiting = :current')
+                            ->setParameter('current', $huuraanbod->getAfsluiting())
+                        ;
+                    }
+                },
             ])
             ->add('submit', SubmitType::class, ['label' => 'Afsluiten'])
         ;
