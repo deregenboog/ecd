@@ -47,10 +47,10 @@
         <dd>{{ huurder.afsluiting }}</dd>
     </dl>
     <dl class="dl-horizontal">
-        <dt>WPI</dt>
-        <dd>{{ huurder.wpi }}</dd>
         <dt>Klantmanager</dt>
         <dd>{{ huurder.klantmanager }}</dd>
+        <dt>WPI</dt>
+        <dd>{{ huurder.wpi ? 'Ja' : 'Nee' }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: huurder.klant} %}
 {% endblock %}
