@@ -90,7 +90,7 @@
                         {{ html.link(huurder.klant, path('odp_huurders_view', {id: huurder.id})) }}
                     </td>
                     <td>
-                        {{ huurder.wpi }}
+                        {{ huurder.wpi ? 'Ja' : 'Nee' }}
                     </td>
                     <td>
                         {{ huurder.klant.werkgebied }}
