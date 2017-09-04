@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
-{% block content_left %}
+{% block content_top %}
     <h1>Factuur {{ entity }}</h1>
     <p>
         {{ html.viewLink(path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
@@ -19,6 +19,9 @@
             {{ html.link('Factuur verwijderen', path('hs_facturen_delete', {id: entity.id})) }}
         {% endif %}
     </p>
+{% endblock %}
+
+{% block content_left %}
     <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ entity.nummer }}</dd>
@@ -35,10 +38,27 @@
         <dt>Saldo</dt>
         <dd>{{ entity.saldo|money }}</dd>
     </dl>
-    {% include '@Hs/registraties/_list.html.twig' %}
-    {% include '@Hs/declaraties/_list.html.twig' %}
 {% endblock %}
 
 {% block content_right %}
-    {% include '@Hs/betalingen/_list.html.twig' with {add_url: path('hs_betalingen_add', {factuurId: entity.id})} %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#registraties">Uren</a></li>
+        <li><a data-toggle="tab" href="#declaraties">Declaraties</a></li>
+        <li><a data-toggle="tab" href="#betalingen">Betalingen</a></li>
+        <li><a data-toggle="tab" href="#herinneringen">Betalingsherinneringen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="registraties" class="tab-pane active">
+            {% include '@Hs/registraties/_list.html.twig' with {factuur: entity} %}
+        </div>
+        <div id="declaraties" class="tab-pane">
+            {% include '@Hs/declaraties/_list.html.twig' with {factuur: entity} %}
+        </div>
+        <div id="betalingen" class="tab-pane">
+            {% include '@Hs/betalingen/_list.html.twig' with {factuur: entity} %}
+        </div>
+        <div id="herinneringen" class="tab-pane">
+            {% include '@Hs/herinneringen/_list.html.twig' with {factuur: entity} %}
+        </div>
+    </div>
 {% endblock %}

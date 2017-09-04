@@ -17,7 +17,12 @@ class KlusFilter implements FilterInterface
     /**
      * @var AppDateRangeModel
      */
-    public $datum;
+    public $startdatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $einddatum;
 
     /**
      * @var KlantFilter
@@ -38,17 +43,32 @@ class KlusFilter implements FilterInterface
             ;
         }
 
-        if ($this->datum) {
-            if ($this->datum->getStart()) {
+        if ($this->startdatum) {
+            if ($this->startdatum->getStart()) {
                 $builder
-                    ->andWhere('klus.datum >= :datum_van')
-                    ->setParameter('datum_van', $this->datum->getStart())
+                    ->andWhere('klus.startdatum >= :startdatum_van')
+                    ->setParameter('startdatum_van', $this->startdatum->getStart())
                 ;
             }
-            if ($this->datum->getEnd()) {
+            if ($this->startdatum->getEnd()) {
                 $builder
-                    ->andWhere('klus.datum <= :datum_tot')
-                    ->setParameter('datum_tot', $this->datum->getEnd())
+                    ->andWhere('klus.startdatum <= :startdatum_tot')
+                    ->setParameter('startdatum_tot', $this->startdatum->getEnd())
+                ;
+            }
+        }
+
+        if ($this->einddatum) {
+            if ($this->einddatum->getStart()) {
+                $builder
+                    ->andWhere('klus.einddatum >= :einddatum_van')
+                    ->setParameter('einddatum_van', $this->einddatum->getStart())
+                ;
+            }
+            if ($this->einddatum->getEnd()) {
+                $builder
+                    ->andWhere('klus.einddatum <= :einddatum_tot')
+                    ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
         }

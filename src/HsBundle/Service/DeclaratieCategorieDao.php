@@ -22,15 +22,20 @@ class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieD
     protected $alias = 'declaratiecategorie';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
-        return parent::findAll($page);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("{$this->alias}, declaratie")
+            ->leftJoin("{$this->alias}.declaraties", 'declaratie')
+        ;
+
+        return $this->doFindAll($builder, $page, $filter);
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -38,7 +43,7 @@ class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieD
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(DeclaratieCategorie $entity)
     {
@@ -46,7 +51,7 @@ class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieD
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(DeclaratieCategorie $entity)
     {
@@ -54,7 +59,7 @@ class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieD
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(DeclaratieCategorie $entity)
     {

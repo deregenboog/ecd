@@ -6,8 +6,16 @@
             {{ form_errors(filter.id) }}
         </th>
         <th>
-            {{ form_widget(filter.datum) }}
-            {{ form_errors(filter.datum) }}
+            {{ form_widget(filter.startdatum.start) }}
+            {{ form_errors(filter.startdatum.start) }}
+            {{ form_widget(filter.startdatum.end) }}
+            {{ form_errors(filter.startdatum.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.einddatum.start) }}
+            {{ form_errors(filter.einddatum.start) }}
+            {{ form_widget(filter.einddatum.end) }}
+            {{ form_errors(filter.einddatum.end) }}
         </th>
         <th>
             {{ form_widget(filter.klant.naam) }}

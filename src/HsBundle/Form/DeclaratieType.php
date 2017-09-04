@@ -39,6 +39,7 @@ class DeclaratieType extends AbstractType
                 ->add('file', FileType::class, [
                     'label' => 'Document',
                     'mapped' => false,
+                    'required' => false,
                 ])
                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                     if ($file = $event->getForm()->get('file')->getData()) {

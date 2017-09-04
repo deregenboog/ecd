@@ -6,15 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\KlantType as AppKlantType;
 use HsBundle\Entity\Klant;
-use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Stadsdeel;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -59,6 +56,7 @@ class KlantType extends AbstractType
             ->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')])
             ->add('bewindvoerder', TextareaType::class, ['required' => false])
             ->add('onHold')
+            ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
         ;
     }

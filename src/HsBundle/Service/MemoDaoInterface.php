@@ -13,7 +13,7 @@ interface MemoDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1, FilterInterface $filter = null);
+    public function findAll($page = null, FilterInterface $filter = null);
 
     /**
      * @param int $id

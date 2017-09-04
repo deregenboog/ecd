@@ -2,9 +2,7 @@
 
 namespace HsBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Form\VrijwilligerFilterType;
@@ -13,21 +11,35 @@ use HsBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Form\ConfirmationType;
+use AppBundle\Controller\AbstractController;
+use AppBundle\Export\ExportInterface;
+use Symfony\Component\Form\FormError;
 
 /**
- * @Route("/hs/vrijwilligers")
+ * @Route("/vrijwilligers")
  */
-class VrijwilligersController extends SymfonyController
+class VrijwilligersController extends AbstractController
 {
-    use MemosAddControllerTrait, DocumentenAddControllerTrait;
+    protected $title = 'Vrijwilligers';
+    protected $entityName = 'vrijwilliger';
+    protected $entityClass = Vrijwilliger::class;
+    protected $formClass = VrijwilligerType::class;
+    protected $filterFormClass = VrijwilligerFilterType::class;
+    protected $baseRouteName = 'hs_vrijwilligers_';
 
     /**
      * @var VrijwilligerDaoInterface
      *
      * @DI\Inject("hs.dao.vrijwilliger")
      */
-    private $dao;
+    protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("hs.export.vrijwilliger")
+     */
+    protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
@@ -36,106 +48,41 @@ class VrijwilligersController extends SymfonyController
      */
     private $vrijwilligerDao;
 
-    private $enabledFilters = [
-        'rijbewijs',
-        'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
-        'filter',
-        'download',
-    ];
-
-    /**
-     * @Route("/")
-     */
-    public function index(Request $request)
-    {
-        $form = $this->getFilter()->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $filter = $form->getData();
-        } else {
-            $filter = null;
-        }
-
-        if ($form->get('download')->isClicked()) {
-            return $this->download($filter);
-        }
-
-        $pagination = $this->dao->findAll($request->get('page', 1), $filter);
-
-        return [
-            'filter' => $form->createView(),
-            'pagination' => $pagination,
-        ];
-    }
-
-    private function download(FilterInterface $filter)
-    {
-        $collection = $this->dao->findAll(0, $filter);
-
-        $response = $this->render('@Hs/vrijwilligers/download.csv.twig', ['collection' => $collection]);
-
-        $filename = sprintf('homeservice-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        return $response;
-    }
-
     /**
      * @Route("/add")
      */
-    public function add(Request $request)
+    public function addAction(Request $request)
     {
-        if ($vrijwilligerId = $request->get('vrijwilligerId')) {
-            if ($vrijwilligerId === 'new') {
-                $appVrijwilliger = new AppVrijwilliger();
-            } else {
-                $appVrijwilliger = $this->getEntityManager()->find(AppVrijwilliger::class, $vrijwilligerId);
-            }
-
-            // redirect if already exists
-            $vrijwilliger = $this->dao->findOneByVrijwilliger($appVrijwilliger);
-            if ($vrijwilliger) {
-                return $this->redirectToView($vrijwilliger);
-            }
-
-            $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-            $creationForm = $this->getForm($vrijwilliger)->handleRequest($this->getRequest());
-
-            if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-                try {
-                    $this->dao->create($vrijwilliger);
-                    $this->addFlash('success', 'Vrijwilliger is opgeslagen.');
-
-                    return $this->redirectToRoute('hs_vrijwilligers_memos_add', ['id' => $vrijwilliger->getId()]);
-                } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
-                }
-
-                return $this->redirectToIndex();
-            }
-
-            return [
-                'creationForm' => $creationForm->createView(),
-            ];
+        if ($request->get('vrijwilliger')) {
+            return $this->doAdd($request);
         }
 
+        return $this->doSearch($request);
+    }
+
+    private function doSearch(Request $request)
+    {
         $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
-        $filterForm->handleRequest($this->getRequest());
+        $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $builder = $this->getEntityManager()->getRepository(AppVrijwilliger::class)
-                ->createQueryBuilder('appVrijwilliger')
-                ->where('appVrijwilliger.disabled = false')
-                ->orderBy('appVrijwilliger.achternaam')
-            ;
-            $filterForm->getData()->alias = 'appVrijwilliger';
-            $filterForm->getData()->applyTo($builder);
+
+            $count = (int) $this->vrijwilligerDao->countAll($filterForm->getData());
+            if ($count === 0) {
+                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
+
+                return $this->redirectToRoute($this->baseRouteName.'add', ['vrijwilliger' => 'new']);
+            }
+
+            if ($count > 100) {
+                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+            }
 
             return [
-                'vrijwilligers' => $builder->getQuery()->getResult(),
+                'filterForm' => $filterForm->createView(),
+                'vrijwilligers' => $this->vrijwilligerDao->findAll(null, $filterForm->getData()),
             ];
         }
 
@@ -144,86 +91,43 @@ class VrijwilligersController extends SymfonyController
         ];
     }
 
-    /**
-     * @Route("/{id}/view")
-     */
-    public function view($id)
+    private function doAdd(Request $request)
     {
-        $entity = $this->dao->find($id);
-
-        return [
-            'entity' => $entity,
-        ];
-    }
-
-    /**
-     * @Route("/{id}/edit")
-     */
-    public function edit(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        $form = $this->getForm($entity)->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $this->dao->update($entity);
-                $this->addFlash('success', 'Vrijwilliger is opgeslagen.');
-
-                return $this->redirectToView($entity);
-            } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
-            }
+        $vrijwilligerId = $request->get('vrijwilliger');
+        if ($vrijwilligerId === 'new') {
+            $appVrijwilliger = new AppVrijwilliger();
+        } else {
+            $appVrijwilliger = $this->getEntityManager()->find(AppVrijwilliger::class, $vrijwilligerId);
         }
 
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
-    }
+        // redirect if already exists
+        $vrijwilliger = $this->dao->findOneByVrijwilliger($appVrijwilliger);
+        if ($vrijwilliger) {
+            return $this->redirectToView($vrijwilliger);
+        }
 
-    /**
-     * @Route("/{id}/delete")
-     */
-    public function delete($id)
-    {
-        $entity = $this->dao->find($id);
+        $vrijwilliger = new Vrijwilliger($appVrijwilliger);
+        $creationForm = $this->createForm(VrijwilligerType::class, $vrijwilliger);
+        $creationForm->handleRequest($request);
 
-        $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->getRequest());
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('yes')->isClicked()) {
-                $this->dao->delete($entity);
-                $this->addFlash('success', 'Vrijwilliger is verwijderd.');
+        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+            try {
+                $this->dao->create($vrijwilliger);
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
+                return $this->redirectToRoute('hs_memos_add', [
+                    'vrijwilliger' => $vrijwilliger->getId(),
+                    'redirect' => $this->generateUrl('hs_vrijwilligers_view', ['id' => $vrijwilliger->getId()]).'#memos',
+                ]);
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
 
             return $this->redirectToIndex();
         }
 
         return [
-            'entity' => $entity,
-            'form' => $form->createView(),
+            'creationForm' => $creationForm->createView(),
         ];
-    }
-
-    private function getFilter()
-    {
-        return $this->createForm(VrijwilligerFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-    }
-
-    private function getForm($data = null)
-    {
-        return $this->createForm(VrijwilligerType::class, $data);
-    }
-
-    private function redirectToIndex()
-    {
-        return $this->redirectToRoute('hs_vrijwilligers_index');
-    }
-
-    private function redirectToView(Vrijwilliger $entity)
-    {
-        return $this->redirectToRoute('hs_vrijwilligers_view', ['id' => $entity->getId()]);
     }
 }

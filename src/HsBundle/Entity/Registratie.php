@@ -1,5 +1,4 @@
 <?php
-
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Registratie
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,6 +21,7 @@ class Registratie
     private $id;
 
     /**
+     *
      * @var \DateTime
      * @ORM\Column(type="date")
      * @Gedmo\Versioned
@@ -28,6 +29,7 @@ class Registratie
     private $datum;
 
     /**
+     *
      * @var \DateTime
      * @ORM\Column(type="time")
      * @Gedmo\Versioned
@@ -35,6 +37,7 @@ class Registratie
     private $start;
 
     /**
+     *
      * @var \DateTime
      * @ORM\Column(type="time")
      * @Gedmo\Versioned
@@ -42,6 +45,7 @@ class Registratie
     private $eind;
 
     /**
+     *
      * @var float
      * @ORM\Column(type="float", nullable=true)
      * @Gedmo\Versioned
@@ -56,6 +60,7 @@ class Registratie
     private $klus;
 
     /**
+     *
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties")
      * @ORM\JoinColumn(nullable=true)
@@ -64,6 +69,7 @@ class Registratie
     private $factuur;
 
     /**
+     *
      * @var Arbeider
      * @ORM\ManyToOne(targetEntity="Arbeider", inversedBy="registraties")
      * @ORM\JoinColumn(nullable=false)
@@ -72,6 +78,7 @@ class Registratie
     private $arbeider;
 
     /**
+     *
      * @var Activiteit
      * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="klussen")
      * @ORM\JoinColumn(nullable=false)
@@ -80,6 +87,7 @@ class Registratie
     private $activiteit;
 
     /**
+     *
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
@@ -87,12 +95,14 @@ class Registratie
      */
     private $medewerker;
 
-    public function __construct(Klus $klus, Arbeider $arbeider = null)
+    public function __construct(Klus $klus = null, Arbeider $arbeider = null)
     {
-        $this->datum = $klus->getDatum();
-        $this->klus = $klus;
-        $this->activiteit = $klus->getActiviteit();
-        $this->arbeider = $arbeider;
+        if ($klus) {
+            $this->setKlus($klus);
+        }
+        if ($arbeider) {
+            $this->arbeider = $arbeider;
+        }
     }
 
     public function getId()
@@ -153,17 +163,32 @@ class Registratie
         return $this->klus;
     }
 
-//     public function getArbeider()
-//     {
-//         return $this->arbeider;
-//     }
+    public function setKlus(Klus $klus)
+    {
+        $this->klus = $klus;
 
-//     public function setArbeider(Arbeider $arbeider)
-//     {
-//         $this->arbeider = $arbeider;
+        if (!$this->datum) {
+            $this->datum = $klus->getStartdatum();
+        }
 
-//         return $this;
-//     }
+        if (!$this->activiteit) {
+            $this->activiteit = $klus->getActiviteit();
+        }
+
+        return $this;
+    }
+
+    public function getArbeider()
+    {
+        return $this->arbeider;
+    }
+
+    public function setArbeider(Arbeider $arbeider)
+    {
+        $this->arbeider = $arbeider;
+
+        return $this;
+    }
 
     public function getFactuur()
     {
@@ -211,17 +236,5 @@ class Registratie
     public function getDagdelen()
     {
         return $this->getUren() > 3 ? 2 : 1;
-    }
-
-    public function getArbeider()
-    {
-        return $this->arbeider;
-    }
-
-    public function setArbeider(Arbeider $arbeider)
-    {
-        $this->arbeider = $arbeider;
-
-        return $this;
     }
 }

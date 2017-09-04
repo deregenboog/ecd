@@ -14,10 +14,11 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     /**
      * @param int $page
+     * @param FilterInterface $filter
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
 
@@ -25,7 +26,31 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             $filter->applyTo($builder);
         }
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param FilterInterface $filter
+     *
+     * @return int
+     */
+    public function countAll(FilterInterface $filter = null)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id)")
+            ->where("{$this->alias}.disabled = false")
+            ->orderBy("{$this->alias}.achternaam")
+        ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        return $builder->getQuery()->getSingleScalarResult();
     }
 
     /**

@@ -1,7 +1,8 @@
 hs_annotations:
     resource: "@HsBundle/Controller"
     type: annotation
-
+    prefix: /hs
+    
 hs_index:
     path: /hs
     defaults:

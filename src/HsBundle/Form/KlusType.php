@@ -22,21 +22,23 @@ class KlusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('klant', null, [
-                'required' => false,
-                'placeholder' => 'Homeservice',
-            ])
             ->add('startdatum', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
             ->add('einddatum', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('activiteit')
+            ->add('onHold')
+            ->add('activiteit', null, ['required' => true])
             ->add('medewerker')
+            ->add('dienstverleners', null, [
+                'by_reference' => false, // force to call adder and remover
+                'expanded' => true,
+            ])
+            ->add('vrijwilligers', null, [
+                'by_reference' => false, // force to call adder and remover
+                'expanded' => true,
+            ])
         ;
 
         if (!$options['data']->getId()) {
             $builder
-                ->add('dienstverleners')
-                ->add('vrijwilligers')
                 ->add('memo', TextareaType::class, [
                     'mapped' => false,
                     'attr' => ['rows' => 10, 'cols' => 80],
@@ -53,10 +55,7 @@ class KlusType extends AbstractType
             ;
         }
 
-        $builder
-            ->add('onHold')
-            ->add('submit', SubmitType::class)
-        ;
+        $builder->add('submit', SubmitType::class);
     }
 
     /**

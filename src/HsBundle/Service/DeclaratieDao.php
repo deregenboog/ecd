@@ -4,7 +4,6 @@ namespace HsBundle\Service;
 
 use HsBundle\Entity\Declaratie;
 use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 
 class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
 {
@@ -19,24 +18,10 @@ class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
 
     protected $class = Declaratie::class;
 
-    /**
-     * {inheritdoc}
-     */
-    public function findAll($page = 1, FilterInterface $filter = null)
-    {
-        return parent::findAll($page);
-    }
+    protected $alias = 'declaratie';
 
     /**
-     * {inheritdoc}
-     */
-    public function find($id)
-    {
-        return parent::find($id);
-    }
-
-    /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Declaratie $entity)
     {
@@ -44,7 +29,7 @@ class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Declaratie $entity)
     {
@@ -52,7 +37,7 @@ class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Declaratie $entity)
     {

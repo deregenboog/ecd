@@ -5,6 +5,7 @@ namespace HsBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class BetalingFilter implements FilterInterface
 {
@@ -14,7 +15,7 @@ class BetalingFilter implements FilterInterface
     public $referentie;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $datum;
 
@@ -42,11 +43,19 @@ class BetalingFilter implements FilterInterface
             ;
         }
 
-        if ($this->datum instanceof \DateTime) {
-            $builder
-                ->andWhere('betaling.datum = :datum')
-                ->setParameter('datum', $this->datum)
-            ;
+        if ($this->datum) {
+            if ($this->datum->getStart()) {
+                $builder
+                    ->andWhere('betaling.datum >= :datum_van')
+                    ->setParameter('datum_van', $this->datum->getStart())
+                ;
+            }
+            if ($this->datum->getEnd()) {
+                $builder
+                    ->andWhere('betaling.datum <= :datum_tot')
+                    ->setParameter('datum_tot', $this->datum->getEnd())
+                ;
+            }
         }
 
         if ($this->bedrag) {

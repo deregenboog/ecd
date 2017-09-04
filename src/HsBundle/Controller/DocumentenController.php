@@ -3,21 +3,44 @@
 namespace HsBundle\Controller;
 
 use HsBundle\Entity\Document;
+use HsBundle\Form\DocumentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Controller\SymfonyController;
+use JMS\DiExtraBundle\Annotation as DI;
+use HsBundle\Service\DocumentDaoInterface;
+use AppBundle\Controller\AbstractChildController;
 
 /**
- * @Route("/hs/documenten")
+ * @Route("/documenten")
  */
-class DocumentenController extends SymfonyController
+class DocumentenController extends AbstractChildController
 {
+    protected $title = 'Documenten';
+    protected $entityName = 'Document';
+    protected $entityClass = Document::class;
+    protected $formClass = DocumentType::class;
+    protected $addMethod = 'addDocument';
+    protected $baseRouteName = 'hs_documenten_';
+
     /**
-     * @Route("/{filename}")
+     * @var DocumentDaoInterface
+     *
+     * @DI\Inject("hs.dao.document")
      */
-    public function view($filename)
+    protected $dao;
+
+    /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("hs.document.entities")
+     */
+    protected $entities;
+
+    /**
+     * @Route("/download/{filename}")
+     */
+    public function downloadAction($filename)
     {
-        $document = $this->getEntityManager()->getRepository(Document::class)
-            ->findOneByFilename($filename);
+        $document = $this->dao->findByFilename($filename);
 
         $downloadHandler = $this->get('vich_uploader.download_handler');
 

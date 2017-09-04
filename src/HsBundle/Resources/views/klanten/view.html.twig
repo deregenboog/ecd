@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
-{% block content_left %}
+{% block content_top %}
     <h1>Klant {{ entity }}</h1>
     <p>
         {{ html.editLink(path('hs_klanten_edit', {id: entity.id})) }}
@@ -19,9 +19,14 @@
             {{ html.link('Verwijderen', path('hs_klanten_delete', {id: entity.id})) }}
         {% endif %}
     </p>
+{% endblock %}
+
+{% block content_left %}
     <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ entity.id }}</dd>
+        <dt>ERP-nummer</dt>
+        <dd>{{ entity.erpId }}</dd>
         <dt>Naam</dt>
         <dd>{{ entity.naam }}</dd>
         <dt>Adres</dt>
@@ -37,18 +42,48 @@
         <dd>{{ entity.telefoon }}</dd>
         <dt>E-mail</dt>
         <dd>{{ entity.email }}</dd>
+        <dt>BSN</dt>
+        <dd>{{ entity.bsn }}</dd>
         <dt>Inschrijving</dt>
         <dd>{{ entity.inschrijving ? entity.inschrijving|date('d-m-Y') }}</dd>
         <dt>Bewindvoerder</dt>
         <dd>{{ entity.bewindvoerder }}</dd>
         <dt>Saldo</dt>
         <dd>{{ entity.saldo|money }}</dd>
+        <dt>Rekeningnummer</dt>
+        <dd>{{ entity.rekeningnummer }}</dd>
     </dl>
-    {% include '@Hs/memos/_list.html.twig' with {add_url: path('hs_klanten_memos_add', {id: entity.id})} %}
-    {% include '@Hs/documenten/_list.html.twig' with {add_url: path('hs_klanten_documenten_add', {id: entity.id})} %}
+    <dl class="dl-horizontal">
+        <dt>Naam hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.naam }}</dd>
+        <dt>Organisatie hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.organisatie }}</dd>
+        <dt>Telefoon hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.telefoon }}</dd>
+        <dt>E-mail hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.email }}</dd>
+    </dl>
 {% endblock %}
 
 {% block content_right %}
-    {% include '@Hs/klussen/_list.html.twig' with {add_url: path('hs_klussen_add', {klantId: entity.id})} %}
-    {% include '@Hs/facturen/_list.html.twig'with {add_url: path('hs_facturen_add', {klant: entity.id})} %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#klussen">Klussen</a></li>
+        <li><a data-toggle="tab" href="#facturen">Facturen</a></li>
+        <li><a data-toggle="tab" href="#memos">Memo's</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="klussen" class="tab-pane active">
+            {% include '@Hs/klussen/_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="facturen" class="tab-pane">
+            {% include '@Hs/facturen/_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="memos" class="tab-pane">
+            {% include '@Hs/memos/_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include '@Hs/documenten/_list.html.twig' with {klant: entity} %}
+        </div>
+    </div>
 {% endblock %}

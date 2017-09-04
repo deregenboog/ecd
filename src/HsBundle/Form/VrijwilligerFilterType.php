@@ -51,6 +51,12 @@ class VrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VrijwilligerFilter::class,
+            'enabled_filters' => [
+                'rijbewijs',
+                'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
+                'filter',
+                'download',
+            ],
         ]);
     }
 

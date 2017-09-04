@@ -8,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use HsBundle\Entity\Memo;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 
@@ -23,7 +22,6 @@ class MemoType extends AbstractType
             ->add('medewerker')
             ->add('datum', AppDateTimeType::class, ['data' => new \DateTime('now')])
             ->add('memo', TextareaType::class, ['attr' => ['cols' => 80, 'rows' => 20]])
-            ->add('referer', HiddenType::class, ['mapped' => false])
             ->add('submit', SubmitType::class)
         ;
     }

@@ -22,23 +22,20 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
     protected $alias = 'activiteit';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
-        return parent::findAll($page);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("{$this->alias}, klus")
+            ->leftJoin("{$this->alias}.klussen", 'klus')
+        ;
+
+        return $this->doFindAll($builder, $page, $filter);
     }
 
     /**
-     * {inheritdoc}
-     */
-    public function find($id)
-    {
-        return parent::find($id);
-    }
-
-    /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Activiteit $entity)
     {
@@ -46,7 +43,7 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Activiteit $entity)
     {
@@ -54,7 +51,7 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Activiteit $entity)
     {

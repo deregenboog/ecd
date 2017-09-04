@@ -5,6 +5,7 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Klant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 interface KlantDaoInterface
 {
@@ -13,7 +14,21 @@ interface KlantDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1, FilterInterface $filter = null);
+    public function findAll($page = null, FilterInterface $filter = null);
+
+    /**
+     * @param AppDateRangeModel $dateRange
+     *
+     * @return Klant[]
+     */
+    public function findFacturabel(AppDateRangeModel $dateRange);
+
+    /**
+     * @param AppDateRangeModel $dateRange
+     *
+     * @return int
+     */
+    public function countFacturabel(AppDateRangeModel $dateRange);
 
     /**
      * @param int $id

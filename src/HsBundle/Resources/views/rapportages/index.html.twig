@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_left %}
@@ -15,7 +15,9 @@
 {% endblock %}
 
 {% block content_right %}
-    <h2>Rapport {{ title is defined ? '"'~title~'"' }}</h2>
+    {% if title %}
+        <h2>Rapport {{ title }}</h2>
+    {% endif %}
     {% if reports is defined %}
         {{ include('@Hs/rapportages/_pivot_tables.html.twig') }}
     {% endif %}

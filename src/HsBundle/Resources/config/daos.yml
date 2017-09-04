@@ -1,0 +1,63 @@
+services:
+    hs.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    hs.dao.activiteit:
+        parent: hs.dao
+        class: HsBundle\Service\ActiviteitDao
+
+    hs.dao.arbeider:
+        parent: hs.dao
+        class: HsBundle\Service\ArbeiderDao
+
+    hs.dao.betaling:
+        parent: hs.dao
+        class: HsBundle\Service\BetalingDao
+
+    hs.dao.declaratiecategorie:
+        parent: hs.dao
+        class: HsBundle\Service\DeclaratieCategorieDao
+
+    hs.dao.declaratie:
+        parent: hs.dao
+        class: HsBundle\Service\DeclaratieDao
+
+    hs.dao.dienstverlener:
+        parent: hs.dao
+        class: HsBundle\Service\DienstverlenerDao
+
+    hs.dao.document:
+        parent: hs.dao
+        class: HsBundle\Service\DocumentDao
+
+    hs.dao.factuur:
+        parent: hs.dao
+        class: HsBundle\Service\FactuurDao
+
+    hs.dao.herinnering:
+        parent: hs.dao
+        class: HsBundle\Service\HerinneringDao
+
+    hs.dao.klant:
+        parent: hs.dao
+        class: HsBundle\Service\KlantDao
+
+    hs.dao.klus:
+        parent: hs.dao
+        class: HsBundle\Service\KlusDao
+
+    hs.dao.memo:
+        parent: hs.dao
+        class: HsBundle\Service\MemoDao
+
+    hs.dao.registratie:
+        parent: hs.dao
+        class: HsBundle\Service\RegistratieDao
+
+    hs.dao.vrijwilliger:
+        parent: hs.dao
+        class: HsBundle\Service\VrijwilligerDao

@@ -5,8 +5,6 @@ namespace HsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use HsBundle\Filter\KlantFilter;
@@ -64,6 +62,15 @@ class KlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
+            'enabled_filters' => [
+                'id',
+                'naam',
+                'stadsdeel',
+                'actief',
+                'negatiefSaldo',
+                'filter',
+                'download',
+            ],
         ]);
     }
 

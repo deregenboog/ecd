@@ -24,21 +24,21 @@ class BetalingDao extends AbstractDao implements BetalingDaoInterface
     protected $alias = 'betaling';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("{$this->alias}, factuur, klant")
             ->innerJoin('betaling.factuur', 'factuur')
-            ->innerJoin('factuur.klussen', 'klus')
-            ->innerJoin('klus.klant', 'klant')
+            ->innerJoin('factuur.klant', 'klant')
         ;
 
         return $this->doFindAll($builder, $page, $filter);
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -46,7 +46,7 @@ class BetalingDao extends AbstractDao implements BetalingDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Betaling $entity)
     {
@@ -54,7 +54,7 @@ class BetalingDao extends AbstractDao implements BetalingDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Betaling $entity)
     {
@@ -62,7 +62,7 @@ class BetalingDao extends AbstractDao implements BetalingDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Betaling $entity)
     {

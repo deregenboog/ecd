@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\BaseType;
+use HsBundle\Entity\Arbeider;
+use HsBundle\Entity\Klus;
 
 class RegistratieType extends AbstractType
 {
@@ -21,18 +23,37 @@ class RegistratieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('arbeider', null, [
-                'placeholder' => 'Selecteer een dienstverlener of vrijwilliger',
+        if ($options['data']->getKlus() && !$options['data']->getArbeider()) {
+            $builder->add('arbeider', null, [
+                'label' => 'Dienstverlener/vrijwilliger',
+                'required' => true,
+                'expanded' => true,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     return $repository->createQueryBuilder('arbeider')
-                        ->where('arbeider IN (:dienstverleners)')
-                        ->orWhere('arbeider IN (:vrijwilligers)')
-                        ->setParameter('dienstverleners', $options['data']->getKlus()->getDienstverleners())
-                        ->setParameter('vrijwilligers', $options['data']->getKlus()->getVrijwilligers())
+                        ->where('arbeider IN (:dienstverleners) OR arbeider IN (:vrijwilligers)')
+                        ->setParameters([
+                            'dienstverleners' => $options['data']->getKlus()->getDienstverleners(),
+                            'vrijwilligers' => $options['data']->getKlus()->getVrijwilligers(),
+                        ])
+                    ;
+                },
+            ]);
+        } elseif ($options['data']->getArbeider() && !$options['data']->getKlus()) {
+            $builder->add('klus', null, [
+                'label' => 'Klus',
+                'required' => true,
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) use ($options) {
+                    return $repository->createQueryBuilder('klus')
+                        ->where('klus IN (:klussen)')
+                        ->setParameter('klussen', $options['data']->getArbeider()->getKlussen())
                     ;
                 },
             ])
+            ;
+        }
+
+        $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('activiteit', null, [
                 'placeholder' => 'Selecteer een activiteit',

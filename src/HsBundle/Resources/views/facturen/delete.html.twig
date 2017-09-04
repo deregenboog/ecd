@@ -2,17 +2,17 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Klanten |
+    Homeservice | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
-    <h1>Factuur verwijderen</h1>
+    <h1>{{ entity_name|capitalize }} verwijderen</h1>
     <p>
-        Weet u zeker dat u factuur {{ entity }} wilt verwijderen?
+        Weet u zeker dat u {{ entity_name }} {{ entity }} wilt verwijderen?
     </p>
     {{ form(form) }}
 {% endblock %}

@@ -22,6 +22,7 @@ class DocumentType extends AbstractType
             ->add('file', FileType::class, [
                 'label' => 'Document',
             ])
+            ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }

@@ -2,34 +2,39 @@
 
 namespace HsBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Klus;
 use HsBundle\Form\DeclaratieType;
-use HsBundle\Form\RegistratieType;
-use HsBundle\Service\RegistratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Controller\AbstractController;
+use HsBundle\Service\DeclaratieDaoInterface;
 
 /**
- * @Route("/hs/declaraties")
+ * @Route("/declaraties")
  */
-class DeclaratiesController extends SymfonyController
+class DeclaratiesController extends AbstractController
 {
+    protected $title = 'Declaraties';
+    protected $entityName = 'declaratie';
+    protected $entityClass = Declaratie::class;
+    protected $formClass = DeclaratieType::class;
+    protected $baseRouteName = 'hs_declaraties_';
+
     /**
-     * @var RegistratieDaoInterface
+     * @var DeclaratieDaoInterface
      *
      * @DI\Inject("hs.dao.declaratie")
      */
-    private $dao;
+    protected $dao;
 
     /**
      * @Route("/add/{klus}")
      * @ParamConverter()
      */
-    public function add(Request $request, Klus $klus)
+    public function addAction(Request $request, Klus $klus)
     {
         $entity = new Declaratie($klus);
         $form = $this->createForm(DeclaratieType::class, $entity);
@@ -37,7 +42,11 @@ class DeclaratiesController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dao->create($entity);
 
-            return $this->redirectToView($entity);
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToRoute('hs_klussen_index');
         }
 
         return [
@@ -47,24 +56,26 @@ class DeclaratiesController extends SymfonyController
     }
 
     /**
-     * @Route("/{id}/edit")
+     * @Route("/")
      */
-    public function edit(Request $request, $id)
+    public function indexAction(Request $request)
     {
-        $entity = $this->dao->find($id);
-        $form = $this->createForm(DeclaratieType::class, $entity);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->update($entity);
-
-            return $this->redirectToView($entity);
-        }
-
-        return ['form' => $form->createView()];
+        return $this->redirectToRoute('hs_klussen_index');
     }
 
-    private function redirectToView(Declaratie $entity)
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request)
     {
-        return $this->redirectToRoute('hs_klussen_view', ['id' => $entity->getKlus()->getId()]);
+        return $this->redirectToRoute('hs_klussen_index');
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request)
+    {
+        return $this->redirectToRoute('hs_klussen_index');
     }
 }

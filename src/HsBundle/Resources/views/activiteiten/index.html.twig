@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -37,7 +37,6 @@
                     {{ activiteit.naam }}
                 </td>
                 <td>
-                    {{ html.viewLink(path('hs_activiteiten_view', {id: activiteit.id})) }}
                     {{ html.editLink(path('hs_activiteiten_edit', {id: activiteit.id})) }}
                     {% if activiteit.deletable %}
                         {{ html.deleteLink(path('hs_activiteiten_delete', {id: activiteit.id})) }}

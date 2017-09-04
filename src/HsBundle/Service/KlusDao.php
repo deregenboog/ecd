@@ -3,18 +3,17 @@
 namespace HsBundle\Service;
 
 use HsBundle\Entity\Klus;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
 
 class KlusDao extends AbstractDao implements KlusDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'klus.datum',
+        'defaultSortFieldName' => 'klus.startdatum',
         'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
             'klus.id',
-            'klus.datum',
+            'klus.startdatum',
             'klant.achternaam',
             'klant.werkgebied',
             'activiteit.naam',
@@ -26,20 +25,25 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     protected $alias = 'klus';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin('klus.klant', 'klant')
-            ->innerJoin('klus.activiteit', 'activiteit')
+            ->select("{$this->alias}, klant, activiteit, declaratie, factuur, memo, registratie")
+            ->innerJoin("{$this->alias}.klant", 'klant')
+            ->innerJoin("{$this->alias}.activiteit", 'activiteit')
+            ->leftJoin("{$this->alias}.declaraties", 'declaratie')
+            ->leftJoin("{$this->alias}.facturen", 'factuur')
+            ->leftJoin("{$this->alias}.memos", 'memo')
+            ->leftJoin("{$this->alias}.registraties", 'registratie')
         ;
 
         return $this->doFindAll($builder, $page, $filter);
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -47,7 +51,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Klus $entity)
     {
@@ -55,7 +59,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Klus $entity)
     {
@@ -63,7 +67,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Klus $entity)
     {
@@ -71,7 +75,29 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
+     */
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klus')
+            ->select('COUNT(klus.id) AS aantal, klant.werkgebied AS stadsdeel')
+            ->innerJoin('klus.klant', 'klant')
+            ->groupBy('klant.werkgebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
      */
     public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
@@ -94,7 +120,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {

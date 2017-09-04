@@ -5,6 +5,7 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Factuur;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use HsBundle\Entity\Klant;
 
 interface FactuurDaoInterface
 {
@@ -13,7 +14,7 @@ interface FactuurDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1, FilterInterface $filter = null);
+    public function findAll($page = null, FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -21,6 +22,11 @@ interface FactuurDaoInterface
      * @return Factuur
      */
     public function find($id);
+
+    /**
+     * @param Factuur[] $facturen
+     */
+    public function createBatch(array $facturen);
 
     /**
      * @param Factuur $factuur

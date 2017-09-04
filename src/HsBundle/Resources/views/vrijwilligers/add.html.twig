@@ -6,26 +6,22 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
-    <h1>Vrijwilliger toevoegen</h1>
-    {% if filterForm is defined %}
-        Zoek een bestaande vrijwilliger op naam, BSN of geboortedatum.
-        {{ form(filterForm) }}
-    {% endif %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
 
-    {% if vrijwilligers is defined %}
+    {% if vrijwilligers is defined and filterForm.vars.errors|length == 0 %}
         <p>
-            Selecteer de gewenste vrijwilliger in onderstaande lijst of klik op
-            "Nieuwe vrijwilliger" als deze niet in de lijst voorkomt.
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
         </p>
         <p>
-            {{ html.addLink(path('hs_vrijwilligers_add', {vrijwilligerId: 'new'}))|raw }}
-            {{ html.link('Nieuwe vrijwilliger', path('hs_vrijwilligers_add', {vrijwilligerId: 'new'}))|raw }}
+            {{ html.addLink(path('hs_vrijwilligers_add', {vrijwilliger: 'new'}))|raw }}
+            {{ html.link('Nieuwe '~entity_name, path('hs_vrijwilligers_add', {vrijwilliger: 'new'}))|raw }}
         </p>
-        <table>
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Naam</th>
@@ -34,7 +30,7 @@
                 </tr>
             </thead>
             {% for entity in vrijwilligers %}
-                {% set url = path('hs_vrijwilligers_add', {vrijwilligerId: entity.id}) %}
+                {% set url = path('hs_vrijwilligers_add', {vrijwilliger: entity.id}) %}
                 <tr>
                     <td>{{ html.link(entity, url)|raw }}</td>
                     <td>{{ html.link(entity.bsn, url)|raw }}</td>
@@ -42,6 +38,13 @@
                 </tr>
             {% endfor %}
         </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if form is defined %}
+        {{ form(form) }}
     {% endif %}
 
     {% if creationForm is defined %}

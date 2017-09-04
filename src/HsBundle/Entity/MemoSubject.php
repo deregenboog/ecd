@@ -5,7 +5,6 @@ namespace HsBundle\Entity;
 abstract class MemoSubject
 {
     /**
-     * {@inheritDoc}
      * @see \HsBundle\Entity\MemoSubjectInterface::getMemos()
      */
     public function getMemos()
@@ -14,7 +13,6 @@ abstract class MemoSubject
     }
 
     /**
-     * {@inheritDoc}
      * @see \HsBundle\Entity\MemoSubjectInterface::addMemo()
      */
     public function addMemo(Memo $memo)

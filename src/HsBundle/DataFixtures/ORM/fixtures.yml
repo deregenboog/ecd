@@ -46,21 +46,32 @@ HsBundle\Entity\Klus:
     hs_klus_{1..100}:
         medewerker: '@medewerker_*'
         klant: '@hs_klant_*'
-        datum: '<dateTimeThisDecade()>'
         startdatum: '<dateTimeThisDecade()>'
         einddatum: '<dateTimeThisDecade()>'
         onHold: false
         activiteit: '@hs_activiteit_*'
 
 HsBundle\Entity\Registratie:
-    hs_registratie_{1..100}:
+    hs_registratie_{1..200}:
         __construct: ['@hs_klus_*', '@hs_dienstverlener_*']
         activiteit: '@hs_activiteit_*'
         medewerker: '@medewerker_*'
-        datum: '<dateTimeThisDecade()>'
+        datum: '<dateTimeThisYear()>'
         start: '10:00'
         eind: '13:00'
 
-#HsBundle\Entity\Factuur:
-#    hs_factuur_{1..10}:
-#        __construct: ['@hs_klant_*']
+HsBundle\Entity\Declaratie:
+    hs_declaratie_{1..200}:
+        __construct: ['@hs_klus_*', '@medewerker_*']
+        declaratiecategorie: '@hs_declaratiecategorie_*'
+        datum: '<dateTimeThisYear()>'
+        info: '<sentence()>'
+        bedrag: '<numberBetween(1, 25)>'
+
+HsBundle\Entity\Betaling:
+    hs_betaling_{1..10}:
+        __construct: ['<factuur(@hs_klant_*)>']
+        datum: '<dateTimeThisYear()>'
+        referentie: '<numberBetween(100000, 999999)>'
+        info: '<sentence()>'
+        bedrag: '<numberBetween(5, 25)>'

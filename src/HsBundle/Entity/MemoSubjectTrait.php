@@ -2,8 +2,6 @@
 
 namespace HsBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-
 trait MemoSubjectTrait
 {
     /**
@@ -11,6 +9,7 @@ trait MemoSubjectTrait
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
 
@@ -24,6 +23,7 @@ trait MemoSubjectTrait
 
     /**
      * @param Memo $memo
+     *
      * @return self
      */
     public function addMemo(Memo $memo)

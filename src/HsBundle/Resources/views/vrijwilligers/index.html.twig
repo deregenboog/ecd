@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% set add_route = 'hs_vrijwilligers_add' %}
@@ -41,29 +41,29 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in pagination %}
-            <tr>
-                <td>
-                    {{ html.link(entity.vrijwilliger.id, path(view_route, {id: entity.id})) }}
-                </td>
-                <td>
-                    {{ html.link(entity.vrijwilliger.naam, path(view_route, {id: entity.id})) }}
-                </td>
-                <td>
-                    {{ entity.vrijwilliger.werkgebied }}
-                </td>
-                <td>
-                    {{ entity.rijbewijs ? 'Ja' : 'Nee' }}
-                </td>
-                <td>
-                    {{ html.viewLink(path(view_route, {id: entity.id})) }}
-                    {{ html.editLink(path(edit_route, {id: entity.id})) }}
-                    {% if entity.deletable %}
-                        {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
+            {% for entity in pagination %}
+                <tr>
+                    <td>
+                        {{ html.link(entity.vrijwilliger.id, path(view_route, {id: entity.id})) }}
+                    </td>
+                    <td>
+                        {{ html.link(entity.vrijwilliger.naam, path(view_route, {id: entity.id})) }}
+                    </td>
+                    <td>
+                        {{ entity.vrijwilliger.werkgebied }}
+                    </td>
+                    <td>
+                        {{ entity.rijbewijs ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ html.viewLink(path(view_route, {id: entity.id})) }}
+                        {{ html.editLink(path(edit_route, {id: entity.id})) }}
+                        {% if entity.deletable %}
+                            {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}

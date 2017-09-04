@@ -12,7 +12,6 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     protected $paginationOptions = [
         'defaultSortFieldName' => 'klant.achternaam',
         'defaultSortDirection' => 'asc',
-        'wrap-queries' => true, // because of HAVING clause in filter
         'sortFieldWhitelist' => [
             'dienstverlener.actief',
             'klant.id',
@@ -26,12 +25,17 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     protected $alias = 'dienstverlener';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("{$this->alias}, klant, klus, registratie, memo, document")
             ->innerJoin('dienstverlener.klant', 'klant')
+            ->leftJoin("{$this->alias}.klussen", 'klus')
+            ->leftJoin("{$this->alias}.registraties", 'registratie')
+            ->leftJoin("{$this->alias}.memos", 'memo')
+            ->leftJoin("{$this->alias}.documenten", 'document')
             ->andWhere('klant.disabled = false')
         ;
 
@@ -47,7 +51,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -65,7 +69,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Dienstverlener $entity)
     {
@@ -73,7 +77,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Dienstverlener $entity)
     {
@@ -81,7 +85,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Dienstverlener $entity)
     {
@@ -89,7 +93,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
@@ -112,7 +116,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {

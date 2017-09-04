@@ -1,4 +1,5 @@
 <?php
+
 namespace HsBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
@@ -13,7 +14,6 @@ use HsBundle\Entity\Betaling;
 
 class KlantUpdater implements EventSubscriber
 {
-
     public function getSubscribedEvents()
     {
         return [

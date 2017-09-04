@@ -40,6 +40,7 @@ class DienstverlenerType extends AbstractType
         $builder
             ->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')])
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
+            ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
         ;
     }

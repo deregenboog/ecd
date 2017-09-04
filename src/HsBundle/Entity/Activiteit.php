@@ -2,49 +2,44 @@
 
 namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @Entity
- * @Table(name="hs_activiteiten")
+ * @ORM\Entity
+ * @ORM\Table(name="hs_activiteiten")
  * @Gedmo\Loggable
  */
 class Activiteit
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      * @Gedmo\Versioned
      */
     private $created;
 
     /**
-     * @Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      * @Gedmo\Versioned
      */
     private $modified;
 
     /**
-     * @OneToMany(targetEntity="Klus", mappedBy="activiteit")
+     * @ORM\OneToMany(targetEntity="Klus", mappedBy="activiteit")
      */
     private $klussen;
 

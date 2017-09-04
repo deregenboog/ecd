@@ -9,9 +9,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\KlusFilter;
-use AppBundle\Form\AppDateType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,8 +27,14 @@ class KlusFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('datum', $options['enabled_filters'])) {
-            $builder->add('datum', AppDateRangeType::class, [
+        if (in_array('startdatum', $options['enabled_filters'])) {
+            $builder->add('startdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('einddatum', $options['enabled_filters'])) {
+            $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
@@ -65,6 +68,15 @@ class KlusFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlusFilter::class,
+            'enabled_filters' => [
+                'id',
+                'startdatum',
+                'einddatum',
+                'activiteit',
+                'klant' => ['naam', 'stadsdeel'],
+                'filter',
+                'download',
+            ],
         ]);
     }
 

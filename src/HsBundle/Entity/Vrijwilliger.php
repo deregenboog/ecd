@@ -15,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use MemoSubjectTrait, DocumentSubjectTrait;
+    use HulpverlenerTrait, MemoSubjectTrait, DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -28,6 +28,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
     /**
      * @var ArrayCollection|Klus[]
      * @ORM\ManyToMany(targetEntity="Klus", mappedBy="vrijwilligers")
+     * @ORM\OrderBy({"datum": "desc"})
      */
     protected $klussen;
 

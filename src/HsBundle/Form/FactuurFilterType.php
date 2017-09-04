@@ -13,6 +13,7 @@ use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\AppDateRangeType;
 
 class FactuurFilterType extends AbstractType
 {
@@ -28,7 +29,7 @@ class FactuurFilterType extends AbstractType
         }
 
         if (in_array('datum', $options['enabled_filters'])) {
-            $builder->add('datum', AppDateType::class, ['required' => false]);
+            $builder->add('datum', AppDateRangeType::class, ['required' => false]);
         }
 
         if (in_array('bedrag', $options['enabled_filters'])) {
@@ -62,6 +63,15 @@ class FactuurFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FactuurFilter::class,
+            'enabled_filters' => [
+                'nummer',
+                'datum',
+                'bedrag',
+                'negatiefSaldo',
+                'klant' => ['naam'],
+                'filter',
+                'download',
+            ],
         ]);
     }
 

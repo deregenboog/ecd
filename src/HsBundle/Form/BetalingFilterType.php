@@ -12,6 +12,7 @@ use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use HsBundle\Filter\BetalingFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\AppDateRangeType;
 
 class BetalingFilterType extends AbstractType
 {
@@ -33,7 +34,7 @@ class BetalingFilterType extends AbstractType
         }
 
         if (in_array('datum', $options['enabled_filters'])) {
-            $builder->add('datum', AppDateType::class, ['required' => false]);
+            $builder->add('datum', AppDateRangeType::class, ['required' => false]);
         }
 
         if (in_array('bedrag', $options['enabled_filters'])) {
@@ -62,6 +63,15 @@ class BetalingFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BetalingFilter::class,
+            'enabled_filters' => [
+                'referentie',
+                'datum',
+                'bedrag',
+                'factuur' => ['nummer'],
+                'klant' => ['naam'],
+                'filter',
+                'download',
+            ],
         ]);
     }
 

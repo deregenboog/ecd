@@ -6,94 +6,56 @@ use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Betaling;
 use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
-use AppBundle\Controller\SymfonyController;
 use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\BetalingDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
-use HsBundle\Service\FactuurDaoInterface;
-use AppBundle\Filter\FilterInterface;
+use AppBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * @Route("/hs/betalingen")
+ * @Route("/betalingen")
  */
-class BetalingenController extends SymfonyController
+class BetalingenController extends AbstractController
 {
+    protected $title = 'Betalingen';
+    protected $entityName = 'betaling';
+    protected $entityClass = Betaling::class;
+    protected $formClass = BetalingType::class;
+    protected $filterFormClass = BetalingFilterType::class;
+    protected $baseRouteName = 'hs_betalingen_';
+
     /**
      * @var BetalingDaoInterface
      *
      * @DI\Inject("hs.dao.betaling")
      */
-    private $dao;
+    protected $dao;
 
     /**
-     * @var FactuurDaoInterface
+     * @var ExportInterface
      *
-     * @DI\Inject("hs.dao.factuur")
+     * @DI\Inject("hs.export.betaling")
      */
-    private $factuurDao;
-
-    private $enabledFilters = [
-        'referentie',
-        'datum',
-        'bedrag',
-        'factuur' => ['nummer'],
-        'klant' => ['naam'],
-        'filter',
-        'download',
-    ];
+    protected $export;
 
     /**
-     * @Route("/")
+     * @Route("/add/{factuur}")
+     * @ParamConverter()
      */
-    public function index(Request $request)
+    public function addAction(Request $request, Factuur $factuur)
     {
-        $form = $this->getFilter()->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $filter = $form->getData();
-        } else {
-            $filter = null;
-        }
-
-        if ($form->get('download')->isClicked()) {
-            return $this->download($filter);
-        }
-
-        $pagination = $this->dao->findAll($request->get('page', 1), $filter);
-
-        return [
-            'filter' => $form->createView(),
-            'pagination' => $pagination,
-        ];
-    }
-
-    private function download(FilterInterface $filter)
-    {
-        $collection = $this->dao->findAll(0, $filter);
-
-        $response = $this->render('@Hs/betalingen/download.csv.twig', ['collection' => $collection]);
-
-        $filename = sprintf('homeservice-betalingen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        return $response;
-    }
-
-    /**
-     * @Route("/add/{factuurId}")
-     */
-    public function add($factuurId)
-    {
-        $factuur = $this->factuurDao->find($factuurId);
         $entity = new Betaling($factuur);
 
-        $form = $this->getForm($entity);
-        $form->handleRequest($this->getRequest());
+        $form = $this->createForm($this->formClass, $entity);
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dao->create($entity);
-            $this->addFlash('success', 'Betaling is toegevoegd.');
+            $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
 
             return $this->redirectToRoute('hs_facturen_view', ['id' => $factuur->getId()]);
         }
@@ -104,15 +66,32 @@ class BetalingenController extends SymfonyController
         ];
     }
 
-    private function getFilter()
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
     {
-        return $this->createForm(BetalingFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        return $this->redirectToIndex();
     }
 
-    private function getForm($data = null)
+    /**
+     * @Route("/{id}/edit")
+     */
+    public function editAction(Request $request, $id)
     {
-        return $this->createForm(BetalingType::class, $data);
+        return $this->redirectToIndex();
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        return $this->redirectToIndex();
+    }
+
+    private function getFilter()
+    {
+        return $this->createForm(BetalingFilterType::class);
     }
 }

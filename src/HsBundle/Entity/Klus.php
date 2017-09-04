@@ -3,7 +3,6 @@
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -23,15 +22,6 @@ class Klus implements MemoSubjectInterface
      * @ORM\GeneratedValue
      */
     private $id;
-
-    /**
-     * Datum van uitvoering.
-     *
-     * @var \DateTime
-     * @ORM\Column(type="date", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $datum;
 
     /**
      * @var \DateTime
@@ -131,18 +121,6 @@ class Klus implements MemoSubjectInterface
         return $this->id;
     }
 
-    public function getDatum()
-    {
-        return $this->datum;
-    }
-
-    public function setDatum(\DateTime $datum)
-    {
-        $this->datum = $datum;
-
-        return $this;
-    }
-
     public function getKlant()
     {
         return $this->klant;
@@ -172,18 +150,20 @@ class Klus implements MemoSubjectInterface
         return $this->dienstverleners;
     }
 
-    public function addDienstverlener($dienstverlener)
+    public function addDienstverlener(Dienstverlener $dienstverlener)
     {
-        $this->dienstverleners->add($dienstverlener);
+        $this->dienstverleners[] = $dienstverlener;
         $dienstverlener->getKlussen()->add($this);
 
         return $this;
     }
 
-    public function removeDienstverlener($dienstverlener)
+    public function removeDienstverlener(Dienstverlener $dienstverlener)
     {
-        $this->dienstverleners->removeElement($dienstverlener);
-        $dienstverlener->getKlussen()->removeElement($this);
+        if (0 === count($dienstverlener->getRegistraties($this))) {
+            $this->dienstverleners->removeElement($dienstverlener);
+            $dienstverlener->getKlussen()->removeElement($this);
+        }
 
         return $this;
     }
@@ -195,16 +175,18 @@ class Klus implements MemoSubjectInterface
 
     public function addVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-        $this->vrijwilligers->add($vrijwilliger);
+        $this->vrijwilligers[] = $vrijwilliger;
         $vrijwilliger->getKlussen()->add($this);
 
         return $this;
     }
 
-    public function removeVrijwilliger($vrijwilliger)
+    public function removeVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-        $this->vrijwilligers->removeElement($vrijwilliger);
-        $vrijwilliger->getKlussen()->removeElement($this);
+        if (0 === count($vrijwilliger->getRegistraties($this))) {
+            $this->vrijwilligers->removeElement($vrijwilliger);
+            $vrijwilliger->getKlussen()->removeElement($this);
+        }
 
         return $this;
     }
@@ -238,11 +220,9 @@ class Klus implements MemoSubjectInterface
 
     public function isDeletable()
     {
-        return true;
-
-        // @todo
-
-        return count($this->facturen) === 0
+        return count($this->declaraties) === 0
+            && count($this->facturen) === 0
+            && count($this->memos) === 0
             && count($this->registraties) === 0;
     }
 
@@ -254,6 +234,7 @@ class Klus implements MemoSubjectInterface
     public function setStartdatum(\DateTime $startdatum)
     {
         $this->startdatum = $startdatum;
+
         return $this;
     }
 
@@ -265,6 +246,7 @@ class Klus implements MemoSubjectInterface
     public function setEinddatum(\DateTime $einddatum)
     {
         $this->einddatum = $einddatum;
+
         return $this;
     }
 

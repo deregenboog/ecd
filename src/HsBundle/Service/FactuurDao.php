@@ -11,7 +11,6 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     protected $paginationOptions = [
         'defaultSortFieldName' => 'factuur.nummer',
         'defaultSortDirection' => 'desc',
-        'wrap-queries' => true, // because of HAVING clause in filter
         'sortFieldWhitelist' => [
             'factuur.nummer',
             'factuur.datum',
@@ -25,20 +24,21 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     protected $alias = 'factuur';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-//             ->innerJoin('factuur.klussen', 'klus')
+            ->select("{$this->alias}, klant, betaling")
             ->innerJoin('factuur.klant', 'klant')
+            ->leftJoin('factuur.betalingen', 'betaling')
         ;
 
         return $this->doFindAll($builder, $page, $filter);
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -46,7 +46,19 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
+     */
+    public function createBatch(array $entities)
+    {
+        foreach ($entities as $entity) {
+            $this->entityManager->persist($entity);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * {inheritdoc}.
      */
     public function create(Factuur $entity)
     {
@@ -54,7 +66,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Factuur $entity)
     {
@@ -62,7 +74,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Factuur $entity)
     {

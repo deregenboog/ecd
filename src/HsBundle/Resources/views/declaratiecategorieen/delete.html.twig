@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
     <h1>Declaratiecategorie verwijderen</h1>
-    <p>Weet u zeker dat u declaratiecategorie {{ declaratiecategorie }} wilt verwijderen?</p>
+    <p>Weet u zeker dat u declaratiecategorie {{ entity }} wilt verwijderen?</p>
     {{ form(form) }}
 {% endblock %}

@@ -12,8 +12,8 @@ parameters:
     doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
 
 framework:
-    default_locale: "%locale%"
-    translator: { fallbacks: ["%locale%"] }
+    default_locale: '%locale%'
+    translator: { fallbacks: ['nl_NL', 'nl'] }
     secret: "%secret%"
     session:
         name: ECD
@@ -92,7 +92,7 @@ vich_uploader:
             upload_destination: '%kernel.root_dir%/../archive/dagbesteding'
         hs_document:
             namer: vich_uploader.namer_uniqid
-            uri_prefix: /hs/documenten
+            uri_prefix: /hs/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/hs'
         odp_document:
             namer: vich_uploader.namer_uniqid

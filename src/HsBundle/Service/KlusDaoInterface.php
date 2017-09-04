@@ -13,7 +13,7 @@ interface KlusDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1, FilterInterface $filter = null);
+    public function findAll($page = null, FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -36,6 +36,8 @@ interface KlusDaoInterface
      * @param Klus $klus
      */
     public function delete(Klus $klus);
+
+    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
     public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 

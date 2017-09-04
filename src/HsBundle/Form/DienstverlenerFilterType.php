@@ -9,7 +9,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use HsBundle\Filter\Dienstverlener;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use HsBundle\Filter\DienstverlenerFilter;
 
@@ -38,11 +37,6 @@ class DienstverlenerFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class)
-            ->add('download', SubmitType::class)
-        ;
     }
 
     /**
@@ -52,6 +46,12 @@ class DienstverlenerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DienstverlenerFilter::class,
+            'enabled_filters' => [
+                'rijbewijs',
+                'klant' => ['id', 'naam', 'stadsdeel'],
+                'filter',
+                'download',
+            ],
         ]);
     }
 

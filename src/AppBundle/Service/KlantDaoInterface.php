@@ -10,10 +10,18 @@ interface KlantDaoInterface
 {
     /**
      * @param int $page
+     * @param FilterInterface $filter
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1, FilterInterface $filter = null);
+    public function findAll($page = null, FilterInterface $filter = null);
+
+    /**
+     * @param FilterInterface $filter
+     *
+     * @return int
+     */
+    public function countAll(FilterInterface $filter = null);
 
     /**
      * @param int $id

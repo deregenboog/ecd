@@ -3,10 +3,9 @@
 namespace HsBundle\Service;
 
 use HsBundle\Entity\Factuur;
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Klant;
 use Doctrine\Common\Collections\Criteria;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class FactuurFactory implements FactuurFactoryInterface
 {
@@ -22,27 +21,30 @@ class FactuurFactory implements FactuurFactoryInterface
 
     public function __construct()
     {
-        $this->start = new \DateTime('first day of previous month');
-        $this->end = new \DateTime('last day of previous month');
+        $dateRange = $this->getDateRange();
+        $this->start = $dateRange->getStart();
+        $this->end = $dateRange->getEnd();
+    }
+
+    public function getDateRange()
+    {
+        return new AppDateRangeModel(
+            new \DateTime('first day of previous month'),
+            new \DateTime('last day of previous month')
+        );
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Klant $klant)
     {
-        $nummer = sprintf('%d/%d', $klant->getId(), $this->end->format('ymd'));
-        $betreft = sprintf(
-            'Factuurnr: %s van %s t/m %s',
-            $nummer,
-            $this->start->format('d-m-Y'),
-            $this->end->format('d-m-Y')
-        );
-
+        $nummer = $this->getNummer($klant);
+        $betreft = $this->getBetreft($nummer);
         $factuur = new Factuur($klant, $nummer, $betreft);
 
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('factuur'))
+            ->andWhere(Criteria::expr()->isNull('factuur'))
             ->andWhere(Criteria::expr()->lte('datum', $this->end))
         ;
 
@@ -52,15 +54,28 @@ class FactuurFactory implements FactuurFactoryInterface
             }
             foreach ($klus->getRegistraties()->matching($criteria) as $registratie) {
                 $factuur->addRegistratie($registratie);
-                if (!$factuur->getKlussen()->contains($klus)) {
-                    $factuur->getKlussen()->add($klus);
-                }
+                $factuur->addKlus($klus);
             }
         }
 
         $this->calculateBedrag($factuur);
 
         return $factuur;
+    }
+
+    private function getNummer(Klant $klant)
+    {
+        return sprintf('%d/%d', $klant->getId(), $this->end->format('ymd'));
+    }
+
+    private function getBetreft($nummer)
+    {
+        return sprintf(
+            'Factuurnr: %s van %s t/m %s',
+            $nummer,
+            $this->start->format('d-m-Y'),
+            $this->end->format('d-m-Y')
+        );
     }
 
     private function calculateBedrag(Factuur $factuur)

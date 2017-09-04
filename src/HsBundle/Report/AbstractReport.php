@@ -2,10 +2,6 @@
 
 namespace HsBundle\Report;
 
-use Doctrine\ORM\EntityRepository;
-use HsBundle\Service\KlantDao;
-use HsBundle\Service\KlantDaoInterface;
-
 abstract class AbstractReport
 {
     /**

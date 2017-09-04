@@ -1,8 +1,15 @@
-{% include('hs_subnavigation.twig') %}
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
 
-<h1>Memo wijzigen</h1>
+{% block title %}
+    Homeservice | {{ title }}
+{% endblock %}
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Opslaan</button>
-{{ form_end(form) }}
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Memo wijzigen</h1>
+    {{ form(form) }}
+{% endblock %}

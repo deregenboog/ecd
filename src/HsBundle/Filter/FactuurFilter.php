@@ -4,6 +4,7 @@ namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class FactuurFilter implements FilterInterface
 {
@@ -13,9 +14,9 @@ class FactuurFilter implements FilterInterface
     public $nummer;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
-    public $datum = null;
+    public $datum;
 
     /**
      * @var float
@@ -41,11 +42,19 @@ class FactuurFilter implements FilterInterface
             ;
         }
 
-        if ($this->datum instanceof \DateTime) {
-            $builder
-                ->andWhere('factuur.datum = :datum')
-                ->setParameter('datum', $this->datum)
-            ;
+        if ($this->datum) {
+            if ($this->datum->getStart()) {
+                $builder
+                    ->andWhere('factuur.datum >= :datum_van')
+                    ->setParameter('datum_van', $this->datum->getStart())
+                ;
+            }
+            if ($this->datum->getEnd()) {
+                $builder
+                    ->andWhere('factuur.datum <= :datum_tot')
+                    ->setParameter('datum_tot', $this->datum->getEnd())
+                ;
+            }
         }
 
         if ($this->bedrag) {

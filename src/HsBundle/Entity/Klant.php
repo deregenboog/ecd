@@ -4,24 +4,25 @@ namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Entity\NameTrait;
 use AppBundle\Entity\AddressTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
-use AppBundle\Entity\Stadsdeel;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Geslacht;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="hs_klanten")
+ * @ORM\Table(
+ *     name="hs_klanten",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_erp_id_idx", columns={"erp_id"})}
+ * )
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use NameTrait, AddressTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
+    use NameTrait, AddressTrait, HulpverlenerTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -29,6 +30,24 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="erp_id", type="integer", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $erpId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $bsn;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $rekeningnummer;
 
     /**
      * @var Geslacht
@@ -84,7 +103,8 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var ArrayCollection|Klus[]
-     * @ORM\OneToMany(targetEntity="Klus", mappedBy="klant")
+     * @ORM\OneToMany(targetEntity="Klus", mappedBy="klant", cascade={"persist"})
+     * @ORM\OrderBy({"startdatum": "desc", "id": "desc"})
      */
     private $klussen;
 
@@ -137,6 +157,14 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function getKlussen()
     {
         return $this->klussen;
+    }
+
+    public function addKlus(Klus $klus)
+    {
+        $this->klussen[] = $klus;
+        $klus->setKlant($this);
+
+        return $this;
     }
 
     public function isDeletable()
@@ -201,6 +229,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function setUitschrijving($uitschrijving)
     {
         $this->uitschrijving = $uitschrijving;
+
         return $this;
     }
 
@@ -212,6 +241,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function setLaatsteContact($laatsteContact)
     {
         $this->laatsteContact = $laatsteContact;
+
         return $this;
     }
 
@@ -247,6 +277,42 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function setSaldo($saldo)
     {
         $this->saldo = $saldo;
+
+        return $this;
+    }
+
+    public function getErpId()
+    {
+        return $this->erpId;
+    }
+
+    public function setErpId($erpId)
+    {
+        $this->erpId = $erpId;
+
+        return $this;
+    }
+
+    public function getRekeningnummer()
+    {
+        return $this->rekeningnummer;
+    }
+
+    public function setRekeningnummer($rekeningnummer)
+    {
+        $this->rekeningnummer = $rekeningnummer;
+
+        return $this;
+    }
+
+    public function getBsn()
+    {
+        return $this->bsn;
+    }
+
+    public function setBsn($bsn)
+    {
+        $this->bsn = $bsn;
 
         return $this;
     }

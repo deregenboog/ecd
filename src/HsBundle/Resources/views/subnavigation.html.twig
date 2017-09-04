@@ -11,9 +11,11 @@
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Beheer <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">
-            {{ html.navLink('Activiteiten', path('hs_activiteiten_index'), isActiveRoute('hs_activiteiten')) }}
-            {{ html.navLink('Declaratiecategorieën', path('hs_declaratiecategorieen_index'), isActiveRoute('hs_declaratiecategorieen')) }}
-        </ul>
+        {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys %}
+            <ul class="dropdown-menu">
+                {{ html.navLink('Activiteiten', path('hs_activiteiten_index'), isActiveRoute('hs_activiteiten')) }}
+                {{ html.navLink('Declaratiecategorieën', path('hs_declaratiecategorieen_index'), isActiveRoute('hs_declaratiecategorieen')) }}
+            </ul>
+        {% endif %}
     </li>
 </ul>

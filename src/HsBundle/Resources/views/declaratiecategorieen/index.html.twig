@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -37,7 +37,6 @@
                     {{ declaratiecategorie.naam }}
                 </td>
                 <td>
-                    {{ html.viewLink(path('hs_declaratiecategorieen_view', {id: declaratiecategorie.id})) }}
                     {{ html.editLink(path('hs_declaratiecategorieen_edit', {id: declaratiecategorie.id})) }}
                     {% if declaratiecategorie.deletable %}
                         {{ html.deleteLink(path('hs_declaratiecategorieen_delete', {id: declaratiecategorie.id})) }}

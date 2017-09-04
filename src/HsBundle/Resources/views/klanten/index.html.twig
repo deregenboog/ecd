@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% set add_route = 'hs_klanten_add' %}
@@ -59,7 +59,13 @@
                     {{ entity.actief ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
-                    {{ entity.saldo|money }}
+                    {% if entity.saldo > 0 %}
+                        <span style="color: green">{{ entity.saldo|money }}</span>
+                    {% elseif entity.saldo < 0 %}
+                        <span style="color: red">{{ entity.saldo|money }}</span>
+                    {% else %}
+                        {{ entity.saldo|money }}
+                    {% endif %}
                 </td>
                 <td>
                     {{ html.viewLink(path(view_route, {id: entity.id})) }}

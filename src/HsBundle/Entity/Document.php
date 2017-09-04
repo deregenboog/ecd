@@ -69,6 +69,7 @@ class Document
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 
@@ -80,6 +81,7 @@ class Document
     public function setFilename($filename)
     {
         $this->filename = $filename;
+
         return $this;
     }
 
@@ -91,6 +93,7 @@ class Document
     public function setFile(File $file)
     {
         $this->file = $file;
+
         return $this;
     }
 }

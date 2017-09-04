@@ -3,7 +3,6 @@
 namespace HsBundle\Service;
 
 use HsBundle\Entity\Memo;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
 
@@ -21,15 +20,15 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     protected $class = Memo::class;
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         return parent::findAll($page);
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -37,7 +36,7 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Memo $entity)
     {
@@ -45,7 +44,7 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Memo $entity)
     {
@@ -53,7 +52,7 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Memo $entity)
     {

@@ -3,9 +3,8 @@
 namespace HsBundle\Service;
 
 use HsBundle\Entity\Factuur;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Klant;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 interface FactuurFactoryInterface
 {
@@ -15,4 +14,9 @@ interface FactuurFactoryInterface
      * @return Factuur
      */
     public function create(Klant $klant);
+
+    /**
+     * @return AppDateRangeModel
+     */
+    public function getDateRange();
 }

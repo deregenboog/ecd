@@ -1,10 +1,17 @@
 <h2>Facturen</h2>
-{% if add_url is defined %}
-    <p>
-        {{ html.addLink(add_url) }}
-        {{ html.link('Factuur toevoegen', add_url) }}
-    </p>
-{% endif %}
+<p>
+    {% if klant is defined %}
+        {% set entity = klant %}
+        {% set url = path('hs_facturen_add', {klant: entity.id, redirect: app.request.get('url')}) %}
+    {% elseif klus is defined %}
+        {% set entity = klus %}
+        {% set url = path('hs_facturen_add', {klant: entity.klant.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Factuur toevoegen', url) }}
+    {% endif %}
+</p>
 <table class="table table-hover">
     <tr>
         <th>#</th>
@@ -27,8 +34,9 @@
             <td>{{ factuur.saldo|money }}</td>
             <td>
                 {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
-                {{ html.editLink(path('hs_facturen_edit', {id: factuur.id})) }}
-                {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
+                {% if factuur.deletable %}
+                    {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

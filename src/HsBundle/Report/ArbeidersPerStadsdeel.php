@@ -3,9 +3,6 @@
 namespace HsBundle\Report;
 
 use AppBundle\Report\Table;
-use HsBundle\Entity\OekDeelnameStatus;
-use HsBundle\Repository\OekKlantRepository;
-use HsBundle\Service\KlantDaoInterface;
 use HsBundle\Service\DienstverlenerDaoInterface;
 use HsBundle\Service\VrijwilligerDaoInterface;
 
@@ -27,9 +24,9 @@ class ArbeidersPerStadsdeel extends AbstractReport
 
     protected $nPath = 'aantal';
 
-    protected $xDescription = 'Aantal unieke %ss actief binnen de opgegeven periode';
+    protected $xDescription = 'Aantal %ss actief binnen de opgegeven periode';
 
-    protected $yDescription = 'Stadsdeel (van %s)';
+    protected $yDescription = 'Stadsdeel van %s';
 
     protected $data = [];
 
@@ -45,6 +42,7 @@ class ArbeidersPerStadsdeel extends AbstractReport
     {
         $this->data['dienstverlener'] = $this->dienstverlenerDao->countByStadsdeel($this->startDate, $this->endDate);
         $this->data['vrijwilliger'] = $this->vrijwilligerDao->countByStadsdeel($this->startDate, $this->endDate);
+        $this->data['dienstverleners/vrijwilliger'] = array_merge($this->data['dienstverlener'], $this->data['vrijwilliger']);
     }
 
     protected function build()
@@ -54,11 +52,13 @@ class ArbeidersPerStadsdeel extends AbstractReport
             $table->setStartDate($this->startDate)->setEndDate($this->endDate);
 
             $this->reports[] = [
-                'title' => ucfirst($type) . 's',
+                'title' => ucfirst($type).'s',
                 'xDescription' => sprintf($this->xDescription, $type),
                 'yDescription' => sprintf($this->yDescription, $type),
                 'data' => $table->render(),
             ];
         }
+
+        $this->reports[count($this->reports)-1]['title'] = 'Totaal';
     }
 }

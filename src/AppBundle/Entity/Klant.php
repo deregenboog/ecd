@@ -54,7 +54,7 @@ class Klant extends Persoon
     private $laatsteRegistratie;
 
     /**
-     * @ORM\Column(name="last_zrm", type="date")
+     * @ORM\Column(name="last_zrm", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $laatsteZrm;

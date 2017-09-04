@@ -3,8 +3,6 @@
 namespace HsBundle\Report;
 
 use AppBundle\Report\Table;
-use HsBundle\Entity\OekDeelnameStatus;
-use HsBundle\Repository\OekKlantRepository;
 use HsBundle\Service\KlantDaoInterface;
 
 class NieuweKlantenPerStadsdeel extends AbstractReport
@@ -20,7 +18,7 @@ class NieuweKlantenPerStadsdeel extends AbstractReport
 
     protected $nPath = 'aantal';
 
-    protected $xDescription = 'Aantal unieke klanten (met of zonder klus) waarvan de inschrijfdatum binnen de opgegeven periode valt';
+    protected $xDescription = 'Aantal klanten waarvan de inschrijfdatum binnen de opgegeven periode valt (incl. klanten zonder klus)';
 
     protected $yDescription = 'Stadsdeel (van klant)';
 

@@ -3,24 +3,27 @@
 namespace HsBundle\Service;
 
 use HsBundle\Entity\Registratie;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use HsBundle\Entity\Arbeider;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
     protected $class = Registratie::class;
 
+    protected $alias = 'registratie';
+
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
-        return parent::findAll($page);
+        return parent::findAll($page, $filter);
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -28,7 +31,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Registratie $entity)
     {
@@ -36,7 +39,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Registratie $entity)
     {
@@ -44,7 +47,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Registratie $entity)
     {

@@ -24,12 +24,17 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     protected $alias = 'vrijwilliger';
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
-    public function findAll($page = 1, FilterInterface $filter = null)
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("{$this->alias}, basisvrijwilliger, klus, registratie, memo, document")
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->leftJoin("{$this->alias}.klussen", 'klus')
+            ->leftJoin("{$this->alias}.registraties", 'registratie')
+            ->leftJoin("{$this->alias}.memos", 'memo')
+            ->leftJoin("{$this->alias}.documenten", 'document')
             ->andWhere('basisvrijwilliger.disabled = false')
         ;
 
@@ -46,7 +51,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function find($id)
     {
@@ -64,7 +69,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function create(Vrijwilliger $entity)
     {
@@ -72,7 +77,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function update(Vrijwilliger $entity)
     {
@@ -80,7 +85,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function delete(Vrijwilliger $entity)
     {
@@ -88,7 +93,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
@@ -111,7 +116,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * {inheritdoc}
+     * {inheritdoc}.
      */
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {

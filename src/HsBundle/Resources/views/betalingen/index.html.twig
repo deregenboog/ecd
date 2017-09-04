@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Hs/hs_subnavigation.html.twig' %}
+    {% include '@Hs/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -19,8 +19,10 @@
             <tr>
                 {{ form_start(filter) }}
                 <th>
-                    {{ form_widget(filter.datum) }}
-                    {{ form_errors(filter.datum) }}
+                    {{ form_widget(filter.datum.start) }}
+                    {{ form_errors(filter.datum.start) }}
+                    {{ form_widget(filter.datum.end) }}
+                    {{ form_errors(filter.datum.end) }}
                 </th>
                 <th>
                     {{ form_widget(filter.referentie) }}

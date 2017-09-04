@@ -3,19 +3,13 @@
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\ManyToOne;
 use AppBundle\Entity\Medewerker;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @Entity
- * @Table(name="hs_declaraties")
+ * @ORM\Entity
+ * @ORM\Table(name="hs_declaraties")
  * @Gedmo\Loggable
  */
 class Declaratie implements DocumentSubjectInterface
@@ -23,36 +17,36 @@ class Declaratie implements DocumentSubjectInterface
     use DocumentSubjectTrait;
 
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var \DateTime
-     * @Column(type="date")
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
-     * @Column(type="text")
+     * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
     private $info;
 
     /**
      * @var float
-     * @Column(type="float")
+     * @ORM\Column(type="float")
      * @Gedmo\Versioned
      */
     private $bedrag;
 
     /**
      * @var Klus
-     * @ManyToOne(targetEntity="Klus", inversedBy="declaraties")
+     * @ORM\ManyToOne(targetEntity="Klus", inversedBy="declaraties")
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -60,14 +54,14 @@ class Declaratie implements DocumentSubjectInterface
 
     /**
      * @var Factuur
-     * @ManyToOne(targetEntity="Factuur", inversedBy="declaraties")
+     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="declaraties")
      * @Gedmo\Versioned
      */
     private $factuur;
 
     /**
      * @var DeclaratieCategorie
-     * @ManyToOne(targetEntity="DeclaratieCategorie", inversedBy="declaraties")
+     * @ORM\ManyToOne(targetEntity="DeclaratieCategorie", inversedBy="declaraties")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
@@ -75,7 +69,7 @@ class Declaratie implements DocumentSubjectInterface
 
     /**
      * @var Medewerker
-     * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
@@ -86,7 +80,7 @@ class Declaratie implements DocumentSubjectInterface
     public function __construct(Klus $klus, Medewerker $medewerker = null)
     {
         $this->klus = $klus;
-        $this->datum = $klus->getDatum();
+        $this->datum = $klus->getStartdatum();
         $this->medewerker = $medewerker;
         $this->documenten = new ArrayCollection();
     }
@@ -193,6 +187,7 @@ class Declaratie implements DocumentSubjectInterface
         if (!$document->getNaam()) {
             $document->setNaam('Foto bij declaratie');
         }
+
         if (!$document->getMedewerker()) {
             $document->setMedewerker($this->getMedewerker());
         }

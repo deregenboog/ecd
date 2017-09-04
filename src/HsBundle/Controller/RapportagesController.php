@@ -2,21 +2,33 @@
 
 namespace HsBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
 use HsBundle\Form\RapportageType;
 use HsBundle\Report\AbstractReport;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\SymfonyController;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
- * @Route("/hs/rapportages")
+ * @Route("/rapportages")
  */
 class RapportagesController extends SymfonyController
 {
+    public $title = 'Rapportages';
+
+    /**
+     * @var GenericExport
+     *
+     * @DI\Inject("hs.export.report")
+     */
+    protected $export;
+
+
     /**
      * @Route("/")
      */
-    public function index(Request $request)
+    public function indexAction(Request $request)
     {
         $form = $this->createForm(RapportageType::class);
         $form->handleRequest($request);
@@ -36,28 +48,25 @@ class RapportagesController extends SymfonyController
                 return $this->download($report);
             }
 
-            $this->set($this->extractDataFromReport($report));
+            $data = $this->extractDataFromReport($report);
+            $data['form'] = $form->createView();
+
+            return $data;
         }
 
-        return ['form' => $form->createView()];
+        return [
+            'form' => $form->createView(),
+            'title' => '',
+        ];
     }
 
-    public function download(AbstractReport $report)
+    protected function download(AbstractReport $report)
     {
+        ini_set('memory_limit', '512M');
+
         $data = $this->extractDataFromReport($report);
 
-        foreach ($data['reports'] as &$subReport) {
-            if ($firstRow = reset($subReport['data'])) {
-                $subReport['columns'] = array_keys($firstRow);
-                array_unshift($subReport['columns'], $subReport['yDescription']);
-            } else {
-                // Geen rijen dus geen kolommen.
-                $subReport['columns'] = ['Geen data.'];
-            }
-        }
-
-        $response = $this->render('@Hs/rapportages/download.csv.twig', $data);
-
+        $this->autoRender = false;
         $filename = sprintf(
             '%s-%s-%s.xls',
             $report->getTitle(),
@@ -65,11 +74,7 @@ class RapportagesController extends SymfonyController
             $report->getEndDate()->format('d-m-Y')
         );
 
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        return $response;
+        return $this->export->create($data)->getResponse($filename);
     }
 
     private function extractDataFromReport(AbstractReport $report)

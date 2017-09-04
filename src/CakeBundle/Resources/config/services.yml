@@ -66,6 +66,8 @@ parameters:
             GROUP_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE_BEHEER: "CN=ECD Homeservice beheer,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
@@ -369,6 +371,36 @@ parameters:
                 - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
                 - OdpBundle\Controller\Woningbouwcorporaties
+            GROUP_HOMESERVICE:
+                - hs
+                - HsBundle\Controller\BetalingenController
+                - HsBundle\Controller\DeclaratiesController
+                - HsBundle\Controller\DienstverlenersController
+                - HsBundle\Controller\DocumentenController
+                - HsBundle\Controller\FacturenController
+                - HsBundle\Controller\HerinneringenController
+                - HsBundle\Controller\KlantenController
+                - HsBundle\Controller\KlussenController
+                - HsBundle\Controller\MemosController
+                - HsBundle\Controller\RapportagesController
+                - HsBundle\Controller\RegistratiesController
+                - HsBundle\Controller\VrijwilligersController
+            GROUP_HOMESERVICE_BEHEER:
+                - hs
+                - HsBundle\Controller\ActiviteitenController
+                - HsBundle\Controller\BetalingenController
+                - HsBundle\Controller\DeclaratieCategorieenController
+                - HsBundle\Controller\DeclaratiesController
+                - HsBundle\Controller\DienstverlenersController
+                - HsBundle\Controller\DocumentenController
+                - HsBundle\Controller\FacturenController
+                - HsBundle\Controller\HerinneringenController
+                - HsBundle\Controller\KlantenController
+                - HsBundle\Controller\KlussenController
+                - HsBundle\Controller\MemosController
+                - HsBundle\Controller\RapportagesController
+                - HsBundle\Controller\RegistratiesController
+                - HsBundle\Controller\VrijwilligersController
             GROUP_WERKBEGELEIDER: []
             GROUP_DEVELOP:
                 - "*"

@@ -3,33 +3,51 @@
 namespace HsBundle\Controller;
 
 use HsBundle\Entity\Factuur;
-use AppBundle\Form\ConfirmationType;
-use HsBundle\Entity\Klus;
 use HsBundle\Form\FactuurFilterType;
-use AppBundle\Controller\SymfonyController;
 use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\FactuurDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Klant;
 use HsBundle\Service\FactuurFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
-use HsBundle\Entity\Declaratie;
-use HsBundle\Entity\DeclaratieCategorie;
+use AppBundle\Controller\AbstractController;
+use HsBundle\Form\FactuurType;
+use HsBundle\Service\KlantDaoInterface;
 
 /**
- * @Route("/hs/facturen")
+ * @Route("/facturen")
  */
-class FacturenController extends SymfonyController
+class FacturenController extends AbstractController
 {
+    protected $title = 'Facturen';
+    protected $entityName = 'factuur';
+    protected $entityClass = Factuur::class;
+    protected $formClass = FactuurType::class;
+    protected $filterFormClass = FactuurFilterType::class;
+    protected $baseRouteName = 'hs_facturen_';
+
     /**
      * @var FactuurDaoInterface
      *
      * @DI\Inject("hs.dao.factuur")
      */
-    private $dao;
+    protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("hs.export.factuur")
+     */
+    protected $export;
+
+    /**
+     * @var KlantDaoInterface
+     *
+     * @DI\Inject("hs.dao.klant")
+     */
+    protected $klantDao;
 
     /**
      * @var FactuurFactoryInterface
@@ -38,50 +56,18 @@ class FacturenController extends SymfonyController
      */
     private $factory;
 
-    private $enabledFilters = [
-        'nummer',
-        'datum',
-        'bedrag',
-        'negatiefSaldo',
-        'klant' => ['naam'],
-        'filter',
-        'download',
-    ];
-
     /**
      * @Route("/")
      */
-    public function index(Request $request)
+    public function indexAction(Request $request)
     {
-        $form = $this->getFilter()->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $filter = $form->getData();
-        } else {
-            $filter = null;
+        $response = parent::indexAction($request);
+
+        if (is_array($response)) {
+            $dateRange = $this->factory->getDateRange();
+            $response['aantal_klanten_facturabel'] = $this->klantDao->countFacturabel($dateRange);
+            $response['einddatum_facturatie'] = $dateRange->getEnd();
         }
-
-        if ($form->get('download')->isClicked()) {
-            return $this->download($filter);
-        }
-
-        $pagination = $this->dao->findAll($request->get('page', 1), $filter);
-
-        return [
-            'filter' => $form->createView(),
-            'pagination' => $pagination,
-        ];
-    }
-
-    private function download(FilterInterface $filter)
-    {
-        $collection = $this->dao->findAll(0, $filter);
-
-        $response = $this->render('@Hs/facturen/download.csv.twig', ['collection' => $collection]);
-
-        $filename = sprintf('homeservice-facturen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
     }
@@ -89,7 +75,7 @@ class FacturenController extends SymfonyController
     /**
      * @Route("/{id}/view")
      */
-    public function view(Request $request, $id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 
@@ -111,13 +97,14 @@ class FacturenController extends SymfonyController
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Homeservice Amsterdam');
         $pdf->setPrintHeader(false);
-        $pdf->xfootertext = 'Uw betaling kunt u overmaken op bankrekeningnummer NL46 INGB 0000215793 o.v.v. factuurnummer ten name van Stichting de Regenboog.';
-        $pdf->SetTitle("Factuur $entity");
+        $pdf->xfootertext = 'Uw betaling kunt u overmaken op bankrekeningnummer NL46 INGB 0000215793 o.v.v. factuurnummer ten name van Stichting De Regenboog Groep.';
+        $pdf->SetTitle('Factuur '.$entity);
         $pdf->SetSubject('Factuur Homeservice');
         $pdf->SetFont('helvetica', '', 10);
 
         $pdf->AddPage();
-        $pdf->writeHTMLCell(0, 0, null, null, $html);
+        $pdf->Image(('img/drg-logo-142px.jpg'), 160, 0, 40, 40);
+        $pdf->writeHTMLCell(0, 0, null, 40, $html);
         $response = new Response($pdf->Output(null, 'S'));
 
         $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
@@ -132,7 +119,7 @@ class FacturenController extends SymfonyController
      * @Route("/add/{klant}")
      * @ParamConverter()
      */
-    public function add(Klant $klant)
+    public function addAction(Request $request, Klant $klant)
     {
         $factuur = $this->factory->create($klant);
 
@@ -140,7 +127,11 @@ class FacturenController extends SymfonyController
             $this->dao->create($factuur);
             $this->addFlash('success', 'Factuur is toegevoegd.');
         } else {
-            $this->addFlash('info', 'Er is niks te factureren.');
+            $this->addFlash('info', 'Er is op dit moment niks te factureren.');
+        }
+
+        if ($url = $request->get('redirect')) {
+            return $this->redirect($url);
         }
 
         return $this->redirectToRoute('hs_klanten_view', ['id' => $klant->getId()]);
@@ -149,68 +140,45 @@ class FacturenController extends SymfonyController
     /**
      * @Route("/{id}/edit")
      */
-    public function edit($id)
+    public function editAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm($entity);
-        $form->handleRequest($this->getRequest());
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->update($entity);
-            $this->addFlash('success', 'Factuur is opgeslagen.');
-
-            return $this->redirectToView($entity);
-        }
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
+        return $this->redirectToView($entity);
     }
 
     /**
      * @Route("/{id}/delete")
      */
-    public function delete($id)
+    public function deleteAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
-        $form->handleRequest($this->getRequest());
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('yes')->isClicked()) {
-                $this->dao->delete($entity);
-                $this->addFlash('success', 'Factuur is verwijderd.');
-            }
+        return $this->redirectToView($entity);
+    }
 
-            return $this->redirectToIndexAction();
+    /**
+     * @Route("/batch")
+     */
+    public function batchAction()
+    {
+        $klanten = $this->klantDao->findFacturabel($this->factory->getDateRange());
+
+        $facturen = [];
+        foreach ($klanten as $klant) {
+            $factuur = $this->factory->create($klant);
+            if (!$factuur->isEmpty()) {
+                $facturen[] = $factuur;
+            }
         }
 
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
-    }
+        if (count($facturen) > 0) {
+            $this->dao->createBatch($facturen);
+            $this->addFlash('success', count($facturen).' facturen zijn toegevoegd.');
+        } else {
+            $this->addFlash('info', 'Er is op dit moment niks te factureren.');
+        }
 
-    private function getFilter()
-    {
-        return $this->createForm(FactuurFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-    }
-
-    private function getForm($data = null)
-    {
-        return $this->createForm(BetalingType::class, $data);
-    }
-
-    private function redirectToIndexAction()
-    {
-        return $this->redirectToRoute('hs_facturen_index');
-    }
-
-    private function redirectToView(Factuur $entity)
-    {
-        return $this->redirectToRoute('hs_facturen_view', ['id' => $entity->getId()]);
+        return $this->redirectToIndex();
     }
 }

@@ -60,23 +60,33 @@ class Factuur
 
     /**
      * @var ArrayCollection|Registratie[]
-     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur")
      * @ORM\JoinColumn(onDelete="SET NULL")
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $registraties;
 
     /**
      * @var ArrayCollection|Declaratie[]
-     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur")
      * @ORM\JoinColumn(onDelete="SET NULL")
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $declaraties;
 
     /**
      * @var ArrayCollection|Betaling[]
      * @ORM\OneToMany(targetEntity="Betaling", mappedBy="factuur")
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $betalingen;
+
+    /**
+     * @var ArrayCollection|Herinnering[]
+     * @ORM\OneToMany(targetEntity="Herinnering", mappedBy="factuur")
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    private $herinneringen;
 
     public function __construct(Klant $klant, $nummer, $betreft)
     {
@@ -88,47 +98,9 @@ class Factuur
         $this->declaraties = new ArrayCollection();
         $this->klussen = new ArrayCollection();
         $this->registraties = new ArrayCollection();
+        $this->herinneringen = new ArrayCollection();
 
         $this->setDatum(new \DateTime());
-
-//         $start = new \DateTime('first day of previous month');
-// //         $end = new \DateTime('last day of previous month');
-//         $end = new \DateTime('last day of this month');
-
-//         $this->nummer = sprintf(
-//             '%d/%d',
-//             $klant->getId(),
-//             $end->format('ymd')
-//         );
-
-//         $this->betreft = sprintf(
-//             'Factuurnr: %s van %s t/m %s',
-//             $this->nummer,
-//             $start->format('d-m-Y'),
-//             $end->format('d-m-Y')
-//         );
-
-//         $criteria = Criteria::create()
-//             ->where(Criteria::expr()->isNull('factuur'))
-//             ->andWhere(Criteria::expr()->lte('datum', $end))
-//         ;
-
-//         foreach ($klant->getKlussen() as $klus) {
-//             foreach ($klus->getDeclaraties()->matching($criteria) as $declaratie) {
-//                 $this->declaraties->add($declaratie);
-//                 if (!$this->klussen->contains($klus)) {
-//                     $this->klussen->add($klus);
-//                 }
-//             }
-//             foreach ($klus->getRegistraties()->matching($criteria) as $registratie) {
-//                 $this->registraties->add($registratie);
-//                 if (!$this->klussen->contains($klus)) {
-//                     $this->klussen->add($klus);
-//                 }
-//             }
-//         }
-
-//         $this->calculate();
     }
 
     public function __toString()
@@ -142,6 +114,7 @@ class Factuur
             && count($this->registraties) === 0
             && count($this->betalingen) === 0
             && count($this->klussen) === 0
+            && count($this->herinneringen) === 0
         ;
     }
 
@@ -170,6 +143,15 @@ class Factuur
     public function getKlussen()
     {
         return $this->klussen;
+    }
+
+    public function addKlus(Klus $klus)
+    {
+        if (!$this->klussen->contains($klus)) {
+            $this->klussen[] = $klus;
+        }
+
+        return $this;
     }
 
     public function getKlant()
@@ -206,7 +188,7 @@ class Factuur
         return $this->declaraties;
     }
 
-    private function addDeclaratie(Declaratie $declaratie)
+    public function addDeclaratie(Declaratie $declaratie)
     {
         $this->declaraties[] = $declaratie;
         $declaratie->setFactuur($this);
@@ -232,7 +214,7 @@ class Factuur
 
     public function isDeletable()
     {
-        return count($this->betalingen) === 0;
+        return false;
     }
 
     public function getBetalingen()
@@ -260,4 +242,16 @@ class Factuur
         return $this->betreft;
     }
 
+    public function getHerinneringen()
+    {
+        return $this->herinneringen;
+    }
+
+    public function addHerinnering(Herinnering $herinnering)
+    {
+        $this->herinneringen[] = $herinnering;
+        $herinnering->setFactuur($this);
+
+        return $this;
+    }
 }

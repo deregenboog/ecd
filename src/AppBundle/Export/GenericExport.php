@@ -72,6 +72,10 @@ class GenericExport extends AbstractExport
 
                 if (!is_null($value)) {
                     switch (@$config['type']) {
+                        case 'money':
+                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
+                            $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+                            break;
                         case 'date':
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
@@ -79,6 +83,14 @@ class GenericExport extends AbstractExport
                             $value = \PHPExcel_Shared_Date::PHPToExcel($value);
                             $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
                             $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+                            break;
+                        case 'time':
+                            if (!$value instanceof \DateTime) {
+                                $value = new \DateTime($value);
+                            }
+                            $value = \PHPExcel_Shared_Date::PHPToExcel($value);
+                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
+                            $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME3);
                             break;
                         default:
                             $sheet->setCellValueByColumnAndRow($column, $this->row, $value);

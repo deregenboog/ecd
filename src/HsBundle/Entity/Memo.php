@@ -3,46 +3,40 @@
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\ManyToOne;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @Entity
- * @Table(name="hs_memos")
+ * @ORM\Entity
+ * @ORM\Table(name="hs_memos")
  * @Gedmo\Loggable
  */
 class Memo
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var \DateTime
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
-     * @Column(type="text")
+     * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
     private $memo;
 
     /**
      * @var bool
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $intake = false;

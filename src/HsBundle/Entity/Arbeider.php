@@ -45,6 +45,7 @@ abstract class Arbeider
     /**
      * @var ArrayCollection|Registratie[]
      * @ORM\OneToMany(targetEntity="Registratie", mappedBy="arbeider")
+     * @ORM\OrderBy({"datum": "desc", "start": "desc", "eind": "desc"})
      */
     protected $registraties;
 
