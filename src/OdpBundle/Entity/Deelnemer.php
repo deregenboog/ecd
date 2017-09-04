@@ -59,6 +59,7 @@ abstract class Deelnemer
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $rekeningnummer;
 
@@ -66,6 +67,7 @@ abstract class Deelnemer
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $wpi;
 
@@ -73,6 +75,7 @@ abstract class Deelnemer
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $klantmanager;
 

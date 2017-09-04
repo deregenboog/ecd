@@ -5,23 +5,23 @@
     <li class="active">{{ title }}</li>
 </ol>
 <ul class="nav nav-tabs">
-    {{ html.navLink('Huurders', path('odp_huurders_index'), isActiveRoute('odp_huurders')) }}
-    {{ html.navLink('Verhuurders', path('odp_verhuurders_index'), isActiveRoute('odp_verhuurders')) }}
-    {{ html.navLink('Huurverzoeken', path('odp_huurverzoeken_index'), isActiveRoute('odp_huurverzoeken')) }}
-    {{ html.navLink('Huuraanbiedingen', path('odp_huuraanbiedingen_index'), isActiveRoute('odp_huuraanbiedingen')) }}
-    {{ html.navLink('Koppelingen', path('odp_huurovereenkomsten_index'), isActiveRoute('odp_huurovereenkomsten')) }}
+    {{ html.navLink('Huurders', path('odp_huurders_index'), isActiveRoute('odp_huurders_')) }}
+    {{ html.navLink('Verhuurders', path('odp_verhuurders_index'), isActiveRoute('odp_verhuurders_')) }}
+    {{ html.navLink('Huurverzoeken', path('odp_huurverzoeken_index'), isActiveRoute('odp_huurverzoeken_')) }}
+    {{ html.navLink('Huuraanbiedingen', path('odp_huuraanbiedingen_index'), isActiveRoute('odp_huuraanbiedingen_')) }}
+    {{ html.navLink('Koppelingen', path('odp_huurovereenkomsten_index'), isActiveRoute('odp_huurovereenkomsten_')) }}
     <li role="presentation" class="dropdown {{ isActivePath('odp/admin') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Beheer <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-            {{ html.navLink('Afsluitingen huuraanbiedingen', path('odp_huuraanbodafsluitingen_index'), isActiveRoute('odp_huuraanbiedingafsluitingen')) }}
-            {{ html.navLink('Afsluitingen huurders', path('odp_huurderafsluitingen_index'), isActiveRoute('odp_huurderafsluitingen')) }}
-            {{ html.navLink('Afsluitingen huurverzoeken', path('odp_huurverzoekafsluitingen_index'), isActiveRoute('odp_huurverzoekafsluitingen')) }}
-            {{ html.navLink('Afsluitingen koppelingen', path('odp_huurovereenkomstafsluitingen_index'), isActiveRoute('odp_huurovereenkomstafsluitingen')) }}
-            {{ html.navLink('Afsluitingen verhuurders', path('odp_verhuurderafsluitingen_index'), isActiveRoute('odp_verhuurderafsluitingen')) }}
-            {{ html.navLink('Coördinatoren', path('odp_coordinatoren_index'), isActiveRoute('odp_coordinatoren')) }}
-            {{ html.navLink('Woningbouwcorporaties', path('odp_woningbouwcorporaties_index'), isActiveRoute('odp_woningbouwcorporaties')) }}
+            {{ html.navLink('Afsluitingen huuraanbiedingen', path('odp_huuraanbodafsluitingen_index'), isActiveRoute('odp_huuraanbiedingafsluitingen_')) }}
+            {{ html.navLink('Afsluitingen huurders', path('odp_huurderafsluitingen_index'), isActiveRoute('odp_huurderafsluitingen_')) }}
+            {{ html.navLink('Afsluitingen huurverzoeken', path('odp_huurverzoekafsluitingen_index'), isActiveRoute('odp_huurverzoekafsluitingen_')) }}
+            {{ html.navLink('Afsluitingen koppelingen', path('odp_huurovereenkomstafsluitingen_index'), isActiveRoute('odp_huurovereenkomstafsluitingen_')) }}
+            {{ html.navLink('Afsluitingen verhuurders', path('odp_verhuurderafsluitingen_index'), isActiveRoute('odp_verhuurderafsluitingen_')) }}
+            {{ html.navLink('Coördinatoren', path('odp_coordinatoren_index'), isActiveRoute('odp_coordinatoren_')) }}
+            {{ html.navLink('Woningbouwcorporaties', path('odp_woningbouwcorporaties_index'), isActiveRoute('odp_woningbouwcorporaties_')) }}
         </ul>
     </li>
 </ul>
