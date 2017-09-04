@@ -1,4 +1,22 @@
+imports:
+    - { resource: exports.yml }
+
 services:
+    iz.event.diensten_lookup_subscriber:
+        class: IzBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    iz.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
     iz.dao.klant:
         parent: app.dao.abstract
         class: IzBundle\Service\KlantDao

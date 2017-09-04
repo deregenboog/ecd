@@ -3,12 +3,14 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="oek_lidmaatschappen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class OekLidmaatschap
 {
@@ -26,6 +28,7 @@ class OekLidmaatschap
      *
      * @ORM\ManyToOne(targetEntity="OekGroep", inversedBy="oekLidmaatschappen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $oekGroep;
 
@@ -34,6 +37,7 @@ class OekLidmaatschap
      *
      * @ORM\ManyToOne(targetEntity="OekKlant", inversedBy="oekLidmaatschappen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $oekKlant;
 

@@ -10,11 +10,14 @@ use AppBundle\Entity\NameTrait;
 use AppBundle\Entity\AddressTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Entity\Stadsdeel;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Geslacht;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="hs_klanten")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 {
@@ -28,39 +31,54 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $id;
 
     /**
+     * @var Geslacht
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $geslacht;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     private $werkgebied;
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $inschrijving;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $uitschrijving;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $laatsteContact;
 
     /**
      * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     private $actief = true;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     private $onHold = false;
 
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $bewindvoerder;
 
@@ -78,6 +96,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     * @Gedmo\Versioned
      */
     private $saldo = 0.0;
 
@@ -89,6 +108,18 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getGeslacht()
+    {
+        return $this->geslacht;
+    }
+
+    public function setGeslacht(Geslacht $geslacht)
+    {
+        $this->geslacht = $geslacht;
+
+        return $this;
     }
 
     public function getInschrijving()

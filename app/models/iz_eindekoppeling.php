@@ -5,8 +5,8 @@ class IzEindekoppeling extends AppModel
     public $name = 'IzEindekoppeling';
     public $displayField = 'naam';
 
-    public $hasMany = array(
-        'IzKoppeling' => array(
+    public $hasMany = [
+        'IzKoppeling' => [
             'className' => 'IzKoppeling',
             'foreignKey' => 'iz_eindekoppeling_id',
             'dependent' => false,
@@ -18,8 +18,8 @@ class IzEindekoppeling extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public $cachekey = 'IzEindKoppelingList';
     public $active_key = 'IzEindKoppelingListactive';
@@ -39,9 +39,9 @@ class IzEindekoppeling extends AppModel
         $conditions = [];
 
         if (empty($all)) {
-            $conditions = array(
+            $conditions = [
                 'active' => true,
-            );
+            ];
             $key = $this->active_key;
         }
 
@@ -49,12 +49,12 @@ class IzEindekoppeling extends AppModel
             return $iz_eindekoppeling_list;
         }
 
-        $iz_eindekoppeling_list = $this->find('list', array(
+        $iz_eindekoppeling_list = $this->find('list', [
             'conditions' => $conditions,
             'contain' => [],
-        ));
+        ]);
 
-        $iz_eindekoppeling_list = array('' => '') + $iz_eindekoppeling_list;
+        $iz_eindekoppeling_list = ['' => ''] + $iz_eindekoppeling_list;
 
         Cache::write($key, $iz_eindekoppeling_list);
 

@@ -1,128 +1,118 @@
 <div class="intakes view">
-<?php
-    $today = date('Y-m-d');
-    echo $this->Form->create('Intake',
-            array('url' => array('controller'=>$this->name, 'action' => 'add', $klant['Klant']['id']) )
-    );
-?>
+    <?php $today = date('Y-m-d'); ?>
+    <?= $this->Form->create('Intake', ['url' => ['controller' => $this->name, 'action' => 'add', $klant['Klant']['id']]]) ?>
     <fieldset>
         <legend><?php __('Intake toevoegen'); ?></legend>
-        <?php echo $form->hidden('klant_id', array('value' => $klant['Klant']['id'])); ?>
+        <?= $this->Form->hidden('klant_id', ['value' => $klant['Klant']['id']]) ?>
         <fieldset>
             <legend>Algemeen</legend>
-            <?php
-                echo $this->Form->hidden('medewerker_id', array( 'default' => $intaker_id ));
-
-                echo 'Medewerker: '.$medewerkers[$intaker_id];
-                //echo $this->Form->input('medewerker_id', array('label' => 'Naam intaker', 'default' => $intaker_id ));
-                echo $date->input('Intake.datum_intake', $datum_intake, array(
-                    'label' => 'Datum van intake',
-                    'required' => true,
-                    'rangeLow' => (date('Y') - 1).date('-m-d'),
-                    'rangeHigh' => $today,
-                ));
-            ?>
+            <?= $this->Form->hidden('medewerker_id', ['default' => $intaker_id]) ?>
+            <?= 'Medewerker: '.$medewerkers[$intaker_id] ?>
+            <?php //echo $this->Form->input('medewerker_id', array('label' => 'Naam intaker', 'default' => $intaker_id )); ?>
+            <?= $this->Date->input('Intake.datum_intake', $datum_intake, [
+                'label' => 'Datum van intake',
+                'required' => true,
+                'rangeLow' => (date('Y') - 1).date('-m-d'),
+                'rangeHigh' => $today,
+            ]) ?>
         </fieldset>
 
         <fieldset>
             <legend>Adresgegevens</legend>
-            <?php
-                echo $this->Form->input('postadres', array('label' => 'Adres'));
-                echo $this->Form->input('postcode');
-                echo $this->Form->input('woonplaats');
-                echo $date->input('Intake.verblijf_in_NL_sinds', null, array(
-                    'label' => 'Verblijft in Nederland sinds',
-                    'rangeLow' => (date('Y') - 100).date('-m-d'),
-                    'rangeHigh' => $today,
-                    'selected' => '--', ));
-                echo $date->input('Intake.verblijf_in_amsterdam_sinds', null, array(
-                    'label' => 'Verblijft in Amsterdam sinds',
-                    'rangeLow' => (date('Y') - 100).date('-m-d'),
-                    'required' => true,
-                    'rangeHigh' => $today,
-                    'selected' => '--', ));
-                echo $this->Form->input('verblijfstatus_id', array('empty' => ''));
-                echo $this->Form->input('telefoonnummer');
-            ?>
+            <?= $this->Form->input('postadres', ['label' => 'Adres']) ?>
+            <?= $this->Form->input('postcode') ?>
+            <?= $this->Form->input('woonplaats') ?>
+            <?= $this->Date->input('Intake.verblijf_in_NL_sinds', null, [
+                'label' => 'Verblijft in Nederland sinds',
+                'rangeLow' => (date('Y') - 100).date('-m-d'),
+                'rangeHigh' => $today,
+                'selected' => '--',
+            ]) ?>
+            <?= $this->Date->input('Intake.verblijf_in_amsterdam_sinds', null, [
+                'label' => 'Verblijft in Amsterdam sinds',
+                'rangeLow' => (date('Y') - 100).date('-m-d'),
+                'required' => true,
+                'rangeHigh' => $today,
+                'selected' => '--',
+            ]) ?>
+            <?= $this->Form->input('verblijfstatus_id', ['empty' => '']) ?>
+            <?= $this->Form->input('telefoonnummer') ?>
         </fieldset>
 
         <fieldset>
             <legend>Toegang</legend>
-            <?php
-                echo $this->Form->input('locatie2_id', array(
-                    'label' => 'Intake locatie',
-                    'empty' => '', ));
-                echo $this->Form->input('toegang_inloophuis', array(
-                    'label' => 'Toegang tot inloophuizen',
-                    'type' => 'checkbox',
-                ));
-                echo "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N.B. Als een klant niet rechthebbend is, heeft hij/zij de eerste drie maanden alleen <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toegang tot AMOC. Na drie maanden mag de klant ook naar de andere inloophuizen.<br/><br/>";
-                echo $this->Form->input('locatie1_id', array(
-                    'label' => 'Toegang gebruikersruimte',
-                    'empty' => '', ));
-            ?>
+            <?= $this->Form->input('locatie2_id', [
+                'label' => 'Intake locatie',
+                'empty' => '',
+            ]) ?>
+            <?= $this->Form->input('toegang_inloophuis', [
+                'label' => 'Toegang tot inloophuizen',
+                'type' => 'checkbox',
+            ]) ?>
+            <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            N.B. Als een klant niet rechthebbend is, heeft hij/zij de eerste drie maanden alleen
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            toegang tot AMOC. Na zes maanden mag de klant ook naar de andere inloophuizen.
+            <br/><br/>
+            <?= $this->Form->input('locatie1_id', [
+                'label' => 'Toegang gebruikersruimte',
+                'empty' => '',
+            ]) ?>
         </fieldset>
 
         <fieldset>
             <legend>Legitimatie</legend>
-            <?php
-                echo $this->Form->input('legitimatie_id', array('empty' => ''));
-                echo $this->Form->input('legitimatie_nummer', array('label' => 'Legitimatienummer'));
-                echo $date->input('Intake.legitimatie_geldig_tot', null, array(
-                    'label' => 'Legitimatie geldig tot',
-                    'rangeLow' => (date('Y') - 10).'-01-01',
-                    'rangeHigh' => (date('Y') + 30).'-01-01',
-                    'selected' => '--', ));
-            ?>
+            <?= $this->Form->input('legitimatie_id', ['empty' => '']) ?>
+            <?= $this->Form->input('legitimatie_nummer', ['label' => 'Legitimatienummer']) ?>
+            <?= $this->Date->input('Intake.legitimatie_geldig_tot', null, [
+                'label' => 'Legitimatie geldig tot',
+                'rangeLow' => (date('Y') - 10).'-01-01',
+                'rangeHigh' => (date('Y') + 30).'-01-01',
+                'selected' => '--',
+            ]) ?>
         </fieldset>
 
         <fieldset>
             <legend>Verslaving</legend>
             <h3>Problematiek</h3>
-            <?php
-                echo $this->Form->input('Verslaving', array(
-                    'type'=>'select',
-                    'multiple'=>'checkbox',
-                    'options'=> $verslavingen,
-                    'label'=>'Verslavingen', ));
-                echo $this->Form->input('verslaving_overig', array('label' => __('verslaving_overig', true)));
-            ?>
+            <?= $this->Form->input('Verslaving', [
+                'type' => 'select',
+                'multiple' => 'checkbox',
+                'options' => $verslavingen,
+                'label' => 'Verslavingen',
+            ]) ?>
+            <?= $this->Form->input('verslaving_overig', ['label' => __('verslaving_overig', true)]) ?>
         </fieldset>
 
         <fieldset>
             <legend>Inkomen en woonsituatie</legend>
-            <?php
-                echo $this->Form->input('Inkomen', array(
-                    'type'=>'select',
-                    'required' => true,
-                    'multiple'=>'checkbox',
-                    'options'=> $inkomens,
-                    'label' => '<b>Inkomen (kies minimaal een optie)</b>',
-                ));
-                echo $this->Form->input('inkomen_overig', array('label' => __('inkomen_overig', true)));
-                echo $this->Form->input('woonsituatie_id', array('label' => 'Wat is de woonsituatie?', 'empty' => ''));
-            ?>
+            <?= $this->Form->input('Inkomen', [
+                'type' => 'select',
+                'required' => true,
+                'multiple' => 'checkbox',
+                'options' => $inkomens,
+                'label' => '<b>Inkomen (kies minimaal een optie)</b>',
+            ]) ?>
+            <?= $this->Form->input('inkomen_overig', ['label' => __('inkomen_overig', true)]) ?>
+            <?= $this->Form->input('woonsituatie_id', ['label' => 'Wat is de woonsituatie?', 'empty' => '']) ?>
         </fieldset>
 
         <fieldset>
             <legend>Overige hulpverlening</legend>
-            <?php
-                echo $this->Form->input('Instantie', array(
-                    'type'=>'select',
-                    'multiple'=>'checkbox',
-                    'options'=> $instanties,
-                    'label'=>'Heeft de client contact met andere instanties?', ));
-                echo $this->Form->input('opmerking_andere_instanties', array('label' => 'Opmerkingen van andere instanties'));
-                echo $this->Form->input('medische_achtergrond', array('label' => 'Relevante medische achtergrond'));
-            ?>
+            <?= $this->Form->input('Instantie', [
+                'type' => 'select',
+                'multiple' => 'checkbox',
+                'options' => $instanties,
+                'label' => 'Heeft de client contact met andere instanties?',
+            ]) ?>
+            <?= $this->Form->input('opmerking_andere_instanties', ['label' => 'Opmerkingen van andere instanties']) ?>
+            <?= $this->Form->input('medische_achtergrond', ['label' => 'Relevante medische achtergrond']) ?>
         </fieldset>
 
         <fieldset>
             <legend>Verwachtingen en plannen</legend>
-            <?php
-                echo $this->Form->input('verwachting_dienstaanbod', array('label' => 'Wat verwacht de client van het dienstaanbod?'));
-                echo $this->Form->input('toekomstplannen', array('label' => 'Wat zijn de toekomstplannen van de client?'));
-            ?>
+            <?= $this->Form->input('verwachting_dienstaanbod', ['label' => 'Wat verwacht de client van het dienstaanbod?']) ?>
+            <?= $this->Form->input('toekomstplannen', ['label' => 'Wat zijn de toekomstplannen van de client?']) ?>
         </fieldset>
 
         <fieldset>
@@ -144,72 +134,53 @@
                 mogelijkheden, of deze al gebruikt.
             </p>
             <?php
-                $optionsArray = array(
-                    'options' => array(0 =>'Nee', 1 => 'Ja'),
+                $optionsArray = [
+                    'options' => [0 => 'Nee', 1 => 'Ja'],
                     'type' => 'radio',
                     'label' => ' ',
                     'legend' => false,
                     'value' => 0,
-                );
-
+                ];
                 $ja_label_f = 'Ja <small style="display: none">(e-mail naar ';
                 $ja_label_b = ')</small>';
 
-            //informele_zorg
-                echo $this->Form->label('informele_zorg',
-                    'Zou je het leuk vinden om iedere week
-                    met iemand samen iets te ondernemen?'
-                );
-                $optionsArray['options'][1] =
-                    $ja_label_f.$informele_zorg_mail.$ja_label_b;
+                // informele_zorg
+                echo $this->Form->label('informele_zorg', 'Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?');
+                $optionsArray['options'][1] = $ja_label_f.$informele_zorg_mail.$ja_label_b;
                 echo $this->Form->input('informele_zorg', $optionsArray);
 
-            //dagbesteding
-                echo $this->Form->label('dagbesteding',
-                    'Zou je het leuk vinden om overdag iets te doen te hebben?'
-                );
-                $optionsArray['options'][1] =
-                    $ja_label_f.$dagbesteding_mail.$ja_label_b;
+                // dagbesteding
+                echo $this->Form->label('dagbesteding', 'Zou je het leuk vinden om overdag iets te doen te hebben?');
+                $optionsArray['options'][1] = $ja_label_f.$dagbesteding_mail.$ja_label_b;
                 echo $this->Form->input('dagbesteding', $optionsArray);
 
-            //inloophuis
-                echo $this->Form->label('inloophuis',
-                    'Zou je een plek in de buurt willen hebben waar je iedere
-                    dag koffie kan drinken en mensen kan ontmoeten?'
-                );
-                $optionsArray['options'][1] =
-                    $ja_label_f.$inloophuis_mail.$ja_label_b;
+                // inloophuis
+                echo $this->Form->label('inloophuis', 'Zou je een plek in de buurt willen hebben waar je iedere dag koffie kan drinken en mensen kan ontmoeten?');
+                $optionsArray['options'][1] = $ja_label_f.$inloophuis_mail.$ja_label_b;
                 echo $this->Form->input('inloophuis', $optionsArray);
 
-            //hulpverlening
-                echo $this->Form->label('hulpverlening',
-                    'Heeft u hulp nodig met regelzaken?'
-                );
-                $optionsArray['options'][1] =
-                    $ja_label_f.$hulpverlening_mail.$ja_label_b;
+                // hulpverlening
+                echo $this->Form->label('hulpverlening', 'Heeft u hulp nodig met regelzaken?');
+                $optionsArray['options'][1] = $ja_label_f.$hulpverlening_mail.$ja_label_b;
                 echo $this->Form->input('hulpverlening', $optionsArray);
             ?>
         </fieldset>
+
         <fieldset id="zrm" style="display : block;">
-            <legend>Zelfredzaamheid matrix</legend>
+            <legend>Zelfredzaamheidmatrix</legend>
             <p>
                 Vul onderstaande matrix in
             </p>
-            <?php
-            echo $this->element('zrm', array(
-                'model' => 'Intake',
-                'zrm_data' => $zrm_data,
-            ));
-            ?>
+            <?= $this->element('zrm', ['model' => 'Intake', 'zrmData' => $zrmData]) ?>
         </fieldset>
     </fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+    <?php echo $this->Form->end(__('Submit', true)); ?>
 </div>
 
 <div class="actions">
-        <?= $this->element('klantbasic', array('data' => $klant)) ?>
-        <?= $this->element('diensten', array( 'diensten' => $diensten, )) ?>
-        <?= $this->Html->link('Toevoegen annuleren', array('controller' => 'klanten', 'action' => 'view', $klant['Klant']['id'])) ?>
+    <?= $this->element('klantbasic', ['data' => $klant]) ?>
+    <?= $this->element('diensten', ['diensten' => $diensten]) ?>
+    <?= $this->Html->link('Toevoegen annuleren', ['controller' => 'klanten', 'action' => 'view', $klant['Klant']['id']]) ?>
 </div>
 
 <?php

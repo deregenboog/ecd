@@ -2,6 +2,8 @@
 
 class LdapUser extends AppModel
 {
+    const ACCOUNT_EXPIRES_NEVER = 9223372036854775807;
+
     public $name = 'LdapUser';
     public $useTable = false;
     public $primaryKey = 'uid';
@@ -61,8 +63,16 @@ class LdapUser extends AppModel
         }
     }
 
-    public function findAll($attribute = 'uid', $value = '*')
+    public function findAll($attribute = null, $value = null)
     {
+        if (!$attribute) {
+            $attribute = $this->uid;
+        }
+
+        if (!$value) {
+            $value = '*';
+        }
+
         if (is_array($value)) {
             $s = '';
             foreach ($value as $v) {
@@ -186,7 +196,7 @@ class LdapUser extends AppModel
         $l = ldap_get_entries($this->ds, $r);
 
         $groups = $this->convert_from_ldap($l);
-        $group_array = array();
+        $group_array = [];
 
         foreach ($groups as $g) {
             $cn = $g['LdapUser']['cn'];

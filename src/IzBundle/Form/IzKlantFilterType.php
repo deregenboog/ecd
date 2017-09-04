@@ -15,7 +15,6 @@ use IzBundle\Filter\IzKlantFilter;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
 
@@ -29,6 +28,7 @@ class IzKlantFilterType extends AbstractType
         if (in_array('afsluitDatum', $options['enabled_filters'])) {
             $builder->add('afsluitDatum', AppDateRangeType::class, [
                 'required' => false,
+                'label' => false,
             ]);
         }
 
@@ -48,6 +48,7 @@ class IzKlantFilterType extends AbstractType
         if (in_array('izProject', $options['enabled_filters'])) {
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
+                'label' => 'Project',
                 'class' => IzProject::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
@@ -66,8 +67,24 @@ class IzKlantFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC');
                 },
+            ]);
+        }
+
+        if (in_array('zonderActieveHulpvraag', $options['enabled_filters'])) {
+            $builder->add('zonderActieveHulpvraag', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen dossiers zonder actieve hulpvraag',
+            ]);
+        }
+
+        if (in_array('zonderActieveKoppeling', $options['enabled_filters'])) {
+            $builder->add('zonderActieveKoppeling', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen dossiers zonder actieve koppeling',
             ]);
         }
 

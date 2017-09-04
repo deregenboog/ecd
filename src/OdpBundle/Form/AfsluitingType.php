@@ -17,6 +17,7 @@ class AfsluitingType extends AbstractType
         $builder
             ->add('naam')
             ->add('actief')
+            ->add('tonen', null, ['label' => 'Tonen in lijst'])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }

@@ -22,4 +22,10 @@ class AdminController extends AppController
     public function edit_models()
     {
     }
+
+    public function phpinfo()
+    {
+        $this->autoRender = false;
+        phpinfo();
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace HsBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+
 trait DocumentSubjectTrait
 {
     /**

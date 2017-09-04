@@ -5,11 +5,13 @@ namespace HsBundle\Entity;
 use AppBundle\Entity\Klant as AppKlant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table("hs_dienstverleners")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
@@ -19,6 +21,7 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $klant;
 

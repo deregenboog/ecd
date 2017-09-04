@@ -17,7 +17,7 @@ class IzKlantFilter implements FilterInterface
     public $afsluitDatum;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $openDossiers;
 
@@ -35,6 +35,16 @@ class IzKlantFilter implements FilterInterface
      * @var Medewerker
      */
     public $medewerker;
+
+    /**
+     * @var bool
+     */
+    public $zonderActieveHulpvraag;
+
+    /**
+     * @var bool
+     */
+    public $zonderActieveKoppeling;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -75,6 +85,30 @@ class IzKlantFilter implements FilterInterface
             $builder
                 ->andWhere('izHulpvraag.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
+            ;
+        }
+
+        if ($this->zonderActieveHulpvraag) {
+            $builder
+                ->leftJoin('izKlant.izHulpvragen', 'actieveIzHulpvraag', 'WITH', $builder->expr()->andX(
+                    'actieveIzHulpvraag.izHulpaanbod IS NULL',
+                    'actieveIzHulpvraag.einddatum IS NULL OR actieveIzHulpvraag.einddatum >= :now'
+                ))
+                ->addGroupBy('izKlant.id')
+                ->andHaving('COUNT(actieveIzHulpvraag) = 0')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
+
+        if ($this->zonderActieveKoppeling) {
+            $builder
+                ->leftJoin('izKlant.izHulpvragen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
+                    'actieveIzKoppeling.izHulpaanbod IS NOT NULL',
+                    'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
+                ))
+                ->addGroupBy('izKlant.id')
+                ->andHaving('COUNT(actieveIzKoppeling) = 0')
+                ->setParameter('now', new \DateTime())
             ;
         }
     }

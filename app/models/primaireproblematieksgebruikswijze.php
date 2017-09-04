@@ -6,8 +6,8 @@ class Primaireproblematieksgebruikswijze extends AppModel
     public $useTable = 'verslavingsgebruikswijzen';
     public $displayField = 'naam';
 
-    public $hasAndBelongsToMany = array(
-        'Intake' => array(
+    public $hasAndBelongsToMany = [
+        'Intake' => [
             'className' => 'Intake',
             'joinTable' => 'intakes_primaireproblematieksgebruikswijzen',
             'foreignKey' => 'primaireproblematieksgebruikswijze_id',
@@ -21,8 +21,8 @@ class Primaireproblematieksgebruikswijze extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'AwbzIntake' => array(
+        ],
+        'AwbzIntake' => [
             'className' => 'AwbzIntake',
             'joinTable' => 'awbz_intakes_primaireproblematieksgebruikswijzen',
             'foreignKey' => 'primaireproblematieksgebruikswijze_id',
@@ -36,6 +36,6 @@ class Primaireproblematieksgebruikswijze extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

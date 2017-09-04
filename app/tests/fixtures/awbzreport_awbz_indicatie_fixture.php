@@ -5,25 +5,25 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
 {
     public $name = 'AwbzIndicatie';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'klant_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'begindatum' => array('type' => 'date', 'null' => false, 'default' => null),
-        'einddatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'begeleiding_per_week' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 5),
-        'activering_per_week' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 5),
-        'hoofdaannemer_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'aangevraagd_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 1),
-        'aangevraagd_datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'aangevraagd_niet' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'klant_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'begindatum' => ['type' => 'date', 'null' => false, 'default' => null],
+        'einddatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'begeleiding_per_week' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 5],
+        'activering_per_week' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 5],
+        'hoofdaannemer_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'aangevraagd_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 1],
+        'aangevraagd_datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'aangevraagd_niet' => ['type' => 'boolean', 'null' => true, 'default' => '0'],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 15,
             'klant_id' => 1,
             'begindatum' => '2011-01-01',
@@ -36,8 +36,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 16,
             'klant_id' => 1,
             'begindatum' => '2011-03-31',
@@ -50,8 +50,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 17,
             'klant_id' => 1,
             'begindatum' => '2011-04-05',
@@ -64,8 +64,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 18,
             'klant_id' => 1,
             'begindatum' => '2011-03-28',
@@ -78,8 +78,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 19,
             'klant_id' => 2,
             'begindatum' => '2011-04-02',
@@ -92,8 +92,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 20,
             'klant_id' => 2,
             'begindatum' => '2011-03-29',
@@ -106,8 +106,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 21,
             'klant_id' => 2,
             'begindatum' => '2011-05-01',
@@ -120,8 +120,8 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 22,
             'klant_id' => 288,
             'begindatum' => '2011-05-01',
@@ -134,6 +134,6 @@ class AwbzReportAwbzIndicatieFixture extends CakeTestFixture
             'aangevraagd_id' => null,
             'aangevraagd_datum' => null,
             'aangevraagd_niet' => 0,
-        ),
-    );
+        ],
+    ];
 }

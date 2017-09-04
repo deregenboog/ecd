@@ -16,10 +16,12 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new CakeBundle\CakeBundle(),
             new AppBundle\AppBundle(),
             new InloopBundle\InloopBundle(),
@@ -28,6 +30,7 @@ class AppKernel extends Kernel
             new HsBundle\HsBundle(),
             new OekBundle\OekBundle(),
             new OdpBundle\OdpBundle(),
+            new DagbestedingBundle\DagbestedingBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

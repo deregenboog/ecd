@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Verhuurders
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -19,6 +19,9 @@
             {{ html.link('Wijzigen', path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
             {{ html.closeLink(path('odp_verhuurders_close', {id: verhuurder.id})) }}
             {{ html.link('Afsluiten', path('odp_verhuurders_close', {id: verhuurder.id})) }}
+        {% else %}
+            {{ html.addLink(path('odp_verhuurders_reopen', {id: verhuurder.id})) }}
+            {{ html.link('Heropenen', path('odp_verhuurders_reopen', {id: verhuurder.id})) }}
         {% endif %}
         {% if verhuurder.deletable %}
             {{ html.deleteLink(path('odp_verhuurders_delete', {'id': verhuurder.id})) }}
@@ -32,10 +35,24 @@
         <dd>{{ verhuurder.medewerker }}</dd>
         <dt>Aanmelddatum</dt>
         <dd>{{ verhuurder.aanmelddatum|date('d-m-Y') }}</dd>
+        <dt>Rekeningnummer</dt>
+        <dd>{{ verhuurder.rekeningnummer }}</dd>
         <dt>Afsluitdatum</dt>
         <dd>{{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
         <dd>{{ verhuurder.afsluiting ? verhuurder.afsluiting }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Woningbouwcorporatie</dt>
+        <dd>{{ verhuurder.woningbouwcorporatie }}</dd>
+        <dt>Toelichting</dt>
+        <dd>{{ verhuurder.woningbouwcorporatieToelichting }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Klantmanager</dt>
+        <dd>{{ verhuurder.klantmanager }}</dd>
+        <dt>WPI</dt>
+        <dd>{{ verhuurder.wpi ? 'Ja' : 'Nee' }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: verhuurder.klant} %}
 {% endblock %}

@@ -10,10 +10,12 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\ManyToOne;
 use AppBundle\Entity\Medewerker;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @Entity
  * @Table(name="hs_memos")
+ * @Gedmo\Loggable
  */
 class Memo
 {
@@ -27,25 +29,29 @@ class Memo
     /**
      * @var \DateTime
      * @Column(type="datetime")
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
      * @Column(type="text")
+     * @Gedmo\Versioned
      */
     private $memo;
 
     /**
      * @var bool
      * @Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $intake = false;
 
     /**
      * @var Medewerker
-     * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $medewerker;
 

@@ -6,118 +6,117 @@ class Intake extends AppModel
 
     public $order = 'datum_intake DESC';
 
-    public $validate = array(
-       'klant_id' => array(
-            'notempty' => array(
+    public $validate = [
+       'klant_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'medewerker_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'medewerker_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'datum_intake' => array(
-            'date' => array(
+            ],
+        ],
+        'datum_intake' => [
+            'date' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 //'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'date' => array(
-                'rule' => array('date'),
+            ],
+            'date' => [
+                'rule' => ['date'],
                 'message' => 'Dit is geen geldige datum',
                 'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'date_not_in_future' => array(
+            ],
+            'date_not_in_future' => [
                 'rule' => 'dateNotInFuture',
                 'message' => 'De datum van dit veld mag niet in de toekomst liggen',
-            ),
-            'date_unique' => array(
-                'rule' => array('uniqueForUser'),
+            ],
+            'date_unique' => [
+                'rule' => ['uniqueForUser'],
                 'message' => 'Klant heeft al een intake op deze datum.',
-            ),
-        ),
-        'verblijfstatus_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'verblijfstatus_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'Inkomen' => array(
-            'multiple' => array(
+            ],
+        ],
+        'Inkomen' => [
+            'multiple' => [
                 'message' => 'Kies minimaal een optie',
-                 'rule' => array('multiple', array('min' => 1)),
+                 'rule' => ['multiple', ['min' => 1]],
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'verblijf_in_amsterdam_sinds' => array(
-            'date' => array(
-                'rule' => array('date'),
+            ],
+        ],
+        'verblijf_in_amsterdam_sinds' => [
+            'date' => [
+                'rule' => ['date'],
                 'message' => 'Dit is geen geldige datum',
                 // 'allowEmpty' => true,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                ),
-            'date_not_in_future' => array(
+                ],
+            'date_not_in_future' => [
                 'rule' => 'dateNotInFuture',
                 'message' => 'De datum van dit veld mag niet in de toekomst liggen',
-            ),
-
-        ),
-        'woonsituatie_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'woonsituatie_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'verwachting_dienstaanbod' => array(
-            'notempty' => array(
+            ],
+        ],
+        'verwachting_dienstaanbod' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'toekomstplannen' => array(
-            'notempty' => array(
+            ],
+        ],
+        'toekomstplannen' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Dit veld is verplicht',
                 'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
+            ],
+        ],
         'doelgroep' => [
             'notempty' => [
                 'rule' => 'notEmpty',
@@ -126,112 +125,111 @@ class Intake extends AppModel
                 'required' => true,
             ],
         ],
-    );
+    ];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Verblijfstatus' => array(
+        ],
+        'Verblijfstatus' => [
             'className' => 'Verblijfstatus',
             'foreignKey' => 'verblijfstatus_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Legitimatie' => array(
+        ],
+        'Legitimatie' => [
             'className' => 'Legitimatie',
             'foreignKey' => 'legitimatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'PrimaireProblematiek' => array(
+        ],
+        'PrimaireProblematiek' => [
             'className' => 'Verslaving',
             'foreignKey' => 'primaireproblematiek_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'PrimaireProblematieksfrequentie' => array(
+        ],
+        'PrimaireProblematieksfrequentie' => [
             'className' => 'Verslavingsfrequentie',
             'foreignKey' => 'primaireproblematieksfrequentie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'PrimaireProblematieksperiode' => array(
+        ],
+        'PrimaireProblematieksperiode' => [
             'className' => 'Verslavingsperiode',
             'foreignKey' => 'primaireproblematieksperiode_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Verslavingsfrequentie' => array(
+        ],
+        'Verslavingsfrequentie' => [
             'className' => 'Verslavingsfrequentie',
             'foreignKey' => 'verslavingsfrequentie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Verslavingsperiode' => array(
+        ],
+        'Verslavingsperiode' => [
             'className' => 'Verslavingsperiode',
             'foreignKey' => 'verslavingsperiode_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Woonsituatie' => array(
+        ],
+        'Woonsituatie' => [
             'className' => 'Woonsituatie',
             'foreignKey' => 'woonsituatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Locatie1' => array(
+        ],
+        'Locatie1' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie1_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Locatie2' => array(
+        ],
+        'Locatie2' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie2_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Locatie3' => array(
+        ],
+        'Locatie3' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie3_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Infobaliedoelgroep' => array(
+        ],
+        'Infobaliedoelgroep' => [
             'className' => 'Infobaliedoelgroep',
             'foreignKey' => 'infobaliedoelgroep_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
+        ],
+    ];
 
-    );
-
-    public $hasAndBelongsToMany = array(
-        'Inkomen' => array(
+    public $hasAndBelongsToMany = [
+        'Inkomen' => [
             'className' => 'Inkomen',
             'joinTable' => 'inkomens_intakes',
             'foreignKey' => 'intake_id',
@@ -245,8 +243,8 @@ class Intake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Instantie' => array(
+        ],
+        'Instantie' => [
             'className' => 'Instantie',
             'joinTable' => 'instanties_intakes',
             'foreignKey' => 'intake_id',
@@ -260,8 +258,8 @@ class Intake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Verslavingsgebruikswijze' => array(
+        ],
+        'Verslavingsgebruikswijze' => [
             'className' => 'Verslavingsgebruikswijze',
             'joinTable' => 'intakes_verslavingsgebruikswijzen',
             'foreignKey' => 'intake_id',
@@ -275,8 +273,8 @@ class Intake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Primaireproblematieksgebruikswijze' => array(
+        ],
+        'Primaireproblematieksgebruikswijze' => [
             'className' => 'Primaireproblematieksgebruikswijze',
             'joinTable' => 'intakes_primaireproblematieksgebruikswijzen',
             'foreignKey' => 'intake_id',
@@ -290,8 +288,8 @@ class Intake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'Verslaving' => array(
+        ],
+        'Verslaving' => [
             'className' => 'Verslaving',
             'joinTable' => 'intakes_verslavingen',
             'foreignKey' => 'intake_id',
@@ -305,55 +303,55 @@ class Intake extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $contain = array('Klant' => array(
-            'Medewerker' => array(
-                'fields' => array('name', 'email'),
-            ),
-            'Geboorteland' => array('fields' => array('land')),
-            'Nationaliteit' => array('fields' => array('naam')),
-            'Geslacht' => array('fields' => array('volledig', 'afkorting')),
-            'fields' => array('voornaam', 'tussenvoegsel', 'achternaam',
+    public $contain = ['Klant' => [
+            'Medewerker' => [
+                'fields' => ['name', 'email'],
+            ],
+            'Geboorteland' => ['fields' => ['land']],
+            'Nationaliteit' => ['fields' => ['naam']],
+            'Geslacht' => ['fields' => ['volledig', 'afkorting']],
+            'fields' => ['voornaam', 'tussenvoegsel', 'achternaam',
                 'roepnaam', 'geboortedatum', 'BSN', 'laatste_TBC_controle',
-            ),
-        ),
-        'Medewerker' => array(
-            'fields' => array('name', 'email'),
-        ),
-        'Verblijfstatus' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Legitimatie' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Verslaving' => array(
-            'fields' => array('naam'),
-        ),
-        'Verslavingsfrequentie' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Verslavingsperiode' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Woonsituatie' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Locatie1' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Locatie2' => array(
-            'fields' => array('naam', 'datum_van', 'datum_tot'),
-        ),
-        'Inkomen' => array('fields' => array('naam')),
-        'Instantie' => array('fields' => array('naam')),
-        'PrimaireProblematiek' => array(
-            'fields' => array('naam'),
-        ),
-    );
+            ],
+        ],
+        'Medewerker' => [
+            'fields' => ['name', 'email'],
+        ],
+        'Verblijfstatus' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Legitimatie' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Verslaving' => [
+            'fields' => ['naam'],
+        ],
+        'Verslavingsfrequentie' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Verslavingsperiode' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Woonsituatie' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Locatie1' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Locatie2' => [
+            'fields' => ['naam', 'datum_van', 'datum_tot'],
+        ],
+        'Inkomen' => ['fields' => ['naam']],
+        'Instantie' => ['fields' => ['naam']],
+        'PrimaireProblematiek' => [
+            'fields' => ['naam'],
+        ],
+    ];
 
     public function beforeValidate()
     {
@@ -396,8 +394,8 @@ class Intake extends AppModel
 
     public function getIntakeCountForClant($id)
     {
-        return $this->find('count', array(
-            'conditions' => array('klant_id' => $id), ));
+        return $this->find('count', [
+            'conditions' => ['klant_id' => $id], ]);
     }
 
     public function afterSave($created)
@@ -443,14 +441,14 @@ class Intake extends AppModel
 
     public function uniqueForUser($data)
     {
-        $conditions = array(
+        $conditions = [
             'Intake.klant_id' => $this->data['Intake']['klant_id'],
             'Intake.datum_intake' => $data['datum_intake'],
-        );
+        ];
         if (array_key_exists('id', $this->data['Intake'])) {
             $conditions['Intake.id !='] = $this->data['Intake']['id'];
         }
-        $check = $this->find('count', array('conditions' => $conditions));
+        $check = $this->find('count', ['conditions' => $conditions]);
         if ($check > 0) {
             return false;
         } else {

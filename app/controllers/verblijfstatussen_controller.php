@@ -14,7 +14,7 @@ class VerblijfstatussenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid verblijfstatus', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('verblijfstatus', $this->Verblijfstatus->read(null, $id));
     }
@@ -25,7 +25,7 @@ class VerblijfstatussenController extends AppController
             $this->Verblijfstatus->create();
             if ($this->Verblijfstatus->save($this->data)) {
                 $this->flashError(__('The verblijfstatus has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verblijfstatus could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class VerblijfstatussenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid verblijfstatus', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Verblijfstatus->save($this->data)) {
                 $this->flashError(__('The verblijfstatus has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The verblijfstatus could not be saved. Please, try again.', true));
             }
@@ -55,14 +55,14 @@ class VerblijfstatussenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for verblijfstatus', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Verblijfstatus->delete($id)) {
             $this->flashError(__('Verblijfstatus deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Verblijfstatus was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     /*
@@ -95,22 +95,21 @@ class VerblijfstatussenController extends AppController
 
     public function update()
     {
-
-      //setting debug to be able to see what's going on:
+        //setting debug to be able to see what's going on:
         Configure::write('debug', 1);
 
         $this->Verblijfstatus->Intake->Klant->Geboorteland->recursive = -1;
-        $eu = $this->Verblijfstatus->Intake->Klant->Geboorteland->find('list', array(
-            'conditions' => array('Geboorteland.land' => array(
+        $eu = $this->Verblijfstatus->Intake->Klant->Geboorteland->find('list', [
+            'conditions' => ['Geboorteland.land' => [
                 'België', 'Bulgarije', 'Cyprus', 'Denemarken', 'Duitsland',
                 'Estland', 'Finland', 'Frankrijk', 'Griekenland', 'Hongarije',
                 'Ierland', 'Italië', 'Letland', 'Litouwen', 'Luxemburg',
                 'Malta', 'Nederland', 'Oostenrijk', 'Polen', 'Portugal',
                 'Roemenië', 'Slovenië', 'Slowakije', 'Spanje', 'Tsjechië',
                 'Zweden', 'Grootbrittannië', 'Bondsrepubliek Duitsland',
-            )),
+            ]],
             'order' => 'Geboorteland.land ASC',
-        ));
+        ]);
         if (count($eu) < 27) {
             debug('Couldn\'t find all the EU countries!');
         }
@@ -141,11 +140,11 @@ class VerblijfstatussenController extends AppController
             debug($renamed['Verblijfstatus']['naam']);
             $niet_recht_nl_id = $renamed['Verblijfstatus']['id']; //just to be sure
         } else {
-            $niet_recht_nl = $this->Verblijfstatus->find('first', array(
-                'conditions' => array(
+            $niet_recht_nl = $this->Verblijfstatus->find('first', [
+                'conditions' => [
                     'Verblijfstatus.naam' => 'Niet rechthebbend (uit Nederland, behalve Amsterdam)',
-                ),
-            ));
+                ],
+            ]);
             $niet_recht_nl_id = $niet_recht_nl['Verblijfstatus']['id'];
         }
 
@@ -153,23 +152,23 @@ class VerblijfstatussenController extends AppController
       //	'Illegaal (uit buiten Europa)' (id 6)
       //	and 'Niet rechthebbend (uit Europa, behalve Nederland)' (id 7)
         debug("- creating new field:\nIllegaal (uit buiten Europa)' (id 6)");
-        $illegal = array(
-            'Verblijfstatus' => array(
+        $illegal = [
+            'Verblijfstatus' => [
                 'id' => 6,
                 'naam' => 'Illegaal (uit buiten Europa)',
-            ),
-        );
+            ],
+        ];
 
         if (!($this->Verblijfstatus->save($illegal))) {
             debug('Something went wrong, check the database and the code!');
         }
 
-        $niet_rech = array(
-            'Verblijfstatus' => array(
+        $niet_rech = [
+            'Verblijfstatus' => [
                 'id' => 7,
                 'naam' => 'Niet rechthebbend (uit EU, behalve Nederland)',
-            ),
-        );
+            ],
+        ];
 
         debug("- creating new field:\n'Niet rechthebbend (uit Europa, behalve Nederland)' (id 7)");
         if (!($this->Verblijfstatus->save($niet_rech))) {
@@ -178,12 +177,12 @@ class VerblijfstatussenController extends AppController
             $niet_recht_europa_id = $this->Verblijfstatus->id; //just to be sure
         }
 
-        $niet_rech = array(
-            'Verblijfstatus' => array(
+        $niet_rech = [
+            'Verblijfstatus' => [
                 'id' => 8,
                 'naam' => 'Niet rechthebbend (niet uit EU)',
-            ),
-        );
+            ],
+        ];
 
         debug("- creating new field:\n'Niet rechthebbend (niet uit EU)' (id 8)");
         if (!($this->Verblijfstatus->save($niet_rech))) {
@@ -197,17 +196,17 @@ class VerblijfstatussenController extends AppController
 
       //'werkvergunning' => 'onbekend'
         debug('- "werkvergunning" => "onbekend"');
-        $intakes2update = &$this->Verblijfstatus->Intake->find('all', array(
-            'conditions' => array('Verblijfstatus.naam' => 'Werkvergunning'),
-            'contain' => array(
-                'Verblijfstatus' => array('fields' => array('naam')),
-            ),
-        ));
+        $intakes2update = &$this->Verblijfstatus->Intake->find('all', [
+            'conditions' => ['Verblijfstatus.naam' => 'Werkvergunning'],
+            'contain' => [
+                'Verblijfstatus' => ['fields' => ['naam']],
+            ],
+        ]);
       //getting the id of the right verblijfstatus
-        $new_verblijfstatus = $this->Verblijfstatus->find('first', array(
-            'conditions' => array('naam' => 'Onbekend'),
-            'fields' => array('id'),
-        ));
+        $new_verblijfstatus = $this->Verblijfstatus->find('first', [
+            'conditions' => ['naam' => 'Onbekend'],
+            'fields' => ['id'],
+        ]);
 
         debug('intakes to update:');
         debug(count($intakes2update));
@@ -232,21 +231,21 @@ class VerblijfstatussenController extends AppController
         debug('- "Niet rechthebbend (uit Europa, behalve Nederland)" / "Niet '.
             ' rechthebbend (uit Nederland, behalve Amsterdam)" / "Niet '.
             'rechthebbend (behalve EU)"');
-        $intakes2update = &$this->Verblijfstatus->Intake->find('all', array(
-                'conditions' => array(
-                    'Verblijfstatus.naam' => array(
+        $intakes2update = &$this->Verblijfstatus->Intake->find('all', [
+                'conditions' => [
+                    'Verblijfstatus.naam' => [
                         'Niet rechthebbend (uit Nederland, behalve Amsterdam)',
                         'Niet rechthebbend (uit EU, behalve Nederland)',
                         'Niet rechthebbend (niet uit EU)',
-                    ),
-                ),
-                'contain' => array(
-                    'Klant' => array(
-                        'Geboorteland' => array('fields' => 'land', 'id'),
-                    ),
-                    'Verblijfstatus' => array('fields' => array('naam')),
-                ),
-            ));
+                    ],
+                ],
+                'contain' => [
+                    'Klant' => [
+                        'Geboorteland' => ['fields' => 'land', 'id'],
+                    ],
+                    'Verblijfstatus' => ['fields' => ['naam']],
+                ],
+            ]);
     //for each of the "suspect" intakes, check where the client was born
     //and change the verblijfstatus accordingly
         $this->Verblijfstatus->Intake->recursive = -1;

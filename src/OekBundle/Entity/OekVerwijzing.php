@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
@@ -15,6 +16,7 @@ use AppBundle\Model\TimestampableTrait;
  *     "OekVerwijzingDoor" = "OekVerwijzingDoor",
  *     "OekVerwijzingNaar" = "OekVerwijzingNaar"
  * })
+ * @Gedmo\Loggable
  */
 abstract class OekVerwijzing
 {
@@ -33,6 +35,7 @@ abstract class OekVerwijzing
      * @var string
      *
      * @ORM\Column(nullable=false)
+     * @Gedmo\Versioned
      */
     private $naam;
 
@@ -40,6 +43,7 @@ abstract class OekVerwijzing
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     private $actief = true;
 

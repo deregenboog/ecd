@@ -11,10 +11,12 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\ManyToOne;
 use AppBundle\Entity\Medewerker;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @Entity
  * @Table(name="hs_declaraties")
+ * @Gedmo\Loggable
  */
 class Declaratie implements DocumentSubjectInterface
 {
@@ -30,18 +32,21 @@ class Declaratie implements DocumentSubjectInterface
     /**
      * @var \DateTime
      * @Column(type="date")
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
      * @Column(type="text")
+     * @Gedmo\Versioned
      */
     private $info;
 
     /**
      * @var float
      * @Column(type="float")
+     * @Gedmo\Versioned
      */
     private $bedrag;
 
@@ -49,12 +54,14 @@ class Declaratie implements DocumentSubjectInterface
      * @var Klus
      * @ManyToOne(targetEntity="Klus", inversedBy="declaraties")
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     private $klus;
 
     /**
      * @var Factuur
      * @ManyToOne(targetEntity="Factuur", inversedBy="declaraties")
+     * @Gedmo\Versioned
      */
     private $factuur;
 
@@ -62,6 +69,7 @@ class Declaratie implements DocumentSubjectInterface
      * @var DeclaratieCategorie
      * @ManyToOne(targetEntity="DeclaratieCategorie", inversedBy="declaraties")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $declaratieCategorie;
 
@@ -69,6 +77,7 @@ class Declaratie implements DocumentSubjectInterface
      * @var Medewerker
      * @ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $medewerker;
 

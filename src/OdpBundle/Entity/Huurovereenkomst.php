@@ -7,15 +7,27 @@ use Doctrine\ORM\Mapping\Id;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_huurovereenkomsten")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Huurovereenkomst
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
+
+    static public function getVormChoices()
+    {
+        return [
+            'Hospitaverhuur' => 'Hospitaverhuur',
+            'Kostgangerschap' => 'Kostgangerschap',
+            'Kleine schuld, grote winst' => 'Kleine schuld, grote winst',
+            'Anders' => 'Anders',
+        ];
+    }
 
     /**
      * @ORM\Id
@@ -26,21 +38,31 @@ class Huurovereenkomst
 
     /**
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $opzegdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
+     * @ORM\Column(length=50, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $vorm;
+
+    /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $afsluitdatum;
 
@@ -49,18 +71,21 @@ class Huurovereenkomst
      *
      * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     private $afsluiting;
 
     /**
      * @var Huuraanbod
-     * @ORM\OneToOne(targetEntity="Huuraanbod", inversedBy="huurovereenkomst")
+     * @ORM\ManyToOne(targetEntity="Huuraanbod")
+     * @Gedmo\Versioned
      */
     private $huuraanbod;
 
     /**
      * @var Huurverzoek
-     * @ORM\OneToOne(targetEntity="Huurverzoek", inversedBy="huurovereenkomst")
+     * @ORM\ManyToOne(targetEntity="Huurverzoek")
+     * @Gedmo\Versioned
      */
     private $huurverzoek;
 
@@ -74,11 +99,11 @@ class Huurovereenkomst
     private $verslagen;
 
     /**
-     * @var ArrayCollection|Verslag[]
+     * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinTable(name="odp_huurovereenkomst_document")
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $documenten;
 
@@ -125,6 +150,14 @@ class Huurovereenkomst
     public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
+
+        return $this;
+    }
+
+    public function reopen()
+    {
+        $this->afsluitdatum = null;
+        $this->afsluiting = null;
 
         return $this;
     }
@@ -226,5 +259,15 @@ class Huurovereenkomst
         $this->einddatum = $einddatum;
 
         return $this;
+    }
+
+    public function getVorm()
+    {
+        return $this->vorm;
+    }
+
+    public function setVorm($vorm)
+    {
+        $this->vorm = $vorm;
     }
 }

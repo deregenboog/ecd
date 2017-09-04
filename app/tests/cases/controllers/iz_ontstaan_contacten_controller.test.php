@@ -1,47 +1,51 @@
 <?php
+
 /* IzOntstaanContacten Test cases generated on: 2014-12-12 15:12:27 : 1418393007*/
 App::import('Controller', 'IzOntstaanContacten');
 
-class TestIzOntstaanContactenController extends IzOntstaanContactenController {
-	var $autoRender = false;
+class TestIzOntstaanContactenController extends IzOntstaanContactenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class IzOntstaanContactenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.iz_ontstaan_contact');
+class IzOntstaanContactenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.iz_ontstaan_contact'];
 
-	function startTest() {
-		$this->IzOntstaanContacten =& new TestIzOntstaanContactenController();
-		$this->IzOntstaanContacten->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->IzOntstaanContacten = new TestIzOntstaanContactenController();
+        $this->IzOntstaanContacten->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->IzOntstaanContacten);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->IzOntstaanContacten);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

@@ -6,8 +6,8 @@ class Verblijfstatus extends AppModel
     public $displayField = 'naam';
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-    public $hasMany = array(
-        'Intake' => array(
+    public $hasMany = [
+        'Intake' => [
             'className' => 'Intake',
             'foreignKey' => 'verblijfstatus_id',
             'dependent' => false,
@@ -19,6 +19,6 @@ class Verblijfstatus extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

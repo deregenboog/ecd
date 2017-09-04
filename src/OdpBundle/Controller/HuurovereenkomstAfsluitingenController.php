@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class HuurovereenkomstAfsluitingenController extends AfsluitingenController
 {
+    public $title = 'Afsluitingen koppelingen';
+
     /**
      * @var HuurovereenkomstAfsluitingDaoInterface
      *
@@ -21,7 +23,7 @@ class HuurovereenkomstAfsluitingenController extends AfsluitingenController
 
     protected $entityClass = HuurovereenkomstAfsluiting::class;
 
-    protected $entityName = 'Afsluiting huurovereenkomst';
+    protected $entityName = 'Afsluiting koppeling';
 
     protected $indexRouteName = 'odp_huurovereenkomstafsluitingen_index';
 }

@@ -3,10 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="medewerkers")
+ * @Gedmo\Loggable
  */
 class Medewerker
 {
@@ -18,6 +20,11 @@ class Medewerker
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $actief = true;
 
     /**
      * @ORM\Column(name="groups", type="json_array", nullable=true)

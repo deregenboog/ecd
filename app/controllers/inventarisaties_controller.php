@@ -3,7 +3,7 @@
 class InventarisatiesController extends AppController
 {
     public $name = 'Inventarisaties';
-    public $uses = array('Inventarisatie');
+    public $uses = ['Inventarisatie'];
 
     public function index()
     {
@@ -21,8 +21,8 @@ class InventarisatiesController extends AppController
     public function reorganiseTree()
     {
         $this->Inventarisatie->recover();
-        debug($this->Inventarisatie->reorder(array('field' => 'order',
-            'order' => 'ASC', 'verify' => true, )));
+        debug($this->Inventarisatie->reorder(['field' => 'order',
+            'order' => 'ASC', 'verify' => true, ]));
         $nodes = $this->Inventarisatie->find('all');
         foreach ($nodes as $addr => &$node) {
             $node['Inventarisatie']['depth'] = $this->Inventarisatie->getDepth(
@@ -48,7 +48,7 @@ class InventarisatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid Inventarisatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('inventarisatie', $this->Inventarisatie->read(null, $id));
     }
@@ -59,7 +59,7 @@ class InventarisatiesController extends AppController
             $this->Inventarisatie->create();
             if ($this->Inventarisatie->save($this->data)) {
                 $this->flash(__('The Inventarisatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The Inventarisatie could not be saved. Please, try again.', true));
             }
@@ -70,12 +70,12 @@ class InventarisatiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid Inventarisatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Inventarisatie->save($this->data)) {
                 $this->flash(__('The Inventarisatie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The Inventarisatie could not be saved. Please, try again.', true));
             }
@@ -89,13 +89,13 @@ class InventarisatiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for Inventarisatie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Inventarisatie->delete($id)) {
             $this->flashError(__('Inventarisatie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Inventarisatie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

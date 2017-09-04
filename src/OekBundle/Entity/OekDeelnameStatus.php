@@ -3,11 +3,13 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="oek_deelname_statussen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class OekDeelnameStatus
 {
@@ -28,17 +30,20 @@ class OekDeelnameStatus
      *
      * @ORM\ManyToOne(targetEntity="OekDeelname", inversedBy="oekDeelnameStatussen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $oekDeelname;
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
      * @ORM\Column
+     * @Gedmo\Versioned
      */
     private $status = self::STATUS_AANGEMELD;
 

@@ -15,3 +15,6 @@ iz_hulpaanbiedingen_index:
 
 iz_koppelingen_index:
     path: /iz_koppelingen
+
+iz_klanten_toon_aanmelding:
+    path: /iz_deelnemers/toon_aanmelding/Klant/{klantId}/{izKlantId}

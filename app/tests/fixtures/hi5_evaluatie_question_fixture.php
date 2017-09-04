@@ -4,5 +4,5 @@
 class Hi5EvaluatieQuestionFixture extends CakeTestFixture
 {
     public $name = 'Hi5EvaluatieQuestion';
-    public $import = array('model' => 'Hi5EvaluatieQuestion', 'records' => true);
+    public $import = ['model' => 'Hi5EvaluatieQuestion', 'records' => true];
 }

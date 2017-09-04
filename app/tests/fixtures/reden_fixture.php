@@ -4,5 +4,5 @@
 class RedenFixture extends CakeTestFixture
 {
     public $name = 'Reden';
-    public $import = array('model' => 'Reden', 'records' => true);
+    public $import = ['model' => 'Reden', 'records' => true];
 }

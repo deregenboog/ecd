@@ -14,6 +14,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OdpBundle\Entity\Huurovereenkomst;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuurovereenkomstFilterType extends AbstractType
 {
@@ -28,9 +30,9 @@ class HuurovereenkomstFilterType extends AbstractType
             ]);
         }
 
-        if (array_key_exists('huurderKlant', $options['enabled_filters'])) {
-            $builder->add('huurderKlant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['huurderKlant'],
+        if (array_key_exists('huurder', $options['enabled_filters'])) {
+            $builder->add('huurder', HuurderFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['huurder'],
             ]);
         }
 
@@ -48,6 +50,8 @@ class HuurovereenkomstFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Huurovereenkomst::class, 'huurovereenkomst', 'WITH', 'huurovereenkomst.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
@@ -72,9 +76,23 @@ class HuurovereenkomstFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('vorm', $options['enabled_filters'])) {
+            $builder->add('vorm', ChoiceType::class, [
+                'required' => false,
+                'choices' => Huurovereenkomst::getVormChoices(),
+            ]);
+        }
+
         if (in_array('afsluitdatum', $options['enabled_filters'])) {
             $builder->add('afsluitdatum', AppDateRangeType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Actieve koppelingen',
             ]);
         }
 
@@ -99,6 +117,18 @@ class HuurovereenkomstFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurovereenkomstFilter::class,
+            'enabled_filters' => [
+                'id',
+                'huurder' => ['automatischeIncasso', 'klant' => ['naam']],
+                'verhuurderKlant' => ['naam'],
+                'medewerker',
+                'startdatum',
+                'opzegdatum',
+                'einddatum',
+                'vorm',
+                'afsluitdatum',
+                'actief',
+            ],
         ]);
     }
 }

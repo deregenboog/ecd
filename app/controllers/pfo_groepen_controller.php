@@ -14,7 +14,7 @@ class PfoGroepenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid pfo groep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('pfoGroep', $this->PfoGroep->read(null, $id));
     }
@@ -25,7 +25,7 @@ class PfoGroepenController extends AppController
             $this->PfoGroep->create();
             if ($this->PfoGroep->save($this->data)) {
                 $this->Session->setFlash(__('The pfo groep has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo groep could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class PfoGroepenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid pfo groep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->PfoGroep->save($this->data)) {
                 $this->Session->setFlash(__('The pfo groep has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo groep could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class PfoGroepenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo groep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->PfoGroep->delete($id)) {
             $this->Session->setFlash(__('Pfo groep deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->Session->setFlash(__('Pfo groep was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

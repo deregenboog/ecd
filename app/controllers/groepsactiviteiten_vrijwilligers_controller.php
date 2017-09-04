@@ -10,9 +10,13 @@ use GaBundle\Form\GaVrijwilligerSelectType;
 
 class GroepsactiviteitenVrijwilligersController extends AppController
 {
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
+
     private $enabledFilters = [
-        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
-        'medewerker',
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'medewerker'],
         'intakedatum',
         'afsluitdatum',
         'open',
@@ -27,19 +31,14 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         'intake.afsluitdatum',
     ];
 
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(GaVrijwilligerIntake::class);
         $builder = $repository->createQueryBuilder('intake')
             ->select('intake, vrijwilliger, medewerker')
-            ->innerJoin("intake.vrijwilliger", 'vrijwilliger')
+            ->innerJoin('intake.vrijwilliger', 'vrijwilliger')
             ->innerJoin('vrijwilliger.medewerker', 'medewerker')
-            ->andWhere("vrijwilliger.disabled = false")
+            ->andWhere('vrijwilliger.disabled = false')
         ;
 
         $filter = $this->createFilter();
@@ -51,7 +50,7 @@ class GroepsactiviteitenVrijwilligersController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => "vrijwilliger.achternaam",
+            'defaultSortFieldName' => 'vrijwilliger.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
             'wrap-queries' => true, // because of HAVING clause in filter
@@ -63,19 +62,15 @@ class GroepsactiviteitenVrijwilligersController extends AppController
 
     public function download(QueryBuilder $builder)
     {
+        ini_set('memory_limit', '512M');
+
         $intakes = $builder->getQuery()->getResult();
 
-//         $filename = sprintf('groepsactiviteiten-vrijwilligers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-
+        $this->autoRender = false;
         $filename = sprintf('groepsactiviteiten-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('intakes', $intakes);
-        $this->render('download', false);
+        $export = $this->container->get('ga.export.vrijwilligers');
+        $export->create($intakes)->send($filename);
     }
 
     public function add()

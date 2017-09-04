@@ -9,10 +9,12 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @Entity
  * @Table(name="hs_activiteiten")
+ * @Gedmo\Loggable
  */
 class Activiteit
 {
@@ -25,16 +27,19 @@ class Activiteit
 
     /**
      * @Column(type="string")
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @Column(type="datetime", nullable=false)
+     * @Gedmo\Versioned
      */
     private $created;
 
     /**
      * @Column(type="datetime", nullable=false)
+     * @Gedmo\Versioned
      */
     private $modified;
 

@@ -18,6 +18,7 @@ class KlantFilterType extends AbstractType
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
                 'required' => false,
+                'label' => 'Nummer',
                 'attr' => ['placeholder' => 'Nummer'],
             ]);
         }
@@ -26,6 +27,20 @@ class KlantFilterType extends AbstractType
             $builder->add('naam', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Naam'],
+            ]);
+        }
+
+        if (in_array('voornaam', $options['enabled_filters'])) {
+            $builder->add('voornaam', null, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Voornaam'],
+            ]);
+        }
+
+        if (in_array('achternaam', $options['enabled_filters'])) {
+            $builder->add('achternaam', null, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Achternaam'],
             ]);
         }
 
@@ -44,6 +59,7 @@ class KlantFilterType extends AbstractType
         if (in_array('geboortedatumRange', $options['enabled_filters'])) {
             $builder->add('geboortedatumRange', AppDateRangeType::class, [
                 'required' => false,
+                'label' => false,
             ]);
         }
 
@@ -61,6 +77,11 @@ class KlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
+            'enabledFilters' => [
+                'klant' => ['id', 'naam', 'stadsdeel'],
+                'aanmelddatum',
+                'afsluitdatum',
+            ],
         ]);
     }
 

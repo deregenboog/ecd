@@ -20,8 +20,8 @@ class IzKoppelingenController extends AppController
         'koppelingStartdatum',
         'koppelingEinddatum',
         'lopendeKoppelingen',
-        'klant' => ['naam', 'stadsdeel'],
-        'vrijwilliger' => ['naam'],
+        'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
+        'vrijwilliger' => ['voornaam', 'achternaam'],
         'izProject',
         'izHulpvraagMedewerker',
         'izHulpaanbodMedewerker',
@@ -56,15 +56,15 @@ class IzKoppelingenController extends AppController
 
     public function download(FilterInterface $filter)
     {
+        ini_set('memory_limit', '512M');
+
         $koppelingen = $this->koppelingDao->findAll(null, $filter);
 
+        $this->autoRender = false;
         $filename = sprintf('iz-koppelingen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('koppelingen', $koppelingen);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.koppelingen');
+        $export->create($koppelingen)->send($filename);
     }
 
     private function createFilter()

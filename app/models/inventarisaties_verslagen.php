@@ -5,29 +5,29 @@ class InventarisatiesVerslagen extends AppModel
     public $name = 'InventarisatiesVerslagen';
     public $useTable = 'inventarisaties_verslagen';
 
-    public $belongsTo = array(
-        'Verslag' => array(
+    public $belongsTo = [
+        'Verslag' => [
             'className' => 'Verslag',
             'foreignKey' => 'verslag_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Inventarisatie' => array(
+        ],
+        'Inventarisatie' => [
             'className' => 'Inventarisatie',
             'foreignKey' => 'inventarisatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Doorverwijzer' => array(
+        ],
+        'Doorverwijzer' => [
             'className' => 'Doorverwijzer',
             'foreignKey' => 'doorverwijzer_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
     public function beforeSave()
     {
@@ -47,7 +47,7 @@ class InventarisatiesVerslagen extends AppModel
                     $doorverwijzer = $record['Doorverwijzer']['naam'];
                 }
 
-                $record = $this->Inventarisatie->getpath($record['inventarisatie_id'], array('titel'));
+                $record = $this->Inventarisatie->getpath($record['inventarisatie_id'], ['titel']);
 
                 if (isset($doorverwijzer)) {
                     $record[]['Inventarisatie']['titel'] = $doorverwijzer;
@@ -66,11 +66,11 @@ class InventarisatiesVerslagen extends AppModel
         foreach ($inventarisaties as $root_id => &$inventarisaties_branch) {
             foreach ($inventarisaties_branch as $i => &$inventarisatie) {
                 if (is_array($inventarisatie)) {
-                    $inventarisatie['Inventarisatie']['count'] = $this->find('count', array(
-                        'conditions' => array(
+                    $inventarisatie['Inventarisatie']['count'] = $this->find('count', [
+                        'conditions' => [
                             'InventarisatiesVerslagen.inventarisatie_id' => $inventarisatie['Inventarisatie']['id'],
-                        ),
-                    ));
+                        ],
+                    ]);
                 }
             }
         }

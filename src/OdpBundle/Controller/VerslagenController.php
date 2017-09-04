@@ -18,8 +18,13 @@ use OdpBundle\Service\VerslagDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ConfirmationType;
 
+/**
+ * @Route("/odp/verslagen")
+ */
 class VerslagenController extends SymfonyController
 {
+    public $title = 'Verslagen';
+
     /**
      * @var VerslagDaoInterface
      *
@@ -28,7 +33,7 @@ class VerslagenController extends SymfonyController
     private $dao;
 
     /**
-     * @Route("/odp/verslagen/add")
+     * @Route("/add")
      */
     public function add()
     {
@@ -56,7 +61,7 @@ class VerslagenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verslagen/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function editAction(Request $request, $id, $redirect = null)
     {
@@ -83,7 +88,7 @@ class VerslagenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/verslagen/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function deleteAction(Request $request, $id)
     {

@@ -60,7 +60,7 @@ class BotVerslagenController extends AppController
 
         if (!$valid) {
             $this->flashError(__('Invalid back on track', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
     }
 }

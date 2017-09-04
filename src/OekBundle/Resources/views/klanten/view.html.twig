@@ -13,20 +13,20 @@
     <h1>Deelnemer {{ oekKlant.klant.naam }}</h1>
 
     <p>
-        {% set edit_link = path('oek_klanten_edit', {id: oekKlant.id}) %}
-        {{ html.editLink(edit_link)|raw }}
-        {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
-
-        {% if oekKlant.deletable %}
-            {% set delete_link = path('oek_klanten_delete', {id: oekKlant.id}) %}
-            {{ html.deleteLink(delete_link)|raw }}
-        {% endif %}
-
         {% if oekKlant.oekAfsluiting %}
             {% set open_link = path('oek_klanten_open', {id: oekKlant.id}) %}
             {{ html.addLink(open_link)|raw }}
             {{ html.link('Dossier heropenen', open_link)|raw }}
         {% else %}
+            {% set edit_link = path('oek_klanten_edit', {id: oekKlant.id}) %}
+            {{ html.editLink(edit_link)|raw }}
+            {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
+
+            {% if oekKlant.deletable %}
+                {% set delete_link = path('oek_klanten_delete', {id: oekKlant.id}) %}
+                {{ html.deleteLink(delete_link)|raw }}
+            {% endif %}
+
             {% set close_link = path('oek_klanten_close', {id: oekKlant.id}) %}
             {{ html.deleteLink(close_link)|raw }}
             {{ html.link('Dossier afsluiten', close_link)|raw }}
@@ -49,7 +49,7 @@
             </ul>&nbsp;
         </dd>
         <dt>Opmerking</dt>
-        <dd>{% if oekKlant.opmerking %}<pre>{{ oekKlant.opmerking }}</pre>{% endif %}</dd>
+        <dd>{% if oekKlant.opmerking %}{{ oekKlant.opmerking|nl2br }}{% endif %}</dd>
         <dt>Voedselbankklant</dt>
         <dd>{{ oekKlant.voedselbankklant ? 'Ja' : 'Nee' }}</dd>
         <dt>

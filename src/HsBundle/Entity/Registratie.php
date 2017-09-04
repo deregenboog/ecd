@@ -4,10 +4,12 @@ namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="hs_registraties")
+ * @Gedmo\Loggable
  */
 class Registratie
 {
@@ -21,30 +23,35 @@ class Registratie
     /**
      * @var \DateTime
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="time")
+     * @Gedmo\Versioned
      */
     private $start;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="time")
+     * @Gedmo\Versioned
      */
     private $eind;
 
     /**
      * @var float
      * @ORM\Column(type="float", nullable=true)
+     * @Gedmo\Versioned
      */
     private $reiskosten;
 
     /**
      * @var Klus
      * @ORM\ManyToOne(targetEntity="Klus", inversedBy="registraties")
+     * @Gedmo\Versioned
      */
     private $klus;
 
@@ -52,6 +59,7 @@ class Registratie
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties")
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     private $factuur;
 
@@ -59,6 +67,7 @@ class Registratie
      * @var Arbeider
      * @ORM\ManyToOne(targetEntity="Arbeider", inversedBy="registraties")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $arbeider;
 
@@ -66,6 +75,7 @@ class Registratie
      * @var Activiteit
      * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="klussen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $activiteit;
 
@@ -73,6 +83,7 @@ class Registratie
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $medewerker;
 

@@ -4,22 +4,22 @@
 class OpmerkingFixture extends CakeTestFixture
 {
     public $name = 'Opmerking';
-    public $import = array('model' => 'Opmerking');
+    public $import = ['model' => 'Opmerking'];
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'categorie_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'klant_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'beschrijving' => array('type' => 'string', 'null' => false, 'default' => null),
-        'gezien' => array('type' => 'boolean', 'null' => false, 'default' => 0),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'categorie_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'klant_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'beschrijving' => ['type' => 'string', 'null' => false, 'default' => null],
+        'gezien' => ['type' => 'boolean', 'null' => false, 'default' => 0],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'categorie_id' => 1,
             'klant_id' => 1,
@@ -27,8 +27,8 @@ class OpmerkingFixture extends CakeTestFixture
             'gezien' => 1,
             'created' => '2010-04-12 12:23:46',
             'modified' => '2010-04-12 12:23:46',
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'categorie_id' => 1,
             'klant_id' => 1,
@@ -36,8 +36,8 @@ class OpmerkingFixture extends CakeTestFixture
             'gezien' => 0,
             'created' => '2010-04-12 12:23:46',
             'modified' => '2010-04-12 12:23:46',
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'categorie_id' => 1,
             'klant_id' => 3,
@@ -45,8 +45,8 @@ class OpmerkingFixture extends CakeTestFixture
             'gezien' => 1,
             'created' => '2010-04-12 12:23:46',
             'modified' => '2010-04-12 12:23:46',
-        ),
-        array(
+        ],
+        [
             'id' => 4,
             'categorie_id' => 1,
             'klant_id' => 3,
@@ -54,6 +54,6 @@ class OpmerkingFixture extends CakeTestFixture
             'gezien' => 1,
             'created' => '2010-04-12 12:23:46',
             'modified' => '2010-04-12 12:23:46',
-        ),
-    );
+        ],
+    ];
 }

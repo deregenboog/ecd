@@ -5,8 +5,8 @@ class Verslavingsgebruikswijze extends AppModel
     public $name = 'Verslavingsgebruikswijze';
     public $displayField = 'naam';
 
-    public $hasAndBelongsToMany = array(
-        'Intake' => array(
+    public $hasAndBelongsToMany = [
+        'Intake' => [
             'className' => 'Intake',
             'joinTable' => 'intakes_verslavingsgebruikswijzen',
             'foreignKey' => 'verslavingsgebruikswijze_id',
@@ -20,8 +20,8 @@ class Verslavingsgebruikswijze extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'AwbzIntake' => array(
+        ],
+        'AwbzIntake' => [
             'className' => 'AwbzIntake',
             'joinTable' => 'awbz_intakes_verslavingsgebruikswijzen',
             'foreignKey' => 'verslavingsgebruikswijze_id',
@@ -35,6 +35,6 @@ class Verslavingsgebruikswijze extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

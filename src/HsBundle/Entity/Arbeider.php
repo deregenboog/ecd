@@ -5,6 +5,7 @@ namespace HsBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorMap({"dienstverlener" = "Dienstverlener", "vrijwilliger" = "Vrijwilliger"})
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 abstract class Arbeider
 {
@@ -24,16 +26,19 @@ abstract class Arbeider
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $inschrijving;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $uitschrijving;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $rijbewijs;
 

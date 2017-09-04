@@ -4,11 +4,12 @@ namespace OdpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use OdpBundle\Exception\OdpException;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Huurder extends Deelnemer
 {
@@ -16,8 +17,17 @@ class Huurder extends Deelnemer
      * @var ArrayCollection|Huurverzoek[]
      *
      * @ORM\OneToMany(targetEntity="Huurverzoek", mappedBy="huurder", cascade={"persist"})
+     * @ORM\OrderBy({"startdatum" = "DESC", "id" = "DESC"})
      */
     private $huurverzoeken;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $automatischeIncasso;
 
     public function __construct()
     {
@@ -59,6 +69,18 @@ class Huurder extends Deelnemer
     public function setAfsluiting(HuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function isAutomatischeIncasso()
+    {
+        return $this->automatischeIncasso;
+    }
+
+    public function setAutomatischeIncasso($automatischeIncasso)
+    {
+        $this->automatischeIncasso = (bool) $automatischeIncasso;
 
         return $this;
     }

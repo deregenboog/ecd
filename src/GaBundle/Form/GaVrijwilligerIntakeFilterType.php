@@ -16,7 +16,9 @@ class GaVrijwilligerIntakeFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
-            $builder->add('vrijwilliger', VrijwilligerFilterType::class, ['enabled_filters' => $options['enabled_filters']['vrijwilliger']]);
+            $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
+            ]);
         }
     }
 

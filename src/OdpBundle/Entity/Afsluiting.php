@@ -4,6 +4,7 @@ namespace OdpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -18,6 +19,7 @@ use AppBundle\Model\TimestampableTrait;
  *     "huuraanbod" = "HuuraanbodAfsluiting",
  *     "huurovereenkomst" = "HuurovereenkomstAfsluiting"
  * })
+ * @Gedmo\Loggable
  */
 abstract class Afsluiting
 {
@@ -32,13 +34,21 @@ abstract class Afsluiting
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $naam;
 
     /**
      * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $actief = true;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $tonen = true;
 
     public function __toString()
     {
@@ -70,6 +80,18 @@ abstract class Afsluiting
     public function setActief($actief)
     {
         $this->actief = $actief;
+
+        return $this;
+    }
+
+    public function isTonen()
+    {
+        return $this->tonen;
+    }
+
+    public function setTonen($tonen)
+    {
+        $this->tonen = $tonen;
 
         return $this;
     }

@@ -5,25 +5,25 @@ class AwbzReportVerslagFixture extends CakeTestFixture
 {
     public $name = 'Verslag';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'klant_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'medewerker_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'medewerker' => array('type' => 'string', 'null' => true, 'default' => null),
-        'advocaat' => array('type' => 'string', 'null' => true, 'default' => null),
-        'contact' => array('type' => 'string', 'null' => true, 'default' => null),
-        'opmerking' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 1023),
-        'datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'aanpassing_verslag' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 5),
-        'locatie_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'klant_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'medewerker_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'medewerker' => ['type' => 'string', 'null' => true, 'default' => null],
+        'advocaat' => ['type' => 'string', 'null' => true, 'default' => null],
+        'contact' => ['type' => 'string', 'null' => true, 'default' => null],
+        'opmerking' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 1023],
+        'datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'aanpassing_verslag' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 5],
+        'locatie_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 7,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -36,8 +36,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 20,
             'locatie_id' => 0,
-        ),
-        array(
+        ],
+        [
             'id' => 8,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -50,8 +50,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 20,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 9,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -64,8 +64,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 180,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 10,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -78,8 +78,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 180,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 11,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -92,8 +92,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 12,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -106,8 +106,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 60,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 13,
             'klant_id' => 1,
             'medewerker_id' => 1016,
@@ -120,8 +120,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 300,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 14,
             'klant_id' => 2,
             'medewerker_id' => 1016,
@@ -134,8 +134,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 15,
             'klant_id' => 2,
             'medewerker_id' => 1016,
@@ -148,8 +148,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 16,
             'klant_id' => 2,
             'medewerker_id' => 1016,
@@ -162,8 +162,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 17,
             'klant_id' => 2,
             'medewerker_id' => 1016,
@@ -176,8 +176,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 18,
             'klant_id' => 2,
             'medewerker_id' => 1016,
@@ -190,8 +190,8 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 19,
             'klant_id' => 2,
             'medewerker_id' => 1016,
@@ -204,6 +204,6 @@ class AwbzReportVerslagFixture extends CakeTestFixture
             'modified' => null,
             'aanpassing_verslag' => 120,
             'locatie_id' => 1,
-        ),
-    );
+        ],
+    ];
 }

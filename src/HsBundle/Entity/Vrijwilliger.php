@@ -5,11 +5,13 @@ namespace HsBundle\Entity;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table("hs_vrijwilligers")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
@@ -19,6 +21,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
      * @var Vrijwilliger
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $vrijwilliger;
 

@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
@@ -12,6 +13,7 @@ use AppBundle\Model\RequiredMedewerkerTrait;
  * @ORM\Entity(repositoryClass="OekBundle\Repository\OekKlantRepository")
  * @ORM\Table(name="oek_klanten")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class OekKlant
 {
@@ -40,6 +42,7 @@ class OekKlant
      * @var OekDossierStatus
      *
      * @ORM\ManyToOne(targetEntity="OekDossierStatus", cascade={"persist"})
+     * @Gedmo\Versioned
      */
     private $oekDossierStatus;
 
@@ -49,6 +52,7 @@ class OekKlant
      * @var OekAanmelding
      *
      * @ORM\ManyToOne(targetEntity="OekAanmelding")
+     * @Gedmo\Versioned
      */
     private $oekAanmelding;
 
@@ -58,6 +62,7 @@ class OekKlant
      * @var OekAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="OekAfsluiting")
+     * @Gedmo\Versioned
      */
     private $oekAfsluiting;
 
@@ -65,6 +70,7 @@ class OekKlant
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $klant;
 
@@ -83,6 +89,7 @@ class OekKlant
     /**
      * @var bool
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $voedselbankklant = false;
 
@@ -90,6 +97,7 @@ class OekKlant
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $opmerking;
 

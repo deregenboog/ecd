@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <title>{% block title %}{% endblock %}ECD | De Regenboog Groep</title>
+    <title>ECD | {% block title %}{% endblock title %}</title>
 
-    <link href="{{ asset('rainbow.ico') }}" type="image/x-icon" rel="icon" />
-    <link href="{{ asset('rainbow.ico') }}" type="image/x-icon" rel="shortcut icon" />
+    <link href="{{ asset('favicon.ico') }}" type="image/x-icon" rel="icon" />
+    <link href="{{ asset('favicon.ico') }}" type="image/x-icon" rel="shortcut icon" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/cake.generic.css') }}" media="screen" /> -->
@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui-1.8.11.custom.css') }}" />
 
     <script type="text/javascript" src="{{ asset('js/jquery-1.12.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.4.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/datepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery-ui-1.8.11.custom.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.ui.datepicker-nl.js') }}"></script>
@@ -33,13 +34,16 @@
                 {% endfor %}
             {% endfor %}
         </div>
+        {% block content_top %}{% endblock %}
         <div class="col-xs-6">
             {% block content_left %}{% endblock %}
         </div>
         <div class="col-xs-6">
             {% block content_right %}{% endblock %}
         </div>
+        {% block content_bottom %}{% endblock %}
     </div>
+    {% include '::footer.html.twig' %}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  *
- * @link	   http://github.com/davidpersson/media
+ * @see	   http://github.com/davidpersson/media
  */
 /**
  * Attachment Model Class.
@@ -57,12 +57,12 @@ class Attachment extends AppModel
      *
      * @var array
      */
-    public $actsAs = array(
-            'Media.Polymorphic' => array(
+    public $actsAs = [
+            'Media.Polymorphic' => [
                 'classField' => 'model',
                 'foreignKey' => 'foreign_key',
-                ),
-            'Media.Transfer' => array(
+                ],
+            'Media.Transfer' => [
                 'trustClient' => false,
                 // Use a UUID for the file name of a transferred file. Without
                 // it, files like
@@ -82,13 +82,13 @@ class Attachment extends AppModel
                 'baseDirectory' => MEDIA_TRANSFER,
                 'createDirectory' => true,
                 'alternativeFile' => 100,
-                ),
-            'Media.Media' => array(
+                ],
+            'Media.Media' => [
                 'metadataLevel' => 2,
                 'makeVersions' => true,
                 'filterDirectory' => MEDIA_FILTER,
-                ),
-            );
+                ],
+            ];
     /**
      * Validation rules for file and alternative fields.
      *
@@ -106,19 +106,19 @@ class Attachment extends AppModel
      *
      * @var array
      */
-    public $validate = array(
-        'file' => array(
-            'resource' => array('rule' => 'checkResource', 'message' => 'No resources!'),
-            'access' => array('rule' => 'checkAccess', 'message' => 'No access!'),
-            'location' => array('rule' => array('checkLocation', array(
+    public $validate = [
+        'file' => [
+            'resource' => ['rule' => 'checkResource', 'message' => 'No resources!'],
+            'access' => ['rule' => 'checkAccess', 'message' => 'No access!'],
+            'location' => ['rule' => ['checkLocation', [
                 MEDIA_TRANSFER, '/tmp/',
-            )), 'message' => 'There is a problem with the location of the file!'),
-            'permission' => array('rule' => array('checkPermission', '*'), 'message' => 'You are not authorized to upload this file'),
-            'size' => array('rule' => array('checkSize', '9M'), 'message' => 'Your size exceeds our limit of :maxSize'),
-            'extension' => array('rule' => array('checkExtension', false, array(
+            ]], 'message' => 'There is a problem with the location of the file!'],
+            'permission' => ['rule' => ['checkPermission', '*'], 'message' => 'You are not authorized to upload this file'],
+            'size' => ['rule' => ['checkSize', '9M'], 'message' => 'Your size exceeds our limit of :maxSize'],
+            'extension' => ['rule' => ['checkExtension', false, [
                 'doc', 'odt', 'txt', 'pdf', 'jpg', 'docx', 'xlsx', 'jpeg', 'png',
-            )), 'message' => 'This file extension is not allowed!'),
-            'mimeType' => array('rule' => array('checkMimeType', false, array(
+            ]], 'message' => 'This file extension is not allowed!'],
+            'mimeType' => ['rule' => ['checkMimeType', false, [
                 'application/doc',
                 'application/vnd.msword',
                 'application/vnd.ms-word',
@@ -144,24 +144,25 @@ class Attachment extends AppModel
                 'text/x-pdf',
 
                 'text/plain',
-        )), 'message' => 'This MIME Type is not allowed!'), ),
-        'alternative' => array(
+        ]], 'message' => 'This MIME Type is not allowed!'], ],
+        'alternative' => [
             'rule' => 'checkRepresent',
             'on' => 'create',
             'required' => false,
             'allowEmpty' => true,
-        ), );
+        ], ];
 
     public function __construct($id = false, $table = null, $ds = null)
     {
         $this->validate['file']['size']['message'] = __tr(
             $this->validate['file']['size']['message'],
-            array('maxSize' => Configure::read('attachment.max_size'))
+            ['maxSize' => Configure::read('attachment.max_size')]
         );
         $this->validate['file']['size']['rule'][1] = Configure::read('attachment.max_size');
 
         parent::__construct($id, $table, $ds);
     }
+
     /**
      * beforeMake Callback.
      *
@@ -198,11 +199,11 @@ class Attachment extends AppModel
             return 'wrong path!';
         }
         //retrieve the file record from the DB
-        $file_record = $this->find('first', array(
-            'conditions' => array(
+        $file_record = $this->find('first', [
+            'conditions' => [
                 'Attachment.id' => $id,
-            ),
-        ));
+            ],
+        ]);
 
         //check if the file exists in the database
         if (!$file_record) {
@@ -231,7 +232,9 @@ class Attachment extends AppModel
         }
 
         return $file_path;
-    } //view()
+    }
+
+ //view()
 
     /**
      * Returns the controller that is associated to the group.

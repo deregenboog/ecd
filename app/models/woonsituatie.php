@@ -5,8 +5,8 @@ class Woonsituatie extends AppModel
     public $name = 'Woonsituatie';
     public $displayField = 'naam';
 
-    public $hasMany = array(
-        'Intake' => array(
+    public $hasMany = [
+        'Intake' => [
             'className' => 'Intake',
             'foreignKey' => 'woonsituatie_id',
             'dependent' => false,
@@ -18,6 +18,6 @@ class Woonsituatie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

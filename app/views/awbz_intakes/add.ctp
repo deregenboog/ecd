@@ -1,16 +1,10 @@
+<?php $today = date('Y-m-d'); ?>
+
 <div class="intakes view">
-
-<?php
-    $today = date('Y-m-d');
-    echo $this->Form->create('AwbzIntake',
-            array('url' => array('controller'=>$this->name, 'action' => 'add', $klant['Klant']['id']) )
-    );
-?>
-
+    <?= $this->Form->create('AwbzIntake', ['url' => ['controller' => $this->name, 'action' => 'add', $klant['Klant']['id']]]) ?>
     <fieldset>
         <legend><?php __('Intake toevoegen'); ?></legend>
-
-        <?php echo $form->hidden('klant_id', array('value' => $klant['Klant']['id'])); ?>
+        <?= $form->hidden('klant_id', array('value' => $klant['Klant']['id'])) ?>
 
         <fieldset>
             <legend>Algemeen</legend>
@@ -150,6 +144,7 @@
                 'legend' => false,
             ]) ?>
         </fieldset>
+
         <fieldset id="ondersteuning">
             <legend>Ondersteuning</legend>
             <p>
@@ -159,7 +154,6 @@
                 mogelijkheden, of deze al gebruikt.
             </p>
             <?php
-
                 $optionsArray = array(
                     'options'	 => array(0 =>'Nee', 1 => 'Ja'),
                     'type'		  => 'radio',
@@ -171,7 +165,7 @@
                 $ja_label_f = 'Ja <small style="display: none">(e-mail naar ';
                 $ja_label_b = ')</small>';
 
-            //informele_zorg
+                // informele_zorg
                 echo $this->Form->label('informele_zorg',
                     'Zou je het leuk vinden om iedere week
                     met iemand samen iets te ondernemen?'
@@ -180,7 +174,7 @@
                     $ja_label_f.$informele_zorg_mail.$ja_label_b;
                 echo $this->Form->input('informele_zorg', $optionsArray);
 
-            //dagbesteding
+                // dagbesteding
                 echo $this->Form->label('dagbesteding',
                     'Zou je het leuk vinden om overdag iets te doen te hebben?'
                 );
@@ -188,7 +182,7 @@
                     $ja_label_f.$dagbesteding_mail.$ja_label_b;
                 echo $this->Form->input('dagbesteding', $optionsArray);
 
-            //inloophuis
+                // inloophuis
                 echo $this->Form->label('inloophuis',
                     'Zou je een plek in de buurt willen hebben waar je iedere
                     dag koffie kan drinken en mensen kan ontmoeten?'
@@ -197,7 +191,7 @@
                     $ja_label_f.$inloophuis_mail.$ja_label_b;
                 echo $this->Form->input('inloophuis', $optionsArray);
 
-            //hulpverlening
+                // hulpverlening
                 echo $this->Form->label('hulpverlening',
                     'Heeft u hulp nodig met regelzaken?'
                 );
@@ -206,22 +200,16 @@
                 echo $this->Form->input('hulpverlening', $optionsArray);
             ?>
         </fieldset>
-                <fieldset id="zrm" style="display: block;">
-            <legend>Zelfredzaamheid matrix</legend>
-            <p>
-                Vul onderstaande matrix in
-            </p>
-            <?php
-            echo $this->element('zrm', array(
-                'model' => 'AwbzIntake',
-                'zrm_data' => $zrm_data,
-            ));
-            ?>
 
+        <fieldset id="zrm" style="display: block;">
+            <legend>Zelfredzaamheidmatrix</legend>
+            <p>Vul onderstaande matrix in</p>
+            <?= $this->element('zrm', ['model' => 'AwbzIntake', 'zrmData' => $zrmData]) ?>
         </fieldset>
     </fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+    <?php echo $this->Form->end(__('Submit', true));?>
 </div>
+
 <div class="actions">
     <?php echo $this->element('klantbasic', array('data' => $klant)); ?>
     <p>
@@ -235,6 +223,4 @@
     </p>
 </div>
 
-<?php
-    $this->Js->buffer('ondersteuning_toggle_addresses();');
-?>
+<?php $this->Js->buffer('ondersteuning_toggle_addresses();'); ?>

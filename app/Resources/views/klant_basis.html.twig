@@ -34,3 +34,11 @@
     <dt>E-mail</dt>
     <dd>{{ klant.email }}</dd>
 </dl>
+<dl class="dl-horizontal">
+    <dt>Geen post</dt>
+    <dd>{{ klant.geenPost ? 'ja' : 'nee' }}</dd>
+    <dt>Geen e-mail</dt>
+    <dd>{{ klant.geenEmail ? 'ja' : 'nee' }}</dd>
+    <dt>Opmerking</dt>
+    <dd>{{ klant.opmerking }}</dd>
+</dl>

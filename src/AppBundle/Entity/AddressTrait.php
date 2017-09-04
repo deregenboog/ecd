@@ -3,38 +3,45 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AddressTrait
 {
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $adres;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $postcode;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $plaats;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      * @Assert\Email
      */
     protected $email;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $mobiel;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $telefoon;
 

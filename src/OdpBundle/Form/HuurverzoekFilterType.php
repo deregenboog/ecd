@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use OdpBundle\Filter\HuurverzoekFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuurverzoekFilterType extends AbstractType
 {
@@ -41,6 +42,13 @@ class HuurverzoekFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Actieve huurverzoeken',
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
@@ -62,6 +70,13 @@ class HuurverzoekFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurverzoekFilter::class,
+            'enabled_filters' => [
+                'id',
+                'klant' => ['naam', 'stadsdeel'],
+                'startdatum',
+                'afsluitdatum',
+                'actief',
+            ],
         ]);
     }
 }

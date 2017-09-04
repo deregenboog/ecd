@@ -14,7 +14,7 @@ class IzVraagaanbodenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz vraagaanbod', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('izVraagaanbod', $this->IzVraagaanbod->read(null, $id));
     }
@@ -26,7 +26,7 @@ class IzVraagaanbodenController extends AppController
 
             if ($this->IzVraagaanbod->save($this->data)) {
                 $this->Session->setFlash(__('The iz vraagaanbod has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz vraagaanbod could not be saved. Please, try again.', true));
             }
@@ -37,13 +37,13 @@ class IzVraagaanbodenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz vraagaanbod', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->IzVraagaanbod->save($this->data)) {
                 $this->Session->setFlash(__('The iz vraagaanbod has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz vraagaanbod could not be saved. Please, try again.', true));
             }
@@ -58,15 +58,15 @@ class IzVraagaanbodenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz vraagaanbod', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->IzVraagaanbod->delete($id)) {
             $this->Session->setFlash(__('Iz vraagaanbod deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Iz vraagaanbod was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

@@ -5,12 +5,12 @@ class IzProject extends AppModel
     public $name = 'IzProject';
     public $displayField = 'naam';
 
-    public $actsAs = array(
+    public $actsAs = [
             'Containable',
-    );
+    ];
 
-    public $hasAndBelongsToMany = array(
-        'IzDeelnemer' => array(
+    public $hasAndBelongsToMany = [
+        'IzDeelnemer' => [
             'className' => 'IzDeelnemer',
             'joinTable' => 'iz_deelnemers_iz_projecten',
             'foreignKey' => 'iz_project_id',
@@ -24,8 +24,8 @@ class IzProject extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public function beforeSave(&$model)
     {
@@ -50,9 +50,9 @@ class IzProject extends AppModel
 
     public function getProjects()
     {
-        $projects = $this->find('all', array(
+        $projects = $this->find('all', [
             'contain' => [],
-        ));
+        ]);
 
         return $projects;
     }
@@ -69,24 +69,24 @@ class IzProject extends AppModel
         if ($all) {
             $conditions = [];
         } else {
-            $conditions = array(
-                'OR' => array(
-                    array(
+            $conditions = [
+                'OR' => [
+                    [
                         'startdatum <= now()',
                         'einddatum >= now()',
-                    ),
-                    array(
+                    ],
+                    [
                         'startdatum <= now()',
                         'einddatum' => null,
-                    ),
-                ),
-             );
+                    ],
+                ],
+             ];
         }
 
-        $projectlists = $this->find('list', array(
+        $projectlists = $this->find('list', [
             'conditions' => $conditions,
             'order' => 'naam asc',
-        ));
+        ]);
 
         Cache::write($cachekey, $projectlists);
 

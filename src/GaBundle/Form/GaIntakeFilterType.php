@@ -36,8 +36,10 @@ class GaIntakeFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(GaKlantIntake::class, 'gaKlantIntake', 'WITH', 'gaKlantIntake.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
-                        ;
+                    ;
                 },
             ]);
         }

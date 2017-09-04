@@ -7,12 +7,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_documenten")
  * @ORM\HasLifecycleCallbacks
- *
+ * @Gedmo\Loggable
  * @Vich\Uploadable
  */
 class Document
@@ -27,25 +28,36 @@ class Document
     private $id;
 
     /**
-     * @ORM\Column
-     *
      * @var string
+     * @ORM\Column
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @ORM\Column
+     * @var \DateTime
      *
+     * @ORM\Column(type="date")
+     */
+    private $datum;
+
+    /**
      * @var string
+     * @ORM\Column
+     * @Gedmo\Versioned
      */
     private $filename;
 
     /**
-     * @Vich\UploadableField(mapping="odp_document", fileNameProperty="filename")
-     *
      * @var File
+     * @Vich\UploadableField(mapping="odp_document", fileNameProperty="filename")
      */
     private $file;
+
+    public function __construct()
+    {
+        $this->datum = new \DateTime();
+    }
 
     public function getId()
     {
@@ -84,6 +96,18 @@ class Document
     public function setFile(File $file = null)
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function getDatum()
+    {
+        return $this->datum;
+    }
+
+    public function setDatum(\DateTime $datum)
+    {
+        $this->datum = $datum;
 
         return $this;
     }

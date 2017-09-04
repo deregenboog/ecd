@@ -11,6 +11,8 @@ use OdpBundle\Filter\HuurderFilter;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuurderFilterType extends AbstractType
 {
@@ -22,6 +24,22 @@ class HuurderFilterType extends AbstractType
         if (array_key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
+            ]);
+        }
+
+        if (in_array('automatischeIncasso', $options['enabled_filters'])) {
+            $builder->add('automatischeIncasso', ChoiceType::class, [
+                'required' => false,
+                'choices'=> [
+                    'Ja' => 1,
+                    'Nee' => 0,
+                ],
+            ]);
+        }
+
+        if (in_array('wpi', $options['enabled_filters'])) {
+            $builder->add('wpi', CheckboxType::class, [
+                'required' => false,
             ]);
         }
 
@@ -58,6 +76,13 @@ class HuurderFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurderFilter::class,
+            'enabled_filters' => [
+                'klant' => ['id', 'naam', 'stadsdeel'],
+                'automatischeIncasso',
+                'aanmelddatum',
+                'afsluitdatum',
+                'wpi',
+            ],
         ]);
     }
 }

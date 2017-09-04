@@ -1,20 +1,12 @@
 <?php
-    function ColoredTable($pdf, $w, $header, $data, $logo)
+    function ColoredTable($pdf, $w, $data, $logoUrl)
     {
         $width = 0;
         foreach ($w as $t) {
             $width += $t;
         }
 
-        $pdf->SetFillColor(255, 255, 255);
-        $pdf->SetTextColor(255);
-        $pdf->SetDrawColor(0, 0, 0);
-        $pdf->SetLineWidth(0.1);
-        $pdf->SetFont('', 'B');
-
-        $num_headers = count($header);
-
-        $pdf->writeHTMLCell($width, 40, 40, 20, '<img src="http://www.deregenboog.org/sites/all/themes/uncinc_regenboog_theme/logo.png" alt="Home"/>');
+        $pdf->writeHTMLCell(40, 40, 20, 0, sprintf('<img src="%s" alt="Home"/>', $logoUrl));
         $pdf->Ln();
         $pdf->SetFillColor(255, 255, 255);
         $pdf->SetTextColor(0);
@@ -64,7 +56,6 @@
 
 App::import('Vendor', 'xtcpdf');
 $pdf = new XTCPDF();
-
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('De Regenboog Groep');
 $pdf->SetTitle("Schorsing van $klant_naam");
@@ -72,43 +63,25 @@ $pdf->SetSubject('Schorsing');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetAutoPageBreak(false);
-$pdf->SetFont('helvetica', '', 12);
-
+$pdf->SetMargins(20, 20, 20);
+$pdf->SetAutoPageBreak(true);
+$pdf->SetFont('helvetica', '', 10);
 $pdf->AddPage();
-
-if ($geslacht == 'M') {
-    $geslacht = 'Dhr.';
-} else {
-    $geslacht = 'Mevr.';
-}
-
-$pdf->SetMargins(120, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 
 $opt = array('separator' => ' ');
 $datum_van_vandaag = $this->Date->show(date('Y-m-d'), $opt);
 $begindatum_schorsing = $this->Date->show($begindatum_schorsing, $opt);
 $einddatum_schorsing_pp = $this->Date->show($einddatum_schorsing_pp, $opt);
 
-$datum_van_vandaag;
-$klant_naam;
-$begindatum_schorsing;
-$opmerking_uit_schorsing;
-$einddatum_schorsing_pp;
-$locatie;
-$llocatie;
-
-$logo = $html->url('/img/logo.png', true);
+$logo = $html->url('/img/drg-logo-142px.jpg', true);
 $data = array(
     array('SCHORSINGSFORMULIER'),
-    array("Op {$datum_van_vandaag} bent u geschorst bij locatie {$locatie}. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken."),
+    array("Op {$begindatum_schorsing} bent u geschorst bij locatie(s) {$locatie}. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken."),
     array('Naam bezoeker', $klant_naam),
-    array('Locatie', $locatie),
+    array('Locatie(s)', $locatie),
     array('Naam locatiehoofd', $locatiehoofd),
     array('Reden schorsing', implode("\n", $redenen) . "\n\n" .$opmerking_uit_schorsing),
-    array('Duur schorsing', $lengte_schorsing),
+    array('Duur schorsing', sprintf('%s (%s t/m %s)', $lengte_schorsing, $begindatum_schorsing, $einddatum_schorsing_pp)),
     array('Bijzonderheden', $bijzonderheden),
     array('Hoe kunt u bezwaar maken', 'Bent u het niet eens met uw schorsing, dan kunt u een afspraak maken voor een gesprek met het locatiehoofd of met de regiomanager.
 
@@ -118,7 +91,5 @@ U kunt ook terecht bij de onafhankelijke klachtencommissie van het POA: 06 14264
     array('In en om al onze locaties staan rust, veiligheid en gezelligheid voor alle bezoekers, deelnemers en medewerkers voorop. We rekenen erop dat u hier in de toekomst weer een bijdrage aan zult leveren.'),
 );
 
-ColoredTable($pdf, [50, 100], ['', ''], $data, $logo);
-
-$name_stripped = ereg_replace("[^A-Za-z0-9]", "-", $klant_naam);
+ColoredTable($pdf, [50, 120], $data, $logo);
 echo $pdf->Output('schorsing-'.date('Y-m-d').'.pdf', 'I');

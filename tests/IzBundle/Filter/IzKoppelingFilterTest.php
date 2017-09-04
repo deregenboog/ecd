@@ -9,7 +9,6 @@ use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use Doctrine\ORM\EntityManager;
 use IzBundle\Entity\IzHulpvraag;
-use AppBundle\Entity\Klant;
 use IzBundle\Filter\IzKoppelingFilter;
 
 class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase

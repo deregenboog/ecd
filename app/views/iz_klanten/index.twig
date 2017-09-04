@@ -9,38 +9,45 @@
     <tr>
         {{ form_start(form) }}
         <th>
-            {{ form_widget(form.klant.id) }}
-            {{ form_errors(form.klant.id) }}
+            {{ form_row(form.klant.id) }}
         </th>
         <th>
-            {{ form_widget(form.klant.naam) }}
-            {{ form_errors(form.klant.naam) }}
+            {{ form_row(form.klant.voornaam) }}
+            {{ form_row(form.klant.achternaam) }}
         </th>
         <th>
-            {{ form_widget(form.klant.geboortedatumRange) }}
-            {{ form_errors(form.klant.geboortedatumRange) }}
+            {{ form_row(form.klant.geboortedatumRange) }}
         </th>
         <th>
-            {{ form_widget(form.izProject) }}
-            {{ form_errors(form.izProject) }}
+            {{ form_row(form.izProject) }}
         </th>
         <th>
-            {{ form_widget(form.medewerker) }}
-            {{ form_errors(form.medewerker) }}
+            {{ form_row(form.medewerker) }}
         </th>
         <th>
-            {{ form_widget(form.klant.stadsdeel) }}
-            {{ form_errors(form.klant.stadsdeel) }}
+            {{ form_row(form.klant.stadsdeel) }}
         </th>
         <th>
-            {{ form_widget(form.afsluitDatum) }}
-            {{ form_errors(form.afsluitDatum) }}
-            {{ form_widget(form.openDossiers) }}
+            {{ form_row(form.afsluitDatum) }}
         </th>
         <th>
-            {{ form_widget(form.filter) }}
-            {{ form_widget(form.download) }}
+            {{ form_row(form.filter) }}
+            {{ form_row(form.download) }}
         </th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th colspan="2">
+            {{ form_row(form.zonderActieveHulpvraag) }}<br>
+            {{ form_row(form.zonderActieveKoppeling) }}
+        </th>
+        <th></th>
+        <th>
+            {{ form_row(form.openDossiers) }}
+        </th>
+        <th></th>
         {{ form_end(form) }}
     </tr>
     <tr>
@@ -89,16 +96,23 @@
                 {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
+                {% set izProjecten = [] %}
+                {% for izHulpvraag in izKlant.izHulpvragen %}
+                    {% set izProjecten = izProjecten|merge([izHulpvraag.izProject]) %}
+                {% endfor %}
+                {% set izProjecten = izProjecten|unique %}
                 <ul>
-                    {% for izHulpvraag in izKlant.izHulpvragen %}
-                        <li>{{ izHulpvraag.izProject }}</li>
+                    {% for izProject in izProjecten %}
+                        <li>{{ izProject }}</li>
                     {% endfor %}
                 </ul>
             </td>
             <td>
                 <ul>
                     {% for izHulpvraag in izKlant.izHulpvragen %}
-                        <li>{{ izHulpvraag.medewerker }}</li>
+                        {% if izHulpvraag.medewerker %}
+                            <li>{{ izHulpvraag.medewerker }}</li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </td>

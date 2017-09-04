@@ -6,9 +6,9 @@ class IntakezComponent extends Object
 
     public function initialize(&$controller, $settings = [])
     {
-        $defaults = array(
+        $defaults = [
             'module' => 'Registratie',
-        );
+        ];
 
         $settings = $settings + $defaults;
 
@@ -25,12 +25,12 @@ class IntakezComponent extends Object
             return false;
         }
 
-        $intake = $this->c->Intake->find('first', array(
-            'conditions' => array(
+        $intake = $this->c->Intake->find('first', [
+            'conditions' => [
                 'Intake.id' => $id,
                 'Intake.module' => $this->module,
-            ),
-        ));
+            ],
+        ]);
 
         if (empty($intake)) {
             $this->c->flashError(__('Invalid intake', true));
@@ -112,12 +112,12 @@ class IntakezComponent extends Object
         if ($this->c->data) {
             $intaker_id = $this->c->data['Intake']['medewerker_id'];
         } else {
-            $this->c->data = $this->c->Intake->find('first', array(
-                'conditions' => array(
+            $this->c->data = $this->c->Intake->find('first', [
+                'conditions' => [
                     'Intake.id' => $id,
                     'Intake.module' => $this->module,
-                ),
-            ));
+                ],
+            ]);
 
             if (empty($this->c->data)) {
                 $this->c->flashError(__('Ongeldige intake', true));
@@ -147,7 +147,7 @@ class IntakezComponent extends Object
         $hulpverlening_mail = Configure::read('hulpverlening_mail');
 
         $medewerkers = $this->c->Intake->Medewerker->find('list');
-        $verblijfstatussen = $this->c->Intake->Verblijfstatus->find('list', array('order' => 'Verblijfstatus.naam ASC'));
+        $verblijfstatussen = $this->c->Intake->Verblijfstatus->find('list', ['order' => 'Verblijfstatus.naam ASC']);
         $legitimaties = $this->c->Intake->Legitimatie->find('list');
         $verslavingsfrequenties = $this->c->Intake->Verslavingsfrequentie->find('list');
         $verslavingsperiodes = $this->c->Intake->Verslavingsperiode->find('list');
@@ -281,26 +281,27 @@ class IntakezComponent extends Object
         //if some of the above conditions was passed - send e-mail
         if (count($addresses) > 0) {
             //getting the intake details
-            $intake = $this->c->Intake->find('first', array(
-                'conditions' => array('Intake.id' => $intake_id),
+            $intake = $this->c->Intake->find('first', [
+                'conditions' => ['Intake.id' => $intake_id],
                 'contain' => $this->c->Intake->contain,
-            ));
+            ]);
             //sending e-mail
-            $this->c->_genericSendEmail(array(
+            $this->c->_genericSendEmail([
                 'to' => $addresses,
                 'content' => $intake,
-            ));
+            ]);
         }
-    }//sendIntakeNotification()
+    }
+
+//sendIntakeNotification()
 
     public function populate_intake_data($klant_id)
     {
-
-    //most recent intake
-        $last_intake = $this->c->Intake->find('first', array(
-            'conditions' => array('Intake.klant_id' => $klant_id),
+        //most recent intake
+        $last_intake = $this->c->Intake->find('first', [
+            'conditions' => ['Intake.klant_id' => $klant_id],
             'order' => 'Intake.datum_intake DESC, Intake.created DESC',
-        ));
+        ]);
 
         if (empty($last_intake)) {
             return false;
@@ -313,23 +314,23 @@ class IntakezComponent extends Object
     //if not - copy only the address info from it, and get the rest
     //from the last intake of the same kind (providing it exists)
         } else {
-            $last_same_type_intake = $this->c->Intake->find('first', array(
-                'conditions' => array(
+            $last_same_type_intake = $this->c->Intake->find('first', [
+                'conditions' => [
                     'Intake.klant_id' => $klant_id,
                     'Intake.module' => $this->module,
-                ),
+                ],
                 'order' => 'Intake.datum_intake DESC, Intake.created DESC',
-            ));
+            ]);
             debug($last_same_type_intake);
             if (!empty($last_same_type_intake)) {
                 $this->c->data = &$last_same_type_intake;
             } else {
-                $this->c->data = array('Intake' => []);
+                $this->c->data = ['Intake' => []];
             }
 
-            foreach (array('postadres', 'postcode', 'woonplaats',
+            foreach (['postadres', 'postcode', 'woonplaats',
                 'verblijfstatus_id', 'verblijf_in_NL_sinds',
-                'verblijf_in_amsterdam_sinds', ) as $field
+                'verblijf_in_amsterdam_sinds', ] as $field
             ) {
                 $this->c->data['Intake'][$field] =
                     $last_intake['Intake'][$field];

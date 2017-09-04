@@ -6,11 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_huuraanbiedingen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Huuraanbod
 {
@@ -26,22 +28,26 @@ class Huuraanbod
     /**
      * @var Verhuurder
      * @ORM\ManyToOne(targetEntity="Verhuurder", inversedBy="huuraanbiedingen")
+     * @Gedmo\Versioned
      */
     private $verhuurder;
 
     /**
      * @var Huurovereenkomst
      * @ORM\OneToOne(targetEntity="Huurovereenkomst", mappedBy="huuraanbod")
+     * @Gedmo\Versioned
      */
     private $huurovereenkomst;
 
     /**
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $afsluitdatum;
 
@@ -50,8 +56,21 @@ class Huuraanbod
      *
      * @ORM\ManyToOne(targetEntity="HuuraanbodAfsluiting", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     private $afsluiting;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $datumToestemmingAangevraagd;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $datumToestemmingToegekend;
 
     /**
      * @var ArrayCollection|Verslag[]
@@ -163,6 +182,30 @@ class Huuraanbod
     public function setAfsluiting(HuuraanbodAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function getDatumToestemmingAangevraagd()
+    {
+        return $this->datumToestemmingAangevraagd;
+    }
+
+    public function setDatumToestemmingAangevraagd($datumToestemmingAangevraagd = null)
+    {
+        $this->datumToestemmingAangevraagd = $datumToestemmingAangevraagd;
+
+        return $this;
+    }
+
+    public function getDatumToestemmingToegekend()
+    {
+        return $this->datumToestemmingToegekend;
+    }
+
+    public function setDatumToestemmingToegekend($datumToestemmingToegekend = null)
+    {
+        $this->datumToestemmingToegekend = $datumToestemmingToegekend;
 
         return $this;
     }

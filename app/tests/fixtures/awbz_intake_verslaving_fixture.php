@@ -5,9 +5,9 @@ class AwbzIntakeVerslavingFixture extends CakeTestFixture
 {
     public $name = 'AwbzIntakeVerslaving';
     public $table = 'awbz_intakes_verslavingen';
-    public $import = array(
+    public $import = [
             'model' => 'AwbzIntakeVerslaving',
             'records' => true,
             'table' => 'awbz_intakes_verslavingen',
-    );
+    ];
 }

@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Persoon
 {
@@ -24,69 +26,81 @@ class Persoon
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $geboortedatum;
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $bsn;
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $medewerker;
 
     /**
      * @var Geslacht
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     * @ORM\ManyToOne(targetEntity="Geslacht")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $geslacht;
 
     /**
      * @var Land
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
+     * @ORM\ManyToOne(targetEntity="Land")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $land;
 
     /**
      * @var Nationaliteit
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Nationaliteit")
+     * @ORM\ManyToOne(targetEntity="Nationaliteit")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $nationaliteit;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $werkgebied;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $postcodegebied;
 
     /**
      * @ORM\Column(name="geen_post", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $geenPost = false;
 
     /**
      * @ORM\Column(name="geen_email", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $geenEmail = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $opmerking;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     protected $disabled = false;
 

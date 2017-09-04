@@ -21,6 +21,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'izKlant.afsluitDatum',
             'izProject.naam',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = IzKlant::class;
@@ -28,6 +29,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('izKlant')
+            ->select('izKlant, klant, izHulpvraag, izProject, medewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')
             ->leftJoin('izHulpvraag.izProject', 'izProject')

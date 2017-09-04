@@ -2,31 +2,28 @@
 
 namespace OdpBundle\Controller;
 
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
+use OdpBundle\Entity\Huurverzoek;
+use OdpBundle\Exception\OdpException;
+use OdpBundle\Form\HuurovereenkomstCloseType;
 use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use OdpBundle\Entity\Huurverzoek;
-use OdpBundle\Entity\Huuraanbod;
-use OdpBundle\Exception\OdpException;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Controller\SymfonyController;
-use OdpBundle\Form\HuurovereenkomstCloseType;
+use AppBundle\Form\ConfirmationType;
 
+/**
+ * @Route("/odp/huurovereenkomsten")
+ */
 class HuurovereenkomstenController extends SymfonyController
 {
-    private $enabledFilters = [
-        'id',
-        'huurderKlant' => ['naam'],
-        'verhuurderKlant' => ['naam'],
-        'medewerker',
-        'startdatum',
-        'opzegdatum',
-        'einddatum',
-        'afsluitdatum',
-    ];
+    public $title = 'Koppelingen';
 
     private $sortFieldWhitelist = [
         'huurovereenkomst.id',
@@ -36,19 +33,16 @@ class HuurovereenkomstenController extends SymfonyController
         'huurovereenkomst.startdatum',
         'huurovereenkomst.opzegdatum',
         'huurovereenkomst.einddatum',
+        'huurovereenkomst.vorm',
         'huurovereenkomst.afsluitdatum',
+        'huurder.automatischeIncasso',
     ];
 
     /**
-     * @Route("/odp/huurovereenkomsten")
+     * @Route("/")
      */
     public function index()
     {
-        $filter = $this->createForm(HuurovereenkomstFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->getRequest());
-
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(Huurovereenkomst::class);
 
@@ -58,14 +52,19 @@ class HuurovereenkomstenController extends SymfonyController
             ->innerJoin('huurovereenkomst.medewerker', 'medewerker')
             ->innerJoin('huurverzoek.huurder', 'huurder')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
-            ->innerJoin('huurder.klant', 'huurderKlant')
+            ->innerJoin('huurder.klant', 'klant')
             ->innerJoin('verhuurder.klant', 'verhuurderKlant')
-            ->andWhere('huurderKlant.disabled = false')
-            ->andWhere('verhuurderKlant.disabled = false')
+            ->leftJoin('huurovereenkomst.afsluiting', 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 
+        $filter = $this->createForm(HuurovereenkomstFilterType::class);
+        $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -80,8 +79,23 @@ class HuurovereenkomstenController extends SymfonyController
         ];
     }
 
+    private function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $overeenkomsten = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('onder-de-pannen-koppelingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
+        /** @var $export ExportInterface */
+        $export = $this->container->get('odp.export.koppelingen');
+
+        return $export->create($overeenkomsten)->getResponse($filename);
+    }
+
     /**
-     * @Route("/odp/huurovereenkomsten/{id}/view")
+     * @Route("/{id}/view")
      */
     public function view($id)
     {
@@ -91,7 +105,7 @@ class HuurovereenkomstenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurovereenkomsten/add")
+     * @Route("/add")
      */
     public function add()
     {
@@ -129,7 +143,7 @@ class HuurovereenkomstenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurovereenkomsten/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -152,7 +166,7 @@ class HuurovereenkomstenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurovereenkomsten/{id}/close")
+     * @Route("/{id}/close")
      */
     public function close($id)
     {
@@ -172,6 +186,38 @@ class HuurovereenkomstenController extends SymfonyController
         }
 
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopen($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $huurovereenkomst = $entityManager->find(Huurovereenkomst::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $huurovereenkomst->reopen();
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Koppeling is heropend.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
+
+            return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
+        }
+
+        return [
+            'huurovereenkomst' => $huurovereenkomst,
+            'form' => $form->createView(),
+        ];
     }
 
     private function findEntity(EntityManager $entityManager)

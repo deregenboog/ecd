@@ -1,8 +1,5 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * This is core configuration file.
@@ -19,12 +16,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 0.2.9
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 $params = parse_ini_file('config.ini', true);
 
 \Configure::write('LDAP.configuration', $params['ldap']);
@@ -291,65 +287,49 @@ $params = parse_ini_file('config.ini', true);
 
 $prefix = md5(realpath('.'));
 
-Cache::config('default', array(
+Cache::config('default', [
     'engine' => 'File',
     'duration' => DAY,
     'prefix' => $prefix,
-));
+]);
 
-Cache::config('ephemeral', array(
+Cache::config('ephemeral', [
     'engine' => 'File',
     'duration' => HOUR,
     'prefix' => $prefix,
-));
+]);
 
 // cache configuration for ldap queries - @see Medewerker::listByLdapGroup()
-Cache::config('ldap', array(
+Cache::config('ldap', [
     'engine' => 'File',
     'duration' => 4 * HOUR,
     'prefix' => $prefix,
-));
+]);
 
-Cache::config('_cake_model_', array(
+Cache::config('_cake_model_', [
     'engine' => 'File', //[required]
     'duration' => WEEK,
     'probability' => 100, //[optional]
     'prefix' => $prefix,
-));
+]);
 
-Cache::config('_cake_core_', array(
+Cache::config('_cake_core_', [
     'engine' => 'File', //[required]
     'duration' => WEEK,
     'probability' => 100, //[optional]
     'prefix' => $prefix,
-));
+]);
 
-Cache::config('association_query', array(
+Cache::config('association_query', [
     'engine' => 'File', //[required]
     'duration' => WEEK, //[optional]
     'probability' => 100, //[optional]
     'prefix' => $prefix,
-));
+]);
 
-define('GROUP_ADMIN', $params['groups']['GROUP_ADMIN']); // sys_teamleider
-define('GROUP_DEVELOP', $params['groups']['GROUP_DEVELOP']); // (group ecd_admin)
-define('GROUP_VOLUNTEERS', $params['groups']['GROUP_VOLUNTEERS']); // registratie_vrijwilliger
-define('GROUP_STAGE', $params['groups']['GROUP_STAGE']); // stagiaires_ecd
-define('GROUP_PORTIER', $params['groups']['GROUP_PORTIER']); // sys_portiers
-define('GROUP_MLO', $params['groups']['GROUP_MLO']); // sys_mlo
-define('GROUP_MAATSCHAPPELIJK', $params['groups']['GROUP_MAATSCHAPPELIJK']); // maatschappelijk_werk
-define('GROUP_HI5', $params['groups']['GROUP_HI5']); // sys_hi5
-define('GROUP_TRAJECTBEGELEIDER', $params['groups']['GROUP_TRAJECTBEGELEIDER']);
-define('GROUP_WERKBEGELEIDER', $params['groups']['GROUP_WERKBEGELEIDER']);
-define('GROUP_TEAMLEIDERS', $params['groups']['GROUP_TEAMLEIDERS']);
-define('GROUP_PFO', $params['groups']['GROUP_PFO']); // pfondersteuning_data
-define('GROUP_BACK_ON_TRACK_COORDINATOR', $params['groups']['GROUP_BACK_ON_TRACK_COORDINATOR']);
-define('GROUP_BACK_ON_TRACK_COACH', $params['groups']['GROUP_BACK_ON_TRACK_COACH']);
-define('GROUP_GROEPSACTIVITEIT', $params['groups']['GROUP_GROEPSACTIVITEIT']);
-define('GROUP_IZ', $params['groups']['GROUP_IZ']);
-define('GROUP_REPORT', $params['groups']['GROUP_REPORT']);
-define('GROUP_IZ_BEHEER', $params['groups']['GROUP_IZ_BEHEER']);
-define('GROUP_BEHEER_GROEPSACTIVITEIT', $params['groups']['GROUP_BEHEER_GROEPSACTIVITEIT']);
+foreach ($params['groups'] as $key => $value) {
+    define($key, $value);
+}
 
 define('PFO_CLIENTEN_ALL', null);
 define('PFO_CLIENTEN_HOOFDCLIENT', 1);
@@ -375,7 +355,7 @@ Configure::write('attachment.max_size', '10M');
  * Example __tr( "Expire in :d days", array ('d' => $days) );
  * See http://book.cakephp.org/view/1483/insert.
  */
-function __tr($string, $params = array())
+function __tr($string, $params = [])
 {
     if (!class_exists('String')) {
         App::import('Core', 'String');
@@ -403,7 +383,7 @@ function registry_isset($type, $key)
         return false;
     }
 
-    return isset($GLOBALS ['AplicationRegistry'] ["$type.$key"]);
+    return isset($GLOBALS['AplicationRegistry']["$type.$key"]);
 }
 
 /**
@@ -417,7 +397,7 @@ function registry_delete($type, $key, $mem_cache = false, $config = 'default')
     if (Configure::read('Cache.disable')) {
         return false;
     }
-    unset($GLOBALS ['AplicationRegistry'] ["$type.$key"]);
+    unset($GLOBALS['AplicationRegistry']["$type.$key"]);
     if ($mem_cache) {
         Cache::delete($type.'.'.$key, $config);
     }
@@ -428,7 +408,7 @@ function registry_reset($mem_cache = false, $config = 'default')
     if (Configure::read('Cache.disable')) {
         return false;
     }
-    unset($GLOBALS ['AplicationRegistry']);
+    unset($GLOBALS['AplicationRegistry']);
     if ($mem_cache) {
         Cache::clear(false, $config);
     }
@@ -447,7 +427,7 @@ function registry_set($type, $key, $value, $mem_cache = false, $config = 'defaul
     if (Configure::read('Cache.disable')) {
         return false;
     }
-    $GLOBALS ['AplicationRegistry'] ["$type.$key"] = $value;
+    $GLOBALS['AplicationRegistry']["$type.$key"] = $value;
     if ($mem_cache) {
         Cache::write($type.'.'.$key, $value, $config);
     }
@@ -473,13 +453,13 @@ function registry_get($type, $key = null, $mem_cache = false, $config = 'default
     // now:
     $from_globals = true;
 
-    if ($from_globals && isset($GLOBALS ['AplicationRegistry'] ["$type.$key"])) {
-        return $GLOBALS ['AplicationRegistry'] ["$type.$key"];
+    if ($from_globals && isset($GLOBALS['AplicationRegistry']["$type.$key"])) {
+        return $GLOBALS['AplicationRegistry']["$type.$key"];
     } else {
         if ($mem_cache) {
             $value = Cache::read($type.'.'.$key, $config);
             if ($value) {
-                $GLOBALS ['AplicationRegistry'] ["$type.$key"] = $value;
+                $GLOBALS['AplicationRegistry']["$type.$key"] = $value;
 
                 return $value;
             }

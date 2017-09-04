@@ -66,6 +66,9 @@ parameters:
             GROUP_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
 
         # group: [controllers]
         ACL.permissions:
@@ -149,6 +152,25 @@ parameters:
                 - PfoAardRelaties
                 - PfoGroepen
                 - PfoVerslagen
+                - dagbesteding
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -356,6 +378,41 @@ parameters:
                 - IzDeelnemers
                 - IzVerslagen
                 - groepsactiviteiten_klanten
+            GROUP_ADMINISTRATIEBEDRIJF:
+                - dagbesteding
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Trajecten
+            GROUP_DAGBESTEDING:
+                - dagbesteding
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Verslagen
+            GROUP_DAGBESTEDING_BEHEER:
+                - dagbesteding
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
 
         # controller: {label, url}
         all_menu_items:
@@ -395,6 +452,9 @@ parameters:
             oek:
                 label: Op Eigen Kracht
                 url: oek
+            dagbesteding:
+                label: Dagbesteding
+                url: dagbesteding
             hs:
                 label: Homeservice
                 url: hs

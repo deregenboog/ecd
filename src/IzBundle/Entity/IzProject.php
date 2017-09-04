@@ -3,10 +3,12 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_projecten")
+ * @Gedmo\Loggable
  */
 class IzProject
 {
@@ -19,21 +21,25 @@ class IzProject
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     private $heeftKoppelingen = true;
 

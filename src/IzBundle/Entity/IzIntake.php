@@ -3,12 +3,14 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_intakes")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class IzIntake
 {
@@ -23,6 +25,7 @@ class IzIntake
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      */
     private $created;
 
@@ -32,23 +35,33 @@ class IzIntake
      * @todo Fix typo modifed => modified
      *
      * @ORM\Column(name="modifed", type="datetime")
+     * @Gedmo\Versioned
      */
     private $modified;
 
     /**
      * @ORM\Column(name="intake_datum", type="date")
+     * @Gedmo\Versioned
      */
     private $intakeDatum;
 
     /**
      * @ORM\Column(name="gezin_met_kinderen", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     private $gezinMetKinderen;
+
+    /**
+     * @ORM\Column(name="stagiair", type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $stagiair;
 
     /**
      * @var IzDeelnemer
      * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
+     * @Gedmo\Versioned
      */
     private $izDeelnemer;
 
@@ -56,6 +69,7 @@ class IzIntake
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $medewerker;
 
@@ -93,6 +107,11 @@ class IzIntake
     public function isGezinMetKinderen()
     {
         return $this->gezinMetKinderen;
+    }
+
+    public function isStagiair()
+    {
+        return $this->stagiair;
     }
 
     public function getMedewerker()

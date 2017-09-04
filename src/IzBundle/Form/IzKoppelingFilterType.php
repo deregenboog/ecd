@@ -71,6 +71,7 @@ class IzKoppelingFilterType extends AbstractType
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
+                'label' => 'Project',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
@@ -84,11 +85,15 @@ class IzKoppelingFilterType extends AbstractType
             $builder->add('izHulpvraagMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
+                'label' => 'Medewerker hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
-                ->orderBy('medewerker.voornaam', 'ASC');
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
                 },
             ]);
         }
@@ -97,11 +102,15 @@ class IzKoppelingFilterType extends AbstractType
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
+                'label' => 'Medewerker hulpaanbod',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
-                ->orderBy('medewerker.voornaam', 'ASC');
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
                 },
             ]);
         }

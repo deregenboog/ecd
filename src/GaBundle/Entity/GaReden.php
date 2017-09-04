@@ -3,12 +3,14 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_redenen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class GaReden
 {
@@ -23,6 +25,7 @@ class GaReden
 
     /**
      * @ORM\Column(length=100, nullable=true)
+     * @Gedmo\Versioned
      */
     private $naam;
 

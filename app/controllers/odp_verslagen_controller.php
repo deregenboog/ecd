@@ -3,12 +3,6 @@
 use AppBundle\Entity\Klant;
 use OdpBundle\Entity\OdpHuuraanbod;
 use OdpBundle\Entity\OdpHuurovereenkomst;
-use OdpBundle\Form\OdpHuuraanbodType;
-use OdpBundle\Form\OdpHuuraanbodFilterType;
-use AppBundle\Form\ConfirmationType;
-use AppBundle\Entity\Medewerker;
-use OdpBundle\Form\OdpHuurovereenkomstType;
-use Symfony\Component\Form\FormError;
 use OdpBundle\Entity\OdpHuurder;
 use OdpBundle\Entity\OdpVerslag;
 use OdpBundle\Form\OdpVerslagType;

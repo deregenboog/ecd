@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="nationaliteiten")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Nationaliteit
 {
@@ -23,11 +25,13 @@ class Nationaliteit
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $afkorting;
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $naam;
 

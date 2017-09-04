@@ -5,11 +5,13 @@ namespace OdpBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Entity\Medewerker;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="odp_coordinatoren")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Coordinator
 {
@@ -24,6 +26,7 @@ class Coordinator
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @Gedmo\Versioned
      */
     private $medewerker;
 

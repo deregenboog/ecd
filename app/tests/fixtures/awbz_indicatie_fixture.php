@@ -4,10 +4,10 @@
 class AwbzIndicatieFixture extends CakeTestFixture
 {
     public $name = 'AwbzIndicatie';
-    public $import = array('model' => 'AwbzIndicatie');
+    public $import = ['model' => 'AwbzIndicatie'];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'klant_id' => 1,
             'begindatum' => '2011-04-05',
@@ -18,8 +18,8 @@ class AwbzIndicatieFixture extends CakeTestFixture
             'modified' => '2011-04-14 11:09:06',
             'aangevraagd_id' => null,
             'hoofdaannemer_id' => 7,
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'klant_id' => 2,
             'begindatum' => '2011-04-05',
@@ -30,6 +30,6 @@ class AwbzIndicatieFixture extends CakeTestFixture
             'modified' => '2011-04-14 10:45:32',
             'aangevraagd_id' => null,
             'hoofdaannemer_id' => 4,
-        ),
-    );
+        ],
+    ];
 }

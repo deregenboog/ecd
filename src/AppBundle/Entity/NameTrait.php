@@ -3,35 +3,33 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 trait NameTrait
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $voornaam;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $roepnaam;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $tussenvoegsel;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $achternaam;
-
-    /**
-     * @var Geslacht
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $geslacht;
 
     public function __toString()
     {
@@ -102,18 +100,6 @@ trait NameTrait
     public function setAchternaam($achternaam)
     {
         $this->achternaam = $achternaam;
-
-        return $this;
-    }
-
-    public function getGeslacht()
-    {
-        return $this->geslacht;
-    }
-
-    public function setGeslacht(Geslacht $geslacht)
-    {
-        $this->geslacht = $geslacht;
 
         return $this;
     }

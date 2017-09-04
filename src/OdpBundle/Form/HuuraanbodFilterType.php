@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Filter\HuuraanbodFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuuraanbodFilterType extends AbstractType
 {
@@ -29,6 +30,7 @@ class HuuraanbodFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
+
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
@@ -38,6 +40,13 @@ class HuuraanbodFilterType extends AbstractType
         if (in_array('afsluitdatum', $options['enabled_filters'])) {
             $builder->add('afsluitdatum', AppDateRangeType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Actieve huuraanbiedingen',
             ]);
         }
 
@@ -62,6 +71,13 @@ class HuuraanbodFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuuraanbodFilter::class,
+            'enabled_filters' => [
+                'id',
+                'klant' => ['naam', 'stadsdeel'],
+                'startdatum',
+                'afsluitdatum',
+                'actief',
+            ],
         ]);
     }
 }

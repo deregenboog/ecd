@@ -3,10 +3,12 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_koppelingen")
+ * @Gedmo\Loggable
  */
 class IzHulpaanbod extends IzKoppeling
 {
@@ -14,6 +16,7 @@ class IzHulpaanbod extends IzKoppeling
      * @var IzVrijwilliger
      * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="izHulpaanbiedingen")
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     * @Gedmo\Versioned
      */
     private $izVrijwilliger;
 
@@ -21,6 +24,7 @@ class IzHulpaanbod extends IzKoppeling
      * @var IzHulpvraag
      * @ORM\OneToOne(targetEntity="IzHulpvraag")
      * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
+     * @Gedmo\Versioned
      */
     private $izHulpvraag;
 
@@ -46,5 +50,10 @@ class IzHulpaanbod extends IzKoppeling
         $this->izHulpvraag = $izHulpvraag;
 
         return $this;
+    }
+
+    public function isGekoppeld()
+    {
+        return !is_null($this->izHulpvraag);
     }
 }

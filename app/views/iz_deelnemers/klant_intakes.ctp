@@ -1,6 +1,5 @@
 <fieldset>
     <h2>Intake deelnemer</h2>
-
     <?php $url = $this->Html->url(array('controller' => 'iz_deelnemers', 'action' => 'intakes', $id), true) ?>
     <?= $this->Form->create('IzIntake', ['url' => $url]) ?>
     <?php $id = !empty($persoon['IzIntake']['id']) ? $persoon['IzIntake']['id'] : ''; ?>
@@ -24,20 +23,19 @@
     <?= $this->Form->input('gezin_met_kinderen', array('type' => 'checkbox', 'label' => 'Gezin met kinderen' )) ?>
     <i>IZ-deelnemers worden automatisch toegevoegd aan de ErOpUit-kalender </i>
     <div class="zrmReports form">
-        <?= $this->element('zrm', ['model' => 'IzIntake', 'zrm_data' => $zrm_data]) ?>
+        <?= $this->element('zrm', ['model' => 'IzIntake', 'zrmData' => $zrmData]) ?>
     </div>
-<div>
-    <?php
-    /*
-        echo $this->Form->textarea('IzIntake.gesprek_verslag', array(
-            'label' => 'Gesprek verslag',
-            'class' => 'verslag-textarea',
-            'style' => 'height: 400px;',
-        ));
-
-     */
-    ?>
-    <?= $this->Form->submit('Opslaan', array('id' => 'verslag-submit-0', 'div' => false)) ?>
-    <?= $this->Form->end() ?>
-</div>
+    <div>
+        <?php
+            /*
+            echo $this->Form->textarea('IzIntake.gesprek_verslag', array(
+                'label' => 'Gesprek verslag',
+                'class' => 'verslag-textarea',
+                'style' => 'height: 400px;',
+            ));
+             */
+        ?>
+        <?= $this->Form->submit('Opslaan', array('id' => 'verslag-submit-0', 'div' => false)) ?>
+        <?= $this->Form->end() ?>
+    </div>
 </fieldset>

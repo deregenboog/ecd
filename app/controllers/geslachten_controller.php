@@ -14,7 +14,7 @@ class GeslachtenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid geslacht', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('geslacht', $this->Geslacht->read(null, $id));
     }
@@ -25,7 +25,7 @@ class GeslachtenController extends AppController
             $this->Geslacht->create();
             if ($this->Geslacht->save($this->data)) {
                 $this->flash(__('The geslacht has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The geslacht could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class GeslachtenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid geslacht', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Geslacht->save($this->data)) {
                 $this->flash(__('The geslacht has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The geslacht could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class GeslachtenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for geslacht', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Geslacht->delete($id)) {
             $this->flashError(__('Geslacht deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Geslacht was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

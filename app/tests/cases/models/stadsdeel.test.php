@@ -5,7 +5,7 @@ App::import('Model', 'Stadsdeel');
 
 class StadsdeelTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.stadsdeel');
+    public $fixtures = ['app.stadsdeel'];
 
     public function startTest()
     {

@@ -13,7 +13,6 @@ use AppBundle\Form\KlantFilterType;
 use IzBundle\Entity\IzHulpvraag;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpvraagFilter;
-use AppBundle\Form\FilterType;
 use Symfony\Component\Form\AbstractType;
 
 class IzHulpvraagFilterType extends AbstractType
@@ -44,6 +43,7 @@ class IzHulpvraagFilterType extends AbstractType
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
+                'label' => 'Project',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
@@ -61,6 +61,8 @@ class IzHulpvraagFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC');
                 },
             ]);

@@ -3,11 +3,9 @@
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\KlantFilterType;
-use IzBundle\Form\IzKlantFilterType;
-use IzBundle\Form\IzKlantSelectType;
-use IzBundle\Service\KlantDaoInterface;
-use IzBundle\Entity\IzKlant;
 use AppBundle\Form\KlantType;
+use IzBundle\Form\IzKlantFilterType;
+use IzBundle\Service\KlantDaoInterface;
 
 class IzKlantenController extends AppController
 {
@@ -24,9 +22,13 @@ class IzKlantenController extends AppController
     private $enabledFilters = [
         'afsluitDatum',
         'openDossiers',
-        'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
+        'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
+        'zonderActieveHulpvraag',
+        'zonderActieveKoppeling',
+        'filter',
+        'download',
     ];
 
     /**
@@ -58,19 +60,15 @@ class IzKlantenController extends AppController
 
     public function download(FilterInterface $filter)
     {
+        ini_set('memory_limit', '512M');
+
         $klanten = $this->klantDao->findAll(null, $filter);
 
-//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->autoRender = false;
+        $filename = sprintf('iz-deelnemers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
-
-        $this->set('klanten', $klanten);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.klanten');
+        $export->create($klanten)->send($filename);
     }
 
     public function add($klantId = null)

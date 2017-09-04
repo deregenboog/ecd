@@ -5,5 +5,5 @@ class I18nFixture extends CakeTestFixture
 {
     public $name = 'I18n';
     public $table = 'i18n';
-    public $import = array('model' => 'I18n', 'records' => true);
+    public $import = ['model' => 'I18n', 'records' => true];
 }

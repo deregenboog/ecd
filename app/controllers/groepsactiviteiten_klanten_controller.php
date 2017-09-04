@@ -7,10 +7,14 @@ use Symfony\Component\Form\FormInterface;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use GaBundle\Form\GaKlantSelectType;
-use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 
 class GroepsactiviteitenKlantenController extends AppController
 {
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
+
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'geboortedatumRange'],
         'medewerker',
@@ -28,18 +32,13 @@ class GroepsactiviteitenKlantenController extends AppController
         'intake.afsluitdatum',
     ];
 
-    /**
-     * Use Twig.
-     */
-    public $view = 'AppTwig';
-
     public function index()
     {
         $repository = $this->getEntityManager()->getRepository(GaKlantIntake::class);
         $builder = $repository->createQueryBuilder('intake')
-            ->innerJoin("intake.klant", 'klant')
+            ->innerJoin('intake.klant', 'klant')
             ->innerJoin('intake.medewerker', 'medewerker')
-            ->andWhere("klant.disabled = false")
+            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createFilter();
@@ -51,7 +50,7 @@ class GroepsactiviteitenKlantenController extends AppController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => "klant.achternaam",
+            'defaultSortFieldName' => 'klant.achternaam',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
             'wrap-queries' => true, // because of HAVING clause in filter
@@ -63,19 +62,15 @@ class GroepsactiviteitenKlantenController extends AppController
 
     public function download(QueryBuilder $builder)
     {
+        ini_set('memory_limit', '512M');
+
         $intakes = $builder->getQuery()->getResult();
 
-//         $filename = sprintf('groepsactiviteiten-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-
+        $this->autoRender = false;
         $filename = sprintf('groepsactiviteiten-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('intakes', $intakes);
-        $this->render('download', false);
+        $export = $this->container->get('ga.export.klanten');
+        $export->create($intakes)->send($filename);
     }
 
     public function add()

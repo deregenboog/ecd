@@ -6,10 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Medewerker;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="hs_klussen")
+ * @Gedmo\Loggable
  */
 class Klus implements MemoSubjectInterface
 {
@@ -27,30 +29,35 @@ class Klus implements MemoSubjectInterface
      *
      * @var \DateTime
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     private $onHold = false;
 
     /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="klussen")
+     * @Gedmo\Versioned
      */
     private $klant;
 
@@ -58,6 +65,7 @@ class Klus implements MemoSubjectInterface
      * @var Activiteit
      * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="klussen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $activiteit;
 
@@ -99,6 +107,7 @@ class Klus implements MemoSubjectInterface
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $medewerker;
 

@@ -46,9 +46,9 @@ class IzVerslagenController extends AppController
         }
 
         if (!empty($iz_koppeling_id)) {
-            $this->redirect(array('controller' => 'iz_deelnemers', 'action' => 'verslagen', $id, 'iz_koppeling_id' => $iz_koppeling_id));
+            $this->redirect(['controller' => 'iz_deelnemers', 'action' => 'verslagen', $id, 'iz_koppeling_id' => $iz_koppeling_id]);
         } else {
-            $this->redirect(array('controller' => 'iz_deelnemers', 'action' => 'verslagen_persoon', $id));
+            $this->redirect(['controller' => 'iz_deelnemers', 'action' => 'verslagen_persoon', $id]);
         }
     }
 }

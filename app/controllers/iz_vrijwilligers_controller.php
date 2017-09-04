@@ -4,7 +4,6 @@ use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerFilterType;
-use IzBundle\Form\IzVrijwilligerSelectType;
 use IzBundle\Service\VrijwilligerDaoInterface;
 use AppBundle\Form\VrijwilligerType;
 
@@ -19,14 +18,6 @@ class IzVrijwilligersController extends AppController
      * Use Twig.
      */
     public $view = 'AppTwig';
-
-    private $enabledFilters = [
-        'afsluitDatum',
-        'openDossiers',
-        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
-        'izProject',
-        'medewerker',
-    ];
 
     /**
      * @var VrijwilligerDaoInterface
@@ -57,19 +48,15 @@ class IzVrijwilligersController extends AppController
 
     public function download(FilterInterface $filter)
     {
+        ini_set('memory_limit', '512M');
+
         $vrijwilligers = $this->vrijwilligerDao->findAll(null, $filter);
 
-//         $filename = sprintf('iz-deelnemers-%s.csv', (new \DateTime())->format('d-m-Y'));
-//         $this->header('Content-type: text/csv');
-//         $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
+        $this->autoRender = false;
+        $filename = sprintf('iz-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
 
-        $filename = sprintf('iz-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
-
-        $this->set('vrijwilligers', $vrijwilligers);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.vrijwilligers');
+        $export->create($vrijwilligers)->send($filename);
     }
 
     public function add($vrijwilligerId = null)
@@ -125,9 +112,7 @@ class IzVrijwilligersController extends AppController
 
     private function createFilter()
     {
-        $form = $this->createForm(IzVrijwilligerFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $form = $this->createForm(IzVrijwilligerFilterType::class);
         $form->handleRequest($this->getRequest());
 
         return $form;

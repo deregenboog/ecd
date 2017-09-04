@@ -3,17 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Intake;
 use Doctrine\Common\Collections\ArrayCollection;
+use InloopBundle\Entity\Registratie;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="klanten")
+ * @Gedmo\Loggable
  */
 class Klant extends Persoon
 {
     /**
      * @ORM\Column(name="MezzoID", type="integer")
+     * @Gedmo\Versioned
      */
     private $mezzoId = 0;
 
@@ -21,11 +25,13 @@ class Klant extends Persoon
      * @var Intake[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Intake", mappedBy="klant")
+     * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
      */
     private $intakes;
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $laatsteTbcControle;
 
@@ -34,21 +40,28 @@ class Klant extends Persoon
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Intake")
      * @ORM\JoinColumn(name="laste_intake_id")
+     * @Gedmo\Versioned
      */
     private $laatsteIntake;
 
     /**
-     * @ORM\Column(name="laatste_registratie_id", type="integer")
+     * @var Registratie
+     *
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Registratie")
+     * @ORM\JoinColumn(name="laatste_registratie_id")
+     * @Gedmo\Versioned
      */
-    private $laatsteRegistratieId;
+    private $laatsteRegistratie;
 
     /**
      * @ORM\Column(name="last_zrm", type="date")
+     * @Gedmo\Versioned
      */
     private $laatsteZrm;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $overleden = false;
 
@@ -91,6 +104,23 @@ class Klant extends Persoon
         $this->intakes->add($intake);
         $intake->setKlant($this);
         $this->laatsteIntake = $intake;
+
+        return $this;
+    }
+
+    public function getLaatsteIntake()
+    {
+        return $this->laatsteIntake;
+    }
+
+    public function getLaatsteRegistratie()
+    {
+        return $this->laatsteRegistratie;
+    }
+
+    public function setLaatsteIntake(Intake $laatsteIntake)
+    {
+        $this->laatsteIntake = $laatsteIntake;
 
         return $this;
     }

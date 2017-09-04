@@ -4,5 +4,5 @@
 class AwbzIntakeFixture extends CakeTestFixture
 {
     public $name = 'AwbzIntake';
-    public $import = array('model' => 'AwbzIntake', 'records' => true);
+    public $import = ['model' => 'AwbzIntake', 'records' => true];
 }

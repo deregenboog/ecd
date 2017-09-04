@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurverzoeken
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Huurverzoeken</h1>
+    <h1>{{ title }}</h1>
     <table class="table table-hover">
         <tr>
             {{ form_start(filter) }}
@@ -37,6 +37,7 @@
                 {{ form_errors(filter.afsluitdatum.start) }}
                 {{ form_widget(filter.afsluitdatum.end) }}
                 {{ form_errors(filter.afsluitdatum.end) }}
+                {{ form_widget(filter.actief) }}
             </th>
             <th>
                 {{ form_widget(filter.filter) }}
@@ -79,6 +80,7 @@
             </td>
             <td>
                 {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum | date('d-m-Y') }}
+                {{ huurverzoek.afsluiting ? '('~huurverzoek.afsluiting~')' }}
             </td>
             <td>
                 {{ html.viewLink(path('odp_huurverzoeken_view', {id: huurverzoek.id})) }}

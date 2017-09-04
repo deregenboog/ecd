@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Deelnemer wijzigen</h1>
+    <p>
+        Hier kunt u alleen de Dagbesteding-gegevens voor deze deelnemer wijzigen. Klik
+        {{ html.link('hier', path('app_klanten_view', {'id': entity.klant.id})) }}
+        om naar het basisdossier van deze deelnemer te gaan.
+    </p>
+    {{ form(form) }}
+{% endblock %}

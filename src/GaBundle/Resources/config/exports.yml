@@ -1,0 +1,122 @@
+services:
+    ga.export.klanten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - GaBundle\Entity\GaIntake
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Intakedatum: { expression: 'entity.getIntakeDatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                Gezin met kinderen: { expression: 'entity.isGezinMetKinderen() ? "ja" : "nee"' }
+                Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
+
+    ga.export.vrijwilligers:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - GaBundle\Entity\GaIntake
+            -
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Intakedatum: { expression: 'entity.getIntakeDatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+                Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+                Gezin met kinderen: { expression: 'entity.isGezinMetKinderen() ? "ja" : "nee"' }
+                Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
+
+    ga.export.groepsleden_klanten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - array
+            -
+                Nummer: { expression: 'entity["Klant"]["id"]' }
+                Intakedatum: { expression: 'entity["Klant"]["GroepsactiviteitenIntake"]["intakedatum"]', condition: 'not empty(entity["Klant"]["GroepsactiviteitenIntake"])', type: 'date' }
+                Startdatum: { expression: 'entity["GroepsactiviteitenGroepenKlant"]["startdatum"]', type: 'date' }
+                Afsluitdatum: { expression: 'entity["GroepsactiviteitenGroepenKlant"]["einddatum"]', type: 'date' }
+                Geslacht: { expression: 'entity["Klant"]["Geslacht"]["volledig"]' }
+                Voornaam: { expression: 'entity["Klant"]["voornaam"]' }
+                Tussenvoegsel: { expression: 'entity["Klant"]["tussenvoegsel"]' }
+                Achternaam: { expression: 'entity["Klant"]["achternaam"]' }
+                Geboortedatum: { expression: 'entity["Klant"]["geboortedatum"]', type: 'date' }
+                E-mail: { expression: 'entity["Klant"]["email"]' }
+                Adres: { expression: 'entity["Klant"]["adres"]' }
+                Postcode: { expression: 'entity["Klant"]["postcode"]' }
+                Woonplaats: { expression: 'entity["Klant"]["plaats"]' }
+                Mobiel: { expression: 'entity["Klant"]["mobiel"]' }
+                Telefoon: { expression: 'entity["Klant"]["telefoon"]' }
+                Werkgebied: { expression: 'entity["Klant"]["werkgebied"]' }
+                Geen post: { expression: 'entity["Klant"]["geen_post"] ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity["Klant"]["geen_email"] ? "ja" : "nee"' }
+                Afsluitdatum IZ: { expression: 'entity["Klant"]["IzDeelnemer"]["datumafsluiting"]', condition: 'not empty(entity["Klant"]["IzDeelnemer"])', type: 'date' }
+
+    ga.export.groepsleden_vrijwilligers:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - array
+            -
+                Nummer: { expression: 'entity["Vrijwilliger"]["id"]' }
+                Intakedatum: { expression: 'entity["Vrijwilliger"]["GroepsactiviteitenIntake"]["intakedatum"]', condition: 'not empty(entity["Vrijwilliger"]["GroepsactiviteitenIntake"])', type: 'date' }
+                Startdatum: { expression: 'entity["GroepsactiviteitenGroepenVrijwilliger"]["startdatum"]', type: 'date' }
+                Afsluitdatum: { expression: 'entity["GroepsactiviteitenGroepenVrijwilliger"]["einddatum"]', type: 'date' }
+                Geslacht: { expression: 'entity["Vrijwilliger"]["Geslacht"]["volledig"]' }
+                Voornaam: { expression: 'entity["Vrijwilliger"]["voornaam"]' }
+                Tussenvoegsel: { expression: 'entity["Vrijwilliger"]["tussenvoegsel"]' }
+                Achternaam: { expression: 'entity["Vrijwilliger"]["achternaam"]' }
+                Geboortedatum: { expression: 'entity["Vrijwilliger"]["geboortedatum"]', type: 'date' }
+                E-mail: { expression: 'entity["Vrijwilliger"]["email"]' }
+                Adres: { expression: 'entity["Vrijwilliger"]["adres"]' }
+                Postcode: { expression: 'entity["Vrijwilliger"]["postcode"]' }
+                Woonplaats: { expression: 'entity["Vrijwilliger"]["plaats"]' }
+                Mobiel: { expression: 'entity["Vrijwilliger"]["mobiel"]' }
+                Telefoon: { expression: 'entity["Vrijwilliger"]["telefoon"]' }
+                Werkgebied: { expression: 'entity["Vrijwilliger"]["werkgebied"]' }
+                Geen post: { expression: 'entity["Vrijwilliger"]["geen_post"] ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity["Vrijwilliger"]["geen_email"] ? "ja" : "nee"' }
+
+    ga.export.selectie:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - array
+            -
+                Nummer: { expression: 'entity["id"]' }
+                Voornaam: { expression: 'entity["voornaam"]' }
+                Tussenvoegsel: { expression: 'entity["tussenvoegsel"]' }
+                Achternaam: { expression: 'entity["achternaam"]' }
+                Geboortedatum: { expression: 'entity["geboortedatum"]', type: 'date' }
+                E-mail: { expression: 'entity["email"]' }
+                Adres: { expression: 'entity["adres"]' }
+                Postcode: { expression: 'entity["postcode"]' }
+                Woonplaats: { expression: 'entity["plaats"]' }
+                Telefoon: { expression: 'entity["telefoon"]' }
+                Mobiel: { expression: 'entity["mobiel"]' }
+                Geen post: { expression: 'entity["geen_post"]' }
+                Geen email: { expression: 'entity["geen_email"]' }
+                Geslacht: { expression: 'entity["geslacht"]' }
+                Werkgebied: { expression: 'entity["werkgebied"]' }
+                Startdatum: { expression: 'entity["startdatum"]', type: 'date' }
+                Datum intake: { expression: 'entity["intakedatum"]', type: 'date' }
+                Datum afsluiting: { expression: 'entity["afsluitdatum"]', type: 'date' }
+                Gezin met kinderen: { expression: 'entity["gezin_met_kinderen"]' }

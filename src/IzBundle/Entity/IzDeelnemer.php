@@ -3,16 +3,21 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="iz_deelnemers")
+ * @ORM\Table(
+ *     name="iz_deelnemers",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_model_foreign_key_idx", columns={"model", "foreign_key"})}
+ * )
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "IzKlant", "Vrijwilliger" = "IzVrijwilliger"})
+ * @Gedmo\Loggable
  */
 abstract class IzDeelnemer
 {
@@ -34,16 +39,19 @@ abstract class IzDeelnemer
     /**
      * @var IzIntake
      * @ORM\OneToOne(targetEntity="IzIntake", mappedBy="izDeelnemer")
+     * @Gedmo\Versioned
      */
     protected $izIntake;
 
     /**
      * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $afsluitDatum;
 
     /**
      * @ORM\Column(name="datum_aanmelding", type="date")
+     * @Gedmo\Versioned
      */
     protected $datumAanmelding;
 
@@ -51,6 +59,7 @@ abstract class IzDeelnemer
      * @var IzAfsluiting
      * @ORM\ManyToOne(targetEntity="IzAfsluiting")
      * @ORM\JoinColumn(name="iz_afsluiting_id")
+     * @Gedmo\Versioned
      */
     protected $izAfsluiting;
 
@@ -83,13 +92,19 @@ abstract class IzDeelnemer
     {
         $now = new \DateTime();
         foreach ($this->izKoppelingen as $koppelking) {
-            if ($koppelking->getKoppelingStartdatum() <= $now
-                && (!$koppelking->getKoppelingEinddatum() || $koppelking->getKoppelingEinddatum() >= $now)
+            if ($koppelking->isGekoppeld()
+                && $koppelking->getKoppelingStartdatum() <= $now
+                && (is_null($koppelking->getKoppelingEinddatum()) || $koppelking->getKoppelingEinddatum() >= $now)
             ) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public function getDatumAanmelding()
+    {
+        return $this->datumAanmelding;
     }
 }

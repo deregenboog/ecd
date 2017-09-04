@@ -1,22 +1,27 @@
 <?php
 
-$finder = Symfony\CS\Finder::create()
-    ->exclude('config')
-    ->exclude('config_sql')
-    ->exclude('config_template')
-    ->exclude('libs')
-    ->exclude('locale')
-    ->exclude('plugins/debug_kit')
-    ->exclude('plugins/media')
-    ->exclude('plugins/twig')
-    ->exclude('tmp')
-    ->exclude('tmp_template')
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('app/config_sql')
+    ->exclude('app/config_template')
+    ->exclude('app/locale')
+    ->exclude('app/plugins')
+    ->exclude('app/sql')
+    ->exclude('app/tmp')
+    ->exclude('app/vendors')
+    ->exclude('archive')
+    ->exclude('bin')
+    ->exclude('cake')
+    ->exclude('docker')
+    ->exclude('var')
     ->exclude('vendors')
-    ->in('app')
-    ->in('src')
+    ->in(__DIR__)
 ;
 
-return Symfony\CS\Config::create()
-    ->fixers(['-psr0'])
-    ->finder($finder)
+return PhpCsFixer\Config::create()
+->setRules([
+    'psr0' => false,
+    '@Symfony' => true,
+    'array_syntax' => ['syntax' => 'short'],
+])
+->setFinder($finder)
 ;

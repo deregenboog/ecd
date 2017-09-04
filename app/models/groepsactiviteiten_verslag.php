@@ -6,13 +6,13 @@ class GroepsactiviteitenVerslag extends AppModel
     public $displayField = 'foreign_key';
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-    public $belongsTo = array(
-        'Medewerker' => array(
+    public $belongsTo = [
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 }

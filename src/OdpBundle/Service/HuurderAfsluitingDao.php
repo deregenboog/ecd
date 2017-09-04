@@ -15,6 +15,7 @@ class HuurderAfsluitingDao extends AbstractDao implements AfsluitingDaoInterface
             'afsluiting.id',
             'afsluiting.naam',
             'afsluiting.actief',
+            'afsluiting.tonen',
         ],
     ];
 

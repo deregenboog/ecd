@@ -14,7 +14,7 @@ class NationaliteitenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid nationaliteit', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('nationaliteit', $this->Nationaliteit->read(null, $id));
     }
@@ -25,7 +25,7 @@ class NationaliteitenController extends AppController
             $this->Nationaliteit->create();
             if ($this->Nationaliteit->save($this->data)) {
                 $this->flashError(__('The nationaliteit has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The nationaliteit could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class NationaliteitenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid nationaliteit', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Nationaliteit->save($this->data)) {
                 $this->flashError(__('The nationaliteit has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The nationaliteit could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class NationaliteitenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for nationaliteit', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Nationaliteit->delete($id)) {
             $this->flashError(__('Nationaliteit deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Nationaliteit was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

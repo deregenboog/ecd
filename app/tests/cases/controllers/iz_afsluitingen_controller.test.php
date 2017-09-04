@@ -1,47 +1,51 @@
 <?php
+
 /* IzAfsluitingen Test cases generated on: 2014-08-11 13:08:10 : 1407757270*/
 App::import('Controller', 'IzAfsluitingen');
 
-class TestIzAfsluitingenController extends IzAfsluitingenController {
-	var $autoRender = false;
+class TestIzAfsluitingenController extends IzAfsluitingenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class IzAfsluitingenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.iz_afsluiting');
+class IzAfsluitingenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.iz_afsluiting'];
 
-	function startTest() {
-		$this->IzAfsluitingen =& new TestIzAfsluitingenController();
-		$this->IzAfsluitingen->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->IzAfsluitingen = new TestIzAfsluitingenController();
+        $this->IzAfsluitingen->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->IzAfsluitingen);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->IzAfsluitingen);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

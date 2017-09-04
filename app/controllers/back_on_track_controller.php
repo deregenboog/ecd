@@ -4,68 +4,68 @@ class BackOnTrackController extends AppController
 {
     public $name = 'BackOnTrack';
 
-    public $uses = array('BackOnTrack', 'Klant');
+    public $uses = ['BackOnTrack', 'Klant'];
 
-    public $components = array(
+    public $components = [
             'ComponentLoader',
-    );
+    ];
 
-    public $klant_contain = array(
-        'Geslacht' => array(
-            'fields' => array(
+    public $klant_contain = [
+        'Geslacht' => [
+            'fields' => [
                 'afkorting',
                 'volledig',
-            ),
-        ),
-        'Nationaliteit' => array(
-            'fields' => array(
+            ],
+        ],
+        'Nationaliteit' => [
+            'fields' => [
                 'naam',
                 'afkorting',
-            ),
-        ),
-        'Geboorteland' => array(
-            'fields' => array(
+            ],
+        ],
+        'Geboorteland' => [
+            'fields' => [
                 'land',
                 'AFK2',
                 'AFK3',
-            ),
-        ),
-        'Medewerker' => array(
-            'fields' => array(
+            ],
+        ],
+        'Medewerker' => [
+            'fields' => [
                 'tussenvoegsel',
                 'achternaam',
                 'voornaam',
-            ),
-        ),
-        'BotVerslag' => array(
-            'fields' => array('*'),
+            ],
+        ],
+        'BotVerslag' => [
+            'fields' => ['*'],
             'Medewerker' => [],
-        ),
-        'BackOnTrack' => array(
-            'BotKoppeling' => array(
-                'fields' => array(
+        ],
+        'BackOnTrack' => [
+            'BotKoppeling' => [
+                'fields' => [
                     'id',
                     'medewerker_id',
                     'back_on_track_id',
                     'startdatum',
                     'einddatum',
-                ),
-            ),
-            'fields' => array(
+                ],
+            ],
+            'fields' => [
                 'id',
                 'klant_id',
                 'startdatum',
                 'einddatum',
                 'intakedatum',
-            ),
-        ),
-        'Document' => array(
-            'conditions' => array(
+            ],
+        ],
+        'Document' => [
+            'conditions' => [
                 'group' => 'bto',
                 'is_active' => true,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     private function checkPermissions($forKlant)
     {
@@ -87,7 +87,7 @@ class BackOnTrackController extends AppController
 
         if (!$valid) {
             $this->flashError(__('Invalid back on track', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         return true;
@@ -125,26 +125,26 @@ class BackOnTrackController extends AppController
     {
         $this->ComponentLoader->load('Filter');
 
-        $this->paginate = array(
-            'contain' => array(
-                'LasteIntake' => array(
-                    'fields' => array(
+        $this->paginate = [
+            'contain' => [
+                'LasteIntake' => [
+                    'fields' => [
                         'locatie1_id',
                         'locatie2_id',
                         'locatie3_id',
                         'datum_intake',
-                    ),
-                ),
-                'Intake' => array(
-                    'fields' => array(
+                    ],
+                ],
+                'Intake' => [
+                    'fields' => [
                         'datum_intake',
                         'id',
-                    ),
-                ),
+                    ],
+                ],
                 'Geslacht',
                 'BackOnTrack',
-            ),
-        );
+            ],
+        ];
 
         $show_all = false;
 
@@ -165,10 +165,10 @@ class BackOnTrackController extends AppController
 
         $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
 
-        $rowOnclickUrl = array(
+        $rowOnclickUrl = [
             'controller' => 'back_on_track',
             'action' => 'view',
-        );
+        ];
 
         $this->set('back_on_track_coordinator', $this->back_on_track_coordinator);
 
@@ -189,15 +189,15 @@ class BackOnTrackController extends AppController
 
         if (!$klant_id) {
             $this->flashError(__('Invalid back on track', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Klant->contain = $this->klant_contain;
 
-        $klant = $this->Klant->find('first', array(
+        $klant = $this->Klant->find('first', [
                 'contain' => $this->klant_contain,
-                'conditions' => array('Klant.id' => $klant_id),
-        ));
+                'conditions' => ['Klant.id' => $klant_id],
+        ]);
 
         $this->checkPermissions($klant);
 
@@ -219,7 +219,7 @@ class BackOnTrackController extends AppController
 
             if ($this->BackOnTrack->save($this->data)) {
                 $this->flash(__('De gegevens zijn opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The back on track could not be saved. Please, try again.', true));
             }
@@ -232,13 +232,13 @@ class BackOnTrackController extends AppController
 
         if (!$klantId) {
             $this->flashError(__('Invalid back on track', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
-        $klant = $this->Klant->find('first', array(
+        $klant = $this->Klant->find('first', [
             'contain' => $this->klant_contain,
-            'conditions' => array('Klant.id' => $klantId),
-        ));
+            'conditions' => ['Klant.id' => $klantId],
+        ]);
 
         $this->checkPermissions($klant);
 
@@ -247,16 +247,16 @@ class BackOnTrackController extends AppController
 
             if ($this->BackOnTrack->save($this->data)) {
                 $this->flash(__('De gegevens zijn opgeslagen', true));
-                $this->redirect(array('action' => 'view', $klantId));
+                $this->redirect(['action' => 'view', $klantId]);
             } else {
                 $this->flashError(__('The back on track could not be saved. Please, try again.', true));
             }
         } else {
-            $this->data = $this->BackOnTrack->find('first',    array(
-                'conditions' => array(
+            $this->data = $this->BackOnTrack->find('first', [
+                'conditions' => [
                     'BackOnTrack.klant_id' => $klantId,
-                ),
-            ));
+                ],
+            ]);
         }
 
         $this->set('klant', $klant);
@@ -266,17 +266,17 @@ class BackOnTrackController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid back on track', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->BackOnTrack->delete($id)) {
             $this->Session->setFlash(__('Back on track deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Back on track was not deleted', true));
 
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function upload($klantId = null)
@@ -287,10 +287,10 @@ class BackOnTrackController extends AppController
 
         $group = 'bto';
 
-        $klant = $this->Klant->find('first', array(
+        $klant = $this->Klant->find('first', [
             'contain' => $this->klant_contain,
-            'conditions' => array('Klant.id' => $klantId),
-        ));
+            'conditions' => ['Klant.id' => $klantId],
+        ]);
 
         $this->checkPermissions($klant);
 
@@ -307,10 +307,10 @@ class BackOnTrackController extends AppController
             }
 
             if ($this->Klant->Document->save($this->data)) {
-                $this->redirect(array(
+                $this->redirect([
                     'action' => 'view',
                     $klantId,
-                ));
+                ]);
             } else {
                 $this->flashError(__('The document could not be saved. Please, try again.', true));
             }

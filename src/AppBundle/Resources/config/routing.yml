@@ -1,3 +1,6 @@
+home:
+    path: /
+
 app_annotations:
     resource: "@AppBundle/Controller"
     type: annotation

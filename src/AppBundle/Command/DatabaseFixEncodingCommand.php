@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DatabaseFixEncodingCommand extends ContainerAwareCommand
 {
-    protected function configure(InputInterface $input, OutputInterface $output)
+    protected function configure()
     {
         $this
             ->setName('app:database:fix-encoding')
@@ -68,7 +68,7 @@ class DatabaseFixEncodingCommand extends ContainerAwareCommand
             $search = utf8_encode($replacement);
             $query = "UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '{$search}', '{$replacement}');";
             $numRows = $connection->executeUpdate($query, [$search, $replacement]);
-            $output->writeln($query . " ({$numRows} affected)");
+            $output->writeln($query." ({$numRows} affected)");
         }
     }
 }

@@ -11,6 +11,7 @@ use AppBundle\Form\KlantFilterType;
 use OdpBundle\Filter\VerhuurderFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class VerhuurderFilterType extends AbstractType
 {
@@ -22,6 +23,12 @@ class VerhuurderFilterType extends AbstractType
         if (array_key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
+            ]);
+        }
+
+        if (in_array('wpi', $options['enabled_filters'])) {
+            $builder->add('wpi', CheckboxType::class, [
+                'required' => false,
             ]);
         }
 
@@ -58,6 +65,12 @@ class VerhuurderFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VerhuurderFilter::class,
+            'enabled_filters' => [
+                'klant' => ['id', 'naam', 'stadsdeel'],
+                'aanmelddatum',
+                'afsluitdatum',
+                'wpi',
+            ],
         ]);
     }
 }

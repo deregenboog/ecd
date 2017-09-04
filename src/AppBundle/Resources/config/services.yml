@@ -20,6 +20,13 @@ services:
         tags:
             - { name: form.type }
 
+    app.event.kernel_subscriber:
+        class: AppBundle\Event\KernelSubscriber
+        arguments:
+            - '@twig'
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.dao.abstract:
         abstract: true
         arguments:

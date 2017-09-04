@@ -23,12 +23,12 @@ class IzOntstaanContact extends AppModel
         }
 
         if (empty($iz_ontstaan_contact_list)) {
-            $iz_ontstaan_contact_list = $this->find('list', array(
-                'conditions' => array('active' => 1),
-            ));
+            $iz_ontstaan_contact_list = $this->find('list', [
+                'conditions' => ['active' => 1],
+            ]);
         }
 
-        $iz_ontstaan_contact_list = array('' => '') + $iz_ontstaan_contact_list;
+        $iz_ontstaan_contact_list = ['' => ''] + $iz_ontstaan_contact_list;
 
         Cache::write($this->cachekey, $iz_ontstaan_contact_list);
 

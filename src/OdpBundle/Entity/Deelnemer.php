@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -15,6 +16,7 @@ use AppBundle\Model\RequiredMedewerkerTrait;
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Huurder" = "Huurder", "Verhuurder" = "Verhuurder"})
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 abstract class Deelnemer
 {
@@ -33,6 +35,7 @@ abstract class Deelnemer
      * @var Intake
      *
      * @ORM\OneToOne(targetEntity="Intake", mappedBy="deelnemer")
+     * @Gedmo\Versioned
      */
     protected $intake;
 
@@ -40,6 +43,7 @@ abstract class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
+     * @Gedmo\Versioned
      */
     protected $aanmelddatum;
 
@@ -47,14 +51,37 @@ abstract class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(name="afsluitdatum", type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $afsluitdatum;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $rekeningnummer;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $wpi;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $klantmanager;
 
     /**
      * @var Afsluiting
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     protected $afsluiting;
 
@@ -63,6 +90,7 @@ abstract class Deelnemer
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $klant;
 
@@ -76,11 +104,11 @@ abstract class Deelnemer
     protected $verslagen;
 
     /**
-     * @var ArrayCollection|Verslag[]
+     * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinTable(name="odp_deelnemer_document")
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     protected $documenten;
 
@@ -143,6 +171,14 @@ abstract class Deelnemer
         return $this;
     }
 
+    public function reopen()
+    {
+        $this->afsluitdatum = null;
+        $this->afsluiting = null;
+
+        return $this;
+    }
+
     public function getVerslagen()
     {
         return $this->verslagen;
@@ -165,5 +201,37 @@ abstract class Deelnemer
         $this->documenten[] = $document;
 
         return $this;
+    }
+
+    public function getRekeningnummer()
+    {
+        return $this->rekeningnummer;
+    }
+
+    public function setRekeningnummer($rekeningnummer)
+    {
+        $this->rekeningnummer = $rekeningnummer;
+
+        return $this;
+    }
+
+    public function isWpi()
+    {
+        return (bool) $this->wpi;
+    }
+
+    public function setWpi($wpi)
+    {
+        $this->wpi = $wpi;
+    }
+
+    public function getKlantmanager()
+    {
+        return $this->klantmanager;
+    }
+
+    public function setKlantmanager($klantmanager)
+    {
+        $this->klantmanager = $klantmanager;
     }
 }

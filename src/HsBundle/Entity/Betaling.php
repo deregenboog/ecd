@@ -5,10 +5,12 @@ namespace HsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="hs_betalingen")
+ * @Gedmo\Loggable
  */
 class Betaling
 {
@@ -21,21 +23,25 @@ class Betaling
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     private $referentie;
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $info;
 
     /**
      * @ORM\Column(type="decimal", scale=2, nullable=false)
+     * @Gedmo\Versioned
      */
     private $bedrag;
 
@@ -43,6 +49,7 @@ class Betaling
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="betalingen")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $factuur;
 

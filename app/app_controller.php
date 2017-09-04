@@ -92,9 +92,13 @@ class AppController extends Controller implements ContainerAwareInterface
             'BotKoppelingen',
             'BotVerslagen',
         ],
-        'IzDeelnemers' => [
+        'iz_klanten' => [
             'iz_klanten',
             'iz_vrijwilligers',
+            'IzKlanten',
+            'IzVrijwilligers',
+            'IzHulpvragen',
+            'IzHulpaanbiedingen',
             'IzDeelnemers',
             'IzProjecten',
             'IzIntervisiegroepen',
@@ -109,13 +113,18 @@ class AppController extends Controller implements ContainerAwareInterface
         ],
         'groepsactiviteiten_klanten' => [
             'groepsactiviteiten_klanten',
+            'GroepsactiviteitenKlanten',
             'groepsactiviteiten_vrijwilligers',
+            'GroepsactiviteitenVrijwilligers',
             'Groepsactiviteiten',
             'GroepsactiviteitenGroepen',
             'GroepsactiviteitenRedenen',
-            'GroepsactiviteitenIntakes',
             'GroepsactiviteitenVerslagen',
+            'GroepsactiviteitenRapportages',
+            'GroepsactiviteitenAfsluitingen',
         ],
+        'odp' => [],
+        'oek' => [],
         'Admin' => [
             'Admin',
             'ZrmSettings',
@@ -245,7 +254,7 @@ class AppController extends Controller implements ContainerAwareInterface
     {
         if (!$this->user_is_administrator) {
             $this->flashError(__('Action restricted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
     }
 
@@ -483,7 +492,8 @@ class AppController extends Controller implements ContainerAwareInterface
         if (method_exists($this->Email, 'startup')) {
             $this->Email->startup($this);
         }
-        $defaults = array(
+
+        $defaults = [
             'template' => 'default',
             'from_id' => null,
             'to' => [],
@@ -499,7 +509,8 @@ class AppController extends Controller implements ContainerAwareInterface
             'from' => 'noreply@deregenboog.org',
             'replyTo' => 'noreply@deregenboog.org',
             'returnPath' => 'noreply@deregenboog.org',
-            'sendAs' => 'text', );
+            'sendAs' => 'text',
+        ];
 
         $params = array_merge($defaults, $parameters);
         $this->set('params', $params);
@@ -523,6 +534,7 @@ class AppController extends Controller implements ContainerAwareInterface
 
         foreach ($params['to'] as $user_id => $to) {
             $this->Email->to = $to;
+
             // First render the email and store the contents in the session.
             $this->Email->delivery = 'debug';
             $this->Email->send();
@@ -570,7 +582,7 @@ class AppController extends Controller implements ContainerAwareInterface
 
     protected function applyFilter()
     {
-        if (empty($this->data) && empty($this->params ['named'])) {
+        if (empty($this->data) && empty($this->params['named'])) {
             return false;
         }
 
@@ -587,19 +599,19 @@ class AppController extends Controller implements ContainerAwareInterface
                             }
                         }
                     }
-                    $filters ["$model.$field"] = $value;
+                    $filters["$model.$field"] = $value;
                 }
             }
             $this->redirect($filters);
         }
 
         // put named params in $this->data for auto form values
-        foreach ($this->params ['named'] as $filter => $value) {
+        foreach ($this->params['named'] as $filter => $value) {
             $matches = [];
             if (preg_match('/^([A-z]*)\.([A-z]*)$/', $filter, $matches)) {
                 array_shift($matches);
                 list($model, $field) = $matches;
-                $this->data [$model] [$field] = $value;
+                $this->data[$model][$field] = $value;
             }
         }
 

@@ -1,47 +1,51 @@
 <?php
+
 /* IzProjecten Test cases generated on: 2014-08-04 11:08:19 : 1407146239*/
 App::import('Controller', 'IzProjecten');
 
-class TestIzProjectenController extends IzProjectenController {
-	var $autoRender = false;
+class TestIzProjectenController extends IzProjectenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class IzProjectenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.iz_project');
+class IzProjectenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.iz_project'];
 
-	function startTest() {
-		$this->IzProjecten =& new TestIzProjectenController();
-		$this->IzProjecten->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->IzProjecten = new TestIzProjectenController();
+        $this->IzProjecten->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->IzProjecten);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->IzProjecten);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

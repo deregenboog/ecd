@@ -30,14 +30,24 @@ class HuurovereenkomstFilter
     public $einddatum;
 
     /**
+     * @var string
+     */
+    public $vorm;
+
+    /**
      * @var AppDateRangeModel
      */
     public $afsluitdatum;
 
     /**
-     * @var KlantFilter
+     * @var bool
      */
-    public $huurderKlant;
+    public $actief;
+
+    /**
+     * @var HuurderFilter
+     */
+    public $huurder;
 
     /**
      * @var KlantFilter
@@ -103,6 +113,13 @@ class HuurovereenkomstFilter
             }
         }
 
+        if ($this->vorm) {
+            $builder
+                ->andWhere('huurovereenkomst.vorm = :vorm')
+                ->setParameter('vorm', $this->vorm)
+            ;
+        }
+
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder
@@ -118,8 +135,15 @@ class HuurovereenkomstFilter
             }
         }
 
-        if ($this->huurderKlant) {
-            $this->huurderKlant->applyTo($builder, 'huurderKlant');
+        if ($this->actief) {
+            $builder
+                ->andWhere('huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :now')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
+
+        if ($this->huurder) {
+            $this->huurder->applyTo($builder);
         }
 
         if ($this->verhuurderKlant) {

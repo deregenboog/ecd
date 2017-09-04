@@ -3,18 +3,21 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
+ * @Gedmo\Loggable
  */
 class IzVrijwilliger extends IzDeelnemer
 {
     /**
      * @var Vrijwilliger
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger")
-     * @ORM\JoinColumn(name="foreign_key", nullable=false)
+     * @ORM\JoinColumn(name="foreign_key", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $vrijwilliger;
 
@@ -29,6 +32,7 @@ class IzVrijwilliger extends IzDeelnemer
      * @var IzViaPersoon
      * @ORM\ManyToOne(targetEntity="IzViaPersoon")
      * @ORM\JoinColumn(name="binnengekomen_via")
+     * @Gedmo\Versioned
      */
     protected $izBinnengekomenVia;
 

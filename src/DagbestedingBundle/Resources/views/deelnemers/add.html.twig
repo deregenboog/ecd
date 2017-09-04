@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Deelnemer toevoegen</h1>
+
+    {% if filterForm is defined %}
+        Zoek een bestaande deelnemer op naam, BSN of geboortedatum.
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if selectionForm is defined %}
+        <p>
+            Selecteer een bestaande deelnemer en klik op "Verder".<br>
+            Selecteer niks en klik op "Verder" om een nieuwe deelnemer aan te maken.
+        </p>
+        {{ form(selectionForm) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {{ form(creationForm) }}
+    {% endif %}
+{% endblock %}

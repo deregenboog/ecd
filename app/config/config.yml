@@ -1,11 +1,12 @@
 imports:
     - { resource: parameters.yml }
     - { resource: services.yml }
+    - { resource: version.yml, ignore_errors: true }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: nl_NL
+    locale: nl_NL.utf8
     acl_disabled: false
     pagination.items_per_page: 20
     doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
@@ -34,6 +35,8 @@ twig:
 #        - form_div_layout.html.twig
         - bootstrap_3_horizontal_layout.html.twig
     cache: '%kernel.cache_dir%/twig'
+    globals:
+        app_version: v%application_version%
 
 # Doctrine Configuration
 doctrine:
@@ -48,6 +51,13 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        mappings:
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                is_bundle: false
+                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
         dql:
             datetime_functions:
                 date: Luxifer\DQL\Datetime\Date
@@ -55,6 +65,12 @@ doctrine:
                 concat_ws: Luxifer\DQL\String\ConcatWs
 
 jms_di_extra: ~
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            loggable: true
+            timestampable: true
 
 knp_paginator: ~
 
@@ -70,6 +86,10 @@ assetic:
 vich_uploader:
     db_driver: orm
     mappings:
+        dagbesteding_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /dagbesteding/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/dagbesteding'
         hs_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /hs/documenten
@@ -78,3 +98,7 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/odp'
+
+shivas_versioning:
+    version_parameter: application_version
+    version_file: version.yml

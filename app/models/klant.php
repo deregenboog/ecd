@@ -9,357 +9,357 @@ class Klant extends AppModel
     public $name = 'Klant';
     public $order = 'Klant.achternaam ASC';
 
-    public $virtualFields = array(
-            'name' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
-            'name1st_part' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`roepnaam`)",
-            'name2nd_part' => "CONCAT_WS(' ', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
-            'klant_nummer' => "CONCAT('K',`Klant`.`id`)",
-    );
+    public $virtualFields = [
+        'name' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
+        'name1st_part' => "CONCAT_WS(' ', `Klant`.`voornaam`, `Klant`.`roepnaam`)",
+        'name2nd_part' => "CONCAT_WS(' ', `Klant`.`tussenvoegsel`, `Klant`.`achternaam`)",
+        'klant_nummer' => "CONCAT('K',`Klant`.`id`)",
+    ];
 
     public $displayField = 'name';
     public $showDisabled = false;
 
-    public $watchfields = array(
+    public $watchfields = [
         'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam',
         'geslacht_id', 'geboortedatum', 'land_id', 'nationaliteit_id',
         'BSN', 'adres', 'postcode', 'plaats', 'email', 'mobiel',
         'telefoon', 'geen_post', 'geen_email', 'overleden',
-    );
+    ];
 
-    public $validate = array(
-        'achternaam' => array(
-            'notempty' => array(
-                'rule' => array(
+    public $validate = [
+        'achternaam' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een achternaam in',
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'medewerker_id' => array(
-            'notempty' => array(
-                'rule' => array(
+            ],
+        ],
+        'medewerker_id' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Kies een medewerker',
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'land_id' => array(
-            'notempty' => array(
-                'rule' => array(
+            ],
+        ],
+        'land_id' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Kies een land',
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'nationaliteit_id' => array(
-            'notempty' => array(
-                'rule' => array(
+            ],
+        ],
+        'nationaliteit_id' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Kies een nationaliteit',
                 //'allowEmpty' => false,
                 'required' => true,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'email' => array(
-            'email' => array(
-                'rule' => array(
+            ],
+        ],
+        'email' => [
+            'email' => [
+                'rule' => [
                     'email',
-                ),
+                ],
                 'message' => 'Een geldig E-Mail adres invoeren',
                 'allowEmpty' => true,
                 'required' => false,
                 //'last' => false, // Stop validation after this rule
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    public $belongsTo = array(
-            'Geslacht' => array(
-                    'className' => 'Geslacht',
-                    'foreignKey' => 'geslacht_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => 'Geslacht.id desc',
-            ),
-            'Geboorteland' => array(
-                    'className' => 'Land',
-                    'foreignKey' => 'land_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-            ),
-            'Nationaliteit' => array(
-                    'className' => 'Nationaliteit',
-                    'foreignKey' => 'nationaliteit_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-            ),
-            'Medewerker' => array(
-                    'className' => 'Medewerker',
-                    'foreignKey' => 'medewerker_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-            ),
-            'LasteIntake' => array(
-                    'className' => 'Intake',
-                    'foreignKey' => 'laste_intake_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-            ),
-            'LaatsteRegistratie' => array(
-                    'className' => 'Registratie',
-                    'foreignKey' => 'laatste_registratie_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-            ),
-    );
+    public $belongsTo = [
+        'Geslacht' => [
+            'className' => 'Geslacht',
+            'foreignKey' => 'geslacht_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => 'Geslacht.id desc',
+        ],
+        'Geboorteland' => [
+            'className' => 'Land',
+            'foreignKey' => 'land_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ],
+        'Nationaliteit' => [
+            'className' => 'Nationaliteit',
+            'foreignKey' => 'nationaliteit_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ],
+        'Medewerker' => [
+            'className' => 'Medewerker',
+            'foreignKey' => 'medewerker_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ],
+        'LasteIntake' => [
+            'className' => 'Intake',
+            'foreignKey' => 'laste_intake_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ],
+        'LaatsteRegistratie' => [
+            'className' => 'Registratie',
+            'foreignKey' => 'laatste_registratie_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+        ],
+    ];
 
-    public $hasMany = array(
-            'Intake' => array(
-                    'className' => 'Intake',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => array(
-                            'Intake.datum_intake DESC',
-                            'Intake.modified DESC',
-                    ),
-            ),
-            'AwbzIntake' => array(
-                    'className' => 'AwbzIntake',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'fields' => '',
-                    'order' => array(
-                            'AwbzIntake.datum_intake DESC',
-                            'AwbzIntake.modified DESC',
-                    ),
-            ),
-            'AwbzHoofdaannemer' => array(
-                    'className' => 'AwbzHoofdaannemer',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'order' => array(
-                            'AwbzHoofdaannemer.begindatum DESC',
-                    ),
-            ),
-            'AwbzIndicatie' => array(
-                    'className' => 'AwbzIndicatie',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'order' => array(
-                            'AwbzIndicatie.begindatum DESC',
-                    ),
-            ),
-            'Notitie' => array(
-                    'className' => 'Notitie',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Registratie' => array(
-                    'className' => 'Registratie',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Schorsing' => array(
-                    'className' => 'Schorsing',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Opmerking' => array(
-                    'className' => 'Opmerking',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Verslag' => array(
-                    'className' => 'Verslag',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'BotVerslag' => array(
-                    'className' => 'BotVerslag',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Hi5Intake' => array(
-                    'className' => 'Hi5Intake',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Hi5Evaluatie' => array(
-                    'className' => 'Hi5Evaluatie',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Contactjournal' => array(
-                    'className' => 'Contactjournal',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Verslaginfo' => array(
-                    'className' => 'Verslaginfo',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'Document' => array(
-                    'className' => 'Attachment',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                        'Document.model' => 'Klant',
-                        'is_active' => 1,
-                    ),
-                    'dependent' => true,
-                    'order' => 'created desc',
-            ),
-            'GroepsactiviteitenGroepenKlant' => array(
-                    'className' => 'GroepsactiviteitenGroepenKlant',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'GroepsactiviteitenKlant' => array(
-                    'className' => 'GroepsactiviteitenKlant',
-                    'foreignKey' => 'klant_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => '',
-            ),
-            'GroepsactiviteitenVerslag' => array(
-                    'className' => 'GroepsactiviteitenVerslag',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                        'GroepsactiviteitenVerslag.model' => 'Klant',
-                    ),
-                    'order' => 'GroepsactiviteitenVerslag.created DESC',
-                    'dependent' => true,
-            ),
-            'GroepsactiviteitenDocument' => array(
-                    'className' => 'Attachment',
-                    'foreignKey' => 'foreign_key',
-                    'conditions' => array(
-                        'GroepsactiviteitenDocument.model' => 'Klant',
-                        'is_active' => 1,
-                    ),
-                    'dependent' => true,
-                    'order' => 'created desc',
-            ),
-    );
+    public $hasMany = [
+        'Intake' => [
+            'className' => 'Intake',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => [
+                'Intake.datum_intake DESC',
+                'Intake.modified DESC',
+            ],
+        ],
+        'AwbzIntake' => [
+            'className' => 'AwbzIntake',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'fields' => '',
+            'order' => [
+                'AwbzIntake.datum_intake DESC',
+                'AwbzIntake.modified DESC',
+            ],
+        ],
+        'AwbzHoofdaannemer' => [
+            'className' => 'AwbzHoofdaannemer',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'order' => [
+                'AwbzHoofdaannemer.begindatum DESC',
+            ],
+        ],
+        'AwbzIndicatie' => [
+            'className' => 'AwbzIndicatie',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'order' => [
+                'AwbzIndicatie.begindatum DESC',
+            ],
+        ],
+        'Notitie' => [
+            'className' => 'Notitie',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Registratie' => [
+            'className' => 'Registratie',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Schorsing' => [
+            'className' => 'Schorsing',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Opmerking' => [
+            'className' => 'Opmerking',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Verslag' => [
+            'className' => 'Verslag',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => 'Verslag.datum ASC',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'BotVerslag' => [
+            'className' => 'BotVerslag',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Hi5Intake' => [
+            'className' => 'Hi5Intake',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Hi5Evaluatie' => [
+            'className' => 'Hi5Evaluatie',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Contactjournal' => [
+            'className' => 'Contactjournal',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Verslaginfo' => [
+            'className' => 'Verslaginfo',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'Document' => [
+            'className' => 'Attachment',
+            'foreignKey' => 'foreign_key',
+            'conditions' => [
+                'Document.model' => 'Klant',
+                'is_active' => 1,
+            ],
+            'dependent' => true,
+            'order' => 'created desc',
+        ],
+        'GroepsactiviteitenGroepenKlant' => [
+            'className' => 'GroepsactiviteitenGroepenKlant',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'GroepsactiviteitenKlant' => [
+            'className' => 'GroepsactiviteitenKlant',
+            'foreignKey' => 'klant_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => '',
+        ],
+        'GroepsactiviteitenVerslag' => [
+            'className' => 'GroepsactiviteitenVerslag',
+            'foreignKey' => 'foreign_key',
+            'conditions' => [
+                'GroepsactiviteitenVerslag.model' => 'Klant',
+            ],
+            'order' => 'GroepsactiviteitenVerslag.created DESC',
+            'dependent' => true,
+        ],
+        'GroepsactiviteitenDocument' => [
+            'className' => 'Attachment',
+            'foreignKey' => 'foreign_key',
+            'conditions' => [
+                'GroepsactiviteitenDocument.model' => 'Klant',
+                'is_active' => 1,
+            ],
+            'dependent' => true,
+            'order' => 'created desc',
+        ],
+    ];
 
-    public $hasOne = array(
-            'Traject' => array(
+    public $hasOne = [
+            'Traject' => [
                     'className' => 'Traject',
                     'foreignKey' => 'klant_id',
                     'dependent' => false,
@@ -371,8 +371,8 @@ class Klant extends AppModel
                     'exclusive' => '',
                     'finderQuery' => '',
                     'counterQuery' => '',
-            ),
-            'BackOnTrack' => array(
+            ],
+            'BackOnTrack' => [
                     'className' => 'BackOnTrack',
                     'foreignKey' => 'klant_id',
                     'dependent' => 'klant_id',
@@ -384,85 +384,85 @@ class Klant extends AppModel
                     'exclusive' => '',
                     'finderQuery' => '',
                     'counterQuery' => '',
-            ),
-            'GroepsactiviteitenIntake' => array(
+            ],
+            'GroepsactiviteitenIntake' => [
                     'className' => 'GroepsactiviteitenIntake',
                     'foreignKey' => 'foreign_key',
-                    'conditions' => array(
+                    'conditions' => [
                         'GroepsactiviteitenIntake.model' => 'Klant',
-                    ),
+                    ],
                     'order' => '',
                     'dependent' => true,
-            ),
-            'IzDeelnemer' => array(
+            ],
+            'IzDeelnemer' => [
                     'className' => 'IzDeelnemer',
                     'foreignKey' => 'foreign_key',
-                    'conditions' => array(
+                    'conditions' => [
                             'IzDeelnemer.model' => 'Klant',
-                    ),
+                    ],
                     'order' => '',
                     'dependent' => true,
-            ),
-    );
+            ],
+    ];
 
-    public $actsAs = array(
+    public $actsAs = [
             'Containable',
-    );
+    ];
 
-    public $contain = array(
-            'Geslacht' => array(
-                    'fields' => array(
+    public $contain = [
+            'Geslacht' => [
+                    'fields' => [
                             'afkorting',
                             'volledig',
-                    ),
-            ),
-            'Nationaliteit' => array(
-                    'fields' => array(
+                    ],
+            ],
+            'Nationaliteit' => [
+                    'fields' => [
                             'naam',
                             'afkorting',
-                    ),
-            ),
-            'Geboorteland' => array(
-                    'fields' => array(
+                    ],
+            ],
+            'Geboorteland' => [
+                    'fields' => [
                             'land',
                             'AFK2',
                             'AFK3',
-                    ),
-            ),
-            'Medewerker' => array(
-                    'fields' => array(
+                    ],
+            ],
+            'Medewerker' => [
+                    'fields' => [
                             'tussenvoegsel',
                             'achternaam',
                             'voornaam',
-                    ),
-            ),
-            'LasteIntake' => array(
-                    'fields' => array(
+                    ],
+            ],
+            'LasteIntake' => [
+                    'fields' => [
                             'locatie1_id',
                             'locatie2_id',
                             'datum_intake',
-                    ),
-                    'Locatie1' => array(
+                    ],
+                    'Locatie1' => [
                             'naam',
-                    ),
-                    'Locatie2' => array(
+                    ],
+                    'Locatie2' => [
                             'naam',
-                    ),
-                    'Locatie3' => array(
+                    ],
+                    'Locatie3' => [
                             'naam',
-                    ),
-            ),
+                    ],
+            ],
             'BackOnTrack' => [],
             'Intake' => [],
             'Document' => [],
-    );
+    ];
 
-    public $deduplicationMethods = array(
+    public $deduplicationMethods = [
             'no_birthdate' => 'Unknown date of birth',
             'birthdate' => 'Same date of birth',
             'surname' => 'Same surname',
             'relaxed_surname' => 'Surname like first name',
-    );
+    ];
 
     public function beforeValidate($options = [])
     {
@@ -516,7 +516,7 @@ class Klant extends AppModel
 
         foreach ($klanten as $key => $k) {
             $datum_intake = strtotime($k['LasteIntake']['datum_intake']);
-            $klanten[$key]['Klant']['new_intake_needed'] = 180 - (time() - $datum_intake) / DAY;
+            $klanten[$key]['Klant']['new_intake_needed'] = 365 - (time() - $datum_intake) / DAY;
 
             $lastTBC = strtotime($k['Klant']['laatste_TBC_controle']);
             $needed = 'Ja';
@@ -535,16 +535,16 @@ class Klant extends AppModel
     {
         $tbc_valid = Configure::read('TBC_months_period') * 30 * DAY;
 
-        $this->virtualFields['new_intake_needed'] = '(180 - (DATEDIFF(CURDATE(),`LasteIntake`.`datum_intake`)))';
+        $this->virtualFields['new_intake_needed'] = '(365 - (DATEDIFF(CURDATE(),`LasteIntake`.`datum_intake`)))';
 
         $this->virtualFields['new_TBC_check_needed'] = 'IF(DATEDIFF(CURDATE(),`Klant`.`laatste_TBC_controle`) < '.$tbc_valid.', "Nee", "Ja")';
     }
 
     public function update_last_intakes()
     {
-        $ids = $this->find('list', array(
-                'fields' => 'id',
-        ));
+        $ids = $this->find('list', [
+            'fields' => 'id',
+        ]);
 
         foreach ($ids as $id) {
             $this->read(null, $id);
@@ -560,13 +560,13 @@ class Klant extends AppModel
 
     public function update_last_intake($klantId)
     {
-        $lastIntakeInfo = $this->Intake->find('first', array(
+        $lastIntakeInfo = $this->Intake->find('first', [
             'order' => 'Intake.datum_intake DESC',
-            'conditions' => array(
+            'conditions' => [
                 'Intake.klant_id' => $klantId,
-            ),
-            'fields' => array('id', 'datum_intake'),
-        ));
+            ],
+            'fields' => ['id', 'datum_intake'],
+        ]);
         if ($lastIntakeInfo) {
             $this->saveField('laste_intake_id', $lastIntakeInfo['Intake']['id']);
         }
@@ -611,10 +611,10 @@ class Klant extends AppModel
     public function OFF_paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = [])
     {
         if (!is_array($order) || empty($order)) {
-            $order = array(
+            $order = [
                     'Klant.achternaam' => 'asc',
                     'Klant.voornaam' => 'asc',
-            );
+            ];
         }
         debug($this->paginator);
         $contain = $this->contain;
@@ -634,14 +634,14 @@ class Klant extends AppModel
     public function set_last_registration($klant_id, $registratie_id = null)
     {
         $this->recursive = -1;
-        $klant_fields = array(
+        $klant_fields = [
                 'id',
                 'laatste_registratie_id',
                 'roepnaam',
                 'achternaam',
                 'land_id',
                 'nationaliteit_id',
-        );
+        ];
         if (!$this->read($klant_fields, $klant_id)) {
             return false;
         }
@@ -649,14 +649,14 @@ class Klant extends AppModel
         if (empty($registratie_id)) {
             $this->Registratie->recursive = -1;
             $recent_registration = &$this->Registratie->find('all',
-                array(
-                        'conditions' => array(
+                [
+                        'conditions' => [
                                 'Registratie.klant_id' => $klant_id,
-                        ),
+                        ],
                         'order' => 'Registratie.modified DESC',
                         'limit' => 1,
                         'fields' => 'Registratie.id',
-                ));
+                ]);
             if (!empty($recent_registration)) {
                 $registratie_id = $recent_registration[0]['Registratie']['id'];
             }
@@ -677,105 +677,105 @@ class Klant extends AppModel
     public function setHi5Info($klantId)
     {
         $klant = $this->find('first',
-            array(
-                'conditions' => array(
+            [
+                'conditions' => [
                     'Klant.id' => $klantId,
-                ),
-                'contain' => array(
+                ],
+                'contain' => [
                     'Geboorteland',
                     'Nationaliteit',
                     'Geslacht',
                     'Medewerker',
-                    'Traject' => array(
-                        'Trajectbegeleider' => array(
+                    'Traject' => [
+                        'Trajectbegeleider' => [
                             'fields' => 'name',
-                        ),
-                        'Werkbegeleider' => array(
+                        ],
+                        'Werkbegeleider' => [
                             'fields' => 'name',
-                        ),
-                    ),
-                    'Hi5Intake' => array(
-                        'Medewerker' => array(
-                            'fields' => array(
+                        ],
+                    ],
+                    'Hi5Intake' => [
+                        'Medewerker' => [
+                            'fields' => [
                                 'name',
-                            ),
-                        ),
-                        'fields' => array(
+                            ],
+                        ],
+                        'fields' => [
                             'id',
                             'created',
                             'modified',
                             'datum_intake',
                             'medewerker_id',
-                        ),
-                        'order' => array(
+                        ],
+                        'order' => [
                             'datum_intake DESC',
-                        ),
-                    ),
-                    'Hi5Evaluatie' => array(
-                        'Medewerker' => array(
-                            'fields' => array(
+                        ],
+                    ],
+                    'Hi5Evaluatie' => [
+                        'Medewerker' => [
+                            'fields' => [
                                 'name',
-                            ),
-                        ),
-                        'fields' => array(
+                            ],
+                        ],
+                        'fields' => [
                             'id',
                             'created',
                             'datumevaluatie',
                             'modified',
                             'medewerker_id',
-                        ),
-                        'order' => array(
+                        ],
+                        'order' => [
                             'datumevaluatie DESC',
-                        ),
-                    ),
-                    'Document' => array(
-                        'conditions' => array(
+                        ],
+                    ],
+                    'Document' => [
+                        'conditions' => [
                             'Document.is_active' => 1,
                             'Document.group' => Attachment::GROUP_HI5,
-                        ),
-                    ),
-                ),
-            ));
+                        ],
+                    ],
+                ],
+            ]);
         $this->set($klant);
     }
 
     public function getLastIntakeAddress($klantId)
     {
-        $lastIntakeInfo = $this->Intake->find('first', array(
+        $lastIntakeInfo = $this->Intake->find('first', [
             'order' => 'Intake.datum_intake DESC',
-            'conditions' => array(
+            'conditions' => [
                 'Intake.klant_id' => $klantId,
-            ),
-        ));
+            ],
+        ]);
         $lastIntake = $lastIntakeInfo['Intake'];
         $lastIntakeDate = empty($lastIntake['postadres']) ? '0000-00-00' : $lastIntake['created'];
         $lastIntakeInfo = $this->AwbzIntake->find('first',
-            array(
+            [
                     'order' => 'AwbzIntake.created DESC',
-                    'conditions' => array(
+                    'conditions' => [
                             'AwbzIntake.created >' => $lastIntakeDate,
                             'AwbzIntake.klant_id' => $klantId,
-                    ),
-            ));
+                    ],
+            ]);
         if (!empty($lastIntakeInfo)) {
             $lastIntake = $lastIntakeInfo['AwbzIntake'];
             $lastIntakeDate = $lastIntake['created'];
         }
 
         $lastIntakeInfo = $this->Hi5Intake->find('first',
-            array(
+            [
                     'order' => 'Hi5Intake.created DESC',
-                    'conditions' => array(
+                    'conditions' => [
                             'Hi5Intake.created >' => $lastIntakeDate,
                             'Hi5Intake.klant_id' => $klantId,
-                    ),
-            ));
+                    ],
+            ]);
         if (!empty($lastIntakeInfo)) {
             $lastIntake = $lastIntakeInfo['Hi5Intake'];
             $lastIntakeDate = $lastIntake['created'];
         }
 
-        return array(
+        return [
                 'postadres' => $lastIntake['postadres'],
                 'postcode' => $lastIntake['postcode'],
                 'woonplaats' => $lastIntake['woonplaats'],
@@ -785,7 +785,7 @@ class Klant extends AppModel
                 'legitimatie_id' => $lastIntake['legitimatie_id'],
                 'legitimatie_nummer' => $lastIntake['legitimatie_nummer'],
                 'legitimatie_geldig_tot' => $lastIntake['legitimatie_geldig_tot'],
-        );
+        ];
     }
 
     public function goesToInfobalie($klant)
@@ -807,24 +807,24 @@ class Klant extends AppModel
             $birth = $date;
         }
 
-        $conditions = array(
+        $conditions = [
             'disabled' => 0,
-            'OR' => array(
-                array(
+            'OR' => [
+                [
                     'Klant.achternaam' => $surname,
                     'Klant.achternaam !=' => '',
-                ),
-                array(
+                ],
+                [
                     'Klant.voornaam' => $surname,
                     'Klant.voornaam !=' => '',
-                ),
-                array(
+                ],
+                [
                     'Klant.roepnaam' => $surname,
                     'Klant.roepnaam !=' => '',
-                ),
+                ],
                 'geboortedatum' => $birth,
-            ),
-        );
+            ],
+        ];
 
         if (isset($data[$this->alias]['id'])) {
             $conditions[$this->alias.'.id >'] = $data[$this->alias]['id'];
@@ -832,16 +832,16 @@ class Klant extends AppModel
 
         App::import('Sanitize');
         $surnameQuoted = "'".Sanitize::escape($surname)."'";
-        $hits = $this->find('all', array(
+        $hits = $this->find('all', [
             'conditions' => $conditions,
-            'order' => array(
+            'order' => [
                 "10 * (Klant.achternaam = $surnameQuoted and Klant.achternaam != '') +
                  3 * (Klant.roepnaam = $surnameQuoted and Klant.roepnaam != '' and Klant.roepnaam != Klant.achternaam) +
                  1 * (Klant.voornaam = $surnameQuoted and Klant.voornaam != '') +
                  5 * (Klant.geboortedatum = '$birth') desc",
                 'Klant.id',
-            ),
-        ));
+            ],
+        ]);
 
         return $hits;
     }
@@ -959,7 +959,6 @@ class Klant extends AppModel
 
             default:
                 throw new Exception('Undefined mode '.$mode);
-
         }
 
         $this->sets = [];
@@ -985,21 +984,21 @@ class Klant extends AppModel
             return;
         } elseif (!empty($this->setIndexes[$id1])) {
             $index = $this->setIndexes[$id1];
-            $this->sets[$index]['klanten'][] = array($id2, $name2);
+            $this->sets[$index]['klanten'][] = [$id2, $name2];
             $this->setIndexes[$id2] = $index;
         } elseif (!empty($this->setIndexes[$id2])) {
             $index = $this->setIndexes[$id2];
-            $this->sets[$index]['klanten'][] = array($id1, $name1);
+            $this->sets[$index]['klanten'][] = [$id1, $name1];
             $this->setIndexes[$id1] = $index;
         } else {
             $index = count($this->sets) + 1;
-            $this->sets[$index] = array(
+            $this->sets[$index] = [
                 'match' => $match,
-                'klanten' => array(
-                    array($id1, $name1),
-                    array($id2, $name2),
-                ),
-            );
+                'klanten' => [
+                    [$id1, $name1],
+                    [$id2, $name2],
+                ],
+            ];
 
             $this->setIndexes[$id1] = $index;
             $this->setIndexes[$id2] = $index;
@@ -1020,8 +1019,8 @@ class Klant extends AppModel
         $associations = array_merge($this->hasOne, $this->hasMany);
         $result = [];
         foreach ($associations as $aName => $assoc) {
-            $fields = array($assoc['foreignKey'] => $newId);
-            $conditions = array($assoc['foreignKey'] => $oldIds);
+            $fields = [$assoc['foreignKey'] => $newId];
+            $conditions = [$assoc['foreignKey'] => $oldIds];
 
             $this->$aName->recursive = -1;
 
@@ -1039,11 +1038,12 @@ class Klant extends AppModel
         $this->recursive = -1;
 
         return $this->updateAll(
-            array('Klant.disabled' => 1, 'Klant.merged_id' => $merged_id,
-            'Klant.modified' => "'".date('Y-m-d H:i:s')."'", ),
-            array('Klant.id' => $ids)
+            ['Klant.disabled' => 1, 'Klant.merged_id' => $merged_id,
+            'Klant.modified' => "'".date('Y-m-d H:i:s')."'", ],
+            ['Klant.id' => $ids]
         );
     }
+
     public function get_selectie($data, $only_email = false)
     {
         $conditions = [];
@@ -1057,9 +1057,9 @@ class Klant extends AppModel
             $conditions['email NOT'] = '';
         }
 
-        $join_conditions = array(
+        $join_conditions = [
                 'Klant.id = GroepsactiviteitenGroepenKlant.klant_id',
-        );
+        ];
 
         $join_table = Inflector::pluralize(Inflector::underscore('GroepsactiviteitenGroepenKlant'));
 
@@ -1081,28 +1081,27 @@ class Klant extends AppModel
             $join_conditions['OR'] = $or;
         }
 
-        $join_conditions['OR'] = array(
+        $join_conditions['OR'] = [
                 'GroepsactiviteitenGroepenKlant.einddatum' => null,
                 'GroepsactiviteitenGroepenKlant.einddatum >=' => date('Y-m-d'),
-        );
+        ];
 
-        $contain = array('GroepsactiviteitenIntake');
+        $contain = ['GroepsactiviteitenIntake'];
 
         $joins = [];
-        $joins[] = array(
+        $joins[] = [
             'table' => $join_table,
             'alias' => 'GroepsactiviteitenGroepenKlant',
             'type' => 'INNER',
             'conditions' => $join_conditions,
+        ];
 
-        );
-
-        $options = array(
+        $options = [
             'conditions' => $conditions,
             'joins' => $joins,
             'contain' => $contain,
-            'group' => array('Klant.id'),
-            'fields' => array('id', 'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam', 'geslacht_id',
+            'group' => ['Klant.id'],
+            'fields' => ['id', 'voornaam', 'tussenvoegsel', 'achternaam', 'roepnaam', 'geslacht_id',
                 'geboortedatum', 'land_id', 'nationaliteit_id', 'BSN', 'medewerker_id', 'adres',
                 'postcode', 'werkgebied', 'postcodegebied', 'plaats', 'email', 'mobiel', 'telefoon',
                 'opmerking', 'geen_post', 'geen_email', 'disabled', 'created', 'modified', 'geen_email', 'name',
@@ -1126,8 +1125,8 @@ class Klant extends AppModel
                 'GroepsactiviteitenIntake.afsluitdatum',
                 'count(*) as count',
                 'min(GroepsactiviteitenGroepenKlant.startdatum) as startdatum',
-            ),
-        );
+            ],
+        ];
 
         $personen = $this->find('all', $options);
 
@@ -1136,54 +1135,50 @@ class Klant extends AppModel
 
     public function diensten($id, EventDispatcherInterface $eventDispatcher = null)
     {
+        $diensten = [];
+
         if (is_array($id)) {
             $id = $id['Klant']['id'];
         }
         $klant = $this->getAllById($id);
+
         if (empty($klant)) {
-            return [];
+            return $diensten;
         }
-        $diensten = [];
+
         if (!empty($klant['GroepsactiviteitenIntake'])) {
-            $diensten[] = array(
+            $diensten[] = [
                 'name' => 'GA',
-                'url' => array('controller' => 'groepsactiviteiten', 'action' => 'intakes', 'Klant', $klant['Klant']['id']),
+                'url' => ['controller' => 'groepsactiviteiten', 'action' => 'intakes', 'Klant', $klant['Klant']['id']],
                 'from' => $klant['GroepsactiviteitenIntake']['intakedatum'],
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
-            );
+            ];
         }
-        if (!empty($klant['IzDeelnemer'])) {
-            $diensten[] = array(
-                'name' => 'Iz',
-                'url' => array('controller' => 'iz_deelnemers', 'action' => 'toon_aanmelding', 'Klant', $klant['Klant']['id'], $klant['IzDeelnemer']['id']),
-                'from' => $klant['IzDeelnemer']['datum_aanmelding'],
-                'to' => $klant['IzDeelnemer']['datumafsluiting'],
-                'type' => 'date',
-                'value' => '',
-            );
-        }
+
         if (!empty($klant['Verslag'][0])) {
-            $diensten[] = array(
+            $diensten[] = [
                 'name' => 'Mw',
-                'url' => array('controller' => 'maatschappelijk_werk', 'action' => 'view', $klant['Klant']['id']),
+                'url' => ['controller' => 'maatschappelijk_werk', 'action' => 'view', $klant['Klant']['id']],
                 'from' => $klant['Verslag'][0]['datum'],
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
-            );
+            ];
         }
+
         if (!empty($klant['Hi5Intake'][0])) {
-            $diensten[] = array(
+            $diensten[] = [
                 'name' => 'Hi5',
-                'url' => array('controller' => 'hi5', 'action' => 'view', $klant['Klant']['id']),
+                'url' => ['controller' => 'hi5', 'action' => 'view', $klant['Klant']['id']],
                 'from' => $klant['Hi5Intake'][0]['datum_intake'],
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
-            );
+            ];
         }
+
         $all = $this->Intake->Locatie1->locaties();
         $locaties = array_unique(Set::ClassicExtract($klant['Registratie'], '{n}.locatie_id'));
         $value = '';
@@ -1197,25 +1192,27 @@ class Klant extends AppModel
                 $value .= $locatie_id;
             }
         }
+
         if (!empty($klant['Hi5Intake'][0])) {
-            $diensten[] = array(
+            $diensten[] = [
                 'name' => 'Locaties',
                 'url' => null,
                 'from' => null,
                 'to' => null,
                 'type' => 'string',
                 'value' => $value,
-            );
+            ];
         }
+
         if (!empty($klant['LasteIntake']['locatie1_id'])) {
-            $diensten[] = array(
+            $diensten[] = [
                 'name' => 'Gebr. ruimte',
                 'url' => null,
                 'from' => null,
                 'to' => null,
                 'type' => 'string',
                 'value' => $all[$klant['LasteIntake']['locatie1_id']],
-            );
+            ];
         }
 
         if ($eventDispatcher instanceof EventDispatcherInterface) {

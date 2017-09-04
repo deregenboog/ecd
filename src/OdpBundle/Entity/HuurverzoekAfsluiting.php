@@ -3,10 +3,29 @@
 namespace OdpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
+ * @Gedmo\Loggable
  */
 class HuurverzoekAfsluiting extends Afsluiting
 {
+    /**
+     * @var Huurverzoek
+     *
+     * @ORM\OneToMany(targetEntity="Huurverzoek", mappedBy="afsluiting")
+     */
+    protected $huurverzoeken;
+
+    public function __construct()
+    {
+        $this->huurverzoeken = new ArrayCollection();
+    }
+
+    public function isDeletable()
+    {
+        return 0 === count($this->huurverzoeken);
+    }
 }

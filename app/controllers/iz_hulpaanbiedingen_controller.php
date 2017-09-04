@@ -19,7 +19,7 @@ class IzHulpaanbiedingenController extends AppController
 
     private $enabledFilters = [
         'startdatum',
-        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
+        'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
         'izProject',
         'medewerker',
     ];
@@ -32,7 +32,6 @@ class IzHulpaanbiedingenController extends AppController
         'vrijwilliger.achternaam',
         'vrijwilliger.geboortedatum',
         'vrijwilliger.werkgebied',
-        'vrijwilliger.laatsteZrm',
         'medewerker.achternaam',
     ];
 
@@ -76,14 +75,14 @@ class IzHulpaanbiedingenController extends AppController
 
     public function download(QueryBuilder $builder)
     {
+        ini_set('memory_limit', '512M');
+
         $hulpaanbiedingen = $builder->getQuery()->getResult();
 
+        $this->autoRender = false;
         $filename = sprintf('iz-hulpaanbiedingen-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $this->header('Content-type: application/vnd.ms-excel');
-        $this->header(sprintf('Content-Disposition: attachment; filename="%s";', $filename));
-        $this->header('Content-Transfer-Encoding: binary');
 
-        $this->set('hulpaanbiedingen', $hulpaanbiedingen);
-        $this->render('download', false);
+        $export = $this->container->get('iz.export.hulpaanbiedingen');
+        $export->create($hulpaanbiedingen)->send($filename);
     }
 }

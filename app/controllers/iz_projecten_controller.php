@@ -14,7 +14,7 @@ class IzProjectenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz project', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('izProject', $this->IzProject->read(null, $id));
     }
@@ -25,7 +25,7 @@ class IzProjectenController extends AppController
             $this->IzProject->create();
             if ($this->IzProject->save($this->data)) {
                 $this->Session->setFlash(__('The iz project has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz project could not be saved. Please, try again.', true));
             }
@@ -36,13 +36,13 @@ class IzProjectenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz project', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->IzProject->save($this->data)) {
                 $this->Session->setFlash(__('The iz project has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz project could not be saved. Please, try again.', true));
             }
@@ -57,15 +57,15 @@ class IzProjectenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz project', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->IzProject->delete($id)) {
             $this->Session->setFlash(__('Iz project deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Iz project was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

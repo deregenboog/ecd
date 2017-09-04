@@ -14,7 +14,7 @@ class MedewerkersController extends AppController
         $this->AuthExt->allow('IueYRH4zBT8X');
 
         if ($this->action == 'clear_cache'
-            && in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))
+            && in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])
         ) {
             $this->AuthExt->allow('clear_cache');
         }
@@ -30,7 +30,7 @@ class MedewerkersController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid medewerker', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('medewerker', $this->Medewerker->read(null, $id));
     }
@@ -41,7 +41,7 @@ class MedewerkersController extends AppController
             $this->Medewerker->create();
             if ($this->Medewerker->save($this->data)) {
                 $this->flash(__('The medewerker has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The medewerker could not be saved. Please, try again.', true));
             }
@@ -52,12 +52,12 @@ class MedewerkersController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid medewerker', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Medewerker->save($this->data)) {
                 $this->flash(__('The medewerker has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The medewerker could not be saved. Please, try again.', true));
             }
@@ -71,14 +71,14 @@ class MedewerkersController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for medewerker', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Medewerker->delete($id)) {
             $this->flash(__('Medewerker deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Medewerker was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function login()
@@ -169,18 +169,18 @@ class MedewerkersController extends AppController
         $this->RolesUser->deleteRolesForUserInObject($user_id, $model, $foreign_key);
     }
 
-   /**
-    * clear_cache Clear all caches intensively. The purpose is to force a
-    * restart without having to restart apache. This doesn't clean the
-    * /tmp/minify_* files, those should be generated automatically when one of
-    * the css/js files changes its date.
-    */
+    /**
+     * clear_cache Clear all caches intensively. The purpose is to force a
+     * restart without having to restart apache. This doesn't clean the
+     * /tmp/minify_* files, those should be generated automatically when one of
+     * the css/js files changes its date.
+     */
     public function clear_cache($type = 'manual')
     {
         if (!empty($this->data)) {
             $types = array_filter($this->data['type']);
         } elseif ($type == 'auto') {
-            $types = array($type);
+            $types = [$type];
         } else {
             $types = [];
         }

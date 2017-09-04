@@ -1,47 +1,51 @@
 <?php
+
 /* ZrmSettings Test cases generated on: 2013-11-26 17:11:56 : 1385484896*/
 App::import('Controller', 'ZrmSettings');
 
-class TestZrmSettingsController extends ZrmSettingsController {
-	var $autoRender = false;
+class TestZrmSettingsController extends ZrmSettingsController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class ZrmSettingsControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.zrm_setting');
+class ZrmSettingsControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.zrm_setting'];
 
-	function startTest() {
-		$this->ZrmSettings =& new TestZrmSettingsController();
-		$this->ZrmSettings->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->ZrmSettings = new TestZrmSettingsController();
+        $this->ZrmSettings->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->ZrmSettings);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->ZrmSettings);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

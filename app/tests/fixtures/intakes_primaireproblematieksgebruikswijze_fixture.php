@@ -5,9 +5,9 @@ class IntakesPrimaireproblematieksgebruikswijzeFixture extends CakeTestFixture
 {
     public $name = 'IntakesPrimaireproblematieksgebruikswijze';
     public $table = 'intakes_primaireproblematieksgebruikswijzen';
-    public $import = array(
+    public $import = [
             'model' => 'IntakesPrimaireproblematieksgebruikswijze',
             'records' => true,
             'table' => 'intakes_primaireproblematieksgebruikswijzen',
-    );
+    ];
 }

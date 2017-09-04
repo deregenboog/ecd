@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class HuurovereenkomstType extends AbstractType
 {
@@ -40,6 +41,10 @@ class HuurovereenkomstType extends AbstractType
             ->add('startdatum', AppDateType::class)
             ->add('opzegdatum', AppDateType::class, ['required' => false])
             ->add('einddatum', AppDateType::class, ['required' => false])
+            ->add('vorm', ChoiceType::class, [
+                'required' => false,
+                'choices' => Huurovereenkomst::getVormChoices(),
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }

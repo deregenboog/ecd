@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DatabaseBackupCommand extends ContainerAwareCommand
 {
-    protected function configure(InputInterface $input, OutputInterface $output)
+    protected function configure()
     {
         $this->setName('app:database:backup');
     }

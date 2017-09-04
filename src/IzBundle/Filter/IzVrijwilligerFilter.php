@@ -17,7 +17,7 @@ class IzVrijwilligerFilter implements FilterInterface
     public $afsluitDatum;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $openDossiers;
 
@@ -34,7 +34,22 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $medewerker;
+    public $izIntakeMedewerker;
+
+    /**
+     * @var Medewerker
+     */
+    public $izHulpaanbodMedewerker;
+
+    /**
+     * @var bool
+     */
+    public $zonderActiefHulpaanbod;
+
+    /**
+     * @var bool
+     */
+    public $zonderActieveKoppeling;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -71,10 +86,41 @@ class IzVrijwilligerFilter implements FilterInterface
             ;
         }
 
-        if ($this->medewerker) {
+        if ($this->izIntakeMedewerker) {
             $builder
-                ->andWhere('izHulpaanbod.medewerker = :medewerker')
-                ->setParameter('medewerker', $this->medewerker)
+                ->andWhere('izIntakeMedewerker = :izIntakeMedewerker')
+                ->setParameter('izIntakeMedewerker', $this->izIntakeMedewerker)
+            ;
+        }
+
+        if ($this->izHulpaanbodMedewerker) {
+            $builder
+                ->andWhere('izHulpaanbodMedewerker = :izHulpaanbodMedewerker')
+                ->setParameter('izHulpaanbodMedewerker', $this->izHulpaanbodMedewerker)
+            ;
+        }
+
+        if ($this->zonderActiefHulpaanbod) {
+            $builder
+                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actiefIzHulpaanbod', 'WITH', $builder->expr()->andX(
+                    'actiefIzHulpaanbod.izHulpvraag IS NULL',
+                    'actiefIzHulpaanbod.einddatum IS NULL OR actiefIzHulpaanbod.einddatum >= :now'
+                ))
+                ->addGroupBy('izVrijwilliger.id')
+                ->andHaving('COUNT(actiefIzHulpaanbod) = 0')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
+
+        if ($this->zonderActieveKoppeling) {
+            $builder
+                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
+                    'actieveIzKoppeling.izHulpvraag IS NOT NULL',
+                    'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
+                ))
+                ->addGroupBy('izVrijwilliger.id')
+                ->andHaving('COUNT(actieveIzKoppeling) = 0')
+                ->setParameter('now', new \DateTime())
             ;
         }
     }

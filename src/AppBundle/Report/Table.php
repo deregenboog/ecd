@@ -131,7 +131,7 @@ class Table
                 }
             } elseif (empty($yValues)) {
                 foreach ($xValues as $xValue) {
-                    if ($row[$this->xPath] === $xValue) {
+                    if ((string) $row[$this->xPath] === (string) $xValue) {
                         $aantal = $row[$this->nPath];
                         if ($this->yTotals) {
                             $data['Totaal'][$xValue] += $aantal;
@@ -143,7 +143,7 @@ class Table
                 }
             } else {
                 foreach ($yValues as $yValue) {
-                    if ($row[$this->yPath] === $yValue) {
+                    if ((string) $row[$this->yPath] === (string) $yValue) {
                         if (empty($xValues)) {
                             $aantal = $row[$this->nPath];
                             if ($this->xTotals) {
@@ -154,7 +154,7 @@ class Table
                             }
                         } else {
                             foreach ($xValues as $xValue) {
-                                if ($row[$this->xPath] === $xValue) {
+                                if ((string) $row[$this->xPath] === (string) $xValue) {
                                     $aantal = $row[$this->nPath];
                                     $data[$yValue][$xValue] += $aantal;
                                     if ($this->xTotals) {
@@ -191,13 +191,13 @@ class Table
                 if (!$x || !$y) {
                     continue;
                 }
-                $url = array(
+                $url = [
                     'controller' => $this->controller,
                     'action' => $this->action,
                     'Query.name' => $this->report,
                     'Query.from' => $this->startDate->format('Y-m-d'),
                     'Query.until' => $this->endDate->format('Y-m-d'),
-                );
+                ];
                 if ($this->xPath && $y !== 'Totaal') {
                     $url[$this->xPath] = $y;
                 }
@@ -213,8 +213,8 @@ class Table
 
     protected function getAxisLabels()
     {
-        $xLabels = array();
-        $yLabels = array();
+        $xLabels = [];
+        $yLabels = [];
         foreach ($this->result as $row) {
             if ($this->xPath) {
                 $xLabel = $row[$this->xPath];
@@ -232,12 +232,12 @@ class Table
             sort($yLabels);
         }
 
-        return array($xLabels, $yLabels);
+        return [$xLabels, $yLabels];
     }
 
     protected function initializePivotStructure($xLabels, $yLabels)
     {
-        $data = array();
+        $data = [];
         foreach ($yLabels as $yLabel) {
             foreach ($xLabels as $xLabel) {
                 $data[$yLabel][$xLabel] = 0;

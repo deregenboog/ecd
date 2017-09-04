@@ -5,9 +5,8 @@ class IzAfsluiting extends AppModel
     public $name = 'IzAfsluiting';
     public $displayField = 'naam';
 
-    public $hasMany = array(
-
-    );
+    public $hasMany = [
+    ];
 
     public $cachekey = 'IzAfsluitingList';
     public $active_key = 'IzAfsluitingListActive';
@@ -19,6 +18,7 @@ class IzAfsluiting extends AppModel
 
         return true;
     }
+
     public function afsluitingList($all = true)
     {
         $key = $this->cachekey;
@@ -27,9 +27,9 @@ class IzAfsluiting extends AppModel
 
         if (empty($all)) {
             $key = $this->active_key;
-            $conditions = array(
+            $conditions = [
                 'active' => true,
-            );
+            ];
         }
 
         $iz_afsluiting_list = Cache::read($key);
@@ -38,12 +38,12 @@ class IzAfsluiting extends AppModel
             return $iz_afsluiting_list;
         }
 
-        $iz_afsluiting_list = $this->find('list', array(
+        $iz_afsluiting_list = $this->find('list', [
             'conditions' => $conditions,
             'contain' => [],
-        ));
+        ]);
 
-        $iz_afsluiting_list = array('' => '') + $iz_afsluiting_list;
+        $iz_afsluiting_list = ['' => ''] + $iz_afsluiting_list;
 
         Cache::write($key, $iz_afsluiting_list);
 

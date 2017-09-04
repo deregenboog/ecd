@@ -39,8 +39,6 @@ class IzDeelnemerSelectie implements FilterInterface
         if (current($builder->getRootAliases()) === 'izKlant') {
             if ($this->izProjecten) {
                 $builder
-                    ->innerJoin('izKlant.izHulpvragen', 'izHulpvraag')
-                    ->innerJoin('izHulpvraag.izProject', 'izProject')
                     ->andWhere('izProject.id IN (:iz_projecten)')
                     ->setParameter('iz_projecten', $this->izProjecten)
                 ;
@@ -67,8 +65,6 @@ class IzDeelnemerSelectie implements FilterInterface
         if (current($builder->getRootAliases()) === 'izVrijwilliger') {
             if ($this->izProjecten) {
                 $builder
-                    ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
-                    ->innerJoin('izHulpaanbod.izProject', 'izProject')
                     ->andWhere('izProject.id IN (:iz_projecten)')
                     ->setParameter('iz_projecten', $this->izProjecten)
                 ;

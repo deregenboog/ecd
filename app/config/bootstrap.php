@@ -48,7 +48,7 @@
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-$pluralizations = array(
+$pluralizations = [
     'iz_deelnemers_iz_intervisiegroep' => 'iz_deelnemers_iz_intervisiegroepen',
     'iz_via_persoon' => 'iz_via_personen',
     'izviapersoon' => 'IzViaPersonen',
@@ -146,9 +146,9 @@ $pluralizations = array(
     'locatie_tijd' => 'locatie_tijden',
     'stadsdeel' => 'stadsdelen',
     'postcodegebied' => 'postcodegebieden',
-);
+];
 
-$singularizations = array(
+$singularizations = [
     'iz_deelnemers_iz_intervisiegroepen' => 'iz_deelnemers_iz_intervisiegroep',
     'iz_via_personen' => 'iz_via_persoon',
     'izviapersonen' => 'IzViaPersoon',
@@ -247,7 +247,7 @@ $singularizations = array(
     'hi5_evaluaties' => 'hi5_evaluatie',
     'locatie_tijden' => 'locatie_tijd',
     'postcodegebieden' => 'postcodegebied',
-);
+];
 
 Inflector::rules('singular', [
     'rules' => [],

@@ -15,6 +15,7 @@ class HuurverzoekAfsluitingDao extends AbstractDao implements AfsluitingDaoInter
             'afsluiting.id',
             'afsluiting.naam',
             'afsluiting.actief',
+            'afsluiting.tonen',
         ],
     ];
 

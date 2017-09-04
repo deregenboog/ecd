@@ -3,18 +3,21 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
+ * @Gedmo\Loggable
  */
 class IzKlant extends IzDeelnemer
 {
     /**
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(name="foreign_key", nullable=false)
+     * @ORM\JoinColumn(name="foreign_key", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $klant;
 
@@ -29,6 +32,7 @@ class IzKlant extends IzDeelnemer
      * @var IzOntstaanContact
      * @ORM\ManyToOne(targetEntity="IzOntstaanContact")
      * @ORM\JoinColumn(name="contact_ontstaan")
+     * @Gedmo\Versioned
      */
     protected $izOntstaanContact;
 

@@ -3,7 +3,6 @@
 namespace Tests\AppBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\KlantFilter;
@@ -59,11 +58,11 @@ class KlantFilterTest extends \PHPUnit_Framework_TestCase
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            "%Bart%",
+            '%Bart%',
             $builder->getParameter('klant_naam_part_0')->getValue()
         );
         $this->assertEquals(
-            "%Huttinga%",
+            '%Huttinga%',
             $builder->getParameter('klant_naam_part_1')->getValue()
         );
     }

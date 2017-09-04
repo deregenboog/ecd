@@ -13,7 +13,6 @@ use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Entity\IzProject;
 use IzBundle\Filter\IzHulpaanbodFilter;
-use AppBundle\Form\FilterType;
 use Symfony\Component\Form\AbstractType;
 
 class IzHulpaanbodFilterType extends AbstractType
@@ -42,6 +41,7 @@ class IzHulpaanbodFilterType extends AbstractType
             $builder->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
+                'label' => 'Project',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
                         ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
@@ -60,6 +60,8 @@ class IzHulpaanbodFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },

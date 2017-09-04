@@ -2,7 +2,6 @@
 
 namespace Tests\IzBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use IzBundle\DependencyInjection\Compiler\ReportsCompilerPass;
 use IzBundle\IzBundle;

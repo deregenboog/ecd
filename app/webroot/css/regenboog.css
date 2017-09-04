@@ -160,7 +160,7 @@ table.fixed {
  * classes can also be aplied to other tables, (like the registratie table)
  */
 table.index{
-    width: 965px;
+    /*width: 965px;*/
     margin: 1em 0 1em 0;
 }
 
@@ -170,7 +170,7 @@ table.filtered{
 }
 
 table.filter{
-    width: 965px;
+    /*width: 965px;*/
     margin-top: 1em;
     margin-bottom: 0;
     padding: 0;
@@ -222,17 +222,17 @@ table .pfoachternaamColHeader{width: 83px;}
 table .pfoachternaamCol{width: 83px;}
 table .voornaamCol{width: 150px;}
 table .tussenvoegselCol{width: 60px;}
-table .achternaamCol{width: 140px;}
+table .achternaamCol{width: 150px;}
 table .roepnaamCol{width: 140px;}
-table .gebortedatumCol{width: 90px;}
+table .gebortedatumCol{width: 150px;}
 table .geschlachtCol{width: 30px}
 table .laatsteIntakeCol{width: 95px;}
 table .projectenCol{width: 95px;}
 table .pfogroepColHeader{width: 80px;}
 table .pfogroepCol{width: 80px;}
-table .medewerkerCol{width: 95px;}
+table .medewerkerCol{width: 200px;}
 table .werkgebiedCol{width: 110px;}
-table .overeenkomstCol{width: 14em;}
+table .overeenkomstCol{width: 100px;}
 table .izProjectsCol{width: 110px;}
 table .IzMedewerkerCol{width: 168px;}
 table .lastZrmCol{width: 90px;}
@@ -950,19 +950,10 @@ ul.tabs li a {
  * Menu selected items
  */
  ul#tabs a.selected {
-
-    padding: 5px 10px 0px;
-
+    padding: 5px 10px;
     background-color: #E8F9D4;
-
     color: #003D4C;
-
-    border-left: 1px solid #003D4C;
-
-    border-right: 1px solid #003D4C;
-
-    border-top: 1px solid #003D4C;
-
+    border: 1px solid #003D4C;
 }
 
 div#subheader a {

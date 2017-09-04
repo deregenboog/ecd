@@ -2,20 +2,26 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 trait PersoonTrait
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $voornaam;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
      */
     private $tussenvoegsel;
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $achternaam;
 

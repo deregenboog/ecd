@@ -2,26 +2,26 @@
 
 namespace OdpBundle\Controller;
 
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
+use Doctrine\ORM\QueryBuilder;
 use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurovereenkomst;
-use OdpBundle\Form\HuuraanbodType;
-use OdpBundle\Form\HuuraanbodFilterType;
-use AppBundle\Form\ConfirmationType;
-use Symfony\Component\Form\FormError;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use OdpBundle\Entity\Verhuurder;
-use AppBundle\Controller\SymfonyController;
 use OdpBundle\Form\HuuraanbodCloseType;
+use OdpBundle\Form\HuuraanbodFilterType;
+use OdpBundle\Form\HuuraanbodType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
 
+/**
+ * @Route("/odp/huuraanbiedingen")
+ */
 class HuuraanbiedingenController extends SymfonyController
 {
-    private $enabledFilters = [
-        'id',
-        'klant' => ['naam', 'stadsdeel'],
-        'startdatum',
-        'afsluitdatum',
-    ];
+    public $title = 'Huuraanbiedingen';
 
     private $sortFieldWhitelist = [
         'huuraanbod.id',
@@ -32,15 +32,10 @@ class HuuraanbiedingenController extends SymfonyController
     ];
 
     /**
-     * @Route("/odp/huuraanbiedingen")
+     * @Route("/")
      */
     public function index()
     {
-        $filter = $this->createForm(HuuraanbodFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->getRequest());
-
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(Huuraanbod::class);
 
@@ -48,11 +43,18 @@ class HuuraanbiedingenController extends SymfonyController
             ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
             ->innerJoin('verhuurder.klant', 'klant')
-            ->where('huurovereenkomst.id IS NULL')
+            ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
+            ->andWhere('huurovereenkomst.id IS NULL')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 
+        $filter = $this->createForm(HuuraanbodFilterType::class);
+        $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -67,8 +69,23 @@ class HuuraanbiedingenController extends SymfonyController
         ];
     }
 
+    private function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $huuraanbiedingen = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('onder-de-pannen-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
+        /** @var $export ExportInterface */
+        $export = $this->container->get('odp.export.huuraanbiedingen');
+
+        return $export->create($huuraanbiedingen)->getResponse($filename);
+    }
+
     /**
-     * @Route("/odp/huuraanbiedingen/{id}/view")
+     * @Route("/{id}/view")
      */
     public function view($id)
     {
@@ -100,7 +117,7 @@ class HuuraanbiedingenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huuraanbiedingen/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -129,7 +146,7 @@ class HuuraanbiedingenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huuraanbiedingen/{id}/delete")
+     * @Route("/{id}/delete")
      */
     public function delete($id)
     {
@@ -159,7 +176,7 @@ class HuuraanbiedingenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huuraanbiedingen/{id}/close")
+     * @Route("/{id}/close")
      */
     public function close($id)
     {

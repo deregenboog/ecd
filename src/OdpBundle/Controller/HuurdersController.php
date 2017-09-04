@@ -2,26 +2,27 @@
 
 namespace OdpBundle\Controller;
 
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
+use AppBundle\Form\KlantFilterType;
+use Doctrine\ORM\QueryBuilder;
 use OdpBundle\Entity\Huurder;
-use OdpBundle\Form\HuurderType;
+use OdpBundle\Form\HuurderCloseType;
 use OdpBundle\Form\HuurderFilterType;
 use OdpBundle\Form\HuurderSelectType;
-use AppBundle\Controller\SymfonyController;
-use OdpBundle\Form\HuurderCloseType;
+use OdpBundle\Form\HuurderType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 
+/**
+ * @Route("/odp/huurders")
+ */
 class HuurdersController extends SymfonyController
 {
-    private $enabledFilters = [
-        'klant' => ['id', 'naam', 'stadsdeel'],
-        'aanmelddatum',
-        'afsluitdatum',
-    ];
+    public $title = 'Huurders';
 
     private $sortFieldWhitelist = [
         'klant.id',
@@ -29,10 +30,11 @@ class HuurdersController extends SymfonyController
         'klant.werkgebied',
         'huurder.aanmelddatum',
         'huurder.afsluitdatum',
+        'huurder.wpi',
     ];
 
     /**
-     * @Route("/odp/huurders")
+     * @Route("/")
      */
     public function index()
     {
@@ -41,15 +43,18 @@ class HuurdersController extends SymfonyController
 
         $builder = $repository->createQueryBuilder('huurder')
             ->innerJoin('huurder.klant', 'klant')
+            ->leftJoin('huurder.afsluiting', 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
             ->andWhere('klant.disabled = false')
         ;
 
-        $filter = $this->createForm(HuurderFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $filter = $this->createForm(HuurderFilterType::class);
         $filter->handleRequest($this->getRequest());
         if ($filter->isSubmitted() && $filter->isValid()) {
             $filter->getData()->applyTo($builder);
+            if ($filter->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -64,8 +69,23 @@ class HuurdersController extends SymfonyController
         ];
     }
 
+    private function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $huurders = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('onder-de-pannen-huurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
+        /** @var $export ExportInterface */
+        $export = $this->container->get('odp.export.huurders');
+
+        return $export->create($huurders)->getResponse($filename);
+    }
+
     /**
-     * @Route("/odp/huurders/{id}/view")
+     * @Route("/{id}/view")
      */
     public function view($id)
     {
@@ -77,7 +97,7 @@ class HuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurders/add")
+     * @Route("/add")
      */
     public function add($klantId = null)
     {
@@ -148,7 +168,7 @@ class HuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurders/{id}/edit")
+     * @Route("/{id}/edit")
      */
     public function edit($id)
     {
@@ -177,7 +197,7 @@ class HuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurders/{id}/close")
+     * @Route("/{id}/close")
      */
     public function close($id)
     {
@@ -206,7 +226,39 @@ class HuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurders/{id}/delete")
+     * @Route("/{id}/reopen")
+     */
+    public function reopen($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $huurder = $entityManager->find(Huurder::class, $id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $huurder->reopen();
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Huurder is heropend.');
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                }
+            }
+
+            return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
+        }
+
+        return [
+            'huurder' => $huurder,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/delete")
      */
     public function delete($id)
     {

@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurovereenkomsten
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Koppelingen</h1>
+    <h1>{{ title }}</h1>
     <table class="table table-hover">
         <tr>
             {{ form_start(filter) }}
@@ -19,8 +19,8 @@
                 {{ form_errors(filter.id) }}
             </th>
             <th>
-                {{ form_widget(filter.huurderKlant.naam) }}
-                {{ form_errors(filter.huurderKlant.naam) }}
+                {{ form_widget(filter.huurder.klant.naam) }}
+                {{ form_errors(filter.huurder.klant.naam) }}
             </th>
             <th>
                 {{ form_widget(filter.verhuurderKlant.naam) }}
@@ -49,10 +49,19 @@
                 {{ form_errors(filter.einddatum.end) }}
             </th>
             <th>
+                {{ form_widget(filter.vorm) }}
+                {{ form_errors(filter.vorm) }}
+            </th>
+            <th>
                 {{ form_widget(filter.afsluitdatum.start) }}
                 {{ form_errors(filter.afsluitdatum.start) }}
                 {{ form_widget(filter.afsluitdatum.end) }}
                 {{ form_errors(filter.afsluitdatum.end) }}
+                {{ form_widget(filter.actief) }}
+            </th>
+            <th>
+                {{ form_widget(filter.huurder.automatischeIncasso) }}
+                {{ form_errors(filter.huurder.automatischeIncasso) }}
             </th>
             <th>
                 {{ form_widget(filter.filter) }}
@@ -83,7 +92,13 @@
                 {{ knp_pagination_sortable(pagination, 'Einddatum', 'huurovereenkomst.einddatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Vorm', 'huurovereenkomst.vorm') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurovereenkomst.afsluitdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'huurder.automatischeIncasso') }}
             </th>
             <th>
             </th>
@@ -112,7 +127,14 @@
                     {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') }}
                 </td>
                 <td>
+                    {{ huurovereenkomst.vorm }}
+                </td>
+                <td>
                     {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum | date('d-m-Y') }}
+                    {{ huurovereenkomst.afsluiting ? '('~huurovereenkomst.afsluiting~')' }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}

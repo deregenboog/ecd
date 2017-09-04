@@ -3,12 +3,14 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_afsluitingen")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class IzAfsluiting
 {
@@ -23,11 +25,13 @@ class IzAfsluiting
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
     private $actief = true;
 

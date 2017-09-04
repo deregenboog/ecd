@@ -15,7 +15,7 @@ class IzIntervisiegroepenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz intervisiegroep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->set('izIntervisiegroep', $this->IzIntervisiegroep->read(null, $id));
@@ -28,7 +28,7 @@ class IzIntervisiegroepenController extends AppController
 
             if ($this->IzIntervisiegroep->save($this->data)) {
                 $this->Session->setFlash(__('The iz intervisiegroep has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz intervisiegroep could not be saved. Please, try again.', true));
             }
@@ -40,13 +40,13 @@ class IzIntervisiegroepenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz intervisiegroep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->IzIntervisiegroep->save($this->data)) {
                 $this->Session->setFlash(__('The iz intervisiegroep has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz intervisiegroep could not be saved. Please, try again.', true));
             }
@@ -63,15 +63,15 @@ class IzIntervisiegroepenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz intervisiegroep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->IzIntervisiegroep->delete($id)) {
             $this->Session->setFlash(__('Iz intervisiegroep deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Iz intervisiegroep was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

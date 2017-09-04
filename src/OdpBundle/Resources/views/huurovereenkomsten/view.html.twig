@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    ODP | Huurovereenkomsten
+    Onder de Pannen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -17,6 +17,9 @@
             {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
             {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
             {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+        {% else %}
+            {{ html.addLink(path('odp_huurovereenkomsten_reopen', {id: huurovereenkomst.id})) }}
+            {{ html.link('Heropenen', path('odp_huurovereenkomsten_reopen', {id: huurovereenkomst.id})) }}
         {% endif %}
         {% if huurovereenkomst.deletable %}
             {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
@@ -40,6 +43,8 @@
         <dd>{{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}</dd>
         <dt>Einddatum</dt>
         <dd>{{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}</dd>
+        <dt>Vorm</dt>
+        <dd>{{ huurovereenkomst.vorm }}</dd>
         <dt>Afsluitdatum</dt>
         <dd>{{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
