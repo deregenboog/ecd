@@ -19,18 +19,6 @@ class IzKlantenController extends AppController
      */
     public $view = 'AppTwig';
 
-    private $enabledFilters = [
-        'afsluitDatum',
-        'openDossiers',
-        'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
-        'izProject',
-        'medewerker',
-        'zonderActieveHulpvraag',
-        'zonderActieveKoppeling',
-        'filter',
-        'download',
-    ];
-
     /**
      * @var KlantDaoInterface
      */
@@ -124,9 +112,7 @@ class IzKlantenController extends AppController
 
     private function createFilter()
     {
-        $form = $this->createForm(IzKlantFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $form = $this->createForm(IzKlantFilterType::class);
         $form->handleRequest($this->getRequest());
 
         return $form;

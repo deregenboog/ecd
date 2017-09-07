@@ -130,6 +130,8 @@ class IzVrijwilligerFilterType extends AbstractType
                 'izHulpaanbodMedewerker',
                 'zonderActiefHulpaanbod',
                 'zonderActieveKoppeling',
+                'filter',
+                'download',
             ],
         ]);
     }

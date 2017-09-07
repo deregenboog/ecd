@@ -8,6 +8,21 @@
 <table class="table index filtered">
     <tr>
         {{ form_start(form) }}
+        <th></th>
+        <th></th>
+        <th></th>
+        <th colspan="2">
+            {{ form_row(form.zonderActieveHulpvraag) }}<br>
+        </th>
+        <th colspan="2">
+            {{ form_row(form.zonderActieveKoppeling) }}
+        </th>
+        <th>
+            {{ form_row(form.openDossiers) }}
+        </th>
+        <th></th>
+    </tr>
+    <tr>
         <th>
             {{ form_row(form.klant.id) }}
         </th>
@@ -22,7 +37,10 @@
             {{ form_row(form.izProject) }}
         </th>
         <th>
-            {{ form_row(form.medewerker) }}
+            {{ form_row(form.izIntakeMedewerker) }}
+        </th>
+        <th>
+            {{ form_row(form.izHulpvraagMedewerker) }}
         </th>
         <th>
             {{ form_row(form.klant.stadsdeel) }}
@@ -34,20 +52,6 @@
             {{ form_row(form.filter) }}
             {{ form_row(form.download) }}
         </th>
-    </tr>
-    <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th colspan="2">
-            {{ form_row(form.zonderActieveHulpvraag) }}<br>
-            {{ form_row(form.zonderActieveKoppeling) }}
-        </th>
-        <th></th>
-        <th>
-            {{ form_row(form.openDossiers) }}
-        </th>
-        <th></th>
         {{ form_end(form) }}
     </tr>
     <tr>
@@ -64,7 +68,10 @@
             {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+            {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'IzIntakeMedewerker.voornaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'izHulpvraagMedewerker.voornaam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'klant.werkgebied') }}
@@ -106,6 +113,9 @@
                         <li>{{ izProject }}</li>
                     {% endfor %}
                 </ul>
+            </td>
+            <td>
+                {{ izKlant.izIntake ? izKlant.izIntake.medewerker }}
             </td>
             <td>
                 <ul>

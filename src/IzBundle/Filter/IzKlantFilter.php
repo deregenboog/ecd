@@ -34,7 +34,12 @@ class IzKlantFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $medewerker;
+    public $izIntakeMedewerker;
+
+    /**
+     * @var Medewerker
+     */
+    public $izHulpvraagMedewerker;
 
     /**
      * @var bool
@@ -81,10 +86,17 @@ class IzKlantFilter implements FilterInterface
             ;
         }
 
-        if ($this->medewerker) {
+        if ($this->izIntakeMedewerker) {
             $builder
-                ->andWhere('izHulpvraag.medewerker = :medewerker')
-                ->setParameter('medewerker', $this->medewerker)
+                ->andWhere('izIntakeMedewerker = :izIntakeMedewerker')
+                ->setParameter('izIntakeMedewerker', $this->izIntakeMedewerker)
+            ;
+        }
+
+        if ($this->izHulpvraagMedewerker) {
+            $builder
+                ->andWhere('izHulpvraagMedewerker = :izHulpvraagMedewerker')
+                ->setParameter('izHulpvraagMedewerker', $this->izHulpvraagMedewerker)
             ;
         }
 
