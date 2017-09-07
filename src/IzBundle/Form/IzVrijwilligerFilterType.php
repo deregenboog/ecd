@@ -81,7 +81,7 @@ class IzVrijwilligerFilterType extends AbstractType
             $builder->add('izHulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
-                'label' => 'Medewerker hulpaanbod',
+                'label' => 'Medewerker(s) hulpaanbod',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
