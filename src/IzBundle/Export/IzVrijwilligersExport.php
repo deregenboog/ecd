@@ -7,12 +7,12 @@ use AppBundle\Export\GenericExport;
 
 class IzVrijwilligersExport extends GenericExport
 {
-    public function getOpenstaandeProjecten(IzVrijwilliger $izVrijwilliger)
+    public function getProjectenOpenstaandeHulpaanbiedingen(IzVrijwilliger $izVrijwilliger)
     {
         $projecten = [];
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
-            if ($izHulpaanbod->getIzHulpvraag() === null) {
+            if (!$izHulpaanbod->isGekoppeld() && !$izHulpaanbod->isAfgesloten()) {
                 $projecten[] = $izHulpaanbod->getIzProject();
             }
         }
@@ -20,14 +20,12 @@ class IzVrijwilligersExport extends GenericExport
         return implode(', ', array_unique($projecten));
     }
 
-    public function getLopendeProjecten(IzVrijwilliger $izVrijwilliger)
+    public function getProjectenLopendeKoppelingen(IzVrijwilliger $izVrijwilliger)
     {
         $projecten = [];
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
-            if ($izHulpaanbod->getIzHulpvraag()
-                && ($izHulpaanbod->getKoppelingEinddatum() === null || $izHulpaanbod->getKoppelingEinddatum() > new \DateTime())
-            ) {
+            if ($izHulpaanbod->isGekoppeld() && !$izHulpaanbod->isAfgesloten()) {
                 $projecten[] = $izHulpaanbod->getIzProject();
             }
         }
@@ -35,14 +33,12 @@ class IzVrijwilligersExport extends GenericExport
         return implode(', ', array_unique($projecten));
     }
 
-    public function getAfgeslotenProjecten(IzVrijwilliger $izVrijwilliger)
+    public function getProjectenAfgeslotenKoppelingen(IzVrijwilliger $izVrijwilliger)
     {
         $projecten = [];
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
-            if ($izHulpaanbod->getIzHulpvraag()
-                && ($izHulpaanbod->getKoppelingEinddatum() <= new \DateTime())
-            ) {
+            if ($izHulpaanbod->isGekoppeld() && $izHulpaanbod->isAfgesloten()) {
                 $projecten[] = $izHulpaanbod->getIzProject();
             }
         }
