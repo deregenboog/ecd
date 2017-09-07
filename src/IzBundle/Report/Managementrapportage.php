@@ -36,28 +36,49 @@ class Managementrapportage extends AbstractReport
             'Team ZO Z Diemen' => ['Zuidoost', 'Zuid', 'Diemen'],
             'Team W NW' => ['West', 'Nieuw-West'],
             'Amstelveen' => ['Amstelveen'],
-            'Overig' => ['Overig', ''],
         ];
 
         foreach ($teams as $team => $stadsdelen) {
-            foreach ($this->beginstand as $item) {
+            $status = 'Beginstand';
+            foreach ($this->beginstand as $i => $item) {
                 if (in_array($item['stadsdeel'], $stadsdelen)) {
                     $this->data[$team][] = [
                         'project' => $item['project'],
                         'aantal' => $item['aantal'],
-                        'status' => 'Beginstand',
+                        'status' => $status,
                     ];
+                    unset($this->beginstand[$i]);
                 }
             }
-            foreach ($this->gestart as $item) {
+            $status = 'Gestart';
+            foreach ($this->gestart as $i => $item) {
                 if (in_array($item['stadsdeel'], $stadsdelen)) {
                     $this->data[$team][] = [
                         'project' => $item['project'],
                         'aantal' => $item['aantal'],
-                        'status' => 'Gestart',
+                        'status' => $status,
                     ];
+                    unset($this->gestart[$i]);
                 }
             }
+        }
+
+        $team = 'Overig';
+        $status = 'Beginstand';
+        foreach ($this->beginstand as $item) {
+            $this->data[$team][] = [
+                'project' => $item['project'],
+                'aantal' => $item['aantal'],
+                'status' => $status,
+            ];
+        }
+        $status = 'Gestart';
+        foreach ($this->gestart as $item) {
+            $this->data[$team][] = [
+                'project' => $item['project'],
+                'aantal' => $item['aantal'],
+                'status' => $status,
+            ];
         }
     }
 
