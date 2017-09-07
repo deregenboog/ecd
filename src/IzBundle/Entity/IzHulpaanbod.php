@@ -54,6 +54,6 @@ class IzHulpaanbod extends IzKoppeling
 
     public function isGekoppeld()
     {
-        return !is_null($this->izHulpvraag);
+        return $this->izHulpvraag instanceof IzHulpvraag;
     }
 }

@@ -23,9 +23,9 @@ services:
                 Gezin met kinderen: { expression: 'entity.getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
                 Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
-                Openstaande projecten: { expression: 'export.getOpenstaandeProjecten(entity)' }
-                Lopende projecten: { expression: 'export.getLopendeProjecten(entity)' }
-                Afgesloten projecten: { expression: 'export.getAfgeslotenProjecten(entity)' }
+                Openstaande hulpvragen: { expression: 'export.getProjectenOpenstaandeHulpvragen(entity)' }
+                Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
+                Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
                 Medewerker intake: { expression: 'entity.getIzIntake().getMedewerker()', condition: 'entity.getIzIntake()' }
                 Medewerker(s) hulpvraag: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
@@ -55,9 +55,9 @@ services:
                 Stagiair: { expression: 'entity.getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
                 Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
-                Openstaande projecten: { expression: 'export.getOpenstaandeProjecten(entity)' }
-                Lopende projecten: { expression: 'export.getLopendeProjecten(entity)' }
-                Afgesloten projecten: { expression: 'export.getAfgeslotenProjecten(entity)' }
+                Openstaande hulpaanbiedingen: { expression: 'export.getProjectenOpenstaandeHulpaanbiedingen(entity)' }
+                Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
+                Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
                 Medewerker intake: { expression: 'entity.getIzIntake().getMedewerker()', condition: 'entity.getIzIntake()' }
                 Medewerker(s) hulpaanbod: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }

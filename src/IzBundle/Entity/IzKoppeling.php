@@ -177,4 +177,15 @@ abstract class IzKoppeling
 
         return $this;
     }
+
+    public function isAfgesloten()
+    {
+        $now = new \DateTime();
+
+        if ($this->isGekoppeld()) {
+            return $this->getKoppelingEinddatum() instanceof \DateTime && $this->getKoppelingEinddatum() <= $now;
+        }
+
+        return $this->getEinddatum() instanceof \DateTime && $this->getEinddatum() <= $now;
+    }
 }
