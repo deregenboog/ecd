@@ -17,6 +17,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
+use IzBundle\Entity\IzIntake;
 
 class IzKlantFilterType extends AbstractType
 {
@@ -59,10 +60,28 @@ class IzKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+        if (in_array('izIntakeMedewerker', $options['enabled_filters'])) {
+            $builder->add('izIntakeMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
+                'label' => 'Medewerker intake',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzIntake::class, 'izIntake', 'WITH', 'izIntake.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
+                },
+            ]);
+        }
+
+        if (in_array('izHulpvraagMedewerker', $options['enabled_filters'])) {
+            $builder->add('izHulpvraagMedewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'label' => 'Medewerker(s) hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
@@ -101,6 +120,18 @@ class IzKlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzKlantFilter::class,
+            'enabled_filters' => [
+                'afsluitDatum',
+                'openDossiers',
+                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'izProject',
+                'izIntakeMedewerker',
+                'izHulpvraagMedewerker',
+                'zonderActieveHulpvraag',
+                'zonderActieveKoppeling',
+                'filter',
+                'download',
+            ],
         ]);
     }
 
