@@ -27,9 +27,6 @@ class VragenPerHulpvrager extends AbstractReport
 
     protected function init()
     {
-        $this->tables[VraagDaoInterface::FASE_BEGINSTAND] = $this->dao->countByHulpvrager(VraagDaoInterface::FASE_BEGINSTAND, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_GESTART] = $this->dao->countByHulpvrager(VraagDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_AFGESLOTEN] = $this->dao->countByHulpvrager(VraagDaoInterface::FASE_AFGESLOTEN, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_EINDSTAND] = $this->dao->countByHulpvrager(VraagDaoInterface::FASE_EINDSTAND, $this->startDate, $this->endDate);
+        $this->tables[''] = $this->dao->countByHulpvrager($this->startDate, $this->endDate);
     }
 }

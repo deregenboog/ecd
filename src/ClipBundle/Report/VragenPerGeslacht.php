@@ -27,9 +27,6 @@ class VragenPerGeslacht extends AbstractReport
 
     protected function init()
     {
-        $this->tables[VraagDaoInterface::FASE_BEGINSTAND] = $this->dao->countByGeslacht(VraagDaoInterface::FASE_BEGINSTAND, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_GESTART] = $this->dao->countByGeslacht(VraagDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_AFGESLOTEN] = $this->dao->countByGeslacht(VraagDaoInterface::FASE_AFGESLOTEN, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_EINDSTAND] = $this->dao->countByGeslacht(VraagDaoInterface::FASE_EINDSTAND, $this->startDate, $this->endDate);
+        $this->tables[''] = $this->dao->countByGeslacht($this->startDate, $this->endDate);
     }
 }

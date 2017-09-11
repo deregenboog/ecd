@@ -27,9 +27,6 @@ class VragenPerWoonplaats extends AbstractReport
 
     protected function init()
     {
-        $this->tables[VraagDaoInterface::FASE_BEGINSTAND] = $this->dao->countByWoonplaats(VraagDaoInterface::FASE_BEGINSTAND, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_GESTART] = $this->dao->countByWoonplaats(VraagDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_AFGESLOTEN] = $this->dao->countByWoonplaats(VraagDaoInterface::FASE_AFGESLOTEN, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_EINDSTAND] = $this->dao->countByWoonplaats(VraagDaoInterface::FASE_EINDSTAND, $this->startDate, $this->endDate);
+        $this->tables[''] = $this->dao->countByWoonplaats($this->startDate, $this->endDate);
     }
 }

@@ -27,9 +27,6 @@ class VragenPerGeboorteland extends AbstractReport
 
     protected function init()
     {
-        $this->tables[VraagDaoInterface::FASE_BEGINSTAND] = $this->dao->countByGeboorteland(VraagDaoInterface::FASE_BEGINSTAND, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_GESTART] = $this->dao->countByGeboorteland(VraagDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_AFGESLOTEN] = $this->dao->countByGeboorteland(VraagDaoInterface::FASE_AFGESLOTEN, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_EINDSTAND] = $this->dao->countByGeboorteland(VraagDaoInterface::FASE_EINDSTAND, $this->startDate, $this->endDate);
+        $this->tables[''] = $this->dao->countByGeboorteland($this->startDate, $this->endDate);
     }
 }

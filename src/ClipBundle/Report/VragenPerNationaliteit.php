@@ -27,9 +27,6 @@ class VragenPerNationaliteit extends AbstractReport
 
     protected function init()
     {
-        $this->tables[VraagDaoInterface::FASE_BEGINSTAND] = $this->dao->countByNationaliteit(VraagDaoInterface::FASE_BEGINSTAND, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_GESTART] = $this->dao->countByNationaliteit(VraagDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_AFGESLOTEN] = $this->dao->countByNationaliteit(VraagDaoInterface::FASE_AFGESLOTEN, $this->startDate, $this->endDate);
-        $this->tables[VraagDaoInterface::FASE_EINDSTAND] = $this->dao->countByNationaliteit(VraagDaoInterface::FASE_EINDSTAND, $this->startDate, $this->endDate);
+        $this->tables[''] = $this->dao->countByNationaliteit($this->startDate, $this->endDate);
     }
 }
