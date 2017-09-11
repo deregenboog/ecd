@@ -37,7 +37,7 @@ class BehandelaarDao extends AbstractDao implements BehandelaarDaoInterface
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
-        return $builder->getQuery()->getResult();and
+        return $builder->getQuery()->getResult();
     }
 
     public function create(Behandelaar $behandelaar)
