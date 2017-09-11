@@ -14,6 +14,7 @@ use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Entity\Vraag;
 use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
+use AppBundle\Form\AppTextareaType;
 
 class VraagType extends AbstractType
 {
@@ -85,12 +86,13 @@ class VraagType extends AbstractType
                     ;
                 },
             ])
-            ->add('omschrijving')
+            ->add('omschrijving', AppTextareaType::class)
         ;
 
         if (!isset($options['data']) || !$options['data']->getId()) {
             $builder->add('contactmoment', ContactmomentType::class, [
                 'required' => true,
+                'label' => 'Eerste contactmoment',
             ]);
             $builder->get('contactmoment')->remove('medewerker')->remove('datum');
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event, $eventName) {

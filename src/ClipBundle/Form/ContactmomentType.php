@@ -11,6 +11,7 @@ use AppBundle\Form\BaseType;
 use ClipBundle\Entity\Contactmoment;
 use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
+use AppBundle\Form\AppTextareaType;
 
 class ContactmomentType extends AbstractType
 {
@@ -33,7 +34,7 @@ class ContactmomentType extends AbstractType
                 },
             ])
             ->add('datum', AppDateType::class)
-            ->add('opmerking')
+            ->add('opmerking', AppTextareaType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
