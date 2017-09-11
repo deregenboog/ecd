@@ -17,6 +17,14 @@ interface VraagDaoInterface
     public function findAll($page = null, FilterInterface $filter = null);
 
     /**
+     * @param int             $page
+     * @param FilterInterface $filter
+     *
+     * @return PaginationInterface
+     */
+    public function findAllOpen($page = null, FilterInterface $filter = null);
+
+    /**
      * @param int $id
      *
      * @return Vraag

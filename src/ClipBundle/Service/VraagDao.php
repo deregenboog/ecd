@@ -46,6 +46,28 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+    public function findAllOpen($page = null, FilterInterface $filter = null)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin($this->alias.'.soort', 'vraagsoort')
+            ->innerJoin($this->alias.'.medewerker', 'medewerker')
+            ->innerJoin($this->alias.'.client', 'client')
+            ->innerJoin('client.klant', 'klant')
+            ->where("{$this->alias}.afsluitdatum IS NULL OR {$this->alias}.afsluitdatum > :now")
+            ->setParameter('now', new \DateTime())
+        ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function create(Vraag $vraag)
     {
         $this->doCreate($vraag);

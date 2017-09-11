@@ -7,4 +7,4 @@ clip_index:
     path: /clip
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: clip_clienten_index
+        route: clip_openstaandevragen_index
