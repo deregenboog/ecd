@@ -4,13 +4,6 @@ services:
         tags:
             - { name: form.type }
 
-    clip.report.contactmomenten_per_communicatiekanaal:
-        class: ClipBundle\Report\ContactmomentenPerCommunicatiekanaal
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
     clip.report.contactmomenten_per_geslacht:
         class: ClipBundle\Report\ContactmomentenPerGeslacht
         arguments:
@@ -34,6 +27,13 @@ services:
 
     clip.report.contactmomenten_per_leeftijdscategorie:
         class: ClipBundle\Report\ContactmomentenPerLeeftijdscategorie
+        arguments:
+            - "@clip.dao.contactmoment"
+        tags:
+            - { name: clip.rapportage, category: Contactmomenten }
+
+    clip.report.contactmomenten_per_communicatiekanaal:
+        class: ClipBundle\Report\ContactmomentenPerCommunicatiekanaal
         arguments:
             - "@clip.dao.contactmoment"
         tags:
@@ -67,13 +67,6 @@ services:
         tags:
             - { name: clip.rapportage, category: Contactmomenten }
 
-    clip.report.vragen_per_communicatiekanaal:
-        class: ClipBundle\Report\VragenPerCommunicatiekanaal
-        arguments:
-            - "@clip.dao.vraag"
-        tags:
-            - { name: clip.rapportage, category: Vragen }
-
     clip.report.vragen_per_geslacht:
         class: ClipBundle\Report\VragenPerGeslacht
         arguments:
@@ -97,6 +90,13 @@ services:
 
     clip.report.vragen_per_leeftijdscategorie:
         class: ClipBundle\Report\VragenPerLeeftijdscategorie
+        arguments:
+            - "@clip.dao.vraag"
+        tags:
+            - { name: clip.rapportage, category: Vragen }
+
+    clip.report.vragen_per_communicatiekanaal:
+        class: ClipBundle\Report\VragenPerCommunicatiekanaal
         arguments:
             - "@clip.dao.vraag"
         tags:

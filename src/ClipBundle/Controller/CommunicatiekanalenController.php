@@ -14,8 +14,8 @@ use ClipBundle\Service\CommunicatiekanaalDaoInterface;
  */
 class CommunicatiekanalenController extends AbstractController
 {
-    protected $title = 'Communicatiekanalen';
-    protected $entityName = 'communicatiekanaal';
+    protected $title = 'Locatie';
+    protected $entityName = 'locatie';
     protected $entityClass = Communicatiekanaal::class;
     protected $formClass = CommunicatiekanaalType::class;
     protected $baseRouteName = 'clip_communicatiekanalen_';

@@ -61,6 +61,7 @@ class VraagType extends AbstractType
                 },
             ])
             ->add('communicatiekanaal', null, [
+                'label' => 'Locatie',
                 'placeholder' => '',
                 'required' => true,
                 'query_builder' => function(EntityRepository $repository) use ($options) {

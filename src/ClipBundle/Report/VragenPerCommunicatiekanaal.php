@@ -6,7 +6,7 @@ use ClipBundle\Service\VraagDaoInterface;
 
 class VragenPerCommunicatiekanaal extends AbstractReport
 {
-    protected $title = 'Vragen per communicatiekanaal';
+    protected $title = 'Vragen per locatie';
 
     protected $xPath = '';
 
@@ -16,7 +16,7 @@ class VragenPerCommunicatiekanaal extends AbstractReport
 
     protected $xDescription = '';
 
-    protected $yDescription = 'Communicatiekanaal';
+    protected $yDescription = 'Locatie';
 
     protected $tables = [];
 
