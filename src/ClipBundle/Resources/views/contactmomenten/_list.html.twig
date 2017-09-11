@@ -12,6 +12,7 @@
 <table class="table">
     <tr>
         <th>Datum</th>
+        <th>Medewerker</th>
         <th>Vraag</th>
         <th>Opmerking</th>
         <th></th>
@@ -20,6 +21,9 @@
         <tr>
             <td>
                 {{ contactmoment.datum ? contactmoment.datum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ contactmoment.medewerker }}
             </td>
             <td>
                 {{ html.link(contactmoment.vraag, path('clip_vragen_view', {id: entity.id})) }}
