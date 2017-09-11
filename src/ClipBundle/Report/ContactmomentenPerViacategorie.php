@@ -7,7 +7,7 @@ use ClipBundle\Service\ContactmomentDaoInterface;
 
 class ContactmomentenPerViacategorie extends AbstractReport
 {
-    protected $title = 'Contactmomenten per via-categorie';
+    protected $title = 'Contactmomenten per hoe bekend';
 
     protected $xPath = '';
 
@@ -17,7 +17,7 @@ class ContactmomentenPerViacategorie extends AbstractReport
 
     protected $xDescription = '';
 
-    protected $yDescription = 'Via-categorie';
+    protected $yDescription = 'Hoe bekend';
 
     protected $tables = [];
 

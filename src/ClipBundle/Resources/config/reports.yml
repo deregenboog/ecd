@@ -18,6 +18,13 @@ services:
         tags:
             - { name: clip.rapportage, category: Contactmomenten }
 
+    clip.report.contactmomenten_per_viacategorie:
+        class: ClipBundle\Report\ContactmomentenPerViacategorie
+        arguments:
+            - "@clip.dao.contactmoment"
+        tags:
+            - { name: clip.rapportage, category: Contactmomenten }
+
     clip.report.contactmomenten_per_hulpvrager:
         class: ClipBundle\Report\ContactmomentenPerHulpvrager
         arguments:
@@ -41,13 +48,6 @@ services:
 
     clip.report.contactmomenten_per_nationaliteit:
         class: ClipBundle\Report\ContactmomentenPerNationaliteit
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_viacategorie:
-        class: ClipBundle\Report\ContactmomentenPerViacategorie
         arguments:
             - "@clip.dao.contactmoment"
         tags:
@@ -81,6 +81,13 @@ services:
         tags:
             - { name: clip.rapportage, category: Vragen }
 
+    clip.report.vragen_per_viacategorie:
+        class: ClipBundle\Report\VragenPerViacategorie
+        arguments:
+            - "@clip.dao.vraag"
+        tags:
+            - { name: clip.rapportage, category: Vragen }
+
     clip.report.vragen_per_hulpvrager:
         class: ClipBundle\Report\VragenPerHulpvrager
         arguments:
@@ -104,13 +111,6 @@ services:
 
     clip.report.vragen_per_nationaliteit:
         class: ClipBundle\Report\VragenPerNationaliteit
-        arguments:
-            - "@clip.dao.vraag"
-        tags:
-            - { name: clip.rapportage, category: Vragen }
-
-    clip.report.vragen_per_viacategorie:
-        class: ClipBundle\Report\VragenPerViacategorie
         arguments:
             - "@clip.dao.vraag"
         tags:

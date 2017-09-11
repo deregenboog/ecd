@@ -6,7 +6,7 @@ use ClipBundle\Service\VraagDaoInterface;
 
 class VragenPerViacategorie extends AbstractReport
 {
-    protected $title = 'Vragen per via-categorie';
+    protected $title = 'Vragen per hoe bekend';
 
     protected $xPath = '';
 
@@ -16,7 +16,7 @@ class VragenPerViacategorie extends AbstractReport
 
     protected $xDescription = '';
 
-    protected $yDescription = 'Via-categorie';
+    protected $yDescription = 'Hoe bekend';
 
     protected $tables = [];
 

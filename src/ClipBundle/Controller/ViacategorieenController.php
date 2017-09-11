@@ -11,8 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class ViacategorieenController extends AbstractController
 {
-    protected $title = 'Viacategorieën';
-    protected $entityName = 'Viacategorie';
+    protected $title = 'Hoe bekend-opties';
+    protected $entityName = 'hoe bekend-optie';
     protected $entityClass = Viacategorie::class;
     protected $formClass = ViacategorieType::class;
     protected $baseRouteName = 'clip_viacategorieen_';
