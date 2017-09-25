@@ -15,7 +15,7 @@ class RedirectController extends SymfonyController
      */
     public function indexAction()
     {
-        if (!in_array(GROUP_TRAJECTBEGELEIDER, $this->userGroups)) {
+        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
