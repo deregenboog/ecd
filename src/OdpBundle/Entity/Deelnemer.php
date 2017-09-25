@@ -69,7 +69,7 @@ abstract class Deelnemer
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
-    protected $wpi;
+    protected $wpi = false;
 
     /**
      * @var string
