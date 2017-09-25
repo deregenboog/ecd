@@ -67,7 +67,7 @@ abstract class Deelnemer
      *
      * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $wpi;
+    protected $wpi = false;
 
     /**
      * @var string
