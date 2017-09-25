@@ -47,10 +47,10 @@ class ClientenController extends AbstractController
      */
     public function addAction(Request $request)
     {
-        if ($request->query->has('klantId')) {
+        if ($request->query->has('klant')) {
             $klant = new Klant();
-            if ($request->query->get('klantId') !== 'new') {
-                $klant = $this->getEntityManager()->find(Klant::class, $request->query->get('klantId'));
+            if ($request->query->get('klant') !== 'new') {
+                $klant = $this->getEntityManager()->find(Klant::class, $request->query->get('klant'));
             }
 
             $entity = new Client();
@@ -100,7 +100,7 @@ class ClientenController extends AbstractController
                 $id = 'new';
             }
 
-            return $this->redirectToRoute($this->baseRouteName.'add', ['klantId' => $id]);
+            return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => $id]);
         }
 
         return [

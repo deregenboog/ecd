@@ -18,10 +18,10 @@
     <table class="table table-hover">
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'medewerker.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'behandelaar.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'medewerker.voornaam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'behandelaar.displayName') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Actief', 'behandelaar.actief') }}
@@ -32,7 +32,7 @@
         {% for behandelaar in pagination %}
             <tr>
                 <td>
-                    {{ behandelaar.medewerker.id }}
+                    {{ behandelaar.id }}
                 </td>
                 <td>
                     {{ behandelaar }}

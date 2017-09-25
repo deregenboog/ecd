@@ -5,8 +5,8 @@ namespace ClipBundle\Filter;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use ClipBundle\Entity\Vraagsoort;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\Model\AppDateRangeModel;
+use ClipBundle\Entity\Behandelaar;
 
 class VraagFilter implements FilterInterface
 {
@@ -31,9 +31,9 @@ class VraagFilter implements FilterInterface
     public $soort;
 
     /**
-     * @var Medewerker
+     * @var Behandelaar
      */
-    public $medewerker;
+    public $behandelaar;
 
     /**
      * @var ClientFilter
@@ -86,10 +86,10 @@ class VraagFilter implements FilterInterface
             ;
         }
 
-        if ($this->medewerker) {
+        if ($this->behandelaar) {
             $builder
-                ->andWhere('vraag.medewerker = :medewerker')
-                ->setParameter('medewerker', $this->medewerker)
+                ->andWhere('vraag.behandelaar = :behandelaar')
+                ->setParameter('behandelaar', $this->behandelaar)
             ;
         }
 

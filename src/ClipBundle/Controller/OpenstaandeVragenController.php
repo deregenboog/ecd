@@ -42,7 +42,7 @@ class OpenstaandeVragenController extends VragenController
                     'id',
                     'startdatum',
                     'soort',
-                    'medewerker',
+                    'behandelaar',
                     'client' => ['klant' => ['naam']],
                 ],
             ]);

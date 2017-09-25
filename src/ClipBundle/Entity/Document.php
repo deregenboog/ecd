@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -18,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Document
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait, RequiredBehandelaarTrait;
 
     /**
      * @ORM\Id

@@ -27,8 +27,8 @@
                 {{ form_errors(filter.soort) }}
             </th>
             <th>
-                {{ form_widget(filter.medewerker) }}
-                {{ form_errors(filter.medewerker) }}
+                {{ form_widget(filter.behandelaar) }}
+                {{ form_errors(filter.behandelaar) }}
             </th>
             <th>
                 {{ form_widget(filter.startdatum.start) }}
@@ -53,7 +53,7 @@
                 {{ knp_pagination_sortable(pagination, 'Soort', 'vraagsoort.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'behandelaar.displayName') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'vraag.startdatum') }}
@@ -73,7 +73,7 @@
                 {{ vraag.soort }}
             </td>
             <td>
-                {{ vraag.medewerker }}
+                {{ vraag.behandelaar }}
             </td>
             <td>
                 {{ vraag.startdatum|date('d-m-Y') }}

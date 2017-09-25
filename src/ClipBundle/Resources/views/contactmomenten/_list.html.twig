@@ -23,7 +23,7 @@
                 {{ contactmoment.datum ? contactmoment.datum|date('d-m-Y') }}
             </td>
             <td>
-                {{ contactmoment.medewerker }}
+                {{ contactmoment.behandelaar }}
             </td>
             <td>
                 {{ html.link(contactmoment.vraag, path('clip_vragen_view', {id: entity.id})) }}

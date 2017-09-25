@@ -9,11 +9,11 @@ use ClipBundle\Entity\Behandelaar;
 class BehandelaarDao extends AbstractDao implements BehandelaarDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'medewerker.voornaam',
+        'defaultSortFieldName' => 'behandelaar.displayName',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
-            'medewerker.id',
-            'medewerker.voornaam',
+            'behandelaar.id',
+            'behandelaar.displayName',
             'behandelaar.actief',
         ],
     ];
@@ -26,7 +26,7 @@ class BehandelaarDao extends AbstractDao implements BehandelaarDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias, 'medewerker')
-            ->innerJoin($this->alias.'.medewerker', 'medewerker')
+            ->leftJoin($this->alias.'.medewerker', 'medewerker')
         ;
 
         if ($filter) {

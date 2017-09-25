@@ -103,11 +103,13 @@ ClipBundle\Entity\Communicatiekanaal:
 ClipBundle\Entity\Behandelaar:
     clip_behandelaar_{1..5}:
         medewerker (unique): '@medewerker_*'
+    clip_behandelaar_{6..10}:
+        naam: '<name()>'
 
 ClipBundle\Entity\Client:
     clip_client_{1..20}:
         klant (unique): '@klant_*'
-        medewerker: '@medewerker_*'
+        behandelaar: '@clip_behandelaar_*'
         aanmelddatum: '<dateTimeThisDecade()>'
         viacategorie: '@clip_viacategorie_*'
 
@@ -116,7 +118,7 @@ ClipBundle\Entity\Vraag:
         client: '@clip_client_*'
         soort: '@clip_vraagsoort_*'
         leeftijdscategorie: '@clip_leeftijdscategorie_*'
-        medewerker: '@medewerker_*'
+        behandelaar: '@clip_behandelaar_*'
         omschrijving: '<sentence()>'
         communicatiekanaal: '@clip_communicatiekanaal_*'
         hulpvrager: '@clip_hulpvragersoort_*'

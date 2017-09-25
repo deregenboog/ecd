@@ -26,7 +26,7 @@ services:
             -
                 Nummer: { expression: 'entity.getId()' }
                 Soort: { expression: 'entity.getSoort()' }
-                Medewerker: { expression: 'entity.getMedewerker()' }
+                Medewerker: { expression: 'entity.getBehandelaar()' }
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getClient().getKlant().getGeslacht()' }

@@ -24,7 +24,7 @@ class ClientSelectType extends AbstractType
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('klant')
-                    ->leftJoin(Client::class, 'client', 'WITH', 'client.klant = klant')
+                        ->leftJoin(Client::class, 'client', 'WITH', 'client.klant = klant')
                         ->andWhere('client.id IS NULL')
                         ->orderBy('klant.achternaam, klant.tussenvoegsel, klant.voornaam')
                     ;

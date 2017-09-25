@@ -12,6 +12,7 @@ use ClipBundle\Entity\Contactmoment;
 use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
 use AppBundle\Form\AppTextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ContactmomentType extends AbstractType
 {
@@ -21,15 +22,17 @@ class ContactmomentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('medewerker', MedewerkerType::class, [
+            ->add('behandelaar', EntityType::class, [
+                'placeholder' => '',
+                'label' => 'Medewerker',
+                'class' => Behandelaar::class,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getMedewerker() : null;
+                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
 
-                    return $repository->createQueryBuilder('medewerker')
-                        ->leftJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
-                        ->where('behandelaar.actief = true OR medewerker = :current')
+                    return $repository->createQueryBuilder('behandelaar')
+                        ->where('behandelaar.actief = true OR behandelaar = :current')
                         ->setParameter('current', $current)
-                        ->orderBy('medewerker.voornaam')
+                        ->orderBy('behandelaar.displayName')
                     ;
                 },
             ])

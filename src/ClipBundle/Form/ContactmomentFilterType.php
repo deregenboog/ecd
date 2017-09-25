@@ -32,10 +32,8 @@ class ContactmomentFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', MedewerkerType::class, [
-                'required' => false,
-            ]);
+        if (in_array('behandelaar', $options['enabled_filters'])) {
+            $builder->add('behandelaar', BehandelaarFilterType::class);
         }
 
         if (in_array('datum', $options['enabled_filters'])) {
@@ -68,7 +66,7 @@ class ContactmomentFilterType extends AbstractType
             'enabled_filters' => [
                 'id',
                 'vraag' => ['soort', 'client' => ['klant' => ['naam']]],
-                'medewerker',
+                'behandelaar',
                 'datum',
             ],
         ]);

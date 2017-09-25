@@ -15,6 +15,7 @@ use ClipBundle\Entity\Vraag;
 use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
 use AppBundle\Form\AppTextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class VraagType extends AbstractType
 {
@@ -24,15 +25,17 @@ class VraagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('medewerker', MedewerkerType::class, [
+            ->add('behandelaar', EntityType::class, [
+                'placeholder' => '',
+                'label' => 'Medewerker',
+                'class' => Behandelaar::class,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getMedewerker() : null;
+                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
 
-                    return $repository->createQueryBuilder('medewerker')
-                        ->leftJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
-                        ->where('behandelaar.actief = true OR medewerker = :current')
+                    return $repository->createQueryBuilder('behandelaar')
+                        ->where('behandelaar.actief = true OR behandelaar = :current')
                         ->setParameter('current', $current)
-                        ->orderBy('medewerker.voornaam')
+                        ->orderBy('behandelaar.displayName')
                     ;
                 },
             ])
@@ -89,18 +92,18 @@ class VraagType extends AbstractType
             ->add('omschrijving', AppTextareaType::class)
         ;
 
-        if (!isset($options['data']) || !$options['data']->getId()) {
+        if ($this->isNew($options['data'])) {
             $builder->add('contactmoment', ContactmomentType::class, [
                 'required' => true,
                 'label' => 'Eerste contactmoment',
             ]);
-            $builder->get('contactmoment')->remove('medewerker')->remove('datum');
+            $builder->get('contactmoment')->remove('behandelaar')->remove('datum');
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event, $eventName) {
                 /* @var $vraag Vraag */
                 $vraag = $event->getData();
                 $vraag->getContactmoment()
                     ->setDatum($vraag->getStartdatum())
-                    ->setMedewerker($vraag->getMedewerker())
+                    ->setBehandelaar($vraag->getBehandelaar())
                 ;
             });
         }
@@ -124,5 +127,10 @@ class VraagType extends AbstractType
     public function getParent()
     {
         return BaseType::class;
+    }
+
+    private function isNew(Vraag $vraag = null)
+    {
+        return is_null($vraag) || is_null($vraag->getId());
     }
 }

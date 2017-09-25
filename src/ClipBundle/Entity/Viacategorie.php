@@ -20,11 +20,11 @@ class Viacategorie
     use IdentifiableTrait, NamableTrait, ActivatableTrait;
 
     /**
-     * @var ArrayCollection|Vraag[]
+     * @var ArrayCollection|Client[]
      *
-     * @ORM\OneToMany(targetEntity="Vraag", mappedBy="hulpvrager")
+     * @ORM\OneToMany(targetEntity="Client", mappedBy="viacategorie")
      */
-    private $vragen;
+    private $clienten;
 
     public function __construct()
     {

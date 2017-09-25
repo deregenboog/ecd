@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use ClipBundle\Entity\Vraagsoort;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\Model\AppDateRangeModel;
+use ClipBundle\Entity\Behandelaar;
 
 class ContactmomentFilter implements FilterInterface
 {
@@ -21,9 +22,9 @@ class ContactmomentFilter implements FilterInterface
     public $datum;
 
     /**
-     * @var Medewerker
+     * @var Behandelaar
      */
-    public $medewerker;
+    public $behandelaar;
 
     /**
      * @var VraagFilter
@@ -54,10 +55,10 @@ class ContactmomentFilter implements FilterInterface
             }
         }
 
-        if ($this->medewerker) {
+        if ($this->behandelaar) {
             $builder
-                ->andWhere('contactmoment.medewerker = :medewerker')
-                ->setParameter('medewerker', $this->medewerker)
+                ->andWhere('contactmoment.behandelaar = :behandelaar')
+                ->setParameter('behandelaar', $this->behandelaar)
             ;
         }
 

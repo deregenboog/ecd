@@ -14,6 +14,7 @@ use AppBundle\Form\BaseType;
 use ClipBundle\Entity\Client;
 use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ClientType extends AbstractType
 {
@@ -22,31 +23,22 @@ class ClientType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('aanmelddatum', AppDateType::class);
-
-        if ($options['data']->getKlant()->getId()) {
-            $builder->add('medewerker', MedewerkerType::class, [
+        $builder
+            ->add('behandelaar', EntityType::class, [
+                'placeholder' => '',
+                'label' => 'Medewerker',
+                'class' => Behandelaar::class,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getMedewerker() : null;
+                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
 
-                    return $repository->createQueryBuilder('medewerker')
-                        ->leftJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
-                        ->where('behandelaar.actief = true OR medewerker = :current')
+                    return $repository->createQueryBuilder('behandelaar')
+                        ->where('behandelaar.actief = true OR behandelaar = :current')
                         ->setParameter('current', $current)
-                        ->orderBy('medewerker.voornaam')
+                        ->orderBy('behandelaar.displayName')
                     ;
                 },
-            ]);
-        } else {
-            $builder
-                ->add('klant', KlantType::class)
-                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                    $event->getData()->setMedewerker($event->getData()->getKlant()->getMedewerker());
-                })
-            ;
-        }
-
-        $builder
+            ])
+            ->add('aanmelddatum', AppDateType::class)
             ->add('viacategorie', null, [
                 'label' => 'Hoe bekend',
                 'placeholder' => '',
@@ -60,8 +52,28 @@ class ClientType extends AbstractType
                     ;
                 },
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
+
+        if ($options['data']->getKlant()->getId()) {
+            $builder->add('behandelaar', EntityType::class, [
+                'placeholder' => '',
+                'label' => 'Medewerker',
+                'class' => Behandelaar::class,
+                'query_builder' => function (EntityRepository $repository) use ($options) {
+                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
+
+                    return $repository->createQueryBuilder('behandelaar')
+                        ->where('behandelaar.actief = true OR behandelaar = :current')
+                        ->setParameter('current', $current)
+                        ->orderBy('behandelaar.displayName')
+                    ;
+                },
+            ]);
+        } else {
+            $builder->add('klant', KlantType::class);
+        }
+
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**

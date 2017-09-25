@@ -15,7 +15,7 @@
         <tr>
             <td>{{ document.naam }}</td>
             <td>{{ document.created|date('d-m-Y') }}</td>
-            <td>{{ document.medewerker }}</td>
+            <td>{{ document.behandelaar }}</td>
             <td>
                 <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
                     Document downloaden

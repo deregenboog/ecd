@@ -13,6 +13,8 @@ use ClipBundle\Filter\VraagFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use ClipBundle\Entity\Vraagsoort;
 use AppBundle\Entity\Medewerker;
+use ClipBundle\Entity\Behandelaar;
+use Doctrine\ORM\EntityRepository;
 
 class VraagFilterType extends AbstractType
 {
@@ -34,14 +36,18 @@ class VraagFilterType extends AbstractType
         if (in_array('soort', $options['enabled_filters'])) {
             $builder->add('soort', EntityType::class, [
                 'class' => Vraagsoort::class,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('soort')
+                        ->where('soort.actief = true')
+                        ->orderBy('soort.naam')
+                    ;
+                },
                 'required' => false,
             ]);
         }
 
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', MedewerkerType::class, [
-                'required' => false,
-            ]);
+        if (in_array('behandelaar', $options['enabled_filters'])) {
+            $builder->add('behandelaar', BehandelaarFilterType::class);
         }
 
         if (in_array('startdatum', $options['enabled_filters'])) {
@@ -82,7 +88,7 @@ class VraagFilterType extends AbstractType
                 'startdatum',
                 'afsluitdatum',
                 'soort',
-                'medewerker',
+                'behandelaar',
                 'client' => ['klant' => ['naam']],
             ],
         ]);

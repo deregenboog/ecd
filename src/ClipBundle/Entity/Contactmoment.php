@@ -4,7 +4,6 @@ namespace ClipBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -15,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Contactmoment
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait, RequiredBehandelaarTrait;
 
     /**
      * @ORM\Id

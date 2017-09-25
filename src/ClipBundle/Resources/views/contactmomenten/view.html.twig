@@ -29,7 +29,7 @@
         <dt>Aanmelddatum</dt>
         <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
         <dt>Medewerker</dt>
-        <dd>{{ entity.medewerker }}</dd>
+        <dd>{{ entity.behandelaar }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}

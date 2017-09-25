@@ -5,9 +5,7 @@ namespace ClipBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
@@ -17,7 +15,7 @@ use AppBundle\Entity\Medewerker;
  */
 class Vraag
 {
-    use RequiredMedewerkerTrait, TimestampableTrait;
+    use RequiredBehandelaarTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -129,13 +127,13 @@ class Vraag
         return $this->id;
     }
 
-    public function setMedewerker(Medewerker $medewerker)
+    public function setBehandelaar(Behandelaar $behandelaar)
     {
-        $this->medewerker = $medewerker;
+        $this->behandelaar = $behandelaar;
 
-        // initial Contactmoment has the same Medewerker as this Vraag
+        // initial Contactmoment has the same Behandelaar as this Vraag
         if (1 === count($this->contactmomenten)) {
-            $this->contactmomenten[0]->setMedewerker($this->getMedewerker());
+            $this->contactmomenten[0]->setBehandelaar($this->getBehandelaar());
         }
 
         return $this;

@@ -22,7 +22,7 @@ class Vraagsoort
     /**
      * @var ArrayCollection|Vraag[]
      *
-     * @ORM\OneToMany(targetEntity="Vraag", mappedBy="hulpvrager")
+     * @ORM\OneToMany(targetEntity="Vraag", mappedBy="soort")
      */
     private $vragen;
 

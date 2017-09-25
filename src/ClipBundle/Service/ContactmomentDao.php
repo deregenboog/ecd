@@ -15,7 +15,7 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
         'sortFieldWhitelist' => [
             'contactmoment.id',
             'vraagsoort.naam+vraag.startdatum',
-            'medewerker.voornaam',
+            'behandelaar.displayName',
             'klant.achternaam',
             'contactmoment.datum',
         ],
@@ -28,7 +28,8 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin($this->alias.'.medewerker', 'medewerker')
+            ->innerJoin($this->alias.'.behandelaar', 'behandelaar')
+            ->leftJoin('behandelaar.medewerker', 'medewerker')
             ->innerJoin($this->alias.'.vraag', 'vraag')
             ->innerJoin('vraag.soort', 'vraagsoort')
             ->innerJoin('vraag.client', 'client')

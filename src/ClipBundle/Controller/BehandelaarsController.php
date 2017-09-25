@@ -34,4 +34,9 @@ class BehandelaarsController extends AbstractController
     {
         return $this->redirectToIndex();
     }
+
+    protected function redirectToView($entity)
+    {
+        return $this->redirectToIndex();
+    }
 }

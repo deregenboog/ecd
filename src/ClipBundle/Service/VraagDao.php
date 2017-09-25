@@ -17,7 +17,7 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
             'vraag.startdatum',
             'vraag.afsluitdatum',
             'vraagsoort.naam',
-            'medewerker.voornaam',
+            'behandelaar.displayName',
             'klant.achternaam',
         ],
     ];
@@ -30,7 +30,8 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.soort', 'vraagsoort')
-            ->innerJoin($this->alias.'.medewerker', 'medewerker')
+            ->innerJoin($this->alias.'.behandelaar', 'behandelaar')
+            ->leftJoin('behandelaar.medewerker', 'medewerker')
             ->innerJoin($this->alias.'.client', 'client')
             ->innerJoin('client.klant', 'klant')
         ;
@@ -50,7 +51,8 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.soort', 'vraagsoort')
-            ->innerJoin($this->alias.'.medewerker', 'medewerker')
+            ->innerJoin($this->alias.'.behandelaar', 'behandelaar')
+            ->leftJoin('behandelaar.medewerker', 'medewerker')
             ->innerJoin($this->alias.'.client', 'client')
             ->innerJoin('client.klant', 'klant')
             ->where("{$this->alias}.afsluitdatum IS NULL OR {$this->alias}.afsluitdatum > :now")

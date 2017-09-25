@@ -19,10 +19,37 @@ class BehandelaarType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (isset($options['data']) && $options['data']->getId()) {
-            $builder->add($this->createMedewerkerType($builder, $options['data']));
+        $behandelaar = $options['data'];
+        if ($this->isNew($behandelaar)) {
+            $builder
+                ->add('medewerker', EntityType::class, [
+                    'placeholder' => '',
+                    'required' => false,
+                    'class' => Medewerker::class,
+                    'query_builder' => function (EntityRepository $repository) {
+                        return $repository->createQueryBuilder('medewerker')
+                            ->leftJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
+                            ->where('behandelaar.id IS NULL')
+                            ->orderBy('medewerker.voornaam')
+                        ;
+                    },
+                ])
+                ->add('naam', null, ['required' => false])
+            ;
+        } elseif ($behandelaar->getMedewerker()) {
+            $builder->add('medewerker', EntityType::class, [
+                'disabled' => true,
+                'class' => Medewerker::class,
+                'query_builder' => function (EntityRepository $repository) use ($behandelaar) {
+                    return $repository->createQueryBuilder('medewerker')
+                    ->innerJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
+                    ->where('behandelaar = :behandelaar')
+                    ->setParameter('behandelaar', $behandelaar)
+                    ;
+                },
+            ]);
         } else {
-            $builder->add($this->createMedewerkerType($builder));
+            $builder->add('naam', null, ['required' => true]);
         }
 
         $builder
@@ -49,33 +76,8 @@ class BehandelaarType extends AbstractType
         return BaseType::class;
     }
 
-    private function createMedewerkerType(FormBuilderInterface $builder, Behandelaar $behandelaar = null)
+    private function isNew(Behandelaar $behandelaar = null)
     {
-        $options = [
-            'required' => true,
-            'class' => Medewerker::class,
-        ];
-
-        if (!$behandelaar || !$behandelaar->getId()) {
-            $options['placeholder'] = '';
-            $options['query_builder'] = function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('medewerker')
-                    ->leftJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
-                    ->where('behandelaar.id IS NULL')
-                    ->orderBy('medewerker.voornaam')
-                ;
-            };
-        } else {
-            $options['disabled'] = true;
-            $options['query_builder'] = function (EntityRepository $repository) use ($behandelaar) {
-                return $repository->createQueryBuilder('medewerker')
-                    ->innerJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
-                    ->where('behandelaar = :behandelaar')
-                    ->setParameter('behandelaar', $behandelaar)
-                ;
-            };
-        }
-
-        return $builder->create('medewerker', EntityType::class, $options);
+        return is_null($behandelaar) || is_null($behandelaar->getId());
     }
 }
