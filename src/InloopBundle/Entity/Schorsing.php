@@ -119,6 +119,7 @@ class Schorsing
 
     /**
      * @ORM\ManyToMany(targetEntity="SchorsingReden")
+     * @ORM\JoinTable(name="schorsingen_redenen")
      */
     private $redenen;
 
