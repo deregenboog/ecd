@@ -9,6 +9,7 @@ abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwillige
     protected $columns = [
         'Nummer' => 'id',
         'Naam' => 'naam',
+        'Aantal hulpaanbiedingen' => 'hulpaanbiedingen',
     ];
 
     protected function build()

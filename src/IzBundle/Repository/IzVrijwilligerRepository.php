@@ -90,7 +90,7 @@ class IzVrijwilligerRepository extends EntityRepository
     {
         return $this->createQueryBuilder('izVrijwilliger')
             ->select('vrijwilliger.id')
-            ->addSelect("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) AS naam")
+            ->addSelect("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) AS naam, COUNT(DISTINCT izHulpaanbod.id) AS hulpaanbiedingen")
             ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
             ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
