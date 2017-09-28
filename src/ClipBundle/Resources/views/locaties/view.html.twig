@@ -1,0 +1,32 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>
+        {{ entity_name|capitalize }} {{ entity }}
+    </h1>
+    <p>
+        {{ html.editLink(path('clip_locaties_edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path('clip_locaties_edit', {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('clip_locaties_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('clip_locaties_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity.naam }}</dd>
+        <dt>Actief</dt>
+        <dd>{{ entity.actief ? 'ja' : 'nee' }}</dd>
+    </dl>
+{% endblock %}

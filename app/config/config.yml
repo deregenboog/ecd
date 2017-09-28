@@ -83,6 +83,10 @@ assetic:
 vich_uploader:
     db_driver: orm
     mappings:
+        clip_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /clip/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/clip'
         dagbesteding_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /dagbesteding/documenten/download

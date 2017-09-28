@@ -1,0 +1,39 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
+services:
+    clip.contactmoment.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: client, dao: '@clip.dao.client' }
+              - { key: vraag, dao: '@clip.dao.vraag' }
+
+    clip.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: client, dao: '@clip.dao.client' }
+              - { key: vraag, dao: '@clip.dao.vraag' }
+
+    clip.vraag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: client, dao: '@clip.dao.client' }
+
+
+#    clip.event.diensten_lookup_subscriber:
+#        class: ClipBundle\Event\DienstenLookupSubscriber
+#        arguments:
+#            - "@doctrine.orm.entity_manager"
+#            - "@router"
+#        tags:
+#            - { name: kernel.event_subscriber }
+#
+#    clip.data_fixtures.faker_provider:
+#        class: ClipBundle\DataFixtures\ClipFakerProvider
+#        tags:
+#            - { name: hautelook_alice.faker.provider }

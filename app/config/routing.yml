@@ -15,3 +15,6 @@ _oek:
 
 _dagbesteding:
     resource: "@DagbestedingBundle/Resources/config/routing.yml"
+
+_clip:
+    resource: "@ClipBundle/Resources/config/routing.yml"

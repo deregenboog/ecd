@@ -3,6 +3,7 @@
 namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 trait TimestampableTrait
 {
@@ -10,6 +11,7 @@ trait TimestampableTrait
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      */
     protected $created;
 
@@ -17,6 +19,7 @@ trait TimestampableTrait
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      */
     protected $modified;
 

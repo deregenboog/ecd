@@ -1,0 +1,39 @@
+<h2>Contactmomenten</h2>
+<p>
+    {% if vraag is defined %}
+        {% set entity = vraag %}
+        {% set url = path('clip_contactmomenten_add', {vraag: entity.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Contactmoment toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table">
+    <tr>
+        <th>Datum</th>
+        <th>Medewerker</th>
+        <th>Vraag</th>
+        <th>Opmerking</th>
+        <th></th>
+    </tr>
+    {% for contactmoment in entity.contactmomenten %}
+        <tr>
+            <td>
+                {{ contactmoment.datum ? contactmoment.datum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ contactmoment.behandelaar }}
+            </td>
+            <td>
+                {{ html.link(contactmoment.vraag, path('clip_vragen_view', {id: entity.id})) }}
+            </td>
+            <td>
+                {{ contactmoment.opmerking }}
+            </td>
+            <td>
+                {{ html.editLink(path('clip_contactmomenten_edit', {id: contactmoment.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

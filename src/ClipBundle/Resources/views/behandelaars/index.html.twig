@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('clip_behandelaars_add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path('clip_behandelaars_add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'behandelaar.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'behandelaar.displayName') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'behandelaar.actief') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for behandelaar in pagination %}
+            <tr>
+                <td>
+                    {{ behandelaar.id }}
+                </td>
+                <td>
+                    {{ behandelaar }}
+                </td>
+                <td>
+                    {{ behandelaar.actief ? 'ja' : 'nee' }}
+                </td>
+                <td>
+                    {{ html.editLink(path('clip_behandelaars_edit', {'id': behandelaar.id})) }}
+                    {% if behandelaar.deletable %}
+                        {{ html.deleteLink(path('clip_behandelaars_delete', {'id': behandelaar.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

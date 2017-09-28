@@ -1,5 +1,7 @@
 <h2>Basisgegevens</h2>
 <p>
+    {{ html.viewLink(path('app_klanten_view', {id: klant.id})) }}
+    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id})) }}
     {{ html.editLink(path('app_klanten_edit', {id: klant.id})) }}
     {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id})) }}
 </p>
