@@ -28,11 +28,11 @@ class Viacategorie
 
     public function __construct()
     {
-        $this->vragen = new ArrayCollection();
+        $this->clienten = new ArrayCollection();
     }
 
     public function isDeletable()
     {
-        return 0 === count($this->vragen);
+        return 0 === count($this->clienten);
     }
 }
