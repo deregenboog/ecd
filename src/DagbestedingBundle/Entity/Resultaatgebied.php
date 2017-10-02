@@ -48,7 +48,7 @@ class Resultaatgebied
 
     public function __toString()
     {
-        return 'Resultaatgebied '.$this->id;
+        return (string) $this->soort;
     }
 
     public function getId()
