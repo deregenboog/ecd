@@ -18,7 +18,7 @@ use DagbestedingBundle\Form\DagdelenRangeModel;
 class Traject
 {
     const TERMIJN_RAPPORTAGE = '+6 months';
-    const TERMIJN_EIND = '+1 year';
+    const TERMIJN_EIND = '+1 year -1 day';
 
     /**
      * @ORM\Id
