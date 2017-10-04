@@ -27,7 +27,7 @@ class HuurovereenkomstenController extends SymfonyController
 
     private $sortFieldWhitelist = [
         'huurovereenkomst.id',
-        'huurderKlant.achternaam',
+        'klant.achternaam',
         'verhuurderKlant.achternaam',
         'medewerker.voornaam',
         'huurovereenkomst.startdatum',

@@ -52,6 +52,13 @@ services:
         tags:
             - { name: form.type }
 
+    iz.report.managementrapportage:
+        class: IzBundle\Report\Managementrapportage
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Management }
+
     iz.report.hulpvragen.per_project_stadsdeel:
         class: IzBundle\Report\HulpvragenPerProjectStadsdeel
         arguments:

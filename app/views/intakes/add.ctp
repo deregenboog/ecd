@@ -50,7 +50,7 @@
                 'type' => 'checkbox',
             ]) ?>
             <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            N.B. Als een klant niet rechthebbend is, heeft hij/zij de eerste drie maanden alleen
+            N.B. Als een klant niet rechthebbend is, heeft hij/zij de eerste zes maanden alleen
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             toegang tot AMOC. Na zes maanden mag de klant ook naar de andere inloophuizen.
             <br/><br/>

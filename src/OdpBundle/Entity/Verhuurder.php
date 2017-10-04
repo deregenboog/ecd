@@ -69,6 +69,28 @@ class Verhuurder extends Deelnemer
         return $this;
     }
 
+    public function getHuurovereenkomsten()
+    {
+        $huurovereenkomsten = [];
+        foreach ($this->huuraanbiedingen as $huuraanbod) {
+            if ($huuraanbod->getHuurovereenkomst()) {
+                $huurovereenkomsten[] = $huuraanbod->getHuurovereenkomst();
+            }
+        }
+
+        usort($huurovereenkomsten, function($huurovereenkomst1, $huurovereenkomst2) {
+            if ($huurovereenkomst1->getStartdatum() < $huurovereenkomst2->getStartdatum()) {
+                return 1;
+            } elseif ($huurovereenkomst1->getStartdatum() > $huurovereenkomst2->getStartdatum()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        return $huurovereenkomsten;
+    }
+
     public function getWoningbouwcorporatie()
     {
         return $this->woningbouwcorporatie;

@@ -10,28 +10,25 @@
             <th>Afsluitdatum</th>
             <th></th>
         </tr>
-        {% for huurverzoek in huurder.huurverzoeken %}
-            {% if huurverzoek.huurovereenkomst %}
-                {% set huurovereenkomst = huurverzoek.huurovereenkomst %}
-                <tr>
-                    <td>{{ huurovereenkomst.verhuurder }}</td>
-                    <td>
-                        {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
-                    </td>
-                </tr>
-            {% endif %}
+        {% for huurovereenkomst in huurder.huurovereenkomsten %}
+            <tr>
+                <td>{{ huurovereenkomst.verhuurder }}</td>
+                <td>
+                    {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+                </td>
+            </tr>
         {% endfor %}
     </table>
 {% elseif verhuurder is defined %}
@@ -44,28 +41,25 @@
             <th>Afsluitdatum</th>
             <th></th>
         </tr>
-        {% for huuraanboid in verhuurder.huuraanbiedingen %}
-            {% if huuraanboid.huurovereenkomst %}
-                {% set huurovereenkomst = huuraanboid.huurovereenkomst %}
-                <tr>
-                    <td>{{ huurovereenkomst.huurder }}</td>
-                    <td>
-                        {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
-                    </td>
-                </tr>
-            {% endif %}
+        {% for huurovereenkomst in verhuurder.huurovereenkomsten %}
+            <tr>
+                <td>{{ huurovereenkomst.huurder }}</td>
+                <td>
+                    {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+                </td>
+            </tr>
         {% endfor %}
     </table>
 {% endif %}
