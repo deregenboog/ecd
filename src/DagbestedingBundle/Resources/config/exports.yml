@@ -28,6 +28,7 @@ services:
                 Project: { expression: 'entity.getProject()' }
                 Datum: { expression: 'entity.getDatum()', type: 'date' }
                 Dagdeel: { expression: 'entity.getDagdeel()' }
+                Aanwezigheid:  { expression: 'entity.getAanwezigheid()' }
 
     dagbesteding.export.deelnemers:
         class: AppBundle\Export\GenericExport
