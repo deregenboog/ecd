@@ -101,7 +101,8 @@ class IzKlantFilter implements FilterInterface
         }
 
         if ($this->zonderActieveHulpvraag) {
-            $builder
+            $subBuilder = $this->getSubBuilder($builder)
+                ->select('izKlant.id')
                 ->leftJoin('izKlant.izHulpvragen', 'actieveIzHulpvraag', 'WITH', $builder->expr()->andX(
                     'actieveIzHulpvraag.izHulpaanbod IS NULL',
                     'actieveIzHulpvraag.einddatum IS NULL OR actieveIzHulpvraag.einddatum >= :now'
@@ -110,10 +111,16 @@ class IzKlantFilter implements FilterInterface
                 ->andHaving('COUNT(actieveIzHulpvraag) = 0')
                 ->setParameter('now', new \DateTime())
             ;
+
+            $builder
+                ->andWhere('izKlant.id IN (:zonder_actieve_hulpvraag)')
+                ->setParameter('zonder_actieve_hulpvraag', $this->getIds($subBuilder))
+            ;
         }
 
         if ($this->zonderActieveKoppeling) {
-            $builder
+            $subBuilder = $this->getSubBuilder($builder)
+                ->select('izKlant.id')
                 ->leftJoin('izKlant.izHulpvragen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
                     'actieveIzKoppeling.izHulpaanbod IS NOT NULL',
                     'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
@@ -122,6 +129,34 @@ class IzKlantFilter implements FilterInterface
                 ->andHaving('COUNT(actieveIzKoppeling) = 0')
                 ->setParameter('now', new \DateTime())
             ;
+
+            $builder
+                ->andWhere('izKlant.id IN (:zonder_actieve_koppeling)')
+                ->setParameter('zonder_actieve_koppeling', $this->getIds($subBuilder))
+            ;
         }
+    }
+
+    private function getSubBuilder(QueryBuilder $builder)
+    {
+        $subBuilder = clone($builder);
+
+        // keep select and from parts, reset the rest
+        $dqlParts = $subBuilder->getDQLParts();
+        unset($dqlParts['select']);
+        unset($dqlParts['from']);
+        $subBuilder->resetDQLParts(array_keys($dqlParts))->setParameters([]);
+
+        return $subBuilder;
+    }
+
+    private function getIds(QueryBuilder $builder)
+    {
+        return array_map(
+            function(array $item) {
+                return $item['id'];
+            },
+            $builder->getQuery()->getResult()
+        );
     }
 }
