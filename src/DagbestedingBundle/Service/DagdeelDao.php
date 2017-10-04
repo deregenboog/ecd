@@ -17,6 +17,7 @@ class DagdeelDao extends AbstractDao implements DagdeelDaoInterface
             'dagdeel.dagdeel',
             'dagdeel.datum',
             'project.naam',
+            'dagdeel.aanwezigheid',
         ],
     ];
 
