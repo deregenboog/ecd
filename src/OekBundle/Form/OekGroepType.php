@@ -16,8 +16,11 @@ class OekGroepType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('naam');
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+        $builder
+            ->add('naam')
+            ->add('aantalBijeenkomsten')
+            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+        ;
     }
 
     /**

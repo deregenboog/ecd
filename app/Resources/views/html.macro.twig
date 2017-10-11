@@ -22,6 +22,10 @@
     <a href="{{ url }}"><img src="{{ asset('/img/lock_open.png') }}"></a>
 {% endmacro %}
 
+{% macro downloadLink(url) %}
+    <a href="{{ url }}" class="glyphicon glyphicon-download"></a>
+{% endmacro %}
+
 {% macro navLink(label, url, active) %}
     <li role="presentation" class="{{ active ? "active" }}">
         <a href="{{ url }}" >{{ label }}</a>
