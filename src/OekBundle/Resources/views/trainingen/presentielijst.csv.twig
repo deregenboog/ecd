@@ -1,12 +1,12 @@
 {{ tab -}}
-{% for i in 1..(aantalBijeenkomsten-1) %}
+{% if aantalBijeenkomsten > 1 %}{% for i in 1..(aantalBijeenkomsten-1) %}
     {{- "Bijeenkomst " ~ i ~ tab -}}
-{% endfor %}
+{% endfor %}{% endif %}
 {{ "Bijeenkomst " ~ aantalBijeenkomsten }}
 {% for deelname in deelnames %}
     {{- deelname.oekKlant ~ tab -}}
-    {% for i in 1..(aantalBijeenkomsten-1) %}
+    {% if aantalBijeenkomsten > 1 %}{% for i in 1..(aantalBijeenkomsten-1) %}
         {{- " " ~ tab -}}
-    {% endfor %}
+    {% endfor %}{% endif %}
     {{- " " }}
 {% endfor %}
