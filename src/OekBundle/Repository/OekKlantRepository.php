@@ -12,17 +12,38 @@ class OekKlantRepository extends EntityRepository
     public function countByTrainingAndStadsdeel($status, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
-            ->addSelect('oekTraining.naam AS training')
+            ->addSelect("CONCAT_WS(' - ', oekTraining.naam, oekGroep.naam) AS training")
             ->addSelect('klant.werkgebied AS stadsdeel')
             ->innerJoin('oekKlant.oekDeelnames', 'oekDeelname')
             ->innerJoin('oekDeelname.oekDeelnameStatussen', 'oekDeelnameStatus')
             ->innerJoin('oekDeelname.oekTraining', 'oekTraining')
+            ->innerJoin('oekTraining.oekGroep', 'oekGroep')
             ->where('oekDeelnameStatus.status = :status')
             ->andWhere('oekDeelnameStatus.datum BETWEEN :startDate AND :endDate')
             ->setParameter('status', $status)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ->groupBy('oekTraining', 'klant.werkgebied')
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countByGroepAndStadsdeel($status, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getCountBuilder()
+            ->addSelect('oekGroep.naam AS groep')
+            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->innerJoin('oekKlant.oekDeelnames', 'oekDeelname')
+            ->innerJoin('oekDeelname.oekDeelnameStatussen', 'oekDeelnameStatus')
+            ->innerJoin('oekDeelname.oekTraining', 'oekTraining')
+            ->innerJoin('oekTraining.oekGroep', 'oekGroep')
+            ->where('oekDeelnameStatus.status = :status')
+            ->andWhere('oekDeelnameStatus.datum BETWEEN :startDate AND :endDate')
+            ->setParameter('status', $status)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->groupBy('oekGroep', 'klant.werkgebied')
         ;
 
         return $builder->getQuery()->getResult();
