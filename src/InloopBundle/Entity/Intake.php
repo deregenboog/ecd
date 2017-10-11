@@ -40,6 +40,24 @@ class Intake
     private $medewerker;
 
     /**
+     * @var Locatie
+     *
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\JoinColumn(name="locatie2_id")
+     * @Gedmo\Versioned
+     */
+    private $intakelocatie;
+
+    /**
+     * @var Locatie
+     *
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\JoinColumn(name="locatie1_id")
+     * @Gedmo\Versioned
+     */
+    private $gebruikersruimte;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="datum_intake", type="date")
@@ -96,5 +114,25 @@ class Intake
     public function getIntakedatum()
     {
         return $this->intakedatum;
+    }
+
+    public function getIntakelocatie()
+    {
+        return $this->intakelocatie;
+    }
+
+    public function setIntakelocatie(Locatie $locatie)
+    {
+        $this->intakelocatie = $locatie;
+    }
+
+    public function getGebruikersruimte()
+    {
+        return $this->gebruikersruimte;
+    }
+
+    public function setGebruikersruimte(Locatie $locatie)
+    {
+        $this->gebruikersruimte = $locatie;
     }
 }

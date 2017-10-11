@@ -5,6 +5,7 @@ namespace AppBundle\Filter;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Entity\Geslacht;
 
 class KlantFilter implements FilterInterface
 {
@@ -27,6 +28,11 @@ class KlantFilter implements FilterInterface
      * @var string
      */
     public $achternaam;
+
+    /**
+     * @var Geslacht
+     */
+    public $geslacht;
 
     /**
      * @var string
@@ -87,9 +93,16 @@ class KlantFilter implements FilterInterface
             }
         }
 
+        if ($this->geslacht) {
+            $builder
+                ->andWhere("{$alias}.geslacht = :{$alias}_geslacht")
+                ->setParameter("{$alias}_geslacht", $this->geslacht)
+            ;
+        }
+
         if ($this->bsn) {
             $builder
-                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
+                ->andWhere("{$alias}.bsn = :{$alias}_bsn")
                 ->setParameter("{$alias}_bsn", $this->bsn)
             ;
         }
