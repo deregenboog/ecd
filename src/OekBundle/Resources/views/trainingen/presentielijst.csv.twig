@@ -1,0 +1,12 @@
+{{ tab -}}
+{% for i in 1..(aantalBijeenkomsten-1) %}
+    {{- "Bijeenkomst " ~ i ~ tab -}}
+{% endfor %}
+{{ "Bijeenkomst " ~ aantalBijeenkomsten }}
+{% for deelname in deelnames %}
+    {{- deelname.oekKlant ~ tab -}}
+    {% for i in 1..(aantalBijeenkomsten-1) %}
+        {{- " " ~ tab -}}
+    {% endfor %}
+    {{- " " }}
+{% endfor %}

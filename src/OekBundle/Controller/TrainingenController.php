@@ -191,4 +191,52 @@ class TrainingenController extends SymfonyController
             'oekTraining' => $oekTraining,
         ];
     }
+
+    /**
+     * @Route("/{id}/presentielijst")
+     */
+    public function presentielijstAction($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekTraining::class);
+        $oekTraining = $repository->find($id);
+
+        $aantalBijeenkomsten = $oekTraining->getOekGroep()->getAantalBijeenkomsten();
+        $deelnames = $oekTraining->getOekDeelnames();
+
+        $response = $this->render('@Oek/trainingen/presentielijst.csv.twig', [
+            'aantalBijeenkomsten' => $aantalBijeenkomsten,
+            'deelnames' => $deelnames,
+        ]);
+
+        $filename = sprintf('op-eigen-kracht-presentielijst-training-%s.xls', $oekTraining->getId());
+        $response->headers->set('Content-type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/{id}/deelnemerslijst")
+     */
+    public function deelnemerslijstAction($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekTraining::class);
+        $oekTraining = $repository->find($id);
+
+        $deelnames = $oekTraining->getOekDeelnames();
+
+        $response = $this->render('@Oek/trainingen/deelnemerslijst.csv.twig', [
+            'deelnames' => $deelnames,
+        ]);
+
+        $filename = sprintf('op-eigen-kracht-deelnemerslijst-training-%s.xls', $oekTraining->getId());
+        $response->headers->set('Content-type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
 }

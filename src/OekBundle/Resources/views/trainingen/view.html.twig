@@ -43,12 +43,20 @@
 
     <p>
         {% set add_link = path('oek_deelnames_add', {'oekTraining': oekTraining.id}) %}
-        {{ html.addLink(add_link)|raw }}
-        {{ html.link('Deelnemer aan training toevoegen', add_link)|raw }}
+        {{ html.addLink(add_link) }}
+        {{ html.link('Deelnemer aan training toevoegen', add_link) }}
         <br>
         {% set email_link = path('oek_trainingen_email', {id: oekTraining.id}) %}
-        {{ html.editLink(email_link)|raw }}
-        {{ html.link('Deelnemers e-mailen', email_link)|raw }}
+        {{ html.editLink(email_link) }}
+        {{ html.link('Deelnemers e-mailen', email_link) }}
+        <br>
+        {% set url = path('oek_trainingen_deelnemerslijst', {id: oekTraining.id}) %}
+        {{ html.downloadLink(url) }}
+        {{ html.link('Deelnemerslijst downloaden', url, {class: 'test'}) }}
+        <br>
+        {% set url = path('oek_trainingen_presentielijst', {id: oekTraining.id}) %}
+        {{ html.downloadLink(url) }}
+        {{ html.link('Presentielijst downloaden', url, {class: 'test'}) }}
     </p>
 
     <table class="table table-hover">

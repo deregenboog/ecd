@@ -17,6 +17,7 @@ class GroepenController extends SymfonyController
     private $sortFieldWhitelist = [
         'oekGroep.id',
         'oekGroep.naam',
+        'oekGroep.aantalBijeenkomsten',
     ];
 
     /**

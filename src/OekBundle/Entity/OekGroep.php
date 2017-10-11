@@ -4,6 +4,7 @@ namespace OekBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\Criteria;
@@ -30,6 +31,13 @@ class OekGroep
      * @Gedmo\Versioned
      */
     private $naam;
+
+    /**
+     * @ORM\Column(name="aantal_bijeenkomsten", type="integer")
+     * @Gedmo\Versioned
+     * @Assert\GreaterThan(0)
+     */
+    private $aantalBijeenkomsten;
 
     /**
      * @var ArrayCollection|OekDeelname[]
@@ -67,6 +75,18 @@ class OekGroep
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getAantalBijeenkomsten()
+    {
+        return $this->aantalBijeenkomsten;
+    }
+
+    public function setAantalBijeenkomsten($aantalBijeenkomsten)
+    {
+        $this->aantalBijeenkomsten = $aantalBijeenkomsten;
 
         return $this;
     }

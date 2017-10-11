@@ -258,7 +258,6 @@ class SchorsingenController extends AppController
      * If @eng is set to true, the get_eng_pdf view is rendered, and the pdf
      * is generated in English.
      */
-
     public function get_pdf($schorsing_id = null, $eng = 0)
     {
         if (empty($schorsing_id)) {

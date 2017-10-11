@@ -26,6 +26,9 @@
                 {{ knp_pagination_sortable(pagination, 'Naam', 'oekGroep.naam') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Aantal bijeenkomsten', 'oekGroep.aantalBijeenkomsten') }}
+            </th>
+            <th>
                 Deelnemers op wachtlijst
             </th>
             <th>
@@ -42,6 +45,7 @@
                 <td>
                     {{ html.link(oekGroep.naam, path('oek_groepen_view', {id: oekGroep.id})) }}
                 </td>
+                <td>{{ oekGroep.aantalBijeenkomsten }}</td>
                 <td>{{ row.oekLidmaatschappen }}</td>
                 <td>{{ row.oekTrainingen }}</td>
                 <td>

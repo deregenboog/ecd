@@ -1,19 +1,12 @@
 <?php
-    function ColoredTable($pdf, $w, $data, $logoUrl)
+    function ColoredTable($pdf, $w, $data)
     {
         $width = 0;
         foreach ($w as $t) {
             $width += $t;
         }
 
-        $pdf->writeHTMLCell(40, 40, 20, 0, sprintf('<img src="%s" alt="Home"/>', $logoUrl));
-        $pdf->Ln();
-        $pdf->SetFillColor(255, 255, 255);
-        $pdf->SetTextColor(0);
-        $pdf->SetFont('');
-
         $fill = 0;
-
         $cnt = 0;
         foreach ($data as $row) {
             $cnt++;
@@ -49,7 +42,7 @@
                 $pdf->MultiCell($tuw, $maxnocells * 6, '', 'LTBR', 'L', $fill, 0);
             }
             $pdf->Ln();
-            $fill=!$fill;
+            $fill = !$fill;
         }
         $pdf->Cell(array_sum($w), 0, '', 'T');
     }
@@ -63,17 +56,20 @@ $pdf->SetSubject('Schorsing');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-$pdf->SetMargins(20, 20, 20);
+$pdf->SetMargins(20, 40, 20);
 $pdf->SetAutoPageBreak(true);
 $pdf->SetFont('helvetica', '', 10);
+$pdf->SetFillColor(255, 255, 255);
+$pdf->SetTextColor(0);
+
 $pdf->AddPage();
+$pdf->Image(('img/drg-logo-142px.jpg'), 160, 0, 40, 40);
 
 $opt = array('separator' => ' ');
 $datum_van_vandaag = $this->Date->show(date('Y-m-d'), $opt);
 $begindatum_schorsing = $this->Date->show($begindatum_schorsing, $opt);
 $einddatum_schorsing_pp = $this->Date->show($einddatum_schorsing_pp, $opt);
 
-$logo = $html->url('/img/drg-logo-142px.jpg', true);
 $data = array(
     array('SCHORSINGSFORMULIER'),
     array("Op {$begindatum_schorsing} bent u geschorst bij locatie(s) {$locatie}. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken."),
@@ -91,5 +87,5 @@ U kunt ook terecht bij de onafhankelijke klachtencommissie van het POA: 06 14264
     array('In en om al onze locaties staan rust, veiligheid en gezelligheid voor alle bezoekers, deelnemers en medewerkers voorop. We rekenen erop dat u hier in de toekomst weer een bijdrage aan zult leveren.'),
 );
 
-ColoredTable($pdf, [50, 120], $data, $logo);
+ColoredTable($pdf, [40, 130], $data);
 echo $pdf->Output('schorsing-'.date('Y-m-d').'.pdf', 'I');
