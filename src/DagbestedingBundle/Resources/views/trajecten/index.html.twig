@@ -15,10 +15,6 @@
         <tr>
             {{ form_start(filter) }}
             <th>
-                {{ form_widget(filter.id) }}
-                {{ form_errors(filter.id) }}
-            </th>
-            <th>
                 {{ form_widget(filter.klant.naam) }}
                 {{ form_errors(filter.klant.naam) }}
             </th>
@@ -33,6 +29,10 @@
             <th>
                 {{ form_widget(filter.begeleider) }}
                 {{ form_errors(filter.begeleider) }}
+            </th>
+            <th>
+                {{ form_widget(filter.project) }}
+                {{ form_errors(filter.project) }}
             </th>
             <th>
                 {{ form_widget(filter.startdatum.start) }}
@@ -60,9 +60,6 @@
         </tr>
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'traject.id') }}
-            </th>
-            <th>
                 {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
             </th>
             <th>
@@ -73,6 +70,9 @@
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Trajectbegeleider', 'begeleider.achternaam') }}
+            </th>
+            <th>
+                Project(en)
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
@@ -89,9 +89,6 @@
         {% for traject in pagination %}
         <tr>
             <td>
-                {{ html.link(traject.id, path('dagbesteding_trajecten_view', {id: traject.id})) }}
-            </td>
-            <td>
                 {{ traject.deelnemer.klant.naam }}
             </td>
             <td>
@@ -102,6 +99,13 @@
             </td>
             <td>
                 {{ traject.begeleider }}
+            </td>
+            <td>
+                <ul>
+                    {% for project in traject.projecten %}
+                        <li>{{ project }}</li>
+                    {% endfor %}
+                </ul>
             </td>
             <td>
                 {{ traject.startdatum|date('d-m-Y') }}

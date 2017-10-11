@@ -6,6 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
 use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Project;
 
 class TrajectFilter implements FilterInterface
 {
@@ -33,6 +34,11 @@ class TrajectFilter implements FilterInterface
      * @var Trajectbegeleider
      */
     public $begeleider;
+
+    /**
+     * @var Project
+     */
+    public $project;
 
     /**
      * @var \DateTime
@@ -82,6 +88,13 @@ class TrajectFilter implements FilterInterface
             $builder
                 ->andWhere('traject.begeleider = :begeleider')
                 ->setParameter('begeleider', $this->begeleider)
+            ;
+        }
+
+        if ($this->project) {
+            $builder
+                ->innerJoin('traject.projecten', 'project', 'WITH', 'project = :project')
+                ->setParameter('project', $this->project)
             ;
         }
 

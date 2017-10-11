@@ -12,6 +12,7 @@ use DagbestedingBundle\Filter\TrajectFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use DagbestedingBundle\Entity\Trajectsoort;
 use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Project;
 
 class TrajectFilterType extends AbstractType
 {
@@ -48,6 +49,13 @@ class TrajectFilterType extends AbstractType
         if (in_array('begeleider', $options['enabled_filters'])) {
             $builder->add('begeleider', EntityType::class, [
                 'class' => Trajectbegeleider::class,
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', EntityType::class, [
+                'class' => Project::class,
                 'required' => false,
             ]);
         }
@@ -93,11 +101,11 @@ class TrajectFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => TrajectFilter::class,
             'enabled_filters' => [
-                'id',
                 'klant' => ['naam'],
                 'soort',
                 'resultaatgebied' => ['soort'],
                 'begeleider',
+                'project',
                 'startdatum',
                 'rapportage' => ['datum'],
                 'afsluitdatum',

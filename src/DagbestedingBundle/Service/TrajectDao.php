@@ -13,7 +13,6 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
         'defaultSortFieldName' => 'klant.achternaam',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
-            'traject.id',
             'klant.achternaam',
             'trajectsoort.naam',
             'resultaatgebiedsoort.naam',
