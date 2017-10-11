@@ -50,6 +50,10 @@
         {{ html.editLink(email_link) }}
         {{ html.link('Deelnemers e-mailen', email_link) }}
         <br>
+        {% set url = path('oek_trainingen_deelnemerslijst', {id: oekTraining.id}) %}
+        {{ html.downloadLink(url) }}
+        {{ html.link('Deelnemerslijst downloaden', url, {class: 'test'}) }}
+        <br>
         {% set url = path('oek_trainingen_presentielijst', {id: oekTraining.id}) %}
         {{ html.downloadLink(url) }}
         {{ html.link('Presentielijst downloaden', url, {class: 'test'}) }}

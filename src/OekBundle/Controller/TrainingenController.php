@@ -216,4 +216,27 @@ class TrainingenController extends SymfonyController
 
         return $response;
     }
+
+    /**
+     * @Route("/{id}/deelnemerslijst")
+     */
+    public function deelnemerslijstAction($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(OekTraining::class);
+        $oekTraining = $repository->find($id);
+
+        $deelnames = $oekTraining->getOekDeelnames();
+
+        $response = $this->render('@Oek/trainingen/deelnemerslijst.csv.twig', [
+            'deelnames' => $deelnames,
+        ]);
+
+        $filename = sprintf('op-eigen-kracht-deelnemerslijst-training-%s.xls', $oekTraining->getId());
+        $response->headers->set('Content-type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
 }

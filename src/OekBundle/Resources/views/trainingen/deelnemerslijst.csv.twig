@@ -1,0 +1,21 @@
+Nummer{{ tab -}}
+Deelnemer{{ tab -}}
+Adres{{ tab -}}
+Postcode{{ tab -}}
+Plaats{{ tab -}}
+Stadsdeel{{ tab -}}
+Telefoon{{ tab -}}
+Mobiel{{ tab -}}
+E-mail
+{% for deelname in deelnames %}
+    {% set oekKlant = deelname.oekKlant %}
+    {{- oekKlant.klant.id ~ tab -}}
+    {{- oekKlant ~ tab -}}
+    {{- oekKlant.klant.adres ~ tab -}}
+    {{- oekKlant.klant.postcode ~ tab -}}
+    {{- oekKlant.klant.plaats ~ tab -}}
+    {{- oekKlant.klant.werkgebied ~ tab -}}
+    {{- oekKlant.klant.telefoon ~ tab -}}
+    {{- oekKlant.klant.mobiel ~ tab -}}
+    {{- oekKlant.klant.email }}
+{% endfor %}
