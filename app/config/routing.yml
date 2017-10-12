@@ -18,3 +18,6 @@ _dagbesteding:
 
 _clip:
     resource: "@ClipBundle/Resources/config/routing.yml"
+
+_inloop:
+    resource: "@InloopBundle/Resources/config/routing.yml"

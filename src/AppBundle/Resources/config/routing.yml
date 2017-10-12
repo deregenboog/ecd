@@ -6,7 +6,10 @@ app_annotations:
     type: annotation
 
 app_klanten_view:
-    path: klanten/view/{id}
+    path: /klanten/view/{id}
+
+app_klanten_add:
+    path: /klanten/add
 
 app_klanten_edit:
-    path: klanten/edit/{id}/generic:1
+    path: /klanten/edit/{id}/generic:1

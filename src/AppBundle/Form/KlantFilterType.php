@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\KlantFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Geslacht;
 
 class KlantFilterType extends AbstractType
 {
@@ -41,6 +43,13 @@ class KlantFilterType extends AbstractType
             $builder->add('achternaam', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Achternaam'],
+            ]);
+        }
+
+        if (in_array('geslacht', $options['enabled_filters'])) {
+            $builder->add('geslacht', EntityType::class, [
+                'class' => Geslacht::class,
+                'required' => false,
             ]);
         }
 

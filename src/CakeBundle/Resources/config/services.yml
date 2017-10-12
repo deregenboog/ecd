@@ -85,6 +85,7 @@ parameters:
                 - Registraties
                 - Schorsingen
                 - Opmerkingen
+                - InloopBundle\Controller\Klanten
             GROUP_MAATSCHAPPELIJK:
                 - Awbz
                 - AwbzHoofdaannemers
@@ -98,6 +99,7 @@ parameters:
                 - Verslagen
                 - Rapportages
                 - Attachments
+                - InloopBundle\Controller\Klanten
             GROUP_HI5:
                 - Intakes
                 - Klanten
@@ -173,6 +175,7 @@ parameters:
                 - DagbestedingBundle\Controller\Trajecten
                 - DagbestedingBundle\Controller\Trajectsoorten
                 - DagbestedingBundle\Controller\Verslagen
+                - InloopBundle\Controller\Klanten
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -188,6 +191,7 @@ parameters:
                 - Intakes
                 - Klanten
                 - Registraties
+                - InloopBundle\Controller\Klanten
             GROUP_PFO:
                 - PfoClienten
                 - PfoRapporten
@@ -229,6 +233,7 @@ parameters:
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
+                - InloopBundle\Controller\Klanten
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
@@ -452,6 +457,9 @@ parameters:
             Registraties:
                 label: Registratie
                 url: Registraties
+            Inloop:
+                label: Inloophuizen
+                url: inloop
             MaatschappelijkWerk:
                 label: Maatschappelijk werk
                 url: MaatschappelijkWerk
