@@ -18,6 +18,7 @@ use AppBundle\Form\VrijwilligerFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
 use IzBundle\Entity\IzIntake;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IzVrijwilligerFilterType extends AbstractType
 {
@@ -43,6 +44,16 @@ class IzVrijwilligerFilterType extends AbstractType
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
             $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
+            ]);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', ChoiceType::class, [
+                'required' => true,
+                'choices' => [
+                    'Nu actief bij' => IzVrijwilligerFilter::ACTIEF_NU,
+                    'Ooit actief bij' => IzVrijwilligerFilter::ACTIEF_OOIT,
+                ],
             ]);
         }
 
@@ -125,6 +136,7 @@ class IzVrijwilligerFilterType extends AbstractType
                 'afsluitDatum',
                 'openDossiers',
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'actief',
                 'izProject',
                 'izIntakeMedewerker',
                 'izHulpaanbodMedewerker',

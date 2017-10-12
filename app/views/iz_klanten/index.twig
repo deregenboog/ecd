@@ -37,7 +37,11 @@
             {{ form_row(form.izIntakeMedewerker) }}
         </th>
         <th>
-            {{ form_row(form.izProject) }}
+            {{ form_label(form.izProject) }}
+            {{ form_widget(form.actief) }}
+            {{ form_widget(form.izProject) }}
+            {{ form_errors(form.actief) }}
+            {{ form_errors(form.izProject) }}
             {{ form_row(form.izHulpvraagMedewerker) }}
         </th>
         <th>
