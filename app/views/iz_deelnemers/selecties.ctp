@@ -155,7 +155,7 @@ label {
         'legend' => "",
         'type' => 'radio',
         'multiple'=>'checkbox',
-        'options' => array('csv' => 'Excel-lijst', 'email' => 'E-mail', 'etiket' => 'Etiketten'),
+        'options' => array('csv' => 'Excel-lijst', 'email' => 'E-mail'),
         'value' => 'csv',
     ))
     ?>
