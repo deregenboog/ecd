@@ -45,12 +45,14 @@ class Version20171012100518 extends AbstractMigration
 
         // add "Aanmelding" for the first "Intake" of each "Klant"
         $this->addSql("INSERT INTO inloop_dossier_statussen (klant_id, medewerker_id, datum, created, modified, class)
-            SELECT klanten.id, medewerkers.id, datum_intake, NOW(), NOW(), 'Aanmelding'
-            FROM intakes
-            INNER JOIN klanten ON intakes.klant_id = klanten.id
+            SELECT klanten.id, medewerkers.id, MIN(datum_intake), NOW(), NOW(), 'Aanmelding'
+            FROM klanten
+            INNER JOIN intakes ON intakes.klant_id = klanten.id
             LEFT JOIN medewerkers ON intakes.medewerker_id = medewerkers.id
-            GROUP BY klant_id
-            HAVING datum_intake = MIN(datum_intake)
+            LEFT JOIN inloop_dossier_statussen ON inloop_dossier_statussen.klant_id = klanten.id
+            WHERE klanten.disabled = 0
+            AND inloop_dossier_statussen.id IS NULL
+            GROUP BY klanten.id
             ORDER BY klanten.id ASC
         ");
 
