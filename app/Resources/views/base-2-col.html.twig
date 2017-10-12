@@ -26,9 +26,7 @@
 <body>
     {% include '::header.html.twig' %}
     <div class="container-fluid">
-        {% block subnavigation %}
-        {% endblock %}
-
+        {% block subnavigation %}{% endblock %}
         <div class="row">
             {% for type, flash_messages in app.session.flashBag.all %}
                 {% for flash_message in flash_messages %}
@@ -36,7 +34,6 @@
                 {% endfor %}
             {% endfor %}
         </div>
-
         {% block content_top %}{% endblock %}
         <div class="col-xs-6">
             {% block content_left %}{% endblock %}

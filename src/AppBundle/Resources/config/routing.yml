@@ -13,3 +13,6 @@ app_klanten_add:
 
 app_klanten_edit:
     path: /klanten/edit/{id}/generic:1
+
+app_vrijwilligers_edit:
+    path: /vrijwilligers/edit/{id}

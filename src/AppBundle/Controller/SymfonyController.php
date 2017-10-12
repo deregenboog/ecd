@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class SymfonyController extends \AppController
+abstract class SymfonyController extends \AppController
 {
     /**
      * @var string

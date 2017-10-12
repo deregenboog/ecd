@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Klussen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% set add_route = 'hs_klussen_add' %}
+{% set view_route = 'hs_klussen_view' %}
+{% set edit_route = 'hs_klussen_edit' %}
+{% set delete_route = 'hs_klussen_delete' %}
+
+{% block content %}
+    <h1>Klussen</h1>
+    <p>
+        {{ html.addLink(path(add_route)) }}
+        {{ html.link('Homeservice-klus toevoegen', path(add_route)) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include '@Hs/klussen/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klus.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Startdatum', 'klus.startdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Einddatum', 'klus.einddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Activiteit', 'activiteit.naam') }}
+                </th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(entity.id, path(view_route, {id: entity.id})) }}
+                </td>
+                <td>{{ entity.startdatum|date('d-m-Y') }}</td>
+                <td>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</td>
+                <td>{{ entity.klant }}</td>
+                <td>{{ entity.klant.werkgebied }}</td>
+                <td>{{ entity.activiteit }}</td>
+                <td>
+                    {{ html.viewLink(path(view_route, {id: entity.id})) }}
+                    {{ html.editLink(path(edit_route, {id: entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

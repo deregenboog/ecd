@@ -4,6 +4,7 @@ namespace OdpBundle\Service;
 
 use OdpBundle\Entity\Woningbouwcorporatie;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use AppBundle\Filter\FilterInterface;
 
 interface WoningbouwcorporatieDaoInterface
 {
@@ -12,7 +13,7 @@ interface WoningbouwcorporatieDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1);
+    public function findAll($page = null, FilterInterface $filter = null);
 
     /**
      * @param int $id

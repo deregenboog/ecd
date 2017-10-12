@@ -1,0 +1,6 @@
+Nummer{{ tab -}}
+Naam
+{% for entity in vrijwilligers %}
+    {{- entity.klant.id ~ tab -}}
+    {{- entity }}
+{% endfor %}

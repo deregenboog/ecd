@@ -18,11 +18,11 @@ services:
             - '%pagination.items_per_page%'
 
     iz.dao.klant:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: IzBundle\Service\KlantDao
 
     iz.dao.vrijwilliger:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: IzBundle\Service\VrijwilligerDao
 
     iz.dao.koppeling:

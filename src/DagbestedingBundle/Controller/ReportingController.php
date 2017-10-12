@@ -25,10 +25,10 @@ class ReportingController extends AbstractController
     /**
      * @Route("/")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $form = $this->createForm(ReportingType::class);
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // get reporting service
@@ -57,7 +57,7 @@ class ReportingController extends AbstractController
         ];
     }
 
-    public function download(AbstractReport $report)
+    protected function download(AbstractReport $report)
     {
         ini_set('memory_limit', '512M');
 

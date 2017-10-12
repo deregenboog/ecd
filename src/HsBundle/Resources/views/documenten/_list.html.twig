@@ -1,0 +1,31 @@
+<h2>Documenten</h2>
+<p>
+    {% if klant is defined %}
+        {% set entity = klant %}
+        {% set url = path('hs_documenten_add', {klant: entity.id, redirect: app.request.get('url')}) %}
+    {% elseif dienstverlener is defined %}
+        {% set entity = dienstverlener %}
+        {% set url = path('hs_documenten_add', {dienstverlener: entity.id, redirect: app.request.get('url')}) %}
+    {% elseif vrijwilliger is defined %}
+        {% set entity = vrijwilliger %}
+        {% set url = path('hs_documenten_add', {vrijwilliger: entity.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Document toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table table-hover">
+    {% for document in entity.documenten %}
+        <tr>
+            <td>{{ document.naam }}</td>
+            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

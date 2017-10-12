@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Facturen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    {% if aantal_klanten_facturabel > 0 %}
+        <a class="btn btn-primary" type="button" href="{{ path('hs_facturen_batch') }}">
+            Factureren t/m {{ einddatum_facturatie|date('d-m-Y') }}
+        </a>
+        <span class="badge">{{ aantal_klanten_facturabel }} klanten</span>
+    {% endif %}
+    <table class="table table-hover">
+        <thead>
+            {% include '@Hs/facturen/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'factuur.nummer') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Datum', 'factuur.datum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Bedrag', 'factuur.bedrag') }}
+                </th>
+                <th>Saldo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for factuur in pagination %}
+                <tr>
+                    <td>
+                        {{ html.link(factuur.nummer, path('hs_facturen_view', {id: factuur.id})) }}
+                    </td>
+                    <td>{{ factuur.datum|date('d-m-Y') }}</td>
+                    <td>{{ factuur.klant }}</td>
+                    <td>{{ factuur.bedrag|money }}</td>
+                    <td>
+                        {% if factuur.saldo < 0 %}
+                            <span style="color: green">{{ factuur.saldo|money }}</span>
+                        {% elseif factuur.saldo > 0 %}
+                            <span style="color: red">{{ factuur.saldo|money }}</span>
+                        {% else %}
+                            {{ factuur.saldo|money }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
+                        {% if factuur.deletable %}
+                            {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

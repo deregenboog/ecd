@@ -1,0 +1,77 @@
+HsBundle\Entity\Activiteit:
+    hs_activiteit_1:
+        naam: 'Schilderen'
+    hs_activiteit_2:
+        naam: 'Verhuizen'
+    hs_activiteit_3:
+        naam: 'Overig'
+
+HsBundle\Entity\DeclaratieCategorie:
+    hs_declaratiecategorie_1:
+        naam: 'Vervoer'
+    hs_declaratiecategorie_2:
+        naam: 'Verf'
+    hs_declaratiecategorie_3:
+        naam: 'Gereedschap'
+    hs_declaratiecategorie_4:
+        naam: 'Overig'
+
+HsBundle\Entity\Klant:
+    hs_klant_{1..25}:
+        roepnaam: '<firstname()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        geslacht: '@geslacht_*'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        werkgebied: 'Centrum'
+        medewerker: '@medewerker_*'
+        inschrijving: '<dateTimeThisDecade()>'
+
+HsBundle\Entity\Dienstverlener:
+    hs_dienstverlener_{1..25}:
+        klant (unique): '@klant_*'
+        inschrijving: '<dateTimeThisDecade()>'
+
+HsBundle\Entity\Vrijwilliger:
+    hs_vrijwilliger_{1..25}:
+        vrijwilliger (unique): '@vrijwilliger_*'
+        inschrijving: '<dateTimeThisDecade()>'
+
+HsBundle\Entity\Klus:
+    hs_klus_{1..100}:
+        medewerker: '@medewerker_*'
+        klant: '@hs_klant_*'
+        startdatum: '<dateTimeThisDecade()>'
+        einddatum: '<dateTimeThisDecade()>'
+        onHold: false
+        activiteit: '@hs_activiteit_*'
+
+HsBundle\Entity\Registratie:
+    hs_registratie_{1..200}:
+        __construct: ['@hs_klus_*', '@hs_dienstverlener_*']
+        activiteit: '@hs_activiteit_*'
+        medewerker: '@medewerker_*'
+        datum: '<dateTimeThisYear()>'
+        start: '10:00'
+        eind: '13:00'
+
+HsBundle\Entity\Declaratie:
+    hs_declaratie_{1..200}:
+        __construct: ['@hs_klus_*', '@medewerker_*']
+        declaratiecategorie: '@hs_declaratiecategorie_*'
+        datum: '<dateTimeThisYear()>'
+        info: '<sentence()>'
+        bedrag: '<numberBetween(1, 25)>'
+
+HsBundle\Entity\Betaling:
+    hs_betaling_{1..10}:
+        __construct: ['<factuur(@hs_klant_*)>']
+        datum: '<dateTimeThisYear()>'
+        referentie: '<numberBetween(100000, 999999)>'
+        info: '<sentence()>'
+        bedrag: '<numberBetween(5, 25)>'

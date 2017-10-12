@@ -1,0 +1,12 @@
+Factuur {{ tab -}}
+Datum {{ tab -}}
+Klant {{ tab -}}
+Bedrag {{ tab -}}
+Saldo
+{% for entity in collection -%}
+    {{ entity ~ tab -}}
+    {{ entity.datum ? entity.datum|date('d-m-Y') ~ tab -}}
+    {{ entity.klant ~ tab -}}
+    {{ entity.bedrag ~ tab -}}
+    {{ entity.saldo }}
+{% endfor %}

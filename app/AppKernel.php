@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
             new GaBundle\GaBundle(),
+            new HsBundle\HsBundle(),
             new OekBundle\OekBundle(),
             new OdpBundle\OdpBundle(),
             new DagbestedingBundle\DagbestedingBundle(),

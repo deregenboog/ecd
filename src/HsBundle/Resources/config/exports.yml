@@ -1,0 +1,106 @@
+services:
+    hs.export.klant:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Klant
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Geslacht: { expression: 'entity.getGeslacht()' }
+                Voornaam: { expression: 'entity.getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAchternaam()' }
+                E-mail: { expression: 'entity.getEmail()' }
+                Adres: { expression: 'entity.getAdres()' }
+                Postcode: { expression: 'entity.getPostcode()' }
+                Woonplaats: { expression: 'entity.getPlaats()' }
+                Mobiel: { expression: 'entity.getMobiel()' }
+                Telefoon: { expression: 'entity.getTelefoon()' }
+                Werkgebied: { expression: 'entity.getWerkgebied()' }
+                Actief: { expression: 'entity.isActief()' }
+                Saldo: { expression: 'entity.getSaldo()' }
+
+    hs.export.dienstverlener:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Dienstverlener
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+
+    hs.export.vrijwilliger:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Vrijwilliger
+            -
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+                Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+
+    hs.export.registratie:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Registratie
+            -
+                Nummer: { expression: 'entity.getArbeider().getKlant() ? entity.getArbeider().getKlant().getId() : entity.getArbeider().getVrijwilliger().getId()' }
+                Naam: { expression: 'entity.getArbeider()' } 
+                Activiteit: { expression: 'entity.getActiviteit()' } 
+                Datum: { expression: 'entity.getDatum()', type: 'date' } 
+                Starttijd: { expression: 'entity.getStart()', type: 'time' } 
+                Eindtijd: { expression: 'entity.getEind()', type: 'time' }
+                Dagdelen: { expression: 'entity.getDagdelen()' }
+                Reiskosten:  { expression: 'entity.getReiskosten()' }
+
+    hs.export.klus:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Klus
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Activiteit: { expression: 'entity.getActiviteit()' } 
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' } 
+                Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
+
+    hs.export.factuur:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Factuur
+            -
+                Nummer: { expression: 'entity.getNummer()' }
+                Datum: { expression: 'entity.getDatum()' }
+                Betreft: { expression: 'entity.getBetreft()' }
+                Bedrag: { expression: 'entity.getBedrag()', type: 'money' }
+                Klant: { expression: 'entity.getKlant()' }
+                Saldo: { expression: 'entity.getSaldo()', type: 'money' }
+
+    hs.export.betaling:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - HsBundle\Entity\Betaling
+            -
+                Datum: { expression: 'entity.getDatum()', type: 'date' }
+                Referentie: { expression: 'entity.getReferentie()' }
+                Factuur: { expression: 'entity.getFactuur()' }
+                Klant: { expression: 'entity.getFactuur().getKlant()' }
+                Bedrag: { expression: 'entity.getBedrag()', type: 'money' }
+
+    hs.export.report:
+        class: HsBundle\Export\ReportExport

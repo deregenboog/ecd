@@ -25,9 +25,7 @@
 <body>
     {% include '::header.html.twig' %}
     <div class="container-fluid">
-        {% block subnavigation %}
-        {% endblock subnavigation %}
-
+        {% block subnavigation %}{% endblock subnavigation %}
         <div class="row">
             {% for type, flash_messages in app.session.flashBag.all %}
                 {% for flash_message in flash_messages %}
@@ -35,9 +33,7 @@
                 {% endfor %}
             {% endfor %}
         </div>
-
-        {% block content %}
-        {% endblock content %}
+        {% block content %}{% endblock content %}
     </div>
     {% include '::footer.html.twig' %}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>

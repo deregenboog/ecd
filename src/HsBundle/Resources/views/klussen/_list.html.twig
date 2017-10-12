@@ -1,0 +1,33 @@
+<h2>Klussen</h2>
+<p>
+    {% if klant is defined %}
+        {% set entity = klant %}
+        {% set url = path('hs_klussen_add', {klant: entity.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Klus toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>Klus</th>
+        <th>Datum</th>
+        <th>Stadsdeel</th>
+        <th></th>
+    </tr>
+    {% for klus in entity.klussen %}
+        <tr>
+            <td>{{ html.link(klus, path('hs_klussen_view', {id: klus.id})) }}</td>
+            <td>{{ klus.startdatum|date('d-m-Y') }}</td>
+            <td>{{ klus.klant.werkgebied }}</td>
+            <td>
+                {{ html.viewLink(path('hs_klussen_view', {id: klus.id})) }}
+                {{ html.editLink(path('hs_klussen_edit', {id: klus.id, redirect: app.request.get('url')})) }}
+                {% if klus.deletable %}
+                    {{ html.deleteLink(path('hs_klussen_delete', {id: klus.id, redirect: app.request.get('url')})) }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

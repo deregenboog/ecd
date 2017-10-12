@@ -1,0 +1,64 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Facturen |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>Factuur {{ entity }}</h1>
+    <p>
+        {{ html.viewLink(path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
+        {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('hs_facturen_delete', {id: entity.id})) }}
+            {{ html.link('Factuur verwijderen', path('hs_facturen_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.nummer }}</dd>
+        <dt>Betreft</dt>
+        <dd>{{ entity.betreft }}</dd>
+        <dt>Datum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+        <dt>Klant</dt>
+        <dd>{{ html.link(entity.klant, path('hs_klanten_view', {id: entity.klant.id})) }}</dd>
+        <dt>Totaal</dt>
+        <dd>{{ entity.bedrag|money }}</dd>
+        <dt>Betaald</dt>
+        <dd>{{ entity.betaald|money }}</dd>
+        <dt>Saldo</dt>
+        <dd>{{ entity.saldo|money }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#registraties">Uren</a></li>
+        <li><a data-toggle="tab" href="#declaraties">Declaraties</a></li>
+        <li><a data-toggle="tab" href="#betalingen">Betalingen</a></li>
+        <li><a data-toggle="tab" href="#herinneringen">Betalingsherinneringen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="registraties" class="tab-pane active">
+            {% include '@Hs/registraties/_list.html.twig' with {factuur: entity} %}
+        </div>
+        <div id="declaraties" class="tab-pane">
+            {% include '@Hs/declaraties/_list.html.twig' with {factuur: entity} %}
+        </div>
+        <div id="betalingen" class="tab-pane">
+            {% include '@Hs/betalingen/_list.html.twig' with {factuur: entity} %}
+        </div>
+        <div id="herinneringen" class="tab-pane">
+            {% include '@Hs/herinneringen/_list.html.twig' with {factuur: entity} %}
+        </div>
+    </div>
+{% endblock %}

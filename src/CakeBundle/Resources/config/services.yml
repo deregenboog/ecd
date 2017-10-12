@@ -71,6 +71,8 @@ parameters:
             GROUP_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE_BEHEER: "CN=ECD Homeservice beheer,CN=Users,DC=cluster,DC=deregenboog"
 
         # group: [controllers]
         ACL.permissions:
@@ -121,8 +123,6 @@ parameters:
                 - Intakes
                 - Klanten
                 - Registraties
-                - inloop
-                - InloopBundle\Controller\Klanten
             GROUP_PFO:
                 - PfoClienten
                 - PfoRapporten
@@ -164,8 +164,6 @@ parameters:
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
-                - inloop
-                - InloopBundle\Controller\Klanten
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
@@ -374,6 +372,36 @@ parameters:
                 - ClipBundle\Controller\Viacategorieen
                 - ClipBundle\Controller\Vraagsoorten
                 - ClipBundle\Controller\Vragen
+            GROUP_HOMESERVICE:
+                - hs
+                - HsBundle\Controller\Betalingen
+                - HsBundle\Controller\Declaraties
+                - HsBundle\Controller\Dienstverleners
+                - HsBundle\Controller\Documenten
+                - HsBundle\Controller\Facturen
+                - HsBundle\Controller\Herinneringen
+                - HsBundle\Controller\Klanten
+                - HsBundle\Controller\Klussen
+                - HsBundle\Controller\Memos
+                - HsBundle\Controller\Rapportages
+                - HsBundle\Controller\Registraties
+                - HsBundle\Controller\Vrijwilligers
+            GROUP_HOMESERVICE_BEHEER:
+                - hs
+                - HsBundle\Controller\Activiteiten
+                - HsBundle\Controller\Betalingen
+                - HsBundle\Controller\DeclaratieCategorieen
+                - HsBundle\Controller\Declaraties
+                - HsBundle\Controller\Dienstverleners
+                - HsBundle\Controller\Documenten
+                - HsBundle\Controller\Facturen
+                - HsBundle\Controller\Herinneringen
+                - HsBundle\Controller\Klanten
+                - HsBundle\Controller\Klussen
+                - HsBundle\Controller\Memos
+                - HsBundle\Controller\Rapportages
+                - HsBundle\Controller\Registraties
+                - HsBundle\Controller\Vrijwilligers
             GROUP_ADMIN:
                 - Admin
                 - Awbz
@@ -460,6 +488,21 @@ parameters:
                 - ClipBundle\Controller\Viacategorieen
                 - ClipBundle\Controller\Vraagsoorten
                 - ClipBundle\Controller\Vragen
+                - hs
+                - HsBundle\Controller\Activiteiten
+                - HsBundle\Controller\Betalingen
+                - HsBundle\Controller\DeclaratieCategorieen
+                - HsBundle\Controller\Declaraties
+                - HsBundle\Controller\Dienstverleners
+                - HsBundle\Controller\Documenten
+                - HsBundle\Controller\Facturen
+                - HsBundle\Controller\Herinneringen
+                - HsBundle\Controller\Klanten
+                - HsBundle\Controller\Klussen
+                - HsBundle\Controller\Memos
+                - HsBundle\Controller\Rapportages
+                - HsBundle\Controller\Registraties
+                - HsBundle\Controller\Vrijwilligers
 
         # controller: {label, url}
         all_menu_items:
@@ -508,6 +551,9 @@ parameters:
             clip:
                 label: Clip
                 url: clip
+            hs:
+                label: Homeservice
+                url: hs
             Admin:
                 label: Admin
                 url: Admin
