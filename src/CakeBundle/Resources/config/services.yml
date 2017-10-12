@@ -70,7 +70,7 @@ parameters:
             GROUP_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
-            GROUP_CLIP_BEHEER: "CN=ECD CLIP Beheer ,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
 
         # group: [controllers]
         ACL.permissions:
@@ -354,26 +354,26 @@ parameters:
                 - DagbestedingBundle\Controller\Verslagen
             GROUP_CLIP:
                 - clip
-                - ClientenController.php
-                - ContactmomentenController.php
-                - DocumentenController.php
-                - OpenstaandeVragenController.php
-                - RapportagesController.php
-                - VragenController.php
+                - ClipBundle\Controller\Clienten
+                - ClipBundle\Controller\Contactmomenten
+                - ClipBundle\Controller\Documenten
+                - ClipBundle\Controller\OpenstaandeVragen
+                - ClipBundle\Controller\Rapportages
+                - ClipBundle\Controller\Vragen
             GROUP_CLIP_BEHEER:
                 - clip
-                - BehandelaarsController.php
-                - ClientenController.php
-                - CommunicatiekanalenController.php
-                - ContactmomentenController.php
-                - DocumentenController.php
-                - HulpvragersController.php
-                - LeeftijdscategorieenController.php
-                - OpenstaandeVragenController.php
-                - RapportagesController.php
-                - ViacategorieenController.php
-                - VraagsoortenController.php
-                - VragenController.php
+                - ClipBundle\Controller\Behandelaars
+                - ClipBundle\Controller\Clienten
+                - ClipBundle\Controller\Communicatiekanalen
+                - ClipBundle\Controller\Contactmomenten
+                - ClipBundle\Controller\Documenten
+                - ClipBundle\Controller\Hulpvragers
+                - ClipBundle\Controller\Leeftijdscategorieen
+                - ClipBundle\Controller\OpenstaandeVragen
+                - ClipBundle\Controller\Rapportages
+                - ClipBundle\Controller\Viacategorieen
+                - ClipBundle\Controller\Vraagsoorten
+                - ClipBundle\Controller\Vragen
             GROUP_ADMIN:
                 - Admin
                 - Awbz
@@ -447,6 +447,19 @@ parameters:
                 - DagbestedingBundle\Controller\Verslagen
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - clip
+                - ClipBundle\Controller\Behandelaars
+                - ClipBundle\Controller\Clienten
+                - ClipBundle\Controller\Communicatiekanalen
+                - ClipBundle\Controller\Contactmomenten
+                - ClipBundle\Controller\Documenten
+                - ClipBundle\Controller\Hulpvragers
+                - ClipBundle\Controller\Leeftijdscategorieen
+                - ClipBundle\Controller\OpenstaandeVragen
+                - ClipBundle\Controller\Rapportages
+                - ClipBundle\Controller\Viacategorieen
+                - ClipBundle\Controller\Vraagsoorten
+                - ClipBundle\Controller\Vragen
 
         # controller: {label, url}
         all_menu_items:
