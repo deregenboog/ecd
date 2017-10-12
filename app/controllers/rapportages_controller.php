@@ -1218,68 +1218,29 @@ class RapportagesController extends AppController
 
         $data = [];
 
-        $locaties = $em->getRepository(Locatie::class)->findAll();
+        $locaties = $em->getRepository(Locatie::class)->findBy([], ['naam' => 'ASC']);
         foreach ($locaties as $locatie) {
             $klanten = $em->getRepository(Klant::class)->createQueryBuilder('klant')
                 ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.intakedatum < :year_ago')
                 ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
-                ->andWhere('registratie.locatie = :locatie')
-                ->andWhere('registratie.binnen >= :month_ago')
+                ->innerJoin('registratie.locatie', 'locatie', 'WITH', 'locatie = :locatie')
+                ->where('registratie.binnen >= :month_ago')
                 ->setParameters([
                     'month_ago' => new \DateTime('-1 month'),
                     'year_ago' => new \DateTime('-1 year'),
                     'locatie' => $locatie,
                 ])
                 ->getQuery()
-                ->setMaxResults(100)
                 ->getResult()
             ;
 
             if (count($klanten) > 0) {
-                var_dump($klanten); die;
+                foreach ($klanten as $klant) {
+                    $data[$locatie->getNaam()][] = $klant;
+                }
             }
         }
 
-        var_dump($data); die;
-
-
-
-        $date_from = null;
-        $date_to = null;
-
-        if ($this->data) {
-            $this->_prepare_dates($date_from, $date_to);
-            $date_from = mysql_escape_string($date_from);
-            $date_until = mysql_escape_string($this->_add_day($date_to));
-
-            $this->loadModel(\Klant::class);
-            $repatrieringen = $this->Klant->find('all', [
-                'fields' => ['COUNT(Klant.id) AS aantal', 'Afsluiting.land_id'],
-                'joins' => [
-                    [
-                        'table' => 'inloop_dossier_statussen',
-                        'alias' => 'Afsluiting',
-                        'type' => 'INNER',
-                        'conditions' => [
-                            'Afsluiting.class' => 'Afsluiting',
-                            'Afsluiting.id = Klant.huidigeStatus_id',
-                            ['NOT' => ['Afsluiting.land_id' => null]],
-                            'Afsluiting.datum >=' => $date_from,
-                            'Afsluiting.datum <' => $date_until,
-                        ],
-                    ],
-                ],
-                'group' => ['Afsluiting.land_id'],
-                'order' => ['aantal DESC'],
-                'recursive' => -1,
-            ]);
-
-            $this->loadModel(\Land::class);
-            $landen = $this->Land->find('list');
-
-            $this->set(compact('repatrieringen', 'landen'));
-        }
-
-        $this->set(compact('date_from', 'date_until'));
+        $this->set('locaties', $data);
     }
 }
