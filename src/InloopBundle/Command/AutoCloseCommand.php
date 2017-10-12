@@ -84,7 +84,6 @@ class AutoCloseCommand extends ContainerAwareCommand
 
         if (!$input->getOption('dry-run')) {
             $entityManager->flush();
-            \Cache::delete(DossierStatusRepository::CACHE_KEY_ACTIVE_KLANT_IDS);
         }
     }
 }
