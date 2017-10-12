@@ -64,10 +64,10 @@ class Version20171012100518 extends AbstractMigration
         ');
 
         // add options for "RedenAfsluiting"
-        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, created, modified) VALUES ('>3 jaar geen inloophuis bezocht', 1, NOW(), NOW())");
-        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, created, modified) VALUES ('Gerepatrieerd', 1, NOW(), NOW())");
-        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, created, modified) VALUES ('Overleden', 1, NOW(), NOW())");
-        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, gewicht, created, modified) VALUES ('Overig', 1, 100, NOW(), NOW())");
+        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, land, gewicht, created, modified) VALUES ('>3 jaar geen inloophuis bezocht', 1, 0, 0, NOW(), NOW())");
+        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, land, gewicht, created, modified) VALUES ('Gerepatrieerd', 1, 1, 0, NOW(), NOW())");
+        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, land, gewicht, created, modified) VALUES ('Overleden', 1, 0, 0, NOW(), NOW())");
+        $this->addSql("INSERT INTO inloop_afsluiting_redenen (naam, actief, land, gewicht, created, modified) VALUES ('Overig', 1, 0, 100, NOW(), NOW())");
     }
 
     /**
