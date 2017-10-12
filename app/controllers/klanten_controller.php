@@ -122,34 +122,6 @@ class KlantenController extends AppController
         $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
-    public function close($id)
-    {
-        $this->view = 'AppTwig';
-        $entityManager = $this->getEntityManager();
-
-        $klant = $entityManager->find(Klant::class, $id);
-
-        if (!$klant instanceof Klant) {
-            $this->flashError(__('Invalid klant', true));
-            $this->redirect(['action' => 'index']);
-        }
-
-        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
-        $form = $this->createForm(AfsluitingType::class, $afsluiting);
-        $form->handleRequest($this->getRequest());
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($klant);
-            $entityManager->persist($form->getData());
-            $entityManager->flush();
-
-            $this->flash('Dossier is afgesloten');
-            $this->redirect(['action' => 'view', $klant->getId()]);
-        }
-
-        $this->set('klant', $klant);
-        $this->set('form', $form->createView());
-    }
-
     public function registratie($id = null)
     {
         if (!$id) {

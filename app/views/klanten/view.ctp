@@ -45,7 +45,7 @@
         <h2>Laatste intake</h2>
         <?= $this->Html->link(
             'Inloop-dossier afsluiten.',
-            ['controller' => 'klanten', 'action' => 'close', $klant['Klant']['id']]
+            ['controller' => 'inloop/klanten', 'action' => 'close', $klant['Klant']['id']]
         ) ?>
         <?php if (!empty($newestintake)): ?>
             <?php echo $this->element('intake', ['data' => $newestintake]); ?>
