@@ -58,6 +58,6 @@ class Land
 
     public function getNaam()
     {
-        return $this->naam;
+        return $this->land;
     }
 }

@@ -18,6 +18,7 @@ class Registratie
     use TimestampableTrait;
 
     /**
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue

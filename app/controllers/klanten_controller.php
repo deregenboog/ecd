@@ -1,5 +1,11 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Form\AfsluitingType;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\DossierStatus;
+
 class KlantenController extends AppController
 {
     public $name = 'Klanten';
@@ -79,6 +85,9 @@ class KlantenController extends AppController
             $this->redirect(['action' => 'index']);
         }
 
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($id);
+        $this->set(compact('status'));
+
         $registraties = $this->Klant->Registratie->find('all', [
             'conditions' => ['Registratie.klant_id' => $klant['Klant']['id']],
             'order' => 'binnen desc',
@@ -111,6 +120,34 @@ class KlantenController extends AppController
         }
 
         $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
+    }
+
+    public function close($id)
+    {
+        $this->view = 'AppTwig';
+        $entityManager = $this->getEntityManager();
+
+        $klant = $entityManager->find(Klant::class, $id);
+
+        if (!$klant instanceof Klant) {
+            $this->flashError(__('Invalid klant', true));
+            $this->redirect(['action' => 'index']);
+        }
+
+        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+        $form = $this->createForm(AfsluitingType::class, $afsluiting);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($klant);
+            $entityManager->persist($form->getData());
+            $entityManager->flush();
+
+            $this->flash('Dossier is afgesloten');
+            $this->redirect(['action' => 'view', $klant->getId()]);
+        }
+
+        $this->set('klant', $klant);
+        $this->set('form', $form->createView());
     }
 
     public function registratie($id = null)

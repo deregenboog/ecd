@@ -1,5 +1,9 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Registratie;
+use InloopBundle\Entity\Locatie;
+
 class RapportagesController extends AppController
 {
     public $name = 'Rapportages';
@@ -608,9 +612,9 @@ class RapportagesController extends AppController
         $current_location = 'Alle locaties';
 
         if ($this->data) {
-            //setting the conditions depending on the data recieved from the form
+            // setting the conditions depending on the data recieved from the form
 
-        //location
+            // location
             if (isset($this->data['options']) &&
                 !empty($this->data['options']['location'])
             ) {
@@ -618,7 +622,7 @@ class RapportagesController extends AppController
                 $conditions['Schorsing.locatie_id'] = $current_location;
             }
 
-        //dates
+            // dates
             $this->_prepare_dates($date_from, $date_to);
             // These conditions are to retrieve people who are suspended during
             // this interval, not for suspesions that start withing the given
@@ -626,7 +630,7 @@ class RapportagesController extends AppController
             $conditions['Schorsing.datum_van <='] = $date_to;
             $conditions['Schorsing.datum_tot >='] = $date_from;
 
-        //gender
+            // gender
             if (!empty($this->data['options']['geslacht_id'])) {
                 $conditions['Klant.geslacht_id'] =
                     $this->data['options']['geslacht_id'];
@@ -634,25 +638,24 @@ class RapportagesController extends AppController
         }
 
         // Strange query: get Schorsingen, and reorganize them per klant!
-
         $schorsingen = $this->Klant->Schorsing->find('all', [
             'conditions' => $conditions,
             'order' => 'Schorsing.klant_id',
         ]);
 
-        //counting all schorsingen and active schorsingen for each client
+        // counting all schorsingen and active schorsingen for each client
         if (!empty($schorsingen)) {
             $clients = [];
             $previous_klant_id = null;
             foreach ($schorsingen as &$schorsing) {
-                //when this iteration is over the same client as previous iteration:
+                // when this iteration is over the same client as previous iteration:
                 if ($previous_klant_id == $schorsing['Klant']['id']) {
                     $clients[$previous_klant_id]['total_sch'] += 1;
                 } else {
-                    //if the client has changed since the last iteration
-                    //set the new id:
+                    // if the client has changed since the last iteration
+                    // set the new id:
                     $previous_klant_id = $schorsing['Klant']['id'];
-                    //create an array index for the client
+                    // create an array index for the client
                     $clients[$previous_klant_id] = [
                         'total_sch' => 1,
                         'active_sch' => 0,
@@ -662,17 +665,17 @@ class RapportagesController extends AppController
                 }
                 $clients[$previous_klant_id]['Schorsing'][] = $schorsing;
 
-                //increment the active schorsingen if needed:
+                // increment the active schorsingen if needed:
                 if (
                     empty($schorsing['Schorsing']['datum_tot']) ||
                     $schorsing['Schorsing']['datum_tot'] > $date_to
                 ) {
                     $clients[$previous_klant_id]['active_sch'] += 1;
                 }
-            }//end of foreach
-        }//end of if empty
+            }
+        }
 
-        //setting stuff
+        // setting stuff
         $locations = $this->Locatie->find('list', ['fields' => ['Locatie.id', 'Locatie.naam']]);
 
         $this->set(compact('current_location', 'locations', 'date_to', 'date_from', 'clients'));
@@ -813,31 +816,28 @@ class RapportagesController extends AppController
 
     public function _prepare_dates(&$date_from, &$date_to)
     {
-        //if there's no data, return
+        // if there's no data, return
         if (empty($this->data)) {
             return;
         }
 
         //converting the date array into a string
-
-        //which model we use doesn't matter here - we just need some name of
-        //a date field to tell cake that we want the data to be
-        //deconstructed into a date (not datetime)
-        $from = $this->Klant->deconstruct(
-            'geboortedatum', $this->data['date_from']);
-        $to =
-            $this->Klant->deconstruct('geboortedatum', $this->data['date_to']);
+        // which model we use doesn't matter here - we just need some name of
+        // a date field to tell cake that we want the data to be
+        // deconstructed into a date (not datetime)
+        $from = $this->Klant->deconstruct('geboortedatum', $this->data['date_from']);
+        $to = $this->Klant->deconstruct('geboortedatum', $this->data['date_to']);
 
         if (!empty($from)) {
             $date_from = $from;
         }
+
         if (!empty($to)) {
             $date_to = $to;
         }
     }
 
-    //adds given number of days to the date (one by default)
-
+    // adds given number of days to the date (one by default)
     public function _add_day($date, $number_of_days = 1)
     {
         return date('Y-m-d', strtotime("$date + $number_of_days days"));
@@ -1170,4 +1170,116 @@ class RapportagesController extends AppController
         }
     }
     */
+
+    public function gerepatrieerd()
+    {
+        $date_from = null;
+        $date_to = null;
+
+        if ($this->data) {
+            $this->_prepare_dates($date_from, $date_to);
+            $date_from = mysql_escape_string($date_from);
+            $date_until = mysql_escape_string($this->_add_day($date_to));
+
+            $this->loadModel(\Klant::class);
+            $repatrieringen = $this->Klant->find('all', [
+                'fields' => ['COUNT(Klant.id) AS aantal', 'Afsluiting.land_id'],
+                'joins' => [
+                    [
+                        'table' => 'inloop_dossier_statussen',
+                        'alias' => 'Afsluiting',
+                        'type' => 'INNER',
+                        'conditions' => [
+                            'Afsluiting.class' => 'Afsluiting',
+                            'Afsluiting.id = Klant.huidigeStatus_id',
+                            ['NOT' => ['Afsluiting.land_id' => null]],
+                            'Afsluiting.datum >=' => $date_from,
+                            'Afsluiting.datum <' => $date_until,
+                        ],
+                    ],
+                ],
+                'group' => ['Afsluiting.land_id'],
+                'order' => ['aantal DESC'],
+                'recursive' => -1,
+            ]);
+
+            $this->loadModel(\Land::class);
+            $landen = $this->Land->find('list');
+
+            $this->set(compact('repatrieringen', 'landen'));
+        }
+
+        $this->set(compact('date_from', 'date_until'));
+    }
+
+    public function herintakes()
+    {
+        $em = $this->getEntityManager();
+
+        $data = [];
+
+        $locaties = $em->getRepository(Locatie::class)->findAll();
+        foreach ($locaties as $locatie) {
+            $klanten = $em->getRepository(Klant::class)->createQueryBuilder('klant')
+                ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.intakedatum < :year_ago')
+                ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
+                ->andWhere('registratie.locatie = :locatie')
+                ->andWhere('registratie.binnen >= :month_ago')
+                ->setParameters([
+                    'month_ago' => new \DateTime('-1 month'),
+                    'year_ago' => new \DateTime('-1 year'),
+                    'locatie' => $locatie,
+                ])
+                ->getQuery()
+                ->setMaxResults(100)
+                ->getResult()
+            ;
+
+            if (count($klanten) > 0) {
+                var_dump($klanten); die;
+            }
+        }
+
+        var_dump($data); die;
+
+
+
+        $date_from = null;
+        $date_to = null;
+
+        if ($this->data) {
+            $this->_prepare_dates($date_from, $date_to);
+            $date_from = mysql_escape_string($date_from);
+            $date_until = mysql_escape_string($this->_add_day($date_to));
+
+            $this->loadModel(\Klant::class);
+            $repatrieringen = $this->Klant->find('all', [
+                'fields' => ['COUNT(Klant.id) AS aantal', 'Afsluiting.land_id'],
+                'joins' => [
+                    [
+                        'table' => 'inloop_dossier_statussen',
+                        'alias' => 'Afsluiting',
+                        'type' => 'INNER',
+                        'conditions' => [
+                            'Afsluiting.class' => 'Afsluiting',
+                            'Afsluiting.id = Klant.huidigeStatus_id',
+                            ['NOT' => ['Afsluiting.land_id' => null]],
+                            'Afsluiting.datum >=' => $date_from,
+                            'Afsluiting.datum <' => $date_until,
+                        ],
+                    ],
+                ],
+                'group' => ['Afsluiting.land_id'],
+                'order' => ['aantal DESC'],
+                'recursive' => -1,
+            ]);
+
+            $this->loadModel(\Land::class);
+            $landen = $this->Land->find('list');
+
+            $this->set(compact('repatrieringen', 'landen'));
+        }
+
+        $this->set(compact('date_from', 'date_until'));
+    }
 }
