@@ -85,6 +85,7 @@ parameters:
                 - Registraties
                 - Schorsingen
                 - Opmerkingen
+                - inloop
                 - InloopBundle\Controller\Klanten
             GROUP_MAATSCHAPPELIJK:
                 - Awbz
@@ -99,83 +100,12 @@ parameters:
                 - Verslagen
                 - Rapportages
                 - Attachments
+                - inloop
                 - InloopBundle\Controller\Klanten
             GROUP_HI5:
                 - Intakes
                 - Klanten
                 - Attachments
-            GROUP_ADMIN:
-                - Admin
-                - Awbz
-                - AwbzHoofdaannemers
-                - AwbzIndicaties
-                - AwbzIntakes
-                - Intakes
-                - Klanten
-                - Hi5
-                - MaatschappelijkWerk
-                - Verslagen
-                - Registraties
-                - Schorsingen
-                - Opmerkingen
-                - Rapportages
-                - MwInventarisaties
-                - Attachments
-                - BackOnTrack
-                - BotVerslagen
-                - Vrijwilligers
-                - groepsactiviteiten_klanten
-                - Medewerkers
-                - odp
-                - OdpBundle\Controller\Coordinatoren
-                - OdpBundle\Controller\Documenten
-                - OdpBundle\Controller\Huuraanbiedingen
-                - OdpBundle\Controller\HuuraanbodAfsluitingen
-                - OdpBundle\Controller\HuurderAfsluitingen
-                - OdpBundle\Controller\Huurders
-                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
-                - OdpBundle\Controller\Huurovereenkomsten
-                - OdpBundle\Controller\HuurverzoekAfsluitingen
-                - OdpBundle\Controller\Huurverzoeken
-                - OdpBundle\Controller\VerhuurderAfsluitingen
-                - OdpBundle\Controller\Verhuurders
-                - OdpBundle\Controller\Verslagen
-                - OdpBundle\Controller\Woningbouwcorporaties
-                - oek
-                - OekBundle\Controller\Deelnames
-                - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
-                - OekBundle\Controller\Lidmaatschappen
-                - OekBundle\Controller\Rapportages
-                - OekBundle\Controller\Trainingen
-                - OekBundle\Controller\VerwijzingenDoor
-                - OekBundle\Controller\VerwijzingenNaar
-                - OekBundle\Controller\Wachtlijst
-                - PfoClienten
-                - PfoRapporten
-                - PfoAardRelaties
-                - PfoGroepen
-                - PfoVerslagen
-                - dagbesteding
-                - DagbestedingBundle\Controller\Afsluitingen
-                - DagbestedingBundle\Controller\Contactpersonen
-                - DagbestedingBundle\Controller\Redirect
-                - DagbestedingBundle\Controller\Dagdelen
-                - DagbestedingBundle\Controller\Dagdelenregistratie
-                - DagbestedingBundle\Controller\Deelnemerafsluitingen
-                - DagbestedingBundle\Controller\Deelnemers
-                - DagbestedingBundle\Controller\Documenten
-                - DagbestedingBundle\Controller\Locaties
-                - DagbestedingBundle\Controller\Projecten
-                - DagbestedingBundle\Controller\Rapportages
-                - DagbestedingBundle\Controller\Reporting
-                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
-                - DagbestedingBundle\Controller\Trajectafsluitingen
-                - DagbestedingBundle\Controller\Trajectbegeleiders
-                - DagbestedingBundle\Controller\Trajecten
-                - DagbestedingBundle\Controller\Trajectsoorten
-                - DagbestedingBundle\Controller\Verslagen
-                - InloopBundle\Controller\Klanten
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
                 - BotVerslagen
@@ -191,6 +121,7 @@ parameters:
                 - Intakes
                 - Klanten
                 - Registraties
+                - inloop
                 - InloopBundle\Controller\Klanten
             GROUP_PFO:
                 - PfoClienten
@@ -233,6 +164,7 @@ parameters:
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
+                - inloop
                 - InloopBundle\Controller\Klanten
             GROUP_IZ:
                 - Klanten
@@ -442,6 +374,79 @@ parameters:
                 - ViacategorieenController.php
                 - VraagsoortenController.php
                 - VragenController.php
+            GROUP_ADMIN:
+                - Admin
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Intakes
+                - Klanten
+                - Hi5
+                - MaatschappelijkWerk
+                - Verslagen
+                - Registraties
+                - Schorsingen
+                - Opmerkingen
+                - Rapportages
+                - MwInventarisaties
+                - Attachments
+                - BackOnTrack
+                - BotVerslagen
+                - Vrijwilligers
+                - groepsactiviteiten_klanten
+                - Medewerkers
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
+                - PfoClienten
+                - PfoRapporten
+                - PfoAardRelaties
+                - PfoGroepen
+                - PfoVerslagen
+                - dagbesteding
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
+                - inloop
+                - InloopBundle\Controller\Klanten
 
         # controller: {label, url}
         all_menu_items:
@@ -457,7 +462,7 @@ parameters:
             Registraties:
                 label: Registratie
                 url: Registraties
-            Inloop:
+            inloop:
                 label: Inloophuizen
                 url: inloop
             MaatschappelijkWerk:
