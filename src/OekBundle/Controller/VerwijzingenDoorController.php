@@ -8,7 +8,7 @@ use OekBundle\Entity\OekVerwijzingDoor;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/admin/verwijzingen_door")
+ * @Route("/admin/verwijzingen_door")
  */
 class VerwijzingenDoorController extends SymfonyController
 {

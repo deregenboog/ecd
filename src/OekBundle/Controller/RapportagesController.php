@@ -8,7 +8,7 @@ use OekBundle\Report\AbstractReport;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/rapportages")
+ * @Route("/rapportages")
  */
 class RapportagesController extends SymfonyController
 {

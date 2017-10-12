@@ -20,7 +20,7 @@ use OekBundle\Entity\OekAfsluiting;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/klanten")
+ * @Route("/klanten")
  */
 class KlantenController extends SymfonyController
 {

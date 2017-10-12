@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ConfirmationType;
 
 /**
- * @Route("/odp/verslagen")
+ * @Route("/verslagen")
  */
 class VerslagenController extends SymfonyController
 {

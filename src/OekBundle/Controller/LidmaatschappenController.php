@@ -11,7 +11,7 @@ use OekBundle\Entity\OekKlant;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/lidmaatschappen")
+ * @Route("/lidmaatschappen")
  */
 class LidmaatschappenController extends SymfonyController
 {

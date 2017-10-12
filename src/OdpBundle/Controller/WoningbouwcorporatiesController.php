@@ -11,7 +11,7 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 
 /**
- * @Route("/odp/admin/woningbouwcorporaties")
+ * @Route("/admin/woningbouwcorporaties")
  */
 class WoningbouwcorporatiesController extends SymfonyController
 {

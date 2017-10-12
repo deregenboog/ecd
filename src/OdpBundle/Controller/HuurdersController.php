@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
 /**
- * @Route("/odp/huurders")
+ * @Route("/huurders")
  */
 class HuurdersController extends SymfonyController
 {

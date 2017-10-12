@@ -11,7 +11,7 @@ use OekBundle\Entity\OekDeelname;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/deelnames")
+ * @Route("/deelnames")
  */
 class DeelnamesController extends SymfonyController
 {

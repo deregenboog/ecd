@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Form\ConfirmationType;
 
 /**
- * @Route("/odp/huurovereenkomsten")
+ * @Route("/huurovereenkomsten")
  */
 class HuurovereenkomstenController extends SymfonyController
 {
