@@ -35,6 +35,11 @@ class KlantFilter implements FilterInterface
      */
     public $klant;
 
+    /**
+     * @var string
+     */
+    public $huidigeStatus;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -71,6 +76,10 @@ class KlantFilter implements FilterInterface
                     ->setParameter('laatste_intake_datum_tot', $this->laatsteIntakeDatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->huidigeStatus) {
+            $builder->innerJoin('klant.huidigeStatus', 'status', 'WITH', $builder->expr()->isInstanceOf('status', $this->huidigeStatus));
         }
 
         if ($this->klant) {

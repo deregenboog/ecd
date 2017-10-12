@@ -13,6 +13,9 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use InloopBundle\Entity\Locatie;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use InloopBundle\Entity\Aanmelding;
+use InloopBundle\Entity\Afsluiting;
 
 class KlantFilterType extends AbstractType
 {
@@ -42,7 +45,19 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('laatsteIntakeDatum', $options['enabled_filters'])) {
-            $builder->add('laatsteIntakeDatum', AppDateRangeType::class);
+            $builder->add('laatsteIntakeDatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('huidigeStatus', $options['enabled_filters'])) {
+            $builder->add('huidigeStatus', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Aangemeld' => Aanmelding::class,
+                    'Afgesloten' => Afsluiting::class,
+                ],
+            ]);
         }
 
         $builder
@@ -71,6 +86,7 @@ class KlantFilterType extends AbstractType
                 'gebruikersruimte',
                 'laatsteIntakeLocatie',
                 'laatsteIntakeDatum',
+                'huidigeStatus',
             ],
         ]);
     }
