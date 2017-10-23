@@ -28,7 +28,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
     /**
      * @var ArrayCollection|Klus[]
      * @ORM\ManyToMany(targetEntity="Klus", mappedBy="vrijwilligers")
-     * @ORM\OrderBy({"datum": "desc"})
+     * @ORM\OrderBy({"startdatum": "desc"})
      */
     protected $klussen;
 

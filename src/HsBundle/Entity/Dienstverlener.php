@@ -28,7 +28,7 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
     /**
      * @var ArrayCollection|Klus[]
      * @ORM\ManyToMany(targetEntity="Klus", mappedBy="dienstverleners")
-     * @ORM\OrderBy({"datum": "desc"})
+     * @ORM\OrderBy({"startdatum": "desc"})
      */
     protected $klussen;
 
