@@ -100,7 +100,6 @@ class IzKlantFilter implements FilterInterface
                     $builder
                         ->andWhere('izHulpvraag.izProject = :izProject')
                         ->andWhere('izHulpvraag.einddatum IS NULL')
-                        ->andWhere('izHulpvraag.izHulpaanbod IS NOT NULL')
                         ->andWhere('izHulpvraag.koppelingEinddatum IS NULL')
                         ->setParameter('izProject', $this->izProject)
                     ;

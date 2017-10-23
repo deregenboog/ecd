@@ -100,7 +100,6 @@ class IzVrijwilligerFilter implements FilterInterface
                     $builder
                         ->andWhere('izHulpaanbod.izProject = :izProject')
                         ->andWhere('izHulpaanbod.einddatum IS NULL')
-                        ->andWhere('izHulpaanbod.izHulpvraag IS NOT NULL')
                         ->andWhere('izHulpaanbod.koppelingEinddatum IS NULL')
                         ->setParameter('izProject', $this->izProject)
                     ;
