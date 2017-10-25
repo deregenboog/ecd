@@ -374,6 +374,7 @@ parameters:
                 - ClipBundle\Controller\Vragen
             GROUP_HOMESERVICE:
                 - Klanten
+                - Vrijwilligers
                 - hs
                 - HsBundle\Controller\Betalingen
                 - HsBundle\Controller\Declaraties
@@ -389,6 +390,7 @@ parameters:
                 - HsBundle\Controller\Vrijwilligers
             GROUP_HOMESERVICE_BEHEER:
                 - Klanten
+                - Vrijwilligers
                 - hs
                 - HsBundle\Controller\Activiteiten
                 - HsBundle\Controller\Betalingen
