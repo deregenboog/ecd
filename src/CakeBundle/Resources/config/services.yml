@@ -72,7 +72,7 @@ parameters:
             GROUP_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
-            GROUP_HOMESERVICE_BEHEER: "CN=ECD Homeservice beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
 
         # group: [controllers]
         ACL.permissions:
@@ -373,6 +373,7 @@ parameters:
                 - ClipBundle\Controller\Vraagsoorten
                 - ClipBundle\Controller\Vragen
             GROUP_HOMESERVICE:
+                - Klanten
                 - hs
                 - HsBundle\Controller\Betalingen
                 - HsBundle\Controller\Declaraties
@@ -387,6 +388,7 @@ parameters:
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
             GROUP_HOMESERVICE_BEHEER:
+                - Klanten
                 - hs
                 - HsBundle\Controller\Activiteiten
                 - HsBundle\Controller\Betalingen
