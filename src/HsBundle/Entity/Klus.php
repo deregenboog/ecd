@@ -244,7 +244,7 @@ class Klus implements MemoSubjectInterface
         return $this->einddatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum)
+    public function setEinddatum(\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
 
