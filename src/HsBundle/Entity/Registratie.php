@@ -103,6 +103,7 @@ class Registratie
         if ($arbeider) {
             $this->arbeider = $arbeider;
         }
+        $this->datum = new \DateTime('now');
     }
 
     public function getId()

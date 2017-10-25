@@ -58,7 +58,7 @@ class RegistratieType extends AbstractType
             ->add('activiteit', null, [
                 'placeholder' => 'Selecteer een activiteit',
             ])
-            ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('datum', AppDateType::class)
             ->add('start', AppTimeType::class)
             ->add('eind', AppTimeType::class)
             ->add('reiskosten', MoneyType::class, ['required' => false])

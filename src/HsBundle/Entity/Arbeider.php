@@ -55,6 +55,7 @@ abstract class Arbeider
         $this->registraties = new ArrayCollection();
         $this->memos = new ArrayCollection();
         $this->documenten = new ArrayCollection();
+        $this->inschrijving = new \DateTime('now');
     }
 
     public function getId()

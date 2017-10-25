@@ -123,6 +123,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function __construct()
     {
         $this->klussen = new ArrayCollection();
+        $this->inschrijving = new \DateTime('now');
     }
 
     public function getId()

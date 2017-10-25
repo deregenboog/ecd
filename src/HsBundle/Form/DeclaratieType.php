@@ -25,7 +25,7 @@ class DeclaratieType extends AbstractType
     {
         $builder
             ->add('medewerker', MedewerkerType::class)
-            ->add('datum', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('datum', AppDateType::class)
             ->add('declaratieCategorie', null, [
                 'label' => 'Declaratiecategorie',
                 'placeholder' => 'Selecteer een declaratiecategorie',

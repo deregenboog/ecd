@@ -23,8 +23,10 @@ class KlusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startdatum', AppDateType::class, ['data' => new \DateTime('today')])
-            ->add('einddatum', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('startdatum', AppDateType::class)
+            ->add('einddatum', AppDateType::class, [
+                'required' => false,
+            ])
             ->add('onHold')
             ->add('activiteit', null, ['required' => true])
             ->add('medewerker', MedewerkerType::class)

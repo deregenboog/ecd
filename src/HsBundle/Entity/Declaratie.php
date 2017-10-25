@@ -83,6 +83,7 @@ class Declaratie implements DocumentSubjectInterface
         $this->datum = $klus->getStartdatum();
         $this->medewerker = $medewerker;
         $this->documenten = new ArrayCollection();
+        $this->datum = new \DateTime('now');
     }
 
     public function getId()

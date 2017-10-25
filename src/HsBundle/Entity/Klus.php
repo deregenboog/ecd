@@ -109,6 +109,7 @@ class Klus implements MemoSubjectInterface
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();
         $this->facturen = new ArrayCollection();
+        $this->startdatum = new \DateTime('now');
     }
 
     public function __toString()

@@ -53,7 +53,7 @@ class KlantType extends AbstractType
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('inschrijving', AppDateType::class)
             ->add('bewindvoerder', TextareaType::class, ['required' => false])
             ->add('onHold')
             ->add('hulpverlener', HulpverlenerType::class)

@@ -38,7 +38,7 @@ class VrijwilligerType extends AbstractType
         }
 
         $builder
-            ->add('inschrijving', AppDateType::class, ['data' => new \DateTime('today')])
+            ->add('inschrijving', AppDateType::class)
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
