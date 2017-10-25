@@ -5,6 +5,7 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Arbeider;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Entity\Klant;
 
 interface ArbeiderDaoInterface
 {
@@ -21,6 +22,13 @@ interface ArbeiderDaoInterface
      * @return Arbeider
      */
     public function find($id);
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Arbeider
+     */
+    public function findOneByKlant(Klant $klant);
 
     /**
      * @param Arbeider $arbeider

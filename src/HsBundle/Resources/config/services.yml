@@ -61,3 +61,11 @@ services:
             - '@hs.factory.factuur'
         tags:
             - { name: hautelook_alice.faker.provider }
+
+    hs.event.diensten_lookup_subscriber:
+        class: HsBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@hs.dao.dienstverlener"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }

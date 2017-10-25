@@ -43,7 +43,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         if ($dienstverlener instanceof Dienstverlener) {
             $event->addDienst([
                 'name' => 'Homeservice',
-                'url' => $this->generator->generate('hs_dienstverlener_view', ['id' => $dienstverlener->getId()]),
+                'url' => $this->generator->generate('hs_dienstverleners_view', ['id' => $dienstverlener->getId()]),
                 'from' => $dienstverlener->getInschrijving() ? $dienstverlener->getInschrijving()->format('Y-m-d') : null,
                 'to' => null,
                 'type' => 'date',
