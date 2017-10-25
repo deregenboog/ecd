@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use HsBundle\Entity\Memo;
+use AppBundle\Form\MedewerkerType;
 
 class KlusType extends AbstractType
 {
@@ -26,7 +27,7 @@ class KlusType extends AbstractType
             ->add('einddatum', AppDateType::class, ['data' => new \DateTime('today')])
             ->add('onHold')
             ->add('activiteit', null, ['required' => true])
-            ->add('medewerker')
+            ->add('medewerker', MedewerkerType::class)
             ->add('dienstverleners', null, [
                 'by_reference' => false, // force to call adder and remover
                 'expanded' => true,
