@@ -2,19 +2,31 @@
 <p>
     {% if klus is defined %}
         {% set entity = klus %}
-        {% set url = path('hs_registraties_add', {klus: entity.id, redirect: app.request.get('url')}) %}
+        {% if entity.dienstverleners|length + entity.vrijwilligers|length == 0 %}
+            <p>
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                Je kunt pas uren registreren als er dienstverleners en/of vrijwilligers aan deze klus gekoppeld zijn.
+            </p>
+        {% else %}
+            {% set url = path('hs_registraties_add', {klus: entity.id, redirect: app.request.get('url')}) %}
+            {{ html.addLink(url) }}
+            {{ html.link('Uren toevoegen', url) }}
+        {% endif %}
     {% elseif dienstverlener is defined %}
         {% set entity = dienstverlener %}
-        {% set url = path('hs_registraties_add', {arbeider: entity.id, redirect: app.request.get('url')}) %}
-        {% set download_url = path('hs_registraties_werkbon', {arbeider: entity.id}) %}
-    {% endif %}
-    {% if url is defined %}
-        {{ html.addLink(url) }}
-        {{ html.link('Uren toevoegen', url) }}
-    {% endif %}
-    {% if download_url is defined %}
-        {{ html.addLink(download_url) }}
-        {{ html.link('Werkbon downloaden', download_url) }}
+        {% if entity.klussen|length == 0 %}
+            <p>
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                Je kunt pas uren registreren als deze dienstverlener/vrijwilliger aan een klus gekoppeld is.
+            </p>
+        {% else %}
+            {% set url = path('hs_registraties_add', {arbeider: entity.id, redirect: app.request.get('url')}) %}
+            {{ html.addLink(url) }}
+            {{ html.link('Uren toevoegen', url) }}
+            {% set download_url = path('hs_registraties_werkbon', {arbeider: entity.id}) %}
+            {{ html.addLink(download_url) }}
+            {{ html.link('Werkbon downloaden', download_url) }}
+        {% endif %}
     {% endif %}
 </p>
 <table class="table table-hover">

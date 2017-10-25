@@ -23,30 +23,31 @@ class RegistratieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data']->getKlus() && !$options['data']->getArbeider()) {
+        /** @var $registratie Registratie */
+        $registratie = $options['data'];
+
+        if ($registratie->getKlus() && !$registratie->getArbeider()) {
             $builder->add('arbeider', null, [
                 'label' => 'Dienstverlener/vrijwilliger',
                 'required' => true,
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     return $repository->createQueryBuilder('arbeider')
                         ->where('arbeider IN (:dienstverleners) OR arbeider IN (:vrijwilligers)')
                         ->setParameters([
-                            'dienstverleners' => $options['data']->getKlus()->getDienstverleners(),
-                            'vrijwilligers' => $options['data']->getKlus()->getVrijwilligers(),
+                            'dienstverleners' => $registratie->getKlus()->getDienstverleners(),
+                            'vrijwilligers' => $registratie->getKlus()->getVrijwilligers(),
                         ])
                     ;
                 },
             ]);
-        } elseif ($options['data']->getArbeider() && !$options['data']->getKlus()) {
+        } elseif ($registratie->getArbeider() && !$registratie->getKlus()) {
             $builder->add('klus', null, [
                 'label' => 'Klus',
                 'required' => true,
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     return $repository->createQueryBuilder('klus')
                         ->where('klus IN (:klussen)')
-                        ->setParameter('klussen', $options['data']->getArbeider()->getKlussen())
+                        ->setParameter('klussen', $registratie->getArbeider()->getKlussen())
                     ;
                 },
             ])
