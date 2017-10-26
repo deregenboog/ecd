@@ -87,6 +87,6 @@ class DeclaratieCategorie
 
     public function isDeletable()
     {
-        return count($this->declaraties) === 0;
+        return 0 === count($this->declaraties);
     }
 }

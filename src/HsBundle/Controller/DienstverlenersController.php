@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use Symfony\Component\Form\FormError;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/dienstverleners")
@@ -70,9 +69,8 @@ class DienstverlenersController extends AbstractController
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-
             $count = (int) $this->klantDao->countAll($filterForm->getData());
-            if ($count === 0) {
+            if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
                 return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
@@ -96,7 +94,7 @@ class DienstverlenersController extends AbstractController
     private function doAdd(Request $request)
     {
         $klantId = $request->get('klant');
-        if ($klantId === 'new') {
+        if ('new' === $klantId) {
             $klant = new Klant();
         } else {
             $klant = $this->klantDao->find($klantId);

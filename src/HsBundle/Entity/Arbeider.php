@@ -105,10 +105,10 @@ abstract class Arbeider
 
     public function isDeletable()
     {
-        return count($this->klussen) === 0
-            && count($this->registraties) === 0
-            && count($this->memos) === 0
-            && count($this->documenten) === 0
+        return 0 === count($this->klussen)
+            && 0 === count($this->registraties)
+            && 0 === count($this->memos)
+            && 0 === count($this->documenten)
         ;
     }
 

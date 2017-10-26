@@ -59,6 +59,6 @@ class ArbeidersPerStadsdeel extends AbstractReport
             ];
         }
 
-        $this->reports[count($this->reports)-1]['title'] = 'Totaal';
+        $this->reports[count($this->reports) - 1]['title'] = 'Totaal';
     }
 }

@@ -3,8 +3,6 @@
 namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -20,7 +18,7 @@ class Herinnering
 
     const TYPES = [
         'Herinnering' => self::TYPE_HERINNERING,
-        'Aanmaning'=> self::TYPE_AANMANING,
+        'Aanmaning' => self::TYPE_AANMANING,
         'Ingebrekestelling' => self::TYPE_INGEBREKESTELLING,
     ];
 

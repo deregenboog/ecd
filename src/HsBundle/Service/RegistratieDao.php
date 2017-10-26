@@ -5,8 +5,6 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Registratie;
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use HsBundle\Entity\Arbeider;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {

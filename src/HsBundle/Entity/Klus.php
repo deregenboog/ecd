@@ -221,10 +221,10 @@ class Klus implements MemoSubjectInterface
 
     public function isDeletable()
     {
-        return count($this->declaraties) === 0
-            && count($this->facturen) === 0
-            && count($this->memos) === 0
-            && count($this->registraties) === 0;
+        return 0 === count($this->declaraties)
+            && 0 === count($this->facturen)
+            && 0 === count($this->memos)
+            && 0 === count($this->registraties);
     }
 
     public function getStartdatum()

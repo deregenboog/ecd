@@ -78,6 +78,6 @@ class Activiteit
 
     public function isDeletable()
     {
-        return count($this->klussen) === 0;
+        return 0 === count($this->klussen);
     }
 }

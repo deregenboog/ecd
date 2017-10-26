@@ -68,9 +68,8 @@ class VrijwilligersController extends AbstractController
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-
             $count = (int) $this->vrijwilligerDao->countAll($filterForm->getData());
-            if ($count === 0) {
+            if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
                 return $this->redirectToRoute($this->baseRouteName.'add', ['vrijwilliger' => 'new']);
@@ -94,7 +93,7 @@ class VrijwilligersController extends AbstractController
     private function doAdd(Request $request)
     {
         $vrijwilligerId = $request->get('vrijwilliger');
-        if ($vrijwilligerId === 'new') {
+        if ('new' === $vrijwilligerId) {
             $appVrijwilliger = new AppVrijwilliger();
         } else {
             $appVrijwilliger = $this->getEntityManager()->find(AppVrijwilliger::class, $vrijwilligerId);

@@ -3,18 +3,12 @@
 namespace HsBundle\Controller;
 
 use HsBundle\Entity\Factuur;
-use HsBundle\Form\FactuurFilterType;
 use Symfony\Component\Routing\Annotation\Route;
-use HsBundle\Service\FactuurDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use HsBundle\Entity\Klant;
-use HsBundle\Service\FactuurFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Controller\AbstractController;
-use HsBundle\Form\FactuurType;
-use HsBundle\Service\KlantDaoInterface;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 

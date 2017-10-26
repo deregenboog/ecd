@@ -54,7 +54,7 @@ class KlantFilter implements FilterInterface
         }
 
         if (isset($this->stadsdeel)) {
-            if ($this->stadsdeel == '-') {
+            if ('-' == $this->stadsdeel) {
                 $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
             } else {
                 $builder

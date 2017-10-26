@@ -4,10 +4,8 @@ namespace HsBundle\Controller;
 
 use HsBundle\Entity\Klus;
 use HsBundle\Form\KlusType;
-use HsBundle\Entity\Klant;
 use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\KlusDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
 use HsBundle\Form\KlusFilterType;
 use AppBundle\Controller\AbstractChildController;

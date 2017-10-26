@@ -79,7 +79,7 @@ class FacturenController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        if ($request->get('_format') == 'pdf') {
+        if ('pdf' == $request->get('_format')) {
             return $this->viewPdf($entity);
         }
 

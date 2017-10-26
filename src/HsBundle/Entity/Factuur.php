@@ -4,7 +4,6 @@ namespace HsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -110,11 +109,11 @@ class Factuur
 
     public function isEmpty()
     {
-        return count($this->declaraties) === 0
-            && count($this->registraties) === 0
-            && count($this->betalingen) === 0
-            && count($this->klussen) === 0
-            && count($this->herinneringen) === 0
+        return 0 === count($this->declaraties)
+            && 0 === count($this->registraties)
+            && 0 === count($this->betalingen)
+            && 0 === count($this->klussen)
+            && 0 === count($this->herinneringen)
         ;
     }
 

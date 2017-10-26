@@ -6,7 +6,6 @@ use HsBundle\Form\RapportageType;
 use HsBundle\Report\AbstractReport;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
 use AppBundle\Controller\SymfonyController;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -23,7 +22,6 @@ class RapportagesController extends SymfonyController
      * @DI\Inject("hs.export.report")
      */
     protected $export;
-
 
     /**
      * @Route("/")
