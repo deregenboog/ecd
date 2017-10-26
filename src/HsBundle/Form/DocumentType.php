@@ -8,10 +8,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use HsBundle\Entity\Document;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use AppBundle\Form\MedewerkerType;
 
 class DocumentType extends AbstractType
 {
+    use MedewerkerTypeTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -22,9 +23,11 @@ class DocumentType extends AbstractType
             ->add('file', FileType::class, [
                 'label' => 'Document',
             ])
-            ->add('medewerker', MedewerkerType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
+
+        $this->addMedewerkerType($builder, $options);
+
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**

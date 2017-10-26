@@ -11,13 +11,14 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\AppTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\BaseType;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Klus;
 
 class RegistratieType extends AbstractType
 {
+    use MedewerkerTypeTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -54,8 +55,9 @@ class RegistratieType extends AbstractType
             ;
         }
 
+        $this->addMedewerkerType($builder, $options);
+
         $builder
-            ->add('medewerker', MedewerkerType::class)
             ->add('activiteit', null, [
                 'placeholder' => 'Selecteer een activiteit',
             ])

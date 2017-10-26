@@ -8,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use HsBundle\Filter\BetalingFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

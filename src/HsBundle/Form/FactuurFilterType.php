@@ -9,7 +9,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\FactuurFilter;
-use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

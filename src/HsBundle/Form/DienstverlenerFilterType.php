@@ -9,7 +9,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use HsBundle\Filter\DienstverlenerFilter;
 
 class DienstverlenerFilterType extends AbstractType

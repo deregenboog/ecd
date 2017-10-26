@@ -9,7 +9,6 @@ use AppBundle\Form\AppDateType;
 use HsBundle\Entity\Declaratie;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormEvents;
@@ -18,13 +17,16 @@ use HsBundle\Entity\Document;
 
 class DeclaratieType extends AbstractType
 {
+    use MedewerkerTypeTrait;
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->addMedewerkerType($builder, $options);
+
         $builder
-            ->add('medewerker', MedewerkerType::class)
             ->add('datum', AppDateType::class)
             ->add('declaratieCategorie', null, [
                 'label' => 'Declaratiecategorie',

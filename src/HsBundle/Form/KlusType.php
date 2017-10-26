@@ -13,10 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use HsBundle\Entity\Memo;
-use AppBundle\Form\MedewerkerType;
 
 class KlusType extends AbstractType
 {
+    use MedewerkerTypeTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -29,7 +30,11 @@ class KlusType extends AbstractType
             ])
             ->add('onHold')
             ->add('activiteit', null, ['required' => true])
-            ->add('medewerker', MedewerkerType::class)
+        ;
+
+        $this->addMedewerkerType($builder, $options);
+
+        $builder
             ->add('dienstverleners', null, [
                 'by_reference' => false, // force to call adder and remover
                 'expanded' => true,

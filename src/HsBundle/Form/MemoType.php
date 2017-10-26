@@ -10,17 +10,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
 
 class MemoType extends AbstractType
 {
+    use MedewerkerTypeTrait;
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->addMedewerkerType($builder, $options);
+
         $builder
-            ->add('medewerker', MedewerkerType::class)
             ->add('datum', AppDateTimeType::class, ['data' => new \DateTime('now')])
             ->add('memo', TextareaType::class, ['attr' => ['cols' => 80, 'rows' => 20]])
             ->add('submit', SubmitType::class)

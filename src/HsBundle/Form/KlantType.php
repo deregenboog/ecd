@@ -10,7 +10,6 @@ use HsBundle\Entity\Klant;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Entity\Stadsdeel;
 use Doctrine\ORM\EntityManager;
@@ -18,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class KlantType extends AbstractType
 {
+    use MedewerkerTypeTrait;
+
     private $werkgebiedChoices = [];
 
     public function __construct(EntityManager $entityManager)
@@ -41,7 +42,11 @@ class KlantType extends AbstractType
                         ->orderBy('geslacht.id', 'DESC');
                 },
             ])
-            ->add('medewerker', MedewerkerType::class)
+        ;
+
+        $this->addMedewerkerType($builder, $options);
+
+        $builder
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
