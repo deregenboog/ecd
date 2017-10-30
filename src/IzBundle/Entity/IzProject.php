@@ -6,12 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\IzProjectRepository")
  * @ORM\Table(name="iz_projecten")
  * @Gedmo\Loggable
  */
 class IzProject
 {
+    const STRATEGY_PRESTATIE_TOTAL = 'total';
+    const STRATEGY_PRESTATIE_STARTED = 'started';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -42,6 +45,12 @@ class IzProject
      * @Gedmo\Versioned
      */
     private $heeftKoppelingen = true;
+
+    /**
+     * @ORM\Column(name="prestatie_strategy", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $prestatieStrategy = self::STRATEGY_PRESTATIE_TOTAL;
 
     public function getId()
     {
@@ -97,6 +106,18 @@ class IzProject
     public function setEinddatum(\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
+    public function getPrestatieStrategy()
+    {
+        return $this->prestatieStrategy;
+    }
+
+    public function setPrestatieStrategy($prestatieStrategy)
+    {
+        $this->prestatieStrategy = $prestatieStrategy;
 
         return $this;
     }

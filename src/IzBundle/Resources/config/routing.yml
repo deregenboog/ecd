@@ -16,5 +16,28 @@ iz_hulpaanbiedingen_index:
 iz_koppelingen_index:
     path: /iz_koppelingen
 
+iz_rapportages_index:
+    path: /iz_rapportages
+
+iz_selecties_index:
+    path: /iz_deelnemers/selecties
+
+iz_intervisiegroepen_index:
+    path: /iz_intervisiegroepen
+
+iz_beheer_index:
+    path: /iz_deelnemers/beheer
+
 iz_klanten_toon_aanmelding:
     path: /iz_deelnemers/toon_aanmelding/Klant/{klantId}/{izKlantId}
+
+iz_annotations:
+    resource: "@IzBundle/Controller"
+    type: annotation
+    prefix: /iz
+
+iz_index:
+    path: /iz/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: iz_deelnemers_index

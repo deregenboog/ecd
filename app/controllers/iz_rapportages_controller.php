@@ -4,6 +4,7 @@ use IzBundle\Form\IzRapportageType;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Report\AbstractReport;
+use AppBundle\Exception\ReportException;
 
 class IzRapportagesController extends AppController
 {
@@ -36,10 +37,14 @@ class IzRapportagesController extends AppController
                 return $this->download($report);
             }
 
-            $this->set('title', $report->getTitle());
-            $this->set('startDate', $report->getStartDate());
-            $this->set('endDate', $report->getEndDate());
-            $this->set('reports', $report->getReports());
+            try {
+                $this->set('title', $report->getTitle());
+                $this->set('startDate', $report->getStartDate());
+                $this->set('endDate', $report->getEndDate());
+                $this->set('reports', $report->getReports());
+            } catch (ReportException $e) {
+                $this->flashError($e->getMessage());
+            }
         }
 
         $this->set('form', $form->createView());
@@ -49,7 +54,13 @@ class IzRapportagesController extends AppController
     {
         ini_set('memory_limit', '512M');
 
-        $data = $this->extractDataFromReport($report);
+        try {
+            $data = $this->extractDataFromReport($report);
+        } catch  (ReportException $e) {
+            $this->flashError($e->getMessage());
+
+            return;
+        }
 
         $this->autoRender = false;
         $filename = sprintf(

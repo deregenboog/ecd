@@ -1,0 +1,24 @@
+{% import '::html.macro.twig' as html %}
+<ul class="nav nav-tabs">
+    {{ html.navLink('Deelnemers', path('iz_klanten_index'), isActiveRoute('iz_klanten_')) }}
+    {{ html.navLink('Vrijwilligers', path('iz_vrijwilligers_index'), isActiveRoute('iz_vrijwilligers_')) }}
+    {{ html.navLink('Hulpvragen', path('iz_hulpvragen_index'), isActiveRoute('iz_hulpvragen_')) }}
+    {{ html.navLink('Hulpaanbiedingen', path('iz_hulpaanbiedingen_index'), isActiveRoute('iz_hulpaanbiedingen_')) }}
+    {{ html.navLink('Koppelingen', path('iz_koppelingen_index'), isActiveRoute('iz_koppelingen_')) }}
+    {{ html.navLink('Rapportages', path('iz_rapportages_index'), isActiveRoute('iz_rapportages_')) }}
+    {{ html.navLink('Selecties', path('iz_selecties_index'), isActiveRoute('iz_selecties_')) }}
+    {{ html.navLink('Intervisiegroepen', path('iz_intervisiegroepen_index'), isActiveRoute('iz_intervisiegroepen_')) }}
+    {{ html.navLink('Beheer', path('iz_beheer_index'), isActiveRoute('iz_doelstellingen_')) }}
+{#
+    {% if constant('GROUP_IZ_BEHEER') in userGroups|keys %}
+        <li role="presentation" class="dropdown {{ isActivePath('iz/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Activiteiten', path('iz_doelstellingen_index'), isActiveRoute('iz_doelstellingen_')) }}
+            </ul>
+        </li>
+    {% endif %}
+#}
+</ul>

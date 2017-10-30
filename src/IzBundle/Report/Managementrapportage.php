@@ -4,12 +4,19 @@ namespace IzBundle\Report;
 
 use AppBundle\Report\Table;
 use IzBundle\Repository\IzHulpvraagRepository;
+use IzBundle\Repository\DoelstellingRepository;
+use Doctrine\ORM\EntityManager;
+use IzBundle\Entity\IzProject;
+use AppBundle\Entity\Postcode;
+use Doctrine\ORM\AbstractQuery;
+use AppBundle\Exception\ReportException;
+use IzBundle\Repository\IzProjectRepository;
 
 class Managementrapportage extends AbstractReport
 {
     protected $title = 'Managementrapportage';
 
-    protected $xPath = 'status';
+    protected $xPath = 'kolom';
 
     protected $yPath = 'project';
 
@@ -19,66 +26,167 @@ class Managementrapportage extends AbstractReport
 
     protected $yDescription = 'Project';
 
+    /**
+     * @var \SplPriorityQueue
+     */
+    private $queue;
+
     private $data = [];
 
-    public function __construct(IzHulpvraagRepository $repository)
-    {
+    /**
+     * @var IzProject[]
+     */
+    private $projecten;
+
+    public function __construct(
+        IzHulpvraagRepository $repository,
+        DoelstellingRepository $doelstellingRepository,
+        IzProjectRepository $projectRepository
+    ) {
         $this->repository = $repository;
+        $this->doelstellingRepository = $doelstellingRepository;
+        $this->projecten = $projectRepository->findActive();
     }
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countKoppelingenByProjectAndStadsdeel('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->countKoppelingenByProjectAndStadsdeel('gestart', $this->startDate, $this->endDate);
+        if ($this->startDate->format('Y') !== $this->endDate->format('Y')) {
+            throw new ReportException('Startdatum en einddatum moeten binnen hetzelfde kalenderjaar liggen.');
+        }
+
+        $this->queue = new \SplPriorityQueue();
+        $this->initTotal();
+        $this->initStadsdelen();
+        $this->initTeams();
+        foreach ($this->queue as $data) {
+            $this->data = array_merge($this->data, $data);
+        }
+    }
+
+    private function initTotal()
+    {
+        $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
+        array_walk($beginstand, function(&$item) {
+            $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
+        });
+
+        $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
+        array_walk($gestart, function(&$item) {
+            $item['kolom'] = 'Gestart';
+        });
+
+        $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
+        array_walk($eindstand, function(&$item) {
+            $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
+        });
+
+        $prestaties = $gestart;
+        foreach ($this->projecten as $project) {
+            if ($project->getPrestatieStrategy() === IzProject::STRATEGY_PRESTATIE_TOTAL) {
+                $prestaties = array_merge($prestaties, array_filter($beginstand, function($row) use ($project) {
+                    return $row['project'] === $project->getNaam();
+                }));
+            }
+        }
+        array_walk($prestaties, function(&$item) {
+            $item['kolom'] = 'Prestatie';
+        });
+
+        $doelstellingen = $this->doelstellingRepository->countByJaar($this->startDate->format('Y'));
+        array_walk($doelstellingen, function(&$item) {
+            $item['kolom'] = 'Doelstelling';
+        });
+
+        $this->queue->insert(
+            ['Totaal' => array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen)],
+            100
+        );
+    }
+
+    private function initStadsdelen()
+    {
+        $beginstand = $this->repository->countKoppelingenByProjectAndStadsdeel('beginstand', $this->startDate, $this->endDate);
+        array_walk($beginstand, function(&$item) {
+            $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
+        });
+
+        $gestart = $this->repository->countKoppelingenByProjectAndStadsdeel('gestart', $this->startDate, $this->endDate);
+        array_walk($gestart, function(&$item) {
+            $item['kolom'] = 'Gestart';
+        });
+
+        $eindstand = $this->repository->countKoppelingenByProjectAndStadsdeel('eindstand', $this->startDate, $this->endDate);
+        array_walk($eindstand, function(&$item) {
+            $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
+        });
+
+        $prestaties = $gestart;
+        foreach ($this->projecten as $project) {
+            if ($project->getPrestatieStrategy() === IzProject::STRATEGY_PRESTATIE_TOTAL) {
+                $prestaties = array_merge($prestaties, array_filter($beginstand, function($row) use ($project) {
+                    return $row['project'] === $project->getNaam();
+                }));
+            }
+        }
+        array_walk($prestaties, function(&$item) {
+            $item['kolom'] = 'Prestatie';
+        });
+
+        $doelstellingen = $this->doelstellingRepository->countByJaarAndStadsdeel($this->startDate->format('Y'));
+        array_walk($doelstellingen, function(&$item) {
+            $item['kolom'] = 'Doelstelling';
+        });
+
+        // merge data
+        $data = array_merge($beginstand, $gestart, $eindstand, $doelstellingen, $prestaties);
+
+        // fix missing "stadsdelen"
+        array_walk($data, function(&$item) {
+            if (!$item['stadsdeel']) {
+                $item['stadsdeel'] = 'Overig';
+            }
+        });
+
+        $stadsdelen = array_unique(array_column($data, 'stadsdeel'));
+        $priority = 40;
+        foreach ($stadsdelen as $stadsdeel) {
+            $this->queue->insert(
+                ['Stadsdeel '.$stadsdeel => array_filter($data, function($item) use ($stadsdeel) {
+                    return $item['stadsdeel'] === $stadsdeel;
+                })],
+                --$priority
+            );
+        }
+    }
+
+    private function initTeams()
+    {
+        // re-use existing data
+        $existingData = [];
+        foreach (clone $this->queue as $data) {
+            $existingData = array_merge($existingData, $data);
+        }
 
         $teams = [
-            'Team CON' => ['Centrum', 'Oost', 'Noord'],
+            'Team C O N' => ['Centrum', 'Oost', 'Noord'],
             'Team ZO Z Diemen' => ['Zuidoost', 'Zuid', 'Diemen'],
             'Team W NW' => ['West', 'Nieuw-West'],
-            'Amstelveen' => ['Amstelveen'],
         ];
 
         foreach ($teams as $team => $stadsdelen) {
-            $status = 'Beginstand';
-            foreach ($this->beginstand as $i => $item) {
-                if (in_array($item['stadsdeel'], $stadsdelen)) {
-                    $this->data[$team][] = [
-                        'project' => $item['project'],
-                        'aantal' => $item['aantal'],
-                        'status' => $status,
-                    ];
-                    unset($this->beginstand[$i]);
+            foreach ($stadsdelen as $stadsdeel) {
+                if (!isset($teamData[$team])) {
+                    $teamData[$team] = [];
                 }
-            }
-            $status = 'Gestart';
-            foreach ($this->gestart as $i => $item) {
-                if (in_array($item['stadsdeel'], $stadsdelen)) {
-                    $this->data[$team][] = [
-                        'project' => $item['project'],
-                        'aantal' => $item['aantal'],
-                        'status' => $status,
-                    ];
-                    unset($this->gestart[$i]);
-                }
+                $teamData[$team] = array_merge($teamData[$team], $existingData['Stadsdeel '.$stadsdeel]);
             }
         }
 
-        $team = 'Overig';
-        $status = 'Beginstand';
-        foreach ($this->beginstand as $item) {
-            $this->data[$team][] = [
-                'project' => $item['project'],
-                'aantal' => $item['aantal'],
-                'status' => $status,
-            ];
-        }
-        $status = 'Gestart';
-        foreach ($this->gestart as $item) {
-            $this->data[$team][] = [
-                'project' => $item['project'],
-                'aantal' => $item['aantal'],
-                'status' => $status,
-            ];
+        foreach ($teamData as $key => $data) {
+            $this->queue->insert(
+                [$key => $data],
+                50
+            );
         }
     }
 
@@ -86,11 +194,28 @@ class Managementrapportage extends AbstractReport
     {
         foreach ($this->data as $title => $data) {
             $table = new Table($data, $this->xPath, $this->yPath, $this->nPath);
+            $table->setXSort(false)->setXTotals(false);
+            $data = $table->render();
+
+            foreach ($data as &$row) {
+                if (!isset($row['Prestatie'])) {
+                    $row['Prestatie'] = 0;
+                }
+                if (!isset($row['Doelstelling'])) {
+                    $row['Doelstelling'] = 0;
+                }
+                if (0 === $row['Doelstelling']) {
+                    $row['Behaald percentage'] = 0;
+                } else {
+                    $row['Behaald percentage'] = 100 * round($row['Prestatie'] / $row['Doelstelling'], 2);
+                }
+            }
+
             $this->reports[] = [
                 'title' => $title,
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
-                'data' => $table->render(),
+                'data' => $data,
             ];
         }
     }
