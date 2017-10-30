@@ -210,6 +210,7 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
+                - IzBundle\Controller\Doelstellingen
                 - odp
                 - OdpBundle\Controller\Coordinatoren
                 - OdpBundle\Controller\Documenten
@@ -507,6 +508,7 @@ parameters:
                 - HsBundle\Controller\Rapportages
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
+                - IzBundle\Controller\Doelstellingen
 
         # controller: {label, url}
         all_menu_items:
