@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="IzBundle\Repository\DoelstellingRepository")
  * @ORM\Table(
  *     name="iz_doelstellingen",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_project_jaar_idx", columns={"project_id", "jaar"})}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_project_jaar_stadsdeel_idx", columns={"project_id", "jaar", "stadsdeel"})}
  * )
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable

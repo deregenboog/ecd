@@ -30,7 +30,7 @@ class DoelstellingFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $organisatiebreed;
+    public $totaal;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -48,7 +48,7 @@ class DoelstellingFilter implements FilterInterface
             ;
         }
 
-        if ($this->organisatiebreed) {
+        if ($this->totaal) {
             $builder
                 ->andWhere('doelstelling.stadsdeel is null')
             ;

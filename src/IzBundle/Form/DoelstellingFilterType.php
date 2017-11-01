@@ -39,8 +39,8 @@ class DoelstellingFilterType extends AbstractType
             ->add('project', IzProjectType::class, [
                 'required' => false,
             ])
-            ->add('organisatiebreed', CheckboxType::class, [
-                'label' => 'Organisatiebreed',
+            ->add('totaal', CheckboxType::class, [
+                'label' => 'Totaal',
                 'required' => false,
             ])
             ->add('stadsdeel', EntityType::class, [

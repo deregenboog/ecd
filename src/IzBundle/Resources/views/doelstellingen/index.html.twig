@@ -28,8 +28,8 @@
                     {{ form_errors(filter.project) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.organisatiebreed) }}
-                    {{ form_errors(filter.organisatiebreed) }}
+                    {{ form_widget(filter.totaal) }}
+                    {{ form_errors(filter.totaal) }}
                 </th>
                 <th>
                     {{ form_widget(filter.stadsdeel) }}
@@ -51,7 +51,7 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Organisatiebreed', 'stadsdeel.naam') }}
+                    {{ knp_pagination_sortable(pagination, 'Totaal', 'stadsdeel.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'stadsdeel.naam') }}
