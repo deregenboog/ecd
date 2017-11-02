@@ -33,7 +33,7 @@ class Postcode
      */
     private $postcodegebied;
 
-    public function __construct($postcode, $stadsdeel, $postcodegebied)
+    public function __construct($postcode, Werkgebied $stadsdeel, GgwGebied $postcodegebied = null)
     {
         $this->postcode = $postcode;
         $this->stadsdeel = $stadsdeel;

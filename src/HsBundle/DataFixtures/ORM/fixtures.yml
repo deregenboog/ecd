@@ -28,7 +28,6 @@ HsBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        werkgebied: 'Centrum'
         medewerker: '@medewerker_*'
         inschrijving: '<dateTimeThisDecade()>'
 
