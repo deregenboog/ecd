@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
+    /**
+     * @var RequestStack
+     */
     private $requestStack;
 
     public function __construct(RequestStack $requestStack, $locale)
