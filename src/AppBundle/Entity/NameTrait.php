@@ -56,6 +56,34 @@ trait NameTrait
         return implode(' ', $parts);
     }
 
+    public function getVoornaamCompleet()
+    {
+        $parts = [];
+
+        if ($this->voornaam) {
+            $parts[] = $this->voornaam;
+        }
+        if ($this->roepnaam) {
+            $parts[] = "({$this->roepnaam})";
+        }
+
+        return implode(' ', $parts);
+    }
+
+    public function getAchternaamCompleet()
+    {
+        $parts = [];
+
+        if ($this->tussenvoegsel) {
+            $parts[] = $this->tussenvoegsel;
+        }
+        if ($this->achternaam) {
+            $parts[] = $this->achternaam;
+        }
+
+        return implode(' ', $parts);
+    }
+
     public function getVoornaam()
     {
         return $this->voornaam;

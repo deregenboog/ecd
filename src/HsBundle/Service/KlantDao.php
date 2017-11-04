@@ -16,6 +16,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         'sortFieldWhitelist' => [
             'klant.actief',
             'klant.id',
+            'klant.voornaam',
             'klant.achternaam',
             'klant.werkgebied',
         ],
