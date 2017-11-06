@@ -38,6 +38,15 @@ class Managementrapportage extends AbstractReport
      */
     private $projecten;
 
+    /**
+     * @var array
+     */
+    private $teams = [
+        'Team C O N' => ['Centrum', 'Oost', 'Noord'],
+        'Team ZO Z Diemen' => ['Zuidoost', 'Zuid', 'Diemen'],
+        'Team W NW' => ['West', 'Nieuw-West'],
+    ];
+
     public function __construct(
         IzHulpvraagRepository $repository,
         DoelstellingRepository $doelstellingRepository,
@@ -132,7 +141,7 @@ class Managementrapportage extends AbstractReport
             $item['kolom'] = 'Prestatie';
         });
 
-        $doelstellingen = $this->doelstellingRepository->countByJaarAndStadsdeel($this->startDate->format('Y'));
+        $doelstellingen = $this->doelstellingRepository->countByJaarAndProjectAndStadsdeel($this->startDate->format('Y'));
         array_walk($doelstellingen, function(&$item) {
             $item['kolom'] = 'Doelstelling';
         });
@@ -167,18 +176,33 @@ class Managementrapportage extends AbstractReport
             $existingData = array_merge($existingData, $data);
         }
 
-        $teams = [
-            'Team C O N' => ['Centrum', 'Oost', 'Noord'],
-            'Team ZO Z Diemen' => ['Zuidoost', 'Zuid', 'Diemen'],
-            'Team W NW' => ['West', 'Nieuw-West'],
-        ];
+        // init structure
+        foreach (array_keys($this->teams) as $team) {
+            $teamData[$team] = [];
+        }
 
-        foreach ($teams as $team => $stadsdelen) {
+        // cijfers centrale stad verdelen over teams
+        $doelstellingen = $this->doelstellingRepository->countByJaarWithoutStadsdeel($this->startDate->format('Y'));
+        foreach ($doelstellingen as &$doelstelling) {
+            $remainingTeams = count($this->teams);
+            foreach (array_keys($this->teams) as $team) {
+                $amount = ceil($doelstelling['aantal'] / $remainingTeams);
+                $doelstelling['aantal'] -= $amount;
+                $teamData[$team][] = [
+                    'project' => $doelstelling['project'],
+                    'kolom' => 'Doelstelling',
+                    'aantal' => $amount,
+                ];
+                --$remainingTeams;
+            }
+        }
+
+        // cijfers stadsdelen toekennen aan betreffende teams
+        foreach ($this->teams as $team => $stadsdelen) {
             foreach ($stadsdelen as $stadsdeel) {
-                if (!isset($teamData[$team])) {
-                    $teamData[$team] = [];
+                if (array_key_exists('Stadsdeel '.$stadsdeel, $existingData)) {
+                    $teamData[$team] = array_merge($teamData[$team], $existingData['Stadsdeel '.$stadsdeel]);
                 }
-                $teamData[$team] = array_merge($teamData[$team], $existingData['Stadsdeel '.$stadsdeel]);
             }
         }
 

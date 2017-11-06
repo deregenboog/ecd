@@ -59,6 +59,7 @@ class DoelstellingFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DoelstellingFilter::class,
+            'enabled_filters' => ['filter'],
         ]);
     }
 
