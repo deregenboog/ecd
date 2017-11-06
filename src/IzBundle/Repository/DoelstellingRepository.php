@@ -20,14 +20,28 @@ class DoelstellingRepository extends EntityRepository
         ;
     }
 
-    public function countByJaarAndStadsdeel($year)
+    public function countByJaarWithoutStadsdeel($year)
+    {
+        return $this->createQueryBuilder('doelstelling')
+            ->select('p.naam as project, doelstelling.aantal')
+            ->innerJoin('doelstelling.project', 'p')
+            ->where('doelstelling.jaar = :jaar')
+            ->andWhere('doelstelling.stadsdeel IS NULL')
+            ->groupBy('doelstelling.project')
+            ->setParameter('jaar', $year)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function countByJaarAndProjectAndStadsdeel($year)
     {
         return $this->createQueryBuilder('doelstelling')
             ->select('p.naam as project, s.naam as stadsdeel, doelstelling.aantal')
             ->innerJoin('doelstelling.project', 'p')
             ->innerJoin('doelstelling.stadsdeel', 's')
             ->where('doelstelling.jaar = :jaar')
-            ->groupBy('doelstelling.stadsdeel')
+            ->groupBy('doelstelling.project, doelstelling.stadsdeel')
             ->setParameter('jaar', $year)
             ->getQuery()
             ->getResult()
