@@ -8,11 +8,12 @@ use JMS\DiExtraBundle\Annotation as DI;
 use ClipBundle\Form\RapportageType;
 use ClipBundle\Report\AbstractReport;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Controller\SymfonyController;
 
 /**
  * @Route("/rapportages")
  */
-class RapportagesController extends AbstractController
+class RapportagesController extends SymfonyController
 {
     public $title = 'Rapportages';
 

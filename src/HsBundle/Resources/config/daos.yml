@@ -61,3 +61,27 @@ services:
     hs.dao.vrijwilliger:
         parent: hs.dao
         class: HsBundle\Service\VrijwilligerDao
+
+    hs.betaling.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: factuur, dao: '@hs.dao.factuur' }
+
+    hs.declaratie.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klus, dao: '@hs.dao.klus' }
+
+    hs.factuur.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klant, dao: '@hs.dao.klant' }
+
+    hs.herinnering.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: factuur, dao: '@hs.dao.factuur' }

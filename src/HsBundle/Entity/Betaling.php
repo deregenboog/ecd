@@ -51,10 +51,9 @@ class Betaling
      */
     private $factuur;
 
-    public function __construct(Factuur $factuur)
+    public function __construct()
     {
         $this->datum = new \DateTime('today');
-        $this->factuur = $factuur;
     }
 
     public function __toString()
@@ -118,6 +117,13 @@ class Betaling
     public function getFactuur()
     {
         return $this->factuur;
+    }
+
+    public function setFactuur(Factuur $factuur)
+    {
+        $this->factuur = $factuur;
+
+        return $this;
     }
 
     public function isDeletable()

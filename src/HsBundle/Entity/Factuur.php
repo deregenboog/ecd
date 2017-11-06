@@ -75,14 +75,14 @@ class Factuur
 
     /**
      * @var ArrayCollection|Betaling[]
-     * @ORM\OneToMany(targetEntity="Betaling", mappedBy="factuur")
+     * @ORM\OneToMany(targetEntity="Betaling", mappedBy="factuur", cascade={"persist"})
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $betalingen;
 
     /**
      * @var ArrayCollection|Herinnering[]
-     * @ORM\OneToMany(targetEntity="Herinnering", mappedBy="factuur")
+     * @ORM\OneToMany(targetEntity="Herinnering", mappedBy="factuur", cascade={"persist"})
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $herinneringen;
@@ -219,6 +219,14 @@ class Factuur
     public function getBetalingen()
     {
         return $this->betalingen;
+    }
+
+    public function addBetaling(Betaling $betaling)
+    {
+        $this->betalingen[] = $betaling;
+        $betaling->setFactuur($this);
+
+        return $this;
     }
 
     public function getBetaald()

@@ -83,7 +83,7 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @var ArrayCollection|Declaratie[]
-     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="klus")
+     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="klus", cascade={"persist"})
      */
     private $declaraties;
 
@@ -200,6 +200,14 @@ class Klus implements MemoSubjectInterface
     public function getDeclaraties()
     {
         return $this->declaraties;
+    }
+
+    public function addDeclaratie(Declaratie $declaratie)
+    {
+        $this->declaraties[] = $declaratie;
+        $declaratie->setKlus($this);
+
+        return $this;
     }
 
     public function getFacturen()

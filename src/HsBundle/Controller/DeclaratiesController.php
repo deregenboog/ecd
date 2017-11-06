@@ -11,16 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Controller\AbstractController;
 use HsBundle\Service\DeclaratieDaoInterface;
+use AppBundle\Controller\AbstractChildController;
 
 /**
  * @Route("/declaraties")
  */
-class DeclaratiesController extends AbstractController
+class DeclaratiesController extends AbstractChildController
 {
     protected $title = 'Declaraties';
     protected $entityName = 'declaratie';
     protected $entityClass = Declaratie::class;
     protected $formClass = DeclaratieType::class;
+    protected $addMethod = 'addDeclaratie';
     protected $baseRouteName = 'hs_declaraties_';
 
     /**
@@ -31,29 +33,11 @@ class DeclaratiesController extends AbstractController
     protected $dao;
 
     /**
-     * @Route("/add/{klus}")
-     * @ParamConverter()
+     * @var \ArrayObject
+     *
+     * @DI\Inject("hs.declaratie.entities")
      */
-    public function addAction(Request $request, Klus $klus)
-    {
-        $entity = new Declaratie($klus);
-        $form = $this->createForm(DeclaratieType::class, $entity);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->create($entity);
-
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToRoute('hs_klussen_index');
-        }
-
-        return [
-            'klus' => $klus,
-            'form' => $form->createView(),
-        ];
-    }
+    protected $entities;
 
     /**
      * @Route("/")
@@ -66,7 +50,7 @@ class DeclaratiesController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction(Request $request)
+    public function viewAction($id)
     {
         return $this->redirectToRoute('hs_klussen_index');
     }
@@ -74,7 +58,7 @@ class DeclaratiesController extends AbstractController
     /**
      * @Route("/{id}/delete")
      */
-    public function deleteAction(Request $request)
+    public function deleteAction(Request $request, $id)
     {
         return $this->redirectToRoute('hs_klussen_index');
     }

@@ -12,17 +12,20 @@ use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/betalingen")
  */
-class BetalingenController extends AbstractController
+class BetalingenController extends AbstractChildController
 {
     protected $title = 'Betalingen';
     protected $entityName = 'betaling';
     protected $entityClass = Betaling::class;
     protected $formClass = BetalingType::class;
     protected $filterFormClass = BetalingFilterType::class;
+    protected $addMethod = 'addBetaling';
     protected $baseRouteName = 'hs_betalingen_';
 
     /**
@@ -33,6 +36,13 @@ class BetalingenController extends AbstractController
     protected $dao;
 
     /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("hs.betaling.entities")
+     */
+    protected $entities;
+
+    /**
      * @var ExportInterface
      *
      * @DI\Inject("hs.export.betaling")
@@ -40,36 +50,9 @@ class BetalingenController extends AbstractController
     protected $export;
 
     /**
-     * @Route("/add/{factuur}")
-     * @ParamConverter()
-     */
-    public function addAction(Request $request, Factuur $factuur)
-    {
-        $entity = new Betaling($factuur);
-
-        $form = $this->createForm($this->formClass, $entity);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->create($entity);
-            $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
-
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToRoute('hs_facturen_view', ['id' => $factuur->getId()]);
-        }
-
-        return [
-            'factuur' => $factuur,
-            'form' => $form->createView(),
-        ];
-    }
-
-    /**
      * @Route("/{id}/view")
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction($id)
     {
         return $this->redirectToIndex();
     }

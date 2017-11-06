@@ -48,9 +48,8 @@ class Herinnering
      */
     private $factuur;
 
-    public function __construct(Factuur $factuur)
+    public function __construct()
     {
-        $this->factuur = $factuur;
         $this->setDatum(new \DateTime());
     }
 
