@@ -28,7 +28,10 @@
                     {{ knp_pagination_sortable(pagination, '#', 'basisvrijwilliger.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'basisvrijwilliger.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'basisvrijwilliger.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'basisvrijwilliger.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'basisvrijwilliger.werkgebied') }}
@@ -47,7 +50,10 @@
                         {{ html.link(entity.vrijwilliger.id, path(view_route, {id: entity.id})) }}
                     </td>
                     <td>
-                        {{ html.link(entity.vrijwilliger.naam, path(view_route, {id: entity.id})) }}
+                        {{ html.link(entity.vrijwilliger.achternaamCompleet, path(view_route, {id: entity.id})) }}
+                    </td>
+                    <td>
+                        {{ html.link(entity.vrijwilliger.voornaamCompleet, path(view_route, {id: entity.id})) }}
                     </td>
                     <td>
                         {{ entity.vrijwilliger.werkgebied }}

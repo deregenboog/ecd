@@ -14,6 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Entity\Stadsdeel;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use AppBundle\Entity\Postcode;
+use AppBundle\Util\PostcodeFormatter;
 
 class KlantType extends AbstractType
 {
@@ -24,6 +28,7 @@ class KlantType extends AbstractType
     public function __construct(EntityManager $entityManager)
     {
         $this->werkgebiedChoices = $this->getWerkgebiedChoices($entityManager);
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -64,6 +69,26 @@ class KlantType extends AbstractType
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
         ;
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /** @var $klant Klant */
+            $klant = $event->getData();
+            $klant->setPostcode(PostcodeFormatter::format($klant->getPostcode()));
+        }, 100);
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /** @var $klant Klant */
+            $klant = $event->getData();
+            /** @var $postcode Postcode */
+            $postcode = $this->entityManager->find(Postcode::class, $klant->getPostcode());
+            if ($postcode) {
+                $klant->setWerkgebied($postcode->getStadsdeel());
+                $klant->setPostcodegebied($postcode->getPostcodegebied());
+            } else {
+                $klant->setWerkgebied(null);
+                $klant->setPostcodegebied(null);
+            }
+        });
     }
 
     /**

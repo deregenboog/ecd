@@ -14,6 +14,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'vrijwilliger.id',
+            'basisvrijwilliger.voornaam',
             'basisvrijwilliger.achternaam',
             'basisvrijwilliger.werkgebied',
         ],

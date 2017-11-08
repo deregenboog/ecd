@@ -10,6 +10,8 @@ use AppBundle\Entity\AddressTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Geslacht;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Entity\GgwGebied;
 
 /**
  * @ORM\Entity
@@ -58,10 +60,18 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $geslacht;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
+     * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam", nullable=true)
      * @Gedmo\Versioned
      */
     private $werkgebied;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $postcodegebied;
 
     /**
      * @ORM\Column(type="date", nullable=false)
@@ -123,6 +133,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function __construct()
     {
         $this->klussen = new ArrayCollection();
+        $this->facturen = new ArrayCollection();
         $this->inschrijving = new \DateTime('now');
     }
 
@@ -263,9 +274,21 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         return $this->werkgebied;
     }
 
-    public function setWerkgebied($werkgebied)
+    public function setWerkgebied(Werkgebied $werkgebied = null)
     {
         $this->werkgebied = $werkgebied;
+
+        return $this;
+    }
+
+    public function getPostcodegebied()
+    {
+        return $this->postcodegebied;
+    }
+
+    public function setPostcodegebied(GgwGebied $postcodegebied = null)
+    {
+        $this->postcodegebied = $postcodegebied;
 
         return $this;
     }

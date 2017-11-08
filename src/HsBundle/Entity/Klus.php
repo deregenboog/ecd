@@ -83,7 +83,7 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @var ArrayCollection|Declaratie[]
-     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="klus")
+     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="klus", cascade={"persist"})
      */
     private $declaraties;
 
@@ -202,6 +202,14 @@ class Klus implements MemoSubjectInterface
         return $this->declaraties;
     }
 
+    public function addDeclaratie(Declaratie $declaratie)
+    {
+        $this->declaraties[] = $declaratie;
+        $declaratie->setKlus($this);
+
+        return $this;
+    }
+
     public function getFacturen()
     {
         return $this->facturen;
@@ -286,5 +294,20 @@ class Klus implements MemoSubjectInterface
         $this->onHold = $onHold;
 
         return $this;
+    }
+
+    public function getStatus()
+    {
+        if ($this->einddatum instanceof \DateTime
+            && $this->einddatum <= new \DateTime('today')
+        ) {
+            return 'Afgerond';
+        }
+
+        if ($this->isOnHold()) {
+            return 'On hold';
+        }
+
+        return 'Openstaand';
     }
 }

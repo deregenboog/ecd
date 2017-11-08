@@ -11,16 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
+use AppBundle\Controller\AbstractChildController;
 
 /**
  * @Route("/herinneringen")
  */
-class HerinneringenController extends AbstractController
+class HerinneringenController extends AbstractChildController
 {
     protected $title = 'Herinneringen';
     protected $entityName = 'herinnering';
     protected $entityClass = Herinnering::class;
     protected $formClass = HerinneringType::class;
+    protected $addMethod = 'addHerinnering';
     protected $baseRouteName = 'hs_herinneringen_';
 
     /**
@@ -31,36 +33,16 @@ class HerinneringenController extends AbstractController
     protected $dao;
 
     /**
-     * @Route("/add/{factuur}")
-     * @ParamConverter()
+     * @var \ArrayObject
+     *
+     * @DI\Inject("hs.herinnering.entities")
      */
-    public function addAction(Request $request, Factuur $factuur)
-    {
-        $entity = new Herinnering($factuur);
-
-        $form = $this->createForm($this->formClass, $entity);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->dao->create($entity);
-            $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
-
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToRoute('hs_facturen_view', ['id' => $factuur->getId()]);
-        }
-
-        return [
-            'factuur' => $factuur,
-            'form' => $form->createView(),
-        ];
-    }
+    protected $entities;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction($id)
     {
         $entity = $this->dao->find($id);
 

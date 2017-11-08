@@ -28,7 +28,10 @@
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
@@ -50,7 +53,10 @@
                     {{ html.link(entity.id, path(view_route, {id: entity.id})) }}
                 </td>
                 <td>
-                    {{ html.link(entity.naam, path(view_route, {id: entity.id})) }}
+                    {{ html.link(entity.achternaamCompleet, path(view_route, {id: entity.id})) }}
+                </td>
+                <td>
+                    {{ html.link(entity.voornaamCompleet, path(view_route, {id: entity.id})) }}
                 </td>
                 <td>
                     {{ entity.werkgebied }}

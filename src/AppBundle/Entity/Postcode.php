@@ -28,12 +28,12 @@ class Postcode
 
     /**
      * @ORM\ManyToOne(targetEntity="GgwGebied")
-     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=false)
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
      * @Gedmo\Versioned
      */
     private $postcodegebied;
 
-    public function __construct($postcode, $stadsdeel, $postcodegebied)
+    public function __construct($postcode, Werkgebied $stadsdeel, GgwGebied $postcodegebied = null)
     {
         $this->postcode = $postcode;
         $this->stadsdeel = $stadsdeel;

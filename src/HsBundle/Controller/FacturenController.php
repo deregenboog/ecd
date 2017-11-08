@@ -15,11 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Controller\AbstractController;
 use HsBundle\Form\FactuurType;
 use HsBundle\Service\KlantDaoInterface;
+use AppBundle\Controller\AbstractChildController;
 
 /**
  * @Route("/facturen")
  */
-class FacturenController extends AbstractController
+class FacturenController extends AbstractChildController
 {
     protected $title = 'Facturen';
     protected $entityName = 'factuur';
@@ -34,6 +35,13 @@ class FacturenController extends AbstractController
      * @DI\Inject("hs.dao.factuur")
      */
     protected $dao;
+
+    /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("hs.factuur.entities")
+     */
+    protected $entities;
 
     /**
      * @var ExportInterface
@@ -75,11 +83,11 @@ class FacturenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction($id)
     {
         $entity = $this->dao->find($id);
 
-        if ('pdf' == $request->get('_format')) {
+        if ('pdf' == $this->getRequest()->get('_format')) {
             return $this->viewPdf($entity);
         }
 
@@ -116,11 +124,11 @@ class FacturenController extends AbstractController
     }
 
     /**
-     * @Route("/add/{klant}")
-     * @ParamConverter()
+     * @Route("/add")
      */
-    public function addAction(Request $request, Klant $klant)
+    public function addAction(Request $request)
     {
+        list($klant, $klantDao) = $this->getParentConfig($request);
         $factuur = $this->factory->create($klant);
 
         if (!$factuur->isEmpty()) {

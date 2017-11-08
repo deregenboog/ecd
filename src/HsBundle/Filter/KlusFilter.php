@@ -9,6 +9,10 @@ use AppBundle\Form\Model\AppDateRangeModel;
 
 class KlusFilter implements FilterInterface
 {
+    const STATUS_OPEN = 'Openstaand';
+    const STATUS_ON_HOLD = 'On hold';
+    const STATUS_CLOSED = 'Afgerond';
+
     /**
      * @var int
      */
@@ -23,6 +27,16 @@ class KlusFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $einddatum;
+
+    /**
+     * @var bool
+     */
+    public $zonderEinddatum;
+
+    /**
+     * @var string
+     */
+    public $status;
 
     /**
      * @var KlantFilter
@@ -70,6 +84,37 @@ class KlusFilter implements FilterInterface
                     ->andWhere('klus.einddatum <= :einddatum_tot')
                     ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
+            }
+        }
+
+        if ($this->zonderEinddatum) {
+            $builder->andWhere('klus.einddatum IS NULL');
+        }
+
+        if ($this->status) {
+            switch($this->status) {
+                case self::STATUS_OPEN:
+                    $builder
+                        ->andWhere('klus.einddatum IS NULL OR klus.einddatum > :today')
+                        ->andWhere('klus.onHold = false')
+                        ->setParameter('today', new \DateTime('today'))
+                    ;
+                    break;
+                case self::STATUS_ON_HOLD:
+                    $builder
+                        ->andWhere('klus.einddatum IS NULL OR klus.einddatum > :today')
+                        ->andWhere('klus.onHold = true')
+                        ->setParameter('today', new \DateTime('today'))
+                    ;
+                    break;
+                case self::STATUS_CLOSED:
+                    $builder
+                        ->andWhere('klus.einddatum <= :today')
+                        ->setParameter('today', new \DateTime('today'))
+                    ;
+                    break;
+                default:
+                    break;
             }
         }
 

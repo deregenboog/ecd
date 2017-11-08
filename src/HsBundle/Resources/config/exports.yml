@@ -67,7 +67,7 @@ services:
                 Starttijd: { expression: 'entity.getStart()', type: 'time' } 
                 Eindtijd: { expression: 'entity.getEind()', type: 'time' }
                 Dagdelen: { expression: 'entity.getDagdelen()' }
-                Reiskosten:  { expression: 'entity.getReiskosten()' }
+#                Reiskosten:  { expression: 'entity.getReiskosten()' }
 
     hs.export.klus:
         class: AppBundle\Export\GenericExport

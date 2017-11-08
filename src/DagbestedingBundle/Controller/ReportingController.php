@@ -7,11 +7,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use DagbestedingBundle\Report\AbstractReport;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Controller\SymfonyController;
 
 /**
  * @Route("/reporting")
  */
-class ReportingController extends AbstractController
+class ReportingController extends SymfonyController
 {
     public $title = 'Rapportages';
 

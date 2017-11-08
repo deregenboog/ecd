@@ -15,6 +15,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
         'sortFieldWhitelist' => [
             'dienstverlener.actief',
             'klant.id',
+            'klant.voornaam',
             'klant.achternaam',
             'klant.werkgebied',
         ],

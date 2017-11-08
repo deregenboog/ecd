@@ -36,7 +36,7 @@
             <th>Activiteit</th>
             <th>Datum/Tijd</th>
             <th>Dagdelen</th>
-            <th>Reiskosten</th>
+            {#<th>Reiskosten</th>#}
             <th>Factuur</th>
             <th></th>
         </tr>
@@ -52,7 +52,7 @@
                     {{ registratie.eind|date('H:i') }}
                 </td>
                 <td>{{ registratie.dagdelen }}</td>
-                <td>{{ registratie.reiskosten|money }}</td>
+                {#<td>{{ registratie.reiskosten|money }}</td>#}
                 <td>{{ registratie.factuur }}</td>
                 <td>
                     {% if not registratie.factuur %}

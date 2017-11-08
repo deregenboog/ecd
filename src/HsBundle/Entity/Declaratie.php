@@ -77,10 +77,8 @@ class Declaratie implements DocumentSubjectInterface
 
     private $document;
 
-    public function __construct(Klus $klus, Medewerker $medewerker = null)
+    public function __construct(Medewerker $medewerker = null)
     {
-        $this->klus = $klus;
-        $this->datum = $klus->getStartdatum();
         $this->medewerker = $medewerker;
         $this->documenten = new ArrayCollection();
         $this->datum = new \DateTime('now');
@@ -106,6 +104,13 @@ class Declaratie implements DocumentSubjectInterface
     public function getKlus()
     {
         return $this->klus;
+    }
+
+    public function setKlus(Klus $klus)
+    {
+        $this->klus = $klus;
+
+        return $this;
     }
 
     public function getFactuur()

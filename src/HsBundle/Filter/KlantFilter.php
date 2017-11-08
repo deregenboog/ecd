@@ -7,6 +7,9 @@ use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {
+    const STATUS_ACTIVE = 'Actief';
+    const STATUS_NON_ACTIVE = 'Niet actief';
+
     public $alias = 'klant';
 
     /**
@@ -25,9 +28,9 @@ class KlantFilter implements FilterInterface
     public $stadsdeel;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $actief;
+    public $status;
 
     /**
      * @var bool
@@ -64,8 +67,17 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if ($this->actief) {
-            $builder->andWhere("{$this->alias}.actief = true");
+        if ($this->status) {
+            switch ($this->status) {
+                case self::STATUS_ACTIVE:
+                    $builder->andWhere("{$this->alias}.actief = true");
+                    break;
+                case self::STATUS_NON_ACTIVE:
+                    $builder->andWhere("{$this->alias}.actief = false");
+                    break;
+                default:
+                    break;
+            }
         }
 
         if ($this->negatiefSaldo) {

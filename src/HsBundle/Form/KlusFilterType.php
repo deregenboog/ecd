@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use HsBundle\Entity\Activiteit;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class KlusFilterType extends AbstractType
 {
@@ -36,6 +38,23 @@ class KlusFilterType extends AbstractType
         if (in_array('einddatum', $options['enabled_filters'])) {
             $builder->add('einddatum', AppDateRangeType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('zonderEinddatum', $options['enabled_filters'])) {
+            $builder->add('zonderEinddatum', CheckboxType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Openstaand' => KlusFilter::STATUS_OPEN,
+                    'On hold' => KlusFilter::STATUS_ON_HOLD,
+                    'Afgerond' => KlusFilter::STATUS_CLOSED,
+                ],
             ]);
         }
 
@@ -69,7 +88,7 @@ class KlusFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => KlusFilter::class,
             'enabled_filters' => [
-                'id',
+                'status',
                 'startdatum',
                 'einddatum',
                 'activiteit',
