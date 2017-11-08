@@ -64,7 +64,7 @@ class RegistratieType extends AbstractType
             ->add('datum', AppDateType::class)
             ->add('start', AppTimeType::class)
             ->add('eind', AppTimeType::class)
-            ->add('reiskosten', MoneyType::class, ['required' => false])
+//             ->add('reiskosten', MoneyType::class, ['required' => false])
         ;
 
         $builder->add('submit', SubmitType::class);
