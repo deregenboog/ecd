@@ -18,7 +18,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.id',
             'klant.voornaam',
             'klant.achternaam',
-            'klant.werkgebied',
+            'werkgebied.naam',
         ],
     ];
 
@@ -33,6 +33,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, factuur, betaling, klus")
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('klant.facturen', 'factuur')
             ->leftJoin('factuur.betalingen', 'betaling')
             ->leftJoin("{$this->alias}.klussen", 'klus')
@@ -126,9 +127,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
-            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klant.klussen', 'klus')
-            ->groupBy('klant.werkgebied')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('werkgebied.naam')
         ;
 
         if ($start) {
@@ -148,8 +150,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
-            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
-            ->groupBy('klant.werkgebied')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('werkgebied.naam')
         ;
 
         if ($start) {

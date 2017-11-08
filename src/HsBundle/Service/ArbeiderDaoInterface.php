@@ -22,26 +22,4 @@ interface ArbeiderDaoInterface
      * @return Arbeider
      */
     public function find($id);
-
-    /**
-     * @param Klant $klant
-     *
-     * @return Arbeider
-     */
-    public function findOneByKlant(Klant $klant);
-
-    /**
-     * @param Arbeider $arbeider
-     */
-    public function create(Arbeider $arbeider);
-
-    /**
-     * @param Arbeider $arbeider
-     */
-    public function update(Arbeider $arbeider);
-
-    /**
-     * @param Arbeider $arbeider
-     */
-    public function delete(Arbeider $arbeider);
 }

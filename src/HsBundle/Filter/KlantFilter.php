@@ -4,6 +4,7 @@ namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Entity\Werkgebied;
 
 class KlantFilter implements FilterInterface
 {
@@ -23,7 +24,7 @@ class KlantFilter implements FilterInterface
     public $naam;
 
     /**
-     * @var string
+     * @var Werkgebied
      */
     public $stadsdeel;
 
@@ -56,15 +57,11 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if (isset($this->stadsdeel)) {
-            if ('-' == $this->stadsdeel) {
-                $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
-            } else {
-                $builder
-                    ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
-                    ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
-                ;
-            }
+        if ($this->stadsdeel) {
+            $builder
+                ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
+                ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
+            ;
         }
 
         if ($this->status) {

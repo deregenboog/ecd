@@ -11,6 +11,8 @@ use HsBundle\Filter\KlantFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\StadsdeelFilterType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Werkgebied;
 
 class KlantFilterType extends AbstractType
 {
@@ -33,7 +35,10 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
+            $builder->add('stadsdeel', EntityType::class, [
+                'required' => false,
+                'class' => Werkgebied::class,
+            ]);
         }
 
         if (in_array('status', $options['enabled_filters'])) {

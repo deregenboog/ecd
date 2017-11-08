@@ -23,11 +23,13 @@ class KlantType extends AbstractType
 {
     use MedewerkerTypeTrait;
 
-    private $werkgebiedChoices = [];
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
     public function __construct(EntityManager $entityManager)
     {
-        $this->werkgebiedChoices = $this->getWerkgebiedChoices($entityManager);
         $this->entityManager = $entityManager;
     }
 
@@ -55,11 +57,6 @@ class KlantType extends AbstractType
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
-            ->add('werkgebied', ChoiceType::class, [
-                'label' => 'Stadsdeel',
-                'required' => false,
-                'choices' => $this->werkgebiedChoices,
-            ])
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
@@ -107,24 +104,5 @@ class KlantType extends AbstractType
     public function getParent()
     {
         return BaseType::class;
-    }
-
-    private function getWerkgebiedChoices(EntityManager $entityManager)
-    {
-        $stadsdelen = $entityManager->getRepository(Stadsdeel::class)
-            ->createQueryBuilder('stadsdeel')
-            ->select('stadsdeel.stadsdeel')
-            ->distinct(true)
-            ->orderBy('stadsdeel.stadsdeel')
-            ->getQuery()
-            ->getResult()
-        ;
-
-        $choices = [];
-        foreach ($stadsdelen as $stadsdeel) {
-            $choices[$stadsdeel['stadsdeel']] = $stadsdeel['stadsdeel'];
-        }
-
-        return $choices;
     }
 }

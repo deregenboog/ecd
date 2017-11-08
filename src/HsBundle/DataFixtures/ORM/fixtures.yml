@@ -61,7 +61,8 @@ HsBundle\Entity\Registratie:
 
 HsBundle\Entity\Declaratie:
     hs_declaratie_{1..200}:
-        __construct: ['@hs_klus_*', '@medewerker_*']
+        __construct: ['@medewerker_*']
+        klus: '@hs_klus_*'
         declaratiecategorie: '@hs_declaratiecategorie_*'
         datum: '<dateTimeThisYear()>'
         info: '<sentence()>'
@@ -69,7 +70,7 @@ HsBundle\Entity\Declaratie:
 
 HsBundle\Entity\Betaling:
     hs_betaling_{1..10}:
-        __construct: ['<factuur(@hs_klant_*)>']
+        factuur: '<factuur(@hs_klant_*)>'
         datum: '<dateTimeThisYear()>'
         referentie: '<numberBetween(100000, 999999)>'
         info: '<sentence()>'

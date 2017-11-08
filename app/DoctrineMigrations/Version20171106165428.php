@@ -19,10 +19,10 @@ class Version20171106165428 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE postcodes CHANGE postcodegebied postcodegebied VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE hs_klanten ADD postcodegebied VARCHAR(255) DEFAULT NULL, CHANGE werkgebied stadsdeel VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE hs_klanten ADD CONSTRAINT FK_CC6284AA13D3FD8 FOREIGN KEY (stadsdeel) REFERENCES werkgebieden (naam)');
+        $this->addSql('ALTER TABLE hs_klanten ADD postcodegebied VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE hs_klanten ADD CONSTRAINT FK_CC6284A46708ED5 FOREIGN KEY (werkgebied) REFERENCES werkgebieden (naam)');
         $this->addSql('ALTER TABLE hs_klanten ADD CONSTRAINT FK_CC6284AFB02B9C2 FOREIGN KEY (postcodegebied) REFERENCES ggw_gebieden (naam)');
-        $this->addSql('CREATE INDEX IDX_CC6284AA13D3FD8 ON hs_klanten (stadsdeel)');
+        $this->addSql('CREATE INDEX IDX_CC6284A46708ED5 ON hs_klanten (werkgebied)');
         $this->addSql('CREATE INDEX IDX_CC6284AFB02B9C2 ON hs_klanten (postcodegebied)');
     }
 

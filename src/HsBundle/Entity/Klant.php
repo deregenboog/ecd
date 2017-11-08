@@ -61,7 +61,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
-     * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam", nullable=true)
+     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam", nullable=true)
      * @Gedmo\Versioned
      */
     private $werkgebied;
