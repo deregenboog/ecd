@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use HsBundle\Filter\KlantFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\StadsdeelFilterType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class KlantFilterType extends AbstractType
 {
@@ -35,10 +36,13 @@ class KlantFilterType extends AbstractType
             $builder->add('stadsdeel', StadsdeelFilterType::class);
         }
 
-        if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
                 'required' => false,
-                'label' => 'Alleen actieve klanten',
+                'choices' => [
+                    KlantFilter::STATUS_ACTIVE => KlantFilter::STATUS_ACTIVE,
+                    KlantFilter::STATUS_NON_ACTIVE => KlantFilter::STATUS_NON_ACTIVE,
+                ],
             ]);
         }
 
@@ -66,7 +70,7 @@ class KlantFilterType extends AbstractType
                 'id',
                 'naam',
                 'stadsdeel',
-                'actief',
+                'status',
                 'negatiefSaldo',
                 'filter',
                 'download',

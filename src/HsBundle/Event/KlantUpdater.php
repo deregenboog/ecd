@@ -26,6 +26,10 @@ class KlantUpdater implements EventSubscriber
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
+        if ($entity instanceof Klant) {
+            $this->updateStatus($entity, $args->getEntityManager());
+        }
+
         if ($entity instanceof Klus && $entity->getKlant()) {
             $this->updateStatus($entity->getKlant(), $args->getEntityManager());
         }
