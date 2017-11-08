@@ -12,6 +12,7 @@ use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 use AppBundle\Controller\AbstractChildController;
+use HsBundle\Service\HerinneringDaoInterface;
 
 /**
  * @Route("/herinneringen")

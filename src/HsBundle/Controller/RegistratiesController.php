@@ -14,6 +14,7 @@ use AppBundle\Controller\AbstractChildController;
 use Symfony\Component\HttpFoundation\Request;
 use HsBundle\Filter\RegistratieFilter;
 use AppBundle\Export\ExportInterface;
+use HsBundle\Entity\Factuur;
 
 /**
  * @Route("/registraties")
@@ -96,41 +97,17 @@ class RegistratiesController extends AbstractChildController
         ];
     }
 
-//     /**
-//      * @Route("/add/{klus}/{arbeider}")
-//      * @ParamConverter()
-//      */
-//     public function addAction(Klus $klus, Arbeider $arbeider = null)
-//     {
-//         $entity = new Registratie($klus, $arbeider);
-//         $form = $this->createForm(RegistratieType::class, $entity);
-//         $form->handleRequest($this->getRequest());
-//         if ($form->isSubmitted() && $form->isValid()) {
-//             $this->dao->create($entity);
+    /**
+     * @Route("/{id}/edit")
+     */
+    public function editAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
 
-//             return $this->redirectToView($entity);
-//         }
+        if ($entity->getFactuur() instanceof Factuur) {
+            return $this->redirectToRoute('hs_klussen_index');
+        }
 
-//         return [
-//             'klus' => $klus,
-//             'form' => $form->createView(),
-//         ];
-//     }
-
-//     /**
-//      * @Route("/{id}/edit")
-//      */
-//     public function editAction($id)
-//     {
-//         $entity = $this->dao->find($id);
-//         $form = $this->createForm(RegistratieType::class, $entity);
-//         $form->handleRequest($this->getRequest());
-//         if ($form->isSubmitted() && $form->isValid()) {
-//             $this->dao->update($entity);
-
-//             return $this->redirectToView($entity);
-//         }
-
-//         return ['form' => $form->createView()];
-//     }
+        return $this->processForm($request, $entity);
+    }
 }
