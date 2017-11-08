@@ -287,4 +287,19 @@ class Klus implements MemoSubjectInterface
 
         return $this;
     }
+
+    public function getStatus()
+    {
+        if ($this->einddatum instanceof \DateTime
+            && $this->einddatum <= new \DateTime('today')
+        ) {
+            return 'Afgerond';
+        }
+
+        if ($this->isOnHold()) {
+            return 'On hold';
+        }
+
+        return 'Openstaand';
+    }
 }
