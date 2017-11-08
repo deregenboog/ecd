@@ -80,4 +80,5 @@ services:
                 Opzegdatum: { expression: 'entity.getOpzegdatum()', type: 'date' }
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
                 Plaats: { expression: 'entity.getVerhuurder().getKlant().getPlaats()' }
+                Vorm: { expression: 'entity.getVorm()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
