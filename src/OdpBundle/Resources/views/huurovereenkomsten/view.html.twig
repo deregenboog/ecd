@@ -53,6 +53,8 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'OdpBundle:verslagen:_list.html.twig' with {entity: huurovereenkomst} %}
-    {% include 'OdpBundle:documenten:_list.html.twig' with {entity: huurovereenkomst} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurovereenkomst: huurovereenkomst} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurverzoek: huurovereenkomst.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huuraanbod: huurovereenkomst.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
+            {% include 'OdpBundle:documenten:_list.html.twig' with {huurovereenkomst: huurovereenkomst} %}
 {% endblock %}

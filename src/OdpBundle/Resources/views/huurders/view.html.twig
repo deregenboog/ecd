@@ -58,6 +58,6 @@
 {% block content_right %}
     {% include 'OdpBundle:huurverzoeken:_list.html.twig' %}
     {% include 'OdpBundle:huurovereenkomsten:_list.html.twig' %}
-    {% include 'OdpBundle:verslagen:_list.html.twig' with {entity: huurder} %}
-    {% include 'OdpBundle:documenten:_list.html.twig' with {entity: huurder} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurder: huurder} %}
+            {% include 'OdpBundle:documenten:_list.html.twig' with {huurder: huurder} %}
 {% endblock %}
