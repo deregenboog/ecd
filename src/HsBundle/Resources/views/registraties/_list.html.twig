@@ -8,7 +8,7 @@
                 Je kunt pas uren registreren als er dienstverleners en/of vrijwilligers aan deze klus gekoppeld zijn.
             </p>
         {% else %}
-            {% set url = path('hs_registraties_add', {klus: entity.id, redirect: app.request.get('url')}) %}
+            {% set url = path('hs_registraties_add', {klus: entity.id}) %}
             {{ html.addLink(url) }}
             {{ html.link('Uren toevoegen', url) }}
         {% endif %}
@@ -20,7 +20,7 @@
                 Je kunt pas uren registreren als deze dienstverlener/vrijwilliger aan een klus gekoppeld is.
             </p>
         {% else %}
-            {% set url = path('hs_registraties_add', {arbeider: entity.id, redirect: app.request.get('url')}) %}
+            {% set url = path('hs_registraties_add', {arbeider: entity.id}) %}
             {{ html.addLink(url) }}
             {{ html.link('Uren toevoegen', url) }}
             {% set download_url = path('hs_registraties_werkbon', {arbeider: entity.id}) %}

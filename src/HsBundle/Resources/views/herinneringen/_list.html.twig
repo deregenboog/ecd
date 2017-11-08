@@ -2,7 +2,7 @@
 <p>
     {% if factuur is defined %}
         {% set entity = factuur %}
-        {% set url = path('hs_herinneringen_add', {factuur: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('hs_herinneringen_add', {factuur: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}

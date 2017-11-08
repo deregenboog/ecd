@@ -2,7 +2,7 @@
 <p>
     {% if klus is defined %}
         {% set entity = klus %}
-        {% set url = path('hs_declaraties_add', {klus: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('hs_declaraties_add', {klus: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
@@ -34,7 +34,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {{ html.editLink(path('hs_declaraties_edit', {id: declaratie.id, redirect: app.request.get('url')})) }}
+                    {{ html.editLink(path('hs_declaraties_edit', {id: declaratie.id})) }}
                 </td>
             </tr>
         {% endfor %}

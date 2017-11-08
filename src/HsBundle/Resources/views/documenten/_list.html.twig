@@ -2,13 +2,13 @@
 <p>
     {% if klant is defined %}
         {% set entity = klant %}
-        {% set url = path('hs_documenten_add', {klant: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('hs_documenten_add', {klant: entity.id}) %}
     {% elseif dienstverlener is defined %}
         {% set entity = dienstverlener %}
-        {% set url = path('hs_documenten_add', {dienstverlener: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('hs_documenten_add', {dienstverlener: entity.id}) %}
     {% elseif vrijwilliger is defined %}
         {% set entity = vrijwilliger %}
-        {% set url = path('hs_documenten_add', {vrijwilliger: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('hs_documenten_add', {vrijwilliger: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
