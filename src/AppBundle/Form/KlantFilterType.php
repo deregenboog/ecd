@@ -76,6 +76,10 @@ class KlantFilterType extends AbstractType
             $builder->add('stadsdeel', StadsdeelFilterType::class);
         }
 
+        if (in_array('plaats', $options['enabled_filters'])) {
+            $builder->add('plaats');
+        }
+
         $builder->add('filter', SubmitType::class);
     }
 

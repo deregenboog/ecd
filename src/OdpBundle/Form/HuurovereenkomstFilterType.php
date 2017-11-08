@@ -120,7 +120,7 @@ class HuurovereenkomstFilterType extends AbstractType
             'enabled_filters' => [
                 'id',
                 'huurder' => ['automatischeIncasso', 'klant' => ['naam']],
-                'verhuurderKlant' => ['naam'],
+                'verhuurderKlant' => ['naam', 'plaats'],
                 'medewerker',
                 'startdatum',
                 'opzegdatum',

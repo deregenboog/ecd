@@ -37,7 +37,6 @@ class Verhuurder extends Deelnemer
      */
     private $woningbouwcorporatieToelichting;
 
-
     /**
      * "Kleine schuld, grote winst"
      *
