@@ -53,8 +53,18 @@
 {% endblock %}
 
 {% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="verslagen" class="tab-pane active">
             {% include 'OdpBundle:verslagen:_list.html.twig' with {huurovereenkomst: huurovereenkomst} %}
             {% include 'OdpBundle:verslagen:_list.html.twig' with {huurverzoek: huurovereenkomst.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
             {% include 'OdpBundle:verslagen:_list.html.twig' with {huuraanbod: huurovereenkomst.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
+        </div>
+        <div id="documenten" class="tab-pane">
             {% include 'OdpBundle:documenten:_list.html.twig' with {huurovereenkomst: huurovereenkomst} %}
+        </div>
+    </div>
 {% endblock %}
