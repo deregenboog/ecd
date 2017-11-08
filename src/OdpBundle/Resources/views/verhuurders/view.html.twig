@@ -53,6 +53,8 @@
         <dd>{{ verhuurder.klantmanager }}</dd>
         <dt>WPI</dt>
         <dd>{{ verhuurder.wpi ? 'Ja' : 'Nee' }}</dd>
+        <dt title="Kleine schuld, grote winst">KSGW</dt>
+        <dd>{{ verhuurder.ksgw ? 'Ja' : 'Nee' }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: verhuurder.klant} %}
 {% endblock %}

@@ -32,6 +32,12 @@ class VerhuurderFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('ksgw', $options['enabled_filters'])) {
+            $builder->add('ksgw', CheckboxType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
@@ -70,6 +76,7 @@ class VerhuurderFilterType extends AbstractType
                 'aanmelddatum',
                 'afsluitdatum',
                 'wpi',
+                'ksgw',
             ],
         ]);
     }

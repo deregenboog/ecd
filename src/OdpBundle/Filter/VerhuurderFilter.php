@@ -31,7 +31,12 @@ class VerhuurderFilter
      * @var bool
      */
     public $wpi;
-    
+
+    /**
+     * @var bool
+     */
+    public $ksgw;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -77,7 +82,14 @@ class VerhuurderFilter
                 ->setParameter('wpi', $this->wpi)
             ;
         }
-        
+
+        if ($this->ksgw) {
+            $builder
+                ->andWhere('verhuurder.ksgw = :ksgw')
+                ->setParameter('ksgw', $this->ksgw)
+            ;
+        }
+
         if ($this->klant) {
             $this->klant->applyTo($builder);
         }

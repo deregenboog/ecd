@@ -31,6 +31,7 @@ class VerhuurdersController extends SymfonyController
         'verhuurder.aanmelddatum',
         'verhuurder.afsluitdatum',
         'verhuurder.wpi',
+        'verhuurder.ksgw',
     ];
 
     /**
