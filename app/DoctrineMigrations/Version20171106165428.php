@@ -18,6 +18,7 @@ class Version20171106165428 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE postcodes CHANGE postcodegebied postcodegebied VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE hs_klanten ADD postcodegebied VARCHAR(255) DEFAULT NULL, CHANGE werkgebied stadsdeel VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE hs_klanten ADD CONSTRAINT FK_CC6284AA13D3FD8 FOREIGN KEY (stadsdeel) REFERENCES werkgebieden (naam)');
         $this->addSql('ALTER TABLE hs_klanten ADD CONSTRAINT FK_CC6284AFB02B9C2 FOREIGN KEY (postcodegebied) REFERENCES ggw_gebieden (naam)');
