@@ -1,0 +1,122 @@
+<?php
+
+namespace HsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Medewerker;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="hs_memos")
+ * @Gedmo\Loggable
+ */
+class Memo
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    private $datum;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     * @Gedmo\Versioned
+     */
+    private $memo;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $intake = false;
+
+    /**
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $medewerker;
+
+    public function __construct(Medewerker $medewerker = null)
+    {
+        if ($medewerker) {
+            $this->medewerker = $medewerker;
+        }
+        $this->datum = new \DateTime();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s %s', $this->medewerker, $this->datum->format('d-m-Y H:i:s'));
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getDatum()
+    {
+        return $this->datum;
+    }
+
+    public function setDatum(\DateTime $datum)
+    {
+        $this->datum = $datum;
+
+        return $this;
+    }
+
+    public function isIntake()
+    {
+        return $this->intake;
+    }
+
+    public function setIntake($intake)
+    {
+        $this->intake = $intake;
+
+        return $this;
+    }
+
+    public function getVrijwilliger()
+    {
+        return $this->vrijwilliger;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+
+        return $this;
+    }
+
+    public function getMemo()
+    {
+        return $this->memo;
+    }
+
+    public function setMemo($memo)
+    {
+        $this->memo = $memo;
+
+        return $this;
+    }
+}

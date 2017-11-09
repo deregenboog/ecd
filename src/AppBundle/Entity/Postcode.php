@@ -20,18 +20,20 @@ class Postcode
     private $postcode;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="Werkgebied")
+     * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam", nullable=false)
      * @Gedmo\Versioned
      */
     private $stadsdeel;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="GgwGebied")
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
      * @Gedmo\Versioned
      */
     private $postcodegebied;
 
-    public function __construct($postcode, $stadsdeel, $postcodegebied)
+    public function __construct($postcode, Werkgebied $stadsdeel, GgwGebied $postcodegebied = null)
     {
         $this->postcode = $postcode;
         $this->stadsdeel = $stadsdeel;

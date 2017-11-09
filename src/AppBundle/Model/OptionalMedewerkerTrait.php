@@ -4,6 +4,7 @@ namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 trait OptionalMedewerkerTrait
 {
@@ -12,6 +13,7 @@ trait OptionalMedewerkerTrait
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
      */
     protected $medewerker;
 

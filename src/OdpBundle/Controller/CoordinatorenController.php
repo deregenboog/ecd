@@ -11,7 +11,7 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 
 /**
- * @Route("/odp/admin/coordinatoren")
+ * @Route("/admin/coordinatoren")
  */
 class CoordinatorenController extends SymfonyController
 {

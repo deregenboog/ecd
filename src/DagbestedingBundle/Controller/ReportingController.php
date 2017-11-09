@@ -7,11 +7,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use DagbestedingBundle\Report\AbstractReport;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Controller\SymfonyController;
 
 /**
  * @Route("/reporting")
  */
-class ReportingController extends AbstractController
+class ReportingController extends SymfonyController
 {
     public $title = 'Rapportages';
 
@@ -25,10 +27,10 @@ class ReportingController extends AbstractController
     /**
      * @Route("/")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $form = $this->createForm(ReportingType::class);
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // get reporting service
@@ -57,7 +59,7 @@ class ReportingController extends AbstractController
         ];
     }
 
-    public function download(AbstractReport $report)
+    protected function download(AbstractReport $report)
     {
         ini_set('memory_limit', '512M');
 

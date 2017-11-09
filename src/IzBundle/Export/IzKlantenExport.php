@@ -46,6 +46,31 @@ class IzKlantenExport extends GenericExport
         return implode(', ', array_unique($projecten));
     }
 
+    public function getDatumLaatsteAfgeslotenKoppeling(IzKlant $izKlant)
+    {
+        $data = [];
+
+        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
+            if ($izHulpvraag->isGekoppeld() && $izHulpvraag->isAfgesloten()) {
+                $data[] = $izHulpvraag->getKoppelingEinddatum();
+            }
+        }
+
+        if (count($data) > 0) {
+            usort($data, function(\DateTime $date1, \DateTime $date2) {
+                if ($date1 > $date2) {
+                    return -1;
+                }
+                if ($date2 > $date1) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            return $data[0];
+        }
+    }
+
     public function getMedewerkers(IzKlant $izKlant)
     {
         $medewerkers = [];

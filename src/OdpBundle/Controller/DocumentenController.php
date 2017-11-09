@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ConfirmationType;
 
 /**
- * @Route("/odp/documenten")
+ * @Route("/documenten")
  */
 class DocumentenController extends SymfonyController
 {

@@ -9,10 +9,11 @@ parameters:
     locale: nl_NL.utf8
     acl_disabled: false
     pagination.items_per_page: 20
+    doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
 
 framework:
-    default_locale: "%locale%"
-    translator: { fallbacks: ["%locale%"] }
+    default_locale: '%locale%'
+    translator: { fallbacks: ['nl_NL', 'nl'] }
     secret: "%secret%"
     session:
         name: ECD
@@ -58,6 +59,8 @@ doctrine:
                 is_bundle: false
                 alias: GedmoLoggable # (optional) it will default to the name set for the mapping
         dql:
+            datetime_functions:
+                date: Luxifer\DQL\Datetime\Date
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
 
@@ -83,10 +86,18 @@ assetic:
 vich_uploader:
     db_driver: orm
     mappings:
+        clip_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /clip/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/clip'
         dagbesteding_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /dagbesteding/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/dagbesteding'
+        hs_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /hs/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/hs'
         odp_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download

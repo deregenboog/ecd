@@ -1,5 +1,11 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Form\AfsluitingType;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\DossierStatus;
+
 class KlantenController extends AppController
 {
     public $name = 'Klanten';
@@ -78,6 +84,9 @@ class KlantenController extends AppController
             $this->flashError(__('Invalid klant', true));
             $this->redirect(['action' => 'index']);
         }
+
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($id);
+        $this->set(compact('status'));
 
         $registraties = $this->Klant->Registratie->find('all', [
             'conditions' => ['Registratie.klant_id' => $klant['Klant']['id']],

@@ -37,6 +37,16 @@ class Verhuurder extends Deelnemer
      */
     private $woningbouwcorporatieToelichting;
 
+    /**
+     * "Kleine schuld, grote winst"
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $ksgw = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -123,6 +133,18 @@ class Verhuurder extends Deelnemer
     public function setAfsluiting(VerhuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function isKsgw()
+    {
+        return (bool) $this->ksgw;
+    }
+
+    public function setKsgw($ksgw)
+    {
+        $this->ksgw = $ksgw;
 
         return $this;
     }

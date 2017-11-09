@@ -226,6 +226,8 @@ abstract class Deelnemer
     public function setWpi($wpi)
     {
         $this->wpi = $wpi;
+
+        return $this;
     }
 
     public function getKlantmanager()
@@ -236,5 +238,7 @@ abstract class Deelnemer
     public function setKlantmanager($klantmanager)
     {
         $this->klantmanager = $klantmanager;
+
+        return $this;
     }
 }

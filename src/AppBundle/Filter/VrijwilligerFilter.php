@@ -9,6 +9,8 @@ use AppBundle\Entity\Medewerker;
 
 class VrijwilligerFilter implements FilterInterface
 {
+    public $alias = 'vrijwilliger';
+
     /**
      * @var int
      */
@@ -54,12 +56,12 @@ class VrijwilligerFilter implements FilterInterface
      */
     public $medewerker;
 
-    public function applyTo(QueryBuilder $builder, $alias = 'vrijwilliger')
+    public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
             $builder
-                ->andWhere("{$alias}.id = :{$alias}_id")
-                ->setParameter("{$alias}_id", $this->id)
+                ->andWhere("{$this->alias}.id = :{$this->alias}_id")
+                ->setParameter("{$this->alias}_id", $this->id)
             ;
         }
 
@@ -67,8 +69,8 @@ class VrijwilligerFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->naam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam, {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_naam_part_{$i}")
-                    ->setParameter("{$alias}_naam_part_{$i}", "%{$part}%")
+                    ->andWhere("CONCAT_WS(' ', {$this->alias}.voornaam, {$this->alias}.roepnaam, {$this->alias}.tussenvoegsel, {$this->alias}.achternaam) LIKE :{$this->alias}_naam_part_{$i}")
+                    ->setParameter("{$this->alias}_naam_part_{$i}", "%{$part}%")
                 ;
             }
         }
@@ -77,8 +79,8 @@ class VrijwilligerFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->voornaam);
             foreach ($parts as $i => $part) {
                 $builder
-                ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam) LIKE :{$alias}_voornaam_part_{$i}")
-                ->setParameter("{$alias}_voornaam_part_{$i}", "%{$part}%")
+                ->andWhere("CONCAT_WS(' ', {$this->alias}.voornaam, {$this->alias}.roepnaam) LIKE :{$this->alias}_voornaam_part_{$i}")
+                ->setParameter("{$this->alias}_voornaam_part_{$i}", "%{$part}%")
                 ;
             }
         }
@@ -87,56 +89,56 @@ class VrijwilligerFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->achternaam);
             foreach ($parts as $i => $part) {
                 $builder
-                ->andWhere("CONCAT_WS(' ', {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_achternaam_part_{$i}")
-                ->setParameter("{$alias}_achternaam_part_{$i}", "%{$part}%")
+                ->andWhere("CONCAT_WS(' ', {$this->alias}.tussenvoegsel, {$this->alias}.achternaam) LIKE :{$this->alias}_achternaam_part_{$i}")
+                ->setParameter("{$this->alias}_achternaam_part_{$i}", "%{$part}%")
                 ;
             }
         }
 
         if ($this->bsn) {
             $builder
-                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
-                ->setParameter("{$alias}_bsn", $this->bsn)
+                ->andWhere("{$this->alias}.bsn LIKE :{$this->alias}_bsn")
+                ->setParameter("{$this->alias}_bsn", "%{$this->bsn}%")
             ;
         }
 
         if ($this->geboortedatum) {
             $builder
-                ->andWhere("{$alias}.geboortedatum = :{$alias}_geboortedatum")
-                ->setParameter("{$alias}_geboortedatum", $this->geboortedatum)
+                ->andWhere("{$this->alias}.geboortedatum = :{$this->alias}_geboortedatum")
+                ->setParameter("{$this->alias}_geboortedatum", $this->geboortedatum)
             ;
         }
 
         if ($this->geboortedatumRange) {
             if ($this->geboortedatumRange->getStart()) {
                 $builder
-                    ->andWhere("{$alias}.geboortedatum >= :{$alias}_geboortedatum_van")
-                    ->setParameter("{$alias}_geboortedatum_van", $this->geboortedatumRange->getStart())
+                    ->andWhere("{$this->alias}.geboortedatum >= :{$this->alias}_geboortedatum_van")
+                    ->setParameter("{$this->alias}_geboortedatum_van", $this->geboortedatumRange->getStart())
                 ;
             }
             if ($this->geboortedatumRange->getEnd()) {
                 $builder
-                    ->andWhere("{$alias}.geboortedatum <= :{$alias}_geboortedatum_tot")
-                    ->setParameter("{$alias}_geboortedatum_tot", $this->geboortedatumRange->getEnd())
+                    ->andWhere("{$this->alias}.geboortedatum <= :{$this->alias}_geboortedatum_tot")
+                    ->setParameter("{$this->alias}_geboortedatum_tot", $this->geboortedatumRange->getEnd())
                 ;
             }
         }
 
         if (isset($this->stadsdeel)) {
             if ($this->stadsdeel == '-') {
-                $builder->andWhere("{$alias}.werkgebied IS NULL OR {$alias}.werkgebied = ''");
+                $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
             } else {
                 $builder
-                    ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
-                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+                    ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
+                    ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
                 ;
             }
         }
 
         if ($this->medewerker) {
             $builder
-                ->andWhere("{$alias}.medewerker = :{$alias}_medewerker")
-                ->setParameter("{$alias}_medewerker", $this->medewerker)
+                ->andWhere("{$this->alias}.medewerker = :{$this->alias}_medewerker")
+                ->setParameter("{$this->alias}_medewerker", $this->medewerker)
             ;
         }
     }

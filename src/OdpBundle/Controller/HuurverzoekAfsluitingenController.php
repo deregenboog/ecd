@@ -8,7 +8,7 @@ use OdpBundle\Service\HuurverzoekAfsluitingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/odp/admin/huurverzoekafsluitingen")
+ * @Route("/admin/huurverzoekafsluitingen")
  */
 class HuurverzoekAfsluitingenController extends AfsluitingenController
 {

@@ -1,9 +1,10 @@
-odp_annotations:
+oek_annotations:
     resource: "@OekBundle/Controller"
     type: annotation
+    prefix: /oek
 
 oek_index:
-    path: /oek
+    path: /oek/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: oek_klanten_index

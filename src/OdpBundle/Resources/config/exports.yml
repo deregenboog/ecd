@@ -19,6 +19,8 @@ services:
                 Mobiel: { expression: 'entity.getKlant().getMobiel()' }
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                WPI: { expression: 'entity.isWpi() ? "ja" : "nee"' }
+                Automatische incasso: { expression: 'entity.isAutomatischeIncasso() ? "ja" : "nee"' }
                 Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
 
@@ -42,6 +44,7 @@ services:
                 Mobiel: { expression: 'entity.getKlant().getMobiel()' }
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                WPI: { expression: 'entity.isWpi() ? "ja" : "nee"' }
                 Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
 
@@ -79,4 +82,7 @@ services:
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Opzegdatum: { expression: 'entity.getOpzegdatum()', type: 'date' }
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
+                Plaats: { expression: 'entity.getVerhuurder().getKlant().getPlaats()' }
+                Vorm: { expression: 'entity.getVorm()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Automatische incasso: { expression: 'entity.getHuurder().isAutomatischeIncasso() ? "ja" : "nee"' }

@@ -11,13 +11,13 @@
         <th></th>
         <th></th>
         <th></th>
-        <th colspan="2">
+        <th>
             {{ form_row(form.zonderActieveHulpvraag) }}<br>
         </th>
-        <th colspan="2">
+        <th>
             {{ form_row(form.zonderActieveKoppeling) }}
         </th>
-        <th>
+        <th colspan="2">
             {{ form_row(form.openDossiers) }}
         </th>
         <th></th>
@@ -34,12 +34,14 @@
             {{ form_row(form.klant.geboortedatumRange) }}
         </th>
         <th>
-            {{ form_row(form.izProject) }}
-        </th>
-        <th>
             {{ form_row(form.izIntakeMedewerker) }}
         </th>
         <th>
+            {{ form_label(form.izProject) }}
+            {{ form_widget(form.actief) }}
+            {{ form_widget(form.izProject) }}
+            {{ form_errors(form.actief) }}
+            {{ form_errors(form.izProject) }}
             {{ form_row(form.izHulpvraagMedewerker) }}
         </th>
         <th>
@@ -65,12 +67,10 @@
             {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
-        </th>
-        <th>
             {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'izIntakeMedewerker.voornaam') }}
         </th>
         <th>
+            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }} /
             {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'izHulpvraagMedewerker.voornaam') }}
         </th>
         <th>
@@ -103,26 +103,12 @@
                 {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
-                {% set izProjecten = [] %}
-                {% for izHulpvraag in izKlant.izHulpvragen %}
-                    {% set izProjecten = izProjecten|merge([izHulpvraag.izProject]) %}
-                {% endfor %}
-                {% set izProjecten = izProjecten|unique %}
-                <ul>
-                    {% for izProject in izProjecten %}
-                        <li>{{ izProject }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-            <td>
                 {{ izKlant.izIntake ? izKlant.izIntake.medewerker }}
             </td>
             <td>
                 <ul>
                     {% for izHulpvraag in izKlant.izHulpvragen %}
-                        {% if izHulpvraag.medewerker %}
-                            <li>{{ izHulpvraag.medewerker }}</li>
-                        {% endif %}
+                        <li>{{ izHulpvraag.izProject }} {{ izHulpvraag.medewerker ? '('~izHulpvraag.medewerker~')' }}</li>
                     {% endfor %}
                 </ul>
             </td>

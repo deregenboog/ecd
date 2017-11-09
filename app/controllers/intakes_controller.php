@@ -1,5 +1,10 @@
 <?php
 
+use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\Aanmelding;
+use AppBundle\Entity\Klant;
+
 class IntakesController extends AppController
 {
     public $name = 'Intakes';
@@ -72,6 +77,9 @@ class IntakesController extends AppController
             $this->redirect(['controller' => 'klanten', 'action' => 'index']);
         }
 
+        $entityManager = $this->getEntityManager();
+        $klant = $entityManager->find(Klant::class, $klant_id);
+
         $this->loadModel(ZrmReport::class);
         $zrmReportModel = ZrmReport::getZrmReportModel();
         $this->loadModel($zrmReportModel);
@@ -88,6 +96,12 @@ class IntakesController extends AppController
                 $this->{$zrmReportModel}->create();
                 if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->Intake->commit();
+
+                    // create "Aanmelding"
+                    $entityManager->persist($klant);
+                    $entityManager->persist(new Aanmelding($klant, $this->getMedewerker()));
+                    $entityManager->flush();
+
                     $this->flash(__('De intake is opgeslagen', true));
 
                     $this->sendIntakeNotification($this->Intake->id, $this->data);
@@ -107,8 +121,13 @@ class IntakesController extends AppController
         $this->Intake->Klant->recursive = 1;
         $klant = $this->Intake->Klant->read(null, $klant_id);
 
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($klant_id);
+
         $datum_intake = date('Y-m-d');
-        if (empty($this->data) && !empty($klant['Klant']['laste_intake_id'])) {
+        if (empty($this->data)
+            && !empty($klant['Klant']['laste_intake_id'])
+            && !$status instanceof Afsluiting
+        ) {
             $current = $this->Intake->findById($klant['Klant']['laste_intake_id']);
             if (isset($current['Intake']['id'])) {
                 unset($current['Intake']['id']);

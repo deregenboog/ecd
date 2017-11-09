@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('app_klanten_add')) }}
+        {{ html.link('Klant toevoegen', path('app_klanten_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {{ form_start(filter) }}
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geboortedatum) }}
+                    {{ form_errors(filter.klant.geboortedatum) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geslacht) }}
+                    {{ form_errors(filter.klant.geslacht) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.gebruikersruimte) }}
+                    {{ form_errors(filter.gebruikersruimte) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.laatsteIntakeLocatie) }}
+                    {{ form_errors(filter.laatsteIntakeLocatie) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.laatsteIntakeDatum) }}
+                    {{ form_errors(filter.laatsteIntakeDatum) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.huidigeStatus) }}
+                    {{ form_errors(filter.huidigeStatus) }}
+                </th>
+                <th colspan="2">
+                    {{ form_widget(filter.filter) }}
+                </th>
+                {{ form_end(filter) }}
+            </tr>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Laatste intake', 'laatsteIntake.intakedatum') }}
+                </th>
+                <th>
+                    Dossierstatus
+                </th>
+                <th>
+                    Aantal intakes
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for klant in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(klant.id, path('app_klanten_view', {id: klant.id})) }}
+                </td>
+                <td>
+                    {{ klant }}
+                </td>
+                <td>
+                    {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ klant.geslacht }}
+                </td>
+                <td>
+                    {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
+                </td>
+                <td>
+                    {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
+                </td>
+                <td>
+                    {{ klant.laatsteIntake ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ klant.huidigeStatus }}
+                </td>
+                <td>
+                    {{ klant.intakes|length }}
+                </td>
+                <td>
+                    {{ html.viewLink(path('app_klanten_view', {id: klant.id})) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

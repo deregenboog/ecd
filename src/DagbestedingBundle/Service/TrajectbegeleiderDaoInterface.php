@@ -12,7 +12,7 @@ interface TrajectbegeleiderDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = 1);
+    public function findAll($page = null);
 
     /**
      * @param int $id

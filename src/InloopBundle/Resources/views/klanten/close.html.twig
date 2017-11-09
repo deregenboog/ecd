@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Inloop-dossier afsluiten</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.datum) }}
+    {{ form_row(form.reden) }}
+    {{ form.land is defined ? form_row(form.land) }}
+    {{ form_row(form.toelichting) }}
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+{% endblock %}

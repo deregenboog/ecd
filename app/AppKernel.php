@@ -27,9 +27,11 @@ class AppKernel extends Kernel
             new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
             new GaBundle\GaBundle(),
+            new HsBundle\HsBundle(),
             new OekBundle\OekBundle(),
             new OdpBundle\OdpBundle(),
             new DagbestedingBundle\DagbestedingBundle(),
+            new ClipBundle\ClipBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

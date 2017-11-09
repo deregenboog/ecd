@@ -10,8 +10,17 @@ _ga:
 _odp:
     resource: "@OdpBundle/Resources/config/routing.yml"
 
+_hs:
+    resource: "@HsBundle/Resources/config/routing.yml"
+
 _oek:
     resource: "@OekBundle/Resources/config/routing.yml"
 
 _dagbesteding:
     resource: "@DagbestedingBundle/Resources/config/routing.yml"
+
+_clip:
+    resource: "@ClipBundle/Resources/config/routing.yml"
+
+_inloop:
+    resource: "@InloopBundle/Resources/config/routing.yml"

@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 
 /**
- * @Route("/odp/huurverzoeken")
+ * @Route("/huurverzoeken")
  */
 class HuurverzoekenController extends SymfonyController
 {
@@ -97,7 +97,7 @@ class HuurverzoekenController extends SymfonyController
     }
 
     /**
-     * @Route("/odp/huurders/{id}/huurverzoeken/add")
+     * @Route("/huurders/{id}/huurverzoeken/add")
      */
     public function add($id)
     {

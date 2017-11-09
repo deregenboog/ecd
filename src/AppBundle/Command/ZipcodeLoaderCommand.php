@@ -12,6 +12,8 @@ use AppBundle\Entity\Stadsdeel;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Postcode;
 use Symfony\Component\Console\Input\InputOption;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Entity\GgwGebied;
 
 class ZipcodeLoaderCommand extends ContainerAwareCommand
 {
@@ -43,7 +45,26 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
-            $manager->persist(new Postcode($values[0], $values[1], $values[2]));
+            $stadsdeel = $manager->find(Werkgebied::class, $values[1]);
+            if ($values[1] && !$stadsdeel) {
+                $stadsdeel = new Werkgebied($values[1]);
+                $manager->persist($stadsdeel);
+                $manager->flush($stadsdeel);
+            }
+
+            $postcodegebied = $manager->find(GgwGebied::class, $values[2]);
+            if ($values[2] && !$postcodegebied) {
+                $postcodegebied = new GgwGebied($values[2]);
+                $manager->persist($postcodegebied);
+                $manager->flush($postcodegebied);
+            }
+
+            if ($stadsdeel && $postcodegebied) {
+                $manager->persist(new Postcode($values[0], $stadsdeel, $postcodegebied));
+            } elseif ($stadsdeel) {
+                $manager->persist(new Postcode($values[0], $stadsdeel));
+            }
+
             if (++$i % $batchSize === 0) {
                 $manager->flush();
             }

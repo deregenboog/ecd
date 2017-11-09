@@ -18,6 +18,7 @@ class Registratie
     use TimestampableTrait;
 
     /**
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
@@ -26,14 +27,14 @@ class Registratie
 
     /**
      * @var Locatie
-     * @ORM\ManyToOne(targetEntity="Locatie", inversedBy="registraties")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @var Klant
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="registraties")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
      * @Gedmo\Versioned
      */
     private $klant;

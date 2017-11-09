@@ -1,12 +1,15 @@
+{% if huurder is defined %}
+    {% set url = path('odp_documenten_add', {huurder: huurder.id}) %}
+    {% set entity = huurder %}
+{% elseif verhuurder is defined %}
+    {% set url = path('odp_documenten_add', {verhuurder: verhuurder.id}) %}
+    {% set entity = verhuurder %}
+{% elseif huurovereenkomst is defined %}
+    {% set url = path('odp_documenten_add', {huurovereenkomst: huurovereenkomst.id}) %}
+    {% set entity = huurovereenkomst %}
+{% endif %}
 <h2>Documenten</h2>
 <p>
-    {% if huurder is defined %}
-        {% set url = path('odp_documenten_add', {huurder: huurder.id}) %}
-    {% elseif verhuurder is defined %}
-        {% set url = path('odp_documenten_add', {verhuurder: verhuurder.id}) %}
-    {% elseif huurovereenkomst is defined %}
-        {% set url = path('odp_documenten_add', {huurovereenkomst: huurovereenkomst.id}) %}
-    {% endif %}
     {{ html.addLink(url) }}
     {{ html.link('Document toevoegen', url) }}
 </p>

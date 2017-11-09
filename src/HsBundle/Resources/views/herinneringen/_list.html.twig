@@ -1,0 +1,30 @@
+<h2>Betalingsherinneringen</h2>
+<p>
+    {% if factuur is defined %}
+        {% set entity = factuur %}
+        {% set url = path('hs_herinneringen_add', {factuur: entity.id}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Betalingsherinnering toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>Datum</th>
+        <th>Factuur</th>
+        <th>Type</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for herinnering in entity.herinneringen %}
+        <tr>
+            <td>{{ herinnering.datum|date('d-m-Y') }}</td>
+            <td>{{ herinnering.factuur }}</td>
+            <td>{{ herinnering.type }}</td>
+            <td>
+                {{ html.viewLink(path('hs_herinneringen_view', {id: herinnering.id, _format: 'pdf'})) }}
+                {{ html.link('PDF downloaden', path('hs_herinneringen_view', {id: herinnering.id, _format: 'pdf'})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

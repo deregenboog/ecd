@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Intake;
 use Doctrine\Common\Collections\ArrayCollection;
 use InloopBundle\Entity\Registratie;
+use InloopBundle\Entity\DossierStatus;
 
 /**
  * @ORM\Entity
@@ -45,6 +46,15 @@ class Klant extends Persoon
     private $laatsteIntake;
 
     /**
+     * @var DossierStatus
+     *
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $huidigeStatus;
+
+    /**
      * @var Registratie
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Registratie")
@@ -54,7 +64,7 @@ class Klant extends Persoon
     private $laatsteRegistratie;
 
     /**
-     * @ORM\Column(name="last_zrm", type="date")
+     * @ORM\Column(name="last_zrm", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $laatsteZrm;
@@ -113,15 +123,27 @@ class Klant extends Persoon
         return $this->laatsteIntake;
     }
 
-    public function getLaatsteRegistratie()
-    {
-        return $this->laatsteRegistratie;
-    }
-
     public function setLaatsteIntake(Intake $laatsteIntake)
     {
         $this->laatsteIntake = $laatsteIntake;
 
         return $this;
+    }
+
+    public function getHuidigeStatus()
+    {
+        return $this->huidigeStatus;
+    }
+
+    public function setHuidigeStatus(DossierStatus $huidigeStatus)
+    {
+        $this->huidigeStatus = $huidigeStatus;
+
+        return $this;
+    }
+
+    public function getLaatsteRegistratie()
+    {
+        return $this->laatsteRegistratie;
     }
 }

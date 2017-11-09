@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/wachtlijst")
+ * @Route("/wachtlijst")
  */
 class WachtlijstController extends SymfonyController
 {

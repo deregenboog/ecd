@@ -1,0 +1,46 @@
+<h2>Declaraties</h2>
+<p>
+    {% if klus is defined %}
+        {% set entity = klus %}
+        {% set url = path('hs_declaraties_add', {klus: entity.id}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Declaratie toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Code</th>
+            <th>Info</th>
+            <th>Bedrag</th>
+            <th>Foto</th>
+            <th>Factuur</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for declaratie in entity.declaraties %}
+            <tr>
+                <td>{{ declaratie.datum|date('d-m-Y') }}</td>
+                <td>{{ declaratie.declaratieCategorie }}</td>
+                <td>{{ declaratie.info }}</td>
+                <td>{{ declaratie.bedrag|money }}</td>
+                <td>
+                    {% if declaratie.document %}
+                        {{ html.viewLink(vich_uploader_asset(declaratie.document, 'file')) }}
+                        {{ html.link('Foto downloaden', vich_uploader_asset(declaratie.document, 'file')) }}
+                    {% endif %}
+                </td>
+                <td>{{ declaratie.factuur }}</td>
+                <td>
+                    {% if not declaratie.factuur %}
+                        {{ html.editLink(path('hs_declaraties_edit', {id: declaratie.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

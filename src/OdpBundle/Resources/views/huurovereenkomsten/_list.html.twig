@@ -1,65 +1,40 @@
-<h2>Koppelingen</h2>
-
 {% if huurder is defined %}
-    <table class="table">
-        <tr>
-            <th>Verhuurder</th>
-            <th>Startdatum</th>
-            <th>Opzegdatum</th>
-            <th>Einddatum</th>
-            <th>Afsluitdatum</th>
-            <th></th>
-        </tr>
-        {% for huurovereenkomst in huurder.huurovereenkomsten %}
-            <tr>
-                <td>{{ huurovereenkomst.verhuurder }}</td>
-                <td>
-                    {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% set entity = huurder %}
+    {% set entity_name = 'huurder' %}
 {% elseif verhuurder is defined %}
-    <table class="table">
-        <tr>
-            <th>Huurder</th>
-            <th>Startdatum</th>
-            <th>Opzegdatum</th>
-            <th>Einddatum</th>
-            <th>Afsluitdatum</th>
-            <th></th>
-        </tr>
-        {% for huurovereenkomst in verhuurder.huurovereenkomsten %}
-            <tr>
-                <td>{{ huurovereenkomst.huurder }}</td>
-                <td>
-                    {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% set entity = verhuurder %}
+    {% set entity_name = 'verhuurder' %}
 {% endif %}
+
+<h2>Koppelingen</h2>
+<table class="table">
+    <tr>
+        <th>{{ entity_name|capitalize }}</th>
+        <th>Startdatum</th>
+        <th>Opzegdatum</th>
+        <th>Einddatum</th>
+        <th>Afsluitdatum</th>
+        <th></th>
+    </tr>
+    {% for huurovereenkomst in entity.huurovereenkomsten %}
+        <tr>
+            <td>{{ entity }}</td>
+            <td>
+                {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
+                {{ huurovereenkomst.afsluiting ? '(' ~ huurovereenkomst.afsluiting ~ ')' }}
+            </td>
+            <td>
+                {{ html.viewlink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

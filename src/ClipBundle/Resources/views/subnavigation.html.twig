@@ -1,0 +1,26 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('clip_index') }}">Clip</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Openstaande vragen', path('clip_openstaandevragen_index'), isActiveRoute('clip_openstaandevragen_')) }}
+    {{ html.navLink('Alle vragen', path('clip_vragen_index'), isActiveRoute('clip_vragen_')) }}
+    {{ html.navLink('Cliënten', path('clip_clienten_index'), isActiveRoute('clip_clienten_')) }}
+    {{ html.navLink('Contactmomenten', path('clip_contactmomenten_index'), isActiveRoute('clip_contactmomenten_')) }}
+    {{ html.navLink('Rapportages', path('clip_rapportages_index'), isActiveRoute('clip_rapportages_')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('clip/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Communicatiekanalen', path('clip_communicatiekanalen_index'), isActiveRoute('clip_communicatiekanalen_')) }}
+            {{ html.navLink('Hoe bekend-opties', path('clip_viacategorieen_index'), isActiveRoute('clip_viacategorieen_')) }}
+            {{ html.navLink('Hulpvragers', path('clip_hulpvragers_index'), isActiveRoute('clip_hulpvragers_')) }}
+            {{ html.navLink('Leeftijdscategorieën', path('clip_leeftijdscategorieen_index'), isActiveRoute('clip_leeftijdscategorieen_')) }}
+            {{ html.navLink('Medewerkers', path('clip_behandelaars_index'), isActiveRoute('clip_behandelaars_')) }}
+            {{ html.navLink('Vraagsoorten', path('clip_vraagsoorten_index'), isActiveRoute('clip_vraagsoorten_')) }}
+        </ul>
+    </li>
+</ul>

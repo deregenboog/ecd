@@ -11,6 +11,9 @@ use AppBundle\Form\Model\AppDateRangeModel;
 
 class IzKlantFilter implements FilterInterface
 {
+    const ACTIEF_NU = 'nu';
+    const ACTIEF_OOIT = 'ooit';
+
     /**
      * @var AppDateRangeModel
      */
@@ -25,6 +28,11 @@ class IzKlantFilter implements FilterInterface
      * @var KlantFilter
      */
     public $klant;
+
+    /**
+     * @var string
+     */
+    public $actief;
 
     /**
      * @var IzProject
@@ -80,10 +88,23 @@ class IzKlantFilter implements FilterInterface
         }
 
         if ($this->izProject) {
-            $builder
-                ->andWhere('izHulpvraag.izProject = :izProject')
-                ->setParameter('izProject', $this->izProject)
-            ;
+            switch ($this->actief) {
+                case self::ACTIEF_OOIT:
+                    $builder
+                        ->andWhere('izHulpvraag.izProject = :izProject')
+                        ->setParameter('izProject', $this->izProject)
+                    ;
+                    break;
+                case self::ACTIEF_NU:
+                default:
+                    $builder
+                        ->andWhere('izHulpvraag.izProject = :izProject')
+                        ->andWhere('izHulpvraag.einddatum IS NULL')
+                        ->andWhere('izHulpvraag.koppelingEinddatum IS NULL')
+                        ->setParameter('izProject', $this->izProject)
+                    ;
+                    break;
+            }
         }
 
         if ($this->izIntakeMedewerker) {

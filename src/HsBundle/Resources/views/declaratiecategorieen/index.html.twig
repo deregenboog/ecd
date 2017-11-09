@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Declaratiecategorieën |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Declaratiecategorieën</h1>
+    <p>
+        {{ html.addLink(path('hs_declaratiecategorieen_add')) }}
+        {{ html.link('Declaratiecategorie toevoegen', path('hs_declaratiecategorieen_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'declaratiecategorie.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'declaratiecategorie.naam') }}
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for declaratiecategorie in pagination %}
+            <tr>
+                <td>
+                    {{ declaratiecategorie.id }}
+                </td>
+                <td>
+                    {{ declaratiecategorie.naam }}
+                </td>
+                <td>
+                    {{ html.editLink(path('hs_declaratiecategorieen_edit', {id: declaratiecategorie.id})) }}
+                    {% if declaratiecategorie.deletable %}
+                        {{ html.deleteLink(path('hs_declaratiecategorieen_delete', {id: declaratiecategorie.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

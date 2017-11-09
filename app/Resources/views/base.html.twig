@@ -25,9 +25,7 @@
 <body>
     {% include '::header.html.twig' %}
     <div class="container-fluid">
-        {% block subnavigation %}
-        {% endblock subnavigation %}
-
+        {% block subnavigation %}{% endblock subnavigation %}
         <div class="row">
             {% for type, flash_messages in app.session.flashBag.all %}
                 {% for flash_message in flash_messages %}
@@ -35,11 +33,22 @@
                 {% endfor %}
             {% endfor %}
         </div>
-
-        {% block content %}
-        {% endblock content %}
+        {% block content %}{% endblock content %}
     </div>
     {% include '::footer.html.twig' %}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript">
+        // change urls when activating other tab
+        $('.nav-tabs a').on('shown.bs.tab', function(event) {
+            window.history.replaceState({}, window.document.title, $(event.target).attr('href'));
+            $('a[href*="redirect="]').each(function(index, element) {
+                $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+encodeURIComponent(window.location.href)));
+            });
+        });
+        // navigate to active tab on document ready
+        $(function() {
+            $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show')
+        });
+    </script>
 </body>
 </html>

@@ -49,6 +49,10 @@
                 {{ form_errors(filter.einddatum.end) }}
             </th>
             <th>
+                {{ form_widget(filter.verhuurderKlant.plaats) }}
+                {{ form_errors(filter.verhuurderKlant.plaats) }}
+            </th>
+            <th>
                 {{ form_widget(filter.vorm) }}
                 {{ form_errors(filter.vorm) }}
             </th>
@@ -92,6 +96,9 @@
                 {{ knp_pagination_sortable(pagination, 'Einddatum', 'huurovereenkomst.einddatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Plaats', 'verhuurderKlant.plaats') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Vorm', 'huurovereenkomst.vorm') }}
             </th>
             <th>
@@ -125,6 +132,9 @@
                 </td>
                 <td>
                     {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.verhuurder.klant.plaats }}
                 </td>
                 <td>
                     {{ huurovereenkomst.vorm }}

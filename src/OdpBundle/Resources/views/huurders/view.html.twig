@@ -56,8 +56,24 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'OdpBundle:huurverzoeken:_list.html.twig' %}
-    {% include 'OdpBundle:huurovereenkomsten:_list.html.twig' %}
-    {% include 'OdpBundle:verslagen:_list.html.twig' with {entity: huurder} %}
-    {% include 'OdpBundle:documenten:_list.html.twig' with {entity: huurder} %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#huurverzoeken">Huurverzoeken</a></li>
+        <li><a data-toggle="tab" href="#huurovereenkomsten">Koppelingen</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="huurverzoeken" class="tab-pane active">
+            {% include 'OdpBundle:huurverzoeken:_list.html.twig' %}
+        </div>
+        <div id="huurovereenkomsten" class="tab-pane">
+            {% include 'OdpBundle:huurovereenkomsten:_list.html.twig' %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurder: huurder} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'OdpBundle:documenten:_list.html.twig' with {huurder: huurder} %}
+        </div>
+    </div>
 {% endblock %}

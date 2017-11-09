@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/trainingen")
+ * @Route("/trainingen")
  */
 class TrainingenController extends SymfonyController
 {

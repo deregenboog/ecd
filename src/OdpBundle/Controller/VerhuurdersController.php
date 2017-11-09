@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
 /**
- * @Route("/odp/verhuurders")
+ * @Route("/verhuurders")
  */
 class VerhuurdersController extends SymfonyController
 {
@@ -31,6 +31,7 @@ class VerhuurdersController extends SymfonyController
         'verhuurder.aanmelddatum',
         'verhuurder.afsluitdatum',
         'verhuurder.wpi',
+        'verhuurder.ksgw',
     ];
 
     /**

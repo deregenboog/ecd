@@ -70,10 +70,11 @@ class IzDeelnemerSelectieType extends AbstractType
                 'choices' => [
                     'Excel-lijst' => 'excel',
                     'E-mail' => 'email',
-                    'Etiketten' => 'etiketten',
                 ],
                 'data' => 'excel',
             ])
+            ->remove('filter')
+            ->remove('download')
         ;
     }
 

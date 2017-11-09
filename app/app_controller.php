@@ -123,8 +123,6 @@ class AppController extends Controller implements ContainerAwareInterface
             'GroepsactiviteitenRapportages',
             'GroepsactiviteitenAfsluitingen',
         ],
-        'odp' => [],
-        'oek' => [],
         'Admin' => [
             'Admin',
             'ZrmSettings',

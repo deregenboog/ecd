@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use DagbestedingBundle\Exception\DagbestedingException;
+use AppBundle\Exception\AppException;
 
 class AbstractChildController extends AbstractController
 {
@@ -19,10 +19,19 @@ class AbstractChildController extends AbstractController
     protected $addMethod;
 
     /**
+     * @var bool
+     */
+    protected $allowEmpty = false;
+
+    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
     {
+        if (!$this->addMethod) {
+            throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
+        }
+
         list($parentEntity, $parentDao) = $this->getParentConfig($request);
         $entity = new $this->entityClass();
 
@@ -31,29 +40,47 @@ class AbstractChildController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $parentEntity->{$this->addMethod}($entity);
-                $parentDao->update($parentEntity);
-                $this->addFlash('success', $this->entityName.' is toegevoegd.');
+                if (!$parentEntity && $this->allowEmpty) {
+                    $this->dao->create($entity);
+                } else {
+                    $parentEntity->{$this->addMethod}($entity);
+                    $parentDao->update($parentEntity);
+                }
+                $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }
 
-            return $this->redirectToView($parentEntity);
+            if ($parentEntity) {
+                return $this->redirectToView($parentEntity);
+            }
+
+            return $this->redirectToView($entity);
         }
 
         return [
             'entity' => $entity,
+            'parent_entity' => $parentEntity,
             'form' => $form->createView(),
         ];
     }
 
     protected function getParentConfig(Request $request)
     {
+        if (!$this->entities) {
+            throw new AppException(sprintf('No entities are configured for controller %s', get_class($this)));
+        }
+
         foreach ($this->entities as $entity) {
+            if (is_null($entity['key'])) {
+                $this->allowEmpty = true;
+                continue;
+            }
             if ($request->query->has($entity['key'])) {
                 return [
                     $entity['dao']->find($request->query->get($entity['key'])),
@@ -62,6 +89,8 @@ class AbstractChildController extends AbstractController
             }
         }
 
-        throw new DagbestedingException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+        if (!$this->allowEmpty) {
+            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+        }
     }
 }

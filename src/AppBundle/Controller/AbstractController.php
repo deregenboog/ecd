@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Exception\AppException;
 
 class AbstractController extends SymfonyController
 {
@@ -70,8 +71,11 @@ class AbstractController extends SymfonyController
 
     protected function download(FilterInterface $filter)
     {
+        if (!$this->export) {
+            throw new AppException(get_class($this).'::export not set!');
+        }
+
         ini_set('memory_limit', '512M');
-        $this->autoRender = false;
 
         $filename = $this->getDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
@@ -131,7 +135,7 @@ class AbstractController extends SymfonyController
                 } else {
                     $this->dao->create($entity);
                 }
-                $this->addFlash('success', $this->entityName.' is opgeslagen.');
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Er is een fout opgetreden.');
             }
@@ -162,7 +166,7 @@ class AbstractController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 $this->dao->delete($entity);
-                $this->addFlash('success', $this->entityName.' is verwijderd.');
+                $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
                 if ($url = $request->get('redirect')) {
                     return $this->redirect($url);
@@ -192,7 +196,7 @@ class AbstractController extends SymfonyController
     protected function redirectToIndex()
     {
         if (!$this->baseRouteName) {
-            throw new \RuntimeException(get_class($this).'::baseRouteName not set!');
+            throw new AppException(get_class($this).'::baseRouteName not set!');
         }
 
         return $this->redirectToRoute($this->baseRouteName.'index');
@@ -201,7 +205,7 @@ class AbstractController extends SymfonyController
     protected function redirectToView($entity)
     {
         if (!$this->baseRouteName) {
-            throw new \RuntimeException(get_class($this).'::baseRouteName not set!');
+            throw new AppException(get_class($this).'::baseRouteName not set!');
         }
 
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);

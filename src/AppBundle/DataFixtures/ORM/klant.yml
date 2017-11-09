@@ -14,7 +14,7 @@ AppBundle\Entity\Klant:
         laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
 #        addIntake: ['@intake_<current()>']
-#        laatsteRegistratieId: 1
+#        laatsteRegistratie: '@registratie_*'
         overleden: '10%? 1 : 0'
         disabled: '10%? 1 : 0'
         werkgebied: 'Centrum'

@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use AppBundle\Filter\FilterInterface;
 
@@ -37,6 +38,10 @@ class AbstractDao
 
     public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
+        if (!$this->class) {
+            throw new \RuntimeException('Class must be set');
+        }
+
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository($this->class);
         $this->paginator = $paginator;
@@ -45,8 +50,17 @@ class AbstractDao
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
+        if (!$this->alias) {
+            throw new \RuntimeException('Alias must be set');
+        }
+
         $builder = $this->repository->createQueryBuilder($this->alias);
 
+        return $this->doFindAll($builder, $page, $filter);
+    }
+
+    protected function doFindAll(QueryBuilder $builder, $page = 1, FilterInterface $filter = null)
+    {
         if ($filter) {
             $filter->applyTo($builder);
         }

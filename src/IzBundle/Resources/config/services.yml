@@ -17,17 +17,27 @@ services:
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
+    iz.dao.doelstelling:
+        parent: app.dao.abstract
+        class: IzBundle\Service\DoelstellingDao
+
     iz.dao.klant:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: IzBundle\Service\KlantDao
 
     iz.dao.vrijwilliger:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: IzBundle\Service\VrijwilligerDao
 
     iz.dao.koppeling:
         parent: odp.dao
         class: IzBundle\Service\KoppelingDao
+
+    iz.repository.doelstelling:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - IzBundle\Entity\Doelstelling
 
     iz.repository.iz_hulpvraag:
         class: Doctrine\ORM\EntityRepository
@@ -40,6 +50,12 @@ services:
         factory: ["@doctrine", getRepository]
         arguments:
             - IzBundle\Entity\IzKlant
+
+    iz.repository.iz_project:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - IzBundle\Entity\IzProject
 
     iz.repository.iz_vrijwilliger:
         class: Doctrine\ORM\EntityRepository
@@ -56,6 +72,8 @@ services:
         class: IzBundle\Report\Managementrapportage
         arguments:
             - "@iz.repository.iz_hulpvraag"
+            - "@iz.repository.doelstelling"
+            - "@iz.repository.iz_project"
         tags:
             - { name: iz.rapportage, category: Management }
 

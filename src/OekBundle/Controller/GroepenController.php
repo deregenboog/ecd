@@ -10,7 +10,7 @@ use AppBundle\Form\ConfirmationType;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/oek/groepen")
+ * @Route("/groepen")
  */
 class GroepenController extends SymfonyController
 {

@@ -1,5 +1,7 @@
 <?php
 
+use InloopBundle\Entity\Aanmelding;
+
 class RegistratiesController extends AppController
 {
     public $name = 'Registraties';
@@ -85,9 +87,20 @@ class RegistratiesController extends AppController
                     'Klant.overleden' => null,
                 ],
             ];
+
             $this->log($conditions, 'registratie');
 
             $this->paginate['Klant'] = [
+                'joins' => [
+                    [
+                        'table' => 'inloop_dossier_statussen',
+                        'type' => 'INNER',
+                        'conditions' => [
+                            'inloop_dossier_statussen.id = Klant.huidigeStatus_id',
+                            'inloop_dossier_statussen.class' => 'Aanmelding',
+                        ],
+                    ],
+                ],
                 'contain' => [
                     'Geslacht' => [
                         'fields' => [
@@ -114,9 +127,7 @@ class RegistratiesController extends AppController
             $this->Klant->recursive = -1;
 
             $klanten = $this->paginate('Klant');
-
             $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
-
             $klanten = $this->Klant->completeVirtualFields($klanten);
 
             $this->Klant->Schorsing->get_schorsing_messages($klanten, $locatie_id);

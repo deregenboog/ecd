@@ -5,6 +5,7 @@ namespace AppBundle\Filter;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Entity\Geslacht;
 
 class KlantFilter implements FilterInterface
 {
@@ -29,6 +30,11 @@ class KlantFilter implements FilterInterface
     public $achternaam;
 
     /**
+     * @var Geslacht
+     */
+    public $geslacht;
+
+    /**
      * @var string
      */
     public $bsn;
@@ -47,6 +53,11 @@ class KlantFilter implements FilterInterface
      * @var string
      */
     public $stadsdeel;
+
+    /**
+     * @var string
+     */
+    public $plaats;
 
     public function applyTo(QueryBuilder $builder, $alias = 'klant')
     {
@@ -87,9 +98,16 @@ class KlantFilter implements FilterInterface
             }
         }
 
+        if ($this->geslacht) {
+            $builder
+                ->andWhere("{$alias}.geslacht = :{$alias}_geslacht")
+                ->setParameter("{$alias}_geslacht", $this->geslacht)
+            ;
+        }
+
         if ($this->bsn) {
             $builder
-                ->andWhere("{$alias}.bsn= :{$alias}_bsn")
+                ->andWhere("{$alias}.bsn = :{$alias}_bsn")
                 ->setParameter("{$alias}_bsn", $this->bsn)
             ;
         }
@@ -125,6 +143,13 @@ class KlantFilter implements FilterInterface
                     ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
                 ;
             }
+        }
+
+        if ($this->plaats) {
+            $builder
+                ->andWhere("{$alias}.plaats LIKE :{$alias}_plaats")
+                ->setParameter("{$alias}_plaats", "%{$this->plaats}%")
+            ;
         }
     }
 }

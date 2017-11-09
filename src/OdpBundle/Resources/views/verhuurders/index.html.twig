@@ -32,6 +32,10 @@
                     {{ form_errors(filter.wpi) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.ksgw) }}
+                    {{ form_errors(filter.ksgw) }}
+                </th>
+                <th>
                     {{ form_widget(filter.klant.stadsdeel) }}
                     {{ form_errors(filter.klant.stadsdeel) }}
                 </th>
@@ -60,6 +64,9 @@
                 {{ knp_pagination_sortable(pagination, 'WPI', 'verhuurder.wpi') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'KSGW', 'verhuurder.ksgw') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
             </th>
                 <th>
@@ -84,6 +91,9 @@
                 </td>
                 <td>
                     {{ verhuurder.wpi ? 'Ja' : 'Nee' }}
+                </td>
+                <td>
+                    {{ verhuurder.ksgw ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
                     {{ verhuurder.klant.werkgebied }}

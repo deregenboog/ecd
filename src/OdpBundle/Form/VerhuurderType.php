@@ -40,6 +40,7 @@ class VerhuurderType extends AbstractType
             ->add('woningbouwcorporatieToelichting', null, ['label' => 'Woningbouwcorporatie anders/toelichting'])
             ->add('klantmanager')
             ->add('wpi')
+            ->add('ksgw')
         ;
 
         if (!$options['data']->getId()) {

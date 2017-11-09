@@ -18,6 +18,7 @@ use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
 use IzBundle\Entity\IzIntake;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IzKlantFilterType extends AbstractType
 {
@@ -43,6 +44,16 @@ class IzKlantFilterType extends AbstractType
         if (key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
+            ]);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', ChoiceType::class, [
+                'required' => true,
+                'choices' => [
+                    'Nu actief bij' => IzKlantFilter::ACTIEF_NU,
+                    'Ooit actief bij' => IzKlantFilter::ACTIEF_OOIT,
+                ],
             ]);
         }
 
@@ -124,6 +135,7 @@ class IzKlantFilterType extends AbstractType
                 'afsluitDatum',
                 'openDossiers',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'actief',
                 'izProject',
                 'izIntakeMedewerker',
                 'izHulpvraagMedewerker',

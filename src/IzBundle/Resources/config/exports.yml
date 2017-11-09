@@ -26,6 +26,7 @@ services:
                 Openstaande hulpvragen: { expression: 'export.getProjectenOpenstaandeHulpvragen(entity)' }
                 Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
+                Laatste afsluiting koppeling: { expression: 'export.getDatumLaatsteAfgeslotenKoppeling(entity)', type: 'date' }
                 Medewerker intake: { expression: 'entity.getIzIntake().getMedewerker()', condition: 'entity.getIzIntake()' }
                 Medewerker(s) hulpvraag: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
@@ -58,6 +59,7 @@ services:
                 Openstaande hulpaanbiedingen: { expression: 'export.getProjectenOpenstaandeHulpaanbiedingen(entity)' }
                 Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
+                Laatste afsluiting koppeling: { expression: 'export.getDatumLaatsteAfgeslotenKoppeling(entity)', type: 'date' }
                 Medewerker intake: { expression: 'entity.getIzIntake().getMedewerker()', condition: 'entity.getIzIntake()' }
                 Medewerker(s) hulpaanbod: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }

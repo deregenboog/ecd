@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Filter\KlantFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Geslacht;
 
 class KlantFilterType extends AbstractType
 {
@@ -44,6 +46,13 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('geslacht', $options['enabled_filters'])) {
+            $builder->add('geslacht', EntityType::class, [
+                'class' => Geslacht::class,
+                'required' => false,
+            ]);
+        }
+
         if (in_array('bsn', $options['enabled_filters'])) {
             $builder->add('bsn', null, [
                 'required' => false,
@@ -65,6 +74,10 @@ class KlantFilterType extends AbstractType
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
             $builder->add('stadsdeel', StadsdeelFilterType::class);
+        }
+
+        if (in_array('plaats', $options['enabled_filters'])) {
+            $builder->add('plaats');
         }
 
         $builder->add('filter', SubmitType::class);
