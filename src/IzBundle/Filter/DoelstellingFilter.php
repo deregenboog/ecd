@@ -23,14 +23,14 @@ class DoelstellingFilter implements FilterInterface
     public $project;
 
     /**
+     * @var string
+     */
+    public $categorie;
+
+    /**
      * @var Werkgebied
      */
     public $stadsdeel;
-
-    /**
-     * @var bool
-     */
-    public $centraleStad;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -48,10 +48,15 @@ class DoelstellingFilter implements FilterInterface
             ;
         }
 
-        if ($this->centraleStad) {
-            $builder
-                ->andWhere('doelstelling.stadsdeel is null')
-            ;
+        if ($this->categorie) {
+            if ('-' === $this->categorie) {
+                $builder->andWhere('doelstelling.categorie IS NULL');
+            } else {
+                $builder
+                    ->andWhere('doelstelling.categorie = :categorie')
+                    ->setParameter('categorie', $this->categorie)
+                ;
+            }
         }
 
         if ($this->stadsdeel) {

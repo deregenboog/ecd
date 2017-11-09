@@ -31,7 +31,15 @@ class DoelstellingType extends AbstractType
                 'choices' => array_combine($range, $range),
             ])
             ->add('project', IzProjectType::class, ['placeholder' => 'Selecteer een project'])
-            ->add('stadsdeel', null, ['placeholder' => 'Centrale stad'])
+            ->add('categorie', ChoiceType::class, [
+                'required' => false,
+                'placeholder' => 'Stadsdeel',
+                'choices' => [
+                    'Centrale stad' => Doelstelling::CATEGORIE_CENTRALE_STAD,
+                    'Fondsen' => Doelstelling::CATEGORIE_FONDSEN,
+                ],
+            ])
+            ->add('stadsdeel')
             ->add('aantal')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

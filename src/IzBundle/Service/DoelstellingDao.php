@@ -15,6 +15,7 @@ class DoelstellingDao extends AbstractDao implements DoelstellingDaoInterface
         'sortFieldWhitelist' => [
             'doelstelling.jaar',
             'project.naam',
+            'doelstelling.categorie',
             'stadsdeel.naam',
             'doelstelling.aantal',
         ],

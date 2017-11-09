@@ -28,8 +28,8 @@
                     {{ form_errors(filter.project) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.centraleStad) }}
-                    {{ form_errors(filter.centraleStad) }}
+                    {{ form_widget(filter.categorie) }}
+                    {{ form_errors(filter.categorie) }}
                 </th>
                 <th>
                     {{ form_widget(filter.stadsdeel) }}
@@ -50,7 +50,7 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Centrale stad', 'stadsdeel.naam') }}
+                    {{ knp_pagination_sortable(pagination, 'Categorie', 'doelstelling.categorie') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'stadsdeel.naam') }}
@@ -71,7 +71,7 @@
                     {{ doelstelling.project }}
                 </td>
                 <td>
-                    {{ doelstelling.stadsdeel ? 'Nee' : 'Ja' }}
+                    {{ doelstelling.categorie ?: 'Stadsdeel' }}
                 </td>
                 <td>
                     {{ doelstelling.stadsdeel }}

@@ -39,8 +39,13 @@ class DoelstellingFilterType extends AbstractType
             ->add('project', IzProjectType::class, [
                 'required' => false,
             ])
-            ->add('centraleStad', CheckboxType::class, [
+            ->add('categorie', ChoiceType::class, [
                 'required' => false,
+                'choices' => [
+                    'Stadsdeel' => '-',
+                    'Centrale stad' => Doelstelling::CATEGORIE_CENTRALE_STAD,
+                    'Fondsen' => Doelstelling::CATEGORIE_FONDSEN,
+                ],
             ])
             ->add('stadsdeel', EntityType::class, [
                 'class' => Werkgebied::class,

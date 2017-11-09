@@ -11,6 +11,7 @@ use AppBundle\Entity\Postcode;
 use Doctrine\ORM\AbstractQuery;
 use AppBundle\Exception\ReportException;
 use IzBundle\Repository\IzProjectRepository;
+use IzBundle\Entity\Doelstelling;
 
 class Managementrapportage extends AbstractReport
 {
@@ -67,6 +68,7 @@ class Managementrapportage extends AbstractReport
         $this->initTotal();
         $this->initStadsdelen();
         $this->initTeams();
+        $this->initFondsen();
         foreach ($this->queue as $data) {
             $this->data = array_merge($this->data, $data);
         }
@@ -190,12 +192,12 @@ class Managementrapportage extends AbstractReport
             }
         }
 
-        // cijfers centrale stad verdelen over teams
+        // cijfers zonder stadsdeel verdelen over teams
         $doelstellingen = $this->doelstellingRepository->countByJaarWithoutStadsdeel($this->startDate->format('Y'));
         foreach ($doelstellingen as &$doelstelling) {
             $remainingTeams = count($this->teams);
             foreach (array_keys($this->teams) as $team) {
-                $amount = ceil($doelstelling['aantal'] / $remainingTeams);
+                $amount = round($doelstelling['aantal'] / $remainingTeams);
                 $doelstelling['aantal'] -= $amount;
                 $teamData[$team][] = [
                     'project' => $doelstelling['project'],
@@ -212,6 +214,49 @@ class Managementrapportage extends AbstractReport
                 50
             );
         }
+    }
+
+    private function initFondsen()
+    {
+        $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
+        array_walk($beginstand, function(&$item) {
+            $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
+        });
+
+        $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
+        array_walk($gestart, function(&$item) {
+            $item['kolom'] = 'Gestart';
+        });
+
+        $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
+        array_walk($eindstand, function(&$item) {
+            $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
+        });
+
+        $prestaties = $gestart;
+        foreach ($this->projecten as $project) {
+            if ($project->getPrestatieStrategy() === IzProject::STRATEGY_PRESTATIE_TOTAL) {
+                $prestaties = array_merge($prestaties, array_filter($beginstand, function($row) use ($project) {
+                    return $row['project'] === $project->getNaam();
+                }));
+            }
+        }
+        array_walk($prestaties, function(&$item) {
+            $item['kolom'] = 'Prestatie';
+        });
+
+        $doelstellingen = $this->doelstellingRepository->countByJaarAndProjectAndCategorie($this->startDate->format('Y'));
+        $doelstellingen = array_filter($doelstellingen, function($doelstelling) {
+            return $doelstelling['categorie'] === Doelstelling::CATEGORIE_FONDSEN;
+        });
+        array_walk($doelstellingen, function(&$item) {
+            $item['kolom'] = 'Doelstelling';
+        });
+
+        $this->queue->insert(
+            ['Fondsen' => array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen)],
+            0
+        );
     }
 
     protected function build()
