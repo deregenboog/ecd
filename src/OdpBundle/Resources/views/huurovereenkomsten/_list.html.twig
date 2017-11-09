@@ -18,7 +18,7 @@
     </tr>
     {% for huurovereenkomst in entity.huurovereenkomsten %}
         <tr>
-            <td>{{ entity }}</td>
+            <td>{{ entity_name == 'huurder' ? huurovereenkomst.verhuurder : huurovereenkomst.huurder }}</td>
             <td>
                 {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
             </td>
