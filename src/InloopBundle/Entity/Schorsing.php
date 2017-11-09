@@ -5,7 +5,7 @@ namespace InloopBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
  * @ORM\Table(name="schorsingen")
  */
 class Schorsing
@@ -113,7 +113,7 @@ class Schorsing
 
     /**
      * @ORM\ManyToMany(targetEntity="Locatie")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinTable(name="schorsing_locatie")
      */
     private $locaties;
 

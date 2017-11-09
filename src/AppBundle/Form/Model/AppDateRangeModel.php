@@ -18,6 +18,7 @@ class AppDateRangeModel
     {
         $this->start = $start;
         $this->end = $end;
+        $this->validate();
     }
 
     public function hasData()

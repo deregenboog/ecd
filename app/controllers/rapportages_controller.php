@@ -3,6 +3,9 @@
 use AppBundle\Entity\Klant;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\Schorsing;
+use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Entity\Geslacht;
 
 class RapportagesController extends AppController
 {
@@ -62,7 +65,7 @@ class RapportagesController extends AppController
 
         // Set extra constraints if user has given a date-range
         $con = [];
-        $consusp = [];
+        $suspensionConditions = [];
         $date_from = null;
         $date_to = null;
         $count = null;
@@ -80,7 +83,7 @@ class RapportagesController extends AppController
                 'binnen >=' => $date_from,
                 'binnen <' => $this->_add_day($date_to),
             ];
-            $consusp = ['Schorsing.datum_van >=' => $date_from,
+            $suspensionConditions = ['Schorsing.datum_van >=' => $date_from,
                 'Schorsing.datum_van <=' => $date_to, ];
 
             //$klant = $this->Klant->find('first', array('conditions' => array('Klant.id' => $id), 'contain' => 'Klant'));
@@ -90,7 +93,7 @@ class RapportagesController extends AppController
             $count['clothes'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'kleding' => 1])]);
             $count['meals'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'maaltijd' => 1])]);
             $count['activation'] = $this->Registratie->find('count', ['conditions' => array_merge($con, ['klant_id' => $id, 'activering' => 1])]);
-            $count['suspension'] = $this->Schorsing->find('count', ['conditions' => array_merge($consusp, ['klant_id' => $id])]);
+            $count['suspension'] = $this->Schorsing->find('count', ['conditions' => array_merge($suspensionConditions, ['klant_id' => $id])]);
             $lastRegistration = $this->Registratie->find('first', [
                         'conditions' => array_merge($con, ['klant_id' => $id]),
                         'fields' => ['max(binnen) as max'],
@@ -401,7 +404,7 @@ class RapportagesController extends AppController
     {
         // Gather data for a location specific report
         $con = [];
-        $consusp = [];
+        $suspensionConditions = [];
 
         // Set extra constraints if user has given a location and/or date-range
         $date_from = null;
@@ -420,7 +423,7 @@ class RapportagesController extends AppController
                 'binnen >=' => $date_from,
                 'binnen <' => $this->_add_day($date_to),
             ];
-            $consusp = [
+            $suspensionConditions = [
                 'Schorsing.datum_van >=' => $date_from,
                 //this is a date field so it doesn't have to be incremented by
                 //one day as it has no time and <= operator will return the
@@ -469,7 +472,7 @@ class RapportagesController extends AppController
         if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
             $locatie_id = $this->data['options']['location'];
             $con = array_merge($con, ['locatie_id' => $locatie_id]);
-            $consusp = array_merge($consusp, ['locatie_id' => $locatie_id]);
+            $suspensionConditions = array_merge($suspensionConditions, ['locatie_id' => $locatie_id]);
             $klant_cond['OR'] = [
                 'LasteIntake.locatie1_id' => $locatie_id,
                 'LasteIntake.locatie2_id' => $locatie_id,
@@ -484,7 +487,7 @@ class RapportagesController extends AppController
 
         if ($this->data) {
             $con = array_merge($con, $geslacht_cond);
-            $consusp = array_merge($consusp, $geslacht_cond);
+            $suspensionConditions = array_merge($suspensionConditions, $geslacht_cond);
             $intake_cond = $intake_cond + $geslacht_cond;
 
             // We now change the report and use the temporary table
@@ -507,7 +510,27 @@ class RapportagesController extends AppController
             $count['meals'] = $r[0][0]['maaltijd'];
             $count['activation'] = $r[0][0]['activering'];
 
-            $count['suspensions'] = $this->Schorsing->find('count', ['conditions' => array_merge($consusp)]);
+            $schorsingRepository = $this->getEntityManager()->getRepository(Schorsing::class);
+            $builder = $schorsingRepository->createQueryBuilder('schorsing')->select('count(schorsing.id)');
+            if (isset($suspensionConditions['Schorsing.datum_van >='])
+                || isset($suspensionConditions['Schorsing.datum_van <='])
+            ) {
+                $dateRange = new AppDateRangeModel(
+                    $suspensionConditions['Schorsing.datum_van >='] ? new \DateTime($suspensionConditions['Schorsing.datum_van >=']) : null,
+                    $suspensionConditions['Schorsing.datum_van <='] ? new \DateTime($suspensionConditions['Schorsing.datum_van <=']) : null
+                );
+                $schorsingRepository->filterByDateRange($builder, $dateRange);
+            }
+            if (isset($suspensionConditions['locatie_id'])) {
+                $locatie = $this->getEntityManager()->find(Locatie::class, $locatie_id);
+                $schorsingRepository->filterByLocatie($builder, $locatie);
+            }
+            if (isset($suspensionConditions['Klant.geslacht_id'])) {
+                $geslacht = $this->getEntityManager()->find(Geslacht::class, $suspensionConditions['Klant.geslacht_id']);
+                $schorsingRepository->filterByGeslacht($builder, $geslacht);
+            }
+            $count['suspensions'] = $builder->getQuery()->getSingleScalarResult();
+
             $count['intakes'] = $this->Klant->Intake->find('count', ['conditions' => $intake_cond]);
 
             $q = 'select count(distinct klant_id) as cnt from tmp_registrations ';
