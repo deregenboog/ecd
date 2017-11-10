@@ -44,6 +44,7 @@
 
 # Custom tools
 /bin/*
+!/bin/bump-version
 !/bin/console
 !/bin/docker-build.sh
 !/bin/docker-up.sh
