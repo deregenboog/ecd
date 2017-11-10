@@ -280,6 +280,16 @@ class Managementrapportage extends AbstractReport
                 }
             }
 
+            // don't show rows without target
+            $data = array_filter($data, function($row) {
+                return $row['Doelstelling'] > 0;
+            });
+
+            // don't show empty tables
+            if (0 === count($data)) {
+                continue;
+            }
+
             $this->reports[] = [
                 'title' => $title,
                 'xDescription' => $this->xDescription,
