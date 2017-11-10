@@ -9,3 +9,8 @@ services:
     inloop.dao.klant:
         parent: inloop.dao
         class: InloopBundle\Service\KlantDao
+
+    inloop.dao.schorsing:
+        parent: inloop.dao
+        class: InloopBundle\Service\SchorsingDao
+        

@@ -13,7 +13,6 @@ use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\RedenAfsluiting;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use InloopBundle\Repository\DossierStatusRepository;
 
 class AutoCloseCommand extends ContainerAwareCommand
 {

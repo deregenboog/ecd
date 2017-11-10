@@ -3,9 +3,7 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Deelnemer;
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Klant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface

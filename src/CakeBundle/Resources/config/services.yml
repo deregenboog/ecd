@@ -78,6 +78,7 @@ parameters:
         ACL.permissions:
             GROUP_REPORT:
                 - Rapportages
+                - InloopBundle\Controller\Schorsingen
             GROUP_PORTIER:
                 - Registraties
                 - Opmerkingen
@@ -104,6 +105,7 @@ parameters:
                 - Attachments
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Schorsingen
             GROUP_HI5:
                 - Intakes
                 - Klanten
@@ -164,6 +166,7 @@ parameters:
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
+                - InloopBundle\Controller\Schorsingen
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
@@ -480,6 +483,7 @@ parameters:
                 - DagbestedingBundle\Controller\Verslagen
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Schorsingen
                 - clip
                 - ClipBundle\Controller\Behandelaars
                 - ClipBundle\Controller\Clienten

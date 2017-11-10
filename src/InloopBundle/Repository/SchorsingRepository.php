@@ -3,7 +3,6 @@
 namespace InloopBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use InloopBundle\Entity\Aanmelding;
 use AppBundle\Entity\Klant;
 use InloopBundle\Entity\Locatie;
 use AppBundle\Form\Model\AppDateRangeModel;
