@@ -266,7 +266,7 @@ class Managementrapportage extends AbstractReport
                 if (!isset($row['Doelstelling'])) {
                     $row['Doelstelling'] = 0;
                 }
-                if (0 === $row['Doelstelling']) {
+                if (0 == $row['Doelstelling']) {
                     $row['Behaald percentage'] = 0;
                 } else {
                     $row['Behaald percentage'] = 100 * round($row['Prestatie'] / $row['Doelstelling'], 2);
