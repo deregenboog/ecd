@@ -17,6 +17,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
             'factuur.bedrag',
             'klant.achternaam',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Factuur::class;

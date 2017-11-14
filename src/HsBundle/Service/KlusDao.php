@@ -81,9 +81,10 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
-            ->select('COUNT(klus.id) AS aantal, klant.werkgebied AS stadsdeel')
+            ->select('COUNT(klus.id) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klus.klant', 'klant')
-            ->groupBy('klant.werkgebied')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('werkgebied.naam')
         ;
 
         if ($start) {

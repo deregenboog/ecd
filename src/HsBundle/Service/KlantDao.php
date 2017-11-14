@@ -18,6 +18,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.id',
             'klant.voornaam',
             'klant.achternaam',
+            'klant.saldo',
             'werkgebied.naam',
         ],
     ];
