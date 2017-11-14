@@ -108,10 +108,8 @@ class Managementrapportage extends AbstractReport
             $item['kolom'] = 'Doelstelling';
         });
 
-        $this->queue->insert(
-            ['Totaal' => array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen)],
-            100
-        );
+        $data = array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen);
+        $this->queue->insert(['Totaal' => $data], 100);
     }
 
     private function initStadsdelen()
@@ -209,10 +207,7 @@ class Managementrapportage extends AbstractReport
         }
 
         foreach ($teamData as $key => $data) {
-            $this->queue->insert(
-                [$key => $data],
-                50
-            );
+            $this->queue->insert([$key => $data], 50);
         }
     }
 
@@ -253,10 +248,8 @@ class Managementrapportage extends AbstractReport
             $item['kolom'] = 'Doelstelling';
         });
 
-        $this->queue->insert(
-            ['Fondsen' => array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen)],
-            0
-        );
+        $data = array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen);
+        $this->queue->insert(['Fondsen' => $data], 0);
     }
 
     protected function build()
@@ -280,14 +273,11 @@ class Managementrapportage extends AbstractReport
                 }
             }
 
-            // don't show rows without target
-            $data = array_filter($data, function($row) {
-                return $row['Doelstelling'] > 0;
-            });
-
-            // don't show empty tables
-            if (0 === count($data)) {
-                continue;
+            if ('Fondsen' === $title) {
+                // don't show rows without target
+                $data = array_filter($data, function($row) {
+                    return $row['Doelstelling'] > 0;
+                });
             }
 
             $this->reports[] = [
