@@ -22,6 +22,12 @@
         {% else %}
             {{ html.addLink(path('odp_huurders_reopen', {id: huurder.id})) }}
             {{ html.link('Heropenen', path('odp_huurders_reopen', {id: huurder.id})) }}
+            <dl class="dl-horizontal" style="color: red;">
+                <dt>Afsluitdatum dossier</dt>
+                <dd>{{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}</dd>
+                <dt>Reden afsluiting</dt>
+                <dd>{{ huurder.afsluiting }}</dd>
+            </dl>
         {% endif %}
         {% if huurder.deletable %}
             {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}
@@ -39,12 +45,6 @@
         <dd>{{ huurder.rekeningnummer }}</dd>
         <dt>Automatische incasso</dt>
         <dd>{{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Afsluitdatum dossier</dt>
-        <dd>{{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}</dd>
-        <dt>Reden afsluiting</dt>
-        <dd>{{ huurder.afsluiting }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Klantmanager</dt>

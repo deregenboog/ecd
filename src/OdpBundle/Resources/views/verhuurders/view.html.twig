@@ -22,6 +22,12 @@
         {% else %}
             {{ html.addLink(path('odp_verhuurders_reopen', {id: verhuurder.id})) }}
             {{ html.link('Heropenen', path('odp_verhuurders_reopen', {id: verhuurder.id})) }}
+            <dl class="dl-horizontal" style="color: red;">
+                <dt>Afsluitdatum dossier</dt>
+                <dd>{{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}</dd>
+                <dt>Reden afsluiting</dt>
+                <dd>{{ verhuurder.afsluiting ? verhuurder.afsluiting }}</dd>
+            </dl>
         {% endif %}
         {% if verhuurder.deletable %}
             {{ html.deleteLink(path('odp_verhuurders_delete', {'id': verhuurder.id})) }}
@@ -37,10 +43,6 @@
         <dd>{{ verhuurder.aanmelddatum|date('d-m-Y') }}</dd>
         <dt>Rekeningnummer</dt>
         <dd>{{ verhuurder.rekeningnummer }}</dd>
-        <dt>Afsluitdatum dossier</dt>
-        <dd>{{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}</dd>
-        <dt>Reden afsluiting</dt>
-        <dd>{{ verhuurder.afsluiting ? verhuurder.afsluiting }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Woningbouwcorporatie</dt>
