@@ -1,0 +1,6 @@
+{% if iz_klant is defined %}
+    <h2>Matchingsinformatie deelnemer </h2>
+{% else %}
+    <h2>Matchingsinformatie vrijwilliger</h2>
+{% endif %}
+{{ form(this.viewVars.form) }}

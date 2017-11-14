@@ -6,6 +6,11 @@ use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Form\IzDeelnemerSelectieType;
 use IzBundle\Form\IzEmailMessageType;
 use Doctrine\Common\Collections\ArrayCollection;
+use IzBundle\Form\KlantMatchingType;
+use IzBundle\Form\MatchingKlantType;
+use IzBundle\Entity\MatchingKlant;
+use IzBundle\Form\MatchingVrijwilligerType;
+use IzBundle\Entity\MatchingVrijwilliger;
 
 class IzDeelnemersController extends AppController
 {
@@ -21,9 +26,9 @@ class IzDeelnemersController extends AppController
 
     private function check_persoon_model($persoon_model)
     {
-        if ($persoon_model != 'Vrijwilliger' && $persoon_model != 'Klant') {
-            echo 'Een foute invoer';
-            exit;
+        if (!in_array($persoon_model, ['Klant', 'Vrijwilliger'])) {
+            $this->Session->setFlash(__('IZ deelnemer niet gevonden', true));
+            $this->redirect(['controller' => 'iz_klanten']);
         }
 
         if (!isset($this->{$persoon_model})) {
@@ -33,7 +38,7 @@ class IzDeelnemersController extends AppController
         return $persoon_model;
     }
 
-    private function setmetadata($id = null, $persoon_model = null, $foreign_key = null)
+    private function setMetadata($id = null, $persoon_model = null, $foreign_key = null)
     {
         $iz_deelnemer = null;
         $is_afgesloten = false;
@@ -73,202 +78,20 @@ class IzDeelnemersController extends AppController
         }
 
         $this->set(compact(
-                'id',
-                'persoon',
-                'persoon_model',
-                'project_id',
-                'foreign_key',
-                'geslachten',
-                'landen',
-                'nationaliteiten',
-                'medewerkers',
-                'werkgebieden',
-                'iz_intake',
-                'iz_deelnemer',
-                'is_afgesloten'
+            'id',
+            'persoon',
+            'persoon_model',
+            'project_id',
+            'foreign_key',
+            'geslachten',
+            'landen',
+            'nationaliteiten',
+            'medewerkers',
+            'werkgebieden',
+            'iz_intake',
+            'iz_deelnemer',
+            'is_afgesloten'
         ));
-    }
-
-    public function index()
-    {
-        $this->loadModel('IzProject');
-
-        $fields = [
-                'id' => true,
-                'name1st_part' => true,
-                'name2nd_part' => true,
-                'name' => false,
-                'geboortedatum' => true,
-                'medewerker_id' => false,
-                'bot' => false,
-                'iz_projecten' => true,
-                'iz_coordinator' => false,
-                'medewerker_ids' => true,
-                'werkgebied' => true,
-                'iz_datum_aanmelding' => false,
-                'last_zrm' => false,
-                'dummycol' => false,
-        ];
-
-        $werkgebieden = Configure::read('Werkgebieden');
-        $now = date('Y-m-d');
-
-        $persoon_model = 'Klant';
-        if (isset($this->params['named']['Vrijwilliger.selectie'])) {
-            $persoon_model = 'Vrijwilliger';
-        }
-        if (isset($this->params['named']['Klant.selectie'])) {
-            $persoon_model = 'Klant';
-        }
-
-        $persoon_model = $this->check_persoon_model($persoon_model);
-        $this->loadModel($persoon_model);
-        $this->ComponentLoader->load('Filter', ['persoon_model' => $persoon_model]);
-
-        $coordinator_id = null;
-        if (isset($this->params["{$persoon_model}.medewerker_id"])) {
-            $coordinator_id = intval($this->params["{$persoon_model}.medewerker_id"]);
-        }
-        if (!empty($this->data[$persoon_model]['medewerker_id'])) {
-            $coordinator_id = intval($this->data[$persoon_model]['medewerker_id']);
-        }
-
-        $wachtlijst = false;
-        if (!empty($this->params["{$persoon_model}.wachtlijst"])) {
-            $wachtlijst = true;
-        }
-        if (!empty($this->data[$persoon_model]['wachtlijst'])) {
-            $wachtlijst = true;
-        }
-
-        $show_all = false;
-        if (!empty($this->params["{$persoon_model}.show_all"])) {
-            $show_all = true;
-        }
-        if (!empty($this->data[$persoon_model]['show_all'])) {
-            $show_all = true;
-        }
-
-        $project_id = null;
-        if (!empty($this->data[$persoon_model]['project_id'])) {
-            $project_id = $this->data[$persoon_model]['project_id'];
-        }
-
-        $join = '';
-        if (!empty($coordinator_id)) {
-            $join = " join iz_intakes on iz_intakes.iz_deelnemer_id = iz_deelnemers.id and medewerker_id = {$coordinator_id} ";
-        }
-        if (!empty($wachtlijst)) {
-            $join .= ' join iz_koppelingen ikw on ikw.iz_deelnemer_id = iz_deelnemers.id and isnull(ikw.iz_koppeling_id) and (isnull(ikw.einddatum) or ikw.einddatum > now())';
-        }
-
-        if (!empty($project_id)) {
-            $join .= " join iz_koppelingen on iz_koppelingen.iz_deelnemer_id = iz_deelnemers.id and iz_koppelingen.project_id = {$project_id} and (isnull(iz_koppelingen.koppeling_einddatum) or '{$now}' <= iz_koppelingen.koppeling_einddatum ) ";
-        }
-
-        $table = "select distinct foreign_key from iz_deelnemers {$join} where model = '{$persoon_model}' ";
-
-        $this->paginate = [
-            'contain' => [
-                'Geslacht',
-                'IzDeelnemer' => [
-                    'IzIntake' => ['Medewerker'],
-                    'IzKoppeling',
-                ],
-            ],
-            'joins' => [
-                [
-                    'table' => "( {$table} )",
-                    'alias' => 'iz_deelnemers',
-                    'type' => 'INNER',
-                    'conditions' => [
-                        "{$persoon_model}.id = iz_deelnemers.foreign_key",
-                    ],
-                ],
-            ],
-        ];
-
-        if ($show_all && empty($coordinator_id)) {
-            unset($this->paginate['joins']);
-        }
-        $this->setMedewerkers();
-
-        unset($this->Filter->filterData["{$persoon_model}.medewerker_id"]);
-        unset($this->Filter->filterData["{$persoon_model}.wachtlijst"]);
-        unset($this->Filter->filterData["{$persoon_model}.selectie"]);
-        unset($this->Filter->filterData["{$persoon_model}.project_id"]);
-
-        if (false) {
-            debug($this->Filter->filterData);
-            debug($this->paginate);
-        }
-
-        $this->Filter->filterData["{$persoon_model}.disabled !="] = 1;
-
-        $personen = $this->paginate($persoon_model, $this->Filter->filterData);
-
-        $rowOnclickUrl = [
-                'controller' => 'iz_deelnemers',
-                'action' => 'view',
-                $persoon_model,
-        ];
-
-        $projectlists_view = ['' => ''] + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(true);
-        $projectlists = ['' => ''] + $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists(false);
-
-        foreach ($personen as $key => $persoon) {
-            $project_ids = [];
-            $medewerker_ids = [];
-
-            if (isset($persoon['IzDeelnemer']['IzIntake'])) {
-                if (!empty($persoon['IzDeelnemer']['IzIntake']['medewerker_id'])) {
-                    $medewerker_ids[] = $persoon['IzDeelnemer']['IzIntake']['medewerker_id'];
-                }
-            }
-
-            if (isset($persoon['IzDeelnemer']['IzKoppeling'])) {
-                foreach ($persoon['IzDeelnemer']['IzKoppeling'] as $koppeling) {
-                    if (!empty($koppeling['koppeling_einddatum']) && $now > $koppeling['koppeling_einddatum']) {
-                        continue;
-                    }
-                    if (!empty($koppeling['einddatum']) && $now > $koppeling['einddatum']) {
-                        continue;
-                    }
-                    $project_ids[] = $koppeling['project_id'];
-                    $medewerker_ids[] = $koppeling['medewerker_id'];
-                }
-            }
-
-            $project_ids = array_unique($project_ids);
-            $medewerker_ids = array_unique($medewerker_ids);
-
-            $personen[$key][$persoon_model]['projectlist'] = '';
-            $personen[$key][$persoon_model]['medewerker'] = '';
-
-            if (!empty($project_ids)) {
-                foreach ($project_ids as $project_id) {
-                    if (!empty($personen[$key][$persoon_model]['projectlist'])) {
-                        $personen[$key][$persoon_model]['projectlist'] .= ', ';
-                    }
-                    $personen[$key][$persoon_model]['projectlist'] .= $projectlists_view[$project_id];
-                }
-            }
-
-            $personen[$key][$persoon_model]['medewerker_ids'] = $medewerker_ids;
-        }
-
-        if ($persoon_model == 'Klant') {
-            $fields['last_zrm'] = true;
-        } else {
-            $fields['dummycol'] = true;
-        }
-
-        $iz = true;
-        $this->set(compact('werkgebieden', 'personen', 'rowOnclickUrl', 'persoon_model', 'projectlists', 'iz', 'fields', 'wachtlijst'));
-
-        if ($this->RequestHandler->isAjax()) {
-            $this->render('/elements/personen_lijst', 'ajax');
-        }
     }
 
     public function view($persoon_model = 'Klant', $foreign_key = null)
@@ -391,7 +214,7 @@ class IzDeelnemersController extends AppController
 
         $projectlists = $this->IzDeelnemer->IzDeelnemersIzProject->IzProject->projectLists();
         $this->set(compact('projectlists', 'ontstaanContactList', 'persoon', 'viaPersoon'));
-        $this->setmetadata($id, $persoon_model, $foreign_key);
+        $this->setMetadata($id, $persoon_model, $foreign_key);
         $this->render('view');
     }
 
@@ -497,7 +320,7 @@ class IzDeelnemersController extends AppController
 
         $this->set(compact('id', 'persoon', 'persoon_model', 'zrmData', 'zrmReportModel'));
         $this->setMedewerkers();
-        $this->setmetadata($id);
+        $this->setMetadata($id);
 
         $this->render('view');
     }
@@ -540,27 +363,107 @@ class IzDeelnemersController extends AppController
 
         $this->set(compact('verslagen', 'persoon', 'persoon_model', 'id', 'iz_deelnemer', 'iz_koppeling', 'other_persoon'));
         $this->setMedewerkers();
-        $this->setmetadata($id);
+        $this->setMetadata($id);
+        $this->render('view');
+    }
+
+    private function getIzDeelnemer($id)
+    {
+        $izDeelnemer = $this->IzDeelnemer->getById($id);
+
+        if (!$izDeelnemer) {
+            $this->Session->setFlash(__('IZ deelnemer niet gevonden', true));
+            $this->redirect(['controller' => 'iz_klanten']);
+        }
+
+        $this->check_persoon_model($izDeelnemer['model']);
+
+        $diensten = [];
+        if ('Klant' === $izDeelnemer['model']) {
+            $diensten = $this->IzDeelnemer->Klant->diensten($izDeelnemer['foreign_key'], $this->getEventDispatcher());
+        }
+        $this->set('diensten', $diensten);
+
+        return $izDeelnemer;
+    }
+
+    public function toon_matching($id)
+    {
+        $this->view = 'AppTwig';
+        $em = $this->getEntityManager();
+
+        $izDeelnemer = $em->find(IzDeelnemer::class, $id);
+        $matching = $izDeelnemer->getMatching();
+        $kandidaten = [];
+
+        if ($izDeelnemer instanceof IzVrijwilliger) {
+            $this->set('iz_vrijwilliger', $izDeelnemer);
+            $kandidatenClass = IzKlant::class;
+        } else {
+            $this->set('iz_klant', $izDeelnemer);
+            $kandidatenClass = IzVrijwilliger::class;
+        }
+
+        if ($izDeelnemer->getMatching()) {
+            $kandidaten = $em->getRepository($kandidatenClass)->findMatching($matching);
+        }
+
+        // set view vars
+        $this->getIzDeelnemer($id);
+        $this->setMedewerkers();
+        $this->setMetadata($id);
+        $this->set('kandidaten', $kandidaten);
+
+        $this->render('view');
+    }
+
+    public function matching($id)
+    {
+        $this->view = 'AppTwig';
+        $em = $this->getEntityManager();
+
+        $izDeelnemer = $em->find(IzDeelnemer::class, $id);
+        $matching = $izDeelnemer->getMatching();
+
+        if ($izDeelnemer instanceof IzVrijwilliger) {
+            $this->set('iz_vrijwilliger', $izDeelnemer);
+            $formClass = MatchingVrijwilligerType::class;
+            if (null === $matching) {
+                $matching = new MatchingVrijwilliger($izDeelnemer);
+            }
+        } else {
+            $this->set('iz_klant', $izDeelnemer);
+            $formClass = MatchingKlantType::class;
+            if (null === $matching) {
+                $matching = new MatchingKlant($izDeelnemer);
+            }
+        }
+
+        $form = $this->createForm($formClass, $matching);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($matching);
+            $em->flush();
+
+            $this->redirect(['action' => 'toon_matching', $id]);
+        }
+
+        // set view vars
+        $this->getIzDeelnemer($id);
+        $this->setMedewerkers();
+        $this->setMetadata($id);
+        $this->set('form', $form->createView());
+
         $this->render('view');
     }
 
     public function verslagen($id)
     {
-        $iz_deelnemer['IzDeelnemer'] = $this->IzDeelnemer->getById($id);
-
-        if (empty($iz_deelnemer['IzDeelnemer'])) {
-            $this->Session->setFlash(__('ID bestaat niet', true));
-            $this->redirect('/');
-        }
-
+        $iz_deelnemer['IzDeelnemer'] = $this->getIzDeelnemer($id);
         $persoon_model = $iz_deelnemer['IzDeelnemer']['model'];
         $foreign_key = $iz_deelnemer['IzDeelnemer']['foreign_key'];
 
-        $persoon_model = $this->check_persoon_model($persoon_model);
-        $this->loadModel($persoon_model);
-
         $persoon = $this->{$persoon_model}->getAllById($foreign_key);
-
         $iz_deelnemer = $this->IzDeelnemer->getAllById($id);
         $iz_koppeling_ids = Set::ClassicExtract($iz_deelnemer, 'IzKoppeling.{n}.id');
         $iz_koppeling_id = $this->getParam('iz_koppeling_id');
@@ -625,7 +528,7 @@ class IzDeelnemersController extends AppController
 
         $this->set(compact('verslagen', 'persoon', 'persoon_model', 'id', 'iz_deelnemer', 'iz_koppeling', 'other_persoon'));
         $this->setMedewerkers();
-        $this->setmetadata($id);
+        $this->setMetadata($id);
         $this->render('view');
     }
 
@@ -974,7 +877,7 @@ class IzDeelnemersController extends AppController
             'iz_eindekoppelingen_active'
         ));
 
-        $this->setmetadata($id);
+        $this->setMetadata($id);
         $this->render('view');
     }
 
@@ -1170,7 +1073,7 @@ class IzDeelnemersController extends AppController
         $this->set('diensten', $diensten);
 
         $this->set(compact('has_active_koppelingen', 'iz_afsluitingen', 'iz_afsluitingen_active', 'eropouit'));
-        $this->setmetadata($id);
+        $this->setMetadata($id);
 
         $this->render('view');
     }
@@ -1236,7 +1139,7 @@ class IzDeelnemersController extends AppController
         $this->set('diensten', $diensten);
 
         $this->set(compact('intervisiegroepenlists'));
-        $this->setmetadata($id);
+        $this->setMetadata($id);
 
         $this->render('view');
     }
