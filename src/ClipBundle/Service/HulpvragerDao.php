@@ -3,7 +3,6 @@
 namespace ClipBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use ClipBundle\Entity\Hulpvrager;
 
 class HulpvragerDao extends AbstractDao implements HulpvragerDaoInterface

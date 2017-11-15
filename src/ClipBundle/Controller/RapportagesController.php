@@ -3,7 +3,6 @@
 namespace ClipBundle\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use ClipBundle\Form\RapportageType;
 use ClipBundle\Report\AbstractReport;

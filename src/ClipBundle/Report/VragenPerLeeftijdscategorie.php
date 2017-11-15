@@ -3,12 +3,13 @@
 namespace ClipBundle\Report;
 
 use ClipBundle\Service\VraagDaoInterface;
+use ClipBundle\Service\ContactmomentDaoInterface;
 
 class VragenPerLeeftijdscategorie extends AbstractReport
 {
     protected $title = 'Vragen per leeftijdscategorie';
 
-    protected $xPath = '';
+    protected $xPath = 'kolom';
 
     protected $yPath = 'groep';
 
@@ -20,13 +21,34 @@ class VragenPerLeeftijdscategorie extends AbstractReport
 
     protected $tables = [];
 
-    public function __construct(VraagDaoInterface $dao)
+    /**
+     * @var VraagDaoInterface
+     */
+    private $vraagDao;
+
+    /**
+     * @var ContactmomentDaoInterface
+     */
+    private $contactmomentDao;
+
+    public function __construct(VraagDaoInterface $vraagDao, ContactmomentDaoInterface $contactmomentDao)
     {
-        $this->dao = $dao;
+        $this->vraagDao = $vraagDao;
+        $this->contactmomentDao = $contactmomentDao;
     }
 
     protected function init()
     {
-        $this->tables[''] = $this->dao->countByLeeftijdscategorie($this->startDate, $this->endDate);
+        $vragen = $this->vraagDao->countByLeeftijdscategorie($this->startDate, $this->endDate);
+        array_walk($vragen, function(&$item) {
+            $item['kolom'] = 'Vragen';
+        });
+
+        $contactmomenten = $this->contactmomentDao->countByLeeftijdscategorie($this->startDate, $this->endDate);
+        array_walk($contactmomenten, function(&$item) {
+            $item['kolom'] = 'Contactmomenten';
+        });
+
+        $this->tables[''] = array_merge($vragen, $contactmomenten);
     }
 }

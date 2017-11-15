@@ -12,15 +12,23 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <table class="table table-hover">
+        {{ form_start(filter) }}
         <tr>
-            {{ form_start(filter) }}
+            <th colspan="5">
+                <span class="pull-right">
+                    {{ form_widget(filter.filter) }}
+                    {{ form_widget(filter.download) }}
+                </span>
+            </th>
+        </tr>
+        <tr>
             <th>
                 {{ form_widget(filter.id) }}
                 {{ form_errors(filter.id) }}
             </th>
             <th>
-                {{ form_widget(filter.client.klant.naam) }}
-                {{ form_errors(filter.client.klant.naam) }}
+                {{ form_widget(filter.client.naam) }}
+                {{ form_errors(filter.client.naam) }}
             </th>
             <th>
                 {{ form_widget(filter.soort) }}
@@ -36,21 +44,17 @@
                 {{ form_widget(filter.startdatum.end) }}
                 {{ form_errors(filter.startdatum.end) }}
             </th>
-            <th>
-                {{ form_widget(filter.filter) }}
-                {{ form_widget(filter.download) }}
-            </th>
-            {{ form_end(filter) }}
         </tr>
+        {{ form_end(filter) }}
         <tr>
             <th>
                 {{ knp_pagination_sortable(pagination, '#', 'vraag.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Cliënt', 'client.achternaam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Soort', 'vraagsoort.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Onderwerp', 'vraagsoort.naam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'behandelaar.displayName') }}
@@ -62,12 +66,12 @@
             </th>
         </tr>
         {% for vraag in pagination %}
-        <tr>
+        <tr data-href="{{ path('clip_vragen_view', {id: vraag.id}) }}">
             <td>
-                {{ html.link(vraag.id, path('clip_vragen_view', {id: vraag.id})) }}
+                {{ vraag.id }}
             </td>
             <td>
-                {{ vraag.client.klant.naam }}
+                {{ vraag.client }}
             </td>
             <td>
                 {{ vraag.soort }}
@@ -77,10 +81,6 @@
             </td>
             <td>
                 {{ vraag.startdatum|date('d-m-Y') }}
-            </td>
-            <td>
-                {{ html.viewLink(path('clip_vragen_view', {id: vraag.id})) }}
-                {{ html.editLink(path('clip_vragen_edit', {id: vraag.id})) }}
             </td>
         </tr>
         {% endfor %}

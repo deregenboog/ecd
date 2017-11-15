@@ -2,14 +2,14 @@
 <p>
     {% if vraag is defined %}
         {% set entity = vraag %}
-        {% set url = path('clip_contactmomenten_add', {vraag: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('clip_contactmomenten_add', {vraag: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
         {{ html.link('Contactmoment toevoegen', url) }}
     {% endif %}
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>Datum</th>
         <th>Medewerker</th>
@@ -29,7 +29,7 @@
                 {{ html.link(contactmoment.vraag, path('clip_vragen_view', {id: entity.id})) }}
             </td>
             <td>
-                {{ contactmoment.opmerking }}
+                {{ contactmoment.opmerking|nl2br }}
             </td>
             <td>
                 {{ html.editLink(path('clip_contactmomenten_edit', {id: contactmoment.id})) }}

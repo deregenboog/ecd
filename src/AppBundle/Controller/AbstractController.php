@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
+use AppBundle\Entity\Medewerker;
 
 class AbstractController extends SymfonyController
 {
@@ -123,9 +124,20 @@ class AbstractController extends SymfonyController
         return $this->processForm($request, $entity);
     }
 
+    protected function getMedewerker()
+    {
+        if (isset($_SESSION['Auth']['Medewerker']['id'])) {
+            $medewerkId = (int) $_SESSION['Auth']['Medewerker']['id'];
+
+            return $this->getEntityManager()->find(Medewerker::class, $medewerkId);
+        }
+    }
+
     protected function processForm(Request $request, $entity)
     {
-        $form = $this->createForm($this->formClass, $entity);
+        $form = $this->createForm($this->formClass, $entity, [
+            'medewerker' => $this->getMedewerker(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -137,7 +149,8 @@ class AbstractController extends SymfonyController
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             if ($url = $request->get('redirect')) {
@@ -209,5 +222,10 @@ class AbstractController extends SymfonyController
         }
 
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
+    }
+
+    protected function createEntity($parentEntity)
+    {
+        return new $this->entityClass();
     }
 }

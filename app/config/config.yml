@@ -61,6 +61,7 @@ doctrine:
         dql:
             datetime_functions:
                 date: Luxifer\DQL\Datetime\Date
+                date_format: Luxifer\DQL\Datetime\DateFormat
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
 

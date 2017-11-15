@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\Debug\Debug;
 
 class KernelSubscriber implements EventSubscriberInterface
 {
@@ -56,13 +57,20 @@ class KernelSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getException();
         if ($exception instanceof NotFoundHttpException) {
+
+//             // configure CakeHPHP
+//             $cakeConfig = $this->container->get('cake.configuration');
+//             foreach ($cakeConfig->all() as $key => $value) {
+//                 \Configure::write($key, $value);
+//             }
+
             // inject controller in base controller used by CakePHP
             \AppController::$staticContainer = $this->container;
 
             // delegate control to CakePHP
-            if (!$this->container->getParameter('kernel.debug')) {
-                error_reporting(0);
-            }
+//             if (!$this->container->getParameter('kernel.debug')) {
+//                 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+//             }
             $dispatcher = new \Dispatcher();
             $dispatcher->dispatch();
             exit;

@@ -24,7 +24,6 @@ class ContactmomentType extends AbstractType
         $builder
             ->add('behandelaar', EntityType::class, [
                 'placeholder' => '',
-                'label' => 'Medewerker',
                 'class' => Behandelaar::class,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     $current = $options['data'] ? $options['data']->getBehandelaar() : null;
@@ -38,7 +37,7 @@ class ContactmomentType extends AbstractType
             ])
             ->add('datum', AppDateType::class)
             ->add('opmerking', AppTextareaType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 

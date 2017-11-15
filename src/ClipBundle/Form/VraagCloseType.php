@@ -19,7 +19,7 @@ class VraagCloseType extends AbstractType
     {
         $builder
             ->add('afsluitdatum', AppDateType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 

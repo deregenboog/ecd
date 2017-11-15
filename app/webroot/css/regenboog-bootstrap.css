@@ -17,6 +17,12 @@
     padding-bottom: 25px;
 }
 
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus
+.nav-tabs > li.active > a:hover {
+    cursor: pointer ! important;
+}
+
 footer {
     color: white;
     background: #759c46;
@@ -58,6 +64,9 @@ th a.asc:after {
 }
 th a.desc:after {
     content: ' ⇡';
+}
+table.table.table-hover tr[data-href]:hover {
+    cursor: pointer;
 }
 
 /* forms */

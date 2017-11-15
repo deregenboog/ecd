@@ -4,18 +4,17 @@ namespace ClipBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
 use ClipBundle\Entity\Client;
 
 class ClientDao extends AbstractDao implements ClientDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'klant.achternaam',
-        'defaultSortDirection' => 'asc',
+        'defaultSortFieldName' => 'client.id',
+        'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
-            'klant.id',
-            'klant.achternaam',
-            'klant.werkgebied',
+            'client.id',
+            'client.achternaam',
+            'werkgebied.naam',
             'client.aanmelddatum',
         ],
     ];
@@ -27,8 +26,7 @@ class ClientDao extends AbstractDao implements ClientDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("{$this->alias}, klant")
-            ->innerJoin('client.klant', 'klant')
+            ->leftJoin($this->alias.'.werkgebied', 'werkgebied')
         ;
 
         if ($filter) {

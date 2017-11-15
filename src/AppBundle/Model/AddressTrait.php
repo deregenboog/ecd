@@ -1,10 +1,12 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Werkgebied;
 
 trait AddressTrait
 {
@@ -25,6 +27,20 @@ trait AddressTrait
      * @Gedmo\Versioned
      */
     protected $plaats;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
+     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $werkgebied;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $postcodegebied;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -113,6 +129,30 @@ trait AddressTrait
     public function setTelefoon($telefoon)
     {
         $this->telefoon = $telefoon;
+
+        return $this;
+    }
+
+    public function getWerkgebied()
+    {
+        return $this->werkgebied;
+    }
+
+    public function setWerkgebied(Werkgebied $werkgebied = null)
+    {
+        $this->werkgebied = $werkgebied;
+
+        return $this;
+    }
+
+    public function getPostcodegebied()
+    {
+        return $this->postcodegebied;
+    }
+
+    public function setPostcodegebied(GgwGebied $postcodegebied = null)
+    {
+        $this->postcodegebied = $postcodegebied;
 
         return $this;
     }

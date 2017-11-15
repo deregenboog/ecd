@@ -36,19 +36,5 @@
         {% block content %}{% endblock content %}
     </div>
     {% include '::footer.html.twig' %}
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript">
-        // change urls when activating other tab
-        $('.nav-tabs a').on('shown.bs.tab', function(event) {
-            window.history.replaceState({}, window.document.title, $(event.target).attr('href'));
-            $('a[href*="redirect="]').each(function(index, element) {
-                $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+encodeURIComponent(window.location.href)));
-            });
-        });
-        // navigate to active tab on document ready
-        $(function() {
-            $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show')
-        });
-    </script>
 </body>
 </html>

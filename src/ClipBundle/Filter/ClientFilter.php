@@ -3,8 +3,8 @@
 namespace ClipBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Entity\Werkgebied;
 
 class ClientFilter implements FilterInterface
 {
@@ -12,6 +12,16 @@ class ClientFilter implements FilterInterface
      * @var int
      */
     public $id;
+
+    /**
+     * @var string
+     */
+    public $naam;
+
+    /**
+     * @var Werkgebied
+     */
+    public $stadsdeel;
 
     /**
      * @var \DateTime
@@ -23,17 +33,29 @@ class ClientFilter implements FilterInterface
      */
     public $afsluitdatum;
 
-    /**
-     * @var KlantFilter
-     */
-    public $klant;
-
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
             $builder
                 ->andWhere('client.id = :id')
                 ->setParameter('id', $this->id)
+            ;
+        }
+
+        if ($this->naam) {
+            $parts = preg_split('/\s+/', $this->naam);
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', client.voornaam, client.roepnaam, client.tussenvoegsel, client.achternaam) LIKE :client_naam_part_{$i}")
+                    ->setParameter("client_naam_part_{$i}", "%{$part}%")
+                ;
+            }
+        }
+
+        if ($this->stadsdeel) {
+            $builder
+                ->andWhere('client.werkgebied = :stadsdeel')
+                ->setParameter('stadsdeel', $this->stadsdeel)
             ;
         }
 
@@ -65,10 +87,6 @@ class ClientFilter implements FilterInterface
                 ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
-        }
-
-        if ($this->klant) {
-            $this->klant->applyTo($builder);
         }
     }
 }

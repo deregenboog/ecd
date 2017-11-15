@@ -5,16 +5,18 @@ namespace ClipBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
-use AppBundle\Form\KlantType;
 use AppBundle\Form\BaseType;
 use ClipBundle\Entity\Client;
-use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\PersonType;
+use AppBundle\Form\AddressType;
+use AppBundle\Form\WerkgebiedSelectType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use AppBundle\Entity\Postcode;
+use Doctrine\ORM\EntityManager;
 
 class ClientType extends AbstractType
 {
@@ -24,56 +26,25 @@ class ClientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('behandelaar', EntityType::class, [
-                'placeholder' => '',
-                'label' => 'Medewerker',
-                'class' => Behandelaar::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
-
-                    return $repository->createQueryBuilder('behandelaar')
-                        ->where('behandelaar.actief = true OR behandelaar = :current')
-                        ->setParameter('current', $current)
-                        ->orderBy('behandelaar.displayName')
-                    ;
-                },
+            ->add('person', PersonType::class, ['data_class' => Client::class])
+            ->add('address', AddressType::class, ['data_class' => Client::class])
+            ->add('werkgebied', WerkgebiedSelectType::class, [
+                'required' => false,
             ])
             ->add('aanmelddatum', AppDateType::class)
-            ->add('viacategorie', null, [
-                'label' => 'Hoe bekend',
-                'placeholder' => '',
-                'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getViacategorie() : null;
-
-                    return $repository->createQueryBuilder('viacategorie')
-                        ->where('viacategorie.actief = true OR viacategorie = :current')
-                        ->setParameter('current', $current)
-                    ;
-                },
+            ->add('behandelaar', BehandelaarSelectType::class, [
+                'medewerker' => $options['medewerker'],
+                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
             ])
+            ->add('etniciteit', EtniciteitSelectType::class, [
+                'required' => false,
+            ])
+            ->add('viacategorie', ViacategorieSelectType::class, [
+                'required' => false,
+                'current' => $options['data'] ? $options['data']->getViacategorie() : null,
+            ])
+            ->add('submit', SubmitType::class)
         ;
-
-        if ($options['data']->getKlant()->getId()) {
-            $builder->add('behandelaar', EntityType::class, [
-                'placeholder' => '',
-                'label' => 'Medewerker',
-                'class' => Behandelaar::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
-
-                    return $repository->createQueryBuilder('behandelaar')
-                        ->where('behandelaar.actief = true OR behandelaar = :current')
-                        ->setParameter('current', $current)
-                        ->orderBy('behandelaar.displayName')
-                    ;
-                },
-            ]);
-        } else {
-            $builder->add('klant', KlantType::class);
-        }
-
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**

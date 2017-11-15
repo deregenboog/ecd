@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\NameTrait;
+use AppBundle\Model\AddressTrait;
 
 /**
  * @ORM\MappedSuperclass
@@ -69,18 +71,6 @@ class Persoon
     protected $nationaliteit;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $werkgebied;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $postcodegebied;
-
-    /**
      * @ORM\Column(name="geen_post", type="boolean")
      * @Gedmo\Versioned
      */
@@ -133,18 +123,6 @@ class Persoon
         return $this;
     }
 
-    public function getPostcodegebied()
-    {
-        return $this->postcodegebied;
-    }
-
-    public function setPostcodegebied($postcodegebied)
-    {
-        $this->postcodegebied = $postcodegebied;
-
-        return $this;
-    }
-
     public function isGeenPost()
     {
         return $this->geenPost;
@@ -153,18 +131,6 @@ class Persoon
     public function isGeenEmail()
     {
         return $this->geenEmail;
-    }
-
-    public function getWerkgebied()
-    {
-        return $this->werkgebied;
-    }
-
-    public function setWerkgebied($werkgebied)
-    {
-        $this->werkgebied = $werkgebied;
-
-        return $this;
     }
 
     public function getMedewerker()

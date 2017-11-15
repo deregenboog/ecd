@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\PersonTrait;
+use AppBundle\Model\NameTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Medewerker
 {
-    use PersoonTrait;
+    use NameTrait;
 
     /**
      * @ORM\Id

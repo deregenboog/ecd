@@ -54,7 +54,7 @@ class BehandelaarType extends AbstractType
 
         $builder
             ->add('actief')
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 

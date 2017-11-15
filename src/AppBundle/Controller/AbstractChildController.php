@@ -5,9 +5,16 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Exception\AppException;
+use AppBundle\Service\AbstractDao;
 
 class AbstractChildController extends AbstractController
 {
+
+    /**
+     * @var AbstractDao
+     */
+    protected $parentDao;
+
     /**
      * @var \ArrayObject
      */
@@ -28,14 +35,19 @@ class AbstractChildController extends AbstractController
      */
     public function addAction(Request $request)
     {
-        if (!$this->addMethod) {
+        if (!$this->addMethod && !$this->allowEmpty) {
             throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
         }
 
-        list($parentEntity, $parentDao) = $this->getParentConfig($request);
-        $entity = new $this->entityClass();
+        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        $entity = $this->createEntity($parentEntity);
+        if ($parentEntity && $this->addMethod) {
+            $parentEntity->{$this->addMethod}($entity);
+        }
 
-        $form = $this->createForm($this->formClass, $entity);
+        $form = $this->createForm($this->formClass, $entity, [
+            'medewerker' => $this->getMedewerker(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,7 +56,7 @@ class AbstractChildController extends AbstractController
                     $this->dao->create($entity);
                 } else {
                     $parentEntity->{$this->addMethod}($entity);
-                    $parentDao->update($parentEntity);
+                    $this->parentDao->update($parentEntity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
@@ -68,6 +80,11 @@ class AbstractChildController extends AbstractController
             'parent_entity' => $parentEntity,
             'form' => $form->createView(),
         ];
+    }
+
+    protected function createEntity($parentEntity)
+    {
+        return new $this->entityClass();
     }
 
     protected function getParentConfig(Request $request)

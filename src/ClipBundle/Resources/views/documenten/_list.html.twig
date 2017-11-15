@@ -1,9 +1,9 @@
 <h2>Documenten</h2>
 <p>
     {% if client is defined %}
-        {% set url = path('clip_documenten_add', {client: client.id, redirect: app.request.get('url')}) %}
+        {% set url = path('clip_documenten_add', {client: client.id}) %}
     {% elseif vraag is defined %}
-        {% set url = path('clip_documenten_add', {vraag: vraag.id, redirect: app.request.get('url')}) %}
+        {% set url = path('clip_documenten_add', {vraag: vraag.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
@@ -22,8 +22,8 @@
                 </a>
             </td>
             <td>
-                {{ html.editLink(path('clip_documenten_edit', {id: document.id, redirect: app.request.get('url')})) }}
-                {{ html.deleteLink(path('clip_documenten_delete', {id: document.id, redirect: app.request.get('url')})) }}
+                {{ html.editLink(path('clip_documenten_edit', {id: document.id})) }}
+                {{ html.deleteLink(path('clip_documenten_delete', {id: document.id})) }}
             </td>
         </tr>
     {% endfor %}

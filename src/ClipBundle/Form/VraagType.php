@@ -5,17 +5,17 @@ namespace ClipBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Entity\Vraag;
-use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
-use AppBundle\Form\AppTextareaType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use ClipBundle\Entity\Hulpvrager;
+use ClipBundle\Entity\Leeftijdscategorie;
+use ClipBundle\Entity\Communicatiekanaal;
+use ClipBundle\Entity\Viacategorie;
+use ClipBundle\Entity\Client;
 
 class VraagType extends AbstractType
 {
@@ -24,91 +24,98 @@ class VraagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var $vraag Vraag */
+        $vraag = $options['data'];
+
         $builder
-            ->add('behandelaar', EntityType::class, [
-                'placeholder' => '',
-                'label' => 'Medewerker',
-                'class' => Behandelaar::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
-
-                    return $repository->createQueryBuilder('behandelaar')
-                        ->where('behandelaar.actief = true OR behandelaar = :current')
-                        ->setParameter('current', $current)
-                        ->orderBy('behandelaar.displayName')
-                    ;
-                },
-            ])
-            ->add('startdatum', AppDateType::class)
-            ->add('hulpvrager', null, [
-                'placeholder' => '',
+            ->add('soort', VraagsoortSelectType::class, [
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getHulpvrager() : null;
-
-                    return $repository->createQueryBuilder('hulpvrager')
-                        ->where('hulpvrager.actief = true OR hulpvrager = :current')
-                        ->setParameter('current', $current)
-                    ;
-                },
+                'current' => $options['data'] ? $options['data']->getSoort() : null,
             ])
-            ->add('leeftijdscategorie', null, [
-                'placeholder' => '',
+            ->add('omschrijving', null, [
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getLeeftijdscategorie() : null;
-
-                    return $repository->createQueryBuilder('leeftijdscategorie')
-                        ->where('leeftijdscategorie.actief = true OR leeftijdscategorie = :current')
-                        ->setParameter('current', $current)
-                    ;
-                },
             ])
-            ->add('communicatiekanaal', null, [
-                'label' => 'Locatie',
-                'placeholder' => '',
-                'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getCommunicatiekanaal() : null;
-
-                    return $repository->createQueryBuilder('communicatiekanaal')
-                        ->where('communicatiekanaal.actief = true OR communicatiekanaal = :current')
-                        ->setParameter('current', $current)
-                    ;
-                },
+            ->add('hulpvrager', HulpvragerSelectType::class, [
+                'required' => false,
+                'current' => $options['data'] ? $options['data']->getHulpvrager() : null,
             ])
-            ->add('soort', null, [
-                'placeholder' => '',
-                'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getSoort() : null;
-
-                    return $repository->createQueryBuilder('soort')
-                        ->where('soort.actief = true OR soort = :current')
-                        ->setParameter('current', $current)
-                    ;
-                },
+            ->add('leeftijdscategorie', LeeftijdscategorieSelectType::class, [
+                'required' => false,
+                'current' => $options['data'] ? $options['data']->getLeeftijdscategorie() : null,
             ])
-            ->add('omschrijving', AppTextareaType::class)
+            ->add('communicatiekanaal', CommunicatiekanaalSelectType::class, [
+                'required' => false,
+                'current' => $options['data'] ? $options['data']->getCommunicatiekanaal() : null,
+            ])
         ;
 
-        if ($this->isNew($options['data'])) {
-            $builder->add('contactmoment', ContactmomentType::class, [
-                'required' => true,
-                'label' => 'Eerste contactmoment',
-            ]);
-            $builder->get('contactmoment')->remove('behandelaar')->remove('datum');
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event, $eventName) {
-                /* @var $vraag Vraag */
-                $vraag = $event->getData();
-                $vraag->getContactmoment()
-                    ->setDatum($vraag->getStartdatum())
-                    ->setBehandelaar($vraag->getBehandelaar())
-                ;
-            });
+        $this->addEmptyClientFields($builder, $vraag->getClient());
+
+        $builder
+            ->add('startdatum', AppDateType::class)
+            ->add('behandelaar', BehandelaarSelectType::class, [
+                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
+                'medewerker' => $options['medewerker'],
+            ])
+        ;
+
+        if (1 === count($vraag->getContactmomenten())) {
+            $this->addEmptyContactmomentFields($builder, $vraag->getContactmoment());
         }
 
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+        $builder->add('submit', SubmitType::class);
+    }
+
+    private function addEmptyClientFields(FormBuilderInterface $builder, Client $client)
+    {
+        $builder->add('client', ClientType::class, [
+            'data' => $client,
+        ]);
+
+        $builder->get('client')
+            ->remove('person')
+            ->remove('address')
+            ->remove('aanmelddatum')
+            ->remove('behandelaar')
+            ->remove('submit')
+        ;
+
+        if ($client->getWerkgebied()) {
+            $builder->get('client')->remove('werkgebied');
+        }
+
+        if ($client->getEtniciteit()) {
+            $builder->get('client')->remove('etniciteit');
+        }
+
+        if ($client->getViacategorie()) {
+            $builder->get('client')->remove('viacategorie');
+        }
+
+        if (0 === $builder->get('client')->count()) {
+            $builder->remove('client');
+        }
+    }
+
+    private function addEmptyContactmomentFields(FormBuilderInterface $builder, Contactmoment $contactmoment)
+    {
+        $builder->add('contactmoment', ContactmomentType::class, [
+            'data' => $contactmoment,
+        ]);
+
+        $builder->get('contactmoment')
+            ->remove('datum')
+            ->remove('behandelaar')
+            ->remove('submit')
+        ;
+
+        if ($contactmoment->getVraag()->getId()) {
+            $builder->get('contactmoment')->remove('opmerking');
+        }
+
+        if (0 === $builder->get('contactmoment')->count()) {
+            $builder->remove('contactmoment');
+        }
     }
 
     /**
