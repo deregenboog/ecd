@@ -19,11 +19,19 @@
     {% endif %}
 </p>
 <table class="table table-hover">
+    <tr>
+        <th>Onderwerp</th>
+        <th>Memo</th>
+        <th>Datum</th>
+        <th>Medewerker</th>
+        <th>&nbsp;</th>
+    </tr>
     {% for memo in entity.memos %}
         <tr>
+            <td>{{ memo.onderwerp }}</td>
+            <td>{{ memo.memo|nl2br }}</td>
             <td>{{ memo.datum|date('d-m-Y') }}</td>
             <td>{{ memo.medewerker }}</td>
-            <td>{{ memo.memo|nl2br }}</td>
             <td>
                 {{ html.editLink(path('hs_memos_edit', {id: memo.id})) }}
             </td>

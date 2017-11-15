@@ -29,6 +29,13 @@ class Memo
 
     /**
      * @var string
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
+     */
+    private $onderwerp;
+
+    /**
+     * @var string
      * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
@@ -91,11 +98,6 @@ class Memo
         return $this;
     }
 
-    public function getVrijwilliger()
-    {
-        return $this->vrijwilliger;
-    }
-
     public function getMedewerker()
     {
         return $this->medewerker;
@@ -104,6 +106,18 @@ class Memo
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
+
+        return $this;
+    }
+
+    public function getOnderwerp()
+    {
+        return $this->onderwerp;
+    }
+
+    public function setOnderwerp($onderwerp)
+    {
+        $this->onderwerp = $onderwerp;
 
         return $this;
     }
