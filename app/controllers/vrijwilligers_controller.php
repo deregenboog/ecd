@@ -1,5 +1,8 @@
 <?php
 
+use AppBundle\Util\PostcodeFormatter;
+use AppBundle\Entity\Postcode;
+
 class VrijwilligersController extends AppController
 {
     public $name = 'Vrijwilligers';
@@ -208,27 +211,39 @@ class VrijwilligersController extends AppController
 
     public function get_stadsdeel()
     {
-        $postcode = $this->getParam('postcode');
-
-        $result = [
-            'stadsdeel' => false,
-            'message' => 'Error',
-        ];
+        /** @var $postcode Postcode */
+        $postcode = $this->getEntityManager()->find(
+            Postcode::class,
+            PostcodeFormatter::format($this->getParam('postcode'))
+        );
 
         if ($postcode) {
-            $this->loadModel('Stadsdeel');
-            $this->loadModel('Postcodegebied');
-
-            $stadsdeel = $this->Stadsdeel->getStadsdeelByPostcode($postcode);
-            $postcodegebied = $this->Postcodegebied->getPostcodegebiedByPostcode($postcode);
-
-            if ($stadsdeel && $postcodegebied) {
-                $result['stadsdeel'] = $stadsdeel;
-                $result['postcodegebied'] = $postcodegebied;
-                $result['message'] = 'Success';
-            }
+            $result = [
+                'stadsdeel' => $postcode->getStadsdeel()->getNaam(),
+                'postcodegebied' => $postcode->getPostcodegebied()->getNaam(),
+                'message' => 'Success',
+            ];
+        } elseif (in_array((int) substr($this->getParam('postcode'), 0, 4), range(1110, 1113))) {
+            $result = [
+                'stadsdeel' => 'Diemen',
+                'postcodegebied' => false,
+                'message' => 'Success',
+            ];
+        } elseif (in_array((int) substr($this->getParam('postcode'), 0, 4), range(1180, 1189))) {
+            $result = [
+                'stadsdeel' => 'Amstelveen',
+                'postcodegebied' => false,
+                'message' => 'Success',
+            ];
+        } else {
+            $result = [
+                'stadsdeel' => false,
+                'postcodegebied' => false,
+                'message' => 'Error',
+            ];
         }
 
+        $this->layout = false;
         $result['data'] = $this->data;
         $this->set('jsonVar', $result);
         $this->render('/elements/json');

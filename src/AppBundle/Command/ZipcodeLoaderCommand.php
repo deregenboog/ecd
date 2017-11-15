@@ -17,21 +17,38 @@ use AppBundle\Entity\GgwGebied;
 
 class ZipcodeLoaderCommand extends ContainerAwareCommand
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    /**
+     * @var int
+     */
+    private $batchSize;
+
+    /**
+     * @var array
+     */
+    private $cache = [];
+
     protected function configure()
     {
         $this
-            ->setName('app:database:load-zipcodes')
+            ->setName('app:zipcode:load')
             ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Input file', 'app/data/postcodes.csv')
         ;
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $this->batchSize = 1000;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getOption('file');
-
-        /* @var EntityManager $manager */
-        $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $batchSize = 1000;
 
         if (!file_exists($file)) {
             throw new \InvalidArgumentException(sprintf('File %s does not exist', $file));
@@ -45,33 +62,50 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
-            $stadsdeel = $manager->find(Werkgebied::class, $values[1]);
-            if ($values[1] && !$stadsdeel) {
-                $stadsdeel = new Werkgebied($values[1]);
-                $manager->persist($stadsdeel);
-                $manager->flush($stadsdeel);
-            }
-
-            $postcodegebied = $manager->find(GgwGebied::class, $values[2]);
-            if ($values[2] && !$postcodegebied) {
-                $postcodegebied = new GgwGebied($values[2]);
-                $manager->persist($postcodegebied);
-                $manager->flush($postcodegebied);
-            }
+            $stadsdeel = $this->getWerkgebied($values[1]);
+            $postcodegebied = $this->getGgwGebied($values[2]);
 
             if ($stadsdeel && $postcodegebied) {
-                $manager->persist(new Postcode($values[0], $stadsdeel, $postcodegebied));
+                $this->entityManager->persist(new Postcode($values[0], $stadsdeel, $postcodegebied));
             } elseif ($stadsdeel) {
-                $manager->persist(new Postcode($values[0], $stadsdeel));
+                $this->entityManager->persist(new Postcode($values[0], $stadsdeel));
             }
 
-            if (++$i % $batchSize === 0) {
-                $manager->flush();
+            if (0 === ++$i % $this->batchSize) {
+                $this->entityManager->flush();
             }
         }
-        $manager->flush();
+        $this->entityManager->flush();
         fclose($handle);
 
         $output->writeln($i.' postcodes opgeslagen');
+    }
+
+    private function getWerkgebied($name)
+    {
+        if (!isset($this->cache['werkgebieden'][$name])) {
+            $this->cache['werkgebieden'][$name] = $this->entityManager->find(Werkgebied::class, $name);
+        }
+        if (!isset($this->cache['werkgebieden'][$name])) {
+            $werkgebied = new Werkgebied($name);
+            $this->entityManager->persist($werkgebied);
+            $this->cache['werkgebieden'][$name] = $werkgebied;
+        }
+
+        return $this->cache['werkgebieden'][$name];
+    }
+
+    private function getGgwGebied($name)
+    {
+        if (!isset($this->cache['ggw_gebieden'][$name])) {
+            $this->cache['ggw_gebieden'][$name] = $this->entityManager->find(GgwGebied::class, $name);
+        }
+        if (!isset($this->cache['ggw_gebieden'][$name])) {
+            $ggwGebied = new GgwGebied($name);
+            $this->entityManager->persist($ggwGebied);
+            $this->cache['ggw_gebieden'][$name] = $ggwGebied;
+        }
+
+        return $this->cache['ggw_gebieden'][$name];
     }
 }
