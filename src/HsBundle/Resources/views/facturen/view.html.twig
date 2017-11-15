@@ -42,13 +42,17 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#registraties">Uren</a></li>
+        <li class="active"><a data-toggle="tab" href="#memos">Memo's</a></li>
+        <li><a data-toggle="tab" href="#registraties">Uren</a></li>
         <li><a data-toggle="tab" href="#declaraties">Declaraties</a></li>
         <li><a data-toggle="tab" href="#betalingen">Betalingen</a></li>
         <li><a data-toggle="tab" href="#herinneringen">Betalingsherinneringen</a></li>
     </ul>
     <div class="tab-content">
-        <div id="registraties" class="tab-pane active">
+        <div id="memos" class="tab-pane active">
+            {% include '@Hs/memos/_list.html.twig' with {klant: entity.klant} %}
+        </div>
+        <div id="registraties" class="tab-pane">
             {% include '@Hs/registraties/_list.html.twig' with {factuur: entity} %}
         </div>
         <div id="declaraties" class="tab-pane">
