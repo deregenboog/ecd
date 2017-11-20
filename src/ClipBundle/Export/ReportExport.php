@@ -13,9 +13,15 @@ class ReportExport extends AbstractExport
         foreach ($data['reports'] as $i => $report) {
             if ($i === 0) {
                 $sheet = $this->excel->getActiveSheet();
-                $sheet->setTitle($report['title']);
+                if ($report['title']) {
+                    $sheet->setTitle($report['title']);
+                }
             } else {
-                $sheet = new \PHPExcel_Worksheet($this->excel, $report['title']);
+                if ($report['title']) {
+                    $sheet = new \PHPExcel_Worksheet($this->excel, $report['title']);
+                } else {
+                    $sheet = new \PHPExcel_Worksheet($this->excel);
+                }
                 $this->excel->addSheet($sheet);
             }
 
