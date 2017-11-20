@@ -14,8 +14,8 @@ use ClipBundle\Service\VraagsoortDaoInterface;
  */
 class VraagsoortenController extends AbstractController
 {
-    protected $title = 'Vraagsoorten';
-    protected $entityName = 'vraagsoort';
+    protected $title = 'Onderwerpen';
+    protected $entityName = 'onderwerp';
     protected $entityClass = Vraagsoort::class;
     protected $formClass = VraagsoortType::class;
     protected $baseRouteName = 'clip_vraagsoorten_';

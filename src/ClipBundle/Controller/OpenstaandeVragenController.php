@@ -6,14 +6,7 @@ use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\GenericExport;
-use ClipBundle\Form\VraagFilterType;
-use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Entity\Vraag;
-use ClipBundle\Form\VraagType;
-use ClipBundle\Form\VraagCloseType;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Controller\AbstractController;
 
 /**
  * @Route("/openstaandevragen")
@@ -43,7 +36,7 @@ class OpenstaandeVragenController extends VragenController
                     'startdatum',
                     'soort',
                     'behandelaar',
-                    'client' => ['klant' => ['naam']],
+                    'client' => ['naam'],
                 ],
             ]);
             $form->handleRequest($request);

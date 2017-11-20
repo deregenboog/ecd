@@ -11,12 +11,11 @@
 
 {% block content_top %}
     <h1>
-        {{ entity_name|capitalize }} {{ entity.klant }}
+        {{ entity_name|capitalize }} {{ entity }}
     </h1>
 {% endblock %}
 
 {% block content_left %}
-    <h2>{{ entity_name|capitalize }}</h2>
     <p>
         {{ html.editLink(path('clip_clienten_edit', {id: entity.id})) }}
         {{ html.link('Wijzigen', path('clip_clienten_edit', {id: entity.id})) }}
@@ -26,6 +25,27 @@
         {% endif %}
     </p>
     <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Geslacht</dt>
+        <dd>{{ entity.geslacht }}</dd>
+        <dt>Geboortedatum</dt>
+        <dd>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</dd>
+        <dt>Adres</dt>
+        <dd>
+            {{ entity.adres }}<br>
+            {{ entity.postcode }} {{ entity.plaats }}
+        </dd>
+        <dt>Werkgebied</dt>
+        <dd>{{ entity.werkgebied }}</dd>
+        <dt>Mobiel</dt>
+        <dd>{{ entity.mobiel }}</dd>
+        <dt>Telefoon</dt>
+        <dd>{{ entity.telefoon }}</dd>
+        <dt>E-mail</dt>
+        <dd>{{ entity.email }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>Aanmelddatum</dt>
         <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
         <dt>Medewerker</dt>
@@ -33,7 +53,6 @@
         <dt>Hoe bekend</dt>
         <dd>{{ entity.viacategorie }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block content_right %}

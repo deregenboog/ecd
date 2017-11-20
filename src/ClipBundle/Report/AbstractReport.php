@@ -94,6 +94,7 @@ abstract class AbstractReport
         foreach ($this->tables as $title => $table) {
             $table = new Table($table, $this->xPath, $this->yPath, $this->nPath);
             $table->setStartDate($this->startDate)->setEndDate($this->endDate);
+            $table->setXSort(false)->setXTotals(false);
 
             $this->reports[] = [
                 'title' => $title,

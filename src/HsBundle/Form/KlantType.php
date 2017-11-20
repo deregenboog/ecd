@@ -65,27 +65,27 @@ class KlantType extends AbstractType
             ->add('onHold')
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+                $data = $event->getData();
+                if ($data['postcode']) {
+                    $data['postcode'] = PostcodeFormatter::format($data['postcode']);
+                    $event->setData($data);
+                }
+            })
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                /** @var $klant Klant */
+                $klant = $event->getData();
+                /** @var $postcode Postcode */
+                $postcode = $this->entityManager->find(Postcode::class, $klant->getPostcode());
+                if ($postcode) {
+                    $klant->setWerkgebied($postcode->getStadsdeel());
+                    $klant->setPostcodegebied($postcode->getPostcodegebied());
+                } else {
+                    $klant->setWerkgebied(null);
+                    $klant->setPostcodegebied(null);
+                }
+            })
         ;
-
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-            /** @var $klant Klant */
-            $klant = $event->getData();
-            $klant->setPostcode(PostcodeFormatter::format($klant->getPostcode()));
-        }, 100);
-
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-            /** @var $klant Klant */
-            $klant = $event->getData();
-            /** @var $postcode Postcode */
-            $postcode = $this->entityManager->find(Postcode::class, $klant->getPostcode());
-            if ($postcode) {
-                $klant->setWerkgebied($postcode->getStadsdeel());
-                $klant->setPostcodegebied($postcode->getPostcodegebied());
-            } else {
-                $klant->setWerkgebied(null);
-                $klant->setPostcodegebied(null);
-            }
-        });
     }
 
     /**

@@ -37,3 +37,9 @@ services:
 #        class: ClipBundle\DataFixtures\ClipFakerProvider
 #        tags:
 #            - { name: hautelook_alice.faker.provider }
+
+    clip.event_subscriber.postcode:
+        class: ClipBundle\Event\PostcodeSubscriber
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: doctrine.event_subscriber }

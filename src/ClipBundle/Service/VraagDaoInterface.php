@@ -48,7 +48,7 @@ interface VraagDaoInterface
 
     public function countByCommunicatiekanaal(\DateTime $startdate, \DateTime $enddate);
 
-    public function countByGeboorteland(\DateTime $startdate, \DateTime $enddate);
+    public function countByEtniciteit(\DateTime $startdate, \DateTime $enddate);
 
     public function countByGeslacht(\DateTime $startdate, \DateTime $enddate);
 
@@ -56,7 +56,7 @@ interface VraagDaoInterface
 
     public function countByLeeftijdscategorie(\DateTime $startdate, \DateTime $enddate);
 
-    public function countByNationaliteit(\DateTime $startdate, \DateTime $enddate);
+    public function countByMaand(\DateTime $startdate, \DateTime $enddate);
 
     public function countByViacategorie(\DateTime $startdate, \DateTime $enddate);
 

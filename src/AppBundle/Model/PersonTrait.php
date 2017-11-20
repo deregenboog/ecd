@@ -1,29 +1,35 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Geslacht;
 
-trait PersoonTrait
+trait PersonTrait
 {
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $voornaam;
+    use NameTrait;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
-    private $tussenvoegsel;
+    protected $roepnaam;
 
     /**
-     * @ORM\Column(type="string")
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
-    private $achternaam;
+    protected $geboortedatum;
+
+    /**
+     * @var Geslacht
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $geslacht;
 
     public function __toString()
     {
@@ -86,6 +92,30 @@ trait PersoonTrait
     public function setAchternaam($achternaam)
     {
         $this->achternaam = $achternaam;
+
+        return $this;
+    }
+
+    public function getGeboortedatum()
+    {
+        return $this->geboortedatum;
+    }
+
+    public function setGeboortedatum(\DateTime $geboortedatum = null)
+    {
+        $this->geboortedatum = $geboortedatum;
+
+        return $this;
+    }
+
+    public function getGeslacht()
+    {
+        return $this->geslacht;
+    }
+
+    public function setGeslacht(Geslacht $geslacht = null)
+    {
+        $this->geslacht = $geslacht;
 
         return $this;
     }

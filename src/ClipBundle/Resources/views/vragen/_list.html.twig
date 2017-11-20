@@ -2,33 +2,31 @@
 <p>
     {% if client is defined %}
         {% set entity = client %}
-        {% set url = path('clip_vragen_add', {client: entity.id, redirect: app.request.get('url')}) %}
+        {% set url = path('clip_vragen_add', {client: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
         {{ html.link('Vraag toevoegen', url) }}
     {% endif %}
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
-        <th>Soort</th>
-        <th>Locatie</th>
         <th>Startdatum</th>
+        <th>Medewerker</th>
+        <th>Onderwerp</th>
+        <th>Contacttype</th>
         <th>Afsluitdatum</th>
-        <th></th>
     </tr>
     {% for vraag in entity.vragen %}
-        <tr>
-            <td>{{ vraag.soort }}</td>
-            <td>{{ vraag.communicatiekanaal }}</td>
+        <tr data-href="{{ path('clip_vragen_view', {id: vraag.id}) }}">
             <td>
                 {{ vraag.startdatum ? vraag.startdatum|date('d-m-Y') }}
             </td>
+            <td>{{ vraag.behandelaar }}</td>
+            <td>{{ vraag.soort }}</td>
+            <td>{{ vraag.communicatiekanaal }}</td>
             <td>
                 {{ vraag.afsluitdatum ? vraag.afsluitdatum|date('d-m-Y') }}
-            </td>
-            <td>
-                {{ html.viewlink(path('clip_vragen_view', {id: vraag.id})) }}
             </td>
         </tr>
     {% endfor %}

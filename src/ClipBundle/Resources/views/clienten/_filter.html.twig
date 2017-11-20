@@ -1,0 +1,30 @@
+{{ form_start(filter) }}
+    <tr>
+        <th colspan="4">
+            <div class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            {{ form_widget(filter.id) }}
+            {{ form_errors(filter.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.naam) }}
+            {{ form_errors(filter.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.stadsdeel) }}
+            {{ form_errors(filter.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(filter.aanmelddatum.start) }}
+            {{ form_errors(filter.aanmelddatum.start) }}
+            {{ form_widget(filter.aanmelddatum.end) }}
+            {{ form_errors(filter.aanmelddatum.end) }}
+        </th>
+    </tr>
+{{ form_end(filter) }}

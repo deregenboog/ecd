@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -17,16 +17,10 @@ trait NameTrait
      * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
-    protected $roepnaam;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
     protected $tussenvoegsel;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     protected $achternaam;

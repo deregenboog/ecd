@@ -22,7 +22,7 @@ class AutoCloseCommand extends ContainerAwareCommand
 
     private $redenPattern = '%geen inloophuis bezocht%';
 
-    protected function configure(InputInterface $input, OutputInterface $output)
+    protected function configure()
     {
         $this
             ->setName('inloop:automatisch-afsluiten')

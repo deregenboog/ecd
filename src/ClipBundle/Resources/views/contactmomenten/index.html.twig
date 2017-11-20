@@ -19,8 +19,8 @@
                 {{ form_errors(filter.id) }}
             </th>
             <th>
-                {{ form_widget(filter.vraag.client.klant.naam) }}
-                {{ form_errors(filter.vraag.client.klant.naam) }}
+                {{ form_widget(filter.vraag.client.naam) }}
+                {{ form_errors(filter.vraag.client.naam) }}
             </th>
             <th>
                 {{ form_widget(filter.vraag.soort) }}
@@ -47,10 +47,10 @@
                 {{ knp_pagination_sortable(pagination, '#', 'contactmoment.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'client.achternaam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Vraag', 'vraagsoort.naam+vraag.startdatum') }}
+                {{ knp_pagination_sortable(pagination, 'Onderwerp', 'vraagsoort.naam+vraag.startdatum') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'behandelaar.displayName') }}

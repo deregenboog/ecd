@@ -3,12 +3,13 @@
 namespace ClipBundle\Report;
 
 use ClipBundle\Service\VraagDaoInterface;
+use ClipBundle\Service\ContactmomentDaoInterface;
 
 class VragenPerViacategorie extends AbstractReport
 {
     protected $title = 'Vragen per hoe bekend';
 
-    protected $xPath = '';
+    protected $xPath = 'kolom';
 
     protected $yPath = 'groep';
 
@@ -20,13 +21,34 @@ class VragenPerViacategorie extends AbstractReport
 
     protected $tables = [];
 
-    public function __construct(VraagDaoInterface $dao)
+    /**
+     * @var VraagDaoInterface
+     */
+    private $vraagDao;
+
+    /**
+     * @var ContactmomentDaoInterface
+     */
+    private $contactmomentDao;
+
+    public function __construct(VraagDaoInterface $vraagDao, ContactmomentDaoInterface $contactmomentDao)
     {
-        $this->dao = $dao;
+        $this->vraagDao = $vraagDao;
+        $this->contactmomentDao = $contactmomentDao;
     }
 
     protected function init()
     {
-        $this->tables[''] = $this->dao->countByViacategorie($this->startDate, $this->endDate);
+        $vragen = $this->vraagDao->countByViacategorie($this->startDate, $this->endDate);
+        array_walk($vragen, function(&$item) {
+            $item['kolom'] = 'Vragen';
+        });
+
+        $contactmomenten = $this->contactmomentDao->countByViacategorie($this->startDate, $this->endDate);
+        array_walk($contactmomenten, function(&$item) {
+            $item['kolom'] = 'Contactmomenten';
+        });
+
+        $this->tables[''] = array_merge($vragen, $contactmomenten);
     }
 }

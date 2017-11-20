@@ -37,7 +37,7 @@ class DienstenLookupSubscriberTest extends \PHPUnit_Framework_TestCase
 
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator->expects($this->once())->method('generate')
-            ->with('hs_dienstverlener_view', ['id' => $dienstverlener->getId()])
+            ->with('hs_dienstverleners_view', ['id' => $dienstverlener->getId()])
             ->willReturn('/generated-url');
 
         $subscriber = new DienstenLookupSubscriber($dienstverlenerDao, $generator);
@@ -46,7 +46,7 @@ class DienstenLookupSubscriberTest extends \PHPUnit_Framework_TestCase
         $diensten = $event->getDiensten();
         $this->assertCount(1, $diensten);
         $expected = [
-            'name' => 'HomeService',
+            'name' => 'Homeservice',
             'url' => '/generated-url',
             'from' => '2017-02-03',
             'to' => null,

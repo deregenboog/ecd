@@ -25,7 +25,7 @@ class Vraag
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $omschrijving;
@@ -52,7 +52,7 @@ class Vraag
      * @var Hulpvrager
      *
      * @ORM\ManyToOne(targetEntity="Hulpvrager", inversedBy="vragen")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $hulpvrager;
@@ -61,7 +61,7 @@ class Vraag
      * @var Communicatiekanaal
      *
      * @ORM\ManyToOne(targetEntity="Communicatiekanaal", inversedBy="vragen")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $communicatiekanaal;
@@ -70,7 +70,7 @@ class Vraag
      * @var Leeftijdscategorie
      *
      * @ORM\ManyToOne(targetEntity="Leeftijdscategorie", inversedBy="vragen")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $leeftijdscategorie;
@@ -133,7 +133,7 @@ class Vraag
 
         // initial Contactmoment has the same Behandelaar as this Vraag
         if (1 === count($this->contactmomenten)) {
-            $this->contactmomenten[0]->setBehandelaar($this->getBehandelaar());
+            $this->contactmomenten[0]->setBehandelaar($behandelaar);
         }
 
         return $this;
@@ -168,7 +168,7 @@ class Vraag
         return $this->hulpvrager;
     }
 
-    public function setHulpvrager(Hulpvrager $hulpvrager)
+    public function setHulpvrager(Hulpvrager $hulpvrager = null)
     {
         $this->hulpvrager = $hulpvrager;
 
@@ -183,6 +183,11 @@ class Vraag
     public function setStartdatum(\DateTime $startdatum)
     {
         $this->startdatum = $startdatum;
+
+        // initial Contactmoment has the same date as this Vraag
+        if (1 === count($this->contactmomenten)) {
+            $this->contactmomenten[0]->setDatum($startdatum);
+        }
 
         return $this;
     }
@@ -241,7 +246,7 @@ class Vraag
         return $this->leeftijdscategorie;
     }
 
-    public function setLeeftijdscategorie(Leeftijdscategorie $leeftijdscategorie)
+    public function setLeeftijdscategorie(Leeftijdscategorie $leeftijdscategorie = null)
     {
         $this->leeftijdscategorie = $leeftijdscategorie;
 
@@ -263,7 +268,7 @@ class Vraag
         return $this->communicatiekanaal;
     }
 
-    public function setCommunicatiekanaal(Communicatiekanaal $communicatiekanaal)
+    public function setCommunicatiekanaal(Communicatiekanaal $communicatiekanaal = null)
     {
         $this->communicatiekanaal = $communicatiekanaal;
 

@@ -1,5 +1,8 @@
 AppBundle\Entity\Medewerker:
-    medewerker_{1..50}:
+    medewerker_1:
+        voornaam: 'Bart'
+        achternaam: 'Huttinga'
+    medewerker_{2..50}:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
     medewerker_{51..55}:

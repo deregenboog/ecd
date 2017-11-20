@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BaseType extends AbstractType
 {
@@ -25,6 +26,16 @@ class BaseType extends AbstractType
                 $this->removeSubmitTypes($child);
             }
         });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'medewerker' => null,
+        ]);
     }
 
     private function removeSubmitTypes(FormInterface $form)

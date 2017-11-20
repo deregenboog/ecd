@@ -25,7 +25,7 @@ services:
             - ClipBundle\Entity\Vraag
             -
                 Nummer: { expression: 'entity.getId()' }
-                Soort: { expression: 'entity.getSoort()' }
+                Onderwerp: { expression: 'entity.getSoort()' }
                 Medewerker: { expression: 'entity.getBehandelaar()' }
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }

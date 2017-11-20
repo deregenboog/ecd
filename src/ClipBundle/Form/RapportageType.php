@@ -29,31 +29,27 @@ class RapportageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('startdatum', DateType::class, [
-            'required' => true,
-            'widget' => 'single_text',
-            'format' => 'dd-MM-yyyy',
-            'data' => new \DateTime('first day of January this year'),
-            'attr' => ['placeholder' => 'dd-mm-jjjj'],
-        ])
-        ->add('einddatum', DateType::class, [
-            'required' => true,
-            'widget' => 'single_text',
-            'format' => 'dd-MM-yyyy',
-            'data' => (new \DateTime('today')),
-            'attr' => ['placeholder' => 'dd-mm-jjjj'],
-        ])
-        ->add('rapport', ChoiceType::class, [
-            'required' => true,
-            'placeholder' => 'Selecteer een rapport',
-            'choices' => $this->choices,
-        ])
-        ->add('show', SubmitType::class, [
-            'label' => 'Rapport tonen',
-        ])
-        ->add('download', SubmitType::class, [
-            'label' => 'Rapport downloaden',
-        ])
+            ->add('startdatum', DateType::class, [
+                'required' => true,
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'data' => new \DateTime('first day of January this year'),
+                'attr' => ['placeholder' => 'dd-mm-jjjj'],
+            ])
+            ->add('einddatum', DateType::class, [
+                'required' => true,
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'data' => (new \DateTime('today')),
+                'attr' => ['placeholder' => 'dd-mm-jjjj'],
+            ])
+            ->add('rapport', ChoiceType::class, [
+                'required' => true,
+                'placeholder' => 'Selecteer een rapport',
+                'choices' => $this->choices,
+            ])
+            ->add('show', SubmitType::class)
+            ->add('download', SubmitType::class)
         ;
     }
 

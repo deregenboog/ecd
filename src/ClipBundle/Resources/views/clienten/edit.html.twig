@@ -11,10 +11,29 @@
 
 {% block content %}
     <h1>{{ entity_name|capitalize }} wijzigen</h1>
-    <p>
-        Hier kunt u alleen de Clip-gegevens voor deze deelnemer wijzigen. Klik
-        {{ html.link('hier', path('app_klanten_view', {'id': entity.klant.id})) }}
-        om naar het basisdossier van deze deelnemer te gaan.
-    </p>
-    {{ form(form) }}
+    {{ form_start(form) }}
+        <div class="container-fluid">
+            <div class="col-xs-6">
+                <h2>Hulpvrager</h2>
+                {{ form_widget(form.person) }}
+                {{ form_errors(form.person) }}
+                {{ form_row(form.etniciteit) }}
+                {{ form_row(form.viacategorie) }}
+            </div>
+            <div class="col-xs-6">
+                <h2>Contact</h2>
+                {{ form_widget(form.address) }}
+                {{ form_errors(form.address) }}
+                {{ form_row(form.werkgebied) }}
+            </div>
+            <div class="col-xs-6">
+                <h2>Behandeling</h2>
+                {{ form_row(form.aanmelddatum) }}
+                {{ form_row(form.behandelaar) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(form.submit) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
 {% endblock %}

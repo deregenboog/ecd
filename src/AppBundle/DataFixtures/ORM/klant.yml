@@ -17,7 +17,7 @@ AppBundle\Entity\Klant:
 #        laatsteRegistratie: '@registratie_*'
         overleden: '10%? 1 : 0'
         disabled: '10%? 1 : 0'
-        werkgebied: 'Centrum'
+        werkgebied: '80%? @werkgebied_*'
         geenPost: '10%? 1 : 0'
         geenEmail: '10%? 1 : 0'
         medewerker: '@medewerker_*'

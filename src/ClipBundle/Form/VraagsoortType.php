@@ -19,7 +19,7 @@ class VraagsoortType extends AbstractType
         $builder
             ->add('naam')
             ->add('actief')
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 
