@@ -18,7 +18,7 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('app:database:process-zipcodes')
+            ->setName('app:zipcode:process')
             ->addArgument('files', InputArgument::REQUIRED + InputArgument::IS_ARRAY, 'Files to process')
             ->addOption('output', 'o', InputOption::VALUE_OPTIONAL, 'Output file', 'app/data/postcodes.csv')
         ;
