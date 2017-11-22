@@ -4,10 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\NameTrait;
 use AppBundle\Model\AddressTrait;
+use AppBundle\Model\PersonTrait;
 
 /**
  * @ORM\MappedSuperclass
@@ -16,7 +15,7 @@ use AppBundle\Model\AddressTrait;
  */
 class Persoon
 {
-    use NameTrait, AddressTrait, TimestampableTrait;
+    use PersonTrait, AddressTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -24,13 +23,6 @@ class Persoon
      * @ORM\GeneratedValue
      */
     protected $id;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="date", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $geboortedatum;
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
@@ -45,14 +37,6 @@ class Persoon
      * @Gedmo\Versioned
      */
     protected $medewerker;
-
-    /**
-     * @var Geslacht
-     * @ORM\ManyToOne(targetEntity="Geslacht")
-     * @ORM\JoinColumn(nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $geslacht;
 
     /**
      * @var Land
@@ -97,30 +81,6 @@ class Persoon
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getGeslacht()
-    {
-        return $this->geslacht;
-    }
-
-    public function setGeslacht(Geslacht $geslacht)
-    {
-        $this->geslacht = $geslacht;
-
-        return $this;
-    }
-
-    public function getGeboortedatum()
-    {
-        return $this->geboortedatum;
-    }
-
-    public function setGeboortedatum(\DateTime $geboortedatum = null)
-    {
-        $this->geboortedatum = $geboortedatum;
-
-        return $this;
     }
 
     public function isGeenPost()

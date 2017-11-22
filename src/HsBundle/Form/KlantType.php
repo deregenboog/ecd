@@ -11,9 +11,7 @@ use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use AppBundle\Entity\Stadsdeel;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use AppBundle\Entity\Postcode;
@@ -42,7 +40,6 @@ class KlantType extends AbstractType
             ->add('voornaam')
             ->add('tussenvoegsel')
             ->add('achternaam')
-            ->add('roepnaam')
             ->add('geslacht', null, [
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
@@ -62,7 +59,6 @@ class KlantType extends AbstractType
             ->add('telefoon')
             ->add('inschrijving', AppDateType::class)
             ->add('bewindvoerder', TextareaType::class, ['required' => false])
-            ->add('onHold')
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

@@ -1,6 +1,13 @@
-{% if filter is defined %}
+{{ form_start(filter) }}
     <tr>
-        {{ form_start(filter) }}
+        <th colspan="6">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
         <th>
             {{ form_widget(filter.status) }}
             {{ form_errors(filter.status) }}
@@ -29,10 +36,5 @@
             {{ form_widget(filter.activiteit) }}
             {{ form_errors(filter.activiteit) }}
         </th>
-        <th>
-            {{ form_widget(filter.filter) }}
-            {{ form_widget(filter.download) }}
-        </th>
-        {{ form_end(filter) }}
     </tr>
-{% endif %}
+{{ form_end(filter) }}

@@ -11,6 +11,8 @@ use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use HsBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use HsBundle\Filter\ArbeiderFilter;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -29,6 +31,16 @@ class VrijwilligerFilterType extends AbstractType
             $builder->add('rijbewijs', CheckboxType::class, [
                 'label' => 'Rijbewijs',
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    ArbeiderFilter::STATUS_ACTIVE => ArbeiderFilter::STATUS_ACTIVE,
+                    ArbeiderFilter::STATUS_NON_ACTIVE => ArbeiderFilter::STATUS_NON_ACTIVE,
+                ],
             ]);
         }
 
@@ -51,8 +63,10 @@ class VrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VrijwilligerFilter::class,
+            'data' => new VrijwilligerFilter(),
             'enabled_filters' => [
                 'rijbewijs',
+                'status',
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
                 'filter',
                 'download',

@@ -66,7 +66,6 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
     public function addKlus(Klus $klus)
     {
         $this->klussen[] = $klus;
-        $klus->addVrijwilliger($this);
 
         return $this;
     }

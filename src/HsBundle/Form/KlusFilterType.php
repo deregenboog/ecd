@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
-use HsBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\KlusFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use HsBundle\Entity\Activiteit;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use HsBundle\Entity\Klus;
 
 class KlusFilterType extends AbstractType
 {
@@ -51,9 +51,10 @@ class KlusFilterType extends AbstractType
             $builder->add('status', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
-                    'Openstaand' => KlusFilter::STATUS_OPEN,
-                    'On hold' => KlusFilter::STATUS_ON_HOLD,
-                    'Afgerond' => KlusFilter::STATUS_CLOSED,
+                    Klus::STATUS_OPENSTAAND => Klus::STATUS_OPENSTAAND,
+                    Klus::STATUS_IN_BEHANDELING => Klus::STATUS_IN_BEHANDELING,
+                    Klus::STATUS_ON_HOLD => Klus::STATUS_ON_HOLD,
+                    Klus::STATUS_AFGEROND => Klus::STATUS_AFGEROND,
                 ],
             ]);
         }

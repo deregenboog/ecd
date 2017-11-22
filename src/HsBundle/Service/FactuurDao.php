@@ -16,6 +16,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
             'factuur.datum',
             'factuur.bedrag',
             'klant.achternaam',
+            'herinnering.type',
         ],
         'wrap-queries' => true, // because of HAVING clause in filter
     ];
@@ -33,6 +34,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
             ->select("{$this->alias}, klant, betaling")
             ->innerJoin('factuur.klant', 'klant')
             ->leftJoin('factuur.betalingen', 'betaling')
+            ->leftJoin('factuur.herinneringen', 'herinnering')
         ;
 
         return $this->doFindAll($builder, $page, $filter);

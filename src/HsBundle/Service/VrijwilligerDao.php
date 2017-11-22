@@ -40,7 +40,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->andWhere('basisvrijwilliger.disabled = false')
         ;
 
-        if ($filter) {
+        if ($filter && $filter->vrijwilliger) {
             $filter->vrijwilliger->alias = 'basisvrijwilliger';
             $filter->applyTo($builder);
         }

@@ -2,13 +2,9 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Entity\Factuur;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 use AppBundle\Controller\AbstractChildController;

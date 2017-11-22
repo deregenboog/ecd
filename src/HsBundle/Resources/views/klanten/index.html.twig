@@ -31,38 +31,27 @@
                     {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
-                </th>
-                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Saldo', 'klant.saldo') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for entity in pagination %}
-            <tr>
+            <tr data-href="{{ path(view_route, {id: entity.id}) }}">
                 <td>
-                    {{ html.link(entity.id, path(view_route, {id: entity.id})) }}
+                    {{ entity.id }}
                 </td>
                 <td>
-                    {{ html.link(entity.achternaamCompleet, path(view_route, {id: entity.id})) }}
-                </td>
-                <td>
-                    {{ html.link(entity.voornaamCompleet, path(view_route, {id: entity.id})) }}
+                    {{ entity }}
                 </td>
                 <td>
                     {{ entity.werkgebied }}
-                </td>
-                <td>
-                    {{ entity.actief ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
                     {% if entity.saldo > 0 %}
@@ -74,11 +63,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {{ html.viewLink(path(view_route, {id: entity.id})) }}
-                    {{ html.editLink(path(edit_route, {id: entity.id})) }}
-                    {% if entity.deletable %}
-                        {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
-                    {% endif %}
+                    {{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}
                 </td>
             </tr>
             {% endfor %}

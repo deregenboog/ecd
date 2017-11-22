@@ -53,6 +53,11 @@ class Herinnering
         $this->setDatum(new \DateTime());
     }
 
+    public function __toString()
+    {
+        return sprintf('%s (%s)', $this->type, $this->datum->format('d-m-Y'));
+    }
+
     public function getId()
     {
         return $this->id;

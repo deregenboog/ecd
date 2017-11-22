@@ -23,6 +23,8 @@
 
 {% block content_left %}
     <dl class="dl-horizontal">
+        <dt>Status</dt>
+        <dd>{{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}</dd>
         <dt>#</dt>
         <dd>{{ entity.id }}</dd>
         <dt>ERP-nummer</dt>
@@ -69,20 +71,20 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#klussen">Klussen</a></li>
+        <li class="active"><a data-toggle="tab" href="#memos">Klantinfo</a></li>
+        <li><a data-toggle="tab" href="#klussen">Klussen</a></li>
         <li><a data-toggle="tab" href="#facturen">Facturen</a></li>
-        <li><a data-toggle="tab" href="#memos">Klantinfo</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
-        <div id="klussen" class="tab-pane active">
+        <div id="memos" class="tab-pane active">
+            {% include '@Hs/memos/_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="klussen" class="tab-pane">
             {% include '@Hs/klussen/_list.html.twig' with {klant: entity} %}
         </div>
         <div id="facturen" class="tab-pane">
             {% include '@Hs/facturen/_list.html.twig' with {klant: entity} %}
-        </div>
-        <div id="memos" class="tab-pane">
-            {% include '@Hs/memos/_list.html.twig' with {klant: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
             {% include '@Hs/documenten/_list.html.twig' with {klant: entity} %}

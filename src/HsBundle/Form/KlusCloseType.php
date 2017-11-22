@@ -5,12 +5,12 @@ namespace HsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use HsBundle\Entity\Klus;
+use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use HsBundle\Entity\Document;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use AppBundle\Form\BaseType;
 
-class DocumentType extends AbstractType
+class KlusCloseType extends AbstractType
 {
     use MedewerkerTypeTrait;
 
@@ -20,15 +20,12 @@ class DocumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('naam')
-            ->add('file', FileType::class, [
-                'label' => 'Document',
+            ->add('einddatum', AppDateType::class, [
+                'required' => true,
+                'data' => new \DateTime('today'),
             ])
+            ->add('submit', SubmitType::class)
         ;
-
-        $this->addMedewerkerType($builder, $options);
-
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**
@@ -37,7 +34,7 @@ class DocumentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Document::class,
+            'data_class' => Klus::class,
         ]);
     }
 
