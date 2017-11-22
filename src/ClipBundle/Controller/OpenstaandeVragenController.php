@@ -7,13 +7,18 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use ClipBundle\Entity\Vraag;
+use AppBundle\Controller\AbstractController;
+use ClipBundle\Form\VraagFilterType;
+use ClipBundle\Form\VraagType;
 
 /**
  * @Route("/openstaandevragen")
  */
-class OpenstaandeVragenController extends VragenController
+class OpenstaandeVragenController extends AbstractController
 {
     protected $title = 'Openstaande vragen';
+    protected $filterFormClass = VraagFilterType::class;
+    protected $baseRouteName = 'clip_vragen_';
 
     /**
      * @var VraagDaoInterface
