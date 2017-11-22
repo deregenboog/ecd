@@ -13,12 +13,17 @@
 {% set view_route = 'hs_klussen_view' %}
 {% set edit_route = 'hs_klussen_edit' %}
 {% set delete_route = 'hs_klussen_delete' %}
+{% set close_route = 'hs_klussen_close' %}
 
 {% block content_top %}
     <h1>Klus {{ entity }}</h1>
     <p>
         {{ html.editLink(path(edit_route, {id: entity.id})) }}
         {{ html.link('Wijzigen', path(edit_route, {id: entity.id})) }}
+        {% if not entity.einddatum %}
+            {{ html.closeLink(path(close_route, {id: entity.id})) }}
+            {{ html.link('Afsluiten', path(close_route, {id: entity.id})) }}
+        {% endif %}
         {% if entity.deletable %}
             {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
             {{ html.link('Verwijderen', path(delete_route, {id: entity.id})) }}
@@ -28,10 +33,12 @@
 
 {% block content_left %}
     <dl class="dl-horizontal">
-        <dt>#</dt>
-        <dd>{{ entity.id }}</dd>
-        <dt>Activiteit</dt>
-        <dd>{{ entity.activiteit }}</dd>
+        <dt>Status</dt>
+        <dd>{{ entity.status|status_color }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}</dd>
         <dt>Klant</dt>
         <dd>
             {% if entity.klant %}
@@ -40,10 +47,16 @@
                 Homeservice
             {% endif %}
         </dd>
-        <dt>Startdatum</dt>
-        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-        <dt>Einddatum</dt>
-        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}</dd>
+        <dt>Stadsdeel</dt>
+        <dd>
+            {% if entity.klant %}
+                {{ entity.klant.werkgebied }}
+            {% else %}
+                Homeservice (geen klant)
+            {% endif %}
+        </dd>
+        <dt>Activiteit</dt>
+        <dd>{{ entity.activiteit }}</dd>
         <dt>Dienstverleners</dt>
         <dd>
             <ul>

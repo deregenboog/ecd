@@ -5,6 +5,7 @@ namespace HsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use HsBundle\Exception\HsException;
 
 /**
  * @ORM\Entity
@@ -43,6 +44,12 @@ class Factuur
      * @Gedmo\Versioned
      */
     private $bedrag;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $locked = false;
 
     /**
      * @var Klant
@@ -87,7 +94,7 @@ class Factuur
      */
     private $herinneringen;
 
-    public function __construct(Klant $klant, $nummer, $betreft)
+    public function __construct(Klant $klant, $nummer = null, $betreft = null)
     {
         $this->klant = $klant;
         $this->nummer = $nummer;
@@ -99,7 +106,7 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        $this->setDatum(new \DateTime());
+        $this->setDatum(new \DateTime('today'));
     }
 
     public function __toString()
@@ -146,6 +153,10 @@ class Factuur
 
     public function addKlus(Klus $klus)
     {
+        if ($this->isLocked()) {
+            throw new HsException('Factuur is al definitief.');
+        }
+
         if (!$this->klussen->contains($klus)) {
             $this->klussen[] = $klus;
         }
@@ -172,6 +183,10 @@ class Factuur
 
     public function addRegistratie(Registratie $registratie)
     {
+        if ($this->isLocked()) {
+            throw new HsException('Factuur is al definitief.');
+        }
+
         $this->registraties[] = $registratie;
         $registratie->setFactuur($this);
 
@@ -189,6 +204,10 @@ class Factuur
 
     public function addDeclaratie(Declaratie $declaratie)
     {
+        if ($this->isLocked()) {
+            throw new HsException('Factuur is al definitief.');
+        }
+
         $this->declaraties[] = $declaratie;
         $declaratie->setFactuur($this);
 
@@ -258,6 +277,18 @@ class Factuur
     {
         $this->herinneringen[] = $herinnering;
         $herinnering->setFactuur($this);
+
+        return $this;
+    }
+
+    public function isLocked()
+    {
+        return $this->locked;
+    }
+
+    public function lock()
+    {
+        $this->locked = true;
 
         return $this;
     }

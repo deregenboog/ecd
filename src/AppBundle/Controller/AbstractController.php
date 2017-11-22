@@ -57,8 +57,8 @@ class AbstractController extends SymfonyController
                 if ($form->has('download') && $form->get('download')->isClicked()) {
                     return $this->download($form->getData());
                 }
-                $filter = $form->getData();
             }
+            $filter = $form->getData();
         }
 
         $page = $request->get('page', 1);

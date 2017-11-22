@@ -4,14 +4,27 @@ imports:
     - { resource: reports.yml }
 
 services:
+    hs.twig.hs_extension:
+        class: HsBundle\Twig\HsExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+
     hs.form.type.klant:
         class: HsBundle\Form\KlantType
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
 
-    hs.subscriber.klant:
+    hs.event_subscriber.klant:
         class: HsBundle\Event\KlantUpdater
+        tags:
+            - { name: doctrine.event_subscriber }
+    
+    hs.event_subscriber.factuur:
+        class: HsBundle\Event\FactuurSubscriber
+        arguments:
+            - "@hs.factory.factuur"
         tags:
             - { name: doctrine.event_subscriber }
 

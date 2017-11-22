@@ -12,6 +12,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
         'defaultSortFieldName' => 'klus.startdatum',
         'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
+            'klus.status',
             'klus.startdatum',
             'klus.einddatum',
             'klant.achternaam',

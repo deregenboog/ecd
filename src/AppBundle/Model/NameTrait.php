@@ -37,28 +37,11 @@ trait NameTrait
         if ($this->voornaam) {
             $parts[] = $this->voornaam;
         }
-        if ($this->roepnaam) {
-            $parts[] = "({$this->roepnaam})";
-        }
         if ($this->tussenvoegsel) {
             $parts[] = $this->tussenvoegsel;
         }
         if ($this->achternaam) {
             $parts[] = $this->achternaam;
-        }
-
-        return implode(' ', $parts);
-    }
-
-    public function getVoornaamCompleet()
-    {
-        $parts = [];
-
-        if ($this->voornaam) {
-            $parts[] = $this->voornaam;
-        }
-        if ($this->roepnaam) {
-            $parts[] = "({$this->roepnaam})";
         }
 
         return implode(' ', $parts);
@@ -68,14 +51,15 @@ trait NameTrait
     {
         $parts = [];
 
-        if ($this->tussenvoegsel) {
-            $parts[] = $this->tussenvoegsel;
-        }
         if ($this->achternaam) {
             $parts[] = $this->achternaam;
         }
 
-        return implode(' ', $parts);
+        if ($this->tussenvoegsel) {
+            $parts[] = $this->tussenvoegsel;
+        }
+
+        return implode(', ', $parts);
     }
 
     public function getVoornaam()
@@ -86,18 +70,6 @@ trait NameTrait
     public function setVoornaam($voornaam)
     {
         $this->voornaam = $voornaam;
-
-        return $this;
-    }
-
-    public function getRoepnaam()
-    {
-        return $this->roepnaam;
-    }
-
-    public function setRoepnaam($roepnaam)
-    {
-        $this->roepnaam = $roepnaam;
 
         return $this;
     }

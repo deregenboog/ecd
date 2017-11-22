@@ -41,7 +41,14 @@ class FactuurFilterType extends AbstractType
         if (in_array('negatiefSaldo', $options['enabled_filters'])) {
             $builder->add('negatiefSaldo', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen openstaande facturen',
+                'label' => 'Openstaande facturen',
+            ]);
+        }
+
+        if (in_array('metHerinnering', $options['enabled_filters'])) {
+            $builder->add('metHerinnering', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Met betalingsherinnering',
             ]);
         }
 
@@ -67,6 +74,7 @@ class FactuurFilterType extends AbstractType
                 'datum',
                 'bedrag',
                 'negatiefSaldo',
+                'metHerinnering',
                 'klant' => ['naam'],
                 'filter',
                 'download',

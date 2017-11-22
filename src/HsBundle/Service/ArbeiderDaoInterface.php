@@ -5,7 +5,6 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Arbeider;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
 
 interface ArbeiderDaoInterface
 {

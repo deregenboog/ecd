@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use HsBundle\Entity\Memo;
+use Doctrine\ORM\EntityRepository;
 
 class KlusType extends AbstractType
 {
@@ -38,10 +39,24 @@ class KlusType extends AbstractType
             ->add('dienstverleners', null, [
                 'by_reference' => false, // force to call adder and remover
                 'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('dienstverlener')
+                        ->innerJoin('dienstverlener.klant', 'klant')
+                        ->where('dienstverlener.actief = true')
+                        ->orderBy('klant.achternaam')
+                    ;
+                },
             ])
             ->add('vrijwilligers', null, [
                 'by_reference' => false, // force to call adder and remover
                 'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('vrijwilliger')
+                        ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+                        ->where('vrijwilliger.actief = true')
+                        ->orderBy('basisvrijwilliger.achternaam')
+                    ;
+                },
             ])
         ;
 

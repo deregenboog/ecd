@@ -33,6 +33,11 @@ class FactuurFilter implements FilterInterface
      */
     public $klant;
 
+    /**
+     * @var bool
+     */
+    public $metHerinnering;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->nummer) {
@@ -70,6 +75,10 @@ class FactuurFilter implements FilterInterface
                 ->orHaving('SUM(factuur.bedrag) > 0 AND COUNT(betaling) = 0')
                 ->groupBy('factuur')
             ;
+        }
+
+        if ($this->metHerinnering) {
+            $builder->andWhere('herinnering.id IS NOT NULL');
         }
 
         if ($this->klant) {

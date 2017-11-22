@@ -24,8 +24,7 @@ class BetalingTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDeletable()
     {
-        $factuur = $this->createMock(Factuur::class);
-        $betaling = new Betaling($factuur);
+        $betaling = new Betaling();
 
         $this->assertFalse($betaling->isDeletable());
     }
