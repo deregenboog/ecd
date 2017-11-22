@@ -154,7 +154,7 @@ abstract class SymfonyController extends \AppController
     protected function file($file, $fileName = null, $disposition = ResponseHeaderBag::DISPOSITION_ATTACHMENT)
     {
         $response = new BinaryFileResponse($file);
-        $response->setContentDisposition($disposition, $fileName === null ? $response->getFile()->getFilename() : $fileName);
+        $response->setContentDisposition($disposition, null === $fileName ? $response->getFile()->getFilename() : $fileName);
 
         return $response;
     }

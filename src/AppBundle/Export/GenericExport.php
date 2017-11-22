@@ -45,7 +45,7 @@ class GenericExport extends AbstractExport
         $column = 0;
 
         foreach ($entities as $entity) {
-            if ($this->class === 'array') {
+            if ('array' === $this->class) {
                 if (!is_array($entity)) {
                     throw new ExportException('Class %s only supports array\'s', __CLASS__);
                 }

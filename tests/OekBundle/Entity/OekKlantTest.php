@@ -37,8 +37,6 @@ class OekKlantTest extends \PHPUnit_Framework_TestCase
         $oekKlant->addOekAanmelding($this->getOekAanmelding());
     }
 
-    /**
-     */
     public function testCanReopenClosedDossier()
     {
         $oekKlant = new OekKlant();

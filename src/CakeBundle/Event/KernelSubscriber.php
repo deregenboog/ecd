@@ -57,7 +57,6 @@ class KernelSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getException();
         if ($exception instanceof NotFoundHttpException) {
-
 //             // configure CakeHPHP
 //             $cakeConfig = $this->container->get('cake.configuration');
 //             foreach ($cakeConfig->all() as $key => $value) {

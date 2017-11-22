@@ -4,7 +4,6 @@ namespace ClipBundle\Report;
 
 use ClipBundle\Service\VraagDaoInterface;
 use ClipBundle\Service\ContactmomentDaoInterface;
-use AppBundle\Report\Table;
 
 class VragenPerCommunicatiekanaal extends AbstractReport
 {
@@ -41,12 +40,12 @@ class VragenPerCommunicatiekanaal extends AbstractReport
     protected function init()
     {
         $vragen = $this->vraagDao->countByCommunicatiekanaal($this->startDate, $this->endDate);
-        array_walk($vragen, function(&$item) {
+        array_walk($vragen, function (&$item) {
             $item['kolom'] = 'Vragen';
         });
 
         $contactmomenten = $this->contactmomentDao->countByCommunicatiekanaal($this->startDate, $this->endDate);
-        array_walk($contactmomenten, function(&$item) {
+        array_walk($contactmomenten, function (&$item) {
             $item['kolom'] = 'Contactmomenten';
         });
 

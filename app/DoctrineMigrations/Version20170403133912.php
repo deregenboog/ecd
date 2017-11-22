@@ -16,7 +16,7 @@ class Version20170403133912 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE oek_dossier_statussen (id INT AUTO_INCREMENT NOT NULL, verwijzing_id INT NOT NULL, medewerker_id INT NOT NULL, datum DATE NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, oekKlant_id INT NOT NULL, class VARCHAR(255) NOT NULL, INDEX IDX_D8FAC765E145C54F (oekKlant_id), INDEX IDX_D8FAC765D8B4CBDF (verwijzing_id), INDEX IDX_D8FAC7653D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE oek_verwijzingen (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, actief TINYINT(1) DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, class VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

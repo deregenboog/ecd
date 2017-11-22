@@ -9,7 +9,7 @@ use AppBundle\Filter\FilterInterface;
 interface KlantDaoInterface
 {
     /**
-     * @param int $page
+     * @param int             $page
      * @param FilterInterface $filter
      *
      * @return PaginationInterface

@@ -202,7 +202,6 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-
     protected function applyFilter(QueryBuilder $builder, \DateTime $startdate, \DateTime $enddate)
     {
         $builder

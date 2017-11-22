@@ -40,12 +40,12 @@ class VragenPerGeslacht extends AbstractReport
     protected function init()
     {
         $vragen = $this->vraagDao->countByGeslacht($this->startDate, $this->endDate);
-        array_walk($vragen, function(&$item) {
+        array_walk($vragen, function (&$item) {
             $item['kolom'] = 'Vragen';
         });
 
-            $contactmomenten = $this->contactmomentDao->countByGeslacht($this->startDate, $this->endDate);
-        array_walk($contactmomenten, function(&$item) {
+        $contactmomenten = $this->contactmomentDao->countByGeslacht($this->startDate, $this->endDate);
+        array_walk($contactmomenten, function (&$item) {
             $item['kolom'] = 'Contactmomenten';
         });
 

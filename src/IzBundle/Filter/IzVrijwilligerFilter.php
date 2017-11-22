@@ -160,7 +160,7 @@ class IzVrijwilligerFilter implements FilterInterface
 
     private function getSubBuilder(QueryBuilder $builder)
     {
-        $subBuilder = clone($builder);
+        $subBuilder = clone $builder;
 
         // keep select and from parts, reset the rest
         $dqlParts = $subBuilder->getDQLParts();
@@ -174,7 +174,7 @@ class IzVrijwilligerFilter implements FilterInterface
     private function getIds(QueryBuilder $builder)
     {
         return array_map(
-            function(array $item) {
+            function (array $item) {
                 return $item['id'];
             },
             $builder->getQuery()->getResult()

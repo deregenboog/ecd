@@ -5,7 +5,6 @@ namespace IzBundle\Service;
 use IzBundle\Entity\Doelstelling;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query\Expr;
 
 class DoelstellingDao extends AbstractDao implements DoelstellingDaoInterface
 {

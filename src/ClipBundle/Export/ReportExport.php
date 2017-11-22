@@ -11,7 +11,7 @@ class ReportExport extends AbstractExport
         $this->excel = new \PHPExcel();
 
         foreach ($data['reports'] as $i => $report) {
-            if ($i === 0) {
+            if (0 === $i) {
                 $sheet = $this->excel->getActiveSheet();
                 if ($report['title']) {
                     $sheet->setTitle($report['title']);

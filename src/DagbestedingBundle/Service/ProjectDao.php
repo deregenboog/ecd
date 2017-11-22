@@ -4,7 +4,6 @@ namespace DagbestedingBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Project;
-use AppBundle\Filter\FilterInterface;
 
 class ProjectDao extends AbstractDao implements ProjectDaoInterface
 {

@@ -104,7 +104,7 @@ class VerhuurdersController extends SymfonyController
 
         if ($this->getRequest()->query->has('klantId')) {
             $klant = new Klant();
-            if ($this->getRequest()->query->get('klantId') !== 'new') {
+            if ('new' !== $this->getRequest()->query->get('klantId')) {
                 $klant = $entityManager->find(Klant::class, $this->getRequest()->query->get('klantId'));
             }
 
