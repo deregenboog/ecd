@@ -13,6 +13,14 @@
     <h1>{{ title }}</h1>
     <table class="table table-hover">
         <tr>
+            <th colspan="5">
+                <span class="pull-right">
+                    {{ form_widget(filter.filter) }}
+                    {{ form_widget(filter.download) }}
+                </span>
+            </th>
+        </tr>
+        <tr>
             {{ form_start(filter) }}
             <th>
                 {{ form_widget(filter.id) }}
@@ -36,10 +44,6 @@
                 {{ form_widget(filter.datum.end) }}
                 {{ form_errors(filter.datum.end) }}
             </th>
-            <th>
-                {{ form_widget(filter.filter) }}
-                {{ form_widget(filter.download) }}
-            </th>
             {{ form_end(filter) }}
         </tr>
         <tr>
@@ -58,13 +62,11 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Datum', 'contactmoment.datum') }}
             </th>
-            <th>
-            </th>
         </tr>
         {% for entity in pagination %}
-            <tr>
+            <tr data-href="{{ path(route_base ~ 'view', {'id': entity.id}) }}">
                 <td>
-                    {{ html.link(entity.id, path(route_base ~ 'view', {'id': entity.id})) }}
+                    {{ entity.id }}
                 </td>
                 <td>
                     {{ entity.vraag.client }}
@@ -77,13 +79,6 @@
                 </td>
                 <td>
                     {{ entity.datum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ html.viewLink(path(route_base ~ 'view', {'id': entity.id})) }}
-                    {{ html.editLink(path(route_base ~ 'edit', {'id': entity.id})) }}
-                    {% if entity.deletable %}
-                        {{ html.deleteLink(path(route_base ~ 'delete', {'id': entity.id})) }}
-                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
