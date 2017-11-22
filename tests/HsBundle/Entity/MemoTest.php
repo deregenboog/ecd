@@ -16,6 +16,6 @@ class MemoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(date(' d-m-Y H:i:s'), (string) $memo);
 
         $memo = new Memo($medewerker);
-        $this->assertEquals('Piet Jansen' . date(' d-m-Y H:i:s'), (string) $memo);
+        $this->assertEquals('Piet Jansen'.date(' d-m-Y H:i:s'), (string) $memo);
     }
 }

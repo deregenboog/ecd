@@ -51,6 +51,7 @@ class FactuurFactory implements FactuurFactoryInterface
         foreach ($klant->getKlussen() as $klus) {
             foreach ($klus->getDeclaraties()->matching($criteria) as $declaratie) {
                 $factuur->addDeclaratie($declaratie);
+                $factuur->addKlus($klus);
             }
             foreach ($klus->getRegistraties()->matching($criteria) as $registratie) {
                 $factuur->addRegistratie($registratie);

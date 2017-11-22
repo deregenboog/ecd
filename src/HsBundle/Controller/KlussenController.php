@@ -9,6 +9,8 @@ use HsBundle\Service\KlusDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use HsBundle\Form\KlusFilterType;
 use AppBundle\Controller\AbstractChildController;
+use Symfony\Component\HttpFoundation\Request;
+use HsBundle\Form\KlusCloseType;
 
 /**
  * @Route("/klussen")
@@ -43,4 +45,14 @@ class KlussenController extends AbstractChildController
      * @DI\Inject("hs.klus.entities")
      */
     protected $entities;
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $this->formClass = KlusCloseType::class;
+
+        return $this->editAction($request, $id);
+    }
 }

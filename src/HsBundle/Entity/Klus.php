@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -15,6 +16,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Klus implements MemoSubjectInterface
 {
     use MemoSubjectTrait;
+
+    const STATUS_OPENSTAAND = 'Openstaand';
+    const STATUS_IN_BEHANDELING = 'In behandeling';
+    const STATUS_ON_HOLD = 'On hold';
+    const STATUS_AFGEROND = 'Afgerond';
 
     /**
      * @ORM\Id
@@ -45,8 +51,21 @@ class Klus implements MemoSubjectInterface
     private $onHold = false;
 
     /**
+     * @var string
+     * @ORM\Column(nullable=false)
+     * @Gedmo\Versioned
+     * @Assert\Choice(choices={
+     *     Klus::STATUS_OPENSTAAND,
+     *     Klus::STATUS_IN_BEHANDELING,
+     *     Klus::STATUS_ON_HOLD,
+     *     Klus::STATUS_AFGEROND
+     * })
+     */
+    private $status = self::STATUS_OPENSTAAND;
+
+    /**
      * @var Klant
-     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="klussen")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="klussen", cascade={"persist"})
      * @Gedmo\Versioned
      */
     private $klant;
@@ -109,12 +128,17 @@ class Klus implements MemoSubjectInterface
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();
         $this->facturen = new ArrayCollection();
+        $this->declaraties = new ArrayCollection();
         $this->startdatum = new \DateTime('now');
     }
 
     public function __toString()
     {
-        return sprintf('%s %d', $this->activiteit, $this->id);
+        if ($this->klant) {
+            return sprintf('%s - %s', $this->activiteit, $this->klant);
+        }
+
+        return sprintf('%s - %s', $this->activiteit, 'Homeservice-klus (zonder klant)');
     }
 
     public function getId()
@@ -153,8 +177,12 @@ class Klus implements MemoSubjectInterface
 
     public function addDienstverlener(Dienstverlener $dienstverlener)
     {
-        $this->dienstverleners[] = $dienstverlener;
-        $dienstverlener->getKlussen()->add($this);
+        if (!$this->dienstverleners->contains($dienstverlener)) {
+            $this->dienstverleners[] = $dienstverlener;
+            $dienstverlener->addKlus($this);
+        }
+
+        $this->updateStatus();
 
         return $this;
     }
@@ -176,8 +204,12 @@ class Klus implements MemoSubjectInterface
 
     public function addVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-        $this->vrijwilligers[] = $vrijwilliger;
-        $vrijwilliger->getKlussen()->add($this);
+        if (!$this->vrijwilligers->contains($vrijwilliger)) {
+            $this->vrijwilligers[] = $vrijwilliger;
+            $vrijwilliger->addKlus($this);
+        }
+
+        $this->updateStatus();
 
         return $this;
     }
@@ -195,6 +227,21 @@ class Klus implements MemoSubjectInterface
     public function getRegistraties()
     {
         return $this->registraties;
+    }
+
+    public function addRegistratie(Registratie $registratie)
+    {
+        $this->registraties[] = $registratie;
+        $registratie->setKlus($this);
+
+        if ($registratie->getArbeider() instanceof Dienstverlener) {
+            $this->addDienstverlener($registratie->getArbeider());
+        }
+        if ($registratie->getArbeider() instanceof Vrijwilliger) {
+            $this->addVrijwilliger($registratie->getArbeider());
+        }
+
+        return $this;
     }
 
     public function getDeclaraties()
@@ -256,6 +303,8 @@ class Klus implements MemoSubjectInterface
     {
         $this->einddatum = $einddatum;
 
+        $this->updateStatus();
+
         return $this;
     }
 
@@ -293,21 +342,30 @@ class Klus implements MemoSubjectInterface
     {
         $this->onHold = $onHold;
 
+        $this->updateStatus();
+
         return $this;
     }
 
     public function getStatus()
     {
-        if ($this->einddatum instanceof \DateTime
-            && $this->einddatum <= new \DateTime('today')
-        ) {
-            return 'Afgerond';
+        return $this->status;
+    }
+
+    private function updateStatus()
+    {
+        if ($this->einddatum instanceof \DateTime && $this->einddatum <= new \DateTime('today')) {
+            $this->status = self::STATUS_AFGEROND;
+        } elseif ($this->isOnHold()) {
+            $this->status = self::STATUS_ON_HOLD;
+        } elseif (count($this->dienstverleners) > 0 || count($this->vrijwilligers) > 0) {
+            $this->status = self::STATUS_IN_BEHANDELING;
+        } else {
+            $this->status = self::STATUS_OPENSTAAND;
         }
 
-        if ($this->isOnHold()) {
-            return 'On hold';
+        if ($this->klant) {
+            $this->klant->updateStatus();
         }
-
-        return 'Openstaand';
     }
 }

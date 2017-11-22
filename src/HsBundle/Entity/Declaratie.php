@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use HsBundle\Exception\InvoiceLockedException;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="hs_declaraties")
  * @Gedmo\Loggable
  */
-class Declaratie implements DocumentSubjectInterface
+class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 {
     use DocumentSubjectTrait;
 
@@ -96,6 +97,10 @@ class Declaratie implements DocumentSubjectInterface
 
     public function setDatum(\DateTime $datum)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->datum = $datum;
 
         return $this;
@@ -108,6 +113,10 @@ class Declaratie implements DocumentSubjectInterface
 
     public function setKlus(Klus $klus)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->klus = $klus;
 
         return $this;
@@ -120,6 +129,10 @@ class Declaratie implements DocumentSubjectInterface
 
     public function setFactuur(Factuur $factuur)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->factuur = $factuur;
 
         return $this;
@@ -149,6 +162,10 @@ class Declaratie implements DocumentSubjectInterface
 
     public function setInfo($info)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->info = $info;
 
         return $this;
@@ -156,6 +173,10 @@ class Declaratie implements DocumentSubjectInterface
 
     public function setBedrag($bedrag)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->bedrag = $bedrag;
 
         return $this;
@@ -168,6 +189,10 @@ class Declaratie implements DocumentSubjectInterface
 
     public function setDeclaratieCategorie(DeclaratieCategorie $declaratieCategorie)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->declaratieCategorie = $declaratieCategorie;
 
         return $this;

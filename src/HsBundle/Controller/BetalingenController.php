@@ -2,7 +2,6 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Betaling;
 use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
@@ -10,8 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\BetalingDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
-use AppBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
 

@@ -18,7 +18,6 @@ HsBundle\Entity\DeclaratieCategorie:
 
 HsBundle\Entity\Klant:
     hs_klant_{1..25}:
-        roepnaam: '<firstname()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
@@ -46,8 +45,8 @@ HsBundle\Entity\Klus:
         medewerker: '@medewerker_*'
         klant: '@hs_klant_*'
         startdatum: '<dateTimeThisDecade()>'
-        einddatum: '<dateTimeThisDecade()>'
-        onHold: false
+        einddatum: '50%? <dateTimeThisDecade()>'
+        onHold: '<numberBetween(0, 1)>'
         activiteit: '@hs_activiteit_*'
 
 HsBundle\Entity\Registratie:

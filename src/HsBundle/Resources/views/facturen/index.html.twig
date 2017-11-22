@@ -25,23 +25,25 @@
                     {{ knp_pagination_sortable(pagination, '#', 'factuur.nummer') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Datum', 'factuur.datum') }}
+                    {{ knp_pagination_sortable(pagination, 'Factuurdatum', 'factuur.datum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Bedrag', 'factuur.bedrag') }}
+                    {{ knp_pagination_sortable(pagination, 'Factuurbedrag', 'factuur.bedrag') }}
                 </th>
-                <th>Saldo</th>
-                <th></th>
+                <th>Openstaand bedrag</th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Betalingsherinneringen', 'herinnering.type') }}
+                </th>
             </tr>
         </thead>
         <tbody>
             {% for factuur in pagination %}
-                <tr>
+                <tr data-href="{{ path('hs_facturen_view', {id: factuur.id}) }}">
                     <td>
-                        {{ html.link(factuur.nummer, path('hs_facturen_view', {id: factuur.id})) }}
+                        {{ factuur.nummer }}
                     </td>
                     <td>{{ factuur.datum|date('d-m-Y') }}</td>
                     <td>{{ factuur.klant }}</td>
@@ -56,10 +58,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
-                        {% if factuur.deletable %}
-                            {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
-                        {% endif %}
+                        <ul>
+                            {% for herinnering in factuur.herinneringen %}
+                                <li>{{ herinnering }}</li>
+                            {% endfor %}
+                        </ul>
                     </td>
                 </tr>
             {% endfor %}

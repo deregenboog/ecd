@@ -3,13 +3,10 @@
 namespace HsBundle\Controller;
 
 use HsBundle\Entity\Declaratie;
-use HsBundle\Entity\Klus;
 use HsBundle\Form\DeclaratieType;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Controller\AbstractController;
 use HsBundle\Service\DeclaratieDaoInterface;
 use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Factuur;

@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use HsBundle\Entity\Document;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use AppBundle\Form\BaseType;
 
 class DocumentType extends AbstractType
 {
@@ -38,5 +39,13 @@ class DocumentType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Document::class,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

@@ -66,7 +66,6 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
     public function addKlus(Klus $klus)
     {
         $this->klussen[] = $klus;
-        $klus->addDienstverlener($this);
 
         return $this;
     }

@@ -1,11 +1,18 @@
-{% if filter is defined %}
+{{ form_start(filter) }}
     <tr>
-        {{ form_start(filter) }}
+        <th colspan="5">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
         <th>
             {{ form_widget(filter.vrijwilliger.id) }}
             {{ form_errors(filter.vrijwilliger.id) }}
         </th>
-        <th colspan="2">
+        <th>
             {{ form_widget(filter.vrijwilliger.naam) }}
             {{ form_errors(filter.vrijwilliger.naam) }}
         </th>
@@ -19,9 +26,8 @@
             {{ form_errors(filter.rijbewijs) }}
         </th>
         <th>
-            {{ form_widget(filter.filter) }}
-            {{ form_widget(filter.download) }}
+            {{ form_widget(filter.status) }}
+            {{ form_errors(filter.status) }}
         </th>
-        {{ form_end(filter) }}
     </tr>
-{% endif %}
+{{ form_end(filter) }}

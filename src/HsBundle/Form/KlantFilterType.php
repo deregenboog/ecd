@@ -9,7 +9,6 @@ use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use HsBundle\Filter\KlantFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\StadsdeelFilterType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Werkgebied;
@@ -71,6 +70,7 @@ class KlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
+            'data' => new KlantFilter(),
             'enabled_filters' => [
                 'id',
                 'naam',
