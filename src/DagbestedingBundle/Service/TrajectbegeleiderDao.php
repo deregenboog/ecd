@@ -9,7 +9,7 @@ use AppBundle\Filter\FilterInterface;
 class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'medewerker.voornaam',
+        'defaultSortFieldName' => 'trajectbegeleider.displayName',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'trajectbegeleider.id',

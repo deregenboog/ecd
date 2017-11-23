@@ -35,7 +35,7 @@ class Trajectbegeleider
      */
     private $displayName;
 
-/**
+    /**
      * @var ArrayCollection|Traject[]
      *
      * @ORM\OneToMany(targetEntity="Traject", mappedBy="begeleider")
