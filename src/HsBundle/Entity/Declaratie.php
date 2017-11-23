@@ -55,7 +55,7 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 
     /**
      * @var Factuur
-     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="declaraties")
+     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="declaraties", cascade={"persist"})
      * @Gedmo\Versioned
      */
     private $factuur;
@@ -127,7 +127,7 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
         return $this->factuur;
     }
 
-    public function setFactuur(Factuur $factuur)
+    public function setFactuur(Factuur $factuur = null)
     {
         if ($this->factuur && $this->factuur->isLocked()) {
             throw new InvoiceLockedException();

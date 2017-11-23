@@ -3,87 +3,96 @@
 namespace Tests\HsBundle\Event;
 
 use HsBundle\Entity\Dienstverlener;
-use HsBundle\Event\FactuurSubscriber;
-use HsBundle\Service\FactuurFactoryInterface;
-use Doctrine\ORM\Events;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Registratie;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\Common\Persistence\ObjectManager;
-use HsBundle\Entity\FactuurSubjectInterface;
-use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Entity\Factuur;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Nationaliteit;
+use AppBundle\Entity\Land;
+use AppBundle\Entity\Geslacht;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpKernel\Client;
+use Nelmio\Alice\Fixtures;
+use AppBundle\Test\WebTestCase;
 
-class FactuurSubscriberTest extends \PHPUnit_Framework_TestCase
+class FactuurSubscriberTest extends WebTestCase
 {
-    private $subscriber;
-
-    private $factuurFactory;
-
-    public function testGetSubscribedEvents()
-    {
-        $this->assertEquals(
-            [Events::prePersist, Events::preUpdate],
-            $this->createSubsriber()->getSubscribedEvents()
-        );
-    }
-
-    public function dataProvider()
-    {
-        $klant = new Klant();
-
-        $klus = new Klus();
-        $klant->addKlus($klus);
-
-        $dienstverlener = $this->createMock(Dienstverlener::class);
-        $klus->addDienstverlener($dienstverlener);
-
-        $vrijwilliger = $this->createMock(Vrijwilliger::class);
-        $klus->addVrijwilliger($vrijwilliger);
-
-        $registratieDienstverlener = new Registratie();
-        $registratieDienstverlener->setKlus($klus)->setArbeider($dienstverlener);
-
-        $registratieVrijwilliger = new Registratie();
-        $registratieVrijwilliger->setKlus($klus)->setArbeider($vrijwilliger);
-
-        $declaratie = new Declaratie();
-        $declaratie->setKlus($klus);
-
-        return [
-            [$klant, $registratieDienstverlener],
-            [$klant, $registratieVrijwilliger],
-            [$klant, $declaratie],
-        ];
-    }
+    /**
+     * @var Client
+     */
+    private $client;
 
     /**
-     * @dataProvider dataProvider
+     * @var EntityManager
      */
-    public function testPersistingFactuurSubjectInerfaceResultsInCreatingFactuur(
-        Klant $klant,
-        FactuurSubjectInterface $factuurSubject
-    ) {
-        $subscriber = $this->createSubsriber();
-        $this->factuurFactory->expects($this->exactly(2))->method('create')
-            ->with($this->equalTo($klant))
-            ->willReturn(new Factuur($klant, '12345', 'Homeservice-factuur'))
-        ;
+    private $entityManager;
 
-        $objectManager = $this->getMockForAbstractClass(ObjectManager::class);
-        $event = new LifecycleEventArgs($factuurSubject, $objectManager);
+    protected function setUp()
+    {
+        $fixtures = $this->loadFixtureFiles([
+            '@AppBundle/DataFixtures/ORM/geslacht.yml',
+            '@AppBundle/DataFixtures/ORM/klant.yml',
+            '@AppBundle/DataFixtures/ORM/land.yml',
+            '@AppBundle/DataFixtures/ORM/medewerker.yml',
+            '@AppBundle/DataFixtures/ORM/nationaliteit.yml',
+            '@AppBundle/DataFixtures/ORM/vrijwilliger.yml',
+            '@AppBundle/DataFixtures/ORM/werkgebied.yml',
+            '@HsBundle/DataFixtures/ORM/fixtures.yml',
+        ]);
 
-        $subscriber->prePersist($event);
-        $subscriber->preUpdate($event);
+        $this->client = $this->createClient();
+        $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
     }
 
-    private function createSubsriber()
+    public function testCreatingRegistratieResultsInCreatedFactuur()
     {
-        $this->factuurFactory = $this->getMockForAbstractClass(FactuurFactoryInterface::class);
-        $this->subscriber = new FactuurSubscriber($this->factuurFactory);
+        $medewerker = $this->entityManager->getReference(Medewerker::class, 1);
+        $klus = $this->entityManager->getReference(Klus::class, 1);
+        $dienstverlener = $this->entityManager->getReference(Dienstverlener::class, 1);
 
-        return $this->subscriber;
+        $registratie = new Registratie($klus, $dienstverlener);
+        $registratie
+            ->setDatum(new \DateTime('today'))
+            ->setStart(new \DateTime('10:00'))
+            ->setEind(new \DateTime('12:00'))
+            ->setMedewerker($medewerker)
+        ;
+
+        $this->entityManager->persist($registratie);
+        $this->entityManager->flush();
+
+        $this->assertEquals(5.0, $registratie->getFactuur()->getBedrag());
+
+        return $registratie;
+    }
+
+    public function testUpdatingRegistratieResultsInUpdatedFactuur()
+    {
+        $registratie = $this->testCreatingRegistratieResultsInCreatedFactuur();
+        $registratie->setStart(new \DateTime('09:00'));
+
+        $this->entityManager->flush();
+
+        $this->assertEquals(7.5, $registratie->getFactuur()->getBedrag());
+    }
+
+    public function testUpdatingToAnotherMonthRegistratieResultsInCreatedFactuurAndRemovedEmptyFactuur()
+    {
+        $registratie = $this->testCreatingRegistratieResultsInCreatedFactuur();
+        $oudeFactuur = $registratie->getFactuur();
+        $this->assertEquals(5.0, $oudeFactuur->getBedrag());
+
+        $registratie->setDatum(new \DateTime('-1 month'));
+
+        $this->entityManager->flush();
+
+        // new Factuur created
+        $this->assertNotEquals($oudeFactuur->getId(), $registratie->getFactuur()->getId());
+        $this->assertEquals(5.0, $registratie->getFactuur()->getBedrag());
+        // old Factuur empty, thus removed
+        $this->assertEquals(0.0, $oudeFactuur->getBedrag());
+        $this->assertNull($oudeFactuur->getId());
     }
 }

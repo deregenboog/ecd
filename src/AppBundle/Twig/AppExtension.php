@@ -37,6 +37,8 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         return [
             new \Twig_SimpleFilter('tabless', [$this, 'tablessFilter']),
             new \Twig_SimpleFilter('money', [$this, 'moneyFilter']),
+            new \Twig_SimpleFilter('saldo', [$this, 'saldoFilter'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFilter('factuurSaldo', [$this, 'factuurSaldoFilter'], ['is_safe' => ['html']]),
             new \Twig_SimpleFilter('nl2ws', [$this, 'nl2wsFilter']),
             new \Twig_SimpleFilter('unique', [$this, 'uniqueFilter']),
             new \Twig_SimpleFilter('color', [$this, 'colorFilter'], ['is_safe' => ['html']]),
@@ -52,7 +54,32 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
     public function moneyFilter($value)
     {
-        return money_format('%(#1n', $value);
+        return money_format('%+#1n', (float) $value);
+    }
+
+    /**
+     * Combines the filter "money" and "color".
+     *
+     * @param float $value
+     * @return string
+     */
+    public function saldoFilter($value)
+    {
+        return $this->colorFilter(
+            $this->moneyFilter((float) $value),
+            ($value < 0) ? 'red' : 'green'
+        );
+    }
+
+    /**
+     * Inversed version of "saldo" filter.
+     *
+     * @param float $value
+     * @return string
+     */
+    public function factuurSaldoFilter($value)
+    {
+        return $this->saldoFilter(-1 * $value);
     }
 
     public function nl2wsFilter($value)

@@ -44,6 +44,12 @@ class KlusFilter implements FilterInterface
      */
     public $activiteit;
 
+    public function __construct()
+    {
+        $this->klant = new KlantFilter();
+        $this->klant->status = null;
+    }
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {

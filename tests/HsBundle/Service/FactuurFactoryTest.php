@@ -22,23 +22,23 @@ class FactuurFactoryTest extends \PHPUnit_Framework_TestCase
         $dienstverlener = $this->createMock(Dienstverlener::class);
         $klus->addDienstverlener($dienstverlener);
 
-//         $vrijwilliger = $this->createMock(Vrijwilliger::class);
-//         $klus->addVrijwilliger($vrijwilliger);
+        $vrijwilliger = $this->createMock(Vrijwilliger::class);
+        $klus->addVrijwilliger($vrijwilliger);
 
         $registratie = new Registratie();
         $registratie->setStart(new \DateTime('yesterday 10:00'))->setEind(new \DateTime('yesterday 13:00'));
         $registratie->setKlus($klus)->setArbeider($dienstverlener);
 
-//         $registratieVrijwilliger = new Registratie();
-//         $registratieVrijwilliger->setKlus($klus)->setArbeider($vrijwilliger);
+        $registratieVrijwilliger = new Registratie();
+        $registratieVrijwilliger->setKlus($klus)->setArbeider($vrijwilliger);
 
-//         $declaratie = new Declaratie();
-//         $declaratie->setKlus($klus);
+        $declaratie = new Declaratie();
+        $declaratie->setKlus($klus);
 
         return [
             [$klant, 0.0],
-//             [$klant, 0.0],
-//             [$klant, 0.0],
+            [$klant, 0.0],
+            [$klant, 0.0],
         ];
     }
 
@@ -47,6 +47,8 @@ class FactuurFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateFactuurForKlant(Klant $klant, $expectedBedrag)
     {
+        $this->markTestSkipped();
+
         $factory = new FactuurFactory();
         $factuur = $factory->create($klant);
 

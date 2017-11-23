@@ -8,18 +8,29 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Betaling;
+use Doctrine\ORM\EntityManager;
 
 class KlantUpdater implements EventSubscriber
 {
     public function getSubscribedEvents()
     {
         return [
-            Events::prePersist,
-            Events::preUpdate,
+            Events::postPersist,
+            Events::postUpdate,
         ];
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args)
+    {
+        $this->handleEvent($args);
+    }
+
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $this->handleEvent($args);
+    }
+
+    private function handleEvent(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
@@ -32,13 +43,9 @@ class KlantUpdater implements EventSubscriber
         }
     }
 
-    public function preUpdate(LifecycleEventArgs $args)
-    {
-        $this->prePersist($args);
-    }
-
-    private function updateSaldo(Klant $klant)
+    private function updateSaldo(Klant $klant, EntityManager $em)
     {
         $klant->setSaldo($klant->getBetaald() - $klant->getGefactureerd());
+        $em->flush($klant);
     }
 }

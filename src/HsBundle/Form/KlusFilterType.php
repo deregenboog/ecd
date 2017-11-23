@@ -88,6 +88,7 @@ class KlusFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlusFilter::class,
+            'data' => new KlusFilter(),
             'enabled_filters' => [
                 'status',
                 'startdatum',

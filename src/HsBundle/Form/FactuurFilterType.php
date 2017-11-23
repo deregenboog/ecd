@@ -6,13 +6,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\FactuurFilter;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class FactuurFilterType extends AbstractType
 {
@@ -38,10 +38,20 @@ class FactuurFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Concept' => 0,
+                    'Definitief' => 1,
+                ],
+            ]);
+        }
+
         if (in_array('negatiefSaldo', $options['enabled_filters'])) {
             $builder->add('negatiefSaldo', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Openstaande facturen',
+                'label' => 'Met openstaande bedrag',
             ]);
         }
 
@@ -56,10 +66,9 @@ class FactuurFilterType extends AbstractType
             $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
         }
 
-        $builder
-            ->add('filter', SubmitType::class)
-            ->add('download', SubmitType::class)
-        ;
+        if (in_array('zipDownload', $options['enabled_filters'])) {
+            $builder->add('zipDownload', SubmitType::class);
+        }
     }
 
     /**
@@ -73,11 +82,13 @@ class FactuurFilterType extends AbstractType
                 'nummer',
                 'datum',
                 'bedrag',
+                'status',
                 'negatiefSaldo',
                 'metHerinnering',
                 'klant' => ['naam'],
                 'filter',
                 'download',
+                'zipDownload',
             ],
         ]);
     }

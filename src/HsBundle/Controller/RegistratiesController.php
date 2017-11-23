@@ -14,7 +14,6 @@ use AppBundle\Controller\AbstractChildController;
 use Symfony\Component\HttpFoundation\Request;
 use HsBundle\Filter\RegistratieFilter;
 use AppBundle\Export\ExportInterface;
-use HsBundle\Entity\Factuur;
 
 /**
  * @Route("/registraties")
@@ -95,19 +94,5 @@ class RegistratiesController extends AbstractChildController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
-    }
-
-    /**
-     * @Route("/{id}/edit")
-     */
-    public function editAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        if ($entity->getFactuur() instanceof Factuur) {
-            return $this->redirectToRoute('hs_klussen_index');
-        }
-
-        return $this->processForm($request, $entity);
     }
 }

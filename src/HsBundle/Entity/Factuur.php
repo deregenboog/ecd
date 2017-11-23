@@ -6,9 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use HsBundle\Exception\HsException;
+use HsBundle\Exception\InvoiceLockedException;
+use Symfony\Component\Security\Core\Exception\LockedException;
+use HsBundle\Exception\InvoiceNotLockedException;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="HsBundle\Repository\FactuurRepository")
  * @ORM\Table(name="hs_facturen")
  * @Gedmo\Loggable
  */
@@ -59,12 +62,6 @@ class Factuur
     private $klant;
 
     /**
-     * @var ArrayCollection|Klus[]
-     * @ORM\ManyToMany(targetEntity="Klus", inversedBy="facturen")
-     */
-    private $klussen;
-
-    /**
      * @var ArrayCollection|Registratie[]
      * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur")
      * @ORM\JoinColumn(onDelete="SET NULL")
@@ -102,11 +99,10 @@ class Factuur
 
         $this->betalingen = new ArrayCollection();
         $this->declaraties = new ArrayCollection();
-        $this->klussen = new ArrayCollection();
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        $this->setDatum(new \DateTime('today'));
+        $this->datum = new \DateTime('today');
     }
 
     public function __toString()
@@ -114,12 +110,17 @@ class Factuur
         return $this->nummer;
     }
 
+    public function isDeletable()
+    {
+        return $this->isEmpty();
+    }
+
     public function isEmpty()
     {
-        return 0 === count($this->declaraties)
+        return 0.0 === $this->bedrag
+            && 0 === count($this->declaraties)
             && 0 === count($this->registraties)
             && 0 === count($this->betalingen)
-            && 0 === count($this->klussen)
             && 0 === count($this->herinneringen)
         ;
     }
@@ -139,29 +140,23 @@ class Factuur
         return $this->datum;
     }
 
-    public function setDatum(\DateTime $datum)
-    {
-        $this->datum = $datum;
-
-        return $this;
-    }
-
     public function getKlussen()
     {
-        return $this->klussen;
-    }
+        $klussen = new ArrayCollection();
 
-    public function addKlus(Klus $klus)
-    {
-        if ($this->isLocked()) {
-            throw new HsException('Factuur is al definitief.');
+        foreach ($this->declaraties as $declaratie) {
+            if (!$klussen->contains($declaratie->getKlus())) {
+                $klussen->add($declaratie->getKlus());
+            }
         }
 
-        if (!$this->klussen->contains($klus)) {
-            $this->klussen[] = $klus;
+        foreach ($this->registraties as $registratie) {
+            if (!$klussen->contains($registratie->getKlus())) {
+                $klussen->add($registratie->getKlus());
+            }
         }
 
-        return $this;
+        return $klussen;
     }
 
     public function getKlant()
@@ -184,15 +179,31 @@ class Factuur
     public function addRegistratie(Registratie $registratie)
     {
         if ($this->isLocked()) {
-            throw new HsException('Factuur is al definitief.');
+            throw new InvoiceLockedException();
+        }
+
+        if ($registratie->getFactuur()) {
+            $registratie->getFactuur()->removeRegistratie($registratie);
         }
 
         $this->registraties[] = $registratie;
         $registratie->setFactuur($this);
 
-        if (!$this->klussen->contains($registratie->getKlus())) {
-            $this->klussen->add($registratie->getKlus());
+        $this->updateDatum();
+
+        return $this;
+    }
+
+    public function removeRegistratie(Registratie $registratie)
+    {
+        if ($this->isLocked()) {
+            throw new InvoiceLockedException();
         }
+
+        $this->registraties->removeElement($registratie);
+        $registratie->setFactuur(null);
+
+        $this->updateDatum();
 
         return $this;
     }
@@ -205,15 +216,31 @@ class Factuur
     public function addDeclaratie(Declaratie $declaratie)
     {
         if ($this->isLocked()) {
-            throw new HsException('Factuur is al definitief.');
+            throw new InvoiceLockedException();
+        }
+
+        if ($declaratie->getFactuur()) {
+            $declaratie->getFactuur()->removeDeclaratie($declaratie);
         }
 
         $this->declaraties[] = $declaratie;
         $declaratie->setFactuur($this);
 
-        if (!$this->klussen->contains($declaratie->getKlus())) {
-            $this->klussen->add($declaratie->getKlus());
+        $this->updateDatum();
+
+        return $this;
+    }
+
+    public function removeDeclaratie(Declaratie $declaratie)
+    {
+        if ($this->isLocked()) {
+            throw new InvoiceLockedException();
         }
+
+        $this->declaraties->removeElement($declaratie);
+        $declaratie->setFactuur(null);
+
+        $this->updateDatum();
 
         return $this;
     }
@@ -225,14 +252,9 @@ class Factuur
 
     public function setBedrag($bedrag)
     {
-        $this->bedrag = $bedrag;
+        $this->bedrag = (float) $bedrag;
 
         return $this;
-    }
-
-    public function isDeletable()
-    {
-        return false;
     }
 
     public function getBetalingen()
@@ -242,6 +264,10 @@ class Factuur
 
     public function addBetaling(Betaling $betaling)
     {
+        if (!$this->isLocked()) {
+            throw new InvoiceNotLockedException();
+        }
+
         $this->betalingen[] = $betaling;
         $betaling->setFactuur($this);
 
@@ -255,12 +281,12 @@ class Factuur
             $betaald += $betaling->getBedrag();
         }
 
-        return $betaald;
+        return (float) $betaald;
     }
 
     public function getSaldo()
     {
-        return $this->bedrag - $this->getBetaald();
+        return (float) $this->bedrag - $this->getBetaald();
     }
 
     public function getBetreft()
@@ -275,6 +301,10 @@ class Factuur
 
     public function addHerinnering(Herinnering $herinnering)
     {
+        if (!$this->isLocked()) {
+            throw new InvoiceNotLockedException();
+        }
+
         $this->herinneringen[] = $herinnering;
         $herinnering->setFactuur($this);
 
@@ -291,5 +321,24 @@ class Factuur
         $this->locked = true;
 
         return $this;
+    }
+
+    private function updateDatum()
+    {
+        $datum = null;
+
+        foreach ($this->declaraties as $declaratie) {
+            if (!$datum || $declaratie->getDatum() > $datum) {
+                $datum = $declaratie->getDatum();
+            }
+        }
+
+        foreach ($this->registraties as $registratie) {
+            if (!$datum || $registratie->getDatum() > $datum) {
+                $datum = $registratie->getDatum();
+            }
+        }
+
+        $this->datum = $datum;
     }
 }

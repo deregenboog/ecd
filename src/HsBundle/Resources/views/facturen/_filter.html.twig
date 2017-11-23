@@ -1,13 +1,18 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="5">
+        <th colspan="7">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
-                {{ form_widget(filter.download) }}
+                {{ form_widget(filter.download, {label: 'Excel downloaden'}) }}
+                {{ form_widget(filter.zipDownload, {label: 'ZIP downloaden'}) }}
             </span>
         </th>
     </tr>
     <tr>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
         <th>
             {{ form_widget(filter.nummer) }}
             {{ form_errors(filter.nummer) }}
@@ -19,12 +24,12 @@
             {{ form_errors(filter.datum.end) }}
         </th>
         <th>
-            {{ form_widget(filter.klant.naam) }}
-            {{ form_errors(filter.klant.naam) }}
-        </th>
-        <th>
             {{ form_widget(filter.bedrag) }}
             {{ form_errors(filter.bedrag) }}
+        </th>
+        <th>
+            {{ form_widget(filter.status) }}
+            {{ form_errors(filter.status) }}
         </th>
         <th>
             {{ form_widget(filter.negatiefSaldo) }}

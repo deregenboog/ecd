@@ -29,6 +29,7 @@ HsBundle\Entity\Klant:
         email: '<email()>'
         medewerker: '@medewerker_*'
         inschrijving: '<dateTimeThisDecade()>'
+        actief: true
 
 HsBundle\Entity\Dienstverlener:
     hs_dienstverlener_{1..25}:
@@ -48,29 +49,31 @@ HsBundle\Entity\Klus:
         einddatum: '50%? <dateTimeThisDecade()>'
         onHold: '<numberBetween(0, 1)>'
         activiteit: '@hs_activiteit_*'
+        addDienstverlener: ['@hs_dienstverlener_*']
+        addVrijwilliger: ['@hs_vrijwilliger_*']
 
 HsBundle\Entity\Registratie:
-    hs_registratie_{1..200}:
-        __construct: ['@hs_klus_*', '@hs_dienstverlener_*']
+    hs_registratie_{1..50}:
+        __construct: ['@hs_klus_*']
         activiteit: '@hs_activiteit_*'
         medewerker: '@medewerker_*'
         datum: '<dateTimeThisYear()>'
         start: '10:00'
         eind: '13:00'
 
-HsBundle\Entity\Declaratie:
-    hs_declaratie_{1..200}:
-        __construct: ['@medewerker_*']
-        klus: '@hs_klus_*'
-        declaratiecategorie: '@hs_declaratiecategorie_*'
-        datum: '<dateTimeThisYear()>'
-        info: '<sentence()>'
-        bedrag: '<numberBetween(1, 25)>'
-
-HsBundle\Entity\Betaling:
-    hs_betaling_{1..10}:
-        factuur: '<factuur(@hs_klant_*)>'
-        datum: '<dateTimeThisYear()>'
-        referentie: '<numberBetween(100000, 999999)>'
-        info: '<sentence()>'
-        bedrag: '<numberBetween(5, 25)>'
+#HsBundle\Entity\Declaratie:
+#    hs_declaratie_{1..200}:
+#        __construct: ['@medewerker_*']
+#        klus: '@hs_klus_*'
+#        declaratiecategorie: '@hs_declaratiecategorie_*'
+#        datum: '<dateTimeThisYear()>'
+#        info: '<sentence()>'
+#        bedrag: '<numberBetween(1, 25)>'
+#
+#HsBundle\Entity\Betaling:
+#    hs_betaling_{1..10}:
+#        factuur: '<factuur(@hs_klant_*)>'
+#        datum: '<dateTimeThisYear()>'
+#        referentie: '<numberBetween(100000, 999999)>'
+#        info: '<sentence()>'
+#        bedrag: '<numberBetween(5, 25)>'

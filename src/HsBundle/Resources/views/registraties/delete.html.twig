@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Betalingen |
+    Homeservice | Vrijwilligers |
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ entity_name|capitalize }} toevoegen aan {{ parent_entity }}</h1>
+    <h1>Uren verwijderen</h1>
+    <p>Weet u zeker dat u de uren {{ entity }} wilt verwijderen?</p>
     {{ form(form) }}
 {% endblock %}

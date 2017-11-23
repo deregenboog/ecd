@@ -118,8 +118,12 @@ class Schorsing
     private $locaties;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SchorsingReden")
-     * @ORM\JoinTable(name="schorsingen_redenen")
+     * ORM\ManyToMany(targetEntity="SchorsingReden")
+     * ORM\JoinTable(
+     *     name="schorsingen_redenen",
+     *     joinColumns={@ORM\JoinColumn(name="schorsing_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="reden_id")}
+     * ).
      */
     private $redenen;
 

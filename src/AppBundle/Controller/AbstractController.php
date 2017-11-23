@@ -10,6 +10,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
 use AppBundle\Entity\Medewerker;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class AbstractController extends SymfonyController
 {
@@ -44,10 +45,19 @@ class AbstractController extends SymfonyController
     protected $export;
 
     /**
+     * @var array
+     */
+    protected $disabledActions = [];
+
+    /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
+        if (in_array('index', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $filter = null;
 
         if ($this->filterFormClass) {
@@ -101,6 +111,10 @@ class AbstractController extends SymfonyController
      */
     public function viewAction($id)
     {
+        if (in_array('view', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         return ['entity' => $this->dao->find($id)];
     }
 
@@ -109,6 +123,10 @@ class AbstractController extends SymfonyController
      */
     public function addAction(Request $request)
     {
+        if (in_array('add', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entity = new $this->entityClass();
 
         return $this->processForm($request, $entity);
@@ -119,6 +137,10 @@ class AbstractController extends SymfonyController
      */
     public function editAction(Request $request, $id)
     {
+        if (in_array('edit', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entity = $this->dao->find($id);
 
         return $this->processForm($request, $entity);
@@ -171,6 +193,10 @@ class AbstractController extends SymfonyController
      */
     public function deleteAction(Request $request, $id)
     {
+        if (in_array('delete', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entity = $this->dao->find($id);
 
         $form = $this->createForm(ConfirmationType::class);

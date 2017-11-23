@@ -40,6 +40,16 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('afwijkendFactuuradres', $options['enabled_filters'])) {
+            $builder->add('afwijkendFactuuradres', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Nee' => 0,
+                    'Ja' => 1,
+                ],
+            ]);
+        }
+
         if (in_array('status', $options['enabled_filters'])) {
             $builder->add('status', ChoiceType::class, [
                 'required' => false,
@@ -75,6 +85,7 @@ class KlantFilterType extends AbstractType
                 'id',
                 'naam',
                 'stadsdeel',
+                'afwijkendFactuuradres',
                 'status',
                 'negatiefSaldo',
                 'filter',

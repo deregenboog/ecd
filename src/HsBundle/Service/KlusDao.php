@@ -31,12 +31,11 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("{$this->alias}, klant, activiteit, declaratie, factuur, memo, registratie")
+            ->select("{$this->alias}, klant, activiteit, declaratie, memo, registratie")
             ->innerJoin("{$this->alias}.klant", 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin("{$this->alias}.activiteit", 'activiteit')
             ->leftJoin("{$this->alias}.declaraties", 'declaratie')
-            ->leftJoin("{$this->alias}.facturen", 'factuur')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.registraties", 'registratie')
         ;

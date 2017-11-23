@@ -108,6 +108,12 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      */
     private $saldo = 0.0;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $afwijkendFactuuradres = false;
+
     public function __construct()
     {
         $this->klussen = new ArrayCollection();
@@ -306,6 +312,18 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function setBsn($bsn)
     {
         $this->bsn = $bsn;
+
+        return $this;
+    }
+
+    public function isAfwijkendFactuuradres()
+    {
+        return (bool) $this->afwijkendFactuuradres;
+    }
+
+    public function setAfwijkendFactuuradres($afwijkendFactuuradres)
+    {
+        $this->afwijkendFactuuradres = (bool) $afwijkendFactuuradres;
 
         return $this;
     }

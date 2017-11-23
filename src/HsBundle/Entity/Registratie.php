@@ -58,7 +58,7 @@ class Registratie implements FactuurSubjectInterface
 
     /**
      * @var Factuur
-     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties")
+     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -97,6 +97,14 @@ class Registratie implements FactuurSubjectInterface
             $this->arbeider = $arbeider;
         }
         $this->datum = new \DateTime('now');
+    }
+
+    public function __toString()
+    {
+        return $this->datum->format('d-m-Y').' | '
+            .$this->start->format('H:i').' - '
+            .$this->eind->format('H:i')
+        ;
     }
 
     public function getId()
@@ -213,7 +221,7 @@ class Registratie implements FactuurSubjectInterface
         return $this->factuur;
     }
 
-    public function setFactuur(Factuur $factuur)
+    public function setFactuur(Factuur $factuur = null)
     {
         if ($this->factuur && $this->factuur->isLocked()) {
             throw new InvoiceLockedException();

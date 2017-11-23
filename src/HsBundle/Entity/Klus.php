@@ -107,12 +107,6 @@ class Klus implements MemoSubjectInterface
     private $declaraties;
 
     /**
-     * @var ArrayCollection|Factuur[]
-     * @ORM\ManyToMany(targetEntity="Factuur", mappedBy="klussen")
-     */
-    private $facturen;
-
-    /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
@@ -127,7 +121,6 @@ class Klus implements MemoSubjectInterface
         $this->dienstverleners = new ArrayCollection();
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();
-        $this->facturen = new ArrayCollection();
         $this->declaraties = new ArrayCollection();
         $this->startdatum = new \DateTime('now');
     }
@@ -237,6 +230,7 @@ class Klus implements MemoSubjectInterface
         if ($registratie->getArbeider() instanceof Dienstverlener) {
             $this->addDienstverlener($registratie->getArbeider());
         }
+
         if ($registratie->getArbeider() instanceof Vrijwilliger) {
             $this->addVrijwilliger($registratie->getArbeider());
         }
@@ -259,7 +253,21 @@ class Klus implements MemoSubjectInterface
 
     public function getFacturen()
     {
-        return $this->facturen;
+        $facturen = new ArrayCollection();
+
+        foreach ($this->declaraties as $declaratie) {
+            if (!$facturen->contains($declaratie->getFactuur())) {
+                $facturen->add($declaratie->getFactuur());
+            }
+        }
+
+        foreach ($this->registraties as $registratie) {
+            if (!$facturen->contains($registratie->getFactuur())) {
+                $facturen->add($registratie->getFactuur());
+            }
+        }
+
+        return $facturen;
     }
 
     public function getMedewerker()
@@ -277,9 +285,10 @@ class Klus implements MemoSubjectInterface
     public function isDeletable()
     {
         return 0 === count($this->declaraties)
-            && 0 === count($this->facturen)
+            && 0 === count($this->dienstverleners)
             && 0 === count($this->memos)
-            && 0 === count($this->registraties);
+            && 0 === count($this->registraties)
+            && 0 === count($this->vrijwilligers);
     }
 
     public function getStartdatum()
@@ -311,7 +320,7 @@ class Klus implements MemoSubjectInterface
     public function getGefactureerd()
     {
         $bedrag = 0.0;
-        foreach ($this->facturen as $factuur) {
+        foreach ($this->getFacturen() as $factuur) {
             $bedrag += $factuur->getBedrag();
         }
 
@@ -321,7 +330,7 @@ class Klus implements MemoSubjectInterface
     public function getBetaald()
     {
         $bedrag = 0.0;
-        foreach ($this->facturen as $factuur) {
+        foreach ($this->getFacturen() as $factuur) {
             $bedrag += $factuur->getBetaald();
         }
 

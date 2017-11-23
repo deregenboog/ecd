@@ -15,6 +15,7 @@
         <th>Referentie</th>
         <th colspan="4">Info</th>
         <th>Bedrag</th>
+        <th>&nbsp;</th>
     </tr>
     {% for betaling in entity.betalingen %}
         <tr>
@@ -22,12 +23,17 @@
             <td>{{ betaling.referentie }}</td>
             <td colspan="4">{{ betaling.info }}</td>
             <td>{{ betaling.bedrag|money }}</td>
+            <td>
+                {{ html.editLink(path('hs_betalingen_edit', {id: betaling.id})) }}
+                {{ html.deleteLink(path('hs_betalingen_delete', {id: betaling.id})) }}
+            </td>
         </tr>
     {% endfor %}
     <tfoot>
         <tr>
             <th colspan="6">Totaal</th>
             <th>{{ entity.betaald|money }}</th>
+            <th>&nbsp;</th>
         </tr>
     </tfoot>
 </table>

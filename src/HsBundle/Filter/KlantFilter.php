@@ -38,6 +38,11 @@ class KlantFilter implements FilterInterface
      */
     public $negatiefSaldo;
 
+    /**
+     * @var int
+     */
+    public $afwijkendFactuuradres;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -75,6 +80,13 @@ class KlantFilter implements FilterInterface
                 default:
                     break;
             }
+        }
+
+        if (null !== $this->afwijkendFactuuradres) {
+            $builder
+                ->andWhere("{$this->alias}.afwijkendFactuuradres = :afwijkendFactuuradres")
+                ->setParameter('afwijkendFactuuradres', (bool) $this->afwijkendFactuuradres)
+            ;
         }
 
         if ($this->negatiefSaldo) {

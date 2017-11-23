@@ -6,58 +6,73 @@ use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use Doctrine\Common\Collections\Criteria;
 use AppBundle\Form\Model\AppDateRangeModel;
+use HsBundle\Entity\FactuurSubjectInterface;
+use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\Registratie;
 
 class FactuurFactory implements FactuurFactoryInterface
 {
     /**
-     * @var \DateTime
+     * @var FactuurDaoInterface
      */
-    private $start;
+    private $dao;
 
-    /**
-     * @var \DateTime
-     */
-    private $end;
-
-    public function __construct()
+    public function __construct(FactuurDaoInterface $dao)
     {
-        $dateRange = $this->getDateRange();
-        $this->start = $dateRange->getStart();
-        $this->end = $dateRange->getEnd();
+        $this->dao = $dao;
     }
 
-    public function getDateRange()
+    public function getDateRange(\DateTime $datum)
     {
         return new AppDateRangeModel(
-            new \DateTime('first day of previous month'),
-            new \DateTime('last day of previous month')
+            new \DateTime('first day of '.$datum->format('M Y')),
+            new \DateTime('last day of '.$datum->format('M Y'))
         );
     }
 
     /**
      * {inheritdoc}.
      */
-    public function create(Klant $klant)
+    public function create(FactuurSubjectInterface $subject)
     {
-        $nummer = $this->getNummer($klant);
-        $betreft = $this->getBetreft($nummer);
-        $factuur = new Factuur($klant, $nummer, $betreft);
+        $datum = $subject->getDatum();
+        $dateRange = $this->getDateRange($datum);
 
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->isNull('factuur'))
-            ->andWhere(Criteria::expr()->lte('datum', $this->end))
-        ;
-
-        foreach ($klant->getKlussen() as $klus) {
-            foreach ($klus->getDeclaraties()->matching($criteria) as $declaratie) {
-                $factuur->addDeclaratie($declaratie);
-                $factuur->addKlus($klus);
-            }
-            foreach ($klus->getRegistraties()->matching($criteria) as $registratie) {
-                $factuur->addRegistratie($registratie);
-                $factuur->addKlus($klus);
-            }
+        // find non-locked invoice within date range...
+        $factuur = $this->entityManager->getRepository(Factuur::class)->findOneNonLockedByKlantAndDateRange($klant, $dateRange);
+        // ...or create one
+        if ($factuur) {
+            $nummer = $this->getNummer($klant);
+            $betreft = $this->getBetreft($nummer);
+            $factuur = new Factuur($klant, $nummer, $betreft);
         }
+
+        switch (true) {
+            case $subject instanceof Declaratie:
+                $factuur->addDeclaratie($subject);
+                break;
+            case $subject instanceof Registratie:
+                $factuur->addRegistratie($subject);
+                break;
+            default:
+                throw new \InvalidArgumentException('Unsupported class '.get_class($subject));
+        }
+
+//         $criteria = Criteria::create()
+//             ->andWhere(Criteria::expr()->isNull('factuur'))
+//             ->andWhere(Criteria::expr()->lte('datum', $this->end))
+//         ;
+
+//         foreach ($klant->getKlussen() as $klus) {
+//             foreach ($klus->getDeclaraties()->matching($criteria) as $declaratie) {
+//                 $factuur->addDeclaratie($declaratie);
+//                 $factuur->addKlus($klus);
+//             }
+//             foreach ($klus->getRegistraties()->matching($criteria) as $registratie) {
+//                 $factuur->addRegistratie($registratie);
+//                 $factuur->addKlus($klus);
+//             }
+//         }
 
         $this->calculateBedrag($factuur);
 

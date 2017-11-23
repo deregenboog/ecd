@@ -12,7 +12,8 @@ services:
 
     hs.form.type.klant:
         class: HsBundle\Form\KlantType
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type }
 
@@ -23,13 +24,15 @@ services:
     
     hs.event_subscriber.factuur:
         class: HsBundle\Event\FactuurSubscriber
-        arguments:
-            - "@hs.factory.factuur"
+#        arguments:
+#            - "@hs.dao.factuur"
         tags:
             - { name: doctrine.event_subscriber }
 
     hs.factory.factuur:
         class: HsBundle\Service\FactuurFactory
+        arguments:
+            - "@hs.dao.factuur"
 
     hs.form.rapportage:
         class: HsBundle\Form\RapportageType
@@ -74,6 +77,11 @@ services:
             - '@hs.factory.factuur'
         tags:
             - { name: hautelook_alice.faker.provider }
+
+    hs.data_fixtures.processor:
+        class: HsBundle\DataFixtures\HsProcessor
+        tags:
+            - { name: hautelook_alice.alice.processor }
 
     hs.event.diensten_lookup_subscriber:
         class: HsBundle\Event\DienstenLookupSubscriber

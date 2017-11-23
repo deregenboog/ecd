@@ -3,20 +3,14 @@
 namespace HsBundle\Service;
 
 use HsBundle\Entity\Factuur;
-use HsBundle\Entity\Klant;
-use AppBundle\Form\Model\AppDateRangeModel;
+use HsBundle\Entity\FactuurSubjectInterface;
 
 interface FactuurFactoryInterface
 {
     /**
-     * @param Klant $klant
+     * @param FactuurSubjectInterface $factuurSubject
      *
      * @return Factuur
      */
-    public function create(Klant $klant);
-
-    /**
-     * @return AppDateRangeModel
-     */
-    public function getDateRange();
+    public function create(FactuurSubjectInterface $factuurSubject);
 }

@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="5">
+        <th colspan="6">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -19,6 +19,10 @@
         <th>
             {{ form_widget(filter.stadsdeel) }}
             {{ form_errors(filter.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(filter.afwijkendFactuuradres) }}
+            {{ form_errors(filter.afwijkendFactuuradres) }}
         </th>
         <th>
             {{ form_widget(filter.negatiefSaldo) }}

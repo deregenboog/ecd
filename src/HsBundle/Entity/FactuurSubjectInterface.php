@@ -5,6 +5,11 @@ namespace HsBundle\Entity;
 interface FactuurSubjectInterface
 {
     /**
+     * @return \DateTime
+     */
+    public function getDatum();
+
+    /**
      * @return \HsBundle\Entity\Klant
      */
     public function getKlus();

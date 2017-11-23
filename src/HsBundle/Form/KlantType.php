@@ -16,6 +16,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use AppBundle\Entity\Postcode;
 use AppBundle\Util\PostcodeFormatter;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class KlantType extends AbstractType
 {
@@ -48,8 +50,6 @@ class KlantType extends AbstractType
             ])
         ;
 
-        $this->addMedewerkerType($builder, $options);
-
         $builder
             ->add('adres')
             ->add('postcode')
@@ -57,8 +57,20 @@ class KlantType extends AbstractType
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('inschrijving', AppDateType::class)
+        ;
+
+        $builder->add('inschrijving', AppDateType::class);
+        $this->addMedewerkerType($builder, $options);
+
+        $builder
             ->add('bewindvoerder', TextareaType::class, ['required' => false])
+            ->add('afwijkendFactuuradres', ChoiceType::class, [
+                'expanded' => true,
+                'choices' => [
+                    'Nee' => 0,
+                    'Ja' => 1,
+                ],
+            ])
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

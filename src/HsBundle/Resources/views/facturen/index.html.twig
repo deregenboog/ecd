@@ -11,7 +11,7 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    {% if aantal_klanten_facturabel > 0 %}
+    {% if false and aantal_klanten_facturabel > 0 %}
         <a class="btn btn-primary" type="button" href="{{ path('hs_facturen_batch') }}">
             Factureren t/m {{ einddatum_facturatie|date('d-m-Y') }}
         </a>
@@ -22,16 +22,19 @@
             {% include '@Hs/facturen/_filter.html.twig' %}
             <tr>
                 <th>
-                    {{ knp_pagination_sortable(pagination, '#', 'factuur.nummer') }}
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Factuurnummer', 'factuur.nummer') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Factuurdatum', 'factuur.datum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Factuurbedrag', 'factuur.bedrag') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Factuurbedrag', 'factuur.bedrag') }}
+                    Status
                 </th>
                 <th>Openstaand bedrag</th>
                 <th>
@@ -42,12 +45,11 @@
         <tbody>
             {% for factuur in pagination %}
                 <tr data-href="{{ path('hs_facturen_view', {id: factuur.id}) }}">
-                    <td>
-                        {{ factuur.nummer }}
-                    </td>
-                    <td>{{ factuur.datum|date('d-m-Y') }}</td>
                     <td>{{ factuur.klant }}</td>
+                    <td>{{ factuur.nummer }}</td>
+                    <td>{{ factuur.datum|date('d-m-Y') }}</td>
                     <td>{{ factuur.bedrag|money }}</td>
+                    <td>{{ factuur.locked ? 'Definitief' : 'Concept' }}</td>
                     <td>
                         {% if factuur.saldo < 0 %}
                             <span style="color: green">{{ factuur.saldo|money }}</span>

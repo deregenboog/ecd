@@ -54,45 +54,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findFacturabel(AppDateRangeModel $dateRange)
-    {
-        $builder = $this->buildFacturabelQuery($dateRange)
-            ->select("{$this->alias}, klus, declaratie, registratie")
-        ;
-
-        return $builder->getQuery()->getResult();
-    }
-
-    /**
-     * {inheritdoc}.
-     */
-    public function countFacturabel(AppDateRangeModel $dateRange)
-    {
-        $builder = $this->buildFacturabelQuery($dateRange)
-            ->select("COUNT(DISTINCT {$this->alias}.id)")
-        ;
-
-        try {
-            return $builder->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $exception) {
-            return 0;
-        }
-    }
-
-    private function buildFacturabelQuery(AppDateRangeModel $dateRange)
-    {
-        return $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin("{$this->alias}.klussen", 'klus')
-            ->leftJoin('klus.declaraties', 'declaratie', 'WITH', 'declaratie.datum <= :end AND declaratie.factuur IS NULL')
-            ->leftJoin('klus.registraties', 'registratie', 'WITH', 'registratie.datum <= :end AND registratie.factuur IS NULL')
-            ->where('declaratie.id IS NOT NULL OR registratie.id IS NOT NULL')
-            ->setParameter('end', $dateRange->getEnd())
-        ;
-    }
-
-    /**
-     * {inheritdoc}.
-     */
     public function find($id)
     {
         return parent::find($id);

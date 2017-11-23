@@ -34,6 +34,9 @@
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Afwijkend factuuradres', 'klant.saldo') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Saldo', 'klant.saldo') }}
                 </th>
                 <th>
@@ -44,22 +47,17 @@
         <tbody>
             {% for entity in pagination %}
             <tr data-href="{{ path(view_route, {id: entity.id}) }}">
-                <td>
-                    {{ entity.id }}
-                </td>
-                <td>
-                    {{ entity }}
-                </td>
-                <td>
-                    {{ entity.werkgebied }}
-                </td>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity }}</td>
+                <td>{{ entity.werkgebied }}</td>
+                <td>{{ entity.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</td>
                 <td>
                     {% if entity.saldo > 0 %}
                         <span style="color: green">{{ entity.saldo|money }}</span>
                     {% elseif entity.saldo < 0 %}
                         <span style="color: red">{{ entity.saldo|money }}</span>
                     {% else %}
-                        {{ entity.saldo|money }}
+                        {{ entity.saldo|saldo }}
                     {% endif %}
                 </td>
                 <td>
