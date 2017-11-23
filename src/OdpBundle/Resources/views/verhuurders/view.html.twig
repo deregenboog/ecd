@@ -17,8 +17,10 @@
         {% if verhuurder.actief %}
             {{ html.editLink(path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
             {{ html.link('Wijzigen', path('odp_verhuurders_edit', {'id': verhuurder.id})) }}
-            {{ html.closeLink(path('odp_verhuurders_close', {id: verhuurder.id})) }}
-            {{ html.link('Afsluiten', path('odp_verhuurders_close', {id: verhuurder.id})) }}
+            {% if verhuurder.closable %}
+                {{ html.closeLink(path('odp_verhuurders_close', {id: verhuurder.id})) }}
+                {{ html.link('Afsluiten', path('odp_verhuurders_close', {id: verhuurder.id})) }}
+            {% endif %}
         {% else %}
             {{ html.addLink(path('odp_verhuurders_reopen', {id: verhuurder.id})) }}
             {{ html.link('Heropenen', path('odp_verhuurders_reopen', {id: verhuurder.id})) }}

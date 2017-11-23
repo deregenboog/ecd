@@ -17,8 +17,10 @@
         {% if huurder.actief %}
             {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
             {{ html.link('Wijzigen', path('odp_huurders_edit', {id: huurder.id})) }}
-            {{ html.closeLink(path('odp_huurders_close', {id: huurder.id})) }}
-            {{ html.link('Afsluiten', path('odp_huurders_close', {id: huurder.id})) }}
+            {% if huurder.closable %}
+                {{ html.closeLink(path('odp_huurders_close', {id: huurder.id})) }}
+                {{ html.link('Afsluiten', path('odp_huurders_close', {id: huurder.id})) }}
+            {% endif %}
         {% else %}
             {{ html.addLink(path('odp_huurders_reopen', {id: huurder.id})) }}
             {{ html.link('Heropenen', path('odp_huurders_reopen', {id: huurder.id})) }}
