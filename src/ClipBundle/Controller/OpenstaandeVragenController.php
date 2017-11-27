@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use ClipBundle\Entity\Vraag;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Form\VraagFilterType;
-use ClipBundle\Form\VraagType;
 
 /**
  * @Route("/openstaandevragen")
@@ -28,6 +27,13 @@ class OpenstaandeVragenController extends AbstractController
     protected $dao;
 
     /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("clip.export.vragen")
+     */
+    protected $export;
+
+    /**
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -42,6 +48,8 @@ class OpenstaandeVragenController extends AbstractController
                     'soort',
                     'behandelaar',
                     'client' => ['naam'],
+                    'filter',
+                    'download',
                 ],
             ]);
             $form->handleRequest($request);

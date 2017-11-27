@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use ClipBundle\Filter\VraagFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -59,11 +58,6 @@ class VraagFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class)
-            ->add('download', SubmitType::class)
-        ;
     }
 
     /**
@@ -88,6 +82,8 @@ class VraagFilterType extends AbstractType
                 'behandelaar',
                 'startdatum',
                 'afsluitdatum',
+                'filter',
+                'download',
             ],
         ]);
     }

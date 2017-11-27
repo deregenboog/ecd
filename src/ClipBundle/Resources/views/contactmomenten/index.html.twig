@@ -12,40 +12,39 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <table class="table table-hover">
-        <tr>
-            <th colspan="5">
-                <span class="pull-right">
-                    {{ form_widget(filter.filter) }}
-                    {{ form_widget(filter.download) }}
-                </span>
-            </th>
-        </tr>
-        <tr>
-            {{ form_start(filter) }}
-            <th>
-                {{ form_widget(filter.id) }}
-                {{ form_errors(filter.id) }}
-            </th>
-            <th>
-                {{ form_widget(filter.vraag.client.naam) }}
-                {{ form_errors(filter.vraag.client.naam) }}
-            </th>
-            <th>
-                {{ form_widget(filter.vraag.soort) }}
-                {{ form_errors(filter.vraag.soort) }}
-            </th>
-            <th>
-                {{ form_widget(filter.behandelaar) }}
-                {{ form_errors(filter.behandelaar) }}
-            </th>
-            <th>
-                {{ form_widget(filter.datum.start) }}
-                {{ form_errors(filter.datum.start) }}
-                {{ form_widget(filter.datum.end) }}
-                {{ form_errors(filter.datum.end) }}
-            </th>
-            {{ form_end(filter) }}
-        </tr>
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="5">
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.id) }}
+                    {{ form_errors(filter.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.vraag.client.naam) }}
+                    {{ form_errors(filter.vraag.client.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.vraag.soort) }}
+                    {{ form_errors(filter.vraag.soort) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.behandelaar) }}
+                    {{ form_errors(filter.behandelaar) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.datum.start) }}
+                    {{ form_errors(filter.datum.start) }}
+                    {{ form_widget(filter.datum.end) }}
+                    {{ form_errors(filter.datum.end) }}
+                </th>
+            </tr>
+        {{ form_end(filter) }}
         <tr>
             <th>
                 {{ knp_pagination_sortable(pagination, '#', 'contactmoment.id') }}
