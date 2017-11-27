@@ -54,8 +54,8 @@ class VraagType extends AbstractType
         $builder
             ->add('startdatum', AppDateType::class)
             ->add('behandelaar', BehandelaarSelectType::class, [
-                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
                 'medewerker' => $options['medewerker'],
+                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
             ])
         ;
 
