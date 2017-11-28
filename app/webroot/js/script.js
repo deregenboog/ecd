@@ -15,7 +15,7 @@ var Ecd = {};
 function treeRadioChanged(radioId, catId, doorverwijzerType, doNotclearValue){
     //finding the dropdown:
     var dropdown = $(radioId).closest('fieldset').find('.movableDropdown');
-    
+
     // deciding if the checkbox concerns a field that allows the dropdown
     // (by checking if there is a span prepared to hold the dropdown
     containerSpanCount = $(radioId).closest('div').children('.dropdownContainer').size();
@@ -103,11 +103,11 @@ ecd_sandbox.sortTableOnMwOrder = function(){
         //comparing the cells' contents
         return checkboxAndValuesComparison(cellA,cellB);
     };
-    
+
     var rows = $('table tbody.active_registraties tr').get();
     rows.sort(sort_function);
     $('table tbody.active_registraties').append(rows);
-    
+
     rows = $('table tbody.gebruikers tr').get();
     rows.sort(sort_function);
     $('table tbody.gebruikers').append(rows);
@@ -138,14 +138,14 @@ ecd_sandbox.sortTableOnGbrvOrder = function(){
 
 /*
  * sorts achternaam and voornaam columns
- * 
+ *
  * @no_order_swapping - use this when the function is an AJAX callback so that
  *                      it doesn't swap the sorting order on every ajax call
  *
  * @order             - used only by the applyLastSorting() to determine the
  *                      previous sorting order after the update (when the
  *                      classes are gone), use css class name string
- * 
+ *
  * (NOTE! parameter column doesn't include the class '.',
  * but it's always a column CLASS)
  *
@@ -153,11 +153,11 @@ ecd_sandbox.sortTableOnGbrvOrder = function(){
 
 
 ecd_sandbox.alphaSortTable = function(column, no_order_swapping, order){
-    
+
     //dealing with classes and sorting order
     var ascending = true;
     var header_cell = $('table.sortable th.'+column);
-    
+
     var asc_class_present = header_cell.hasClass('sort-order-asc');
     $('table.sortable th').removeClass('sort-order-desc');
     $('table.sortable th').removeClass('sort-order-asc');
@@ -204,16 +204,16 @@ ecd_sandbox.alphaSortTable = function(column, no_order_swapping, order){
         if (keyA > keyB) return 1;
         return 0;
     }
-    
+
     //sorting (3 lists separately):
     var rows = $('table.sortable tbody.active_registraties tr').get();
     rows.sort(sort_function);
     $('table.sortable tbody.active_registraties').append(rows);
-    
+
     rows = $('table tbody.gebruikers tr').get();
     rows.sort(sort_function);
     $('table.sortable tbody.gebruikers').append(rows);
-    
+
     rows = $('table tbody.deregistered tr').get();
     rows.sort(sort_function);
     $('table.sortable tbody.deregistered').append(rows);
@@ -248,6 +248,7 @@ function applyLastSorting(){
 //timed ajax table filtering
 
 var ajax_filter_call = null;
+var ajax_filter_serialzed = null;
 var timer = new Date();
 var ajax_timer = timer.getTime();
 
@@ -264,6 +265,14 @@ function ajaxFilter(remote_function){
 
 //wrap of the jQuery ajax call
 function ajaxCall(remote_function){
+    // don't send request again if values have not changed
+    if (ajax_filter_serialzed != null) {
+        if ($('#filters').serialize() == ajax_filter_serialzed) {
+            return;
+        }
+    }
+    ajax_filter_serialzed = $('#filters').serialize();
+
     $.ajax({
         beforeSend:function (XMLHttpRequest) {
         $('#clientList').css('color','#999');
@@ -393,7 +402,7 @@ function ondersteuning_toggle_addresses(){
 
         //if the hidden field "ignore" is set to true ("1") we do not toggle
         //anything because the mail is not going to be sent
-        
+
         //finding the hidden 'ignore' field
         var th_id = th.attr('id');
         var ignore_field = $('#' + th_id.substr(0, th_id.length-1) + 'Ignore');
@@ -482,35 +491,35 @@ function delete_indication(data, button_id) {
 }
 
 var bedrijfSectorChange = function (){
-	var idOfSector = this.id.match(/[0-9]+/gi)[1];
-	if(this.value !== ''){
-		//First take the option list and then populate the options we need after that select the value.
-		var optionList = $('#Hi5IntakeBedrijfItems' + this.value).html();
-		var oldValue = $('input#Hi5IntakeBedrijfitem'+idOfSector+'Id').val();
-		$('select#Hi5IntakeBedrijfitem'+idOfSector+'Id').html(optionList).val(oldValue);
-		$('#BedrijfItems'+idOfSector).show();
-	}else{
-		$('select#Hi5IntakeBedrijfitem'+idOfSector+'Id').html();
-		$('#BedrijfItems'+idOfSector).hide();
-	}
+    var idOfSector = this.id.match(/[0-9]+/gi)[1];
+    if(this.value !== ''){
+        //First take the option list and then populate the options we need after that select the value.
+        var optionList = $('#Hi5IntakeBedrijfItems' + this.value).html();
+        var oldValue = $('input#Hi5IntakeBedrijfitem'+idOfSector+'Id').val();
+        $('select#Hi5IntakeBedrijfitem'+idOfSector+'Id').html(optionList).val(oldValue);
+        $('#BedrijfItems'+idOfSector).show();
+    }else{
+        $('select#Hi5IntakeBedrijfitem'+idOfSector+'Id').html();
+        $('#BedrijfItems'+idOfSector).hide();
+    }
 }
 
 var hi5DropdownChange = function(){
-	var idOfDropdown = this.id.match(/[0-9]+/gi)[1]; //hi5whatever_{id} and we need only the id but we have that 5 thing.
-	$('#Hi5Answer_hidden_'+idOfDropdown).attr('name','data[Hi5Answer]['+this.value+']' ).val(1);
+    var idOfDropdown = this.id.match(/[0-9]+/gi)[1]; //hi5whatever_{id} and we need only the id but we have that 5 thing.
+    $('#Hi5Answer_hidden_'+idOfDropdown).attr('name','data[Hi5Answer]['+this.value+']' ).val(1);
 }
 function instantiateHi5Intake(){
-	// Trigger the events after setting the callbacks for them
-	$('#Hi5IntakeBedrijfsector1').change(bedrijfSectorChange).change();
-	$('#Hi5IntakeBedrijfsector2').change(bedrijfSectorChange).change();
-	$('fieldset#survey select').change(hi5DropdownChange).change();
+    // Trigger the events after setting the callbacks for them
+    $('#Hi5IntakeBedrijfsector1').change(bedrijfSectorChange).change();
+    $('#Hi5IntakeBedrijfsector2').change(bedrijfSectorChange).change();
+    $('fieldset#survey select').change(hi5DropdownChange).change();
 }
 
 
 function startManagementReports() {
-	console.log('startManagementReports');
+    console.log('startManagementReports');
     $('form input[type=submit]').click(function(e) {
-    	console.log('click');
+        console.log('click');
         var form = $(this).parents('form');
         if ($('#optionsExcel').is(':checked')) {
             form.attr('target', 'iframeExcel');
@@ -620,42 +629,42 @@ function printLetter(url) {
 }
 
 Ecd.supportgroup = function() {
-	init();
-	function init() {
-		$('#hoofdclient_toggle').unbind();
-		$('#hoofdclient_toggle').click(hoofdclient_toggle);
-	}
-	function hoofdclient_toggle(event) {
-		if ( $('#hoofdclient_toggle').attr('checked')) {
-			$('.section_hoofdclient').show();
-			$('.section_supportclient').hide();
-			$('#hoofdclient_toggle_hidden').val(1)
-		} else {
-			$('.section_hoofdclient').hide();
-			$('.section_supportclient').show();
-			$('#hoofdclient_toggle_hidden').val(0)
-		}
-	}
-   
+    init();
+    function init() {
+        $('#hoofdclient_toggle').unbind();
+        $('#hoofdclient_toggle').click(hoofdclient_toggle);
+    }
+    function hoofdclient_toggle(event) {
+        if ( $('#hoofdclient_toggle').attr('checked')) {
+            $('.section_hoofdclient').show();
+            $('.section_supportclient').hide();
+            $('#hoofdclient_toggle_hidden').val(1)
+        } else {
+            $('.section_hoofdclient').hide();
+            $('.section_supportclient').show();
+            $('#hoofdclient_toggle_hidden').val(0)
+        }
+    }
+
 }
 
 Ecd.supportgroup_list = function() {
-	var options = Ecd.supportgroup_list.options;
-	init();
-	
+    var options = Ecd.supportgroup_list.options;
+    init();
+
     function init() {
-    	console.log(options['remove']);
-    	$('#select_clienten').change(function(){
-    			id=$('#'+options.dropdown).val();
-        		if( id != "") {
-    				text=$('#'+options.dropdown+" option:selected").text();
-    				options.selected[id] = text;
-    				write();
-    			}
-    	});
-    	write();
+        console.log(options['remove']);
+        $('#select_clienten').change(function(){
+                id=$('#'+options.dropdown).val();
+                if( id != "") {
+                    text=$('#'+options.dropdown+" option:selected").text();
+                    options.selected[id] = text;
+                    write();
+                }
+        });
+        write();
     }
-    
+
     function removeTableRow(e){
         removeid=$(this).attr('id');
         var myRe = new RegExp('removelist', "gim");
@@ -666,166 +675,166 @@ Ecd.supportgroup_list = function() {
         return false;
     }
 
-    
+
     function write() {
-    	data="";
-    	cnt=0;
-    	more = false
-    	for(var k in options.selected) {
-    		more = true;
-    		if(options.selected.hasOwnProperty(k)) {
-    			more = true;
-    			removeid='removelist'+k;
-    			data+='<span id="selectlist'+k+'">';
-    			data+='<input type="hidden" name="data[PfoClientenSupportgroup]['+cnt+'][pfo_supportgroup_client_id]" value="'+k+'"/>';
-    			data+=options.selected[k]+"&nbsp;";
-    			data+='<a id="'+removeid+'">'+options['remove']+'</a> &nbsp;';
-    			data+="</span>";
-    			cnt++;
-    	    }
-    	}
-    	$('#selected_list').html(data);
-    	for(var k in options.selected) {
-    		if(options.selected.hasOwnProperty(k)) {
-    			removeid='removelist'+k;
-    			$('#'+removeid).click(removeTableRow);
-    	    }
-    	}
-    	if(more) {
-    		console.log('disable checkbox');
-    		$("#hoofdclient_toggle").attr("disabled", true);
-    	} else {
-    		console.log('enable checkbox');
-    		$("#hoofdclient_toggle").removeAttr("disabled");
-    	}
+        data="";
+        cnt=0;
+        more = false
+        for(var k in options.selected) {
+            more = true;
+            if(options.selected.hasOwnProperty(k)) {
+                more = true;
+                removeid='removelist'+k;
+                data+='<span id="selectlist'+k+'">';
+                data+='<input type="hidden" name="data[PfoClientenSupportgroup]['+cnt+'][pfo_supportgroup_client_id]" value="'+k+'"/>';
+                data+=options.selected[k]+"&nbsp;";
+                data+='<a id="'+removeid+'">'+options['remove']+'</a> &nbsp;';
+                data+="</span>";
+                cnt++;
+            }
+        }
+        $('#selected_list').html(data);
+        for(var k in options.selected) {
+            if(options.selected.hasOwnProperty(k)) {
+                removeid='removelist'+k;
+                $('#'+removeid).click(removeTableRow);
+            }
+        }
+        if(more) {
+            console.log('disable checkbox');
+            $("#hoofdclient_toggle").attr("disabled", true);
+        } else {
+            console.log('enable checkbox');
+            $("#hoofdclient_toggle").removeAttr("disabled");
+        }
     }
 }
 
 
 
 Ecd.verslag = function(tag,url) {
-	addhandlers(tag);
-	function addhandlers(tag) {
-		save='verslag_save'+tag;
-		cancel='verslag_cancel'+tag;
-		toevoegen='toevoegen'+tag;
-		
-		$('#'+save).click(function(){
-			tag=$(this).attr('id');
-			var myRe = new RegExp('verslag_save', "gim");
-	        tag = tag.replace(myRe , '');
-	        form="form_verslag"+tag;
-	        var data = $('#'+form).find('*:input').serialize();
-	        $.post(url, data, function (data) {
-	    		div="verslag"+tag;
-	    		$('#'+div).html(data);
-	    	});
-    	});
-		$('#'+toevoegen).click(function(){
-			tag=$(this).attr('id');
-			var myRe = new RegExp('toevoegen', "gim");
-	        tag = tag.replace(myRe , '');
-	        $('#view_verslag'+tag).hide();	
-	        $('#edit_verslag'+tag).show();	
-    	});		
-		$('#'+cancel).click(function(){
-			tag=$(this).attr('id');
-			var myRe = new RegExp('verslag_cancel', "gim");
-	        tag = tag.replace(myRe , '');
-	        $('#view_verslag'+tag).show();	
-	        $('#edit_verslag'+tag).hide();
-    	});
-	}
+    addhandlers(tag);
+    function addhandlers(tag) {
+        save='verslag_save'+tag;
+        cancel='verslag_cancel'+tag;
+        toevoegen='toevoegen'+tag;
+
+        $('#'+save).click(function(){
+            tag=$(this).attr('id');
+            var myRe = new RegExp('verslag_save', "gim");
+            tag = tag.replace(myRe , '');
+            form="form_verslag"+tag;
+            var data = $('#'+form).find('*:input').serialize();
+            $.post(url, data, function (data) {
+                div="verslag"+tag;
+                $('#'+div).html(data);
+            });
+        });
+        $('#'+toevoegen).click(function(){
+            tag=$(this).attr('id');
+            var myRe = new RegExp('toevoegen', "gim");
+            tag = tag.replace(myRe , '');
+            $('#view_verslag'+tag).hide();
+            $('#edit_verslag'+tag).show();
+        });
+        $('#'+cancel).click(function(){
+            tag=$(this).attr('id');
+            var myRe = new RegExp('verslag_cancel', "gim");
+            tag = tag.replace(myRe , '');
+            $('#view_verslag'+tag).show();
+            $('#edit_verslag'+tag).hide();
+        });
+    }
 }
 
 Ecd.zrm_widget = function(module) {
-	
-	var options = Ecd.zrm_widget.options;
-	
-	set_required(module);
-	function set_required(module) {
-		$('.zrm').find('tr').attr('class','');
-		if(options.hasOwnProperty(module)) {
-			
-			for (index = 0; index < options[module].length; index++) {
-				$("#tr_"+options[module][index]).attr('class','zrmedit');
-			}
-		} 
-	}
-	
+
+    var options = Ecd.zrm_widget.options;
+
+    set_required(module);
+    function set_required(module) {
+        $('.zrm').find('tr').attr('class','');
+        if(options.hasOwnProperty(module)) {
+
+            for (index = 0; index < options[module].length; index++) {
+                $("#tr_"+options[module][index]).attr('class','zrmedit');
+            }
+        }
+    }
+
     $('#ZrmReportRequestModule').change(function(e) {
-    	set_required($('#ZrmReportRequestModule').val());
+        set_required($('#ZrmReportRequestModule').val());
     });
-    
+
 }
 
 Ecd.intake = function() {
-	$('#IntakeLocatie1Id').change(function() {
-		$('input[type="checkbox"][name="data[Intake][toegang_inloophuis]"').attr( "checked", true );
-	});
-	$('input[type="checkbox"][name="data[Intake][toegang_inloophuis]"').change(function() {
-		if($('input[type="checkbox"][name="data[Intake][toegang_inloophuis]"').attr( "checked" ) == false) {
-			$('#IntakeLocatie1Id').val('');
-		}
-	});
-	console.log('ecd.intake');
+    $('#IntakeLocatie1Id').change(function() {
+        $('input[type="checkbox"][name="data[Intake][toegang_inloophuis]"').attr( "checked", true );
+    });
+    $('input[type="checkbox"][name="data[Intake][toegang_inloophuis]"').change(function() {
+        if($('input[type="checkbox"][name="data[Intake][toegang_inloophuis]"').attr( "checked" ) == false) {
+            $('#IntakeLocatie1Id').val('');
+        }
+    });
+    console.log('ecd.intake');
 }
 Ecd.schorsing = function() {
-	options = Ecd.schorsing.options;
-	
-	function clear_betrokkenen() {
-    	$('#SchorsingAggressieDoelwit').val('');
-    	$('#SchorsingAggressieDoelwit2').val('');
-    	$('#SchorsingAggressieDoelwit3').val('');
-    	$('#SchorsingAggressieDoelwit4').val('');
+    options = Ecd.schorsing.options;
 
-    	$('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker]"]').each(function(i) {
-    		this.checked = false;
-    	});
-    	$('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker2]"]').each(function(i) {
- 	       this.checked = false;
-    	});
-    	$('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker3]"]').each(function(i) {
- 	       this.checked = false;
-    	});
-    	$('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker4]"]').each(function(i) {
- 	       this.checked = false;
-    	});
-    	
-	}
+    function clear_betrokkenen() {
+        $('#SchorsingAggressieDoelwit').val('');
+        $('#SchorsingAggressieDoelwit2').val('');
+        $('#SchorsingAggressieDoelwit3').val('');
+        $('#SchorsingAggressieDoelwit4').val('');
+
+        $('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker]"]').each(function(i) {
+            this.checked = false;
+        });
+        $('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker2]"]').each(function(i) {
+            this.checked = false;
+        });
+        $('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker3]"]').each(function(i) {
+            this.checked = false;
+        });
+        $('input[type="radio"][name="data[Schorsing][aggressie_tegen_medewerker4]"]').each(function(i) {
+            this.checked = false;
+        });
+
+    }
     function update() {
         show=false;
         if($('#RedenReden'+options['violent_options'][0].toString()).attr('checked')) {
-        	show=true;
+            show=true;
         }
         if($('#RedenReden'+options['violent_options'][1].toString()).attr('checked')) {
-        	show=true;
-        } 
+            show=true;
+        }
         if(show) {
             $('#agressie').show();
         } else {
             $('#agressie').hide();
             clear_betrokkenen();
-        	$('input[type="radio"][name="data[Schorsing][agressie]"]').each(function(i) {
-      	       this.checked = false;
-         	});
+            $('input[type="radio"][name="data[Schorsing][agressie]"]').each(function(i) {
+                 this.checked = false;
+             });
         }
         if($('input[name="data[Schorsing][agressie]"]:checked').val() == 1 ) {
-        	$('#betrokkenen').show();
+            $('#betrokkenen').show();
         } else {
-        	$('#betrokkenen').hide();
-        	clear_betrokkenen();
+            $('#betrokkenen').hide();
+            clear_betrokkenen();
         }
     }
     $('input[name="data[Schorsing][agressie]"]').click(function() {
-    	update();
+        update();
     });
-	$('#RedenReden'+options['violent_options'][0].toString()).change(function() {
-	    update();
-	});
-	$('#RedenReden'+options['violent_options'][1].toString()).change(function() {
-	    update();
-	});
-	update();
+    $('#RedenReden'+options['violent_options'][0].toString()).change(function() {
+        update();
+    });
+    $('#RedenReden'+options['violent_options'][1].toString()).change(function() {
+        update();
+    });
+    update();
 }
 
