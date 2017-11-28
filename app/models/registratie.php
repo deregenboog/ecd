@@ -144,38 +144,24 @@ class Registratie extends AppModel
         }
     }
 
-    public function getRecentlyUnregistered($locatie_id, $previous_days = 0, &$active_registr = [], &$gebruiker_registr = [])
+    public function getRecentlyUnregistered($locatie_id, $previous_days = 0, $active_registr = [], $gebruiker_registr = [])
     {
-        $this->Locatie->id = $locatie_id;
-        $nachtopvang = $this->Locatie->field('nachtopvang');
-
         $timelimit = $this->get_timelimit($locatie_id, $previous_days);
 
         $exception_list = [];
-
         foreach ($active_registr as $registered_client) {
-            array_push(
-                $exception_list,
-                $registered_client['Registratie']['klant_id']
-            );
+            $exception_list[] = (int) $registered_client['Registratie']['klant_id'];
         }
-
         foreach ($gebruiker_registr as $registered_client) {
-            array_push(
-                $exception_list,
-                $registered_client['Registratie']['klant_id']
-            );
+            $exception_list[] = (int) $registered_client['Registratie']['klant_id'];
         }
-
+        $exception_list_query = '';
         if (!empty($exception_list)) {
-            $exception_list = implode(',', $exception_list);
-            $exception_list_query = 'AND
-                        klant_id NOT IN ('.$exception_list.')';
-        } else {
-            $exception_list_query = '';
+            $exception_list = implode(',', array_unique($exception_list));
+            $exception_list_query = 'AND klant_id NOT IN ('.$exception_list.')';
         }
 
-        App::import('Sanitize');
+        $this->query('UPDATE registraties SET binnen_date = DATE(binnen) WHERE binnen_date IS NULL');
         $result = $this->query('
             SELECT
                 binnen, buiten, douche, mw, kleding, maaltijd, activering, gbrv,
@@ -184,11 +170,13 @@ class Registratie extends AppModel
             FROM (
                 SELECT * FROM registraties
                 WHERE
-                    locatie_id = '.Sanitize::escape($locatie_id).'
+                    locatie_id = '.(int) $locatie_id.'
                 AND
                     closed = 1
                 AND
                     binnen > "'.$timelimit.'"
+                AND
+                    binnen_date > "'.$timelimit.'"
                 '.$exception_list_query.'
                 ORDER BY
                     buiten DESC
@@ -197,7 +185,6 @@ class Registratie extends AppModel
                 klanten AS `Klant` ON Registratie.klant_id = Klant.id
             GROUP BY
                 klant_id;
-
         ');
 
         return $result;
