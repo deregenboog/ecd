@@ -125,6 +125,6 @@ class OekDeelname
 
     public function isDeletable()
     {
-        return $this->oekDeelnameStatus->getStatus() === OekDeelnameStatus::STATUS_AANGEMELD;
+        return OekDeelnameStatus::STATUS_AANGEMELD === $this->oekDeelnameStatus->getStatus();
     }
 }

@@ -9,7 +9,6 @@ use AppBundle\Service\AbstractDao;
 
 class AbstractChildController extends AbstractController
 {
-
     /**
      * @var AbstractDao
      */

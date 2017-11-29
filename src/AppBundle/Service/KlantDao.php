@@ -13,7 +13,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     protected $alias = 'klant';
 
     /**
-     * @param int $page
+     * @param int             $page
      * @param FilterInterface $filter
      *
      * @return PaginationInterface

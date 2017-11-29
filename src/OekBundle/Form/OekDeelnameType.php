@@ -25,9 +25,9 @@ class OekDeelnameType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['mode'] === self::MODE_ADD) {
+        if (self::MODE_ADD === $options['mode']) {
             $this->buildAddForm($builder, $options);
-        } elseif ($options['mode'] === self::MODE_EDIT) {
+        } elseif (self::MODE_EDIT === $options['mode']) {
             $this->buildEditForm($builder, $options);
         }
 

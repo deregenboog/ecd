@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use DagbestedingBundle\Form\ReportingType;
 use Symfony\Component\Routing\Annotation\Route;
 use DagbestedingBundle\Report\AbstractReport;
-use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Controller\SymfonyController;

@@ -16,7 +16,7 @@ class Version20171120123247 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE clip_clienten DROP FOREIGN KEY FK_B7F4C67E3C427B2F');
         $this->addSql('DROP INDEX UNIQ_B7F4C67E3C427B2F ON clip_clienten');

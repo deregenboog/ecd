@@ -15,7 +15,7 @@ class Version20170410092513 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql("ALTER TABLE vrijwilligers ADD vog_aangevraagd TINYINT(1) NOT NULL DEFAULT '0'");
         $this->addSql("ALTER TABLE vrijwilligers ADD vog_aanwezig TINYINT(1) NOT NULL DEFAULT '0'");

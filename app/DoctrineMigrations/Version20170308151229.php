@@ -16,7 +16,7 @@ class Version20170308151229 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE odp_deelnemers (id INT AUTO_INCREMENT NOT NULL, foreign_key INT NOT NULL, medewerker_id INT NOT NULL, woningbouwcorporatie_id INT DEFAULT NULL, aanmelddatum DATE NOT NULL, afsluitdatum DATE DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, model VARCHAR(255) NOT NULL, afsluiting_id INT DEFAULT NULL, woningbouwcorporatie_toelichting VARCHAR(255) DEFAULT NULL, INDEX IDX_202839997E366551 (foreign_key), INDEX IDX_202839993D707F64 (medewerker_id), INDEX IDX_20283999ECDAD1A9 (afsluiting_id), INDEX IDX_20283999C0B11400 (woningbouwcorporatie_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE odp_deelnemer_verslag (deelnemer_id INT NOT NULL, verslag_id INT NOT NULL, INDEX IDX_F8F75D6A5DFA57A1 (deelnemer_id), INDEX IDX_F8F75D6AD949475D (verslag_id), PRIMARY KEY(deelnemer_id, verslag_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

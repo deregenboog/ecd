@@ -28,7 +28,7 @@ class HuurovereenkomstCloseType extends AbstractType
                 'label' => 'Reden afsluiting',
                 'required' => true,
                 'placeholder' => 'Selecteer een item',
-                'query_builder' => function(EntityRepository $repository) use ($huurovereenkomst) {
+                'query_builder' => function (EntityRepository $repository) use ($huurovereenkomst) {
                     $builder = $repository->createQueryBuilder('afsluiting')
                         ->where('afsluiting.actief = true')
                     ;

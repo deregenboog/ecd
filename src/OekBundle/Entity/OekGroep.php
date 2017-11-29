@@ -133,7 +133,7 @@ class OekGroep
 
     public function isDeletable()
     {
-        return $this->oekLidmaatschappen->count() == 0 &&
-               $this->oekTrainingen->count() == 0;
+        return 0 == $this->oekLidmaatschappen->count() &&
+               0 == $this->oekTrainingen->count();
     }
 }

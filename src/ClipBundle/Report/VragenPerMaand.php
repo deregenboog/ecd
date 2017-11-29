@@ -41,12 +41,12 @@ class VragenPerMaand extends AbstractReport
     protected function init()
     {
         $vragen = $this->vraagDao->countByMaand($this->startDate, $this->endDate);
-        array_walk($vragen, function(&$item) {
+        array_walk($vragen, function (&$item) {
             $item['kolom'] = 'Vragen';
         });
 
         $contactmomenten = $this->contactmomentDao->countByMaand($this->startDate, $this->endDate);
-        array_walk($contactmomenten, function(&$item) {
+        array_walk($contactmomenten, function (&$item) {
             $item['kolom'] = 'Contactmomenten';
         });
 

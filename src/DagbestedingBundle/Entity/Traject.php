@@ -245,7 +245,7 @@ class Traject
 
     public function isActief()
     {
-        return $this->afsluiting === null;
+        return null === $this->afsluiting;
     }
 
     public function getVerslagen()

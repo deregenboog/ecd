@@ -28,7 +28,7 @@ class VerhuurderCloseType extends AbstractType
                 'label' => 'Reden afsluiting',
                 'required' => true,
                 'placeholder' => 'Selecteer een item',
-                'query_builder' => function(EntityRepository $repository) use ($verhuurder) {
+                'query_builder' => function (EntityRepository $repository) use ($verhuurder) {
                     $builder = $repository->createQueryBuilder('afsluiting')
                         ->where('afsluiting.actief = true')
                     ;

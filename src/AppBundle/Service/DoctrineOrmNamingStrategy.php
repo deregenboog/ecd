@@ -15,9 +15,9 @@ class DoctrineOrmNamingStrategy extends DefaultNamingStrategy
         $matches = [];
 
         if (preg_match('/^([A-z]*)Bundle/', $sourceEntity, $matches)) {
-            $prefix = strtolower($matches[1]) . '_';
+            $prefix = strtolower($matches[1]).'_';
         }
 
-        return $prefix . parent::joinTableName($sourceEntity, $targetEntity, $propertyName);
+        return $prefix.parent::joinTableName($sourceEntity, $targetEntity, $propertyName);
     }
 }

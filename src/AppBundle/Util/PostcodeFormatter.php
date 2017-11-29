@@ -4,7 +4,7 @@ namespace AppBundle\Util;
 
 class PostcodeFormatter
 {
-    static public function format($postcode)
+    public static function format($postcode)
     {
         return preg_replace('/\s/', '', strtoupper($postcode));
     }

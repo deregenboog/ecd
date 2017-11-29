@@ -25,7 +25,7 @@ class DocumentType extends AbstractType
         }
 
         $builder
-            ->add('behandelaar', BehandelaarType::class, [
+            ->add('behandelaar', BehandelaarSelectType::class, [
                 'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
                 'medewerker' => $options['medewerker'],
             ])

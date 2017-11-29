@@ -13,10 +13,6 @@ use ClipBundle\Entity\Behandelaar;
 use AppBundle\Form\PersonType;
 use AppBundle\Form\AddressType;
 use AppBundle\Form\WerkgebiedSelectType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use AppBundle\Entity\Postcode;
-use Doctrine\ORM\EntityManager;
 
 class ClientType extends AbstractType
 {

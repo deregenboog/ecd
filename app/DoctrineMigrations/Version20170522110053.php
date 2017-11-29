@@ -16,7 +16,7 @@ class Version20170522110053 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE schorsing_locatie (schorsing_id INT NOT NULL, locatie_id INT NOT NULL, INDEX IDX_52DA6766A52077DE (schorsing_id), INDEX IDX_52DA67664947630C (locatie_id), PRIMARY KEY(schorsing_id, locatie_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE schorsing_locatie ADD CONSTRAINT FK_52DA6766A52077DE FOREIGN KEY (schorsing_id) REFERENCES schorsingen (id)');

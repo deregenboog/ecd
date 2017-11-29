@@ -30,7 +30,7 @@ class HuurderFilterType extends AbstractType
         if (in_array('automatischeIncasso', $options['enabled_filters'])) {
             $builder->add('automatischeIncasso', ChoiceType::class, [
                 'required' => false,
-                'choices'=> [
+                'choices' => [
                     'Ja' => 1,
                     'Nee' => 0,
                 ],

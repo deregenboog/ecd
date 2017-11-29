@@ -5,9 +5,7 @@ namespace ClipBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use ClipBundle\Filter\ContactmomentFilter;
 
@@ -37,11 +35,6 @@ class ContactmomentFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class)
-            ->add('download', SubmitType::class)
-        ;
     }
 
     /**
@@ -64,6 +57,7 @@ class ContactmomentFilterType extends AbstractType
                 'vraag' => ['soort', 'client' => ['naam']],
                 'behandelaar',
                 'datum',
+                'filter',
             ],
         ]);
     }

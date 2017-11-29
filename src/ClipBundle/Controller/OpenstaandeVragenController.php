@@ -7,13 +7,17 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use ClipBundle\Entity\Vraag;
+use AppBundle\Controller\AbstractController;
+use ClipBundle\Form\VraagFilterType;
 
 /**
  * @Route("/openstaandevragen")
  */
-class OpenstaandeVragenController extends VragenController
+class OpenstaandeVragenController extends AbstractController
 {
     protected $title = 'Openstaande vragen';
+    protected $filterFormClass = VraagFilterType::class;
+    protected $baseRouteName = 'clip_vragen_';
 
     /**
      * @var VraagDaoInterface
@@ -21,6 +25,13 @@ class OpenstaandeVragenController extends VragenController
      * @DI\Inject("clip.dao.vraag")
      */
     protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("clip.export.vragen")
+     */
+    protected $export;
 
     /**
      * @Route("/")
@@ -37,6 +48,8 @@ class OpenstaandeVragenController extends VragenController
                     'soort',
                     'behandelaar',
                     'client' => ['naam'],
+                    'filter',
+                    'download',
                 ],
             ]);
             $form->handleRequest($request);
