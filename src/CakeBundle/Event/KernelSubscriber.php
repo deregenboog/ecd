@@ -11,6 +11,9 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Controller\AbstractController;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Vrijwilliger;
 
 class KernelSubscriber implements EventSubscriberInterface
 {
@@ -27,6 +30,7 @@ class KernelSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
+            KernelEvents::REQUEST => ['onKernelRequest'],
             KernelEvents::CONTROLLER => ['onKernelController'],
             KernelEvents::EXCEPTION => ['onKernelException'],
             KernelEvents::VIEW => ['onKernelView'],
@@ -36,6 +40,23 @@ class KernelSubscriber implements EventSubscriberInterface
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function onKernelRequest(GetResponseEvent $event)
+    {
+        // @todo remove this when no longer needed
+        $em = $this->container->get('doctrine.orm.entity_manager');
+
+        $queries = [];
+        foreach ([Klant::class, Vrijwilliger::class] as $model) {
+            foreach (['werkgebied'/*, 'postcodegebied'*/] as $property) {
+                $queries[] = "UPDATE {$model} AS model SET model.{$property} = NULL WHERE model.{$property} = ''";
+            }
+        }
+
+        foreach ($queries as $query) {
+            $em->createQuery($query)->execute();
+        }
     }
 
     public function onKernelController(FilterControllerEvent $event)

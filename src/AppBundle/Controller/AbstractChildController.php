@@ -54,7 +54,6 @@ class AbstractChildController extends AbstractController
                 if (!$parentEntity && $this->allowEmpty) {
                     $this->dao->create($entity);
                 } else {
-                    $parentEntity->{$this->addMethod}($entity);
                     $this->parentDao->update($parentEntity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');

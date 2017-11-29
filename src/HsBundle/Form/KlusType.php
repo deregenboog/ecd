@@ -60,24 +60,6 @@ class KlusType extends AbstractType
             ])
         ;
 
-        if (!$options['data']->getId()) {
-            $builder
-                ->add('memo', TextareaType::class, [
-                    'mapped' => false,
-                    'attr' => ['rows' => 10, 'cols' => 80],
-                ])
-                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                    $form = $event->getForm();
-                    $klus = $event->getData();
-                    if (!$form->get('memo')->isEmpty()) {
-                        $memo = new Memo($klus->getMedewerker());
-                        $memo->setMemo($form->get('memo')->getData());
-                        $klus->addMemo($memo);
-                    }
-                })
-            ;
-        }
-
         $builder->add('submit', SubmitType::class);
     }
 

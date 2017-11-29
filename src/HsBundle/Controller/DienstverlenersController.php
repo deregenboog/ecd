@@ -120,7 +120,8 @@ class DienstverlenersController extends AbstractController
                     'redirect' => $this->generateUrl('hs_dienstverleners_view', ['id' => $dienstverlener->getId()]).'#memos',
                 ]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToIndex();

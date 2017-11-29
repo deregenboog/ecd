@@ -36,6 +36,7 @@ class KlantType extends AbstractType
             ->add('achternaam')
             ->add('roepnaam')
             ->add('geslacht', null, [
+                'required' => true,
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->orderBy('geslacht.id', 'DESC');

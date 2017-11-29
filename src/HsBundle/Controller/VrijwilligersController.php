@@ -119,7 +119,8 @@ class VrijwilligersController extends AbstractController
                     'redirect' => $this->generateUrl('hs_vrijwilligers_view', ['id' => $vrijwilliger->getId()]).'#memos',
                 ]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToIndex();

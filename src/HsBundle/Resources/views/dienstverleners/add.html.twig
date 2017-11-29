@@ -11,15 +11,14 @@
 
 {% block content %}
     <h1>{{ entity_name|capitalize }} toevoegen</h1>
-    
+
     {% if klanten is defined and filterForm.vars.errors|length == 0 %}
         <p>
             Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
             "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
         </p>
         <p>
-            {{ html.addLink(path('hs_dienstverleners_add', {klant: 'new'}))|raw }}
-            {{ html.link('Nieuwe '~entity_name, path('hs_dienstverleners_add', {klant: 'new'}))|raw }}
+            {{ html.link('Nieuwe '~entity_name, path('hs_dienstverleners_add', {klant: 'new'}), 'plus') }}
         </p>
         <table class="table table-hover">
             <thead>
@@ -30,11 +29,10 @@
                 </tr>
             </thead>
             {% for entity in klanten %}
-                {% set url = path('hs_dienstverleners_add', {klant: entity.id}) %}
-                <tr>
-                    <td>{{ html.link(entity, url)|raw }}</td>
-                    <td>{{ html.link(entity.bsn, url)|raw }}</td>
-                    <td>{{ html.link(entity.geboortedatum ? entity.geboortedatum|date('d-m-Y'), url)|raw }}</td>
+                <tr data-href="{{ path('hs_dienstverleners_add', {klant: entity.id}) }}">
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.bsn }}</td>
+                    <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
                 </tr>
             {% endfor %}
         </table>

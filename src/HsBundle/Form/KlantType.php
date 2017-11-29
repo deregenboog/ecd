@@ -83,6 +83,11 @@ class KlantType extends AbstractType
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /** @var $klant Klant */
                 $klant = $event->getData();
+
+                if (!$klant->getPostcode()) {
+                    return;
+                }
+
                 /** @var $postcode Postcode */
                 $postcode = $this->entityManager->find(Postcode::class, $klant->getPostcode());
                 if ($postcode) {

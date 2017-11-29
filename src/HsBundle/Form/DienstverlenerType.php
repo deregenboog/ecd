@@ -34,7 +34,13 @@ class DienstverlenerType extends AbstractType
                 },
             ]);
         } else {
-            $builder->add('klant', AppKlantType::class);
+            $builder
+                ->add('klant', AppKlantType::class)
+                ->get('klant')
+                ->remove('opmerking')
+                ->remove('geenPost')
+                ->remove('geenEmail')
+            ;
         }
 
         $builder

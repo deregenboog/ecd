@@ -72,6 +72,18 @@ trait PersonTrait
         return $this;
     }
 
+    public function getRoepnaam()
+    {
+        return $this->roepnaam;
+    }
+
+    public function setRoepnaam($roepnaam)
+    {
+        $this->roepnaam = $roepnaam;
+
+        return $this;
+    }
+
     public function getTussenvoegsel()
     {
         return $this->tussenvoegsel;

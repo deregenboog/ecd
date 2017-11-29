@@ -57,7 +57,8 @@ class KlantenController extends AbstractController
                     'redirect' => $this->generateUrl('hs_klanten_view', ['id' => $klant->getId()]).'#memos',
                 ]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.'.$e->getMessage());
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToIndex();
