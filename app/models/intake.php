@@ -353,7 +353,7 @@ class Intake extends AppModel
         ],
     ];
 
-    public function beforeValidate()
+    public function beforeValidate($options = [])
     {
         foreach ($this->hasAndBelongsToMany as $k => $v) {
             if (isset($this->data[$k][$k])) {

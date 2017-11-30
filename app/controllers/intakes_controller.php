@@ -72,7 +72,7 @@ class IntakesController extends AppController
 
     public function add($klant_id = null)
     {
-        if ($klant_id == null) {
+        if (null == $klant_id) {
             $this->flashError('Geen klant Id opgegeven');
             $this->redirect(['controller' => 'klanten', 'action' => 'index']);
         }
@@ -138,7 +138,7 @@ class IntakesController extends AppController
         } else {
             if (is_array($this->data['Intake']['datum_intake'])) {
                 $date = $this->data['Intake']['datum_intake'];
-                if ($date['year'] != 0 && $date['month'] != 0 && $date['day'] != 0) {
+                if (0 != $date['year'] && 0 != $date['month'] && 0 != $date['day']) {
                     $datum_intake = $date;
                 }
             }

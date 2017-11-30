@@ -65,6 +65,14 @@ class Intake
      */
     private $intakedatum;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="amoc_toegang_tot", type="date")
+     * @Gedmo\Versioned
+     */
+    private $amocToegangTot;
+
     private $verblijfsstatus;
 
     private $postadres;

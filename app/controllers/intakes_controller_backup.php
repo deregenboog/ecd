@@ -33,7 +33,7 @@ class IntakesController extends AppController
                 $this->redirect($redirect_url);
             } else {
                 //something went wrong, render the same view again with validation
-            //errors
+                //errors
                 $this->Intakez->setup_add_view($klant_id);
                 //no redirect
             }
