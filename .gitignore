@@ -1,4 +1,6 @@
 /app/config/parameters.yml
+/app/SymfonyRequirements.php
+/app/check.php
 
 # Temp dir
 /app/tmp/*
