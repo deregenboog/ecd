@@ -1,0 +1,12 @@
+services:
+    odp.form.rapportage:
+        class: OdpBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    odp.report.huurovereenkomsten_per_woningbouwcorporatie:
+        class: OdpBundle\Report\HuurovereenkomstenPerWoningbouwcorporatie
+        arguments:
+            - "@odp.dao.huurovereenkomst"
+        tags:
+            - { name: odp.rapportage, category: Koppelingen }

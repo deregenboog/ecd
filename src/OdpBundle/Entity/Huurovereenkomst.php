@@ -19,7 +19,7 @@ class Huurovereenkomst
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
 
-    static public function getVormChoices()
+    public static function getVormChoices()
     {
         return [
             'Hospitaverhuur' => 'Hospitaverhuur',
@@ -122,7 +122,7 @@ class Huurovereenkomst
 
     public function isActief()
     {
-        return $this->afsluiting === null;
+        return null === $this->afsluiting;
     }
 
     public function getId()

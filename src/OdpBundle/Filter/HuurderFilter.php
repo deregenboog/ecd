@@ -4,8 +4,9 @@ namespace OdpBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\KlantFilter;
+use AppBundle\Filter\FilterInterface;
 
-class HuurderFilter
+class HuurderFilter implements FilterInterface
 {
     /**
      * @var int

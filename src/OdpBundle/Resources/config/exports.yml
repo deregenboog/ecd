@@ -86,3 +86,6 @@ services:
                 Vorm: { expression: 'entity.getVorm()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Automatische incasso: { expression: 'entity.getHuurder().isAutomatischeIncasso() ? "ja" : "nee"' }
+
+    odp.export.report:
+        class: OdpBundle\Export\ReportExport

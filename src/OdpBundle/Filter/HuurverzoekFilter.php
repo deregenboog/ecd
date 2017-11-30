@@ -5,8 +5,9 @@ namespace OdpBundle\Filter;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Filter\FilterInterface;
 
-class HuurverzoekFilter
+class HuurverzoekFilter implements FilterInterface
 {
     /**
      * @var int

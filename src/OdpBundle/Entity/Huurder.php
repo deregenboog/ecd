@@ -38,14 +38,14 @@ class Huurder extends Deelnemer
 
     public function isActief()
     {
-        return $this->afsluiting === null;
+        return null === $this->afsluiting;
     }
 
     public function isClosable()
     {
         $today = new \DateTime('today');
 
-        $actieveHuurverzoeken = array_filter($this->huurverzoeken->toArray(), function(Huurverzoek $huurverzoek) use($today) {
+        $actieveHuurverzoeken = array_filter($this->huurverzoeken->toArray(), function (Huurverzoek $huurverzoek) use ($today) {
             if ($huurverzoek->getAfsluitdatum() && $huurverzoek->getAfsluitdatum() <= $today) {
                 return false;
             }
@@ -89,7 +89,7 @@ class Huurder extends Deelnemer
             }
         }
 
-        usort($huurovereenkomsten, function($huurovereenkomst1, $huurovereenkomst2) {
+        usort($huurovereenkomsten, function ($huurovereenkomst1, $huurovereenkomst2) {
             if ($huurovereenkomst1->getStartdatum() < $huurovereenkomst2->getStartdatum()) {
                 return 1;
             } elseif ($huurovereenkomst1->getStartdatum() > $huurovereenkomst2->getStartdatum()) {

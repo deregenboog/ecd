@@ -38,7 +38,7 @@ class Verhuurder extends Deelnemer
     private $woningbouwcorporatieToelichting;
 
     /**
-     * "Kleine schuld, grote winst"
+     * "Kleine schuld, grote winst".
      *
      * @var bool
      *
@@ -56,14 +56,14 @@ class Verhuurder extends Deelnemer
 
     public function isActief()
     {
-        return $this->afsluiting === null;
+        return null === $this->afsluiting;
     }
 
     public function isClosable()
     {
         $today = new \DateTime('today');
 
-        $actieveHuuraanbiedingen = array_filter($this->huuraanbiedingen->toArray(), function(Huuraanbod $huuraanbod) use($today) {
+        $actieveHuuraanbiedingen = array_filter($this->huuraanbiedingen->toArray(), function (Huuraanbod $huuraanbod) use ($today) {
             if ($huuraanbod->getAfsluitdatum() && $huuraanbod->getAfsluitdatum() <= $today) {
                 return false;
             }
@@ -107,7 +107,7 @@ class Verhuurder extends Deelnemer
             }
         }
 
-        usort($huurovereenkomsten, function($huurovereenkomst1, $huurovereenkomst2) {
+        usort($huurovereenkomsten, function ($huurovereenkomst1, $huurovereenkomst2) {
             if ($huurovereenkomst1->getStartdatum() < $huurovereenkomst2->getStartdatum()) {
                 return 1;
             } elseif ($huurovereenkomst1->getStartdatum() > $huurovereenkomst2->getStartdatum()) {

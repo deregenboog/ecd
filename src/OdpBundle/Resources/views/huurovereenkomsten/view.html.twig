@@ -9,46 +9,49 @@
     {% include '@Odp/odp_subnavigation.html.twig' %}
 {% endblock %}
 
-{% block content_left %}
-    <h1>Koppeling {{ huurovereenkomst }}</h1>
+{% block content_top %}
+    <h1>Koppeling {{ entity }}</h1>
     <p>
-        {% if huurovereenkomst.actief %}
-            {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
-            {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
-            {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
-            {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: huurovereenkomst.id})) }}
+        {% if entity.actief %}
+            {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: entity.id})) }}
+            {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: entity.id})) }}
+            {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: entity.id})) }}
+            {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: entity.id})) }}
         {% else %}
-            {{ html.addLink(path('odp_huurovereenkomsten_reopen', {id: huurovereenkomst.id})) }}
-            {{ html.link('Heropenen', path('odp_huurovereenkomsten_reopen', {id: huurovereenkomst.id})) }}
+            {{ html.addLink(path('odp_huurovereenkomsten_reopen', {id: entity.id})) }}
+            {{ html.link('Heropenen', path('odp_huurovereenkomsten_reopen', {id: entity.id})) }}
         {% endif %}
-        {% if huurovereenkomst.deletable %}
-            {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
-            {{ html.link('Verwijderen', path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('odp_huurovereenkomsten_delete', {id: entity.id})) }}
         {% endif %}
     </p>
+{% endblock %}
+
+{% block content_left %}
     <dl class="dl-horizontal">
         <dt>#</dt>
-        <dd>{{ huurovereenkomst.id }}</dd>
+        <dd>{{ entity.id }}</dd>
         <dt>Huurder</dt>
-        <dd>{{ html.link(huurovereenkomst.huurder.klant, path('odp_huurders_view', {id: huurovereenkomst.huurder.id})) }}</dd>
+        <dd>{{ html.link(entity.huurder.klant, path('odp_huurders_view', {id: entity.huurder.id})) }}</dd>
         <dt>Verhuurder</dt>
-        <dd>{{ html.link(huurovereenkomst.verhuurder.klant, path('odp_verhuurders_view', {id: huurovereenkomst.verhuurder.id})) }}</dd>
+        <dd>{{ html.link(entity.verhuurder.klant, path('odp_verhuurders_view', {id: entity.verhuurder.id})) }}</dd>
         <dt>Huurverzoek</dt>
-        <dd>{{ html.link(huurovereenkomst.huurverzoek, path('odp_huurverzoeken_view', {id: huurovereenkomst.huurverzoek.id})) }}</dd>
+        <dd>{{ html.link(entity.huurverzoek, path('odp_huurverzoeken_view', {id: entity.huurverzoek.id})) }}</dd>
         <dt>Huuraanbod</dt>
-        <dd>{{ html.link(huurovereenkomst.huuraanbod, path('odp_huuraanbiedingen_view', {id: huurovereenkomst.huuraanbod.id})) }}</dd>
+        <dd>{{ html.link(entity.huuraanbod, path('odp_huuraanbiedingen_view', {id: entity.huuraanbod.id})) }}</dd>
         <dt>Startdatum</dt>
-        <dd>{{ huurovereenkomst.startdatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
         <dt>Opzegdatum</dt>
-        <dd>{{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.opzegdatum ? entity.opzegdatum|date('d-m-Y') }}</dd>
         <dt>Einddatum</dt>
-        <dd>{{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
         <dt>Vorm</dt>
-        <dd>{{ huurovereenkomst.vorm }}</dd>
+        <dd>{{ entity.vorm }}</dd>
         <dt>Afsluitdatum</dt>
-        <dd>{{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
-        <dd>{{ huurovereenkomst.afsluiting ? huurovereenkomst.afsluiting }}</dd>
+        <dd>{{ entity.afsluiting ? entity.afsluiting }}</dd>
     </dl>
 {% endblock %}
 
@@ -59,12 +62,12 @@
     </ul>
     <div class="tab-content">
         <div id="verslagen" class="tab-pane active">
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurovereenkomst: huurovereenkomst} %}
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurverzoek: huurovereenkomst.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huuraanbod: huurovereenkomst.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurverzoek: entity.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huuraanbod: entity.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'OdpBundle:documenten:_list.html.twig' with {huurovereenkomst: huurovereenkomst} %}
+            {% include 'OdpBundle:documenten:_list.html.twig' with {huurovereenkomst: entity} %}
         </div>
     </div>
 {% endblock %}

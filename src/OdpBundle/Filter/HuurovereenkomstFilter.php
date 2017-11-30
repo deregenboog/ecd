@@ -6,8 +6,9 @@ use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\FilterInterface;
 
-class HuurovereenkomstFilter
+class HuurovereenkomstFilter implements FilterInterface
 {
     /**
      * @var int
