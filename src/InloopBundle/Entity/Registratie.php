@@ -9,7 +9,13 @@ use AppBundle\Entity\Klant;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="registraties")
+ * @ORM\Table(
+ *     name="registraties",
+ *     indexes={
+ *         @ORM\Index(columns={"klant_id"}),
+ *         @ORM\Index(columns={"locatie_id", "closed", "binnen_date"})
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
@@ -45,6 +51,14 @@ class Registratie
      * @Gedmo\Versioned
      */
     private $binnen;
+
+    /**
+     * Used for indexing for improved performance.
+     *
+     * @var \DateTime
+     * @ORM\Column(name="binnen_date", type="date", nullable=true)
+     */
+    private $binnenDate;
 
     /**
      * @var \DateTime
