@@ -201,7 +201,8 @@ class HuurverzoekenController extends SymfonyController
 
                 $this->addFlash('success', 'Huurverzoek is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_huurverzoeken_view', ['id' => $huurverzoek->getId()]);

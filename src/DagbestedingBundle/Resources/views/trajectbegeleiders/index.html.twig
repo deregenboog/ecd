@@ -21,7 +21,10 @@
                 {{ knp_pagination_sortable(pagination, '#', 'trajectbegeleider.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'medewerker.voornaam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'trajectbegeleider.displayName') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'trajectbegeleider.actief') }}
             </th>
             <th>
             </th>
@@ -33,6 +36,9 @@
                 </td>
                 <td>
                     {{ trajectbegeleider }}
+                </td>
+                <td>
+                    {{ trajectbegeleider.actief ? 'ja' : 'nee' }}
                 </td>
                 <td>
                     {{ html.editLink(path('dagbesteding_trajectbegeleiders_edit', {'id': trajectbegeleider.id})) }}

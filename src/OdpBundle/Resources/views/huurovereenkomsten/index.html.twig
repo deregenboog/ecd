@@ -148,7 +148,9 @@
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
-                    {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+                    {% if huurovereenkomst.actief %}
+                        {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
+                    {% endif %}
                     {% if huurovereenkomst.deletable %}
                         {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
                     {% endif %}

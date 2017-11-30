@@ -51,7 +51,8 @@ class CoordinatorenController extends SymfonyController
                 $this->coordinatorDao->create($coordinator);
                 $this->addFlash('success', 'Coordinator is toegevoegd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_coordinatoren_index');
@@ -75,7 +76,8 @@ class CoordinatorenController extends SymfonyController
             try {
                 $this->coordinatorDao->update($coordinator);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_coordinatoren_index');
@@ -101,7 +103,8 @@ class CoordinatorenController extends SymfonyController
                     $this->coordinatorDao->delete($coordinator);
                     $this->addFlash('success', 'Coordinator is verwijderd.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

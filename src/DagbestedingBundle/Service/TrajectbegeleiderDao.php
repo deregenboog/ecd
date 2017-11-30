@@ -9,11 +9,12 @@ use AppBundle\Filter\FilterInterface;
 class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'medewerker.voornaam',
+        'defaultSortFieldName' => 'trajectbegeleider.displayName',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'trajectbegeleider.id',
-            'medewerker.voornaam',
+            'trajectbegeleider.displayName',
+            'trajectbegeleider.actief',
         ],
     ];
 
@@ -22,7 +23,7 @@ class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoIn
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('trajectbegeleider')
-            ->innerJoin('trajectbegeleider.medewerker', 'medewerker');
+            ->leftJoin('trajectbegeleider.medewerker', 'medewerker');
 
         if ($filter) {
             $filter->applyTo($builder);

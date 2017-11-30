@@ -41,6 +41,25 @@ class Huurder extends Deelnemer
         return null === $this->afsluiting;
     }
 
+    public function isClosable()
+    {
+        $today = new \DateTime('today');
+
+        $actieveHuurverzoeken = array_filter($this->huurverzoeken->toArray(), function (Huurverzoek $huurverzoek) use ($today) {
+            if ($huurverzoek->getAfsluitdatum() && $huurverzoek->getAfsluitdatum() <= $today) {
+                return false;
+            }
+            $huurovereenkomst = $huurverzoek->getHuurovereenkomst();
+            if ($huurovereenkomst && $huurovereenkomst->getAfsluitdatum() && $huurovereenkomst->getAfsluitdatum() <= $today) {
+                return false;
+            }
+
+            return true;
+        });
+
+        return 0 === count($actieveHuurverzoeken);
+    }
+
     public function isDeletable()
     {
         return 0 === count($this->huurverzoeken)

@@ -59,7 +59,8 @@ class DocumentenController extends SymfonyController
                 $entityManager->flush();
                 $this->addFlash('success', 'Document is toegevoegd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
 
                 return $this->redirectToRoute($routeBase.'_index');
             }
@@ -84,7 +85,8 @@ class DocumentenController extends SymfonyController
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Document is bijgewerkt.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             if ($url = $request->get('redirect')) {

@@ -1,0 +1,43 @@
+{% if report.data is not empty %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><h3>{{ report.title }}</h3></th>
+                <th colspan="{{ report.data|first|length }}">
+                    <small>{{ report.xDescription is defined ? report.xDescription }}</small>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <small>{{ report.yDescription is defined ? report.yDescription }}</small>
+                </th>
+                {% for x, value in report.data|first %}
+                    <th><div>{{ x }}</div></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for y, series in report.data %}
+                <tr>
+                    <td>
+                        {% if report.yLookupCollection.y is defined %}
+                            {{ report.yLookupCollection.y }}
+                        {% else %}
+                            {{ y }}
+                        {% endif %}
+                    </td>
+                    {% for value in series %}
+                        <td>{{ value|raw }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <table class="table table-hover">
+        <thead>
+            <th><h3>{{ report.title }}</h3></th>
+            <tr><th>Geen data</th></tr>
+        </thead>
+    </table>
+{% endif %}

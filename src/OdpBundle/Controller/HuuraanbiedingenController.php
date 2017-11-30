@@ -192,7 +192,8 @@ class HuuraanbiedingenController extends SymfonyController
 
                 $this->addFlash('success', 'Huuraanbod is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_huuraanbiedingen_view', ['id' => $huuraanbod->getId()]);

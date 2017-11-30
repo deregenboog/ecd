@@ -13,7 +13,16 @@
         },
         "classmap" : [
             "app/AppKernel.php",
-            "app/AppCache.php"
+            "app/AppCache.php",
+            "app/app_controller.php",
+            "app/app_error.php",
+            "app/app_model.php",
+            "cake/libs/"
+        ],
+        "exclude-from-classmap" : [
+            "cake/libs/overloadable_php4.php",
+            "cake/libs/controller/app_controller.php",
+            "cake/libs/model/app_model.php"
         ]
     },
     "autoload-dev" : {
@@ -39,7 +48,7 @@
         "backup-manager/backup-manager" : "^1.1",
         "stof/doctrine-extensions-bundle" : "^1.2",
         "shivas/versioning-bundle" : "^1.4",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel" : "^1.8"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer" : "^2",

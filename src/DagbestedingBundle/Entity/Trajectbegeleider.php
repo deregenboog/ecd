@@ -7,6 +7,11 @@ use AppBundle\Model\TimestampableTrait;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Entity\IdentifiableTrait;
+use AppBundle\Model\OptionalMedewerkerTrait;
+use AppBundle\Entity\ActivatableTrait;
 
 /**
  * @ORM\Entity
@@ -16,20 +21,19 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Trajectbegeleider
 {
-    use TimestampableTrait;
+    use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait, TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
-    private $medewerker;
+    private $naam;
+
+    /**
+     * @ORM\Column(name="display_name", type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $displayName;
 
     /**
      * @var ArrayCollection|Traject[]
@@ -45,22 +49,31 @@ class Trajectbegeleider
 
     public function __toString()
     {
-        return (string) $this->medewerker;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getMedewerker()
-    {
-        return $this->medewerker;
+        return (string) $this->displayName;
     }
 
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
+        $this->setDisplayName();
+
+        return $this;
+    }
+
+    private function setDisplayName()
+    {
+        $this->displayName = $this->medewerker ? (string) $this->medewerker : $this->naam;
+    }
+
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+        $this->setDisplayName();
 
         return $this;
     }
@@ -73,5 +86,21 @@ class Trajectbegeleider
     public function getTrajecten()
     {
         return $this->trajecten;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (!$this->medewerker && !$this->naam) {
+            $context->buildViolation('Selecteer een medewerker of geef een naam op.')
+                ->addViolation();
+        }
+
+        if ($this->medewerker && $this->naam) {
+            $context->buildViolation('Geef geen naam op als je ook een medewerker selecteert.')
+                ->addViolation();
+        }
     }
 }
