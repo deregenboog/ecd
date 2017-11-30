@@ -185,6 +185,7 @@ parameters:
                 - OdpBundle\Controller\Huurders
                 - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Rapportages
                 - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
                 - oek
@@ -225,6 +226,7 @@ parameters:
                 - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\HuurverzoekAfsluitingen
                 - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Rapportages
                 - OdpBundle\Controller\VerhuurderAfsluitingen
                 - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
@@ -292,6 +294,7 @@ parameters:
                 - OdpBundle\Controller\Huurders
                 - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Rapportages
                 - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
             GROUP_ODP_BEHEER:
@@ -306,6 +309,7 @@ parameters:
                 - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\HuurverzoekAfsluitingen
                 - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Rapportages
                 - OdpBundle\Controller\VerhuurderAfsluitingen
                 - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
@@ -443,6 +447,7 @@ parameters:
                 - OdpBundle\Controller\Huurovereenkomsten
                 - OdpBundle\Controller\HuurverzoekAfsluitingen
                 - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Rapportages
                 - OdpBundle\Controller\VerhuurderAfsluitingen
                 - OdpBundle\Controller\Verhuurders
                 - OdpBundle\Controller\Verslagen
