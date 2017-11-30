@@ -1,15 +1,15 @@
 {% if huurder is defined %}
     {% set entity = huurder %}
-    {% set entity_name = 'huurder' %}
+    {% set entity_name_counterpart = 'verhuurder' %}
 {% elseif verhuurder is defined %}
     {% set entity = verhuurder %}
-    {% set entity_name = 'verhuurder' %}
+    {% set entity_name_counterpart = 'huurder' %}
 {% endif %}
 
 <h2>Koppelingen</h2>
 <table class="table">
     <tr>
-        <th>{{ entity_name|capitalize }}</th>
+        <th>{{ entity_name_counterpart|capitalize }}</th>
         <th>Startdatum</th>
         <th>Opzegdatum</th>
         <th>Einddatum huurovereenkomst</th>
@@ -18,7 +18,7 @@
     </tr>
     {% for huurovereenkomst in entity.huurovereenkomsten %}
         <tr>
-            <td>{{ entity_name == 'huurder' ? huurovereenkomst.verhuurder : huurovereenkomst.huurder }}</td>
+            <td>{{ entity_name_counterpart == 'huurder' ? huurovereenkomst.huurder : huurovereenkomst.verhuurder }}</td>
             <td>
                 {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
             </td>
