@@ -10,6 +10,7 @@
 <table class="table">
     <tr>
         <th>{{ entity_name_counterpart|capitalize }}</th>
+        <th>Stadsdeel</th>
         <th>Startdatum</th>
         <th>Opzegdatum</th>
         <th>Einddatum huurovereenkomst</th>
@@ -18,7 +19,12 @@
     </tr>
     {% for huurovereenkomst in entity.huurovereenkomsten %}
         <tr>
-            <td>{{ entity_name_counterpart == 'huurder' ? huurovereenkomst.huurder : huurovereenkomst.verhuurder }}</td>
+            <td>
+                {{ entity_name_counterpart == 'huurder' ? huurovereenkomst.huurder : huurovereenkomst.verhuurder }}
+            </td>
+            <td>
+                {{ huurovereenkomst.verhuurder.klant.werkgebied }}
+            </td>
             <td>
                 {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
             </td>
