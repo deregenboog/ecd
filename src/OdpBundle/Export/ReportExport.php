@@ -11,11 +11,15 @@ class ReportExport extends AbstractExport
         $this->excel = new \PHPExcel();
 
         foreach ($data['reports'] as $i => $report) {
+            $reportTitle = preg_replace('[^A-Za-z0-9]', '_', $report['title']);
+            if (!$reportTitle) {
+                $reportTitle = sprintf('Worksheet_%d', $i+1);
+            }
             if (0 === $i) {
                 $sheet = $this->excel->getActiveSheet();
-                $sheet->setTitle($report['title']);
+                $sheet->setTitle($reportTitle);
             } else {
-                $sheet = new \PHPExcel_Worksheet($this->excel, $report['title']);
+                $sheet = new \PHPExcel_Worksheet($this->excel, $reportTitle);
                 $this->excel->addSheet($sheet);
             }
 
