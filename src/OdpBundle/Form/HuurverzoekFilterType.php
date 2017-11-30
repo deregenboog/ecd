@@ -72,7 +72,7 @@ class HuurverzoekFilterType extends AbstractType
             'data_class' => HuurverzoekFilter::class,
             'enabled_filters' => [
                 'id',
-                'klant' => ['naam', 'stadsdeel'],
+                'klant' => ['naam'],
                 'startdatum',
                 'afsluitdatum',
                 'actief',

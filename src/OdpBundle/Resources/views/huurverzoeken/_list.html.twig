@@ -7,7 +7,6 @@
 </p>
 <table class="table">
     <tr>
-        <th>Stadsdeel</th>
         <th>Startdatum</th>
         <th>Afsluitdatum</th>
         <th></th>
@@ -15,7 +14,6 @@
     {% for huurverzoek in huurder.huurverzoeken %}
         {% if not huurverzoek.huurovereenkomst %}
             <tr>
-                <td>{{ huurverzoek.huurder.klant.werkgebied }}</td>
                 <td>
                     {{ huurverzoek.startdatum ? huurverzoek.startdatum|date('d-m-Y') }}
                 </td>
