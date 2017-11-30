@@ -57,13 +57,19 @@ class RegistratiesController extends AppController
 
             $conditions = $this->Filter->filterData;
             $conditions[] = ['LasteIntake.toegang_inloophuis' => 1];
+            $conditions[] = ['Klant.overleden NOT' => 1];
+
             if (!empty($locatie['gebruikersruimte'])) { // Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
                 $conditions[] = ['LasteIntake.locatie1_id' => $locatie_id];
-            } elseif ($locatie['id'] == 17) { // Vrouwen Nacht Opvang
+            } elseif (17 == $locatie['id']) { // Vrouwen Nacht Opvang
                 $conditions[]['Geslacht.afkorting'] = 'V';
                 $conditions[]['LasteIntake.toegang_vrouwen_nacht_opvang'] = 1;
-            } elseif ($locatie['id'] == 5) { // Amoc
-            } elseif ($locatie['id'] == 12) { // Nachtopvang De Regenboog Groep
+            } elseif (5 == $locatie['id']) { // Amoc
+                $conditions[] = ['OR' => [
+                    'LasteIntake.amoc_toegang_tot >=' => date('Y-m-d'),
+                    'LasteIntake.amoc_toegang_tot' => null,
+                ]];
+            } elseif (12 == $locatie['id']) { // Nachtopvang De Regenboog Groep
             } else { // Rest
                 $conditions[] = ['OR' => [
                     'LasteIntake.verblijfstatus_id NOT ' => 7,
@@ -80,13 +86,6 @@ class RegistratiesController extends AppController
                     ],
                 ]];
             }
-
-            $conditions[] = [
-                'OR' => [
-                    'Klant.overleden NOT' => 1,
-                    'Klant.overleden' => null,
-                ],
-            ];
 
             $this->log($conditions, 'registratie');
 
@@ -456,7 +455,7 @@ class RegistratiesController extends AppController
                 $now = new DateTime();
                 $d = $last_check_out->diff($now);
 
-                if ($d->h < $h && $d->d == 0 && $d->m == 0 && $d->y == 0) {
+                if ($d->h < $h && 0 == $d->d && 0 == $d->m && 0 == $d->y) {
                     $jsonVar['message'] .= $sep.
             __('This client has been checked out less than an hour ago. '.
                 'Are you sure you want to register him/her again?', true);
@@ -477,7 +476,7 @@ class RegistratiesController extends AppController
             $actieveSchorsingen = $this->Registratie->Klant->Schorsing->getActiveSchorsingen($klant_id);
             foreach ($actieveSchorsingen as $actieveSchorsing) {
                 foreach ($actieveSchorsing['Locatie'] as $actieveSchorsingLocatie) {
-                    if ($actieveSchorsingLocatie['id'] == $location['Locatie']['id']) {
+                    if ($location['Locatie']['id'] == $actieveSchorsingLocatie['id']) {
                         $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
                         $sep = $separator;
                         $jsonVar['confirm'] = true;
@@ -525,7 +524,7 @@ class RegistratiesController extends AppController
 
         $prev_val = (int) ($record['Registratie'][$fieldname]);
 
-        if ($fieldname == 'douche' || $fieldname == 'mw') {
+        if ('douche' == $fieldname || 'mw' == $fieldname) {
             $new_val = -1 - $prev_val; //we asume that DB data is correct
         } else {
             $new_val = !($prev_val);
