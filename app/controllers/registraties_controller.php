@@ -57,7 +57,10 @@ class RegistratiesController extends AppController
 
             $conditions = $this->Filter->filterData;
             $conditions[] = ['LasteIntake.toegang_inloophuis' => 1];
-            $conditions[] = ['Klant.overleden NOT' => 1];
+            $conditions[] = ['OR' => [
+                'Klant.overleden NOT' => 1,
+                'Klant.overleden' => null,
+            ]];
 
             if (!empty($locatie['gebruikersruimte'])) { // Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
                 $conditions[] = ['LasteIntake.locatie1_id' => $locatie_id];
