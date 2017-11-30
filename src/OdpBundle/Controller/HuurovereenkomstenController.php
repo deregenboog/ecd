@@ -132,7 +132,8 @@ class HuurovereenkomstenController extends SymfonyController
 
                 $this->addFlash('success', 'Huurovereenkomst is opgeslagen.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
 
                 return $this->redirectToRoute($routeBase.'_index');
             }
@@ -157,7 +158,8 @@ class HuurovereenkomstenController extends SymfonyController
             try {
                 $entityManager->flush();
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
@@ -180,7 +182,8 @@ class HuurovereenkomstenController extends SymfonyController
             try {
                 $entityManager->flush();
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_huurovereenkomsten_view', ['id' => $huurovereenkomst->getId()]);
@@ -208,7 +211,8 @@ class HuurovereenkomstenController extends SymfonyController
 
                     $this->addFlash('success', 'Koppeling is heropend.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

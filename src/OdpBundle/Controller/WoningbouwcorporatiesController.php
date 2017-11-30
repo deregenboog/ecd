@@ -51,7 +51,8 @@ class WoningbouwcorporatiesController extends SymfonyController
                 $this->woningbouwcorporatieDao->create($woningbouwcorporatie);
                 $this->addFlash('success', 'Woningbouwcorporatie is toegevoegd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_woningbouwcorporaties_index');
@@ -75,7 +76,8 @@ class WoningbouwcorporatiesController extends SymfonyController
             try {
                 $this->woningbouwcorporatieDao->update($woningbouwcorporatie);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_woningbouwcorporaties_index');
@@ -101,7 +103,8 @@ class WoningbouwcorporatiesController extends SymfonyController
                     $this->woningbouwcorporatieDao->delete($woningbouwcorporatie);
                     $this->addFlash('success', 'Woningbouwcorporatie is verwijderd.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 
