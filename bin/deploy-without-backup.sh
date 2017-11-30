@@ -7,9 +7,6 @@ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX var
 sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/tmp
 sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX var
 
-# Backup configures database
-bin/console app:database:backup --env=prod
-
 # Pull code and install dependencies
 git pull
 ./composer.phar install
