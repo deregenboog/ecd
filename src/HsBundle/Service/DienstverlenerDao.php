@@ -100,10 +100,11 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
-            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('dienstverlener.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin('dienstverlener.registraties', 'registratie')
-            ->groupBy('klant.werkgebied')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
@@ -123,9 +124,10 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
-            ->select('COUNT(DISTINCT(klant.id)) AS aantal, klant.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('dienstverlener.klant', 'klant')
-            ->groupBy('klant.werkgebied')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {

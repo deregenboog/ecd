@@ -11,12 +11,6 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    {% if false and aantal_klanten_facturabel > 0 %}
-        <a class="btn btn-primary" type="button" href="{{ path('hs_facturen_batch') }}">
-            Factureren t/m {{ einddatum_facturatie|date('d-m-Y') }}
-        </a>
-        <span class="badge">{{ aantal_klanten_facturabel }} klanten</span>
-    {% endif %}
     <table class="table table-hover">
         <thead>
             {% include '@Hs/facturen/_filter.html.twig' %}

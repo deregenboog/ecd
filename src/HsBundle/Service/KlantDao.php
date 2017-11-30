@@ -93,7 +93,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klant.klussen', 'klus')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->groupBy('werkgebied.naam')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
@@ -115,7 +115,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->groupBy('werkgebied.naam')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {

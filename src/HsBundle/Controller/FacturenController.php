@@ -113,6 +113,28 @@ class FacturenController extends AbstractChildController
         ];
     }
 
+    /**
+     * @Route("/{id}/lock")
+     */
+    public function lockAction(Request $request, $id)
+    {
+        $this->denyAccessUnlessGranted(GROUP_HOMESERVICE_BEHEER);
+
+        $entity = $this->dao->find($id);
+        $entity->lock();
+        $this->dao->update($entity);
+
+        return $this->redirectToView($entity);
+    }
+
+    protected function getDownloadFilename()
+    {
+        return sprintf(
+            'hs-facturen-%s.zip',
+            (new \DateTime())->format('Y-m-d')
+            );
+    }
+
     private function zipDownload(FilterInterface $filter)
     {
         if (!$this->export) {
@@ -185,67 +207,5 @@ class FacturenController extends AbstractChildController
         $pdf->writeHTMLCell(0, 0, null, 40, $html);
 
         return $pdf;
-    }
-
-    protected function getDownloadFilename()
-    {
-        return sprintf(
-            'hs-facturen-%s.zip',
-            (new \DateTime())->format('Y-m-d')
-        );
-    }
-
-    /**
-     * @Route("/add")
-     */
-    public function addAction(Request $request)
-    {
-        list($klant, $klantDao) = $this->getParentConfig($request);
-        $factuur = $this->factory->create($klant);
-
-        if (!$factuur->isEmpty()) {
-            $this->dao->create($factuur);
-            $this->addFlash('success', 'Factuur is toegevoegd.');
-        } else {
-            $this->addFlash('info', 'Er is op dit moment niks te factureren.');
-        }
-
-        if ($url = $request->get('redirect')) {
-            return $this->redirect($url);
-        }
-
-        return $this->redirectToRoute('hs_klanten_view', ['id' => $klant->getId()]);
-    }
-
-//     /**
-//      * @Route("/{id}/edit")
-//      */
-//     public function editAction(Request $request, $id)
-//     {
-//         $entity = $this->dao->find($id);
-
-//         return $this->redirectToView($entity);
-//     }
-
-//     /**
-//      * @Route("/{id}/delete")
-//      */
-//     public function deleteAction(Request $request, $id)
-//     {
-//         $entity = $this->dao->find($id);
-
-//         return $this->redirectToView($entity);
-//     }
-
-    /**
-     * @Route("/{id}/lock")
-     */
-    public function lockAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-        $entity->lock();
-        $this->dao->update($entity);
-
-        return $this->redirectToView($entity);
     }
 }

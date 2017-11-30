@@ -81,10 +81,10 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
-            ->select('COUNT(klus.id) AS aantal, werkgebied.naam AS stadsdeel')
+            ->select('COUNT(DISTINCT klus.id) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klus.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->groupBy('werkgebied.naam')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
@@ -104,18 +104,20 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
-            ->select('COUNT(klus.id) AS aantal, klant.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT klus.id) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klus.dienstverleners', 'dienstverlener')
+            ->innerJoin('klus.registraties', 'registratie', 'WITH', 'registratie.arbeider = dienstverlener')
             ->innerJoin('dienstverlener.klant', 'klant')
-            ->groupBy('klant.werkgebied')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
-            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
         }
 
         if ($end) {
-            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
         return $builder->getQuery()->getResult();
@@ -127,18 +129,20 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
-            ->select('COUNT(klus.id) AS aantal, basisvrijwilliger.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT klus.id) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klus.vrijwilligers', 'vrijwilliger')
+            ->innerJoin('klus.registraties', 'registratie', 'WITH', 'registratie.arbeider = vrijwilliger')
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
-            ->groupBy('basisvrijwilliger.werkgebied')
+            ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
-            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
         }
 
         if ($end) {
-            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
         return $builder->getQuery()->getResult();

@@ -1,17 +1,4 @@
 <h2>Facturen</h2>
-<p>
-    {% if klant is defined %}
-        {% set entity = klant %}
-        {% set url = path('hs_facturen_add', {klant: entity.id}) %}
-    {% elseif klus is defined %}
-        {% set entity = klus %}
-        {% set url = path('hs_facturen_add', {klant: entity.klant.id}) %}
-    {% endif %}
-    {% if url is defined %}
-        {{ html.addLink(url) }}
-        {{ html.link('Factuur toevoegen', url) }}
-    {% endif %}
-</p>
 <table class="table table-hover">
     <tr>
         <th>Klant</th>

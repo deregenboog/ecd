@@ -100,10 +100,11 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
-            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, basisvrijwilliger.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
             ->innerJoin('vrijwilliger.registraties', 'registratie')
-            ->groupBy('basisvrijwilliger.werkgebied')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
@@ -123,9 +124,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
-            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, basisvrijwilliger.werkgebied AS stadsdeel')
+            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
-            ->groupBy('basisvrijwilliger.werkgebied')
+            ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {

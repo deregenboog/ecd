@@ -18,7 +18,7 @@ class KoppelingenPerStadsdeel extends AbstractReport
 
     protected $nPath = 'aantal';
 
-    protected $xDescription = 'Aantal koppelingen tussen %ss en klanten waarbij de startdatum van de klus binnen de opgegeven periode valt';
+    protected $xDescription = 'Aantal klussen waarbij %ss binnen de opgegeven periode zijn ingezet';
 
     protected $yDescription = 'Stadsdeel van %s';
 
