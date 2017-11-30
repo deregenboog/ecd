@@ -125,7 +125,8 @@ class HuurdersController extends SymfonyController
 
                     return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
 
                     return $this->redirectToRoute('odp_huurders_index');
                 }
@@ -213,7 +214,8 @@ class HuurdersController extends SymfonyController
 
                 $this->addFlash('success', 'Huurder is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
@@ -244,7 +246,8 @@ class HuurdersController extends SymfonyController
 
                     $this->addFlash('success', 'Huurder is heropend.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

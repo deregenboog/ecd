@@ -208,7 +208,8 @@ class VerhuurdersController extends SymfonyController
 
                 $this->addFlash('success', 'Verhuurder is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_verhuurders_view', ['id' => $verhuurder->getId()]);
@@ -239,7 +240,8 @@ class VerhuurdersController extends SymfonyController
 
                     $this->addFlash('success', 'Huurder is heropend.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

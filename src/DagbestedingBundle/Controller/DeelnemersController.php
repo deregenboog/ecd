@@ -67,7 +67,8 @@ class DeelnemersController extends AbstractController
 
                     return $this->redirectToView($entity);
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
 
                     return $this->redirectToIndex();
                 }
@@ -124,7 +125,8 @@ class DeelnemersController extends AbstractController
 
                 $this->addFlash('success', $this->entityName.' is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToView($entity);

@@ -135,7 +135,8 @@ class KlantenController extends SymfonyController
                     if ($e->getPrevious() instanceof PDOException && 23000 == $e->getPrevious()->getCode()) {
                         $this->addFlash('danger', 'Deze klant heeft al een Op-eigen-kracht-dossier.');
                     } else {
-                        $this->addFlash('danger', 'Er is een fout opgetreden.');
+                        $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                        $this->addFlash('danger', $message);
                     }
                 } finally {
                     return $this->redirectToRoute('oek_klanten_index');
@@ -194,7 +195,8 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
         }
 
@@ -222,7 +224,8 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
         }
 
@@ -250,7 +253,8 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
         }
 
