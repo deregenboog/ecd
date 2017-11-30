@@ -98,7 +98,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var ArrayCollection|Factuur[]
-     * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klant")
+     * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klant", cascade={"persist"})
      */
     private $facturen;
 
@@ -230,6 +230,14 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function getFacturen()
     {
         return $this->facturen;
+    }
+
+    public function addFactuur(Factuur $factuur)
+    {
+        $this->facturen[] = $factuur;
+        $factuur->setKlant($this);
+
+        return $this;
     }
 
     public function getUitschrijving()

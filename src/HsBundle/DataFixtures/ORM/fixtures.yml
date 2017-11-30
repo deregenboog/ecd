@@ -77,3 +77,11 @@ HsBundle\Entity\Registratie:
 #        referentie: '<numberBetween(100000, 999999)>'
 #        info: '<sentence()>'
 #        bedrag: '<numberBetween(5, 25)>'
+
+HsBundle\Entity\Creditfactuur:
+    hs_creditfactuur_{1..10}:
+        __construct: ['@hs_klant_*']
+        bedrag: '<numberBetween(-1, -100)>'
+        nummer: '<numberBetween(100000, 999999)>'
+        betreft: '<sentence()>'
+        opmerking: '<sentence()>'

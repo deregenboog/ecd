@@ -13,6 +13,7 @@ use HsBundle\Entity\Registratie;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PostFlushEventArgs;
+use HsBundle\Entity\Creditfactuur;
 
 class FactuurSubscriber implements EventSubscriber
 {
@@ -54,7 +55,14 @@ class FactuurSubscriber implements EventSubscriber
 
         // find non-locked invoice within date range...
         $facturen = $entityManager->getRepository(Factuur::class)->findNonLockedByKlantAndDateRange($klant, $dateRange);
-        $factuur = count($facturen) > 0 ? $facturen[0] : null;
+        $factuur = null;
+        foreach ($facturen as $factuur) {
+            if (!$factuur instanceof Creditfactuur) {
+                break;
+            }
+            $factuur = null;
+        }
+
         // ...or create one
         if (!$factuur) {
             $nummer = $this->getNummer($klant, $dateRange, $entityManager);

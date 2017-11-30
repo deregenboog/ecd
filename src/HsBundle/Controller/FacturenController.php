@@ -18,6 +18,8 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Exception\AppException;
 use HsBundle\Exception\HsException;
+use HsBundle\Entity\Creditfactuur;
+use HsBundle\Form\CreditfactuurType;
 
 /**
  * @Route("/facturen")
@@ -29,6 +31,7 @@ class FacturenController extends AbstractChildController
     protected $entityClass = Factuur::class;
     protected $formClass = FactuurType::class;
     protected $filterFormClass = FactuurFilterType::class;
+    protected $addMethod = 'addFactuur';
     protected $baseRouteName = 'hs_facturen_';
     protected $disabledActions = ['edit', 'delete'];
 
@@ -108,9 +111,25 @@ class FacturenController extends AbstractChildController
             return $this->viewPdf($entity);
         }
 
+        if ($entity instanceof Creditfactuur) {
+            $this->templatePath = 'credit_facturen';
+        }
+
         return [
             'entity' => $entity,
         ];
+    }
+
+    /**
+     * @Route("/add")
+     */
+    public function addAction(Request $request)
+    {
+        $this->set('entity_name', 'creditfactuur');
+        $this->entityClass = Creditfactuur::class;
+        $this->formClass = CreditfactuurType::class;
+
+        return parent::addAction($request);
     }
 
     /**
@@ -125,6 +144,11 @@ class FacturenController extends AbstractChildController
         $this->dao->update($entity);
 
         return $this->redirectToView($entity);
+    }
+
+    protected function createEntity($parentEntity)
+    {
+        return new $this->entityClass($parentEntity);
     }
 
     protected function getDownloadFilename()
@@ -190,7 +214,11 @@ class FacturenController extends AbstractChildController
      */
     private function createPdf(Factuur $entity)
     {
-        $html = $this->renderView('@Hs/facturen/view.pdf.twig', ['entity' => $entity]);
+        if ($entity instanceof Creditfactuur) {
+            $html = $this->renderView('@Hs/credit_facturen/view.pdf.twig', ['entity' => $entity]);
+        } else {
+            $html = $this->renderView('@Hs/facturen/view.pdf.twig', ['entity' => $entity]);
+        }
 
         \App::import('Vendor', 'xtcpdf');
         $pdf = new \XTCPDF();

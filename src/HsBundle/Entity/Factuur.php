@@ -13,6 +13,9 @@ use HsBundle\Exception\InvoiceNotLockedException;
 /**
  * @ORM\Entity(repositoryClass="HsBundle\Repository\FactuurRepository")
  * @ORM\Table(name="hs_facturen")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="class", type="string")
+ * @ORM\DiscriminatorMap({"Factuur" = "Factuur", "Creditfactuur" = "Creditfactuur"})
  * @Gedmo\Loggable
  */
 class Factuur
@@ -22,31 +25,31 @@ class Factuur
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
-    private $nummer;
+    protected $nummer;
 
     /**
      * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
-    private $datum;
+    protected $datum;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Gedmo\Versioned
      */
-    private $betreft;
+    protected $betreft;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
      * @Gedmo\Versioned
      */
-    private $bedrag;
+    protected $bedrag;
 
     /**
      * @ORM\Column(type="boolean")
@@ -59,7 +62,7 @@ class Factuur
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
      * @Gedmo\Versioned
      */
-    private $klant;
+    protected $klant;
 
     /**
      * @var ArrayCollection|Registratie[]

@@ -1,0 +1,37 @@
+{% extends '@Hs/facturen/view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>Creditfactuur {{ entity }}</h1>
+    <p>
+        {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Klant</dt>
+        <dd>{{ html.link(entity.klant, path('hs_klanten_view', {id: entity.klant.id})) }}</dd>
+        <dt>Betreft</dt>
+        <dd>{{ entity.betreft }}</dd>
+        <dt>Factuurnummer</dt>
+        <dd>{{ entity.nummer }}</dd>
+        <dt>Factuurdatum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+        <dt>Factuurbedrag</dt>
+        <dd>{{ entity.bedrag|money }}</dd>
+        <dt>Saldo</dt>
+        <dd>{{ entity.saldo|factuurSaldo }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#memos">Klantinfo</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="memos" class="tab-pane active">
+            {% include '@Hs/memos/_list.html.twig' with {klant: entity.klant} %}
+        </div>
+    </div>
+{% endblock %}
