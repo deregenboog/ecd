@@ -15,7 +15,12 @@ use AppBundle\Entity\Geslacht;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Client;
 use Nelmio\Alice\Fixtures;
-use AppBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\HsBundle\DataFixtures\KlusFixtures;
+use Tests\HsBundle\DataFixtures\HsFixtures;
+use Tests\AppBundle\DataFixtures\AppFixtures;
+// use AppBundle\Test\WebTestCase;
 
 class FactuurSubscriberTest extends WebTestCase
 {
@@ -31,15 +36,20 @@ class FactuurSubscriberTest extends WebTestCase
 
     protected function setUp()
     {
-        $fixtures = $this->loadFixtureFiles([
-            '@AppBundle/DataFixtures/ORM/geslacht.yml',
-            '@AppBundle/DataFixtures/ORM/klant.yml',
-            '@AppBundle/DataFixtures/ORM/land.yml',
-            '@AppBundle/DataFixtures/ORM/medewerker.yml',
-            '@AppBundle/DataFixtures/ORM/nationaliteit.yml',
-            '@AppBundle/DataFixtures/ORM/vrijwilliger.yml',
-            '@AppBundle/DataFixtures/ORM/werkgebied.yml',
-            '@HsBundle/DataFixtures/ORM/fixtures.yml',
+//         $fixtures = $this->loadFixtureFiles([
+//             '@AppBundle/DataFixtures/ORM/geslacht.yml',
+//             '@AppBundle/DataFixtures/ORM/klant.yml',
+//             '@AppBundle/DataFixtures/ORM/land.yml',
+//             '@AppBundle/DataFixtures/ORM/medewerker.yml',
+//             '@AppBundle/DataFixtures/ORM/nationaliteit.yml',
+//             '@AppBundle/DataFixtures/ORM/vrijwilliger.yml',
+//             '@AppBundle/DataFixtures/ORM/werkgebied.yml',
+//             '@HsBundle/DataFixtures/ORM/fixtures.yml',
+//         ]);
+
+        $fixtures = $this->loadFixtures([
+            AppFixtures::class,
+            HsFixtures::class,
         ]);
 
         $this->client = $this->createClient();

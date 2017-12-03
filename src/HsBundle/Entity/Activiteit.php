@@ -43,8 +43,9 @@ class Activiteit
      */
     private $klussen;
 
-    public function __construct()
+    public function __construct($naam = null)
     {
+        $this->naam = $naam;
         $this->klussen = new ArrayCollection();
         $this->created = $this->modified = new \DateTime();
     }
