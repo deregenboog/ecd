@@ -9,7 +9,7 @@ sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX var
 
 # Pull code and install dependencies
 git pull
-./composer.phar install
+./composer.phar install --no-dev
 
 # Migrations: dry run shows queries to be executed
 bin/console doctrine:migrations:migrate --dry-run --env=prod
