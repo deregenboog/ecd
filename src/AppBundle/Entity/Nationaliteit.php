@@ -35,6 +35,12 @@ class Nationaliteit
      */
     private $naam;
 
+    public function __construct($naam = null, $afkorting = null)
+    {
+        $this->naam = $naam;
+        $this->afkorting = $afkorting;
+    }
+
     public function __toString()
     {
         return $this->naam;

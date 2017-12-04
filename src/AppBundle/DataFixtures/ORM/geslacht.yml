@@ -1,10 +1,7 @@
 AppBundle\Entity\Geslacht:
-    geslacht_man:
-        afkorting: 'M'
-        volledig: 'Man'
-    geslacht_vrouw:
-        afkorting: 'V'
-        volledig: 'Vrouw'
-    geslacht_onbekend:
-        afkorting: 'onb'
-        volledig: 'Onbekend'
+    geslacht_1:
+        __construct: ['Man', 'M']
+    geslacht_2:
+        __construct: ['Vrouw', 'V']
+    geslacht_3:
+        __construct: ['Onbekend', 'O']

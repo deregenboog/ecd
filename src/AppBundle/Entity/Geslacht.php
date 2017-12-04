@@ -35,6 +35,12 @@ class Geslacht
      */
     private $volledig;
 
+    public function __construct($volledig, $afkorting = null)
+    {
+        $this->volledig = $volledig;
+        $this->afkorting = $afkorting;
+    }
+
     public function __toString()
     {
         return $this->volledig;

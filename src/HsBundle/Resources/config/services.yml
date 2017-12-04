@@ -78,11 +78,6 @@ services:
         tags:
             - { name: hautelook_alice.faker.provider }
 
-    hs.data_fixtures.processor:
-        class: HsBundle\DataFixtures\HsProcessor
-        tags:
-            - { name: hautelook_alice.alice.processor }
-
     hs.event.diensten_lookup_subscriber:
         class: HsBundle\Event\DienstenLookupSubscriber
         arguments:

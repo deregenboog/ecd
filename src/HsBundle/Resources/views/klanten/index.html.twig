@@ -23,7 +23,7 @@
     <table class="table table-hover">
         <thead>
             {% include '@Hs/klanten/_filter.html.twig' %}
-            <tr>
+            <tr class="sortable_headers">
                 <th>
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
