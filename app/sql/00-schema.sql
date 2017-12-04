@@ -286,10 +286,10 @@ CREATE TABLE `categorieen` (
 CREATE TABLE `clip_behandelaars` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) DEFAULT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `display_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `naam` varchar(255) DEFAULT NULL,
+  `display_name` varchar(255) DEFAULT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -305,7 +305,7 @@ CREATE TABLE `clip_clienten` (
   `aanmelddatum` date NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -316,7 +316,7 @@ CREATE TABLE `clip_clienten` (
 CREATE TABLE `clip_client_document` (
   `client_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -326,9 +326,9 @@ CREATE TABLE `clip_client_document` (
 
 CREATE TABLE `clip_communicatiekanalen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -341,10 +341,10 @@ CREATE TABLE `clip_contactmomenten` (
   `vraag_id` int(11) NOT NULL,
   `behandelaar_id` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `opmerking` longtext COLLATE utf8_unicode_ci,
+  `opmerking` longtext COLLATE utf8_general_ci,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -355,11 +355,11 @@ CREATE TABLE `clip_contactmomenten` (
 CREATE TABLE `clip_documenten` (
 `id` int(11) NOT NULL,
   `behandelaar_id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -369,9 +369,9 @@ CREATE TABLE `clip_documenten` (
 
 CREATE TABLE `clip_hulpvragersoorten` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -381,9 +381,9 @@ CREATE TABLE `clip_hulpvragersoorten` (
 
 CREATE TABLE `clip_leeftijdscategorieen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -393,9 +393,9 @@ CREATE TABLE `clip_leeftijdscategorieen` (
 
 CREATE TABLE `clip_viacategorieen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -405,9 +405,9 @@ CREATE TABLE `clip_viacategorieen` (
 
 CREATE TABLE `clip_vraagsoorten` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -418,7 +418,7 @@ CREATE TABLE `clip_vraagsoorten` (
 CREATE TABLE `clip_vraag_document` (
   `vraag_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -434,12 +434,12 @@ CREATE TABLE `clip_vragen` (
   `communicatiekanaal_id` int(11) NOT NULL,
   `leeftijdscategorie_id` int(11) NOT NULL,
   `behandelaar_id` int(11) NOT NULL,
-  `omschrijving` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `omschrijving` longtext NOT NULL,
   `startdatum` date NOT NULL,
   `afsluitdatum` date DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -477,10 +477,10 @@ CREATE TABLE `contactsoorts` (
 
 CREATE TABLE `dagbesteding_afsluitingen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `discr` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `discr` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -491,12 +491,12 @@ CREATE TABLE `dagbesteding_afsluitingen` (
 CREATE TABLE `dagbesteding_contactpersonen` (
 `id` int(11) NOT NULL,
   `deelnemer_id` int(11) DEFAULT NULL,
-  `soort` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `telefoon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `opmerking` longtext COLLATE utf8_unicode_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `soort` varchar(255) NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `telefoon` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `opmerking` longtext COLLATE utf8_general_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -509,9 +509,9 @@ CREATE TABLE `dagbesteding_dagdelen` (
   `traject_id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `dagdeel` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `aanwezigheid` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `dagdeel` varchar(255) NOT NULL,
+  `aanwezigheid` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -524,12 +524,12 @@ CREATE TABLE `dagbesteding_deelnemers` (
   `afsluiting_id` int(11) DEFAULT NULL,
   `klant_id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
-  `risDossiernummer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `risDossiernummer` varchar(255) DEFAULT NULL,
   `aanmelddatum` date NOT NULL,
   `afsluitdatum` date DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -540,7 +540,7 @@ CREATE TABLE `dagbesteding_deelnemers` (
 CREATE TABLE `dagbesteding_deelnemer_document` (
   `deelnemer_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -551,7 +551,7 @@ CREATE TABLE `dagbesteding_deelnemer_document` (
 CREATE TABLE `dagbesteding_deelnemer_verslag` (
   `deelnemer_id` int(11) NOT NULL,
   `verslag_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -562,11 +562,11 @@ CREATE TABLE `dagbesteding_deelnemer_verslag` (
 CREATE TABLE `dagbesteding_documenten` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -576,9 +576,9 @@ CREATE TABLE `dagbesteding_documenten` (
 
 CREATE TABLE `dagbesteding_locaties` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -588,9 +588,9 @@ CREATE TABLE `dagbesteding_locaties` (
 
 CREATE TABLE `dagbesteding_projecten` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -605,7 +605,7 @@ CREATE TABLE `dagbesteding_rapportages` (
   `datum` date NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -616,7 +616,7 @@ CREATE TABLE `dagbesteding_rapportages` (
 CREATE TABLE `dagbesteding_rapportage_document` (
   `rapportage_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -629,7 +629,7 @@ CREATE TABLE `dagbesteding_resultaatgebieden` (
   `traject_id` int(11) DEFAULT NULL,
   `soort_id` int(11) DEFAULT NULL,
   `startdatum` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -639,9 +639,9 @@ CREATE TABLE `dagbesteding_resultaatgebieden` (
 
 CREATE TABLE `dagbesteding_resultaatgebiedsoorten` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -654,10 +654,10 @@ CREATE TABLE `dagbesteding_trajectbegeleiders` (
   `medewerker_id` int(11) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `display_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `naam` varchar(255) DEFAULT NULL,
+  `display_name` varchar(255) DEFAULT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -675,7 +675,7 @@ CREATE TABLE `dagbesteding_trajecten` (
   `startdatum` date NOT NULL,
   `einddatum` date NOT NULL,
   `afsluitdatum` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -685,9 +685,9 @@ CREATE TABLE `dagbesteding_trajecten` (
 
 CREATE TABLE `dagbesteding_trajectsoorten` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -698,7 +698,7 @@ CREATE TABLE `dagbesteding_trajectsoorten` (
 CREATE TABLE `dagbesteding_traject_document` (
   `traject_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -709,7 +709,7 @@ CREATE TABLE `dagbesteding_traject_document` (
 CREATE TABLE `dagbesteding_traject_locatie` (
   `traject_id` int(11) NOT NULL,
   `locatie_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -720,7 +720,7 @@ CREATE TABLE `dagbesteding_traject_locatie` (
 CREATE TABLE `dagbesteding_traject_project` (
   `traject_id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -731,7 +731,7 @@ CREATE TABLE `dagbesteding_traject_project` (
 CREATE TABLE `dagbesteding_traject_verslag` (
   `traject_id` int(11) NOT NULL,
   `verslag_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -743,10 +743,10 @@ CREATE TABLE `dagbesteding_verslagen` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
   `datum` datetime NOT NULL,
-  `opmerking` longtext COLLATE utf8_unicode_ci,
+  `opmerking` longtext COLLATE utf8_general_ci,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -772,14 +772,14 @@ CREATE TABLE `doorverwijzers` (
 
 CREATE TABLE `ext_log_entries` (
 `id` int(11) NOT NULL,
-  `action` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
+  `action` varchar(8) NOT NULL,
   `logged_at` datetime NOT NULL,
-  `object_id` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `object_class` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `object_id` varchar(64) DEFAULT NULL,
+  `object_class` varchar(255) NOT NULL,
   `version` int(11) NOT NULL,
-  `data` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:array)',
-  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `data` longtext COMMENT '(DC2Type:array)',
+  `username` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -825,8 +825,8 @@ CREATE TABLE `geslachten` (
 --
 
 CREATE TABLE `ggw_gebieden` (
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `naam` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1240,10 +1240,10 @@ CREATE TABLE `hoofdaannemers` (
 
 CREATE TABLE `hs_activiteiten` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1256,8 +1256,8 @@ CREATE TABLE `hs_arbeiders` (
   `inschrijving` date NOT NULL,
   `uitschrijving` date DEFAULT NULL,
   `rijbewijs` tinyint(1) DEFAULT NULL,
-  `dtype` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `dtype` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1268,11 +1268,11 @@ CREATE TABLE `hs_arbeiders` (
 CREATE TABLE `hs_betalingen` (
 `id` int(11) NOT NULL,
   `factuur_id` int(11) NOT NULL,
-  `referentie` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `referentie` varchar(255) DEFAULT NULL,
   `datum` date NOT NULL,
-  `info` longtext COLLATE utf8_unicode_ci,
+  `info` longtext COLLATE utf8_general_ci,
   `bedrag` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1286,10 +1286,10 @@ CREATE TABLE `hs_declaraties` (
   `factuur_id` int(11) DEFAULT NULL,
   `medewerker_id` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `info` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `info` longtext NOT NULL,
   `bedrag` double NOT NULL,
   `declaratieCategorie_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1299,10 +1299,10 @@ CREATE TABLE `hs_declaraties` (
 
 CREATE TABLE `hs_declaratie_categorieen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1313,7 +1313,7 @@ CREATE TABLE `hs_declaratie_categorieen` (
 CREATE TABLE `hs_declaratie_document` (
   `declaratie_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1324,11 +1324,11 @@ CREATE TABLE `hs_declaratie_document` (
 CREATE TABLE `hs_dienstverleners` (
   `id` int(11) NOT NULL,
   `klant_id` int(11) NOT NULL,
-  `hulpverlener_naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_organisatie` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_telefoon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `hulpverlener_naam` varchar(255) DEFAULT NULL,
+  `hulpverlener_organisatie` varchar(255) DEFAULT NULL,
+  `hulpverlener_telefoon` varchar(255) DEFAULT NULL,
+  `hulpverlener_email` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1339,7 +1339,7 @@ CREATE TABLE `hs_dienstverleners` (
 CREATE TABLE `hs_dienstverlener_document` (
   `dienstverlener_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1350,7 +1350,7 @@ CREATE TABLE `hs_dienstverlener_document` (
 CREATE TABLE `hs_dienstverlener_memo` (
   `dienstverlener_id` int(11) NOT NULL,
   `memo_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1361,11 +1361,11 @@ CREATE TABLE `hs_dienstverlener_memo` (
 CREATE TABLE `hs_documenten` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1376,11 +1376,11 @@ CREATE TABLE `hs_documenten` (
 CREATE TABLE `hs_facturen` (
 `id` int(11) NOT NULL,
   `klant_id` int(11) DEFAULT NULL,
-  `nummer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `nummer` varchar(255) NOT NULL,
   `datum` date NOT NULL,
-  `betreft` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `betreft` varchar(255) NOT NULL,
   `bedrag` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1391,7 +1391,7 @@ CREATE TABLE `hs_facturen` (
 CREATE TABLE `hs_factuur_klus` (
   `factuur_id` int(11) NOT NULL,
   `klus_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1403,8 +1403,8 @@ CREATE TABLE `hs_herinneringen` (
 `id` int(11) NOT NULL,
   `factuur_id` int(11) DEFAULT NULL,
   `datum` date NOT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1417,34 +1417,34 @@ CREATE TABLE `hs_klanten` (
   `geslacht_id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
   `erp_id` int(11) DEFAULT NULL,
-  `bsn` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rekeningnummer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `werkgebied` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bsn` varchar(255) DEFAULT NULL,
+  `rekeningnummer` varchar(255) DEFAULT NULL,
+  `werkgebied` varchar(255) DEFAULT NULL,
   `inschrijving` date NOT NULL,
   `uitschrijving` date DEFAULT NULL,
   `laatsteContact` date DEFAULT NULL,
   `actief` tinyint(1) NOT NULL,
   `onHold` tinyint(1) NOT NULL,
-  `bewindvoerder` longtext COLLATE utf8_unicode_ci,
+  `bewindvoerder` longtext COLLATE utf8_general_ci,
   `saldo` decimal(10,2) NOT NULL,
-  `voornaam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `roepnaam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tussenvoegsel` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `achternaam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `adres` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `postcode` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `plaats` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `mobiel` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `telefoon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_organisatie` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_telefoon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `voornaam` varchar(255) DEFAULT NULL,
+  `roepnaam` varchar(255) DEFAULT NULL,
+  `tussenvoegsel` varchar(255) DEFAULT NULL,
+  `achternaam` varchar(255) NOT NULL,
+  `adres` varchar(255) DEFAULT NULL,
+  `postcode` varchar(255) DEFAULT NULL,
+  `plaats` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `mobiel` varchar(255) DEFAULT NULL,
+  `telefoon` varchar(255) DEFAULT NULL,
+  `hulpverlener_naam` varchar(255) DEFAULT NULL,
+  `hulpverlener_organisatie` varchar(255) DEFAULT NULL,
+  `hulpverlener_telefoon` varchar(255) DEFAULT NULL,
+  `hulpverlener_email` varchar(255) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `postcodegebied` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `postcodegebied` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1455,7 +1455,7 @@ CREATE TABLE `hs_klanten` (
 CREATE TABLE `hs_klant_document` (
   `klant_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1466,7 +1466,7 @@ CREATE TABLE `hs_klant_document` (
 CREATE TABLE `hs_klant_memo` (
   `klant_id` int(11) NOT NULL,
   `memo_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1482,7 +1482,7 @@ CREATE TABLE `hs_klussen` (
   `startdatum` date NOT NULL,
   `einddatum` date DEFAULT NULL,
   `onHold` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1493,7 +1493,7 @@ CREATE TABLE `hs_klussen` (
 CREATE TABLE `hs_klus_dienstverlener` (
   `klus_id` int(11) NOT NULL,
   `dienstverlener_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1504,7 +1504,7 @@ CREATE TABLE `hs_klus_dienstverlener` (
 CREATE TABLE `hs_klus_memo` (
   `klus_id` int(11) NOT NULL,
   `memo_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1515,7 +1515,7 @@ CREATE TABLE `hs_klus_memo` (
 CREATE TABLE `hs_klus_vrijwilliger` (
   `klus_id` int(11) NOT NULL,
   `vrijwilliger_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1527,9 +1527,9 @@ CREATE TABLE `hs_memos` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
   `datum` datetime NOT NULL,
-  `memo` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `memo` longtext NOT NULL,
   `intake` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1548,7 +1548,7 @@ CREATE TABLE `hs_registraties` (
   `start` time NOT NULL,
   `eind` time NOT NULL,
   `reiskosten` double DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1559,11 +1559,11 @@ CREATE TABLE `hs_registraties` (
 CREATE TABLE `hs_vrijwilligers` (
   `id` int(11) NOT NULL,
   `vrijwilliger_id` int(11) NOT NULL,
-  `hulpverlener_naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_organisatie` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_telefoon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hulpverlener_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `hulpverlener_naam` varchar(255) DEFAULT NULL,
+  `hulpverlener_organisatie` varchar(255) DEFAULT NULL,
+  `hulpverlener_telefoon` varchar(255) DEFAULT NULL,
+  `hulpverlener_email` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1574,7 +1574,7 @@ CREATE TABLE `hs_vrijwilligers` (
 CREATE TABLE `hs_vrijwilliger_document` (
   `vrijwilliger_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1585,7 +1585,7 @@ CREATE TABLE `hs_vrijwilliger_document` (
 CREATE TABLE `hs_vrijwilliger_memo` (
   `vrijwilliger_id` int(11) NOT NULL,
   `memo_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1664,13 +1664,13 @@ CREATE TABLE `inkomens_intakes` (
 
 CREATE TABLE `inloop_afsluiting_redenen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `actief` tinyint(1) NOT NULL,
   `land` tinyint(1) NOT NULL,
   `gewicht` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1685,11 +1685,11 @@ CREATE TABLE `inloop_dossier_statussen` (
   `reden_id` int(11) DEFAULT NULL,
   `land_id` int(11) DEFAULT NULL,
   `datum` date NOT NULL,
-  `toelichting` longtext COLLATE utf8_unicode_ci,
+  `toelichting` longtext COLLATE utf8_general_ci,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `class` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1942,9 +1942,9 @@ CREATE TABLE `iz_doelstellingen` (
   `project_id` int(11) DEFAULT NULL,
   `jaar` int(11) NOT NULL,
   `aantal` int(11) NOT NULL,
-  `stadsdeel` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `categorie` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `stadsdeel` varchar(255) DEFAULT NULL,
+  `categorie` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2265,8 +2265,8 @@ CREATE TABLE `medewerkers` (
 --
 
 CREATE TABLE `migration_versions` (
-  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `version` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2306,13 +2306,13 @@ CREATE TABLE `notities` (
 
 CREATE TABLE `odp_afsluitingen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `naam` varchar(255) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `discr` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `discr` varchar(255) NOT NULL,
   `tonen` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2325,7 +2325,7 @@ CREATE TABLE `odp_coordinatoren` (
   `medewerker_id` int(11) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2342,15 +2342,15 @@ CREATE TABLE `odp_deelnemers` (
   `afsluitdatum` date DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `model` varchar(255) NOT NULL,
   `afsluiting_id` int(11) DEFAULT NULL,
-  `woningbouwcorporatie_toelichting` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rekeningnummer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `woningbouwcorporatie_toelichting` varchar(255) DEFAULT NULL,
+  `rekeningnummer` varchar(255) DEFAULT NULL,
   `wpi` tinyint(1) NOT NULL DEFAULT '0',
-  `klantmanager` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `klantmanager` varchar(255) DEFAULT NULL,
   `automatischeIncasso` tinyint(1) DEFAULT NULL,
   `ksgw` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2361,7 +2361,7 @@ CREATE TABLE `odp_deelnemers` (
 CREATE TABLE `odp_deelnemer_document` (
   `deelnemer_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2372,7 +2372,7 @@ CREATE TABLE `odp_deelnemer_document` (
 CREATE TABLE `odp_deelnemer_verslag` (
   `deelnemer_id` int(11) NOT NULL,
   `verslag_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2383,12 +2383,12 @@ CREATE TABLE `odp_deelnemer_verslag` (
 CREATE TABLE `odp_documenten` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `datum` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2407,7 +2407,7 @@ CREATE TABLE `odp_huuraanbiedingen` (
   `afsluiting_id` int(11) DEFAULT NULL,
   `datumToestemmingAangevraagd` date DEFAULT NULL,
   `datumToestemmingToegekend` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2418,7 +2418,7 @@ CREATE TABLE `odp_huuraanbiedingen` (
 CREATE TABLE `odp_huuraanbod_verslag` (
   `huuraanbod_id` int(11) NOT NULL,
   `verslag_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2438,8 +2438,8 @@ CREATE TABLE `odp_huurovereenkomsten` (
   `modified` datetime NOT NULL,
   `afsluiting_id` int(11) DEFAULT NULL,
   `afsluitdatum` date DEFAULT NULL,
-  `vorm` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `vorm` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2450,7 +2450,7 @@ CREATE TABLE `odp_huurovereenkomsten` (
 CREATE TABLE `odp_huurovereenkomst_document` (
   `huurovereenkomst_id` int(11) NOT NULL,
   `document_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2461,7 +2461,7 @@ CREATE TABLE `odp_huurovereenkomst_document` (
 CREATE TABLE `odp_huurovereenkomst_verslag` (
   `huurovereenkomst_id` int(11) NOT NULL,
   `verslag_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2478,7 +2478,7 @@ CREATE TABLE `odp_huurverzoeken` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `afsluiting_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2489,7 +2489,7 @@ CREATE TABLE `odp_huurverzoeken` (
 CREATE TABLE `odp_huurverzoek_verslag` (
   `huurverzoek_id` int(11) NOT NULL,
   `verslag_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2505,7 +2505,7 @@ CREATE TABLE `odp_intakes` (
   `gezin_met_kinderen` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2517,10 +2517,10 @@ CREATE TABLE `odp_verslagen` (
 `id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
   `datum` datetime NOT NULL,
-  `opmerking` longtext COLLATE utf8_unicode_ci,
+  `opmerking` longtext COLLATE utf8_general_ci,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2530,11 +2530,11 @@ CREATE TABLE `odp_verslagen` (
 
 CREATE TABLE `odp_woningbouwcorporaties` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `naam` varchar(255) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2545,7 +2545,7 @@ CREATE TABLE `odp_woningbouwcorporaties` (
 CREATE TABLE `oekklant_oekdossierstatus` (
   `oekklant_id` int(11) NOT NULL,
   `oekdossierstatus_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2560,7 +2560,7 @@ CREATE TABLE `oek_deelnames` (
   `oekTraining_id` int(11) NOT NULL,
   `oekKlant_id` int(11) NOT NULL,
   `oekDeelnameStatus_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2571,9 +2571,9 @@ CREATE TABLE `oek_deelnames` (
 CREATE TABLE `oek_deelname_statussen` (
 `id` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(255) NOT NULL,
   `oekDeelname_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2589,8 +2589,8 @@ CREATE TABLE `oek_dossier_statussen` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `oekKlant_id` int(11) NOT NULL,
-  `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `class` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2600,11 +2600,11 @@ CREATE TABLE `oek_dossier_statussen` (
 
 CREATE TABLE `oek_groepen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `aantal_bijeenkomsten` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2617,13 +2617,13 @@ CREATE TABLE `oek_klanten` (
   `klant_id` int(11) NOT NULL,
   `medewerker_id` int(11) NOT NULL,
   `voedselbankklant` tinyint(1) NOT NULL,
-  `opmerking` longtext COLLATE utf8_unicode_ci,
+  `opmerking` longtext COLLATE utf8_general_ci,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `oekDossierStatus_id` int(11) DEFAULT NULL,
   `oekAanmelding_id` int(11) DEFAULT NULL,
   `oekAfsluiting_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2637,7 +2637,7 @@ CREATE TABLE `oek_lidmaatschappen` (
   `modified` datetime NOT NULL,
   `oekGroep_id` int(11) NOT NULL,
   `oekKlant_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2647,15 +2647,15 @@ CREATE TABLE `oek_lidmaatschappen` (
 
 CREATE TABLE `oek_trainingen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `startdatum` date NOT NULL,
   `starttijd` time NOT NULL,
   `einddatum` date DEFAULT NULL,
-  `locatie` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `locatie` varchar(255) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `oekGroep_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2665,12 +2665,12 @@ CREATE TABLE `oek_trainingen` (
 
 CREATE TABLE `oek_verwijzingen` (
 `id` int(11) NOT NULL,
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `naam` varchar(255) NOT NULL,
   `actief` tinyint(1) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `class` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2818,8 +2818,8 @@ CREATE TABLE `postcodegebieden` (
 
 CREATE TABLE `postcodes` (
   `postcode` varchar(255) NOT NULL,
-  `stadsdeel` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `postcodegebied` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+  `stadsdeel` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `postcodegebied` varchar(255) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2935,7 +2935,7 @@ CREATE TABLE `schorsingen_redenen` (
 CREATE TABLE `schorsing_locatie` (
   `schorsing_id` int(11) NOT NULL,
   `locatie_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3281,8 +3281,8 @@ CREATE TABLE `vrijwilligers` (
 --
 
 CREATE TABLE `werkgebieden` (
-  `naam` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `naam` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3359,9 +3359,9 @@ CREATE TABLE `zrm_settings` (
 CREATE TABLE `zrm_v2_reports` (
 `id` int(11) NOT NULL,
   `klant_id` int(11) NOT NULL,
-  `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `model` varchar(255) NOT NULL,
   `foreign_key` int(11) NOT NULL,
-  `request_module` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `request_module` varchar(255) NOT NULL,
   `financien` int(11) DEFAULT NULL,
   `werk_opleiding` int(11) DEFAULT NULL,
   `tijdsbesteding` int(11) DEFAULT NULL,
@@ -3377,7 +3377,7 @@ CREATE TABLE `zrm_v2_reports` (
   `justitie` int(11) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3387,7 +3387,7 @@ CREATE TABLE `zrm_v2_reports` (
 
 CREATE TABLE `zrm_v2_settings` (
 `id` int(11) NOT NULL,
-  `request_module` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `request_module` varchar(50) NOT NULL,
   `financien` tinyint(1) DEFAULT NULL,
   `werk_opleiding` tinyint(1) DEFAULT NULL,
   `tijdsbesteding` tinyint(1) DEFAULT NULL,
@@ -3403,7 +3403,7 @@ CREATE TABLE `zrm_v2_settings` (
   `justitie` tinyint(1) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexen voor geëxporteerde tabellen
