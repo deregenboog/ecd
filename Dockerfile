@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:5.6.29-apache
 
 COPY docker/php.ini /usr/local/etc/php/
 
