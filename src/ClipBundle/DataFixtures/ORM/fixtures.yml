@@ -103,9 +103,9 @@ ClipBundle\Entity\Communicatiekanaal:
 ClipBundle\Entity\Behandelaar:
     clip_behandelaar_1:
         medewerker: '@medewerker_1'
-    clip_behandelaar_{2..5}:
+    clip_behandelaar_2:
         medewerker (unique): '@medewerker_*'
-    clip_behandelaar_{6..10}:
+    clip_behandelaar_3:
         naam: '<name()>'
 
 ClipBundle\Entity\Client:
