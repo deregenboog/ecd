@@ -164,8 +164,8 @@ class RapportagesController extends AppController
 
         $this->Klant->recursive = 0;
 
-    // We take out the intake_cond, so we always find all klanten regardless of the location choosen
-    // this collection we have to filter down based on the actual registraties
+        // We take out the intake_cond, so we always find all klanten regardless of the location choosen
+        // this collection we have to filter down based on the actual registraties
         $klanten = $this->Klant->find('all', [
                     'conditions' => $landen_cond + $geslacht_cond
                     + $klant_created_cond,
@@ -219,7 +219,7 @@ class RapportagesController extends AppController
                     continue;
                 }
             }
-        //debug(count($tmp_klanten));
+            //debug(count($tmp_klanten));
         //debug(count($klanten_list));
         //debug(count($klanten_list_verslag));
         //debug(count($klanten)) ;
@@ -227,9 +227,10 @@ class RapportagesController extends AppController
         $klanten_id_cond = ['klant_id' => array_keys($klanten)];
         $klanten_cond = ['id' => array_keys($klanten)];
 
-        $count['amoc_landen'] = $this->Klant->Geboorteland->find('list',
-                ['conditions' => ['id' => $this->data['options']['land_id']],
-                    'order' => 'land', ]);
+        $count['amoc_landen'] = $this->Klant->Geboorteland->find('list', [
+            'conditions' => ['id' => $this->data['options']['land_id']],
+            'order' => 'land',
+        ]);
 
         $count['primaireproblematiek'] = $this->Klant->Intake->PrimaireProblematiek->find('list');
 
@@ -319,7 +320,7 @@ class RapportagesController extends AppController
                     'order' => 'problem', ]);
 
         $count['primaryProblems'] = Set::combine($problems, '{n}.Intake.problem', '{n}.0.count');
-    //debug($count);
+        //debug($count);
 
         return $count;
     }
@@ -625,7 +626,7 @@ class RapportagesController extends AppController
         $this->set(compact('current_location', 'locations', 'date_to', 'date_from', 'registratie_counts'));
     }
 
-//locatie_klant
+    //locatie_klant
 
     public function schorsingen()
     {
@@ -672,7 +673,7 @@ class RapportagesController extends AppController
             $previous_klant_id = null;
             foreach ($schorsingen as &$schorsing) {
                 // when this iteration is over the same client as previous iteration:
-                if ($previous_klant_id == $schorsing['Klant']['id']) {
+                if ($schorsing['Klant']['id'] == $previous_klant_id) {
                     $clients[$previous_klant_id]['total_sch'] += 1;
                 } else {
                     // if the client has changed since the last iteration
@@ -711,7 +712,7 @@ class RapportagesController extends AppController
         if ($this->data) {
             //setting the conditions depending on the data recieved from the form
 
-        //gender
+            //gender
             if (!empty($this->data['options']['geslacht_id'])) {
                 $conditions['geslacht'] =
                     $this->data['options']['geslacht_id'];
@@ -774,8 +775,8 @@ class RapportagesController extends AppController
                 ]);
             $row['Klant']['name1st_part'] = $klant[0]['Klant']['name1st_part'];
             $row['Klant']['name2nd_part'] = $klant[0]['Klant']['name2nd_part'];
-        //if the registration and the verslag times are there, calculate the
-        //difference for the Begeleidingsuren genoten
+            //if the registration and the verslag times are there, calculate the
+            //difference for the Begeleidingsuren genoten
             if (!empty($klant[0]['Registratie']) && !empty($klant[0]['Verslag'])) {
                 $verslag_minutes = $klant[0]['Verslag'][0]['total_minutes'];
                 $verslag_hours = round($verslag_minutes, 0);
@@ -994,7 +995,7 @@ class RapportagesController extends AppController
             $sql = String::insert($config['sql'], $conditions);
             $reports[$key]['run'] = $sql;
             $reports[$key]['result'] = $dataSource->query($sql);
-            if ($file == 'management_reports.sql' && empty($reports[$key]['result'])) {
+            if ('management_reports.sql' == $file && empty($reports[$key]['result'])) {
                 $log = $dataSource->getLog(false, false);
                 $addresses = ['phpdevelop@toltech.nl'];
                 $error = "Problem in ECD management report. Maybe there's bad input data that makes a bad query, but it could also be that the temporary table regenboog-live.tmp_visits is missing. This happened before, on low disk space.\n\n".$sql;
@@ -1130,7 +1131,7 @@ class RapportagesController extends AppController
         $dateTo = date('Y-m-d', mktime(
             0, 0, 0, ($options['quarter']) * 3 + 1, 1, $options['year'])
         );
-        if ($options['geslacht_id'] == 0) {
+        if (0 == $options['geslacht_id']) {
             $conditions['gender'] = '1, 2';
         } else {
             $conditions['gender'] = (int) $options['geslacht_id'];

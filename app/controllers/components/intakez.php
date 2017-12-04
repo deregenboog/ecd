@@ -76,7 +76,7 @@ class IntakezComponent extends Object
 
     public function setup_add_view($klant_id)
     {
-        if ($klant_id == null) {
+        if (null == $klant_id) {
             $this->c->flashError('Geen klant Id opgegeven');
 
             return false;
@@ -210,7 +210,7 @@ class IntakezComponent extends Object
             return false;
         }
 
-    //it's not allowed to edit intakes that somebody else submitted
+        //it's not allowed to edit intakes that somebody else submitted
         $logged_in_user_id = $this->c->Session->read('Auth.Medewerker.id');
         if ($this->c->data['Intake']['medewerker_id'] != $logged_in_user_id) {
             $this->c->flashError(__(
@@ -293,7 +293,7 @@ class IntakezComponent extends Object
         }
     }
 
-//sendIntakeNotification()
+    //sendIntakeNotification()
 
     public function populate_intake_data($klant_id)
     {
@@ -307,12 +307,12 @@ class IntakezComponent extends Object
             return false;
         }
         //debug($last_intake);
-    //if last intake is of the same kind, we set it whole to form data
+        //if last intake is of the same kind, we set it whole to form data
         if ($last_intake['Intake']['module'] == $this->module) {
             $this->c->data = &$last_intake;
 
-    //if not - copy only the address info from it, and get the rest
-    //from the last intake of the same kind (providing it exists)
+            // if not - copy only the address info from it, and get the rest
+            // from the last intake of the same kind (providing it exists)
         } else {
             $last_same_type_intake = $this->c->Intake->find('first', [
                 'conditions' => [

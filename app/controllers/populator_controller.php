@@ -49,7 +49,7 @@ class PopulatorController extends AppController
         }//for
     }
 
-//populate
+    //populate
 
     public function genRandom($type = 'letters', $length = 10)
     {

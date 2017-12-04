@@ -5,6 +5,18 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+    public function boot()
+    {
+        parent::boot();
+
+        // configure CakeHPHP
+        require __DIR__.'/bootstrap_cake.php';
+        $cakeConfig = $this->getContainer()->get('cake.configuration');
+        foreach ($cakeConfig->all() as $key => $value) {
+            \Configure::write($key, $value);
+        }
+    }
+
     public function registerBundles()
     {
         $bundles = [

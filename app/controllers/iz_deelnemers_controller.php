@@ -21,7 +21,7 @@ class IzDeelnemersController extends AppController
 
     private function check_persoon_model($persoon_model)
     {
-        if ($persoon_model != 'Vrijwilliger' && $persoon_model != 'Klant') {
+        if ('Vrijwilliger' != $persoon_model && 'Klant' != $persoon_model) {
             echo 'Een foute invoer';
             exit;
         }
@@ -257,7 +257,7 @@ class IzDeelnemersController extends AppController
             $personen[$key][$persoon_model]['medewerker_ids'] = $medewerker_ids;
         }
 
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $fields['last_zrm'] = true;
         } else {
             $fields['dummycol'] = true;
@@ -306,7 +306,7 @@ class IzDeelnemersController extends AppController
         $this->loadModel('IzViaPersoon');
 
         if (!empty($this->data)) {
-            if ($id == null) {
+            if (null == $id) {
                 $this->data['IzDeelnemer']['model'] = $persoon_model;
                 $this->data['IzDeelnemer']['foreign_key'] = $foreign_key;
             } else {
@@ -381,7 +381,7 @@ class IzDeelnemersController extends AppController
         }
 
         $diensten = [];
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
         $this->set('diensten', $diensten);
@@ -459,7 +459,7 @@ class IzDeelnemersController extends AppController
                     }
 
                     $this->loadModel('GroepsactiviteitenGroepenKlant');
-                    if ($saved && $persoon_model == 'Klant' && !$this->GroepsactiviteitenGroepenKlant->Add2Group($foreign_key, 19)) {
+                    if ($saved && 'Klant' == $persoon_model && !$this->GroepsactiviteitenGroepenKlant->Add2Group($foreign_key, 19)) {
                         $saved = false;
                     }
                 } else {
@@ -490,7 +490,7 @@ class IzDeelnemersController extends AppController
         $persoon = $this->{$persoon_model}->getAllById($foreign_key);
 
         $diensten = [];
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
         $this->set('diensten', $diensten);
@@ -533,7 +533,7 @@ class IzDeelnemersController extends AppController
         ]);
 
         $diensten = [];
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
         $this->set('diensten', $diensten);
@@ -600,10 +600,10 @@ class IzDeelnemersController extends AppController
             $other_id = $iz_koppeling_gekoppeld['IzDeelnemer']['foreign_key'];
             $other_persoon = [];
             if (!empty($other_id)) {
-                if ($other_model == 'Klant') {
+                if ('Klant' == $other_model) {
                     $other_persoon = $this->IzDeelnemer->Klant->getById($other_id);
                 }
-                if ($other_model == 'Vrijwilliger') {
+                if ('Vrijwilliger' == $other_model) {
                     $other_persoon = $this->IzDeelnemer->Vrijwilliger->getById($other_id);
                 }
             }
@@ -617,7 +617,7 @@ class IzDeelnemersController extends AppController
 
         $diensten = [];
 
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
 
@@ -934,7 +934,7 @@ class IzDeelnemersController extends AppController
         $selectableprojects = [];
 
         foreach ($activeprojects as $key => $project) {
-            if ($key == '') {
+            if ('' == $key) {
                 $selectableprojects[''] = '';
                 continue;
             }
@@ -963,7 +963,7 @@ class IzDeelnemersController extends AppController
         $activeprojects = ['' => ''] + $activeprojects;
         $diensten = [];
 
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $diensten = $this->IzDeelnemer->Klant->diensten($foreign_key, $this->getEventDispatcher());
         }
 
@@ -1204,9 +1204,7 @@ class IzDeelnemersController extends AppController
             $this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->create();
 
             if (!empty($id)) {
-                if (!$this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->deleteAll(['iz_deelnemer_id' => $id])) {
-                    break;
-                }
+                $this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->deleteAll(['iz_deelnemer_id' => $id]);
             }
 
             if (isset($this->data['IzDeelnemersIzIntervisiegroep'])) {

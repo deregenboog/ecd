@@ -26,7 +26,7 @@ class FilterComponent extends Object
 
     public function initialize(&$controller, $settings)
     {
-        if ($controller->action != 'index' && $controller->action != 'vrijwilligers_index') {
+        if ('index' != $controller->action && 'vrijwilligers_index' != $controller->action) {
             return;
         }
 
@@ -49,7 +49,7 @@ class FilterComponent extends Object
         $persoon_model = $this->default['persoon_model'];
 
         foreach ($this->filterData as $i => $position) {
-            if (strpos($position, $persoon_model.'.voornaam') !== false) {
+            if (false !== strpos($position, $persoon_model.'.voornaam')) {
                 $roepnaam = str_replace('voornaam', 'roepnaam', $position);
 
                 if (isset($this->filterData['OR'])) {
@@ -61,7 +61,7 @@ class FilterComponent extends Object
 
                 unset($this->filterData[$i]);
             }
-            if (strpos($i, $persoon_model.'.show_all') !== false) {
+            if (false !== strpos($i, $persoon_model.'.show_all')) {
                 if ($position) {
                     array_push($this->filterData, true);
                 }
@@ -85,21 +85,21 @@ class FilterComponent extends Object
                     $columns = $controller->{$controller->modelClass}->{$key}->getColumnTypes();
                 }
 
-                if ($key == 'verslagen') {
+                if ('verslagen' == $key) {
                     $columns = ['laatste_rapportage' => 'datetimegt'];
                 }
 
                 if (!empty($columns)) {
                     foreach ($value as $k => $v) {
-                        if ($k === 'rowUrl') {
+                        if ('rowUrl' === $k) {
                             continue;
                         }
 
-                        if (is_array($v) && $columns[$k] == 'datetime') {
+                        if (is_array($v) && 'datetime' == $columns[$k]) {
                             $v = $this->_prepare_datetime($v);
                         }
 
-                        if ($v != '') {
+                        if ('' != $v) {
                             if (is_array($whiteList) && !in_array($k, $whiteList)) {
                                 continue;
                             }
@@ -107,9 +107,9 @@ class FilterComponent extends Object
                             if (isset($columns[$k]) && isset($this->fieldFormatting[$columns[$k]])) {
                                 $tmp = sprintf($this->fieldFormatting[$columns[$k]], $v);
 
-                                if (substr($tmp, 0, 4) == 'LIKE') {
+                                if ('LIKE' == substr($tmp, 0, 4)) {
                                     $ret[] = $key.'.'.$k.' '.$tmp;
-                                } elseif ($columns[$k] == 'datetimegt') {
+                                } elseif ('datetimegt' == $columns[$k]) {
                                     $ret[$key.'.'.$k.' >= '] = $tmp;
                                 } else {
                                     $ret[$key.'.'.$k] = $tmp;
@@ -122,7 +122,7 @@ class FilterComponent extends Object
                         }
                     }
 
-                    if (count($value) == 0) {
+                    if (0 == count($value)) {
                         unset($controller->data[$key]);
                     }
                 }
@@ -139,7 +139,7 @@ class FilterComponent extends Object
             foreach ($controller->data as $model => $fields) {
                 if (is_array($fields)) {
                     foreach ($fields as $key => $field) {
-                        if ($field == '') {
+                        if ('' == $field) {
                             unset($controller->data[$model][$key]);
                         }
                     }
@@ -177,7 +177,7 @@ class FilterComponent extends Object
             if (!in_array($field, $this->paginatorParams)) {
                 $fields = explode('.', $field);
 
-                if (sizeof($fields) == 1) {
+                if (1 == sizeof($fields)) {
                     $filter[$controller->modelClass][$field] = $value;
                 } else {
                     $filter[$fields[0]][$fields[1]] = $value;
@@ -202,15 +202,15 @@ class FilterComponent extends Object
             if (!empty($value)) {
                 $str .= '-'.$value;
 
-                if ($key == 'year') {
+                if ('year' == $key) {
                     $str = str_replace('-', '', $str);
                 }
 
-                if ($key == 'month' && empty($date['day'])) {
+                if ('month' == $key && empty($date['day'])) {
                     $str .= '-';
                 }
 
-                if ($key == 'day') {
+                if ('day' == $key) {
                     $str .= ' ';
                 }
             }
@@ -231,12 +231,12 @@ class FilterComponent extends Object
 
                 foreach ($exploded as $k => $e) {
                     if (empty($e)) {
-                        $selected .= (($k == 0) ? '0000' : '00');
+                        $selected .= ((0 == $k) ? '0000' : '00');
                     } else {
                         $selected .= $e;
                     }
 
-                    if ($k != 2) {
+                    if (2 != $k) {
                         $selected .= '-';
                     }
                 }
