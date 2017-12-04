@@ -4,6 +4,12 @@ imports:
 parameters:
     acl_disabled: '%kernel.debug%'
 
+services:
+    hs.data_fixtures.processor:
+        class: HsBundle\DataFixtures\HsProcessor
+        tags:
+            - { name: hautelook_alice.alice.processor }
+
 framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
