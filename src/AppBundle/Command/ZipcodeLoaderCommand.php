@@ -58,11 +58,12 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
+
             $stadsdeel = $this->getWerkgebied($values[1]);
-            if (isset($values[2])) {
+
+            $postcodegebied = null;
+            if ('' !== $values[2]) {
                 $postcodegebied = $this->getGgwGebied($values[2]);
-            } else {
-                $postcodegebied = null;
             }
 
             if ($stadsdeel && $postcodegebied) {
