@@ -13,7 +13,7 @@ class MedewerkersController extends AppController
         $this->AuthExt->allow('logout');
         $this->AuthExt->allow('IueYRH4zBT8X');
 
-        if ('clear_cache' == $this->action
+        if ($this->action == 'clear_cache'
             && in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])
         ) {
             $this->AuthExt->allow('clear_cache');
@@ -123,7 +123,7 @@ class MedewerkersController extends AppController
             }
 
             $afterLoginUrl = $this->Session->read('AfterLogin.Url');
-            if ($afterLoginUrl && false === strpos($afterLoginUrl, 'login')) {
+            if ($afterLoginUrl && strpos($afterLoginUrl, 'login') === false) {
                 return $this->redirect($afterLoginUrl);
             } else {
                 return $this->redirect('/');
@@ -179,7 +179,7 @@ class MedewerkersController extends AppController
     {
         if (!empty($this->data)) {
             $types = array_filter($this->data['type']);
-        } elseif ('auto' == $type) {
+        } elseif ($type == 'auto') {
             $types = [$type];
         } else {
             $types = [];
@@ -260,7 +260,7 @@ class MedewerkersController extends AppController
         }
 
         $getbyid = $this->Geslacht->getById(1);
-        if (empty($getbyid) || 1 != $getbyid['id']) {
+        if (empty($getbyid) || $getbyid['id'] != 1) {
             $retval = false;
         }
 

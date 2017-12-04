@@ -152,7 +152,7 @@ class AppController extends Controller implements ContainerAwareInterface
      */
     public function _isControllerAuthorized($controller)
     {
-        if (Configure::read('ACL.disabled')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             return true;
         }
 
@@ -195,8 +195,7 @@ class AppController extends Controller implements ContainerAwareInterface
         }
 
         // For the other parameters, only the field name is used:
-        $parts = explode('.', $full_name);
-        $name = end($parts);
+        $name = end(explode('.', $full_name));
 
         if (isset($p['form'][$name])) {
             if (!is_array($p['form'][$name])) {
@@ -285,9 +284,9 @@ class AppController extends Controller implements ContainerAwareInterface
      *
      * @param mixed $msg
      */
-    public function flash($message, $url = null, $pause = 1, $layout = 'flash')
+    public function flash($msg)
     {
-        $this->Session->setFlash($message);
+        $this->Session->setFlash($msg);
     }
 
     /**
@@ -336,29 +335,33 @@ class AppController extends Controller implements ContainerAwareInterface
             $this->set('userGroups', []);
         }
 
-        if (Configure::read('ACL.disabled')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // Disable ACL, fake user data:
-            $medewerker = $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([]);
             $auth = [
                 'Group' => [1],
                 'username' => 'sysadmin',
-                'Medewerker' => ['LdapUser' => [
-                    'displayname' => $medewerker->getNaam(),
-                    'givenname' => $medewerker->getNaam(),
-                    'sn' => $medewerker->getNaam(),
-                    'uidnumber' => $medewerker->getId(),
-                ]],
+                'Medewerker' => [
+                    'LdapUser' => [
+                        'displayname' => 'System Administrator',
+                        'givenname' => 'System',
+                        'sn' => 'Administrator',
+                        'uidnumber' => '1',
+                    ],
+                ],
             ];
             $this->Session->write('Auth.User', $auth);
-            $this->Session->write('Auth.Medewerker.id', $medewerker->getId());
-            $this->userGroups = array_flip($medewerker->getGroepen());
-            $this->set('userGroups', $this->userGroups);
+            $this->Session->write(
+                'Auth.Medewerker.id',
+                $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId()
+            );
+            $this->Session->write('Auth.Medewerker.Group', []);
+            $this->AuthExt->allow('*');
         }
 
         // route the user to home directory
         if (isset($auth['Medewerker'])) {
             // We are logged in already.
-            // $contact = $this->Session->read('Auth.Contact');
+            //$contact = $this->Session->read('Auth.Contact');
             // set some view variables:
             $this->set('user_is_logged_in', true);
             $user_id = $this->Session->read('user_id');
@@ -372,7 +375,7 @@ class AppController extends Controller implements ContainerAwareInterface
                 && property_exists($this->modelClass, 'Behaviors')
                 && $this->{$this->modelClass}->Behaviors->attached('Logable')
             ) {
-                if (isset($auth['username']) && 'sysadmin' == $auth['username']) {
+                if (isset($auth['username']) && $auth['username'] == 'sysadmin') {
                     $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
                 } else {
                     $activeUser = ['Medewerker' => [
@@ -388,7 +391,7 @@ class AppController extends Controller implements ContainerAwareInterface
             // the AJAX login form views/elements/ajax_login (set in
             // $this->AuthExt->ajaxLogin above).
             $this->loadModel('Medewerker');
-            if ('login' != $this->action) {
+            if ($this->action != 'login') {
                 $this->Session->write('AfterLogin.Url', $this->here);
             }
         }
@@ -402,7 +405,7 @@ class AppController extends Controller implements ContainerAwareInterface
         }
 
         // Pass it to the view, model, and the controller
-        // $model->user_is_administrator = $is_admin;
+        //$model->user_is_administrator = $is_admin;
         $this->user_is_administrator = $is_admin;
         $this->set('user_is_administrator', $is_admin);
         $this->set('htmlBodyId', Inflector::variable($this->name.'_'.$this->action));
@@ -589,7 +592,7 @@ class AppController extends Controller implements ContainerAwareInterface
                     if (is_array($value)) {
                         if (array_keys($value) == ['day', 'month', 'year']) {
                             $value = implode('-', array_reverse($value));
-                            if ('--' == $value) {
+                            if ($value == '--') {
                                 $value = null;
                             }
                         }

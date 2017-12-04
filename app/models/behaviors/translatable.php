@@ -30,7 +30,7 @@ class TranslatableBehavior extends ModelBehavior
         foreach ($Model->validate as &$rule) {
             if (isset($rule['message'])) {
                 $rule['message'] = __($rule['message'], true);
-                // Make a method to dump all messages to a dummy file,
+                     // Make a method to dump all messages to a dummy file,
                      // so that we can generate po files with the cake console.
             }
         }

@@ -6,7 +6,7 @@ class AttachmentsController extends AppController
 
     public function download($id = null, $version = null, $download = true)
     {
-        if (null == $id) {
+        if ($id == null) {
             return 'wrong path!';
         }
         Configure :: write('debug', 0);
@@ -76,7 +76,7 @@ class AttachmentsController extends AppController
         $cnt = 0;
         $handle = fopen($path, 'rb');
 
-        if (false === $handle) {
+        if ($handle === false) {
             return false;
         }
 

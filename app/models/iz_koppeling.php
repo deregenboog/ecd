@@ -133,7 +133,7 @@ class IzKoppeling extends AppModel
 
     public function getCandidatesForProjects($persoon_model, $project_ids)
     {
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $model = 'Vrijwilliger';
         } else {
             $model = 'Klant';

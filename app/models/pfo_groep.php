@@ -29,11 +29,11 @@ class PfoGroep extends AppModel
 
             if (!empty($current_id)) {
                 $dr[$a['PfoGroep']['id']] = $a['PfoGroep']['naam'];
-                if (false == $actual) {
+                if ($actual == false) {
                     $dr[$a['PfoGroep']['id']] = $a['PfoGroep']['naam'].' (verlopen)';
                 }
             } else {
-                if (true == $actual) {
+                if ($actual == true) {
                     $dr[$a['PfoGroep']['id']] = $a['PfoGroep']['naam'];
                 }
             }

@@ -74,7 +74,7 @@ class AwbzIntakesController extends AppController
             $intaker_id = $this->Session->read('Auth.Medewerker.id');
         }
 
-        if (null == $klant_id) {
+        if ($klant_id == null) {
             $this->flashError('Geen klant Id opgegeven');
             $this->redirect(['controller' => 'klanten', 'action' => 'index']);
         }
@@ -359,7 +359,7 @@ class AwbzIntakesController extends AppController
 
         if ($indicaties_counter > 1) {
             return "($indicaties_counter indicaties)";
-        } elseif (1 == $indicaties_counter) {
+        } elseif ($indicaties_counter == 1) {
             return "($indicaties_counter indicatie)";
         } else {
             return '';

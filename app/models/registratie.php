@@ -39,9 +39,9 @@ class Registratie extends AppModel
         $this->Behaviors->attach('Containable');
 
         $and = ['locatie_id' => $locatie_id];
-        if ('active' == $type) {
+        if ($type == 'active') {
             $and['buiten'] = null;
-        } elseif ('today_inactive' == $type) {
+        } elseif ($type == 'today_inactive') {
             $this->Locatie->id = $locatie_id;
             $nachtopvang = $this->Locatie->field('nachtopvang');
             $timelimit = $this->get_timelimit($locatie_id);
@@ -660,7 +660,7 @@ class Registratie extends AppModel
 
         foreach ($fields as $field) {
             $prev_val = $previous_registration['Registratie'][$field];
-            if (1 == $prev_val || -1 == $prev_val) {
+            if ($prev_val == 1 || $prev_val == -1) {
                 $this->set($field, $prev_val);
                 $previous_registration['Registratie'][$field] = 0;
                 $changed = true;
@@ -693,7 +693,7 @@ class Registratie extends AppModel
             $data[$key]['Klant']['active_schorsingen'] = $schCount;
 
             $unseenOpm = $this->Klant->Opmerking->countUnSeenOpmerkingen($id);
-            if (1 === $unseenOpm) {
+            if ($unseenOpm === 1) {
                 $unseenOpm = '1 opmerking';
             } elseif ($unseenOpm > 1) {
                 $unseenOpm = $unseenOpm.' opmerkingen';

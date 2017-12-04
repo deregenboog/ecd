@@ -162,7 +162,7 @@ class GroepsactiviteitenController extends AppController
             return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $this->redirect(['action' => 'intakes', $persoon_model, $id]);
         } else {
             $this->redirect(['action' => 'verslagen', $persoon_model, $id]);
@@ -252,7 +252,7 @@ class GroepsactiviteitenController extends AppController
         $persoon = $this->{$persoon_model}->getAllById($id);
 
         $diensten = [];
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
@@ -299,7 +299,7 @@ class GroepsactiviteitenController extends AppController
 
         $persoon = $this->{$persoon_model}->getAllById($id);
         $diensten = [];
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
@@ -344,7 +344,7 @@ class GroepsactiviteitenController extends AppController
 
             $saved = false;
             if ($retval) {
-                if ('Klant' == $persoon_model) {
+                if ($persoon_model == 'Klant') {
                     $this->data[$zrmReportModel]['model'] = 'GroepsactiviteitenIntake';
                     $this->data[$zrmReportModel]['foreign_key'] = $this->{$persoon_model}->GroepsactiviteitenIntake->id;
                     $this->data[$zrmReportModel]['klant_id'] = $foreign_key;
@@ -372,7 +372,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         $diensten = [];
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
@@ -386,7 +386,7 @@ class GroepsactiviteitenController extends AppController
 
     private function check_persoon_model($persoon_model)
     {
-        if ('Vrijwilliger' == $persoon_model) {
+        if ($persoon_model == 'Vrijwilliger') {
             return 'Vrijwilliger';
         }
 
@@ -476,7 +476,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         if (!empty($this->data)) {
-            if ('Vrijwilliger' == $persoon_model) {
+            if ($persoon_model == 'Vrijwilliger') {
                 $this->add_to_intake($persoon_model, $id);
             }
 
@@ -505,7 +505,7 @@ class GroepsactiviteitenController extends AppController
 
         $diensten = [];
 
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
@@ -537,7 +537,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         if (!empty($this->data)) {
-            if ('Vrijwilliger' == $persoon_model) {
+            if ($persoon_model == 'Vrijwilliger') {
                 $this->add_to_intake($persoon_model, $id);
             }
 
@@ -590,7 +590,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         $diensten = [];
-        if ('Klant' == $persoon_model) {
+        if ($persoon_model == 'Klant') {
             $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 

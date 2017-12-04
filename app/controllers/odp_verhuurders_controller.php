@@ -76,7 +76,7 @@ class OdpVerhuurdersController extends AppController
 
         if ($klantId) {
             $klant = new Klant();
-            if ('new' !== $klantId) {
+            if ($klantId !== 'new') {
                 $klant = $entityManager->find(Klant::class, $klantId);
             }
 

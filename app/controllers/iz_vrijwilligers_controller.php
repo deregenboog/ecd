@@ -62,7 +62,7 @@ class IzVrijwilligersController extends AppController
     public function add($vrijwilligerId = null)
     {
         if ($vrijwilligerId) {
-            if ('new' === $vrijwilligerId) {
+            if ($vrijwilligerId === 'new') {
                 $creationForm = $this->createForm(VrijwilligerType::class);
                 $creationForm->handleRequest($this->getRequest());
                 if ($creationForm->isSubmitted() && $creationForm->isValid()) {

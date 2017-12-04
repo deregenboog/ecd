@@ -179,10 +179,10 @@ class AppModel extends Model
         }
 
         foreach ($contain as $m => $branch) {
-            if (!is_numeric($m) && 'fields' == $m) {
+            if (!is_numeric($m) && $m == 'fields') {
                 continue;
             }
-            if (!is_array($branch) && '*' != $branch) {
+            if (!is_array($branch) && $branch != '*') {
                 $m = $branch;
                 $branch = [];
             }
@@ -562,7 +562,7 @@ class AppModel extends Model
                             $this->log('Clean relations of '.$model.': '.$key, 'as_'.$this->name);
                             $this->log('Clean relations of '.$model.': '.$key, 'debug_cache');
                         }
-                        if ('Event' == $model) {
+                        if ($model == 'Event') {
                             // $this->log(Debugger::trace(), 'debug_cache');
                         }
                     } else {
@@ -598,7 +598,7 @@ class AppModel extends Model
         $this->clearGivenRelations($relations);
     }
 
-    public function beforeDelete($cascade = true)
+    public function beforeDelete($cascade)
     {
         $result = parent::beforeDelete($cascade);
 

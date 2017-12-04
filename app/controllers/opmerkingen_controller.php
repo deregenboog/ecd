@@ -9,7 +9,7 @@ class OpmerkingenController extends AppController
         if ($locatie_id) {
             $this->set(compact('locatie_id'));
         }
-        if (null === $klant_id) {
+        if ($klant_id === null) {
             $this->flashError(__('Invalid klant', true));
             $this->redirect(['controller' => 'registraties',
                 'action' => 'index', ]);

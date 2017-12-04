@@ -328,9 +328,7 @@ Cache::config('association_query', [
 ]);
 
 foreach ($params['groups'] as $key => $value) {
-    if (!defined($key)) {
-        define($key, $value);
-    }
+    define($key, $value);
 }
 
 define('PFO_CLIENTEN_ALL', null);

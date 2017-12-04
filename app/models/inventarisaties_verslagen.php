@@ -29,10 +29,11 @@ class InventarisatiesVerslagen extends AppModel
         ],
     ];
 
-    public function beforeSave($options = [])
+    public function beforeSave()
     {
         if (!isset($this->data['InventarisatiesVerslagen']['inventarisatie_id'])) {
             unset($this->data['InventarisatiesVerslagen']);
+        } else {
         }
 
         return true;

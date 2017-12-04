@@ -662,7 +662,7 @@ class Klant extends AppModel
             }
         }
 
-        if ($this->data['Klant']['laatste_registratie_id'] == $registratie_id) {
+        if ($registratie_id == $this->data['Klant']['laatste_registratie_id']) {
             return true;
         }
 
@@ -790,9 +790,9 @@ class Klant extends AppModel
 
     public function goesToInfobalie($klant)
     {
-        return $klant['Klant']['doorverwijzen_naar_amoc']
-            || in_array($klant['Klant']['land_id'], Configure::read('Landen.AMOC'))
-        ;
+        return
+            $klant['Klant']['doorverwijzen_naar_amoc'] ||
+            in_array($klant['Klant']['land_id'], Configure::read('Landen.AMOC'));
     }
 
     public function findDuplicates($data, $recursive = 0)

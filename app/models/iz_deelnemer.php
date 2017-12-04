@@ -108,7 +108,7 @@ class IzDeelnemer extends AppModel
             if (!empty($this->data['IzDeelnemer']['model']) || !empty($this->data['IzDeelnemer']['foreign_key'])) {
                 $iz = $this->getById($id);
 
-                if ($this->data['IzDeelnemer']['model'] != $iz['model'] || $this->data['IzDeelnemer']['foreign_key'] != $iz['foreign_key']) {
+                if ($iz['model'] != $this->data['IzDeelnemer']['model'] || $iz['foreign_key'] != $this->data['IzDeelnemer']['foreign_key']) {
                     $this->log("{$id}: {$iz['model']} => {$this->data['IzDeelnemer']['model']},  {$iz['foreign_key']} => {$this->data['IzDeelnemer']['foreign_key']}", 'izdeelnemerfkcheck');
                 }
                 unset($this->data['IzDeelnemer']['model']);
@@ -412,7 +412,7 @@ class IzDeelnemer extends AppModel
                     $fase = 'afgesloten';
                 }
 
-                if (('onvolledig' == $fase || 'aanmelding' == $fase) && empty($hc)) {
+                if (($fase == 'onvolledig' || $fase == 'aanmelding') && empty($hc)) {
                     $fase = 'koppeling_nvt';
                 }
 
@@ -423,11 +423,11 @@ class IzDeelnemer extends AppModel
                 }
 
                 $s = 'O';
-                if ('Vrijwilliger' == $model) {
+                if ($model == 'Vrijwilliger') {
                     $s = 'V';
                 }
 
-                if ('Klant' == $model) {
+                if ($model == 'Klant') {
                     $s = 'K';
                 }
 
@@ -891,7 +891,7 @@ class IzDeelnemer extends AppModel
             if (empty($key)) {
                 continue;
             }
-            if ('Totaal' == $key) {
+            if ($key == 'Totaal') {
                 continue;
             }
             $results[$value] = [
@@ -1035,13 +1035,11 @@ join vrijwilligers v on v.id = foreign_key ";
             $template[$key] = 0;
         }
 
-        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
-            FROM iz_deelnemers izd
-            JOIN klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id
-            JOIN iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL
-            AND izk.koppeling_einddatum >= '{$startDate}' AND izk.koppeling_einddatum <= '{$endDate}'
-            AND izk.iz_eindekoppeling_id != 10 GROUP BY izk.project_id, k.werkgebied
-            ORDER BY p.naam, k.werkgebied";
+        $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd JOIN
+	klanten k ON k.id = izd.foreign_key AND izd.model = 'Klant' JOIN iz_koppelingen izk ON izk.iz_deelnemer_id = izd.id JOIN
+	iz_projecten p on p.id = izk.project_id WHERE izk.iz_koppeling_id IS NOT NULL AND
+	izk.koppeling_einddatum >= '{$startDate}' AND izk.koppeling_einddatum <= '{$endDate}' AND
+	izk.iz_eindekoppeling_id != 10 GROUP BY izk.project_id, k.werkgebied ORDER BY p.naam, k.werkgebied";
 
         $data = $this->query($sql);
 

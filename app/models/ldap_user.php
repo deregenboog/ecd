@@ -146,7 +146,7 @@ class LdapUser extends AppModel
                 $m = $this->convert_from_ldap($l);
 
                 if (!$this->active_directory) {
-                    if (1 == count($m)) {
+                    if (count($m) == 1) {
                         if (is_array($m[0]['LdapUser']['memberuid'])) {
                             foreach ($m[0]['LdapUser']['memberuid'] as $member) {
                                 $members[] = $member;
@@ -218,21 +218,21 @@ class LdapUser extends AppModel
             $connect = $this->ds;
 
             $res_id = ldap_search($connect, $this->baseDn, "{$this->uid}=$uid");
-            if (false == $res_id) {
+            if ($res_id == false) {
                 return false;
             }
 
-            if (1 != ldap_count_entries($connect, $res_id)) {
+            if (ldap_count_entries($connect, $res_id) != 1) {
                 echo "failure: username $username found more than once<br>\n";
 
                 return false;
             }
 
-            if (false == ($entry_id = ldap_first_entry($connect, $res_id))) {
+            if (($entry_id = ldap_first_entry($connect, $res_id)) == false) {
                 return false;
             }
 
-            if (false == ($user_dn = ldap_get_dn($connect, $entry_id))) {
+            if (($user_dn = ldap_get_dn($connect, $entry_id)) == false) {
                 return false;
             }
 
@@ -251,7 +251,7 @@ class LdapUser extends AppModel
         $final = [];
 
         foreach ($data as $key => $row) {
-            if ('count' === $key) {
+            if ($key === 'count') {
                 continue;
             }
 
@@ -264,7 +264,7 @@ class LdapUser extends AppModel
                     $final[$key]['LdapUser'][$param] = $row[$param][0];
                 } else {
                     foreach ($row[$param] as $key2 => $item) {
-                        if ('count' === $key2) {
+                        if ($key2 === 'count') {
                             continue;
                         }
                         $final[$key]['LdapUser'][$param][] = $item;

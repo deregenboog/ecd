@@ -17,7 +17,7 @@ class OdsEtikettenBehavior extends ModelBehavior
     public $errors = [];
     public $error = null;
 
-    public function setup(&$model, $config = [])
+    public function setup(&$model, $config)
     {
         $this->model = &$model;
 
@@ -62,14 +62,14 @@ class OdsEtikettenBehavior extends ModelBehavior
 
     public function printOdsEtikettenErrorsInDocument()
     {
-        if (0 == count($this->errors)) {
+        if (count($this->errors) == 0) {
             return;
         }
 
         return;
         $query = '//office:text';
         $elements = $this->xpath->query($query);
-        if (0 == $elements->length) {
+        if ($elements->length == 0) {
             return false;
         }
         array_unshift($this->errors, 'Following errors have been found merging the document:');
@@ -166,7 +166,7 @@ class OdsEtikettenBehavior extends ModelBehavior
     private function addValue($row, $attribute, $value)
     {
         $l = $this->xpath->query(".//text:database-display[@text:column-name='{$attribute}']", $row);
-        if (1 != $l->length) {
+        if ($l->length != 1) {
             return;
         }
         $this->nodeValue($l->item(0), $value);
@@ -188,7 +188,7 @@ class OdsEtikettenBehavior extends ModelBehavior
             $node->nodeValue = $value;
         } catch (Exception $e) {
             $len = strlen($node->nodeValue);
-            if ('&' == substr($value, $len, 1)) {
+            if (substr($value, $len, 1) == '&') {
                 $str = $node->nodeValue.'&amp;'.substr($value, $len + 1);
                 $this->nodevalue($node, $str);
             }
@@ -290,7 +290,7 @@ class OdsEtikettenBehavior extends ModelBehavior
         $res = implode("            \n", $output);
         $this->log('   (merge_document)  Output: '.$res, 'queue');
 
-        if (0 != $retval) {
+        if ($retval != 0) {
             $this->log('   (merge_document)  Retcode: '.$retval, 'queue');
             $this->error = 'conversion to pdf fails: '.$retval;
 

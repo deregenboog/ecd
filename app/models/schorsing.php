@@ -372,14 +372,14 @@ class Schorsing extends AppModel
     public function countActiveSchorsingenMsg($klant_id)
     {
         $schCount = $this->countActiveSchorsingen($klant_id);
-        if (0 == $schCount) {
+        if ($schCount == 0) {
             $unseenSch = $this->countUnSeenSchorsingen($klant_id);
             if ($unseenSch > 0) {
                 $schorsing = __('schorsing verlopen', true);
             } else {
                 $schorsing = __('geen', true);
             }
-        } elseif (1 == $schCount) {
+        } elseif ($schCount == 1) {
             $schorsing = '1 '.__('schorsing', true);
         } else {
             $schorsing = $schCount.' '.__('schorsingen', true);
