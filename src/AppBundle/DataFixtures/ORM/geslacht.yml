@@ -1,7 +1,7 @@
 AppBundle\Entity\Geslacht:
-    geslacht_man:
+    geslacht_1:
         __construct: ['Man', 'M']
-    geslacht_vrouw:
+    geslacht_2:
         __construct: ['Vrouw', 'V']
-    geslacht_onbekend:
+    geslacht_3:
         __construct: ['Onbekend', 'O']
