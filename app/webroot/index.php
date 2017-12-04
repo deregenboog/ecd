@@ -11,8 +11,8 @@ if (!defined('WWW_ROOT')) {
 }
 
 /** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../app/autoload.php';
-include_once __DIR__.'/../var/bootstrap.php.cache';
+$loader = require __DIR__.'/../autoload.php';
+include_once __DIR__.'/../bootstrap.php.cache';
 
 $kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
