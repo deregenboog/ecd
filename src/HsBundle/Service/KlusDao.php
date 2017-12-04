@@ -32,7 +32,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, activiteit, declaratie, memo, registratie")
-            ->innerJoin("{$this->alias}.klant", 'klant')
+            ->leftJoin("{$this->alias}.klant", 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin("{$this->alias}.activiteit", 'activiteit')
             ->leftJoin("{$this->alias}.declaraties", 'declaratie')
