@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\HsBundle\DataFixtures;
+namespace HsBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -13,12 +13,10 @@ use HsBundle\Entity\Activiteit;
 use Tests\AppBundle\DataFixtures\AppFixtures;
 use HsBundle\Entity\Vrijwilliger;
 
-class HsFixtures extends AppFixtures
+class HsFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        parent::load($manager);
-
         $geslacht = $this->getReference('geslacht_man');
         $medewerker = $this->getReference('medewerker_1');
         $appKlant = $this->getReference('klant_1');
@@ -38,7 +36,11 @@ class HsFixtures extends AppFixtures
         $manager->persist($vrijwilliger);
 
         $klus = new Klus($klant, $medewerker);
-        $klus->setActiviteit($activiteit);
+        $klus
+            ->setActiviteit($activiteit)
+            ->addDienstverlener($dienstverlener)
+            ->addVrijwilliger($vrijwilliger)
+        ;
         $manager->persist($klus);
 
         $manager->flush();

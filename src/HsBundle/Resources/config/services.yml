@@ -90,3 +90,8 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
+
+    hs.fixtures:
+        class: HsBundle\DataFixtures\HsFixtures
+        tags:
+            - { name: doctrine.fixture.orm }
