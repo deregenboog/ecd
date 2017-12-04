@@ -120,7 +120,7 @@ ClipBundle\Entity\Client:
         mobiel: '50%? <phoneNumber()>'
         telefoon: '50%? <phoneNumber()>'
         email: '50%? <email()>'
-        werkgebied: '80%? @werkgebied_*'
+#        werkgebied: '80%? @werkgebied_*'
         behandelaar: '@clip_behandelaar_*'
         aanmelddatum: '<dateTimeThisDecade()>'
         viacategorie: '50%? @clip_viacategorie_*'

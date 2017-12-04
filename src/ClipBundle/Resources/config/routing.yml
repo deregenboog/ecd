@@ -4,7 +4,7 @@ clip_annotations:
     prefix: /clip
 
 clip_index:
-    path: /clip
+    path: /clip/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: clip_openstaandevragen_index

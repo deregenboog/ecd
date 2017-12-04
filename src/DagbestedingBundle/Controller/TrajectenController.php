@@ -64,7 +64,8 @@ class TrajectenController extends AbstractController
                 $this->dao->create($entity);
                 $this->addFlash('success', $this->entityName.' is opgeslagen.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToView($entity);
@@ -126,7 +127,8 @@ class TrajectenController extends AbstractController
                 $this->dao->create($entity);
                 $this->addFlash('success', $this->entityName.' is opgeslagen.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToView($entity);
@@ -173,7 +175,8 @@ class TrajectenController extends AbstractController
                 }
                 $this->addFlash('success', 'De dagdelen zijn opgeslagen.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.'.$e->getMessage());
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             if ($url = $request->get('redirect')) {
