@@ -81,10 +81,14 @@ abstract class SymfonyController extends \AppController
      *
      * @return RedirectResponse
      */
-    public function redirect($url, $status = 302)
+    public function redirect($url, $status = null, $exit = true)
     {
+        if (!$status) {
+            $status = 302;
+        }
+
         // hand over control to CakePHP's AppController
-        return parent::redirect($url, $status, true);
+        return parent::redirect($url, $status, $exit);
 
 //         if (is_null($status)) {
 //             $status = 302;
@@ -188,6 +192,9 @@ abstract class SymfonyController extends \AppController
      */
     protected function isGranted($attributes, $object = null)
     {
+        // @todo migrate from CakePHP to SecurityBundle
+        return array_key_exists($attributes, $this->userGroups);
+
         if (!$this->container->has('security.authorization_checker')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
@@ -246,8 +253,10 @@ abstract class SymfonyController extends \AppController
      *
      * @return Response A Response instance
      */
-    public function render($view, array $parameters = [], Response $response = null)
+    public function render($action = null, $layout = null, $file = null)
     {
+        list($view, $parameters, $response) = func_get_args();
+
         if ($this->container->has('templating')) {
             return $this->container->get('templating')->renderResponse($view, $parameters, $response);
         }

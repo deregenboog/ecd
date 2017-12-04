@@ -30,7 +30,7 @@ class VrijwilligersController extends AppController
 
         $personen = $this->paginate($persoon_model, $this->Filter->filterData);
 
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $personen = $this->{$persoon_model}->LasteIntake->completeKlantenIntakesWithLocationNames($personen);
         }
 

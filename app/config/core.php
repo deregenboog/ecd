@@ -328,7 +328,9 @@ Cache::config('association_query', [
 ]);
 
 foreach ($params['groups'] as $key => $value) {
-    define($key, $value);
+    if (!defined($key)) {
+        define($key, $value);
+    }
 }
 
 define('PFO_CLIENTEN_ALL', null);
@@ -357,14 +359,10 @@ Configure::write('attachment.max_size', '10M');
  */
 function __tr($string, $params = [])
 {
-    if (!class_exists('String')) {
-        App::import('Core', 'String');
-    }
-
     // First translate.
     $message = __($string, true);
     // Then replace parameter keywords
-    $message = String::insert($message, $params);
+    $message = Str::insert($message, $params);
 
     return $message;
 }

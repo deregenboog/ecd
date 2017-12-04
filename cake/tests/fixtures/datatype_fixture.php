@@ -11,48 +11,42 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.7026
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class DatatypeFixture extends CakeTestFixture {
+class DatatypeFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'Datatype'
+     */
+    public $name = 'Datatype';
 
-/**
- * name property
- *
- * @var string 'Datatype'
- * @access public
- */
-	var $name = 'Datatype';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => 0, 'key' => 'primary'],
+        'float_field' => ['type' => 'float', 'length' => '5,2', 'null' => false, 'default' => null],
+        'bool' => ['type' => 'boolean', 'null' => false, 'default' => false],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null'=> false, 'default'=> 0, 'key' => 'primary'),
-		'float_field' => array('type' => 'float', 'length' => '5,2', 'null' => false, 'default' => null),
-		'bool' => array('type' => 'boolean', 'null' => false, 'default' => false),
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('id' => 1, 'float_field' => 42.23, 'bool' => false),
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['id' => 1, 'float_field' => 42.23, 'bool' => false],
+    ];
 }

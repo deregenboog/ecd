@@ -1,7 +1,9 @@
 <?php
 
-class DboDummy extends DboSource {
-	function connect() {
-		return true;
-	}
+class DboDummy extends DboSource
+{
+    public function connect()
+    {
+        return true;
+    }
 }

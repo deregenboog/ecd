@@ -49,9 +49,9 @@ class SqlReportComponent extends Component
             $reports[] = [
                 'head' => $head,
                 'fields' => $fields,
-                'isArray' => $query['type'] == 'array',
-                'isDisabled' => $query['disabled'] == 1,
-                'hasSummary' => $query['summary'] == 1,
+                'isArray' => 'array' == $query['type'],
+                'isDisabled' => 1 == $query['disabled'],
+                'hasSummary' => 1 == $query['summary'],
                 'sql' => $query->sql->__toString(),
             ];
         }
@@ -73,7 +73,7 @@ class SqlReportComponent extends Component
             if ($config['isDisabled']) {
                 continue;
             }
-            $sql = String::insert($config['sql'], $conditions);
+            $sql = Str::insert($config['sql'], $conditions);
             $reports[$key]['result'] = $dataSource->query($sql);
         }
 

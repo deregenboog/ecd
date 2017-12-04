@@ -11,54 +11,48 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class SyfileFixture extends CakeTestFixture {
+class SyfileFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'Syfile'
+     */
+    public $name = 'Syfile';
 
-/**
- * name property
- *
- * @var string 'Syfile'
- * @access public
- */
-	var $name = 'Syfile';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer', 'key' => 'primary'],
+        'image_id' => ['type' => 'integer', 'null' => true],
+        'name' => ['type' => 'string', 'null' => false],
+        'item_count' => ['type' => 'integer', 'null' => true],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'image_id' => array('type' => 'integer', 'null' => true),
-		'name' => array('type' => 'string', 'null' => false),
-		'item_count' => array('type' => 'integer', 'null' => true)
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('image_id' => 1, 'name' => 'Syfile 1'),
-		array('image_id' => 2, 'name' => 'Syfile 2'),
-		array('image_id' => 5, 'name' => 'Syfile 3'),
-		array('image_id' => 3, 'name' => 'Syfile 4'),
-		array('image_id' => 4, 'name' => 'Syfile 5'),
-		array('image_id' => null, 'name' => 'Syfile 6')
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['image_id' => 1, 'name' => 'Syfile 1'],
+        ['image_id' => 2, 'name' => 'Syfile 2'],
+        ['image_id' => 5, 'name' => 'Syfile 3'],
+        ['image_id' => 3, 'name' => 'Syfile 4'],
+        ['image_id' => 4, 'name' => 'Syfile 5'],
+        ['image_id' => null, 'name' => 'Syfile 6'],
+    ];
 }

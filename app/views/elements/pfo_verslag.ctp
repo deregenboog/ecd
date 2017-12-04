@@ -1,4 +1,4 @@
-<?php $tag = String::uuid(); ?>
+<?php $tag = Str::uuid(); ?>
 <div id="verslag<?= $tag ?>">
     <?php
         $new = false;

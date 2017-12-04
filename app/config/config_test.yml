@@ -3,13 +3,15 @@ imports:
 
 parameters:
     acl_disabled: false
-
+    doctrine.dbal.connection_factory.class: Liip\FunctionalTestBundle\Factory\ConnectionFactory
+    
 framework:
     test: ~
     session:
         storage_id: session.storage.mock_file
         name: MOCKSESSID
     profiler:
+        only_exceptions: false
         enabled: true
         collect: true
 
@@ -20,7 +22,7 @@ web_profiler:
 doctrine:
     dbal:
         driver: pdo_sqlite
-        path: '%kernel.cache_dir%/test.db'
+        path: '%kernel.cache_dir%/__DBNAME__.db'
 
 swiftmailer:
     disable_delivery: true
@@ -29,3 +31,6 @@ liip_functional_test:
     cache_sqlite_db: true
     query:
         max_query_count: 10
+    paratest:
+        process: 8
+        phpunit: 'vendor/bin/phpunit'

@@ -716,7 +716,7 @@ class MediumAdapter extends Object {
 		if (!$data['command'] = $this->_which($data['command'])) {
 			return false;
 		}
-		$line = String::insert($string, $data, array(
+		$line = Str::insert($string, $data, array(
 			'before' => ':', 'after' => ':', 'clean' => true
 		));
 		exec(escapeshellcmd($line) , $output, $return);

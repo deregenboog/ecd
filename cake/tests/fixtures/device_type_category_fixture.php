@@ -11,47 +11,41 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class DeviceTypeCategoryFixture extends CakeTestFixture {
+class DeviceTypeCategoryFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'DeviceTypeCategory'
+     */
+    public $name = 'DeviceTypeCategory';
 
-/**
- * name property
- *
- * @var string 'DeviceTypeCategory'
- * @access public
- */
-	var $name = 'DeviceTypeCategory';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer', 'key' => 'primary'],
+        'name' => ['type' => 'string', 'null' => false],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false)
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('name' => 'DeviceTypeCategory 1')
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['name' => 'DeviceTypeCategory 1'],
+    ];
 }

@@ -11,41 +11,37 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.7984
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
- * UuidTreeFixture class
+ * UuidTreeFixture class.
  *
- * @uses          CakeTestFixture
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ * @uses          \CakeTestFixture
  */
-class UuidTreeFixture extends CakeTestFixture {
+class UuidTreeFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'UuidTree'
+     */
+    public $name = 'UuidTree';
 
-/**
- * name property
- *
- * @var string 'UuidTree'
- * @access public
- */
-	var $name = 'UuidTree';
-
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id'	=> array('type' => 'string', 'length' => 36, 'key' => 'primary'),
-		'name'	=> array('type' => 'string','null' => false),
-		'parent_id' => array('type' => 'string', 'length' => 36, 'null' => true),
-		'lft'	=> array('type' => 'integer','null' => false),
-		'rght'	=> array('type' => 'integer','null' => false)
-	);
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'string', 'length' => 36, 'key' => 'primary'],
+        'name' => ['type' => 'string', 'null' => false],
+        'parent_id' => ['type' => 'string', 'length' => 36, 'null' => true],
+        'lft' => ['type' => 'integer', 'null' => false],
+        'rght' => ['type' => 'integer', 'null' => false],
+    ];
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * LibGroupTest file
+ * LibGroupTest file.
  *
  * PHP versions 4 and 5
  *
@@ -11,53 +11,47 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.groups
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4206
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
- * LibGroupTest class
+ * LibGroupTest class.
  *
  * This test group will run all test in the cases/libs directory.
- *
- * @package       cake
- * @subpackage    cake.tests.groups
  */
-class LibGroupTest extends TestSuite {
+class LibGroupTest extends TestSuite
+{
+    /**
+     * label property.
+     *
+     * @var string
+     */
+    public $label = 'All core, non MVC element libs';
 
-/**
- * label property
- *
- * @var string
- * @access public
- */
-	var $label = 'All core, non MVC element libs';
-
-/**
- * LibGroupTest method
- *
- * @access public
- * @return void
- */
-	function LibGroupTest() {
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'basics');
-		// TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'inflector');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'cake_session');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'debugger');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'error');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'file');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'folder');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'cake_log');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'log' . DS . 'file_log');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'class_registry');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'overloadable');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'sanitize');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'security');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'set');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'string');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'validation');
-	}
+    /**
+     * LibGroupTest method.
+     */
+    public function LibGroupTest()
+    {
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'basics');
+        // TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'inflector');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'cake_session');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'debugger');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'error');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'file');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'folder');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'cake_log');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'log'.DS.'file_log');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'class_registry');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'overloadable');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'sanitize');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'security');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'set');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'string');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'validation');
+    }
 }

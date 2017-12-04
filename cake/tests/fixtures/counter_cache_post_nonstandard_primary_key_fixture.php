@@ -11,32 +11,29 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class CounterCachePostNonstandardPrimaryKeyFixture extends CakeTestFixture {
+class CounterCachePostNonstandardPrimaryKeyFixture extends CakeTestFixture
+{
+    public $name = 'CounterCachePostNonstandardPrimaryKey';
 
-	var $name = 'CounterCachePostNonstandardPrimaryKey';
+    public $fields = [
+        'pid' => ['type' => 'integer', 'key' => 'primary'],
+        'title' => ['type' => 'string', 'length' => 255, 'null' => false],
+        'uid' => ['type' => 'integer', 'null' => true],
+    ];
 
-	var $fields = array(
-		'pid' => array('type' => 'integer', 'key' => 'primary'),
-		'title' => array('type' => 'string', 'length' => 255, 'null' => false),
-		'uid' => array('type' => 'integer', 'null' => true),
-	);
-
-    var $records = array(
-		array('pid' => 1, 'title' => 'Rock and Roll',  'uid' => 66),
-		array('pid' => 2, 'title' => 'Music',   'uid' => 66),
-		array('pid' => 3, 'title' => 'Food',   'uid' => 301),
-    );
+    public $records = [
+        ['pid' => 1, 'title' => 'Rock and Roll',  'uid' => 66],
+        ['pid' => 2, 'title' => 'Music',   'uid' => 66],
+        ['pid' => 3, 'title' => 'Food',   'uid' => 301],
+    ];
 }

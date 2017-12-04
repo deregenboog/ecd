@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is loaded automatically by the app/webroot/index.php file after the core bootstrap.php
  *
  * This is an application wide file to load any function that is not used within a class
@@ -21,7 +21,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-/**
+/*
  * The settings below can be used to set additional paths to models, views and controllers.
  * This is related to Ticket #470 (https://trac.cakephp.org/ticket/470)
  *
@@ -41,7 +41,7 @@
  *
  */
 
-/**
+/*
  * As of 1.3, additional rules for the inflector are added below
  *
  * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));

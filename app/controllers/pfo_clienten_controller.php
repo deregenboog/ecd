@@ -53,7 +53,7 @@ class PfoClientenController extends AppController
         $this->PfoClient->recursive = 0;
         $conditions = $this->Filter->filterData;
 
-        if ($active != 'afgesloten') {
+        if ('afgesloten' != $active) {
             $conditions['PfoClient.datum_afgesloten'] = null;
         } else {
             $conditions['PfoClient.datum_afgesloten NOT'] = null;

@@ -91,9 +91,7 @@ class Hi5ControllerTestCase extends CakeTestCase
         Configure::write('ACL.disabled', true);
         //Test Klant id
         $klantId = 106;
-        $return = $this->testAction('hi5/add_evaluatie/debug', [
-                106,
-        ]);
+        $return = $this->testAction('hi5/add_evaluatie/debug', [106]);
         debug($return);
     }
 }

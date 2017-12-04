@@ -74,14 +74,16 @@ class AuthExtComponent extends AuthComponent
         return $this->_loggedIn;
     }
 
-    // override this to find the right aro/aco. If we use Auth->authorize =
-    // 'controller' we don't need this at all (we just call the standard
-    // isAuthorized() method, see http://book.cakephp.org/view/396/authorize).
-    // This is left here in case we want to authorize on actions, while having
-    // multiple groups.
+    /**
+     * Override this to find the right aro/aco. If we use Auth->authorize =
+     * 'controller' we don't need this at all (we just call the standard
+     * isAuthorized() method, see http://book.cakephp.org/view/396/authorize).
+     * This is left here in case we want to authorize on actions, while having
+     * multiple groups.
+     */
     public function isAuthorized($type = null, $object = null, $user = null)
     {
-        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
+        if (Configure::read('ACL.disabled')) {
             // ACL disabled with a flag
             return true;
         }
@@ -90,16 +92,15 @@ class AuthExtComponent extends AuthComponent
         $valid = false;
 
         if ($this->user($this->parentModel)) {
-            if ($type == 'actions') {
+            if ('actions' == $type) {
                 // Needs ACL, acos and aros tables.
                 // get the roles from the Session, and set the proper Aro path
                 $groups = $this->user($this->parentModel);
                 // check using our Roles Aro paths
                 $valid = $this->Acl->check([
-                            $this->parentModel => ['id' => $groups],
-                            ],
-                        $this->action());
-            } elseif ($type == 'controller') {
+                    $this->parentModel => ['id' => $groups],
+                ], $this->action());
+            } elseif ('controller' == $type) {
                 // Call the controller function 'isAuthorized', that can be
                 // defined in the app_controller for all controllers.
                 $valid = parent::isAuthorized($type, $object, $user);

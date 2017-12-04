@@ -62,7 +62,7 @@ class IzKlantenController extends AppController
     public function add($klantId = null)
     {
         if ($klantId) {
-            if ($klantId === 'new') {
+            if ('new' === $klantId) {
                 $creationForm = $this->createForm(KlantType::class);
                 $creationForm->handleRequest($this->getRequest());
                 if ($creationForm->isSubmitted() && $creationForm->isValid()) {

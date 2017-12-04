@@ -1,4 +1,5 @@
 <?php
 
-class TestDriver extends TestSource {
+class TestDriver extends TestSource
+{
 }

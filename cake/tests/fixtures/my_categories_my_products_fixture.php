@@ -11,50 +11,44 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class MyCategoriesMyProductsFixture extends CakeTestFixture {
+class MyCategoriesMyProductsFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'MyCategoriesMyProducts'
+     */
+    public $name = 'MyCategoriesMyProducts';
 
-/**
- * name property
- *
- * @var string 'MyCategoriesMyProducts'
- * @access public
- */
-	var $name = 'MyCategoriesMyProducts';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'my_category_id' => ['type' => 'integer'],
+        'my_product_id' => ['type' => 'integer'],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'my_category_id' => array('type' => 'integer'),
-		'my_product_id' => array('type' => 'integer'),
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('my_category_id' => 1, 'my_product_id' => 1),
-		array('my_category_id' => 2, 'my_product_id' => 1),
-		array('my_category_id' => 2, 'my_product_id' => 2),
-		array('my_category_id' => 3, 'my_product_id' => 2),
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['my_category_id' => 1, 'my_product_id' => 1],
+        ['my_category_id' => 2, 'my_product_id' => 1],
+        ['my_category_id' => 2, 'my_product_id' => 2],
+        ['my_category_id' => 3, 'my_product_id' => 2],
+    ];
 }

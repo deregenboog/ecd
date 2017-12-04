@@ -11,51 +11,45 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class ArticlesTagFixture extends CakeTestFixture {
+class ArticlesTagFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'ArticlesTag'
+     */
+    public $name = 'ArticlesTag';
 
-/**
- * name property
- *
- * @var string 'ArticlesTag'
- * @access public
- */
-	var $name = 'ArticlesTag';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'article_id' => ['type' => 'integer', 'null' => false],
+        'tag_id' => ['type' => 'integer', 'null' => false],
+        'indexes' => ['UNIQUE_TAG' => ['column' => ['article_id', 'tag_id'], 'unique' => 1]],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'article_id' => array('type' => 'integer', 'null' => false),
-		'tag_id' => array('type' => 'integer', 'null' => false),
-		'indexes' => array('UNIQUE_TAG' => array('column'=> array('article_id', 'tag_id'), 'unique'=>1))
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('article_id' => 1, 'tag_id' => 1),
-		array('article_id' => 1, 'tag_id' => 2),
-		array('article_id' => 2, 'tag_id' => 1),
-		array('article_id' => 2, 'tag_id' => 3)
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['article_id' => 1, 'tag_id' => 1],
+        ['article_id' => 1, 'tag_id' => 2],
+        ['article_id' => 2, 'tag_id' => 1],
+        ['article_id' => 2, 'tag_id' => 3],
+    ];
 }

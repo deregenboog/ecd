@@ -17,15 +17,15 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.cake.config.unicode.casefolding
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.6833
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
- * The upper field is the decimal value of the upper case character
+ * The upper field is the decimal value of the upper case character.
  *
  * The lower filed is an array of the decimal values that form the lower case version of a character.
  *
@@ -39,4 +39,4 @@
  *     Note that the Turkic mappings do not maintain canonical equivalence without additional processing.
  *     See the discussions of case mapping in the Unicode Standard for more information.
  */
-$config['0250_02af'][] = array('upper' => 422, 'status' => 'C', 'lower' => array(640));
+$config['0250_02af'][] = ['upper' => 422, 'status' => 'C', 'lower' => [640]];

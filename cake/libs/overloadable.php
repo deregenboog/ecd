@@ -11,26 +11,22 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.cake.libs
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
- * Overloadable class selector
- *
- * @package       cake
- * @subpackage    cake.cake.libs
+ * Overloadable class selector.
  */
 
 /**
  * Load the interface class based on the version of PHP.
- *
  */
 if (!PHP5) {
-	require(LIBS . 'overloadable_php4.php');
+    require LIBS.'overloadable_php4.php';
 } else {
-	require(LIBS . 'overloadable_php5.php');
+    require LIBS.'overloadable_php5.php';
 }

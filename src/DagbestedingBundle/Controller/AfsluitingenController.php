@@ -59,7 +59,8 @@ abstract class AfsluitingenController extends SymfonyController
                 $this->dao->create($afsluiting);
                 $this->addFlash('success', $this->entityName.' is toegevoegd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute($this->indexRouteName);
@@ -86,7 +87,8 @@ abstract class AfsluitingenController extends SymfonyController
                 $this->dao->update($afsluiting);
                 $this->addFlash('success', $this->entityName.' is gewijzigd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute($this->indexRouteName);
@@ -112,7 +114,8 @@ abstract class AfsluitingenController extends SymfonyController
                     $this->dao->delete($afsluiting);
                     $this->addFlash('success', $this->entityName.' is verwijderd.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

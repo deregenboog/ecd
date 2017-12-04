@@ -581,7 +581,7 @@ class MediumHelper extends AppHelper {
 		}
 
 		$short = current(array_intersect(Medium::short(), $parts));
-// String::uuid()
+// Str::uuid()
 		if (!$short) {
 			$message  = "MediumHelper::file - ";
 			$message .= "You've provided a partial path without a medium directory (e.g. img) ";

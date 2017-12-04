@@ -106,7 +106,7 @@ class CommonFixture
         $fixtures = &$this->testCaseObj->fixtures;
         foreach ($replacedFixtures as $replaced_fixture => $new_fixture) {
             $key = array_search($replaced_fixture, $fixtures);
-            if ($key !== false) {
+            if (false !== $key) {
                 unset($fixtures[$key]);
                 $fixtures[] = $new_fixture;
             }
@@ -139,7 +139,7 @@ class CommonFixture
         foreach ($includedFixtures as &$fixtureType) {
             $fixtures = $this->getCommonFixtures($fixtureType);
 
-            if ($fixtureType == 'empty') {
+            if ('empty' == $fixtureType) {
                 foreach ($fixtures as &$fixture) {
                     // Empty fixtures are only added if the real ones
                     // are not used already.
@@ -157,7 +157,7 @@ class CommonFixture
                         // A fixture automatically replaces the corresponsing
                         // empty_ one.
                         $key = array_search($empty_fixture, $testCaseFixtures);
-                        if ($key !== false) {
+                        if (false !== $key) {
                             unset($testCaseFixtures[$key]);
                         }
                     }

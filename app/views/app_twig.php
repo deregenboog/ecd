@@ -75,11 +75,11 @@ class AppTwigView extends TwigView
         }
 
         // Setup Twig Environment
-// 		$loader = new Twig_Loader_Filesystem($paths);
-// 		$this->Twig = new Twig_Environment($loader, array(
-// 				'cache' => false, // use cakephp cache
-// 				'debug' => (Configure::read() > 0),
-// 		));
+        // 		$loader = new Twig_Loader_Filesystem($paths);
+        // 		$this->Twig = new Twig_Environment($loader, array(
+        // 				'cache' => false, // use cakephp cache
+        // 				'debug' => (Configure::read() > 0),
+        // 		));
         global $kernel;
         $this->Twig = $kernel->getContainer()->get('twig');
 
@@ -89,8 +89,8 @@ class AppTwigView extends TwigView
         }
 
         // Do not escape return values (from helpers)
-// 		$escaper = new Twig_Extension_Escaper(false);
-// 		$this->Twig->addExtension($escaper);
+        // 		$escaper = new Twig_Extension_Escaper(false);
+        // 		$this->Twig->addExtension($escaper);
 
         // Add custom TwigView Extensions
         $this->twigLoadedExtensions = [];
