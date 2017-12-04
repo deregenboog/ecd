@@ -5,6 +5,16 @@ parameters:
     acl_disabled: false
     doctrine.dbal.connection_factory.class: Liip\FunctionalTestBundle\Factory\ConnectionFactory
     
+services:
+    app.fixtures:
+        class: AppBundle\DataFixtures\AppFixtures
+        tags:
+            - { name: doctrine.fixture.orm }
+    hs.fixtures:
+        class: HsBundle\DataFixtures\HsFixtures
+        tags:
+            - { name: doctrine.fixture.orm }
+
 framework:
     test: ~
     session:

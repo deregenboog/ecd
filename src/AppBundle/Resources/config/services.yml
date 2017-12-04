@@ -56,8 +56,3 @@ services:
     app.dao.vrijwilliger:
         parent: app.dao.abstract
         class: AppBundle\Service\VrijwilligerDao
-
-    app.fixtures:
-        class: AppBundle\DataFixtures\AppFixtures
-        tags:
-            - { name: doctrine.fixture.orm }
