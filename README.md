@@ -1,5 +1,7 @@
 # Electronisch Cliëntendossier (ECD)
 
+[![Build Status](https://travis-ci.org/deregenboog/ecd.svg?branch=master)](https://travis-ci.org/deregenboog/ecd)
+
 ## Requirements
 
 [Docker](https://www.docker.com/) needs to be installed on your system.
