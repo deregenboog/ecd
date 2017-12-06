@@ -37,12 +37,12 @@
 <p>
     Razem z tym formularzem zostaniesz wyslany/a do innej placowki z naszej organizacji , gdzie bedziesz mial/a spotkanie z pracownikiem socjalnym.
     Podczas tej rozmowy, w zaleznosci od twojej indywidualnej sytuacji , zostanie podjeta decyzja czy nasza organizacja jest w stanie oferowac jakas pomoc.
-    Na rozmowe z pracownikiem socjalnym mozesz isc do Ondro Bong, Zeeburgerdijk 53, od poniedzialku i czwartky pomiedzy 09.00 – 11.00.
+    Na rozmowe z pracownikiem socjalnym mozesz isc do Ondro Bong, Zeeburgerdijk 53, w poniedzialek i czwartek pomiedzy 09.00 – 11.00.
 </p>
 <p>
     Cu aceasta scrisoare vei fi trimis catre o alta locatie ce apartine de noi, unde vei avea o intalnire cu un asistent social.
     In timpul acestei intalniri asistentul social va discuta cu tine si va evalua, in functie de situatia in care te afli, daca, si in ce fel, am putea sa te ajutam.
-    Poti merge la Ondro Bong, Zeeburgerdijk 53, pentru a discuta cu un asistent social de luni și joi intre orele 09:00-11:00.
+    Poti merge la Ondro Bong, Zeeburgerdijk 53, pentru a discuta cu un asistent social luni și joi intre orele 09:00-11:00.
 </p>
 <p>
     С этим письмом вы будете отправлены в другое место, где вы получите прием с социальным работником.
