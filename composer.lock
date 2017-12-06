@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f907f9bb991c95f021b990d788c24f9f",
+    "content-hash": "bef76ba7cf9880ba70772c9cca89e501",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
@@ -1213,6 +1213,58 @@
             "time": "2017-10-12T06:26:21+00:00"
         },
         {
+            "name": "herrera-io/version",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kherge-abandoned/php-version.git",
+                "reference": "d39d9642b92a04d8b8a28b871b797a35a2545e85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kherge-abandoned/php-version/zipball/d39d9642b92a04d8b8a28b871b797a35a2545e85",
+                "reference": "d39d9642b92a04d8b8a28b871b797a35a2545e85",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "herrera-io/phpunit-test-case": "1.*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Herrera\\Version": "src/lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Herrera",
+                    "email": "kevin@herrera.io",
+                    "homepage": "http://kevin.herrera.io"
+                }
+            ],
+            "description": "A library for creating, editing, and comparing semantic versioning numbers.",
+            "homepage": "http://github.com/herrera-io/php-version",
+            "keywords": [
+                "semantic",
+                "version"
+            ],
+            "abandoned": true,
+            "time": "2014-05-27T05:29:25+00:00"
+        },
+        {
             "name": "incenteev/composer-parameter-handler",
             "version": "v2.1.2",
             "source": {
@@ -1956,62 +2008,6 @@
             "time": "2017-06-19T01:22:40+00:00"
         },
         {
-            "name": "nikolaposa/version",
-            "version": "2.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikolaposa/version.git",
-                "reference": "139e37a1f8f535c38cbdcbba320db24ccc3d652c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikolaposa/version/zipball/139e37a1f8f535c38cbdcbba320db24ccc3d652c",
-                "reference": "139e37a1f8f535c38cbdcbba320db24ccc3d652c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.11",
-                "phpunit/phpunit": "^4.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Version\\": "src/"
-                },
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nikola Poša",
-                    "email": "posa.nikola@gmail.com",
-                    "homepage": "http://www.nikolaposa.in.rs"
-                }
-            ],
-            "description": "Value Object representing a version number that is in compliance with the SemVer specification.",
-            "homepage": "https://github.com/nikolaposa/version",
-            "keywords": [
-                "semantic",
-                "semver",
-                "version",
-                "versioning"
-            ],
-            "time": "2017-01-01T15:53:22+00:00"
-        },
-        {
             "name": "ocramius/proxy-manager",
             "version": "1.0.2",
             "source": {
@@ -2587,28 +2583,27 @@
         },
         {
             "name": "shivas/versioning-bundle",
-            "version": "2.0.0",
+            "version": "1.4.2",
             "target-dir": "Shivas/VersioningBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shivas/versioning-bundle.git",
-                "reference": "79fa73bd5ba41022b83eae225c9e280ab7e5a1e5"
+                "reference": "5e80126b0a3a834e4ff6a79b3c8e09b6cb6ee734"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/79fa73bd5ba41022b83eae225c9e280ab7e5a1e5",
-                "reference": "79fa73bd5ba41022b83eae225c9e280ab7e5a1e5",
+                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/5e80126b0a3a834e4ff6a79b3c8e09b6cb6ee734",
+                "reference": "5e80126b0a3a834e4ff6a79b3c8e09b6cb6ee734",
                 "shasum": ""
             },
             "require": {
-                "nikolaposa/version": "~2.2",
+                "herrera-io/version": "~1.0",
                 "php": ">=5.3.3",
                 "symfony/process": "~2.2|~3.0",
                 "symfony/symfony": "~2.8|~3.0"
             },
             "require-dev": {
-                "composer/composer": "^1.0",
-                "phpunit/phpunit": "^5.5"
+                "composer/composer": "^1.0@dev"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -2627,7 +2622,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Symfony2|3 application versioning, simple console command to manage version (with providers e.g. git tag) of your application using Semantic Versioning 2.0.0 recomendations",
+            "description": "Symfony2|3 application versioning, simple console command to manage version (with handlers e.g. git tag) of your application using Semantic Versioning 2.0.0 recomendations",
             "homepage": "https://github.com/shivas/versioning-bundle",
             "keywords": [
                 "semantic",
@@ -2635,7 +2630,7 @@
                 "version",
                 "versioning"
             ],
-            "time": "2017-11-19T17:28:33+00:00"
+            "time": "2017-02-06T11:51:22+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -3283,16 +3278,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.0",
+            "version": "v3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "0a47db379b8cc74cdd84e1e6870fafc4a4ac8351"
+                "reference": "46d4a9027c752ce425f67c94e89e3e3098f3a488"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/0a47db379b8cc74cdd84e1e6870fafc4a4ac8351",
-                "reference": "0a47db379b8cc74cdd84e1e6870fafc4a4ac8351",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/46d4a9027c752ce425f67c94e89e3e3098f3a488",
+                "reference": "46d4a9027c752ce425f67c94e89e3e3098f3a488",
                 "shasum": ""
             },
             "require": {
@@ -3434,7 +3429,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-11-30T16:56:19+00:00"
+            "time": "2017-12-04T23:05:15+00:00"
         },
         {
             "name": "twig/twig",
@@ -3915,32 +3910,28 @@
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
-            "version": "3.0.1",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "493961a60036fcd275228ff754c6b0778afda80f"
+                "reference": "74b8cc70a4a25b774628ee59f4cdf3623a146273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/493961a60036fcd275228ff754c6b0778afda80f",
-                "reference": "493961a60036fcd275228ff754c6b0778afda80f",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/74b8cc70a4a25b774628ee59f4cdf3623a146273",
+                "reference": "74b8cc70a4a25b774628ee59f4cdf3623a146273",
                 "shasum": ""
             },
             "require": {
                 "doctrine/data-fixtures": "~1.0",
                 "doctrine/doctrine-bundle": "~1.0",
-                "php": ">=5.5.9|^7.0",
-                "symfony/doctrine-bridge": "~2.7|~3.0|~4.0",
-                "symfony/framework-bundle": "^3.3|^4.0"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^3.3"
+                "php": ">=5.3.2",
+                "symfony/doctrine-bridge": "~2.7|~3.0|~4.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "2.4.x-dev"
                 }
             },
             "autoload": {
@@ -3972,7 +3963,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2017-11-30T12:13:19+00:00"
+            "time": "2017-10-30T19:26:42+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -5571,16 +5562,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.0",
+            "version": "v3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "292c1a79c5c32360c62bbe67022a38c6535094d5"
+                "reference": "9ecf83a2628b4668f02e680f65357c62600749fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/292c1a79c5c32360c62bbe67022a38c6535094d5",
-                "reference": "292c1a79c5c32360c62bbe67022a38c6535094d5",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/9ecf83a2628b4668f02e680f65357c62600749fc",
+                "reference": "9ecf83a2628b4668f02e680f65357c62600749fc",
                 "shasum": ""
             },
             "require": {
@@ -5629,7 +5620,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-22T11:41:29+00:00"
+            "time": "2017-12-04T20:23:06+00:00"
         },
         {
             "name": "symfony/polyfill-php72",

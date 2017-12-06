@@ -9,6 +9,10 @@ class AppKernel extends Kernel
     {
         parent::boot();
 
+        if ('cli' === php_sapi_name()) {
+            @define('WWW_ROOT', '');
+        }
+
         // configure CakeHPHP
         require __DIR__.'/bootstrap_cake.php';
         $cakeConfig = $this->getContainer()->get('cake.configuration');
