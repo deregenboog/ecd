@@ -20,6 +20,7 @@ class AppFixtures extends Fixture
         $this->loadNationaliteiten($manager);
 
         $medewerker = new Medewerker();
+        $medewerker->setUsername('user_1');
         $manager->persist($medewerker);
         $this->setReference('medewerker_1', $medewerker);
 
