@@ -82,6 +82,11 @@ class KernelSubscriber implements EventSubscriberInterface
             // inject controller in base controller used by CakePHP
             \AppController::$staticContainer = $this->container;
 
+            // adjust error level
+//             if ($this->container->getParameter('kernel.debug')) {
+//                 Debug::enable(E_ALL & ~E_NOTICE);
+//             }
+
             // delegate control to CakePHP
             $dispatcher = new \Dispatcher();
             $dispatcher->dispatch();
