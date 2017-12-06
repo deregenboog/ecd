@@ -48,9 +48,13 @@
 /bin/*
 !/bin/bump-version
 !/bin/console
+!/bin/deploy.sh
+!/bin/deploy-without-backup.sh
 !/bin/docker-build.sh
-!/bin/docker-up.sh
 !/bin/docker-stop.sh
+!/bin/docker-up.sh
+!/bin/setup-file-permissinos.sh
+
 /app/bootstrap.php.cache
 /.php_cs.cache
 /phpunit.xml
