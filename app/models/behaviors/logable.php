@@ -220,8 +220,10 @@ class LogableBehavior extends ModelBehavior
         return $res;
     }
 
-    /** Gets the last logged modification for a particular object, children are
-     * ignored. Extra search conditions can be passed. */
+    /**
+     * Gets the last logged modification for a particular object, children are
+     * ignored. Extra search conditions can be passed.
+     */
     public function findLastModification(&$Model, $id = null, $conditions = [])
     {
         if (!$id) {
@@ -232,12 +234,12 @@ class LogableBehavior extends ModelBehavior
         }
 
         $log = $Model->findLog([
-                     $this->settings[$Model->alias]['classField'] => $Model->alias,
-                     $this->settings[$Model->alias]['foreignKey'] => $id,
-                     'conditions' => $conditions,
-                     'order' => 'Log.created DESC',
-                     'limit' => 1,
-                     ]);
+            $this->settings[$Model->alias]['classField'] => $Model->alias,
+            $this->settings[$Model->alias]['foreignKey'] => $id,
+            'conditions' => $conditions,
+            'order' => 'Log.created DESC',
+            'limit' => 1,
+        ]);
         if (isset($log[0])) {
             return $log[0];
         } else {

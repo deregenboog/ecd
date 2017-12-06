@@ -6,11 +6,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\Dienstverlener;
-use AppBundle\Entity\Geslacht;
 use HsBundle\Entity\Activiteit;
-use Tests\AppBundle\DataFixtures\AppFixtures;
 use HsBundle\Entity\Vrijwilliger;
 
 class HsFixtures extends Fixture

@@ -78,7 +78,6 @@ class KernelSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getException();
         if ($exception instanceof NotFoundHttpException) {
-
             // inject controller in base controller used by CakePHP
             \AppController::$staticContainer = $this->container;
 

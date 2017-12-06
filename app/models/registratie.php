@@ -660,7 +660,7 @@ class Registratie extends AppModel
 
         foreach ($fields as $field) {
             $prev_val = $previous_registration['Registratie'][$field];
-            if (1 == $prev_val || $prev_val == -1) {
+            if (1 == $prev_val || -1 == $prev_val) {
                 $this->set($field, $prev_val);
                 $previous_registration['Registratie'][$field] = 0;
                 $changed = true;

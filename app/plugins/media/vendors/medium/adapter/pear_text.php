@@ -1,6 +1,6 @@
 <?php
 /**
- * Pear Text Medium Adapter File
+ * Pear Text Medium Adapter File.
  *
  * Copyright (c) 2007-2010 David Persson
  *
@@ -10,66 +10,71 @@
  * PHP version 5
  * CakePHP version 1.2
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- * @link       http://github.com/davidpersson/media
+ *
+ * @see       http://github.com/davidpersson/media
  */
 /**
- * Pear Text Medium Adapter Class
+ * Pear Text Medium Adapter Class.
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
- * @link       http://pear.php.net/package/Text_Statistics
+ * @see       http://pear.php.net/package/Text_Statistics
  */
-class PearTextMediumAdapter extends MediumAdapter {
-	var $require = array(
-		'mimeTypes' => array('text/plain'),
-		'imports' => array(
-			array('type' => 'Vendor','name' => 'Text_Statistics','file' => 'Text/Statistics.php')
-	));
+class PearTextMediumAdapter extends MediumAdapter
+{
+    public $require = [
+        'mimeTypes' => ['text/plain'],
+        'imports' => [
+            ['type' => 'Vendor', 'name' => 'Text_Statistics', 'file' => 'Text/Statistics.php'],
+    ], ];
 
-	function initialize($Medium) {
-		if (isset($Medium->objects['Text_Statistics'])) {
-			return true;
-		}
+    public function initialize($Medium)
+    {
+        if (isset($Medium->objects['Text_Statistics'])) {
+            return true;
+        }
 
-		if (!isset($Medium->contents['raw'])) {
-			if (!isset($Medium->file)) {
-				return false;
-			}
-			if (!$raw = file_get_contents($Medium->file)) {
-				return false;
-			}
-			$Medium->contents['raw'] = $raw;
-		}
+        if (!isset($Medium->contents['raw'])) {
+            if (!isset($Medium->file)) {
+                return false;
+            }
+            if (!$raw = file_get_contents($Medium->file)) {
+                return false;
+            }
+            $Medium->contents['raw'] = $raw;
+        }
 
-		$Medium->objects['Text_Statistics'] = @new Text_Statistics($Medium->contents['raw']);
-		return true;
-	}
+        $Medium->objects['Text_Statistics'] = @new Text_Statistics($Medium->contents['raw']);
 
-	function syllables($Medium) {
-		return $Medium->objects['Text_Statistics']->numSyllables;
-	}
+        return true;
+    }
 
-	function words($unique = false) {
-		if($unique) {
-			return $this->_Text->uniqWords;
-		}
-		return $this->_Text->numWords;
-	}
+    public function syllables($Medium)
+    {
+        return $Medium->objects['Text_Statistics']->numSyllables;
+    }
 
-	function sentences($Medium) {
-		return $Medium->objects['Text_Statistics']->numSentences;
-	}
+    public function words($unique = false)
+    {
+        if ($unique) {
+            return $this->_Text->uniqWords;
+        }
 
-	function fleschScore($Medium) {
-		return $Medium->objects['Text_Statistics']->flesch;
-	}
+        return $this->_Text->numWords;
+    }
 
-	function lexicalDensity() {
-		return round(($this->_Text->uniqWords / $this->_Text->numWords) * 100, 0);
-	}
+    public function sentences($Medium)
+    {
+        return $Medium->objects['Text_Statistics']->numSentences;
+    }
+
+    public function fleschScore($Medium)
+    {
+        return $Medium->objects['Text_Statistics']->flesch;
+    }
+
+    public function lexicalDensity()
+    {
+        return round(($this->_Text->uniqWords / $this->_Text->numWords) * 100, 0);
+    }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Js Medium File
+ * Js Medium File.
  *
  * Copyright (c) 2007-2010 David Persson
  *
@@ -10,43 +10,43 @@
  * PHP version 5
  * CakePHP version 1.2
  *
- * @package    media
- * @subpackage media.libs.medium
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- * @link       http://github.com/davidpersson/media
+ *
+ * @see       http://github.com/davidpersson/media
  */
 App::import('Vendor', 'Media.Medium');
 /**
- * Js Medium Class
- *
- * @package    media
- * @subpackage media.libs.medium
+ * Js Medium Class.
  */
-class JsMedium extends Medium {
-/**
- * Compatible adapters
- *
- * @var array
- */
-	var $adapters = array('Jsmin', 'BasicText');
-/**
- * Number of characters
- *
- * @return integer
- */
-	function characters() {
-		return $this->Adapters->dispatchMethod($this, 'characters', null, array(
-			'normalize' => true
-		));
-	}
-/**
- * Compresses contents. of the medium
- *
- * @return string
- */
-	function compress()  {
-		return $this->Adapters->dispatchMethod($this, 'compress');
-	}
+class JsMedium extends Medium
+{
+    /**
+     * Compatible adapters.
+     *
+     * @var array
+     */
+    public $adapters = ['Jsmin', 'BasicText'];
+
+    /**
+     * Number of characters.
+     *
+     * @return int
+     */
+    public function characters()
+    {
+        return $this->Adapters->dispatchMethod($this, 'characters', null, [
+            'normalize' => true,
+        ]);
+    }
+
+    /**
+     * Compresses contents. of the medium.
+     *
+     * @return string
+     */
+    public function compress()
+    {
+        return $this->Adapters->dispatchMethod($this, 'compress');
+    }
 }
-?>

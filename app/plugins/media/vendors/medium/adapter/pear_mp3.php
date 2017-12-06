@@ -1,6 +1,6 @@
 <?php
 /**
- * Pear Mp3 Medium Adapter File
+ * Pear Mp3 Medium Adapter File.
  *
  * Copyright (c) 2007-2010 David Persson
  *
@@ -10,79 +10,86 @@
  * PHP version 5
  * CakePHP version 1.2
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- * @link       http://github.com/davidpersson/media
+ *
+ * @see       http://github.com/davidpersson/media
  */
 /**
- * Pear Mp3 Medium Adapter Class
+ * Pear Mp3 Medium Adapter Class.
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
- * @link       http://pear.php.net/package/MP3_Id
+ * @see       http://pear.php.net/package/MP3_Id
  */
-class PearMp3MediumAdapter extends MediumAdapter {
-	var $require = array(
-		'mimeTypes' => array('audio/mpeg'),
-		'imports' => array(
-			array('type' => 'Vendor', 'name'=> 'MP3_Id', 'file' => 'MP3/Id.php')
-	));
+class PearMp3MediumAdapter extends MediumAdapter
+{
+    public $require = [
+        'mimeTypes' => ['audio/mpeg'],
+        'imports' => [
+            ['type' => 'Vendor', 'name' => 'MP3_Id', 'file' => 'MP3/Id.php'],
+    ], ];
 
-	function initialize($Medium) {
-		if (isset($Medium->objects['MP3_Id'])) {
-			return true;
-		}
+    public function initialize($Medium)
+    {
+        if (isset($Medium->objects['MP3_Id'])) {
+            return true;
+        }
 
-		if (!isset($Medium->file)) {
-			return false;
-		}
+        if (!isset($Medium->file)) {
+            return false;
+        }
 
-		$Object = new MP3_Id();
-		$Object->read($Medium->file);
-		$Object->study();
+        $Object = new MP3_Id();
+        $Object->read($Medium->file);
+        $Object->study();
 
-		$Medium->objects['MP3_Id'] =& $Object;
-		return true;
-	}
+        $Medium->objects['MP3_Id'] = &$Object;
 
-	function artist($Medium) {
-		return $Medium->objects['MP3_Id']->getTag('artists');
-	}
+        return true;
+    }
 
-	function title($Medium) {
-		return $Medium->objects['MP3_Id']->getTag('name');
-	}
+    public function artist($Medium)
+    {
+        return $Medium->objects['MP3_Id']->getTag('artists');
+    }
 
-	function album($Medium) {
-		return $Medium->objects['MP3_Id']->getTag('album');
-	}
+    public function title($Medium)
+    {
+        return $Medium->objects['MP3_Id']->getTag('name');
+    }
 
-	function year($Medium) {
-		return $Medium->objects['MP3_Id']->getTag('year');
-	}
+    public function album($Medium)
+    {
+        return $Medium->objects['MP3_Id']->getTag('album');
+    }
 
-	function duration($Medium) {
-		$duration = $Medium->objects['MP3_Id']->getTag('lengths');
+    public function year($Medium)
+    {
+        return $Medium->objects['MP3_Id']->getTag('year');
+    }
 
-		if ($duration != -1) {
-			return $duration;
-		}
-	}
+    public function duration($Medium)
+    {
+        $duration = $Medium->objects['MP3_Id']->getTag('lengths');
 
-	function track($Medium) {
-		return $Medium->objects['MP3_Id']->getTag('track');
-	}
+        if ($duration != -1) {
+            return $duration;
+        }
+    }
 
-	function samplingRate($Medium) {
-		return $Medium->objects['MP3_Id']->getTag('frequency');
-	}
+    public function track($Medium)
+    {
+        return $Medium->objects['MP3_Id']->getTag('track');
+    }
 
-	function bitRate($Medium) {
-		if ($bitrate = $Medium->objects['MP3_Id']->getTag('bitrate')) {
-			return $bitrate * 1000;
-		}
-	}
+    public function samplingRate($Medium)
+    {
+        return $Medium->objects['MP3_Id']->getTag('frequency');
+    }
+
+    public function bitRate($Medium)
+    {
+        if ($bitrate = $Medium->objects['MP3_Id']->getTag('bitrate')) {
+            return $bitrate * 1000;
+        }
+    }
 }
-?>

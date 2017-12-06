@@ -1,6 +1,6 @@
 <?php
 /**
- * Ffmpeg Video Medium Adapter File
+ * Ffmpeg Video Medium Adapter File.
  *
  * Copyright (c) 2007-2010 David Persson
  *
@@ -10,83 +10,91 @@
  * PHP version 5
  * CakePHP version 1.2
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- * @link       http://github.com/davidpersson/media
+ *
+ * @see       http://github.com/davidpersson/media
  */
 /**
- * Ffmpeg Video Medium Adapter Class
+ * Ffmpeg Video Medium Adapter Class.
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
- * @link       http://ffmpeg.mplayerhq.hu/
+ * @see       http://ffmpeg.mplayerhq.hu/
  */
-class FfmpegVideoMediumAdapter extends MediumAdapter {
-	var $require = array(
-		'mimeTypes' => array(
-			'video/mpeg',
-			'video/mswmv',
-			'video/msasf',
-			'video/msvideo',
-			'video/quicktime',
-			'video/flv',
-			'video/ogg',
-		),
-		'extensions' => array('ffmpeg', 'gd'),
-	);
+class FfmpegVideoMediumAdapter extends MediumAdapter
+{
+    public $require = [
+        'mimeTypes' => [
+            'video/mpeg',
+            'video/mswmv',
+            'video/msasf',
+            'video/msvideo',
+            'video/quicktime',
+            'video/flv',
+            'video/ogg',
+        ],
+        'extensions' => ['ffmpeg', 'gd'],
+    ];
 
-	function initialize($Medium) {
-		if (isset($Medium->objects['ffmpeg_movie'])) {
-			return true;
-		}
+    public function initialize($Medium)
+    {
+        if (isset($Medium->objects['ffmpeg_movie'])) {
+            return true;
+        }
 
-		if (!isset($Medium->file)) {
-			return false;
-		}
+        if (!isset($Medium->file)) {
+            return false;
+        }
 
-		$Medium->objects['ffmpeg_movie'] = new ffmpeg_movie($Medium->file);
-		return true;
-	}
+        $Medium->objects['ffmpeg_movie'] = new ffmpeg_movie($Medium->file);
 
-	function convert($Medium, $mimeType) {
-		if (Medium::name(null, $mimeType) === 'Image') {
-			$randomFrame = rand(1, $Medium->objects['ffmpeg_movie']->getFrameCount() - 1);
-			$resource = $Medium->objects['ffmpeg_movie']->getFrame($randomFrame)->toGDImage();
+        return true;
+    }
 
-			if (!is_resource($resource)) {
-				return false;
-			}
+    public function convert($Medium, $mimeType)
+    {
+        if ('Image' === Medium::name(null, $mimeType)) {
+            $randomFrame = rand(1, $Medium->objects['ffmpeg_movie']->getFrameCount() - 1);
+            $resource = $Medium->objects['ffmpeg_movie']->getFrame($randomFrame)->toGDImage();
 
-			$Image = Medium::factory(array('gd' => $resource), 'image/gd');
-			return $Image->convert($mimeType);
-		}
-		return false;
-	}
+            if (!is_resource($resource)) {
+                return false;
+            }
 
-	function title($Medium) {
-		return $Medium->objects['ffmpeg_movie']->getTitle();
-	}
+            $Image = Medium::factory(['gd' => $resource], 'image/gd');
 
-	function year($Medium) {
-		return $Medium->objects['ffmpeg_movie']->getYear();
-	}
+            return $Image->convert($mimeType);
+        }
 
-	function duration($Medium) {
-		return $Medium->objects['ffmpeg_movie']->getDuration();
-	}
+        return false;
+    }
 
-	function width($Medium) {
-		return $Medium->objects['ffmpeg_movie']->getFrameWidth();
-	}
+    public function title($Medium)
+    {
+        return $Medium->objects['ffmpeg_movie']->getTitle();
+    }
 
-	function height($Medium) {
-		return $Medium->objects['ffmpeg_movie']->getFrameHeight();
-	}
+    public function year($Medium)
+    {
+        return $Medium->objects['ffmpeg_movie']->getYear();
+    }
 
-	function bitRate($Medium) {
-		return $Medium->objects['ffmpeg_movie']->getBitRate();
-	}
+    public function duration($Medium)
+    {
+        return $Medium->objects['ffmpeg_movie']->getDuration();
+    }
+
+    public function width($Medium)
+    {
+        return $Medium->objects['ffmpeg_movie']->getFrameWidth();
+    }
+
+    public function height($Medium)
+    {
+        return $Medium->objects['ffmpeg_movie']->getFrameHeight();
+    }
+
+    public function bitRate($Medium)
+    {
+        return $Medium->objects['ffmpeg_movie']->getBitRate();
+    }
 }
-?>

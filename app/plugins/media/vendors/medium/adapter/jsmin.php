@@ -1,6 +1,6 @@
 <?php
- /**
- * Jsmin Medium Adapter File
+/**
+ * Jsmin Medium Adapter File.
  *
  * Copyright (c) 2007-2010 David Persson
  *
@@ -10,42 +10,43 @@
  * PHP version 5
  * CakePHP version 1.2
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- * @link       http://github.com/davidpersson/media
+ *
+ * @see       http://github.com/davidpersson/media
  */
 /**
- * Jsmin Medium Adapter Class
+ * Jsmin Medium Adapter Class.
  *
- * @package    media
- * @subpackage media.libs.medium.adapter
- * @link       http://code.google.com/p/jsmin-php/
+ * @see       http://code.google.com/p/jsmin-php/
  */
-class JsminMediumAdapter extends MediumAdapter {
-	var $require = array(
-		'mimeTypes' => array('application/javascript'),
-		'imports' => array(array('type' => 'Vendor', 'name'=> 'JSMin', 'file' => 'jsmin.php')),
-	);
+class JsminMediumAdapter extends MediumAdapter
+{
+    public $require = [
+        'mimeTypes' => ['application/javascript'],
+        'imports' => [['type' => 'Vendor', 'name' => 'JSMin', 'file' => 'jsmin.php']],
+    ];
 
-	function initialize($Medium) {
-		if (isset($Medium->contents['raw'])) {
-			return true;
-		}
+    public function initialize($Medium)
+    {
+        if (isset($Medium->contents['raw'])) {
+            return true;
+        }
 
-		if (!isset($Medium->file)) {
-			return false;
-		}
-		return $Medium->contents['raw'] = file_get_contents($Medium->file);
-	}
+        if (!isset($Medium->file)) {
+            return false;
+        }
 
-	function store($Medium, $file) {
-		return file_put_contents($Medium->contents['raw'], $file);
-	}
+        return $Medium->contents['raw'] = file_get_contents($Medium->file);
+    }
 
-	function compress($Medium) {
-		return $Medium->contents['raw'] = trim(JSMin::minify($Medium->contents['raw']));
-	}
+    public function store($Medium, $file)
+    {
+        return file_put_contents($Medium->contents['raw'], $file);
+    }
+
+    public function compress($Medium)
+    {
+        return $Medium->contents['raw'] = trim(JSMin::minify($Medium->contents['raw']));
+    }
 }
-?>

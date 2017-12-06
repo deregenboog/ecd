@@ -61,6 +61,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * Combines the filter "money" and "color".
      *
      * @param float $value
+     *
      * @return string
      */
     public function saldoFilter($value)
@@ -75,6 +76,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * Inversed version of "saldo" filter.
      *
      * @param float $value
+     *
      * @return string
      */
     public function factuurSaldoFilter($value)

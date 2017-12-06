@@ -1,6 +1,6 @@
 <?php
 /**
- * Icon Medium File
+ * Icon Medium File.
  *
  * Copyright (c) 2007-2010 David Persson
  *
@@ -10,21 +10,17 @@
  * PHP version 5
  * CakePHP version 1.2
  *
- * @package    media
- * @subpackage media.libs.medium
  * @copyright  2007-2010 David Persson <davidpersson@gmx.de>
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- * @link       http://github.com/davidpersson/media
+ *
+ * @see       http://github.com/davidpersson/media
  */
 if (!class_exists('ImageMedium')) {
-	App::import('Vendor', 'Media.ImageMedium', array('file' => 'medium' . DS . 'image.php'));
+    App::import('Vendor', 'Media.ImageMedium', ['file' => 'medium'.DS.'image.php']);
 }
 /**
- * Icon Medium Class
- *
- * @package    media
- * @subpackage media.libs.medium
+ * Icon Medium Class.
  */
-class IconMedium extends ImageMedium {
+class IconMedium extends ImageMedium
+{
 }
-?>

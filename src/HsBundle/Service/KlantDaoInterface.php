@@ -5,7 +5,6 @@ namespace HsBundle\Service;
 use HsBundle\Entity\Klant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 interface KlantDaoInterface
 {

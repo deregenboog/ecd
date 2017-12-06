@@ -7,7 +7,6 @@ use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
 use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\BetalingDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;

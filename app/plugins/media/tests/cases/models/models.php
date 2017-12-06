@@ -1,29 +1,35 @@
 <?php
-class Movie extends CakeTestModel {
-	var $name = 'Movie';
-	var $useTable = 'movies';
-	var $hasMany = array('Actor');
+
+class Movie extends CakeTestModel
+{
+    public $name = 'Movie';
+    public $useTable = 'movies';
+    public $hasMany = ['Actor'];
 }
 
-class Actor extends CakeTestModel {
-	var $name = 'Actor';
-	var $useTable = 'actors';
-	var $belongsTo = array('Movie');
+class Actor extends CakeTestModel
+{
+    public $name = 'Actor';
+    public $useTable = 'actors';
+    public $belongsTo = ['Movie'];
 }
 
-class Unicorn extends CakeTestModel {
-	var $name = 'Unicorn';
-	var $useTable = false;
-	var $beforeMakeArgs = array();
+class Unicorn extends CakeTestModel
+{
+    public $name = 'Unicorn';
+    public $useTable = false;
+    public $beforeMakeArgs = [];
 
-	function beforeMake() {
-		$this->beforeMakeArgs[] = func_get_args();
-		return false;
-	}
+    public function beforeMake()
+    {
+        $this->beforeMakeArgs[] = func_get_args();
+
+        return false;
+    }
 }
 
-class Pirate extends CakeTestModel {
-	var $name = 'Pirate';
-	var $useTable = 'pirates';
+class Pirate extends CakeTestModel
+{
+    public $name = 'Pirate';
+    public $useTable = 'pirates';
 }
-?>
