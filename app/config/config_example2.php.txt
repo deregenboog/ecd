@@ -7,7 +7,6 @@ $ldap['port'] = 389;
 $ldap['baseDn'] = 'dc=toltech,dc=nl';
 
 define( 'GROUP_ADMIN', 10021 );
-define( 'GROUP_DEVELOP', 10021 );
 define( 'GROUP_VOLUNTEERS', 10021 );
 define( 'GROUP_STAGE', 10021 );
 define( 'GROUP_PORTIER', 10021 );

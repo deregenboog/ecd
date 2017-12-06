@@ -89,7 +89,7 @@ class MedewerkersController extends AppController
             $this->log(['LdapUser' => $ldap, 'Group' => $user_groups], 'login');
 
             // valid users need to belong to at least one of the known groups.
-            $permissions = Configure::read('ACL.permissions');
+            $permissions = $this->container->getParameter('ACL.permissions');
             $is_ok = false;
             foreach (array_keys($permissions) as $known_group) {
                 if (in_array($known_group, $user_groups)) {

@@ -55,6 +55,7 @@ class CakeConfigurationCompilerPass implements CompilerPassInterface
             unset($params['ACL.permissions'][$key]);
         }
         $config->set('ACL.permissions', $params['ACL.permissions']);
+        $container->setParameter('ACL.permissions', $params['ACL.permissions']);
 
         $container->setParameter('all_menu_items', $params['all_menu_items']);
 

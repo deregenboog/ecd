@@ -151,19 +151,6 @@ class Hi5Controller extends AppController
 
         $viewElementOptions = 0;
 
-        if (isset($this->userGroups[GROUP_DEVELOP])) {
-            $viewElementOptions |= HI5_CREATE_INTAKES | HI5_VIEW_INTAKES;
-            $viewElementOptions |= HI5_VIEW_EVALUATIONS;
-            $viewElementOptions |= HI5_CREATE_TB_CJ;
-            $viewElementOptions |= HI5_CREATE_EVALUATIONS;
-            $viewElementOptions |= HI5_CREATE_WB_CJ;
-
-            $this->permissions = $viewElementOptions;
-            $this->set(compact('viewElementOptions'));
-
-            return;
-        }
-
         if (isset($this->userGroups[GROUP_TRAJECTBEGELEIDER])) {
             $viewElementOptions |= HI5_CREATE_INTAKES | HI5_VIEW_INTAKES;
             $viewElementOptions |= HI5_VIEW_EVALUATIONS;

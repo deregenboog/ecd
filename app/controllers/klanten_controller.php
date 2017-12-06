@@ -16,10 +16,10 @@ class KlantenController extends AppController
     {
         $auth = parent::_isControllerAuthorized($controller);
 
-        if ($auth
-            && 'merge' == $this->action || 'findDuplicates' == $this->action
+        if ($auth && 'merge' == $this->action
+            || 'findDuplicates' == $this->action
         ) {
-            $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]) || isset($this->userGroups[GROUP_DEVELOP]);
+            $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]);
         }
 
         return $auth;

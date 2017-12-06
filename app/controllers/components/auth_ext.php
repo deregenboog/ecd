@@ -83,11 +83,6 @@ class AuthExtComponent extends AuthComponent
      */
     public function isAuthorized($type = null, $object = null, $user = null)
     {
-        if (Configure::read('ACL.disabled')) {
-            // ACL disabled with a flag
-            return true;
-        }
-
         // $valid = parent::isAuthorized($type, $object, $user);
         $valid = false;
 

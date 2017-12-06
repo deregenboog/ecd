@@ -23,6 +23,11 @@ class Medewerker
     private $id;
 
     /**
+     * @ORM\Column(nullable=false)
+     */
+    private $username;
+
+    /**
      * @ORM\Column(name="active", type="boolean")
      */
     private $actief = true;
@@ -31,6 +36,18 @@ class Medewerker
      * @ORM\Column(name="groups", type="json_array", nullable=true)
      */
     private $groepen = [];
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     public function getNaam()
     {

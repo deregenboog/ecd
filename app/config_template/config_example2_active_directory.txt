@@ -10,7 +10,6 @@ $ldap['username'] = 'YOURDOMAIN\\user';
 $ldap['password'] = '******'; // default user to connect, active directory does not allow annon access
 
 define('GROUP_ADMIN', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
-define('GROUP_DEVELOP', 'CN=develop,CN=Users,DC=yourdomain,DC=ext');
 define('GROUP_VOLONTEERS', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
 define('GROUP_STAGE', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
 define('GROUP_PORTIER', 'CN=yourgroup,CN=Users,DC=yourdomain,DC=ext');
