@@ -146,15 +146,6 @@ class AbstractController extends SymfonyController
         return $this->processForm($request, $entity);
     }
 
-    protected function getMedewerker()
-    {
-        if (isset($_SESSION['Auth']['Medewerker']['id'])) {
-            $medewerkId = (int) $_SESSION['Auth']['Medewerker']['id'];
-
-            return $this->getEntityManager()->find(Medewerker::class, $medewerkId);
-        }
-    }
-
     protected function processForm(Request $request, $entity)
     {
         $form = $this->createForm($this->formClass, $entity, [
