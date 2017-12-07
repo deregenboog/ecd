@@ -47,5 +47,15 @@
             'controller' => 'iz/admin/doelstellingen',
         )) ?>
     </li>
+    <li>
+        <?= $html->link('Doelgroepen', array(
+            'controller' => 'iz/admin/doelgroepen',
+        )) ?>
+    </li>
+    <li>
+        <?= $html->link('Hulpvraagsoorten', array(
+            'controller' => 'iz/admin/hulpvraagsoorten',
+        )) ?>
+    </li>
 </ul>
 <div>&nbsp;</div>

@@ -1,5 +1,7 @@
 imports:
+    - { resource: daos.yml }
     - { resource: exports.yml }
+    - { resource: reports.yml }
 
 services:
     iz.event.diensten_lookup_subscriber:
@@ -9,29 +11,6 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
-
-    iz.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
-    iz.dao.doelstelling:
-        parent: app.dao.abstract
-        class: IzBundle\Service\DoelstellingDao
-
-    iz.dao.klant:
-        parent: app.dao.abstract
-        class: IzBundle\Service\KlantDao
-
-    iz.dao.vrijwilliger:
-        parent: app.dao.abstract
-        class: IzBundle\Service\VrijwilligerDao
-
-    iz.dao.koppeling:
-        parent: odp.dao
-        class: IzBundle\Service\KoppelingDao
 
     iz.repository.doelstelling:
         class: Doctrine\ORM\EntityRepository
@@ -67,141 +46,6 @@ services:
         class: IzBundle\Form\IzRapportageType
         tags:
             - { name: form.type }
-
-    iz.report.managementrapportage:
-        class: IzBundle\Report\Managementrapportage
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-            - "@iz.repository.doelstelling"
-            - "@iz.repository.iz_project"
-        tags:
-            - { name: iz.rapportage, category: Management }
-
-    iz.report.hulpvragen.per_project_stadsdeel:
-        class: IzBundle\Report\HulpvragenPerProjectStadsdeel
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Hulpvragen }
-
-    iz.report.koppelingen.totaal:
-        class: IzBundle\Report\KoppelingenTotaal
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.koppelingen.per_coordinator:
-        class: IzBundle\Report\KoppelingenPerCoordinator
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.koppelingen.per_project:
-        class: IzBundle\Report\KoppelingenPerProject
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.koppelingen.per_stadsdeel:
-        class: IzBundle\Report\KoppelingenPerStadsdeel
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.koppelingen.per_postcodegebied:
-        class: IzBundle\Report\KoppelingenPerPostcodegebied
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.koppelingen.per_project_stadsdeel:
-        class: IzBundle\Report\KoppelingenPerProjectStadsdeel
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.koppelingen.per_project_postcodegebied:
-        class: IzBundle\Report\KoppelingenPerProjectPostcodegebied
-        arguments:
-            - "@iz.repository.iz_hulpvraag"
-        tags:
-            - { name: iz.rapportage, category: Koppelingen }
-
-    iz.report.klanten.totaal:
-        class: IzBundle\Report\KlantenTotaal
-        arguments:
-            - "@iz.repository.iz_klant"
-        tags:
-            - { name: iz.rapportage, category: Deelnemers }
-
-    iz.report.klanten.per_project:
-        class: IzBundle\Report\KlantenPerProject
-        arguments:
-            - "@iz.repository.iz_klant"
-        tags:
-            - { name: iz.rapportage, category: Deelnemers }
-
-    iz.report.klanten.per_stadsdeel:
-        class: IzBundle\Report\KlantenPerStadsdeel
-        arguments:
-            - "@iz.repository.iz_klant"
-        tags:
-            - { name: iz.rapportage, category: Deelnemers }
-
-    iz.report.klanten.per_project_stadsdeel:
-        class: IzBundle\Report\KlantenPerProjectStadsdeel
-        arguments:
-            - "@iz.repository.iz_klant"
-        tags:
-            - { name: iz.rapportage, category: Deelnemers }
-
-    iz.report.vrijwilligers.totaal:
-        class: IzBundle\Report\VrijwilligersTotaal
-        arguments:
-            - "@iz.repository.iz_vrijwilliger"
-        tags:
-            - { name: iz.rapportage, category: Vrijwilligers }
-
-    iz.report.vrijwilligers.totaal_namenlijst:
-        class: IzBundle\Report\VrijwilligersTotaalNamenlijst
-        arguments:
-            - "@iz.repository.iz_vrijwilliger"
-        tags:
-            - { name: iz.rapportage, category: Vrijwilligers }
-
-    iz.report.vrijwilligers.per_project:
-        class: IzBundle\Report\VrijwilligersPerProject
-        arguments:
-            - "@iz.repository.iz_vrijwilliger"
-        tags:
-            - { name: iz.rapportage, category: Vrijwilligers }
-
-    iz.report.vrijwilligers.per_project_namenlijst:
-        class: IzBundle\Report\VrijwilligersPerProjectNamenlijst
-        arguments:
-            - "@iz.repository.iz_vrijwilliger"
-        tags:
-            - { name: iz.rapportage, category: Vrijwilligers }
-
-    iz.report.vrijwilligers.per_stadsdeel:
-        class: IzBundle\Report\VrijwilligersPerStadsdeel
-        arguments:
-            - "@iz.repository.iz_vrijwilliger"
-        tags:
-            - { name: iz.rapportage, category: Vrijwilligers }
-
-    iz.report.vrijwilligers.per_project_stadsdeel:
-        class: IzBundle\Report\VrijwilligersPerProjectStadsdeel
-        arguments:
-            - "@iz.repository.iz_vrijwilliger"
-        tags:
-            - { name: iz.rapportage, category: Vrijwilligers }
 
     iz.data_fixtures.faker_provider:
         class: IzBundle\DataFixtures\IzFakerProvider

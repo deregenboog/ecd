@@ -215,6 +215,8 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
                 - IzBundle\Controller\Doelstellingen
+                - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Hulpvraagsoorten
                 - odp
                 - OdpBundle\Controller\Coordinatoren
                 - OdpBundle\Controller\Documenten
@@ -518,6 +520,8 @@ parameters:
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
                 - IzBundle\Controller\Doelstellingen
+                - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Hulpvraagsoorten
 
         # controller: {label, url}
         all_menu_items:
