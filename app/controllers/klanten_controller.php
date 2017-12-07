@@ -236,32 +236,29 @@ class KlantenController extends AppController
                     $this->Klant->create();
                     $this->Klant->begin();
                     if ($this->Klant->save($this->data)) {
-                        if (empty($generic) && $this->Klant->goesToInfobalie($this->data)) {
-                            $referer = [
-                                    'action' => 'printLetter',
-                                    $this->Klant->id,
-                                    ];
-                        } else {
-                            $referer = ['action' => 'index'];
-                        }
-
-                        $this->flash(__('The klant has been saved', true));
-
-                        if (!empty($this->data['Klant']['referer'])) {
-                            $referer = $this->data['Klant']['referer'];
-                            if (preg_match('/IzDeelnemers/', $this->data['Klant']['referer'])) {
-                                $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id];
-                            }
-                            if (preg_match('/iz_deelnemers/', $this->data['Klant']['referer'])) {
-                                $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id];
-                            }
-                        }
-
                         $this->Klant->commit();
+
+                        // send CRM update email
                         if (!empty($this->Klant->send_admin_email)) {
                             $this->crmUpdate($this->Klant->id);
                         }
 
+                        $this->flash(__('The klant has been saved', true));
+
+                        $referer = ['action' => 'index'];
+                        if (empty($generic) && $this->Klant->goesToInfobalie($this->data)) {
+                            $referer = ['action' => 'printLetter', $this->Klant->id];
+                        } else {
+                            if (!empty($this->data['Klant']['referer'])) {
+                                $referer = $this->data['Klant']['referer'];
+                                if (preg_match('/IzDeelnemers/', $this->data['Klant']['referer'])) {
+                                    $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id];
+                                }
+                                if (preg_match('/iz_deelnemers/', $this->data['Klant']['referer'])) {
+                                    $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id];
+                                }
+                            }
+                        }
                         $this->redirect($referer);
                     } else {
                         $this->Klant->rollback();

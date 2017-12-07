@@ -869,9 +869,10 @@ class RapportagesController extends AppController
     public function management()
     {
         if (!$this->data) {
+            $today = new \DateTime('today');
             $this->data = [
-                'date_from' => ['year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'],
-                'date_to' => ['year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'],
+                'date_from' => ['year' => $today->format('Y'), 'month' => '01', 'day' => '01'],
+                'date_to' => ['year' => $today->format('Y'), 'month' => $today->format('m'), 'day' => $today->format('d')],
             ];
         }
         //dates
