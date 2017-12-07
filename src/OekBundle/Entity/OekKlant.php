@@ -32,6 +32,7 @@ class OekKlant
      * @var OekDossierStatus[]
      *
      * @ORM\ManyToMany(targetEntity="OekDossierStatus", cascade={"persist"})
+     * @ORM\JoinTable(name="oekklant_oekdossierstatus")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $oekDossierStatussen;
