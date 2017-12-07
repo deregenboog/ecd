@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block header %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar-collapse-1"
+                    aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ relative_path('/') }}">
+                    <img src="{{ asset('img/drg-logo-50px.jpg') }}" alt="Logo DRG">
+                </a>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+
+{% block title %}
+    Er is een fout opgetreden
+{% endblock %}
+
+{% block content %}
+    <h1>Er is een fout opgetreden</h1>
+    <p>
+        Neem contact op met Bart Huttinga
+        (<a href="mailto:b.huttinga@deregenboog.org?subject=ECD%20foutmelding">b.huttinga@deregenboog.org</a>)
+        als dit probleem zich blijft voordoen.
+    </p>
+{% endblock %}

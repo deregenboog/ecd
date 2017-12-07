@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <title>ECD | {% block title %}{% endblock title %}</title>
+    <title>ECD | {% block title %}{% endblock %}</title>
 
     <link href="{{ asset('favicon.ico') }}" type="image/x-icon" rel="icon" />
     <link href="{{ asset('favicon.ico') }}" type="image/x-icon" rel="shortcut icon" />
@@ -24,7 +24,9 @@
     <!-- <script type="text/javascript" src="{{ asset('js/fixFloat.jquery.js.js') }}"></script> -->
 </head>
 <body>
-    {% include '::header.html.twig' %}
+    {% block header %}
+        {% include '::header.html.twig' %}
+    {% endblock %}
     <div class="container-fluid">
         {% block subnavigation %}{% endblock %}
         <div class="row">
