@@ -1,0 +1,8 @@
+<h2>Matching</h2>
+{{ html.link('Bewerken', {action: 'matching', 0: id})|raw }}
+<p>&nbsp;</p>
+{% if iz_klant is defined %}
+    {% include 'iz_deelnemers/toon_matching_klant.twig' %}
+{% else %}
+    {% include 'iz_deelnemers/toon_matching_vrijwilliger.twig' %}
+{% endif %}

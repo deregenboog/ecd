@@ -1,12 +1,7 @@
 <?= $this->element('iz_subnavigation') ?>
 
 <?php
-    $upload_url = [
-        'controller' => 'iz_deelnemers',
-        'action' => 'upload',
-        $id,
-    ];
-
+    $upload_url = ['controller' => 'iz_deelnemers', 'action' => 'upload', $id];
     $iz_documents = [];
     if (!empty($persoon['IzDeelnemer']['IzDeelnemerDocument'])) {
         $iz_documents = $persoon['IzDeelnemer']['IzDeelnemerDocument'];
@@ -14,7 +9,6 @@
 ?>
 
 <h2><?= $persoon_model ?></h2>
-
 <div class="vrijwilligers">
     <div class="actions">
         <?= $this->element('persoon_view_basic', [
@@ -70,16 +64,13 @@
                         </li>
                     <?php endif; ?>
                     <li class="<?= $this->action == 'verslagen_persoon' ? 'tab_acted' : '' ?>">
-                        <?= $html->link('Verslagen', [
-                            'action' => 'verslagen_persoon',
-                            $id,
-                        ]); ?>
+                        <?= $html->link('Verslagen', ['action' => 'verslagen_persoon', $id]); ?>
+                    </li>
+                    <li class="<?= $this->action == 'toon_matching' ? 'tab_acted' : '' ?>">
+                        <?= $html->link('Matching', ['action' => 'toon_matching', $id]); ?>
                     </li>
                     <li class="<?= $this->action == 'koppelingen' ? 'tab_acted' : '' ?>">
-                        <?= $html->link('Koppelingen', [
-                            'action' => 'koppelingen',
-                            $id,
-                        ]); ?>
+                        <?= $html->link('Koppelingen', ['action' => 'koppelingen', $id]); ?>
                     </li>
                 <?php endif; ?>
             <?php endif; ?>
@@ -130,6 +121,12 @@
                     case 'verslagen_persoon':
                         echo $this->element('../iz_deelnemers/verslagen');
                         break;
+                    case 'toon_matching':
+                        echo $this->element('../iz_deelnemers/toon_matching');
+                        break;
+                    case 'matching':
+                        echo $this->element('../iz_deelnemers/matching');
+                        break;
                     case 'koppelingen':
                         echo $this->element('../iz_deelnemers/koppelingen');
                         break;
@@ -156,5 +153,5 @@
         }
         Ecd.disable_all('{$is_afgesloten}');
 EOS
-    );
+);
 ?>

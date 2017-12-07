@@ -22,6 +22,13 @@ class IzVrijwilliger extends IzDeelnemer
     protected $vrijwilliger;
 
     /**
+     * @var MatchingVrijwilliger
+     * @ORM\OneToOne(targetEntity="MatchingVrijwilliger", mappedBy="izVrijwilliger")
+     * @Gedmo\Versioned
+     */
+    protected $matching;
+
+    /**
      * @var ArrayCollection|IzHulpaanbod[]
      * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
@@ -73,5 +80,10 @@ class IzVrijwilliger extends IzDeelnemer
         $this->izBinnengekomenVia = $izBinnengekomenVia;
 
         return $this;
+    }
+
+    public function getMatching()
+    {
+        return $this->matching;
     }
 }

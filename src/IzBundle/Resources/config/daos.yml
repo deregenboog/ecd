@@ -1,0 +1,32 @@
+services:
+    iz.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    iz.dao.doelgroep:
+        parent: app.dao.abstract
+        class: IzBundle\Service\DoelgroepDao
+
+    iz.dao.doelstelling:
+        parent: app.dao.abstract
+        class: IzBundle\Service\DoelstellingDao
+
+    iz.dao.hulpvraagsoort:
+        parent: app.dao.abstract
+        class: IzBundle\Service\HulpvraagsoortDao
+
+    iz.dao.klant:
+        parent: app.dao.abstract
+        class: IzBundle\Service\KlantDao
+
+    iz.dao.koppeling:
+        parent: odp.dao
+        class: IzBundle\Service\KoppelingDao
+    
+    iz.dao.vrijwilliger:
+        parent: app.dao.abstract
+        class: IzBundle\Service\VrijwilligerDao
+    
