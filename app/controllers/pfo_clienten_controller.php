@@ -269,15 +269,15 @@ class PfoClientenController extends AppController
             $year_from = intval($this->data['PfoClient']['jaar']);
             $year_to = $year_from + 1;
 
-            $query = "select groep, contact_type, count(*) as count 
-				from pfo_verslagen PfoVerslag 
-				join pfo_clienten_verslagen 
-					on PfoVerslag.id = pfo_verslag_id 
-				join pfo_clienten PfoClient 
-					on PfoClient.id = pfo_client_id		
-				where PfoVerslag.created >= '{$year_from}' 
-					and PfoVerslag.created < '{$year_to}' 
-				group by groep, contact_type";
+            $query = "select groep, contact_type, count(*) as count
+                from pfo_verslagen PfoVerslag
+                join pfo_clienten_verslagen
+                    on PfoVerslag.id = pfo_verslag_id
+                join pfo_clienten PfoClient
+                    on PfoClient.id = pfo_client_id
+                where PfoVerslag.created >= '{$year_from}'
+                    and PfoVerslag.created < '{$year_to}'
+                group by groep, contact_type";
 
             $contact_total = $this->PfoClient->query($query);
 
@@ -327,17 +327,17 @@ class PfoClientenController extends AppController
             $total['Totaal'] = $tot;
             $contact_momenten['Totaal'] = $total;
 
-            $query = "select groep, count(*) as count 
-				from ( 
-					select groep from pfo_clienten PfoClient 
-					join pfo_clienten_verslagen cv 
-						on PfoClient.id = pfo_client_id 
-					where cv.created >= '{$year_from}' 
-						and cv .created < '{$year_to}' 
-					or PfoClient.created >= '{$year_from}' 
-						and PfoClient.created < '{$year_to}' 
-					group by PfoClient.id 
-				) as subq group by groep;";
+            $query = "select groep, count(*) as count
+                from (
+                    select groep from pfo_clienten PfoClient
+                    join pfo_clienten_verslagen cv
+                        on PfoClient.id = pfo_client_id
+                    where cv.created >= '{$year_from}'
+                        and cv .created < '{$year_to}'
+                    or PfoClient.created >= '{$year_from}'
+                        and PfoClient.created < '{$year_to}'
+                    group by PfoClient.id
+                ) as subq group by groep;";
 
             $groep_total = $this->PfoClient->query($query);
             $year = $year_from;
