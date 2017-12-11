@@ -77,10 +77,10 @@
                     {{ huuraanbod.verhuurder.klant.werkgebied }}
                 </td>
                 <td>
-                    {{ huuraanbod.startdatum | date('d-m-Y') }}
+                    {{ huuraanbod.startdatum|date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum | date('d-m-Y') }}
+                    {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum|date('d-m-Y') }}
                     {{ huuraanbod.afsluiting ? '('~huuraanbod.afsluiting~')' }}
                 </td>
                 <td>

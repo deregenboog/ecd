@@ -21,6 +21,8 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     {
         return [
             'tab' => "\t",
+            'now' => new \DateTime('now'),
+            'today' => new \DateTime('today'),
         ];
     }
 

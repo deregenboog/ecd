@@ -66,10 +66,10 @@
                 {{ huurverzoek.huurder.klant.naam }}
             </td>
             <td>
-                {{ huurverzoek.startdatum | date('d-m-Y') }}
+                {{ huurverzoek.startdatum|date('d-m-Y') }}
             </td>
             <td>
-                {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum | date('d-m-Y') }}
+                {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}
                 {{ huurverzoek.afsluiting ? '('~huurverzoek.afsluiting~')' }}
             </td>
             <td>

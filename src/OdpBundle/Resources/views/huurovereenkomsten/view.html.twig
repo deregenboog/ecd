@@ -43,7 +43,16 @@
         <dt>Startdatum</dt>
         <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
         <dt>Opzegdatum</dt>
-        <dd>{{ entity.opzegdatum ? entity.opzegdatum|date('d-m-Y') }}</dd>
+        <dd>
+            {% if entity.opzegdatum %}
+                {% set color = entity.opzegdatum < today and not entity.opzegbriefVerstuurd ? 'red' : 'black' %}
+                <span style="color:{{ color }};">
+                    {{ entity.opzegdatum|date('d-m-Y') }}
+                </span>
+            {% endif %}
+        </dd>
+        <dt>Opzegbrief verstuurd</dt>
+        <dd>{{ entity.opzegbriefVerstuurd ? 'Ja' : 'Nee' }}</dd>
         <dt>Einddatum</dt>
         <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
         <dt>Vorm</dt>

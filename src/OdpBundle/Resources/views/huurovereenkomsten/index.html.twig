@@ -125,13 +125,18 @@
                     {{ huurovereenkomst.medewerker }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.startdatum | date('d-m-Y') }}
+                    {{ huurovereenkomst.startdatum|date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.opzegdatum ? huurovereenkomst.opzegdatum | date('d-m-Y') }}
+                    {% if huurovereenkomst.opzegdatum %}
+                        {% set color = huurovereenkomst.opzegdatum < today and not huurovereenkomst.opzegbriefVerstuurd ? 'red' : 'black' %}
+                        <span style="color:{{ color }};">
+                            {{ huurovereenkomst.opzegdatum|date('d-m-Y') }}
+                        </span>
+                    {% endif %}
                 </td>
                 <td>
-                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum | date('d-m-Y') }}
+                    {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
                 </td>
                 <td>
                     {{ huurovereenkomst.verhuurder.klant.plaats }}
@@ -140,7 +145,7 @@
                     {{ huurovereenkomst.vorm }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum | date('d-m-Y') }}
+                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
                     {{ huurovereenkomst.afsluiting ? '('~huurovereenkomst.afsluiting~')' }}
                 </td>
                 <td>

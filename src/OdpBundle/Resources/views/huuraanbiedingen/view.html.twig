@@ -31,7 +31,7 @@
         <dt>Verhuurder</dt>
         <dd>{{ html.link(huuraanbod.verhuurder.klant, path('odp_verhuurders_view', {id: huuraanbod.verhuurder.id})) }}</dd>
         <dt>Startdatum</dt>
-        <dd>{{ huuraanbod.startdatum | date('d-m-Y') }}</dd>
+        <dd>{{ huuraanbod.startdatum|date('d-m-Y') }}</dd>
         <dt>Toestemming aangevraagd</dt>
         <dd>
             {{ huuraanbod.datumToestemmingAangevraagd ? huuraanbod.datumToestemmingAangevraagd|date('d-m-Y') }}
@@ -41,7 +41,7 @@
             {{ huuraanbod.datumToestemmingToegekend ? huuraanbod.datumToestemmingToegekend|date('d-m-Y') }}
         </dd>
         <dt>Afsluitdatum</dt>
-        <dd>{{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum | date('d-m-Y') }}</dd>
+        <dd>{{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
         <dd>{{ huuraanbod.afsluiting }}</dd>
         <dt>Koppeling</dt>
