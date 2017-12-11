@@ -49,6 +49,12 @@ class Huurovereenkomst
     private $opzegdatum;
 
     /**
+     * @ORM\Column(name="opzegbrief_verstuurd", type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $opzegbriefVerstuurd = false;
+
+    /**
      * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
@@ -269,5 +275,17 @@ class Huurovereenkomst
     public function setVorm($vorm)
     {
         $this->vorm = $vorm;
+    }
+
+    public function isOpzegbriefVerstuurd()
+    {
+        return $this->opzegbriefVerstuurd;
+    }
+
+    public function setOpzegbriefVerstuurd($opzegbriefVerstuurd)
+    {
+        $this->opzegbriefVerstuurd = (bool) $opzegbriefVerstuurd;
+
+        return $this;
     }
 }
