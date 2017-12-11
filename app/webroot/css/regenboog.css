@@ -273,6 +273,8 @@ h3.with_margin {
 
 div#subheader {
     background-color: #E8F9D4;
+    padding: 10px 10px 0 10px;
+    margin-bottom: 10px;
 }
 
 /*the achternaam column made slightly wider*/
@@ -674,6 +676,7 @@ fieldset {
     margin-bottom: 1em;
     padding: 16px 20px;
     background: white;
+    width: 100%;
 }
 fieldset legend {
     background:#fff;
@@ -958,6 +961,7 @@ ul.tabs li a {
 
 div#subheader a {
     text-decoration: none;
+    margin: 5px;
 }
 
 div#subheader a.selected {
