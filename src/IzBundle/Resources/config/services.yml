@@ -43,7 +43,7 @@ services:
             - IzBundle\Entity\IzVrijwilliger
 
     iz.form.rapportage:
-        class: IzBundle\Form\IzRapportageType
+        class: AppBundle\Form\RapportageType
         tags:
             - { name: form.type }
 

@@ -3,7 +3,7 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use OekBundle\Form\OekRapportageType;
+use AppBundle\Form\RapportageType;
 use OekBundle\Report\AbstractReport;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +17,7 @@ class RapportagesController extends SymfonyController
      */
     public function index()
     {
-        $form = $this->createForm(OekRapportageType::class);
+        $form = $this->createForm(RapportageType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {

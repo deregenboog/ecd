@@ -3,6 +3,7 @@
 namespace ClipBundle\Report;
 
 use ClipBundle\Service\VraagDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class VragenPerWoonplaats extends AbstractReport
 {

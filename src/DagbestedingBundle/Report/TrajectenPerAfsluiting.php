@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Report;
 
 use DagbestedingBundle\Service\TrajectDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class TrajectenPerAfsluiting extends AbstractReport
 {

@@ -76,7 +76,7 @@ class RapportagesController extends SymfonyController
         return $this->export->create($data)->getResponse($filename);
     }
 
-    private function extractDataFromReport(AbstractReport $report)
+    protected function extractDataFromReport(AbstractReport $report)
     {
         return [
             'title' => $report->getTitle(),

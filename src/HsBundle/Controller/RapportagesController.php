@@ -2,7 +2,7 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Form\RapportageType;
+use AppBundle\Form\RapportageType;
 use HsBundle\Report\AbstractReport;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

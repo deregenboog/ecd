@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Report;
 
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class DeelnemersPerLocatie extends AbstractReport
 {

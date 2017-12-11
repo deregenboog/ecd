@@ -4,6 +4,7 @@ namespace ClipBundle\Report;
 
 use ClipBundle\Service\VraagDaoInterface;
 use ClipBundle\Service\ContactmomentDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class ContactmomentenPerLeeftijdscategorie extends AbstractReport
 {

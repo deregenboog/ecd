@@ -2,7 +2,7 @@
 
 namespace DagbestedingBundle\Controller;
 
-use DagbestedingBundle\Form\ReportingType;
+use AppBundle\Form\RapportageType;
 use Symfony\Component\Routing\Annotation\Route;
 use DagbestedingBundle\Report\AbstractReport;
 use AppBundle\Controller\AbstractController;
@@ -29,7 +29,7 @@ class ReportingController extends SymfonyController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(ReportingType::class);
+        $form = $this->createForm(RapportageType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

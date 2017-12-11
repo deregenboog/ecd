@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Report;
 
 use DagbestedingBundle\Service\DagdeelDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class DagdelenPerDeelnemer extends AbstractReport
 {
