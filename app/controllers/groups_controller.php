@@ -9,7 +9,7 @@
 class GroupsController extends AppController
 {
     public $name = 'Groups';
-    public $helpers = array('Html', 'Form');
+    public $helpers = ['Html', 'Form'];
     public $uses = [];
 
     public function beforeFilter()
@@ -29,7 +29,7 @@ class GroupsController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid Group', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('group', $this->Group->read(null, $id));
     }
@@ -40,7 +40,7 @@ class GroupsController extends AppController
             $this->Group->create();
             if ($this->Group->save($this->data)) {
                 $this->flashError(__('The Group has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The Group could not be saved. Please, try again.', true));
             }
@@ -51,12 +51,12 @@ class GroupsController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid Group', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Group->save($this->data)) {
                 $this->flashError(__('The Group has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The Group could not be saved. Please, try again.', true));
             }
@@ -70,14 +70,14 @@ class GroupsController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for Group', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Group->del($id)) {
             $this->flashError(__('Group deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('The Group could not be deleted. Please, try again.', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     /** Copy all LDAP groups to a local table. We don't need this if we
@@ -112,7 +112,7 @@ class GroupsController extends AppController
      * http://agilo.toltech.nl/trac/wiki/HandleDatabaseEntries.
      * http://book.cakephp.org/complete/641/Simple-Acl-controlled-Application.
 
-     * Make function _private to deactivate it
+     * Make function _private to deactivate it.
      */
     public function admin_build_acl()
     {
@@ -124,7 +124,7 @@ class GroupsController extends AppController
         $aco = &$this->Acl->Aco;
         $root = $aco->node('controllers');
         if (!$root) {
-            $aco->create(array('parent_id' => null, 'model' => null, 'alias' => 'controllers'));
+            $aco->create(['parent_id' => null, 'model' => null, 'alias' => 'controllers']);
             $root = $aco->save();
             $root['Aco']['id'] = $aco->id;
             $log[] = 'Created Aco node for controllers';
@@ -152,7 +152,7 @@ class GroupsController extends AppController
             if ($this->_isPlugin($ctrlName)) {
                 $pluginNode = $aco->node('controllers/'.$this->_getPluginName($ctrlName));
                 if (!$pluginNode) {
-                    $aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $this->_getPluginName($ctrlName)));
+                    $aco->create(['parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $this->_getPluginName($ctrlName)]);
                     $pluginNode = $aco->save();
                     $pluginNode['Aco']['id'] = $aco->id;
                     $log[] = 'Created Aco node for '.$this->_getPluginName($ctrlName).' Plugin';
@@ -163,12 +163,12 @@ class GroupsController extends AppController
             if (!$controllerNode) {
                 if ($this->_isPlugin($ctrlName)) {
                     $pluginNode = $aco->node('controllers/'.$this->_getPluginName($ctrlName));
-                    $aco->create(array('parent_id' => $pluginNode['0']['Aco']['id'], 'model' => null, 'alias' => $this->_getPluginControllerName($ctrlName)));
+                    $aco->create(['parent_id' => $pluginNode['0']['Aco']['id'], 'model' => null, 'alias' => $this->_getPluginControllerName($ctrlName)]);
                     $controllerNode = $aco->save();
                     $controllerNode['Aco']['id'] = $aco->id;
                     $log[] = 'Created Aco node for '.$this->_getPluginControllerName($ctrlName).' '.$this->_getPluginName($ctrlName).' Plugin Controller';
                 } else {
-                    $aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $ctrlName));
+                    $aco->create(['parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $ctrlName]);
                     $controllerNode = $aco->save();
                     $controllerNode['Aco']['id'] = $aco->id;
                     $log[] = 'Created Aco node for '.$ctrlName;
@@ -189,7 +189,7 @@ class GroupsController extends AppController
                 }
                 $methodNode = $aco->node('controllers/'.$ctrlName.'/'.$method);
                 if (!$methodNode) {
-                    $aco->create(array('parent_id' => $controllerNode['Aco']['id'], 'model' => null, 'alias' => $method));
+                    $aco->create(['parent_id' => $controllerNode['Aco']['id'], 'model' => null, 'alias' => $method]);
                     $methodNode = $aco->save();
                     $log[] = 'Created Aco node for '.$ctrlName.'/'.$method;
                 }
@@ -215,9 +215,9 @@ class GroupsController extends AppController
         $properties = get_class_vars($ctrlclass);
         if (array_key_exists('scaffold', $properties)) {
             if ($properties['scaffold'] == 'admin') {
-                $methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
+                $methods = array_merge($methods, ['admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete']);
             } else {
-                $methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
+                $methods = array_merge($methods, ['add', 'edit', 'index', 'view', 'delete']);
             }
         }
 
@@ -277,7 +277,7 @@ class GroupsController extends AppController
     {
         App::import('Core', 'File', 'Folder');
         $paths = Configure::getInstance();
-        $folder = &new Folder();
+        $folder = new Folder();
         $folder->cd(APP.'plugins');
 
         // Get the list of plugins
@@ -366,33 +366,33 @@ class GroupsController extends AppController
         /** Patterns are regular expressions, so 'edit' enables actions like
          admin_, _private and base methods are ignored anyway.
          */
-        $enable_patterns = array(
-            GROUP_PORTIER => array(
-                    'Registraties' => array('.*'),
-                    ),
-            GROUP_MLO => array(
-                    'Intakes' => array('.*'),
-                    'Klanten' => array('.*'),
-                    'Registraties' => array('.*'),
-                    ),
-            GROUP_MAATSCHAPPELIJK => array(
-                    'Intakes' => array('.*'),
-                    'Klanten' => array('.*'),
-                    'MaatschappelijkWerken' => array('.*'),
-                    ),
-            GROUP_HI5 => array(
-                    'Intakes' => array('.*'),
-                    'Klanten' => array('.*'),
-                    'HiFive' => array('.*'),
-                    ),
-            GROUP_ADMIN => array(
-                    'Intakes' => array('.*'),
-                    'Klanten' => array('.*'),
-                    'HiFive' => array('.*'),
-                    'MaatschappelijkWerken' => array('.*'),
-                    'Registraties' => array('.*'),
-                    ),
-            );
+        $enable_patterns = [
+            GROUP_PORTIER => [
+                    'Registraties' => ['.*'],
+                    ],
+            GROUP_MLO => [
+                    'Intakes' => ['.*'],
+                    'Klanten' => ['.*'],
+                    'Registraties' => ['.*'],
+                    ],
+            GROUP_MAATSCHAPPELIJK => [
+                    'Intakes' => ['.*'],
+                    'Klanten' => ['.*'],
+                    'MaatschappelijkWerken' => ['.*'],
+                    ],
+            GROUP_HI5 => [
+                    'Intakes' => ['.*'],
+                    'Klanten' => ['.*'],
+                    'HiFive' => ['.*'],
+                    ],
+            GROUP_ADMIN => [
+                    'Intakes' => ['.*'],
+                    'Klanten' => ['.*'],
+                    'HiFive' => ['.*'],
+                    'MaatschappelijkWerken' => ['.*'],
+                    'Registraties' => ['.*'],
+                    ],
+            ];
 
         $log = [];
 
@@ -464,7 +464,6 @@ class GroupsController extends AppController
      */
     public function clear_cache()
     {
-
         // Clear contents of cache directories
         clearCache(null, 'views');
         clearCache(null, 'models');
@@ -480,7 +479,7 @@ class GroupsController extends AppController
             debug(apc_cache_info());
         }
 
-        if (in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+        if (in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
             echo "Local access.\n";
         }
 

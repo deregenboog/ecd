@@ -14,7 +14,7 @@ class Hi5IntakesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid hi5 intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->set('hi5Intake', $this->Hi5Intake->read(null, $id));
@@ -27,7 +27,7 @@ class Hi5IntakesController extends AppController
 
             if ($this->Hi5Intake->save($this->data)) {
                 $this->flash(__('The hi5 intake has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The hi5 intake could not be saved. Please, try again.', true));
             }
@@ -73,7 +73,7 @@ class Hi5IntakesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid hi5 intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -86,7 +86,7 @@ class Hi5IntakesController extends AppController
 
             if ($this->Hi5Intake->save($this->data)) {
                 $this->flash(__('The hi5 intake has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The hi5 intake could not be saved. Please, try again.', true));
             }
@@ -98,7 +98,7 @@ class Hi5IntakesController extends AppController
 
         $klanten = $this->Hi5Intake->Klant->find('list');
 
-        $this->setMedewerkers($this->data['Hi5Instake']['medewerker_id']);
+        $this->setMedewerkers([$this->data['Hi5Instake']['medewerker_id']]);
 
         $verblijfstatussen = $this->Hi5Intake->Verblijfstatus->find('list');
         $legitimaties = $this->Hi5Intake->Legitimatie->find('list');
@@ -135,16 +135,16 @@ class Hi5IntakesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for hi5 intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->Hi5Intake->delete($id)) {
             $this->flashError(__('Hi5 intake deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->flashError(__('Hi5 intake was not deleted', true));
 
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

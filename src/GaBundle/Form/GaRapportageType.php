@@ -7,9 +7,21 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use AppBundle\Form\BaseType;
 
 class GaRapportageType extends AbstractType
 {
+    private $choices = [];
+
+    public function __construct(array $options)
+    {
+        foreach ($options as $category => $reports) {
+            foreach ($reports as $id => $report) {
+                $this->choices[$category][$report->getTitle()] = $id;
+            }
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,26 +45,7 @@ class GaRapportageType extends AbstractType
             ->add('rapport', ChoiceType::class, [
                 'required' => true,
                 'placeholder' => 'Selecteer een rapport',
-                'choices' => [
-                    'Buurtmaatjes' => [
-                        'Buurtmaatjes deelnemers totaal' => 'buurtmaatjes_deelnemers_totaal',
-                        'Buurtmaatjes deelnemers per stadsdeel' => 'buurtmaatjes_deelnemers_per_stadsdeel',
-                        'Buurtmaatjes vrijwilligers totaal' => 'buurtmaatjes_vrijwilligers_totaal',
-                    ],
-                    'ErOpUit' => [
-                        'ErOpUit deelnemers totaal' => 'eropuit_deelnemers_totaal',
-                        'ErOpUit deelnemers per stadsdeel' => 'eropuit_deelnemers_per_stadsdeel',
-                        'ErOpUit vrijwilligers totaal' => 'eropuit_vrijwilligers_totaal',
-                    ],
-                    'Open Huizen' => [
-                        'Open Huis deelnemers totaal' => 'openhuis_deelnemers_totaal',
-                        'Open Huis deelnemers per stadsdeel' => 'openhuis_deelnemers_per_stadsdeel',
-                        'Open Huis vrijwilligers totaal' => 'openhuis_vrijwilligers_totaal',
-                    ],
-                    'Organisatie' => [
-                        'Ondersteunende vrijwilligers totaal' => 'organisatie_vrijwilligers_totaal',
-                    ],
-                ],
+                'choices' => $this->choices,
             ])
         ;
     }
@@ -65,5 +58,13 @@ class GaRapportageType extends AbstractType
         $resolver->setDefaults([
             'method' => 'GET',
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

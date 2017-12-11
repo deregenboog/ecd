@@ -1,25 +1,25 @@
 IzBundle\Entity\IzAfsluiting:
     iz_afsluiting_Overig:
         naam: 'Overig'
-        actief: 1
+        actief: true
     iz_afsluiting_Overleden:
         naam: 'Overleden'
-        actief: 1
+        actief: true
     iz_afsluiting_Verhuisd:
         naam: 'Verhuisd'
-        actief: 1
+        actief: true
     iz_afsluiting_Koppeling loopt niet :
         naam: 'Koppeling loopt niet '
-        actief: 1
+        actief: true
     iz_afsluiting_Geslaagde koppeling:
         naam: 'Geslaagde koppeling'
-        actief: 1
+        actief: true
     iz_afsluiting_Onbereikbaar:
         naam: 'Onbereikbaar'
-        actief: 1
+        actief: true
     iz_afsluiting_Niet meer beschikbaar/nodig:
         naam: 'Niet meer beschikbaar/nodig'
-        actief: 1
+        actief: true
     iz_afsluiting_Foutieve invoer:
         naam: 'Foutieve invoer'
-        actief: null
+        actief: true

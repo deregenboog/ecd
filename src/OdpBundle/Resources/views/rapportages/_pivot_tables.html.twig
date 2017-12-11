@@ -1,0 +1,10 @@
+<p>
+    <strong>
+        Periode: {{ startDate|date('d-m-Y') }} - {{ endDate|date('d-m-Y') }}
+    </strong>
+</p>
+<div>
+    {% for report in reports %}
+        {% include '@Odp/rapportages/_pivot_table.html.twig' %}
+    {% endfor %}
+</div>

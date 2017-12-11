@@ -2,44 +2,55 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @Entity
- * @Table(name="iz_projecten")
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\IzProjectRepository")
+ * @ORM\Table(name="iz_projecten")
+ * @Gedmo\Loggable
  */
 class IzProject
 {
+    const STRATEGY_PRESTATIE_TOTAL = 'total';
+    const STRATEGY_PRESTATIE_STARTED = 'started';
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
-     * @Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
-     * @Column(name="heeft_koppelingen", type="boolean")
+     * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
-    private $heeftKoppelingen;
+    private $heeftKoppelingen = true;
+
+    /**
+     * @ORM\Column(name="prestatie_strategy", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $prestatieStrategy = self::STRATEGY_PRESTATIE_TOTAL;
 
     public function getId()
     {
@@ -99,4 +110,15 @@ class IzProject
         return $this;
     }
 
+    public function getPrestatieStrategy()
+    {
+        return $this->prestatieStrategy;
+    }
+
+    public function setPrestatieStrategy($prestatieStrategy)
+    {
+        $this->prestatieStrategy = $prestatieStrategy;
+
+        return $this;
+    }
 }

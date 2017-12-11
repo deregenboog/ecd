@@ -1,10 +1,12 @@
 <?php
 
+use InloopBundle\Entity\Aanmelding;
+
 class RegistratiesController extends AppController
 {
     public $name = 'Registraties';
-    public $components = array('Filter', 'RequestHandler', 'Session');
-    public $uses = array('Registratie', 'Klant');
+    public $components = ['Filter', 'RequestHandler', 'Session'];
+    public $uses = ['Registratie', 'Klant'];
 
     public function isAuthorized()
     {
@@ -13,13 +15,13 @@ class RegistratiesController extends AppController
         }
 
         $user_groups = $this->AuthExt->user('Group');
-        $volonteers = Configure::read('ACL.volonteers');
+        $volunteers = Configure::read('ACL.volunteers');
 
         if (empty($user_groups)) {
             return false;
         }
 
-        $action_locaties_filter = array(
+        $action_locaties_filter = [
             'index' => 0,
             'ajaxUpdateShowerList' => 1,
             'ajaxUpdateMWList' => 1,
@@ -29,15 +31,16 @@ class RegistratiesController extends AppController
             'delete' => 1,
             'sortRegistraties' => 0,
             'setRegistraties' => 0,
-        );
+        ];
 
         $username = $this->AuthExt->user('username');
 
-        if (isset($volonteers[$username])) {
+        if (isset($volunteers[$username])) {
             if (isset($action_locaties_filter[$this->action])) {
                 if (!empty($this->params['pass'])) {
-                    if (!isset($this->params['pass'][$action_locaties_filter[$this->action]]) ||
-                    ($this->params['pass'][$action_locaties_filter[$this->action]] !== $volonteers[$username])) {
+                    if (!isset($this->params['pass'][$action_locaties_filter[$this->action]])
+                        || ($this->params['pass'][$action_locaties_filter[$this->action]] != $volunteers[$username])
+                    ) {
                         return false;
                     }
                 }
@@ -47,91 +50,86 @@ class RegistratiesController extends AppController
         return true;
     }
 
-    /*
-    |  1 | Blaka Watra					  |
-    |  2 | Princehof					  |
-    |  5 | AMOC							  |
-    |  9 | De Eik						  |
-    | 10 | De Kloof						  |
-    | 11 | Makom						  |
-    | 12 | Nachtopvang De Regenboog Groep |
-    | 13 | Ondro Bong					  |
-    | 14 | Oud West						  |
-    | 15 | De Spreekbuis				  |
-    | 16 | Tabe Rienks Huis				  |
-    | 17 | Vrouwen Nacht Opvang			  |
-    | 18 | Westerpark					  |
-    | 19 | Droogbak						  |
-    | 20 | Valentijn					  |
-    | 21 | Blaka Watra Gebruikersruimte   |
-    | 22 | Amoc Gebruikersruimte		  |
-    | 23 | Noorderpark					  |
-    */
-
     public function index($locatie_id = null)
     {
         if ($locatie_id && $locatie = $this->Registratie->Locatie->getById($locatie_id)) {
             $this->disableCache();
+
             $conditions = $this->Filter->filterData;
+            $conditions[] = ['LasteIntake.toegang_inloophuis' => 1];
+            $conditions[] = ['OR' => [
+                'Klant.overleden NOT' => 1,
+                'Klant.overleden' => null,
+            ]];
 
-            $conditions[] = array('LasteIntake.toegang_inloophuis' => 1);
-            if (!empty($locatie['gebruikersruimte'])) { //Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
-                $conditions[] = array('LasteIntake.locatie1_id' => $locatie_id);
-            } elseif ($locatie['id'] == 17) { // Vrouwen Nacht Opvang
-
+            if (!empty($locatie['gebruikersruimte'])) { // Blaka Watra Gebruikersruimte , Amoc Gebruikersruimte , Princehof
+                $conditions[] = ['LasteIntake.locatie1_id' => $locatie_id];
+            } elseif (17 == $locatie['id']) { // Vrouwen Nacht Opvang
                 $conditions[]['Geslacht.afkorting'] = 'V';
                 $conditions[]['LasteIntake.toegang_vrouwen_nacht_opvang'] = 1;
-            } elseif ($locatie['id'] == 5) { // Amoc
-            } elseif ($locatie['id'] == 12) { //Nachtopvang De Regenboog Groep
+            } elseif (5 == $locatie['id']) { // Amoc
+                $conditions[] = ['OR' => [
+                    'LasteIntake.amoc_toegang_tot >=' => date('Y-m-d'),
+                    'LasteIntake.amoc_toegang_tot' => null,
+                ]];
+            } elseif (12 == $locatie['id']) { // Nachtopvang De Regenboog Groep
             } else { // Rest
-                $conditions[] = array('OR' => array(
-                        'LasteIntake.verblijfstatus_id NOT ' => 7,
-                        array(
-                            'LasteIntake.verblijfstatus_id' => 7,
-                            'DATE_ADD(Klant.first_intake_date, INTERVAL 3 MONTH) < now()',
-                        ),
-                    ),
-                );
+                $conditions[] = ['OR' => [
+                    'LasteIntake.verblijfstatus_id NOT ' => 7,
+                    // @see https://github.com/deregenboog/ecd/issues/249
+                    [
+                        'LasteIntake.verblijfstatus_id' => 7,
+                        'DATE_ADD(Klant.first_intake_date, INTERVAL 3 MONTH) < now()',
+                        "Klant.first_intake_date < '2017-06-01'",
+                    ],
+                    [
+                        'LasteIntake.verblijfstatus_id' => 7,
+                        'DATE_ADD(Klant.first_intake_date, INTERVAL 6 MONTH) < now()',
+                        "Klant.first_intake_date >= '2017-06-01'",
+                    ],
+                ]];
             }
-            $conditions[] = array(
-                'OR' => array(
-                    'Klant.overleden NOT' => 1,
-                    'Klant.overleden' => null,
-                ),
-            );
+
             $this->log($conditions, 'registratie');
 
-            $this->paginate['Klant'] = array(
-
-                'contain' => array(
-                    'Geslacht' => array(
-                        'fields' => array(
+            $this->paginate['Klant'] = [
+                'joins' => [
+                    [
+                        'table' => 'inloop_dossier_statussen',
+                        'type' => 'INNER',
+                        'conditions' => [
+                            'inloop_dossier_statussen.id = Klant.huidigeStatus_id',
+                            'inloop_dossier_statussen.class' => 'Aanmelding',
+                        ],
+                    ],
+                ],
+                'contain' => [
+                    'Geslacht' => [
+                        'fields' => [
                             'afkorting',
                             'volledig',
-                        ),
-                    ),
-                    'LasteIntake' => array(
-                        'fields' => array(
+                        ],
+                    ],
+                    'LasteIntake' => [
+                        'fields' => [
                             'locatie1_id',
                             'locatie2_id',
                             'locatie3_id',
                             'datum_intake',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'conditions' => $conditions,
-                'order' => array(
+                'order' => [
                     'Klant.achternaam' => 'asc',
                     'Klant.voornaam' => 'asc',
-                ),
-            );
+                ],
+            ];
 
             $this->Klant->recursive = -1;
 
             $klanten = $this->paginate('Klant');
-
             $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
-
             $klanten = $this->Klant->completeVirtualFields($klanten);
 
             $this->Klant->Schorsing->get_schorsing_messages($klanten, $locatie_id);
@@ -141,6 +139,7 @@ class RegistratiesController extends AppController
             $this->set('locatie_id', $locatie_id);
 
             $loc_name = $locatie['naam'];
+            $this->set('locatie', $locatie);
             $this->set('locatie_name', $loc_name);
             $this->setRegistraties($locatie_id);
             $this->set('locaties', $this->Registratie->Locatie->find('list'));
@@ -149,7 +148,7 @@ class RegistratiesController extends AppController
                 $this->render('/elements/registratie_klantenlijst', 'ajax');
             }
         } else {
-            $this->set('locaties', $this->Registratie->Locatie->locaties(array('maatschappelijkwerk' => 0)));
+            $this->set('locaties', $this->Registratie->Locatie->locaties(['maatschappelijkwerk' => 0]));
             $this->render('locaties');
         }
     }
@@ -190,12 +189,12 @@ class RegistratiesController extends AppController
             $this->set('fieldname', key($this->data['Registratie']));
             $this->data['Registratie']['id'] = $registratie_id;
             $this->Registratie->save($this->data);
-            $this->set('registratie', $this->Registratie->find('first', array(
-                'conditions' => array(
+            $this->set('registratie', $this->Registratie->find('first', [
+                'conditions' => [
                     'Registratie.id' => $registratie_id,
-                ),
-                'contain' => array('Klant' => array('Intake')),
-            )));
+                ],
+                'contain' => ['Klant' => ['Intake']],
+            ]));
             $this->render('/elements/registratie_checkboxes', 'ajax');
         } else {
             $this->autoRender = false;
@@ -224,7 +223,7 @@ class RegistratiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid registratie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->set('registratie', $this->Registratie->read(null, $id));
@@ -248,10 +247,10 @@ class RegistratiesController extends AppController
     public function registratieCheckOutAll($locatie_id = null)
     {
         if ($locatie_id) {
-            $conditions = array('conditions' => array(
+            $conditions = ['conditions' => [
                         'locatie_id' => $locatie_id,
-                        'buiten' => null, ),
-                        'contain' => array('Klant'), );
+                        'buiten' => null, ],
+                        'contain' => ['Klant'], ];
             $registraties = $this->Registratie->find('list', $conditions);
             foreach ($registraties as $registratie_id) {
                 $this->Registratie->registratieCheckOut($registratie_id);
@@ -288,13 +287,13 @@ class RegistratiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid registratie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->Registratie->save($this->data)) {
                 $this->flashError(__('The registratie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The registratie could not be saved. Please, try again.', true));
             }
@@ -373,9 +372,9 @@ class RegistratiesController extends AppController
     public function set_last_registrations()
     {
         $this->Registratie->Klant->recursive = -1;
-        $klanten = $this->Registratie->Klant->find('all', array(
-            'fields' => array('id', 'laatste_registratie_id'),
-        ));
+        $klanten = $this->Registratie->Klant->find('all', [
+            'fields' => ['id', 'laatste_registratie_id'],
+        ]);
 
         foreach ($klanten as $klant) {
             if (empty($klant['Klant']['laatste_registratie_id'])) {
@@ -388,25 +387,45 @@ class RegistratiesController extends AppController
     {
         $this->Klant->set_registration_virtual_fields();
         $this->Klant->contain[] = 'LaatsteRegistratie';
-        $klant = &$this->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
-        ));
+        $klant = &$this->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
+        ]);
         $this->Registratie->Locatie->recursive = -1;
         $location = $this->Registratie->Locatie->read(null, $locatie_id);
 
-        $jsonVar = array(
+        $jsonVar = [
             'confirm' => false,
             'allow' => true,
             'message' => '',
-            );
+        ];
 
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
-        if (
-            !empty($location['Locatie']['gebruikersruimte']) &&
-            !empty($klant['LasteIntake']['mag_gebruiken']) &&
-            !$klant['Klant']['laatste_TBC_controle']
+        if (!empty($location['Locatie']['gebruikersruimte'])) {
+            $this->loadModel('Registratie');
+            $laatsteRegistratie = $this->Registratie->find('first', [
+                'conditions' => [
+                    'klant_id' => $klant['Klant']['id'],
+                    'locatie_id' => $location['Locatie']['id'],
+                ],
+                'order' => ['Registratie.binnen' => 'DESC'],
+                'recursive' => -1,
+            ]);
+            if (new \DateTime($laatsteRegistratie['Registratie']['binnen']) < new \DateTime('-2 months')
+                && ($location['Locatie']['id'] != $klant['LasteIntake']['locatie1_id']
+                    || new \DateTime($klant['LasteIntake']['datum_intake']) < new \DateTime('-2 months')
+                )
+            ) {
+                $jsonVar['allow'] = false;
+                $jsonVar['message'] = 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
+                goto render;
+            }
+        }
+
+        if (!empty($location['Locatie']['gebruikersruimte'])
+            && !empty($klant['LasteIntake']['mag_gebruiken'])
+            && !$klant['Klant']['laatste_TBC_controle']
         ) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze klant heeft geen TBC controle gehad en kan niet worden ingecheckt bij een locatie met een gebruikersruimte.';
@@ -439,7 +458,7 @@ class RegistratiesController extends AppController
                 $now = new DateTime();
                 $d = $last_check_out->diff($now);
 
-                if ($d->h < $h && $d->d == 0 && $d->m == 0 && $d->y == 0) {
+                if ($d->h < $h && 0 == $d->d && 0 == $d->m && 0 == $d->y) {
                     $jsonVar['message'] .= $sep.
             __('This client has been checked out less than an hour ago. '.
                 'Are you sure you want to register him/her again?', true);
@@ -452,34 +471,42 @@ class RegistratiesController extends AppController
 
         if ($jsonVar['allow']) {
             if ($klant['Klant']['new_intake_needed'] < 0) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake. Toch inchecken?';
+                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
 
-            $schorsing = $this->Registratie->Klant->Schorsing->countActiveSchorsingenMsg($klant_id);
-
-            if ($schorsing == 'Hier geschorst') {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
-                $sep = $separator;
-                $jsonVar['confirm'] = true;
+            $actieveSchorsingen = $this->Registratie->Klant->Schorsing->getActiveSchorsingen($klant_id);
+            foreach ($actieveSchorsingen as $actieveSchorsing) {
+                foreach ($actieveSchorsing['Locatie'] as $actieveSchorsingLocatie) {
+                    if ($location['Locatie']['id'] == $actieveSchorsingLocatie['id']) {
+                        $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+                        $sep = $separator;
+                        $jsonVar['confirm'] = true;
+                    }
+                }
             }
 
-            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja') {
+            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja' && $location['Locatie']['tbc_check'] == 1) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
             }
 
             if (count($klant['Opmerking']) > 0) {
-                $jsonVar['message'] .= $sep.'Laatste opmerking: '.end($klant['Opmerking'])['beschrijving'];
-                $jsonVar['confirm'] = true;
-                $sep = $separator;
+                $laatsteOpmerking = end($klant['Opmerking']);
+                if (!$laatsteOpmerking['gezien']) {
+                    $datum = new DateTime($laatsteOpmerking['created']);
+                    $jsonVar['message'] .= $sep.'Laatste opmerking ('.$datum->format('d-m-Y').'): '.$laatsteOpmerking['beschrijving'];
+                    $jsonVar['confirm'] = true;
+                    $sep = $separator;
+                }
             }
         }
 
         render:
             $this->set(compact('jsonVar'));
+
         $this->render('/elements/json', 'ajax');
     }
 
@@ -500,7 +527,7 @@ class RegistratiesController extends AppController
 
         $prev_val = (int) ($record['Registratie'][$fieldname]);
 
-        if ($fieldname == 'douche' || $fieldname == 'mw') {
+        if ('douche' == $fieldname || 'mw' == $fieldname) {
             $new_val = -1 - $prev_val; //we asume that DB data is correct
         } else {
             $new_val = !($prev_val);
@@ -509,9 +536,9 @@ class RegistratiesController extends AppController
         $this->Registratie->set($fieldname, $new_val);
 
         if ($this->Registratie->save()) {
-            $jsonVar = array('new_val' => $new_val, 'prev_val' => $prev_val);
+            $jsonVar = ['new_val' => $new_val, 'prev_val' => $prev_val];
         } else {
-            $jsonVar = array('new_val' => $prev_val, 'prev_val' => $prev_val);
+            $jsonVar = ['new_val' => $prev_val, 'prev_val' => $prev_val];
         }
 
         $this->set(compact('jsonVar'));

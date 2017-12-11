@@ -1,4 +1,19 @@
 AppBundle\Entity\Medewerker:
-    medewerker_{1..50}:
+    medewerker_1:
+        voornaam: 'ad'
+        achternaam: 'administrator'
+        groepen:
+            - 'CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog'
+            - 'CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog'
+            - 'CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog'
+    medewerker_{2..10}:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+    medewerker_{11..15}:
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        groepen: ['CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog']
+    medewerker_{16..20}:
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        groepen: ['CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog']

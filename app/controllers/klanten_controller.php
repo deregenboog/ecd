@@ -1,18 +1,25 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Form\AfsluitingType;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\DossierStatus;
+
 class KlantenController extends AppController
 {
     public $name = 'Klanten';
 
-    public $components = array('Filter', 'RequestHandler', 'Session');
+    public $components = ['Filter', 'RequestHandler', 'Session'];
 
     const SESSION_KEY_PRINT_LETTER_KLANT_ID = 'SESSION_KEY_PRINT_LETTER_KLANT_ID';
 
     public function _isControllerAuthorized($controller)
     {
         $auth = parent::_isControllerAuthorized($controller);
-        if ($auth &&
-            $this->action == 'merge' || $this->action == 'findDuplicates'
+
+        if ($auth
+            && $this->action == 'merge' || $this->action == 'findDuplicates'
         ) {
             $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]) || isset($this->userGroups[GROUP_DEVELOP]);
         }
@@ -26,10 +33,10 @@ class KlantenController extends AppController
             if (isset($this->params['named']['rowUrl'])) {
                 $urlArray = explode('.', $this->params['named']['rowUrl']);
                 if (count($urlArray) == 2) {
-                    $this->set('rowOnclickUrl', array(
+                    $this->set('rowOnclickUrl', [
                         'controller' => $urlArray[0],
                         'action' => $urlArray[1],
-                    ));
+                    ]);
                 }
             }
             if (isset($this->params['named']['showDisabled'])) {
@@ -37,21 +44,22 @@ class KlantenController extends AppController
             }
         }
 
-        $this->paginate = array(
-                'contain' => array(
-                    'LasteIntake' => array(
-                        'fields' => array(
+        $this->paginate = [
+            'contain' => [
+                'LasteIntake' => [
+                    'fields' => [
                             'locatie1_id',
                             'locatie2_id',
                             'locatie3_id',
                             'datum_intake',
-                        ),
-                    ),
-                    'Intake' => array(
-                        'fields' => array('datum_intake', 'id'),
-                        ),
-                    'Geslacht', ),
-                );
+                    ],
+                ],
+                'Intake' => [
+                    'fields' => ['datum_intake', 'id'],
+                ],
+                'Geslacht',
+            ],
+        ];
 
         $klanten = $this->paginate(null, $this->Filter->filterData);
         $klanten = $this->Klant->LasteIntake->completeKlantenIntakesWithLocationNames($klanten);
@@ -71,54 +79,62 @@ class KlantenController extends AppController
 
     public function view($id = null)
     {
-        $this->loadModel('ZrmReport');
-        if (!$id) {
+        $klant = $this->Klant->find('first', ['conditions' => ['Klant.id' => $id]]);
+        if (!$klant) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
-        $klant = $this->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $id),
-        ));
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($id);
+        $this->set(compact('status'));
 
-        $registraties = $this->Klant->Registratie->find('all', array(
-            'conditions' => array('Registratie.klant_id' => $klant['Klant']['id']),
+        $registraties = $this->Klant->Registratie->find('all', [
+            'conditions' => ['Registratie.klant_id' => $klant['Klant']['id']],
             'order' => 'binnen desc',
-            'limit' => 3, ));
+            'limit' => 3,
+        ]);
 
-        $opmerkingen = $this->Klant->Opmerking->find('all', array(
-            'conditions' => array('Klant.id' => $id, 'Opmerking.gezien' => false),
+        $opmerkingen = $this->Klant->Opmerking->find('all', [
+            'conditions' => ['Klant.id' => $id, 'Opmerking.gezien' => false],
             'contain' => $this->Klant->Opmerking->contain,
             'limit' => 10,
-        ));
+        ]);
 
-        $this->set(compact('registraties', 'opmerkingen', 'klant'));
-
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $this->set(compact('klant', 'registraties', 'opmerkingen'));
 
         if (isset($klant['Intake'][0])) {
-            $newestintake = $this->Klant->Intake->read(null, $klant['Intake'][0]['id']);
-            $this->set('newestintake', $newestintake);
+            $newestIntake = $this->Klant->Intake->read(null, $klant['Intake'][0]['id']);
+            $this->set('newestintake', $newestIntake);
 
-            $this->set('zrmReport', $this->ZrmReport->get_zrm_report('Intake', $klant['Intake'][0]['id']));
+            // get ZRM associated with intake
+            $this->loadModel(ZrmReport::class);
+            foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+                $this->loadModel($zrmReportModel);
+                $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $newestIntake['Intake']['id']);
+                if ($zrmReport) {
+                    $this->set('zrmReport', $zrmReport);
+                    $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
+                    break;
+                }
+            }
         }
-        $this->set('zrm_data', $zrm_data);
-        $this->set('diensten', $this->Klant->diensten($id));
+
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
     public function registratie($id = null)
     {
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $klant = $this->Klant->read(null, $id);
         $this->set('klant', $klant);
 
-        $registraties = $this->Klant->Registratie->find('all', array(
-            'conditions' => array('Registratie.klant_id' => $klant['Klant']['id']),
-            'limit' => 3, ));
+        $registraties = $this->Klant->Registratie->find('all', [
+            'conditions' => ['Registratie.klant_id' => $klant['Klant']['id']],
+            'limit' => 3, ]);
         $this->set('registraties', $registraties);
 
         if (isset($klant['Intake'][0])) {
@@ -126,22 +142,23 @@ class KlantenController extends AppController
             $this->set('newestintake', $newestintake);
         }
 
-        $registraties = $this->Klant->Registratie->find('all', array(
-            'conditions' => array('Registratie.klant_id' => $id), ));
+        $registraties = $this->Klant->Registratie->find('all', [
+            'conditions' => ['Registratie.klant_id' => $id], ]);
         $this->set('registraties', $registraties);
 
         $this->set('klant_id', $id);
-        $this->set('diensten', $this->Klant->diensten($id));
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
     }
 
     public function zrm_add($id)
     {
-        $this->loadModel('ZrmReport');
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
 
         if (!empty($this->data)) {
-            $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Klant', $id, $id);
-
-            if ($this->ZrmReport->save($this->data)) {
+            $this->{$zrmReportModel}->update_zrm_data_for_edit($this->data, 'Klant', $id, $id);
+            if ($this->{$zrmReportModel}->save($this->data)) {
                 $this->flash(__('ZRM opgeslagen', true));
                 $this->redirect($this->data['Klant']['referer']);
             } else {
@@ -151,32 +168,39 @@ class KlantenController extends AppController
             $this->data['Klant']['referer'] = $this->referer();
         }
 
-        $this->set('zrm_data', $this->ZrmReport->zrm_data());
         $this->set('id', $id);
+        $this->set('model', $zrmReportModel);
+        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
+        $this->set('zrmReportModel', $zrmReportModel);
     }
 
-    public function zrm($id = null)
+    public function zrm($id)
     {
-        $this->loadModel('ZrmReport');
-        if (!$id) {
+        $klant = $this->Klant->read(null, $id);
+        if (!$klant) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
-        $klant = $this->Klant->read(null, $id);
-        $this->set('klant', $klant);
+        $zrmReports = [];
+        $zrmData = [];
 
-        $zrmReports = $this->ZrmReport->find('all', array(
-                'conditions' => array('klant_id' => $id),
-                'order' => 'ZrmReport.created DESC',
-        ));
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReports[$zrmReportModel] = $this->{$zrmReportModel}->find('all', [
+                'conditions' => ['klant_id' => $id],
+                'order' => $zrmReportModel.'.created DESC',
+            ]);
+            $zrmData[$zrmReportModel] = $this->{$zrmReportModel}->zrm_data();
+        }
 
-        $this->set('zrmReports', $zrmReports);
-        $this->set('referer', $this->referer());
         $this->set('klant_id', $id);
-        $this->set('zrm_data', $zrm_data);
-        $this->set('diensten', $this->Klant->diensten($id));
+        $this->set('klant', $klant);
+        $this->set('referer', $this->referer());
+        $this->set('diensten', $this->Klant->diensten($id, $this->getEventDispatcher()));
+        $this->set('zrmReports', $zrmReports);
+        $this->set('zrmData', $zrmData);
     }
 
     public function add($step = 1)
@@ -196,7 +220,6 @@ class KlantenController extends AppController
         $dups = [];
         if (!empty($this->data)) {
             switch ($step) {
-
                 case 1:
 
                     $dups = $this->Klant->findDuplicates($this->data);
@@ -213,32 +236,29 @@ class KlantenController extends AppController
                     $this->Klant->create();
                     $this->Klant->begin();
                     if ($this->Klant->save($this->data)) {
-                        if (empty($generic) && $this->Klant->goesToInfobalie($this->data)) {
-                            $referer = array(
-                                    'action' => 'printLetter',
-                                    $this->Klant->id,
-                                    );
-                        } else {
-                            $referer = array('action' => 'index');
-                        }
-
-                        $this->flash(__('The klant has been saved', true));
-
-                        if (!empty($this->data['Klant']['referer'])) {
-                            $referer = $this->data['Klant']['referer'];
-                            if (preg_match('/IzDeelnemers/', $this->data['Klant']['referer'])) {
-                                $referer = array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id);
-                            }
-                            if (preg_match('/iz_deelnemers/', $this->data['Klant']['referer'])) {
-                                $referer = array('controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id);
-                            }
-                        }
-
                         $this->Klant->commit();
+
+                        // send CRM update email
                         if (!empty($this->Klant->send_admin_email)) {
                             $this->crmUpdate($this->Klant->id);
                         }
 
+                        $this->flash(__('The klant has been saved', true));
+
+                        $referer = ['action' => 'index'];
+                        if (empty($generic) && $this->Klant->goesToInfobalie($this->data)) {
+                            $referer = ['action' => 'printLetter', $this->Klant->id];
+                        } else {
+                            if (!empty($this->data['Klant']['referer'])) {
+                                $referer = $this->data['Klant']['referer'];
+                                if (preg_match('/IzDeelnemers/', $this->data['Klant']['referer'])) {
+                                    $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id];
+                                }
+                                if (preg_match('/iz_deelnemers/', $this->data['Klant']['referer'])) {
+                                    $referer = ['controller' => 'iz_deelnemers', 'action' => 'aanmelding', 'Klant', $this->Klant->id];
+                                }
+                            }
+                        }
                         $this->redirect($referer);
                     } else {
                         $this->Klant->rollback();
@@ -251,28 +271,28 @@ class KlantenController extends AppController
         }
 
         $geslachten = $this->Klant->Geslacht->find('list');
-        $onbekend_land = $this->Klant->Geboorteland->find('first', array(
-            'conditions' => array('Geboorteland.land =' => 'Onbekend'),
-            'fields' => array('land', 'id'),
-        ));
+        $onbekend_land = $this->Klant->Geboorteland->find('first', [
+            'conditions' => ['Geboorteland.land =' => 'Onbekend'],
+            'fields' => ['land', 'id'],
+        ]);
 
-        $landen = array($onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']);
-        $landen = $landen + $this->Klant->Geboorteland->find('list', array(
-            'order' => array('Geboorteland.land ASC'),
-               'conditions' => array('Geboorteland.land !=' => 'Onbekend'),
-        ));
+        $landen = [$onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']];
+        $landen = $landen + $this->Klant->Geboorteland->find('list', [
+            'order' => ['Geboorteland.land ASC'],
+            'conditions' => ['Geboorteland.land !=' => 'Onbekend'],
+        ]);
 
         $default_land_id = array_search('Nederland', $landen);
-        $onbekend_nat = $this->Klant->Nationaliteit->find('first', array(
-            'conditions' => array('Nationaliteit.naam =' => 'Onbekend'),
-            'fields' => array('naam', 'id'),
-        ));
+        $onbekend_nat = $this->Klant->Nationaliteit->find('first', [
+            'conditions' => ['Nationaliteit.naam =' => 'Onbekend'],
+            'fields' => ['naam', 'id'],
+        ]);
 
-        $nationaliteiten = array($onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']);
-        $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', array(
-            'order' => array('Nationaliteit.naam ASC'),
-               'conditions' => array('Nationaliteit.naam !=' => 'Onbekend'),
-        ));
+        $nationaliteiten = [$onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']];
+        $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', [
+            'order' => ['Nationaliteit.naam ASC'],
+            'conditions' => ['Nationaliteit.naam !=' => 'Onbekend'],
+        ]);
 
         $default_nationaliteit_id = array_search('Nederlandse', $nationaliteiten);
         $logged_in_user = $this->Session->read('Auth.Medewerker.id');
@@ -309,7 +329,7 @@ class KlantenController extends AppController
         $mailto = Configure::read('administratiebedrijf');
 
         $content = [];
-        $url = array('controller' => 'klanten', 'action' => 'view', $id);
+        $url = ['controller' => 'klanten', 'action' => 'view', $id];
         $content['url'] = Router::url($url, true);
         $content['changes'] = $this->Klant->changes;
 
@@ -328,19 +348,19 @@ class KlantenController extends AppController
             unset($content['changes']['nationaliteit_id']);
         }
 
-        $this->_genericSendEmail(array(
-            'to' => array($mailto),
+        $this->_genericSendEmail([
+            'to' => [$mailto],
             'content' => $content,
             'template' => 'crm',
             'subject' => 'Er heeft een update in het ECD plaatsgevonden',
-        ));
+        ]);
     }
 
     public function edit($id = null)
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $generic = $this->getParam('generic');
@@ -359,7 +379,7 @@ class KlantenController extends AppController
                 $referer = $this->Session->read('basisgegevens_from');
                 $referer = $this->data['Klant']['referer'];
                 if (!$referer) {
-                    $this->redirect(array('action' => 'view', $id));
+                    $this->redirect(['action' => 'view', $id]);
                 } else {
                     $this->Session->write('basisgegevens_from', null);
                     $this->redirect($referer);
@@ -376,36 +396,36 @@ class KlantenController extends AppController
 
             if (!$this->data = $this->Klant->read(null, $id)) {
                 $this->flashError(__('Unknown klant id', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             }
 
             $this->data['Klant']['referer'] = $this->referer();
         }
 
-        $onbekend_land = $this->Klant->Geboorteland->find('first', array(
-            'conditions' => array('Geboorteland.land =' => 'Onbekend'),
-            'fields' => array('land', 'id'),
-        ));
+        $onbekend_land = $this->Klant->Geboorteland->find('first', [
+            'conditions' => ['Geboorteland.land =' => 'Onbekend'],
+            'fields' => ['land', 'id'],
+        ]);
 
-        $landen = array($onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']);
-        $landen = $landen + $this->Klant->Geboorteland->find('list', array(
-            'order' => array('Geboorteland.land ASC'),
-            'conditions' => array('Geboorteland.land !=' => 'Onbekend'),
-        ));
+        $landen = [$onbekend_land['Geboorteland']['id'] => $onbekend_land['Geboorteland']['land']];
+        $landen = $landen + $this->Klant->Geboorteland->find('list', [
+            'order' => ['Geboorteland.land ASC'],
+            'conditions' => ['Geboorteland.land !=' => 'Onbekend'],
+        ]);
 
         $geslachten = $this->Klant->Geslacht->find('list');
-        $onbekend_nat = $this->Klant->Nationaliteit->find('first', array(
-            'conditions' => array('Nationaliteit.naam =' => 'Onbekend'),
-            'fields' => array('naam', 'id'),
-        ));
+        $onbekend_nat = $this->Klant->Nationaliteit->find('first', [
+            'conditions' => ['Nationaliteit.naam =' => 'Onbekend'],
+            'fields' => ['naam', 'id'],
+        ]);
 
-        $nationaliteiten = array($onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']);
-        $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', array(
-            'order' => array('Nationaliteit.naam ASC'),
-               'conditions' => array('Nationaliteit.naam !=' => 'Onbekend'),
-        ));
+        $nationaliteiten = [$onbekend_nat['Nationaliteit']['id'] => $onbekend_nat['Nationaliteit']['naam']];
+        $nationaliteiten = $nationaliteiten + $this->Klant->Nationaliteit->find('list', [
+            'order' => ['Nationaliteit.naam ASC'],
+               'conditions' => ['Nationaliteit.naam !=' => 'Onbekend'],
+        ]);
 
-        $this->setMedewerkers($this->data['Klant']['medewerker_id']);
+        $this->setMedewerkers([$this->data['Klant']['medewerker_id']]);
         $this->set('amocCountries', Configure::read('Landen.AMOC'));
         $werkgebieden = Configure::read('Werkgebieden');
         $postcodegebieden = Configure::read('Postcodegebieden');
@@ -425,7 +445,7 @@ class KlantenController extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!$this->Klant->disable($id)) {
@@ -433,7 +453,7 @@ class KlantenController extends AppController
         } else {
             $this->flash(__('Klant deleted', true));
         }
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function enable($id = null)
@@ -442,7 +462,7 @@ class KlantenController extends AppController
 
         if (!$id) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!$this->Klant->enable($id)) {
@@ -451,7 +471,7 @@ class KlantenController extends AppController
             $this->flash(__('Klant enabled', true));
         }
 
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function disable_many()
@@ -460,7 +480,7 @@ class KlantenController extends AppController
 
         if (empty($this->params['pass'])) {
             $this->flashError(__('Invalid klant', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $failures = '';
@@ -510,11 +530,11 @@ class KlantenController extends AppController
             }
 
             if ($this->Klant->Document->save($this->data)) {
-                $this->redirect(array(
+                $this->redirect([
                     'controller' => $this->Klant->Document->groupToController($group),
                     'action' => 'view',
                     $klantId,
-                ));
+                ]);
             } else {
                 $this->flashError(__('The document could not be saved. Please, try again.', true));
             }
@@ -539,21 +559,21 @@ class KlantenController extends AppController
     public function merge()
     {
         $ids = array_map('intval', explode(',', $this->passedArgs['ids']));
-        $klanten = $this->Klant->find('all', array(
-            'conditions' => array(
+        $klanten = $this->Klant->find('all', [
+            'conditions' => [
                 'Klant.id' => $ids,
                 'Klant.disabled' => 0,
-            ),
-            'contain' => array(
+            ],
+            'contain' => [
                 'Geslacht', 'Geboorteland', 'Nationaliteit', 'LasteIntake',
                 'LaatsteRegistratie',
-            ),
-        ));
+            ],
+        ]);
 
         if (count($klanten) == 0) {
             $this->flashError(__('Geen klanten gevonden.', true));
 
-            $this->redirect(array('action' => 'findDuplicates'));
+            $this->redirect(['action' => 'findDuplicates']);
 
             return;
         }

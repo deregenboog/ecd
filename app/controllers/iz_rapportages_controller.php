@@ -1,24 +1,13 @@
 <?php
+
 use IzBundle\Form\IzRapportageType;
-use IzBundle\Entity\IzKoppeling;
-use IzBundle\Entity\IzHulpvraag;
-use AppBundle\Report\Table;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzKlant;
-use IzBundle\Report\KoppelingenPerStadsdeel;
-use IzBundle\Report\KoppelingenPerPostcodegebied;
-use IzBundle\Report\KoppelingenPerCoordinator;
-use IzBundle\Report\KoppelingenPerProject;
-use IzBundle\Report\KoppelingenPerProjectStadsdeel;
-use IzBundle\Report\KoppelingenPerProjectPostcodegebied;
-use IzBundle\Report\KoppelingenTotaal;
-use IzBundle\Report\VrijwilligersTotaal;
-use IzBundle\Report\VrijwilligersPerProject;
-use IzBundle\Report\VrijwilligersPerStadsdeel;
+use IzBundle\Report\AbstractReport;
+use AppBundle\Exception\ReportException;
 
 class IzRapportagesController extends AppController
 {
-
     /**
      * Don't use CakePHP models.
      */
@@ -32,9 +21,9 @@ class IzRapportagesController extends AppController
     public function index()
     {
         $form = $this->createForm(IzRapportageType::class);
-        $form->handleRequest($this->request);
+        $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // get reporting service
             $report = $this->container->get($form->get('rapport')->getData());
 
@@ -44,13 +33,55 @@ class IzRapportagesController extends AppController
                 ->setEndDate($form->get('einddatum')->getData())
             ;
 
-            $this->set('title', $report->getTitle());
-            $this->set('startDate', $report->getStartDate());
-            $this->set('endDate', $report->getEndDate());
-            $this->set('reports', $report->getReports());
+            if ($form->get('download')->isClicked()) {
+                return $this->download($report);
+            }
+
+            try {
+                $this->set('title', $report->getTitle());
+                $this->set('startDate', $report->getStartDate());
+                $this->set('endDate', $report->getEndDate());
+                $this->set('reports', $report->getReports());
+            } catch (ReportException $e) {
+                $this->flashError($e->getMessage());
+            }
         }
 
         $this->set('form', $form->createView());
+    }
+
+    public function download(AbstractReport $report)
+    {
+        ini_set('memory_limit', '512M');
+
+        try {
+            $data = $this->extractDataFromReport($report);
+        } catch  (ReportException $e) {
+            $this->flashError($e->getMessage());
+
+            return;
+        }
+
+        $this->autoRender = false;
+        $filename = sprintf(
+            '%s-%s-%s.xls',
+            $report->getTitle(),
+            $report->getStartDate()->format('d-m-Y'),
+            $report->getEndDate()->format('d-m-Y')
+        );
+
+        $export = $this->container->get('iz.export.report');
+        $export->create($data)->send($filename);
+    }
+
+    private function extractDataFromReport(AbstractReport $report)
+    {
+        return [
+            'title' => $report->getTitle(),
+            'startDate' => $report->getStartDate(),
+            'endDate' => $report->getEndDate(),
+            'reports' => $report->getReports(),
+        ];
     }
 
     // private function report_vrijwilligers_aanmeldingen(

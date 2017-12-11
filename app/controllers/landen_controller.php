@@ -14,7 +14,7 @@ class LandenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid land', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('land', $this->Land->read(null, $id));
     }
@@ -25,7 +25,7 @@ class LandenController extends AppController
             $this->Land->create();
             if ($this->Land->save($this->data)) {
                 $this->flashError(__('The land has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The land could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class LandenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid land', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Land->save($this->data)) {
                 $this->flashError(__('The land has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The land could not be saved. Please, try again.', true));
             }
@@ -55,15 +55,15 @@ class LandenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for land', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->Land->delete($id)) {
             $this->flashError(__('Land deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->flashError(__('Land was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

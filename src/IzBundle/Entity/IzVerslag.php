@@ -3,14 +3,20 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_verslagen")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class IzVerslag
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -19,24 +25,16 @@ class IzVerslag
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $modified;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $opmerking;
 
     /**
      * @var IzDeelnemer
-     * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
+     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
+     * @Gedmo\Versioned
      */
     private $izDeelnemer;
 
@@ -44,6 +42,7 @@ class IzVerslag
      * @var IzKoppeling
      * @ORM\OneToOne(targetEntity="IzKoppeling")
      * @ORM\JoinColumn(name="iz_koppeling_id")
+     * @Gedmo\Versioned
      */
     private $izKoppeling;
 
@@ -51,6 +50,7 @@ class IzVerslag
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $medewerker;
 
@@ -91,6 +91,7 @@ class IzVerslag
     public function setOpmerking($opmerking)
     {
         $this->opmerking = $opmerking;
+
         return $this;
     }
 
@@ -102,7 +103,7 @@ class IzVerslag
     public function setIzKoppeling(IzKoppeling $izKoppeling)
     {
         $this->izKoppeling = $izKoppeling;
+
         return $this;
     }
-
 }

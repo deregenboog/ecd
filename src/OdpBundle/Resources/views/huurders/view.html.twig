@@ -1,0 +1,78 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Onder de Pannen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_left %}
+    <h1>
+        Huurder {{ huurder.klant }}
+    </h1>
+    <p>
+        {% if huurder.actief %}
+            {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
+            {{ html.link('Wijzigen', path('odp_huurders_edit', {id: huurder.id})) }}
+            {% if huurder.closable %}
+                {{ html.closeLink(path('odp_huurders_close', {id: huurder.id})) }}
+                {{ html.link('Afsluiten', path('odp_huurders_close', {id: huurder.id})) }}
+            {% endif %}
+        {% else %}
+            {{ html.addLink(path('odp_huurders_reopen', {id: huurder.id})) }}
+            {{ html.link('Heropenen', path('odp_huurders_reopen', {id: huurder.id})) }}
+            <dl class="dl-horizontal" style="color: red;">
+                <dt>Afsluitdatum dossier</dt>
+                <dd>{{ huurder.afsluitdatum ? huurder.afsluitdatum|date('d-m-Y') }}</dd>
+                <dt>Reden afsluiting</dt>
+                <dd>{{ huurder.afsluiting }}</dd>
+            </dl>
+        {% endif %}
+        {% if huurder.deletable %}
+            {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}
+            {{ html.link('Verwijderen', path('odp_huurders_delete', {id: huurder.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ huurder.klant }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ huurder.medewerker }}</dd>
+        <dt>Aanmelddatum</dt>
+        <dd>{{ huurder.aanmelddatum|date('d-m-Y') }}</dd>
+        <dt>Rekeningnummer</dt>
+        <dd>{{ huurder.rekeningnummer }}</dd>
+        <dt>Automatische incasso</dt>
+        <dd>{{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Klantmanager</dt>
+        <dd>{{ huurder.klantmanager }}</dd>
+        <dt>WPI</dt>
+        <dd>{{ huurder.wpi ? 'Ja' : 'Nee' }}</dd>
+    </dl>
+    {% include '::klant_basis.html.twig' with {klant: huurder.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#huurverzoeken">Huurverzoeken / Koppelingen</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="huurverzoeken" class="tab-pane active">
+            {% include 'OdpBundle:huurverzoeken:_list.html.twig' %}
+            {% include 'OdpBundle:huurovereenkomsten:_list.html.twig' %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurder: huurder} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'OdpBundle:documenten:_list.html.twig' with {huurder: huurder} %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% include 'iz_subnavigation.twig' %}
+
+<h1>Deelnemer toevoegen</h1>
+
+{% if filterForm is defined %}
+    {% form_theme filterForm 'form_div_layout.html.twig' %}
+    Zoek een bestaande deelnemer op naam, BSN of geboortedatum.
+    {{ form(filterForm) }}
+{% endif %}
+
+{% if klanten is defined %}
+    <p>
+        Selecteer de gewenste deelnemer in onderstaande lijst of klik op
+        "Nieuwe deelnemer" als deze niet in de lijst voorkomt.
+    </p>
+    <p>
+        {{ html.addLink({action: 'add', 0: 'new'})|raw }}
+        {{ html.link('Nieuwe deelnemer', {action: 'add', 0: 'new'})|raw }}
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>BSN</th>
+                <th>Geboortedatum</th>
+            </tr>
+        </thead>
+        {% for klant in klanten %}
+            {% set url = {action: 'add', 0: klant.id} %}
+            <tr>
+                <td>{{ html.link(klant, url)|raw }}</td>
+                <td>{{ html.link(klant.bsn, url)|raw }}</td>
+                <td>{{ html.link(klant.geboortedatum ? klant.geboortedatum|date('d-m-Y'), url)|raw }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{% if creationForm is defined %}
+    {{ form_start(creationForm) }}
+        <fieldset class="twoDivs">
+            <legend>Basisgegevens</legend>
+            <div class="leftDiv">
+                {{ form_row(creationForm.voornaam) }}
+                {{ form_row(creationForm.tussenvoegsel) }}
+                {{ form_row(creationForm.achternaam) }}
+                {{ form_row(creationForm.roepnaam) }}
+                {{ form_row(creationForm.geslacht) }}
+            </div>
+            <div class="rightDiv">
+                {{ form_row(creationForm.geboortedatum) }}
+                {{ form_row(creationForm.land, {label: 'Geboorteland'}) }}
+                {{ form_row(creationForm.nationaliteit) }}
+                {{ form_row(creationForm.bsn) }}
+                {{ form_row(creationForm.medewerker) }}
+            </div>
+        </fieldset>
+        <fieldset class="twoDivs">
+            <legend>Contactgegevens</legend>
+            <div class="leftDiv">
+                {{ form_row(creationForm.adres) }}
+                {{ form_row(creationForm.postcode) }}
+                {{ form_row(creationForm.plaats) }}
+                {{ form_row(creationForm.email) }}
+            </div>
+            <div class="rightDiv">
+                {{ form_row(creationForm.mobiel) }}
+                {{ form_row(creationForm.telefoon) }}
+                {{ form_row(creationForm.opmerking) }}
+                {{ form_row(creationForm.geenPost) }}
+                {{ form_row(creationForm.geenEmail) }}
+                <br>
+                <button type="submit">Opslaan</button>
+            </div>
+        </fieldset>
+    {{ form_end(creationForm) }}
+{% endif %}

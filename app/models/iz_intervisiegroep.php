@@ -5,38 +5,38 @@ class IzIntervisiegroep extends AppModel
     public $name = 'IzIntervisiegroep';
     public $displayField = 'naam';
 
-    public $belongsTo = array(
-        'Medewerker' => array(
+    public $belongsTo = [
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-        'startdatum' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    public $validate = [
+        'startdatum' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een startdatum in',
                             'allowEmpty' => false,
                             'required' => true,
-                    ),
-        ),
-        'medewerker_id' => array(
-            'notempty' => array(
-                'rule' => array(
+                    ],
+        ],
+        'medewerker_id' => [
+            'notempty' => [
+                'rule' => [
                     'notEmpty',
-                ),
+                ],
                 'message' => 'Voer een medewerker in',
                 'allowEmpty' => false,
                 'required' => true,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function beforeSave(&$model)
     {
@@ -71,31 +71,31 @@ class IzIntervisiegroep extends AppModel
         if ($all) {
             $conditions = [];
         } else {
-            $conditions = array(
-                'OR' => array(
-                    array(
+            $conditions = [
+                'OR' => [
+                    [
                         'startdatum' => null,
                         'einddatum' => null,
-                    ),
-                    array(
+                    ],
+                    [
                         'startdatum <= now()',
                         'einddatum >= now()',
-                    ),
-                    array(
+                    ],
+                    [
                         'startdatum <= now()',
                         'einddatum' => null,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
         }
 
-        $medewerkers = $this->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->Medewerker->getMedewerkers([], [], true);
 
-        $intervisigroepenlists = $this->find('all', array(
+        $intervisigroepenlists = $this->find('all', [
                 'conditions' => $conditions,
-                'fields' => array('id', 'naam', 'medewerker_id'),
+                'fields' => ['id', 'naam', 'medewerker_id'],
                 'order' => 'naam',
-        ));
+        ]);
 
         $ig = [];
 

@@ -4,12 +4,54 @@ namespace IzBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\MatchingKlant;
 
 class IzVrijwilligerRepository extends EntityRepository
 {
+    public function findMatching(MatchingKlant $matching)
+    {
+        $builder = $this->createQueryBuilder('izVrijwilliger')
+            ->select('izVrijwilliger, vrijwilliger')
+            ->leftJoin('izVrijwilliger.matching', 'matching')
+            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod', 'WITH', 'izHulpaanbod.einddatum IS NULL AND izHulpaanbod.izHulpvraag IS NULL')
+            ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
+            ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+            ->andWhere('vrijwilliger.disabled IS NULL OR vrijwilliger.disabled = 0')
+            ->andWhere('izVrijwilliger.afsluitDatum IS NULL')
+            ->orderBy('izHulpaanbod.startdatum', 'ASC')
+        ;
+
+        // doelgroepen
+        $builder
+            ->innerJoin('matching.doelgroepen', 'doelgroep', 'WITH', 'doelgroep IN (:doelgroepen)')
+            ->setParameter('doelgroepen', $matching->getDoelgroepen())
+        ;
+
+        // hulpvraagsoort
+        $builder
+            ->innerJoin('matching.hulpvraagsoorten', 'hulpvraagsoort', 'WITH', 'hulpvraagsoort = :hulpvraagsoort')
+            ->setParameter('hulpvraagsoort', $matching->getHulpvraagsoort())
+        ;
+
+        // spreek Nederlands
+        if (false === $matching->isSpreektNederlands()) {
+            $builder->andWhere('matching.voorkeurVoorNederlands = false');
+        }
+
+        return $builder->setMaxResults(20)->getQuery()->getResult();
+    }
+
     public function count($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder();
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function select($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getSelectBuilder();
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -21,6 +63,20 @@ class IzVrijwilligerRepository extends EntityRepository
             ->addSelect('izProject.naam AS project')
             ->innerJoin('izHulpaanbod.izProject', 'izProject')
             ->groupBy('izProject')
+        ;
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function selectByProject($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getSelectBuilder()
+            ->addSelect('izProject.naam AS project')
+            ->innerJoin('izHulpaanbod.izProject', 'izProject')
+            ->addGroupBy('izProject')
+            ->orderBy('izProject.naam')
+            ->addOrderBy('vrijwilliger.achternaam, vrijwilliger.voornaam, vrijwilliger.tussenvoegsel')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -56,10 +112,26 @@ class IzVrijwilligerRepository extends EntityRepository
         return $this->createQueryBuilder('izVrijwilliger')
             ->select('COUNT(DISTINCT izVrijwilliger.id) AS aantal')
             ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
-            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
+            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod', 'WITH', 'izHulpaanbod.einddatum IS NULL')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluiting')
             ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
+            ->setParameter('foutieve_invoer', 'Foutieve invoer')
+        ;
+    }
+
+    private function getSelectBuilder()
+    {
+        return $this->createQueryBuilder('izVrijwilliger')
+            ->select('vrijwilliger.id')
+            ->addSelect("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) AS naam, COUNT(DISTINCT izHulpaanbod.id) AS hulpaanbiedingen")
+            ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
+            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod', 'WITH', 'izHulpaanbod.einddatum IS NULL')
+            ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+            ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluiting')
+            ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
+            ->groupBy('izVrijwilliger.id')
+            ->orderBy('vrijwilliger.achternaam, vrijwilliger.voornaam, vrijwilliger.tussenvoegsel')
             ->setParameter('foutieve_invoer', 'Foutieve invoer')
         ;
     }

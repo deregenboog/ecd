@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Vrijwilligers |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+
+    {% if vrijwilligers is defined and filterForm.vars.errors|length == 0 %}
+        <p>
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.addLink(path('hs_vrijwilligers_add', {vrijwilliger: 'new'}))|raw }}
+            {{ html.link('Nieuwe '~entity_name, path('hs_vrijwilligers_add', {vrijwilliger: 'new'}))|raw }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>BSN</th>
+                    <th>Geboortedatum</th>
+                </tr>
+            </thead>
+            {% for entity in vrijwilligers %}
+                {% set url = path('hs_vrijwilligers_add', {vrijwilliger: entity.id}) %}
+                <tr>
+                    <td>{{ html.link(entity, url)|raw }}</td>
+                    <td>{{ html.link(entity.bsn, url)|raw }}</td>
+                    <td>{{ html.link(entity.geboortedatum ? entity.geboortedatum|date('d-m-Y'), url)|raw }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if form is defined %}
+        {{ form(form) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {{ form(creationForm) }}
+    {% endif %}
+{% endblock %}

@@ -11,6 +11,7 @@ use AppBundle\Form\StadsdeelFilterType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Filter\IzDeelnemerSelectie;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\FilterType;
 
 class IzDeelnemerSelectieType extends AbstractType
 {
@@ -35,7 +36,7 @@ class IzDeelnemerSelectieType extends AbstractType
                 ])
             ->add('stadsdelen', StadsdeelFilterType::class, [
                 'label' => 'Stadsdelen',
-                'required' => true,
+                'required' => false,
                 'multiple' => true,
             ])
             ->add('personen', ChoiceType::class, [
@@ -69,10 +70,11 @@ class IzDeelnemerSelectieType extends AbstractType
                 'choices' => [
                     'Excel-lijst' => 'excel',
                     'E-mail' => 'email',
-                    'Etiketten' => 'etiketten',
                 ],
                 'data' => 'excel',
             ])
+            ->remove('filter')
+            ->remove('download')
         ;
     }
 
@@ -85,5 +87,13 @@ class IzDeelnemerSelectieType extends AbstractType
             'data_class' => IzDeelnemerSelectie::class,
             'method' => 'GET',
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

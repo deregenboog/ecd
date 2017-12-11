@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Uren |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Uren wijzigen</h1>
+    {{ form(form) }}
+{% endblock %}

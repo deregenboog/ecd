@@ -1,0 +1,18 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
+services:
+    odp.event.diensten_lookup_subscriber:
+        class: OdpBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    odp.data_fixtures.faker_provider:
+        class: OdpBundle\DataFixtures\OdpFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }

@@ -1,0 +1,41 @@
+<h2>Rapportages</h2>
+<p>
+    {% if traject is defined %}
+        {% set url = path('dagbesteding_rapportages_add', {traject: traject.id, redirect: app.request.get('url')}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Rapportagemoment toevoegen', url) }}
+    {% endif %}
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Documenten</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rapportage in traject.rapportages %}
+            <tr>
+                <td>
+                    {% set color = (rapportage.status == 'done') ? 'green' : (rapportage.status == 'almost') ? 'orange' : (rapportage.status == 'late') ? 'red' : 'black' %}
+                    <span style="color: {{ color }}">{{ rapportage.datum|date('d-m-Y') }}</span>
+                </td>
+                <td>
+                    {{ rapportage.documenten|length ?: 'geen' }}
+                    {{ rapportage.documenten|length == 1 ? 'document' : 'documenten' }}
+                </td>
+                <td>
+                    {% set url = path('dagbesteding_rapportages_view', {id: rapportage.id}) %}
+                    {{ html.viewLink(url) }}
+                    {% if rapportage.deletable %}
+                        {% set url = path('dagbesteding_rapportages_delete', {id: rapportage.id, redirect: app.request.get('url')}) %}
+                        {{ html.deleteLink(url) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

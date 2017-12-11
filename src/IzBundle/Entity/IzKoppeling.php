@@ -3,18 +3,23 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Id;
+use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_koppelingen")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"hulpvraag" = "IzHulpvraag", "hulpaanbod" = "IzHulpaanbod"})
+ * @Gedmo\Loggable
  */
 abstract class IzKoppeling
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -24,36 +29,31 @@ abstract class IzKoppeling
 
     /**
      * @ORM\Column(type="datetime")
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $modified;
-
-    /**
-     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $einddatum;
 
     /**
-     * @ORM\Column(name="koppeling_startdatum", type="datetime")
+     * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $koppelingStartdatum;
 
     /**
-     * @ORM\Column(name="koppeling_einddatum", type="datetime")
+     * @ORM\Column(name="koppeling_einddatum", type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $koppelingEinddatum;
 
     /**
-     * @ORM\Column(name="koppeling_succesvol", type="boolean")
+     * @ORM\Column(name="koppeling_succesvol", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $koppelingSuccesvol;
 
@@ -61,6 +61,7 @@ abstract class IzKoppeling
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     protected $medewerker;
 
@@ -68,6 +69,7 @@ abstract class IzKoppeling
      * @var IzProject
      * @ORM\ManyToOne(targetEntity="IzProject")
      * @ORM\JoinColumn(name="project_id", nullable=false)
+     * @Gedmo\Versioned
      */
     protected $izProject;
 
@@ -75,6 +77,7 @@ abstract class IzKoppeling
      * @var IzEindeKoppeling
      * @ORM\ManyToOne(targetEntity="IzEindeKoppeling")
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
+     * @Gedmo\Versioned
      */
     protected $izEindeKoppeling;
 
@@ -82,6 +85,7 @@ abstract class IzKoppeling
      * @var IzDeelnemer
      * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izKoppelingen")
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     * @Gedmo\Versioned
      */
     private $izDeelnemer;
 
@@ -138,6 +142,18 @@ abstract class IzKoppeling
         return $this;
     }
 
+    public function getEinddatum()
+    {
+        return $this->einddatum;
+    }
+
+    public function setEinddatum(\DateTime $einddatum = null)
+    {
+        $this->einddatum = $einddatum;
+
+        return $this;
+    }
+
     public function getKoppelingStartdatum()
     {
         return $this->koppelingStartdatum;
@@ -160,5 +176,16 @@ abstract class IzKoppeling
         $this->koppelingEinddatum = $koppelingEinddatum;
 
         return $this;
+    }
+
+    public function isAfgesloten()
+    {
+        $now = new \DateTime();
+
+        if ($this->isGekoppeld()) {
+            return $this->getKoppelingEinddatum() instanceof \DateTime && $this->getKoppelingEinddatum() <= $now;
+        }
+
+        return $this->getEinddatum() instanceof \DateTime && $this->getEinddatum() <= $now;
     }
 }

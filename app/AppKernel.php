@@ -10,15 +10,28 @@ class AppKernel extends Kernel
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\AopBundle\JMSAopBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
+            new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new CakeBundle\CakeBundle(),
             new AppBundle\AppBundle(),
+            new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
             new GaBundle\GaBundle(),
+            new HsBundle\HsBundle(),
+            new OekBundle\OekBundle(),
+            new OdpBundle\OdpBundle(),
+            new DagbestedingBundle\DagbestedingBundle(),
+            new ClipBundle\ClipBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -27,6 +40,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new Hautelook\AliceBundle\HautelookAliceBundle();
+            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
         return $bundles;
@@ -34,12 +48,12 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return $this->getRootDir().'/tmp/cache/'.$this->getEnvironment();
+        return $this->getRootDir().'/../var/cache/'.$this->getEnvironment();
     }
 
     public function getLogDir()
     {
-        return $this->getRootDir().'/tmp/logs/'.$this->getEnvironment();
+        return $this->getRootDir().'/../var/logs/'.$this->getEnvironment();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

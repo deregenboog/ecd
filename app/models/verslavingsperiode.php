@@ -5,8 +5,8 @@ class Verslavingsperiode extends AppModel
     public $name = 'Verslavingsperiode';
     public $displayField = 'naam';
 
-    public $hasMany = array(
-        'Intake' => array(
+    public $hasMany = [
+        'Intake' => [
             'className' => 'Intake',
             'foreignKey' => 'verslavingsperiode_id',
             'dependent' => false,
@@ -18,6 +18,6 @@ class Verslavingsperiode extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

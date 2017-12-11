@@ -1,0 +1,31 @@
+imports:
+    - { resource: config_dev.yml }
+
+parameters:
+    acl_disabled: false
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+        name: MOCKSESSID
+    profiler:
+        enabled: true
+        collect: true
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        path: '%kernel.cache_dir%/test.db'
+
+swiftmailer:
+    disable_delivery: true
+
+liip_functional_test:
+    cache_sqlite_db: true
+    query:
+        max_query_count: 10

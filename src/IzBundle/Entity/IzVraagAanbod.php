@@ -3,13 +3,19 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_vraagaanboden")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class IzVraagAanbod
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -18,19 +24,10 @@ class IzVraagAanbod
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Gedmo\Versioned
      */
     private $naam;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
 
     public function __toString()
     {
@@ -50,6 +47,7 @@ class IzVraagAanbod
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 }

@@ -5,7 +5,7 @@ App::import('Model', 'BtoVerslag');
 
 class BtoVerslagTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.bot_verslag', 'app.medewerker', 'app.ldap_user');
+    public $fixtures = ['app.bot_verslag', 'app.medewerker', 'app.ldap_user'];
 
     public function startTest()
     {

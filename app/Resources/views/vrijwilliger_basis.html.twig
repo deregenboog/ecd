@@ -1,0 +1,36 @@
+<h2>Basisgegevens</h2>
+<p>
+    {{ html.editLink(path('app_vrijwilligers_edit', {id: vrijwilliger.id})) }}
+    {{ html.link('Wijzigen', path('app_vrijwilligers_edit', {id: vrijwilliger.id})) }}
+</p>
+<dl class="dl-horizontal">
+    <dt>Naam</dt>
+    <dd>{{ vrijwilliger }}</dd>
+    <dt>Geslacht</dt>
+    <dd>{{ vrijwilliger.geslacht.volledig }}</dd>
+    <dt>Geboortedatum</dt>
+    <dd>{{ vrijwilliger.geboortedatum ? vrijwilliger.geboortedatum|date('d-m-Y') }}</dd>
+    <dt>Geboorteland</dt>
+    <dd>{{ vrijwilliger.land }}</dd>
+    <dt>Nationaliteit</dt>
+    <dd>{{ vrijwilliger.nationaliteit }}</dd>
+    <dt>BSN</dt>
+    <dd>{{ vrijwilliger.bsn }}</dd>
+    <dt>Medewerker</dt>
+    <dd>{{ vrijwilliger.medewerker }}</dd>
+    <dt>Adres</dt>
+    <dd>
+        {{ vrijwilliger.adres }}<br>
+        {{ vrijwilliger.postcode }} {{ vrijwilliger.plaats }}
+    </dd>
+    <dt>Werkgebied</dt>
+    <dd>{{ vrijwilliger.werkgebied }}</dd>
+    <dt>Postcodegebied</dt>
+    <dd>{{ vrijwilliger.postcodegebied }}</dd>
+    <dt>Mobiel</dt>
+    <dd>{{ vrijwilliger.mobiel }}</dd>
+    <dt>Telefoon</dt>
+    <dd>{{ vrijwilliger.telefoon }}</dd>
+    <dt>E-mail</dt>
+    <dd>{{ vrijwilliger.email }}</dd>
+</dl>

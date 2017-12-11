@@ -6,13 +6,13 @@ class Hi5AnswerType extends AppModel
 
     public $displayField = 'answer_type';
 
-    public $hasMany = array(
-            'Hi5Answer' => array(
+    public $hasMany = [
+            'Hi5Answer' => [
                     'className' => 'Hi5Answer',
                     'foreignKey' => 'hi5_question_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
+            ],
+    ];
 }

@@ -12,10 +12,10 @@ class KoppelingenTotaal extends AbstractKoppelingenReport
 
     protected function init()
     {
-        $this->beginstand = $this->repository->count('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->count('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->count('afgesloten', $this->startDate, $this->endDate);
-        $this->succesvolAfgesloten = $this->repository->count('succesvol_afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->count('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->countKoppelingen('beginstand', $this->startDate, $this->endDate);
+        $this->gestart = $this->repository->countKoppelingen('gestart', $this->startDate, $this->endDate);
+        $this->afgesloten = $this->repository->countKoppelingen('afgesloten', $this->startDate, $this->endDate);
+        $this->succesvolAfgesloten = $this->repository->countKoppelingen('succesvol_afgesloten', $this->startDate, $this->endDate);
+        $this->eindstand = $this->repository->countKoppelingen('eindstand', $this->startDate, $this->endDate);
     }
 }

@@ -14,7 +14,7 @@ class DoorverwijzersController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid doorverwijzer', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('doorverwijzer', $this->Doorverwijzer->read(null, $id));
     }
@@ -25,7 +25,7 @@ class DoorverwijzersController extends AppController
             $this->Doorverwijzer->create();
             if ($this->Doorverwijzer->save($this->data)) {
                 $this->flashError(__('The doorverwijzer has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The doorverwijzer could not be saved. Please, try again.', true));
             }
@@ -36,12 +36,12 @@ class DoorverwijzersController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid doorverwijzer', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Doorverwijzer->save($this->data)) {
                 $this->flashError(__('The doorverwijzer has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The doorverwijzer could not be saved. Please, try again.', true));
             }
@@ -55,13 +55,13 @@ class DoorverwijzersController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for doorverwijzer', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Doorverwijzer->delete($id)) {
             $this->flashError(__('Doorverwijzer deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Doorverwijzer was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

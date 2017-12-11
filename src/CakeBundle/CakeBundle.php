@@ -5,6 +5,7 @@ namespace CakeBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use CakeBundle\DependencyInjection\Compiler\EmailCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use CakeBundle\DependencyInjection\Compiler\CakeConfigurationCompilerPass;
 
 class CakeBundle extends Bundle
 {
@@ -13,5 +14,6 @@ class CakeBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new EmailCompilerPass());
+        $container->addCompilerPass(new CakeConfigurationCompilerPass());
     }
 }

@@ -4,5 +4,5 @@
 class WoonsituatieFixture extends CakeTestFixture
 {
     public $name = 'Woonsituatie';
-    public $import = array('model' => 'Woonsituatie', 'records' => true);
+    public $import = ['model' => 'Woonsituatie', 'records' => true];
 }

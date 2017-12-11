@@ -5,20 +5,20 @@ class IzIntervisiegroepFixture extends CakeTestFixture
 {
     public $name = 'IzIntervisiegroep';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'naam' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100),
-        'startdatum' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'einddatum' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'medewerker_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'naam' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 100],
+        'startdatum' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'einddatum' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'medewerker_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'naam' => 'Lorem ipsum dolor sit amet',
             'startdatum' => 1,
@@ -26,6 +26,6 @@ class IzIntervisiegroepFixture extends CakeTestFixture
             'medewerker_id' => 1,
             'created' => '2014-08-05 16:20:58',
             'modified' => '2014-08-05 16:20:58',
-        ),
-    );
+        ],
+    ];
 }

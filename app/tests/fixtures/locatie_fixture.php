@@ -4,5 +4,5 @@
 class LocatieFixture extends CakeTestFixture
 {
     public $name = 'Locatie';
-    public $import = array('model' => 'Locatie', 'records' => true);
+    public $import = ['model' => 'Locatie', 'records' => true];
 }

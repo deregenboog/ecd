@@ -4,9 +4,43 @@ namespace IzBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\MatchingVrijwilliger;
 
 class IzKlantRepository extends EntityRepository
 {
+    public function findMatching(MatchingVrijwilliger $matching)
+    {
+        $builder = $this->createQueryBuilder('izKlant')
+            ->select('izKlant, klant')
+            ->leftJoin('izKlant.matching', 'matching')
+            ->innerJoin('izKlant.izHulpvragen', 'izHulpvraag', 'WITH', 'izHulpvraag.einddatum IS NULL AND izHulpvraag.izHulpaanbod IS NULL')
+            ->innerJoin('izKlant.izIntake', 'izIntake')
+            ->innerJoin('izKlant.klant', 'klant')
+            ->andWhere('klant.disabled IS NULL OR klant.disabled = 0')
+            ->andWhere('izKlant.afsluitDatum IS NULL')
+            ->orderBy('izHulpvraag.startdatum', 'ASC')
+        ;
+
+        // doelgroepen
+        $builder
+            ->innerJoin('matching.doelgroepen', 'doelgroep', 'WITH', 'doelgroep IN (:doelgroepen)')
+            ->setParameter('doelgroepen', $matching->getDoelgroepen())
+        ;
+
+        // hulpvraagsoort
+        $builder
+            ->innerJoin('matching.hulpvraagsoort', 'hulpvraagsoort', 'WITH', 'hulpvraagsoort IN (:hulpvraagsoorten)')
+            ->setParameter('hulpvraagsoorten', $matching->getHulpvraagsoorten())
+        ;
+
+        // spreek Nederlands
+        if (true === $matching->isVoorkeurVoorNederlands()) {
+            $builder->andWhere('matching.spreektNederlands = true');
+        }
+
+        return $builder->setMaxResults(20)->getQuery()->getResult();
+    }
+
     public function count($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder();

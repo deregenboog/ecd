@@ -5,7 +5,7 @@ App::import('Model', 'IzViaPersoon');
 
 class IzViaPersoonTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.iz_via_persoon');
+    public $fixtures = ['app.iz_via_persoon'];
 
     public function startTest()
     {

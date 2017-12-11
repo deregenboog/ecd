@@ -1,6 +1,74 @@
 services:
-    app.twig_extension:
+    app.twig.app_extension:
         class: AppBundle\Twig\AppExtension
         public: false
+        arguments:
+            - '@request_stack'
+            - '%locale%'
         tags:
             - { name: twig.extension }
+
+    app.twig.routing_extension:
+        class: AppBundle\Twig\RoutingExtension
+        public: false
+        arguments:
+            - '@router'
+            - '@request_stack'
+        tags:
+            - { name: twig.extension }
+
+    app.form.type.klant:
+        class: AppBundle\Form\KlantType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    app.form.type.medewerker:
+        class: AppBundle\Form\MedewerkerType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    app.event.kernel_subscriber:
+        class: AppBundle\Event\KernelSubscriber
+        arguments:
+            - '@twig'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.dao.abstract:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    app.dao.klant:
+        parent: app.dao.abstract
+        class: AppBundle\Service\KlantDao
+
+    app.dao.vrijwilliger:
+        parent: app.dao.abstract
+        class: AppBundle\Service\VrijwilligerDao
+
+    app.form.rapportage:
+        class: AppBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    app.report.klanten.zrm_score_per_postcodegebied:
+        class: AppBundle\Report\ZrmScorePerPostcodegebied
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: app.rapportage, category: ZRM }
+
+    app.report.klanten.zrm_v2_score_per_postcodegebied:
+        class: AppBundle\Report\ZrmV2ScorePerPostcodegebied
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: app.rapportage, category: ZRM }
+
+    app.export.report:
+        class: AppBundle\Export\ReportExport

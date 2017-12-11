@@ -1,47 +1,51 @@
 <?php
+
 /* GroepsactiviteitenVerslags Test cases generated on: 2014-05-06 14:05:24 : 1399378404*/
 App::import('Controller', 'GroepsactiviteitenVerslagen');
 
-class TestGroepsactiviteitenVerslagenController extends GroepsactiviteitenVerslagenController {
-	var $autoRender = false;
+class TestGroepsactiviteitenVerslagenController extends GroepsactiviteitenVerslagenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class GroepsactiviteitenVerslagenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.groepsactiviteiten_verslag');
+class GroepsactiviteitenVerslagenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.groepsactiviteiten_verslag'];
 
-	function startTest() {
-		$this->GroepsactiviteitenVerslagen =& new TestGroepsactiviteitenVerslagenController();
-		$this->GroepsactiviteitenVerslagen->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->GroepsactiviteitenVerslagen = new TestGroepsactiviteitenVerslagenController();
+        $this->GroepsactiviteitenVerslagen->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->GroepsactiviteitenVerslagen);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->GroepsactiviteitenVerslagen);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

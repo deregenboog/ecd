@@ -41,18 +41,14 @@ class AuthExtComponent extends AuthComponent
             return $this->_loggedIn;
         }
 
-        if ($model->LdapUser->auth(
-            $data[$alias.'.username'],
-            $posted_data[$alias]['passwd'])
-        ) {
+        if ($model->LdapUser->auth($data[$alias.'.username'], $posted_data[$alias]['passwd'])) {
             $this->_loggedIn = true;
 
             $ldap = $model->LdapUser->read(null, $data[$alias.'.username']);
 
             $user[$this->userModel]['username'] = $data[$alias.'.username'];
             if (isset($ldap['LdapUser']['uidnumber'])) {
-                $user[$this->userModel]['uidnumber'] =
-                     $ldap['LdapUser']['uidnumber'];
+                $user[$this->userModel]['uidnumber'] = $ldap['LdapUser']['uidnumber'];
             }
 
             $user[$this->userModel]['LdapUser'] = $ldap['LdapUser'];
@@ -79,14 +75,13 @@ class AuthExtComponent extends AuthComponent
     }
 
     // override this to find the right aro/aco. If we use Auth->authorize =
-    // 'controller' we don't need this at all (we just call the standar
-    // isAuthorize method, see http://book.cakephp.org/view/396/authorize).
+    // 'controller' we don't need this at all (we just call the standard
+    // isAuthorized() method, see http://book.cakephp.org/view/396/authorize).
     // This is left here in case we want to authorize on actions, while having
     // multiple groups.
-
     public function isAuthorized($type = null, $object = null, $user = null)
     {
-        if (Configure::read('ACL.disabled') && Configure::read('debug')) {
+        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
             // ACL disabled with a flag
             return true;
         }
@@ -100,9 +95,9 @@ class AuthExtComponent extends AuthComponent
                 // get the roles from the Session, and set the proper Aro path
                 $groups = $this->user($this->parentModel);
                 // check using our Roles Aro paths
-                $valid = $this->Acl->check(array(
-                            $this->parentModel => array('id' => $groups),
-                            ),
+                $valid = $this->Acl->check([
+                            $this->parentModel => ['id' => $groups],
+                            ],
                         $this->action());
             } elseif ($type == 'controller') {
                 // Call the controller function 'isAuthorized', that can be

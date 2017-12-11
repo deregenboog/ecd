@@ -1,0 +1,10 @@
+odp_annotations:
+    resource: "@OdpBundle/Controller"
+    type: annotation
+    prefix: /odp
+
+odp_index:
+    path: /odp/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: odp_huurders_index

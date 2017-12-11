@@ -1,0 +1,33 @@
+<h1 align="right">Homeservice Amsterdam</h1>
+<p align="right">
+    Derde Schinkelstraat<br>
+    1075 TJ AMSTERDAM<br>
+    Tel. (020) 626 0969<br>
+    De Regenboog
+</p>
+<p style="font-weight: bold;">
+    {{ entity.factuur.klant.naam }}<br>
+    {{ entity.factuur.klant.adres }}<br>
+    {{ entity.factuur.klant.postcode }} {{ entity.factuur.klant.plaats }}
+</p>
+<p style="font-weight: bold;">
+    Betreft: {{ entity.type }} factuur {{ entity.factuur }}<br>
+    Datum: {{ entity.datum|date('d-m-Y') }}
+</p>
+<p>
+    Geachte klant,
+</p>
+<p>
+    Uit onze administratie blijkt dat er nog een bedrag openstaat voor werkzaamheden die wij in het verleden bij u<br>
+    hebben uitgevoerd. Dat kan natuurlijk gebeuren!
+</p>
+<p>
+    Wij verzoeken u vriendelijk om dit bedrag zo spoedig mogelijk na ontvangst van deze brief te voldoen op IBAN<br>
+    nummer: <strong>NL46INGB0000215793  ten name van Stichting de Regenboog Groep</strong>,<br>
+    graag onder vermelding van factuurnummer(s).
+</p>
+<p>
+    Heeft u al betaald? Laat ons dit dan even telefonisch weten op 020-626 0969, of via de mail:<br>
+    homeservice@deregenboog.org. Zolang er een bedrag openstaat is de kans namelijk aanwezig dat wij geen<br>
+    nieuwe klus aannemen.
+</p>

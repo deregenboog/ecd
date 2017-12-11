@@ -1,64 +1,111 @@
 <?php
 
+use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\Aanmelding;
+use AppBundle\Entity\Klant;
+
 class IntakesController extends AppController
 {
     public $name = 'Intakes';
 
-    public function index()
+    public function index($klantId)
     {
-        $this->Intake->recursive = 0;
+        $klant = $this->Intake->Klant->read(null, $klantId);
+
+        if (!$klant) {
+            $this->flashError(__('Ongeldige klant', true));
+            $this->redirect(['controller' => 'klanten', 'action' => 'index']);
+
+            return;
+        }
+
+        $this->paginate = [
+            'Intake' => [
+                'conditions' => [
+                    'klant_id' => $klantId,
+                ],
+            ],
+        ];
+
+        $this->set('klant', $klant);
         $this->set('intakes', $this->paginate());
     }
 
-    public function view($id = null)
+    public function view($id)
     {
-        $this->loadModel('ZrmReport');
-        if (!$id) {
+        // get intake
+        $intake = $this->Intake->read(null, $id);
+        if (!$intake) {
             $this->flashError(__('Invalid intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
-        $intake = $this->Intake->read(null, $id);
+        // get client associated with intake
         $klant = $this->Intake->Klant->read(null, $intake['Klant']['id']);
 
+        // get ZRM associated with intake
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $id);
+            if ($zrmReport) {
+                break;
+            }
+        }
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+
+        // create title
         App::import('Helper', 'Date');
-        $dateHelper = new DateHelper();
+        $title_for_layout = sprintf(
+            ' - Intake van %s op %s',
+            $intake['Klant']['name'],
+            (new DateHelper())->show($intake['Intake']['datum_intake'])
+        );
 
-        $title_for_layout = ' - Intake van '.
-            $intake['Klant']['name'].' op '.
-            $dateHelper->show($intake['Intake']['datum_intake']);
-
+        // set template vars
         $this->set('intake', $intake);
         $this->set('klant', $klant);
-        $zrm_data = $this->ZrmReport->zrm_data();
-
-        $zrmReport = $this->ZrmReport->get_zrm_report('Intake', $id, $intake['Klant']['id']);
-        $this->set('diensten', $this->Intake->Klant->diensten($intake['Intake']['klant_id']));
-
-        $klant = $this->Intake->Klant->findById($intake['Intake']['klant_id']);
-        $this->set(compact('title_for_layout', 'zrm_data', 'zrmReport'));
+        $this->set('diensten', $this->Intake->Klant->diensten($intake['Intake']['klant_id'], $this->getEventDispatcher()));
+        $this->set(compact('title_for_layout', 'zrmData', 'zrmReport', 'zrmReportModel'));
     }
 
     public function add($klant_id = null)
     {
-        $this->loadModel('ZrmReport');
+        if (null == $klant_id) {
+            $this->flashError('Geen klant Id opgegeven');
+            $this->redirect(['controller' => 'klanten', 'action' => 'index']);
+        }
+
+        $entityManager = $this->getEntityManager();
+        $klant = $entityManager->find(Klant::class, $klant_id);
+
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
+
         if (!empty($this->data)) {
             $this->Intake->create();
             $this->Intake->begin();
 
-            if ($this->Intake->saveAll($this->data, array('atomic' => false))) {
-                $this->data['ZrmReport']['model'] = 'Intake';
-                $this->data['ZrmReport']['foreign_key'] = $this->Intake->id;
-                $this->data['ZrmReport']['klant_id'] = $klant_id;
+            if ($this->Intake->saveAll($this->data, ['atomic' => false])) {
+                $this->data[$zrmReportModel]['model'] = 'Intake';
+                $this->data[$zrmReportModel]['foreign_key'] = $this->Intake->id;
+                $this->data[$zrmReportModel]['klant_id'] = $klant_id;
 
-                $this->ZrmReport->create();
-
-                if ($this->ZrmReport->save($this->data)) {
+                $this->{$zrmReportModel}->create();
+                if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->Intake->commit();
+
+                    // create "Aanmelding"
+                    $entityManager->persist($klant);
+                    $entityManager->persist(new Aanmelding($klant, $this->getMedewerker()));
+                    $entityManager->flush();
+
                     $this->flash(__('De intake is opgeslagen', true));
 
                     $this->sendIntakeNotification($this->Intake->id, $this->data);
-                    $this->redirect(array('controller' => 'klanten', 'action' => 'view', $klant_id));
+                    $this->redirect(['controller' => 'klanten', 'action' => 'view', $klant_id]);
                 }
 
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
@@ -71,17 +118,17 @@ class IntakesController extends AppController
             $intaker_id = $this->Session->read('Auth.Medewerker.id');
         }
 
-        if ($klant_id == null) {
-            $this->flashError('Geen klant Id opgegeven');
-            $this->redirect(array('controller' => 'klanten', 'action' => 'index'));
-        }
         $this->Intake->Klant->recursive = 1;
         $klant = $this->Intake->Klant->read(null, $klant_id);
 
+        $status = $this->getEntityManager()->getRepository(DossierStatus::class)->findCurrentByKlantId($klant_id);
+
         $datum_intake = date('Y-m-d');
-        if (empty($this->data) && !empty($klant['Klant']['laste_intake_id'])) {
-            $current = $this->Intake->findById(
-                    $klant['Klant']['laste_intake_id']);
+        if (empty($this->data)
+            && !empty($klant['Klant']['laste_intake_id'])
+            && !$status instanceof Afsluiting
+        ) {
+            $current = $this->Intake->findById($klant['Klant']['laste_intake_id']);
             if (isset($current['Intake']['id'])) {
                 unset($current['Intake']['id']);
             }
@@ -91,7 +138,7 @@ class IntakesController extends AppController
         } else {
             if (is_array($this->data['Intake']['datum_intake'])) {
                 $date = $this->data['Intake']['datum_intake'];
-                if ($date['year'] != 0 && $date['month'] != 0 && $date['day'] != 0) {
+                if (0 != $date['year'] && 0 != $date['month'] && 0 != $date['day']) {
                     $datum_intake = $date;
                 }
             }
@@ -103,14 +150,14 @@ class IntakesController extends AppController
         $hulpverlening_mail = Configure::read('hulpverlening_mail');
 
         $medewerkers = $this->Intake->Medewerker->find('list');
-        $verblijfstatussen = $this->Intake->Verblijfstatus->find('list', array('order' => 'Verblijfstatus.naam ASC'));
+        $verblijfstatussen = $this->Intake->Verblijfstatus->find('list', ['order' => 'Verblijfstatus.naam ASC']);
         $legitimaties = $this->Intake->Legitimatie->find('list');
         $verslavingsfrequenties = $this->Intake->Verslavingsfrequentie->find('list');
         $verslavingsperiodes = $this->Intake->Verslavingsperiode->find('list');
         $woonsituaties = $this->Intake->Woonsituatie->find('list');
 
-        $locatie1s = $this->Intake->Locatie1->find('list', array('conditions' => array('Locatie1.gebruikersruimte' => 1)));
-        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => []));
+        $locatie1s = $this->Intake->Locatie1->find('list', ['conditions' => ['Locatie1.gebruikersruimte' => 1]]);
+        $locatie2s = $this->Intake->Locatie2->find('list', ['conditions' => []]);
         $locatie3s = [];
 
         $inkomens = $this->Intake->Inkomen->find('list');
@@ -120,10 +167,11 @@ class IntakesController extends AppController
 
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
-        $zrm_data = $this->ZrmReport->zrm_data();
-        $this->set('diensten', $this->Intake->Klant->diensten($klant_id));
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+        $this->set('diensten', $this->Intake->Klant->diensten($klant_id, $this->getEventDispatcher()));
 
-        $this->set(compact('zrm_data', 'primary_problems', 'klant', 'medewerkers',
+        $this->set(compact(
+            'zrmReportModel', 'zrmData', 'primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
             'verslavingsperiodes', 'woonsituaties', 'locatie1s', 'locatie2s',
             'locatie3s',
@@ -136,30 +184,45 @@ class IntakesController extends AppController
 
     public function edit($id = null)
     {
-        $this->loadModel('ZrmReport');
-
         if (!$id && empty($this->data)) {
             $this->flashError(__('Ongeldige intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
+
+        // get ZRM associated with intake
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $id);
+            if ($zrmReport) {
+                break;
+            }
+        }
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
 
         if (!empty($this->data)) {
             $this->Intake->begin();
 
             if ($this->Intake->save($this->data)) {
-                $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Intake', $id, $this->data['Intake']['klant_id']);
+                $this->{$zrmReportModel}->update_zrm_data_for_edit(
+                    $this->data,
+                    'Intake',
+                    $id,
+                    $this->data['Intake']['klant_id']
+                );
 
-                if ($this->ZrmReport->save($this->data)) {
+                if ($this->{$zrmReportModel}->save($this->data)) {
                     $this->Intake->commit();
                     $this->sendIntakeNotification($this->Intake->id, $this->data);
                     $this->flash(__('De intake is opgeslagen', true));
 
-                    $this->redirect(array('controller' => 'klanten', 'action' => 'view', $this->data['Intake']['klant_id']));
+                    $this->redirect(['controller' => 'klanten', 'action' => 'view', $this->data['Intake']['klant_id']]);
                 }
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
             } else {
                 $this->flashError(__('De intake is niet opgeslagen. Controleer de rood gemarkeerde invoervelden en probeer opnieuw.', true));
             }
+
             $this->Intake->rollback();
         }
 
@@ -169,22 +232,22 @@ class IntakesController extends AppController
             $dateCreated = new \DateTime($this->data['Intake']['created']);
             if ($dateCreated < new \DateTime('-7 days')) {
                 $this->flashError(__('You can only edit intakes that have been created last week.', true));
-                $this->redirect(array(
-                        'controller' => 'klanten',
-                        'action' => 'view',
-                        $this->data['Intake']['klant_id'],
-                        ));
+                $this->redirect([
+                    'controller' => 'klanten',
+                    'action' => 'view',
+                    $this->data['Intake']['klant_id'],
+                ]);
             }
         }
 
         $logged_in_user_id = $this->Session->read('Auth.Medewerker.id');
         if ($this->data['Intake']['medewerker_id'] != $logged_in_user_id) {
             $this->flashError(__('You can only edit intakes that you created.', true));
-            $this->redirect(array(
+            $this->redirect([
                 'controller' => 'klanten',
                 'action' => 'view',
                 $this->data['Intake']['klant_id'],
-            ));
+            ]);
         }
 
         $informele_zorg_mail = Configure::read('informele_zorg_mail');
@@ -193,14 +256,14 @@ class IntakesController extends AppController
         $hulpverlening_mail = Configure::read('hulpverlening_mail');
 
         $medewerkers = $this->Intake->Medewerker->find('list');
-        $verblijfstatussen = $this->Intake->Verblijfstatus->find('list', array('order' => 'Verblijfstatus.naam ASC'));
+        $verblijfstatussen = $this->Intake->Verblijfstatus->find('list', ['order' => 'Verblijfstatus.naam ASC']);
         $legitimaties = $this->Intake->Legitimatie->find('list');
         $verslavingsfrequenties = $this->Intake->Verslavingsfrequentie->find('list');
         $verslavingsperiodes = $this->Intake->Verslavingsperiode->find('list');
         $woonsituaties = $this->Intake->Woonsituatie->find('list');
 
-        $locatie1s = $this->Intake->Locatie1->find('list', array('conditions' => array('Locatie1.gebruikersruimte' => 1)));
-        $locatie2s = $this->Intake->Locatie2->find('list', array('conditions' => []));
+        $locatie1s = $this->Intake->Locatie1->find('list', ['conditions' => ['Locatie1.gebruikersruimte' => 1]]);
+        $locatie2s = $this->Intake->Locatie2->find('list', ['conditions' => []]);
         $locatie3s = [];
 
         $inkomens = $this->Intake->Inkomen->find('list');
@@ -210,8 +273,9 @@ class IntakesController extends AppController
         $primary_problems = $this->Intake->PrimaireProblematiek->find('list');
         $primaireproblematieksgebruikswijzen = $verslavingsgebruikswijzen;
 
-        $this->set('diensten', $this->Intake->Klant->diensten($this->data['Intake']['klant_id']));
-        $this->set(compact('primary_problems', 'klant', 'medewerkers',
+        $this->set('diensten', $this->Intake->Klant->diensten($this->data['Intake']['klant_id'], $this->getEventDispatcher()));
+        $this->set(compact(
+            'primary_problems', 'klant', 'medewerkers',
             'verblijfstatussen', 'legitimaties', 'verslavingsfrequenties',
             'verslavingsperiodes', 'woonsituaties', 'locatie1s', 'locatie2s',
             'locatie3s',
@@ -223,29 +287,28 @@ class IntakesController extends AppController
 
         $this->Intake->Klant->recursive = 1;
         $klant = $this->Intake->Klant->findById($this->data['Intake']['klant_id']);
-        $zrm_data = $this->ZrmReport->zrm_data();
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
 
-        if (empty($this->data['ZrmReport'])) {
-            $zrm = $this->ZrmReport->get_zrm_report('Intake', $id, $this->data['Intake']['klant_id']);
-            $this->data['ZrmReport'] = $zrm['ZrmReport'];
+        if (empty($this->data[$zrmReportModel])) {
+            $this->data[$zrmReportModel] = $zrmReport[$zrmReportModel];
         }
-        $this->set(compact('klant', 'zrm_data'));
+        $this->set(compact('klant', 'zrmData', 'zrmReportModel'));
     }
 
     public function delete($id = null)
     {
         if (!$id) {
             $this->flashError(__('Ongeldige id voor intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->Intake->delete($id)) {
             $this->flash(__('Intake verwijderd', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->flashError(__('Intake is niet verwijderd', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function sendIntakeNotification($intake_id, $data)
@@ -291,14 +354,14 @@ class IntakesController extends AppController
         }
 
         if (count($addresses) > 0) {
-            $data['Intake'] = $this->Intake->find('first', array(
-                'conditions' => array('Intake.id' => $intake_id),
+            $data['Intake'] = $this->Intake->find('first', [
+                'conditions' => ['Intake.id' => $intake_id],
                 'contain' => $this->Intake->contain,
-            ));
-            $this->_genericSendEmail(array(
+            ]);
+            $this->_genericSendEmail([
                 'to' => $addresses,
                 'content' => $data['Intake'],
-            ));
+            ]);
         }
     }
 
@@ -307,9 +370,9 @@ class IntakesController extends AppController
      */
     public function print_empty()
     {
-        $this->set('verblijfstatussen', $this->Intake->Verblijfstatus->find('list', array(
+        $this->set('verblijfstatussen', $this->Intake->Verblijfstatus->find('list', [
                 'order' => 'Verblijfstatus.naam ASC',
-        )));
+        ]));
         $this->set('legitimaties', $this->Intake->Legitimatie->find('list'));
         $this->set('problems', $this->Intake->PrimaireProblematiek->find('list'));
         $this->set('verslavingsfrequenties', $this->Intake->Verslavingsfrequentie->find('list'));

@@ -1,4 +1,6 @@
 /app/config/parameters.yml
+/app/SymfonyRequirements.php
+/app/check.php
 
 # Temp dir
 /app/tmp/*
@@ -9,6 +11,15 @@
 !/app/tmp/logs/.gitkeep
 !/app/tmp/sessions/.gitkeep
 !/app/tmp/tests/.gitkeep
+
+# Symfony cache/logs/sessions
+/var/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+
+# Backups
+/backups/*
 
 # SQL data
 /app/sql/*
@@ -30,10 +41,15 @@
 /.project
 /.buildpath
 
+# PhpStorm
+.idea
+
 # Custom tools
 /bin/*
+!/bin/bump-version
 !/bin/console
 !/bin/docker-build.sh
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
+/.php_cs.cache

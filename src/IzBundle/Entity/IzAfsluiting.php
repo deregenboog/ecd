@@ -3,13 +3,19 @@
 namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_afsluitingen")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class IzAfsluiting
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -19,23 +25,15 @@ class IzAfsluiting
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @Gedmo\Versioned
      */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
-
-    /**
-     * @ORM\Column(name="active", type="boolean", nullable=true)
-     */
-    private $actief;
+    private $actief = true;
 
     public function __toString()
     {

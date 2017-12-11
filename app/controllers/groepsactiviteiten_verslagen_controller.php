@@ -22,6 +22,6 @@ class GroepsactiviteitenVerslagenController extends AppController
             }
         }
 
-        $this->redirect(array('controller' => 'Groepsactiviteiten', 'action' => 'verslagen', $persoon_model, $foreign_key));
+        $this->redirect(['controller' => 'Groepsactiviteiten', 'action' => 'verslagen', $persoon_model, $foreign_key]);
     }
 }

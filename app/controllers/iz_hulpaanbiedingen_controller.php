@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\IzHulpaanbod;
 use IzBundle\Form\IzHulpaanbodFilterType;
@@ -16,6 +17,13 @@ class IzHulpaanbiedingenController extends AppController
      */
     public $view = 'AppTwig';
 
+    private $enabledFilters = [
+        'startdatum',
+        'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+        'izProject',
+        'medewerker',
+    ];
+
     private $sortFieldWhitelist = [
         'izHulpaanbod.startdatum',
         'izProject.naam',
@@ -24,14 +32,15 @@ class IzHulpaanbiedingenController extends AppController
         'vrijwilliger.achternaam',
         'vrijwilliger.geboortedatum',
         'vrijwilliger.werkgebied',
-        'vrijwilliger.laatsteZrm',
         'medewerker.achternaam',
     ];
 
     public function index()
     {
-        $form = $this->createForm(IzHulpaanbodFilterType::class);
-        $form->handleRequest($this->request);
+        $form = $this->createForm(IzHulpaanbodFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $form->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(IzHulpaanbod::class);
@@ -46,11 +55,15 @@ class IzHulpaanbiedingenController extends AppController
             ->andWhere('izVrijwilliger.izAfsluiting IS NULL')
             ->andWhere('vrijwilliger.disabled = false');
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $form->getData()->applyTo($builder);
+
+            if ($form->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'izHulpaanbod.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -58,5 +71,18 @@ class IzHulpaanbiedingenController extends AppController
 
         $this->set('form', $form->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $hulpaanbiedingen = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('iz-hulpaanbiedingen-%s.xls', (new \DateTime())->format('d-m-Y'));
+
+        $export = $this->container->get('iz.export.hulpaanbiedingen');
+        $export->create($hulpaanbiedingen)->send($filename);
     }
 }

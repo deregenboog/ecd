@@ -1,47 +1,51 @@
 <?php
+
 /* Izeindekoppelingen Test cases generated on: 2014-08-11 13:08:00 : 1407755220*/
 App::import('Controller', 'Izeindekoppelingen');
 
-class TestIzeindekoppelingenController extends IzeindekoppelingenController {
-	var $autoRender = false;
+class TestIzeindekoppelingenController extends IzeindekoppelingenController
+{
+    public $autoRender = false;
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
-	}
+    public function redirect($url, $status = null, $exit = true)
+    {
+        $this->redirectUrl = $url;
+    }
 }
 
-class IzeindekoppelingenControllerTestCase extends CakeTestCase {
-	var $fixtures = array('app.iz_eindekoppeling');
+class IzeindekoppelingenControllerTestCase extends CakeTestCase
+{
+    public $fixtures = ['app.iz_eindekoppeling'];
 
-	function startTest() {
-		$this->Izeindekoppelingen =& new TestIzeindekoppelingenController();
-		$this->Izeindekoppelingen->constructClasses();
-	}
+    public function startTest()
+    {
+        $this->Izeindekoppelingen = new TestIzeindekoppelingenController();
+        $this->Izeindekoppelingen->constructClasses();
+    }
 
-	function endTest() {
-		unset($this->Izeindekoppelingen);
-		ClassRegistry::flush();
-	}
+    public function endTest()
+    {
+        unset($this->Izeindekoppelingen);
+        ClassRegistry::flush();
+    }
 
-	function testIndex() {
+    public function testIndex()
+    {
+    }
 
-	}
+    public function testView()
+    {
+    }
 
-	function testView() {
+    public function testAdd()
+    {
+    }
 
-	}
+    public function testEdit()
+    {
+    }
 
-	function testAdd() {
-
-	}
-
-	function testEdit() {
-
-	}
-
-	function testDelete() {
-
-	}
-
+    public function testDelete()
+    {
+    }
 }
-?>

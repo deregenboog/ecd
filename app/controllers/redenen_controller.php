@@ -14,7 +14,7 @@ class RedenenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid reden', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('reden', $this->Reden->read(null, $id));
     }
@@ -25,7 +25,7 @@ class RedenenController extends AppController
             $this->Reden->create();
             if ($this->Reden->save($this->data)) {
                 $this->flashError(__('The reden has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The reden could not be saved. Please, try again.', true));
             }
@@ -38,12 +38,12 @@ class RedenenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid reden', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Reden->save($this->data)) {
                 $this->flashError(__('The reden has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The reden could not be saved. Please, try again.', true));
             }
@@ -59,13 +59,13 @@ class RedenenController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for reden', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Reden->delete($id)) {
             $this->flashError(__('Reden deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Reden was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

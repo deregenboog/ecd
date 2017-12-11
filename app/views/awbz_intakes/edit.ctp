@@ -214,18 +214,10 @@
                 echo $this->Form->input('hulpverlening', $optionsArray);
             ?>
         </fieldset>
-        <fieldset id="zrm" style="display: none;">
-            <legend>Zelfredzaamheid matrix</legend>
-            <p>
-                Vul onderstaande matrix in
-            </p>
-            <?php
-            echo $this->element('zrm', array(
-                'model' => 'AwbzIntake',
-                'zrm_data' => $zrm_data,
-            ));
-            ?>
-
+        <fieldset id="zrm" >
+            <legend>Zelfredzaamheidmatrix</legend>
+            <p>Vul onderstaande matrix in</p>
+            <?= $this->element('zrm', ['model' => 'AwbzIntake', 'zrmData' => $zrmData]) ?>
         </fieldset>
     </fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

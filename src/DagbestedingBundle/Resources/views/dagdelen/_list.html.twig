@@ -1,0 +1,67 @@
+{% import _self as macro %}
+
+{% macro color(key, value) %}
+    {% if key == 'A' %}
+        {% set color = 'green' %}
+    {% elseif key == 'Z' %}
+        {% set color = 'orange' %}
+    {% elseif key == 'O' %}
+        {% set color = 'red' %}
+    {% elseif key == 'V' %}
+        {% set color = 'blue' %}
+    {% else %}
+        {% set color = 'black' %}
+    {% endif %}
+    <span style="color: {{ color }}">{{ value }}</span>
+{% endmacro %}
+
+<h2>Dagdelen</h2>
+<table class="table">
+    <tr>
+        <th></th>
+        {% for project in entity.projecten %}
+            <th colspan="5">{{ project }}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Maand</th>
+        {% for project in entity.projecten %}
+            <th>{{ macro.color('A', 'A') }}</th>
+            <th>{{ macro.color('Z', 'Z') }}</th>
+            <th>{{ macro.color('O', 'O') }}</th>
+            <th>{{ macro.color('V', 'V') }}</th>
+            <th></th>
+        {% endfor %}
+    </tr>
+    {% for maand in entity.countDagdelenByMonth %}
+        <tr>
+            <td>{{ maand.maand|date('m-Y') }}</td>
+            {% for project in maand.projecten %}
+                <td>
+                    {{ macro.color('A', project['A']) }}
+                </td>
+                <td>
+                    {{ macro.color('Z', project['Z']) }}
+                </td>
+                <td>
+                    {{ macro.color('O', project['O']) }}
+                </td>
+                <td>
+                    {{ macro.color('V', project['V']) }}
+                </td>
+                <td>
+                    {{ html.viewLink(path('dagbesteding_trajecten_viewdagdelen', {
+                        id: traject.id,
+                        project: project.project.id,
+                        month: maand.maand|date('Y-m')
+                    })) }}
+                    {{ html.editLink(path('dagbesteding_trajecten_editdagdelen', {
+                        id: traject.id,
+                        project: project.project.id,
+                        month: maand.maand|date('Y-m')
+                    })) }}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>

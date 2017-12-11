@@ -4,99 +4,99 @@ class IzDeelnemer extends AppModel
 {
     public $name = 'IzDeelnemer';
 
-    public $actsAs = array('Containable', 'OdsEtiketten');
+    public $actsAs = ['Containable', 'OdsEtiketten'];
 
-    public $belongsTo = array(
-        'Klant' => array(
+    public $belongsTo = [
+        'Klant' => [
             'className' => 'Klant',
             'model' => 'Klant',
             'foreignKey' => 'foreign_key',
-            'conditions' => array('model' => 'Klant'),
-        ),
-        'Vrijwilliger' => array(
+            'conditions' => ['model' => 'Klant'],
+        ],
+        'Vrijwilliger' => [
             'className' => 'Vrijwilliger',
             'model' => 'Vrijwilliger',
             'foreignKey' => 'foreign_key',
-            'conditions' => array('model' => 'Vrijwilliger'),
-        ),
-        'IzAfsluiting' => array(
+            'conditions' => ['model' => 'Vrijwilliger'],
+        ],
+        'IzAfsluiting' => [
             'className' => 'IzAfsluiting',
             'foreignKey' => 'iz_afsluiting_id',
-        ),
-    );
+        ],
+    ];
 
-    public $hasMany = array(
-        'IzDeelnemersIzIntervisiegroep' => array(
+    public $hasMany = [
+        'IzDeelnemersIzIntervisiegroep' => [
             'className' => 'IzDeelnemersIzIntervisiegroep',
             'foreignKey' => 'iz_deelnemer_id',
             'dependent' => false,
-        ),
-        'IzDeelnemersIzProject' => array(
+        ],
+        'IzDeelnemersIzProject' => [
             'className' => 'IzDeelnemersIzProject',
             'foreignKey' => 'iz_deelnemer_id',
             'dependent' => false,
-        ),
-        'IzVerslag' => array(
+        ],
+        'IzVerslag' => [
             'className' => 'IzVerslag',
             'foreignKey' => 'iz_deelnemer_id',
             'dependent' => false,
-        ),
-        'IzKoppeling' => array(
+        ],
+        'IzKoppeling' => [
             'className' => 'IzKoppeling',
             'foreignKey' => 'iz_deelnemer_id',
             'dependent' => false,
-        ),
-        'IzDeelnemerDocument' => array(
+        ],
+        'IzDeelnemerDocument' => [
             'className' => 'Attachment',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
+            'conditions' => [
                 'IzDeelnemerDocument.model' => 'IzDeelnemer',
                 'is_active' => 1,
-            ),
+            ],
             'dependent' => true,
             'order' => 'created desc',
-        ),
-    );
+        ],
+    ];
 
-    public $hasOne = array(
-        'IzIntake' => array(
+    public $hasOne = [
+        'IzIntake' => [
             'className' => 'IzIntake',
             'foreignKey' => 'iz_deelnemer_id',
             'dependent' => false,
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-        'datum_aanmelding' => array(
-            'notempty' => array(
+    public $validate = [
+        'datum_aanmelding' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Voer een datum in',
                 'allowEmpty' => false,
                 'required' => false,
-            ),
-        ),
-        'email_aanmelder' => array(
-            'email' => array(
-                'rule' => array('email'),
+            ],
+        ],
+        'email_aanmelder' => [
+            'email' => [
+                'rule' => ['email'],
                 'message' => 'Een geldig E-Mail adres invoeren',
                 'allowEmpty' => true,
                 'required' => false,
                 //'last' => false, // Stop validation after this rule
-            ),
-        ),
-        'iz_afsluiting_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'iz_afsluiting_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
                 'message' => 'Voer een reden in',
                 'allowEmpty' => false,
                 'required' => false,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function beforeSave($options = [])
     {
-        $data = array($this->alias => $this->data[$this->alias]);
+        $data = [$this->alias => $this->data[$this->alias]];
 
         if ($this->id || !empty($this->data['IzDeelnemer']['id'])) {
             $id = $this->id;
@@ -121,24 +121,24 @@ class IzDeelnemer extends AppModel
 
     public function hasActiveKoppelingen($id)
     {
-        $iz_koppelingen = $this->IzKoppeling->find('all', array(
-            'conditions' => array(
-                'OR' => array(
-                    array(
+        $iz_koppelingen = $this->IzKoppeling->find('all', [
+            'conditions' => [
+                'OR' => [
+                    [
                         'iz_deelnemer_id' => $id,
                         'koppeling_einddatum' => null,
                         'iz_koppeling_id NOT' => null,
-                    ),
-                    array(
+                    ],
+                    [
                         'iz_deelnemer_id' => $id,
                         'einddatum' => null,
                         'iz_koppeling_id' => null,
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             'contain' => [],
-            'fields' => array('id'),
-        ));
+            'fields' => ['id'],
+        ]);
 
         if (empty($iz_koppelingen)) {
             return false;
@@ -168,7 +168,7 @@ class IzDeelnemer extends AppModel
         $query = '';
 
         $projectlist = $this->IzDeelnemersIzProject->IzProject->projectLists(true);
-        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers([], [], true);
 
         $query = "select p.id, 'Vrijwilliger' as model, voornaam, geslacht_id, tussenvoegsel, achternaam, geboortedatum, email, adres, postcode, werkgebied, plaats, mobiel, telefoon, CONCAT_WS(' ', `voornaam`, `tussenvoegsel`, `achternaam`) as name, p.medewerker_id, iz.id as iz_deelnemer_id, group_concat(ip.iz_project_id) as project_ids from vrijwilligers p join iz_deelnemers iz on iz.foreign_key = p.id and iz.model = 'Vrijwilliger' left join iz_deelnemers_iz_projecten ip on ip.iz_deelnemer_id = iz.id	";
         if (!empty($params['IzDeelnemer']['intervisiegroep_id'])) {
@@ -325,7 +325,7 @@ class IzDeelnemer extends AppModel
         $projectlist = $this->IzDeelnemersIzProject->IzProject->projectLists(true);
         $projects = $this->IzDeelnemersIzProject->IzProject->getProjects();
         $heeft_koppelingen = Set::Combine($projects, '{n}.IzProject.id', '{n}.IzProject.heeft_koppelingen');
-        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers(null, null, true);
+        $medewerkers = $this->IzIntake->Medewerker->getMedewerkers([], [], true);
 
         foreach ($params['IzDeelnemer']['persoon_model'] as $model) {
             $query = $this->getQuery($model, $params);
@@ -482,9 +482,9 @@ class IzDeelnemer extends AppModel
         $sql = 'SELECT DISTINCT(werkgebied) FROM klanten';
         $data = $this->Klant->query($sql);
 
-        $result = array(
+        $result = [
             '' => 'Niet ingevuld',
-        );
+        ];
 
         foreach ($data as $klant) {
             if (!empty($klant['klanten']['werkgebied'])) {
@@ -497,13 +497,13 @@ class IzDeelnemer extends AppModel
 
     public function nieuwe_koppelingen_report_html($startDate, $endDate, $labels, $projects = false)
     {
-        $result = array(
+        $result = [
             'title' => 'Aantal nieuwe koppelingen in deze periode',
             'data' => [],
-        );
+        ];
 
         foreach ($labels as $key => $value) {
-            $result['data'][ $key ] = 0;
+            $result['data'][$key] = 0;
         }
 
         if (empty($projects)) {
@@ -531,10 +531,10 @@ class IzDeelnemer extends AppModel
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            if (isset($result['data'][ $value[$m][$f] ])) {
-                $result['data'][ $value[$m][$f] ] += $value[0]['cnt'];
+            if (isset($result['data'][$value[$m][$f]])) {
+                $result['data'][$value[$m][$f]] += $value[0]['cnt'];
             } else {
-                $result['data'][ 'Onbekend'] += $value[0]['cnt'];
+                $result['data']['Onbekend'] += $value[0]['cnt'];
             }
         }
 
@@ -547,13 +547,13 @@ class IzDeelnemer extends AppModel
 
     public function active_klanten_report_html($startDate, $endDate, $labels, $projects = false)
     {
-        $result = array(
+        $result = [
             'title' => 'Aantal actieve unieke klanten in deze periode',
             'data' => [],
-        );
+        ];
 
         foreach ($labels as $key => $value) {
-            $result['data'][ $key ] = 0;
+            $result['data'][$key] = 0;
         }
 
         if (empty($projects)) {
@@ -584,10 +584,10 @@ class IzDeelnemer extends AppModel
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            if (isset($result['data'][ $value[$m][$f] ])) {
-                $result['data'][ $value[$m][$f] ] += $value[0]['cnt'];
+            if (isset($result['data'][$value[$m][$f]])) {
+                $result['data'][$value[$m][$f]] += $value[0]['cnt'];
             } else {
-                $result['data'][ 'Onbekend'] += $value[0]['cnt'];
+                $result['data']['Onbekend'] += $value[0]['cnt'];
             }
         }
 
@@ -600,13 +600,13 @@ class IzDeelnemer extends AppModel
 
     public function active_klanten_op_einddatum_report_html($startDate, $endDate, $labels, $projects = false)
     {
-        $result = array(
+        $result = [
             'title' => 'Aantal actieve unieke klanten op einddatum',
             'data' => [],
-        );
+        ];
 
         foreach ($labels as $key => $value) {
-            $result['data'][ $key ] = 0;
+            $result['data'][$key] = 0;
         }
 
         if (empty($projects)) {
@@ -637,10 +637,10 @@ class IzDeelnemer extends AppModel
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            if (isset($result['data'][ $value[$m][$f] ])) {
-                $result['data'][ $value[$m][$f] ] += $value[0]['cnt'];
+            if (isset($result['data'][$value[$m][$f]])) {
+                $result['data'][$value[$m][$f]] += $value[0]['cnt'];
             } else {
-                $result['data'][ 'Onbekend'] += $value[0]['cnt'];
+                $result['data']['Onbekend'] += $value[0]['cnt'];
             }
         }
 
@@ -653,13 +653,13 @@ class IzDeelnemer extends AppModel
 
     public function wachtlijst_klanten_report_html($startDate, $endDate, $werkgebieden, $projects = false)
     {
-        $result = array(
+        $result = [
             'title' => 'Wachtlijst deelnemers op einddatum',
             'data' => [],
-        );
+        ];
 
         foreach ($werkgebieden as $key => $value) {
-            $result['data'][ $key ] = 0;
+            $result['data'][$key] = 0;
         }
 
         if (empty($projects)) {
@@ -690,10 +690,10 @@ class IzDeelnemer extends AppModel
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            if (isset($result['data'][ $value[$m][$f] ])) {
-                $result['data'][ $value[$m][$f] ] += $value[0]['cnt'];
+            if (isset($result['data'][$value[$m][$f]])) {
+                $result['data'][$value[$m][$f]] += $value[0]['cnt'];
             } else {
-                $result['data'][ 'Onbekend'] += $value[0]['cnt'];
+                $result['data']['Onbekend'] += $value[0]['cnt'];
             }
         }
 
@@ -706,13 +706,13 @@ class IzDeelnemer extends AppModel
 
     public function wachtlijst_vrijwilligers_report_html($startDate, $endDate, $labels, $projects = false)
     {
-        $result = array(
+        $result = [
             'title' => 'Wachtlijst vrijwilligers op einddatum',
             'data' => [],
-        );
+        ];
 
         foreach ($labels as $key => $value) {
-            $result['data'][ $key ] = 0;
+            $result['data'][$key] = 0;
         }
 
         if (empty($projects)) {
@@ -743,10 +743,10 @@ class IzDeelnemer extends AppModel
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            if (isset($result['data'][ $value[$m][$f] ])) {
-                $result['data'][ $value[$m][$f] ] += $value[0]['cnt'];
+            if (isset($result['data'][$value[$m][$f]])) {
+                $result['data'][$value[$m][$f]] += $value[0]['cnt'];
             } else {
-                $result['data'][ 'Onbekend'] += $value[0]['cnt'];
+                $result['data']['Onbekend'] += $value[0]['cnt'];
             }
         }
 
@@ -759,13 +759,13 @@ class IzDeelnemer extends AppModel
 
     public function gemiddelde_wachttijd_klant_report_html($startDate, $endDate, $labels, $projects = false)
     {
-        $result = array(
+        $result = [
             'title' => 'Gemiddelde wachttijd klant (dagen)',
             'data' => [],
-        );
+        ];
 
         foreach ($labels as $key => $value) {
-            $result['data'][ $key ] = 0;
+            $result['data'][$key] = 0;
         }
 
         if (empty($projects)) {
@@ -796,10 +796,10 @@ class IzDeelnemer extends AppModel
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            if (isset($result['data'][ $value[$m][$f] ])) {
-                $result['data'][ $value[$m][$f] ] += $value[0]['avg'];
+            if (isset($result['data'][$value[$m][$f]])) {
+                $result['data'][$value[$m][$f]] += $value[0]['avg'];
             } else {
-                $result['data'][ 'Onbekend'] += $value[0]['avg'];
+                $result['data']['Onbekend'] += $value[0]['avg'];
             }
         }
 
@@ -844,14 +844,15 @@ class IzDeelnemer extends AppModel
 
             $cnt = $value[0]['cnt'];
 
-            $results[$key] = array(
+            $results[$key] = [
                 'title' => $key,
-                'data' => array('Totaal' => $cnt),
-            );
+                'data' => ['Totaal' => $cnt],
+            ];
         }
 
         return $results;
     }
+
     public function aanvullend_binnengekomen_html($startDate, $endDate, $labels)
     {
         $results = [];
@@ -873,10 +874,10 @@ class IzDeelnemer extends AppModel
 
             $cnt = $value[0]['cnt'];
 
-            $results[$key] = array(
+            $results[$key] = [
                 'title' => $key,
-                'data' => array('Totaal' => $cnt),
-            );
+                'data' => ['Totaal' => $cnt],
+            ];
         }
 
         return $results;
@@ -893,10 +894,10 @@ class IzDeelnemer extends AppModel
             if ($key == 'Totaal') {
                 continue;
             }
-            $results[$value] = array(
+            $results[$value] = [
                 'title' => $value,
-                'data' => array('Totaal' => 0),
-            );
+                'data' => ['Totaal' => 0],
+            ];
         }
 
         $sql = 'SELECT izp.naam, COUNT(*) AS cnt'
@@ -919,21 +920,22 @@ class IzDeelnemer extends AppModel
 
             $cnt = $value[0]['cnt'];
 
-            $results[$key] = array(
+            $results[$key] = [
                 'title' => $key,
-                'data' => array('Totaal' => $cnt),
-            );
+                'data' => ['Totaal' => $cnt],
+            ];
         }
 
         return $results;
     }
+
     public function A1_new_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
         $results = [];
         $template = [];
 
         foreach ($werkgebieden as $key => $value) {
-            $template[ $key ] = 0;
+            $template[$key] = 0;
         }
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
@@ -954,10 +956,10 @@ ORDER BY p.naam, k.werkgebied";
             $a = $value[0]['Aantal'];
 
             if (empty($results[$key])) {
-                $results[$key] = array(
+                $results[$key] = [
                     'title' => $key,
                     'data' => $template,
-                );
+                ];
             }
 
             if (isset($results[$key]['data'][$w])) {
@@ -983,10 +985,10 @@ ORDER BY p.naam, k.werkgebied";
 
         $template['Totaal'] = $all;
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
             'data' => $template,
-        );
+        ];
 
         return $results;
     }
@@ -1009,16 +1011,16 @@ join vrijwilligers v on v.id = foreign_key ";
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            $results[] = array(
+            $results[] = [
                 'title' => $value['kl']['Project'],
-                'data' => array(
+                'data' => [
                     'Werkgebied' => $value['kl']['Werkgebied'],
                     'Klant' => $value['kl']['Klant'],
                     'Vrijwilliger' => $value[0]['Vrijwilliger'],
                     'koppeling_startdatum' => $value['kl']['koppeling_startdatum'],
                     'koppeling_einddatum' => $value['kl']['koppeling_einddatum'],
-                ),
-            );
+                ],
+            ];
         }
 
         return $results;
@@ -1030,7 +1032,7 @@ join vrijwilligers v on v.id = foreign_key ";
         $template = [];
 
         foreach ($werkgebieden as $key => $value) {
-            $template[ $key ] = 0;
+            $template[$key] = 0;
         }
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd JOIN
@@ -1047,10 +1049,10 @@ join vrijwilligers v on v.id = foreign_key ";
             $a = $value[0]['Aantal'];
 
             if (empty($results[$key])) {
-                $results[$key] = array(
+                $results[$key] = [
                     'title' => $key,
                     'data' => $template,
-                );
+                ];
             }
 
             if (isset($results[$key]['data'][$w])) {
@@ -1076,13 +1078,14 @@ join vrijwilligers v on v.id = foreign_key ";
 
         $template['Totaal'] = $all;
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
             'data' => $template,
-        );
+        ];
 
         return $results;
     }
+
     public function B2_stopped_per_project_per_werkgebied_totaal($startDate, $endDate, $labels)
     {
         $results = [];
@@ -1102,16 +1105,16 @@ join vrijwilligers v on v.id = foreign_key ";
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            $results[] = array(
+            $results[] = [
                 'title' => $value['kl']['Project'],
-                'data' => array(
+                'data' => [
                     'Werkgebied' => $value['kl']['Werkgebied'],
                     'Klant' => $value['kl']['Klant'],
                     'Vrijwilliger' => $value[0]['Vrijwilliger'],
                     'koppeling_startdatum' => $value['kl']['koppeling_startdatum'],
                     'koppeling_einddatum' => $value['kl']['koppeling_einddatum'],
-                ),
-            );
+                ],
+            ];
         }
 
         return $results;
@@ -1123,7 +1126,7 @@ join vrijwilligers v on v.id = foreign_key ";
         $template = [];
 
         foreach ($werkgebieden as $key => $value) {
-            $template[ $key ] = 0;
+            $template[$key] = 0;
         }
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal` FROM iz_deelnemers izd
@@ -1140,10 +1143,10 @@ AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 GROUP BY izk.
             $a = $value[0]['Aantal'];
 
             if (empty($results[$key])) {
-                $results[$key] = array(
+                $results[$key] = [
                     'title' => $key,
                     'data' => $template,
-                );
+                ];
             }
 
             if (isset($results[$key]['data'][$w])) {
@@ -1169,13 +1172,14 @@ AND izk.iz_eindekoppeling_id != 10 AND izk.koppeling_succesvol = 1 GROUP BY izk.
 
         $template['Totaal'] = $all;
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
             'data' => $template,
-        );
+        ];
 
         return $results;
     }
+
     public function C2_geslaagd_per_project_per_werkgebied_totaal($startDate, $endDate, $werkgebieden)
     {
         $results = [];
@@ -1195,16 +1199,16 @@ join vrijwilligers v on v.id = foreign_key ";
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            $results[] = array(
+            $results[] = [
                 'title' => $value['kl']['Project'],
-                'data' => array(
+                'data' => [
                     'Werkgebied' => $value['kl']['Werkgebied'],
                     'Klant' => $value['kl']['Klant'],
                     'Vrijwilliger' => $value[0]['Vrijwilliger'],
                     'koppeling_startdatum' => $value['kl']['koppeling_startdatum'],
                     'koppeling_einddatum' => $value['kl']['koppeling_einddatum'],
-                ),
-            );
+                ],
+            ];
         }
 
         return $results;
@@ -1216,7 +1220,7 @@ join vrijwilligers v on v.id = foreign_key ";
         $template = [];
 
         foreach ($werkgebieden as $key => $value) {
-            $template[ $key ] = 0;
+            $template[$key] = 0;
         }
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
@@ -1236,10 +1240,10 @@ ORDER BY p.naam, k.werkgebied";
             $w = $value['k']['Werkgebied'];
             $a = $value[0]['Aantal'];
             if (empty($results[$key])) {
-                $results[$key] = array(
+                $results[$key] = [
                     'title' => $key,
                     'data' => $template,
-                );
+                ];
             }
             if (isset($results[$key]['data'][$w])) {
                 $results[$key]['data'][$w] += $a;
@@ -1264,10 +1268,10 @@ ORDER BY p.naam, k.werkgebied";
 
         $template['Totaal'] = $all;
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
             'data' => $template,
-        );
+        ];
 
         return $results;
     }
@@ -1284,26 +1288,27 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            $results[] = array(
+            $results[] = [
                 'title' => $value['p']['Project'],
-                'data' => array(
+                'data' => [
                     'Werkgebied' => $value['k']['Werkgebied'],
                     'Klant' => $value[0]['Klant'],
                     'koppeling_startdatum' => $value['izk']['koppeling_startdatum'],
                     'koppeling_einddatum' => $value['izk']['koppeling_einddatum'],
-                ),
-            );
+                ],
+            ];
         }
 
         return $results;
     }
+
     public function J1_nieuwe_deelnemers_per_project_per_werkgebied($startDate, $endDate, $werkgebieden)
     {
         $results = [];
         $template = [];
 
         foreach ($werkgebieden as $key => $value) {
-            $template[ $key ] = 0;
+            $template[$key] = 0;
         }
 
         $sql = "SELECT p.naam AS Project, k.werkgebied AS Werkgebied, COUNT(*) AS `Aantal`
@@ -1324,10 +1329,10 @@ ORDER BY p.naam, k.werkgebied";
             $a = $value[0]['Aantal'];
 
             if (empty($results[$key])) {
-                $results[$key] = array(
+                $results[$key] = [
                     'title' => $key,
                     'data' => $template,
-                );
+                ];
             }
 
             if (isset($results[$key]['data'][$w])) {
@@ -1353,10 +1358,10 @@ ORDER BY p.naam, k.werkgebied";
 
         $template['Totaal'] = $all;
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
             'data' => $template,
-        );
+        ];
 
         return $results;
     }
@@ -1373,19 +1378,20 @@ AND (izk.iz_eindekoppeling_id IS NULL OR izk.iz_eindekoppeling_id !=10) AND izk.
         $data = $this->query($sql);
 
         foreach ($data as $value) {
-            $results[] = array(
+            $results[] = [
                 'title' => $value['p']['Project'],
-                'data' => array(
+                'data' => [
                     'Werkgebied' => $value['k']['Werkgebied'],
                     'Klant' => $value[0]['Klant'],
                     'koppeling_startdatum' => $value['izk']['koppeling_startdatum'],
                     'koppeling_einddatum' => $value['izk']['koppeling_einddatum'],
-                ),
-            );
+                ],
+            ];
         }
 
         return $results;
     }
+
     public function K1_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
         $results = [];
@@ -1403,21 +1409,22 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
             $w = $value['k']['Werkgebied'];
             $a = $value[0]['Aantal'];
 
-            $results[] = array(
+            $results[] = [
                 'title' => $w,
-                'data' => array('totaal' => $a),
-            );
+                'data' => ['totaal' => $a],
+            ];
 
             $total += $a;
         }
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
-            'data' => array('totaal' => $total),
-        );
+            'data' => ['totaal' => $total],
+        ];
 
         return $results;
     }
+
     public function K2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_intake($startDate, $endDate, $labels)
     {
         $results = [];
@@ -1434,26 +1441,27 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
             $w = $value['k']['Werkgebied'];
             $k = $value[0]['Klant'];
 
-            $results[] = array(
+            $results[] = [
                 'title' => $w,
-                'data' => array(
+                'data' => [
                     'Klant' => $k,
                     'datum_aanmelding' => $value['izd']['datum_aanmelding'],
-                ),
-            );
+                ],
+            ];
             ++$total;
         }
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
-            'data' => array(
+            'data' => [
                 'Klant' => $total,
                 'datum_aanmelding' => '',
-            ),
-        );
+            ],
+        ];
 
         return $results;
     }
+
     public function L1_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
         $results = [];
@@ -1473,21 +1481,22 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
             $w = $value['k']['Werkgebied'];
             $a = $value[0]['Aantal'];
 
-            $results[] = array(
+            $results[] = [
                 'title' => $w,
-                'data' => array('totaal' => $a),
-            );
+                'data' => ['totaal' => $a],
+            ];
 
             $total += $a;
         }
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
-            'data' => array('totaal' => $total),
-        );
+            'data' => ['totaal' => $total],
+        ];
 
         return $results;
     }
+
     public function L2_namen_nieuwe_deelnemers_per_per_werkgebied_zonder_aanbod($startDate, $endDate, $labels)
     {
         $results = [];
@@ -1506,27 +1515,27 @@ AND izd.datum_aanmelding >= '{$startDate}' AND izd.datum_aanmelding <= '{$endDat
             $w = $value['k']['Werkgebied'];
             $k = $value[0]['Klant'];
 
-            $results[] = array(
+            $results[] = [
                 'title' => $w,
-                'data' => array(
+                'data' => [
                     'Klant' => $k,
                     'datum_aanmelding' => $value['s']['datum_aanmelding'],
                     'intake_datum' => $value['s']['intake_datum'],
                     'medewerker' => $value[0]['medewerker'],
-                ),
-            );
+                ],
+            ];
             ++$total;
         }
 
-        $results[] = array(
+        $results[] = [
             'title' => 'Totaal',
-            'data' => array(
+            'data' => [
                 'Klant' => $total,
                 'datum_aanmelding' => '',
                 'intake_datum' => '',
                 'medewerker' => '',
-            ),
-        );
+            ],
+        ];
 
         return $results;
     }

@@ -3,13 +3,19 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groepsactiviteiten_afsluitingen")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class GaAfsluiting
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -19,18 +25,9 @@ class GaAfsluiting
 
     /**
      * @ORM\Column(nullable=true)
+     * @Gedmo\Versioned
      */
     private $naam;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
 
     public function __construct()
     {

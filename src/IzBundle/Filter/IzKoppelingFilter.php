@@ -5,10 +5,11 @@ namespace IzBundle\Filter;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzProject;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 
-class IzKoppelingFilter
+class IzKoppelingFilter implements FilterInterface
 {
     /**
      * @var KlantFilter

@@ -1,172 +1,91 @@
 <?php
+    function ColoredTable($pdf, $w, $data)
+    {
+        $width = 0;
+        foreach ($w as $t) {
+            $width += $t;
+        }
 
-	function ColoredTable($pdf, $w, $header, $data, $logo)
-	{
-		$width = 0;
-		foreach ($w as $t) {
-			$width += $t;
-		}
-
-		$pdf->SetFillColor(255, 255, 255);
-		$pdf->SetTextColor(255);
-		$pdf->SetDrawColor(0, 0, 0);
-		$pdf->SetLineWidth(0.1);
-		$pdf->SetFont('', 'B');
-
-		$num_headers = count($header);
-
-		$pdf->writeHTMLCell($width, 40, 40, 20, '<img src="http://www.deregenboog.org/sites/all/themes/uncinc_regenboog_theme/logo.png" alt="Home"/>');
-
-		$pdf->Ln();
-
-		$pdf->SetFillColor(255, 255, 255);
-		$pdf->SetTextColor(0);
-		$pdf->SetFont('');
-
-		$fill = 0;
-
-		$cnt=0;
-		foreach ($data as $row) {
-			$cnt++;
-
-			$cellcount = array();
-
-			$startX = $pdf->GetX();
-			$startY = $pdf->GetY();
-
-			$uw =null;
-			
-			if (count($row) == 1) {
-				$uw =$width;
-			}
-			
-			foreach ($row as $key => $column) {
-				
-				$tuw=$w[$key];
-				if (!empty($uw)) {
-					$tuw=$uw;
-				}
-				
-				if ($cnt == 1) {
-					$cellcount[] = $pdf->MultiCell($tuw, 6, $column, 0, 'C', $fill, 0);
-				} else {
-					$cellcount[] = $pdf->MultiCell($tuw, 6, $column, 0, 'L', $fill, 0);
-				}
-				
-			}
-
-			$pdf->SetXY($startX, $startY);
-
-			$maxnocells = max($cellcount);
-			$uw =null;
-			if (count($row) == 1) {
-				$uw =$width;
-			}
-
-			foreach ($row as $key => $column) {
-				$tuw=$w[$key];
-				if (!empty($uw)) {
-					$tuw=$uw;
-				}
-
-				$pdf->MultiCell($tuw, $maxnocells * 6, '', 'LTBR', 'L', $fill, 0);
-			}
-
-			$pdf->Ln();
-
-			$fill=!$fill;
-		}
-
-		$pdf->Cell(array_sum($w), 0, '', 'T');
-	}
+        $fill = 0;
+        $cnt = 0;
+        foreach ($data as $row) {
+            $cnt++;
+            $cellcount = array();
+            $startX = $pdf->GetX();
+            $startY = $pdf->GetY();
+            $uw = null;
+            if (count($row) == 1) {
+                $uw = $width;
+            }
+            foreach ($row as $key => $column) {
+                $tuw=$w[$key];
+                if (!empty($uw)) {
+                    $tuw=$uw;
+                }
+                if ($cnt == 1) {
+                    $cellcount[] = $pdf->MultiCell($tuw, 6, $column, 0, 'C', $fill, 0);
+                } else {
+                    $cellcount[] = $pdf->MultiCell($tuw, 6, $column, 0, 'L', $fill, 0);
+                }
+            }
+            $pdf->SetXY($startX, $startY);
+            $maxnocells = max($cellcount);
+            $uw =null;
+            if (count($row) == 1) {
+                $uw =$width;
+            }
+            foreach ($row as $key => $column) {
+                $tuw=$w[$key];
+                if (!empty($uw)) {
+                    $tuw=$uw;
+                }
+                $pdf->MultiCell($tuw, $maxnocells * 6, '', 'LTBR', 'L', $fill, 0);
+            }
+            $pdf->Ln();
+            $fill = !$fill;
+        }
+        $pdf->Cell(array_sum($w), 0, '', 'T');
+    }
 
 App::import('Vendor', 'xtcpdf');
 $pdf = new XTCPDF();
-
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('De Regenboog Groep');
-$pdf->SetTitle("Schorsing van $klant_naam");
-$pdf->SetSubject('Schorsing');
-
+$pdf->SetTitle("Suspension of $klant_naam");
+$pdf->SetSubject('Suspension');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
-
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-
-$pdf->SetAutoPageBreak(false);
-
-$pdf->SetFont('helvetica', '', 12);
+$pdf->SetMargins(20, 40, 20);
+$pdf->SetAutoPageBreak(true);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->SetFillColor(255, 255, 255);
+$pdf->SetTextColor(0);
 
 $pdf->AddPage();
-
-if ($geslacht == 'M') {
-	$geslacht = 'Dhr.';
-} else {
-	$geslacht = 'Mevr.';
-}
-
-$txt = "
-$geslacht $klant_naam
-$adres
-$postcode $woonplaats
-";
-
-$pdf->SetMargins(120, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->Image(('img/drg-logo-142px.jpg'), 160, 0, 40, 40);
 
 $opt = array('separator' => ' ');
 $datum_van_vandaag = $this->Date->show(date('Y-m-d'), $opt);
 $begindatum_schorsing = $this->Date->show($begindatum_schorsing, $opt);
 $einddatum_schorsing_pp = $this->Date->show($einddatum_schorsing_pp, $opt);
 
-$datum_van_vandaag;
-$klant_naam;
-$begindatum_schorsing;
-$opmerking_uit_schorsing;
-$einddatum_schorsing_pp;
-$locatie;
-$llocatie;	
-
-$txt = "
-
-Amsterdam, $datum_van_vandaag
-
-Geachte Dhr./Mevr. $klant_naam,
-
-Op $datum_van_vandaag bent u geschorst bij locatie $locatie. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken.
-
-Team $locatie
-DE REGENBOOG GROEP
-
-";
-
 $data = array(
-	array('SCHORSINGSFORMULIER'),
-	array("Op {$datum_van_vandaag} bent u geschorst bij locatie {$locatie}. De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden. Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing. Ook informeren we u over de duur van schorsing en de manier waarop u bezwaar kunt maken"),
-	array('Naam bezoeker', $klant_naam),
-	array('Locatie', $locatie),
-	array('Naam locatiehoofd', $locatiehoofd),
-	array('Reden schorsing', $opmerking_uit_schorsing),
-	array('Duur schorsing', $lengte_schorsing),
-	array('Bijzonderheden', $bijzonderheden),
-	array('Hoe kunt u bezwaar maken', 'Bent u het niet eens met uw schorsing, dan kunt u een afspraak maken voor een gesprek met het locatiehoofd of met de regiomanager. 
+    array('SUSPENSION NOTE'),
+    array("On {$begindatum_schorsing} you were suspended at our location(s) {$locatie}. The reason for your suspension was a disobedience of the house rules. Please find in the following table a short description of the incident and the length of your suspension. Also we would like to inform you about the way you can appeal against this decision."),
+    array('Name visitor', $klant_naam),
+    array('Location(s)', $locatie),
+    array('Name head of location', $locatiehoofd),
+    array('Reason for suspension', implode("\n", $redenen) . "\n\n" .trim($opmerking_uit_schorsing)),
+    array('Length of suspension', sprintf('%s (%s t/m %s)', $lengte_schorsing, $begindatum_schorsing, $einddatum_schorsing_pp)),
+    array('Special notes', $bijzonderheden),
+    array('How to appeal', 'If you do not agree with your suspension, you can make an apointment with the head of location or the region manager.
 
-U kunt zich wenden tot onafhankelijk cliënt-vertrouwenspersoon Lina Berger: 06 34293959.
+You can contact the independent confidential mediator Lina Berger: 06 34293959.
 
-U kunt ook terecht bij de onafhankelijke klachtencommissie van het POA: 06 14264972 info@klachtencommissiepoa.nl'),
-	array('In en om al onze locaties staan rust, veiligheid en gezelligheid voor alle bezoekers, deelnemers en medewerkers voorop. We rekenen erop dat u hier in de toekomst weer een bijdrage aan zult leveren.'),
+You can also contact the independent Complaints Commission of POA: 06 14264972 info@klachtencommissiepoa.nl'),
+    array('Safety, cosines, peace and quiet are our main concern for visitors, neighbours and workers alike inside and outside of our locations. We are confident of your cooperation and contribution to these values in the future.'),
 );
-$logo=$html->url('/img/logo.png', true);
-ColoredTable(
-		$pdf,
-		array(50, 100),
-		array('', ''),
-		$data,
-		$logo
-		);
 
-$name_stripped = ereg_replace("[^A-Za-z0-9]", "-", $klant_naam);
+ColoredTable($pdf, [40, 130], $data);
 echo $pdf->Output('schorsing-'.date('Y-m-d').'.pdf', 'I');

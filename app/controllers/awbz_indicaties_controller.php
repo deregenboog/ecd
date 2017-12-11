@@ -3,7 +3,7 @@
 class AwbzIndicatiesController extends AppController
 {
     public $name = 'AwbzIndicaties';
-    public $uses = array('AwbzIndicatie');
+    public $uses = ['AwbzIndicatie'];
 
     public function add($klant_id = null)
     {
@@ -42,21 +42,21 @@ class AwbzIndicatiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid awbz Indicatie', true));
-            $this->redirect(array(
+            $this->redirect([
                 'controller' => 'awbz',
                 'action' => 'index',
-            ));
+            ]);
         }
 
         if (!empty($this->data)) {
             if ($this->AwbzIndicatie->save($this->data)) {
                 $this->flash(__('The AWBZ Indicatie has been saved', true));
 
-                $this->redirect(array(
+                $this->redirect([
                     'controller' => 'awbz',
                     'action' => 'view',
                     $this->data['AwbzIndicatie']['klant_id'],
-                ));
+                ]);
             } else {
                 $this->flashError(__('The AWBZ Indicatie could not be saved. Please, try again.', true));
             }
@@ -67,9 +67,9 @@ class AwbzIndicatiesController extends AppController
         }
 
         $klant_id = $this->data['AwbzIndicatie']['klant_id'];
-        $klant = $this->AwbzIndicatie->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
-        ));
+        $klant = $this->AwbzIndicatie->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
+        ]);
 
         $this->set(compact('klant'));
     }
@@ -98,12 +98,12 @@ class AwbzIndicatiesController extends AppController
 
     public function _render_ajax_view($klant_id)
     {
-        $klant = $this->AwbzIndicatie->Klant->find('first', array(
-            'conditions' => array('Klant.id' => $klant_id),
-            'contain' => array(
-                'AwbzIndicatie' => array('Hoofdaannemer'),
-            ),
-        ));
+        $klant = $this->AwbzIndicatie->Klant->find('first', [
+            'conditions' => ['Klant.id' => $klant_id],
+            'contain' => [
+                'AwbzIndicatie' => ['Hoofdaannemer'],
+            ],
+        ]);
 
         $hoofdaannemers = $this->AwbzIndicatie->Hoofdaannemer->find('list');
 
@@ -115,14 +115,14 @@ class AwbzIndicatiesController extends AppController
     public function jsonIndicationRequest($ind_id = null)
     {
         if (!$ind_id) {
-            $jsonVar = array('aangevraagd' => false, 'error' => 'bad_id');
+            $jsonVar = ['aangevraagd' => false, 'error' => 'bad_id'];
         } else {
             $this->AwbzIndicatie->recursive = 0;
             if (!$this->AwbzIndicatie->read('id', $ind_id)) {
-                $jsonVar = array(
+                $jsonVar = [
                     'aangevraagd_id' => false,
                     'error' => 'indicatie_not_found',
-                );
+                ];
             } else {
                 $this->AwbzIndicatie->set('aangevraagd_id',
                     $this->Session->read('Auth.Medewerker.id'));
@@ -130,15 +130,15 @@ class AwbzIndicatiesController extends AppController
                 if ($this->AwbzIndicatie->save()) {
                     App::import('Helper', 'Date');
                     $date = new DateHelper();
-                    $jsonVar = array(
+                    $jsonVar = [
                         'aangevraagd' => true,
                         'naam' => $this->_getLoggedinUserDisplayName(),
-                        'date' => $date->show(date('Y-m-d')), );
+                        'date' => $date->show(date('Y-m-d')), ];
                 } else {
-                    $jsonVar = array(
+                    $jsonVar = [
                         'aangevraagd' => false,
                         'error' => 'coulndt_save',
-                    );
+                    ];
                 }
             }
         }
@@ -150,26 +150,26 @@ class AwbzIndicatiesController extends AppController
     public function jsonDeleteIndicationRequest($ind_id = null)
     {
         if (!$ind_id) {
-            $jsonVar = array('aangevraagd' => false, 'error' => 'bad_id');
+            $jsonVar = ['aangevraagd' => false, 'error' => 'bad_id'];
         } else {
             $this->AwbzIndicatie->recursive = 0;
             if (!$this->AwbzIndicatie->read('id', $ind_id)) {
-                $jsonVar = array(
+                $jsonVar = [
                     'success' => false,
                     'error' => 'indicatie_not_found',
-                );
+                ];
             } else {
                 $this->AwbzIndicatie->set('aangevraagd_niet', 1);
 
                 if ($this->AwbzIndicatie->save()) {
                     App::import('Helper', 'Date');
                     $date = new DateHelper();
-                    $jsonVar = array('success' => true);
+                    $jsonVar = ['success' => true];
                 } else {
-                    $jsonVar = array(
+                    $jsonVar = [
                         'success' => false,
                         'error' => 'coulndt_save',
-                    );
+                    ];
                 }
             }
         }

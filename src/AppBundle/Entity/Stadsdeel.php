@@ -2,25 +2,26 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @Entity
- * @Table(name="stadsdelen")
+ * @ORM\Entity
+ * @ORM\Table(name="stadsdelen")
+ * @Gedmo\Loggable
  */
 class Stadsdeel
 {
     /**
-     * @Id
-     * @Column(type="string")
+     * @ORM\Id
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $postcode;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $stadsdeel;
 

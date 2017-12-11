@@ -5,25 +5,25 @@ class GroepsactiviteitenGroepFixture extends CakeTestFixture
 {
     public $name = 'GroepsactiviteitenGroep';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'naam' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100),
-        'startdatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'einddatum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'naam' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100],
+        'startdatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'einddatum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'naam' => 'Lorem ipsum dolor sit amet',
             'startdatum' => '2014-05-03',
             'einddatum' => '2014-05-03',
             'created' => '2014-05-03 15:25:16',
             'modified' => '2014-05-03 15:25:16',
-        ),
-    );
+        ],
+    ];
 }

@@ -5,26 +5,26 @@ class IzKoppelingFixture extends CakeTestFixture
 {
     public $name = 'IzKoppeling';
 
-    public $fields = array(
-        'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-        'iz_deelnemer_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'medewerker_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-        'start_datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'afsluit_datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'iz_vraagaanbod_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'iz_koppeling_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'koppeling_start_datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'koppeling_eind_datum' => array('type' => 'date', 'null' => true, 'default' => null),
-        'iz_eindekoppeling_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-        'koppeling_succesvol' => array('type' => 'boolean', 'null' => true, 'default' => null),
-        'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-        'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+    public $fields = [
+        'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'],
+        'iz_deelnemer_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'medewerker_id' => ['type' => 'integer', 'null' => false, 'default' => null],
+        'start_datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'afsluit_datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'iz_vraagaanbod_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'iz_koppeling_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'koppeling_start_datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'koppeling_eind_datum' => ['type' => 'date', 'null' => true, 'default' => null],
+        'iz_eindekoppeling_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+        'koppeling_succesvol' => ['type' => 'boolean', 'null' => true, 'default' => null],
+        'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+        'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'iz_deelnemer_id' => 1,
             'medewerker_id' => 1,
@@ -38,6 +38,6 @@ class IzKoppelingFixture extends CakeTestFixture
             'koppeling_succesvol' => 1,
             'created' => '2014-08-13 12:53:03',
             'modified' => '2014-08-13 12:53:03',
-        ),
-    );
+        ],
+    ];
 }

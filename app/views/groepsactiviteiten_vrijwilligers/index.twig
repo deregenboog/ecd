@@ -1,0 +1,98 @@
+{% include 'groepsactiviteiten_subnavigation.twig' %}
+{% form_theme filter 'form_div_layout.html.twig' %}
+
+<h1>Vrijwilligers</h1>
+
+<p>
+    {{ html.addLink({'action': 'add'})|raw }}
+    {{ html.link('Vrijwilliger toevoegen', {'action': 'add'})|raw }}
+</p>
+
+<table>
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.vrijwilliger.id) }}
+            {{ form_errors(filter.vrijwilliger.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.naam) }}
+            {{ form_errors(filter.vrijwilliger.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.geboortedatumRange) }}
+            {{ form_errors(filter.vrijwilliger.geboortedatumRange) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.medewerker) }}
+            {{ form_errors(filter.vrijwilliger.medewerker) }}
+        </th>
+        <th>
+            {{ form_widget(filter.intakedatum) }}
+            {{ form_errors(filter.intakedatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.afsluitdatum) }}
+            {{ form_errors(filter.afsluitdatum) }}
+            {{ form_widget(filter.open) }}
+            {{ form_label(filter.open) }}
+            {{ form_errors(filter.open) }}
+        </th>
+        <th>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(pagination, '#', 'vrijwilliger.id') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Medewerker basisdossier', 'medewerker.achternaam') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakedatum') }}
+        </th>
+        <th>
+            {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'intake.afsluitdatum') }}
+        </th>
+        <th></th>
+    </tr>
+    {% for intake in pagination %}
+        <tr>
+            {% set view_link = {'controller': 'groepsactiviteiten', 'action': 'view', 0: 'Vrijwilliger', 1: intake.vrijwilliger.id} %}
+            <td>
+                {{ html.link(intake.vrijwilliger.id, view_link)|raw }}
+            </td>
+            <td>
+                {{ html.link(intake.vrijwilliger.naam, view_link)|raw }}
+            </td>
+            <td>
+                {{ intake.vrijwilliger.geboortedatum ? intake.vrijwilliger.geboortedatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ intake.vrijwilliger.medewerker }}
+            </td>
+            <td>
+                {{ intake.intakedatum ? intake.intakedatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ intake.afsluitdatum ? intake.afsluitdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ html.viewLink(view_link)|raw }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

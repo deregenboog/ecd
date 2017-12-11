@@ -5,27 +5,27 @@ class PfoClient extends AppModel
     public $name = 'PfoClient';
     public $displayField = 'achternaam';
 
-    public $actsAs = array('Containable');
+    public $actsAs = ['Containable'];
 
-    public $belongsTo = array(
-        'Geslacht' => array(
+    public $belongsTo = [
+        'Geslacht' => [
             'className' => 'Geslacht',
             'foreignKey' => 'geslacht_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Medewerker' => array(
+        ],
+        'Medewerker' => [
             'className' => 'Medewerker',
             'foreignKey' => 'medewerker_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
-    public $hasOne = array(
-            'SupportClient' => array(
+    public $hasOne = [
+            'SupportClient' => [
                     'className' => 'PfoClientenSupportgroup',
                     'foreignKey' => 'pfo_supportgroup_client_id	',
                     'dependent' => true,
@@ -37,11 +37,11 @@ class PfoClient extends AppModel
                     'exclusive' => '',
                     'finderQuery' => '',
                     'counterQuery' => '',
-            ),
-    );
+            ],
+    ];
 
-    public $hasMany = array(
-        'PfoClientenSupportgroup' => array(
+    public $hasMany = [
+        'PfoClientenSupportgroup' => [
             'className' => 'PfoClientenSupportgroup',
             'foreignKey' => 'pfo_client_id',
             'dependent' => true,
@@ -53,8 +53,8 @@ class PfoClient extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'PfoClientenVerslag' => array(
+        ],
+        'PfoClientenVerslag' => [
             'className' => 'PfoClientenVerslag',
             'foreignKey' => 'pfo_client_id',
             'dependent' => false,
@@ -66,107 +66,106 @@ class PfoClient extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-        'Document' => array(
+        ],
+        'Document' => [
                     'className' => 'Attachment',
                     'foreignKey' => 'foreign_key',
-                    'conditions' => array(
+                    'conditions' => [
                         'Document.model' => 'PfoClient',
                         'is_active' => 1,
-                    ),
+                    ],
                     'dependent' => true,
                     'order' => 'created desc',
-        ),
-    );
+        ],
+    ];
 
-    public $validate = array(
-            'achternaam' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    public $validate = [
+            'achternaam' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een achternaam in',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'telefoon' => array(
-                    'telefoon' => array(
+                    ],
+            ],
+            'telefoon' => [
+                    'telefoon' => [
                             //'rule' => array ('custom','/^0[1-9][0-9]+\-[0-9]+$/'),
-                            'rule' => array('custom', '/(0)[1-9][0-9]{1,5}[-]?[0-9]{6,7}/'),
+                            'rule' => ['custom', '/(0)[1-9][0-9]{1,5}[-]?[0-9]{6,7}/'],
                             'message' => 'Voer geldig telefoonnummer in (vb. 020-1111111)',
                             'allowEmpty' => true,
                             'required' => false,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'telefoon_mobiel' => array(
-                    'telefoon_mobiel' => array(
+                    ],
+            ],
+            'telefoon_mobiel' => [
+                    'telefoon_mobiel' => [
                             //'rule' => array ('custom','/^06\-[0-9]+$/'),
-                            'rule' => array('custom', '/(06)[-]?[0-9]{8}/'),
+                            'rule' => ['custom', '/(06)[-]?[0-9]{8}/'],
                             'message' => 'Voer geldig mobiel nummer in (vb. 06-11111111)',
                             'allowEmpty' => true,
                             'required' => false,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'postcode' => array(
-                    'postcode' => array(
-                            'rule' => array('custom', '/^[0-9][0-9][0-9][0-9][A-Z][A-Z]$/'),
+                    ],
+            ],
+            'postcode' => [
+                    'postcode' => [
+                            'rule' => ['custom', '/^[0-9][0-9][0-9][0-9][A-Z][A-Z]$/'],
                             'message' => 'Voer geldige postcode in (vb. 1000AA)',
                             'allowEmpty' => true,
                             'required' => false,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'medewerker_id' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'medewerker_id' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een medewerker in',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'groep' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'groep' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een groep in',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'aard_relatie' => array(
-                    'notempty' => array(
-                            'rule' => array(
+                    ],
+            ],
+            'aard_relatie' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een aard relatie in',
                             //'allowEmpty' => false,
                             'required' => true,
                             //'last' => false, // Stop validation after this rule
                             //'on' => 'create'	// Limit validation to 'create' or 'update' operations
-                    ),
-            ),
-            'email' => array(
+                    ],
+            ],
+            'email' => [
                     'rule' => 'email',
                     'allowEmpty' => true,
                     'message' => 'Vooer een bestaand email adres in',
-            ),
-
-    );
+            ],
+    ];
 
     public function validPhone($data)
     {
@@ -181,17 +180,16 @@ class PfoClient extends AppModel
 
     public function read_complete($id)
     {
-        $pfoClient = $this->find('first', array(
-            'conditions' => array('PfoClient.id' => $id),
-            'contain' => array(
+        $pfoClient = $this->find('first', [
+            'conditions' => ['PfoClient.id' => $id],
+            'contain' => [
                         'PfoClientenVerslag',
                         'Geslacht',
                         'SupportClient',
                         'PfoClientenSupportgroup',
                         'Document',
-
-            ),
-        ));
+            ],
+        ]);
 
         $pfoClient['PfoVerslag'] = [];
         $ids = [];
@@ -201,14 +199,14 @@ class PfoClient extends AppModel
             }
         }
 
-        $pfoClient['PfoVerslag'] = $this->PfoClientenVerslag->PfoVerslag->find('all', array(
-                'conditions' => array('PfoVerslag.id' => $ids),
-                'contain' => array('PfoClientenVerslag'),
-                'order' => array('created DESC'),
-        ));
+        $pfoClient['PfoVerslag'] = $this->PfoClientenVerslag->PfoVerslag->find('all', [
+                'conditions' => ['PfoVerslag.id' => $ids],
+                'contain' => ['PfoClientenVerslag'],
+                'order' => ['created DESC'],
+        ]);
 
         $pfoClient['AlsoSupporting'] = [];
-        $complete_group = array($id);
+        $complete_group = [$id];
 
         $hoofd_client_id = null;
 
@@ -216,15 +214,15 @@ class PfoClient extends AppModel
             $hoofd_client_id = $pfoClient['SupportClient']['pfo_client_id'];
             $complete_group[] = $hoofd_client_id;
 
-            $conditions = array(
+            $conditions = [
                 'pfo_client_id' => $hoofd_client_id,
                 'pfo_supportgroup_client_id NOT' => $id,
-            );
+            ];
 
             $this->PfoClientenSupportgroup->recurcive = -1;
-            $support_groep = $this->PfoClientenSupportgroup->find('all', array(
+            $support_groep = $this->PfoClientenSupportgroup->find('all', [
                 'conditions' => $conditions,
-            ));
+            ]);
 
             $pfoClient['AlsoSupporting'] = $support_groep;
         }
@@ -257,11 +255,11 @@ class PfoClient extends AppModel
     {
         $conditions = [];
 
-        $clienten_all = $this->find('all', array(
+        $clienten_all = $this->find('all', [
             'contain' => [],
             'conditions' => $conditions,
-            'fields' => array('id', 'roepnaam', 'tussenvoegsel', 'achternaam'),
-        ));
+            'fields' => ['id', 'roepnaam', 'tussenvoegsel', 'achternaam'],
+        ]);
 
         $clienten = [];
         foreach ($clienten_all as $client) {
@@ -298,16 +296,16 @@ class PfoClient extends AppModel
             $all = $this->clienten();
         }
 
-        $contain = array(
-            'PfoClientenSupportgroup' => array(
-                'fields' => array('id', 'pfo_client_id'),
-            ),
-        );
+        $contain = [
+            'PfoClientenSupportgroup' => [
+                'fields' => ['id', 'pfo_client_id'],
+            ],
+        ];
 
-        $data = $this->find('all', array(
+        $data = $this->find('all', [
             'contain' => $contain,
-            'fields' => array('id'),
-        ));
+            'fields' => ['id'],
+        ]);
 
         $clienten = [];
 

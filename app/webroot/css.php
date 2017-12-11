@@ -12,7 +12,7 @@
  *
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 0.2.9
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -72,7 +72,7 @@ if (!class_exists('File')) {
 
     $filename = 'css/'.$regs[1];
     $filepath = CSS.$regs[1];
-    $cachepath = CACHE.'css'.DS.str_replace(array('/', '\\'), '-', $regs[1]);
+    $cachepath = CACHE.'css'.DS.str_replace(['/', '\\'], '-', $regs[1]);
 
     if (!file_exists($filepath)) {
         die('Wrong file name.');

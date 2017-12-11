@@ -4,41 +4,41 @@ class Registratie extends AppModel
 {
     public $name = 'Registratie';
 
-    public $validate = array(
-        'locatie_id' => array(
-            'notempty' => array(
+    public $validate = [
+        'locatie_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
-            ),
-        ),
-        'klant_id' => array(
-            'notempty' => array(
+            ],
+        ],
+        'klant_id' => [
+            'notempty' => [
                 'rule' => 'notEmpty',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    public $belongsTo = array(
-        'Locatie' => array(
+    public $belongsTo = [
+        'Locatie' => [
             'className' => 'Locatie',
             'foreignKey' => 'locatie_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-        'Klant' => array(
+        ],
+        'Klant' => [
             'className' => 'Klant',
             'foreignKey' => 'klant_id',
             'conditions' => '',
             'fields' => '',
             'order' => '',
-        ),
-    );
+        ],
+    ];
 
     public function getRegistratiesConditions($locatie_id = null, $type = 'active')
     {
         $this->Behaviors->attach('Containable');
 
-        $and = array('locatie_id' => $locatie_id);
+        $and = ['locatie_id' => $locatie_id];
         if ($type == 'active') {
             $and['buiten'] = null;
         } elseif ($type == 'today_inactive') {
@@ -47,12 +47,12 @@ class Registratie extends AppModel
             $timelimit = $this->get_timelimit($locatie_id);
             $and['binnen >'] = $timelimit;
         }
-        $registraties = array('conditions' => array('AND' => $and),
-            'contain' => array('Klant' => array('Intake' => array(
-                'fields' => array('mag_gebruiken', 'locatie1_id', 'locatie2_id',
-                'locatie3_id', ),
-            ))),
-        );
+        $registraties = ['conditions' => ['AND' => $and],
+            'contain' => ['Klant' => ['Intake' => [
+                'fields' => ['mag_gebruiken', 'locatie1_id', 'locatie2_id',
+                'locatie3_id', ],
+            ]]],
+        ];
 
         return $registraties;
     }
@@ -64,35 +64,35 @@ class Registratie extends AppModel
         $gebruikersruimte = $this->Locatie->field('gebruikersruimte');
         $nachtopvang = $this->Locatie->field('nachtopvang');
         $this->Behaviors->attach('Containable');
-        $contain = array(
-            'Klant' => array(
-                'fields' => array('voornaam', 'achternaam', 'roepnaam', 'laatste_TBC_controle'),
-            ),
-        );
+        $contain = [
+            'Klant' => [
+                'fields' => ['voornaam', 'achternaam', 'roepnaam', 'laatste_TBC_controle'],
+            ],
+        ];
 
-        $joins = array(
-            array('table' => 'klanten',
+        $joins = [
+            ['table' => 'klanten',
                 'alias' => 'Klant',
                 'type' => 'LEFT',
-                'conditions' => array(
+                'conditions' => [
                     'Klant.id = Registratie.klant_id',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         if ($gebruikersruimte) {
             array_push($joins,
-                array('table' => 'intakes',
+                ['table' => 'intakes',
                     'alias' => 'LasteIntake',
                     'type' => 'LEFT',
-                    'conditions' => array(
+                    'conditions' => [
                         'LasteIntake.id = Klant.laste_intake_id',
-                    ),
-                )
+                    ],
+                ]
             );
 
-            $fields = array('LasteIntake.mag_gebruiken');
-            $order = array('LasteIntake.mag_gebruiken ASC, Registratie.created DESC');
+            $fields = ['LasteIntake.mag_gebruiken'];
+            $order = ['LasteIntake.mag_gebruiken ASC, Registratie.created DESC'];
         } else {
             $fields = [];
             array_push($contain, 'Klant');
@@ -100,10 +100,10 @@ class Registratie extends AppModel
             $intake_field = null;
         }
 
-        $registratie_fields = array('id', 'locatie_id', 'klant_id', 'binnen',
+        $registratie_fields = ['id', 'locatie_id', 'klant_id', 'binnen',
             'buiten', 'douche', 'mw', 'kleding', 'maaltijd', 'activering', 'gbrv',
-        );
-        $klant_fields = array('achternaam', 'voornaam', 'roepnaam', 'laatste_TBC_controle');
+        ];
+        $klant_fields = ['achternaam', 'voornaam', 'roepnaam', 'laatste_TBC_controle'];
 
         foreach ($registratie_fields as $i => $rf) {
             $registratie_fields[$i] = 'Registratie.'.$rf;
@@ -116,15 +116,15 @@ class Registratie extends AppModel
 
         $this->recursive = -1;
 
-        $options = array(
+        $options = [
             'fields' => $fields,
-            'conditions' => array(
+            'conditions' => [
                 'locatie_id' => $locatie_id,
                 'Registratie.closed' => false,
-            ),
+            ],
             'joins' => $joins,
             'order' => $order,
-        );
+        ];
 
         $regular_klanten = $this->find('all', $options);
 
@@ -144,38 +144,24 @@ class Registratie extends AppModel
         }
     }
 
-    public function getRecentlyUnregistered($locatie_id, $previous_days = 0, &$active_registr = [], &$gebruiker_registr = [])
+    public function getRecentlyUnregistered($locatie_id, $previous_days = 0, $active_registr = [], $gebruiker_registr = [])
     {
-        $this->Locatie->id = $locatie_id;
-        $nachtopvang = $this->Locatie->field('nachtopvang');
-
         $timelimit = $this->get_timelimit($locatie_id, $previous_days);
 
         $exception_list = [];
-
         foreach ($active_registr as $registered_client) {
-            array_push(
-                $exception_list,
-                $registered_client['Registratie']['klant_id']
-            );
+            $exception_list[] = (int) $registered_client['Registratie']['klant_id'];
         }
-
         foreach ($gebruiker_registr as $registered_client) {
-            array_push(
-                $exception_list,
-                $registered_client['Registratie']['klant_id']
-            );
+            $exception_list[] = (int) $registered_client['Registratie']['klant_id'];
         }
-
+        $exception_list_query = '';
         if (!empty($exception_list)) {
-            $exception_list = implode(',', $exception_list);
-            $exception_list_query = 'AND
-                        klant_id NOT IN ('.$exception_list.')';
-        } else {
-            $exception_list_query = '';
+            $exception_list = implode(',', array_unique($exception_list));
+            $exception_list_query = 'AND klant_id NOT IN ('.$exception_list.')';
         }
 
-        App::import('Sanitize');
+        $this->query('UPDATE registraties SET binnen_date = DATE(binnen) WHERE binnen_date IS NULL');
         $result = $this->query('
             SELECT
                 binnen, buiten, douche, mw, kleding, maaltijd, activering, gbrv,
@@ -184,11 +170,13 @@ class Registratie extends AppModel
             FROM (
                 SELECT * FROM registraties
                 WHERE
-                    locatie_id = '.Sanitize::escape($locatie_id).'
+                    locatie_id = '.(int) $locatie_id.'
                 AND
                     closed = 1
                 AND
                     binnen > "'.$timelimit.'"
+                AND
+                    binnen_date > "'.$timelimit.'"
                 '.$exception_list_query.'
                 ORDER BY
                     buiten DESC
@@ -197,7 +185,6 @@ class Registratie extends AppModel
                 klanten AS `Klant` ON Registratie.klant_id = Klant.id
             GROUP BY
                 klant_id;
-
         ');
 
         return $result;
@@ -206,32 +193,32 @@ class Registratie extends AppModel
     public function automaticCheckOut($conditions, $now = null)
     {
         $this->LocatieTijd = ClassRegistry::init('LocatieTijd');
-        $conditions = array(
-            'OR' => array(
-                'AND' => $conditions + array('closed' => 0),
+        $conditions = [
+            'OR' => [
+                'AND' => $conditions + ['closed' => 0],
                 'buiten < binnen',
-            ),
-        );
+            ],
+        ];
 
         if (!$now) {
             $now = time();
         } else {
             $now = strtotime($now);
         }
-        $count = $this->find('count', array(
+        $count = $this->find('count', [
             'recursive' => 1,
             'conditions' => $conditions,
-        ));
+        ]);
         $this->log(
             sprintf('Inspecting %d registrations with autocheckout.', $count),
             'auto_checkout');
 
-        $pending = $this->find('all', array(
+        $pending = $this->find('all', [
             'recursive' => 1,
             'conditions' => $conditions,
-            'fields' => array('Registratie.*', 'Locatie.nachtopvang'),
+            'fields' => ['Registratie.*', 'Locatie.nachtopvang'],
             'limit' => 10000,
-        ));
+        ]);
         $cnt = 0;
         $saved = [];
 
@@ -262,7 +249,7 @@ class Registratie extends AppModel
 
             if ($this->save($registratie['Registratie'])) {
                 ++$cnt;
-                $saved[$registratie['Registratie']['id']] = array($in, $out);
+                $saved[$registratie['Registratie']['id']] = [$in, $out];
                 $this->log(
                     $registratie['Registratie']['id'].', '.
                     $registratie['Registratie']['klant_id'].', '.
@@ -315,12 +302,12 @@ class Registratie extends AppModel
     public function countActiveRegistraties(&$registraties)
     {
         if (!is_null($registraties) && is_numeric($registraties)) {
-            return $this->find('count', array(
-                'conditions' => array(
+            return $this->find('count', [
+                'conditions' => [
                     'Registratie.locatie_id' => $registraties,
                     'Registratie.closed' => false,
-                ),
-            ));
+                ],
+            ]);
         } elseif (is_array($registraties)) {
             $count = 0;
             foreach ($registraties as $r) {
@@ -345,7 +332,6 @@ class Registratie extends AppModel
         $result = date('Y-m-d H:i:s', $this->LocatieTijd->getLastClosingTime(
             $locationId,
             strtotime("-$previous_days days - 3 hours")
-
         ));
 
         return $result;
@@ -375,14 +361,14 @@ class Registratie extends AppModel
 
     public function checkoutKlantFromAllLocations($klantId)
     {
-        $ids = $this->find('list', array(
+        $ids = $this->find('list', [
             'recursive' => -1,
-            'conditions' => array(
+            'conditions' => [
                 'klant_id' => $klantId,
                 'buiten' => null,
-            ),
-            'fields' => array('id'),
-        ));
+            ],
+            'fields' => ['id'],
+        ]);
 
         $result = 0;
         if (is_array($ids)) {
@@ -582,7 +568,6 @@ class Registratie extends AppModel
         }
 
         switch ($action) {
-
             case 'add':
                 $max_value = 0;
                 $max_key = 0;
@@ -667,9 +652,9 @@ class Registratie extends AppModel
             return;
         }
 
-        $fields = array(
+        $fields = [
             'douche', 'maaltijd', 'kleding', 'activering', 'mw', 'gbrv',
-        );
+        ];
 
         $changed = false;
 
@@ -741,24 +726,24 @@ class Registratie extends AppModel
 
     public function getLocatieName($locatie_id)
     {
-        $locatie = $this->Locatie->find('first', array(
-            'conditions' => array('Locatie.id' => $locatie_id),
-            'fields' => array('naam'),
-        ));
+        $locatie = $this->Locatie->find('first', [
+            'conditions' => ['Locatie.id' => $locatie_id],
+            'fields' => ['naam'],
+        ]);
 
         return $locatie['Locatie']['naam'];
     }
 
     public function getUniqueVisitorsWith4OrMoreRegistrations($conditions)
     {
-        $queryData = array(
+        $queryData = [
             'recursive' => -1,
             'conditions' => $conditions,
-            'fields' => array(
+            'fields' => [
                 'klant_id',
-            ),
+            ],
             'group' => 'klant_id',
-        );
+        ];
 
         $null = null;
 
@@ -779,7 +764,7 @@ class Registratie extends AppModel
 
     public function beforeSave($options = [])
     {
-        $data = array($this->alias => $this->data[$this->alias]);
+        $data = [$this->alias => $this->data[$this->alias]];
 
         if ($this->id) {
             if (!empty($this->data[$this->alias]['buiten'])) {

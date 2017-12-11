@@ -5,7 +5,7 @@ App::import('Model', 'Postcodegebied');
 
 class PostcodegebiedTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.postcodegebied');
+    public $fixtures = ['app.postcodegebied'];
 
     public function startTest()
     {

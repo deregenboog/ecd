@@ -16,7 +16,7 @@ class ComponentLoaderComponent extends Object
     {
         App::import('Component', $component_name);
         $component2 = $component_name.'Component';
-        $component = &new $component2(null);
+        $component = new $component2(null);
 
         if (method_exists($component, 'initialize')) {
             $component->initialize($this->controller, $settings);

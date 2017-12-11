@@ -3,29 +3,29 @@
 class IntakesController extends AppController
 {
     public $name = 'Intakes';
-    public $components = array('Intakez' => array(
+    public $components = ['Intakez' => [
         'module' => 'Registratie',
-    ));
+    ]];
 
     public function view($id = null)
     {
         if ($this->Intakez->view($id)) {
             $this->render('/intakes/view');
         } else {
-            $this->redirect(array(
+            $this->redirect([
                 'controller' => 'klanten',
                 'action' => 'index',
-            ));
+            ]);
         }
     }
 
     public function add($klant_id = null)
     {
-        $redirect_url = array(
+        $redirect_url = [
             'controller' => 'klanten',
             'action' => 'view',
             $klant_id,
-        );
+        ];
         if (!empty($this->data)) {
             if ($this->Intakez->save_data($klant_id)) { //saved successfully
                 //save the last intake field in the klant:
@@ -33,17 +33,17 @@ class IntakesController extends AppController
                 $this->redirect($redirect_url);
             } else {
                 //something went wrong, render the same view again with validation
-            //errors
+                //errors
                 $this->Intakez->setup_add_view($klant_id);
                 //no redirect
             }
         } else {
             if (!$this->Intakez->setup_add_view($klant_id)) {
                 //flash messages are already set by the compontent
-                $this->redirect(array(
+                $this->redirect([
                     'controller' => 'klanten',
                     'action' => 'index',
-                ));
+                ]);
             }
         }
 
@@ -54,18 +54,18 @@ class IntakesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->c->flashError(__('Ongeldige intake', true));
-            $this->c->redirect(array(
+            $this->c->redirect([
                 'controller' => 'klanten',
                 'action' => 'index',
-            ));
+            ]);
         }
 
-        $klant_view = array('controller' => 'klanten', 'action' => 'view');
+        $klant_view = ['controller' => 'klanten', 'action' => 'view'];
 
         if (!empty($this->data)) {
             if ($this->Intakez->save_edited()) {
                 $this->redirect(
-                    $klant_view + array($this->data['Intake']['klant_id'])
+                    $klant_view + [$this->data['Intake']['klant_id']]
                 );
             }
             //on save failure:
@@ -74,13 +74,13 @@ class IntakesController extends AppController
             if (!$this->Intakez->setup_edit_view($id)) {
                 if ($this->data['Intake']['klant_id']) {
                     $this->redirect(
-                        $klant_view + array($this->data['Intake']['klant_id'])
+                        $klant_view + [$this->data['Intake']['klant_id']]
                     );
                 } else {
-                    $this->redirect(array(
+                    $this->redirect([
                         'controller' => 'klanten',
                         'action' => 'index',
-                    ));
+                    ]);
                 }
             }
         }//end of else (for empty this->data)
@@ -90,13 +90,13 @@ class IntakesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Ongeldige id voor intake', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Intake->delete($id)) {
             $this->flashError(__('Intake verwijderd', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Intake is niet verwijderd', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

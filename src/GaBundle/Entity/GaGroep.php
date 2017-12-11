@@ -3,22 +3,29 @@
 namespace GaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Model\TimestampableTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GaBundle\Repository\GaGroepRepository")
  * @ORM\Table(name="groepsactiviteiten_groepen")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *     "ErOpUit" = "GaGroepErOpUit",
  *     "Buurtmaatjes" = "GaGroepBuurtmaatjes",
+ *     "Kwartiermaken" = "GaGroepKwartiermaken",
  *     "OpenHuis" = "GaGroepOpenHuis",
  *     "Organisatie" = "GaGroepOrganisatie"
  * })
+ * @Gedmo\Loggable
  */
 abstract class GaGroep
 {
+    use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -28,38 +35,33 @@ abstract class GaGroep
 
     /**
      * @ORM\Column(length=100, nullable=false)
+     * @Gedmo\Versioned
      */
     protected $naam;
 
     /**
      * @ORM\Column(length=20, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $werkgebied;
 
     /**
      * @ORM\Column(name="activiteiten_registreren", type="boolean", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $activiteitenRegistreren;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
      */
     protected $einddatum;
-
-        /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $modified;
 
     /**
      * @var GaKlantLidmaatschap[]|ArrayCollection
@@ -100,6 +102,7 @@ abstract class GaGroep
     public function setNaam($naam)
     {
         $this->naam = $naam;
+
         return $this;
     }
 
@@ -111,6 +114,7 @@ abstract class GaGroep
     public function setWerkgebied($werkgebied)
     {
         $this->werkgebied = $werkgebied;
+
         return $this;
     }
 
@@ -122,6 +126,7 @@ abstract class GaGroep
     public function setActiviteitenRegistreren($activiteitenRegistreren)
     {
         $this->activiteitenRegistreren = $activiteitenRegistreren;
+
         return $this;
     }
 
@@ -133,6 +138,7 @@ abstract class GaGroep
     public function setStartdatum($startdatum)
     {
         $this->startdatum = $startdatum;
+
         return $this;
     }
 
@@ -144,6 +150,7 @@ abstract class GaGroep
     public function setEinddatum($einddatum)
     {
         $this->einddatum = $einddatum;
+
         return $this;
     }
 

@@ -5,29 +5,29 @@ class GroepsactiviteitenReden extends AppModel
     public $name = 'GroepsactiviteitenReden';
     public $displayField = 'naam';
 
-    public $actAs = array(
+    public $actAs = [
         'Containable',
-    );
+    ];
 
-    public $validate = array(
-            'naam' => array(
-                    'notempty' => array(
-                            'rule' => array(
+    public $validate = [
+            'naam' => [
+                    'notempty' => [
+                            'rule' => [
                                     'notEmpty',
-                            ),
+                            ],
                             'message' => 'Voer een reden in',
                             'allowEmpty' => false,
                             'required' => true,
-                    ),
-            ),
-    );
+                    ],
+            ],
+    ];
 
     public $list_cache_key = 'GroepsactiviteitenReden.list_cache_key';
 
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-    public $hasMany = array(
-        'GroepsactiviteitenGroepenVrijwilliger' => array(
+    public $hasMany = [
+        'GroepsactiviteitenGroepenVrijwilliger' => [
             'className' => 'GroepsactiviteitenGroepenVrijwilliger',
             'foreignKey' => 'groepsactiviteiten_reden_id',
             'dependent' => false,
@@ -39,8 +39,8 @@ class GroepsactiviteitenReden extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 
     public function save($data = null, $validate = true, $fieldList = [])
     {
@@ -58,9 +58,9 @@ class GroepsactiviteitenReden extends AppModel
         }
 
         $this->recursive = -1;
-        $groepsactiviteiten_reden = $this->find('all', array(
+        $groepsactiviteiten_reden = $this->find('all', [
                 'contain' => [], // seems not te be working...
-        ));
+        ]);
         Cache::write($this->list_cache_key, $groepsactiviteiten_reden);
 
         return $groepsactiviteiten_reden;

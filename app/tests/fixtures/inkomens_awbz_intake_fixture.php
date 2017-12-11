@@ -5,9 +5,9 @@ class InkomensAwbzIntakeFixture extends CakeTestFixture
 {
     public $name = 'InkomensAwbzIntake';
     public $table = 'inkomens_awbz_intakes';
-    public $import = array(
+    public $import = [
             'model' => 'InkomensAwbzIntake',
             'records' => true,
             'table' => 'inkomens_awbz_intakes',
-    );
+    ];
 }

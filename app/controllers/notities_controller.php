@@ -14,7 +14,7 @@ class NotitiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid notitie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('notitie', $this->Notitie->read(null, $id));
     }
@@ -25,7 +25,7 @@ class NotitiesController extends AppController
             $this->Notitie->create();
             if ($this->Notitie->save($this->data)) {
                 $this->flash(__('The notitie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The notitie could not be saved. Please, try again.', true));
             }
@@ -39,12 +39,12 @@ class NotitiesController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->flashError(__('Invalid notitie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->Notitie->save($this->data)) {
                 $this->flash(__('The notitie has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->flashError(__('The notitie could not be saved. Please, try again.', true));
             }
@@ -61,13 +61,13 @@ class NotitiesController extends AppController
     {
         if (!$id) {
             $this->flashError(__('Invalid id for notitie', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->Notitie->delete($id)) {
             $this->flashError(__('Notitie deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->flashError(__('Notitie was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

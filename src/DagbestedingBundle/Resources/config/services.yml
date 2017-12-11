@@ -1,0 +1,51 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
+services:
+    dagbesteding.contactpersoon.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+
+    dagbesteding.dagdeel.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
+
+    dagbesteding.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
+              - { key: rapportage, dao: '@dagbesteding.dao.rapportage' }
+
+    dagbesteding.rapportage.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
+
+    dagbesteding.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+              - { key: traject, dao: '@dagbesteding.dao.traject' }
+
+    dagbesteding.event.diensten_lookup_subscriber:
+        class: DagbestedingBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    dagbesteding.data_fixtures.faker_provider:
+        class: DagbestedingBundle\DataFixtures\DagbestedingFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }

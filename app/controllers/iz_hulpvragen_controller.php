@@ -1,10 +1,10 @@
 <?php
 
+use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzHulpvraag;
 use AppBundle\Entity\Medewerker;
 use IzBundle\Form\IzHulpvraagFilterType;
-use Symfony\Component\HttpFoundation\Request;
 
 class IzHulpvragenController extends AppController
 {
@@ -17,6 +17,13 @@ class IzHulpvragenController extends AppController
      * Use Twig.
      */
     public $view = 'AppTwig';
+
+    private $enabledFilters = [
+        'startdatum',
+        'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+        'izProject',
+        'medewerker',
+    ];
 
     private $sortFieldWhitelist = [
         'izHulpvraag.startdatum',
@@ -32,8 +39,10 @@ class IzHulpvragenController extends AppController
 
     public function index()
     {
-        $form = $this->createForm(IzHulpvraagFilterType::class);
-        $form->handleRequest($this->request);
+        $form = $this->createForm(IzHulpvraagFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $form->handleRequest($this->getRequest());
 
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(IzHulpvraag::class);
@@ -48,11 +57,15 @@ class IzHulpvragenController extends AppController
             ->andWhere('izKlant.izAfsluiting IS NULL')
             ->andWhere('klant.disabled = false');
 
-        if ($form->isValid()) {
-            $filter = $form->getData()->applyTo($builder);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $form->getData()->applyTo($builder);
+
+            if ($form->get('download')->isClicked()) {
+                return $this->download($builder);
+            }
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
+        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
             'defaultSortFieldName' => 'izHulpvraag.startdatum',
             'defaultSortDirection' => 'asc',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
@@ -60,5 +73,18 @@ class IzHulpvragenController extends AppController
 
         $this->set('form', $form->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(QueryBuilder $builder)
+    {
+        ini_set('memory_limit', '512M');
+
+        $hulpvragen = $builder->getQuery()->getResult();
+
+        $this->autoRender = false;
+        $filename = sprintf('iz-hulpvragen-%s.xls', (new \DateTime())->format('d-m-Y'));
+
+        $export = $this->container->get('iz.export.hulpvragen');
+        $export->create($hulpvragen)->send($filename);
     }
 }

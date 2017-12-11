@@ -5,7 +5,7 @@ App::import('Model', 'ZrmSetting');
 
 class ZrmSettingTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.zrm_setting');
+    public $fixtures = ['app.zrm_setting'];
 
     public function startTest()
     {

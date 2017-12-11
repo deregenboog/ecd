@@ -14,7 +14,7 @@ class IzViaPersonenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid iz via persoon', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->set('izViaPersoon', $this->IzViaPersoon->read(null, $id));
     }
@@ -25,7 +25,7 @@ class IzViaPersonenController extends AppController
             $this->IzViaPersoon->create();
             if ($this->IzViaPersoon->save($this->data)) {
                 $this->Session->setFlash(__('The iz via persoon has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz via persoon could not be saved. Please, try again.', true));
             }
@@ -36,13 +36,13 @@ class IzViaPersonenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid iz via persoon', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->IzViaPersoon->save($this->data)) {
                 $this->Session->setFlash(__('The iz via persoon has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The iz via persoon could not be saved. Please, try again.', true));
             }
@@ -57,15 +57,15 @@ class IzViaPersonenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for iz via persoon', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if ($this->IzViaPersoon->delete($id)) {
             $this->Session->setFlash(__('Iz via persoon deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $this->Session->setFlash(__('Iz via persoon was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 }

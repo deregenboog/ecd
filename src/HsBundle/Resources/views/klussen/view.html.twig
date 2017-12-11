@@ -1,0 +1,95 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Klanten |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% set add_route = 'hs_klussen_add' %}
+{% set view_route = 'hs_klussen_view' %}
+{% set edit_route = 'hs_klussen_edit' %}
+{% set delete_route = 'hs_klussen_delete' %}
+
+{% block content_top %}
+    <h1>Klus {{ entity }}</h1>
+    <p>
+        {{ html.editLink(path(edit_route, {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(edit_route, {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
+            {{ html.link('Verwijderen', path(delete_route, {id: entity.id})) }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Activiteit</dt>
+        <dd>{{ entity.activiteit }}</dd>
+        <dt>Klant</dt>
+        <dd>
+            {% if entity.klant %}
+                {{ html.link(entity.klant, path('hs_klanten_view', {id: entity.klant.id})) }}
+            {% else %}
+                Homeservice
+            {% endif %}
+        </dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}</dd>
+        <dt>Dienstverleners</dt>
+        <dd>
+            <ul>
+                {% for dienstverlener in entity.dienstverleners %}
+                    <li>
+                        {{ html.link(dienstverlener.klant, path('hs_dienstverleners_view', {id: dienstverlener.id})) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Vrijwilligers</dt>
+        <dd>
+            <ul>
+                {% for vrijwilliger in entity.vrijwilligers %}
+                    <li>
+                        {{ html.link(vrijwilliger.vrijwilliger, path('hs_vrijwilligers_view', {'id': vrijwilliger.id})) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#memos">Memo's</a></li>
+        <li><a data-toggle="tab" href="#registraties">Uren</a></li>
+        <li><a data-toggle="tab" href="#declaraties">Declaraties</a></li>
+        {% if entity.klant %}
+            <li><a data-toggle="tab" href="#facturen">Facturen</a></li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div id="memos" class="tab-pane active">
+            {% include '@Hs/memos/_list.html.twig' with {klus: entity} %}
+        </div>
+        <div id="registraties" class="tab-pane">
+            {% include '@Hs/registraties/_list.html.twig' with {klus: entity} %}
+        </div>
+        <div id="declaraties" class="tab-pane">
+            {% include '@Hs/declaraties/_list.html.twig' with {klus: entity} %}
+        </div>
+        {% if entity.klant %}
+            <div id="facturen" class="tab-pane">
+                {% include '@Hs/facturen/_list.html.twig' with {klus: entity} %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

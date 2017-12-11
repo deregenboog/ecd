@@ -1,12 +1,38 @@
 <?php
 
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Vrijwilliger;
+
 class GroepsactiviteitenController extends AppController
 {
     public $name = 'Groepsactiviteiten';
 
-    public $components = array(
+    private $enabledFilters = [
+        'klant' => ['id', 'naam', 'geboortedatumRange'],
+        'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
+        'medewerker',
+        'afsluitdatum',
+    ];
+
+    private $sortFieldWhitelist = [
+        'klant.id',
+        'klant.achternaam',
+        'klant.geboortedatum',
+        'vrijwilliger.id',
+        'vrijwilliger.achternaam',
+        'vrijwilliger.geboortedatum',
+        'medewerker.achternaam',
+        'intake.afsluitdatum',
+    ];
+
+    public $components = [
             'ComponentLoader',
-    );
+    ];
+
+    /**
+     * Use Twig.
+     */
+    public $view = 'AppTwig';
 
     private function setmetadata($persoon_model, $id)
     {
@@ -22,12 +48,12 @@ class GroepsactiviteitenController extends AppController
             $this->loadModel('GroepsactiviteitenIntake');
         }
 
-        $intake = $this->GroepsactiviteitenIntake->find('first', array(
-            'conditions' => array(
+        $intake = $this->GroepsactiviteitenIntake->find('first', [
+            'conditions' => [
                 'model' => $persoon_model,
                 'foreign_key' => $id,
-            ),
-        ));
+            ],
+        ]);
 
         $is_afgesloten = false;
 
@@ -45,20 +71,20 @@ class GroepsactiviteitenController extends AppController
             $this->loadModel('GroepsactiviteitenIntake');
         }
 
-        $intake = $this->GroepsactiviteitenIntake->find('first', array(
-            'conditions' => array(
+        $intake = $this->GroepsactiviteitenIntake->find('first', [
+            'conditions' => [
                 'model' => $persoon_model,
                 'foreign_key' => $id,
-            ),
-        ));
+            ],
+        ]);
 
         if (empty($intake) && empty($data)) {
-            $data = array(
-                'GroepsactiviteitenIntake' => array(
+            $data = [
+                'GroepsactiviteitenIntake' => [
                     'model' => $persoon_model,
                     'foreign_key' => $id,
-                ),
-            );
+                ],
+            ];
         }
 
         if (!empty($data)) {
@@ -88,7 +114,7 @@ class GroepsactiviteitenController extends AppController
 
             if ($this->Groepsactiviteit->save($this->data)) {
                 $this->Session->setFlash(__('De activiteit is opgeslagen', true));
-                $this->redirect(array('action' => 'planning'));
+                $this->redirect(['action' => 'planning']);
             } else {
                 $this->Session->setFlash(__('Activiteit kan niet worden opgeslagen', true));
             }
@@ -104,7 +130,7 @@ class GroepsactiviteitenController extends AppController
         if (!empty($groeps_activiteit)) {
             $this->Groepsactiviteit->delete($id);
         }
-        $this->redirect(array('action' => 'planning', $groeps_activiteit['groepsactiviteiten_groep_id']));
+        $this->redirect(['action' => 'planning', $groeps_activiteit['groepsactiviteiten_groep_id']]);
     }
 
     public function edit($id)
@@ -114,7 +140,7 @@ class GroepsactiviteitenController extends AppController
 
             if ($this->Groepsactiviteit->save($this->data)) {
                 $this->Session->setFlash(__('De activiteit is opgeslagen', true));
-                $this->redirect(array('action' => 'planning'));
+                $this->redirect(['action' => 'planning']);
             } else {
                 $this->Session->setFlash(__('Activiteit kan niet worden opgeslagen', true));
             }
@@ -126,118 +152,20 @@ class GroepsactiviteitenController extends AppController
         $this->set(compact('id', 'groepsactiviteitengroepen'));
     }
 
-    public function index()
-    {
-        $persoon_model = $this->getParam('selectie');
-        $fields = array(
-            'id' => true,
-            'name1st_part' => true,
-            'name2nd_part' => true,
-            'name' => false,
-            'geboortedatum' => true,
-            'medewerker_id' => true,
-            'bot' => false,
-            'iz_projecten' => false,
-            'werkgebied' => false,
-            'iz_coordinator' => false,
-            'medewerker_ids' => false,
-            'iz_datum_aanmelding' => false,
-            'last_zrm' => false,
-            'dummycol' => true,
-        );
-
-        if (empty($persoon_model)) {
-            if (!empty($this->params['named']['Vrijwilliger.selectie'])) {
-                $persoon_model = $this->params['named']['Vrijwilliger.selectie'];
-            }
-        }
-
-        if (empty($persoon_model)) {
-            $persoon_model = 'Klant';
-        }
-
-        $persoon_model = $this->check_persoon_model($persoon_model);
-        $persoon_groepsactiviteiten_groepen = 'GroepsactiviteitenGroepen'.$persoon_model;
-        $persoon_id_field = strtolower($persoon_model.'_id');
-        $table = Inflector::pluralize(Inflector::underscore($persoon_groepsactiviteiten_groepen));
-
-        $this->loadModel($persoon_model);
-        $this->ComponentLoader->load('Filter', array('persoon_model' => $persoon_model));
-
-        $join = array(
-           //'table' => $table,
-          'table' => "(select distinct {$persoon_id_field} as {$persoon_id_field} from $table where ( isnull(einddatum) or now() < einddatum ) )",
-          'alias' => $persoon_groepsactiviteiten_groepen,
-         'type' => 'INNER',
-           'conditions' => array(
-               "{$persoon_model}.id = {$persoon_groepsactiviteiten_groepen}.{$persoon_id_field}",
-            ),
-
-        );
-
-        if (false && $persoon_model == 'Klant') {
-            $join = array(
-                    'table' => "(select distinct foreign_key as {$persoon_id_field} from groepsactiviteiten_intakes where not isnull(intakedatum) and isnull(afsluitdatum))",
-                    'alias' => 'groepsactiviteiten_intakes',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        "{$persoon_model}.id = groepsactiviteiten_intakes.{$persoon_id_field}",
-                    ),
-                );
-        }
-        $this->paginate = array(
-            'contain' => array(
-                'Geslacht',
-                 $persoon_groepsactiviteiten_groepen,
-            ),
-            'joins' => array(
-                $join,
-            ),
-        );
-
-        $show_all = false;
-        if (isset($this->data[$persoon_model]['show_all']) && !empty($this->data[$persoon_model]['show_all'])) {
-            $show_all = true;
-        }
-
-        if ($show_all) {
-            unset($this->paginate['joins']);
-        }
-        $this->setMedewerkers();
-
-        unset($this->Filter->filterData[$persoon_model.'.selectie']);
-        unset($this->Filter->filterData['Groepsactiviteit.selectie']);
-        $personen = $this->paginate($persoon_model, $this->Filter->filterData);
-
-        if ($persoon_model == 'Klant') {
-            $personen = $this->{$persoon_model}->LasteIntake->completeKlantenIntakesWithLocationNames($personen);
-        }
-        $rowOnclickUrl = array(
-                'controller' => 'groepsactiviteiten',
-                'action' => 'view',
-                $persoon_model,
-        );
-
-        $this->set(compact('fields', 'personen', 'rowOnclickUrl', 'persoon_model'));
-
-        if ($this->RequestHandler->isAjax()) {
-            $this->render('/elements/personen_lijst', 'ajax');
-        }
-    }
-
     public function view($persoon_model = 'Klant', $id = null)
     {
         $persoon_model = $this->check_persoon_model($persoon_model);
         $this->loadModel($persoon_model);
         if (!$id) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if ($persoon_model == 'Klant') {
-            $this->redirect(array('action' => 'intakes', $persoon_model, $id));
+            $this->redirect(['action' => 'intakes', $persoon_model, $id]);
         } else {
-            $this->redirect(array('action' => 'verslagen', $persoon_model, $id));
+            $this->redirect(['action' => 'verslagen', $persoon_model, $id]);
         }
     }
 
@@ -247,38 +175,39 @@ class GroepsactiviteitenController extends AppController
         $this->loadModel($persoon_model);
         if (!$id) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
         $persoon_groepsactiviteiten_groepen = 'GroepsactiviteitenGroepen'.$persoon_model;
 
         $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->create();
         $validation_error = false;
-        $data = array(
-            $persoon_groepsactiviteiten_groepen => array(
+        $data = [
+            $persoon_groepsactiviteiten_groepen => [
                 'id' => $groepsactiviteiten_groep_id,
                 'einddatum' => null,
                 'groepsactiviteiten_reden_id' => null,
-            ),
-        );
+            ],
+        ];
         $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->validate = [];
         if (!$this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->save($data)) {
             $validation_error = true;
         }
 
-        $this->redirect(array('controller' => 'groepsactiviteiten', 'action' => 'groepen', $persoon_model, $id));
+        $this->redirect(['controller' => 'groepsactiviteiten', 'action' => 'groepen', $persoon_model, $id]);
     }
 
     public function opnieuw_aanmelden($id)
     {
         $this->loadModel('GroepsactiviteitenIntake');
 
-        $data = array(
-        'GroepsactiviteitenIntake' => array(
+        $data = [
+        'GroepsactiviteitenIntake' => [
                 'id' => $id,
                 'afsluitdatum' => null,
                 'groepsactiviteiten_afsluiting_id' => null,
-        ),
-        );
+        ],
+        ];
 
         $intake = $this->GroepsactiviteitenIntake->getById($id);
         if (empty($intake)) {
@@ -293,7 +222,7 @@ class GroepsactiviteitenController extends AppController
             $this->redirect('/');
         }
 
-        $this->redirect(array('action' => 'view', $intake['model'], $intake['foreign_key'], $id));
+        $this->redirect(['action' => 'view', $intake['model'], $intake['foreign_key'], $id]);
     }
 
     public function afsluiting($persoon_model, $id)
@@ -308,7 +237,8 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         $intake = $this->add_to_intake($persoon_model, $id, $this->data);
@@ -323,17 +253,17 @@ class GroepsactiviteitenController extends AppController
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $has_active_groepen = false;
 
-        $open = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->find('list', array(
-            'conditions' => array(
+        $open = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->find('list', [
+            'conditions' => [
                 $persoon_id_field => $id,
                 'einddatum' => null,
-            ),
-        ));
+            ],
+        ]);
 
         if (!empty($open)) {
             $has_active_groepen = true;
@@ -346,6 +276,7 @@ class GroepsactiviteitenController extends AppController
         $this->setmetadata($persoon_model, $id);
         $this->render('view');
     }
+
     public function verslagen($persoon_model, $id)
     {
         $persoon_model = $this->check_persoon_model($persoon_model);
@@ -353,13 +284,14 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid vrijwilliger', true));
-            $this->redirect(array('action' => 'index'));
+
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if (!empty($this->data)) {
             if ($this->Vrijwilliger->save($this->data)) {
                 $this->Session->setFlash(__('The vrijwilliger has been saved', true));
-                $this->redirect(array('action' => 'view', $id));
+                $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->Session->setFlash(__('The vrijwilliger could not be saved. Please, try again.', true));
             }
@@ -368,7 +300,7 @@ class GroepsactiviteitenController extends AppController
         $persoon = $this->{$persoon_model}->getAllById($id);
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $this->set(compact('persoon', 'persoon_model', 'diensten'));
@@ -379,10 +311,25 @@ class GroepsactiviteitenController extends AppController
 
     public function intakes($persoon_model, $foreign_key)
     {
-        $this->loadModel('ZrmReport');
         $persoon_model = $this->check_persoon_model($persoon_model);
-
         $this->loadModel($persoon_model);
+        $persoon = $this->{$persoon_model}->getAllById($foreign_key);
+
+        $zrm = false;
+        $this->loadModel(ZrmReport::class);
+        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
+            $this->loadModel($zrmReportModel);
+            if (!empty($persoon['GroepsactiviteitenIntake']['id'])) {
+                $zrm = $this->{$zrmReportModel}->get_zrm_report('GroepsactiviteitenIntake', $persoon['GroepsactiviteitenIntake']['id']);
+                if ($zrm) {
+                    break;
+                }
+            }
+        }
+        if (!$zrm) {
+            $zrmReportModel = ZrmReport::getZrmReportModel();
+        }
+
         if (!empty($this->data)) {
             if (empty($this->data['GroepsactiviteitenIntake']['id'])) {
                 $this->{$persoon_model}->GroepsactiviteitenIntake->create();
@@ -390,23 +337,19 @@ class GroepsactiviteitenController extends AppController
                 $this->data['GroepsactiviteitenIntake']['foreign_key'] = $foreign_key;
                 $this->data['GroepsactiviteitenIntake']['medewerker_id'] = $this->Session->read('Auth.Medewerker.id');
             }
-
             $this->data['GroepsactiviteitenIntake']['gespreksverslag'] = htmlentities($this->data['GroepsactiviteitenIntake']['gespreksverslag']);
             $this->{$persoon_model}->begin();
-            $saved = false;
 
             $retval = $this->{$persoon_model}->GroepsactiviteitenIntake->save($this->data);
 
+            $saved = false;
             if ($retval) {
                 if ($persoon_model == 'Klant') {
-                    $this->data['ZrmReport']['model'] = 'GroepsactiviteitenIntake';
-
-                    $this->data['ZrmReport']['foreign_key'] = $this->{$persoon_model}->GroepsactiviteitenIntake->id;
-                    $this->data['ZrmReport']['klant_id'] = $foreign_key;
-
-                    $this->ZrmReport->create();
-
-                    if ($this->ZrmReport->save($this->data)) {
+                    $this->data[$zrmReportModel]['model'] = 'GroepsactiviteitenIntake';
+                    $this->data[$zrmReportModel]['foreign_key'] = $this->{$persoon_model}->GroepsactiviteitenIntake->id;
+                    $this->data[$zrmReportModel]['klant_id'] = $foreign_key;
+                    $this->{$zrmReportModel}->create();
+                    if ($this->{$zrmReportModel}->save($this->data)) {
                         $saved = true;
                     }
                 } else {
@@ -417,31 +360,27 @@ class GroepsactiviteitenController extends AppController
             if ($saved) {
                 $this->flash(__('De intake is opgeslagen', true));
                 $this->{$persoon_model}->commit();
-                $this->redirect(array('action' => 'intakes', $persoon_model, $foreign_key));
+                $this->redirect(['action' => 'intakes', $persoon_model, $foreign_key]);
             } else {
                 $this->flash(__('De intake is niet opgeslagen', true));
                 $this->{$persoon_model}->rollback();
             }
+        } else {
+            if ($zrm) {
+                $this->data[$zrmReportModel] = $zrm[$zrmReportModel];
+            }
         }
-
-        $persoon = $this->{$persoon_model}->getAllById($foreign_key);
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
-        if (!empty($persoon['GroepsactiviteitenIntake']['id']) && empty($this->data['ZrmReport'])) {
-            $zrm = $this->ZrmReport->get_zrm_report('GroepsactiviteitenIntake',
-                    $persoon['GroepsactiviteitenIntake']['id'],
-                    $foreign_key);
-            $this->data['ZrmReport'] = $zrm['ZrmReport'];
-        }
-
-        $zrm_data = $this->ZrmReport->zrm_data();
-        $this->set(compact('persoon', 'persoon_model', 'zrm_data', 'diensten'));
+        $zrmData = $this->{$zrmReportModel}->zrm_data();
+        $this->set(compact('persoon', 'persoon_model', 'zrmData', 'zrmReportModel', 'diensten'));
         $this->setMedewerkers();
         $this->setmetadata($persoon_model, $foreign_key);
+
         $this->render('view');
     }
 
@@ -500,9 +439,9 @@ class GroepsactiviteitenController extends AppController
         $this->set('validation_error', $validation_error);
 
         $persoon_id = $id;
-        $groepsactiviteiten_redenen = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->GroepsactiviteitenReden->find('list', array(
+        $groepsactiviteiten_redenen = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->GroepsactiviteitenReden->find('list', [
                 'contain' => [],
-        ));
+        ]);
 
         $groepsactiviteit = $this->data[$persoon_groepsactiviteiten_groepen];
 
@@ -532,7 +471,8 @@ class GroepsactiviteitenController extends AppController
 
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid persoon', true));
-            $this->redirect(array('action' => 'index'));
+
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -545,7 +485,7 @@ class GroepsactiviteitenController extends AppController
 
             if ($this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->save($this->data)) {
                 $this->Session->setFlash(__('De persoon is toegewezen aan de groep', true));
-                $this->redirect(array('action' => 'groepen', $persoon_model, $id));
+                $this->redirect(['action' => 'groepen', $persoon_model, $id]);
             } else {
                 $this->Session->setFlash(__('De persoon kan niet worden toegewezen aan de groep', true));
             }
@@ -566,7 +506,7 @@ class GroepsactiviteitenController extends AppController
         $diensten = [];
 
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $groepsactiviteiten_redenen = $this->{$persoon_model}->{$persoon_groepsactiviteiten_groepen}->GroepsactiviteitenReden->get_groepsactiviteiten_reden_list();
@@ -601,13 +541,13 @@ class GroepsactiviteitenController extends AppController
                 $this->add_to_intake($persoon_model, $id);
             }
 
-            $data = array(
-                    $persoon_groepsactiviteiten => array(
+            $data = [
+                    $persoon_groepsactiviteiten => [
                         'groepsactiviteit_id' => $this->data['Groepsactiviteit']['groepsactiviteit_id'],
                          $persoon_id_field => $id,
                          'afmeld_status' => 'Aanwezig',
-                    ),
-            );
+                    ],
+            ];
 
             $this->{$persoon_groepsactiviteiten}->create();
 
@@ -618,13 +558,12 @@ class GroepsactiviteitenController extends AppController
             }
         }
 
-        $options = array(
-            'conditions' => array($persoon_id_field => $id),
-            'contain' => array('Groepsactiviteit' => array('id', 'naam', 'datum', 'time', 'groepsactiviteiten_groep_id')),
-            'fields' => array('id', 'groepsactiviteit_id', 'afmeld_status'),
+        $options = [
+            'conditions' => [$persoon_id_field => $id],
+            'contain' => ['Groepsactiviteit' => ['id', 'naam', 'datum', 'time', 'groepsactiviteiten_groep_id']],
+            'fields' => ['id', 'groepsactiviteit_id', 'afmeld_status'],
             'order' => 'datum desc, time desc',
-
-        );
+        ];
 
         $activiteiten = $this->{$persoon_groepsactiviteiten}->find('all', $options);
 
@@ -652,7 +591,7 @@ class GroepsactiviteitenController extends AppController
 
         $diensten = [];
         if ($persoon_model == 'Klant') {
-            $diensten = $this->Klant->diensten($persoon);
+            $diensten = $this->Klant->diensten($persoon, $this->getEventDispatcher());
         }
 
         $this->set(compact('diensten', 'groepsactiviteiten', 'newgroepsactiviteiten', 'persoon', 'persoon_model', 'activiteiten', 'persoon_id_field', 'persoon_groepsactiviteiten', 'groepsactiviteitengroepen_list_view', 'groepsactiviteitengroepen_list'));
@@ -684,38 +623,38 @@ class GroepsactiviteitenController extends AppController
 
         $this->loadModel('GroepsactiviteitenGroepenKlant');
 
-        $this->paginate = array(
+        $this->paginate = [
             'limit' => 100,
-            'contain' => array('Klant'),
-        );
+            'contain' => ['Klant'],
+        ];
         $tmpid = $id;
 
         if (empty($tmpid)) {
             $tmpid = -100203;
         }
 
-        $params = array(
+        $params = [
             'groepsactiviteiten_groep_id' => $tmpid,
-            'OR' => array(
+            'OR' => [
                     'einddatum > now()',
                     'einddatum' => null,
-            ),
-        );
+            ],
+        ];
 
         $deelnemers = $this->paginate('GroepsactiviteitenGroepenKlant', $params);
 
         $this->loadModel('GroepsactiviteitenGroepenVrijwilliger');
 
-        $params = array(
-            'contain' => array('Vrijwilliger'),
-            'conditions' => array(
+        $params = [
+            'contain' => ['Vrijwilliger'],
+            'conditions' => [
                 'groepsactiviteiten_groep_id' => $tmpid,
-                'OR' => array(
+                'OR' => [
                     'einddatum > now()',
                     'einddatum' => null,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $vrijwilligers = $this->GroepsactiviteitenGroepenVrijwilliger->find('all', $params);
 
@@ -740,12 +679,12 @@ class GroepsactiviteitenController extends AppController
             $this->loadModel($persoon_model);
 
             if ($this->{$persoon_model}->GroepsactiviteitenDocument->save($this->data)) {
-                $this->redirect(array(
+                $this->redirect([
                     'controller' => 'Groepsactiviteiten',
                     'action' => 'view',
                     $persoon_model,
                     $id,
-                ));
+                ]);
             } else {
                 $this->flashError(__('The document could not be saved. Please, try again.', true));
             }
@@ -761,7 +700,7 @@ class GroepsactiviteitenController extends AppController
         $selectie = $this->Session->read('selectie_postdata');
 
         if (empty($selectie)) {
-            $this->redirect(array('action' => 'selecties'));
+            $this->redirect(['action' => 'selecties']);
         }
 
         if (!empty($this->data)) {
@@ -782,17 +721,16 @@ class GroepsactiviteitenController extends AppController
                 $this->Groepsactiviteit->invalidate('text', 'Email moet een inhoud hebben');
             }
 
-            $this->data['QueueTask'] = array(
+            $this->data['QueueTask'] = [
                 'model' => 'Medewerker',
                 'foreign_key' => $this->Session->read('Auth.Medewerker.id'),
-                'data' => array(
+                'data' => [
                     'selectie' => $selectie,
                     'email' => $this->data,
-                ),
+                ],
                 'action' => 'mass_email',
                 'status' => STATUS_PENDING,
-
-            );
+            ];
 
             if (empty($this->Groepsactiviteit->validationErrors)) {
                 $ret = $this->QueueTask->saveAll($this->data);
@@ -804,7 +742,7 @@ class GroepsactiviteitenController extends AppController
 
                 if ($saved) {
                     $this->flash(__('Email is opgeslagen en zal z.s.m. verzonden worden', true));
-                    $this->redirect(array('action' => 'selecties'));
+                    $this->redirect(['action' => 'selecties']);
 
                     return;
                 } else {
@@ -820,18 +758,12 @@ class GroepsactiviteitenController extends AppController
 
     public function selecties()
     {
+        ini_set('memory_limit', '512M');
         $personen = $vrijwilligers = $klanten = [];
 
         if (!empty($this->data)) {
             $validated = true;
             $msg = '';
-
-            if (empty($this->data['Groepsactiviteit']['activiteitengroepen']) &&
-                    empty($this->data['Groepsactiviteit']['werkgebieden']) &&
-                    empty($this->data['Groepsactiviteit']['communicatie_type'])) {
-
-                //$validated = false;
-            }
 
             if (empty($this->data['Groepsactiviteit']['persoon_model'])) {
                 if (!empty($msg)) {
@@ -853,20 +785,16 @@ class GroepsactiviteitenController extends AppController
                 $personen = $this->Groepsactiviteit->get_personen($this->data);
 
                 if ($this->data['Groepsactiviteit']['export'] == 'csv') {
-                    $date = date('Ymd_His');
-                    $file = "selecties_{$date}.xls";
+                    $this->autoRender = false;
+                    $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 
-                    header('Content-type: application/vnd.ms-excel');
-                    header("Content-Disposition: attachment; filename=\"$file\";");
-                    header('Content-Transfer-Encoding: binary');
+                    $export = $this->container->get('ga.export.selectie');
+                    $export->create($personen)->send($filename);
 
-                    $this->autoLayout = false;
-                    $this->layout = false;
-                    $this->set('personen', $personen);
-                    $this->render('selecties_excel');
+                    return;
                 } else {
                     $this->Session->write('selectie_postdata', $this->data);
-                    $this->redirect(array('action' => 'email_selectie'));
+                    $this->redirect(['action' => 'email_selectie']);
                 }
 
                 $personen = Set::sort($personen, '{n}.achternaam', 'asc');
@@ -874,12 +802,12 @@ class GroepsactiviteitenController extends AppController
                 $this->Session->setFlash(__("Selecteer voldoende opties ({$msg})", true));
             }
         } else {
-            $this->data = array(
-                'Groepsactiviteit' => array(
+            $this->data = [
+                'Groepsactiviteit' => [
                     'persoon_model' => array_keys(Configure::read('Persoontypen')),
                     'communicatie_type' => array_keys(Configure::read('Communicatietypen')),
-                ),
-            );
+                ],
+            ];
         }
 
         $activiteitengroepen = $this->Groepsactiviteit->GroepsactiviteitenGroep->get_groepsactiviteiten_list();
@@ -893,14 +821,14 @@ class GroepsactiviteitenController extends AppController
         $groepsactiviteiten = [];
 
         if (!empty($id)) {
-            $this->paginate = array(
-                'conditions' => array(
+            $this->paginate = [
+                'conditions' => [
                     'GroepsactiviteitenGroep.id' => $id,
-                ),
-                'contain' => array('GroepsactiviteitenGroep' => array('id', 'naam')),
-                'fields' => array('id', 'groepsactiviteiten_groep_id', 'naam', 'datum'),
+                ],
+                'contain' => ['GroepsactiviteitenGroep' => ['id', 'naam']],
+                'fields' => ['id', 'groepsactiviteiten_groep_id', 'naam', 'datum'],
                 'limit' => 30,
-            );
+            ];
 
             $groepsactiviteiten = $this->paginate('Groepsactiviteit');
             $groepsactiviteiten = $this->Groepsactiviteit->addCount($groepsactiviteiten);
@@ -915,28 +843,29 @@ class GroepsactiviteitenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Niet geldige reden', true));
-            $this->redirect(array('action' => 'index'));
+
+            return $this->redirect(['controller' => 'groepsacticiteiten_klanten', 'action' => 'index']);
         }
 
         $this->loadModel('GroepsactiviteitenKlant');
 
-        $this->paginate['GroepsactiviteitenKlant'] = array(
-                'conditions' => array(
+        $this->paginate['GroepsactiviteitenKlant'] = [
+                'conditions' => [
                      'groepsactiviteit_id' => $id,
-                 ),
-                'contain' => array('Klant'),
+                 ],
+                'contain' => ['Klant'],
                 'limit' => 100,
-        );
+        ];
 
         $klanten = $this->paginate('GroepsactiviteitenKlant');
 
         $this->loadModel('GroepsactiviteitenVrijwilliger');
 
-        $vrijwilligers = $this->GroepsactiviteitenVrijwilliger->find('all', array(
-            'conditions' => array('groepsactiviteit_id' => $id),
-            'contain' => array('Vrijwilliger'),
+        $vrijwilligers = $this->GroepsactiviteitenVrijwilliger->find('all', [
+            'conditions' => ['groepsactiviteit_id' => $id],
+            'contain' => ['Vrijwilliger'],
             'order' => 'achternaam',
-        ));
+        ]);
 
         $this->Groepsactiviteit->recursive = 0;
         $groepsactiviteit = $this->data = $this->Groepsactiviteit->getById($id);
@@ -957,28 +886,26 @@ class GroepsactiviteitenController extends AppController
 
         $persoon_id_field = $this->{$persoon_groepsactiviteiten}->belongsTo[$persoon_model]['foreignKey'];
 
-        $current = $this->{$persoon_groepsactiviteiten}->find('all', array(
-                'conditions' => array('groepsactiviteit_id' => array('groepsactiviteit_id' => $id)),
+        $current = $this->{$persoon_groepsactiviteiten}->find('all', [
+                'conditions' => ['groepsactiviteit_id' => ['groepsactiviteit_id' => $id]],
                 'contain' => [],
-                'fields' => array('id', $persoon_id_field),
-        ));
+                'fields' => ['id', $persoon_id_field],
+        ]);
 
         $current = Set::classicExtract($current, "{n}.{$persoon_groepsactiviteiten}.{$persoon_id_field}");
 
-        $groep = $this->{$persoon_groepsactiviteiten_groepen}->find('all', array(
-
-            'conditions' => array(
+        $groep = $this->{$persoon_groepsactiviteiten_groepen}->find('all', [
+            'conditions' => [
                 'groepsactiviteiten_groep_id' => $groepsactiviteit['groepsactiviteiten_groep_id'],
-                'or' => array(
+                'or' => [
                     'einddatum' => null,
                     'einddatum > now()',
-                ),
-            ),
+                ],
+            ],
             'contain' => [],
-            'fields' => array('id', $persoon_id_field, 'einddatum'),
+            'fields' => ['id', $persoon_id_field, 'einddatum'],
             'order' => 'id',
-
-        ));
+        ]);
 
         $data = [];
 
@@ -989,16 +916,16 @@ class GroepsactiviteitenController extends AppController
 
             $current[] = $g[$persoon_groepsactiviteiten_groepen][$persoon_id_field];
 
-            $data[$persoon_groepsactiviteiten][] = array(
+            $data[$persoon_groepsactiviteiten][] = [
                 'groepsactiviteit_id' => $id,
                 $persoon_id_field => $g[$persoon_groepsactiviteiten_groepen][$persoon_id_field],
                 'afmeld_status' => 'Aanwezig',
-            );
+            ];
         }
 
         if (!empty($data)) {
             $this->{$persoon_groepsactiviteiten}->begin();
-            $result = $this->{$persoon_groepsactiviteiten}->saveAll($data[$persoon_groepsactiviteiten], array('atomic' => false));
+            $result = $this->{$persoon_groepsactiviteiten}->saveAll($data[$persoon_groepsactiviteiten], ['atomic' => false]);
 
             if (in_array(0, $result)) {
                 $this->Session->setFlash(__('Er kunnen geen personen toegevoegd worden', true));
@@ -1011,7 +938,7 @@ class GroepsactiviteitenController extends AppController
             $this->Session->setFlash(__('Personen zijn reeds toegevoegd', true));
         }
 
-        $this->redirect(array('action' => 'activiteit_registreren', $id));
+        $this->redirect(['action' => 'activiteit_registreren', $id]);
     }
 
     public function activiteit_persoon_delete($id)
@@ -1027,9 +954,9 @@ class GroepsactiviteitenController extends AppController
         $persoon_id_field = $this->{$persoon_groepsactiviteiten}->belongsTo[$persoon_model]['foreignKey'];
 
         if (empty($id) || empty($persoon_model) || empty($persoon_groepsactiviteiten_id) || empty($groepsactiviteit)) {
-            $result = array(
+            $result = [
                 'return' => false,
-            );
+            ];
             $this->set('jsonVar', $result);
             $this->render('/elements/json', 'ajax');
 
@@ -1038,13 +965,13 @@ class GroepsactiviteitenController extends AppController
 
         $gp = $this->{$persoon_groepsactiviteiten}->getById($persoon_groepsactiviteiten_id);
 
-        $result = array(
+        $result = [
             'return' => true,
             'persoon_model' => $persoon_model,
             'persoon_groepsactiviteiten_id' => $persoon_groepsactiviteiten_id,
             'persoon_id_field' => $persoon_id_field,
             'persoon_groepsactiviteiten' => $persoon_groepsactiviteiten,
-        );
+        ];
 
         if (!empty($persoon_groepsactiviteiten_id)) {
             $this->{$persoon_groepsactiviteiten}->delete($persoon_groepsactiviteiten_id);
@@ -1070,9 +997,9 @@ class GroepsactiviteitenController extends AppController
         $persoon_id_field = $this->{$persoon_groepsactiviteiten}->belongsTo[$persoon_model]['foreignKey'];
 
         if (empty($id) || empty($persoon_model) || empty($persoon_groepsactiviteiten_id) || empty($groepsactiviteit)) {
-            $result = array(
+            $result = [
                     'return' => false,
-            );
+            ];
             $this->set('jsonVar', $result);
             $this->render('/elements/json', 'ajax');
 
@@ -1081,26 +1008,26 @@ class GroepsactiviteitenController extends AppController
 
         $retval = false;
 
-        $data = array(
-             $persoon_groepsactiviteiten => array(
+        $data = [
+             $persoon_groepsactiviteiten => [
                 'id' => $persoon_groepsactiviteiten_id,
                 'afmeld_status' => $afmeld_status,
-             ),
-        );
+             ],
+        ];
 
         $this->{$persoon_groepsactiviteiten}->create();
         if ($this->{$persoon_groepsactiviteiten}->save($data)) {
             $retval = true;
         }
 
-        $result = array(
+        $result = [
                 'return' => $retval,
                 'persoon_model' => $persoon_model,
                 'persoon_groepsactiviteiten_id' => $persoon_groepsactiviteiten_id,
                 'persoon_id_field' => $persoon_id_field,
                 'afmeld_status' => $afmeld_status,
                 'persoon_groepsactiviteiten' => $persoon_groepsactiviteiten,
-        );
+        ];
 
         $this->set('jsonVar', $result);
         $this->render('/elements/json', 'ajax');
@@ -1108,20 +1035,22 @@ class GroepsactiviteitenController extends AppController
 
     public function zrm_add($id)
     {
-        $this->loadModel('ZrmReport');
+        $this->loadModel(ZrmReport::class);
+        $zrmReportModel = ZrmReport::getZrmReportModel();
+        $this->loadModel($zrmReportModel);
 
         if (!empty($this->data)) {
-            $this->ZrmReport->update_zrm_data_for_edit($this->data, 'Groepsactiviteit', $id, $id);
+            $this->{$zrmReportModel}->update_zrm_data_for_edit($this->data, 'Groepsactiviteit', $id, $id);
 
-            if ($this->ZrmReport->save($this->data)) {
+            if ($this->{$zrmReportModel}->save($this->data)) {
                 $this->flash(__('ZRM opgeslagen', true));
-                $this->redirect(array('action' => 'view', $id));
+                $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->flashError(__('ZRM niet opgeslagen. Probeer het opnieuw', true));
             }
         }
 
-        $this->set('zrm_data', $this->ZrmReport->zrm_data());
+        $this->set('zrmData', $this->{$zrmReportModel}->zrm_data());
         $this->set('id', $id);
     }
 
@@ -1132,10 +1061,10 @@ class GroepsactiviteitenController extends AppController
         }
 
         if (!$this->data) {
-            $this->data = array(
-                    'date_from' => array('year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'),
-                    'date_to' => array('year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'),
-            );
+            $this->data = [
+                    'date_from' => ['year' => date('Y', time() - YEAR), 'month' => '01', 'day' => '01'],
+                    'date_to' => ['year' => date('Y', time() - YEAR), 'month' => '12', 'day' => '31'],
+            ];
         }
 
         $report_generator = 'ajax_report_html';
@@ -1144,6 +1073,7 @@ class GroepsactiviteitenController extends AppController
 
         $this->render('report');
     }
+
     public function ajax_report_html()
     {
         $reports = [];
@@ -1176,22 +1106,22 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select g.naam, g.werkgebied, g.id as groep_id, klant_id as p_id, a.id as groepsactiviteit_id
-			from groepsactiviteiten_groepen g
-			join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = a.id
-			where pg.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            from groepsactiviteiten_groepen g
+            join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = a.id
+            where pg.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
         $groepen = [];
 
-        $template = array(
+        $template = [
             'Deelnemers' => [],
             'Vrijwilligers' => [],
             'Activiteiten' => [],
             'naam' => '',
-        );
+        ];
 
         foreach ($data as $d) {
             $g_id = $d['g']['groep_id'];
@@ -1219,11 +1149,11 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select g.naam, g.werkgebied, g.id as groep_id, vrijwilliger_id as p_id, a.id as groepsactiviteit_id
-			from groepsactiviteiten_groepen g
-			join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = a.id
-			where pg.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            from groepsactiviteiten_groepen g
+            join groepsactiviteiten a on g.id = a.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = a.id
+            where pg.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1255,14 +1185,14 @@ class GroepsactiviteitenController extends AppController
 
         $report['head'] = "Groepen rapport : van {$date_from} tot {$date_to}";
         $report['result'] = [];
-        $report['fields'] = array(
+        $report['fields'] = [
                 'naam' => 'Werkgebied',
                 'activiteiten' => 'Aantal activiteiten',
                 'deelnemers_cnt' => 'Aantal deelnemers',
                 'deelnemers_unique_cnt' => 'Aantal unieke deelnemers',
                 'vrijwilliegers_cnt' => 'Vrijwilligers',
                 'vrijwilligers_unique_cnt' => 'Aantal unieke vrijwilligers',
-        );
+        ];
 
         foreach ($groepen as $groep) {
             $tmp = [];
@@ -1298,19 +1228,19 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select p.werkgebied, p.id from klanten p
-			join groepsactiviteiten_klanten gp on gp.klant_id = p.id
-			join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
-			where gp.afmeld_status = 'Aanwezig' and
-			a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+            join groepsactiviteiten_klanten gp on gp.klant_id = p.id
+            join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
+            where gp.afmeld_status = 'Aanwezig' and
+            a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
         $werkgebieden = Configure::read('Werkgebieden');
 
-        $template = array(
+        $template = [
                 'Deelnemers' => [],
                 'Vrijwilligers' => [],
-        );
+        ];
 
         foreach ($werkgebieden as $key => $v) {
             $werkgebieden[$key] = $template;
@@ -1337,10 +1267,10 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select p.werkgebied, p.id from vrijwilligers p
-		join groepsactiviteiten_vrijwilligers gp on gp.vrijwilliger_id = p.id
-		join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
-		where gp.afmeld_status = 'Aanwezig' and
-		a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
+        join groepsactiviteiten_vrijwilligers gp on gp.vrijwilliger_id = p.id
+        join groepsactiviteiten a on a.id = gp.groepsactiviteit_id
+        where gp.afmeld_status = 'Aanwezig' and
+        a.datum >= '{$date_from}' and a.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1366,7 +1296,7 @@ class GroepsactiviteitenController extends AppController
         }
 
         $report['head'] = "Rapport personen : van  {$date_from} tot {$date_to} ";
-        $report['fields'] = array('werkgebied' => 'Werkgebied', 'deelnemers_unique_cnt' => 'Aantal unieke deelnemers', 'vrijwilligers_unique_cnt' => 'Aantal unieke vrijwilligers');
+        $report['fields'] = ['werkgebied' => 'Werkgebied', 'deelnemers_unique_cnt' => 'Aantal unieke deelnemers', 'vrijwilligers_unique_cnt' => 'Aantal unieke vrijwilligers'];
         $report['hasSummary'] = false;
 
         $report['result'] = [];
@@ -1391,21 +1321,21 @@ class GroepsactiviteitenController extends AppController
         $date_to = $this->data['date_to']['year'].'-'.$this->data['date_to']['month'].'-'.$this->data['date_to']['day'];
 
         $sql = "select pg.klant_id as persoon_id, g.id as groepsactiviteit_id, gg.werkgebied as werkgebied
-			from groepsactiviteiten g
-			join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = g.id
-			where pg.afmeld_status = 'Aanwezig' and
-			g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
+            from groepsactiviteiten g
+            join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_klanten pg on pg.groepsactiviteit_id = g.id
+            where pg.afmeld_status = 'Aanwezig' and
+            g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
         $werkgebieden = [];
 
-        $template = array(
+        $template = [
             'Deelnemers' => [],
             'Vrijwilligers' => [],
             'Activiteiten' => [],
-        );
+        ];
 
         foreach ($data as $d) {
             $w = $d['gg']['werkgebied'];
@@ -1432,11 +1362,11 @@ class GroepsactiviteitenController extends AppController
         }
 
         $sql = "select pg.vrijwilliger_id as persoon_id, g.id as groepsactiviteit_id, gg.werkgebied as werkgebied
-			from groepsactiviteiten g
-			join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
-			left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = g.id
-			where  pg.afmeld_status = 'Aanwezig' and
-			 g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
+            from groepsactiviteiten g
+            join groepsactiviteiten_groepen gg on gg.id = g.groepsactiviteiten_groep_id
+            left join groepsactiviteiten_vrijwilligers pg on pg.groepsactiviteit_id = g.id
+            where  pg.afmeld_status = 'Aanwezig' and
+             g.datum >= '{$date_from}' and g.datum < '{$date_to}'";
 
         $data = $this->Groepsactiviteit->query($sql);
 
@@ -1492,15 +1422,14 @@ class GroepsactiviteitenController extends AppController
 
         $this->autoLayout = false;
 
-        $report['fields'] = array(
+        $report['fields'] = [
                 'werkgebied' => 'Werkgebied',
                 'activiteiten_cnt' => 'Activiteiten',
                 'deelenemers' => 'Deelnemers',
                 'deelenemers_unique' => 'Aantal unieke deelnemers',
                 'vrijwilligers' => 'Vrijwilligers',
                 'vrijwilligers_unique' => 'Aantal unieke vrijwilligers',
-
-        );
+        ];
 
         return $report;
     }

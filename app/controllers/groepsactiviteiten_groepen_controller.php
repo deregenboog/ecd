@@ -1,5 +1,11 @@
 <?php
 
+use GaBundle\Entity\GaGroep;
+use GaBundle\Entity\GaKlantLidmaatschap;
+use GaBundle\Entity\GaKlantIntake;
+use IzBundle\Entity\IzDeelnemer;
+use IzBundle\Entity\IzKlant;
+
 class GroepsactiviteitenGroepenController extends AppController
 {
     public $name = 'GroepsactiviteitenGroepen';
@@ -8,22 +14,22 @@ class GroepsactiviteitenGroepenController extends AppController
     {
         $this->GroepsactiviteitenGroep->recursive = 0;
 
-        $conditions = array(
-            'OR' => array(
+        $conditions = [
+            'OR' => [
                 'einddatum ' => null,
                 'einddatum > ' => date('Y-m-d'),
-            ),
-        );
+            ],
+        ];
 
         if (!empty($showall)) {
-            $conditions = array(
+            $conditions = [
                'einddatum <= ' => date('Y-m-d'),
-            );
+            ];
         }
 
-        $this->paginate = array(
-                'conditions' => $conditions,
-        );
+        $this->paginate = [
+            'conditions' => $conditions,
+        ];
 
         $this->set('groepsactiviteitenGroepen', $this->paginate());
     }
@@ -35,22 +41,20 @@ class GroepsactiviteitenGroepenController extends AppController
 
             if ($this->GroepsactiviteitenGroep->save($this->data)) {
                 $this->Session->setFlash(__('De groep is opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('Groep kan niet worden opgeslagen', true));
             }
         }
 
-        $werkgebieden = Configure::read('Werkgebieden');
-
-        $this->set('werkgebieden', $werkgebieden);
+        $this->set('werkgebieden', Configure::read('Werkgebieden'));
     }
 
     public function edit($id = null)
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Niet geldige groep', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         if (!empty($this->data)) {
@@ -58,7 +62,7 @@ class GroepsactiviteitenGroepenController extends AppController
 
             if ($this->GroepsactiviteitenGroep->save($this->data)) {
                 $this->Session->setFlash(__('De groep is opgeslagen', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('Groep kan niet worden opgeslagen', true));
             }
@@ -67,10 +71,13 @@ class GroepsactiviteitenGroepenController extends AppController
             $this->GroepsactiviteitenGroep->recursive = 0;
             $this->data = $this->GroepsactiviteitenGroep->read(null, $id);
         }
+
+        $this->set('werkgebieden', Configure::read('Werkgebieden'));
     }
 
     public function export($id, $persoon_model = 'Klant')
     {
+        ini_set('memory_limit', '512M');
         $this->autoLayout = false;
         $this->layout = false;
 
@@ -81,30 +88,44 @@ class GroepsactiviteitenGroepenController extends AppController
 
         $this->loadModel($model);
 
-        $params = array(
-            'contain' => array($persoon_model => array('GroepsactiviteitenIntake')),
-            'conditions' => array(
+        $params = [
+            'contain' => [$persoon_model => ['Geslacht', 'GroepsactiviteitenIntake', 'IzDeelnemer']],
+            'conditions' => [
                 'groepsactiviteiten_groep_id' => $id,
-                'OR' => array(
-                    'einddatum > now()',
+                'OR' => [
+                    'einddatum > NOW()',
                     'einddatum' => null,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
+
+//         $members = $this->getEntityManager()->getRepository(GaKlantLidmaatschap::class)
+//             ->createQueryBuilder('gaKlantLidmaatschap')
+//             ->innerJoin('gaKlantLidmaatschap.klant', 'klant')
+//             ->leftJoin(GaKlantIntake::class, 'gaKlantIntake', 'WITH', 'gaKlantIntake.klant = klant')
+//             ->leftJoin(IzKlant::class, 'izKlant', 'WITH', 'izKlant.klant = klant')
+//             ->where('gaKlantLidmaatschap.gaGroep = :id')
+//             ->andWhere('gaKlantLidmaatschap.einddatum IS NULL OR gaKlantLidmaatschap.einddatum > :now')
+//             ->setParameter('id', $id)
+//             ->setParameter('now', new \DateTime())
+//             ->getQuery()
+//             ->getResult()
+//         ;
 
         $members = $this->{$model}->find('all', $params);
 
-        $this->set('groep', $groep);
-        $this->set('members', $members);
-        $this->set('model', $model);
-        $this->set('persoon_model', $persoon_model);
+        $this->autoRender = false;
+        $filename = "{$groep}_{$persoon_model}_lijst.xls";
 
-        $file = "{$groep}_{$persoon_model}_lijst.xls";
+        switch ($persoon_model) {
+            case 'Vrijwilliger':
+                $export = $this->container->get('ga.export.groepsleden_vrijwilligers');
+                break;
+            default:
+                $export = $this->container->get('ga.export.groepsleden_klanten');
+                break;
+        }
 
-        header('Content-type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment; filename=\"$file\";");
-        header('Content-Transfer-Encoding: binary');
-
-        $this->render('groep_excel');
+        $export->create($members)->send($filename);
     }
 }

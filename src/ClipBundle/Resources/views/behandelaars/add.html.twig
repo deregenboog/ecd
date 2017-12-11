@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+    <p>Selecteer een medewerker of geef een naam op.</p>
+    {{ form(form) }}
+{% endblock %}

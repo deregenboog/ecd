@@ -5,9 +5,11 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\VrijwilligerFilter;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Medewerker;
+use Doctrine\ORM\EntityRepository;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -16,22 +18,74 @@ class VrijwilligerFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('id', null, [
+        if (in_array('id', $options['enabled_filters'])) {
+            $builder->add('id', null, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Vrijwilligernummer'],
-            ])
-            ->add('naam', null, [
+                'label' => 'Nummer',
+                'attr' => ['placeholder' => 'Nummer'],
+            ]);
+        }
+
+        if (in_array('naam', $options['enabled_filters'])) {
+            $builder->add('naam', null, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Naam vrijwilliger'],
-            ])
-            ->add('geboortedatum', BirthdayType::class, [
+                'attr' => ['placeholder' => 'Naam'],
+            ]);
+        }
+
+        if (in_array('voornaam', $options['enabled_filters'])) {
+            $builder->add('voornaam', null, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-            ])
-            ->add('stadsdeel', StadsdeelFilterType::class)
-        ;
+                'attr' => ['placeholder' => 'Voornaam'],
+            ]);
+        }
+
+        if (in_array('achternaam', $options['enabled_filters'])) {
+            $builder->add('achternaam', null, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Achternaam'],
+            ]);
+        }
+
+        if (in_array('bsn', $options['enabled_filters'])) {
+            $builder->add('bsn', null, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('geboortedatum', $options['enabled_filters'])) {
+            $builder->add('geboortedatum', AppDateType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('geboortedatumRange', $options['enabled_filters'])) {
+            $builder->add('geboortedatumRange', AppDateRangeType::class, [
+                'required' => false,
+                'label' => false,
+            ]);
+        }
+
+        if (in_array('stadsdeel', $options['enabled_filters'])) {
+            $builder->add('stadsdeel', StadsdeelFilterType::class);
+        }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
+                },
+            ]);
+        }
+
+        $builder->add('filter', SubmitType::class);
     }
 
     /**
@@ -41,7 +95,14 @@ class VrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VrijwilligerFilter::class,
-            'data' => null,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return FilterType::class;
     }
 }

@@ -1,143 +1,128 @@
-<?php 
-$model = $persoon_model;
-$controller = strtolower(Inflector::pluralize($persoon_model));
-if (empty($step)) {
-	$step=null;
-}
-$werkgebied = "";
-$postcodegebied = "";
-if (!empty($this->data[$persoon_model]['werkgebied'])) {
-	$werkgebied = $this->data[$persoon_model]['werkgebied'];
-}
-if (!empty($this->data[$persoon_model]['postcodegebied'])) {
-	$postcodegebied = $this->data[$persoon_model]['postcodegebied'];
-}
+<?php
+    $model = $persoon_model;
+    $controller = strtolower(Inflector::pluralize($persoon_model));
+    if (empty($step)) {
+        $step = null;
+    }
+    $werkgebied = '';
+    if (!empty($this->data[$persoon_model]['werkgebied'])) {
+        $werkgebied = $this->data[$persoon_model]['werkgebied'];
+    }
+    $postcodegebied = '';
+    if (!empty($this->data[$persoon_model]['postcodegebied'])) {
+        $postcodegebied = $this->data[$persoon_model]['postcodegebied'];
+    }
 ?>
 
 <?php
-	if (! empty($this->data[$model]['id'])) {
-		$referer = array('controller' => $controller, 'action' => 'view', $this->data[$model]['id']);
-	}
-	if (isset($this->data[$model]['referer'])) {
-		$referer = $this->data[$model]['referer'];
-	}
-	if (!empty($referer)) {
-		echo $this->Html->link('Terug', $referer);
-	}
+    if (!empty($this->data[$model]['id'])) {
+        $referer = ['controller' => $controller, 'action' => 'view', $this->data[$model]['id']];
+    }
+    if (isset($this->data[$model]['referer'])) {
+        $referer = $this->data[$model]['referer'];
+    }
+    if (!empty($referer)) {
+        echo $this->Html->link('Terug', $referer);
+    }
 
 ?>
 <div class="klanten">
-<?php
-
-	echo $this->Form->create($model, array('url' => array('step' => 4, 'generic' => true)));
-?>
-	<fieldset class="twoDivs">
-		<legend><?php __('Persoonsgegevens bewerken'); ?></legend>
-		<div class="leftDiv">
-	<?php
-		echo $this->Form->hidden('referer');
-		echo $this->Form->hidden('generic', array('value' => 1));
-		echo $this->Form->input('id');
-		echo $this->Form->input('voornaam');
-		echo $this->Form->input('tussenvoegsel');
-		echo $this->Form->input('achternaam');
-		echo $this->Form->input('roepnaam');
-		echo $this->Form->input('geslacht_id');
-		?>
-		</div><div class="rightDiv">
-		<?php
-
-		echo $date->input("{$model}.geboortedatum", null, array(
-					'label' => 'Geboortedatum',
-					'rangeLow' => (date('Y') - 100).date('-m-d'),
-					'rangeHigh' => date('Y-m-d'),
-				));
-		echo $this->Form->input('land_id', array('label' => 'Geboorteland'));
-
-		echo $this->Form->input('nationaliteit_id');
-		echo $this->Form->input('BSN');
-		echo $this->Form->input('medewerker_id', array('empty' => ''));
-
-	?>
-	</div>
-	</fieldset>
-	
-	<fieldset class="twoDivs">
-		<legend><?php __('Contact gegevens bewerken'); ?></legend>
-		<div class="leftDiv">
-	<?php
-		echo $this->Form->input('adres');
-		echo $this->Form->input('postcode', array('class' => 'postcode'));
-		echo $this->Form->input('werkgebied', array('type' => 'hidden', 'class' => 'werkgebied'));
-		echo '<label>&nbsp;Werkgebied:</label><div id="werkgebied_display">'.$werkgebied."</div>";
-		echo $this->Form->input('postcodegebied', array('type' => 'hidden', 'class' => 'postcodegebied'));
-		echo '<label>&nbsp;Postcodegebied:</label><div id="postcodegebied_display">'.$postcodegebied."</div>";
-
-		echo $this->Form->input('plaats');
-		echo $this->Form->input('email');
-
-		?>
-		</div><div class="rightDiv">
-		<?php
-		echo $this->Form->input('mobiel');
-		echo $this->Form->input('telefoon');
-		echo $this->Form->input('opmerking');
-		echo $this->Form->input('geen_post');
-		echo $this->Form->input('geen_email');
-
-	?>
-	</div>
-	</fieldset>
-	
-<?= $this->Form->submit(__('Opslaan', true), array('div' => 'submit'));?>
-	 <div class="submit">
-	<?php
-		if (!empty($this->data[$model]['id']) && $user_is_administrator) {
-			echo $this->Html->link(__('Delete', true),
-					array(
-						'action' => 'disable',
-						$this->data[$model]['id'],
-						),
-					array(
-						'class' => 'delete-button',
-						),
-					__('Are you sure you want to delete the client?', true)
-					);
-		}
-	?>
-	 </div>
-	<?= $this->Form->end(); ?>
+    <?= $this->Form->create($model, ['url' => ['step' => 4, 'generic' => true]]) ?>
+    <fieldset class="twoDivs">
+        <legend><?php __('Persoonsgegevens bewerken'); ?></legend>
+        <div class="leftDiv">
+            <?= $this->Form->hidden('referer') ?>
+            <?= $this->Form->hidden('generic', ['value' => 1]) ?>
+            <?= $this->Form->input('id') ?>
+            <?= $this->Form->input('voornaam') ?>
+            <?= $this->Form->input('tussenvoegsel') ?>
+            <?= $this->Form->input('achternaam') ?>
+            <?= $this->Form->input('roepnaam') ?>
+            <?= $this->Form->input('geslacht_id') ?>
+        </div>
+        <div class="rightDiv">
+            <?= $date->input("{$model}.geboortedatum", null, [
+                    'label' => 'Geboortedatum',
+                    'rangeLow' => (date('Y') - 100).date('-m-d'),
+                    'rangeHigh' => date('Y-m-d'),
+                ]) ?>
+            <?= $this->Form->input('land_id', ['label' => 'Geboorteland']) ?>
+            <?= $this->Form->input('nationaliteit_id') ?>
+            <?= $this->Form->input('BSN') ?>
+            <?= $this->Form->input('medewerker_id', ['empty' => '']) ?>
+            <?php if ($name === 'vrijwilligers'): ?>
+                <?= $this->Form->input('vog_aangevraagd', ['label' => 'VOG aangevraagd']) ?>
+                <?= $this->Form->input('vog_aanwezig', ['label' => 'VOG aanwezig']) ?>
+                <?= $this->Form->input('overeenkomst_aanwezig', ['label' => 'Vrijwilligersovereenkomst aanwezig']) ?>
+            <?php endif; ?>
+        </div>
+    </fieldset>
+    <fieldset class="twoDivs">
+        <legend><?php __('Contactgegevens bewerken'); ?></legend>
+        <div class="leftDiv">
+            <?= $this->Form->input('adres') ?>
+            <?= $this->Form->input('postcode', ['class' => 'postcode']) ?>
+            <?= $this->Form->input('werkgebied', ['type' => 'hidden', 'class' => 'werkgebied']) ?>
+            <label>&nbsp;Werkgebied:</label>
+            <div id="werkgebied_display"><?= $werkgebied ?></div>
+            <?= $this->Form->input('postcodegebied', ['type' => 'hidden', 'class' => 'postcodegebied']) ?>
+            <label>&nbsp;Postcodegebied:</label>
+            <div id="postcodegebied_display"><?= $postcodegebied ?></div>
+            <?= $this->Form->input('plaats') ?>
+            <?= $this->Form->input('email') ?>
+        </div>
+        <div class="rightDiv">
+            <?= $this->Form->input('mobiel') ?>
+            <?= $this->Form->input('telefoon') ?>
+            <?= $this->Form->input('opmerking') ?>
+            <?= $this->Form->input('geen_post') ?>
+            <?= $this->Form->input('geen_email') ?>
+        </div>
+    </fieldset>
+    <?= $this->Form->submit(__('Opslaan', true), ['div' => 'submit']) ?>
+    <div class="submit">
+        <?php if (!empty($this->data[$model]['id']) && $user_is_administrator): ?>
+            <?= $this->Html->link(__('Delete', true),
+                [
+                    'action' => 'disable',
+                    $this->data[$model]['id'],
+                ],
+                ['class' => 'delete-button'],
+                __('Are you sure you want to delete the client?', true)
+            ) ?>
+        <?php endif; ?>
+     </div>
+    <?= $this->Form->end() ?>
 </div>
 
 <?php
-$stadsdeelUrl = json_encode($this->Html->url(
-		array('controller' => 'vrijwilligers', 'action' => 'get_stadsdeel')
-	));
-
-$this->Js->buffer("
-	$(document).ready(function() {
-		$('.postcode').change(function() {
-
-			var val = $(this).val();
-
-			if (val.length >= 4) {
-				$.post(
-					" .$stadsdeelUrl.",
-					{postcode: val},
-					function(data) {
-						if (data.stadsdeel) {
-							$('#".$persoon_model."Werkgebied').val(data.stadsdeel);
-							$('#werkgebied_display').text(data.stadsdeel);
-						}
-						if (data.postcodegebied) {
-							$('#".$persoon_model."Postcodegebied').val(data.postcodegebied);
-							$('#postcodegebied_display').text(data.postcodegebied);
-						}
-					},
-					'json'
-				);
-			}
-		});
-	});
-");
+    $stadsdeelUrl = json_encode($this->Html->url(
+        ['controller' => 'vrijwilligers', 'action' => 'get_stadsdeel']
+    ));
+    $this->Js->buffer("
+        var updateArea = function() {
+            var val = $(this).val();
+            if (val.length >= 4) {
+                $.post(
+                    ".$stadsdeelUrl.",
+                    {postcode: val},
+                    function(data) {
+                        if (data.stadsdeel) {
+                            $('#".$persoon_model."Werkgebied').val(data.stadsdeel);
+                            $('#werkgebied_display').text(data.stadsdeel);
+                        }
+                        if (data.postcodegebied) {
+                            $('#".$persoon_model."Postcodegebied').val(data.postcodegebied);
+                            $('#postcodegebied_display').text(data.postcodegebied);
+                        }
+                    },
+                    'json'
+                );
+            }
+        }
+        $(document).ready(function() {
+            $('.postcode').change(updateArea);
+            $('.postcode').ready($('.postcode').change()); // trigger change handler on ready
+        });
+    ");
 ?>

@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Dienstverleners |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Dienstverlener verwijderen</h1>
+    <p>Weet u zeker dat u dienstverlener {{ entity }} wilt verwijderen?</p>
+    {{ form(form) }}
+{% endblock %}

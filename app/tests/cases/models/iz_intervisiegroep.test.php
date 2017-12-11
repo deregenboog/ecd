@@ -5,7 +5,7 @@ App::import('Model', 'IzIntervisiegroep');
 
 class IzIntervisiegroepTestCase extends CakeTestCase
 {
-    public $fixtures = array('app.iz_intervisiegroep');
+    public $fixtures = ['app.iz_intervisiegroep'];
 
     public function startTest()
     {

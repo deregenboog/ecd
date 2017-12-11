@@ -5,8 +5,8 @@ class Legitimatie extends AppModel
     public $name = 'Legitimatie';
     public $displayField = 'naam';
 
-    public $hasMany = array(
-        'Intake' => array(
+    public $hasMany = [
+        'Intake' => [
             'className' => 'Intake',
             'foreignKey' => 'legitimatie_id',
             'dependent' => false,
@@ -18,6 +18,6 @@ class Legitimatie extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

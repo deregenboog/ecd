@@ -2,44 +2,38 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
- * @Entity
- * @Table(name="geslachten")
+ * @ORM\Entity
+ * @ORM\Table(name="geslachten")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Geslacht
 {
+    use TimestampableTrait;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $afkorting;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $volledig;
-
-    /**
-     * @Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @Column(type="datetime")
-     */
-    private $modified;
 
     public function __toString()
     {

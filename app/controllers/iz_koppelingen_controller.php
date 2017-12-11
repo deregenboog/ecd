@@ -1,10 +1,8 @@
 <?php
 
-use IzBundle\Entity\IzKlant;
-use IzBundle\Entity\IzHulpvraag;
-use AppBundle\Entity\Medewerker;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Filter\FilterInterface;
 use IzBundle\Form\IzKoppelingFilterType;
+use IzBundle\Service\KoppelingDaoInterface;
 
 class IzKoppelingenController extends AppController
 {
@@ -18,47 +16,64 @@ class IzKoppelingenController extends AppController
      */
     public $view = 'AppTwig';
 
-    private $sortFieldWhitelist = [
-        'izHulpvraag.koppelingStartdatum',
-        'izHulpvraag.koppelingEinddatum',
-        'klant.achternaam',
-        'klant.werkgebied',
-        'vrijwilliger.achternaam',
-        'izProject.naam',
-        'medewerker.achternaam',
+    private $enabledFilters = [
+        'koppelingStartdatum',
+        'koppelingEinddatum',
+        'lopendeKoppelingen',
+        'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
+        'vrijwilliger' => ['voornaam', 'achternaam'],
+        'izProject',
+        'izHulpvraagMedewerker',
+        'izHulpaanbodMedewerker',
     ];
+
+    /**
+     * @var KoppelingDaoInterface
+     */
+    private $koppelingDao;
+
+    public function beforeFilter()
+    {
+        parent::beforeFilter();
+        $this->koppelingDao = $this->container->get('iz.dao.koppeling');
+    }
 
     public function index()
     {
-        $form = $this->createForm(IzKoppelingFilterType::class);
-        $form->handleRequest($this->request);
-
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(IzHulpvraag::class);
-
-        $builder = $repository->createQueryBuilder('izHulpvraag')
-            ->innerJoin('izHulpvraag.izKlant', 'izKlant')
-            ->innerJoin('izKlant.klant', 'klant')
-            ->innerJoin('izHulpvraag.izProject', 'izProject')
-            ->innerJoin('izHulpvraag.medewerker', 'medewerker')
-            ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
-            ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
-            ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->andWhere('klant.disabled = false')
-            ->andWhere('vrijwilliger.disabled = false')
-        ;
-
-        if ($form->isValid()) {
-            $form->getData()->applyTo($builder);
+        $form = $this->createFilter();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('download')->isClicked()) {
+                return $this->download($form->getData());
+            }
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->request->get('page', 1), 20, [
-            'defaultSortFieldName' => 'izHulpvraag.koppelingStartdatum',
-            'defaultSortDirection' => 'desc',
-            'sortFieldWhitelist' => $this->sortFieldWhitelist,
-        ]);
+        $page = $this->getRequest()->get('page', 1);
+        $pagination = $this->koppelingDao->findAll($page, $form->getData());
 
         $this->set('form', $form->createView());
         $this->set('pagination', $pagination);
+    }
+
+    public function download(FilterInterface $filter)
+    {
+        ini_set('memory_limit', '512M');
+
+        $koppelingen = $this->koppelingDao->findAll(null, $filter);
+
+        $this->autoRender = false;
+        $filename = sprintf('iz-koppelingen-%s.xls', (new \DateTime())->format('d-m-Y'));
+
+        $export = $this->container->get('iz.export.koppelingen');
+        $export->create($koppelingen)->send($filename);
+    }
+
+    private function createFilter()
+    {
+        $form = $this->createForm(IzKoppelingFilterType::class, null, [
+            'enabled_filters' => $this->enabledFilters,
+        ]);
+        $form->handleRequest($this->getRequest());
+
+        return $form;
     }
 }

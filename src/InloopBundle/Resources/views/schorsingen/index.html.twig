@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {{ form_start(filter) }}
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geslacht) }}
+                    {{ form_errors(filter.klant.geslacht) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.locatie) }}
+                    {{ form_errors(filter.locatie) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.datumVan.start) }}
+                    {{ form_errors(filter.datumVan.start) }}
+                    {{ form_widget(filter.datumVan.end) }}
+                    {{ form_errors(filter.datumVan.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.datumTot.start) }}
+                    {{ form_errors(filter.datumTot.start) }}
+                    {{ form_widget(filter.datumTot.end) }}
+                    {{ form_errors(filter.datumTot.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.filter) }}
+                </th>
+                {{ form_end(filter) }}
+            </tr>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    Locatie(s)
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Begindatum', 'schorsing.datumVan') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Einddatum', 'schorsing.datumTot') }}
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schorsing in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(schorsing.klant.id, path('app_klanten_view', {id: schorsing.klant.id})) }}
+                </td>
+                <td>
+                    {{ schorsing.klant }}
+                </td>
+                <td>
+                    {{ schorsing.klant.geslacht }}
+                </td>
+                <td>
+                    <ul>
+                    {% for locatie in schorsing.locaties %}
+                        <li>{{ locatie }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    {{ schorsing.datumVan|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ schorsing.datumTot|date('d-m-Y') }}
+                </td>
+                <td>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

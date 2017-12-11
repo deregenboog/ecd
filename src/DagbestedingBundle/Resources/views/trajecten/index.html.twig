@@ -1,0 +1,143 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <tr>
+            {{ form_start(filter) }}
+            <th>
+                {{ form_widget(filter.klant.naam) }}
+                {{ form_errors(filter.klant.naam) }}
+            </th>
+            <th>
+                {{ form_widget(filter.soort) }}
+                {{ form_errors(filter.soort) }}
+            </th>
+            <th>
+                {{ form_widget(filter.resultaatgebied.soort) }}
+                {{ form_errors(filter.resultaatgebied.soort) }}
+            </th>
+            <th>
+                {{ form_widget(filter.begeleider) }}
+                {{ form_errors(filter.begeleider) }}
+            </th>
+            <th>
+                {{ form_widget(filter.project) }}
+                {{ form_errors(filter.project) }}
+            </th>
+            <th>
+                {{ form_widget(filter.startdatum.start) }}
+                {{ form_errors(filter.startdatum.start) }}
+                {{ form_widget(filter.startdatum.end) }}
+                {{ form_errors(filter.startdatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.rapportage.datum.start) }}
+                {{ form_errors(filter.rapportage.datum.start) }}
+                {{ form_widget(filter.rapportage.datum.end) }}
+                {{ form_errors(filter.rapportage.datum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.afsluitdatum.start) }}
+                {{ form_errors(filter.afsluitdatum.start) }}
+                {{ form_widget(filter.afsluitdatum.end) }}
+                {{ form_errors(filter.afsluitdatum.end) }}
+            </th>
+            <th>
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </th>
+            {{ form_end(filter) }}
+        </tr>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Soort', 'trajectsoort.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Resultaatgebied', 'resultaatgebiedsoort.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Trajectbegeleider', 'begeleider.achternaam') }}
+            </th>
+            <th>
+                Project(en)
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Rapportagedata', 'rapportage.datum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'traject.afsluitdatum') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for traject in pagination %}
+        <tr>
+            <td>
+                {{ traject.deelnemer.klant.naam }}
+            </td>
+            <td>
+                {{ traject.soort }}
+            </td>
+            <td>
+                {{ traject.resultaatgebied.soort }}
+            </td>
+            <td>
+                {{ traject.begeleider }}
+            </td>
+            <td>
+                <ul>
+                    {% for project in traject.projecten %}
+                        <li>{{ project }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {{ traject.startdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                <ul>
+                    {% for rapportage in traject.rapportages %}
+                        {% set color = (rapportage.status == 'done') ? 'green' : (rapportage.status == 'almost') ? 'orange' : (rapportage.status == 'late') ? 'red' : 'black' %}
+                        <li><span style="color: {{ color }}">{{ rapportage.datum|date('d-m-Y') }}</span></li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {% if traject.afsluitdatum %}
+                    {{ traject.afsluitdatum ? traject.afsluitdatum|date('d-m-Y') }}<br>
+                    ({{ traject.afsluiting }})
+                {% endif %}
+            </td>
+            <td>
+                {{ html.viewLink(path('dagbesteding_trajecten_view', {id: traject.id})) }}
+                {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+                    {{ html.editLink(path('dagbesteding_trajecten_edit', {id: traject.id})) }}
+                    {% if traject.deletable %}
+                        {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: traject.id})) }}
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

@@ -4,38 +4,38 @@ class Hi5Evaluatie extends AppModel
 {
     public $name = 'Hi5Evaluatie';
 
-    public $actsAs = array(
+    public $actsAs = [
                 'Translatable',
-    );
+    ];
 
-    public $validate = array(
-      'verslagvan' => array('rule' => 'date',
+    public $validate = [
+      'verslagvan' => ['rule' => 'date',
               'allowEmpty' => false,
-           ),
-      'verslagtm' => array('rule' => 'date',
+           ],
+      'verslagtm' => ['rule' => 'date',
               'allowEmpty' => false,
-           ),
-    );
+           ],
+    ];
 
-    public $belongsTo = array(
-            'Klant' => array(
+    public $belongsTo = [
+            'Klant' => [
                     'className' => 'Klant',
                     'foreignKey' => 'klant_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-            'Medewerker' => array(
+            ],
+            'Medewerker' => [
                     'className' => 'Medewerker',
                     'foreignKey' => 'medewerker_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => '',
-            ),
-    );
+            ],
+    ];
 
-    public $hasAndBelongsToMany = array(
-            'Hi5EvaluatieQuestion' => array(
+    public $hasAndBelongsToMany = [
+            'Hi5EvaluatieQuestion' => [
                     'className' => 'Hi5EvaluatieQuestion',
                     'joinTable' => 'hi5_evaluaties_hi5_evaluatie_questions',
                     'foreignKey' => 'hi5_evaluatie_id',
@@ -49,6 +49,6 @@ class Hi5Evaluatie extends AppModel
                     'finderQuery' => '',
                     'deleteQuery' => '',
                     'insertQuery' => '',
-            ),
-    );
+            ],
+    ];
 }

@@ -27,17 +27,14 @@
 }
 
 #header{
-    padding-top: 9px;
-    padding-bottom: 16px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 10px 5px;
 }
 #header #title {
     font-size: 100%;
-    background: #759c46 url('../img/rainbow.png') no-repeat left;
+    background: #759c46;
     color: #fff;
-    padding-left: 30px;
     float: left;
+    padding: 0 5px 10px 0;
 }
 #header a {
     color: #fff;
@@ -51,8 +48,7 @@
     text-decoration: underline;
 }
 #contentWrap{
-    background: #fff;
-    background: #fff url('../img/regenboog.png') no-repeat right top;
+    background: #fff url('../img/drg-logo-142px.jpg') no-repeat right top;
     text-align: center;
     clear: both;
     color: #333;
@@ -123,7 +119,7 @@ div.paging span a {
 dl {
     line-height: 2em;
     margin: 0em 0em;
-    width: 60%;
+    /*width: 60%;*/
 }
 dl .altrow {
     background: #f4f4f4;
@@ -463,18 +459,18 @@ div.code-coverage-results span.result-good {
     color: #0a0;
 }
 
-/* This is just a first draf: */
-
 #tabs {
-    float: right;
+    margin-top: 30px;
 }
+
 #tabs a {
+    font-size: 120%;
     color: white;
 }
+
 #tabs li {
     display: inline;
 }
-
 
 div.actions ul li div.right-aligned-tools {
     text-align: right;

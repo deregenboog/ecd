@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+
+.navbar-default {
+    background: #759c46;
+}
+.navbar-default .navbar-brand {
+    height: 70px;
+    padding: 10px;
+}
+.navbar-default .navbar-nav > li > a {
+    color: white;
+    font-size: 90%;
+    font-weight: bold;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+footer {
+    color: white;
+    background: #759c46;
+    padding: 8px;
+}
+
+a {
+    color: #003d4c;
+}
+a:hover {
+    color: #367889;
+}
+a img {
+    border:none;
+}
+
+h1, h2, h3, h4 {
+}
+h1 {
+    color: #003d4c;
+}
+h2 {
+    color: #759c46;
+}
+h3 {
+    color: #759c46;
+}
+h4 {
+    color: #993;
+}
+
+.clear {
+    clear: both;
+}
+
+/* tables */
+th a.asc:after {
+    content: ' ⇣';
+}
+th a.desc:after {
+    content: ' ⇡';
+}
+
+/* forms */
+#klus_dienstverleners > .checkbox,
+#klus_vrijwilligers > .checkbox {
+    float:left;
+    width: 25em;
+}

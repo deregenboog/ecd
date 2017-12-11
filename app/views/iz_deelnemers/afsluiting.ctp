@@ -27,7 +27,8 @@ if (! empty($this->data['IzDeelnemer']['datumafsluiting'])) {
         <font color='red'>
             Let op, deze persoon is lid van de groep "ErOpUit Kalender".
             Bij afsluiting van het IZ-dossier moet dat lidmaatschap wellicht ook opgezegd worden.
-            <a href="<?= $eropuitUrl ?>">Klik hier</a> om dat te doen.
+            <a href="<?= $eropuitUrl ?>">Klik hier</a> om dat te doen
+            (hiervoor zijn ECD-toegangsrechten voor Groepsactiviteiten nodig).
         </font>
     <?php endif; ?>
 

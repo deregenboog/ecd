@@ -1,0 +1,52 @@
+{% if not iz_klant.matching %}
+    <p>Er is nog geen matchingsinformatie opgegeven.</p>
+{% else %}
+    <table class="table">
+        <tr>
+            <th>Matchingsinformatie</th>
+            <td>{{ iz_klant.matching.info }}</td>
+        </tr>
+        <tr>
+            <th>Doelgroepen</th>
+            <td>
+                <ul>
+                    {% for doelgroep in iz_klant.matching.doelgroepen %}
+                        <li>{{ doelgroep }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Hulpvraagsoort</th>
+            <td>{{ iz_klant.matching.hulpvraagsoort }}</td>
+        </tr>
+        <tr>
+            <th>Spreekt Nederlands</th>
+            <td>{{ iz_klant.matching.spreektNederlands ? 'Ja' : 'Nee' }}</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+    <h3>Vrijwilligers</h3>
+    {% if 0 == kandidaten|length %}
+        <p>Geen kandidaten gevonden.</p>
+    {% else %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>Matching-info</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for iz_vrijwilliger in kandidaten %}
+                    <tr>
+                        <td>{{ iz_vrijwilliger }}</td>
+                        <td>{{ iz_vrijwilliger.matching ? iz_vrijwilliger.matching.info }}</td>
+                        <td>{{ html.viewLink({action: 'toon_matching', 0: iz_vrijwilliger.id})|raw }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endif %}

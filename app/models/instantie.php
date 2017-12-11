@@ -5,8 +5,8 @@ class Instantie extends AppModel
     public $name = 'Instantie';
     public $displayField = 'naam';
 
-    public $hasAndBelongsToMany = array(
-        'Intake' => array(
+    public $hasAndBelongsToMany = [
+        'Intake' => [
             'className' => 'Intake',
             'joinTable' => 'instanties_intakes',
             'foreignKey' => 'instantie_id',
@@ -20,8 +20,8 @@ class Instantie extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-        'AwbzIntake' => array(
+        ],
+        'AwbzIntake' => [
             'className' => 'AwbzIntake',
             'joinTable' => 'instanties_awbz_intakes',
             'foreignKey' => 'instantie_id',
@@ -35,6 +35,6 @@ class Instantie extends AppModel
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => '',
-        ),
-    );
+        ],
+    ];
 }

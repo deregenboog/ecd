@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Traject wijzigen</h1>
+    {{ form(form) }}
+{% endblock %}

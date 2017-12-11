@@ -5,17 +5,17 @@ class PostcodegebiedFixture extends CakeTestFixture
 {
     public $name = 'Postcodegebied';
 
-    public $fields = array(
-        'postcode' => array('type' => 'string', 'null' => false, 'default' => null),
-        'postcodegebied' => array('type' => 'string', 'null' => false, 'default' => null),
+    public $fields = [
+        'postcode' => ['type' => 'string', 'null' => false, 'default' => null],
+        'postcodegebied' => ['type' => 'string', 'null' => false, 'default' => null],
         'indexes' => [],
-        'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-    );
+        'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'],
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'postcode' => 'Lorem ipsum dolor sit amet',
             'postcodegebied' => 'Lorem ipsum dolor sit amet',
-        ),
-    );
+        ],
+    ];
 }

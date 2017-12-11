@@ -1,0 +1,71 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
+services:
+    hs.form.type.klant:
+        class: HsBundle\Form\KlantType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    hs.subscriber.klant:
+        class: HsBundle\Event\KlantUpdater
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    hs.factory.factuur:
+        class: HsBundle\Service\FactuurFactory
+
+    hs.form.rapportage:
+        class: HsBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    hs.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
+              - { key: klant, dao: '@hs.dao.klant' }
+              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
+
+    hs.klus.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: null }
+              - { key: klant, dao: '@hs.dao.klant' }
+
+    hs.registratie.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: arbeider, dao: '@hs.dao.arbeider' }
+              - { key: klus, dao: '@hs.dao.klus' }
+
+    hs.memo.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
+              - { key: klant, dao: '@hs.dao.klant' }
+              - { key: klus, dao: '@hs.dao.klus' }
+              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
+
+    hs.data_fixtures.faker_provider:
+        class: HsBundle\DataFixtures\HsFakerProvider
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@hs.factory.factuur'
+        tags:
+            - { name: hautelook_alice.faker.provider }
+
+    hs.event.diensten_lookup_subscriber:
+        class: HsBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@hs.dao.dienstverlener"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }

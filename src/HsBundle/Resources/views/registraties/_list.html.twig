@@ -1,0 +1,65 @@
+<h2>Uren</h2>
+<p>
+    {% if klus is defined %}
+        {% set entity = klus %}
+        {% if entity.dienstverleners|length + entity.vrijwilligers|length == 0 %}
+            <p>
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                Je kunt pas uren registreren als er dienstverleners en/of vrijwilligers aan deze klus gekoppeld zijn.
+            </p>
+        {% else %}
+            {% set url = path('hs_registraties_add', {klus: entity.id}) %}
+            {{ html.addLink(url) }}
+            {{ html.link('Uren toevoegen', url) }}
+        {% endif %}
+    {% elseif dienstverlener is defined %}
+        {% set entity = dienstverlener %}
+        {% if entity.klussen|length == 0 %}
+            <p>
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                Je kunt pas uren registreren als deze dienstverlener/vrijwilliger aan een klus gekoppeld is.
+            </p>
+        {% else %}
+            {% set url = path('hs_registraties_add', {arbeider: entity.id}) %}
+            {{ html.addLink(url) }}
+            {{ html.link('Uren toevoegen', url) }}
+            {% set download_url = path('hs_registraties_werkbon', {arbeider: entity.id}) %}
+            {{ html.addLink(download_url) }}
+            {{ html.link('Werkbon downloaden', download_url) }}
+        {% endif %}
+    {% endif %}
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Dienstverlener/vrijwilliger</th>
+            <th>Activiteit</th>
+            <th>Datum/Tijd</th>
+            <th>Dagdelen</th>
+            {#<th>Reiskosten</th>#}
+            <th>Factuur</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registratie in entity.registraties %}
+            <tr>
+                <td>{{ registratie.arbeider }}</td>
+                <td>{{ registratie.activiteit }}</td>
+                <td>
+                    {{ registratie.datum|date('d-m-Y') }} |
+                    {{ registratie.start|date('H:i') }} -
+                    {{ registratie.eind|date('H:i') }}
+                </td>
+                <td>{{ registratie.dagdelen }}</td>
+                {#<td>{{ registratie.reiskosten|money }}</td>#}
+                <td>{{ registratie.factuur }}</td>
+                <td>
+                    {% if not registratie.factuur %}
+                        {{ html.editLink(path('hs_registraties_edit', {id: registratie.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+{% if filter is defined %}
+    <tr>
+        {{ form_start(filter) }}
+        <th>
+            {{ form_widget(filter.vrijwilliger.id) }}
+            {{ form_errors(filter.vrijwilliger.id) }}
+        </th>
+        <th colspan="2">
+            {{ form_widget(filter.vrijwilliger.naam) }}
+            {{ form_errors(filter.vrijwilliger.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+            {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_label(filter.rijbewijs) }}
+            {{ form_widget(filter.rijbewijs) }}
+            {{ form_errors(filter.rijbewijs) }}
+        </th>
+        <th>
+            {{ form_widget(filter.filter) }}
+            {{ form_widget(filter.download) }}
+        </th>
+        {{ form_end(filter) }}
+    </tr>
+{% endif %}

@@ -3,9 +3,11 @@
 class IzViaPersoon extends AppModel
 {
     public $name = 'IzViaPersoon';
+
     public $displayField = 'naam';
 
     public $cachekey = 'IzViaPersoon';
+
     public $cachekeyall = 'IzViaPersoonAll';
 
     public function beforeSave(&$model)
@@ -24,12 +26,12 @@ class IzViaPersoon extends AppModel
         }
 
         if (empty($iz_via_persoon_list)) {
-            $iz_via_persoon_list = $this->find('list', array(
-                'conditions' => array('active' => 1),
-            ));
+            $iz_via_persoon_list = $this->find('list', [
+                'conditions' => ['active' => 1],
+            ]);
         }
 
-        $iz_via_persoon_list = array('' => '') + $iz_via_persoon_list;
+        $iz_via_persoon_list = ['' => ''] + $iz_via_persoon_list;
 
         Cache::write($this->cachekey, $iz_via_persoon_list);
 

@@ -1,0 +1,105 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('dagbesteding_deelnemers_add')) }}
+        {{ html.link('Deelnemer toevoegen', path('dagbesteding_deelnemers_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {{ form_start(filter) }}
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.stadsdeel) }}
+                    {{ form_errors(filter.klant.stadsdeel) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.aanmelddatum.start) }}
+                    {{ form_errors(filter.aanmelddatum.start) }}
+                    {{ form_widget(filter.aanmelddatum.end) }}
+                    {{ form_errors(filter.aanmelddatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.afsluitdatum.start) }}
+                    {{ form_errors(filter.afsluitdatum.start) }}
+                    {{ form_widget(filter.afsluitdatum.end) }}
+                    {{ form_errors(filter.afsluitdatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.filter) }}
+                    {{ form_widget(filter.download) }}
+                </th>
+                {{ form_end(filter) }}
+            </tr>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'deelnemer.aanmelddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'deelnemer.afsluitdatum') }}
+                </th>
+                <th></th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deelnemer in pagination %}
+            <tr>
+                <td>
+                    {{ html.link(deelnemer.klant.id, path('dagbesteding_deelnemers_view', {id: deelnemer.id})) }}
+                </td>
+                <td>
+                    {{ html.link(deelnemer.klant, path('dagbesteding_deelnemers_view', {id: deelnemer.id})) }}
+                </td>
+                <td>
+                    {{ deelnemer.klant.werkgebied }}
+                </td>
+                <td>
+                    {{ deelnemer.aanmelddatum ? deelnemer.aanmelddatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ deelnemer.afsluitdatum ? deelnemer.afsluitdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ html.viewLink(path('dagbesteding_deelnemers_view', {id: deelnemer.id})) }}
+                    {{ html.editLink(path('dagbesteding_deelnemers_edit', {id: deelnemer.id})) }}
+                    {% if deelnemer.deletable %}
+                        {{ html.deleteLink(path('dagbesteding_deelnemers_delete', {id: deelnemer.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

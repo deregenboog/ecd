@@ -1,53 +1,19 @@
 <div id="subheader">
-    <?php
-        if ($this->name == 'Groepsactiviteiten'
-            && $this->action == 'index'
-            && empty($this->params['named'])
-        ) {
-            echo $html->link(
-                'Deelnemerslijst',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                ),
-                array('class' => 'selected')
-            );
-        } else {
-            echo $html->link(
-                'Deelnemerslijst',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                )
-            );
-        }
-    ?>
+    <?= $html->link(
+        'Deelnemers',
+        array(
+            'controller' => 'groepsactiviteiten_klanten',
+            'action' => 'index',
+        )
+    ) ?>
     &nbsp;&nbsp;
-    <?php
-        if ($this->name == 'Groepsactiviteiten'
-            && $this->action == 'index'
-            && !empty($this->params['named'])
-        ) {
-            echo $html->link(
-                'Vrijwilligerslijst',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                    'selectie' => 'Vrijwilliger',
-                ),
-                array('class' => 'selected')
-            );
-        } else {
-            echo $html->link(
-                'Vrijwilligerslijst',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'index',
-                    'selectie' => 'Vrijwilliger',
-                )
-            );
-        }
-    ?>
+    <?= $html->link(
+        'Vrijwilligers',
+        array(
+            'controller' => 'groepsactiviteiten_vrijwilligers',
+            'action' => 'index',
+        )
+    ) ?>
     &nbsp;&nbsp;
     <?php
         if ($this->action == 'export') {
@@ -90,28 +56,7 @@
     ?>
     &nbsp;&nbsp;
     <?php
-        if ($this->action == 'rapportages') {
-            echo $html->link(
-                'Rapportages OUD',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'rapportages',
-                ),
-                array('class' => 'selected')
-            );
-        } else {
-            echo $html->link(
-                'Rapportages OUD',
-                array(
-                    'controller' => 'Groepsactiviteiten',
-                    'action' => 'rapportages',
-                )
-            );
-        }
-    ?>
-    &nbsp;&nbsp;
-    <?php
-        echo $html->link('Rapportages NIEUW', array(
+        echo $html->link('Rapportages', array(
             'controller' => 'groepsactiviteiten_rapportages',
             'action' => 'index',
         ));

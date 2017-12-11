@@ -3,7 +3,7 @@
 class PfoVerslagenController extends AppController
 {
     public $name = 'PfoVerslagen';
-    public $uses = array('PfoVerslag', 'PfoClient', 'PfoClientenVerslag');
+    public $uses = ['PfoVerslag', 'PfoClient', 'PfoClientenVerslag'];
 
     public function index()
     {
@@ -15,7 +15,7 @@ class PfoVerslagenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid pfo verslag', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
 
         $pfoVerslag = $this->PfoVerslag->read(null, $id);
@@ -28,7 +28,7 @@ class PfoVerslagenController extends AppController
             $this->PfoVerslag->create();
             if ($this->PfoVerslag->save($this->data)) {
                 $this->Session->setFlash(__('The pfo verslag has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo verslag could not be saved. Please, try again.', true));
             }
@@ -39,12 +39,12 @@ class PfoVerslagenController extends AppController
     {
         if (!$id && empty($this->data)) {
             $this->Session->setFlash(__('Invalid pfo verslag', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if (!empty($this->data)) {
             if ($this->PfoVerslag->save($this->data)) {
                 $this->Session->setFlash(__('The pfo verslag has been saved', true));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Session->setFlash(__('The pfo verslag could not be saved. Please, try again.', true));
             }
@@ -58,14 +58,14 @@ class PfoVerslagenController extends AppController
     {
         if (!$id) {
             $this->Session->setFlash(__('Invalid id for pfo verslag', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         if ($this->PfoVerslag->delete($id)) {
             $this->Session->setFlash(__('Pfo verslag deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
         }
         $this->Session->setFlash(__('Pfo verslag was not deleted', true));
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(['action' => 'index']);
     }
 
     public function verslag($id = null)
@@ -79,28 +79,28 @@ class PfoVerslagenController extends AppController
             if ($this->PfoVerslag->save($this->data)) {
                 $id = $this->PfoVerslag->id;
                 $pf = [];
-                $pf[] = array(
-                        'PfoClientenVerslag' => array(
+                $pf[] = [
+                        'PfoClientenVerslag' => [
                                 'pfo_client_id' => $this->data['PfoClientenVerslag']['pfo_current_client_id'],
                                 'pfo_verslag_id' => $id,
-                        ),
-                );
+                        ],
+                ];
 
                 if (isset($this->data['PfoClientenVerslag']['pfo_client_id'])) {
                     if (is_array($this->data['PfoClientenVerslag']['pfo_client_id'])) {
                         foreach ($this->data['PfoClientenVerslag']['pfo_client_id'] as $v) {
-                            $pf[] = array(
-                            'PfoClientenVerslag' => array(
+                            $pf[] = [
+                            'PfoClientenVerslag' => [
                                 'pfo_client_id' => $v,
                                 'pfo_verslag_id' => $id,
-                            ),
-                        );
+                            ],
+                        ];
                         }
                     }
                 }
-                $conditions = array(
+                $conditions = [
                     'pfo_verslag_id' => $id,
-                );
+                ];
                 $this->PfoVerslag->PfoClientenVerslag->deleteAll($conditions);
                 if ($this->PfoVerslag->PfoClientenVerslag->saveAll($pf)) {
                     $saved = true;

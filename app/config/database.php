@@ -1,4 +1,7 @@
 <?php
+
+use Doctrine\DBAL\Driver\PDOMySql\Driver;
+
 /**
  * This is core configuration file.
  *
@@ -14,7 +17,7 @@
  *
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 0.2.9
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -69,38 +72,59 @@
  */
 class DATABASE_CONFIG
 {
-    public $default = array(
-        'driver' => 'mysql',
+    public $default = [
+        'driver' => '',
         'persistent' => false,
-        'host' => 'localhost',
-        'login' => 'user',
-        'password' => 'password',
-        'database' => 'database_name',
-        'encoding' => 'utf8',
+        'host' => '',
+        'login' => '',
+        'password' => '',
+        'database' => '',
+        'encoding' => '',
         'prefix' => '',
-    );
+    ];
 
-    public $test = array(
-        'driver' => 'mysql',
+    public $test = [
+        'driver' => '',
         'persistent' => false,
-        'host' => 'localhost',
-        'login' => 'user',
-        'password' => 'password',
-        'database' => 'test_database_name',
-        'encoding' => 'utf8',
+        'host' => '',
+        'login' => '',
+        'password' => '',
+        'database' => '',
+        'encoding' => '',
         'prefix' => '',
-    );
+    ];
 
     public function __construct()
     {
         global $kernel;
 
+        // In case this is called by a Cake console command no kernel has been
+        // booted. For now use this ugly hack.
+        // @todo Improve this!
+        if (!$kernel) {
+            require __DIR__.'/../autoload.php';
+            $kernel = new AppKernel('dev', true);
+            $kernel->boot();
+        }
+
         $container = $kernel->getContainer();
 
-        $this->default['host'] = $container->getParameter('database_host');
-        $this->default['port'] = $container->getParameter('database_port');
-        $this->default['login'] = $container->getParameter('database_user');
-        $this->default['password'] = $container->getParameter('database_password');
-        $this->default['database'] = $container->getParameter('database_name');
+        /* @var $conn Doctrine\DBAL\Connection */
+        $conn = $container->get('database_connection');
+
+        switch ($conn->getDriver()->getName()) {
+            case 'pdo_mysql':
+                $this->default['driver'] = 'mysql';
+                break;
+            default:
+                throw new \Exception('Unsupported database driver: '.$conn->getDriver()->getName());
+        }
+
+        $this->default['host'] = $conn->getHost();
+        $this->default['port'] = $conn->getPort();
+        $this->default['login'] = $conn->getUsername();
+        $this->default['password'] = $conn->getPassword();
+        $this->default['database'] = $conn->getDatabase();
+        $this->default['encoding'] = $conn->getParams()['charset'];
     }
 }

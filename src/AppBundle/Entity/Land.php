@@ -2,49 +2,49 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
- * @Entity
- * @Table(name="landen")
+ * @ORM\Entity
+ * @ORM\Table(name="landen")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Land
 {
+    use TimestampableTrait;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @Column(name="AFK2", type="string", length=5, nullable=false)
+     * @ORM\Column(name="AFK2", type="string", length=5, nullable=false)
+     * @Gedmo\Versioned
      */
     private $afkorting2;
 
     /**
-     * @Column(name="AFK3", type="string", length=5, nullable=false)
+     * @ORM\Column(name="AFK3", type="string", length=5, nullable=false)
+     * @Gedmo\Versioned
      */
     private $afkorting3;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Gedmo\Versioned
      */
     private $land;
 
-    /**
-     * @Column(type="datetime", nullable=true)
-     */
-    private $created;
-
-    /**
-     * @Column(type="datetime", nullable=true)
-     */
-    private $modified;
+    public function __toString()
+    {
+        return $this->land;
+    }
 
     public function getId()
     {
@@ -58,6 +58,6 @@ class Land
 
     public function getNaam()
     {
-        return $this->naam;
+        return $this->land;
     }
 }
