@@ -57,7 +57,8 @@
         "doctrine/data-fixtures" : "^1.2",
         "phpunit/phpunit" : "^5.7",
         "liip/functional-test-bundle" : "^1.7",
-        "symfony/phpunit-bridge" : "^3.2"
+        "symfony/phpunit-bridge" : "^3.2",
+        "sebastian/phpcpd": "^3.0"
     },
     "scripts" : {
         "post-install-cmd" : [
