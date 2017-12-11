@@ -44,4 +44,4 @@ services:
                 Aanmelddatum: { expression: 'entity.getClient().getAanmelddatum()', type: 'date' }
 
     clip.export.report:
-        class: ClipBundle\Export\ReportExport
+        class: AppBundle\Export\ReportExport

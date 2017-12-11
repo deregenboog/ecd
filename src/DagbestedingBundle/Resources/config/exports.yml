@@ -83,4 +83,4 @@ services:
                 Reden afsluiting: { expression: 'entity.getDeelnemer().getAfsluiting()' }
 
     dagbesteding.export.report:
-        class: DagbestedingBundle\Export\ReportExport
+        class: AppBundle\Export\ReportExport

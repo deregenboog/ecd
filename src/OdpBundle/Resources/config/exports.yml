@@ -88,4 +88,4 @@ services:
                 Automatische incasso: { expression: 'entity.getHuurder().isAutomatischeIncasso() ? "ja" : "nee"' }
 
     odp.export.report:
-        class: OdpBundle\Export\ReportExport
+        class: AppBundle\Export\ReportExport

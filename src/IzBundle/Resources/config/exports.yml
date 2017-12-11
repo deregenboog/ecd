@@ -166,7 +166,7 @@ services:
                 Stagiair: { expression: 'entity.getIzHulpaanbod().getIzVrijwilliger().getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzHulpaanbod().getIzVrijwilliger().getIzIntake()' }
 
     iz.export.report:
-        class: IzBundle\Export\IzReportExport
+        class: AppBundle\Export\ReportExport
 
     iz.export.selectie:
         class: IzBundle\Export\IzSelectionExport
