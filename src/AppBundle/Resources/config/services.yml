@@ -50,3 +50,25 @@ services:
     app.dao.vrijwilliger:
         parent: app.dao.abstract
         class: AppBundle\Service\VrijwilligerDao
+
+    app.form.rapportage:
+        class: AppBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    app.report.klanten.zrm_score_per_postcodegebied:
+        class: AppBundle\Report\ZrmScorePerPostcodegebied
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: app.rapportage, category: ZRM }
+
+    app.report.klanten.zrm_v2_score_per_postcodegebied:
+        class: AppBundle\Report\ZrmV2ScorePerPostcodegebied
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: app.rapportage, category: ZRM }
+
+    app.export.report:
+        class: AppBundle\Export\ReportExport
