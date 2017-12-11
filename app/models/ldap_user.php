@@ -63,6 +63,11 @@ class LdapUser extends AppModel
         }
     }
 
+    public function isActiveDirectory()
+    {
+        return (bool) $this->active_directory;
+    }
+
     public function findAll($attribute = null, $value = null)
     {
         if (!$attribute) {
@@ -86,7 +91,6 @@ class LdapUser extends AppModel
         $r = ldap_search($this->ds, $this->baseDn, $s);
         if ($r) {
             ldap_sort($this->ds, $r, 'sn');
-
             $result = ldap_get_entries($this->ds, $r);
 
             return $this->convert_from_ldap($result);

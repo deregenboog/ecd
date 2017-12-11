@@ -8,9 +8,10 @@ class LdapUsersController extends AppController
 
     public function index()
     {
-        $this->set('primaryKey', $this->LdapUser->primaryKey);
-        $users = $this->LdapUser->findAll('uid', '*');
+        $this->set('primaryKey', strtolower($this->LdapUser->uid));
+        $users = $this->LdapUser->findAll();
         $this->set('ldap_users', $users);
+        $this->set('active_directory', $this->LdapUser->isActiveDirectory());
     }
 
     public function matrix()
@@ -30,8 +31,9 @@ class LdapUsersController extends AppController
         $activeUsers = $this->Medewerker->getActiveUsers();
 
         $ldapUsers = [];
-        foreach ($this->LdapUser->findAll('uid', '*') as $ldapUser) {
-            $uid = $ldapUser['LdapUser']['uid'];
+        $uidKey = strtolower($this->LdapUser->uid);
+        foreach ($this->LdapUser->findAll() as $ldapUser) {
+            $uid = $ldapUser['LdapUser'][$uidKey];
             if (in_array($uid, $activeUsers)) {
                 $ldapUsers[$uid] = ['cn' => $ldapUser['LdapUser']['cn']];
             }
