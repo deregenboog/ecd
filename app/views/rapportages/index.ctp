@@ -15,4 +15,5 @@
     <li><?= $html->link('PFO rapportage', ['controller' => 'PfoClienten', 'action' => 'rapportage']); ?></li>
     <li><?= $html->link('Gerepatrieerd', ['action' => 'gerepatrieerd']); ?></li>
     <li><?= $html->link('Her-intakes', ['action' => 'herintakes']); ?></li>
+    <li><?= $html->link('Overigen', ['controller' => 'app/rapportages']); ?></li>
 </ul>
