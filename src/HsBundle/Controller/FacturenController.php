@@ -33,7 +33,7 @@ class FacturenController extends AbstractChildController
     protected $filterFormClass = FactuurFilterType::class;
     protected $addMethod = 'addFactuur';
     protected $baseRouteName = 'hs_facturen_';
-    protected $disabledActions = ['edit', 'delete'];
+//     protected $disabledActions = ['edit', 'delete'];
 
     /**
      * @var FactuurDaoInterface
@@ -121,11 +121,21 @@ class FacturenController extends AbstractChildController
     }
 
     /**
+     * @Route("/{id}/edit")
+     */
+    public function editAction(Request $request, $id)
+    {
+        $this->formClass = CreditfactuurType::class;
+
+        return parent::editAction($request, $id);
+    }
+
+    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
     {
-        $this->set('entity_name', 'creditfactuur');
+        $this->set('entity_name', 'handmatige factuur');
         $this->entityClass = Creditfactuur::class;
         $this->formClass = CreditfactuurType::class;
 

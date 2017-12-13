@@ -4,7 +4,15 @@
 {% block content_top %}
     <h1>Creditfactuur {{ entity }}</h1>
     <p>
-        {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
+        {% if entity.locked %}
+            {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
+        {% else %}
+            {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
+                {{ html.link('Factuur definitief maken', path('hs_facturen_lock', {id: entity.id}), 'ok') }}
+                {{ html.link('Bewerken', path('hs_facturen_edit', {id: entity.id, _format: 'pdf'}), 'edit') }}
+                {{ html.link('Verwijderen', path('hs_facturen_delete', {id: entity.id, _format: 'pdf'}), 'remove') }}
+            {% endif %}
+        {% endif %}
     </p>
 {% endblock %}
 
