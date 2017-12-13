@@ -9,15 +9,13 @@
     <target name="default" depends="lint,phpcpd,phpunit" />
 
     <target name="lint" unless="lint.done" description="Perform syntax check of sourcecode files">
-        <apply executable="php" taskname="lint">
+        <apply executable="php" taskname="lint" failonerror="true">
             <arg value="-l" />
             <fileset dir="${src}">
                 <include name="**/*.php" />
-                <modified />
             </fileset>
             <fileset dir="${tests}">
                 <include name="**/*.php" />
-                <modified />
             </fileset>
         </apply>
         <property name="lint.done" value="true" />

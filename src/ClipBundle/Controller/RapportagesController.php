@@ -9,7 +9,7 @@ use AppBundle\Form\RapportageType;
 use ClipBundle\Report\AbstractReport;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Controller\SymfonyController;
-use AppBundle\Controller\RapportagesController as BaseController
+use AppBundle\Controller\RapportagesController as BaseController;
 
 /**
  * @Route("/rapportages")
