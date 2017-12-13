@@ -7,7 +7,7 @@
     {% if url is defined %}
         {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
             {{ html.addLink(url) }}
-            {{ html.link('Factuur toevoegen', url) }}
+            {{ html.link('Handmatige factuur toevoegen', url) }}
         {% endif %}
     {% endif %}
 </p>

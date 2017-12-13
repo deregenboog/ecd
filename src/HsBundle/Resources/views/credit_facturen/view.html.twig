@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>Creditfactuur {{ entity }}</h1>
+    <h1>Handmatige factuur {{ entity }}</h1>
     <p>
         {% if entity.locked %}
             {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
