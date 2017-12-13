@@ -2,43 +2,25 @@
 
 namespace OekBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
-use AppBundle\Form\RapportageType;
-use OekBundle\Report\AbstractReport;
+use OekBundle\Form\OekRapportageType;
+use AppBundle\Report\AbstractReport;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Controller\AbstractRapportagesController;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/rapportages")
  */
-class RapportagesController extends SymfonyController
+class RapportagesController extends AbstractRapportagesController
 {
+    protected $formClass = OekRapportageType::class;
+
     /**
      * @Route("/")
      */
-    public function index()
+    public function indexAction(Request $request)
     {
-        $form = $this->createForm(RapportageType::class);
-        $form->handleRequest($this->getRequest());
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // get reporting service
-            /** @var AbstractReport $report */
-            $report = $this->container->get($form->get('rapport')->getData());
-
-            // set options
-            $report
-                ->setStartDate($form->get('startdatum')->getData())
-                ->setEndDate($form->get('einddatum')->getData())
-            ;
-
-            if ($form->get('download')->isClicked()) {
-                return $this->download($report);
-            }
-
-            $this->set($this->extractDataFromReport($report));
-        }
-
-        return ['form' => $form->createView()];
+        return parent::indexAction($request);
     }
 
     public function download(AbstractReport $report)
@@ -69,15 +51,5 @@ class RapportagesController extends SymfonyController
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
-    }
-
-    private function extractDataFromReport(AbstractReport $report)
-    {
-        return [
-            'title' => $report->getTitle(),
-            'startDate' => $report->getStartDate(),
-            'endDate' => $report->getEndDate(),
-            'reports' => $report->getReports(),
-        ];
     }
 }

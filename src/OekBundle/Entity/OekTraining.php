@@ -181,6 +181,6 @@ class OekTraining
 
     public function isDeletable()
     {
-        return $this->oekDeelnames->count() == 0;
+        return 0 == $this->oekDeelnames->count();
     }
 }

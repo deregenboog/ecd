@@ -25,7 +25,7 @@ services:
             - OekBundle\Entity\OekTraining
 
     oek.form.rapportage:
-        class: AppBundle\Form\RapportageType
+        class: OekBundle\Form\OekRapportageType
         tags:
             - { name: form.type }
 

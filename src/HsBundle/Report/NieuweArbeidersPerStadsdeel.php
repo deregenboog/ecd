@@ -6,6 +6,7 @@ use AppBundle\Report\Table;
 use HsBundle\Service\KlantDaoInterface;
 use HsBundle\Service\VrijwilligerDaoInterface;
 use HsBundle\Service\DienstverlenerDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class NieuweArbeidersPerStadsdeel extends AbstractReport
 {

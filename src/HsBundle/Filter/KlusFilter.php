@@ -92,7 +92,7 @@ class KlusFilter implements FilterInterface
         }
 
         if ($this->status) {
-            switch($this->status) {
+            switch ($this->status) {
                 case self::STATUS_OPEN:
                     $builder
                         ->andWhere('klus.einddatum IS NULL OR klus.einddatum > :today')

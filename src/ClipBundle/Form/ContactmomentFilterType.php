@@ -9,10 +9,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
-use ClipBundle\Filter\VraagFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use ClipBundle\Entity\Vraagsoort;
-use AppBundle\Entity\Medewerker;
 use ClipBundle\Filter\ContactmomentFilter;
 
 class ContactmomentFilterType extends AbstractType

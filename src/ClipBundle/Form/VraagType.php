@@ -43,7 +43,7 @@ class VraagType extends AbstractType
             ->add('hulpvrager', null, [
                 'placeholder' => '',
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($options) {
                     $current = $options['data'] ? $options['data']->getHulpvrager() : null;
 
                     return $repository->createQueryBuilder('hulpvrager')
@@ -55,7 +55,7 @@ class VraagType extends AbstractType
             ->add('leeftijdscategorie', null, [
                 'placeholder' => '',
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($options) {
                     $current = $options['data'] ? $options['data']->getLeeftijdscategorie() : null;
 
                     return $repository->createQueryBuilder('leeftijdscategorie')
@@ -68,7 +68,7 @@ class VraagType extends AbstractType
                 'label' => 'Locatie',
                 'placeholder' => '',
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($options) {
                     $current = $options['data'] ? $options['data']->getCommunicatiekanaal() : null;
 
                     return $repository->createQueryBuilder('communicatiekanaal')
@@ -80,7 +80,7 @@ class VraagType extends AbstractType
             ->add('soort', null, [
                 'placeholder' => '',
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($options) {
                     $current = $options['data'] ? $options['data']->getSoort() : null;
 
                     return $repository->createQueryBuilder('soort')

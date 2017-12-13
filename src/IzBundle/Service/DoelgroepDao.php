@@ -3,9 +3,7 @@
 namespace IzBundle\Service;
 
 use IzBundle\Entity\Doelgroep;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query\Expr;
 
 class DoelgroepDao extends AbstractDao implements DoelgroepDaoInterface
 {

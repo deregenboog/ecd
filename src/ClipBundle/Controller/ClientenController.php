@@ -49,7 +49,7 @@ class ClientenController extends AbstractController
     {
         if ($request->query->has('klant')) {
             $klant = new Klant();
-            if ($request->query->get('klant') !== 'new') {
+            if ('new' !== $request->query->get('klant')) {
                 $klant = $this->getEntityManager()->find(Klant::class, $request->query->get('klant'));
             }
 

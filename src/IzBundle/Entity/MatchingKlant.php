@@ -5,8 +5,6 @@ namespace IzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\IdentifiableTrait;
-use AppBundle\Entity\NamableTrait;
-use AppBundle\Entity\ActivatableTrait;
 use Doctrine\Common\Collections\Collection;
 
 /**

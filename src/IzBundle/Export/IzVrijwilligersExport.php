@@ -57,13 +57,14 @@ class IzVrijwilligersExport extends GenericExport
         }
 
         if (count($data) > 0) {
-            usort($data, function(\DateTime $date1, \DateTime $date2) {
+            usort($data, function (\DateTime $date1, \DateTime $date2) {
                 if ($date1 > $date2) {
                     return -1;
                 }
                 if ($date2 > $date1) {
                     return 1;
                 }
+
                 return 0;
             });
 

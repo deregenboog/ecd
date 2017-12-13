@@ -3,9 +3,7 @@
 namespace IzBundle\Service;
 
 use IzBundle\Entity\Hulpvraagsoort;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query\Expr;
 
 class HulpvraagsoortDao extends AbstractDao implements HulpvraagsoortDaoInterface
 {

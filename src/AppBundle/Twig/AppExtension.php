@@ -72,7 +72,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
         $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
         foreach ($patterns as $pattern) {
-            if (strpos($route, $pattern) !== false) {
+            if (false !== strpos($route, $pattern)) {
                 return true;
             }
         }
@@ -88,7 +88,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
         $path = $this->requestStack->getCurrentRequest()->getPathInfo();
         foreach ($patterns as $pattern) {
-            if (strpos($path, $pattern) !== false) {
+            if (false !== strpos($path, $pattern)) {
                 return true;
             }
         }

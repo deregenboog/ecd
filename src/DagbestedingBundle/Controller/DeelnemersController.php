@@ -49,7 +49,7 @@ class DeelnemersController extends AbstractController
     {
         if ($request->query->has('klantId')) {
             $klant = new Klant();
-            if ($request->query->get('klantId') !== 'new') {
+            if ('new' !== $request->query->get('klantId')) {
                 $klant = $this->getEntityManager()->find(Klant::class, $request->query->get('klantId'));
             }
 

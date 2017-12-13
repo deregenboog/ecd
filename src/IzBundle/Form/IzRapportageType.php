@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace IzBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -8,12 +8,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use AppBundle\Form\BaseType;
 
-class RapportageType extends AbstractType
+class IzRapportageType extends AbstractType
 {
     private $choices = [];
 
-    public function __construct(array $options = [])
+    public function __construct(array $options)
     {
         foreach ($options as $category => $reports) {
             foreach ($reports as $id => $report) {

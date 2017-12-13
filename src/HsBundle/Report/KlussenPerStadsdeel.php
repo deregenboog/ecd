@@ -4,6 +4,7 @@ namespace HsBundle\Report;
 
 use AppBundle\Report\Table;
 use HsBundle\Service\KlusDaoInterface;
+use AppBundle\Report\AbstractReport;
 
 class KlussenPerStadsdeel extends AbstractReport
 {

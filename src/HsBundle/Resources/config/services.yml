@@ -19,7 +19,7 @@ services:
         class: HsBundle\Service\FactuurFactory
 
     hs.form.rapportage:
-        class: AppBundle\Form\RapportageType
+        class: HsBundle\Form\RapportageType
         tags:
             - { name: form.type }
 

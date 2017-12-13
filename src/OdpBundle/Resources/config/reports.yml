@@ -1,6 +1,6 @@
 services:
     odp.form.rapportage:
-        class: AppBundle\Form\RapportageType
+        class: OdpBundle\Form\RapportageType
         tags:
             - { name: form.type }
 

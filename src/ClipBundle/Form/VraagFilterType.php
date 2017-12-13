@@ -12,7 +12,6 @@ use AppBundle\Form\AppDateRangeType;
 use ClipBundle\Filter\VraagFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use ClipBundle\Entity\Vraagsoort;
-use AppBundle\Entity\Medewerker;
 use ClipBundle\Entity\Behandelaar;
 use Doctrine\ORM\EntityRepository;
 

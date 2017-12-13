@@ -4,6 +4,7 @@ namespace OekBundle\Report;
 
 use AppBundle\Report\Table;
 use OekBundle\Repository\OekTrainingRepository;
+use AppBundle\Report\AbstractReport;
 
 class TrainingenPerGroepStadsdeel extends AbstractReport
 {

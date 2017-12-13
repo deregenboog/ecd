@@ -5,8 +5,6 @@ namespace ClipBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantType;
@@ -43,7 +41,7 @@ class ClientType extends AbstractType
                 'label' => 'Hoe bekend',
                 'placeholder' => '',
                 'required' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($options) {
                     $current = $options['data'] ? $options['data']->getViacategorie() : null;
 
                     return $repository->createQueryBuilder('viacategorie')

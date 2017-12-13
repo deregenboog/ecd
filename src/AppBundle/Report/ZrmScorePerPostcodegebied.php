@@ -2,7 +2,6 @@
 
 namespace AppBundle\Report;
 
-use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\ZrmReport;
 

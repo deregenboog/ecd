@@ -5,6 +5,7 @@ namespace OekBundle\Report;
 use AppBundle\Report\Table;
 use OekBundle\Entity\OekDeelnameStatus;
 use OekBundle\Repository\OekKlantRepository;
+use AppBundle\Report\AbstractReport;
 
 class KlantenPerTrainingStadsdeel extends AbstractReport
 {

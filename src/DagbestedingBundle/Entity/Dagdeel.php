@@ -137,7 +137,7 @@ class Dagdeel
      *
      * @return bool
      */
-    public function isEqualTo(Dagdeel $dagdeel)
+    public function isEqualTo(self $dagdeel)
     {
         return $this->getProject() == $dagdeel->getProject()
             && $this->getDatum() == $dagdeel->getDatum()

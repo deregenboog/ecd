@@ -64,7 +64,7 @@ class OekDeelnameStatus
         $constants = $thisClass->getConstants();
 
         return array_filter($constants, function ($key) {
-            return strpos($key, 'STATUS') === 0;
+            return 0 === strpos($key, 'STATUS');
         }, ARRAY_FILTER_USE_KEY);
     }
 

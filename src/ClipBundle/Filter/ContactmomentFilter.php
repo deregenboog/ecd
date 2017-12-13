@@ -4,8 +4,6 @@ namespace ClipBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
-use ClipBundle\Entity\Vraagsoort;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\Model\AppDateRangeModel;
 use ClipBundle\Entity\Behandelaar;
 

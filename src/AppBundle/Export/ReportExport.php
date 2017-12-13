@@ -2,8 +2,6 @@
 
 namespace AppBundle\Export;
 
-use AppBundle\Export\AbstractExport;
-
 class ReportExport extends AbstractExport
 {
     public function create($data)
@@ -13,7 +11,7 @@ class ReportExport extends AbstractExport
         foreach ($data['reports'] as $i => $report) {
             $reportTitle = preg_replace('[^A-Za-z0-9]', '_', $report['title']);
             if (!$reportTitle) {
-                $reportTitle = sprintf('Worksheet_%d', $i+1);
+                $reportTitle = sprintf('Worksheet_%d', $i + 1);
             }
             if (0 === $i) {
                 $sheet = $this->excel->getActiveSheet();

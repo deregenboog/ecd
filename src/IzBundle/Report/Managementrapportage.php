@@ -5,10 +5,7 @@ namespace IzBundle\Report;
 use AppBundle\Report\Table;
 use IzBundle\Repository\IzHulpvraagRepository;
 use IzBundle\Repository\DoelstellingRepository;
-use Doctrine\ORM\EntityManager;
 use IzBundle\Entity\IzProject;
-use AppBundle\Entity\Postcode;
-use Doctrine\ORM\AbstractQuery;
 use AppBundle\Exception\ReportException;
 use IzBundle\Repository\IzProjectRepository;
 use IzBundle\Entity\Doelstelling;
@@ -77,34 +74,34 @@ class Managementrapportage extends AbstractReport
     private function initTotal()
     {
         $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
-        array_walk($beginstand, function(&$item) {
+        array_walk($beginstand, function (&$item) {
             $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
         });
 
         $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
-        array_walk($gestart, function(&$item) {
+        array_walk($gestart, function (&$item) {
             $item['kolom'] = 'Gestart';
         });
 
         $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
-        array_walk($eindstand, function(&$item) {
+        array_walk($eindstand, function (&$item) {
             $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
         });
 
         $prestaties = $gestart;
         foreach ($this->projecten as $project) {
-            if ($project->getPrestatieStrategy() === IzProject::STRATEGY_PRESTATIE_TOTAL) {
-                $prestaties = array_merge($prestaties, array_filter($beginstand, function($row) use ($project) {
+            if (IzProject::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+                $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
                     return $row['project'] === $project->getNaam();
                 }));
             }
         }
-        array_walk($prestaties, function(&$item) {
+        array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
         });
 
         $doelstellingen = $this->doelstellingRepository->countByJaar($this->startDate->format('Y'));
-        array_walk($doelstellingen, function(&$item) {
+        array_walk($doelstellingen, function (&$item) {
             $item['kolom'] = 'Doelstelling';
         });
 
@@ -115,34 +112,34 @@ class Managementrapportage extends AbstractReport
     private function initStadsdelen()
     {
         $beginstand = $this->repository->countKoppelingenByProjectAndStadsdeel('beginstand', $this->startDate, $this->endDate);
-        array_walk($beginstand, function(&$item) {
+        array_walk($beginstand, function (&$item) {
             $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
         });
 
         $gestart = $this->repository->countKoppelingenByProjectAndStadsdeel('gestart', $this->startDate, $this->endDate);
-        array_walk($gestart, function(&$item) {
+        array_walk($gestart, function (&$item) {
             $item['kolom'] = 'Gestart';
         });
 
         $eindstand = $this->repository->countKoppelingenByProjectAndStadsdeel('eindstand', $this->startDate, $this->endDate);
-        array_walk($eindstand, function(&$item) {
+        array_walk($eindstand, function (&$item) {
             $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
         });
 
         $prestaties = $gestart;
         foreach ($this->projecten as $project) {
-            if ($project->getPrestatieStrategy() === IzProject::STRATEGY_PRESTATIE_TOTAL) {
-                $prestaties = array_merge($prestaties, array_filter($beginstand, function($row) use ($project) {
+            if (IzProject::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+                $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
                     return $row['project'] === $project->getNaam();
                 }));
             }
         }
-        array_walk($prestaties, function(&$item) {
+        array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
         });
 
         $doelstellingen = $this->doelstellingRepository->countByJaarAndProjectAndStadsdeel($this->startDate->format('Y'));
-        array_walk($doelstellingen, function(&$item) {
+        array_walk($doelstellingen, function (&$item) {
             $item['kolom'] = 'Doelstelling';
         });
 
@@ -150,7 +147,7 @@ class Managementrapportage extends AbstractReport
         $data = array_merge($beginstand, $gestart, $eindstand, $prestaties, $doelstellingen);
 
         // fix missing "stadsdelen"
-        array_walk($data, function(&$item) {
+        array_walk($data, function (&$item) {
             if (!$item['stadsdeel']) {
                 $item['stadsdeel'] = 'Overig';
             }
@@ -160,7 +157,7 @@ class Managementrapportage extends AbstractReport
         $priority = 40;
         foreach ($stadsdelen as $stadsdeel) {
             $this->queue->insert(
-                ['Stadsdeel '.$stadsdeel => array_filter($data, function($item) use ($stadsdeel) {
+                ['Stadsdeel '.$stadsdeel => array_filter($data, function ($item) use ($stadsdeel) {
                     return $item['stadsdeel'] === $stadsdeel;
                 })],
                 --$priority
@@ -214,37 +211,37 @@ class Managementrapportage extends AbstractReport
     private function initFondsen()
     {
         $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
-        array_walk($beginstand, function(&$item) {
+        array_walk($beginstand, function (&$item) {
             $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
         });
 
         $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
-        array_walk($gestart, function(&$item) {
+        array_walk($gestart, function (&$item) {
             $item['kolom'] = 'Gestart';
         });
 
         $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
-        array_walk($eindstand, function(&$item) {
+        array_walk($eindstand, function (&$item) {
             $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
         });
 
         $prestaties = $gestart;
         foreach ($this->projecten as $project) {
-            if ($project->getPrestatieStrategy() === IzProject::STRATEGY_PRESTATIE_TOTAL) {
-                $prestaties = array_merge($prestaties, array_filter($beginstand, function($row) use ($project) {
+            if (IzProject::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+                $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
                     return $row['project'] === $project->getNaam();
                 }));
             }
         }
-        array_walk($prestaties, function(&$item) {
+        array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
         });
 
         $doelstellingen = $this->doelstellingRepository->countByJaarAndProjectAndCategorie($this->startDate->format('Y'));
-        $doelstellingen = array_filter($doelstellingen, function($doelstelling) {
-            return $doelstelling['categorie'] === Doelstelling::CATEGORIE_FONDSEN;
+        $doelstellingen = array_filter($doelstellingen, function ($doelstelling) {
+            return Doelstelling::CATEGORIE_FONDSEN === $doelstelling['categorie'];
         });
-        array_walk($doelstellingen, function(&$item) {
+        array_walk($doelstellingen, function (&$item) {
             $item['kolom'] = 'Doelstelling';
         });
 
@@ -275,7 +272,7 @@ class Managementrapportage extends AbstractReport
 
             if ('Fondsen' === $title) {
                 // don't show rows without target
-                $data = array_filter($data, function($row) {
+                $data = array_filter($data, function ($row) {
                     return $row['Doelstelling'] > 0;
                 });
             }

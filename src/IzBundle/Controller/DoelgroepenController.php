@@ -3,15 +3,9 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use ClipBundle\Entity\Behandelaar;
-use ClipBundle\Form\BehandelaarType;
 use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Form\DoelstellingType;
-use IzBundle\Entity\Doelstelling;
-use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Entity\IzProject;
 use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
 

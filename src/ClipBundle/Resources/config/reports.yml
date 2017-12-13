@@ -1,6 +1,6 @@
 services:
     clip.form.rapportage:
-        class: AppBundle\Form\RapportageType
+        class: ClipBundle\Form\RapportageType
         tags:
             - { name: form.type }
 

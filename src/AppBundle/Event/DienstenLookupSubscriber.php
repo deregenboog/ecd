@@ -3,8 +3,6 @@
 namespace AppBundle\Event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Entity\Klant;
 use AppBundle\Service\KlantDaoInterface;
 

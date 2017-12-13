@@ -2,14 +2,11 @@
 
 namespace AppBundle\Command;
 
-use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use AppBundle\Entity\Postcodegebied;
 use AppBundle\Entity\Stadsdeel;
-use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Postcode;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -33,7 +30,6 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
         $postcodes = [];
         $conflicten = [];
         foreach ($files as $file) {
-
             if (!file_exists($file)) {
                 throw new \InvalidArgumentException(sprintf('File %s does not exist', $file));
             }

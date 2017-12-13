@@ -198,10 +198,10 @@ class Table
                     'Query.from' => $this->startDate->format('Y-m-d'),
                     'Query.until' => $this->endDate->format('Y-m-d'),
                 ];
-                if ($this->xPath && $y !== 'Totaal') {
+                if ($this->xPath && 'Totaal' !== $y) {
                     $url[$this->xPath] = $y;
                 }
-                if ($this->yPath && $x !== 'Totaal') {
+                if ($this->yPath && 'Totaal' !== $x) {
                     $url[$this->yPath] = $x;
                 }
                 $data[$x][$y] = $helper->link($value, $url);

@@ -4,6 +4,7 @@ namespace OekBundle\Report;
 
 use AppBundle\Report\Table;
 use OekBundle\Repository\OekKlantRepository;
+use AppBundle\Report\AbstractReport;
 
 abstract class AbstractKlantenVerwezen extends AbstractReport
 {

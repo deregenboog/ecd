@@ -6,9 +6,6 @@ use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\GenericExport;
-use ClipBundle\Form\VraagFilterType;
-use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Entity\Vraag;
 use ClipBundle\Form\VraagType;
 use ClipBundle\Form\VraagCloseType;
@@ -17,15 +14,11 @@ use AppBundle\Export\ExportInterface;
 /**
  * @Route("/vragen")
  */
-class VragenController extends AbstractChildController
+class VragenController extends AbstractVragenController
 {
     protected $title = 'Vragen';
-    protected $entityName = 'vraag';
-    protected $entityClass = Vraag::class;
     protected $formClass = VraagType::class;
-    protected $filterFormClass = VraagFilterType::class;
     protected $addMethod = 'addVraag';
-    protected $baseRouteName = 'clip_vragen_';
 
     /**
      * @var VraagDaoInterface

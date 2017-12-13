@@ -3,17 +3,8 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use ClipBundle\Entity\Behandelaar;
-use ClipBundle\Form\BehandelaarType;
-use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Form\DoelstellingType;
-use IzBundle\Entity\Doelstelling;
-use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Entity\IzProject;
-use IzBundle\Form\DoelstellingenModel;
-use IzBundle\Form\DoelstellingFilterType;
 use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Form\HulpvraagsoortType;
 use IzBundle\Service\HulpvraagsoortDaoInterface;

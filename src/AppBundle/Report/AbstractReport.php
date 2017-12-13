@@ -3,10 +3,15 @@
 namespace AppBundle\Report;
 
 use AppBundle\Service\AbstractDao;
-use AppBundle\Report\Table;
+use Doctrine\ORM\EntityRepository;
 
 abstract class AbstractReport
 {
+    /**
+     * EntityRepository.
+     */
+    protected $repository;
+
     /**
      * @var AbstractDao
      */

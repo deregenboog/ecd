@@ -36,7 +36,7 @@ class IzDeelnemerSelectie implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-        if (current($builder->getRootAliases()) === 'izKlant') {
+        if ('izKlant' === current($builder->getRootAliases())) {
             if ($this->izProjecten) {
                 $builder
                     ->andWhere('izProject.id IN (:iz_projecten)')
@@ -62,7 +62,7 @@ class IzDeelnemerSelectie implements FilterInterface
             }
         }
 
-        if (current($builder->getRootAliases()) === 'izVrijwilliger') {
+        if ('izVrijwilliger' === current($builder->getRootAliases())) {
             if ($this->izProjecten) {
                 $builder
                     ->andWhere('izProject.id IN (:iz_projecten)')

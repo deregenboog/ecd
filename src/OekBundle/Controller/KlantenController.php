@@ -111,7 +111,7 @@ class KlantenController extends SymfonyController
         $entityManager = $this->getEntityManager();
 
         if ($klantId) {
-            if ($klantId === 'new') {
+            if ('new' === $klantId) {
                 $klant = new Klant();
             } else {
                 $klant = $entityManager->find(Klant::class, $klantId);
@@ -132,7 +132,7 @@ class KlantenController extends SymfonyController
 
                     return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
                 } catch (\Exception $e) {
-                    if ($e->getPrevious() instanceof PDOException && $e->getPrevious()->getCode() == 23000) {
+                    if ($e->getPrevious() instanceof PDOException && 23000 == $e->getPrevious()->getCode()) {
                         $this->addFlash('danger', 'Deze klant heeft al een Op-eigen-kracht-dossier.');
                     } else {
                         $this->addFlash('danger', 'Er is een fout opgetreden.');

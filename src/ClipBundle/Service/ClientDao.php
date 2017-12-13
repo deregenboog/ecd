@@ -4,7 +4,6 @@ namespace ClipBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
 use ClipBundle\Entity\Client;
 
 class ClientDao extends AbstractDao implements ClientDaoInterface

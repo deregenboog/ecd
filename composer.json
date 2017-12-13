@@ -22,7 +22,8 @@
         "exclude-from-classmap" : [
             "cake/libs/overloadable_php4.php",
             "cake/libs/controller/app_controller.php",
-            "cake/libs/model/app_model.php"
+            "cake/libs/model/app_model.php",
+            "cake/libs/view/helpers/html.php"
         ]
     },
     "autoload-dev" : {
@@ -58,7 +59,7 @@
         "phpunit/phpunit" : "^5.7",
         "liip/functional-test-bundle" : "^1.7",
         "symfony/phpunit-bridge" : "^3.2",
-        "sebastian/phpcpd": "^3.0"
+        "sebastian/phpcpd" : "^3.0"
     },
     "scripts" : {
         "post-install-cmd" : [
