@@ -1,0 +1,496 @@
+parameters:
+    cake:
+        email:
+            prod:
+                informele_zorg: "jschmidt@deregenboog.org"
+                dagbesteding: "bnieuwburg@deregenboog.org"
+                inloophuis: "adbruijn@deregenboog.org"
+                hulpverlening: "jvloo@deregenboog.org"
+                agressie: "tvhamond@deregenboog.org"
+                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+            beta:
+                informele_zorg: "jschmidt@deregenboog.org"
+                dagbesteding: "bnieuwburg@deregenboog.org"
+                inloophuis: "adbruijn@deregenboog.org"
+                hulpverlening: "jvloo@deregenboog.org"
+                agressie: "tvhamond@deregenboog.org"
+                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+            test:
+                informele_zorg: "bhuttinga@deregenboog.org"
+                dagbesteding: "bhuttinga@deregenboog.org"
+                inloophuis: "bhuttinga@deregenboog.org"
+                hulpverlening: "bhuttinga@deregenboog.org"
+                agressie: "bhuttinga@deregenboog.org"
+                administratiebedrijf: "bhuttinga@deregenboog.org"
+
+        ACL.groups:
+            GROUP_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DEVELOP: "CN=ECD Develop,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_MAATSCHAPPELIJK: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HI5: "CN=ECD Hi5,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_TRAJECTBEGELEIDER: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_TEAMLEIDERS: "CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_PFO: "CN=ECD PFO,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_BACK_ON_TRACK_COORDINATOR: "CN=ECD Back On Track Coordinator,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_BACK_ON_TRACK_COACH: "CN=ECD Back on Track Coach,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_GROEPSACTIVITEIT: "CN=ECD Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_IZ: "CN=ECD IZ,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_REPORT: "CN=ECD Report,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_IZ_BEHEER: "CN=ECD IZ Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_BEHEER_GROEPSACTIVITEIT: "CN=ECD Beheer Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_OEK: "CN=ECD Op Eigen Kracht,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
+
+        # group: [controllers]
+        ACL.permissions:
+            GROUP_REPORT:
+                - Rapportages
+                - InloopBundle\Controller\Schorsingen
+            GROUP_PORTIER:
+                - Registraties
+                - Opmerkingen
+            GROUP_MLO:
+                - Intakes
+                - Klanten
+                - Registraties
+                - Schorsingen
+                - Opmerkingen
+                - inloop
+                - InloopBundle\Controller\Klanten
+            GROUP_MAATSCHAPPELIJK:
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Intakes
+                - Klanten
+                - Registraties
+                - Opmerkingen
+                - MaatschappelijkWerk
+                - Verslagen
+                - Rapportages
+                - Attachments
+                - inloop
+                - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Schorsingen
+            GROUP_HI5:
+                - Intakes
+                - Klanten
+                - Attachments
+            GROUP_BACK_ON_TRACK_COORDINATOR:
+                - BackOnTrack
+                - BotVerslagen
+                - BotKoppelingen
+                - Intakes
+            GROUP_BACK_ON_TRACK_COACH:
+                - BackOnTrack
+                - BotVerslagen
+                - BotKoppelingen
+            GROUP_VOLUNTEERS:
+                - Registraties
+            GROUP_STAGE:
+                - Intakes
+                - Klanten
+                - Registraties
+            GROUP_PFO:
+                - PfoClienten
+                - PfoRapporten
+                - PfoAardRelaties
+                - PfoGroepen
+                - PfoVerslagen
+            GROUP_TRAJECTBEGELEIDER:
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Hi5
+                - Attachments
+            GROUP_TEAMLEIDERS:
+                - Admin
+                - Attachments
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - BackOnTrack
+                - BotVerslagen
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
+                - Hi5
+                - Intakes
+                - Klanten
+                - MaatschappelijkWerk
+                - MwInventarisaties
+                - Opmerkingen
+                - Rapportages
+                - Registraties
+                - Schorsingen
+                - Verslagen
+                - Vrijwilligers
+                - InloopBundle\Controller\Schorsingen
+            GROUP_IZ:
+                - Klanten
+                - Vrijwilligers
+                - IzKlanten
+                - IzVrijwilligers
+                - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
+                - IzVerslagen
+                - Attachments
+                - odp
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Wachtlijst
+            GROUP_IZ_BEHEER:
+                - IzAfsluitingen
+                - IzKlanten
+                - IzVrijwilligers
+                - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
+                - IzEindekoppelingen
+                - IzIntervisiegroepen
+                - IzKoppelingen
+                - IzOntstaan
+                - IzProjecten
+                - IzVerslagen
+                - IzViaPersonen
+                - IzVraagaanboden
+                - IzOntstaanContacten
+                - IzBundle\Controller\Doelstellingen
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
+            GROUP_GROEPSACTIVITEIT:
+                - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
+            GROUP_BEHEER_GROEPSACTIVITEIT:
+                - Klanten
+                - Vrijwilligers
+                - Attachments
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
+                - GroepsactiviteitenGroepen
+                - GroepsactiviteitenRedenen
+            GROUP_OEK:
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Wachtlijst
+            GROUP_OEK_BEHEER:
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
+            GROUP_ODP:
+                - odp
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+            GROUP_ODP_BEHEER:
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
+            GROUP_WERKBEGELEIDER: []
+            GROUP_DEVELOP:
+                - "*"
+                - Klanten
+                - Vrijwilligers
+                - iz_klanten
+                - IzDeelnemers
+                - IzVerslagen
+                - groepsactiviteiten_klanten
+            GROUP_ADMINISTRATIEBEDRIJF:
+                - dagbesteding
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Trajecten
+            GROUP_DAGBESTEDING:
+                - dagbesteding
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Verslagen
+            GROUP_DAGBESTEDING_BEHEER:
+                - dagbesteding
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
+            GROUP_CLIP:
+                - clip
+                - ClipBundle\Controller\Clienten
+                - ClipBundle\Controller\Contactmomenten
+                - ClipBundle\Controller\Documenten
+                - ClipBundle\Controller\OpenstaandeVragen
+                - ClipBundle\Controller\Rapportages
+                - ClipBundle\Controller\Vragen
+            GROUP_CLIP_BEHEER:
+                - clip
+                - ClipBundle\Controller\Behandelaars
+                - ClipBundle\Controller\Clienten
+                - ClipBundle\Controller\Communicatiekanalen
+                - ClipBundle\Controller\Contactmomenten
+                - ClipBundle\Controller\Documenten
+                - ClipBundle\Controller\Hulpvragers
+                - ClipBundle\Controller\Leeftijdscategorieen
+                - ClipBundle\Controller\OpenstaandeVragen
+                - ClipBundle\Controller\Rapportages
+                - ClipBundle\Controller\Viacategorieen
+                - ClipBundle\Controller\Vraagsoorten
+                - ClipBundle\Controller\Vragen
+            GROUP_HOMESERVICE:
+                - Klanten
+                - Vrijwilligers
+                - hs
+                - HsBundle\Controller\Betalingen
+                - HsBundle\Controller\Declaraties
+                - HsBundle\Controller\Dienstverleners
+                - HsBundle\Controller\Documenten
+                - HsBundle\Controller\Facturen
+                - HsBundle\Controller\Herinneringen
+                - HsBundle\Controller\Klanten
+                - HsBundle\Controller\Klussen
+                - HsBundle\Controller\Memos
+                - HsBundle\Controller\Rapportages
+                - HsBundle\Controller\Registraties
+                - HsBundle\Controller\Vrijwilligers
+            GROUP_HOMESERVICE_BEHEER:
+                - Klanten
+                - Vrijwilligers
+                - hs
+                - HsBundle\Controller\Activiteiten
+                - HsBundle\Controller\Betalingen
+                - HsBundle\Controller\DeclaratieCategorieen
+                - HsBundle\Controller\Declaraties
+                - HsBundle\Controller\Dienstverleners
+                - HsBundle\Controller\Documenten
+                - HsBundle\Controller\Facturen
+                - HsBundle\Controller\Herinneringen
+                - HsBundle\Controller\Klanten
+                - HsBundle\Controller\Klussen
+                - HsBundle\Controller\Memos
+                - HsBundle\Controller\Rapportages
+                - HsBundle\Controller\Registraties
+                - HsBundle\Controller\Vrijwilligers
+            GROUP_ADMIN:
+                - Admin
+                - Awbz
+                - AwbzHoofdaannemers
+                - AwbzIndicaties
+                - AwbzIntakes
+                - Intakes
+                - Klanten
+                - Hi5
+                - MaatschappelijkWerk
+                - Verslagen
+                - Registraties
+                - Schorsingen
+                - Opmerkingen
+                - Rapportages
+                - MwInventarisaties
+                - Attachments
+                - BackOnTrack
+                - BotVerslagen
+                - Vrijwilligers
+                - groepsactiviteiten_klanten
+                - Medewerkers
+                - odp
+                - OdpBundle\Controller\Coordinatoren
+                - OdpBundle\Controller\Documenten
+                - OdpBundle\Controller\Huuraanbiedingen
+                - OdpBundle\Controller\HuuraanbodAfsluitingen
+                - OdpBundle\Controller\HuurderAfsluitingen
+                - OdpBundle\Controller\Huurders
+                - OdpBundle\Controller\HuurovereenkomstAfsluitingen
+                - OdpBundle\Controller\Huurovereenkomsten
+                - OdpBundle\Controller\HuurverzoekAfsluitingen
+                - OdpBundle\Controller\Huurverzoeken
+                - OdpBundle\Controller\VerhuurderAfsluitingen
+                - OdpBundle\Controller\Verhuurders
+                - OdpBundle\Controller\Verslagen
+                - OdpBundle\Controller\Woningbouwcorporaties
+                - oek
+                - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Groepen
+                - OekBundle\Controller\Klanten
+                - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Rapportages
+                - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\VerwijzingenDoor
+                - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Wachtlijst
+                - PfoClienten
+                - PfoRapporten
+                - PfoAardRelaties
+                - PfoGroepen
+                - PfoVerslagen
+                - dagbesteding
+                - DagbestedingBundle\Controller\Afsluitingen
+                - DagbestedingBundle\Controller\Contactpersonen
+                - DagbestedingBundle\Controller\Redirect
+                - DagbestedingBundle\Controller\Dagdelen
+                - DagbestedingBundle\Controller\Dagdelenregistratie
+                - DagbestedingBundle\Controller\Deelnemerafsluitingen
+                - DagbestedingBundle\Controller\Deelnemers
+                - DagbestedingBundle\Controller\Documenten
+                - DagbestedingBundle\Controller\Locaties
+                - DagbestedingBundle\Controller\Projecten
+                - DagbestedingBundle\Controller\Rapportages
+                - DagbestedingBundle\Controller\Reporting
+                - DagbestedingBundle\Controller\Resultaatgebiedsoorten
+                - DagbestedingBundle\Controller\Trajectafsluitingen
+                - DagbestedingBundle\Controller\Trajectbegeleiders
+                - DagbestedingBundle\Controller\Trajecten
+                - DagbestedingBundle\Controller\Trajectsoorten
+                - DagbestedingBundle\Controller\Verslagen
+                - inloop
+                - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Schorsingen
+                - clip
+                - ClipBundle\Controller\Behandelaars
+                - ClipBundle\Controller\Clienten
+                - ClipBundle\Controller\Communicatiekanalen
+                - ClipBundle\Controller\Contactmomenten
+                - ClipBundle\Controller\Documenten
+                - ClipBundle\Controller\Hulpvragers
+                - ClipBundle\Controller\Leeftijdscategorieen
+                - ClipBundle\Controller\OpenstaandeVragen
+                - ClipBundle\Controller\Rapportages
+                - ClipBundle\Controller\Viacategorieen
+                - ClipBundle\Controller\Vraagsoorten
+                - ClipBundle\Controller\Vragen
+                - hs
+                - HsBundle\Controller\Activiteiten
+                - HsBundle\Controller\Betalingen
+                - HsBundle\Controller\DeclaratieCategorieen
+                - HsBundle\Controller\Declaraties
+                - HsBundle\Controller\Dienstverleners
+                - HsBundle\Controller\Documenten
+                - HsBundle\Controller\Facturen
+                - HsBundle\Controller\Herinneringen
+                - HsBundle\Controller\Klanten
+                - HsBundle\Controller\Klussen
+                - HsBundle\Controller\Memos
+                - HsBundle\Controller\Rapportages
+                - HsBundle\Controller\Registraties
+                - HsBundle\Controller\Vrijwilligers
+                - IzBundle\Controller\Doelstellingen

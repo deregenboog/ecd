@@ -8,3 +8,4 @@ parameters:
     secret: 0ac758a6a8664bb4e2e89fb90e80ac668ea89ea6
     email_policy: prod
     locale: nl_NL
+    security_profile: drg
