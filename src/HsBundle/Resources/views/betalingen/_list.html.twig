@@ -5,7 +5,7 @@
         {% set url = path('hs_betalingen_add', {factuur: entity.id}) %}
     {% endif %}
     {% if url is defined %}
-        {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys %}
+        {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
             {{ html.addLink(url) }}
             {{ html.link('Betaling toevoegen', url) }}
         {% endif %}
@@ -26,7 +26,7 @@
             <td colspan="4">{{ betaling.info }}</td>
             <td>{{ betaling.bedrag|money }}</td>
             <td>
-                {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys %}
+                {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
                     {{ html.editLink(path('hs_betalingen_edit', {id: betaling.id})) }}
                     {{ html.deleteLink(path('hs_betalingen_delete', {id: betaling.id})) }}
                 {% endif %}

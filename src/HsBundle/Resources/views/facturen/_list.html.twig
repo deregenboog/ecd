@@ -5,7 +5,7 @@
         {% set url = path('hs_facturen_add', {klant: entity.id}) %}
     {% endif %}
     {% if url is defined %}
-        {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys %}
+        {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
             {{ html.addLink(url) }}
             {{ html.link('Factuur toevoegen', url) }}
         {% endif %}
