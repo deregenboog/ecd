@@ -137,7 +137,8 @@ class FacturenController extends AbstractChildController
      */
     public function lockAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted(GROUP_HOMESERVICE_BEHEER);
+        // @todo
+//         $this->denyAccessUnlessGranted(GROUP_HOMESERVICE_BEHEER);
 
         $entity = $this->dao->find($id);
         $entity->lock();
@@ -156,7 +157,7 @@ class FacturenController extends AbstractChildController
         return sprintf(
             'hs-facturen-%s.zip',
             (new \DateTime())->format('Y-m-d')
-            );
+        );
     }
 
     private function zipDownload(FilterInterface $filter)
