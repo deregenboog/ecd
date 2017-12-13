@@ -17,6 +17,7 @@ class KlantUpdater implements EventSubscriber
         return [
             Events::postPersist,
             Events::postUpdate,
+            Events::postRemove,
         ];
     }
 
@@ -26,6 +27,11 @@ class KlantUpdater implements EventSubscriber
     }
 
     public function postUpdate(LifecycleEventArgs $args)
+    {
+        $this->handleEvent($args);
+    }
+
+    public function postRemove(LifecycleEventArgs $args)
     {
         $this->handleEvent($args);
     }
@@ -46,6 +52,7 @@ class KlantUpdater implements EventSubscriber
     private function updateSaldo(Klant $klant, EntityManager $em)
     {
         $klant->setSaldo($klant->getBetaald() - $klant->getGefactureerd());
+
         $em->flush($klant);
     }
 }

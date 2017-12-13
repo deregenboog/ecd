@@ -14,6 +14,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use HsBundle\Entity\Creditfactuur;
+use HsBundle\Exception\InvoiceLockedException;
 
 class FactuurSubscriber implements EventSubscriber
 {
@@ -22,22 +23,45 @@ class FactuurSubscriber implements EventSubscriber
         return [
             Events::postPersist,
             Events::postUpdate,
+            Events::postRemove,
         ];
     }
 
     public function postPersist($args)
     {
         $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+
         if ($entity instanceof FactuurSubjectInterface) {
-            $this->createOrUpdateFactuur($entity, $args->getEntityManager());
+            $this->createOrUpdateFactuur($entity, $entityManager);
         }
     }
 
     public function postUpdate($args)
     {
         $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+
         if ($entity instanceof FactuurSubjectInterface) {
-            $this->createOrUpdateFactuur($entity, $args->getEntityManager());
+            $this->createOrUpdateFactuur($entity, $entityManager);
+        }
+    }
+
+    public function postRemove($args)
+    {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+
+        if ($entity instanceof FactuurSubjectInterface) {
+            $factuur = $entity->getFactuur();
+            if ($factuur->isLocked()) {
+                throw new InvoiceLockedException();
+            }
+            $this->calculateBedrag($factuur);
+            if ($factuur->isEmpty()) {
+                $entityManager->remove($factuur);
+            }
+            $entityManager->flush();
         }
     }
 

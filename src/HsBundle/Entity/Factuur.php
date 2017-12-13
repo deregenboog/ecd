@@ -96,7 +96,8 @@ class Factuur
 
     public function __construct(Klant $klant, $nummer = null, $betreft = null)
     {
-        $this->klant = $klant;
+        $klant->addFactuur($this);
+
         $this->nummer = $nummer;
         $this->betreft = $betreft;
 
@@ -250,7 +251,7 @@ class Factuur
 
     public function getBedrag()
     {
-        return $this->bedrag;
+        return (float) $this->bedrag;
     }
 
     public function setBedrag($bedrag)
