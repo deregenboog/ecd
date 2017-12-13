@@ -11,6 +11,7 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AbstractController extends SymfonyController
 {
@@ -206,6 +207,13 @@ class AbstractController extends SymfonyController
             if ($form->get('yes')->isClicked()) {
                 $this->dao->delete($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+
+                if ($url = $request->get('redirect')) {
+                    $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+                    if (!strpos($viewUrl, $url)) {
+                        return $this->redirect($url);
+                    }
+                }
 
                 return $this->redirectToIndex();
             } else {
