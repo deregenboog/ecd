@@ -9,6 +9,18 @@
     </tr>
     <tr>
         <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.stadsdeel) }}
+            {{ form_errors(filter.klant.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(filter.activiteit) }}
+            {{ form_errors(filter.activiteit) }}
+        </th>
+        <th>
             {{ form_widget(filter.status) }}
             {{ form_errors(filter.status) }}
         </th>
@@ -23,18 +35,6 @@
             {{ form_errors(filter.einddatum.start) }}
             {{ form_widget(filter.einddatum.end) }}
             {{ form_errors(filter.einddatum.end) }}
-        </th>
-        <th>
-            {{ form_widget(filter.klant.naam) }}
-            {{ form_errors(filter.klant.naam) }}
-        </th>
-        <th>
-            {{ form_widget(filter.klant.stadsdeel) }}
-            {{ form_errors(filter.klant.stadsdeel) }}
-        </th>
-        <th>
-            {{ form_widget(filter.activiteit) }}
-            {{ form_errors(filter.activiteit) }}
         </th>
     </tr>
 {{ form_end(filter) }}
