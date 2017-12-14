@@ -13,11 +13,12 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         'defaultSortFieldName' => 'basisvrijwilliger.achternaam',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
-            'vrijwilliger.id',
+            'vrijwilliger.actief',
             'vrijwilliger.rijbewijs',
+            'basisvrijwilliger.id',
             'basisvrijwilliger.voornaam',
             'basisvrijwilliger.achternaam',
-            'basisvrijwilliger.werkgebied',
+            'werkgebied.naam',
         ],
     ];
 
@@ -33,6 +34,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, basisvrijwilliger, klus, registratie, memo, document")
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.klussen", 'klus')
             ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')

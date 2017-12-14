@@ -18,7 +18,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
             'klant.id',
             'klant.voornaam',
             'klant.achternaam',
-            'klant.werkgebied',
+            'werkgebied.naam',
         ],
     ];
 
@@ -34,6 +34,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, klus, registratie, memo, document")
             ->innerJoin('dienstverlener.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.klussen", 'klus')
             ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')

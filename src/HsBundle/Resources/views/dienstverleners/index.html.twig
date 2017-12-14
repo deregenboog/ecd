@@ -31,13 +31,13 @@
                     {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'klant.werkgebied') }}
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Rijbewijs', 'dienstverlener.rijbewijs') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Status', 'klant.actief') }}
+                    {{ knp_pagination_sortable(pagination, 'Status', 'dienstverlener.actief') }}
                 </th>
             </tr>
         </thead>
