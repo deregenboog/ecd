@@ -2,19 +2,19 @@ parameters:
     cake:
         email:
             prod:
-                informele_zorg: "jschmidt@deregenboog.org"
-                dagbesteding: "bnieuwburg@deregenboog.org"
-                inloophuis: "adbruijn@deregenboog.org"
-                hulpverlening: "jvloo@deregenboog.org"
-                agressie: "tvhamond@deregenboog.org"
-                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+                informele_zorg: "bhuttinga@deregenboog.org"
+                dagbesteding: "bhuttinga@deregenboog.org"
+                inloophuis: "bhuttinga@deregenboog.org"
+                hulpverlening: "bhuttinga@deregenboog.org"
+                agressie: "bhuttinga@deregenboog.org"
+                administratiebedrijf: "bhuttinga@deregenboog.org"
             beta:
-                informele_zorg: "jschmidt@deregenboog.org"
-                dagbesteding: "bnieuwburg@deregenboog.org"
-                inloophuis: "adbruijn@deregenboog.org"
-                hulpverlening: "jvloo@deregenboog.org"
-                agressie: "tvhamond@deregenboog.org"
-                administratiebedrijf: "administratiebedrijf@deregenboog.org"
+                informele_zorg: "bhuttinga@deregenboog.org"
+                dagbesteding: "bhuttinga@deregenboog.org"
+                inloophuis: "bhuttinga@deregenboog.org"
+                hulpverlening: "bhuttinga@deregenboog.org"
+                agressie: "bhuttinga@deregenboog.org"
+                administratiebedrijf: "bhuttinga@deregenboog.org"
             test:
                 informele_zorg: "bhuttinga@deregenboog.org"
                 dagbesteding: "bhuttinga@deregenboog.org"
@@ -41,6 +41,34 @@ parameters:
             groups:
                 werkbegeleiders: 10195
                 trajectbegeleiders: 10194
+
+        ACL.groups:
+            GROUP_USER: "CN=ECD Bureau Straatjurist,CN=Users,DC=cluster,DC=deregenboog"
+            GROUP_ADMIN: "CN=ECD Bureau Straatjurist Beheer,CN=Users,DC=cluster,DC=deregenboog"
+
+        # group: [controllers]
+        ACL.permissions:
+            GROUP_USER:
+                - Attachments
+                - Intakes
+                - Klanten
+                - MaatschappelijkWerk
+                - Medewerkers
+                - MwInventarisaties
+                - Opmerkingen
+                - Rapportages
+                - Verslagen
+            GROUP_ADMIN:
+                - Admin
+                - Attachments
+                - Intakes
+                - Klanten
+                - MaatschappelijkWerk
+                - Medewerkers
+                - MwInventarisaties
+                - Opmerkingen
+                - Rapportages
+                - Verslagen
 
         # controller: {label, url}
         all_menu_items:

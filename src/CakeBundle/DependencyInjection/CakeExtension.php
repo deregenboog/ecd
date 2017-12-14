@@ -22,18 +22,11 @@ class CakeExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-
-        switch ($container->getParameter('security_profile')) {
-            case 'drg':
-                $loader->load('security-drg.yml');
-                break;
-            case 'bsj':
-                $loader->load('security-bsj.yml');
-                break;
-            default:
-                throw new \RuntimeException('Parameter "security_profile" is not set.');
+        if (!$container->hasParameter('profile')) {
+            throw new \RuntimeException('Parameter "profile" is not set.');
         }
+
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load(sprintf('services_%s.yml', $container->getParameter('profile')));
     }
 }
