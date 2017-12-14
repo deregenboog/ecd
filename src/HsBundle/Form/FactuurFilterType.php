@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class FactuurFilterType extends AbstractType
 {
@@ -63,8 +65,18 @@ class FactuurFilterType extends AbstractType
         }
 
         if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
+            $builder
+                ->add('klant', KlantFilterType::class, [
+                    'enabled_filters' => $options['enabled_filters']['klant'],
+                ])
+                ->get('klant')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $data = $event->getData();
+                    $data->status = null;
+                    $event->setData($data);
+                })
+            ;
         }
+
 
         if (in_array('zipDownload', $options['enabled_filters'])) {
             $builder->add('zipDownload', SubmitType::class);
@@ -85,7 +97,7 @@ class FactuurFilterType extends AbstractType
                 'status',
                 'negatiefSaldo',
                 'metHerinnering',
-                'klant' => ['naam'],
+                'klant' => ['naam', 'afwijkendFactuuradres'],
                 'filter',
                 'download',
                 'zipDownload',

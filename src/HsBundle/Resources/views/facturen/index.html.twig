@@ -34,6 +34,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Betalingsherinneringen', 'herinnering.type') }}
                 </th>
+                <th>Afwijkend factuuradres</th>
             </tr>
         </thead>
         <tbody>
@@ -60,6 +61,7 @@
                             {% endfor %}
                         </ul>
                     </td>
+                    <td>{{ factuur.klant.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</td>
                 </tr>
             {% endfor %}
         </tbody>

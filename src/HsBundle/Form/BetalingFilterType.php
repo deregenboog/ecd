@@ -5,13 +5,13 @@ namespace HsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use HsBundle\Filter\BetalingFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class BetalingFilterType extends AbstractType
 {
@@ -27,9 +27,16 @@ class BetalingFilterType extends AbstractType
         }
 
         if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
-            ]);
+            $builder
+                ->add('klant', KlantFilterType::class, [
+                    'enabled_filters' => $options['enabled_filters']['klant'],
+                ])
+                ->get('klant')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $data = $event->getData();
+                    $data->status = null;
+                    $event->setData($data);
+                })
+            ;
         }
 
         if (in_array('datum', $options['enabled_filters'])) {
