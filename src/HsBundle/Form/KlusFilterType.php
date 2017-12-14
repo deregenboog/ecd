@@ -15,6 +15,9 @@ use HsBundle\Entity\Activiteit;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use HsBundle\Entity\Klus;
+use HsBundle\Filter\KlantFilter;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class KlusFilterType extends AbstractType
 {
@@ -60,9 +63,16 @@ class KlusFilterType extends AbstractType
         }
 
         if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
-            ]);
+            $builder
+                ->add('klant', KlantFilterType::class, [
+                    'enabled_filters' => $options['enabled_filters']['klant'],
+                ])
+                ->get('klant')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $data = $event->getData();
+                    $data->status = null;
+                    $event->setData($data);
+                })
+            ;
         }
 
         if (in_array('activiteit', $options['enabled_filters'])) {
