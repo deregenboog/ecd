@@ -338,12 +338,14 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function updateStatus()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('status', Klus::STATUS_OPENSTAAND))
-            ->orWhere(Criteria::expr()->eq('status', Klus::STATUS_IN_BEHANDELING))
-        ;
+        $actief = false;
+        foreach ($this->klussen as $klus) {
+            if (in_array($klus->getStatus(), [Klus::STATUS_OPENSTAAND, Klus::STATUS_IN_BEHANDELING])) {
+                $actief = true;
+                break;
+            }
+        }
 
-        $actief = count($this->klussen->matching($criteria)) > 0;
         $this->setActief($actief);
     }
 }
