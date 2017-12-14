@@ -327,10 +327,6 @@ Cache::config('association_query', [
     'prefix' => $prefix,
 ]);
 
-foreach ($params['groups'] as $key => $value) {
-    define($key, $value);
-}
-
 define('PFO_CLIENTEN_ALL', null);
 define('PFO_CLIENTEN_HOOFDCLIENT', 1);
 define('PFO_CLIENTEN_SUPPORTCLIENT', 2);
