@@ -333,7 +333,7 @@ class SchorsingenController extends AppController
         $lengte_schorsing = $difference->format('%a');
 
         // formatting the text dependend on the number of days:
-        if ($lengte_schorsing == 1) {
+        if (1 == $lengte_schorsing) {
             if ($eng) {
                 $lengte_schorsing = '1 day';
             } else {

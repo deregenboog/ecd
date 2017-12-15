@@ -5,13 +5,12 @@ namespace HsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Entity\NameTrait;
-use AppBundle\Entity\AddressTrait;
+use AppBundle\Model\NameTrait;
+use AppBundle\Model\AddressTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Werkgebied;
-use AppBundle\Entity\GgwGebied;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -60,20 +59,6 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $geslacht;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
-     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $werkgebied;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
-     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $postcodegebied;
-
-    /**
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
@@ -95,14 +80,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
-    private $actief = true;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $onHold = false;
+    private $actief = false;
 
     /**
      * @var string
@@ -114,13 +92,13 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @var ArrayCollection|Klus[]
      * @ORM\OneToMany(targetEntity="Klus", mappedBy="klant", cascade={"persist"})
-     * @ORM\OrderBy({"startdatum": "desc", "id": "desc"})
+     * @ORM\OrderBy({"startdatum": "desc", "einddatum": "desc", "id": "desc"})
      */
     private $klussen;
 
     /**
      * @var ArrayCollection|Factuur[]
-     * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klant")
+     * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klant", cascade={"persist"})
      */
     private $facturen;
 
@@ -130,11 +108,42 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      */
     private $saldo = 0.0;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $afwijkendFactuuradres = false;
+
     public function __construct()
     {
         $this->klussen = new ArrayCollection();
         $this->facturen = new ArrayCollection();
         $this->inschrijving = new \DateTime('now');
+    }
+
+    public function __toString()
+    {
+        $naam = '';
+
+        if ($this->achternaam) {
+            $naam .= $this->achternaam;
+            if ($this->tussenvoegsel || $this->voornaam) {
+                $naam .= ', ';
+            }
+        }
+
+        if ($this->voornaam) {
+            $naam .= $this->voornaam;
+            if ($this->tussenvoegsel) {
+                $naam .= ' ';
+            }
+        }
+
+        if ($this->tussenvoegsel) {
+            $naam .= $this->tussenvoegsel;
+        }
+
+        return $naam;
     }
 
     public function getId()
@@ -176,6 +185,8 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         $this->klussen[] = $klus;
         $klus->setKlant($this);
 
+        $this->updateStatus();
+
         return $this;
     }
 
@@ -191,7 +202,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function setActief($actief)
     {
-        $this->actief = $actief;
+        $this->actief = (bool) $actief;
 
         return $this;
     }
@@ -221,14 +232,10 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         return $this->facturen;
     }
 
-    public function isOnHold()
+    public function addFactuur(Factuur $factuur)
     {
-        return $this->onHold;
-    }
-
-    public function setOnHold($onHold)
-    {
-        $this->onHold = $onHold;
+        $this->facturen[] = $factuur;
+        $factuur->setKlant($this);
 
         return $this;
     }
@@ -265,30 +272,6 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     public function setBewindvoerder($bewindvoerder)
     {
         $this->bewindvoerder = $bewindvoerder;
-
-        return $this;
-    }
-
-    public function getWerkgebied()
-    {
-        return $this->werkgebied;
-    }
-
-    public function setWerkgebied(Werkgebied $werkgebied = null)
-    {
-        $this->werkgebied = $werkgebied;
-
-        return $this;
-    }
-
-    public function getPostcodegebied()
-    {
-        return $this->postcodegebied;
-    }
-
-    public function setPostcodegebied(GgwGebied $postcodegebied = null)
-    {
-        $this->postcodegebied = $postcodegebied;
 
         return $this;
     }
@@ -339,5 +322,30 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         $this->bsn = $bsn;
 
         return $this;
+    }
+
+    public function isAfwijkendFactuuradres()
+    {
+        return (bool) $this->afwijkendFactuuradres;
+    }
+
+    public function setAfwijkendFactuuradres($afwijkendFactuuradres)
+    {
+        $this->afwijkendFactuuradres = (bool) $afwijkendFactuuradres;
+
+        return $this;
+    }
+
+    public function updateStatus()
+    {
+        $actief = false;
+        foreach ($this->klussen as $klus) {
+            if (in_array($klus->getStatus(), [Klus::STATUS_OPENSTAAND, Klus::STATUS_IN_BEHANDELING])) {
+                $actief = true;
+                break;
+            }
+        }
+
+        $this->setActief($actief);
     }
 }

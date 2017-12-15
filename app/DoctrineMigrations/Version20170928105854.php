@@ -16,7 +16,7 @@ class Version20170928105854 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE clip_clienten (id INT AUTO_INCREMENT NOT NULL, klant_id INT NOT NULL, viacategorie_id INT NOT NULL, behandelaar_id INT NOT NULL, aanmelddatum DATE NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, UNIQUE INDEX UNIQ_B7F4C67E3C427B2F (klant_id), INDEX IDX_B7F4C67EC5BB5F49 (viacategorie_id), INDEX IDX_B7F4C67E35A09212 (behandelaar_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE clip_client_document (client_id INT NOT NULL, document_id INT NOT NULL, INDEX IDX_18AEA4C519EB6921 (client_id), INDEX IDX_18AEA4C5C33F7837 (document_id), PRIMARY KEY(client_id, document_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

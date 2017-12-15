@@ -28,57 +28,40 @@
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
+                    {{ knp_pagination_sortable(pagination, 'Afwijkend factuuradres', 'klant.afwijkendFactuuradres') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Saldo', 'klant.saldo') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for entity in pagination %}
-            <tr>
-                <td>
-                    {{ html.link(entity.id, path(view_route, {id: entity.id})) }}
-                </td>
-                <td>
-                    {{ html.link(entity.achternaamCompleet, path(view_route, {id: entity.id})) }}
-                </td>
-                <td>
-                    {{ html.link(entity.voornaamCompleet, path(view_route, {id: entity.id})) }}
-                </td>
-                <td>
-                    {{ entity.werkgebied }}
-                </td>
-                <td>
-                    {{ entity.actief ? 'Ja' : 'Nee' }}
-                </td>
+            <tr data-href="{{ path(view_route, {id: entity.id}) }}">
+                <td>{{ entity.id }}</td>
+                <td>{{ entity }}</td>
+                <td>{{ entity.werkgebied }}</td>
+                <td>{{ entity.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</td>
                 <td>
                     {% if entity.saldo > 0 %}
                         <span style="color: green">{{ entity.saldo|money }}</span>
                     {% elseif entity.saldo < 0 %}
                         <span style="color: red">{{ entity.saldo|money }}</span>
                     {% else %}
-                        {{ entity.saldo|money }}
+                        {{ entity.saldo|saldo }}
                     {% endif %}
                 </td>
                 <td>
-                    {{ html.viewLink(path(view_route, {id: entity.id})) }}
-                    {{ html.editLink(path(edit_route, {id: entity.id})) }}
-                    {% if entity.deletable %}
-                        {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
-                    {% endif %}
+                    {{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}
                 </td>
             </tr>
             {% endfor %}

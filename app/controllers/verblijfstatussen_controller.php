@@ -124,7 +124,7 @@ class VerblijfstatussenController extends AppController
 
         debug('1. new fields:');
 
-      //renaming field 'zonder verblijfsvergunning' => 'niet rechthebbend'
+        //renaming field 'zonder verblijfsvergunning' => 'niet rechthebbend'
         $this->Verblijfstatus->recursive = -1;
         $renamed =
             &$this->Verblijfstatus->findByNaam('Zonder verblijfsvergunning');
@@ -148,9 +148,9 @@ class VerblijfstatussenController extends AppController
             $niet_recht_nl_id = $niet_recht_nl['Verblijfstatus']['id'];
         }
 
-      //creating new fields:
-      //	'Illegaal (uit buiten Europa)' (id 6)
-      //	and 'Niet rechthebbend (uit Europa, behalve Nederland)' (id 7)
+        //creating new fields:
+        //	'Illegaal (uit buiten Europa)' (id 6)
+        //	and 'Niet rechthebbend (uit Europa, behalve Nederland)' (id 7)
         debug("- creating new field:\nIllegaal (uit buiten Europa)' (id 6)");
         $illegal = [
             'Verblijfstatus' => [
@@ -191,10 +191,10 @@ class VerblijfstatussenController extends AppController
             $niet_recht_world_id = $this->Verblijfstatus->id; //just to be sure
         }
 
-      //updating intakes
+        //updating intakes
         debug('3. updating intakes:');
 
-      //'werkvergunning' => 'onbekend'
+        //'werkvergunning' => 'onbekend'
         debug('- "werkvergunning" => "onbekend"');
         $intakes2update = &$this->Verblijfstatus->Intake->find('all', [
             'conditions' => ['Verblijfstatus.naam' => 'Werkvergunning'],
@@ -202,7 +202,7 @@ class VerblijfstatussenController extends AppController
                 'Verblijfstatus' => ['fields' => ['naam']],
             ],
         ]);
-      //getting the id of the right verblijfstatus
+        //getting the id of the right verblijfstatus
         $new_verblijfstatus = $this->Verblijfstatus->find('first', [
             'conditions' => ['naam' => 'Onbekend'],
             'fields' => ['id'],
@@ -223,10 +223,10 @@ class VerblijfstatussenController extends AppController
             }
         }
 
-      //determining whether it should be "Niet rechthebbend (uit Europa,
-      //behalve Nederland)" or "Niet rechthebbend (uit Nederland, behalve
-      //Amsterdam)" and updating each intake accordingly.
-      //Also fixing intakes that had the statuses misassigned initially.
+        //determining whether it should be "Niet rechthebbend (uit Europa,
+        //behalve Nederland)" or "Niet rechthebbend (uit Nederland, behalve
+        //Amsterdam)" and updating each intake accordingly.
+        //Also fixing intakes that had the statuses misassigned initially.
 
         debug('- "Niet rechthebbend (uit Europa, behalve Nederland)" / "Niet '.
             ' rechthebbend (uit Nederland, behalve Amsterdam)" / "Niet '.
@@ -246,12 +246,12 @@ class VerblijfstatussenController extends AppController
                     'Verblijfstatus' => ['fields' => ['naam']],
                 ],
             ]);
-    //for each of the "suspect" intakes, check where the client was born
-    //and change the verblijfstatus accordingly
+        //for each of the "suspect" intakes, check where the client was born
+        //and change the verblijfstatus accordingly
         $this->Verblijfstatus->Intake->recursive = -1;
         foreach ($intakes2update as &$intake) {
             $save = true;
-          //clients born in the NL
+            //clients born in the NL
             if ($intake['Klant']['Geboorteland']['land'] == 'Nederland') {
                 //if the status is already correct - do not save
                 if ($intake['Intake']['verblijfstatus_id'] == $niet_recht_nl_id) {
@@ -259,14 +259,14 @@ class VerblijfstatussenController extends AppController
                 } else { //otherwise update the status id and save
                     $intake['Intake']['verblijfstatus_id'] = $niet_recht_nl_id;
                 }
-          //clients born in the EU
+                //clients born in the EU
             } elseif (in_array($intake['Klant']['Geboorteland']['id'], $eu)) {
                 if ($intake['Intake']['verblijfstatus_id'] == $niet_recht_europa_id) {
                     $save = false;
                 } else {
                     $intake['Intake']['verblijfstatus_id'] = $niet_recht_europa_id;
                 }
-          //clients from outside of the EU
+                //clients from outside of the EU
             } else {
                 if ($intake['Intake']['verblijfstatus_id'] == $niet_recht_world_id) {
                     $save = false;
@@ -274,7 +274,7 @@ class VerblijfstatussenController extends AppController
                     $intake['Intake']['verblijfstatus_id'] = $niet_recht_world_id;
                 }
             }
-          //save and report it
+            //save and report it
             if ($save) {
                 $msg_str = 'intake '.$intake['Intake']['id'].' (klant_id: '.
                     $intake['Klant']['id'].' geboorteland '.

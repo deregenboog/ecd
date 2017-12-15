@@ -16,6 +16,7 @@ class BetalingDao extends AbstractDao implements BetalingDaoInterface
             'betaling.datum',
             'betaling.bedrag',
             'factuur.nummer',
+            'klant.achternaam',
         ],
     ];
 

@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Vrijwilligers |
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Uren verwijderen</h1>
+    <p>Weet u zeker dat u de uren {{ entity }} wilt verwijderen?</p>
+    {{ form(form) }}
+{% endblock %}

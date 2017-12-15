@@ -56,7 +56,7 @@ class IzRapportagesController extends AppController
 
         try {
             $data = $this->extractDataFromReport($report);
-        } catch  (ReportException $e) {
+        } catch (ReportException $e) {
             $this->flashError($e->getMessage());
 
             return;

@@ -27,6 +27,12 @@
         <dd>{{ entity.id }}</dd>
         <dt>ERP-nummer</dt>
         <dd>{{ entity.erpId }}</dd>
+        <dt>Status</dt>
+        <dd>{{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}</dd>
+        <dt>Inschrijving</dt>
+        <dd>{{ entity.inschrijving ? entity.inschrijving|date('d-m-Y') }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>Naam</dt>
         <dd>{{ entity.naam }}</dd>
         <dt>Adres</dt>
@@ -46,14 +52,16 @@
         <dd>{{ entity.email }}</dd>
         <dt>BSN</dt>
         <dd>{{ entity.bsn }}</dd>
-        <dt>Inschrijving</dt>
-        <dd>{{ entity.inschrijving ? entity.inschrijving|date('d-m-Y') }}</dd>
-        <dt>Bewindvoerder</dt>
-        <dd>{{ entity.bewindvoerder }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>Saldo</dt>
-        <dd>{{ entity.saldo|money }}</dd>
+        <dd>{{ entity.saldo|saldo }}</dd>
         <dt>Rekeningnummer</dt>
         <dd>{{ entity.rekeningnummer }}</dd>
+        <dt>Bewindvoerder</dt>
+        <dd>{{ entity.bewindvoerder }}</dd>
+        <dt>Afwijkend factuuradres</dt>
+        <dd>{{ entity.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Naam hulpverlener</dt>
@@ -69,20 +77,20 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#klussen">Klussen</a></li>
+        <li class="active"><a data-toggle="tab" href="#memos">Klantinfo</a></li>
+        <li><a data-toggle="tab" href="#klussen">Klussen</a></li>
         <li><a data-toggle="tab" href="#facturen">Facturen</a></li>
-        <li><a data-toggle="tab" href="#memos">Memo's</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
-        <div id="klussen" class="tab-pane active">
+        <div id="memos" class="tab-pane active">
+            {% include '@Hs/memos/_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="klussen" class="tab-pane">
             {% include '@Hs/klussen/_list.html.twig' with {klant: entity} %}
         </div>
         <div id="facturen" class="tab-pane">
             {% include '@Hs/facturen/_list.html.twig' with {klant: entity} %}
-        </div>
-        <div id="memos" class="tab-pane">
-            {% include '@Hs/memos/_list.html.twig' with {klant: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
             {% include '@Hs/documenten/_list.html.twig' with {klant: entity} %}

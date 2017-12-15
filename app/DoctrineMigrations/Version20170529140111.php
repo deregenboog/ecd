@@ -16,7 +16,7 @@ class Version20170529140111 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE odp_deelnemers ADD rekeningnummer VARCHAR(255) DEFAULT NULL, ADD startdatumAutomatischeIncasso DATE DEFAULT NULL');
     }

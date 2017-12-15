@@ -458,6 +458,10 @@ class Intake extends AppModel
 
     public function completeKlantenIntakesWithLocationNames($klanten)
     {
+        if (!$klanten) {
+            return $klanten;
+        }
+
         foreach ($klanten as $key => $k) {
             if (!isset($k[$this->alias])) {
                 continue;

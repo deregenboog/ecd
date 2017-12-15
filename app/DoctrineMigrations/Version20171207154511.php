@@ -16,7 +16,7 @@ class Version20171207154511 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE iz_matching_vrijwilligers (id INT AUTO_INCREMENT NOT NULL, iz_vrijwilliger_id INT DEFAULT NULL, info VARCHAR(255) NOT NULL, voorkeur_voor_nederlands TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_1CA45FA7C99F99BF (iz_vrijwilliger_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE iz_matchingvrijwilliger_doelgroep (matchingvrijwilliger_id INT NOT NULL, doelgroep_id INT NOT NULL, INDEX IDX_AA83F9B42B829AB5 (matchingvrijwilliger_id), INDEX IDX_AA83F9B4E5A2DFCE (doelgroep_id), PRIMARY KEY(matchingvrijwilliger_id, doelgroep_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

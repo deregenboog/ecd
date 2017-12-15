@@ -26,12 +26,22 @@ class FactuurFilter implements FilterInterface
     /**
      * @var bool
      */
+    public $status;
+
+    /**
+     * @var bool
+     */
     public $negatiefSaldo;
 
     /**
      * @var KlantFilter
      */
     public $klant;
+
+    /**
+     * @var bool
+     */
+    public $metHerinnering;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -64,13 +74,23 @@ class FactuurFilter implements FilterInterface
             ;
         }
 
+        if (null !== $this->status) {
+            $builder
+                ->andWhere('factuur.locked = :locked')
+                ->setParameter('locked', (bool) $this->status)
+            ;
+        }
+
         if ($this->negatiefSaldo) {
             $builder
-                ->leftJoin('factuur.betalingen', 'betaling')
                 ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')
                 ->orHaving('SUM(factuur.bedrag) > 0 AND COUNT(betaling) = 0')
                 ->groupBy('factuur')
             ;
+        }
+
+        if ($this->metHerinnering) {
+            $builder->andWhere('herinnering.id IS NOT NULL');
         }
 
         if ($this->klant) {

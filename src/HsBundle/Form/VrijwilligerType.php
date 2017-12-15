@@ -34,11 +34,18 @@ class VrijwilligerType extends AbstractType
                 },
             ]);
         } else {
-            $builder->add('vrijwilliger', AppVrijwilligerType::class);
+            $builder
+                ->add('vrijwilliger', AppVrijwilligerType::class)
+                ->get('vrijwilliger')
+                ->remove('opmerking')
+                ->remove('geenPost')
+                ->remove('geenEmail')
+            ;
         }
 
         $builder
             ->add('inschrijving', AppDateType::class)
+            ->add('actief')
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)

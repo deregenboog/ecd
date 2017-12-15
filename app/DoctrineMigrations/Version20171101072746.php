@@ -16,7 +16,7 @@ class Version20171101072746 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP INDEX unique_project_jaar_idx ON iz_doelstellingen');
         $this->addSql('ALTER TABLE iz_doelstellingen ADD CONSTRAINT FK_D76C6C73A13D3FD8 FOREIGN KEY (stadsdeel) REFERENCES werkgebieden (naam)');

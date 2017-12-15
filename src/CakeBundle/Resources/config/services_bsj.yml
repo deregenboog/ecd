@@ -23,8 +23,6 @@ parameters:
                 agressie: "bhuttinga@deregenboog.org"
                 administratiebedrijf: "bhuttinga@deregenboog.org"
 
-        debug_level: 2
-
         Config.language: dut
 
         Calendar.dateDisplayFormat: d-M-y

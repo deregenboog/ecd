@@ -4,7 +4,7 @@ hs_annotations:
     prefix: /hs
     
 hs_index:
-    path: /hs
+    path: /hs/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: hs_klanten_index

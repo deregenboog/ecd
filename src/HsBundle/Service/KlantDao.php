@@ -18,6 +18,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.id',
             'klant.voornaam',
             'klant.achternaam',
+            'klant.afwijkendFactuuradres',
+            'klant.saldo',
             'werkgebied.naam',
         ],
     ];
@@ -48,45 +50,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         }
 
         return $builder->getQuery()->getResult();
-    }
-
-    /**
-     * {inheritdoc}.
-     */
-    public function findFacturabel(AppDateRangeModel $dateRange)
-    {
-        $builder = $this->buildFacturabelQuery($dateRange)
-            ->select("{$this->alias}, klus, declaratie, registratie")
-        ;
-
-        return $builder->getQuery()->getResult();
-    }
-
-    /**
-     * {inheritdoc}.
-     */
-    public function countFacturabel(AppDateRangeModel $dateRange)
-    {
-        $builder = $this->buildFacturabelQuery($dateRange)
-            ->select("COUNT(DISTINCT {$this->alias}.id)")
-        ;
-
-        try {
-            return $builder->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $exception) {
-            return 0;
-        }
-    }
-
-    private function buildFacturabelQuery(AppDateRangeModel $dateRange)
-    {
-        return $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin("{$this->alias}.klussen", 'klus')
-            ->leftJoin('klus.declaraties', 'declaratie', 'WITH', 'declaratie.datum <= :end AND declaratie.factuur IS NULL')
-            ->leftJoin('klus.registraties', 'registratie', 'WITH', 'registratie.datum <= :end AND registratie.factuur IS NULL')
-            ->where('declaratie.id IS NOT NULL OR registratie.id IS NOT NULL')
-            ->setParameter('end', $dateRange->getEnd())
-        ;
     }
 
     /**
@@ -130,7 +93,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('klant.klussen', 'klus')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->groupBy('werkgebied.naam')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {
@@ -152,7 +115,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->groupBy('werkgebied.naam')
+            ->groupBy('stadsdeel')
         ;
 
         if ($start) {

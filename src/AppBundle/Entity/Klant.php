@@ -11,7 +11,13 @@ use InloopBundle\Entity\DossierStatus;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="klanten")
+ * @ORM\Table(
+ *     name="klanten",
+ *     indexes={
+ *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
+ *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"})
+ *     }
+ * )
  * @Gedmo\Loggable
  */
 class Klant extends Persoon

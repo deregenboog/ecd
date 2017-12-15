@@ -4,9 +4,10 @@ namespace ClipBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\PersonTrait;
+use AppBundle\Model\AddressTrait;
 
 /**
  * @ORM\Entity
@@ -16,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Client
 {
-    use TimestampableTrait, RequiredBehandelaarTrait;
+    use TimestampableTrait, RequiredBehandelaarTrait, PersonTrait, AddressTrait;
 
     /**
      * @var int
@@ -36,13 +37,21 @@ class Client
     private $aanmelddatum;
 
     /**
-     * @var Klant
+     * @var string
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="etniciteit", type="string", nullable=true)
      * @Gedmo\Versioned
      */
-    private $klant;
+    private $etniciteit;
+
+    /**
+     * @var Viacategorie
+     *
+     * @ORM\ManyToOne(targetEntity="Viacategorie", inversedBy="clienten")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $viacategorie;
 
     /**
      * @var ArrayCollection|Document[]
@@ -61,44 +70,17 @@ class Client
      */
     private $vragen;
 
-    /**
-     * @var Viacategorie
-     *
-     * @ORM\ManyToOne(targetEntity="Viacategorie", inversedBy="clienten")
-     * @ORM\JoinColumn(nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $viacategorie;
-
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
 
-        $this->contactmomenten = new ArrayCollection();
         $this->documenten = new ArrayCollection();
         $this->vragen = new ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        return (string) $this->klant;
     }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getKlant()
-    {
-        return $this->klant;
-    }
-
-    public function setKlant(Klant $klant)
-    {
-        $this->klant = $klant;
-
-        return $this;
     }
 
     public function getAanmelddatum()
@@ -109,6 +91,18 @@ class Client
     public function setAanmelddatum($aanmelddatum)
     {
         $this->aanmelddatum = $aanmelddatum;
+
+        return $this;
+    }
+
+    public function getEtniciteit()
+    {
+        return $this->etniciteit;
+    }
+
+    public function setEtniciteit($etniciteit = null)
+    {
+        $this->etniciteit = $etniciteit;
 
         return $this;
     }
@@ -166,7 +160,7 @@ class Client
         return $this->viacategorie;
     }
 
-    public function setViacategorie(Viacategorie $viacategorie)
+    public function setViacategorie(Viacategorie $viacategorie = null)
     {
         $this->viacategorie = $viacategorie;
 

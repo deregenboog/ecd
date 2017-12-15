@@ -1,4 +1,13 @@
 services:
+    twig.extension.routing: # override default routing extension
+        class: AppBundle\Twig\RoutingExtension
+        public: false
+        arguments:
+            - '@router'
+            - '@request_stack'
+        tags:
+            - { name: twig.extension }
+
     app.twig.app_extension:
         class: AppBundle\Twig\AppExtension
         public: false
@@ -8,14 +17,11 @@ services:
         tags:
             - { name: twig.extension }
 
-    app.twig.routing_extension:
-        class: AppBundle\Twig\RoutingExtension
-        public: false
-        arguments:
-            - '@router'
-            - '@request_stack'
+    app.form.type.address:
+        class: AppBundle\Form\AddressType
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
-            - { name: twig.extension }
+            - { name: form.type }
 
     app.form.type.klant:
         class: AppBundle\Form\KlantType

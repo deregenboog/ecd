@@ -12,53 +12,62 @@
 {% block content_top %}
     <h1>Factuur {{ entity }}</h1>
     <p>
-        {{ html.viewLink(path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
-        {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'})) }}
-        {% if entity.deletable %}
-            {{ html.deleteLink(path('hs_facturen_delete', {id: entity.id})) }}
-            {{ html.link('Factuur verwijderen', path('hs_facturen_delete', {id: entity.id})) }}
+        {% if entity.locked %}
+            {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
+        {% else %}
+            {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
+                {{ html.link('Factuur definitief maken', path('hs_facturen_lock', {id: entity.id}), 'ok') }}
+            {% endif %}
         {% endif %}
     </p>
 {% endblock %}
 
 {% block content_left %}
     <dl class="dl-horizontal">
-        <dt>#</dt>
-        <dd>{{ entity.nummer }}</dd>
-        <dt>Betreft</dt>
-        <dd>{{ entity.betreft }}</dd>
-        <dt>Datum</dt>
-        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
         <dt>Klant</dt>
         <dd>{{ html.link(entity.klant, path('hs_klanten_view', {id: entity.klant.id})) }}</dd>
-        <dt>Totaal</dt>
+        <dt>Betreft</dt>
+        <dd>{{ entity.betreft }}</dd>
+        <dt>Factuurnummer</dt>
+        <dd>{{ entity.nummer }}</dd>
+        <dt>Factuurdatum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+        <dt>Factuurbedrag</dt>
         <dd>{{ entity.bedrag|money }}</dd>
         <dt>Betaald</dt>
         <dd>{{ entity.betaald|money }}</dd>
         <dt>Saldo</dt>
-        <dd>{{ entity.saldo|money }}</dd>
+        <dd>{{ entity.saldo|factuurSaldo }}</dd>
     </dl>
 {% endblock %}
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#registraties">Uren</a></li>
+        <li class="active"><a data-toggle="tab" href="#memos">Klantinfo</a></li>
+        <li><a data-toggle="tab" href="#registraties">Uren</a></li>
         <li><a data-toggle="tab" href="#declaraties">Declaraties</a></li>
-        <li><a data-toggle="tab" href="#betalingen">Betalingen</a></li>
-        <li><a data-toggle="tab" href="#herinneringen">Betalingsherinneringen</a></li>
+        {% if entity.locked %}
+            <li><a data-toggle="tab" href="#betalingen">Betalingen</a></li>
+            <li><a data-toggle="tab" href="#herinneringen">Betalingsherinneringen</a></li>
+        {% endif %}
     </ul>
     <div class="tab-content">
-        <div id="registraties" class="tab-pane active">
+        <div id="memos" class="tab-pane active">
+            {% include '@Hs/memos/_list.html.twig' with {klant: entity.klant} %}
+        </div>
+        <div id="registraties" class="tab-pane">
             {% include '@Hs/registraties/_list.html.twig' with {factuur: entity} %}
         </div>
         <div id="declaraties" class="tab-pane">
             {% include '@Hs/declaraties/_list.html.twig' with {factuur: entity} %}
         </div>
-        <div id="betalingen" class="tab-pane">
-            {% include '@Hs/betalingen/_list.html.twig' with {factuur: entity} %}
-        </div>
-        <div id="herinneringen" class="tab-pane">
-            {% include '@Hs/herinneringen/_list.html.twig' with {factuur: entity} %}
-        </div>
+        {% if entity.locked %}
+            <div id="betalingen" class="tab-pane">
+                {% include '@Hs/betalingen/_list.html.twig' with {factuur: entity} %}
+            </div>
+            <div id="herinneringen" class="tab-pane">
+                {% include '@Hs/herinneringen/_list.html.twig' with {factuur: entity} %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

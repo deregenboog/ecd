@@ -21,6 +21,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
             'rapportage.datum',
             'traject.afsluitdatum',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Traject::class;
@@ -30,6 +31,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin($this->alias.'.begeleider', 'begeleider')
             ->innerJoin($this->alias.'.deelnemer', 'deelnemer')
             ->innerJoin('deelnemer.klant', 'klant')
             ->innerJoin($this->alias.'.soort', 'trajectsoort')

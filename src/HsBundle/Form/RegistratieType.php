@@ -43,12 +43,15 @@ class RegistratieType extends AbstractType
             ]);
         } elseif ($registratie->getArbeider() && !$registratie->getKlus()) {
             $builder->add('klus', null, [
-                'label' => 'Klus',
                 'required' => true,
                 'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     return $repository->createQueryBuilder('klus')
-                        ->where('klus IN (:klussen)')
-                        ->setParameter('klussen', $registratie->getArbeider()->getKlussen())
+                        ->leftJoin('klus.dienstverleners', 'dienstverlener')
+                        ->leftJoin('klus.vrijwilligers', 'vrijwilliger')
+                        ->where('dienstverlener = :arbeider OR vrijwilliger = :arbeider')
+                        ->andWhere('klus.status = :status')
+                        ->setParameter('arbeider', $registratie->getArbeider())
+                        ->setParameter('status', Klus::STATUS_IN_BEHANDELING)
                     ;
                 },
             ])

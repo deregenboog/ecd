@@ -152,11 +152,8 @@ class AppController extends Controller implements ContainerAwareInterface
      */
     public function _isControllerAuthorized($controller)
     {
-        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
-            return true;
-        }
+        $permissions = $this->container->getParameter('ACL.permissions');
 
-        $permissions = Configure::read('ACL.permissions');
         foreach (array_keys($this->userGroups) as $gid) {
             if (!isset($permissions[$gid])) {
                 // abstain from voting
@@ -195,7 +192,8 @@ class AppController extends Controller implements ContainerAwareInterface
         }
 
         // For the other parameters, only the field name is used:
-        $name = end(explode('.', $full_name));
+        $parts = explode('.', $full_name);
+        $name = end($parts);
 
         if (isset($p['form'][$name])) {
             if (!is_array($p['form'][$name])) {
@@ -284,9 +282,9 @@ class AppController extends Controller implements ContainerAwareInterface
      *
      * @param mixed $msg
      */
-    public function flash($msg)
+    public function flash($message, $url = null, $pause = 1, $layout = 'flash')
     {
-        $this->Session->setFlash($msg);
+        $this->Session->setFlash($message);
     }
 
     /**
@@ -323,10 +321,32 @@ class AppController extends Controller implements ContainerAwareInterface
         // Element to be rendered for ajax login form:
         $this->AuthExt->ajaxLogin = 'ajax_login';
 
+        // For development purposes only!
+        // Pre-populate session with Medewerker with given ID.
+        if (Configure::read('acl.login.medewerker_id')) {
+            $medewerker = $this->getEntityManager()->getRepository(Medewerker::class)
+                ->find(Configure::read('acl.login.medewerker_id'));
+            if ($medewerker) {
+                $auth = [
+                    'Medewerker' => [
+                        'id' => $medewerker->getId(),
+                        'username' => $medewerker->getUsername(),
+                        'uidnumber' => $medewerker->getId(),
+                        'Group' => $medewerker->getGroepen(),
+                        'LdapUser' => [
+                            'displayname' => $medewerker->getNaam(),
+                            'givenname' => $medewerker->getNaam(),
+                            'sn' => $medewerker->getNaam(),
+                            'uidnumber' => $medewerker->getId(),
+                            'mail' => $medewerker->getUsername().'@deregenboog.org',
+                        ],
+                    ],
+                ];
+                $this->Session->write('Auth', $auth);
+            }
+        }
+
         $auth = $this->Session->read('Auth');
-        $this->set('user_is_logged_in', false);
-        $this->set('user_is_administrator', false);
-        $s_user = false;
         $user_groups = $this->AuthExt->user('Group');
         if (!empty($user_groups)) {
             $this->userGroups = array_flip($user_groups);
@@ -335,35 +355,11 @@ class AppController extends Controller implements ContainerAwareInterface
             $this->set('userGroups', []);
         }
 
-        if (Configure::read('ACL.disabled') && Configure::read('debug') > 0) {
-            // Disable ACL, fake user data:
-            $auth = [
-                'Group' => [1],
-                'username' => 'sysadmin',
-                'Medewerker' => [
-                    'LdapUser' => [
-                        'displayname' => 'System Administrator',
-                        'givenname' => 'System',
-                        'sn' => 'Administrator',
-                        'uidnumber' => '1',
-                    ],
-                ],
-            ];
-            $this->Session->write('Auth.User', $auth);
-            $this->Session->write(
-                'Auth.Medewerker.id',
-                $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([])->getId()
-            );
-            $this->Session->write('Auth.Medewerker.Group', []);
-            $this->AuthExt->allow('*');
-        }
-
         // route the user to home directory
         if (isset($auth['Medewerker'])) {
             // We are logged in already.
-            //$contact = $this->Session->read('Auth.Contact');
+            // $contact = $this->Session->read('Auth.Contact');
             // set some view variables:
-            $this->set('user_is_logged_in', true);
             $user_id = $this->Session->read('user_id');
             $this->set('user_id', $user_id);
 
@@ -375,14 +371,10 @@ class AppController extends Controller implements ContainerAwareInterface
                 && property_exists($this->modelClass, 'Behaviors')
                 && $this->{$this->modelClass}->Behaviors->attached('Logable')
             ) {
-                if (isset($auth['username']) && $auth['username'] == 'sysadmin') {
-                    $activeUser = ['Medewerker' => ['id' => 1, 'username' => 'sysadmin']];
-                } else {
-                    $activeUser = ['Medewerker' => [
-                        'id' => @$auth['Medewerker']['id'],
-                        'username' => $auth['Medewerker']['username'],
-                    ]];
-                }
+                $activeUser = ['Medewerker' => [
+                    'id' => @$auth['Medewerker']['id'],
+                    'username' => @$auth['Medewerker']['username'],
+                ]];
                 $this->{$this->modelClass}->setUserData($activeUser);
                 $this->{$this->modelClass}->setUserIp($this->RequestHandler->getClientIP());
             }
@@ -391,23 +383,18 @@ class AppController extends Controller implements ContainerAwareInterface
             // the AJAX login form views/elements/ajax_login (set in
             // $this->AuthExt->ajaxLogin above).
             $this->loadModel('Medewerker');
-            if ($this->action != 'login') {
+            if ('login' != $this->action) {
                 $this->Session->write('AfterLogin.Url', $this->here);
             }
         }
 
         $is_admin = false;
-        if ($s_user
-            || array_key_exists(GROUP_ADMIN, $this->userGroups)
-            || array_key_exists(GROUP_DEVELOP, $this->userGroups)
-        ) {
+        if (array_key_exists(GROUP_ADMIN, $this->userGroups)) {
             $is_admin = true;
         }
-
-        // Pass it to the view, model, and the controller
-        //$model->user_is_administrator = $is_admin;
         $this->user_is_administrator = $is_admin;
         $this->set('user_is_administrator', $is_admin);
+
         $this->set('htmlBodyId', Inflector::variable($this->name.'_'.$this->action));
     }
 
@@ -592,7 +579,7 @@ class AppController extends Controller implements ContainerAwareInterface
                     if (is_array($value)) {
                         if (array_keys($value) == ['day', 'month', 'year']) {
                             $value = implode('-', array_reverse($value));
-                            if ($value == '--') {
+                            if ('--' == $value) {
                                 $value = null;
                             }
                         }
@@ -709,7 +696,7 @@ class AppController extends Controller implements ContainerAwareInterface
      */
     protected function getMedewerker()
     {
-        $medewerkerId = $this->Session->read('Auth.Medewerker.id');
+        $medewerkerId = (int) $this->Session->read('Auth.Medewerker.id');
 
         return $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
     }

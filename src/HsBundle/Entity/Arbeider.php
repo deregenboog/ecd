@@ -25,6 +25,12 @@ abstract class Arbeider
     protected $id;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
+
+    /**
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
@@ -120,6 +126,18 @@ abstract class Arbeider
     public function setRijbewijs($rijbewijs)
     {
         $this->rijbewijs = $rijbewijs;
+
+        return $this;
+    }
+
+    public function isActief()
+    {
+        return $this->actief;
+    }
+
+    public function setActief($actief)
+    {
+        $this->actief = (bool) $actief;
 
         return $this;
     }

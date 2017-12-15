@@ -21,6 +21,10 @@ doctrine:
     dbal:
         driver: pdo_sqlite
         path: '%kernel.cache_dir%/test.db'
+    orm:
+        dql:
+            string_functions:
+                concat_ws: DoctrineExtensions\Query\Sqlite\ConcatWs
 
 swiftmailer:
     disable_delivery: true

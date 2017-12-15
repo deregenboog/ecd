@@ -11,23 +11,19 @@
 </p>
 <table class="table table-hover">
     <tr>
-        <th>Klus</th>
-        <th>Datum</th>
         <th>Stadsdeel</th>
-        <th></th>
+        <th>Activiteit</th>
+        <th>Status</th>
+        <th>Startdatum</th>
+        <th>Einddatum</th>
     </tr>
     {% for klus in entity.klussen %}
-        <tr>
-            <td>{{ html.link(klus, path('hs_klussen_view', {id: klus.id})) }}</td>
-            <td>{{ klus.startdatum|date('d-m-Y') }}</td>
+        <tr data-href="{{ path('hs_klussen_view', {id: klus.id}) }}">
             <td>{{ klus.klant.werkgebied }}</td>
-            <td>
-                {{ html.viewLink(path('hs_klussen_view', {id: klus.id})) }}
-                {{ html.editLink(path('hs_klussen_edit', {id: klus.id})) }}
-                {% if klus.deletable %}
-                    {{ html.deleteLink(path('hs_klussen_delete', {id: klus.id})) }}
-                {% endif %}
-            </td>
+            <td>{{ klus.activiteit }}</td>
+            <td>{{ klus.status|status_color }}</td>
+            <td>{{ klus.startdatum|date('d-m-Y') }}</td>
+            <td>{{ klus.einddatum ? klus.einddatum|date('d-m-Y') }}</td>
         </tr>
     {% endfor %}
 </table>

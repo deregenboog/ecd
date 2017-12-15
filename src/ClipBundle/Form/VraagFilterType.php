@@ -5,9 +5,7 @@ namespace ClipBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use ClipBundle\Filter\VraagFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -60,11 +58,6 @@ class VraagFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
     }
 
     /**
@@ -84,11 +77,13 @@ class VraagFilterType extends AbstractType
             'data_class' => VraagFilter::class,
             'enabled_filters' => [
                 'id',
-                'startdatum',
-                'afsluitdatum',
+                'client' => ['naam'],
                 'soort',
                 'behandelaar',
-                'client' => ['klant' => ['naam']],
+                'startdatum',
+                'afsluitdatum',
+                'filter',
+                'download',
             ],
         ]);
     }

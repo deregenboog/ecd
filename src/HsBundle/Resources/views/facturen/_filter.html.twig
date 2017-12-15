@@ -1,31 +1,49 @@
-<tr>
-    {{ form_start(filter) }}
-    <th>
-        {{ form_widget(filter.nummer) }}
-        {{ form_errors(filter.nummer) }}
-    </th>
-    <th>
-        {{ form_widget(filter.datum.start) }}
-        {{ form_errors(filter.datum.start) }}
-        {{ form_widget(filter.datum.end) }}
-        {{ form_errors(filter.datum.end) }}
-    </th>
-    <th>
-        {{ form_widget(filter.klant.naam) }}
-        {{ form_errors(filter.klant.naam) }}
-    </th>
-    <th>
-        {{ form_widget(filter.bedrag) }}
-        {{ form_errors(filter.bedrag) }}
-    </th>
-    <th>
-        {{ form_widget(filter.negatiefSaldo) }}
-        {{ form_label(filter.negatiefSaldo) }}
-        {{ form_errors(filter.negatiefSaldo) }}
-    </th>
-    <th>
-        {{ form_widget(filter.filter) }}
-        {{ form_widget(filter.download) }}
-    </th>
-    {{ form_end(filter) }}
-</tr>
+{{ form_start(filter) }}
+    <tr>
+        <th colspan="8">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download, {label: 'Excel downloaden'}) }}
+                {{ form_widget(filter.zipDownload, {label: 'ZIP downloaden'}) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.nummer) }}
+            {{ form_errors(filter.nummer) }}
+        </th>
+        <th>
+            {{ form_widget(filter.datum.start) }}
+            {{ form_errors(filter.datum.start) }}
+            {{ form_widget(filter.datum.end) }}
+            {{ form_errors(filter.datum.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.bedrag) }}
+            {{ form_errors(filter.bedrag) }}
+        </th>
+        <th>
+            {{ form_widget(filter.status) }}
+            {{ form_errors(filter.status) }}
+        </th>
+        <th>
+            {{ form_widget(filter.negatiefSaldo) }}
+            {{ form_label(filter.negatiefSaldo) }}
+            {{ form_errors(filter.negatiefSaldo) }}
+        </th>
+        <th>
+            {{ form_widget(filter.metHerinnering) }}
+            {{ form_label(filter.metHerinnering) }}
+            {{ form_errors(filter.metHerinnering) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.afwijkendFactuuradres) }}
+            {{ form_errors(filter.klant.afwijkendFactuuradres) }}
+        </th>
+    </tr>
+{{ form_end(filter) }}

@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\AddressTrait;
+use AppBundle\Model\PersonTrait;
 
 /**
  * @ORM\MappedSuperclass
@@ -13,7 +15,7 @@ use AppBundle\Model\TimestampableTrait;
  */
 class Persoon
 {
-    use NameTrait, AddressTrait, TimestampableTrait;
+    use PersonTrait, AddressTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -21,13 +23,6 @@ class Persoon
      * @ORM\GeneratedValue
      */
     protected $id;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="date", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $geboortedatum;
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
@@ -44,14 +39,6 @@ class Persoon
     protected $medewerker;
 
     /**
-     * @var Geslacht
-     * @ORM\ManyToOne(targetEntity="Geslacht")
-     * @ORM\JoinColumn(nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $geslacht;
-
-    /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
      * @ORM\JoinColumn(nullable=false)
@@ -66,18 +53,6 @@ class Persoon
      * @Gedmo\Versioned
      */
     protected $nationaliteit;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $werkgebied;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $postcodegebied;
 
     /**
      * @ORM\Column(name="geen_post", type="boolean")
@@ -108,42 +83,6 @@ class Persoon
         return $this->id;
     }
 
-    public function getGeslacht()
-    {
-        return $this->geslacht;
-    }
-
-    public function setGeslacht(Geslacht $geslacht)
-    {
-        $this->geslacht = $geslacht;
-
-        return $this;
-    }
-
-    public function getGeboortedatum()
-    {
-        return $this->geboortedatum;
-    }
-
-    public function setGeboortedatum(\DateTime $geboortedatum = null)
-    {
-        $this->geboortedatum = $geboortedatum;
-
-        return $this;
-    }
-
-    public function getPostcodegebied()
-    {
-        return $this->postcodegebied;
-    }
-
-    public function setPostcodegebied($postcodegebied)
-    {
-        $this->postcodegebied = $postcodegebied;
-
-        return $this;
-    }
-
     public function isGeenPost()
     {
         return $this->geenPost;
@@ -152,18 +91,6 @@ class Persoon
     public function isGeenEmail()
     {
         return $this->geenEmail;
-    }
-
-    public function getWerkgebied()
-    {
-        return $this->werkgebied;
-    }
-
-    public function setWerkgebied($werkgebied)
-    {
-        $this->werkgebied = $werkgebied;
-
-        return $this;
     }
 
     public function getMedewerker()

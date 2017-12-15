@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use HsBundle\Entity\Memo;
+use Doctrine\ORM\EntityRepository;
 
 class KlusType extends AbstractType
 {
@@ -38,30 +39,26 @@ class KlusType extends AbstractType
             ->add('dienstverleners', null, [
                 'by_reference' => false, // force to call adder and remover
                 'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('dienstverlener')
+                        ->innerJoin('dienstverlener.klant', 'klant')
+                        ->where('dienstverlener.actief = true')
+                        ->orderBy('klant.achternaam')
+                    ;
+                },
             ])
             ->add('vrijwilligers', null, [
                 'by_reference' => false, // force to call adder and remover
                 'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('vrijwilliger')
+                        ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+                        ->where('vrijwilliger.actief = true')
+                        ->orderBy('basisvrijwilliger.achternaam')
+                    ;
+                },
             ])
         ;
-
-        if (!$options['data']->getId()) {
-            $builder
-                ->add('memo', TextareaType::class, [
-                    'mapped' => false,
-                    'attr' => ['rows' => 10, 'cols' => 80],
-                ])
-                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                    $form = $event->getForm();
-                    $klus = $event->getData();
-                    if (!$form->get('memo')->isEmpty()) {
-                        $memo = new Memo($klus->getMedewerker());
-                        $memo->setMemo($form->get('memo')->getData());
-                        $klus->addMemo($memo);
-                    }
-                })
-            ;
-        }
 
         $builder->add('submit', SubmitType::class);
     }

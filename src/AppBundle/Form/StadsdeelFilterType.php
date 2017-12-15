@@ -3,8 +3,10 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Werkgebied;
+use Doctrine\ORM\EntityRepository;
 
 class StadsdeelFilterType extends AbstractType
 {
@@ -16,32 +18,11 @@ class StadsdeelFilterType extends AbstractType
         $resolver->setDefaults([
             'label' => 'Stadsdeel',
             'required' => false,
-            'choices' => [
-                'Amstelveen' => 'Amstelveen',
-                'Centrum' => 'Centrum',
-                'Diemen' => 'Diemen',
-                'Nieuw-West' => 'Nieuw-West',
-                'Noord' => 'Noord',
-                'Oost' => 'Oost',
-                'West' => 'West',
-                'Westpoort' => 'Westpoort',
-                'Zuid' => 'Zuid',
-                'Zuidoost' => 'Zuidoost',
-                'overig' => 'Overig',
-                'geen' => '-',
-            ],
-            'preferred_choices' => [
-                'Amstelveen' => 'Amstelveen',
-                'Centrum' => 'Centrum',
-                'Diemen' => 'Diemen',
-                'Nieuw-West' => 'Nieuw-West',
-                'Noord' => 'Noord',
-                'Oost' => 'Oost',
-                'West' => 'West',
-                'Westpoort' => 'Westpoort',
-                'Zuid' => 'Zuid',
-                'Zuidoost' => 'Zuidoost',
-            ],
+            'class' => Werkgebied::class,
+            'query_builder' => function (EntityRepository $repository) {
+                return $repository->createQueryBuilder('werkgebied')
+                    ->orderBy('werkgebied.naam');
+            },
         ]);
     }
 
@@ -50,6 +31,6 @@ class StadsdeelFilterType extends AbstractType
      */
     public function getParent()
     {
-        return ChoiceType::class;
+        return EntityType::class;
     }
 }

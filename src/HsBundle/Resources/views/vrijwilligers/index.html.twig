@@ -28,32 +28,27 @@
                     {{ knp_pagination_sortable(pagination, '#', 'basisvrijwilliger.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'basisvrijwilliger.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'basisvrijwilliger.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'basisvrijwilliger.voornaam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'basisvrijwilliger.werkgebied') }}
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Rijbewijs', 'vrijwilliger.rijbewijs') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Status', 'vrijwilliger.actief') }}
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for entity in pagination %}
-                <tr>
+                <tr data-href="{{ path(view_route, {id: entity.id}) }}">
                     <td>
-                        {{ html.link(entity.vrijwilliger.id, path(view_route, {id: entity.id})) }}
+                        {{ entity.vrijwilliger.id }}
                     </td>
                     <td>
-                        {{ html.link(entity.vrijwilliger.achternaamCompleet, path(view_route, {id: entity.id})) }}
-                    </td>
-                    <td>
-                        {{ html.link(entity.vrijwilliger.voornaamCompleet, path(view_route, {id: entity.id})) }}
+                        {{ entity.vrijwilliger }}
                     </td>
                     <td>
                         {{ entity.vrijwilliger.werkgebied }}
@@ -62,11 +57,7 @@
                         {{ entity.rijbewijs ? 'Ja' : 'Nee' }}
                     </td>
                     <td>
-                        {{ html.viewLink(path(view_route, {id: entity.id})) }}
-                        {{ html.editLink(path(edit_route, {id: entity.id})) }}
-                        {% if entity.deletable %}
-                            {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
-                        {% endif %}
+                        {{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}
                     </td>
                 </tr>
             {% endfor %}

@@ -9,9 +9,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use AppBundle\Entity\IdentifiableTrait;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
-use AppBundle\Entity\ActivatableTrait;
+use AppBundle\Model\ActivatableTrait;
 
 /**
  * @ORM\Entity

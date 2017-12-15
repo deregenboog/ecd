@@ -53,25 +53,4 @@ class BetalingenController extends AbstractChildController
     {
         return $this->redirectToIndex();
     }
-
-    /**
-     * @Route("/{id}/edit")
-     */
-    public function editAction(Request $request, $id)
-    {
-        return $this->redirectToIndex();
-    }
-
-    /**
-     * @Route("/{id}/delete")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        return $this->redirectToIndex();
-    }
-
-    private function getFilter()
-    {
-        return $this->createForm(BetalingFilterType::class);
-    }
 }

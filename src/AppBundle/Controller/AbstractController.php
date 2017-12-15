@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
+use AppBundle\Entity\Medewerker;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AbstractController extends SymfonyController
 {
@@ -43,10 +46,19 @@ class AbstractController extends SymfonyController
     protected $export;
 
     /**
+     * @var array
+     */
+    protected $disabledActions = [];
+
+    /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
+        if (in_array('index', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $filter = null;
 
         if ($this->filterFormClass) {
@@ -56,8 +68,8 @@ class AbstractController extends SymfonyController
                 if ($form->has('download') && $form->get('download')->isClicked()) {
                     return $this->download($form->getData());
                 }
-                $filter = $form->getData();
             }
+            $filter = $form->getData();
         }
 
         $page = $request->get('page', 1);
@@ -100,6 +112,10 @@ class AbstractController extends SymfonyController
      */
     public function viewAction($id)
     {
+        if (in_array('view', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         return ['entity' => $this->dao->find($id)];
     }
 
@@ -108,6 +124,10 @@ class AbstractController extends SymfonyController
      */
     public function addAction(Request $request)
     {
+        if (in_array('add', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entity = new $this->entityClass();
 
         return $this->processForm($request, $entity);
@@ -118,6 +138,10 @@ class AbstractController extends SymfonyController
      */
     public function editAction(Request $request, $id)
     {
+        if (in_array('edit', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entity = $this->dao->find($id);
 
         return $this->processForm($request, $entity);
@@ -125,7 +149,9 @@ class AbstractController extends SymfonyController
 
     protected function processForm(Request $request, $entity)
     {
-        $form = $this->createForm($this->formClass, $entity);
+        $form = $this->createForm($this->formClass, $entity, [
+            'medewerker' => $this->getMedewerker(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -159,6 +185,10 @@ class AbstractController extends SymfonyController
      */
     public function deleteAction(Request $request, $id)
     {
+        if (in_array('delete', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entity = $this->dao->find($id);
 
         $form = $this->createForm(ConfirmationType::class);
@@ -170,7 +200,10 @@ class AbstractController extends SymfonyController
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
                 if ($url = $request->get('redirect')) {
-                    return $this->redirect($url);
+                    $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+                    if (!strpos($viewUrl, $url)) {
+                        return $this->redirect($url);
+                    }
                 }
 
                 return $this->redirectToIndex();
@@ -210,5 +243,10 @@ class AbstractController extends SymfonyController
         }
 
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
+    }
+
+    protected function createEntity($parentEntity)
+    {
+        return new $this->entityClass();
     }
 }

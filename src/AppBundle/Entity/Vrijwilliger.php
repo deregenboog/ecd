@@ -7,7 +7,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="vrijwilligers")
+ * @ORM\Table(
+ *     name="vrijwilligers",
+ *     indexes={
+ *         @ORM\Index(name="idx_vrijwilligers_werkgebied", columns={"werkgebied"}),
+ *         @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"})
+ *     }
+ * )
  * @Gedmo\Loggable
  */
 class Vrijwilliger extends Persoon

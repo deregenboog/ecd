@@ -14,7 +14,6 @@ use AppBundle\Controller\AbstractChildController;
 use Symfony\Component\HttpFoundation\Request;
 use HsBundle\Filter\RegistratieFilter;
 use AppBundle\Export\ExportInterface;
-use HsBundle\Entity\Factuur;
 
 /**
  * @Route("/registraties")
@@ -81,7 +80,8 @@ class RegistratiesController extends AbstractChildController
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             if ($url = $request->get('redirect')) {
@@ -95,19 +95,5 @@ class RegistratiesController extends AbstractChildController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
-    }
-
-    /**
-     * @Route("/{id}/edit")
-     */
-    public function editAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        if ($entity->getFactuur() instanceof Factuur) {
-            return $this->redirectToRoute('hs_klussen_index');
-        }
-
-        return $this->processForm($request, $entity);
     }
 }

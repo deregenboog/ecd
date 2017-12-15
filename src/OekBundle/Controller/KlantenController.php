@@ -34,7 +34,7 @@ class KlantenController extends SymfonyController
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
-        'klant.werkgebied',
+        'werkgebied.naam',
         'oekTraining.naam',
         'oekAanmelding.datum',
         'oekAfsluiting.datum',
@@ -49,6 +49,7 @@ class KlantenController extends SymfonyController
         $builder = $repository->createQueryBuilder('oekKlant')
             ->select('oekKlant, klant, oekAanmelding, oekAfsluiting, verwijzingAanmelding, verwijzingAfsluiting, oekDossierStatus, oekDeelname, oekTraining')
             ->innerJoin('oekKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
             ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
             ->leftJoin('oekAanmelding.verwijzing', 'verwijzingAanmelding')
@@ -135,7 +136,8 @@ class KlantenController extends SymfonyController
                     if ($e->getPrevious() instanceof PDOException && 23000 == $e->getPrevious()->getCode()) {
                         $this->addFlash('danger', 'Deze klant heeft al een Op-eigen-kracht-dossier.');
                     } else {
-                        $this->addFlash('danger', 'Er is een fout opgetreden.');
+                        $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                        $this->addFlash('danger', $message);
                     }
                 } finally {
                     return $this->redirectToRoute('oek_klanten_index');
@@ -194,7 +196,8 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
         }
 
@@ -222,7 +225,8 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
         }
 
@@ -250,7 +254,8 @@ class KlantenController extends SymfonyController
 
                 return $this->redirectToRoute('oek_klanten_view', ['id' => $oekKlant->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
         }
 

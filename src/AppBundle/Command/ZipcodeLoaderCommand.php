@@ -58,8 +58,13 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
+
             $stadsdeel = $this->getWerkgebied($values[1]);
-            $postcodegebied = $this->getGgwGebied($values[2]);
+
+            $postcodegebied = null;
+            if ('' !== $values[2]) {
+                $postcodegebied = $this->getGgwGebied($values[2]);
+            }
 
             if ($stadsdeel && $postcodegebied) {
                 $this->entityManager->persist(new Postcode($values[0], $stadsdeel, $postcodegebied));

@@ -16,7 +16,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.id',
             'klant.achternaam',
             'klant.geboortedatum',
-            'klant.werkgebied',
+            'werkgebied.naam',
             'klant.laatsteZrm',
             'izIntakeMedewerker.voornaam',
             'izHulpvraagMedewerker.voornaam',
@@ -34,6 +34,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $builder = $this->repository->createQueryBuilder('izKlant')
             ->select('izKlant, klant, izHulpvraag, izProject, izIntake, izIntakeMedewerker, izHulpvraagMedewerker')
             ->innerJoin('izKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('izKlant.izIntake', 'izIntake')
             ->leftJoin('izIntake.medewerker', 'izIntakeMedewerker')
             ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')

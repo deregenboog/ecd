@@ -4,7 +4,7 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\IdentifiableTrait;
+use AppBundle\Model\IdentifiableTrait;
 use Doctrine\Common\Collections\Collection;
 
 /**

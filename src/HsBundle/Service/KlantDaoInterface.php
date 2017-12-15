@@ -17,20 +17,6 @@ interface KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null);
 
     /**
-     * @param AppDateRangeModel $dateRange
-     *
-     * @return Klant[]
-     */
-    public function findFacturabel(AppDateRangeModel $dateRange);
-
-    /**
-     * @param AppDateRangeModel $dateRange
-     *
-     * @return int
-     */
-    public function countFacturabel(AppDateRangeModel $dateRange);
-
-    /**
      * @param int $id
      *
      * @return Klant

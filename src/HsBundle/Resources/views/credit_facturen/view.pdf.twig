@@ -1,0 +1,32 @@
+<h1 align="right">Homeservice Amsterdam</h1>
+<p align="right">
+    Derde Schinkelstraat<br>
+    1075 TJ AMSTERDAM<br>
+    Tel. (020) 626 0969<br>
+    De Regenboog
+</p>
+<p style="font-weight: bold;">
+    {{ entity.klant.naam }}<br>
+    {{ entity.klant.adres }}<br>
+    {{ entity.klant.postcode }} {{ entity.klant.plaats }}
+</p>
+<p style="font-weight: bold;">
+    Betreft: {{ entity.betreft }}<br>
+    Datum: {{ entity.datum|date('d-m-Y') }}
+</p>
+<p>
+    Geachte klant,
+</p>
+<p>
+    Hierbij ontvangt u een factuur van Homeservice.
+</p>
+<p>
+    <table>
+        <tr>
+            <td>{{ entity.opmerking|nl2br }}</td>
+        </tr>
+        <tr>
+            <td align="right">{{ entity.bedrag|money }}</td>
+        </tr>
+    </table>
+</p>

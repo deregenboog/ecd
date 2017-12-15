@@ -16,7 +16,7 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
             'contactmoment.id',
             'vraagsoort.naam+vraag.startdatum',
             'behandelaar.displayName',
-            'klant.achternaam',
+            'client.achternaam',
             'contactmoment.datum',
         ],
     ];
@@ -33,7 +33,6 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
             ->innerJoin($this->alias.'.vraag', 'vraag')
             ->innerJoin('vraag.soort', 'vraagsoort')
             ->innerJoin('vraag.client', 'client')
-            ->innerJoin('client.klant', 'klant')
         ;
 
         if ($filter) {
@@ -67,8 +66,8 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id) AS aantal, communicatiekanaal.naam AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
-            ->innerJoin('vraag.communicatiekanaal', 'communicatiekanaal')
-            ->groupBy('communicatiekanaal.naam')
+            ->leftJoin('vraag.communicatiekanaal', 'communicatiekanaal')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -81,8 +80,8 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id) AS aantal, hulpvrager.naam AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
-            ->innerJoin('vraag.hulpvrager', 'hulpvrager')
-            ->groupBy('hulpvrager.naam')
+            ->leftJoin('vraag.hulpvrager', 'hulpvrager')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -95,8 +94,8 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id) AS aantal, leeftijdscategorie.naam AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
-            ->innerJoin('vraag.leeftijdscategorie', 'leeftijdscategorie')
-            ->groupBy('leeftijdscategorie.naam')
+            ->leftJoin('vraag.leeftijdscategorie', 'leeftijdscategorie')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -104,15 +103,13 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function countByNationaliteit(\DateTime $startdate, \DateTime $enddate)
+    public function countByEtniciteit(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("COUNT({$this->alias}.id) AS aantal, nationaliteit.naam AS groep")
+            ->select("COUNT({$this->alias}.id) AS aantal, client.etniciteit AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
             ->innerJoin('vraag.client', 'client')
-            ->innerJoin('client.klant', 'klant')
-            ->innerJoin('klant.nationaliteit', 'nationaliteit')
-            ->groupBy('nationaliteit.naam')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -123,11 +120,10 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
     public function countByWoonplaats(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("COUNT({$this->alias}.id) AS aantal, klant.plaats AS groep")
+            ->select("COUNT({$this->alias}.id) AS aantal, client.plaats AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
             ->innerJoin('vraag.client', 'client')
-            ->innerJoin('client.klant', 'klant')
-            ->groupBy('klant.plaats')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -141,9 +137,8 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
             ->select("COUNT({$this->alias}.id) AS aantal, geslacht.volledig AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
             ->innerJoin('vraag.client', 'client')
-            ->innerJoin('client.klant', 'klant')
-            ->innerJoin('klant.geslacht', 'geslacht')
-            ->groupBy('geslacht.volledig')
+            ->leftJoin('client.geslacht', 'geslacht')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -157,24 +152,8 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
             ->select("COUNT({$this->alias}.id) AS aantal, viacategorie.naam AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
             ->innerJoin('vraag.client', 'client')
-            ->innerJoin('client.viacategorie', 'viacategorie')
-            ->groupBy('viacategorie.naam')
-        ;
-
-        $this->applyFilter($builder, $startdate, $enddate);
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function countByGeboorteland(\DateTime $startdate, \DateTime $enddate)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("COUNT({$this->alias}.id) AS aantal, geboorteland.land AS groep")
-            ->innerJoin("{$this->alias}.vraag", 'vraag')
-            ->innerJoin('vraag.client', 'client')
-            ->innerJoin('client.klant', 'klant')
-            ->innerJoin('klant.land', 'geboorteland')
-            ->groupBy('geboorteland.land')
+            ->leftJoin('client.viacategorie', 'viacategorie')
+            ->groupBy('groep')
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);
@@ -188,7 +167,21 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
             ->select("COUNT({$this->alias}.id) AS aantal, vraagsoort.naam AS groep")
             ->innerJoin("{$this->alias}.vraag", 'vraag')
             ->innerJoin('vraag.soort', 'vraagsoort')
-            ->groupBy('vraagsoort.naam')
+            ->groupBy('groep')
+        ;
+
+        $this->applyFilter($builder, $startdate, $enddate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countByMaand(\DateTime $startdate, \DateTime $enddate)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id) AS aantal, DATE_FORMAT({$this->alias}.datum, '%M %Y') AS groep")
+            ->innerJoin("{$this->alias}.vraag", 'vraag')
+            ->groupBy('groep')
+            ->orderBy("{$this->alias}.datum")
         ;
 
         $this->applyFilter($builder, $startdate, $enddate);

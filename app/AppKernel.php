@@ -2,9 +2,34 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use CakeBundle\Service\CakeConfiguration;
 
 class AppKernel extends Kernel
 {
+    public function boot()
+    {
+        parent::boot();
+
+        if ('cli' === php_sapi_name()) {
+            @define('WWW_ROOT', '');
+        }
+
+        // configure CakeHPHP
+        require __DIR__.'/bootstrap_cake.php';
+        /** @var $cakeConfig CakeConfiguration */
+        $cakeConfig = $this->getContainer()->get('cake.configuration');
+        // define constants for acl groups
+        foreach ($cakeConfig->all()['ACL.groups'] as $name => $id) {
+            if (!defined($name)) {
+                define($name, $id);
+            }
+        }
+        // set CakePHP's Configure-object
+        foreach ($cakeConfig->all() as $key => $value) {
+            \Configure::write($key, $value);
+        }
+    }
+
     public function registerBundles()
     {
         $bundles = [

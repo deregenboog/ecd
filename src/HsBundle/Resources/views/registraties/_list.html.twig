@@ -46,17 +46,16 @@
             <tr>
                 <td>{{ registratie.arbeider }}</td>
                 <td>{{ registratie.activiteit }}</td>
-                <td>
-                    {{ registratie.datum|date('d-m-Y') }} |
-                    {{ registratie.start|date('H:i') }} -
-                    {{ registratie.eind|date('H:i') }}
-                </td>
+                <td>{{ registratie }}</td>
                 <td>{{ registratie.dagdelen }}</td>
-                {#<td>{{ registratie.reiskosten|money }}</td>#}
-                <td>{{ registratie.factuur }}</td>
                 <td>
-                    {% if not registratie.factuur %}
+                    {{ html.link(registratie.factuur, path('hs_facturen_view', {id: registratie.factuur.id})) }}
+                    {{ not registratie.factuur.locked ? '(concept)' }}
+                </td>
+                <td>
+                    {% if not registratie.factuur.locked %}
                         {{ html.editLink(path('hs_registraties_edit', {id: registratie.id})) }}
+                        {{ html.deleteLink(path('hs_registraties_delete', {id: registratie.id})) }}
                     {% endif %}
                 </td>
             </tr>

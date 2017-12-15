@@ -6,13 +6,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\FactuurFilter;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class FactuurFilterType extends AbstractType
 {
@@ -38,21 +40,47 @@ class FactuurFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Concept' => 0,
+                    'Definitief' => 1,
+                ],
+            ]);
+        }
+
         if (in_array('negatiefSaldo', $options['enabled_filters'])) {
             $builder->add('negatiefSaldo', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen openstaande facturen',
+                'label' => 'Met openstaande bedrag',
+            ]);
+        }
+
+        if (in_array('metHerinnering', $options['enabled_filters'])) {
+            $builder->add('metHerinnering', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Met betalingsherinnering',
             ]);
         }
 
         if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, ['enabled_filters' => $options['enabled_filters']['klant']]);
+            $builder
+                ->add('klant', KlantFilterType::class, [
+                    'enabled_filters' => $options['enabled_filters']['klant'],
+                ])
+                ->get('klant')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $data = $event->getData();
+                    $data->status = null;
+                    $event->setData($data);
+                })
+            ;
         }
 
-        $builder
-            ->add('filter', SubmitType::class)
-            ->add('download', SubmitType::class)
-        ;
+
+        if (in_array('zipDownload', $options['enabled_filters'])) {
+            $builder->add('zipDownload', SubmitType::class);
+        }
     }
 
     /**
@@ -66,10 +94,13 @@ class FactuurFilterType extends AbstractType
                 'nummer',
                 'datum',
                 'bedrag',
+                'status',
                 'negatiefSaldo',
-                'klant' => ['naam'],
+                'metHerinnering',
+                'klant' => ['naam', 'afwijkendFactuuradres'],
                 'filter',
                 'download',
+                'zipDownload',
             ],
         ]);
     }

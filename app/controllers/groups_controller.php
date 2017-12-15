@@ -135,7 +135,7 @@ class GroupsController extends AppController
         App::import('Core', 'File');
         $Controllers = Configure::listObjects('controller');
         $appIndex = array_search('App', $Controllers);
-        if ($appIndex !== false) {
+        if (false !== $appIndex) {
             unset($Controllers[$appIndex]);
         }
         $baseMethods = get_class_methods('Controller');
@@ -179,7 +179,7 @@ class GroupsController extends AppController
 
             //clean the methods. to remove those in Controller and private actions.
             foreach ($methods as $k => $method) {
-                if (strpos($method, '_', 0) === 0) {
+                if (0 === strpos($method, '_', 0)) {
                     unset($methods[$k]);
                     continue;
                 }
@@ -214,7 +214,7 @@ class GroupsController extends AppController
         // Add scaffold defaults if scaffolds are being used
         $properties = get_class_vars($ctrlclass);
         if (array_key_exists('scaffold', $properties)) {
-            if ($properties['scaffold'] == 'admin') {
+            if ('admin' == $properties['scaffold']) {
                 $methods = array_merge($methods, ['admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete']);
             } else {
                 $methods = array_merge($methods, ['add', 'edit', 'index', 'view', 'delete']);
@@ -237,7 +237,7 @@ class GroupsController extends AppController
     public function _getPluginControllerPath($ctrlName = null)
     {
         $arr = String::tokenize($ctrlName, '/');
-        if (count($arr) == 2) {
+        if (2 == count($arr)) {
             return $arr[0].'.'.$arr[1];
         } else {
             return $arr[0];
@@ -247,7 +247,7 @@ class GroupsController extends AppController
     public function _getPluginName($ctrlName = null)
     {
         $arr = String::tokenize($ctrlName, '/');
-        if (count($arr) == 2) {
+        if (2 == count($arr)) {
             return $arr[0];
         } else {
             return false;
@@ -257,7 +257,7 @@ class GroupsController extends AppController
     public function _getPluginControllerName($ctrlName = null)
     {
         $arr = String::tokenize($ctrlName, '/');
-        if (count($arr) == 2) {
+        if (2 == count($arr)) {
             return $arr[1];
         } else {
             return false;
@@ -326,7 +326,7 @@ class GroupsController extends AppController
         App::import('Core', 'File');
         $Controllers = Configure::listObjects('controller');
         $appIndex = array_search('App', $Controllers);
-        if ($appIndex !== false) {
+        if (false !== $appIndex) {
             unset($Controllers[$appIndex]);
         }
         $baseMethods = get_class_methods('Controller');
@@ -342,7 +342,7 @@ class GroupsController extends AppController
             //clean the methods, to remove those in Controller and private
             //actions.
             foreach ($methods as $k => $method) {
-                if (strpos($method, '_', 0) === 0) {
+                if (0 === strpos($method, '_', 0)) {
                     unset($methods[$k]);
                     continue;
                 }
@@ -401,7 +401,7 @@ class GroupsController extends AppController
         App::import('Core', 'File');
         $Controllers = Configure::listObjects('controller');
         $appIndex = array_search('App', $Controllers);
-        if ($appIndex !== false) {
+        if (false !== $appIndex) {
             unset($Controllers[$appIndex]);
         }
         $baseMethods = get_class_methods('Controller');
@@ -417,11 +417,11 @@ class GroupsController extends AppController
             //clean the methods, to remove those in Controller and private
             //actions.
             foreach ($methods as $k => $method) {
-                if (strpos($method, '_', 0) === 0) {
+                if (0 === strpos($method, '_', 0)) {
                     unset($methods[$k]);
                     continue;
                 }
-                if (strpos($method, 'admin_', 0) === 0) {
+                if (0 === strpos($method, 'admin_', 0)) {
                     unset($methods[$k]);
                     continue;
                 }

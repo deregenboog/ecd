@@ -22,23 +22,13 @@ class ContactmomentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('behandelaar', EntityType::class, [
-                'placeholder' => '',
-                'label' => 'Medewerker',
-                'class' => Behandelaar::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    $current = $options['data'] ? $options['data']->getBehandelaar() : null;
-
-                    return $repository->createQueryBuilder('behandelaar')
-                        ->where('behandelaar.actief = true OR behandelaar = :current')
-                        ->setParameter('current', $current)
-                        ->orderBy('behandelaar.displayName')
-                    ;
-                },
+            ->add('behandelaar', BehandelaarSelectType::class, [
+                'medewerker' => $options['medewerker'],
+                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
             ])
             ->add('datum', AppDateType::class)
             ->add('opmerking', AppTextareaType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 

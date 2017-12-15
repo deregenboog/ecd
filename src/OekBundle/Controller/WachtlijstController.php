@@ -25,10 +25,10 @@ class WachtlijstController extends SymfonyController
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
-        'klant.werkgebied',
+        'werkgebied.naam',
         'oekGroep.naam',
-        'aanmelddatum',
-        'afsluitdatum',
+        'oekAanmelding.datum',
+        'oekAfsluiting.datum',
     ];
 
     /**
@@ -40,6 +40,7 @@ class WachtlijstController extends SymfonyController
         $builder = $repository->createQueryBuilder('oekKlant')
             ->select('oekKlant, klant, oekAanmelding, oekAfsluiting, verwijzingAanmelding, verwijzingAfsluiting, oekDossierStatus, oekLidmaatschap, oekGroep')
             ->innerJoin('oekKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
             ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
             ->leftJoin('oekAanmelding.verwijzing', 'verwijzingAanmelding')

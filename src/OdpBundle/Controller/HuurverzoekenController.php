@@ -26,7 +26,7 @@ class HuurverzoekenController extends SymfonyController
     private $sortFieldWhitelist = [
         'huurverzoek.id',
         'klant.achternaam',
-        'klant.werkgebied',
+        'werkgebied.naam',
         'huurverzoek.startdatum',
         'huurverzoek.afsluitdatum',
     ];
@@ -43,6 +43,7 @@ class HuurverzoekenController extends SymfonyController
             ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huurverzoek.huurder', 'huurder')
             ->innerJoin('huurder.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huurverzoek.afsluiting', 'afsluiting')
             ->andWhere('huurovereenkomst.id IS NULL')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')

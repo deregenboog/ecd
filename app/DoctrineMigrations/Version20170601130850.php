@@ -16,7 +16,7 @@ class Version20170601130850 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BC1D103C3F FOREIGN KEY (laste_intake_id) REFERENCES intakes (id)');
         $this->addSql('CREATE INDEX IDX_F538C5BC3D707F64 ON klanten (medewerker_id)');

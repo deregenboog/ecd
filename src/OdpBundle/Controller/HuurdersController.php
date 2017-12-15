@@ -27,7 +27,8 @@ class HuurdersController extends SymfonyController
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
-        'klant.werkgebied',
+        'werkgebied.naam',
+        'huurder.automatischeIncasso',
         'huurder.aanmelddatum',
         'huurder.afsluitdatum',
         'huurder.wpi',
@@ -43,6 +44,7 @@ class HuurdersController extends SymfonyController
 
         $builder = $repository->createQueryBuilder('huurder')
             ->innerJoin('huurder.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huurder.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
             ->andWhere('klant.disabled = false')
@@ -125,7 +127,8 @@ class HuurdersController extends SymfonyController
 
                     return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
 
                     return $this->redirectToRoute('odp_huurders_index');
                 }
@@ -213,7 +216,8 @@ class HuurdersController extends SymfonyController
 
                 $this->addFlash('success', 'Huurder is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
@@ -244,7 +248,8 @@ class HuurdersController extends SymfonyController
 
                     $this->addFlash('success', 'Huurder is heropend.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

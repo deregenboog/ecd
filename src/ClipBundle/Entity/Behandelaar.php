@@ -2,8 +2,8 @@
 
 namespace ClipBundle\Entity;
 
-use AppBundle\Entity\ActivatableTrait;
-use AppBundle\Entity\IdentifiableTrait;
+use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

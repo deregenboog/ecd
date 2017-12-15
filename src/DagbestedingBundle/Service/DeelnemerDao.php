@@ -15,7 +15,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         'sortFieldWhitelist' => [
             'klant.id',
             'klant.achternaam',
-            'klant.werkgebied',
+            'werkgebied.naam',
             'deelnemer.aanmelddatum',
             'deelnemer.afsluitdatum',
         ],
@@ -29,6 +29,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin('deelnemer.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
         ;
 
         if ($filter) {

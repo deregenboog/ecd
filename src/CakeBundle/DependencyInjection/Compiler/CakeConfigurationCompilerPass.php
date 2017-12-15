@@ -32,7 +32,7 @@ class CakeConfigurationCompilerPass implements CompilerPassInterface
          * In production mode, flash messages redirect after a time interval.
          * In development mode, you need to click the flash message to continue.
          */
-        $config->set('debug', $container->getParameter('kernel.debug') ? $params['debug_level'] : 0);
+        $config->set('debug', 0);
 
         /*
          * Turn off all caching application-wide.
@@ -44,7 +44,9 @@ class CakeConfigurationCompilerPass implements CompilerPassInterface
         $config->set('ACL.groups', $params['ACL.groups']);
         // define constants for acl groups
         foreach ($params['ACL.groups'] as $name => $id) {
-            define($name, $id);
+            if (!defined($name)) {
+                define($name, $id);
+            }
         }
 
         // convert group names to group ids
@@ -53,9 +55,7 @@ class CakeConfigurationCompilerPass implements CompilerPassInterface
             unset($params['ACL.permissions'][$key]);
         }
         $config->set('ACL.permissions', $params['ACL.permissions']);
-
-        /* Disable ACL with a flag. This only works in debug mode. */
-        $config->set('ACL.disabled', $container->getParameter('acl_disabled') && $container->getParameter('kernel.debug'));
+        $container->setParameter('ACL.permissions', $params['ACL.permissions']);
 
         $container->setParameter('all_menu_items', $params['all_menu_items']);
 

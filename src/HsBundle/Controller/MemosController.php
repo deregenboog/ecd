@@ -15,7 +15,7 @@ use AppBundle\Controller\AbstractChildController;
 class MemosController extends AbstractChildController
 {
     protected $title = 'Memo\'s';
-    protected $entityName = 'Memo';
+    protected $entityName = 'info';
     protected $entityClass = Memo::class;
     protected $formClass = MemoType::class;
     protected $addMethod = 'addMemo';

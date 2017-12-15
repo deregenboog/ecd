@@ -3,41 +3,40 @@
     {% if klant is defined %}
         {% set entity = klant %}
         {% set url = path('hs_facturen_add', {klant: entity.id}) %}
-    {% elseif klus is defined %}
-        {% set entity = klus %}
-        {% set url = path('hs_facturen_add', {klant: entity.klant.id}) %}
     {% endif %}
     {% if url is defined %}
-        {{ html.addLink(url) }}
-        {{ html.link('Factuur toevoegen', url) }}
+        {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
+            {{ html.addLink(url) }}
+            {{ html.link('Handmatige factuur toevoegen', url) }}
+        {% endif %}
     {% endif %}
 </p>
 <table class="table table-hover">
     <tr>
-        <th>#</th>
-        <th>Datum</th>
         <th>Klant</th>
-        <th>Bedrag</th>
+        <th>Factuurnummer</th>
+        <th>Factuurdatum</th>
+        <th>Factuurbedrag</th>
         <th>Betaald</th>
         <th>Saldo</th>
-        <th>&nbsp;</th>
     </tr>
     {% for factuur in entity.facturen %}
-        <tr>
-            <td>
-                {{ html.link(factuur.id, path('hs_facturen_view', {id: factuur.id})) }}
-            </td>
-            <td>{{ factuur.datum|date('d-m-Y') }}</td>
+        <tr data-href="{{ path('hs_facturen_view', {id: factuur.id}) }}">
             <td>{{ factuur.klant }}</td>
+            <td>{{ factuur.nummer }}</td>
+            <td>{{ factuur.datum|date('d-m-Y') }}</td>
             <td>{{ factuur.bedrag|money }}</td>
             <td>{{ factuur.betaald|money }}</td>
-            <td>{{ factuur.saldo|money }}</td>
-            <td>
-                {{ html.viewLink(path('hs_facturen_view', {id: factuur.id})) }}
-                {% if factuur.deletable %}
-                    {{ html.deleteLink(path('hs_facturen_delete', {id: factuur.id})) }}
-                {% endif %}
-            </td>
+            <td>{{ factuur.saldo|factuurSaldo }}</td>
         </tr>
     {% endfor %}
+    <tfoot>
+        <tr>
+            <th colspan="3">Totaal</th>
+            <th>{{ entity.gefactureerd|money }}</th>
+            <th>{{ entity.betaald|money }}</th>
+            <th>{{ entity.saldo|saldo }}</th>
+            <th>&nbsp;</th>
+        </tr>
+    </tfoot>
 </table>

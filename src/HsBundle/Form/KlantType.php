@@ -16,6 +16,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use AppBundle\Entity\Postcode;
 use AppBundle\Util\PostcodeFormatter;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class KlantType extends AbstractType
 {
@@ -40,7 +42,6 @@ class KlantType extends AbstractType
             ->add('voornaam')
             ->add('tussenvoegsel')
             ->add('achternaam')
-            ->add('roepnaam')
             ->add('geslacht', null, [
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
@@ -49,8 +50,6 @@ class KlantType extends AbstractType
             ])
         ;
 
-        $this->addMedewerkerType($builder, $options);
-
         $builder
             ->add('adres')
             ->add('postcode')
@@ -58,32 +57,48 @@ class KlantType extends AbstractType
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('inschrijving', AppDateType::class)
-            ->add('bewindvoerder', TextareaType::class, ['required' => false])
-            ->add('onHold')
-            ->add('hulpverlener', HulpverlenerType::class)
-            ->add('submit', SubmitType::class)
         ;
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-            /** @var $klant Klant */
-            $klant = $event->getData();
-            $klant->setPostcode(PostcodeFormatter::format($klant->getPostcode()));
-        }, 100);
+        $builder->add('inschrijving', AppDateType::class);
+        $this->addMedewerkerType($builder, $options);
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-            /** @var $klant Klant */
-            $klant = $event->getData();
-            /** @var $postcode Postcode */
-            $postcode = $this->entityManager->find(Postcode::class, $klant->getPostcode());
-            if ($postcode) {
-                $klant->setWerkgebied($postcode->getStadsdeel());
-                $klant->setPostcodegebied($postcode->getPostcodegebied());
-            } else {
-                $klant->setWerkgebied(null);
-                $klant->setPostcodegebied(null);
-            }
-        });
+        $builder
+            ->add('bewindvoerder', TextareaType::class, ['required' => false])
+            ->add('afwijkendFactuuradres', ChoiceType::class, [
+                'expanded' => true,
+                'choices' => [
+                    'Nee' => 0,
+                    'Ja' => 1,
+                ],
+            ])
+            ->add('hulpverlener', HulpverlenerType::class)
+            ->add('submit', SubmitType::class)
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+                $data = $event->getData();
+                if ($data['postcode']) {
+                    $data['postcode'] = PostcodeFormatter::format($data['postcode']);
+                    $event->setData($data);
+                }
+            })
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                /** @var $klant Klant */
+                $klant = $event->getData();
+
+                if (!$klant->getPostcode()) {
+                    return;
+                }
+
+                /** @var $postcode Postcode */
+                $postcode = $this->entityManager->find(Postcode::class, $klant->getPostcode());
+                if ($postcode) {
+                    $klant->setWerkgebied($postcode->getStadsdeel());
+                    $klant->setPostcodegebied($postcode->getPostcodegebied());
+                } else {
+                    $klant->setWerkgebied(null);
+                    $klant->setPostcodegebied(null);
+                }
+            })
+        ;
     }
 
     /**

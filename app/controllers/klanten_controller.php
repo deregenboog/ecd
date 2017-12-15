@@ -1,8 +1,6 @@
 <?php
 
 use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Afsluiting;
-use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\DossierStatus;
 
@@ -19,9 +17,9 @@ class KlantenController extends AppController
         $auth = parent::_isControllerAuthorized($controller);
 
         if ($auth
-            && $this->action == 'merge' || $this->action == 'findDuplicates'
+            && 'merge' == $this->action || 'findDuplicates' == $this->action
         ) {
-            $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]) || isset($this->userGroups[GROUP_DEVELOP]);
+            $auth = isset($this->userGroups[GROUP_TEAMLEIDERS]);
         }
 
         return $auth;
@@ -32,7 +30,7 @@ class KlantenController extends AppController
         if (isset($this->params['named'])) {
             if (isset($this->params['named']['rowUrl'])) {
                 $urlArray = explode('.', $this->params['named']['rowUrl']);
-                if (count($urlArray) == 2) {
+                if (2 == count($urlArray)) {
                     $this->set('rowOnclickUrl', [
                         'controller' => $urlArray[0],
                         'action' => $urlArray[1],
@@ -546,7 +544,7 @@ class KlantenController extends AppController
 
     public function findDuplicates($mode = 'menu')
     {
-        if ($mode === 'menu') {
+        if ('menu' === $mode) {
             $this->set('modes', $this->Klant->deduplicationMethods);
             $this->render('find_duplicates_menu');
         } else {
@@ -570,7 +568,7 @@ class KlantenController extends AppController
             ],
         ]);
 
-        if (count($klanten) == 0) {
+        if (0 == count($klanten)) {
             $this->flashError(__('Geen klanten gevonden.', true));
 
             $this->redirect(['action' => 'findDuplicates']);

@@ -12,7 +12,7 @@ AppBundle\Entity\Vrijwilliger:
         telefoon: '<phoneNumber()>'
         email: '<email()>'
         disabled: '10%? 1 : 0'
-        werkgebied: 'Centrum'
+#        werkgebied: '@werkgebied_*'
         geenPost: '10%? 1 : 0'
         geenEmail: '10%? 1 : 0'
         medewerker: '@medewerker_*'

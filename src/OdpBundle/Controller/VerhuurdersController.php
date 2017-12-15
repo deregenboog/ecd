@@ -27,7 +27,7 @@ class VerhuurdersController extends SymfonyController
     private $sortFieldWhitelist = [
         'klant.id',
         'klant.achternaam',
-        'klant.werkgebied',
+        'werkgebied.naam',
         'verhuurder.aanmelddatum',
         'verhuurder.afsluitdatum',
         'verhuurder.wpi',
@@ -44,6 +44,7 @@ class VerhuurdersController extends SymfonyController
 
         $builder = $repository->createQueryBuilder('verhuurder')
             ->innerJoin('verhuurder.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('verhuurder.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
             ->andWhere('klant.disabled = false')
@@ -208,7 +209,8 @@ class VerhuurdersController extends SymfonyController
 
                 $this->addFlash('success', 'Verhuurder is afgesloten.');
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'Er is een fout opgetreden.');
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
             }
 
             return $this->redirectToRoute('odp_verhuurders_view', ['id' => $verhuurder->getId()]);
@@ -239,7 +241,8 @@ class VerhuurdersController extends SymfonyController
 
                     $this->addFlash('success', 'Huurder is heropend.');
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'Er is een fout opgetreden.');
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
                 }
             }
 

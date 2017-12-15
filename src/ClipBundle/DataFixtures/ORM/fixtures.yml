@@ -95,30 +95,50 @@ ClipBundle\Entity\Communicatiekanaal:
         naam: 'Telefoon'
     clip_communicatiekanaal_12:
         naam: 'Via voorlichtingsbijeenkomsten/markten'
-    clip_communicatiekanaal_12:
+    clip_communicatiekanaal_13:
         naam: 'Website'
-    clip_communicatiekanaal_12:
+    clip_communicatiekanaal_14:
         naam: 'Onbekend'
 
 ClipBundle\Entity\Behandelaar:
-    clip_behandelaar_{1..5}:
+    clip_behandelaar_1:
+        medewerker: '@medewerker_1'
+    clip_behandelaar_{2..5}:
         medewerker (unique): '@medewerker_*'
     clip_behandelaar_{6..10}:
         naam: '<name()>'
 
 ClipBundle\Entity\Client:
-    clip_client_{1..20}:
-        klant (unique): '@klant_*'
+    clip_client_{1..50}:
+        voornaam: '50%? <firstname()>'
+        achternaam: '50%? <lastname()>'
+        geslacht: '50%? @geslacht_*'
+        geboortedatum: '50%? <date()>'
+        adres: '50%? <streetAddress()>'
+        postcode: '50%? <postcode()>'
+        plaats: '50%? <city()>'
+        mobiel: '50%? <phoneNumber()>'
+        telefoon: '50%? <phoneNumber()>'
+        email: '50%? <email()>'
+#        werkgebied: '80%? @werkgebied_*'
         behandelaar: '@clip_behandelaar_*'
         aanmelddatum: '<dateTimeThisDecade()>'
-        viacategorie: '@clip_viacategorie_*'
+        viacategorie: '50%? @clip_viacategorie_*'
 
 ClipBundle\Entity\Vraag:
-    clip_vraag_{1..25}:
+    clip_vraag_{1..125}:
         client: '@clip_client_*'
         soort: '@clip_vraagsoort_*'
-        leeftijdscategorie: '@clip_leeftijdscategorie_*'
+        leeftijdscategorie: '50%? @clip_leeftijdscategorie_*'
         behandelaar: '@clip_behandelaar_*'
         omschrijving: '<sentence()>'
-        communicatiekanaal: '@clip_communicatiekanaal_*'
-        hulpvrager: '@clip_hulpvragersoort_*'
+        communicatiekanaal: '50%? @clip_communicatiekanaal_*'
+        hulpvrager: '50%? @clip_hulpvragersoort_*'
+        startdatum: '<dateTimeThisDecade()>'
+
+ClipBundle\Entity\Contactmoment:
+    clip_contactmoment_{1..100}:
+        vraag: '@clip_vraag_*'
+        behandelaar: '@clip_behandelaar_*'
+        datum: '<dateTimeThisDecade()>'
+        opmerking: '<sentence()>'

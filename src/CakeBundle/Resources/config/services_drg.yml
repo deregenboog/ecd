@@ -23,8 +23,6 @@ parameters:
                 agressie: "bhuttinga@deregenboog.org"
                 administratiebedrijf: "bhuttinga@deregenboog.org"
 
-        debug_level: 2
-
         Config.language: dut
 
         Calendar.dateDisplayFormat: d-M-y
@@ -44,7 +42,6 @@ parameters:
 
         ACL.groups:
             GROUP_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
-            GROUP_DEVELOP: "CN=ECD Develop,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
@@ -317,14 +314,6 @@ parameters:
                 - OdpBundle\Controller\Verslagen
                 - OdpBundle\Controller\Woningbouwcorporaties
             GROUP_WERKBEGELEIDER: []
-            GROUP_DEVELOP:
-                - "*"
-                - Klanten
-                - Vrijwilligers
-                - iz_klanten
-                - IzDeelnemers
-                - IzVerslagen
-                - groepsactiviteiten_klanten
             GROUP_ADMINISTRATIEBEDRIJF:
                 - dagbesteding
                 - DagbestedingBundle\Controller\Redirect

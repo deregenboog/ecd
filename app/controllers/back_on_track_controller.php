@@ -110,10 +110,6 @@ class BackOnTrackController extends AppController
             $this->back_on_track_coordinator = true;
         }
 
-        if (array_key_exists(GROUP_DEVELOP, $this->userGroups)) {
-            $this->back_on_track_coordinator = true;
-        }
-
         if (array_key_exists(GROUP_ADMIN, $this->userGroups)) {
             $this->back_on_track_coordinator = true;
         }

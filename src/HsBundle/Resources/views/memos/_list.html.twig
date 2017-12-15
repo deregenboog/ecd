@@ -1,29 +1,42 @@
-<h2>Memo's</h2>
-<p>
-    {% if klus is defined %}
-        {% set entity = klus %}
-        {% set url = path('hs_memos_add', {klus: entity.id}) %}
-    {% elseif klant is defined %}
-        {% set entity = klant %}
-        {% set url = path('hs_memos_add', {klant: entity.id}) %}
-    {% elseif dienstverlener is defined %}
-        {% set entity = dienstverlener %}
-        {% set url = path('hs_memos_add', {dienstverlener: entity.id}) %}
-    {% elseif vrijwilliger is defined %}
-        {% set entity = vrijwilliger %}
-        {% set url = path('hs_memos_add', {vrijwilliger: entity.id}) %}
-    {% endif %}
-    {% if url is defined %}
+{% if klus is defined %}
+    {% set entity_name = 'klusinfo' %}
+    {% set entity = klus %}
+    {% set url = path('hs_memos_add', {klus: entity.id}) %}
+{% elseif klant is defined %}
+    {% set entity_name = 'klantinfo' %}
+    {% set entity = klant %}
+    {% set url = path('hs_memos_add', {klant: entity.id}) %}
+{% elseif dienstverlener is defined %}
+    {% set entity_name = 'dienstverlenerinfo' %}
+    {% set entity = dienstverlener %}
+    {% set url = path('hs_memos_add', {dienstverlener: entity.id}) %}
+{% elseif vrijwilliger is defined %}
+    {% set entity_name = 'vrijwilligerinfo' %}
+    {% set entity = vrijwilliger %}
+    {% set url = path('hs_memos_add', {vrijwilliger: entity.id}) %}
+{% endif %}
+
+<h2>{{ entity_name|capitalize }}</h2>
+{% if url is defined %}
+    <p>
         {{ html.addLink(url) }}
-        {{ html.link('Memo toevoegen', url) }}
-    {% endif %}
-</p>
+        {{ html.link(entity_name|capitalize~' toevoegen', url) }}
+    </p>
+{% endif %}
 <table class="table table-hover">
+    <tr>
+        <th>Onderwerp</th>
+        <th>Memo</th>
+        <th>Datum</th>
+        <th>Medewerker</th>
+        <th>&nbsp;</th>
+    </tr>
     {% for memo in entity.memos %}
         <tr>
+            <td>{{ memo.onderwerp }}</td>
+            <td>{{ memo.memo|nl2br }}</td>
             <td>{{ memo.datum|date('d-m-Y') }}</td>
             <td>{{ memo.medewerker }}</td>
-            <td>{{ memo.memo|nl2br }}</td>
             <td>
                 {{ html.editLink(path('hs_memos_edit', {id: memo.id})) }}
             </td>

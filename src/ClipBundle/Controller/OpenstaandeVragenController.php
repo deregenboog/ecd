@@ -45,7 +45,9 @@ class OpenstaandeVragenController extends AbstractVragenController
             'startdatum',
             'soort',
             'behandelaar',
-            'client' => ['klant' => ['naam']],
+            'client' => ['naam'],
+            'filter',
+            'download',
         ];
 
         return parent::createForm($type, $data, $options);

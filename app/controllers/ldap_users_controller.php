@@ -59,7 +59,7 @@ class LdapUsersController extends AppController
             }
 
             // remove irrelevant users
-            if (count($ldapUsers[$uid]['groups']) === 0) {
+            if (0 === count($ldapUsers[$uid]['groups'])) {
                 unset($ldapUsers[$uid]);
             }
         }

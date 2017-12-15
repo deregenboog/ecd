@@ -41,6 +41,13 @@ class Land
      */
     private $land;
 
+    public function __construct($land = null, $afkorting2 = null, $afkorting3 = null)
+    {
+        $this->land = $land;
+        $this->afkorting2 = $afkorting2;
+        $this->afkorting3 = $afkorting3;
+    }
+
     public function __toString()
     {
         return $this->land;

@@ -6,11 +6,9 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use HsBundle\Entity\Klant;
-use Doctrine\Common\Collections\Criteria;
-use HsBundle\Entity\Klus;
-use Doctrine\ORM\EntityManager;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Betaling;
+use Doctrine\ORM\EntityManager;
 
 class KlantUpdater implements EventSubscriber
 {
@@ -25,14 +23,22 @@ class KlantUpdater implements EventSubscriber
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
-        if ($entity instanceof Klant) {
-            $this->updateStatus($entity, $args->getEntityManager());
-        }
+        $this->handleEvent($args);
+    }
 
-        if ($entity instanceof Klus && $entity->getKlant()) {
-            $this->updateStatus($entity->getKlant(), $args->getEntityManager());
-        }
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $this->handleEvent($args);
+    }
+
+    public function postRemove(LifecycleEventArgs $args)
+    {
+        $this->handleEvent($args);
+    }
+
+    private function handleEvent(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
 
         if ($entity instanceof Factuur) {
             $this->updateSaldo($entity->getKlant(), $args->getEntityManager());
@@ -43,33 +49,10 @@ class KlantUpdater implements EventSubscriber
         }
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
-    {
-        $this->postPersist($args);
-    }
-
-    public function postRemove(LifecycleEventArgs $args)
-    {
-        $this->postPersist($args);
-    }
-
-    private function updateStatus(Klant $klant, EntityManager $manager)
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('einddatum'))
-            ->orWhere(Criteria::expr()->gte('einddatum', new \DateTime('today')))
-        ;
-
-        $actief = !$klant->isOnHold() && count($klant->getKlussen()->matching($criteria)) > 0;
-        $klant->setActief($actief);
-
-        $manager->flush($klant);
-    }
-
-    private function updateSaldo(Klant $klant, EntityManager $manager)
+    private function updateSaldo(Klant $klant, EntityManager $em)
     {
         $klant->setSaldo($klant->getBetaald() - $klant->getGefactureerd());
 
-        $manager->flush($klant);
+        $em->flush($klant);
     }
 }

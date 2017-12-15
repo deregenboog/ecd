@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\NameTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Medewerker
 {
-    use PersoonTrait;
+    use NameTrait;
 
     /**
      * @ORM\Id
@@ -20,6 +21,11 @@ class Medewerker
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @ORM\Column(nullable=false)
+     */
+    private $username;
 
     /**
      * @ORM\Column(name="active", type="boolean")
@@ -30,6 +36,18 @@ class Medewerker
      * @ORM\Column(name="groups", type="json_array", nullable=true)
      */
     private $groepen = [];
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     public function getNaam()
     {

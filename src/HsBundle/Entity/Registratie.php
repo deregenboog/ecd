@@ -5,13 +5,14 @@ namespace HsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
+use HsBundle\Exception\InvoiceLockedException;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="hs_registraties")
  * @Gedmo\Loggable
  */
-class Registratie
+class Registratie implements FactuurSubjectInterface
 {
     /**
      * @ORM\Id
@@ -57,7 +58,7 @@ class Registratie
 
     /**
      * @var Factuur
-     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties")
+     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -98,6 +99,14 @@ class Registratie
         $this->datum = new \DateTime('now');
     }
 
+    public function __toString()
+    {
+        return $this->datum->format('d-m-Y').' | '
+            .$this->start->format('H:i').' - '
+            .$this->eind->format('H:i')
+        ;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -110,6 +119,10 @@ class Registratie
 
     public function setDatum(\DateTime $datum)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->datum = $datum;
 
         return $this;
@@ -122,6 +135,10 @@ class Registratie
 
     public function setStart(\DateTime $start)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->start = $start;
 
         return $this;
@@ -134,6 +151,10 @@ class Registratie
 
     public function setEind(\DateTime $eind)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->eind = $eind;
 
         return $this;
@@ -146,6 +167,10 @@ class Registratie
 
     public function setReiskosten($reiskosten)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->reiskosten = $reiskosten;
 
         return $this;
@@ -158,6 +183,10 @@ class Registratie
 
     public function setKlus(Klus $klus)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->klus = $klus;
 
         if (!$this->datum) {
@@ -178,6 +207,10 @@ class Registratie
 
     public function setArbeider(Arbeider $arbeider)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->arbeider = $arbeider;
 
         return $this;
@@ -188,8 +221,12 @@ class Registratie
         return $this->factuur;
     }
 
-    public function setFactuur(Factuur $factuur)
+    public function setFactuur(Factuur $factuur = null)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->factuur = $factuur;
 
         return $this;
@@ -202,6 +239,10 @@ class Registratie
 
     public function setActiviteit(Activiteit $activiteit)
     {
+        if ($this->factuur && $this->factuur->isLocked()) {
+            throw new InvoiceLockedException();
+        }
+
         $this->activiteit = $activiteit;
 
         return $this;

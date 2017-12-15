@@ -14,6 +14,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use HsBundle\Entity\Activiteit;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use HsBundle\Entity\Klus;
+use HsBundle\Filter\KlantFilter;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class KlusFilterType extends AbstractType
 {
@@ -50,17 +54,25 @@ class KlusFilterType extends AbstractType
             $builder->add('status', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
-                    'Openstaand' => KlusFilter::STATUS_OPEN,
-                    'On hold' => KlusFilter::STATUS_ON_HOLD,
-                    'Afgerond' => KlusFilter::STATUS_CLOSED,
+                    Klus::STATUS_OPENSTAAND => Klus::STATUS_OPENSTAAND,
+                    Klus::STATUS_IN_BEHANDELING => Klus::STATUS_IN_BEHANDELING,
+                    Klus::STATUS_ON_HOLD => Klus::STATUS_ON_HOLD,
+                    Klus::STATUS_AFGEROND => Klus::STATUS_AFGEROND,
                 ],
             ]);
         }
 
         if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
-            ]);
+            $builder
+                ->add('klant', KlantFilterType::class, [
+                    'enabled_filters' => $options['enabled_filters']['klant'],
+                ])
+                ->get('klant')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    $data = $event->getData();
+                    $data->status = null;
+                    $event->setData($data);
+                })
+            ;
         }
 
         if (in_array('activiteit', $options['enabled_filters'])) {
@@ -86,6 +98,7 @@ class KlusFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlusFilter::class,
+            'data' => new KlusFilter(),
             'enabled_filters' => [
                 'status',
                 'startdatum',

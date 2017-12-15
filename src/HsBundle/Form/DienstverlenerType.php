@@ -34,11 +34,18 @@ class DienstverlenerType extends AbstractType
                 },
             ]);
         } else {
-            $builder->add('klant', AppKlantType::class);
+            $builder
+                ->add('klant', AppKlantType::class)
+                ->get('klant')
+                ->remove('opmerking')
+                ->remove('geenPost')
+                ->remove('geenEmail')
+            ;
         }
 
         $builder
             ->add('inschrijving', AppDateType::class)
+            ->add('actief')
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)

@@ -13,7 +13,8 @@ class OekKlantRepository extends EntityRepository
     {
         $builder = $this->getCountBuilder()
             ->addSelect("CONCAT_WS(' - ', oekTraining.naam, oekGroep.naam) AS training")
-            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin('oekKlant.oekDeelnames', 'oekDeelname')
             ->innerJoin('oekDeelname.oekDeelnameStatussen', 'oekDeelnameStatus')
             ->innerJoin('oekDeelname.oekTraining', 'oekTraining')
@@ -23,7 +24,7 @@ class OekKlantRepository extends EntityRepository
             ->setParameter('status', $status)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->groupBy('oekTraining', 'klant.werkgebied')
+            ->groupBy('oekTraining', 'stadsdeel')
         ;
 
         return $builder->getQuery()->getResult();
@@ -33,7 +34,8 @@ class OekKlantRepository extends EntityRepository
     {
         $builder = $this->getCountBuilder()
             ->addSelect('oekGroep.naam AS groep')
-            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin('oekKlant.oekDeelnames', 'oekDeelname')
             ->innerJoin('oekDeelname.oekDeelnameStatussen', 'oekDeelnameStatus')
             ->innerJoin('oekDeelname.oekTraining', 'oekTraining')
@@ -43,7 +45,7 @@ class OekKlantRepository extends EntityRepository
             ->setParameter('status', $status)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->groupBy('oekGroep', 'klant.werkgebied')
+            ->groupBy('oekGroep', 'stadsdeel')
         ;
 
         return $builder->getQuery()->getResult();

@@ -31,12 +31,17 @@ class KlantFilter implements FilterInterface
     /**
      * @var string
      */
-    public $status;
+    public $status = self::STATUS_ACTIVE;
 
     /**
      * @var bool
      */
     public $negatiefSaldo;
+
+    /**
+     * @var int
+     */
+    public $afwijkendFactuuradres;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -51,7 +56,7 @@ class KlantFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->naam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', {$this->alias}.voornaam, {$this->alias}.roepnaam, {$this->alias}.tussenvoegsel, {$this->alias}.achternaam) LIKE :{$this->alias}_naam_part_{$i}")
+                    ->andWhere("CONCAT_WS(' ', {$this->alias}.voornaam, {$this->alias}.tussenvoegsel, {$this->alias}.achternaam) LIKE :{$this->alias}_naam_part_{$i}")
                     ->setParameter("{$this->alias}_naam_part_{$i}", "%{$part}%")
                 ;
             }
@@ -75,6 +80,13 @@ class KlantFilter implements FilterInterface
                 default:
                     break;
             }
+        }
+
+        if (null !== $this->afwijkendFactuuradres) {
+            $builder
+                ->andWhere("{$this->alias}.afwijkendFactuuradres = :afwijkendFactuuradres")
+                ->setParameter('afwijkendFactuuradres', (bool) $this->afwijkendFactuuradres)
+            ;
         }
 
         if ($this->negatiefSaldo) {

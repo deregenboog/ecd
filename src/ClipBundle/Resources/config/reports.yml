@@ -4,80 +4,27 @@ services:
         tags:
             - { name: form.type }
 
-    clip.report.contactmomenten_per_geslacht:
-        class: ClipBundle\Report\ContactmomentenPerGeslacht
+    clip.report.vragen_per_communicatiekanaal:
+        class: ClipBundle\Report\VragenPerCommunicatiekanaal
         arguments:
+            - "@clip.dao.vraag"
             - "@clip.dao.contactmoment"
         tags:
-            - { name: clip.rapportage, category: Contactmomenten }
+            - { name: clip.rapportage, category: Vragen }
 
-    clip.report.contactmomenten_per_geboorteland:
-        class: ClipBundle\Report\ContactmomentenPerGeboorteland
+    clip.report.vragen_per_etniciteit:
+        class: ClipBundle\Report\VragenPerEtniciteit
         arguments:
+            - "@clip.dao.vraag"
             - "@clip.dao.contactmoment"
         tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_viacategorie:
-        class: ClipBundle\Report\ContactmomentenPerViacategorie
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_hulpvrager:
-        class: ClipBundle\Report\ContactmomentenPerHulpvrager
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_leeftijdscategorie:
-        class: ClipBundle\Report\ContactmomentenPerLeeftijdscategorie
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_communicatiekanaal:
-        class: ClipBundle\Report\ContactmomentenPerCommunicatiekanaal
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_nationaliteit:
-        class: ClipBundle\Report\ContactmomentenPerNationaliteit
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_vraagsoort:
-        class: ClipBundle\Report\ContactmomentenPerVraagsoort
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
-
-    clip.report.contactmomenten_per_woonplaats:
-        class: ClipBundle\Report\ContactmomentenPerWoonplaats
-        arguments:
-            - "@clip.dao.contactmoment"
-        tags:
-            - { name: clip.rapportage, category: Contactmomenten }
+            - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_geslacht:
         class: ClipBundle\Report\VragenPerGeslacht
         arguments:
             - "@clip.dao.vraag"
-        tags:
-            - { name: clip.rapportage, category: Vragen }
-
-    clip.report.vragen_per_geboorteland:
-        class: ClipBundle\Report\VragenPerGeboorteland
-        arguments:
-            - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }
 
@@ -85,6 +32,7 @@ services:
         class: ClipBundle\Report\VragenPerViacategorie
         arguments:
             - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }
 
@@ -92,6 +40,7 @@ services:
         class: ClipBundle\Report\VragenPerHulpvrager
         arguments:
             - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }
 
@@ -99,20 +48,15 @@ services:
         class: ClipBundle\Report\VragenPerLeeftijdscategorie
         arguments:
             - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_communicatiekanaal:
-        class: ClipBundle\Report\VragenPerCommunicatiekanaal
+    clip.report.vragen_per_maand:
+        class: ClipBundle\Report\VragenPerMaand
         arguments:
             - "@clip.dao.vraag"
-        tags:
-            - { name: clip.rapportage, category: Vragen }
-
-    clip.report.vragen_per_nationaliteit:
-        class: ClipBundle\Report\VragenPerNationaliteit
-        arguments:
-            - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }
 
@@ -120,6 +64,7 @@ services:
         class: ClipBundle\Report\VragenPerVraagsoort
         arguments:
             - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }
 
@@ -127,5 +72,6 @@ services:
         class: ClipBundle\Report\VragenPerWoonplaats
         arguments:
             - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
         tags:
             - { name: clip.rapportage, category: Vragen }

@@ -10,7 +10,7 @@
 <?php
     echo $html->link('Nieuwe klant invoeren', array('action' => 'add'), array(),
         __('Hebt u de algemene klantenlijst al gechecked? Weet u zeker dat dit een nieuwe klant is?', true));
-    if (in_array(GROUP_TEAMLEIDERS, $userGroups) || in_array(GROUP_DEVELOP, $userGroups)) {
+    if (in_array(GROUP_TEAMLEIDERS, $userGroups)) {
         echo ' | '.
             $this->Html->link('Lijst van mogelijk dubbele invoer', array(
                 'controller' => 'klanten',
