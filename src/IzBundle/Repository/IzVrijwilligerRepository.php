@@ -86,8 +86,9 @@ class IzVrijwilligerRepository extends EntityRepository
     public function countByStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
-            ->addSelect('vrijwilliger.werkgebied AS stadsdeel')
-            ->groupBy('vrijwilliger.werkgebied')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
+            ->groupBy('stadsdeel')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -97,10 +98,11 @@ class IzVrijwilligerRepository extends EntityRepository
     public function countByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
-            ->addSelect('vrijwilliger.werkgebied AS stadsdeel')
+            ->addSelect('werkgebied.naam AS stadsdeel')
             ->addSelect('izProject.naam AS project')
+            ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
             ->innerJoin('izHulpaanbod.izProject', 'izProject')
-            ->groupBy('izProject', 'vrijwilliger.werkgebied')
+            ->groupBy('izProject', 'stadsdeel')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 

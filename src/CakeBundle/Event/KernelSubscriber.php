@@ -49,7 +49,7 @@ class KernelSubscriber implements EventSubscriberInterface
 
         $queries = [];
         foreach ([Klant::class, Vrijwilliger::class] as $model) {
-            foreach (['werkgebied'/*, 'postcodegebied'*/] as $property) {
+            foreach (['werkgebied', 'postcodegebied'] as $property) {
                 $queries[] = "UPDATE {$model} AS model SET model.{$property} = NULL WHERE model.{$property} = ''";
             }
         }

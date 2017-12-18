@@ -12,9 +12,10 @@ class IzHulpvraagRepository extends EntityRepository
     {
         $builder = $this->getHulpvragenCountBuilder()
             ->addSelect('izProject.naam AS project')
-            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin('izHulpvraag.izProject', 'izProject')
-            ->groupBy('izProject', 'klant.werkgebied');
+            ->groupBy('izProject', 'stadsdeel');
         $this->applyHulpvragenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -54,8 +55,9 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('klant.werkgebied AS stadsdeel')
-            ->groupBy('klant.werkgebied');
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('stadsdeel');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -64,8 +66,8 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('postcodegebied.postcodegebied')
-            ->innerJoin(Postcodegebied::class, 'postcodegebied', 'WITH', 'klant.postcode BETWEEN postcodegebied.van AND postcodegebied.tot')
+            ->addSelect('ggwgebied.naam AS postcodegebied')
+            ->leftJoin('klant.postcodegebied', 'ggwgebied')
             ->groupBy('postcodegebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -76,9 +78,10 @@ class IzHulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('izProject.naam AS project')
-            ->addSelect('klant.werkgebied AS stadsdeel')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin('izHulpaanbod.izProject', 'izProject')
-            ->groupBy('izProject', 'klant.werkgebied');
+            ->groupBy('izProject', 'stadsdeel');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -88,9 +91,9 @@ class IzHulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('izProject.naam AS project')
-            ->addSelect('postcodegebied.postcodegebied')
+            ->addSelect('ggwgebied.naam AS postcodegebied')
             ->innerJoin('izHulpaanbod.izProject', 'izProject')
-            ->innerJoin(Postcodegebied::class, 'postcodegebied', 'WITH', 'klant.postcode BETWEEN postcodegebied.van AND postcodegebied.tot')
+            ->leftJoin('klant.postcodegebied', 'ggwgebied')
             ->groupBy('izProject', 'postcodegebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
