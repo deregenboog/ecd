@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Form\RapportageType;
 use AppBundle\Export\ExportInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/app/rapportages")
@@ -24,8 +25,8 @@ class RapportagesController extends AbstractRapportagesController
     /**
      * @Route("/")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return parent::indexAction();
+        return parent::indexAction($request);
     }
 }
