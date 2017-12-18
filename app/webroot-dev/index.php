@@ -32,6 +32,7 @@ if (PHP_VERSION_ID < 70000) {
 
 $kernel->boot();
 Configure::write('acl.login.medewerker_id', 1);
+Configure::write('debug', 2);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
