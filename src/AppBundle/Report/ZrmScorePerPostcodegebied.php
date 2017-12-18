@@ -46,13 +46,14 @@ class ZrmScorePerPostcodegebied extends AbstractReport
             $data = [];
             foreach ($leefgebieden as $title => $leefgebied) {
                 $result = $this->em->createQueryBuilder()
-                    ->select("klant.postcodegebied, COUNT(zrm.{$leefgebied}) AS aantal")
+                    ->select("postcodegebied.naam AS groep, COUNT(zrm.{$leefgebied}) AS aantal")
                     ->from(ZrmReport::class, 'zrm')
                     ->innerJoin('zrm.klant', 'klant')
+                    ->leftJoin('klant.postcodegebied', 'postcodegebied')
                     ->where("zrm.{$leefgebied} = {$score}")
                     ->andWhere('DATE(zrm.created) BETWEEN :start AND :end')
-                    ->groupBy('klant.postcodegebied')
-                    ->orderBy('klant.postcodegebied')
+                    ->groupBy('groep')
+                    ->orderBy('postcodegebied.naam')
                     ->setParameters([
                         'start' => $this->startDate,
                         'end' => $this->endDate,
@@ -63,7 +64,7 @@ class ZrmScorePerPostcodegebied extends AbstractReport
                 foreach ($result as $item) {
                     $data[] = [
                         'leefgebied' => $title,
-                        'postcodegebied' => $item['postcodegebied'],
+                        'postcodegebied' => $item['groep'],
                         'aantal' => $item['aantal'],
                     ];
                 }
