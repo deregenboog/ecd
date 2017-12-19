@@ -15,6 +15,8 @@ class GroepsactiviteitenVrijwilligersController extends AppController
      */
     public $view = 'AppTwig';
 
+    public $uses = [];
+
     private $enabledFilters = [
         'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'medewerker'],
         'intakedatum',

@@ -15,6 +15,8 @@ class GroepsactiviteitenKlantenController extends AppController
      */
     public $view = 'AppTwig';
 
+    public $uses = [];
+
     private $enabledFilters = [
         'klant' => ['id', 'naam', 'geboortedatumRange'],
         'medewerker',
