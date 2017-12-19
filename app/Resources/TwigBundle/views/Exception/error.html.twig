@@ -28,8 +28,8 @@
 {% block content %}
     <h1>Er is een fout opgetreden</h1>
     <p>
-        Neem contact op met Bart Huttinga
-        (<a href="mailto:b.huttinga@deregenboog.org?subject=ECD%20foutmelding">b.huttinga@deregenboog.org</a>)
+        Neem contact op met {{ administrator_name }}
+        (<a href="mailto:{{ administrator_email }}?subject=ECD%20foutmelding">{{ administrator_email }}</a>)
         als dit probleem zich blijft voordoen.
     </p>
 {% endblock %}

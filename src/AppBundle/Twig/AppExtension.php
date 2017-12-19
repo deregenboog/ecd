@@ -11,10 +11,26 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      */
     private $requestStack;
 
-    public function __construct(RequestStack $requestStack, $locale)
-    {
+    /**
+     * @var string
+     */
+    private $administratorName;
+
+    /**
+     * @var string
+     */
+    private $administratorEmail;
+
+    public function __construct(
+        RequestStack $requestStack,
+        $locale,
+        $administratorName,
+        $administratorEmail
+    ) {
         $this->requestStack = $requestStack;
         setlocale(LC_MONETARY, $locale);
+        $this->administratorName = $administratorName;
+        $this->administratorEmail = $administratorEmail;
     }
 
     public function getGlobals()
@@ -23,6 +39,8 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'tab' => "\t",
             'now' => new \DateTime('now'),
             'today' => new \DateTime('today'),
+            'administrator_name' => $this->administratorName,
+            'administrator_email' => $this->administratorEmail,
         ];
     }
 

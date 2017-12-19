@@ -9,3 +9,5 @@ parameters:
     email_policy: prod
     locale: nl_NL
     profile: drg
+    administrator_name: Bart Huttinga
+    administrator_email: bhuttinga@deregenboog.org
