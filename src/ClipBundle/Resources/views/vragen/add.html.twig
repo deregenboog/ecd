@@ -13,28 +13,32 @@
     <h1>{{ entity_name|capitalize }} toevoegen</h1>
     <div class="container-fluid">
         {{ form_start(form) }}
-        <div class="col-xs-6">
-            <h2>Vraag</h2>
-            {{ form_row(form.soort) }}
-            {{ form_row(form.omschrijving) }}
-            {{ form_row(form.communicatiekanaal) }}
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>Vraag</h2>
+                {{ form_row(form.soorten) }}
+                {{ form_row(form.omschrijving) }}
+                {{ form_row(form.communicatiekanaal) }}
+            </div>
+            <div class="col-xs-6">
+                <h2>Hulpvrager</h2>
+                {{ form_row(form.hulpvrager) }}
+                {{ form_row(form.leeftijdscategorie) }}
+                {{ form.client.werkgebied is defined ? form_row(form.client.werkgebied) }}
+                {{ form.client.etniciteit is defined ? form_row(form.client.etniciteit) }}
+                {{ form.client.viacategorie is defined ? form_row(form.client.viacategorie) }}
+            </div>
         </div>
-        <div class="col-xs-6">
-            <h2>Hulpvrager</h2>
-            {{ form_row(form.hulpvrager) }}
-            {{ form_row(form.leeftijdscategorie) }}
-            {{ form.client.werkgebied is defined ? form_row(form.client.werkgebied) }}
-            {{ form.client.etniciteit is defined ? form_row(form.client.etniciteit) }}
-            {{ form.client.viacategorie is defined ? form_row(form.client.viacategorie) }}
-        </div>
-        <div class="col-xs-6">
-            <h2>Verslag</h2>
-            {{ form.contactmoment.opmerking is defined ? form_row(form.contactmoment.opmerking) }}
-        </div>
-        <div class="col-xs-6">
-            <h2>Behandeling</h2>
-            {{ form_row(form.startdatum) }}
-            {{ form_row(form.behandelaar) }}
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>Verslag</h2>
+                {{ form.contactmoment.opmerking is defined ? form_row(form.contactmoment.opmerking) }}
+            </div>
+            <div class="col-xs-6">
+                <h2>Behandeling</h2>
+                {{ form_row(form.startdatum) }}
+                {{ form_row(form.behandelaar) }}
+            </div>
         </div>
         <div class="col-xs-6">
             <span class="pull-right">

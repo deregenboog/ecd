@@ -28,7 +28,7 @@ class Vraag
      * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
-    private $omschrijving;
+    protected $omschrijving;
 
     /**
      * @var Client
@@ -37,7 +37,7 @@ class Vraag
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    private $client;
+    protected $client;
 
     /**
      * @var Vraagsoort
@@ -46,7 +46,7 @@ class Vraag
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    private $soort;
+    protected $soort;
 
     /**
      * @var Hulpvrager
@@ -55,7 +55,7 @@ class Vraag
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
-    private $hulpvrager;
+    protected $hulpvrager;
 
     /**
      * @var Communicatiekanaal
@@ -64,7 +64,7 @@ class Vraag
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
-    private $communicatiekanaal;
+    protected $communicatiekanaal;
 
     /**
      * @var Leeftijdscategorie
@@ -73,13 +73,13 @@ class Vraag
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
-    private $leeftijdscategorie;
+    protected $leeftijdscategorie;
 
     /**
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
-    private $startdatum;
+    protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -102,7 +102,7 @@ class Vraag
      * @ORM\OneToMany(targetEntity="Contactmoment", mappedBy="vraag", cascade={"persist"})
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
-    private $contactmomenten;
+    protected $contactmomenten;
 
     public function __construct()
     {

@@ -66,7 +66,7 @@ class VraagType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    private function addEmptyClientFields(FormBuilderInterface $builder, Client $client)
+    protected function addEmptyClientFields(FormBuilderInterface $builder, Client $client)
     {
         $builder->add('client', ClientType::class, [
             'data' => $client,
@@ -97,7 +97,7 @@ class VraagType extends AbstractType
         }
     }
 
-    private function addEmptyContactmomentFields(FormBuilderInterface $builder, Contactmoment $contactmoment)
+    protected function addEmptyContactmomentFields(FormBuilderInterface $builder, Contactmoment $contactmoment)
     {
         $builder->add('contactmoment', ContactmomentType::class, [
             'data' => $contactmoment,
@@ -136,7 +136,7 @@ class VraagType extends AbstractType
         return BaseType::class;
     }
 
-    private function isNew(Vraag $vraag = null)
+    protected function isNew(Vraag $vraag = null)
     {
         return is_null($vraag) || is_null($vraag->getId());
     }

@@ -10,6 +10,8 @@ use ClipBundle\Entity\Vraag;
 use ClipBundle\Form\VraagType;
 use ClipBundle\Form\VraagCloseType;
 use AppBundle\Export\ExportInterface;
+use ClipBundle\Form\VragenType;
+use ClipBundle\Form\VragenModel;
 
 /**
  * @Route("/vragen")
@@ -40,6 +42,52 @@ class VragenController extends AbstractVragenController
      * @DI\Inject("clip.export.vragen")
      */
     protected $export;
+
+    /**
+     * @Route("/add")
+     */
+    public function addAction(Request $request)
+    {
+        $this->formClass = VragenType::class;
+
+        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        $entity = new VragenModel($parentEntity);
+        $entity->setClient($parentEntity);
+
+        $form = $this->createForm($this->formClass, $entity, [
+            'medewerker' => $this->getMedewerker(),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                foreach ($entity->getVragen() as $vraag) {
+                    $parentEntity->addVraag($vraag);
+                }
+                $this->parentDao->update($parentEntity);
+                $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            if ($parentEntity) {
+                return $this->redirectToView($parentEntity);
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'parent_entity' => $parentEntity,
+            'form' => $form->createView(),
+        ];
+    }
 
     /**
      * @Route("/{id}/close")
