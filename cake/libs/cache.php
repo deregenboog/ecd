@@ -60,7 +60,7 @@ class Cache
      * @return object
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
         if (!$instance) {
@@ -107,7 +107,7 @@ class Cache
      * @return array(engine, settings) on success, false on failure
      * @static
      */
-    public function config($name = null, $settings = [])
+    public static function config($name = null, $settings = [])
     {
         $self = &self::getInstance();
         if (is_array($name)) {
@@ -176,7 +176,7 @@ class Cache
      *
      * @return array array of configured Cache config names
      */
-    public function configured()
+    public static function configured()
     {
         $self = &self::getInstance();
 
@@ -192,7 +192,7 @@ class Cache
      *
      * @return boolen success of the removal, returns false when the config does not exist
      */
-    public function drop($name)
+    public static function drop($name)
     {
         $self = &self::getInstance();
         if (!isset($self->__config[$name])) {
@@ -238,7 +238,7 @@ class Cache
      * @return array array of settings
      * @static
      */
-    public function set($settings = [], $value = null)
+    public static function set($settings = [], $value = null)
     {
         $self = &self::getInstance();
         if (!isset($self->__config[$self->__name]) || !isset($self->_engines[$self->__name])) {
@@ -275,7 +275,7 @@ class Cache
      *
      * @static
      */
-    public function gc()
+    public static function gc()
     {
         $self = &self::getInstance();
         $self->_engines[$self->__name]->gc();
@@ -303,7 +303,7 @@ class Cache
      * @return bool True if the data was successfully cached, false on failure
      * @static
      */
-    public function write($key, $value, $config = null)
+    public static function write($key, $value, $config = null)
     {
         $self = &self::getInstance();
 
@@ -351,7 +351,7 @@ class Cache
      * @return mixed The cached data, or false if the data doesn't exist, has expired, or if there was an error fetching it
      * @static
      */
-    public function read($key, $config = null)
+    public static function read($key, $config = null)
     {
         $self = &self::getInstance();
 
@@ -390,7 +390,7 @@ class Cache
      * @return mixed new value, or false if the data doesn't exist, is not integer,
      *               or if there was an error fetching it
      */
-    public function increment($key, $offset = 1, $config = null)
+    public static function increment($key, $offset = 1, $config = null)
     {
         $self = &self::getInstance();
 
@@ -427,7 +427,7 @@ class Cache
      * @return mixed new value, or false if the data doesn't exist, is not integer,
      *               or if there was an error fetching it
      */
-    public function decrement($key, $offset = 1, $config = null)
+    public static function decrement($key, $offset = 1, $config = null)
     {
         $self = &self::getInstance();
 
@@ -474,7 +474,7 @@ class Cache
      * @return bool True if the value was succesfully deleted, false if it didn't exist or couldn't be removed
      * @static
      */
-    public function delete($key, $config = null)
+    public static function delete($key, $config = null)
     {
         $self = &self::getInstance();
         if (!$config) {
@@ -508,7 +508,7 @@ class Cache
      * @return bool True if the cache was succesfully cleared, false otherwise
      * @static
      */
-    public function clear($check = false, $config = null)
+    public static function clear($check = false, $config = null)
     {
         $self = &self::getInstance();
         if (!$config) {
@@ -538,7 +538,7 @@ class Cache
      * @return bool whether or not the config name has been initialized
      * @static
      */
-    public function isInitialized($name = null)
+    public static function isInitialized($name = null)
     {
         if (Configure::read('Cache.disable')) {
             return false;
@@ -563,7 +563,7 @@ class Cache
      * @see Cache::config()
      * @static
      */
-    public function settings($name = null)
+    public static function settings($name = null)
     {
         $self = &self::getInstance();
         if (!$name && isset($self->__config[$self->__name])) {

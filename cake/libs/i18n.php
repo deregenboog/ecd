@@ -86,7 +86,7 @@ class I18n extends Object
      *
      * @return object I18n
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
         if (!$instance) {
@@ -109,7 +109,7 @@ class I18n extends Object
      *
      * @return string translated string
      */
-    public function translate($singular, $plural = null, $domain = null, $category = 6, $count = null)
+    public static function translate($singular, $plural = null, $domain = null, $category = 6, $count = null)
     {
         $_this = &self::getInstance();
 
@@ -189,7 +189,7 @@ class I18n extends Object
     /**
      * Clears the domains internal data array.  Useful for testing i18n.
      */
-    public function clear()
+    public static function clear()
     {
         $self = &self::getInstance();
         $self->__domains = [];

@@ -89,7 +89,7 @@ class Validation extends Object
      * @return object Validation instance
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
 
@@ -112,7 +112,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function notEmpty($check)
+    public static function notEmpty($check)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -142,7 +142,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function alphaNumeric($check)
+    public static function alphaNumeric($check)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -189,7 +189,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function blank($check)
+    public static function blank($check)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -219,7 +219,7 @@ class Validation extends Object
      *
      * @see Validation::_luhn()
      */
-    public function cc($check, $type = 'fast', $deep = false, $regex = null)
+    public static function cc($check, $type = 'fast', $deep = false, $regex = null)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -298,7 +298,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function comparison($check1, $operator = null, $check2 = null)
+    public static function comparison($check1, $operator = null, $check2 = null)
     {
         if (is_array($check1)) {
             extract($check1, EXTR_OVERWRITE);
@@ -360,7 +360,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function custom($check, $regex = null)
+    public static function custom($check, $regex = null)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -395,7 +395,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function date($check, $format = 'ymd', $regex = null)
+    public static function date($check, $format = 'ymd', $regex = null)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -435,7 +435,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function time($check)
+    public static function time($check)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -469,7 +469,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function decimal($check, $places = null, $regex = null)
+    public static function decimal($check, $places = null, $regex = null)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -496,7 +496,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function email($check, $deep = false, $regex = null)
+    public static function email($check, $deep = false, $regex = null)
     {
         $_this = &self::getInstance();
         $_this->__reset();
@@ -580,7 +580,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function ip($check, $type = 'both')
+    public static function ip($check, $type = 'both')
     {
         $_this = &self::getInstance();
         $success = false;
@@ -671,7 +671,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function money($check, $symbolPosition = 'left')
+    public static function money($check, $symbolPosition = 'left')
     {
         $_this = &self::getInstance();
         $_this->check = $check;
@@ -745,7 +745,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function phone($check, $regex = null, $country = 'all')
+    public static function phone($check, $regex = null, $country = 'all')
     {
         $_this = &self::getInstance();
         $_this->check = $check;
@@ -781,7 +781,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function postal($check, $regex = null, $country = null)
+    public static function postal($check, $regex = null, $country = null)
     {
         $_this = &self::getInstance();
         $_this->check = $check;
@@ -853,7 +853,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function ssn($check, $regex = null, $country = null)
+    public static function ssn($check, $regex = null, $country = null)
     {
         $_this = &self::getInstance();
         $_this->check = $check;
@@ -890,7 +890,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function uuid($check)
+    public static function uuid($check)
     {
         $_this = &self::getInstance();
         $_this->check = $check;
@@ -917,7 +917,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function url($check, $strict = false)
+    public static function url($check, $strict = false)
     {
         $_this = &self::getInstance();
         $_this->__populateIp();
@@ -995,7 +995,7 @@ class Validation extends Object
      *
      * @return bool Success of match
      */
-    public function _check()
+    public static function _check()
     {
         $_this = &self::getInstance();
         if (preg_match($_this->regex, $_this->check)) {
@@ -1015,7 +1015,7 @@ class Validation extends Object
      *
      * @param array $params Parameters sent to validation method
      */
-    public function _extract($params)
+    public static function _extract($params)
     {
         $_this = &self::getInstance();
         extract($params, EXTR_OVERWRITE);
@@ -1044,7 +1044,7 @@ class Validation extends Object
      *
      * @return bool Success
      */
-    public function _luhn()
+    public static function _luhn()
     {
         $_this = &self::getInstance();
         if (true !== $_this->deep) {

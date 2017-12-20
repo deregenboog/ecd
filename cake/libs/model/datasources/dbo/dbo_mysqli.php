@@ -141,7 +141,7 @@ class DboMysqli extends DboMysqlBase
      *
      * @return array Array of tablenames in the database
      */
-    public function listSources()
+    public function listSources($source = null)
     {
         $cache = parent::listSources();
         if (null !== $cache) {
@@ -236,7 +236,7 @@ class DboMysqli extends DboMysqlBase
      *
      * @return int Number of affected rows
      */
-    public function lastAffected()
+    public function lastAffected($source = null)
     {
         if ($this->_result) {
             return mysqli_affected_rows($this->connection);
@@ -251,7 +251,7 @@ class DboMysqli extends DboMysqlBase
      *
      * @return int Number of rows in resultset
      */
-    public function lastNumRows()
+    public function lastNumRows($source = null)
     {
         if ($this->hasResult()) {
             return mysqli_num_rows($this->_result);

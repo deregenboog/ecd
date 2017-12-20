@@ -91,12 +91,12 @@ class Router
      * @var array
      */
     public $__resourceMap = [
-        ['action' => 'index',	'method' => 'GET',		'id' => false],
-        ['action' => 'view',	'method' => 'GET',		'id' => true],
-        ['action' => 'add',	'method' => 'POST',		'id' => false],
-        ['action' => 'edit',	'method' => 'PUT', 		'id' => true],
-        ['action' => 'delete',	'method' => 'DELETE',	'id' => true],
-        ['action' => 'edit',	'method' => 'POST', 	'id' => true],
+        ['action' => 'index', 'method' => 'GET', 'id' => false],
+        ['action' => 'view', 'method' => 'GET', 'id' => true],
+        ['action' => 'add', 'method' => 'POST', 'id' => false],
+        ['action' => 'edit', 'method' => 'PUT', 'id' => true],
+        ['action' => 'delete', 'method' => 'DELETE', 'id' => true],
+        ['action' => 'edit', 'method' => 'POST', 'id' => true],
     ];
 
     /**
@@ -166,7 +166,7 @@ class Router
      * @return Router instance of the Router
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
 
@@ -185,7 +185,7 @@ class Router
      * @see Router::$__named
      * @static
      */
-    public function getNamedExpressions()
+    public static function getNamedExpressions()
     {
         $self = &self::getInstance();
 
@@ -246,7 +246,7 @@ class Router
      * @return array Array of routes
      * @static
      */
-    public function connect($route, $defaults = [], $options = [])
+    public static function connect($route, $defaults = [], $options = [])
     {
         $self = &self::getInstance();
 
@@ -325,7 +325,7 @@ class Router
      * @return array
      * @static
      */
-    public function connectNamed($named, $options = [])
+    public static function connectNamed($named, $options = [])
     {
         $self = &self::getInstance();
 
@@ -370,7 +370,7 @@ class Router
      * @param bool $connect set to true or false depending on whether you want or don't want default routes
      * @static
      */
-    public function defaults($connect = true)
+    public static function defaults($connect = true)
     {
         $self = &self::getInstance();
         $self->__connectDefaults = $connect;
@@ -389,7 +389,7 @@ class Router
      * @param array $options    Options to use when generating REST routes
      * @static
      */
-    public function mapResources($controller, $options = [])
+    public static function mapResources($controller, $options = [])
     {
         $self = &self::getInstance();
         $options = array_merge(['prefix' => '/', 'id' => $self->__named['ID'].'|'.$self->__named['UUID']], $options);
@@ -417,7 +417,7 @@ class Router
      * @return array A list of prefixes used in connected routes
      * @static
      */
-    public function prefixes()
+    public static function prefixes()
     {
         $self = &self::getInstance();
 
@@ -433,7 +433,7 @@ class Router
      * @return array Parsed elements from URL
      * @static
      */
-    public function parse($url)
+    public static function parse($url)
     {
         $self = &self::getInstance();
         if (!$self->__defaultsMapped && $self->__connectDefaults) {
@@ -610,7 +610,7 @@ class Router
      * @param array $params Parameters and path information
      * @static
      */
-    public function setRequestInfo($params)
+    public static function setRequestInfo($params)
     {
         $self = &self::getInstance();
         $defaults = ['plugin' => null, 'controller' => null, 'action' => null];
@@ -635,7 +635,7 @@ class Router
      * @return array Parameter information
      * @static
      */
-    public function getParams($current = false)
+    public static function getParams($current = false)
     {
         $self = &self::getInstance();
         if ($current) {
@@ -675,7 +675,7 @@ class Router
      * @return array
      * @static
      */
-    public function getPaths($current = false)
+    public static function getPaths($current = false)
     {
         $self = &self::getInstance();
         if ($current) {
@@ -694,7 +694,7 @@ class Router
      *
      * @static
      */
-    public function reload()
+    public static function reload()
     {
         $self = &self::getInstance();
         foreach (get_class_vars('Router') as $key => $val) {
@@ -712,7 +712,7 @@ class Router
      * @return bool returns false if no route exists at the position specified by $which
      * @static
      */
-    public function promote($which = null)
+    public static function promote($which = null)
     {
         $self = &self::getInstance();
         if (null === $which) {
@@ -759,7 +759,7 @@ class Router
      * @return string full translated URL with base path
      * @static
      */
-    public function url($url = null, $full = false)
+    public static function url($url = null, $full = false)
     {
         $self = &self::getInstance();
         $defaults = $params = ['plugin' => null, 'controller' => null, 'action' => 'index'];
@@ -973,7 +973,7 @@ class Router
      * @return array
      * @static
      */
-    public function getNamedElements($params, $controller = null, $action = null)
+    public static function getNamedElements($params, $controller = null, $action = null)
     {
         $self = &self::getInstance();
         $named = [];
@@ -1106,7 +1106,7 @@ class Router
      * @return string Normalized URL
      * @static
      */
-    public function normalize($url = '/')
+    public static function normalize($url = '/')
     {
         if (is_array($url)) {
             $url = self::url($url);
@@ -1138,7 +1138,7 @@ class Router
      * @return CakeRoute matching route object
      * @static
      */
-    public function &requestRoute()
+    public static function &requestRoute()
     {
         $self = &self::getInstance();
 
@@ -1151,7 +1151,7 @@ class Router
      * @return CakeRoute matching route object
      * @static
      */
-    public function &currentRoute()
+    public static function &currentRoute()
     {
         $self = &self::getInstance();
 
@@ -1197,7 +1197,7 @@ class Router
      *
      * @static
      */
-    public function parseExtensions()
+    public static function parseExtensions()
     {
         $self = &self::getInstance();
         $self->__parseExtensions = true;
@@ -1214,7 +1214,7 @@ class Router
      * @return array Array containing passed and named parameters
      * @static
      */
-    public function getArgs($args, $options = [])
+    public static function getArgs($args, $options = [])
     {
         $self = &self::getInstance();
         $pass = $named = [];

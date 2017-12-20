@@ -39,7 +39,7 @@ class Configure extends Object
      *
      * @return Configure instance
      */
-    public function &getInstance($boot = true)
+    public static function &getInstance($boot = true)
     {
         static $instance = [];
         if (!$instance) {
@@ -79,7 +79,7 @@ class Configure extends Object
      *
      * @return bool True if write was successful
      */
-    public function write($config, $value = null)
+    public static function write($config, $value = null)
     {
         $_this = &self::getInstance();
 
@@ -163,7 +163,7 @@ class Configure extends Object
      *
      * @return string value of Configure::$var
      */
-    public function read($var = 'debug')
+    public static function read($var = 'debug')
     {
         $_this = &self::getInstance();
 
@@ -215,7 +215,7 @@ class Configure extends Object
      *
      * @param string $var the var to be deleted
      */
-    public function delete($var = null)
+    public static function delete($var = null)
     {
         $_this = &self::getInstance();
 
@@ -298,12 +298,12 @@ class Configure extends Object
      *
      * @return string Current version of CakePHP
      */
-    public function version()
+    public static function version()
     {
         $_this = &self::getInstance();
 
         if (!isset($_this->Cake['version'])) {
-            require(CORE_PATH.'cake'.DS.'config'.DS.'config.php');
+            require CORE_PATH.'cake'.DS.'config'.DS.'config.php';
             $_this->write($config);
         }
 
@@ -623,7 +623,7 @@ class App extends Object
      *
      * @return string array
      */
-    public function path($type)
+    public static function path($type)
     {
         $_this = &self::getInstance();
         if (!isset($_this->{$type})) {
@@ -640,7 +640,7 @@ class App extends Object
      * @param array $paths paths defines in config/bootstrap.php
      * @param bool  $reset true will set paths, false merges paths [default] false
      */
-    public function build($paths = [], $reset = false)
+    public static function build($paths = [], $reset = false)
     {
         $_this = &self::getInstance();
         $defaults = [
@@ -702,7 +702,7 @@ class App extends Object
      *
      * @return string full path to the plugin
      */
-    public function pluginPath($plugin)
+    public static function pluginPath($plugin)
     {
         $_this = &self::getInstance();
         $pluginDir = Inflector::underscore($plugin);
@@ -722,7 +722,7 @@ class App extends Object
      *
      * @return string full path to the theme
      */
-    public function themePath($theme)
+    public static function themePath($theme)
     {
         $_this = &self::getInstance();
         $themeDir = 'themed'.DS.Inflector::underscore($theme);
@@ -744,7 +744,7 @@ class App extends Object
      *
      * @return array numeric keyed array of core lib paths
      */
-    public function core($type = null)
+    public static function core($type = null)
     {
         static $paths = false;
         if (false === $paths) {
@@ -792,7 +792,7 @@ class App extends Object
      *
      * @return mixed Either false on incorrect / miss.  Or an array of found objects.
      */
-    public function objects($type, $path = null, $cache = true)
+    public static function objects($type, $path = null, $cache = true)
     {
         $objects = [];
         $extension = false;
@@ -868,7 +868,7 @@ class App extends Object
      *
      * @return bool true if Class is already in memory or if file is found and loaded, false if not
      */
-    public function import($type = null, $name = null, $parent = true, $search = [], $file = null, $return = false)
+    public static function import($type = null, $name = null, $parent = true, $search = [], $file = null, $return = false)
     {
         $plugin = $directory = null;
 
@@ -993,7 +993,7 @@ class App extends Object
      *
      * @return object
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
         if (!$instance) {
@@ -1080,8 +1080,8 @@ class App extends Object
         }
         if (file_exists($file)) {
             if (!$this->return) {
-                $this->__loaded[$file];
-                require($file);
+                $this->__loaded[$file] = true;
+                require_once $file;
             }
 
             return true;

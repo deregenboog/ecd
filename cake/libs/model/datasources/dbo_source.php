@@ -60,7 +60,7 @@ class DboSource extends DataSource
      * Whether or not to cache the results of DboSource::name() and DboSource::conditions()
      * into the memory cache.  Set to false to disable the use of the memory cache.
      *
-     * @var boolean
+     * @var bool
      */
     public $cacheMethods = true;
 

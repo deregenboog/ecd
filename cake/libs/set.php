@@ -40,7 +40,7 @@ class Set
      * @return array Merged array
      * @static
      */
-    public function merge($arr1, $arr2 = null)
+    public static function merge($arr1, $arr2 = null)
     {
         $args = func_get_args();
 
@@ -69,7 +69,7 @@ class Set
      * @return mixed Either filtered array, or true/false when in callback
      * @static
      */
-    public function filter($var, $isArray = false)
+    public static function filter($var, $isArray = false)
     {
         if (is_array($var) && (!empty($var) || $isArray)) {
             return array_filter($var, ['Set', 'filter']);
@@ -91,7 +91,7 @@ class Set
      * @return array Combined array
      * @static
      */
-    public function pushDiff($array, $array2)
+    public static function pushDiff($array, $array2)
     {
         if (empty($array) && !empty($array2)) {
             return $array2;
@@ -121,7 +121,7 @@ class Set
      * @return object Hierarchical object
      * @static
      */
-    public function map($class = 'stdClass', $tmp = 'stdClass')
+    public static function map($class = 'stdClass', $tmp = 'stdClass')
     {
         if (is_array($class)) {
             $val = $class;
@@ -146,7 +146,7 @@ class Set
      *
      * @return array array from $array
      */
-    public function __array($array)
+    public static function __array($array)
     {
         if (empty($array)) {
             $array = [];
@@ -174,7 +174,7 @@ class Set
      * @return mixed Mapped object
      * @static
      */
-    public function __map(&$array, $class, $primary = false)
+    public static function __map(&$array, $class, $primary = false)
     {
         if (true === $class) {
             $out = new stdClass();
@@ -239,7 +239,7 @@ class Set
      * @return bool true if values are numeric, false otherwise
      * @static
      */
-    public function numeric($array = null)
+    public static function numeric($array = null)
     {
         if (empty($array)) {
             return null;
@@ -279,7 +279,7 @@ class Set
      * @return string the value of the array key or null if no match
      * @static
      */
-    public function enum($select, $list = null)
+    public static function enum($select, $list = null)
     {
         if (empty($list)) {
             $list = ['no', 'yes'];
@@ -305,7 +305,7 @@ class Set
      * @return array An array of strings extracted from $keys and formatted with $format
      * @static
      */
-    public function format($data, $format, $keys)
+    public static function format($data, $format, $keys)
     {
         $extracted = [];
         $count = count($keys);
@@ -387,7 +387,7 @@ class Set
      * @return array An array of matched items
      * @static
      */
-    public function extract($path, $data = null, $options = [])
+    public static function extract($path, $data = null, $options = [])
     {
         if (is_string($data)) {
             $tmp = $data;
@@ -541,7 +541,7 @@ class Set
      * @return bool
      * @static
      */
-    public function matches($conditions, $data = [], $i = null, $length = null)
+    public static function matches($conditions, $data = [], $i = null, $length = null)
     {
         if (empty($conditions)) {
             return true;
@@ -618,7 +618,7 @@ class Set
      * @return array Extracted data
      * @static
      */
-    public function classicExtract($data, $path = null)
+    public static function classicExtract($data, $path = null)
     {
         if (empty($path)) {
             return $data;
@@ -712,7 +712,7 @@ class Set
      * @return array
      * @static
      */
-    public function insert($list, $path, $data = null)
+    public static function insert($list, $path, $data = null)
     {
         if (!is_array($path)) {
             $path = explode('.', $path);
@@ -748,7 +748,7 @@ class Set
      * @return array Array with $path removed from its value
      * @static
      */
-    public function remove($list, $path = null)
+    public static function remove($list, $path = null)
     {
         if (empty($path)) {
             return $list;
@@ -784,7 +784,7 @@ class Set
      * @return bool true if path is found, false otherwise
      * @static
      */
-    public function check($data, $path = null)
+    public static function check($data, $path = null)
     {
         if (empty($path)) {
             return $data;
@@ -820,7 +820,7 @@ class Set
      *               The expression for this function is ($val1 - $val2) + ($val2 - ($val1 - $val2))
      * @static
      */
-    public function diff($val1, $val2 = null)
+    public static function diff($val1, $val2 = null)
     {
         if (empty($val1)) {
             return (array) $val2;
@@ -849,7 +849,7 @@ class Set
      * @return bool true if $val1 contains $val2, false otherwise
      * @static
      */
-    public function contains($val1, $val2 = null)
+    public static function contains($val1, $val2 = null)
     {
         if (empty($val1) || empty($val2)) {
             return false;
@@ -879,7 +879,7 @@ class Set
      * @return int The number of dimensions in $array
      * @static
      */
-    public function countDim($array = null, $all = false, $count = 0)
+    public static function countDim($array = null, $all = false, $count = 0)
     {
         if ($all) {
             $depth = [$count];
@@ -911,7 +911,7 @@ class Set
      * @return array
      * @static
      */
-    public function normalize($list, $assoc = true, $sep = ',', $trim = true)
+    public static function normalize($list, $assoc = true, $sep = ',', $trim = true)
     {
         if (is_string($list)) {
             $list = explode($sep, $list);
@@ -966,7 +966,7 @@ class Set
      * @return array Combined array
      * @static
      */
-    public function combine($data, $path1 = null, $path2 = null, $groupPath = null)
+    public static function combine($data, $path1 = null, $path2 = null, $groupPath = null)
     {
         if (empty($data)) {
             return [];
@@ -1031,7 +1031,7 @@ class Set
      * @public
      * @static
      */
-    public function reverse($object)
+    public static function reverse($object)
     {
         $out = [];
         if (is_a($object, 'XmlNode')) {
@@ -1085,7 +1085,7 @@ class Set
      * @return array
      * @static
      */
-    public function flatten($data, $separator = '.')
+    public static function flatten($data, $separator = '.')
     {
         $result = [];
         $path = null;
@@ -1120,7 +1120,7 @@ class Set
      *
      * @return array
      */
-    public function __flatten($results, $key = null)
+    public static function __flatten($results, $key = null)
     {
         $stack = [];
         foreach ($results as $k => $r) {
@@ -1148,7 +1148,7 @@ class Set
      * @return array Sorted array of data
      * @static
      */
-    public function sort($data, $path, $dir)
+    public static function sort($data, $path, $dir)
     {
         $originalKeys = array_keys($data);
         if (is_numeric(implode('', $originalKeys))) {
@@ -1191,7 +1191,7 @@ class Set
      * @return mixed Result of the callback when applied to extracted data
      * @static
      */
-    public function apply($path, $data, $callback, $options = [])
+    public static function apply($path, $data, $callback, $options = [])
     {
         $defaults = ['type' => 'pass'];
         $options = array_merge($defaults, $options);

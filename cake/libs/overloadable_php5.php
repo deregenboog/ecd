@@ -28,7 +28,7 @@ class Overloadable extends Object
     /**
      * Overload implementation. No need for implementation in PHP5.
      */
-    public function overload()
+    public static function overload()
     {
     }
 
@@ -60,7 +60,7 @@ class Overloadable2 extends Object
     /**
      * Overload implementation. No need for implementation in PHP5.
      */
-    public function overload()
+    public static function overload()
     {
     }
 

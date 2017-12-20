@@ -130,7 +130,7 @@ class Object
      *
      * @return bool Success of log write
      */
-    public function log($msg, $type = LOG_ERROR)
+    public static function log($msg, $type = LOG_ERROR)
     {
         if (!class_exists('CakeLog')) {
             require LIBS.'cake_log.php';

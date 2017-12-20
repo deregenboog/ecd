@@ -171,7 +171,7 @@ class Debugger extends Object
      * @return object
      * @static
      */
-    public function &getInstance($class = null)
+    public static function &getInstance($class = null)
     {
         static $instance = [];
         if (!empty($class)) {
@@ -205,7 +205,7 @@ class Debugger extends Object
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
      */
-    public function dump($var)
+    public static function dump($var)
     {
         $_this = &self::getInstance();
         pr($_this->exportVar($var));
@@ -221,7 +221,7 @@ class Debugger extends Object
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
      */
-    public function log($var, $level = LOG_DEBUG)
+    public static function log($var, $level = LOG_DEBUG)
     {
         $_this = &self::getInstance();
         $source = $_this->trace(['start' => 1])."\n";
@@ -239,7 +239,7 @@ class Debugger extends Object
      *
      * @return bool true if error was handled
      */
-    public function handleError($code, $description, $file = null, $line = null, $context = null)
+    public static function handleError($code, $description, $file = null, $line = null, $context = null)
     {
         if (0 == error_reporting() || 2048 === $code || 8192 === $code) {
             return;
@@ -333,7 +333,7 @@ class Debugger extends Object
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
      */
-    public function trace($options = [])
+    public static function trace($options = [])
     {
         $_this = &self::getInstance();
         $defaults = [
@@ -486,7 +486,7 @@ class Debugger extends Object
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Debugging.html#Using-the-Debugger-Class
      */
-    public function exportVar($var, $recursion = 0)
+    public static function exportVar($var, $recursion = 0)
     {
         $_this = &self::getInstance();
         switch (strtolower(gettype($var))) {
@@ -586,7 +586,7 @@ class Debugger extends Object
      *                        straight HTML output, or 'txt' for unformatted text
      * @param array  $strings template strings to be used for the output format
      */
-    public function output($format = null, $strings = [])
+    public static function output($format = null, $strings = [])
     {
         $_this = &self::getInstance();
         $data = null;
@@ -706,7 +706,7 @@ class Debugger extends Object
      *
      * @static
      */
-    public function checkSecurityKeys()
+    public static function checkSecurityKeys()
     {
         if ('DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi' == Configure::read('Security.salt')) {
             trigger_error(__('Please change the value of \'Security.salt\' in app/config/core.php to a salt value specific to your application', true), E_USER_NOTICE);

@@ -298,7 +298,7 @@ class Multibyte extends Object
      * @return object Multibyte instance
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
 
@@ -849,7 +849,7 @@ class Multibyte extends Object
      * @return string with all alphabetic characters converted to lowercase
      * @static
      */
-    public function strtolower($string)
+    public static function strtolower($string)
     {
         $_this = &self::getInstance();
         $utf8Map = self::utf8($string);
@@ -900,7 +900,7 @@ class Multibyte extends Object
      * @return string with all alphabetic characters converted to uppercase
      * @static
      */
-    public function strtoupper($string)
+    public static function strtoupper($string)
     {
         $_this = &self::getInstance();
         $utf8Map = self::utf8($string);

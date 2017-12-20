@@ -37,7 +37,7 @@ class Overloadable extends Object
     /**
      * Overload implementation.
      */
-    public function overload()
+    public static function overload()
     {
         if (function_exists('overload')) {
             if (func_num_args() > 0) {

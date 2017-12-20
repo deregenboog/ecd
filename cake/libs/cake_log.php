@@ -56,7 +56,7 @@ class CakeLog
      *
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
         if (!isset($instance[0])) {
@@ -93,7 +93,7 @@ class CakeLog
      * @return bool success of configuration
      * @static
      */
-    public function config($key, $config)
+    public static function config($key, $config)
     {
         if (empty($config['engine'])) {
             trigger_error(__('Missing logger classname', true), E_USER_WARNING);
@@ -153,7 +153,7 @@ class CakeLog
      * @return array array of configured log streams
      * @static
      */
-    public function configured()
+    public static function configured()
     {
         $self = &self::getInstance();
 
@@ -167,7 +167,7 @@ class CakeLog
      * @param string $keyname key name of a configured stream to remove
      * @static
      */
-    public function drop($streamName)
+    public static function drop($streamName)
     {
         $self = &self::getInstance();
         unset($self->_streams[$streamName]);
@@ -210,7 +210,7 @@ class CakeLog
      * @return bool Success
      * @static
      */
-    public function write($type, $message)
+    public static function write($type, $message)
     {
         if (!defined('LOG_ERROR')) {
             define('LOG_ERROR', 2);

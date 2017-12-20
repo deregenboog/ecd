@@ -36,7 +36,7 @@ class Security extends Object
      * @return object
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
         if (!$instance) {
@@ -52,7 +52,7 @@ class Security extends Object
      * @return int Allowed inactivity in minutes
      * @static
      */
-    public function inactiveMins()
+    public static function inactiveMins()
     {
         switch (Configure::read('Security.level')) {
             case 'high':
@@ -74,7 +74,7 @@ class Security extends Object
      * @return string Hash
      * @static
      */
-    public function generateAuthKey()
+    public static function generateAuthKey()
     {
         if (!class_exists('String')) {
             App::import('Core', 'String');
@@ -110,7 +110,7 @@ class Security extends Object
      * @return string Hash
      * @static
      */
-    public function hash($string, $type = null, $salt = false)
+    public static function hash($string, $type = null, $salt = false)
     {
         $_this = &self::getInstance();
 
@@ -156,7 +156,7 @@ class Security extends Object
      *
      * @see Security::hash()
      */
-    public function setHash($hash)
+    public static function setHash($hash)
     {
         $_this = &self::getInstance();
         $_this->hashType = $hash;

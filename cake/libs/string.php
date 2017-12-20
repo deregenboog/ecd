@@ -31,7 +31,7 @@ class String
      * @return RFC 4122 UUID
      * @static
      */
-    public function uuid()
+    public static function uuid()
     {
         $node = env('SERVER_ADDR');
         $pid = null;
@@ -112,7 +112,7 @@ class String
      * @return array array of tokens in $data
      * @static
      */
-    public function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')')
+    public static function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')')
     {
         if (empty($data) || is_array($data)) {
             return $data;
@@ -205,7 +205,7 @@ class String
      * @return string
      * @static
      */
-    public function insert($str, $data, $options = [])
+    public static function insert($str, $data, $options = [])
     {
         $defaults = [
             'before' => ':', 'after' => null, 'escape' => '\\', 'format' => null, 'clean' => false,
@@ -277,7 +277,7 @@ class String
      *
      * @see String::insert()
      */
-    public function cleanInsert($str, $options)
+    public static function cleanInsert($str, $options)
     {
         $clean = $options['clean'];
         if (!$clean) {

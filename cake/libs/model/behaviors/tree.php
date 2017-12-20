@@ -103,7 +103,7 @@ class TreeBehavior extends ModelBehavior
      *
      * @return bool true to continue, false to abort the delete
      */
-    public function beforeDelete(&$Model)
+    public function beforeDelete(&$Model, $cascade = true)
     {
         extract($this->settings[$Model->alias]);
         list($name, $data) = [$Model->alias, $Model->read()];

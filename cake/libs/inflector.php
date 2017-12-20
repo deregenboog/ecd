@@ -282,7 +282,7 @@ class Inflector
      *
      * @return object
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
 
@@ -340,7 +340,7 @@ class Inflector
      *                      new rules that are being defined in $rules
      * @static
      */
-    public function rules($type, $rules, $reset = false)
+    public static function rules($type, $rules, $reset = false)
     {
         $_this = &self::getInstance();
         $var = '_'.$type;
@@ -392,7 +392,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function pluralize($word)
+    public static function pluralize($word)
     {
         $_this = &self::getInstance();
 
@@ -444,7 +444,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function singularize($word)
+    public static function singularize($word)
     {
         $_this = &self::getInstance();
 
@@ -499,7 +499,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function camelize($lowerCaseAndUnderscoredWord)
+    public static function camelize($lowerCaseAndUnderscoredWord)
     {
         $_this = &self::getInstance();
         if (!($result = $_this->_cache(__FUNCTION__, $lowerCaseAndUnderscoredWord))) {
@@ -520,7 +520,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function underscore($camelCasedWord)
+    public static function underscore($camelCasedWord)
     {
         $_this = &self::getInstance();
         if (!($result = $_this->_cache(__FUNCTION__, $camelCasedWord))) {
@@ -542,7 +542,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function humanize($lowerCaseAndUnderscoredWord)
+    public static function humanize($lowerCaseAndUnderscoredWord)
     {
         $_this = &self::getInstance();
         if (!($result = $_this->_cache(__FUNCTION__, $lowerCaseAndUnderscoredWord))) {
@@ -563,7 +563,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function tableize($className)
+    public static function tableize($className)
     {
         $_this = &self::getInstance();
         if (!($result = $_this->_cache(__FUNCTION__, $className))) {
@@ -584,7 +584,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function classify($tableName)
+    public static function classify($tableName)
     {
         $_this = &self::getInstance();
         if (!($result = $_this->_cache(__FUNCTION__, $tableName))) {
@@ -605,7 +605,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function variable($string)
+    public static function variable($string)
     {
         $_this = &self::getInstance();
         if (!($result = $_this->_cache(__FUNCTION__, $string))) {
@@ -633,7 +633,7 @@ class Inflector
      *
      * @see http://book.cakephp.org/1.3/en/The-Manual/Core-Utility-Libraries/Inflector.html#Class-methods
      */
-    public function slug($string, $replacement = '_', $map = [])
+    public static function slug($string, $replacement = '_', $map = [])
     {
         $_this = &self::getInstance();
 

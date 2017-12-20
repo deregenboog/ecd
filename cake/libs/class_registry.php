@@ -55,7 +55,7 @@ class ClassRegistry
      *
      * @return ClassRegistry instance
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
         if (!$instance) {
@@ -93,7 +93,7 @@ class ClassRegistry
      * @return object instance of ClassName
      * @static
      */
-    public function &init($class, $type = null)
+    public static function &init($class, $type = null)
     {
         $_this = &self::getInstance();
         $id = $false = false;
@@ -182,7 +182,7 @@ class ClassRegistry
      * @return bool True if the object was written, false if $key already exists
      * @static
      */
-    public function addObject($key, &$object)
+    public static function addObject($key, &$object)
     {
         $_this = &self::getInstance();
         $key = Inflector::underscore($key);
@@ -201,7 +201,7 @@ class ClassRegistry
      * @param string $key Key of object to remove from registry
      * @static
      */
-    public function removeObject($key)
+    public static function removeObject($key)
     {
         $_this = &self::getInstance();
         $key = Inflector::underscore($key);
@@ -218,7 +218,7 @@ class ClassRegistry
      * @return bool true if key exists in registry, false otherwise
      * @static
      */
-    public function isKeySet($key)
+    public static function isKeySet($key)
     {
         $_this = &self::getInstance();
         $key = Inflector::underscore($key);
@@ -237,7 +237,7 @@ class ClassRegistry
      * @return array Set of keys stored in registry
      * @static
      */
-    public function keys()
+    public static function keys()
     {
         $_this = &self::getInstance();
 
@@ -252,7 +252,7 @@ class ClassRegistry
      * @return mixed object stored in registry or boolean false if the object does not exist
      * @static
      */
-    public function &getObject($key)
+    public static function &getObject($key)
     {
         $_this = &self::getInstance();
         $key = Inflector::underscore($key);
@@ -280,7 +280,7 @@ class ClassRegistry
      *               the previously-set value of $param, or null if not set.
      * @static
      */
-    public function config($type, $param = [])
+    public static function config($type, $param = [])
     {
         $_this = &self::getInstance();
 
@@ -325,7 +325,7 @@ class ClassRegistry
      * @param string $name Key that is being mapped
      * @static
      */
-    public function map($key, $name)
+    public static function map($key, $name)
     {
         $_this = &self::getInstance();
         $key = Inflector::underscore($key);
@@ -341,7 +341,7 @@ class ClassRegistry
      * @return array Keys of registry's map
      * @static
      */
-    public function mapKeys()
+    public static function mapKeys()
     {
         $_this = &self::getInstance();
 
@@ -368,7 +368,7 @@ class ClassRegistry
      *
      * @static
      */
-    public function flush()
+    public static function flush()
     {
         $_this = &self::getInstance();
         $_this->__objects = [];

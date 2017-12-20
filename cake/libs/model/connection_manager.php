@@ -65,7 +65,7 @@ class ConnectionManager extends Object
      * @return object Instance
      * @static
      */
-    public function &getInstance()
+    public static function &getInstance()
     {
         static $instance = [];
 
@@ -84,7 +84,7 @@ class ConnectionManager extends Object
      * @return object Instance
      * @static
      */
-    public function &getDataSource($name)
+    public static function &getDataSource($name)
     {
         $_this = &self::getInstance();
 
@@ -123,7 +123,7 @@ class ConnectionManager extends Object
      * @return array List of available connections
      * @static
      */
-    public function sourceList()
+    public static function sourceList()
     {
         $_this = &self::getInstance();
 
@@ -141,7 +141,7 @@ class ConnectionManager extends Object
      *                in the ConnectionManager
      * @static
      */
-    public function getSourceName(&$source)
+    public static function getSourceName(&$source)
     {
         $_this = &self::getInstance();
         foreach ($_this->_dataSources as $name => $ds) {
@@ -163,7 +163,7 @@ class ConnectionManager extends Object
      * @return bool True on success, null on failure or false if the class is already loaded
      * @static
      */
-    public function loadDataSource($connName)
+    public static function loadDataSource($connName)
     {
         $_this = &self::getInstance();
 
@@ -200,7 +200,7 @@ class ConnectionManager extends Object
      *               (as defined in Connections), and the value is an array with keys 'filename' and 'classname'
      * @static
      */
-    public function enumConnectionObjects()
+    public static function enumConnectionObjects()
     {
         $_this = &self::getInstance();
 
@@ -216,7 +216,7 @@ class ConnectionManager extends Object
      * @return object A reference to the DataSource object, or null if creation failed
      * @static
      */
-    public function &create($name = '', $config = [])
+    public static function &create($name = '', $config = [])
     {
         $_this = &self::getInstance();
 

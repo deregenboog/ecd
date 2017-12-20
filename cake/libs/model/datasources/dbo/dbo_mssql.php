@@ -143,11 +143,11 @@ class DboMssql extends DboSource
         $this->connected = false;
 
         if (is_numeric($config['port'])) {
-            $port = $sep.$config['port'];	// Port number
+            $port = $sep.$config['port']; // Port number
         } elseif (null === $config['port']) {
-            $port = '';						// No port - SQL Server 2005
+            $port = ''; // No port - SQL Server 2005
         } else {
-            $port = '\\'.$config['port'];	// Named pipe
+            $port = '\\'.$config['port']; // Named pipe
         }
 
         if (!$config['persistent']) {
