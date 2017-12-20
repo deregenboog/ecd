@@ -11,10 +11,10 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.cake.tests.lib
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4433
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 ?>	</div>
@@ -27,11 +27,11 @@
 			</p>
  		</div>
 		<?php
-			App::import('Core', 'View');
-			$null = null;
-			$View = new View($null, false);
-			echo $View->element('sql_dump');
-		?>
+            App::import('Core', 'View');
+            $null = null;
+            $View = new View($null, false);
+            echo $View->element('sql_dump');
+        ?>
 	</div>
 </body>
 </html>
