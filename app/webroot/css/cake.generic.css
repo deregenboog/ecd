@@ -48,20 +48,22 @@
     text-decoration: underline;
 }
 #contentWrap{
-    background: #fff url('../img/drg-logo-142px.jpg') no-repeat right top;
+    background: #fff;
     text-align: center;
     clear: both;
     color: #333;
-    padding: 10px 20px 40px 20px;
+    padding: 0 20px 40px 20px;
     overflow: visible;
     margin-top: 7px;
+}
+#pagesDisplay #contentWrap{
+    background: #fff url('../img/drg-logo-142px.jpg') no-repeat right top;
 }
 #content{
     margin: auto;
     display: inline-block;
     text-align: left;
-    min-width: 965px;
-    /*max-width: 980px;*/
+    width: 95%;
 }
 #footer {
     clear: both;
@@ -74,17 +76,13 @@ div.form,
 div.index,
 div.view {
     float:right;
-    width: 635px;
+    width: 70%;
     padding: 15px;
 }
 div.actions {
-    width: 270px;
     float:left;
+    width: 20%;
     padding:15px;
-}
-div.actions fieldset {
-    width: 228px;
-    overflow: auto;
 }
 
 div.actions div.links{
