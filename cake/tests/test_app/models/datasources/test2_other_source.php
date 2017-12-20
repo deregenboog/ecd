@@ -1,27 +1,34 @@
 <?php
-class Test2OtherSource extends DataSource {
 
-	function describe($model) {
-		return compact('model');
-	}
+class Test2OtherSource extends DataSource
+{
+    public function describe($model)
+    {
+        return compact('model');
+    }
 
-	function listSources() {
-		return array('test_source');
-	}
+    public function listSources()
+    {
+        return ['test_source'];
+    }
 
-	function create($model, $fields = array(), $values = array()) {
-		return compact('model', 'fields', 'values');
-	}
+    public function create($model, $fields = [], $values = [])
+    {
+        return compact('model', 'fields', 'values');
+    }
 
-	function read($model, $queryData = array()) {
-		return compact('model', 'queryData');
-	}
+    public function read($model, $queryData = [])
+    {
+        return compact('model', 'queryData');
+    }
 
-	function update($model, $fields = array(), $values = array()) {
-		return compact('model', 'fields', 'values');
-	}
+    public function update($model, $fields = [], $values = [])
+    {
+        return compact('model', 'fields', 'values');
+    }
 
-	function delete($model, $id) {
-		return compact('model', 'id');
-	}
+    public function delete($model, $id)
+    {
+        return compact('model', 'id');
+    }
 }

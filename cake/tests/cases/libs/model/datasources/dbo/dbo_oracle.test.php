@@ -1,6 +1,6 @@
 <?php
 /**
- * DboOracleTest file
+ * DboOracleTest file.
  *
  * PHP versions 4 and 5
  *
@@ -11,121 +11,107 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.cake.libs
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 if (!defined('CAKEPHP_UNIT_TEST_EXECUTION')) {
-	define('CAKEPHP_UNIT_TEST_EXECUTION', 1);
+    define('CAKEPHP_UNIT_TEST_EXECUTION', 1);
 }
-require_once LIBS . 'model' . DS . 'datasources' . DS . 'dbo_source.php';
-require_once LIBS . 'model' . DS . 'datasources' . DS . 'dbo' . DS . 'dbo_oracle.php';
+require_once LIBS.'model'.DS.'datasources'.DS.'dbo_source.php';
+require_once LIBS.'model'.DS.'datasources'.DS.'dbo'.DS.'dbo_oracle.php';
 
 /**
- * DboOracleTest class
- *
- * @package       cake
- * @subpackage    cake.tests.cases.libs.model.datasources.dbo
+ * DboOracleTest class.
  */
-class DboOracleTest extends CakeTestCase {
+class DboOracleTest extends CakeTestCase
+{
+    /**
+     * fixtures property.
+     */
+    public $fixtures = ['core.oracle_user'];
 
-/**
- * fixtures property
- */
-	var $fixtures = array('core.oracle_user');
-
-/**
- * setup method
- *
- * @access public
- * @return void
- */
-	function setUp() {
-		$this->_initDb();
-	}
-
-/**
- * skip method
- *
- * @access public
- * @return void
- */
-    function skip() {
-    	$this->_initDb();
-    	$this->skipUnless($this->db->config['driver'] == 'oracle', '%s Oracle connection not available');
+    /**
+     * setup method.
+     */
+    public function setUp()
+    {
+        $this->_initDb();
     }
 
-/**
- * testLastErrorStatement method
- *
- * @access public
- * @return void
- */
-	function testLastErrorStatement() {
-		if ($this->skip('testLastErrorStatement')) {
-			return;
-		}
+    /**
+     * skip method.
+     */
+    public function skip()
+    {
+        $this->_initDb();
+        $this->skipUnless('oracle' == $this->db->config['driver'], '%s Oracle connection not available');
+    }
 
-		$this->expectError();
-		$this->db->execute("SELECT ' FROM dual");
-		$e = $this->db->lastError();
-		$r = 'ORA-01756: quoted string not properly terminated';
-		$this->assertEqual($e, $r);
-	}
+    /**
+     * testLastErrorStatement method.
+     */
+    public function testLastErrorStatement()
+    {
+        if ($this->skip('testLastErrorStatement')) {
+            return;
+        }
 
-/**
- * testLastErrorConnect method
- *
- * @access public
- * @return void
- */
-	function testLastErrorConnect() {
-		if ($this->skip('testLastErrorConnect')) {
-			return;
-		}
+        $this->expectError();
+        $this->db->execute("SELECT ' FROM dual");
+        $e = $this->db->lastError();
+        $r = 'ORA-01756: quoted string not properly terminated';
+        $this->assertEqual($e, $r);
+    }
 
-		$config = $this->db->config;
-		$old_pw = $this->db->config['password'];
-		$this->db->config['password'] = 'keepmeout';
-		$this->db->connect();
-		$e = $this->db->lastError();
-		$r = 'ORA-01017: invalid username/password; logon denied';
-		$this->assertEqual($e, $r);
-		$this->db->config['password'] = $old_pw;
-		$this->db->connect();
-	}
+    /**
+     * testLastErrorConnect method.
+     */
+    public function testLastErrorConnect()
+    {
+        if ($this->skip('testLastErrorConnect')) {
+            return;
+        }
 
-/**
- * testName method
- *
- * @access public
- * @return void
- */
-	function testName() {
-		$Db = $this->db;
-		#$Db =& new DboOracle($config = null, $autoConnect = false);
+        $config = $this->db->config;
+        $old_pw = $this->db->config['password'];
+        $this->db->config['password'] = 'keepmeout';
+        $this->db->connect();
+        $e = $this->db->lastError();
+        $r = 'ORA-01017: invalid username/password; logon denied';
+        $this->assertEqual($e, $r);
+        $this->db->config['password'] = $old_pw;
+        $this->db->connect();
+    }
 
-		$r = $Db->name($Db->name($Db->name('foo.last_update_date')));
-		$e = 'foo.last_update_date';
-		$this->assertEqual($e, $r);
+    /**
+     * testName method.
+     */
+    public function testName()
+    {
+        $Db = $this->db;
+        //$Db =& new DboOracle($config = null, $autoConnect = false);
 
-		$r = $Db->name($Db->name($Db->name('foo._update')));
-		$e = 'foo."_update"';
-		$this->assertEqual($e, $r);
+        $r = $Db->name($Db->name($Db->name('foo.last_update_date')));
+        $e = 'foo.last_update_date';
+        $this->assertEqual($e, $r);
 
-		$r = $Db->name($Db->name($Db->name('foo.last_update_date')));
-		$e = 'foo.last_update_date';
-		$this->assertEqual($e, $r);
+        $r = $Db->name($Db->name($Db->name('foo._update')));
+        $e = 'foo."_update"';
+        $this->assertEqual($e, $r);
 
-		$r = $Db->name($Db->name($Db->name('last_update_date')));
-		$e = 'last_update_date';
-		$this->assertEqual($e, $r);
+        $r = $Db->name($Db->name($Db->name('foo.last_update_date')));
+        $e = 'foo.last_update_date';
+        $this->assertEqual($e, $r);
 
-		$r = $Db->name($Db->name($Db->name('_update')));
-		$e = '"_update"';
-		$this->assertEqual($e, $r);
+        $r = $Db->name($Db->name($Db->name('last_update_date')));
+        $e = 'last_update_date';
+        $this->assertEqual($e, $r);
 
-	}
+        $r = $Db->name($Db->name($Db->name('_update')));
+        $e = '"_update"';
+        $this->assertEqual($e, $r);
+    }
 }

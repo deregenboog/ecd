@@ -11,51 +11,45 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class AccountFixture extends CakeTestFixture {
+class AccountFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'Aco'
+     */
+    public $name = 'Account';
+    public $table = 'Accounts';
 
-/**
- * name property
- *
- * @var string 'Aco'
- * @access public
- */
-	var $name = 'Account';
-	var $table = 'Accounts';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'iAccountId' => ['type' => 'integer', 'key' => 'primary'],
+        'cDescription' => ['type' => 'string', 'length' => 10, 'null' => true],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'iAccountId'		=> array('type' => 'integer', 'key' => 'primary'),
-		'cDescription'	=> array('type' => 'string', 'length' => 10, 'null' => true)
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('cDescription' => 'gwoo'),
-		array('cDescription' => 'phpnut'),
-		array('cDescription' => 'schreck'),
-		array('cDescription' => 'dude')
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['cDescription' => 'gwoo'],
+        ['cDescription' => 'phpnut'],
+        ['cDescription' => 'schreck'],
+        ['cDescription' => 'dude'],
+    ];
 }

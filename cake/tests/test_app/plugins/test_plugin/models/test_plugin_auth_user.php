@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Plugin Auth User Model
+ * Test Plugin Auth User Model.
  *
  *
  *
@@ -13,34 +13,32 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
- * @link          http://cakephp.org CakePHP Project
- * @package       cake
- * @subpackage    cake.cake.tests.test_app.plugins.test_plugin
+ *
+ * @see          http://cakephp.org CakePHP Project
  * @since         CakePHP v 1.2.0.4487
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+class TestPluginAuthUser extends TestPluginAppModel
+{
+    /**
+     * Name property.
+     *
+     * @var string
+     */
+    public $name = 'TestPluginAuthUser';
 
-class TestPluginAuthUser extends TestPluginAppModel {
+    /**
+     * useTable property.
+     *
+     * @var string
+     */
+    public $useTable = 'auth_users';
 
-/**
- * Name property
- *
- * @var string
- */
-	var $name = 'TestPluginAuthUser';
-
-/**
- * useTable property
- *
- * @var string
- */
-	var $useTable = 'auth_users';
-
-/**
- * useDbConfig property
- *
- * @var string 'test_suite'
- * @access public
- */
-	var $useDbConfig = 'test_suite';
+    /**
+     * useDbConfig property.
+     *
+     * @var string 'test_suite'
+     */
+    public $useDbConfig = 'test_suite';
 }

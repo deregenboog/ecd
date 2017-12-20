@@ -1,6 +1,6 @@
 <?php
 /**
- * XmlGroupTest file
+ * XmlGroupTest file.
  *
  * PHP versions 4 and 5
  *
@@ -11,40 +11,34 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.groups
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4206
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
- * XmlGroupTest class
+ * XmlGroupTest class.
  *
  * This test group will run view class tests (view, theme).
- *
- * @package       cake
- * @subpackage    cake.tests.groups
  */
-class XmlGroupTest extends TestSuite {
+class XmlGroupTest extends TestSuite
+{
+    /**
+     * label property.
+     *
+     * @var string 'All core views'
+     */
+    public $label = 'Xml based classes (Xml, XmlHelper and RssHelper)';
 
-/**
- * label property
- *
- * @var string 'All core views'
- * @access public
- */
-	var $label = 'Xml based classes (Xml, XmlHelper and RssHelper)';
-
-/**
- * XmlGroupTest method
- *
- * @access public
- * @return void
- */
-	function XmlGroupTest() {
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'xml');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'view' . DS . 'helpers' . DS .'rss');
-		TestManager::addTestFile($this, CORE_TEST_CASES . DS . 'libs' . DS . 'view' . DS . 'helpers' . DS .'xml');
-	}
+    /**
+     * XmlGroupTest method.
+     */
+    public function XmlGroupTest()
+    {
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'xml');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'view'.DS.'helpers'.DS.'rss');
+        TestManager::addTestFile($this, CORE_TEST_CASES.DS.'libs'.DS.'view'.DS.'helpers'.DS.'xml');
+    }
 }
