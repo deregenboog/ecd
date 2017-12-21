@@ -29,6 +29,27 @@ class Client
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="regipro_volgnr", nullable=true)
+     */
+    private $regiproVolgnr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="regipro_person_id", nullable=true)
+     */
+    private $regiproPersonId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="regipro_client_id", nullable=true)
+     */
+    private $regiproClientId;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
@@ -173,4 +194,31 @@ class Client
             && 0 === count($this->vragen)
         ;
     }
+
+    public function getRegiproVolgnr()
+    {
+        return $this->regiproVolgnr;
+    }
+
+    public function setRegiproVolgnr($regiproVolgnr)
+    {
+        $this->regiproVolgnr = $regiproVolgnr;
+
+        return $this;
+    }
+
+    public function setRegiproClientId($regiproClientId)
+    {
+        $this->regiproClientId = $regiproClientId;
+
+        return $this;
+    }
+
+    public function setRegiproPersonId($regiproPersonId)
+    {
+        $this->regiproPersonId = $regiproPersonId;
+
+        return $this;
+    }
+
 }
