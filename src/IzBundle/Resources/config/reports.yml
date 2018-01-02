@@ -22,6 +22,20 @@ services:
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
+    iz.report.koppelingen.per_afsluitreden:
+        class: IzBundle\Report\KoppelingenPerAfsluitreden
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    iz.report.koppelingen.per_project_afsluitreden:
+        class: IzBundle\Report\KoppelingenPerProjectAfsluitreden
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
     iz.report.koppelingen.per_coordinator:
         class: IzBundle\Report\KoppelingenPerCoordinator
         arguments:

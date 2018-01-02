@@ -510,6 +510,23 @@ parameters:
                 - HsBundle\Controller\Rapportages
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
+                - IzAfsluitingen
+                - IzKlanten
+                - IzVrijwilligers
+                - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
+                - IzEindekoppelingen
+                - IzIntervisiegroepen
+                - IzKoppelingen
+                - IzOntstaan
+                - IzProjecten
+                - IzVerslagen
+                - IzViaPersonen
+                - IzVraagaanboden
+                - IzOntstaanContacten
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Hulpvraagsoorten

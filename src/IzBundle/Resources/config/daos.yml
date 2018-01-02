@@ -23,7 +23,7 @@ services:
         class: IzBundle\Service\KlantDao
 
     iz.dao.koppeling:
-        parent: odp.dao
+        parent: app.dao.abstract
         class: IzBundle\Service\KoppelingDao
     
     iz.dao.vrijwilliger:
