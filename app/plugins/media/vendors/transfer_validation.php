@@ -31,76 +31,76 @@ class TransferValidation extends MediaValidation {
  * @param mixed $check Path to file in local FS, URL or file-upload array
  * @return boolean
  */
-	function resource($check) {
-		if (TransferValidation::fileUpload($check)
-		 || TransferValidation::uploadedFile($check) /* This must appear above file */
-		 || MediaValidation::file($check)
-		 || TransferValidation::url($check)) {
-		  	return !TransferValidation::blank($check);
-		}
-		return false;
-	}
+    function resource($check) {
+        if (TransferValidation::fileUpload($check)
+         || TransferValidation::uploadedFile($check) /* This must appear above file */
+         || MediaValidation::file($check)
+         || TransferValidation::url($check)) {
+              return !TransferValidation::blank($check);
+        }
+        return false;
+    }
 /**
  * Checks if resource is not blank or empty
  *
  * @param mixed $check Array or string
  * @return boolean
  */
-	function blank($check) {
-		if (empty($check)) {
-			return true;
-		}
-		if (TransferValidation::fileUpload($check) && $check['error'] == UPLOAD_ERR_NO_FILE) {
-			return true;
-		}
-		if (is_string($check) && Validation::blank($check)) {
-			return true;
-		}
-		return false;
-	}
+    static function blank($check) {
+        if (empty($check)) {
+            return true;
+        }
+        if (TransferValidation::fileUpload($check) && $check['error'] == UPLOAD_ERR_NO_FILE) {
+            return true;
+        }
+        if (is_string($check) && Validation::blank($check)) {
+            return true;
+        }
+        return false;
+    }
 /**
  * Identifies a file upload array
  *
  * @param mixed $check
  * @return boolean
  */
-	function fileUpload($check) {
-		if (!is_array($check)) {
-			return false;
-		}
-		if (!array_key_exists('name',$check)
-		 || !array_key_exists('type',$check)
-		 || !array_key_exists('tmp_name',$check)
-		 || !array_key_exists('error',$check)
-		 || !array_key_exists('size',$check)) {
-			return false;
-		}
-		return true;
-	}
+    function fileUpload($check) {
+        if (!is_array($check)) {
+            return false;
+        }
+        if (!array_key_exists('name',$check)
+         || !array_key_exists('type',$check)
+         || !array_key_exists('tmp_name',$check)
+         || !array_key_exists('error',$check)
+         || !array_key_exists('size',$check)) {
+            return false;
+        }
+        return true;
+    }
 /**
  * Checks if subject is an uploaded file
  *
  * @param mixed $check
  */
-	function uploadedFile($check) {
-		return MediaValidation::file($check) && is_uploaded_file($check);
-	}
+    function uploadedFile($check) {
+        return MediaValidation::file($check) && is_uploaded_file($check);
+    }
 /**
  * Validates url
  *
  * @param string string to check
  * @param array options for allowing different url parts currently only scheme is supported
  */
-	function url($check, $options = array()) {
-		if (!is_string($check)) {
-			return false;
-		}
-		if (isset($options['scheme'])) {
-			if (!preg_match('/^(' . implode('|', (array) $options['scheme']) . ':)+/', $check)) {
-				return false;
-			}
-		}
-		return Validation::url($check);
-	}
+    static function url($check, $options = array()) {
+        if (!is_string($check)) {
+            return false;
+        }
+        if (isset($options['scheme'])) {
+            if (!preg_match('/^(' . implode('|', (array) $options['scheme']) . ':)+/', $check)) {
+                return false;
+            }
+        }
+        return Validation::url($check);
+    }
 }
 ?>
