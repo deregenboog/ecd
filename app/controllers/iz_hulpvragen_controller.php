@@ -55,7 +55,7 @@ class IzHulpvragenController extends AppController
             ->where('izHulpvraag.izHulpaanbod IS NULL')
             ->andWhere('izHulpvraag.einddatum IS NULL')
             ->andWhere('izKlant.izAfsluiting IS NULL')
-            ->andWhere('klant.disabled = false');
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $form->getData()->applyTo($builder);

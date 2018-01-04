@@ -16,7 +16,6 @@ class IzVrijwilligerRepository extends EntityRepository
             ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod', 'WITH', 'izHulpaanbod.einddatum IS NULL AND izHulpaanbod.izHulpvraag IS NULL')
             ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->andWhere('vrijwilliger.disabled IS NULL OR vrijwilliger.disabled = 0')
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL')
             ->orderBy('izHulpaanbod.startdatum', 'ASC')
         ;

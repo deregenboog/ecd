@@ -40,7 +40,6 @@ class GroepsactiviteitenVrijwilligersController extends AppController
             ->select('intake, vrijwilliger, medewerker')
             ->innerJoin('intake.vrijwilliger', 'vrijwilliger')
             ->innerJoin('vrijwilliger.medewerker', 'medewerker')
-            ->andWhere('vrijwilliger.disabled = false')
         ;
 
         $filter = $this->createFilter();

@@ -57,7 +57,6 @@ class KlantenController extends SymfonyController
             ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
             ->leftJoin('oekKlant.oekDeelnames', 'oekDeelname')
             ->leftJoin('oekDeelname.oekTraining', 'oekTraining')
-            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createFilter();

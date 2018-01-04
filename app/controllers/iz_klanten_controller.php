@@ -98,7 +98,6 @@ class IzKlantenController extends AppController
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $builder = $this->getEntityManager()->getRepository(Klant::class)
                 ->createQueryBuilder('klant')
-                ->where('klant.disabled = false')
                 ->orderBy('klant.achternaam')
             ;
             $filterForm->getData()->applyTo($builder);

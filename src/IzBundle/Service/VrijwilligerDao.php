@@ -41,7 +41,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
                 $expr->orX('izHulpaanbod.einddatum IS NULL', 'izHulpaanbod.einddatum > :now'),
                 $expr->orX('izHulpaanbod.koppelingEinddatum IS NULL', 'izHulpaanbod.koppelingEinddatum > :now')
             ))
-            ->where('vrijwilliger.disabled = false')
             ->setParameter('now', new \DateTime())
         ;
 

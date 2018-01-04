@@ -35,7 +35,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-            ->where($this->alias.'.disabled = false')
         ;
 
         if ($filter) {

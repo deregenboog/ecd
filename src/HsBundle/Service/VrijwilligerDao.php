@@ -39,7 +39,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.documenten", 'document')
-            ->andWhere('basisvrijwilliger.disabled = false')
         ;
 
         if ($filter && $filter->vrijwilliger) {

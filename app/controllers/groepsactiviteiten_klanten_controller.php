@@ -40,7 +40,6 @@ class GroepsactiviteitenKlantenController extends AppController
         $builder = $repository->createQueryBuilder('intake')
             ->innerJoin('intake.klant', 'klant')
             ->innerJoin('intake.medewerker', 'medewerker')
-            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createFilter();

@@ -67,6 +67,10 @@ doctrine:
                 date_format: Luxifer\DQL\Datetime\DateFormat
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
+        filters:
+            disabled:
+                class: AppBundle\Doctrine\DisabledFilter
+                enabled: true
 
 jms_di_extra: ~
 

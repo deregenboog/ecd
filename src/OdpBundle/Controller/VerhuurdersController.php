@@ -47,7 +47,6 @@ class VerhuurdersController extends SymfonyController
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('verhuurder.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createForm(VerhuurderFilterType::class);

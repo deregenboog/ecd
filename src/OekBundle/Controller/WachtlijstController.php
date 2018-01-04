@@ -48,7 +48,6 @@ class WachtlijstController extends SymfonyController
             ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
             ->innerJoin('oekKlant.oekLidmaatschappen', 'oekLidmaatschap')
             ->innerJoin('oekLidmaatschap.oekGroep', 'oekGroep')
-            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createFilter();
