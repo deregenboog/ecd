@@ -218,9 +218,10 @@ class Deelnemer
         return $this->trajecten;
     }
 
-    public function setTrajecten($trajecten)
+    public function addTraject(Traject $traject)
     {
-        $this->trajecten = $trajecten;
+        $this->trajecten[] = $traject;
+        $traject->setDeelnemer($this);
 
         return $this;
     }

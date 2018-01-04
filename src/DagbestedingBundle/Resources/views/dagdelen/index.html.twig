@@ -13,38 +13,42 @@
     <h1>{{ title }}</h1>
     <table class="table table-hover">
         <thead>
-            <tr>
-                {{ form_start(filter) }}
-                <th>
-                    {{ form_widget(filter.klant.id) }}
-                    {{ form_errors(filter.klant.id) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.project) }}
-                    {{ form_errors(filter.project) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.datum.start) }}
-                    {{ form_errors(filter.datum.start) }}
-                    {{ form_widget(filter.datum.end) }}
-                    {{ form_errors(filter.datum.end) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.dagdeel) }}
-                    {{ form_errors(filter.dagdeel) }}
-                </th>
-                <th>
-                </th>
-                <th>
-                    {{ form_widget(filter.filter) }}
-                    {{ form_widget(filter.download) }}
-                </th>
-                {{ form_end(filter) }}
-            </tr>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.id) }}
+                        {{ form_errors(filter.klant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.project) }}
+                        {{ form_errors(filter.project) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.datum.start) }}
+                        {{ form_errors(filter.datum.start) }}
+                        {{ form_widget(filter.datum.end) }}
+                        {{ form_errors(filter.datum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.dagdeel) }}
+                        {{ form_errors(filter.dagdeel) }}
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
             <tr>
                 <th>
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
@@ -64,18 +68,21 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Aanwezigheid', 'dagdeel.aanwezigheid') }}
                 </th>
-                <th>
-                </th>
             </tr>
         </thead>
         <tbody>
             {% for dagdeel in pagination %}
-            <tr>
+            <tr data-href="{{ path('dagbesteding_trajecten_viewdagdelen', {
+                        id: dagdeel.traject.id,
+                        project: dagdeel.project.id,
+                        month: dagdeel.datum|date('Y-m'),
+                        redirect: app.request.get('url')
+                    }) }}">
                 <td>
-                    {{ html.link(dagdeel.traject.deelnemer.klant.id, path('dagbesteding_deelnemers_view', {id: dagdeel.traject.deelnemer.id})) }}
+                    {{ dagdeel.traject.deelnemer.klant.id }}
                 </td>
                 <td>
-                    {{ html.link(dagdeel.traject.deelnemer.klant, path('dagbesteding_deelnemers_view', {id: dagdeel.traject.deelnemer.id})) }}
+                    {{ dagdeel.traject.deelnemer.klant }}
                 </td>
                 <td>
                     {{ dagdeel.project }}
@@ -88,14 +95,6 @@
                 </td>
                 <td>
                     {{ dagdeel.aanwezigheid }}
-                </td>
-                <td>
-                    {{ html.editlink(path('dagbesteding_trajecten_editdagdelen', {
-                        id: dagdeel.traject.id,
-                        project: dagdeel.project.id,
-                        month: dagdeel.datum|date('Y-m'),
-                        redirect: app.request.get('url')
-                    })) }}
                 </td>
             </tr>
             {% endfor %}
