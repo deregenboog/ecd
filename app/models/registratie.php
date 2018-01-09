@@ -161,30 +161,20 @@ class Registratie extends AppModel
             $exception_list_query = 'AND klant_id NOT IN ('.$exception_list.')';
         }
 
-        $this->query('UPDATE registraties SET binnen_date = DATE(binnen) WHERE binnen_date IS NULL');
         $result = $this->query('
-            SELECT
-                binnen, buiten, douche, mw, kleding, maaltijd, activering, gbrv,
-                voornaam, achternaam, roepnaam, tussenvoegsel, Registratie.id,
-                laatste_TBC_controle, klant_id
-            FROM (
-                SELECT * FROM registraties
-                WHERE
-                    locatie_id = '.(int) $locatie_id.'
-                AND
-                    closed = 1
-                AND
-                    binnen > "'.$timelimit.'"
-                AND
-                    binnen_date > "'.$timelimit.'"
+            SELECT Registratie.id, Registratie.binnen, Registratie.buiten, Registratie.douche, Registratie.mw, Registratie.kleding, Registratie.maaltijd, Registratie.activering, Registratie.gbrv,
+                Klant.voornaam, Klant.achternaam, Klant.roepnaam, Klant.tussenvoegsel, Klant.laatste_TBC_controle, Registratie.klant_id
+            FROM registraties Registratie
+            INNER JOIN (
+                SELECT klant_id, MAX(buiten) AS max_buiten
+                FROM registraties
+                WHERE closed = 1
+                AND locatie_id = '.(int) $locatie_id.'
+                AND binnen > "'.$timelimit.'"
                 '.$exception_list_query.'
-                ORDER BY
-                    buiten DESC
-            ) AS `Registratie`
-            LEFT JOIN
-                klanten AS `Klant` ON Registratie.klant_id = Klant.id
-            GROUP BY
-                klant_id;
+                GROUP BY klant_id
+            ) AS laatste_registratie ON laatste_registratie.klant_id = Registratie.klant_id AND laatste_registratie.max_buiten = Registratie.buiten
+            INNER JOIN klanten Klant ON Registratie.klant_id = Klant.id
         ');
 
         return $result;
@@ -327,6 +317,9 @@ class Registratie extends AppModel
 
     public function get_timelimit($locationId, $previous_days = 0)
     {
+        $locationId = (int) $locationId;
+        $previous_days = (int) $previous_days;
+
         $this->LocatieTijd = ClassRegistry::init('LocatieTijd');
 
         $result = date('Y-m-d H:i:s', $this->LocatieTijd->getLastClosingTime(
