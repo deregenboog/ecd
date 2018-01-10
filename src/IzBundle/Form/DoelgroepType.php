@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use IzBundle\Entity\Doelgroep;
+use AppBundle\Form\BaseType;
 
 class DoelgroepType extends AbstractType
 {
@@ -30,5 +31,10 @@ class DoelgroepType extends AbstractType
         $resolver->setDefaults([
             'class' => Doelgroep::class,
         ]);
+    }
+
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
