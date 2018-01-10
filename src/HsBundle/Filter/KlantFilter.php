@@ -31,7 +31,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var string
      */
-    public $status = self::STATUS_ACTIVE;
+    public $status;
 
     /**
      * @var bool
