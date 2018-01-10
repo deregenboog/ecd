@@ -186,6 +186,11 @@ abstract class IzKoppeling
         return $this;
     }
 
+    public function getIzEindeKoppeling()
+    {
+        return $this->izEindeKoppeling;
+    }
+
     public function isAfgesloten()
     {
         $now = new \DateTime();
