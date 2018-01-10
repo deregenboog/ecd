@@ -47,7 +47,6 @@ class HuurdersController extends SymfonyController
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huurder.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-            ->andWhere('klant.disabled = false')
         ;
 
         $filter = $this->createForm(HuurderFilterType::class);

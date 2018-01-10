@@ -32,4 +32,16 @@ trait MemoSubjectTrait
 
         return $this;
     }
+
+    /**
+     * @param Memo $memo
+     *
+     * @return self
+     */
+    public function removeMemo(Memo $memo)
+    {
+        $this->memos->removeElement($memo);
+
+        return $this;
+    }
 }

@@ -60,6 +60,23 @@ class KlusType extends AbstractType
             ])
         ;
 
+        if (!$options['data']->getId()) {
+            $builder
+                ->add('memo', MemoType::class, [
+                    'data' => new Memo(),
+                    'mapped' => false,
+                    'label' => 'Klusinfo',
+                ])
+                ->get('memo')->remove('medewerker')->remove('datum')
+            ;
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $klus = $event->getData();
+                $memo = $event->getForm()->get('memo')->getData();
+                $memo->setMedewerker($klus->getMedewerker());
+                $klus->addMemo($memo);
+            });
+        }
+
         $builder->add('submit', SubmitType::class);
     }
 

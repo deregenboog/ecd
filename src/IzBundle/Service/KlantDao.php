@@ -43,7 +43,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
                 $expr->orX('izHulpvraag.einddatum IS NULL', 'izHulpvraag.einddatum > :now'),
                 $expr->orX('izHulpvraag.koppelingEinddatum IS NULL', 'izHulpvraag.koppelingEinddatum > :now')
             ))
-            ->where('klant.disabled = false')
             ->setParameter('now', new \DateTime())
         ;
 

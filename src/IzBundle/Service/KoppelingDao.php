@@ -37,8 +37,6 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
             ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.izBinnengekomenVia', 'izBinnengekomenVia')
-            ->andWhere('klant.disabled = false')
-            ->andWhere('vrijwilliger.disabled = false')
         ;
 
         if ($filter) {

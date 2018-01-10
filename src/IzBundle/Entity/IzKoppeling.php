@@ -15,6 +15,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"hulpvraag" = "IzHulpvraag", "hulpaanbod" = "IzHulpaanbod"})
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 abstract class IzKoppeling
 {
@@ -26,6 +27,13 @@ abstract class IzKoppeling
      * @ORM\GeneratedValue
      */
     protected $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime")
+     */
+    protected $deletedAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -176,6 +184,11 @@ abstract class IzKoppeling
         $this->koppelingEinddatum = $koppelingEinddatum;
 
         return $this;
+    }
+
+    public function getIzEindeKoppeling()
+    {
+        return $this->izEindeKoppeling;
     }
 
     public function isAfgesloten()

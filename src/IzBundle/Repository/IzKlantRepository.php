@@ -16,7 +16,6 @@ class IzKlantRepository extends EntityRepository
             ->innerJoin('izKlant.izHulpvragen', 'izHulpvraag', 'WITH', 'izHulpvraag.einddatum IS NULL AND izHulpvraag.izHulpaanbod IS NULL')
             ->innerJoin('izKlant.izIntake', 'izIntake')
             ->innerJoin('izKlant.klant', 'klant')
-            ->andWhere('klant.disabled IS NULL OR klant.disabled = 0')
             ->andWhere('izKlant.afsluitDatum IS NULL')
             ->orderBy('izHulpvraag.startdatum', 'ASC')
         ;
@@ -204,9 +203,6 @@ class IzKlantRepository extends EntityRepository
             ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
             ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izKlant.izAfsluiting', 'izAfsluiting')
-            ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
-            ->setParameter('foutieve_invoer', 'Foutieve invoer')
         ;
     }
 

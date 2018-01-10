@@ -25,7 +25,7 @@ class MemoType extends AbstractType
         $builder
             ->add('datum', AppDateTimeType::class, ['data' => new \DateTime('now')])
             ->add('onderwerp')
-            ->add('memo', TextareaType::class, ['attr' => ['cols' => 80, 'rows' => 20]])
+            ->add('memo', TextareaType::class, ['attr' => ['rows' => 20]])
             ->add('submit', SubmitType::class)
         ;
     }

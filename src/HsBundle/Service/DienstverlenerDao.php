@@ -39,7 +39,6 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
             ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.documenten", 'document')
-            ->andWhere('klant.disabled = false')
         ;
 
         if ($filter) {

@@ -98,7 +98,6 @@ class IzVrijwilligersController extends AppController
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $builder = $this->getEntityManager()->getRepository(Vrijwilliger::class)
                 ->createQueryBuilder('vrijwilliger')
-                ->where('vrijwilliger.disabled = false')
                 ->orderBy('vrijwilliger.achternaam')
             ;
             $filterForm->getData()->applyTo($builder);

@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Exception\AppException;
 use AppBundle\Service\AbstractDao;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use AppBundle\Form\ConfirmationType;
 
 class AbstractChildController extends AbstractController
 {
@@ -23,6 +25,11 @@ class AbstractChildController extends AbstractController
      * @var string
      */
     protected $addMethod;
+
+    /**
+     * @var string
+     */
+    protected $deleteMethod;
 
     /**
      * @var bool
@@ -76,6 +83,50 @@ class AbstractChildController extends AbstractController
         return [
             'entity' => $entity,
             'parent_entity' => $parentEntity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        if (in_array('delete', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $entity = $this->dao->find($id);
+        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                if ($parentEntity && $this->deleteMethod) {
+                    $parentEntity->{$this->deleteMethod}($entity);
+                    $this->parentDao->update($parentEntity);
+                }
+                $this->dao->delete($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+
+                if ($url = $request->get('redirect')) {
+                    return $this->redirect($url);
+                }
+
+                return $this->redirectToIndex();
+            } else {
+                if ($url = $request->get('redirect')) {
+                    return $this->redirect($url);
+                }
+
+                return $this->redirectToView($entity);
+            }
+        }
+
+        return [
+            'entity' => $entity,
             'form' => $form->createView(),
         ];
     }

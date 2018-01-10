@@ -132,11 +132,7 @@ class IzHulpvraagRepository extends EntityRepository
             ->select('COUNT(izHulpvraag.id) AS aantal')
             ->innerJoin('izHulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
-            ->leftJoin('izHulpvraag.izEindeKoppeling', 'izEindeKoppelingHulpvraag')
-            ->leftJoin('izKlant.izAfsluiting', 'izAfsluitingKlant')
-            ->andWhere('izAfsluitingKlant.id IS NULL OR izAfsluitingKlant.naam <> :foutieve_invoer')
-            ->andWhere('izEindeKoppelingHulpvraag.id IS NULL OR izEindeKoppelingHulpvraag.naam <> :foutieve_invoer')
-            ->setParameter('foutieve_invoer', 'Foutieve invoer');
+        ;
     }
 
     private function getKoppelingenCountBuilder()
@@ -148,15 +144,7 @@ class IzHulpvraagRepository extends EntityRepository
             ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
             ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izHulpvraag.izEindeKoppeling', 'izEindeKoppelingHulpvraag')
-            ->leftJoin('izHulpaanbod.izEindeKoppeling', 'izEindeKoppelingHulpaanbod')
-            ->leftJoin('izKlant.izAfsluiting', 'izAfsluitingKlant')
-            ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluitingVrijwilliger')
-            ->andWhere('izAfsluitingKlant.id IS NULL OR izAfsluitingKlant.naam <> :foutieve_invoer')
-            ->andWhere('izAfsluitingVrijwilliger.id IS NULL OR izAfsluitingVrijwilliger.naam <> :foutieve_invoer')
-            ->andWhere('izEindeKoppelingHulpvraag.id IS NULL OR izEindeKoppelingHulpvraag.naam <> :foutieve_invoer')
-            ->andWhere('izEindeKoppelingHulpaanbod.id IS NULL OR izEindeKoppelingHulpaanbod.naam <> :foutieve_invoer')
-            ->setParameter('foutieve_invoer', 'Foutieve invoer');
+        ;
     }
 
     private function applyHulpvragenReportFilter(QueryBuilder $builder, $report, \DateTime $startDate, \DateTime $endDate)

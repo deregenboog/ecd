@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use IzBundle\Entity\Hulpvraagsoort;
+use AppBundle\Form\BaseType;
 
 class HulpvraagsoortType extends AbstractType
 {
@@ -30,5 +31,10 @@ class HulpvraagsoortType extends AbstractType
         $resolver->setDefaults([
             'class' => Hulpvraagsoort::class,
         ]);
+    }
+
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }

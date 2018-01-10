@@ -46,6 +46,7 @@ services:
               - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
               - { key: klant, dao: '@hs.dao.klant' }
               - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
+              - { key: klus, dao: '@hs.dao.klus' }
 
     hs.klus.entities:
         class: ArrayObject

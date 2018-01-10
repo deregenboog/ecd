@@ -9,6 +9,9 @@
     {% elseif vrijwilliger is defined %}
         {% set entity = vrijwilliger %}
         {% set url = path('hs_documenten_add', {vrijwilliger: entity.id}) %}
+    {% elseif klus is defined %}
+        {% set entity = klus %}
+        {% set url = path('hs_documenten_add', {klus: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
@@ -25,6 +28,18 @@
                 <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
                     Document downloaden
                 </a>
+            </td>
+            <td>
+                {% if klant is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, klant: entity.id}) %}
+                {% elseif dienstverlener is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, dienstverlener: entity.id}) %}
+                {% elseif vrijwilliger is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, vrijwilliger: entity.id}) %}
+                {% elseif klus is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, klus: entity.id}) %}
+                {% endif %}
+                {{ html.deleteLink(url) }}
             </td>
         </tr>
     {% endfor %}

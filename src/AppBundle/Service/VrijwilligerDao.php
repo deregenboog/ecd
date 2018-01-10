@@ -41,7 +41,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id)")
-            ->where("{$this->alias}.disabled = false")
             ->orderBy("{$this->alias}.achternaam")
         ;
 

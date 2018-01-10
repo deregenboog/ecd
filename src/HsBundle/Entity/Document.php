@@ -56,6 +56,11 @@ class Document
         }
     }
 
+    public function __toString()
+    {
+        return $this->naam;
+    }
+
     public function getId()
     {
         return $this->id;

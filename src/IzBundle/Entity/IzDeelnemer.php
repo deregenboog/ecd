@@ -18,6 +18,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\DiscriminatorColumn(name="model", type="string")
  * @ORM\DiscriminatorMap({"Klant" = "IzKlant", "Vrijwilliger" = "IzVrijwilliger"})
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 abstract class IzDeelnemer
 {
@@ -29,6 +30,13 @@ abstract class IzDeelnemer
      * @ORM\GeneratedValue
      */
     protected $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime")
+     */
+    protected $deletedAt;
 
     /**
      * @var ArrayCollection|IzKoppeling[]

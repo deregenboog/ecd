@@ -31,4 +31,16 @@ trait DocumentSubjectTrait
 
         return $this;
     }
+
+    /**
+     * @param Document $document
+     *
+     * @return self
+     */
+    public function removeDocument(Document $document)
+    {
+        $this->documenten->removeElement($document);
+
+        return $this;
+    }
 }

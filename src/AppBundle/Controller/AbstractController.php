@@ -40,10 +40,24 @@ class AbstractController extends SymfonyController
      */
     protected $dao;
 
+    public function setDao(AbstractDao $dao)
+    {
+        $this->dao = $dao;
+
+        return $this;
+    }
+
     /**
      * @var ExportInterface
      */
     protected $export;
+
+    public function setExport(ExportInterface $export)
+    {
+        $this->export = $export;
+
+        return $this;
+    }
 
     /**
      * @var array
