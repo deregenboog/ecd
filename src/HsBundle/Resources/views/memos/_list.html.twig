@@ -39,6 +39,16 @@
             <td>{{ memo.medewerker }}</td>
             <td>
                 {{ html.editLink(path('hs_memos_edit', {id: memo.id})) }}
+                {% if klus is defined %}
+                    {% set url = path('hs_memos_delete', {id: memo.id, klus: entity.id}) %}
+                {% elseif klant is defined %}
+                    {% set url = path('hs_memos_delete', {id: memo.id, klant: entity.id}) %}
+                {% elseif dienstverlener is defined %}
+                    {% set url = path('hs_memos_delete', {id: memo.id, dienstverlener: entity.id}) %}
+                {% elseif vrijwilliger is defined %}
+                    {% set url = path('hs_memos_delete', {id: memo.id, vrijwilliger: entity.id}) %}
+                {% endif %}
+                {{ html.deleteLink(url) }}
             </td>
         </tr>
     {% endfor %}

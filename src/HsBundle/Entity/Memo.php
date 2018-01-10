@@ -66,7 +66,7 @@ class Memo
 
     public function __toString()
     {
-        return sprintf('%s %s', $this->medewerker, $this->datum->format('d-m-Y H:i:s'));
+        return sprintf('%s (%s, %s)', $this->onderwerp, $this->medewerker, $this->datum->format('d-m-Y'));
     }
 
     public function getId()

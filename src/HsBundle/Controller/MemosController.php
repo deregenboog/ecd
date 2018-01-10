@@ -19,6 +19,7 @@ class MemosController extends AbstractChildController
     protected $entityClass = Memo::class;
     protected $formClass = MemoType::class;
     protected $addMethod = 'addMemo';
+    protected $deleteMethod = 'removeMemo';
     protected $baseRouteName = 'hs_memos_';
 
     /**

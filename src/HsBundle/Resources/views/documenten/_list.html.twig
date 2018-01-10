@@ -29,6 +29,18 @@
                     Document downloaden
                 </a>
             </td>
+            <td>
+                {% if klant is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, klant: entity.id}) %}
+                {% elseif dienstverlener is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, dienstverlener: entity.id}) %}
+                {% elseif vrijwilliger is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, vrijwilliger: entity.id}) %}
+                {% elseif klus is defined %}
+                    {% set url = path('hs_documenten_delete', {id: document.id, klus: entity.id}) %}
+                {% endif %}
+                {{ html.deleteLink(url) }}
+            </td>
         </tr>
     {% endfor %}
 </table>

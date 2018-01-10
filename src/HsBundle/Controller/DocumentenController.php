@@ -15,10 +15,11 @@ use AppBundle\Controller\AbstractChildController;
 class DocumentenController extends AbstractChildController
 {
     protected $title = 'Documenten';
-    protected $entityName = 'Document';
+    protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;
     protected $addMethod = 'addDocument';
+    protected $deleteMethod = 'removeDocument';
     protected $baseRouteName = 'hs_documenten_';
 
     /**
