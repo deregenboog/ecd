@@ -9,6 +9,9 @@
     {% elseif vrijwilliger is defined %}
         {% set entity = vrijwilliger %}
         {% set url = path('hs_documenten_add', {vrijwilliger: entity.id}) %}
+    {% elseif klus is defined %}
+        {% set entity = klus %}
+        {% set url = path('hs_documenten_add', {klus: entity.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}

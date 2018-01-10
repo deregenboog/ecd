@@ -114,6 +114,7 @@
         {% if entity.klant %}
             <li><a data-toggle="tab" href="#facturen">Facturen</a></li>
         {% endif %}
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="memos" class="tab-pane active">
@@ -130,5 +131,8 @@
                 {% include '@Hs/facturen/_list.html.twig' with {klus: entity} %}
             </div>
         {% endif %}
+        <div id="documenten" class="tab-pane">
+            {% include '@Hs/documenten/_list.html.twig' with {klus: entity} %}
+        </div>
     </div>
 {% endblock %}
