@@ -115,9 +115,6 @@ class IzVrijwilligerRepository extends EntityRepository
             ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
             ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod', 'WITH', 'izHulpaanbod.einddatum IS NULL')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluiting')
-            ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
-            ->setParameter('foutieve_invoer', 'Foutieve invoer')
         ;
     }
 
@@ -129,11 +126,8 @@ class IzVrijwilligerRepository extends EntityRepository
             ->innerJoin('izVrijwilliger.izIntake', 'izIntake')
             ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod', 'WITH', 'izHulpaanbod.einddatum IS NULL')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izVrijwilliger.izAfsluiting', 'izAfsluiting')
-            ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
             ->groupBy('izVrijwilliger.id')
             ->orderBy('vrijwilliger.achternaam, vrijwilliger.voornaam, vrijwilliger.tussenvoegsel')
-            ->setParameter('foutieve_invoer', 'Foutieve invoer')
         ;
     }
 

@@ -203,9 +203,6 @@ class IzKlantRepository extends EntityRepository
             ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
             ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izKlant.izAfsluiting', 'izAfsluiting')
-            ->andWhere('izAfsluiting.id IS NULL OR izAfsluiting.naam <> :foutieve_invoer')
-            ->setParameter('foutieve_invoer', 'Foutieve invoer')
         ;
     }
 

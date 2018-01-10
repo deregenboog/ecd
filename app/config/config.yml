@@ -68,8 +68,14 @@ doctrine:
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
         filters:
+            softdeleteable:
+                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                enabled: true
             disabled:
                 class: AppBundle\Doctrine\DisabledFilter
+                enabled: true
+            foutieve_invoer:
+                class: IzBundle\Doctrine\FoutieveInvoerFilter
                 enabled: true
 
 jms_di_extra: ~
@@ -79,6 +85,7 @@ stof_doctrine_extensions:
         default:
             loggable: true
             timestampable: true
+            softdeleteable: true
 
 knp_paginator: ~
 
