@@ -3,6 +3,10 @@
 namespace AppBundle\Export;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Worksheet;
 
 class GenericExport extends AbstractExport
 {
@@ -42,7 +46,7 @@ class GenericExport extends AbstractExport
             return empty($array);
         });
 
-        $column = 0;
+        $column = 1;
 
         foreach ($entities as $entity) {
             if ('array' === $this->class) {
@@ -73,27 +77,31 @@ class GenericExport extends AbstractExport
                 if (!is_null($value)) {
                     switch (@$config['type']) {
                         case 'money':
-                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
-                            $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+                            $sheet->getCellByColumnAndRow($column, $this->row)
+                                ->setValue($value)
+                                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
                             break;
                         case 'date':
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
-                            $value = \PHPExcel_Shared_Date::PHPToExcel($value);
-                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
-                            $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+                            $value = Date::PHPToExcel($value);
+                            $sheet->getCellByColumnAndRow($column, $this->row)
+                                ->setValue($value)
+                                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
                             break;
                         case 'time':
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
-                            $value = \PHPExcel_Shared_Date::PHPToExcel($value);
-                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
-                            $sheet->getCellByColumnAndRow($column, $this->row)->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME3);
+                            $value = Date::PHPToExcel($value);
+                            $sheet->getCellByColumnAndRow($column, $this->row)
+                                ->setValue($value)
+                                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_TIME3);
                             break;
                         default:
-                            $sheet->setCellValueByColumnAndRow($column, $this->row, $value);
+                            $sheet->getCellByColumnAndRow($column, $this->row)
+                                ->setValue($value);
                             break;
                     }
                 }
@@ -101,7 +109,7 @@ class GenericExport extends AbstractExport
                 ++$column;
             }
 
-            $column = 0;
+            $column = 1;
             ++$this->row;
         }
 
@@ -109,16 +117,17 @@ class GenericExport extends AbstractExport
     }
 
     /**
-     * @return \PHPExcel_Worksheet
+     * @return Worksheet
      */
     protected function prepare()
     {
-        $this->excel = new \PHPExcel();
+        $this->excel = new Spreadsheet();
         $sheet = $this->excel->getActiveSheet();
 
-        $column = 0;
+        $column = 1;
         foreach ($this->headers as $header) {
-            $sheet->setCellValueByColumnAndRow($column, 1, $header, true)
+            $sheet->getCellByColumnAndRow($column, 1)
+                ->setValue($header)
                 ->getStyle()->getFont()->setBold(true);
             $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
             ++$column;

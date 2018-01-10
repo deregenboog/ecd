@@ -21,6 +21,13 @@ COPY docker/xdebug.ini /tmp/xdebug.ini
 RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && rm /tmp/xdebug.ini
 
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd
+
 # configure apache
 COPY docker/vhost.conf /etc/apache2/sites-available/app.conf
 RUN a2enmod rewrite headers && a2dissite 000-default && a2ensite app

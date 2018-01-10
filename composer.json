@@ -34,7 +34,7 @@
         }
     },
     "require" : {
-        "symfony/symfony" : "^3.1",
+        "symfony/symfony" : "^3.4",
         "symfony/swiftmailer-bundle" : "^2.3",
         "symfony/monolog-bundle" : "^2.8",
         "sensio/distribution-bundle" : "^5.0",
@@ -51,8 +51,10 @@
         "backup-manager/backup-manager" : "^1.1",
         "stof/doctrine-extensions-bundle" : "^1.2",
         "shivas/versioning-bundle" : "^1.4",
-        "phpoffice/phpexcel" : "^1.8",
-        "beberlei/DoctrineExtensions" : "^1.0"
+        "phpoffice/phpspreadsheet" : "^1.0",
+        "beberlei/DoctrineExtensions" : "^1.0",
+        "symfony/templating": "^3.4",
+        "symfony/translation": "^3.4"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer" : "^2",
