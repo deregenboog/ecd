@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Op Eigen Kracht | Klanten
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>
+        {{ html.addLink(path('oek_vrijwilligers_add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path('oek_vrijwilligers_add')) }}
+    </p>
+
+    <table class="table table-hover">
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="3">
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                        {{ form_widget(filter.download) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.vrijwilliger.id) }}
+                    {{ form_errors(filter.vrijwilliger.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.vrijwilliger.naam) }}
+                    {{ form_errors(filter.vrijwilliger.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+                    {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+                </th>
+            </tr>
+        {{ form_end(filter) }}
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+            </th>
+        </tr>
+        {% for vrijwilliger in pagination %}
+        <tr data-href="{{ path('oek_vrijwilligers_view', {id: vrijwilliger.id}) }}">
+            <td>
+                {{ vrijwilliger.vrijwilliger.id }}
+            </td>
+            <td>
+                {{ vrijwilliger }}
+            </td>
+            <td>
+                {{ vrijwilliger.vrijwilliger.werkgebied }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

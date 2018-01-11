@@ -187,11 +187,14 @@ parameters:
                 - OdpBundle\Controller\Verslagen
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
@@ -232,13 +235,16 @@ parameters:
                 - OdpBundle\Controller\Woningbouwcorporaties
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
@@ -269,22 +275,28 @@ parameters:
             GROUP_OEK:
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_OEK_BEHEER:
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_ODP:
                 - odp
@@ -447,13 +459,16 @@ parameters:
                 - OdpBundle\Controller\Woningbouwcorporaties
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
                 - PfoClienten
                 - PfoRapporten

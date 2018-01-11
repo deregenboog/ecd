@@ -117,6 +117,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/odp'
+        oek_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /oek/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/oek'
 
 shivas_versioning:
     version_parameter: application_version

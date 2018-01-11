@@ -15,6 +15,7 @@ _hs:
 
 _oek:
     resource: "@OekBundle/Resources/config/routing.yml"
+    prefix: /oek
 
 _dagbesteding:
     resource: "@DagbestedingBundle/Resources/config/routing.yml"

@@ -9,7 +9,13 @@ services:
     OekBundle\Service\DeelnemerDao:
         parent: oek.dao
 
+    OekBundle\Service\DocumentDao:
+        parent: oek.dao
+
     OekBundle\Service\GroepDao:
+        parent: oek.dao
+
+    OekBundle\Service\MemoDao:
         parent: oek.dao
 
     OekBundle\Service\TrainingDao:
@@ -20,6 +26,21 @@ services:
 
     OekBundle\Service\VerwijzingNaarDao:
         parent: oek.dao
+
+    OekBundle\Service\VrijwilligerDao:
+        parent: oek.dao
+
+    oek.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
+
+    oek.memo.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
 
     oek.training.entities:
         class: ArrayObject

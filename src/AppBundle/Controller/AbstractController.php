@@ -210,11 +210,12 @@ class AbstractController extends SymfonyController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
                 $this->dao->delete($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
                 if ($url = $request->get('redirect')) {
-                    $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
                     if (!strpos($viewUrl, $url)) {
                         return $this->redirect($url);
                     }
