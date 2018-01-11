@@ -5,7 +5,7 @@ namespace AppBundle\Model;
 trait MemoSubjectTrait
 {
     /**
-     * @var Memo[]
+     * @var MemoInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
@@ -14,7 +14,7 @@ trait MemoSubjectTrait
     protected $memos;
 
     /**
-     * @return Memo[]
+     * @return MemoInterface[]
      */
     public function getMemos()
     {
@@ -22,11 +22,11 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param Memo $memo
+     * @param MemoInterface $memo
      *
      * @return self
      */
-    public function addMemo(Memo $memo)
+    public function addMemo(MemoInterface $memo)
     {
         $this->memos[] = $memo;
 
@@ -34,11 +34,11 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param Memo $memo
+     * @param MemoInterface $memo
      *
      * @return self
      */
-    public function removeMemo(Memo $memo)
+    public function removeMemo(MemoInterface $memo)
     {
         $this->memos->removeElement($memo);
 

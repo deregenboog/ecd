@@ -5,7 +5,7 @@ namespace AppBundle\Model;
 trait DocumentSubjectTrait
 {
     /**
-     * @var Document[]
+     * @var DocumentInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
@@ -13,7 +13,7 @@ trait DocumentSubjectTrait
     protected $documenten;
 
     /**
-     * @return Document[]
+     * @return DocumentInterface[]
      */
     public function getDocumenten()
     {
@@ -21,11 +21,11 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
+     * @param DocumentInterface $document
      *
      * @return self
      */
-    public function addDocument(Document $document)
+    public function addDocument(DocumentInterface $document)
     {
         $this->documenten[] = $document;
 
@@ -37,7 +37,7 @@ trait DocumentSubjectTrait
      *
      * @return self
      */
-    public function removeDocument(Document $document)
+    public function removeDocument(DocumentInterface $document)
     {
         $this->documenten->removeElement($document);
 

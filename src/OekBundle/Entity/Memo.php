@@ -5,13 +5,14 @@ namespace OekBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\MemoInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="oek_memos")
  * @Gedmo\Loggable
  */
-class Memo
+class Memo implements MemoInterface
 {
     /**
      * @ORM\Id

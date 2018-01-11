@@ -5,21 +5,21 @@ namespace AppBundle\Model;
 interface MemoSubjectInterface
 {
     /**
-     * @return Memo[]
+     * @return MemoInterface[]
      */
     public function getMemos();
 
     /**
-     * @param Memo $memo
+     * @param MemoInterface $memo
      *
      * @return self
      */
-    public function addMemo(Memo $memo);
+    public function addMemo(MemoInterface $memo);
 
     /**
      * @param Memo $memo
      *
      * @return self
      */
-    public function removeMemo(Memo $memo);
+    public function removeMemo(MemoInterface $memo);
 }

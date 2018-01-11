@@ -9,6 +9,7 @@ use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\DocumentInterface;
 
 /**
  * @ORM\Entity
@@ -17,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */
-class Document
+class Document implements DocumentInterface
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
 

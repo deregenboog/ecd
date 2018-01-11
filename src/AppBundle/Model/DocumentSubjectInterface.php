@@ -5,21 +5,21 @@ namespace AppBundle\Model;
 interface DocumentSubjectInterface
 {
     /**
-     * @return Document[]
+     * @return DocumentInterface[]
      */
     public function getDocumenten();
 
     /**
-     * @param Document $document
+     * @param DocumentInterface $document
      *
      * @return self
      */
-    public function addDocument(Document $document);
+    public function addDocument(DocumentInterface $document);
 
     /**
      * @param Document $document
      *
      * @return self
      */
-    public function removeDocument(Document $document);
+    public function removeDocument(DocumentInterface $document);
 }
