@@ -1,0 +1,51 @@
+services:
+    oek.export.deelnemer:
+        class: OekBundle\Export\DeelnemersExport
+        arguments:
+            - OekBundle\Entity\Deelnemer
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
+                Trainingen: { expression: 'export.getTrainingen(entity)' }
+                Aanmelddatum: { expression: 'entity.getAanmelding().getDatum()', condition: 'entity.getAanmelding()', type: 'date' }
+                Verwezen door: { expression: 'entity.getAanmelding().getVerwijzing()', condition: 'entity.getAanmelding()' }
+                Afsluitdatum: { expression: 'entity.getAfsluiting().getDatum()', condition: 'entity.getAfsluiting()', type: 'date' }
+                Verwezen naar: { expression: 'entity.getAfsluiting().getVerwijzing()', condition: 'entity.getAfsluiting()' }
+
+    oek.export.wachtlijst:
+        class: OekBundle\Export\DeelnemersExport
+        arguments:
+            - OekBundle\Entity\Deelnemer
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Adres: { expression: 'entity.getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
+                E-mail: { expression: 'entity.getKlant().getEmail()' }
+                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
+                Groepen: { expression: 'export.getGroepen(entity)' }
+                Aanmelddatum: { expression: 'entity.getAanmelding().getDatum()', condition: 'entity.getAanmelding()', type: 'date' }
+                Verwezen door: { expression: 'entity.getAanmelding().getVerwijzing()', condition: 'entity.getAanmelding()' }
+                Afsluitdatum: { expression: 'entity.getAfsluiting().getDatum()', condition: 'entity.getAfsluiting()', type: 'date' }
+                Verwezen naar: { expression: 'entity.getAfsluiting().getVerwijzing()', condition: 'entity.getAfsluiting()' }
+
+    oek.export.report:
+        class: AppBundle\Export\ReportExport

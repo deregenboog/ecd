@@ -2,15 +2,15 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Wachtlijst |
+    Op Eigen Kracht | Wachtlijst
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
-    <h1>Wachtlijst deelnemers</h1>
+    <h1>{{ title }}</h1>
 
     <table class="table table-hover">
         <tr>
@@ -36,10 +36,6 @@
                 {{ form_errors(filter.aanmelddatum) }}
             </th>
             <th>
-                {{ form_widget(filter.afsluitdatum) }}
-                {{ form_errors(filter.afsluitdatum) }}
-            </th>
-            <th>
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
             </th>
@@ -56,45 +52,39 @@
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Groep(en)', 'oekGroep.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Groep(en)', 'groep.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'oekAanmelding.datum') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'oekAfsluiting.datum') }}
+                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'aanmelding.datum') }}
             </th>
             <th></th>
         </tr>
-        {% for oekKlant in pagination %}
+        {% for klant in pagination %}
             <tr>
                 <td>
-                    {{ html.link(oekKlant.klant.id, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    {{ html.link(klant.klant.id, path('oek_deelnemers_view', {id: klant.id})) }}
                 </td>
                 <td>
-                    {{ html.link(oekKlant.klant.naam, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    {{ html.link(klant.klant.naam, path('oek_deelnemers_view', {id: klant.id})) }}
                 </td>
                 <td>
-                    {{ oekKlant.klant.werkgebied }}
+                    {{ klant.klant.werkgebied }}
                 </td>
                 <td>
                     <ul>
-                        {% for oekGroep in oekKlant.oekGroepen %}
-                            <li>{{ oekGroep.naam }}</li>
+                        {% for groep in klant.groepen %}
+                            <li>{{ groep.naam }}</li>
                         {% endfor %}
                     </ul>
                 </td>
                 <td>
-                    {{ oekKlant.oekAanmelding ? oekKlant.oekAanmelding.datum|date('d-m-Y') }}
+                    {{ klant.aanmelding ? klant.aanmelding.datum|date('d-m-Y') }}
                 </td>
                 <td>
-                    {{ oekKlant.oekAfsluiting ? oekKlant.oekAfsluiting.datum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ html.viewLink(path('oek_klanten_view', {id: oekKlant.id})) }}
-                    {{ html.editLink(path('oek_klanten_edit', {id: oekKlant.id})) }}
-                    {% if oekKlant.deletable %}
-                        {{ html.deleteLink(path('oek_klanten_delete', {id: oekKlant.id})) }}
+                    {{ html.viewLink(path('oek_deelnemers_view', {id: klant.id})) }}
+                    {{ html.editLink(path('oek_deelnemers_edit', {id: klant.id})) }}
+                    {% if klant.deletable %}
+                        {{ html.deleteLink(path('oek_deelnemers_delete', {id: klant.id})) }}
                     {% endif %}
                 </td>
             </tr>

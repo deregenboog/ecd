@@ -2,18 +2,18 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Lidmaatschappen |
+    Op Eigen Kracht | Lidmaatschappen
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
     <h1>Groep verwijderen</h1>
     <p>
-        Weet u zeker dat u deelnemer <strong>{{ oekLidmaatschap.oekKlant }}</strong>
-        van wachtlijst <strong>{{ oekLidmaatschap.oekGroep }}</strong> wilt verwijderen?
+        Weet u zeker dat u deelnemer <strong>{{ lidmaatschap.deelnemer }}</strong>
+        van wachtlijst <strong>{{ lidmaatschap.groep }}</strong> wilt verwijderen?
         <br>
         {{ form(form) }}
     </p>

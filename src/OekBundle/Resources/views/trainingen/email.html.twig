@@ -2,15 +2,14 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Trainingen |
+    Op Eigen Kracht | Trainingen
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
-    <h1>E-mail deelnemers van training {{ oekTraining }}</h1>
-
+    <h1>E-mail deelnemers van {{ entity_name }} {{ training }}</h1>
     {{ form(form) }}
 {% endblock %}

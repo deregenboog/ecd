@@ -1,3 +1,7 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+
 services:
     oek.event.diensten_lookup_subscriber:
         class: OekBundle\Event\DienstenLookupSubscriber
@@ -12,173 +16,49 @@ services:
         tags:
             - { name: hautelook_alice.faker.provider }
 
-    oek.repository.oek_klant:
+    oek.repository.deelnemer:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
-            - OekBundle\Entity\OekKlant
+            - OekBundle\Entity\Deelnemer
 
-    oek.repository.oek_training:
+    oek.repository.training:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
-            - OekBundle\Entity\OekTraining
+            - OekBundle\Entity\Training
 
     oek.form.rapportage:
-        class: OekBundle\Form\OekRapportageType
+        class: OekBundle\Form\RapportageType
         tags:
             - { name: form.type }
 
-    oek.report.klanten.per_groep_stadsdeel:
-        class: OekBundle\Report\KlantenPerGroepStadsdeel
+    OekBundle\Report\DeelnemersPerGroepStadsdeel:
         arguments:
-            - "@oek.repository.oek_klant"
+            - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
-    oek.report.klanten.per_training_stadsdeel:
-        class: OekBundle\Report\KlantenPerTrainingStadsdeel
+    OekBundle\Report\DeelnemersPerTrainingStadsdeel:
         arguments:
-            - "@oek.repository.oek_klant"
+            - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
-    oek.report.klanten.verwezen_door:
-        class: OekBundle\Report\KlantenVerwezenDoor
+    OekBundle\Report\DeelnemersVerwezenDoor:
         arguments:
-            - "@oek.repository.oek_klant"
+            - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
-    oek.report.klanten.verwezen_naar:
-        class: OekBundle\Report\KlantenVerwezenNaar
+    OekBundle\Report\DeelnemersVerwezenNaar:
         arguments:
-            - "@oek.repository.oek_klant"
+            - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
-    oek.report.trainingen.per_groep_en_stadsdeel:
-        class: OekBundle\Report\TrainingenPerGroepStadsdeel
+    OekBundle\Report\TrainingenPerGroepStadsdeel:
         arguments:
-            - "@oek.repository.oek_training"
+            - "@oek.repository.training"
         tags:
             - { name: oek.rapportage, category: Trainingen }
-
-#    oek.report.koppelingen.totaal:
-#        class: OekBundle\Report\KoppelingenTotaal
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.koppelingen.per_coordinator:
-#        class: OekBundle\Report\KoppelingenPerCoordinator
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.koppelingen.per_project:
-#        class: OekBundle\Report\KoppelingenPerProject
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.koppelingen.per_stadsdeel:
-#        class: OekBundle\Report\KoppelingenPerStadsdeel
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.koppelingen.per_postcodegebied:
-#        class: OekBundle\Report\KoppelingenPerPostcodegebied
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.koppelingen.per_project_stadsdeel:
-#        class: OekBundle\Report\KoppelingenPerProjectStadsdeel
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.koppelingen.per_project_postcodegebied:
-#        class: OekBundle\Report\KoppelingenPerProjectPostcodegebied
-#        arguments:
-#            - "@oek.repository.oek_hulpvraag"
-#        tags:
-#            - { name: oek.rapportage, category: Koppelingen }
-#
-#    oek.report.klanten.totaal:
-#        class: OekBundle\Report\KlantenTotaal
-#        arguments:
-#            - "@oek.repository.oek_klant"
-#        tags:
-#            - { name: oek.rapportage, category: Deelnemers }
-#
-#    oek.report.klanten.per_project:
-#        class: OekBundle\Report\KlantenPerProject
-#        arguments:
-#            - "@oek.repository.oek_klant"
-#        tags:
-#            - { name: oek.rapportage, category: Deelnemers }
-#
-#    oek.report.klanten.per_stadsdeel:
-#        class: OekBundle\Report\KlantenPerStadsdeel
-#        arguments:
-#            - "@oek.repository.oek_klant"
-#        tags:
-#            - { name: oek.rapportage, category: Deelnemers }
-#
-#    oek.report.klanten.per_project_stadsdeel:
-#        class: OekBundle\Report\KlantenPerProjectStadsdeel
-#        arguments:
-#            - "@oek.repository.oek_klant"
-#        tags:
-#            - { name: oek.rapportage, category: Deelnemers }
-#
-#    oek.report.vrijwilligers.totaal:
-#        class: OekBundle\Report\VrijwilligersTotaal
-#        arguments:
-#            - "@oek.repository.oek_vrijwilliger"
-#        tags:
-#            - { name: oek.rapportage, category: Vrijwilligers }
-#
-#    oek.report.vrijwilligers.totaal_namenlijst:
-#        class: OekBundle\Report\VrijwilligersTotaalNamenlijst
-#        arguments:
-#            - "@oek.repository.oek_vrijwilliger"
-#        tags:
-#            - { name: oek.rapportage, category: Vrijwilligers }
-#
-#    oek.report.vrijwilligers.per_project:
-#        class: OekBundle\Report\VrijwilligersPerProject
-#        arguments:
-#            - "@oek.repository.oek_vrijwilliger"
-#        tags:
-#            - { name: oek.rapportage, category: Vrijwilligers }
-#
-#    oek.report.vrijwilligers.per_project_namenlijst:
-#        class: OekBundle\Report\VrijwilligersPerProjectNamenlijst
-#        arguments:
-#            - "@oek.repository.oek_vrijwilliger"
-#        tags:
-#            - { name: oek.rapportage, category: Vrijwilligers }
-#
-#    oek.report.vrijwilligers.per_stadsdeel:
-#        class: OekBundle\Report\VrijwilligersPerStadsdeel
-#        arguments:
-#            - "@oek.repository.oek_vrijwilliger"
-#        tags:
-#            - { name: oek.rapportage, category: Vrijwilligers }
-#
-#    oek.report.vrijwilligers.per_project_stadsdeel:
-#        class: OekBundle\Report\VrijwilligersPerProjectStadsdeel
-#        arguments:
-#            - "@oek.repository.oek_vrijwilliger"
-#        tags:
-#            - { name: oek.rapportage, category: Vrijwilligers }

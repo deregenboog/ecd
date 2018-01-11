@@ -3,11 +3,11 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use OekBundle\Entity\OekGroep;
+use OekBundle\Entity\Groep;
 use AppBundle\Form\ConfirmationType;
-use OekBundle\Form\OekLidmaatschapType;
-use OekBundle\Entity\OekLidmaatschap;
-use OekBundle\Entity\OekKlant;
+use OekBundle\Form\LidmaatschapType;
+use OekBundle\Entity\Lidmaatschap;
+use OekBundle\Entity\Deelnemer;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,62 +18,60 @@ class LidmaatschappenController extends SymfonyController
     /**
      * @Route("/add")
      */
-    public function add()
+    public function addAction()
     {
         $entityManager = $this->getEntityManager();
 
-        $oekGroep = null;
-        if ($this->getRequest()->query->has('oekGroep')) {
-            /** @var OekGroep $oekGroep */
-            $oekGroep = $entityManager->find(OekGroep::class, $this->getRequest()->query->get('oekGroep'));
+        $groep = null;
+        if ($this->getRequest()->query->has('groep')) {
+            /** @var Groep $groep */
+            $groep = $entityManager->find(Groep::class, $this->getRequest()->query->get('groep'));
         }
 
-        $oekKlant = null;
-        if ($this->getRequest()->query->has('oekKlant')) {
-            /** @var OekKlant $oekKlant */
-            $oekKlant = $entityManager->find(OekKlant::class, $this->getRequest()->query->get('oekKlant'));
+        $deelnemer = null;
+        if ($this->getRequest()->query->has('deelnemer')) {
+            /** @var Deelnemer $deelnemer */
+            $deelnemer = $entityManager->find(Deelnemer::class, $this->getRequest()->query->get('deelnemer'));
         }
 
-        $oekLidmaatschap = new OekLidmaatschap($oekGroep, $oekKlant);
-        $form = $this->createForm(OekLidmaatschapType::class, $oekLidmaatschap);
+        $lidmaatschap = new Lidmaatschap($groep, $deelnemer);
+        $form = $this->createForm(LidmaatschapType::class, $lidmaatschap);
         $form->handleRequest($this->getRequest());
-        if ($form->isValid()) {
-            $entityManager->persist($oekLidmaatschap);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($lidmaatschap);
             $entityManager->flush();
 
             $this->addFlash('success', 'Deelnemer is aan wachtlijst toegevoegd.');
 
-            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);
+            return $this->redirectToRoute('oek_deelnemers_view', ['id' => $lidmaatschap->getDeelnemer()->getId()]);
         }
 
         return ['form' => $form->createView()];
     }
 
     /**
-     * @Route("/delete/{oekGroep}/{oekKlant}")
+     * @Route("/delete/{groep}/{deelnemer}")
      */
-    public function delete($oekGroep, $oekKlant)
+    public function deleteAction(Groep $groep, Deelnemer $deelnemer)
     {
         $entityManager = $this->getEntityManager();
-        $repo = $entityManager->getRepository(OekLidmaatschap::class);
+        $repo = $entityManager->getRepository(Lidmaatschap::class);
 
-        /** @var OekLidmaatschap $oekLidmaatschap */
-        $oekLidmaatschap = $repo->findOneBy(compact('oekGroep', 'oekKlant'));
+        /** @var Lidmaatschap $lidmaatschap */
+        $lidmaatschap = $repo->findOneBy(['groep' => $groep, 'deelnemer' => $deelnemer]);
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
-                $entityManager->remove($oekLidmaatschap);
+                $entityManager->remove($lidmaatschap);
                 $entityManager->flush();
-
                 $this->addFlash('success', 'Deelnemer is van wachtlijst verwijderd.');
             }
 
-            return $this->redirectToRoute('oek_klanten_view', ['id' => $oekLidmaatschap->getOekKlant()->getId()]);
+            return $this->redirectToRoute('oek_deelnemers_view', ['id' => $lidmaatschap->getDeelnemer()->getId()]);
         }
 
-        return ['form' => $form->createView(), 'oekLidmaatschap' => $oekLidmaatschap];
+        return ['form' => $form->createView(), 'lidmaatschap' => $lidmaatschap];
     }
 }

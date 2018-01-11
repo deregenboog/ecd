@@ -1,62 +1,64 @@
-{% extends '::base.html.twig' %}
+{% extends '::base-2-col.html.twig' %}
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Trainingen |
+    Op Eigen Kracht | Trainingen
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
-{% block content %}
-    <h1>{{ oekTraining }}</h1>
-
+{% block content_top %}
+    <h1>{{ entity }}</h1>
     <p>
-        {{ html.editLink(path('oek_trainingen_edit', {id: oekTraining.id})) }}
-        {{ html.link('Training wijzigen', path('oek_trainingen_edit', {id: oekTraining.id})) }}
-        {% if oekTraining.deletable %}
-            {{ html.deleteLink(path('oek_trainingen_delete', {id: oekTraining.id})) }}
+        {{ html.editLink(path('oek_trainingen_edit', {id: entity.id})) }}
+        {{ html.link('Training wijzigen', path('oek_trainingen_edit', {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('oek_trainingen_delete', {id: entity.id})) }}
         {% endif %}
     </p>
+{% endblock %}
 
+{% block content_left %}
     <dl class="dl-horizontal">
         <dt>#</dt>
-        <dd>{{ oekTraining.id }}</dd>
+        <dd>{{ entity.id }}</dd>
         <dt>Naam</dt>
-        <dd>{{ oekTraining.naam }}</dd>
+        <dd>{{ entity.naam }}</dd>
         <dt>Groep</dt>
         <dd>
-            {{ html.link(oekTraining.oekGroep, path('oek_groepen_view', {id: oekTraining.oekgroep.id})) }}
+            {{ html.link(entity.groep, path('oek_groepen_view', {id: entity.groep.id})) }}
         </dd>
         <dt>Locatie</dt>
-        <dd>{{ oekTraining.locatie }}</dd>
+        <dd>{{ entity.locatie }}</dd>
         <dt>Startdatum</dt>
-        <dd>{{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}&nbsp;</dd>
+        <dd>{{ entity.startdatum ? entity.startdatum|date('d-m-Y') }}&nbsp;</dd>
         <dt>Starttijd</dt>
-        <dd>{{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') }}&nbsp;</dd>
+        <dd>{{ entity.starttijd ? entity.starttijd|date('H:i') }}&nbsp;</dd>
         <dt>Einddatum</dt>
-        <dd>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}&nbsp;</dd>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}&nbsp;</dd>
     </dl>
+{% endblock %}
 
+{% block content_right %}
     <h2>Deelnemers</h2>
-
     <p>
-        {% set add_link = path('oek_deelnames_add', {'oekTraining': oekTraining.id}) %}
+        {% set add_link = path('oek_deelnames_add', {'training': entity.id}) %}
         {{ html.addLink(add_link) }}
         {{ html.link('Deelnemer aan training toevoegen', add_link) }}
         <br>
-        {% set email_link = path('oek_trainingen_email', {id: oekTraining.id}) %}
+        {% set email_link = path('oek_trainingen_email', {id: entity.id}) %}
         {{ html.editLink(email_link) }}
         {{ html.link('Deelnemers e-mailen', email_link) }}
         <br>
-        {% set url = path('oek_trainingen_deelnemerslijst', {id: oekTraining.id}) %}
+        {% set url = path('oek_trainingen_deelnemerslijst', {id: entity.id}) %}
         {{ html.downloadLink(url) }}
-        {{ html.link('Deelnemerslijst downloaden', url, {class: 'test'}) }}
+        {{ html.link('Deelnemerslijst downloaden', url) }}
         <br>
-        {% set url = path('oek_trainingen_presentielijst', {id: oekTraining.id}) %}
+        {% set url = path('oek_trainingen_presentielijst', {id: entity.id}) %}
         {{ html.downloadLink(url) }}
-        {{ html.link('Presentielijst downloaden', url, {class: 'test'}) }}
+        {{ html.link('Presentielijst downloaden', url) }}
     </p>
 
     <table class="table table-hover">
@@ -67,26 +69,25 @@
             <th>Status</th>
             <th></th>
         </tr>
-        {% for oekDeelname in oekTraining.oekDeelnames %}
-            {% set oekKlant = oekDeelname.getOekKlant() %}
+        {% for deelname in entity.deelnames %}
             <tr>
                 <td>
-                    {{ html.link(oekKlant.klant.id, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    {{ html.link(deelname.deelnemer.klant.id, path('oek_deelnemers_view', {id: deelname.deelnemer.id})) }}
                 </td>
                 <td>
-                    {{ html.link(oekKlant.klant.naam, path('oek_klanten_view', {id: oekKlant.id})) }}
+                    {{ html.link(deelname.deelnemer.klant.naam, path('oek_deelnemers_view', {id: deelname.deelnemer.id})) }}
                 </td>
                 <td>
-                    {{ oekKlant.klant.werkgebied }}
+                    {{ deelname.deelnemer.klant.werkgebied }}
                 </td>
                 <td>
-                    {{ oekKlant.oekDeelname(oekTraining).status }}
+                    {{ deelname.deelnemer.deelname(entity).status }}
                 </td>
                 <td>
-                    {{ html.editLink(path('oek_deelnames_edit', {id: oekDeelname.id})) }}
+                    {{ html.editLink(path('oek_deelnames_edit', {id: deelname.id})) }}
 
-                    {% if oekDeelname.deletable %}
-                        {{ html.deleteLink(path('oek_deelnames_delete', {id: oekDeelname.id})) }}
+                    {% if deelname.deletable %}
+                        {{ html.deleteLink(path('oek_deelnames_delete', {id: deelname.id})) }}
                     {% endif %}
                 </td>
             </tr>

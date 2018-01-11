@@ -1,4 +1,4 @@
-OekBundle\Entity\OekTraining:
+OekBundle\Entity\Training:
     oek_training_{1..40}:
         naam: 'Training <current()>'
         oek_groep: '@oek_groep_*'

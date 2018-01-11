@@ -1,4 +1,4 @@
-OekBundle\Entity\OekGroep:
+OekBundle\Entity\Groep:
     oek_groep_1:
         naam: 'OEK basis'
     oek_groep_2:

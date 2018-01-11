@@ -3,7 +3,7 @@
 namespace OekBundle\Report;
 
 use AppBundle\Report\Table;
-use OekBundle\Repository\OekTrainingRepository;
+use OekBundle\Repository\TrainingRepository;
 use AppBundle\Report\AbstractReport;
 
 class TrainingenPerGroepStadsdeel extends AbstractReport
@@ -12,7 +12,7 @@ class TrainingenPerGroepStadsdeel extends AbstractReport
 
     protected $xPath = 'stadsdeel';
 
-    protected $yPath = 'groep';
+    protected $yPath = 'groepnaam';
 
     protected $nPath = 'aantal';
 
@@ -22,7 +22,7 @@ class TrainingenPerGroepStadsdeel extends AbstractReport
 
     protected $table;
 
-    public function __construct(OekTrainingRepository $repository)
+    public function __construct(TrainingRepository $repository)
     {
         $this->repository = $repository;
     }

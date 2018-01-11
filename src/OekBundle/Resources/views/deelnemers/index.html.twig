@@ -1,0 +1,112 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Op Eigen Kracht | Klanten
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>
+        {{ html.addLink(path('oek_deelnemers_add')) }}
+        {{ html.link('Deelnemer toevoegen', path('oek_deelnemers_add')) }}
+    </p>
+
+    <table class="table table-hover">
+        <tr>
+            {{ form_start(filter) }}
+            <th>
+                {{ form_widget(filter.klant.id) }}
+                {{ form_errors(filter.klant.id) }}
+            </th>
+            <th>
+                {{ form_widget(filter.klant.naam) }}
+                {{ form_errors(filter.klant.naam) }}
+            </th>
+            <th>
+                {{ form_widget(filter.klant.stadsdeel) }}
+                {{ form_errors(filter.klant.stadsdeel) }}
+            </th>
+            <th>
+                {{ form_widget(filter.training) }}
+                {{ form_errors(filter.training) }}
+            </th>
+            <th>
+                {{ form_widget(filter.aanmelddatum) }}
+                {{ form_errors(filter.aanmelddatum) }}
+            </th>
+            <th>
+                {{ form_widget(filter.afsluitdatum) }}
+                {{ form_errors(filter.afsluitdatum) }}
+            </th>
+            <th>
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </th>
+            {{ form_end(filter) }}
+        </tr>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Training(en)', 'training.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'aanmelding.datum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'afsluiting.datum') }}
+            </th>
+            <th></th>
+        </tr>
+        {% for klant in pagination %}
+        <tr>
+            <td>
+                {{ html.link(klant.klant.id, path('oek_deelnemers_view', {id: klant.id})) }}
+            </td>
+            <td>
+                {{ html.link(klant.klant.naam, path('oek_deelnemers_view', {id: klant.id})) }}
+            </td>
+            <td>
+                {{ klant.klant.werkgebied }}
+            </td>
+            <td>
+                <ul>
+                    {% for training in klant.trainingen %}
+                        <li>{{ training.naam }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {{ klant.aanmelding ? klant.aanmelding.datum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ klant.afsluiting ? klant.afsluiting.datum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ html.viewLink(path('oek_deelnemers_view', {id: klant.id})) }}
+                {{ html.editLink(path('oek_deelnemers_edit', {id: klant.id})) }}
+                {% if klant.deletable %}
+                    {{ html.deleteLink(path('oek_deelnemers_delete', {id: klant.id})) }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

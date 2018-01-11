@@ -2,11 +2,11 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Groepen |
+    Op Eigen Kracht | Groepen
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -20,13 +20,13 @@
     <table class="table table-hover">
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'oekGroep.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'groep.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'oekGroep.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'groep.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Aantal bijeenkomsten', 'oekGroep.aantalBijeenkomsten') }}
+                {{ knp_pagination_sortable(pagination, 'Aantal bijeenkomsten', 'groep.aantalBijeenkomsten') }}
             </th>
             <th>
                 Deelnemers op wachtlijst
@@ -37,22 +37,22 @@
             <th></th>
         </tr>
         {% for row in pagination %}
-            {% set oekGroep = row.0 %}
+            {% set groep = row.0 %}
             <tr>
                 <td>
-                    {{ html.link(oekGroep.id, path('oek_groepen_view', {id: oekGroep.id})) }}
+                    {{ html.link(groep.id, path('oek_groepen_view', {id: groep.id})) }}
                 </td>
                 <td>
-                    {{ html.link(oekGroep.naam, path('oek_groepen_view', {id: oekGroep.id})) }}
+                    {{ html.link(groep.naam, path('oek_groepen_view', {id: groep.id})) }}
                 </td>
-                <td>{{ oekGroep.aantalBijeenkomsten }}</td>
-                <td>{{ row.oekLidmaatschappen }}</td>
-                <td>{{ row.oekTrainingen }}</td>
+                <td>{{ groep.aantalBijeenkomsten }}</td>
+                <td>{{ row.lidmaatschappen }}</td>
+                <td>{{ row.trainingen }}</td>
                 <td>
-                    {{ html.viewLink(path('oek_groepen_view', {id: oekGroep.id})) }}
-                    {{ html.editLink(path('oek_groepen_edit', {id: oekGroep.id})) }}
-                    {% if oekGroep.deletable %}
-                        {{ html.deleteLink(path('oek_groepen_delete', {id: oekGroep.id})) }}
+                    {{ html.viewLink(path('oek_groepen_view', {id: groep.id})) }}
+                    {{ html.editLink(path('oek_groepen_edit', {id: groep.id})) }}
+                    {% if groep.deletable %}
+                        {{ html.deleteLink(path('oek_groepen_delete', {id: groep.id})) }}
                     {% endif %}
                 </td>
             </tr>

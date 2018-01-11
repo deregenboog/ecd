@@ -2,11 +2,11 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Verwijzingen Naar |
+    Op Eigen Kracht | Verwijzingen Naar
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -20,31 +20,31 @@
     <table class="table table-hover">
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'oekVerwijzing.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'Verwijzing.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'oekVerwijzing.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'Verwijzing.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Actief', 'oekVerwijzing.actief') }}
+                {{ knp_pagination_sortable(pagination, 'Actief', 'Verwijzing.actief') }}
             </th>
             <th></th>
         </tr>
-        {% for oekVerwijzing in pagination %}
+        {% for Verwijzing in pagination %}
             <tr>
                 <td>
-                    {{ oekVerwijzing.id }}
+                    {{ Verwijzing.id }}
                 </td>
                 <td>
-                    {{ oekVerwijzing.naam }}
+                    {{ Verwijzing.naam }}
                 </td>
                 <td>
-                    {{ oekVerwijzing.actief ? 'Ja' : 'Nee' }}
+                    {{ Verwijzing.actief ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
-                    {{ html.editLink(path('oek_verwijzingennaar_edit', {id: oekVerwijzing.id})) }}
-                    {% if oekVerwijzing.deletable %}
-                        {{ html.deleteLink(path('oek_verwijzingennaar_delete', {id: oekVerwijzing.id})) }}
+                    {{ html.editLink(path('oek_verwijzingennaar_edit', {id: Verwijzing.id})) }}
+                    {% if Verwijzing.deletable %}
+                        {{ html.deleteLink(path('oek_verwijzingennaar_delete', {id: Verwijzing.id})) }}
                     {% endif %}
                 </td>
             </tr>

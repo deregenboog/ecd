@@ -8,14 +8,14 @@ Telefoon{{ tab -}}
 Mobiel{{ tab -}}
 E-mail
 {% for deelname in deelnames %}
-    {% set oekKlant = deelname.oekKlant %}
-    {{- oekKlant.klant.id ~ tab -}}
-    {{- oekKlant ~ tab -}}
-    {{- oekKlant.klant.adres ~ tab -}}
-    {{- oekKlant.klant.postcode ~ tab -}}
-    {{- oekKlant.klant.plaats ~ tab -}}
-    {{- oekKlant.klant.werkgebied ~ tab -}}
-    {{- oekKlant.klant.telefoon ~ tab -}}
-    {{- oekKlant.klant.mobiel ~ tab -}}
-    {{- oekKlant.klant.email }}
+    {% set klant = deelname.deelnemer %}
+    {{- klant.klant.id ~ tab -}}
+    {{- klant ~ tab -}}
+    {{- klant.klant.adres ~ tab -}}
+    {{- klant.klant.postcode ~ tab -}}
+    {{- klant.klant.plaats ~ tab -}}
+    {{- klant.klant.werkgebied ~ tab -}}
+    {{- klant.klant.telefoon ~ tab -}}
+    {{- klant.klant.mobiel ~ tab -}}
+    {{- klant.klant.email }}
 {% endfor %}

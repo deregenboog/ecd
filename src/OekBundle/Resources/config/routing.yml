@@ -1,10 +1,9 @@
 oek_annotations:
     resource: "@OekBundle/Controller"
     type: annotation
-    prefix: /oek
 
 oek_index:
-    path: /oek/
+    path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: oek_klanten_index
+        route: oek_deelnemers_index

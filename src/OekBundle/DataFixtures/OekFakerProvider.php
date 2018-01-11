@@ -2,18 +2,18 @@
 
 namespace OekBundle\DataFixtures;
 
-use OekBundle\Entity\OekAanmelding;
-use OekBundle\Entity\OekVerwijzingDoor;
+use OekBundle\Entity\Aanmelding;
+use OekBundle\Entity\VerwijzingDoor;
 use Faker\Provider\DateTime;
-use OekBundle\Entity\OekVerwijzingNaar;
-use OekBundle\Entity\OekAfsluiting;
+use OekBundle\Entity\VerwijzingNaar;
+use OekBundle\Entity\Afsluiting;
 use AppBundle\Entity\Medewerker;
 
 final class OekFakerProvider
 {
-    public function oekAanmelding(OekVerwijzingDoor $verwijzing, Medewerker $medewerker)
+    public function aanmelding(VerwijzingDoor $verwijzing, Medewerker $medewerker)
     {
-        $aanmelding = new OekAanmelding();
+        $aanmelding = new Aanmelding();
         $aanmelding
             ->setDatum(DateTime::dateTimeBetween('-5 years', '2017-01-01'))
             ->setVerwijzing($verwijzing)
@@ -22,9 +22,9 @@ final class OekFakerProvider
         return $aanmelding;
     }
 
-    public function oekAfsluiting(OekVerwijzingNaar $verwijzing, Medewerker $medewerker)
+    public function afsluiting(VerwijzingNaar $verwijzing, Medewerker $medewerker)
     {
-        $afsluiting = new OekAfsluiting();
+        $afsluiting = new Afsluiting();
         $afsluiting
             ->setDatum(DateTime::dateTimeBetween('2017-01-01'))
             ->setVerwijzing($verwijzing)
