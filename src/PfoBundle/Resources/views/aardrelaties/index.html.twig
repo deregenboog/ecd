@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    PFO | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Pfo/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'aardRelatie.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'aardRelatie.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Startdatum', 'aardRelatie.startdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Einddatum', 'aardRelatie.einddatum') }}
+            </th>
+        </tr>
+        {% for entity in pagination %}
+            <tr data-href="{{ path('pfo_aardrelaties_edit', {id: entity.id}) }}">
+                <td>
+                    {{ entity.id }}
+                </td>
+                <td>
+                    {{ entity.naam }}
+                </td>
+                <td>
+                    {{ entity.startdatum ? entity.startdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

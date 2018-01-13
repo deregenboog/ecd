@@ -5,7 +5,7 @@ namespace AppBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-trait NamableTrait
+trait NameableTrait
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=false)

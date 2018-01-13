@@ -1,0 +1,20 @@
+services:
+    pfo.export.client:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - PfoBundle\Entity\Client
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Voornaam: { expression: 'entity.getRoepnaam()' }
+                Tussenvoegsel: { expression: 'entity.getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAchternaam()' }
+                Geslacht: { expression: 'entity.getGeslacht()' }
+                Adres: { expression: 'entity.getAdres()' }
+                Postcode: { expression: 'entity.getPostcode()' }
+                Woonplaats: { expression: 'entity.getPlaats()' }
+                E-mail: { expression: 'entity.getEmail()' }
+                Mobiel: { expression: 'entity.getMobiel()' }
+                Telefoon: { expression: 'entity.getTelefoon()' }
+
+    pfo.export.report:
+        class: AppBundle\Export\ReportExport

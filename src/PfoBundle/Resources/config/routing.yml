@@ -1,0 +1,9 @@
+pfo_annotations:
+    resource: "@PfoBundle/Controller"
+    type: annotation
+
+pfo_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: pfo_clienten_index

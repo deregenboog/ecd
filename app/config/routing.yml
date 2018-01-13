@@ -17,6 +17,10 @@ _oek:
     resource: "@OekBundle/Resources/config/routing.yml"
     prefix: /oek
 
+_pfo:
+    resource: "@PfoBundle/Resources/config/routing.yml"
+    prefix: /pfo
+
 _dagbesteding:
     resource: "@DagbestedingBundle/Resources/config/routing.yml"
 

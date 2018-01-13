@@ -5,7 +5,7 @@ namespace DagbestedingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\NamableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\ActivatableTrait;
 
 /**
@@ -16,7 +16,7 @@ use AppBundle\Model\ActivatableTrait;
  */
 class Trajectsoort
 {
-    use IdentifiableTrait, NamableTrait, ActivatableTrait;
+    use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
     /**
      * @var ArrayCollection|Traject[]

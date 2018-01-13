@@ -475,6 +475,13 @@ parameters:
                 - PfoAardRelaties
                 - PfoGroepen
                 - PfoVerslagen
+                - pfo
+                - PfoBundle\Controller\AardRelaties
+                - PfoBundle\Controller\Clienten
+                - PfoBundle\Controller\Documenten
+                - PfoBundle\Controller\Groepen
+                - PfoBundle\Controller\Rapportages
+                - PfoBundle\Controller\Verslagen
                 - dagbesteding
                 - DagbestedingBundle\Controller\Afsluitingen
                 - DagbestedingBundle\Controller\Contactpersonen

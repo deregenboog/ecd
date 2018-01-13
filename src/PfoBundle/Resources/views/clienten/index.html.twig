@@ -1,0 +1,91 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    PFO | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Pfo/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>
+        {{ html.addLink(path('pfo_clienten_add')) }}
+        {{ html.link('Client toevoegen', path('pfo_clienten_add')) }}
+    </p>
+
+    <table class="table table-hover">
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="3">
+                </th>
+                <th>
+                    <span class="pull-left">
+                        {{ form_widget(filter.actief) }}
+                        {{ form_errors(filter.actief) }}
+                    </span>
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                        {{ form_widget(filter.download) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.voornaam) }}
+                    {{ form_errors(filter.voornaam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.achternaam) }}
+                    {{ form_errors(filter.achternaam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.groep) }}
+                    {{ form_errors(filter.groep) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.medewerker) }}
+                    {{ form_errors(filter.medewerker) }}
+                </th>
+            </tr>
+        {{ form_end(filter) }}
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Voornaam', 'client.voornaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Achternaam', 'client.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Groep', 'groep.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th></th>
+        </tr>
+        {% for client in pagination %}
+        <tr data-href="{{ path('pfo_clienten_view', {id: client.id}) }}">
+            <td>
+                {{ client.voornaam }}
+            </td>
+            <td>
+                {{ client.achternaam }}
+            </td>
+            <td>
+                {{ client.groep }}
+            </td>
+            <td>
+                {{ client.medewerker }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

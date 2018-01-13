@@ -1,0 +1,69 @@
+{% extends '@Pfo/clienten/add.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} wijzigen</h1>
+    {{ form_start(form) }}
+        <h2>Persoonsgegevens</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.voornaam) }}
+                {{ form_row(form.tussenvoegsel) }}
+                {{ form_row(form.achternaam) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(form.geslacht) }}
+                {{ form_row(form.geboortedatum) }}
+            </div>
+        </div>
+        <h2>Contactgegevens</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.adres) }}
+                {{ form_row(form.postcode) }}
+                {{ form_row(form.plaats) }}
+                {{ form_row(form.telefoon) }}
+                {{ form_row(form.mobiel) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(form.email) }}
+                {{ form_row(form.notitie) }}
+            </div>
+        </div>
+        <h2>Aanmeldgegevens</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.medewerker) }}
+                {{ form_row(form.groep) }}
+                {{ form_row(form.aardRelatie) }}
+                {{ form_row(form.dubbeleDiagnose) }}
+                {{ form_row(form.eerdereHulpverlening) }}
+                {{ form_row(form.via) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(form.hulpverleners) }}
+                {{ form_row(form.contacten) }}
+                {{ form_row(form.begeleidingsformulierOverhandigd) }}
+                {{ form_row(form.briefHuisartsVerstuurd) }}
+                {{ form_row(form.evaluatieformulierOverhandigd) }}
+                {{ form_row(form.afsluitdatum) }}
+            </div>
+        </div>
+        <h2>Koppeling</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.type) }}
+                {{ form_row(form.hoofdclient) }}
+                {{ form_row(form.gekoppeldeClient) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(form.gekoppeldeClienten) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.submit) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

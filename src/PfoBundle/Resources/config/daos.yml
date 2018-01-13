@@ -1,0 +1,31 @@
+services:
+    pfo.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    PfoBundle\Service\AardRelatieDao:
+        parent: pfo.dao
+
+    PfoBundle\Service\ClientDao:
+        parent: pfo.dao
+
+    PfoBundle\Service\GroepDao:
+        parent: pfo.dao
+
+    PfoBundle\Service\VerslagDao:
+        parent: pfo.dao
+
+    pfo.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: client, dao: '@PfoBundle\Service\ClientDao' }
+
+    pfo.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: client, dao: '@PfoBundle\Service\ClientDao' }

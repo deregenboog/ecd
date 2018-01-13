@@ -1,0 +1,33 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+
+services:
+    pfo.repository.client:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - PfoBundle\Entity\Client
+
+    pfo.repository.verslag:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - PfoBundle\Entity\Verslag
+
+    pfo.form.rapportage:
+        class: PfoBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    PfoBundle\Report\VerslagenPerGroepContacttype:
+        arguments:
+            - "@pfo.repository.verslag"
+        tags:
+            - { name: pfo.rapportage, category: Contactmomenten }
+
+    PfoBundle\Report\ClientenPerGroep:
+        arguments:
+            - "@pfo.repository.client"
+        tags:
+            - { name: pfo.rapportage, category: Personen }
