@@ -18,6 +18,8 @@ class Version20180115145622 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE pfo_clienten CHANGE id id INT(11) NOT NULL AUTO_INCREMENT');
+
         $this->addSql('CREATE TABLE pfo_documenten (id INT AUTO_INCREMENT NOT NULL, medewerker_id INT NOT NULL, naam VARCHAR(255) NOT NULL, filename VARCHAR(255) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, INDEX IDX_4099D0893D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE pfo_documenten ADD CONSTRAINT FK_4099D0893D707F64 FOREIGN KEY (medewerker_id) REFERENCES medewerkers (id)');
         $this->addSql('CREATE TABLE pfo_clienten_documenten (document_id INT NOT NULL, client_id INT NOT NULL, INDEX IDX_A14FB5DEC33F7837 (document_id), INDEX IDX_A14FB5DE19EB6921 (client_id), PRIMARY KEY(document_id, client_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
@@ -29,7 +31,6 @@ class Version20180115145622 extends AbstractMigration
         $this->addSql('ALTER TABLE pfo_clienten_documenten ADD CONSTRAINT FK_A14FB5DEC33F7837 FOREIGN KEY (document_id) REFERENCES pfo_documenten (id)');
         $this->addSql('ALTER TABLE pfo_clienten_documenten ADD PRIMARY KEY (client_id, document_id)');
 
-        $this->addSql('ALTER TABLE pfo_clienten CHANGE id id INT(11) NOT NULL AUTO_INCREMENT');
         $this->addSql('ALTER TABLE pfo_clienten ADD CONSTRAINT FK_3C237EDD1C729A47 FOREIGN KEY (geslacht_id) REFERENCES geslachten (id)');
         $this->addSql('ALTER TABLE pfo_clienten ADD CONSTRAINT FK_3C237EDD27025694 FOREIGN KEY (groep) REFERENCES pfo_groepen (id)');
         $this->addSql('ALTER TABLE pfo_clienten ADD CONSTRAINT FK_3C237EDDC41BE3 FOREIGN KEY (aard_relatie) REFERENCES pfo_aard_relaties (id)');
