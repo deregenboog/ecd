@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use IzBundle\Entity\Doelstelling;
+use AppBundle\Form\BaseType;
 
 class DoelstellingType extends AbstractType
 {
@@ -45,5 +46,11 @@ class DoelstellingType extends AbstractType
         $resolver->setDefaults([
             'class' => Doelstelling::class,
         ]);
+    }
+
+
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
