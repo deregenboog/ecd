@@ -112,7 +112,7 @@
             {% include '@Pfo/verslagen/_list.html.twig' with {client: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {#% include '@Pfo/documenten/_list.html.twig' with {client: entity} %#}
+            {% include '@Pfo/documenten/_list.html.twig' with {client: entity} %}
         </div>
     </div>
 {% endblock %}

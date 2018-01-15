@@ -123,11 +123,13 @@ parameters:
                 - Klanten
                 - Registraties
             GROUP_PFO:
-                - PfoClienten
-                - PfoRapporten
-                - PfoAardRelaties
-                - PfoGroepen
-                - PfoVerslagen
+                - pfo
+                - PfoBundle\Controller\AardRelaties
+                - PfoBundle\Controller\Clienten
+                - PfoBundle\Controller\Documenten
+                - PfoBundle\Controller\Groepen
+                - PfoBundle\Controller\Rapportages
+                - PfoBundle\Controller\Verslagen
             GROUP_TRAJECTBEGELEIDER:
                 - Awbz
                 - AwbzHoofdaannemers
@@ -470,11 +472,6 @@ parameters:
                 - OekBundle\Controller\VerwijzingenNaar
                 - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
-                - PfoClienten
-                - PfoRapporten
-                - PfoAardRelaties
-                - PfoGroepen
-                - PfoVerslagen
                 - pfo
                 - PfoBundle\Controller\AardRelaties
                 - PfoBundle\Controller\Clienten
@@ -579,9 +576,9 @@ parameters:
             Awbz:
                 label: AWBZ
                 url: Awbz
-            PfoClienten:
+            pfo:
                 label: PFO
-                url: PfoClienten
+                url: pfo
             IzKlanten:
                 label: IZ
                 url: iz_klanten

@@ -193,6 +193,15 @@ class Client
     private $verslagen;
 
     /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="pfo_clienten_documenten", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"created": "DESC"})
+     */
+    private $documenten;
+
+    /**
      * @var Client[]
      *
      * @ORM\ManyToMany(targetEntity="Client")
@@ -219,6 +228,7 @@ class Client
     public function __construct()
     {
         $this->verslagen = new ArrayCollection();
+        $this->documenten = new ArrayCollection();
         $this->hoofdclienten = new ArrayCollection();
         $this->gekoppeldeClienten = new ArrayCollection();
     }
@@ -544,6 +554,38 @@ class Client
     {
         $this->verslagen[] = $verslag;
         $verslag->addClient($this);
+
+        return $this;
+    }
+
+    /**
+     * @return Document[]
+     */
+    public function getDocumenten()
+    {
+        return $this->documenten;
+    }
+
+    /**
+     * @param Document $document
+     *
+     * @return self
+     */
+    public function addDocument(Document $document)
+    {
+        $this->documenten[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * @param Document $document
+     *
+     * @return self
+     */
+    public function removeDocument(Document $document)
+    {
+        $this->documenten->removeElement($document);
 
         return $this;
     }

@@ -12,6 +12,9 @@ services:
     PfoBundle\Service\ClientDao:
         parent: pfo.dao
 
+    PfoBundle\Service\DocumentDao:
+        parent: hs.dao
+
     PfoBundle\Service\GroepDao:
         parent: pfo.dao
 

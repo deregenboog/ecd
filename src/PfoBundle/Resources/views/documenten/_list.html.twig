@@ -1,0 +1,32 @@
+{% if client is defined %}
+    {% set entity = client %}
+    {% set url = path('pfo_documenten_add', {client: entity.id}) %}
+{% endif %}
+
+<h2>Documenten</h2>
+{% if url is defined %}
+    <p>
+        {{ html.addLink(url) }}
+        {{ html.link('Document toevoegen', url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <tr>
+        <th>Naam</th>
+        <th>Datum</th>
+        <th>Medewerker</th>
+        <th>Document</th>
+    </tr>
+    {% for document in entity.documenten %}
+        <tr>
+            <td>{{ document.naam }}</td>
+            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
