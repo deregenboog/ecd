@@ -125,3 +125,10 @@ vich_uploader:
 shivas_versioning:
     version_parameter: application_version
     version_file: version.yml
+
+ivory_ck_editor:
+    jquery: true
+    default_config: basic
+    configs:
+        basic:
+            toolbar: [["Bold", "Italic", "Underline"]]

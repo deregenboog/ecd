@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 class VerslagType extends AbstractType
 {
@@ -59,7 +60,7 @@ class VerslagType extends AbstractType
                     ;
                 },
             ])
-            ->add('verslag', TextareaType::class, ['attr' => ['rows' => 10]])
+            ->add('verslag', CKEditorType::class, ['attr' => ['rows' => 10]])
             ->add('submit', SubmitType::class)
         ;
     }

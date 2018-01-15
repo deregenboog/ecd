@@ -23,7 +23,7 @@
             <td>{{ verslag.created|date('d-m-Y') }}</td>
             <td>{{ verslag.type }}</td>
             <td>{{ verslag.medewerker }}</td>
-            <td>{{ verslag.verslag|nl2br }}</td>
+            <td>{{ verslag.verslag|striptags('<strong><em><u>')|raw|nl2br }}</td>
             <td>
                 {{ html.editLink(path('pfo_verslagen_edit', {id: verslag.id})) }}
             </td>

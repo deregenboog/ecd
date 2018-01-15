@@ -187,7 +187,7 @@ class Client
     /**
      * @var Verslag[]
      *
-     * @ORM\ManyToMany(targetEntity="Verslag", mappedBy="clienten")
+     * @ORM\ManyToMany(targetEntity="Verslag", mappedBy="clienten", cascade={"persist"})
      * @ORM\OrderBy({"created": "DESC"})
      */
     private $verslagen;

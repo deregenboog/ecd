@@ -53,8 +53,9 @@
         "shivas/versioning-bundle" : "^1.4",
         "phpoffice/phpspreadsheet" : "^1.0",
         "beberlei/DoctrineExtensions" : "^1.0",
-        "symfony/templating": "^3.4",
-        "symfony/translation": "^3.4"
+        "symfony/templating" : "^3.4",
+        "symfony/translation" : "^3.4",
+        "egeloen/ckeditor-bundle" : "^6.0"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer" : "^2",
@@ -70,12 +71,14 @@
         "post-install-cmd" : [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Ivory\\CKEditorBundle\\Composer\\CKEditorScriptHandler::install",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "post-update-cmd" : [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Ivory\\CKEditorBundle\\Composer\\CKEditorScriptHandler::install",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ]

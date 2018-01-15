@@ -7,10 +7,12 @@ use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation\Loggable;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\VerslagRepository")
  * @ORM\Table(name="pfo_verslagen")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Verslag
@@ -68,7 +70,7 @@ class Verslag
 
     public function __toString()
     {
-        return sprintf('%s (%s, %s)', $this->onderwerp, $this->medewerker, $this->datum->format('d-m-Y'));
+        return sprintf('%s (%s, %s)', $this->onderwerp, $this->medewerker, $this->created->format('d-m-Y'));
     }
 
     public function getId()
