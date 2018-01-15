@@ -59,4 +59,9 @@ class MatchingKlantType extends AbstractType
             'data_class' => MatchingKlant::class,
         ]);
     }
+
+    public function getParent()
+    {
+        return BaseType::class;
+    }
 }

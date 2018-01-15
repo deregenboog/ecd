@@ -12,6 +12,7 @@ use IzBundle\Entity\Doelgroep;
 use IzBundle\Entity\Hulpvraagsoort;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use IzBundle\Entity\MatchingVrijwilliger;
+use AppBundle\Form\BaseType;
 
 class MatchingVrijwilligerType extends AbstractType
 {
@@ -62,5 +63,10 @@ class MatchingVrijwilligerType extends AbstractType
         $resolver->setDefaults([
             'data_class' => MatchingVrijwilliger::class,
         ]);
+    }
+
+    public function getParent()
+    {
+        return BaseType::class;
     }
 }
