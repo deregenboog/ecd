@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Filter\IzDeelnemerSelectie;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\FilterType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class IzDeelnemerSelectieType extends AbstractType
 {
@@ -21,10 +24,15 @@ class IzDeelnemerSelectieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('alleProjecten', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('izProjecten', EntityType::class, [
                 'class' => IzProject::class,
                 'required' => false,
                 'multiple' => true,
+                'expanded' => true,
                 'label' => 'Projecten',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('izProject')
@@ -33,11 +41,16 @@ class IzDeelnemerSelectieType extends AbstractType
                     ->setParameter('now', new \DateTime())
                 ;
                 },
-                ])
+            ])
+            ->add('alleStadsdelen', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('stadsdelen', StadsdeelFilterType::class, [
                 'label' => 'Stadsdelen',
                 'required' => false,
                 'multiple' => true,
+                'expanded' => true,
             ])
             ->add('personen', ChoiceType::class, [
                 'label' => 'Personen',
@@ -75,6 +88,16 @@ class IzDeelnemerSelectieType extends AbstractType
             ])
             ->remove('filter')
             ->remove('download')
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+                $data = $event->getData();
+                if ($data['alleProjecten']) {
+                    unset($data['izProjecten']);
+                }
+                if ($data['alleStadsdelen']) {
+                    unset($data['stadsdelen']);
+                }
+                $event->setData($data);
+            })
         ;
     }
 
