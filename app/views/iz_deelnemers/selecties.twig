@@ -5,28 +5,19 @@
 <div class="left3cDiv">
     <fieldset>
         <legend>Projecten</legend>
-        <p>
-            Selecteer nul of meer projecten.
-            Geen project geselecteerd betekent: alleen personen zonder hulpvraag, hulpaanbod of koppeling.
-        </p>
+        {{ form_widget(form.alleProjecten) }}
+        {{ form_errors(form.alleProjecten) }}
         {{ form_widget(form.izProjecten, {'attr': {'size': 20}}) }}
         {{ form_errors(form.izProjecten) }}
-        <p>
-            Tip: gebruik de control-toets om meerdere opties te selecteren of
-            de shift-toets om een bereik te selecteren.
-        </p>
     </fieldset>
 </div>
 <div class="center3cDiv">
     <fieldset>
         <legend>Stadsdelen</legend>
-        <p>Selecteer een of meer stadsdelen.</p>
+        {{ form_widget(form.alleStadsdelen) }}
+        {{ form_errors(form.alleStadsdelen) }}
         {{ form_widget(form.stadsdelen, {'attr': {'size': 20}}) }}
         {{ form_errors(form.stadsdelen) }}
-        <p>
-            Tip: gebruik de control-toets om meerdere opties te selecteren of
-            de shift-toets om een bereik te selecteren.
-        </p>
     </fieldset>
 </div>
 <div class="right3cDiv">
@@ -55,3 +46,37 @@
     <button type="submit">Downloaden</button>
  </fieldset>
 {{ form_end(form) }}
+
+<script type="text/javascript">
+    $(function() {
+        $('#iz_deelnemer_selectie_alleProjecten').change(function() {
+            if ($('#iz_deelnemer_selectie_alleProjecten').is(':checked')) {
+                $('#iz_deelnemer_selectie_izProjecten input').prop('checked', true);
+            } else {
+                $('#iz_deelnemer_selectie_izProjecten input').prop('checked', false);
+            }
+        });
+
+        $('#iz_deelnemer_selectie_izProjecten input').change(function() {
+            $('#iz_deelnemer_selectie_alleProjecten').prop('checked', false);
+        });
+
+        $('#iz_deelnemer_selectie_alleStadsdelen').change(function() {
+            if ($('#iz_deelnemer_selectie_alleStadsdelen').is(':checked')) {
+                $('#iz_deelnemer_selectie_stadsdelen input').prop('checked', true);
+            } else {
+                $('#iz_deelnemer_selectie_stadsdelen input').prop('checked', false);
+            }
+        });
+
+        $('#iz_deelnemer_selectie_izProjecten input').change(function() {
+            $('#iz_deelnemer_selectie_alleProjecten').prop('checked', false);
+        });
+
+        // check all
+        $('#iz_deelnemer_selectie_alleProjecten').prop('checked', true);
+        $('#iz_deelnemer_selectie_izProjecten input').prop('checked', true);
+        $('#iz_deelnemer_selectie_alleStadsdelen').prop('checked', true);
+        $('#iz_deelnemer_selectie_stadsdelen input').prop('checked', true);
+    });
+</script>
