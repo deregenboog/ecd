@@ -2,6 +2,8 @@
 
 namespace IzBundle\Report;
 
+use IzBundle\Repository\IzVrijwilligerRepository;
+
 class VrijwilligersPerProjectNamenlijst extends AbstractVrijwilligersNamenlijstReport
 {
     protected $columns = [
@@ -12,13 +14,32 @@ class VrijwilligersPerProjectNamenlijst extends AbstractVrijwilligersNamenlijstR
 
     protected $title = 'Vrijwilligers per project (namenlijst)';
 
-    protected $xDescription = 'Vrijwilligers met intake en hulpaanbod (op basis van intakedatum en afsluitdatum)';
-
     protected function init()
     {
-        $this->beginstand = $this->repository->selectByProject('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->selectByProject('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->selectByProject('afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->selectByProject('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->selectByProject(
+            IzVrijwilligerRepository::REPORT_BEGINSTAND,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->gestart = $this->repository->selectByProject(
+            IzVrijwilligerRepository::REPORT_GESTART,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->nieuwGestart = $this->repository->selectByProject(
+            IzVrijwilligerRepository::REPORT_NIEUW_GESTART,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->afgesloten = $this->repository->selectByProject(
+            IzVrijwilligerRepository::REPORT_AFGESLOTEN,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->eindstand = $this->repository->selectByProject(
+            IzVrijwilligerRepository::REPORT_EINDSTAND,
+            $this->startDate,
+            $this->endDate
+        );
     }
 }

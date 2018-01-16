@@ -19,7 +19,10 @@ abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwillige
 
         $gestartListing = new Listing($this->gestart, $this->columns);
         $gestartListing->setStartDate($this->startDate)->setEndDate($this->endDate);
-
+        
+        $nieuwGestartListing = new Listing($this->nieuwGestart, $this->columns);
+        $nieuwGestartListing->setStartDate($this->startDate)->setEndDate($this->endDate);
+        
         $afgeslotenListing = new Listing($this->afgesloten, $this->columns);
         $afgeslotenListing->setStartDate($this->startDate)->setEndDate($this->endDate);
 
@@ -29,25 +32,31 @@ abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwillige
         $this->reports = [
             [
                 'title' => 'Beginstand',
-                'xDescription' => $this->xDescription,
+                'xDescription' => 'Vrijwilligers met een lopende koppeling op startdatum.',
                 'yDescription' => $this->yDescription,
                 'data' => $beginstandListing->render(),
             ],
             [
                 'title' => 'Gestart',
-                'xDescription' => $this->xDescription,
+                'xDescription' => 'Vrijwilligers dat binnen de periode een koppeling startte en op startdatum geen lopende koppeling had.',
                 'yDescription' => $this->yDescription,
                 'data' => $gestartListing->render(),
             ],
             [
+                'title' => 'Nieuw gestart',
+                'xDescription' => 'Vrijwilligers dat binnen de periode voor het eerst een koppeling startte.',
+                'yDescription' => $this->yDescription,
+                'data' => $nieuwGestartListing->render(),
+            ],
+            [
                 'title' => 'Afgesloten',
-                'xDescription' => $this->xDescription,
+                'xDescription' => 'Vrijwilligers dat binnen de periode een koppeling afsloot en op einddatum geen lopende koppeling had.',
                 'yDescription' => $this->yDescription,
                 'data' => $afgeslotenListing->render(),
             ],
             [
                 'title' => 'Eindstand',
-                'xDescription' => $this->xDescription,
+                'xDescription' => 'Vrijwilligers met een lopende koppeling op einddatum.',
                 'yDescription' => $this->yDescription,
                 'data' => $eindstandListing->render(),
             ],
