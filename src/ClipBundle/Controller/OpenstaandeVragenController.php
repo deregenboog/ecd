@@ -38,7 +38,7 @@ class OpenstaandeVragenController extends AbstractVragenController
     public function indexAction(Request $request)
     {
         $filter = new VraagFilter();
-        $filter->afsluitdatum = new AppDateRangeModel(null, new \DateTime('yesterday'));
+        $filter->openstaand = true;
 
         if ($this->filterFormClass) {
             $form = $this->createForm($this->filterFormClass, $filter);
