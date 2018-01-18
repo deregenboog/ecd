@@ -39,38 +39,6 @@ services:
         tags:
             - { name: form.type }
 
-    hs.document.entities:
-        class: ArrayObject
-        arguments:
-            -
-              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
-              - { key: klant, dao: '@hs.dao.klant' }
-              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
-              - { key: klus, dao: '@hs.dao.klus' }
-
-    hs.klus.entities:
-        class: ArrayObject
-        arguments:
-            -
-              - { key: null }
-              - { key: klant, dao: '@hs.dao.klant' }
-
-    hs.registratie.entities:
-        class: ArrayObject
-        arguments:
-            -
-              - { key: arbeider, dao: '@hs.dao.arbeider' }
-              - { key: klus, dao: '@hs.dao.klus' }
-
-    hs.memo.entities:
-        class: ArrayObject
-        arguments:
-            -
-              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
-              - { key: klant, dao: '@hs.dao.klant' }
-              - { key: klus, dao: '@hs.dao.klus' }
-              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
-
     hs.data_fixtures.faker_provider:
         class: HsBundle\DataFixtures\HsFakerProvider
         arguments:

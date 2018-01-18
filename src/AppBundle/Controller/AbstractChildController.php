@@ -46,6 +46,10 @@ class AbstractChildController extends AbstractController
         }
 
         list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        if (!$parentEntity && !$this->allowEmpty) {
+            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+        }
+
         $entity = $this->createEntity($parentEntity);
         if ($parentEntity && $this->addMethod) {
             $parentEntity->{$this->addMethod}($entity);
@@ -148,10 +152,6 @@ class AbstractChildController extends AbstractController
                     $entity['dao'],
                 ];
             }
-        }
-
-        if (!$this->allowEmpty) {
-            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }
     }
 }
