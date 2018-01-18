@@ -3,7 +3,7 @@
 <ul>
     <li><?= $html->link('Klantrapportage', ['action' => 'lijst']); ?></li>
     <li><?= $html->link('Locatierapportage', ['action' => 'locatie']); ?></li>
-    <li><?= $html->link('Klanten overzicht totaal', ['action' => 'locatie_klant']); ?></li>
+    <li><?= $html->link('Klantenoverzicht totaal', ['action' => 'locatie_klant']); ?></li>
     <li><?= $html->link('Schorsingen', ['controller' => 'inloop/schorsingen']); ?></li>
     <li><?= $html->link('AWBZ-indicaties', ['action' => 'awbz_indicaties']); ?></li>
     <li><?= $html->link('AWBZ facturatie', ['controller' => 'awbz', 'action' => 'rapportage']); ?></li>
