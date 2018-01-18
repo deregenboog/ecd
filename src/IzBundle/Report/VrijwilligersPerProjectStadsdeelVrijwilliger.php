@@ -5,9 +5,9 @@ namespace IzBundle\Report;
 use AppBundle\Report\Table;
 use IzBundle\Repository\IzVrijwilligerRepository;
 
-class VrijwilligersPerProjectStadsdeel extends AbstractVrijwilligersReport
+class VrijwilligersPerProjectStadsdeelVrijwilliger extends AbstractVrijwilligersReport
 {
-    protected $title = 'Vrijwilligers per project en stadsdeel';
+    protected $title = 'Vrijwilligers per project en stadsdeel van de vrijwilliger';
 
     protected $xPath = 'project';
 
@@ -17,31 +17,31 @@ class VrijwilligersPerProjectStadsdeel extends AbstractVrijwilligersReport
 
     protected $xDescription = 'Project';
 
-    protected $yDescription = 'Stadsdeel';
+    protected $yDescription = 'Stadsdeel van de vrijwilliger';
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countByProjectAndStadsdeel(
+        $this->beginstand = $this->repository->countByProjectAndStadsdeelVrijwilliger(
             IzVrijwilligerRepository::REPORT_BEGINSTAND,
             $this->startDate,
             $this->endDate
         );
-        $this->gestart = $this->repository->countByProjectAndStadsdeel(
+        $this->gestart = $this->repository->countByProjectAndStadsdeelVrijwilliger(
             IzVrijwilligerRepository::REPORT_GESTART,
             $this->startDate,
             $this->endDate
         );
-        $this->nieuwGestart = $this->repository->countByProjectAndStadsdeel(
+        $this->nieuwGestart = $this->repository->countByProjectAndStadsdeelVrijwilliger(
             IzVrijwilligerRepository::REPORT_NIEUW_GESTART,
             $this->startDate,
             $this->endDate
         );
-        $this->afgesloten = $this->repository->countByProjectAndStadsdeel(
+        $this->afgesloten = $this->repository->countByProjectAndStadsdeelVrijwilliger(
             IzVrijwilligerRepository::REPORT_AFGESLOTEN,
             $this->startDate,
             $this->endDate
         );
-        $this->eindstand = $this->repository->countByProjectAndStadsdeel(
+        $this->eindstand = $this->repository->countByProjectAndStadsdeelVrijwilliger(
             IzVrijwilligerRepository::REPORT_EINDSTAND,
             $this->startDate,
             $this->endDate
