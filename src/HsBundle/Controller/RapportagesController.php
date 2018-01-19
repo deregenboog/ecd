@@ -2,12 +2,12 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\GenericExport;
 use HsBundle\Form\RapportageType;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
-use AppBundle\Export\GenericExport;
-use AppBundle\Controller\AbstractRapportagesController;
 
 /**
  * @Route("/rapportages")

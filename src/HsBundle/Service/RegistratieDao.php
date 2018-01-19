@@ -155,16 +155,39 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByArbeider(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByDienstverlener(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
-            ->addSelect("CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam, basisvrijwilliger.voornaam, basisvrijwilliger.tussenvoegsel, basisvrijwilliger.achternaam) AS groep")
+            ->addSelect("CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS groep")
             ->innerJoin('registratie.arbeider', 'arbeider')
-            ->leftJoin(Dienstverlener::class, 'dienstverlener', 'WITH', 'arbeider = dienstverlener')
-            ->leftJoin(Vrijwilliger::class, 'vrijwilliger', 'WITH', 'arbeider = vrijwilliger')
-            ->leftJoin('dienstverlener.klant', 'klant')
-            ->leftJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->innerJoin(Dienstverlener::class, 'dienstverlener', 'WITH', 'arbeider = dienstverlener')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->groupBy('groep')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countUrenByVrijwilliger(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('registratie')
+            ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
+            ->addSelect("CONCAT_WS(' ', basisvrijwilliger.voornaam, basisvrijwilliger.tussenvoegsel, basisvrijwilliger.achternaam) AS groep")
+            ->innerJoin('registratie.arbeider', 'arbeider')
+            ->innerJoin(Vrijwilliger::class, 'vrijwilliger', 'WITH', 'arbeider = vrijwilliger')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
             ->groupBy('groep')
         ;
 

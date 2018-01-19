@@ -35,7 +35,8 @@ class Uren extends AbstractReport
         $this->urenPerActiviteit = $this->dao->countUrenByKlus($this->startDate, $this->endDate);
         $this->urenPerKlant = $this->dao->countUrenByKlant($this->startDate, $this->endDate);
         $this->urenPerKlus = $this->dao->countUrenByKlus($this->startDate, $this->endDate);
-        $this->urenPerArbeider = $this->dao->countUrenByArbeider($this->startDate, $this->endDate);
+        $this->urenPerDienstverlener = $this->dao->countUrenByDienstverlener($this->startDate, $this->endDate);
+        $this->urenPerVrijwilliger = $this->dao->countUrenByVrijwilliger($this->startDate, $this->endDate);
     }
 
     protected function build()
@@ -76,12 +77,21 @@ class Uren extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $table = new Table($this->urenPerArbeider, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerDienstverlener, $this->xPath, $this->yPath, $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
-            'title' => 'Uren per dienstverlener/vrijwilliger',
+            'title' => 'Uren per dienstverlener',
             'xDescription' => $this->xDescription,
-            'yDescription' => 'Dienstverlener/vrijwilliger',
+            'yDescription' => 'Dienstverlener',
+            'data' => $table->render(),
+        ];
+
+        $table = new Table($this->urenPerVrijwilliger, $this->xPath, $this->yPath, $this->nPath);
+        $table->setStartDate($this->startDate)->setEndDate($this->endDate);
+        $this->reports[] = [
+            'title' => 'Uren per vrijwilliger',
+            'xDescription' => $this->xDescription,
+            'yDescription' => 'Vrijwilliger',
             'data' => $table->render(),
         ];
     }
