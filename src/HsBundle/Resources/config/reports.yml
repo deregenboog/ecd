@@ -1,45 +1,45 @@
 services:
-    hs.report.arbeiders.per_stadsdeel:
-        class: HsBundle\Report\ArbeidersPerStadsdeel
+    HsBundle\Report\ArbeidersPerStadsdeel:
         arguments:
             - "@hs.dao.dienstverlener"
             - "@hs.dao.vrijwilliger"
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
-    hs.report.arbeiders.nieuw_per_stadsdeel:
-        class: HsBundle\Report\NieuweArbeidersPerStadsdeel
+    HsBundle\Report\NieuweArbeidersPerStadsdeel:
         arguments:
             - "@hs.dao.dienstverlener"
             - "@hs.dao.vrijwilliger"
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
-    hs.report.klanten.per_stadsdeel:
-        class: HsBundle\Report\KlantenPerStadsdeel
+    HsBundle\Report\KlantenPerStadsdeel:
         arguments:
             - "@hs.dao.klant"
         tags:
             - { name: hs.rapportage, category: Klanten }
 
-    hs.report.klanten.nieuw_per_stadsdeel:
-        class: HsBundle\Report\NieuweKlantenPerStadsdeel
+    HsBundle\Report\NieuweKlantenPerStadsdeel:
         arguments:
             - "@hs.dao.klant"
         tags:
             - { name: hs.rapportage, category: Klanten }
 
-    hs.report.klussen.per_stadsdeel:
-        class: HsBundle\Report\KlussenPerStadsdeel
+    HsBundle\Report\KlussenPerStadsdeel:
         arguments:
             - "@hs.dao.klus"
         tags:
             - { name: hs.rapportage, category: Klussen }
 
-    hs.report.koppelingen.per_stadsdeel:
-        class: HsBundle\Report\KoppelingenPerStadsdeel
+    HsBundle\Report\KoppelingenPerStadsdeel:
         arguments:
             - "@hs.dao.klus"
         tags:
             - { name: hs.rapportage, category: Koppelingen }
+
+    HsBundle\Report\Uren:
+        arguments:
+            - "@hs.dao.registratie"
+        tags:
+            - { name: hs.rapportage, category: Uren }
 
