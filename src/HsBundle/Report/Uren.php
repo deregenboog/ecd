@@ -32,7 +32,7 @@ class Uren extends AbstractReport
     protected function init()
     {
         $this->urenPerStadsdeel = $this->dao->countUrenByStadsdeel($this->startDate, $this->endDate);
-        $this->urenPerActiviteit = $this->dao->countUrenByKlus($this->startDate, $this->endDate);
+        $this->urenPerActiviteit = $this->dao->countUrenByActiviteit($this->startDate, $this->endDate);
         $this->urenPerKlant = $this->dao->countUrenByKlant($this->startDate, $this->endDate);
         $this->urenPerKlus = $this->dao->countUrenByKlus($this->startDate, $this->endDate);
         $this->urenPerDienstverlener = $this->dao->countUrenByDienstverlener($this->startDate, $this->endDate);
