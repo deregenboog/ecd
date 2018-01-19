@@ -18,6 +18,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
             'klant.id',
             'klant.voornaam',
             'klant.achternaam',
+            'klant.geboortedatum',
             'werkgebied.naam',
         ],
     ];

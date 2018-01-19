@@ -17,6 +17,12 @@
             {{ form_errors(filter.klant.naam) }}
         </th>
         <th>
+            {{ form_widget(filter.klant.geboortedatumRange.start) }}
+            {{ form_errors(filter.klant.geboortedatumRange.start) }}
+            {{ form_widget(filter.klant.geboortedatumRange.end) }}
+            {{ form_errors(filter.klant.geboortedatumRange.end) }}
+        </th>
+        <th>
             {{ form_widget(filter.klant.stadsdeel) }}
             {{ form_errors(filter.klant.stadsdeel) }}
         </th>

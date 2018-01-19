@@ -61,7 +61,7 @@ class DienstverlenerFilterType extends AbstractType
             'enabled_filters' => [
                 'rijbewijs',
                 'status',
-                'klant' => ['id', 'naam', 'stadsdeel'],
+                'klant' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
                 'filter',
                 'download',
             ],
