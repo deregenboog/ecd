@@ -35,8 +35,14 @@
     <dl class="dl-horizontal">
         <dt>Status</dt>
         <dd>{{ entity.status|status_color }}</dd>
-        <dt>Activiteit</dt>
-        <dd>{{ entity.activiteit }}</dd>
+        <dt>Activiteiten</dt>
+        <dd>
+            <ul>
+                {% for activiteit in entity.activiteiten %}
+                    <li>{{ activiteit }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
         <dt>Startdatum</dt>
         <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
         <dt>Einddatum</dt>

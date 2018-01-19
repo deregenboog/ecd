@@ -41,7 +41,7 @@ class Uren extends AbstractReport
 
     protected function build()
     {
-        $table = new Table($this->urenPerStadsdeel, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerStadsdeel, null, $this->yPath, $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per stadsdeel',
@@ -50,7 +50,7 @@ class Uren extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $table = new Table($this->urenPerActiviteit, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerActiviteit, null, $this->yPath, $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per activiteit',
@@ -59,7 +59,7 @@ class Uren extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $table = new Table($this->urenPerKlant, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerKlant, null, $this->yPath, $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per klant',
@@ -68,7 +68,7 @@ class Uren extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $table = new Table($this->urenPerKlus, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerKlus, 'activiteitnaam', 'klusnaam', $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per klus',
@@ -77,7 +77,7 @@ class Uren extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $table = new Table($this->urenPerDienstverlener, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerDienstverlener, null, $this->yPath, $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per dienstverlener',
@@ -86,7 +86,7 @@ class Uren extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $table = new Table($this->urenPerVrijwilliger, $this->xPath, $this->yPath, $this->nPath);
+        $table = new Table($this->urenPerVrijwilliger, null, $this->yPath, $this->nPath);
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per vrijwilliger',

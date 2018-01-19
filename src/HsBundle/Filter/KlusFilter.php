@@ -96,7 +96,7 @@ class KlusFilter implements FilterInterface
 
         if ($this->activiteit) {
             $builder
-                ->andWhere('klus.activiteit = :activiteit')
+                ->andWhere('activiteit = :activiteit')
                 ->setParameter('activiteit', $this->activiteit)
             ;
         }

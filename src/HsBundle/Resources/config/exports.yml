@@ -81,7 +81,7 @@ services:
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
                 Klant: { expression: 'entity.getKlant()' } 
                 Stadsdeel: { expression: 'entity.getKlant().getWerkgebied()' } 
-                Activiteit: { expression: 'entity.getActiviteit()' } 
+                Activiteiten: { expression: 'entity.getActiviteitenAsString()' } 
 
     hs.export.factuur:
         class: AppBundle\Export\GenericExport

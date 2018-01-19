@@ -77,6 +77,14 @@ class RegistratieType extends AbstractType
         $builder
             ->add('activiteit', null, [
                 'placeholder' => 'Selecteer een activiteit',
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) use ($registratie) {
+                    return $repository->createQueryBuilder('activiteit')
+                        ->where('activiteit IN (:activiteiten)')
+                        ->orderBy('activiteit.naam')
+                        ->setParameter('activiteiten', $registratie->getKlus()->getActiviteiten())
+                    ;
+                },
             ])
             ->add('datum', AppDateType::class)
             ->add('start', AppTimeType::class)

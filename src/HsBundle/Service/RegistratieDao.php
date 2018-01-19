@@ -110,11 +110,12 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
-            ->addSelect("CONCAT(activiteit.naam, ' - ', CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam)) AS groep")
+            ->addSelect("CONCAT(klus.startdatum, ' - ', CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam)) AS klusnaam")
+            ->addSelect('activiteit.naam AS activiteitnaam')
+            ->innerJoin('registratie.activiteit', 'activiteit')
             ->innerJoin('registratie.klus', 'klus')
-            ->innerJoin('klus.activiteit', 'activiteit')
             ->leftJoin('klus.klant', 'klant')
-            ->groupBy('groep')
+            ->groupBy('klusnaam, activiteitnaam')
         ;
 
         if ($start) {
@@ -136,8 +137,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
             ->addSelect("activiteit.naam AS groep")
-            ->innerJoin('registratie.klus', 'klus')
-            ->innerJoin('klus.activiteit', 'activiteit')
+            ->innerJoin('registratie.activiteit', 'activiteit')
             ->groupBy('groep')
         ;
 

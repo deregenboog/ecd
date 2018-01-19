@@ -48,7 +48,7 @@ HsBundle\Entity\Klus:
         startdatum: '<dateTimeThisDecade()>'
         einddatum: '50%? <dateTimeThisDecade()>'
         onHold: '<numberBetween(0, 1)>'
-        activiteit: '@hs_activiteit_*'
+        addActiviteit: ['@hs_activiteit_*']
         addDienstverlener: ['@hs_dienstverlener_*']
         addVrijwilliger: ['@hs_vrijwilliger_*']
 
