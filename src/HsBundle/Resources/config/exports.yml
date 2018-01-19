@@ -62,12 +62,15 @@ services:
         arguments:
             - HsBundle\Entity\Registratie
             -
-                Nummer: { expression: 'entity.getArbeider().getKlant() ? entity.getArbeider().getKlant().getId() : entity.getArbeider().getVrijwilliger().getId()' }
-                Naam: { expression: 'entity.getArbeider()' } 
+#                Nummer: { expression: 'entity.getArbeider().getKlant() ? entity.getArbeider().getKlant().getId() : entity.getArbeider().getVrijwilliger().getId()' }
+                'Dienstverlener/vrijwilliger': { expression: 'entity.getArbeider()' } 
                 Activiteit: { expression: 'entity.getActiviteit()' } 
+                Klant: { expression: 'entity.getKlus().getKlant()' } 
+                Stadsdeel: { expression: 'entity.getKlus().getKlant().getWerkgebied()' } 
                 Datum: { expression: 'entity.getDatum()', type: 'date' } 
                 Starttijd: { expression: 'entity.getStart()', type: 'time' } 
                 Eindtijd: { expression: 'entity.getEind()', type: 'time' }
+                Uren: { expression: 'entity.getUren()' }
                 Dagdelen: { expression: 'entity.getDagdelen()' }
 #                Reiskosten:  { expression: 'entity.getReiskosten()' }
 

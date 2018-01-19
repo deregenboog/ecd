@@ -1,20 +1,21 @@
 {% import '::html.macro.twig' as html %}
 <ul class="nav nav-tabs">
-    {{ html.navLink('Klanten', path('hs_klanten_index'), isActiveRoute('hs_klanten')) }}
-    {{ html.navLink('Dienstverleners', path('hs_dienstverleners_index'), isActiveRoute('hs_dienstverleners')) }}
-    {{ html.navLink('Vrijwilligers', path('hs_vrijwilligers_index'), isActiveRoute('hs_vrijwilligers')) }}
-    {{ html.navLink('Klussen', path('hs_klussen_index'), isActiveRoute('hs_klussen')) }}
-    {{ html.navLink('Facturen', path('hs_facturen_index'), isActiveRoute('hs_facturen')) }}
-    {{ html.navLink('Betalingen', path('hs_betalingen_index'), isActiveRoute('hs_betalingen')) }}
-    {{ html.navLink('Rapportages', path('hs_rapportages_index'), isActiveRoute('hs_rapportages')) }}
+    {{ html.navLink('Klanten', path('hs_klanten_index'), isActiveRoute('hs_klanten_')) }}
+    {{ html.navLink('Dienstverleners', path('hs_dienstverleners_index'), isActiveRoute('hs_dienstverleners_')) }}
+    {{ html.navLink('Vrijwilligers', path('hs_vrijwilligers_index'), isActiveRoute('hs_vrijwilligers_')) }}
+    {{ html.navLink('Klussen', path('hs_klussen_index'), isActiveRoute('hs_klussen_')) }}
+    {{ html.navLink('Uren', path('hs_registraties_index'), isActiveRoute('hs_registraties_')) }}
+    {{ html.navLink('Facturen', path('hs_facturen_index'), isActiveRoute('hs_facturen_')) }}
+    {{ html.navLink('Betalingen', path('hs_betalingen_index'), isActiveRoute('hs_betalingen_')) }}
+    {{ html.navLink('Rapportages', path('hs_rapportages_index'), isActiveRoute('hs_rapportages_')) }}
     {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
         <li role="presentation" class="dropdown {{ isActivePath('hs/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>
             </a>
                 <ul class="dropdown-menu">
-                    {{ html.navLink('Activiteiten', path('hs_activiteiten_index'), isActiveRoute('hs_activiteiten')) }}
-                    {{ html.navLink('Declaratiecategorieën', path('hs_declaratiecategorieen_index'), isActiveRoute('hs_declaratiecategorieen')) }}
+                    {{ html.navLink('Activiteiten', path('hs_activiteiten_index'), isActiveRoute('hs_activiteiten_')) }}
+                    {{ html.navLink('Declaratiecategorieën', path('hs_declaratiecategorieen_index'), isActiveRoute('hs_declaratiecategorieen_')) }}
                 </ul>
         </li>
     {% endif %}

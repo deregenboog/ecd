@@ -10,6 +10,20 @@ use HsBundle\Entity\Vrijwilliger;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
+    protected $paginationOptions = [
+        'defaultSortFieldName' => 'registratie.datum+registratie.start',
+        'defaultSortDirection' => 'desc',
+        'sortFieldWhitelist' => [
+            'basisklant.achternaam+basisvrijwilliger.achternaam',
+            'klant.achternaam',
+            'werkgebied.naam',
+            'activiteit.naam',
+            'registratie.datum+registratie.start',
+            'registratie.start',
+            'registratie.eind',
+        ],
+    ];
+
     protected $class = Registratie::class;
 
     protected $alias = 'registratie';
@@ -19,7 +33,19 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        return parent::findAll($page, $filter);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin($this->alias.'.klus', 'klus')
+            ->innerJoin('klus.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('registratie.activiteit', 'activiteit')
+            ->innerJoin('registratie.arbeider', 'arbeider')
+            ->leftJoin(Dienstverlener::class, 'dienstverlener', 'WITH', 'arbeider = dienstverlener')
+            ->leftJoin('dienstverlener.klant', 'basisklant')
+            ->leftJoin(Vrijwilliger::class, 'vrijwilliger', 'WITH', 'arbeider = vrijwilliger')
+            ->leftJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+        ;
+
+        return $this->doFindAll($builder, $page, $filter);
     }
 
     /**

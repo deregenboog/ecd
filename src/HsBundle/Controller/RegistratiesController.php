@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use HsBundle\Filter\RegistratieFilter;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
+use HsBundle\Form\RegistratieFilterType;
 
 /**
  * @Route("/registraties")
@@ -25,6 +26,7 @@ class RegistratiesController extends AbstractChildController
     protected $entityName = 'urenregistratie';
     protected $entityClass = Registratie::class;
     protected $formClass = RegistratieType::class;
+    protected $filterFormClass = RegistratieFilterType::class;
     protected $baseRouteName = 'hs_registraties_';
 
     /**
