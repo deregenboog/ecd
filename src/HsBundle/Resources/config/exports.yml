@@ -29,6 +29,7 @@ services:
                 Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
                 Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
                 E-mail: { expression: 'entity.getKlant().getEmail()' }
                 Adres: { expression: 'entity.getKlant().getAdres()' }
                 Postcode: { expression: 'entity.getKlant().getPostcode()' }
@@ -47,6 +48,7 @@ services:
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
                 Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
                 E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
                 Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
                 Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
