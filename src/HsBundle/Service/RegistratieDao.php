@@ -63,7 +63,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
             ->addSelect('werkgebied.naam AS groep')
             ->innerJoin('registratie.klus', 'klus')
-            ->innerJoin('klus.klant', 'klant')
+            ->leftJoin('klus.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->groupBy('groep')
         ;
@@ -88,7 +88,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
             ->addSelect("CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS groep")
             ->innerJoin('registratie.klus', 'klus')
-            ->innerJoin('klus.klant', 'klant')
+            ->leftJoin('klus.klant', 'klant')
             ->groupBy('groep')
         ;
 
@@ -113,7 +113,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             ->addSelect("CONCAT(activiteit.naam, ' - ', CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam)) AS groep")
             ->innerJoin('registratie.klus', 'klus')
             ->innerJoin('klus.activiteit', 'activiteit')
-            ->innerJoin('klus.klant', 'klant')
+            ->leftJoin('klus.klant', 'klant')
             ->groupBy('groep')
         ;
 
