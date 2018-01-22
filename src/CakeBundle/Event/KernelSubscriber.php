@@ -85,6 +85,7 @@ class KernelSubscriber implements EventSubscriberInterface
         ) {
             // inject controller in base controller used by CakePHP
             \AppController::$staticContainer = $this->container;
+            $this->setLdapConfiguration();
 
             // adjust error level
             if ('dev' === $this->container->getParameter('kernel.environment')
@@ -152,5 +153,17 @@ class KernelSubscriber implements EventSubscriberInterface
         if ($user) {
             $this->controller->viewVars['userFullName'] = $user;
         }
+    }
+
+    private function setLdapConfiguration()
+    {
+        \Configure::write('LDAP.configuration', [
+            'active_directory' => $this->container->getParameter('ldap_active_directory'),
+            'host' => $this->container->getParameter('ldap_host'),
+            'port' => $this->container->getParameter('ldap_port'),
+            'baseDn' => $this->container->getParameter('ldap_base_dn'),
+            'username' => $this->container->getParameter('ldap_search_user'),
+            'password' => $this->container->getParameter('ldap_search_password'),
+        ]);
     }
 }
