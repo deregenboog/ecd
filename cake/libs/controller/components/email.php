@@ -841,7 +841,7 @@ class EmailComponent extends Object{
  * @access protected
  */
 	function _getSocket($config) {
-		$this->__smtpConnection =& new CakeSocket($config);
+		$this->__smtpConnection = new CakeSocket($config);
 	}
 
 /**
