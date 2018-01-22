@@ -44,6 +44,8 @@ class KernelSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event)
     {
+        $this->setLdapConfiguration();
+
         // @todo remove this when no longer needed
         $em = $this->container->get('doctrine.orm.entity_manager');
 
@@ -85,7 +87,6 @@ class KernelSubscriber implements EventSubscriberInterface
         ) {
             // inject controller in base controller used by CakePHP
             \AppController::$staticContainer = $this->container;
-            $this->setLdapConfiguration();
 
             // adjust error level
             if ('dev' === $this->container->getParameter('kernel.environment')
