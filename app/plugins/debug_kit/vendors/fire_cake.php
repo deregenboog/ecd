@@ -110,12 +110,12 @@ class FireCake extends Object {
 		static $instance = array();
 		if (!empty($class)) {
 			if (!$instance || strtolower($class) != strtolower(get_class($instance[0]))) {
-				$instance[0] =& new $class();
+				$instance[0] = new $class();
 				$instance[0]->setOptions();
 			}
 		}
 		if (!isset($instance[0]) || !$instance[0]) {
-			$instance[0] =& new FireCake();
+			$instance[0] = new FireCake();
 			$instance[0]->setOptions();
 		}
 		return $instance[0];
@@ -531,7 +531,7 @@ class FireCake extends Object {
 		if (!class_exists('JavascriptHelper')) {
 			App::import('Helper', 'Javascript');
 		}
-		$javascript =& new JavascriptHelper();
+		$javascript = new JavascriptHelper();
 		$javascript->useNative = false;
 		if (is_string($object)) {
 			return '"' . $javascript->escapeString($object) . '"';

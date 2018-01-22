@@ -30,12 +30,12 @@ class HtmlToolbarHelperTestCase extends CakeTestCase {
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		Router::parse('/');
 		
-		$this->Toolbar =& new ToolbarHelper(array('output' => 'DebugKit.HtmlToolbar'));
-		$this->Toolbar->HtmlToolbar =& new HtmlToolbarHelper();
-		$this->Toolbar->HtmlToolbar->Html =& new HtmlHelper();
-		$this->Toolbar->HtmlToolbar->Form =& new FormHelper();
+		$this->Toolbar = new ToolbarHelper(array('output' => 'DebugKit.HtmlToolbar'));
+		$this->Toolbar->HtmlToolbar = new HtmlToolbarHelper();
+		$this->Toolbar->HtmlToolbar->Html = new HtmlHelper();
+		$this->Toolbar->HtmlToolbar->Form = new FormHelper();
 		
-		$this->Controller =& new Controller();
+		$this->Controller = new Controller();
 		if (isset($this->_debug)) {
 			Configure::write('debug', $this->_debug);
 		}

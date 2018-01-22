@@ -286,7 +286,7 @@ class ToolbarComponent extends Object {
 				continue;
 			}
 			list($plugin, $className) = pluginSplit($className);
-			$panelObj =& new $className($settings);
+			$panelObj = new $className($settings);
 			if (is_subclass_of($panelObj, 'DebugPanel') || is_subclass_of($panelObj, 'debugpanel')) {
 				list(, $panel) = pluginSplit($panel);
 				$this->panels[$panel] =& $panelObj;

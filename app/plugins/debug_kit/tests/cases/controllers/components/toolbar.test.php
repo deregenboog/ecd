@@ -66,7 +66,7 @@ class DebugToolbarTestCase extends CakeTestCase {
  **/
 	function startTest() {
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-		$this->Controller =& new Controller();
+		$this->Controller = new Controller();
 		$this->Controller->params = Router::parse('/');
 		$this->Controller->params['url']['url'] = '/';
 		$this->Controller->uses = array();
@@ -474,7 +474,7 @@ class DebugToolbarTestCase extends CakeTestCase {
 		CakeLog::drop('default');
 		CakeLog::drop('debug_kit_log_panel');
 
-		$panel =& new LogPanel(array());
+		$panel = new LogPanel(array());
 		$configured = CakeLog::configured();
 
 		$this->assertTrue(in_array('default', $configured));
@@ -559,7 +559,7 @@ class DebugToolbarTestCase extends CakeTestCase {
  **/
 	function testSqlLogPanel() {
 		App::import('Core', 'Model');
-		$Article =& new Model(array('ds' => 'test_suite', 'name' => 'Article'));
+		$Article = new Model(array('ds' => 'test_suite', 'name' => 'Article'));
 		$Article->find('first', array('conditions' => array('Article.id' => 1)));
 
 		$this->Controller->components = array(

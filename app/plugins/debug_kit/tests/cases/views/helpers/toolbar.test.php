@@ -35,7 +35,7 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		Router::parse('/');
 		
-		$this->Toolbar =& new ToolbarHelper(array(
+		$this->Toolbar = new ToolbarHelper(array(
 			'output' => 'MockBackendHelper',
 			'cacheKey' => 'debug_kit_toolbar_test_case',
 			'cacheConfig' => 'default'
@@ -130,7 +130,7 @@ class ToolbarHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testGetQueryLogs() {
-		$model =& new Model(array('ds' => 'test_suite', 'table' => 'posts', 'name' => 'Post'));
+		$model = new Model(array('ds' => 'test_suite', 'table' => 'posts', 'name' => 'Post'));
 		$model->find('all');
 		$model->find('first');
 

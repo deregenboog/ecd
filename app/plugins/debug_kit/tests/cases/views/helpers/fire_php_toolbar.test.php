@@ -35,10 +35,10 @@ class FirePhpToolbarHelperTestCase extends CakeTestCase {
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		Router::parse('/');
 
-		$this->Toolbar =& new ToolbarHelper(array('output' => 'DebugKit.FirePhpToolbar'));
-		$this->Toolbar->FirePhpToolbar =& new FirePhpToolbarHelper();
+		$this->Toolbar = new ToolbarHelper(array('output' => 'DebugKit.FirePhpToolbar'));
+		$this->Toolbar->FirePhpToolbar = new FirePhpToolbarHelper();
 
-		$this->Controller =& new Controller();
+		$this->Controller = new Controller();
 		if (isset($this->_debug)) {
 			Configure::write('debug', $this->_debug);
 		}

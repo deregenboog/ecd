@@ -39,8 +39,8 @@ class DebugViewTestCase extends CakeTestCase {
 	function startTest() {
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		Router::parse('/');
-		$this->Controller =& new Controller();
-		$this->View =& new DebugView($this->Controller, false);
+		$this->Controller = new Controller();
+		$this->View = new DebugView($this->Controller, false);
 		$this->_debug = Configure::read('debug');
 		$this->_paths = array();
 		$this->_paths['plugins'] = App::path('plugins');
@@ -115,7 +115,7 @@ TEXT;
 			'here' => '/posts/index',
 		);
 		$this->Controller->layout = 'default';
-		$View =& new DebugView($this->Controller, false);
+		$View = new DebugView($this->Controller, false);
 		$View->render('index');
 
 		$result = DebugKitDebugger::getTimers();
