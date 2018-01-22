@@ -3,10 +3,11 @@
 namespace IzBundle\Report;
 
 use AppBundle\Report\Table;
+use IzBundle\Repository\IzVrijwilligerRepository;
 
-class VrijwilligersPerProjectStadsdeel extends AbstractVrijwilligersReport
+class VrijwilligersPerProjectStadsdeelVrijwilliger extends AbstractVrijwilligersReport
 {
-    protected $title = 'Vrijwilligers per project en stadsdeel';
+    protected $title = 'Vrijwilligers per project en stadsdeel van de vrijwilliger';
 
     protected $xPath = 'project';
 
@@ -16,14 +17,35 @@ class VrijwilligersPerProjectStadsdeel extends AbstractVrijwilligersReport
 
     protected $xDescription = 'Project';
 
-    protected $yDescription = 'Stadsdeel';
+    protected $yDescription = 'Stadsdeel van de vrijwilliger';
 
     protected function init()
     {
-        $this->beginstand = $this->repository->countByProjectAndStadsdeel('beginstand', $this->startDate, $this->endDate);
-        $this->gestart = $this->repository->countByProjectAndStadsdeel('gestart', $this->startDate, $this->endDate);
-        $this->afgesloten = $this->repository->countByProjectAndStadsdeel('afgesloten', $this->startDate, $this->endDate);
-        $this->eindstand = $this->repository->countByProjectAndStadsdeel('eindstand', $this->startDate, $this->endDate);
+        $this->beginstand = $this->repository->countByProjectAndStadsdeelVrijwilliger(
+            IzVrijwilligerRepository::REPORT_BEGINSTAND,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->gestart = $this->repository->countByProjectAndStadsdeelVrijwilliger(
+            IzVrijwilligerRepository::REPORT_GESTART,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->nieuwGestart = $this->repository->countByProjectAndStadsdeelVrijwilliger(
+            IzVrijwilligerRepository::REPORT_NIEUW_GESTART,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->afgesloten = $this->repository->countByProjectAndStadsdeelVrijwilliger(
+            IzVrijwilligerRepository::REPORT_AFGESLOTEN,
+            $this->startDate,
+            $this->endDate
+        );
+        $this->eindstand = $this->repository->countByProjectAndStadsdeelVrijwilliger(
+            IzVrijwilligerRepository::REPORT_EINDSTAND,
+            $this->startDate,
+            $this->endDate
+        );
     }
 
     protected function build()
@@ -33,6 +55,9 @@ class VrijwilligersPerProjectStadsdeel extends AbstractVrijwilligersReport
 
         $gestartTable = new Table($this->gestart, $this->xPath, $this->yPath, $this->nPath);
         $gestartTable->setStartDate($this->startDate)->setEndDate($this->endDate)->setXTotals(false);
+
+        $nieuwGestartTable = new Table($this->nieuwGestart, $this->xPath, $this->yPath, $this->nPath);
+        $nieuwGestartTable->setStartDate($this->startDate)->setEndDate($this->endDate)->setXTotals(false);
 
         $afgeslotenTable = new Table($this->afgesloten, $this->xPath, $this->yPath, $this->nPath);
         $afgeslotenTable->setStartDate($this->startDate)->setEndDate($this->endDate)->setXTotals(false);
@@ -52,6 +77,12 @@ class VrijwilligersPerProjectStadsdeel extends AbstractVrijwilligersReport
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
                 'data' => $gestartTable->render(),
+            ],
+            [
+                'title' => 'Nieuw gestart',
+                'xDescription' => $this->xDescription,
+                'yDescription' => $this->yDescription,
+                'data' => $nieuwGestartTable->render(),
             ],
             [
                 'title' => 'Afgesloten',

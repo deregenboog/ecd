@@ -134,15 +134,29 @@ services:
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
-    iz.report.vrijwilligers.per_stadsdeel:
-        class: IzBundle\Report\VrijwilligersPerStadsdeel
+    iz.report.vrijwilligers.per_stadsdeel_klant:
+        class: IzBundle\Report\VrijwilligersPerStadsdeelKlant
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
-    iz.report.vrijwilligers.per_project_stadsdeel:
-        class: IzBundle\Report\VrijwilligersPerProjectStadsdeel
+    iz.report.vrijwilligers.per_stadsdeel_vrijwilliger:
+        class: IzBundle\Report\VrijwilligersPerStadsdeelVrijwilliger
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    iz.report.vrijwilligers.per_project_stadsdeel_klant:
+        class: IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    iz.report.vrijwilligers.per_project_stadsdeel_vrijwilliger:
+        class: IzBundle\Report\VrijwilligersPerProjectStadsdeelVrijwilliger
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:

@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use ClipBundle\Entity\Vraag;
 use AppBundle\Export\ExportInterface;
+use ClipBundle\Filter\VraagFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 /**
  * @Route("/openstaandevragen")
@@ -35,7 +37,27 @@ class OpenstaandeVragenController extends AbstractVragenController
      */
     public function indexAction(Request $request)
     {
-        return parent::indexAction($request);
+        $filter = new VraagFilter();
+        $filter->openstaand = true;
+
+        if ($this->filterFormClass) {
+            $form = $this->createForm($this->filterFormClass, $filter);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->has('download') && $form->get('download')->isClicked()) {
+                    return $this->download($form->getData());
+                }
+            }
+            $filter = $form->getData();
+        }
+
+        $page = $request->get('page', 1);
+        $pagination = $this->dao->findAll($page, $filter);
+
+        return [
+            'filter' => isset($form) ? $form->createView() : null,
+            'pagination' => $pagination,
+        ];
     }
 
     protected function createForm($type, $data = null, array $options = [])

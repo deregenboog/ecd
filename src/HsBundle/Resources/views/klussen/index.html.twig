@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Klussen |
+    Homeservice | Klussen
 {% endblock %}
 
 {% block subnavigation %}
@@ -50,7 +50,13 @@
                 <tr data-href="{{ path(view_route, {id: entity.id}) }}">
                     <td>{{ entity.klant }}</td>
                     <td>{{ entity.klant.werkgebied }}</td>
-                    <td>{{ entity.activiteit }}</td>
+                    <td>
+                        <ul>
+                            {% for activiteit in entity.activiteiten %}
+                                <li>{{ activiteit }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
                     <td>{{ entity.status|status_color }}</td>
                     <td>{{ entity.startdatum|date('d-m-Y') }}</td>
                     <td>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</td>

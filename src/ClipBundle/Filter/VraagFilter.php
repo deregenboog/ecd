@@ -26,6 +26,11 @@ class VraagFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $openstaand;
+
+    /**
      * @var Vraagsoort
      */
     public $soort;
@@ -77,6 +82,13 @@ class VraagFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->openstaand) {
+            $builder
+                ->andWhere('vraag.afsluitdatum IS NULL OR vraag.afsluitdatum > :today')
+                ->setParameter('today', new \DateTime('today'))
+            ;
         }
 
         if ($this->soort) {

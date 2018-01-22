@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Homeservice | Uren
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Hs/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Uren</h1>
+    <p>
+        Het toevoegen van uren gaat via de betreffende klus.
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include '@Hs/registraties/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Dienstverlener/vrijwilliger', 'basisklant.achternaam+basisvrijwilliger.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Activiteit', 'activiteit.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Datum', 'registratie.datum+registratie.start') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Start', 'registratie.start') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Eind', 'registratie.eind') }}
+                </th>
+                <th>
+                    Uren
+                </th>
+                <th>
+                    Dagdelen
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+                <tr data-href="{{ path('hs_klussen_view', {id: entity.klus.id, _fragment: 'registraties'}) }}">
+                    <td>
+                        {{ entity.arbeider }}
+                    </td>
+                    <td>
+                        {{ entity.activiteit }}
+                    </td>
+                    <td>
+                        {{ entity.klus.klant }}
+                    </td>
+                    <td>
+                        {{ entity.klus.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ entity.datum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ entity.start|date('H:i') }}
+                    </td>
+                    <td>
+                        {{ entity.eind|date('H:i') }}
+                    </td>
+                    <td>
+                        {{ entity.uren }}
+                    </td>
+                    <td>
+                        {{ entity.dagdelen }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

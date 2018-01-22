@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Dienstverleners |
+    Homeservice | Dienstverleners
 {% endblock %}
 
 {% block subnavigation %}
@@ -25,12 +25,12 @@
     <dl class="dl-horizontal">
         <dt>Status</dt>
         <dd>{{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}</dd>
-        <dt>#</dt>
-        <dd>{{ entity.id }}</dd>
         <dt>Naam</dt>
         <dd>{{ entity }}</dd>
         <dt>Rijbewijs</dt>
         <dd>{{ entity.rijbewijs ? 'Ja' : (entity.rijbewijs is null ? 'Onbekend' : 'Nee') }}</dd>
+        <dt>Inschrijving</dt>
+        <dd>{{ entity.inschrijving ? entity.inschrijving|date('d-m-Y') }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Naam hulpverlener</dt>

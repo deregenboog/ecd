@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Dienstverleners |
+    Homeservice | Dienstverleners
 {% endblock %}
 
 {% block subnavigation %}
@@ -31,6 +31,9 @@
                     {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
@@ -43,23 +46,26 @@
         </thead>
         <tbody>
             {% for entity in pagination %}
-            <tr data-href="{{ path(view_route, {id: entity.id}) }}">
-                <td>
-                    {{ entity.klant.id }}
-                </td>
-                <td>
-                    {{ entity.klant }}
-                </td>
-                <td>
-                    {{ entity.klant.werkgebied }}
-                </td>
-                <td>
-                    {{ entity.rijbewijs ? 'Ja' : 'Nee' }}
-                </td>
-                <td>
-                    {{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}
-                </td>
-            </tr>
+                <tr data-href="{{ path(view_route, {id: entity.id}) }}">
+                    <td>
+                        {{ entity.klant.id }}
+                    </td>
+                    <td>
+                        {{ entity.klant }}
+                    </td>
+                    <td>
+                        {{ entity.klant.geboortedatum ? entity.klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ entity.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ entity.rijbewijs ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

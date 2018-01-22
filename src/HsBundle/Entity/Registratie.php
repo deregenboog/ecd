@@ -193,10 +193,6 @@ class Registratie implements FactuurSubjectInterface
             $this->datum = $klus->getStartdatum();
         }
 
-        if (!$this->activiteit) {
-            $this->activiteit = $klus->getActiviteit();
-        }
-
         return $this;
     }
 

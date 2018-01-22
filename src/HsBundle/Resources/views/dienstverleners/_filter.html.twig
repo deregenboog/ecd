@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="5">
+        <th colspan="6">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -15,6 +15,12 @@
         <th>
             {{ form_widget(filter.klant.naam) }}
             {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.geboortedatumRange.start) }}
+            {{ form_errors(filter.klant.geboortedatumRange.start) }}
+            {{ form_widget(filter.klant.geboortedatumRange.end) }}
+            {{ form_errors(filter.klant.geboortedatumRange.end) }}
         </th>
         <th>
             {{ form_widget(filter.klant.stadsdeel) }}

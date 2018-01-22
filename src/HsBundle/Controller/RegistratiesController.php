@@ -14,6 +14,8 @@ use AppBundle\Controller\AbstractChildController;
 use Symfony\Component\HttpFoundation\Request;
 use HsBundle\Filter\RegistratieFilter;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Exception\AppException;
+use HsBundle\Form\RegistratieFilterType;
 
 /**
  * @Route("/registraties")
@@ -24,6 +26,7 @@ class RegistratiesController extends AbstractChildController
     protected $entityName = 'urenregistratie';
     protected $entityClass = Registratie::class;
     protected $formClass = RegistratieType::class;
+    protected $filterFormClass = RegistratieFilterType::class;
     protected $baseRouteName = 'hs_registraties_';
 
     /**
@@ -65,6 +68,9 @@ class RegistratiesController extends AbstractChildController
     public function addAction(Request $request)
     {
         list($parentEntity) = $this->getParentConfig($request);
+        if (!$parentEntity && !$this->allowEmpty) {
+            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+        }
 
         if ($parentEntity instanceof Klus) {
             $entity = new Registratie($parentEntity);

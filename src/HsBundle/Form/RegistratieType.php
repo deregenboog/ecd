@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Klus;
+use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Vrijwilliger;
 
 class RegistratieType extends AbstractType
 {
@@ -33,12 +35,24 @@ class RegistratieType extends AbstractType
                 'required' => true,
                 'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     return $repository->createQueryBuilder('arbeider')
+                        ->leftJoin(Dienstverlener::class, 'dienstverlener', 'WITH', 'dienstverlener = arbeider')
+                        ->leftJoin(Vrijwilliger::class, 'vrijwilliger', 'WITH', 'vrijwilliger = arbeider')
+                        ->leftJoin('dienstverlener.klant', 'klant')
+                        ->leftJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
                         ->where('arbeider IN (:dienstverleners) OR arbeider IN (:vrijwilligers)')
+                        ->orderBy('basisvrijwilliger.achternaam, klant.achternaam')
                         ->setParameters([
                             'dienstverleners' => $registratie->getKlus()->getDienstverleners(),
                             'vrijwilligers' => $registratie->getKlus()->getVrijwilligers(),
                         ])
                     ;
+                },
+                'group_by' => function($value, $key, $index) {
+                    if ($value instanceof Dienstverlener) {
+                        return 'Dienstverleners';
+                    } else {
+                        return 'Vrijwilligers';
+                    }
                 },
             ]);
         } elseif ($registratie->getArbeider() && !$registratie->getKlus()) {
@@ -63,6 +77,14 @@ class RegistratieType extends AbstractType
         $builder
             ->add('activiteit', null, [
                 'placeholder' => 'Selecteer een activiteit',
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) use ($registratie) {
+                    return $repository->createQueryBuilder('activiteit')
+                        ->where('activiteit IN (:activiteiten)')
+                        ->orderBy('activiteit.naam')
+                        ->setParameter('activiteiten', $registratie->getKlus()->getActiviteiten())
+                    ;
+                },
             ])
             ->add('datum', AppDateType::class)
             ->add('start', AppTimeType::class)

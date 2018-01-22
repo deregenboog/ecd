@@ -34,7 +34,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
             ->select("{$this->alias}, klant, activiteit, declaratie, memo, registratie")
             ->leftJoin("{$this->alias}.klant", 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin("{$this->alias}.activiteit", 'activiteit')
+            ->innerJoin("{$this->alias}.activiteiten", 'activiteit')
             ->leftJoin("{$this->alias}.declaraties", 'declaratie')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.registraties", 'registratie')

@@ -39,7 +39,7 @@ class Activiteit
     private $modified;
 
     /**
-     * @ORM\OneToMany(targetEntity="Klus", mappedBy="activiteit")
+     * @ORM\ManyToMany(targetEntity="Klus", mappedBy="activiteiten")
      */
     private $klussen;
 

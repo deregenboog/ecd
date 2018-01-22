@@ -29,6 +29,7 @@ services:
                 Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
                 Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
                 E-mail: { expression: 'entity.getKlant().getEmail()' }
                 Adres: { expression: 'entity.getKlant().getAdres()' }
                 Postcode: { expression: 'entity.getKlant().getPostcode()' }
@@ -47,6 +48,7 @@ services:
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
                 Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
                 E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
                 Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
                 Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
@@ -60,12 +62,15 @@ services:
         arguments:
             - HsBundle\Entity\Registratie
             -
-                Nummer: { expression: 'entity.getArbeider().getKlant() ? entity.getArbeider().getKlant().getId() : entity.getArbeider().getVrijwilliger().getId()' }
-                Naam: { expression: 'entity.getArbeider()' } 
+#                Nummer: { expression: 'entity.getArbeider().getKlant() ? entity.getArbeider().getKlant().getId() : entity.getArbeider().getVrijwilliger().getId()' }
+                'Dienstverlener/vrijwilliger': { expression: 'entity.getArbeider()' } 
                 Activiteit: { expression: 'entity.getActiviteit()' } 
+                Klant: { expression: 'entity.getKlus().getKlant()' } 
+                Stadsdeel: { expression: 'entity.getKlus().getKlant().getWerkgebied()' } 
                 Datum: { expression: 'entity.getDatum()', type: 'date' } 
                 Starttijd: { expression: 'entity.getStart()', type: 'time' } 
                 Eindtijd: { expression: 'entity.getEind()', type: 'time' }
+                Uren: { expression: 'entity.getUren()' }
                 Dagdelen: { expression: 'entity.getDagdelen()' }
 #                Reiskosten:  { expression: 'entity.getReiskosten()' }
 
@@ -79,7 +84,7 @@ services:
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
                 Klant: { expression: 'entity.getKlant()' } 
                 Stadsdeel: { expression: 'entity.getKlant().getWerkgebied()' } 
-                Activiteit: { expression: 'entity.getActiviteit()' } 
+                Activiteiten: { expression: 'entity.getActiviteitenAsString()' } 
 
     hs.export.factuur:
         class: AppBundle\Export\GenericExport

@@ -67,7 +67,7 @@ class VrijwilligerFilterType extends AbstractType
             'enabled_filters' => [
                 'rijbewijs',
                 'status',
-                'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
+                'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
                 'filter',
                 'download',
             ],

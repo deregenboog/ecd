@@ -74,6 +74,15 @@ services:
             -
               - { key: klus, dao: '@hs.dao.klus' }
 
+    hs.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
+              - { key: klant, dao: '@hs.dao.klant' }
+              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
+              - { key: klus, dao: '@hs.dao.klus' }
+
     hs.factuur.entities:
         class: ArrayObject
         arguments:
@@ -85,3 +94,26 @@ services:
         arguments:
             -
               - { key: factuur, dao: '@hs.dao.factuur' }
+
+    hs.klus.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: null }
+              - { key: klant, dao: '@hs.dao.klant' }
+
+    hs.memo.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
+              - { key: klant, dao: '@hs.dao.klant' }
+              - { key: klus, dao: '@hs.dao.klus' }
+              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
+
+    hs.registratie.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: arbeider, dao: '@hs.dao.arbeider' }
+              - { key: klus, dao: '@hs.dao.klus' }

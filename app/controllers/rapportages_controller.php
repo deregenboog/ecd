@@ -612,9 +612,10 @@ class RapportagesController extends AppController
                     'fields' => [
                         'CONCAT_WS(\' \', `Klant`.`voornaam`, `Klant`.`tussenvoegsel`, `Klant`.`achternaam`) as name',
                         'roepnaam',
-                        ],
+                        'geboortedatum',
                     ],
                 ],
+            ],
             'order' => 'Registratie.klant_id',
             'fields' => ['count(*) as cnt'],
             'group' => ['klant_id'],

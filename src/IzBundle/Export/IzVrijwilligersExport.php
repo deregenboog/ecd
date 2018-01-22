@@ -46,6 +46,34 @@ class IzVrijwilligersExport extends GenericExport
         return implode(', ', array_unique($projecten));
     }
 
+    public function getStartdatumEersteKoppeling(IzVrijwilliger $izVrijwilliger)
+    {
+        $data = [];
+
+        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
+            if ($izHulpaanbod->isGekoppeld()) {
+                $data[] = $izHulpaanbod->getKoppelingStartdatum();
+            }
+        }
+
+        if (0 === count($data)) {
+            return;
+        }
+
+        usort($data, function (\DateTime $date1, \DateTime $date2) {
+            if ($date1 < $date2) {
+                return -1;
+            }
+            if ($date1 > $date2) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        return $data[0];
+    }
+
     public function getDatumLaatsteAfgeslotenKoppeling(IzVrijwilliger $izVrijwilliger)
     {
         $data = [];

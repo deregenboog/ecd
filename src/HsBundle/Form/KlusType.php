@@ -30,7 +30,15 @@ class KlusType extends AbstractType
                 'required' => false,
             ])
             ->add('onHold')
-            ->add('activiteit', null, ['required' => true])
+            ->add('activiteiten', null, [
+                'required' => true,
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('activiteit')
+                        ->orderBy('activiteit.naam')
+                    ;
+                },
+            ])
         ;
 
         $this->addMedewerkerType($builder, $options);

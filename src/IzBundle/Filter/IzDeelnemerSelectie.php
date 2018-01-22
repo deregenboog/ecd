@@ -36,52 +36,35 @@ class IzDeelnemerSelectie implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-        if ('izKlant' === current($builder->getRootAliases())) {
-            if ($this->izProjecten) {
-                $builder
-                    ->andWhere('izProject.id IN (:iz_projecten)')
-                    ->setParameter('iz_projecten', $this->izProjecten)
-                ;
-            }
-
-            if ($this->stadsdelen) {
-                $builder
-                    ->andWhere('klant.werkgebied IN (:stadsdelen)')
-                    ->setParameter('stadsdelen', $this->stadsdelen)
-                ;
-            }
-
-            if (in_array('geen_post', $this->communicatie)) {
-                $builder->andWhere('klant.geenPost = false OR klant.geenPost IS NULL');
-            }
-
-            if (in_array('geen_email', $this->communicatie)) {
-                $builder->andWhere('klant.geenEmail = false OR klant.geenEmail IS NULL');
-            }
+        switch (current($builder->getRootAliases())) {
+            case 'izKlant':
+                $entity = 'klant';
+                break;
+            case 'izVrijwilliger':
+                $entity = 'vrijwilliger';
+                break;
         }
 
-        if ('izVrijwilliger' === current($builder->getRootAliases())) {
-            if ($this->izProjecten) {
-                $builder
-                    ->andWhere('izProject.id IN (:iz_projecten)')
-                    ->setParameter('iz_projecten', $this->izProjecten)
-                ;
-            }
+        if ($this->izProjecten && count($this->izProjecten)) {
+            $builder
+                ->andWhere('izProject.id IN (:iz_projecten)')
+                ->setParameter('iz_projecten', $this->izProjecten)
+            ;
+        }
 
-            if ($this->stadsdelen) {
-                $builder
-                    ->andWhere('vrijwilliger.werkgebied IN (:stadsdelen)')
-                    ->setParameter('stadsdelen', $this->stadsdelen)
-                ;
-            }
+        if ($this->stadsdelen && count($this->stadsdelen)) {
+            $builder
+                ->andWhere("{$entity}.werkgebied IN (:stadsdelen)")
+                ->setParameter('stadsdelen', $this->stadsdelen)
+            ;
+        }
 
-            if (in_array('geen_post', $this->communicatie)) {
-                $builder->andWhere('vrijwilliger.geenPost = false OR vrijwilliger.geenPost IS NULL');
-            }
+        if (in_array('geen_post', $this->communicatie)) {
+            $builder->andWhere("{$entity}.geenPost = false OR {$entity}.geenPost IS NULL");
+        }
 
-            if (in_array('geen_email', $this->communicatie)) {
-                $builder->andWhere('vrijwilliger.geenEmail = false OR vrijwilliger.geenEmail IS NULL');
-            }
+        if (in_array('geen_email', $this->communicatie)) {
+            $builder->andWhere("{$entity}.geenEmail = false OR {$entity}.geenEmail IS NULL");
         }
     }
 }

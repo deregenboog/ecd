@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Vrijwilligers |
+    Homeservice | Vrijwilligers
 {% endblock %}
 
 {% block subnavigation %}
@@ -31,6 +31,9 @@
                     {{ knp_pagination_sortable(pagination, 'Naam', 'basisvrijwilliger.achternaam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'basisvrijwilliger.geboortedatum') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
@@ -49,6 +52,9 @@
                     </td>
                     <td>
                         {{ entity.vrijwilliger }}
+                    </td>
+                    <td>
+                        {{ entity.vrijwilliger.geboortedatum ? entity.vrijwilliger.geboortedatum|date('d-m-Y') }}
                     </td>
                     <td>
                         {{ entity.vrijwilliger.werkgebied }}

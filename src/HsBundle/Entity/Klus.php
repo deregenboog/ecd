@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity
@@ -71,16 +72,12 @@ class Klus implements MemoSubjectInterface
     private $klant;
 
     /**
-     * @var Activiteit
-     * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="klussen")
+     * @var Activiteit[]
+     * @ORM\ManyToMany(targetEntity="Activiteit", inversedBy="klussen")
      * @ORM\JoinColumn(nullable=false)
-     * @Gedmo\Versioned
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één activiteit")
      */
-    private $activiteit;
-
-    private $dienstverlener;
-
-    private $vrijwilliger;
+    private $activiteiten;
 
     /**
      * @var ArrayCollection|Dienstverlener[]
@@ -118,6 +115,7 @@ class Klus implements MemoSubjectInterface
     {
         $this->klant = $klant;
         $this->medewerker = $medewerker;
+        $this->activiteitn = new ArrayCollection();
         $this->dienstverleners = new ArrayCollection();
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();
@@ -128,10 +126,10 @@ class Klus implements MemoSubjectInterface
     public function __toString()
     {
         if ($this->klant) {
-            return sprintf('%s - %s', $this->activiteit, $this->klant);
+            return sprintf('%s - %s', $this->getActiviteitenAsString(), $this->klant);
         }
 
-        return sprintf('%s - %s', $this->activiteit, 'Homeservice-klus (zonder klant)');
+        return sprintf('%s - %s', $this->getActiviteitenAsString(), 'Homeservice-klus (zonder klant)');
     }
 
     public function getId()
@@ -151,14 +149,40 @@ class Klus implements MemoSubjectInterface
         return $this;
     }
 
-    public function getActiviteit()
+    public function getActiviteiten()
     {
-        return $this->activiteit;
+        return $this->activiteiten;
     }
 
-    public function setActiviteit(Activiteit $activiteit)
+    public function getActiviteitenAsString()
     {
-        $this->activiteit = $activiteit;
+        $activiteiten = [];
+        foreach ($this->activiteiten as $activiteit) {
+            $activiteiten[] = (string) $activiteit;
+        }
+
+        return implode(', ', $activiteiten);
+    }
+
+    public function setActiviteiten(Collection $activiteiten)
+    {
+        $this->activiteiten = $activiteiten;
+
+        return $this;
+    }
+
+    public function addActiviteit(Activiteit $activiteit)
+    {
+        $this->activiteiten[] = $activiteit;
+        $activiteit->addKlus($this);
+
+        return $this;
+    }
+
+    public function removeActiviteit(Activiteit $activiteit)
+    {
+        $this->activiteiten->removeElement($activiteit);
+        $activiteit->getKlussen()->removeElement($this);
 
         return $this;
     }
