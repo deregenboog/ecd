@@ -15,13 +15,12 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
     {
         $report = $this->createSUT();
 
-        $xDescription = 'Aantal deelnemers met koppeling (op basis van start- en einddatum van koppeling).';
         $yDescription = 'Project';
 
         $expected = [
             [
                 'title' => 'Beginstand',
-                'xDescription' => $xDescription,
+                'xDescription' => 'Aantal deelnemers met een lopende koppeling op startdatum.',
                 'yDescription' => $yDescription,
                 'data' => [
                     'Project1' => [
@@ -34,7 +33,7 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'title' => 'Gestart',
-                'xDescription' => $xDescription,
+                'xDescription' => 'Aantal deelnemers dat binnen de periode een koppeling startte en op startdatum geen lopende koppeling had.',
                 'yDescription' => $yDescription,
                 'data' => [
                     'Project1' => [
@@ -46,8 +45,21 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             [
+                'title' => 'Nieuw gestart',
+                'xDescription' => 'Aantal deelnemers dat binnen de periode voor het eerst een koppeling startte.',
+                'yDescription' => $yDescription,
+                'data' => [
+                    'Project1' => [
+                        'Totaal' => 40,
+                    ],
+                    'Project3' => [
+                        'Totaal' => 20,
+                    ],
+                ],
+            ],
+            [
                 'title' => 'Afgesloten',
-                'xDescription' => $xDescription,
+                'xDescription' => 'Aantal deelnemers dat binnen de periode een koppeling afsloot en op einddatum geen lopende koppeling had.',
                 'yDescription' => $yDescription,
                 'data' => [
                     'Project1' => [
@@ -60,7 +72,7 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'title' => 'Eindstand',
-                'xDescription' => $xDescription,
+                'xDescription' => 'Aantal deelnemers met een lopende koppeling op einddatum.',
                 'yDescription' => $yDescription,
                 'data' => [
                     'Project1' => [
@@ -89,6 +101,7 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
             ->withConsecutive(
                 ['beginstand', $this->startDate, $this->endDate],
                 ['gestart', $this->startDate, $this->endDate],
+                ['nieuw_gestart', $this->startDate, $this->endDate],
                 ['afgesloten', $this->startDate, $this->endDate],
                 ['eindstand', $this->startDate, $this->endDate]
             )
@@ -99,6 +112,10 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
                 ],
                 [
                     ['project' => 'Project1', 'aantal' => 50],
+                    ['project' => 'Project3', 'aantal' => 20],
+                ],
+                [
+                    ['project' => 'Project1', 'aantal' => 40],
                     ['project' => 'Project3', 'aantal' => 20],
                 ],
                 [
