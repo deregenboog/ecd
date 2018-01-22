@@ -44,6 +44,8 @@ class KernelSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event)
     {
+        $this->setLdapConfiguration();
+
         // @todo remove this when no longer needed
         $em = $this->container->get('doctrine.orm.entity_manager');
 
