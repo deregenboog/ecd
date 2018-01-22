@@ -6,11 +6,30 @@ services:
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
-    inloop.dao.klant:
+    InloopBundle\Service\DocumentDao:
         parent: inloop.dao
-        class: InloopBundle\Service\KlantDao
 
-    inloop.dao.schorsing:
+    InloopBundle\Service\KlantDao:
         parent: inloop.dao
-        class: InloopBundle\Service\SchorsingDao
+
+    InloopBundle\Service\MemoDao:
+        parent: inloop.dao
+
+    InloopBundle\Service\SchorsingDao:
+        parent: inloop.dao
         
+    InloopBundle\Service\VrijwilligerDao:
+        parent: inloop.dao
+
+    inloop.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
+
+    inloop.memo.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
+

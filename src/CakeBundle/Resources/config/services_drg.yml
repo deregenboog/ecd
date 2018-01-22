@@ -87,6 +87,9 @@ parameters:
                 - Opmerkingen
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Documenten
+                - InloopBundle\Controller\Memos
+                - InloopBundle\Controller\Vrijwilligers
             GROUP_MAATSCHAPPELIJK:
                 - Awbz
                 - AwbzHoofdaannemers
@@ -102,7 +105,10 @@ parameters:
                 - Attachments
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Documenten
+                - InloopBundle\Controller\Memos
                 - InloopBundle\Controller\Schorsingen
+                - InloopBundle\Controller\Vrijwilligers
             GROUP_HI5:
                 - Intakes
                 - Klanten
@@ -481,7 +487,10 @@ parameters:
                 - DagbestedingBundle\Controller\Verslagen
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Documenten
+                - InloopBundle\Controller\Memos
                 - InloopBundle\Controller\Schorsingen
+                - InloopBundle\Controller\Vrijwilligers
                 - clip
                 - ClipBundle\Controller\Behandelaars
                 - ClipBundle\Controller\Clienten

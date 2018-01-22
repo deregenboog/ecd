@@ -1,1 +1,20 @@
 services:
+    inloop.export.vrijwilliger:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - InloopBundle\Entity\Vrijwilliger
+            -
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+                Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
+
