@@ -102,6 +102,18 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
+    public function getBinnenVia()
+    {
+        return $this->binnenVia;
+    }
+
+    public function setBinnenVia(BinnenVia $binnenVia)
+    {
+        $this->binnenVia = $binnenVia;
+
+        return $this;
+    }
+
     public function getLocaties()
     {
         return $this->locaties;

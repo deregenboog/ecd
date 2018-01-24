@@ -486,8 +486,9 @@ parameters:
                 - DagbestedingBundle\Controller\Trajectsoorten
                 - DagbestedingBundle\Controller\Verslagen
                 - inloop
-                - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\BinnenVia
                 - InloopBundle\Controller\Documenten
+                - InloopBundle\Controller\Klanten
                 - InloopBundle\Controller\Memos
                 - InloopBundle\Controller\Schorsingen
                 - InloopBundle\Controller\Vrijwilligers

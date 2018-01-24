@@ -12,6 +12,7 @@ use AppBundle\Model\ActivatableTrait;
 /**
  * @ORM\Entity
  * @ORM\Table(name="inloop_binnen_via")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class BinnenVia

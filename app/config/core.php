@@ -23,8 +23,6 @@
  */
 $params = parse_ini_file('config.ini', true);
 
-\Configure::write('LDAP.configuration', $params['ldap']);
-
 /*
  * CakePHP Log Level:
  *

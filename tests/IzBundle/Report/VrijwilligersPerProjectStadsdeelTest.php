@@ -4,6 +4,7 @@ namespace Tests\IzBundle\Report;
 
 use IzBundle\Report\VrijwilligersPerProjectStadsdeel;
 use IzBundle\Repository\IzVrijwilligerRepository;
+use IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant;
 
 class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +17,7 @@ class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
         $report = $this->createSUT();
 
         $xDescription = 'Project';
-        $yDescription = 'Stadsdeel';
+        $yDescription = 'Stadsdeel van de deelnemer';
 
         $expected = [
             [
@@ -61,6 +62,25 @@ class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
                     ],
                     'Totaal' => [
                         'Project1' => 50,
+                        'Project3' => 20,
+                    ],
+                ],
+            ],
+            [
+                'title' => 'Nieuw gestart',
+                'xDescription' => $xDescription,
+                'yDescription' => $yDescription,
+                'data' => [
+                    'Oost' => [
+                        'Project1' => 40,
+                        'Project3' => 0,
+                    ],
+                    'West' => [
+                        'Project1' => 0,
+                        'Project3' => 20,
+                    ],
+                    'Totaal' => [
+                        'Project1' => 40,
                         'Project3' => 20,
                     ],
                 ],
@@ -132,10 +152,11 @@ class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
         $this->endDate = new \DateTime('2016-12-31');
 
         $repository = $this->createMock(IzVrijwilligerRepository::class);
-        $repository->method('countByProjectAndStadsdeel')
+        $repository->method('countByProjectAndStadsdeelKlant')
             ->withConsecutive(
                 ['beginstand', $this->startDate, $this->endDate],
                 ['gestart', $this->startDate, $this->endDate],
+                ['nieuw_gestart', $this->startDate, $this->endDate],
                 ['afgesloten', $this->startDate, $this->endDate],
                 ['eindstand', $this->startDate, $this->endDate]
             )
@@ -148,6 +169,10 @@ class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
                 ],
                 [
                     ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 50],
+                    ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
+                ],
+                [
+                    ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 40],
                     ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
                 ],
                 [
@@ -165,7 +190,7 @@ class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
             )
         ;
 
-        $report = new VrijwilligersPerProjectStadsdeel($repository);
+        $report = new VrijwilligersPerProjectStadsdeelKlant($repository);
         $report->setStartDate($this->startDate)->setEndDate($this->endDate);
 
         return $report;
