@@ -1,10 +1,9 @@
 clip_annotations:
     resource: "@ClipBundle/Controller"
     type: annotation
-    prefix: /clip
 
 clip_index:
-    path: /clip/
+    path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: clip_openstaandevragen_index

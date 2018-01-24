@@ -66,6 +66,25 @@ class KlantenPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             [
+                'title' => 'Nieuw gestart',
+                'xDescription' => $xDescription,
+                'yDescription' => $yDescription,
+                'data' => [
+                    'Oost' => [
+                        'Project1' => 40,
+                        'Project3' => 0,
+                    ],
+                    'West' => [
+                        'Project1' => 0,
+                        'Project3' => 20,
+                    ],
+                    'Totaal' => [
+                        'Project1' => 40,
+                        'Project3' => 20,
+                    ],
+                ],
+            ],
+            [
                 'title' => 'Afgesloten',
                 'xDescription' => $xDescription,
                 'yDescription' => $yDescription,
@@ -136,6 +155,7 @@ class KlantenPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
             ->withConsecutive(
                 ['beginstand', $this->startDate, $this->endDate],
                 ['gestart', $this->startDate, $this->endDate],
+                ['nieuw_gestart', $this->startDate, $this->endDate],
                 ['afgesloten', $this->startDate, $this->endDate],
                 ['eindstand', $this->startDate, $this->endDate]
             )
@@ -148,6 +168,10 @@ class KlantenPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
                 ],
                 [
                     ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 50],
+                    ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
+                ],
+                [
+                    ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 40],
                     ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
                 ],
                 [

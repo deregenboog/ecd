@@ -1,10 +1,9 @@
 hs_annotations:
     resource: "@HsBundle/Controller"
     type: annotation
-    prefix: /hs
-    
+
 hs_index:
-    path: /hs/
+    path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: hs_klanten_index

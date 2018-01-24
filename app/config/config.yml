@@ -117,6 +117,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /hs/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/hs'
+        inloop_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /inloop/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/inloop'
         odp_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download

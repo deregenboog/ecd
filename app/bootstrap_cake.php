@@ -1,6 +1,5 @@
 <?php
 
-@define('DISABLE_DEFAULT_ERROR_HANDLING', 1);
 @define('DS', DIRECTORY_SEPARATOR);
 @define('ROOT', dirname(dirname(__FILE__)));
 @define('APP_DIR', basename(dirname(__FILE__)));

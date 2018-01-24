@@ -26,7 +26,7 @@ class KlantenController extends AbstractController
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("inloop.dao.klant")
+     * @DI\Inject("InloopBundle\Service\KlantDao")
      */
     protected $dao;
 
