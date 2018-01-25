@@ -60,7 +60,7 @@
                         {{ entity.klus.klant }}
                     </td>
                     <td>
-                        {{ entity.klus.klant.werkgebied }}
+                        {{ entity.klus.klant ? entity.klus.klant.werkgebied }}
                     </td>
                     <td>
                         {{ entity.datum|date('d-m-Y') }}

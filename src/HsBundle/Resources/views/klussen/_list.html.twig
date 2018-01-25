@@ -19,7 +19,7 @@
     </tr>
     {% for klus in entity.klussen %}
         <tr data-href="{{ path('hs_klussen_view', {id: klus.id}) }}">
-            <td>{{ klus.klant.werkgebied }}</td>
+            <td>{{ klus.klant ? klus.klant.werkgebied }}</td>
             <td>
                 <ul>
                     {% for activiteit in klus.activiteiten %}
