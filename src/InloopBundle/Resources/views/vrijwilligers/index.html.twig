@@ -20,7 +20,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="3">
+                <th colspan="5">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -37,6 +37,16 @@
                     {{ form_errors(filter.vrijwilliger.naam) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.aanmelddatum.start) }}
+                    {{ form_errors(filter.aanmelddatum.start) }}
+                    {{ form_widget(filter.aanmelddatum.end) }}
+                    {{ form_errors(filter.aanmelddatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.locatie) }}
+                    {{ form_errors(filter.locatie) }}
+                </th>
+                <th>
                     {{ form_widget(filter.vrijwilliger.stadsdeel) }}
                     {{ form_errors(filter.vrijwilliger.stadsdeel) }}
                 </th>
@@ -44,10 +54,16 @@
         {{ form_end(filter) }}
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'appVrijwilliger.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'appVrijwilliger.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'vrijwilliger.aanmelddatum') }}
+            </th>
+            <th>
+                Locatie(s)
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
@@ -60,6 +76,16 @@
             </td>
             <td>
                 {{ vrijwilliger }}
+            </td>
+            <td>
+                {{ vrijwilliger.aanmelddatum|date('d-m-Y') }}
+            </td>
+            <td>
+                <ul>
+                    {% for locatie in vrijwilliger.locaties %}
+                        <li>{{ locatie }}</li>
+                    {% endfor %}
+                </ul>
             </td>
             <td>
                 {{ vrijwilliger.vrijwilliger.werkgebied }}

@@ -16,6 +16,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'appVrijwilliger.id',
             'appVrijwilliger.voornaam',
             'appVrijwilliger.achternaam',
+            'vrijwilliger.aanmelddatum',
             'werkgebied.naam',
         ],
     ];
@@ -32,11 +33,14 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, appVrijwilliger")
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
+            ->leftJoin('vrijwilliger.locaties', 'locatie')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
         ;
 
-        if ($filter && $filter->vrijwilliger) {
-            $filter->vrijwilliger->alias = 'appVrijwilliger';
+        if ($filter) {
+            if ($filter->vrijwilliger) {
+                $filter->vrijwilliger->alias = 'appVrijwilliger';
+            }
             $filter->applyTo($builder);
         }
 

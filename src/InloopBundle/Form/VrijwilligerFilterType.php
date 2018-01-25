@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use InloopBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Form\AppDateRangeType;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -23,6 +25,18 @@ class VrijwilligerFilterType extends AbstractType
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
             $builder->add('vrijwilliger', AppVrijwilligerFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
+            ]);
+        }
+
+        if (in_array('aanmelddatum', $options['enabled_filters'])) {
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('locatie', $options['enabled_filters'])) {
+            $builder->add('locatie', LocatieSelectType::class, [
+                'required' => false,
             ]);
         }
     }
@@ -37,6 +51,9 @@ class VrijwilligerFilterType extends AbstractType
             'data' => new VrijwilligerFilter(),
             'enabled_filters' => [
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
+                'aanmelddatum',
+                'locatie',
+                'stadsdeel',
                 'filter',
                 'download',
             ],
