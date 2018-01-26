@@ -79,11 +79,17 @@ class RegistratieType extends AbstractType
                 'placeholder' => 'Selecteer een activiteit',
                 'expanded' => true,
                 'query_builder' => function (EntityRepository $repository) use ($registratie) {
-                    return $repository->createQueryBuilder('activiteit')
-                        ->where('activiteit IN (:activiteiten)')
-                        ->orderBy('activiteit.naam')
-                        ->setParameter('activiteiten', $registratie->getKlus()->getActiviteiten())
-                    ;
+                    $builder = $repository->createQueryBuilder('activiteit')->orderBy('activiteit.naam');
+
+                    if ($registratie->getKlus() && count($registratie->getKlus()->getActiviteiten()) > 0) {
+                        $builder
+                            ->where('activiteit IN (:activiteiten)')
+                            ->setParameter('activiteiten', $registratie->getKlus()->getActiviteiten())
+                        ;
+                    }
+
+                    return $builder;
+
                 },
             ])
             ->add('datum', AppDateType::class)

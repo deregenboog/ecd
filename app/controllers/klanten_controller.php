@@ -556,6 +556,11 @@ class KlantenController extends AppController
 
     public function merge()
     {
+        $this->flashError(__('Samenvoegen is tijdelijk uitgeschakeld.', true));
+        $this->redirect(['action' => 'index']);
+
+        return;
+
         $ids = array_map('intval', explode(',', $this->passedArgs['ids']));
         $klanten = $this->Klant->find('all', [
             'conditions' => [

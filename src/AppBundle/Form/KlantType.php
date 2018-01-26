@@ -12,6 +12,9 @@ use Symfony\Component\Form\FormEvent;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Stadsdeel;
 use AppBundle\Entity\Postcodegebied;
+use AppBundle\Util\PostcodeFormatter;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Entity\Postcode;
 
 class KlantType extends AbstractType
 {
@@ -60,27 +63,22 @@ class KlantType extends AbstractType
                 /* @var Klant $data */
                 $data = $event->getData();
                 if ($data->getPostcode()) {
-                    $data->setPostcode(preg_replace('/\s/', '', strtoupper($data->getPostcode())));
+                    $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));
 
                     try {
-                        $stadsdeel = $this->entityManager->getRepository(Stadsdeel::class)->findOneByPostcode($data->getPostcode());
-                        if ($stadsdeel) {
-                            $data->setWerkgebied($stadsdeel->getStadsdeel());
-                        }
-                    } catch (\Exception $e) {
-                        // ignore
-                    }
-
-                    try {
-                        $postcodegebied = $this->entityManager->getRepository(Postcodegebied::class)->findOneByPostcode($data->getPostcode());
-                        if ($postcodegebied) {
-                            $data->setPostcodegebied($postcodegebied->getPostcodegebied());
+                        $postcode = $this->entityManager->getRepository(Postcode::class)->find($data->getPostcode());
+                        if ($postcode) {
+                            $data
+                                ->setWerkgebied($postcode->getStadsdeel())
+                                ->setPostcodegebied($postcode->getPostcodegebied())
+                            ;
                         }
                     } catch (\Exception $e) {
                         // ignore
                     }
                 }
-            });
+            })
+        ;
     }
 
     /**
