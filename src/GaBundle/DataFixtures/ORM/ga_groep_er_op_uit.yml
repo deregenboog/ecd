@@ -1,4 +1,0 @@
-GaBundle\Entity\GroepErOpUit:
-    ga_groep_{6..10}:
-        naam: 'ErOpUit groep <current()>'
-        activiteitenRegistreren: true

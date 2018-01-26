@@ -3,15 +3,19 @@
 namespace ErOpUitBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {
+    const STATUS_ACTIVE = 'Actief';
+    const STATUS_NON_ACTIVE = 'Niet actief';
+
     public $alias = 'klant';
 
     /**
-     * @var \AppBundle\Filter\KlantFilter
+     * @var AppKlantFilter
      */
     public $klant;
 

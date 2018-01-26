@@ -1,4 +1,0 @@
-GaBundle\Entity\GroepOrganisatie:
-    ga_groep_{21..25}:
-        naam: 'Organisatie groep <current()>'
-        activiteitenRegistreren: false

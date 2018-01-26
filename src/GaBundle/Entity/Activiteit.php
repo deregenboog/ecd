@@ -2,16 +2,16 @@
 
 namespace GaBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="groepsactiviteiten")
+ * @ORM\Table(name="ga_activiteiten")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
@@ -27,22 +27,16 @@ class Activiteit
     private $id;
 
     /**
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Versioned
      */
     private $datum;
-
-    /**
-     * @ORM\Column(name="time", type="time", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $tijd;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -51,42 +45,64 @@ class Activiteit
     private $afgesloten = false;
 
     /**
-     * @var ArrayCollection|KlantDeelname[]
-     *
-     * @ORM\OneToMany(targetEntity="KlantDeelname", mappedBy="activiteit", cascade={"persist"})
+     * @var ArrayCollection|Deelname[]
+     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="activiteit", cascade={"persist"})
      */
-    private $klantDeelnames;
-
-    /**
-     * @var ArrayCollection|VrijwilligerDeelname[]
-     *
-     * @ORM\OneToMany(targetEntity="VrijwilligerDeelname", mappedBy="activiteit", cascade={"persist"})
-     */
-    private $vrijwilligerDeelnames;
+    private $deelnames;
 
     /**
      * @var Groep
      *
      * @ORM\ManyToOne(targetEntity="Groep", inversedBy="activiteiten")
-     * @ORM\JoinColumn(name="groepsactiviteiten_groep_id", nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $groep;
 
+    /**
+     * @var ActiviteitAnnuleringsreden
+     *
+     * @ORM\ManyToOne(targetEntity="ActiviteitAnnuleringsreden")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $annuleringsreden;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     * @Assert\GreaterThanOrEqual(0)
+     */
+    private $aantalAnoniemeDeelnemers = 0;
+
+    /**
+     * @return int
+     */
+    public function getAantalAnoniemeDeelnemers()
+    {
+        return (int) $this->aantalAnoniemeDeelnemers;
+    }
+
+    /**
+     * @param int $aantalAnoniemeDeelnemers
+     */
+    public function setAantalAnoniemeDeelnemers($aantalAnoniemeDeelnemers)
+    {
+        $this->aantalAnoniemeDeelnemers = $aantalAnoniemeDeelnemers;
+
+        return $this;
+    }
+
     public function __construct()
     {
-        $this->klantDeelnames = new ArrayCollection();
-        $this->vrijwilligerDeelnames = new ArrayCollection();
+        $this->deelnames = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return sprintf(
-            '%s (%s | %s)',
-            $this->naam,
-            $this->datum->format('d-m-Y'),
-            $this->tijd->format('H:i')
-        );
+        return sprintf('%s (%s)', $this->naam, $this->datum->format('d-m-Y | H:i'));
     }
 
     public function getId()
@@ -118,18 +134,6 @@ class Activiteit
         return $this;
     }
 
-    public function getTijd()
-    {
-        return $this->tijd;
-    }
-
-    public function setTijd($tijd)
-    {
-        $this->tijd = $tijd;
-
-        return $this;
-    }
-
     public function getGroep()
     {
         return $this->groep;
@@ -154,60 +158,83 @@ class Activiteit
         return $this;
     }
 
-    public function getKlantDeelname(Klant $klant)
+    public function getDeelname(Dossier $dossier)
     {
-        foreach ($this->klantDeelnames as $deelname) {
-            if ($deelname->getKlant() == $klant) {
-                return $deelname;
+        foreach ($this->deelnames as $deelname) {
+            if ($deelname->getDossier() == $dossier) {
+                return $dossier;
             }
         }
     }
 
+    public function getDeelnames()
+    {
+        return $this->deelnames;
+    }
+
+    public function addDeelname(Deelname $deelname)
+    {
+        $this->deelnames[] = $deelname;
+        $deelname->setActiviteit($this);
+
+        return $this;
+    }
+
+    public function getDossiers()
+    {
+        $dossiers = [];
+        foreach ($this->deelnames as $deelname) {
+            $dossiers[] = $deelname->getDossier();
+        }
+        $dossiers = array_filter($dossiers);
+
+        return new ArrayCollection($dossiers);
+    }
+
     public function getKlantDeelnames()
     {
-        return $this->klantDeelnames;
+        return array_filter(
+            $this->deelnames->toArray(),
+            function (Deelname $deelname) {
+                return $deelname->getDossier() instanceof Klantdossier;
+            }
+        );
     }
 
     public function getVrijwilligerDeelnames()
     {
-        return $this->vrijwilligerDeelnames;
+        return array_filter(
+            $this->deelnames->toArray(),
+            function (Deelname $deelname) {
+                return $deelname->getDossier() instanceof Vrijwilligerdossier;
+            }
+        );
     }
 
-    public function addKlantDeelname(KlantDeelname $deelname)
+    public function getAnnuleringsreden()
     {
-        $this->klantDeelnames[] = $deelname;
-        $deelname->setActiviteit($this);
+        return $this->annuleringsreden;
+    }
+
+    public function setAnnuleringsreden(ActiviteitAnnuleringsreden $annuleringsreden)
+    {
+        $this->annuleringsreden = $annuleringsreden;
 
         return $this;
     }
 
-    public function addVrijwilligerDeelname(VrijwilligerDeelname $deelname)
+    public function isInVerleden()
     {
-        $this->vrijwilligerDeelnames[] = $deelname;
-        $deelname->setActiviteit($this);
-
-        return $this;
+        return new \DateTime() > $this->datum;
     }
 
-    public function getKlanten()
+    public function isInToekomst()
     {
-        $dossiers = [];
-        foreach ($this->klantDeelnames as $deelname) {
-            $dossiers[] = $deelname->getKlant();
-        }
-        $dossiers = array_filter($dossiers);
-
-        return new ArrayCollection($dossiers);
+        return $this->datum > new \DateTime();
     }
 
-    public function getVrijwilligers()
+    public function isGeannuleerd()
     {
-        $dossiers = [];
-        foreach ($this->vrijwilligerDeelnames as $deelname) {
-            $dossiers[] = $deelname->getVrijwilliger();
-        }
-        $dossiers = array_filter($dossiers);
-
-        return new ArrayCollection($dossiers);
+        return !is_null($this->annuleringsreden);
     }
 }

@@ -5,14 +5,14 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NoResultException;
+use GaBundle\Entity\Dossier;
 use GaBundle\Filter\SelectieFilter;
+use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use GaBundle\Form\EmailMessageType;
-use GaBundle\Entity\Intake;
 
 /**
  * @Route("/selecties")
@@ -117,10 +117,10 @@ class SelectiesController extends SymfonyController
             throw new NoResultException();
         }
 
-        // convert KlantIntake and VrijwilligerIntake collections to one Intake collection
-        $intakes = $this->getEntityManager()->getRepository(Intake::class)
-            ->createQueryBuilder('intake')
-            ->where('intake IN (:klanten) OR intake IN (:vrijwilligers)')
+        // convert KlantDossier and VrijwilligerDossier collections to one Dossier collection
+        $dossiers = $this->getEntityManager()->getRepository(Dossier::class)
+            ->createQueryBuilder('dossier')
+            ->where('dossier IN (:klanten) OR dossier IN (:vrijwilligers)')
             ->setParameters([
                 'klanten' => $klanten,
                 'vrijwilligers' => $vrijwilligers,
@@ -129,27 +129,25 @@ class SelectiesController extends SymfonyController
             ->getResult()
         ;
 
-        if (0 === count($intakes)) {
+        if (0 === count($dossiers)) {
             throw new NoResultException();
         }
 
         $form = $this->createForm(EmailMessageType::class, null, [
             'from' => $this->getMedewerker()->getEmail(),
-            'to' => $intakes,
+            'to' => $dossiers,
         ]);
 
         return [
             'action' => 'email',
             'form' => $form->createView(),
-            'klanten' => $klanten,
-            'vrijwilligers' => $vrijwilligers,
         ];
     }
 
     private function getKlanten(SelectieFilter $filter)
     {
         if (in_array('klanten', $filter->personen)) {
-            return $this->get('GaBundle\Service\KlantIntakeDao')->findAll(null, $filter);
+            return $this->get('GaBundle\Service\KlantdossierDao')->findAll(null, $filter);
         }
 
         return new ArrayCollection();
@@ -158,7 +156,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(SelectieFilter $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            return $this->get('GaBundle\Service\VrijwilligerIntakeDao')->findAll(null, $filter);
+            return $this->get('GaBundle\Service\VrijwilligerdossierDao')->findAll(null, $filter);
         }
 
         return new ArrayCollection();

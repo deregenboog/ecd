@@ -37,7 +37,7 @@ interface RegistratieDaoInterface
     public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie);
 
     /**
-     * @param bool $type The value of either self::TYPE_DAY of self::TYPE_NIGHT.
+     * @param bool $type the value of either self::TYPE_DAY of self::TYPE_NIGHT
      *
      * @return Registratie[]
      */
@@ -66,7 +66,7 @@ interface RegistratieDaoInterface
 
     /**
      * @param Registratie $entity
-     * @param \DateTime $time
+     * @param \DateTime   $time
      *
      * @return Registratie
      */

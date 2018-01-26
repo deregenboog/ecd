@@ -3,16 +3,15 @@
 namespace GaBundle\Form;
 
 use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\VrijwilligerType;
+use AppBundle\Service\NameFormatter;
 use GaBundle\Entity\Vrijwilligerdossier;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerdossierType extends AbstractType
@@ -24,38 +23,17 @@ class VrijwilligerdossierType extends AbstractType
     {
         $dossier = $options['data'];
 
+        $builder->add('aanmelddatum', AppDateType::class);
+
         if ($this->hasVrijwilliger($dossier)) {
-            $builder->add('vrijwilliger', ChoiceType::class, [
-                'mapped' => false,
-                'disabled' => true,
-                'choices' => [
-                    $dossier->getVrijwilliger()->getNaam() => null,
-                ],
+            $builder->add('vrijwilliger', DummyChoiceType::class, [
+                'dummy_label' => NameFormatter::formatInformal($dossier->getVrijwilliger()),
             ]);
         } else {
-            $builder->add(
-                $builder->create('vrijwilliger', VrijwilligerType::class)
-                    ->remove('opmerking')
-                    ->remove('geenPost')
-                    ->remove('geenEmail')
-            );
+            $builder->add('vrijwilliger', VrijwilligerType::class);
         }
 
-        $builder
-            ->add('medewerker', MedewerkerType::class)
-            ->add($builder->create('aanmelding', AanmeldingType::class, ['label' => 'Aanmelding'])
-                ->remove('medewerker')
-            )
-        ;
-
-        if (!$dossier->getAanmelding()) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                $dossier = $event->getData();
-                $dossier->getAanmelding()->setMedewerker($dossier->getMedewerker());
-            });
-        }
-
-        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+        $builder->add('submit', SubmitType::class);
     }
 
     /**

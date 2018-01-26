@@ -2,12 +2,12 @@
 
 namespace GaBundle\Event;
 
-use GaBundle\Entity\KlantIntake;
-use GaBundle\Entity\KlantLidmaatschap;
+use GaBundle\Entity\Intake as GaIntake;
+use GaBundle\Entity\Lidmaatschap;
 use GaBundle\Service\GroepDaoInterface;
-use GaBundle\Service\KlantIntakeDaoInterface;
+use GaBundle\Service\klantdossierDaoInterface;
 use GaBundle\Service\LidmaatschapDaoInterface;
-use IzBundle\Entity\Intake;
+use IzBundle\Entity\Intake as IzIntake;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -16,9 +16,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class IzIntakeSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var KlantIntakeDaoInterface
+     * @var klantdossierDaoInterface
      */
-    private $klantIntakeDao;
+    private $klantdossierDao;
 
     /**
      * @var GroepDaoInterface
@@ -28,7 +28,7 @@ class IzIntakeSubscriber implements EventSubscriberInterface
     /**
      * @var LidmaatschapDaoInterface
      */
-    private $klantLidmaatschapDao;
+    private $lidmaatschapDao;
 
     /**
      * @var int
@@ -43,14 +43,14 @@ class IzIntakeSubscriber implements EventSubscriberInterface
     }
 
     public function __construct(
-        KlantIntakeDaoInterface $klantIntakeDao,
+        KlantdossierDaoInterface $klantdossierDao,
         GroepDaoInterface $groepDao,
-        LidmaatschapDaoInterface $klantLidmaatschapDao,
+        LidmaatschapDaoInterface $lidmaatschapDao,
         $erOpUitGroepId
     ) {
-        $this->klantIntakeDao = $klantIntakeDao;
+        $this->klantdossierDao = $klantdossierDao;
         $this->groepDao = $groepDao;
-        $this->klantLidmaatschapDao = $klantLidmaatschapDao;
+        $this->lidmaatschapDao = $lidmaatschapDao;
         $this->erOpUitGroepId = $erOpUitGroepId;
     }
 
@@ -65,16 +65,16 @@ class IzIntakeSubscriber implements EventSubscriberInterface
         }
     }
 
-    private function createGaIntake(Intake $izIntake)
+    private function createGaIntake(IzIntake $izIntake)
     {
         $klant = $izIntake->getIzDeelnemer()->getKlant();
 
-        $gaIntake = $this->klantIntakeDao->findOneByKlant($klant);
-        if ($gaIntake instanceof KlantIntake) {
+        $gaIntake = $this->klantdossierDao->findOneByKlant($klant);
+        if ($gaIntake instanceof \GaBundle\Entity\Intake) {
             return;
         }
 
-        $gaIntake = new KlantIntake();
+        $gaIntake = new GaIntake();
         $gaIntake
             ->setKlant($izIntake->getIzDeelnemer()->getKlant())
             ->setGespreksverslag('Automatisch aangemaakt door IZ-inschrijving')
@@ -86,26 +86,26 @@ class IzIntakeSubscriber implements EventSubscriberInterface
             ->setIntakedatum($izIntake->getIntakeDatum())
         ;
 
-        $this->klantIntakeDao->create($gaIntake);
+        $this->klantdossierDao->create($gaIntake);
     }
 
-    private function createErOpUitLidmaatschap(Intake $izIntake)
+    private function createErOpUitLidmaatschap(IzIntake $izIntake)
     {
         $klant = $izIntake->getIzDeelnemer()->getKlant();
         $groep = $this->groepDao->find($this->erOpUitGroepId);
 
-        $lidmaatschap = $this->klantLidmaatschapDao->findOneByGroepAndKlant($groep, $klant);
-        if ($lidmaatschap instanceof KlantLidmaatschap) {
+        $lidmaatschap = $this->lidmaatschapDao->findOneByGroepAndKlant($groep, $klant);
+        if ($lidmaatschap instanceof Lidmaatschap) {
             return;
         }
 
-        $lidmaatschap = new KlantLidmaatschap($groep, $klant);
+        $lidmaatschap = new Lidmaatschap($groep, $klant);
         $lidmaatschap
             ->setCommunicatieEmail(true)
             ->setCommunicatiePost(true)
             ->setCommunicatieTelefoon(true)
         ;
 
-        $this->klantLidmaatschapDao->create($lidmaatschap);
+        $this->lidmaatschapDao->create($lidmaatschap);
     }
 }

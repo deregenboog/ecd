@@ -1,44 +1,50 @@
 services:
+    GaBundle\Service\ActiviteitAnnuleringsredenDao:
+        parent: app.dao.abstract
+
     GaBundle\Service\ActiviteitDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\DeelnameDao:
         parent: app.dao.abstract
 
     GaBundle\Service\DocumentDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\KlantDao:
+    GaBundle\Service\DossierAfsluitredenDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\KlantDeelnameDao:
+    GaBundle\Service\DossierDao:
         parent: app.dao.abstract
 
     GaBundle\Service\GroepDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\IntakeAfsluitredenDao:
+    GaBundle\Service\GroepDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\KlantIntakeDao:
+    GaBundle\Service\KlantdossierDao:
         parent: app.dao.abstract
-
+        
     GaBundle\Service\KlantLidmaatschapDao:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'
             - 100
 
-    GaBundle\Service\KlantVerslagDao:
+    GaBundle\Service\IntakeDao:
         parent: app.dao.abstract
 
     GaBundle\Service\LidmaatschapAfsluitredenDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\VrijwilligerDao:
+    GaBundle\Service\LidmaatschapDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\VrijwilligerDeelnameDao:
+    GaBundle\Service\VerslagDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\VrijwilligerIntakeDao:
+    GaBundle\Service\VrijwilligerdossierDao:
         parent: app.dao.abstract
 
     GaBundle\Service\VrijwilligerLidmaatschapDao:
@@ -46,9 +52,6 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'
             - 100
-
-    GaBundle\Service\VrijwilligerVerslagDao:
-        parent: app.dao.abstract
 
     ga.repository.groep_buurtmaatjes:
         class: Doctrine\ORM\EntityRepository
@@ -92,27 +95,29 @@ services:
         arguments:
             -
               - { key: activiteit, dao: '@GaBundle\Service\ActiviteitDao' }
-              - { key: klant, dao: '@AppBundle\Service\KlantDao' }
-              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
 
     ga.document.entities:
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+
+    ga.intake.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
     
     ga.lidmaatschap.entities:
         class: ArrayObject
         arguments:
             -
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
               - { key: groep, dao: '@GaBundle\Service\GroepDao' }
-              - { key: klant, dao: '@AppBundle\Service\KlantDao' }
-              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     ga.verslag.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: klant, dao: '@AppBundle\Service\KlantDao' }
-              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
-              
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }

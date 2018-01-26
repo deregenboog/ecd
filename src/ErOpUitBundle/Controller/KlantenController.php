@@ -7,14 +7,16 @@ use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use ErOpUitBundle\Entity\Klant;
+use ErOpUitBundle\Form\KlantCloseType;
 use ErOpUitBundle\Form\KlantFilterType;
+use ErOpUitBundle\Form\KlantReopenType;
 use ErOpUitBundle\Form\KlantType;
 use ErOpUitBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/klanten")
@@ -22,8 +24,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
-    protected $entityName = 'klant';
+    protected $title = 'Deelnemers';
+    protected $entityName = 'deelnemer';
     protected $entityClass = Klant::class;
     protected $formClass = KlantType::class;
     protected $filterFormClass = KlantFilterType::class;
@@ -60,6 +62,32 @@ class KlantenController extends AbstractController
         }
 
         return $this->doSearch($request);
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $this->formClass = KlantReopenType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->reopen();
+
+        return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $this->formClass = KlantCloseType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->close();
+
+        return $this->processForm($request, $entity);
     }
 
     private function doSearch(Request $request)

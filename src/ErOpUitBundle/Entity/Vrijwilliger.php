@@ -5,6 +5,9 @@ namespace ErOpUitBundle\Entity;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NotDeletableTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Service\NameFormatter;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -16,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger
 {
-    use IdentifiableTrait, NotDeletableTrait;
+    use IdentifiableTrait, TimestampableTrait, NotDeletableTrait;
 
     /**
      * @var AppVrijwilliger
@@ -40,44 +43,43 @@ class Vrijwilliger
     private $uitschrijfdatum;
 
     /**
-     * @var LidmaatschapAfsluitreden
+     * @var Uitschrijfreden
      *
-     * @ORM\ManyToOne(targetEntity="GaBundle\Entity\LidmaatschapAfsluitreden")
+     * @ORM\ManyToOne(targetEntity="Uitschrijfreden")
      */
     private $uitschrijfreden;
 
     /**
-     * @ORM\Column(name="communicatie_email", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $communicatieEmail = true;
 
     /**
-     * @ORM\Column(name="communicatie_telefoon", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $communicatieTelefoon = true;
 
     /**
-     * @ORM\Column(name="communicatie_post", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $communicatiePost = true;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
+    public function __construct(AppVrijwilliger $vrijwilliger = null)
+    {
+        if ($vrijwilliger) {
+            $this->vrijwilliger = $vrijwilliger;
+        }
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $modified;
+        $this->inschrijfdatum = new \DateTime('today');
+    }
 
     public function __toString()
     {
-        return (string) $this->vrijwilliger;
+        try {
+            return NameFormatter::formatInformal($this->vrijwilliger);
+        } catch (EntityNotFoundException $e) {
+            return '';
+        }
     }
 
     public function getVrijwilliger()
@@ -85,9 +87,39 @@ class Vrijwilliger
         return $this->vrijwilliger;
     }
 
+    public function setVrijwilliger(AppVrijwilliger $vrijwilliger)
+    {
+        $this->vrijwilliger = $vrijwilliger;
+
+        return $this;
+    }
+
+    public function reopen()
+    {
+        $this->inschrijfdatum = new \DateTime();
+        $this->uitschrijfdatum = null;
+        $this->uitschrijfreden = null;
+
+        return $this;
+    }
+
+    public function close()
+    {
+        $this->uitschrijfdatum = new \DateTime();
+
+        return $this;
+    }
+
     public function getInschrijfdatum()
     {
         return $this->inschrijfdatum;
+    }
+
+    public function setInschrijfdatum(\DateTime $inschrijfdatum)
+    {
+        $this->inschrijfdatum = $inschrijfdatum;
+
+        return $this;
     }
 
     public function getUitschrijfdatum()
@@ -95,9 +127,23 @@ class Vrijwilliger
         return $this->uitschrijfdatum;
     }
 
+    public function setUitschrijfdatum(\DateTime $uitschrijfdatum)
+    {
+        $this->uitschrijfdatum = $uitschrijfdatum;
+
+        return $this;
+    }
+
     public function getUitschrijfreden()
     {
         return $this->uitschrijfreden;
+    }
+
+    public function setUitschrijfreden(Uitschrijfreden $uitschrijfreden)
+    {
+        $this->uitschrijfreden = $uitschrijfreden;
+
+        return $this;
     }
 
     public function isCommunicatieEmail()
@@ -105,9 +151,23 @@ class Vrijwilliger
         return $this->communicatieEmail;
     }
 
+    public function setCommunicatieEmail($communicatieEmail)
+    {
+        $this->communicatieEmail = $communicatieEmail;
+
+        return $this;
+    }
+
     public function isCommunicatiePost()
     {
         return $this->communicatiePost;
+    }
+
+    public function setCommunicatiePost($communicatiePost)
+    {
+        $this->communicatiePost = $communicatiePost;
+
+        return $this;
     }
 
     public function isCommunicatieTelefoon()
@@ -115,13 +175,21 @@ class Vrijwilliger
         return $this->communicatieTelefoon;
     }
 
-    public function getCreated()
+    public function setCommunicatieTelefoon($communicatieTelefoon)
     {
-        return $this->created;
+        $this->communicatieTelefoon = $communicatieTelefoon;
+
+        return $this;
     }
 
-    public function getModified()
+    public function isUitgeschreven()
     {
-        return $this->modified;
+        return $this->uitschrijfdatum instanceof \DateTime
+            && $this->uitschrijfdatum <= new \DateTime('today');
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }

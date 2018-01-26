@@ -7,9 +7,9 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\RecenteRegistratie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Filter\RegistratieFilter;
-use InloopBundle\Entity\RecenteRegistratie;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
@@ -67,14 +67,14 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     }
 
     /**
-     * @param bool $type The value of either self::TYPE_DAY of self::TYPE_NIGHT.
+     * @param bool $type the value of either self::TYPE_DAY of self::TYPE_NIGHT
      *
      * @return Registratie[]
      */
     public function findAutoCheckoutCandidates($type)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin("{$this->alias}.locatie", "locatie")
+            ->innerJoin("{$this->alias}.locatie", 'locatie')
             ->where("{$this->alias}.closed = false AND locatie.nachtopvang = :type")
             ->orWhere("{$this->alias}.buiten < {$this->alias}.binnen")
             ->setParameter('type', (bool) $type)

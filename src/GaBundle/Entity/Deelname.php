@@ -5,19 +5,22 @@ namespace GaBundle\Entity;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use OekBundle\Entity\DeelnameStatus;
 
 /**
+ * @ORM\Entity
+ * @ORM\Table(
+ *     name="ga_deelnames",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_activiteit_dossier_idx", columns={"activiteit_id", "dossier_id"})}
+ * )
  * @ORM\HasLifecycleCallbacks
- * @ORM\MappedSuperclass
  * @Gedmo\Loggable
  */
 class Deelname
 {
     use TimestampableTrait;
 
-    const STATUS_AANWEZIG = 'Aanwezig';
-    const STATUS_AFWEZIG = 'Afwezig';
+    const STATUS_AANWEZIG = 'aanwezig';
+    const STATUS_AFWEZIG = 'afwezig';
 
     /**
      * @ORM\Id
@@ -27,18 +30,42 @@ class Deelname
     protected $id;
 
     /**
+     * @var Activiteit
+     *
+     * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="deelnames")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $activiteit;
+
+    /**
+     * @var Dossier
+     *
+     * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="deelnames")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $dossier;
+
+    /**
      * Current state.
      *
      * @var DeelnameStatus
      *
-     * @ORM\Column(name="afmeld_status")
+     * @ORM\Column()
      * @Gedmo\Versioned
      */
     protected $status = self::STATUS_AANWEZIG;
 
-    public function __construct(Activiteit $activiteit = null)
+    public function __construct(Activiteit $activiteit = null, Dossier $dossier = null)
     {
         $this->activiteit = $activiteit;
+        $this->dossier = $dossier;
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s aan %s', $this->dossier, $this->activiteit);
     }
 
     public function getId()
@@ -54,6 +81,18 @@ class Deelname
     public function setActiviteit(Activiteit $activiteit)
     {
         $this->activiteit = $activiteit;
+
+        return $this;
+    }
+
+    public function getDossier()
+    {
+        return $this->dossier;
+    }
+
+    public function setDossier(Dossier $dossier)
+    {
+        $this->dossier = $dossier;
 
         return $this;
     }

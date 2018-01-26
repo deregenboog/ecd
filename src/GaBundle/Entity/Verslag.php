@@ -8,14 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="groepsactiviteiten_verslagen")
+ * @ORM\Table(name="ga_verslagen")
  * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="model", type="string")
- * @ORM\DiscriminatorMap({"Klant" = "KlantVerslag", "Vrijwilliger" = "VrijwilligerVerslag"})
  * @Gedmo\Loggable
  */
-abstract class Verslag
+class Verslag
 {
     use TimestampableTrait;
 
@@ -25,6 +22,13 @@ abstract class Verslag
      * @ORM\GeneratedValue
      */
     protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="verslagen")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $dossier;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
@@ -42,6 +46,24 @@ abstract class Verslag
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDossier()
+    {
+        return $this->dossier;
+    }
+
+    /**
+     * @param mixed $dossier
+     */
+    public function setDossier($dossier)
+    {
+        $this->dossier = $dossier;
+
+        return $this;
     }
 
     /**

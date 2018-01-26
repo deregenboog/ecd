@@ -29,6 +29,11 @@ interface ActiviteitDaoInterface
     public function create(Activiteit $entity);
 
     /**
+     * @param Activiteit[] $entities
+     */
+    public function createBatch(array $entities);
+
+    /**
      * @param Activiteit $entity
      */
     public function update(Activiteit $entity);

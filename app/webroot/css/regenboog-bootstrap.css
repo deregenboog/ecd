@@ -64,6 +64,9 @@ h4 {
 .table-fixed {
     table-layout:fixed;
 }
+.table-filter {
+    margin-bottom: 0;
+}
 th {
     background: #ddd;
 }

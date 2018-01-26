@@ -4,12 +4,12 @@ namespace AppBundle\Twig;
 
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Persoon;
+use AppBundle\Exception\AppException;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use AppBundle\Exception\AppException;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -377,7 +377,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         }
 
         $remainder = 100 - array_sum($percentages);
-        $nulls = array_filter($percentages, "is_null");
+        $nulls = array_filter($percentages, 'is_null');
         foreach (array_keys($nulls) as $i) {
             $percentages[$i] = floor($remainder / count($nulls));
         }
@@ -385,7 +385,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         $remainder = 100 - array_sum($percentages);
         foreach (array_keys($nulls) as $i) {
             if ($remainder > 0) {
-                $percentages[$i] += 1;
+                ++$percentages[$i];
                 --$remainder;
             } else {
                 break;

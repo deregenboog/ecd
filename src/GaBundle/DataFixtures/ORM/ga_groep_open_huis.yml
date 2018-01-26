@@ -1,4 +1,0 @@
-GaBundle\Entity\GroepOpenHuis:
-    ga_groep_{16..20}:
-        naam: 'Open Huis groep <current()>'
-        activiteitenRegistreren: true

@@ -2,7 +2,7 @@
 
 namespace GaBundle\Service;
 
-use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -19,22 +19,22 @@ interface VrijwilligerDaoInterface
     /**
      * @param int $id
      *
-     * @return Vrijwilliger
+     * @return Klant
      */
     public function find($id);
 
     /**
-     * @param Vrijwilliger $entity
+     * @param Klant $entity
      */
-    public function create(Vrijwilliger $entity);
+    public function create(Klant $entity);
 
     /**
-     * @param Vrijwilliger $entity
+     * @param Klant $entity
      */
-    public function update(Vrijwilliger $entity);
+    public function update(Klant $entity);
 
     /**
-     * @param Vrijwilliger $entity
+     * @param Klant $entity
      */
-    public function delete(Vrijwilliger $entity);
+    public function delete(Klant $entity);
 }

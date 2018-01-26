@@ -4,6 +4,7 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Form\SchorsingFilterType;
 use InloopBundle\Form\SchorsingType;
@@ -19,7 +20,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
-use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/schorsingen")

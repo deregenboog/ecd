@@ -21,6 +21,9 @@
 {% if is_granted('ROLE_DAGBESTEDING') %}
     {{ html.navLink('Dagbesteding', path('dagbesteding_index'), isActiveRoute('dagbesteding_')) }}
 {% endif %}
+{% if is_granted('ROLE_EROPUIT') %}
+    {{ html.navLink('ErOpUit-kalender', path('eropuit_index'), isActiveRoute('eropuit_')) }}
+{% endif %}
 {% if is_granted('ROLE_GA') %}
     {{ html.navLink('Groepsactiviteiten', path('ga_index'), isActiveRoute('ga_')) }}
 {% endif %}

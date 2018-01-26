@@ -2,8 +2,8 @@
 
 namespace Tests\ClipBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class ClientenControllerTest extends WebTestCase
 {

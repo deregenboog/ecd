@@ -2,31 +2,29 @@
 
 namespace AppBundle\Test;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Driver\PDOSqlite\Driver as SqliteDriver;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\ORM\EntityManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 use Nelmio\Alice\Fixtures;
-use Symfony\Component\HttpKernel\Client;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 use Symfony\Component\Security\Core\User\UserInterface;
-use AppBundle\Entity\Medewerker;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 class WebTestCase extends BaseWebTestCase
 {
-    protected $client = null;
+    /**
+     * @var Client
+     */
+    protected $client;
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->loadFixtureFiles([
             '@AppBundle/DataFixtures/ORM/fixtures.yml',
             '@ClipBundle/DataFixtures/ORM/fixtures.yml',
 //             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
+            '@ErOpUitBundle/DataFixtures/ORM/fixtures.yml',
 //             '@GaBundle/DataFixtures/ORM/fixtures.yml',
 //             '@HsBundle/DataFixtures/ORM/fixtures.yml',
 //             '@InloopBundle/DataFixtures/ORM/fixtures.yml',
@@ -40,20 +38,27 @@ class WebTestCase extends BaseWebTestCase
         $this->client = static::createClient();
     }
 
+    protected function tearDown()
+    {
+        $this->client = null;
+        parent::tearDown();
+    }
+
     /**
      * @param UserInterface $user
      *
      * @see https://symfony.com/doc/3.4/testing/http_authentication.html
      */
-    protected function logIn(UserInterface $user)
+    protected function logIn(UserInterface $user, $additionalRoles = [])
     {
+        if (!is_array($additionalRoles)) {
+            $additionalRoles = array($additionalRoles);
+        }
+
         $session = $this->client->getContainer()->get('session');
 
-        $firewallName = 'main';
-        $firewallContext = 'main';
-
-        $token = new UsernamePasswordToken($user, null, $firewallName, $user->getRoles());
-        $session->set('_security_'.$firewallContext, serialize($token));
+        $token = new UsernamePasswordToken($user, null, 'main', array_merge($user->getRoles(), $additionalRoles));
+        $session->set('_security_main', serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());

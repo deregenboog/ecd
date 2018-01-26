@@ -5,7 +5,7 @@ namespace GaBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use GaBundle\Entity\KlantIntake;
+use GaBundle\Entity\Intake;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -17,7 +17,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, intake, medewerker, werkgebied")
-            ->leftJoin(KlantIntake::class, 'intake', 'WITH', 'intake.klant = klant')
+            ->leftJoin(Intake::class, 'intake', 'WITH', 'intake.klant = klant')
             ->leftJoin('intake.medewerker', 'medewerker')
             ->leftJoin('klant.werkgebied', 'werkgebied')
         ;

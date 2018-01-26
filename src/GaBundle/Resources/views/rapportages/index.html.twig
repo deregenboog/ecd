@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content_right %}
-    <h2>Rapport {{ title is defined ? '"'~title~'"' }}</h2>
+    <h2>{{ title ? 'Rapport "'~title~'"' }}</h2>
     {% if reports is defined %}
         {{ include('AppBundle:rapportages:_pivot_tables.html.twig') }}
     {% endif %}

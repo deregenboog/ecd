@@ -1,5 +1,0 @@
-GaBundle\Entity\GaKlantDeelname:
-    ga_klant_deelname_{1..50}:
-        klant: '@klant_*'
-        gaActiviteit: '@ga_activiteit_*'
-        status: 'Aanwezig'

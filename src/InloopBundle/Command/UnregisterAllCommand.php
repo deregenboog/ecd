@@ -2,13 +2,11 @@
 
 namespace InloopBundle\Command;
 
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Registratie;
+use AppBundle\Util\DateTimeUtil;
+use InloopBundle\Service\RegistratieDaoInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use AppBundle\Util\DateTimeUtil;
-use InloopBundle\Service\RegistratieDaoInterface;
 
 class UnregisterAllCommand extends ContainerAwareCommand
 {

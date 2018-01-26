@@ -5,6 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\LidmaatschapAfsluitreden;
 use GaBundle\Form\LidmaatschapAfsluitredenType;
+use GaBundle\Service\LidmaatschapAfsluitredenDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 

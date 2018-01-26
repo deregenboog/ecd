@@ -3,7 +3,6 @@
 namespace GaBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -51,16 +50,8 @@ class Document implements DocumentInterface
      */
     private $file;
 
-    /**
-     * @var Vrijwilliger
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Vrijwilliger")
-     */
-    private $vrijwilliger;
-
-    public function __construct(Vrijwilliger $vrijwilliger, Medewerker $medewerker = null)
+    public function __construct(Medewerker $medewerker = null)
     {
-        $this->vrijwilliger = $vrijwilliger;
         if ($medewerker) {
             $this->medewerker = $medewerker;
         }

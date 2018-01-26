@@ -2,8 +2,8 @@
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Dotenv\Exception\PathException;
+use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {

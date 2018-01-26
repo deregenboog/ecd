@@ -11,10 +11,10 @@ use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
 use OekBundle\Form\VrijwilligerType;
 use OekBundle\Service\VrijwilligerDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligers")

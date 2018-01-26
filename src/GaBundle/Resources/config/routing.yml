@@ -13,4 +13,4 @@ ga_index:
     path: /ga/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: ga_klantintakes_index
+        route: ga_klantdossiers_index

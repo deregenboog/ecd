@@ -14,7 +14,6 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
         'sortFieldWhitelist' => [
             'activiteit.naam',
             'activiteit.datum',
-            'activiteit.tijd',
             'activiteit.afgesloten',
             'groep.naam',
         ],
@@ -36,6 +35,20 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
     public function create(Activiteit $entity)
     {
         $this->doCreate($entity);
+    }
+
+    /**
+     * @param Activiteit[] $entities
+     */
+    public function createBatch(array $entities)
+    {
+        foreach ($entities as $entity) {
+            assert($entity instanceof Activiteit);
+            $this->entityManager->persist($entity);
+        }
+        $this->entityManager->flush();
+
+        return $entities;
     }
 
     public function update(Activiteit $entity)

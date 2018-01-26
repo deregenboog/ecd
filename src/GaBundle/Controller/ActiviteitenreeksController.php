@@ -11,8 +11,8 @@ use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\ActiviteitenreeksGenerator;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/activiteitenreeks")
@@ -24,7 +24,6 @@ class ActiviteitenreeksController extends AbstractChildController
     protected $entityName = 'reeks activiteiten';
     protected $entityClass = Activiteit::class;
     protected $formClass = ActiviteitenReeksType::class;
-    protected $addMethod = 'addActiviteit';
     protected $baseRouteName = 'ga_activiteiten_';
 
     /**
@@ -46,20 +45,13 @@ class ActiviteitenreeksController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        if (!$this->addMethod && !$this->allowEmpty) {
-            throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
-        }
-
         list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }
 
-        $entity = $this->createEntity($parentEntity);
-        if ($parentEntity && $this->addMethod) {
-            $parentEntity->{$this->addMethod}($entity);
-        }
-
+        $entity = new Activiteit();
+        $entity->setGroep($parentEntity);
         $form = $this->createForm($this->formClass, new ActiviteitenReeksModel($entity), [
             'medewerker' => $this->getMedewerker(),
         ]);
@@ -69,8 +61,9 @@ class ActiviteitenreeksController extends AbstractChildController
             try {
                 $activiteiten = ActiviteitenreeksGenerator::generate($form->getData());
                 foreach ($activiteiten as $activiteit) {
-                    $this->dao->create($activiteit);
+                    $activiteit->setGroep($parentEntity);
                 }
+                $this->dao->createBatch($activiteiten);
                 $this->addFlash('success', count($activiteiten).' activiteiten zijn toegevoegd.');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

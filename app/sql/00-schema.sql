@@ -3,22 +3,27 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Gegenereerd op: 25 mei 2018 om 08:08
--- Serverversie: 5.5.53
+-- Gegenereerd op: 23 okt 2018 om 07:44
+-- Serverversie: 5.6.39
 -- PHP-versie: 5.6.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `ecd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `amoc_landen`
+--
+
+CREATE TABLE `amoc_landen` (
+  `id` int(11) NOT NULL,
+  `land_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -785,6 +790,44 @@ CREATE TABLE `doorverwijzers` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structuur voor view `eropuit_klanten`
+-- (Zie onder voor de actuele view)
+--
+CREATE TABLE `eropuit_klanten` (
+`id` int(11)
+,`klant_id` int(11)
+,`inschrijfdatum` date
+,`uitschrijfdatum` date
+,`uitschrijfreden_id` int(11)
+,`communicatie_email` tinyint(1)
+,`communicatie_post` tinyint(1)
+,`communicatie_telefoon` tinyint(1)
+,`created` datetime
+,`modified` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structuur voor view `eropuit_vrijwilligers`
+-- (Zie onder voor de actuele view)
+--
+CREATE TABLE `eropuit_vrijwilligers` (
+`id` int(11)
+,`vrijwilliger_id` int(11)
+,`inschrijfdatum` date
+,`uitschrijfdatum` date
+,`uitschrijfreden_id` int(11)
+,`communicatie_email` tinyint(1)
+,`communicatie_post` tinyint(1)
+,`communicatie_telefoon` tinyint(1)
+,`created` datetime
+,`modified` datetime
+);
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `ext_log_entries`
 --
 
@@ -797,6 +840,33 @@ CREATE TABLE `ext_log_entries` (
   `version` int(11) NOT NULL,
   `data` longtext COMMENT '(DC2Type:array)',
   `username` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `ga_documenten`
+--
+
+CREATE TABLE `ga_documenten` (
+  `id` int(11) NOT NULL,
+  `vrijwilliger_id` int(11) DEFAULT NULL,
+  `medewerker_id` int(11) NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `ga_gaklantintake_zrm`
+--
+
+CREATE TABLE `ga_gaklantintake_zrm` (
+  `gaklantintake_id` int(11) NOT NULL,
+  `zrm_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -944,7 +1014,7 @@ CREATE TABLE `groepsactiviteiten_intakes` (
   `id` int(11) NOT NULL,
   `model` varchar(255) NOT NULL,
   `foreign_key` int(11) NOT NULL,
-  `medewerker_id` int(11) NOT NULL,
+  `medewerker_id` int(11) DEFAULT NULL,
   `gespreksverslag` text,
   `informele_zorg` int(4) DEFAULT NULL,
   `dagbesteding` int(4) DEFAULT NULL,
@@ -1767,6 +1837,17 @@ CREATE TABLE `inloop_dossier_statussen` (
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `inloop_intake_zrm`
+--
+
+CREATE TABLE `inloop_intake_zrm` (
+  `intake_id` int(11) NOT NULL,
+  `zrm_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `inloop_memos`
 --
 
@@ -2044,6 +2125,17 @@ CREATE TABLE `iz_deelnemers` (
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `iz_deelnemers_documenten`
+--
+
+CREATE TABLE `iz_deelnemers_documenten` (
+  `izdeelnemer_id` int(11) NOT NULL,
+  `document_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `iz_deelnemers_iz_intervisiegroepen`
 --
 
@@ -2067,6 +2159,21 @@ CREATE TABLE `iz_deelnemers_iz_projecten` (
   `iz_project_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `iz_documenten`
+--
+
+CREATE TABLE `iz_documenten` (
+  `id` int(11) NOT NULL,
+  `medewerker_id` int(11) NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2137,6 +2244,39 @@ CREATE TABLE `iz_hulpvraagsoorten` (
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `iz_hulpvraag_succesindicatorfinancieel`
+--
+
+CREATE TABLE `iz_hulpvraag_succesindicatorfinancieel` (
+  `hulpvraag_id` int(11) NOT NULL,
+  `succesindicatorfinancieel_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `iz_hulpvraag_succesindicatorparticipatie`
+--
+
+CREATE TABLE `iz_hulpvraag_succesindicatorparticipatie` (
+  `hulpvraag_id` int(11) NOT NULL,
+  `succesindicatorparticipatie_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `iz_hulpvraag_succesindicatorpersoonlijk`
+--
+
+CREATE TABLE `iz_hulpvraag_succesindicatorpersoonlijk` (
+  `hulpvraag_id` int(11) NOT NULL,
+  `succesindicatorpersoonlijk_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `iz_intakes`
 --
 
@@ -2154,6 +2294,17 @@ CREATE TABLE `iz_intakes` (
   `modifed` datetime DEFAULT NULL,
   `stagiair` tinyint(1) DEFAULT NULL,
   `gezin_met_kinderen` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `iz_intake_zrm`
+--
+
+CREATE TABLE `iz_intake_zrm` (
+  `intake_id` int(11) NOT NULL,
+  `zrm_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2307,6 +2458,37 @@ CREATE TABLE `iz_projecten` (
   `modified` datetime DEFAULT NULL,
   `heeft_koppelingen` tinyint(1) DEFAULT NULL,
   `prestatie_strategy` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `iz_reserveringen`
+--
+
+CREATE TABLE `iz_reserveringen` (
+  `id` int(11) NOT NULL,
+  `hulpvraag_id` int(11) NOT NULL,
+  `hulpaanbod_id` int(11) NOT NULL,
+  `medewerker_id` int(11) NOT NULL,
+  `deleted` datetime DEFAULT NULL,
+  `startdatum` date NOT NULL,
+  `einddatum` date NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `iz_succesindicatoren`
+--
+
+CREATE TABLE `iz_succesindicatoren` (
+  `id` int(11) NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `discr` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2509,9 +2691,11 @@ CREATE TABLE `medewerkers` (
   `laatste_bezoek` datetime NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `uidnumber` int(11) NOT NULL,
+  `uidnumber` varchar(255) NOT NULL,
   `active` int(4) NOT NULL DEFAULT '1',
-  `groups` longtext COMMENT '(DC2Type:json_array)'
+  `groups` longtext COMMENT '(DC2Type:json_array)',
+  `ldap_groups` longtext COMMENT '(DC2Type:json_array)',
+  `roles` longtext NOT NULL COMMENT '(DC2Type:json_array)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2603,7 +2787,41 @@ INSERT INTO `migration_versions` (`version`) VALUES
 ('20180405094810'),
 ('20180417080553'),
 ('20180417130021'),
-('20180424090940');
+('20180424090940'),
+('20180424120916'),
+('20180425092513'),
+('20180426125353'),
+('20180501144543'),
+('20180515103809'),
+('20180711092613'),
+('20180820090920'),
+('20180821092424'),
+('20180821134509'),
+('20180824084127'),
+('20180830073832'),
+('20180830124159'),
+('20180913143950'),
+('20180913143953'),
+('20180917120729'),
+('20180926070729'),
+('20181001074038'),
+('20181002093231');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `mw_documenten`
+--
+
+CREATE TABLE `mw_documenten` (
+  `id` int(11) NOT NULL,
+  `klant_id` int(11) DEFAULT NULL,
+  `medewerker_id` int(11) DEFAULT NULL,
+  `naam` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3316,6 +3534,18 @@ CREATE TABLE `registraties` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structuur voor view `registraties_recent`
+-- (Zie onder voor de actuele view)
+--
+CREATE TABLE `registraties_recent` (
+`klant_id` int(11)
+,`locatie_id` int(11)
+,`max_buiten` datetime
+);
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `schorsingen`
 --
 
@@ -3323,26 +3553,26 @@ CREATE TABLE `schorsingen` (
   `id` int(11) NOT NULL,
   `datum_van` date NOT NULL,
   `datum_tot` date NOT NULL,
-  `locatie_id` int(11) NOT NULL,
+  `locatie_id` int(11) DEFAULT NULL,
   `klant_id` int(11) NOT NULL,
-  `remark` text NOT NULL,
+  `remark` longtext,
   `gezien` tinyint(1) NOT NULL DEFAULT '0',
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   `overig_reden` varchar(255) DEFAULT NULL,
-  `aangifte` tinyint(1) DEFAULT NULL,
-  `nazorg` tinyint(1) DEFAULT NULL,
+  `aangifte` tinyint(1) NOT NULL DEFAULT '0',
+  `nazorg` tinyint(1) NOT NULL DEFAULT '0',
   `aggressie_tegen_medewerker` int(4) DEFAULT NULL,
   `aggressie_doelwit` varchar(255) DEFAULT NULL,
-  `agressie` int(4) DEFAULT NULL,
+  `agressie` tinyint(1) NOT NULL DEFAULT '0',
   `aggressie_tegen_medewerker2` int(4) DEFAULT NULL,
   `aggressie_doelwit2` varchar(255) DEFAULT NULL,
   `aggressie_tegen_medewerker3` int(4) DEFAULT NULL,
   `aggressie_doelwit3` varchar(255) DEFAULT NULL,
   `aggressie_tegen_medewerker4` int(4) DEFAULT NULL,
   `aggressie_doelwit4` varchar(255) DEFAULT NULL,
-  `locatiehoofd` varchar(100) NOT NULL,
-  `bijzonderheden` text NOT NULL
+  `locatiehoofd` varchar(100) DEFAULT NULL,
+  `bijzonderheden` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3741,8 +3971,8 @@ CREATE TABLE `woonsituaties` (
 CREATE TABLE `zrm_reports` (
   `id` int(11) NOT NULL,
   `klant_id` int(11) NOT NULL,
-  `model` varchar(50) NOT NULL,
-  `foreign_key` int(11) NOT NULL,
+  `model` varchar(50) DEFAULT NULL,
+  `foreign_key` int(11) DEFAULT NULL,
   `request_module` varchar(50) NOT NULL,
   `inkomen` int(11) DEFAULT NULL,
   `dagbesteding` int(11) DEFAULT NULL,
@@ -3847,9 +4077,43 @@ CREATE TABLE `zrm_v2_settings` (
   `modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `eropuit_klanten`
+--
+DROP TABLE IF EXISTS `eropuit_klanten`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`ecd`@`%` SQL SECURITY DEFINER VIEW `eropuit_klanten`  AS  select `lidmaatschap`.`id` AS `id`,`lidmaatschap`.`klant_id` AS `klant_id`,`lidmaatschap`.`startdatum` AS `inschrijfdatum`,`lidmaatschap`.`einddatum` AS `uitschrijfdatum`,`lidmaatschap`.`groepsactiviteiten_reden_id` AS `uitschrijfreden_id`,`lidmaatschap`.`communicatie_email` AS `communicatie_email`,`lidmaatschap`.`communicatie_post` AS `communicatie_post`,`lidmaatschap`.`communicatie_telefoon` AS `communicatie_telefoon`,`lidmaatschap`.`created` AS `created`,`lidmaatschap`.`modified` AS `modified` from (`groepsactiviteiten_groepen_klanten` `lidmaatschap` join `klanten` on(((`klanten`.`id` = `lidmaatschap`.`klant_id`) and (`klanten`.`disabled` = 0)))) where ((`lidmaatschap`.`groepsactiviteiten_groep_id` = 19) and `lidmaatschap`.`id` in (select max(`groepsactiviteiten_groepen_klanten`.`id`) from `groepsactiviteiten_groepen_klanten` where (`groepsactiviteiten_groepen_klanten`.`groepsactiviteiten_groep_id` = 19) group by `groepsactiviteiten_groepen_klanten`.`klant_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `eropuit_vrijwilligers`
+--
+DROP TABLE IF EXISTS `eropuit_vrijwilligers`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`ecd`@`%` SQL SECURITY DEFINER VIEW `eropuit_vrijwilligers`  AS  select `lidmaatschap`.`id` AS `id`,`lidmaatschap`.`vrijwilliger_id` AS `vrijwilliger_id`,`lidmaatschap`.`startdatum` AS `inschrijfdatum`,`lidmaatschap`.`einddatum` AS `uitschrijfdatum`,`lidmaatschap`.`groepsactiviteiten_reden_id` AS `uitschrijfreden_id`,`lidmaatschap`.`communicatie_email` AS `communicatie_email`,`lidmaatschap`.`communicatie_post` AS `communicatie_post`,`lidmaatschap`.`communicatie_telefoon` AS `communicatie_telefoon`,`lidmaatschap`.`created` AS `created`,`lidmaatschap`.`modified` AS `modified` from (`groepsactiviteiten_groepen_vrijwilligers` `lidmaatschap` join `vrijwilligers` on(((`vrijwilligers`.`id` = `lidmaatschap`.`vrijwilliger_id`) and (`vrijwilligers`.`disabled` = 0)))) where ((`lidmaatschap`.`groepsactiviteiten_groep_id` = 19) and `lidmaatschap`.`id` in (select max(`groepsactiviteiten_groepen_vrijwilligers`.`id`) from `groepsactiviteiten_groepen_vrijwilligers` where (`groepsactiviteiten_groepen_vrijwilligers`.`groepsactiviteiten_groep_id` = 19) group by `groepsactiviteiten_groepen_vrijwilligers`.`vrijwilliger_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structuur voor de view `registraties_recent`
+--
+DROP TABLE IF EXISTS `registraties_recent`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`ecd`@`%` SQL SECURITY DEFINER VIEW `registraties_recent`  AS  select `registraties`.`klant_id` AS `klant_id`,`registraties`.`locatie_id` AS `locatie_id`,max(`registraties`.`buiten`) AS `max_buiten` from `registraties` where ((`registraties`.`closed` = 1) and (`registraties`.`binnen` > (now() + interval -(15) day))) group by `registraties`.`klant_id`,`registraties`.`locatie_id` ;
+
 --
 -- Indexen voor geëxporteerde tabellen
 --
+
+--
+-- Indexen voor tabel `amoc_landen`
+--
+ALTER TABLE `amoc_landen`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_2B24A60A1994904A` (`land_id`);
 
 --
 -- Indexen voor tabel `attachments`
@@ -4215,6 +4479,22 @@ ALTER TABLE `ext_log_entries`
   ADD KEY `log_version_lookup_idx` (`object_id`,`object_class`,`version`);
 
 --
+-- Indexen voor tabel `ga_documenten`
+--
+ALTER TABLE `ga_documenten`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_409E561276B43BDC` (`vrijwilliger_id`),
+  ADD KEY `IDX_409E56123D707F64` (`medewerker_id`);
+
+--
+-- Indexen voor tabel `ga_gaklantintake_zrm`
+--
+ALTER TABLE `ga_gaklantintake_zrm`
+  ADD PRIMARY KEY (`gaklantintake_id`,`zrm_id`),
+  ADD UNIQUE KEY `UNIQ_D6805671C8250F57` (`zrm_id`),
+  ADD KEY `IDX_D68056715FA93F88` (`gaklantintake_id`);
+
+--
 -- Indexen voor tabel `gd27`
 --
 ALTER TABLE `gd27`
@@ -4275,7 +4555,8 @@ ALTER TABLE `groepsactiviteiten_groepen_vrijwilligers`
 ALTER TABLE `groepsactiviteiten_intakes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `groepsactiviteiten_intakes_foreign_key_model_idx` (`foreign_key`,`model`),
-  ADD KEY `IDX_843277B64BCC47A` (`groepsactiviteiten_afsluiting_id`);
+  ADD KEY `IDX_843277B64BCC47A` (`groepsactiviteiten_afsluiting_id`),
+  ADD KEY `IDX_843277B3D707F64` (`medewerker_id`);
 
 --
 -- Indexen voor tabel `groepsactiviteiten_klanten`
@@ -4673,6 +4954,14 @@ ALTER TABLE `inloop_dossier_statussen`
   ADD KEY `IDX_12D2B5701994904A` (`land_id`);
 
 --
+-- Indexen voor tabel `inloop_intake_zrm`
+--
+ALTER TABLE `inloop_intake_zrm`
+  ADD PRIMARY KEY (`intake_id`,`zrm_id`),
+  ADD UNIQUE KEY `UNIQ_92197717C8250F57` (`zrm_id`),
+  ADD KEY `IDX_92197717733DE450` (`intake_id`);
+
+--
 -- Indexen voor tabel `inloop_memos`
 --
 ALTER TABLE `inloop_memos`
@@ -4736,9 +5025,9 @@ ALTER TABLE `instanties_intakes`
 ALTER TABLE `intakes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_intakes_woonsituatie_id` (`woonsituatie_id`),
-  ADD KEY `idx_intakes_verblijfstatus_id` (`verblijfstatus_id`),
   ADD KEY `IDX_AB70F5AE3D707F64` (`medewerker_id`),
-  ADD KEY `IDX_AB70F5AE3C427B2F` (`klant_id`);
+  ADD KEY `IDX_AB70F5AE3C427B2F` (`klant_id`),
+  ADD KEY `IDX_AB70F5AE48D0634A` (`verblijfstatus_id`);
 
 --
 -- Indexen voor tabel `intakes_primaireproblematieksgebruikswijzen`
@@ -4789,10 +5078,20 @@ ALTER TABLE `iz_deelnemers`
   ADD KEY `IDX_89B5B51C7E366551` (`foreign_key`);
 
 --
+-- Indexen voor tabel `iz_deelnemers_documenten`
+--
+ALTER TABLE `iz_deelnemers_documenten`
+  ADD PRIMARY KEY (`izdeelnemer_id`,`document_id`),
+  ADD UNIQUE KEY `UNIQ_66AE504FC33F7837` (`document_id`),
+  ADD KEY `IDX_66AE504F55B482C2` (`izdeelnemer_id`);
+
+--
 -- Indexen voor tabel `iz_deelnemers_iz_intervisiegroepen`
 --
 ALTER TABLE `iz_deelnemers_iz_intervisiegroepen`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_3A903EEF495B2A54` (`iz_intervisiegroep_id`),
+  ADD KEY `IDX_3A903EEFD3124B3F` (`iz_deelnemer_id`);
 
 --
 -- Indexen voor tabel `iz_deelnemers_iz_projecten`
@@ -4800,14 +5099,23 @@ ALTER TABLE `iz_deelnemers_iz_intervisiegroepen`
 ALTER TABLE `iz_deelnemers_iz_projecten`
   ADD PRIMARY KEY (`id`),
   ADD KEY `iz_deelnemers_iz_projecten_id_deelnemr` (`iz_deelnemer_id`),
-  ADD KEY `iz_deelnemers_iz_projecten_iz_project_id` (`iz_project_id`);
+  ADD KEY `iz_deelnemers_iz_projecten_iz_project_id` (`iz_project_id`),
+  ADD KEY `IDX_65A512DB56CEA1A9` (`iz_project_id`),
+  ADD KEY `IDX_65A512DBD3124B3F` (`iz_deelnemer_id`);
+
+--
+-- Indexen voor tabel `iz_documenten`
+--
+ALTER TABLE `iz_documenten`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_C7F213503D707F64` (`medewerker_id`);
 
 --
 -- Indexen voor tabel `iz_doelgroepen`
 --
 ALTER TABLE `iz_doelgroepen`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_naam_idx` (`naam`);
+  ADD UNIQUE KEY `UNIQ_95359FC8FC4DB938` (`naam`);
 
 --
 -- Indexen voor tabel `iz_doelstellingen`
@@ -4838,7 +5146,31 @@ ALTER TABLE `iz_hulpaanbod_hulpvraagsoort`
 --
 ALTER TABLE `iz_hulpvraagsoorten`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_naam_idx` (`naam`);
+  ADD UNIQUE KEY `UNIQ_86CE34D4FC4DB938` (`naam`);
+
+--
+-- Indexen voor tabel `iz_hulpvraag_succesindicatorfinancieel`
+--
+ALTER TABLE `iz_hulpvraag_succesindicatorfinancieel`
+  ADD PRIMARY KEY (`hulpvraag_id`,`succesindicatorfinancieel_id`),
+  ADD KEY `IDX_3A3B526FA8450D8C` (`hulpvraag_id`),
+  ADD KEY `IDX_3A3B526F3FEB2492` (`succesindicatorfinancieel_id`);
+
+--
+-- Indexen voor tabel `iz_hulpvraag_succesindicatorparticipatie`
+--
+ALTER TABLE `iz_hulpvraag_succesindicatorparticipatie`
+  ADD PRIMARY KEY (`hulpvraag_id`,`succesindicatorparticipatie_id`),
+  ADD KEY `IDX_128F9138A8450D8C` (`hulpvraag_id`),
+  ADD KEY `IDX_128F913865A9F272` (`succesindicatorparticipatie_id`);
+
+--
+-- Indexen voor tabel `iz_hulpvraag_succesindicatorpersoonlijk`
+--
+ALTER TABLE `iz_hulpvraag_succesindicatorpersoonlijk`
+  ADD PRIMARY KEY (`hulpvraag_id`,`succesindicatorpersoonlijk_id`),
+  ADD KEY `IDX_BC9D7F44A8450D8C` (`hulpvraag_id`),
+  ADD KEY `IDX_BC9D7F44F9892974` (`succesindicatorpersoonlijk_id`);
 
 --
 -- Indexen voor tabel `iz_intakes`
@@ -4849,10 +5181,19 @@ ALTER TABLE `iz_intakes`
   ADD KEY `IDX_11EFC53D3D707F64` (`medewerker_id`);
 
 --
+-- Indexen voor tabel `iz_intake_zrm`
+--
+ALTER TABLE `iz_intake_zrm`
+  ADD PRIMARY KEY (`intake_id`,`zrm_id`),
+  ADD UNIQUE KEY `UNIQ_C84288B3C8250F57` (`zrm_id`),
+  ADD KEY `IDX_C84288B3733DE450` (`intake_id`);
+
+--
 -- Indexen voor tabel `iz_intervisiegroepen`
 --
 ALTER TABLE `iz_intervisiegroepen`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_86CA227E3D707F64` (`medewerker_id`);
 
 --
 -- Indexen voor tabel `iz_koppelingen`
@@ -4865,7 +5206,8 @@ ALTER TABLE `iz_koppelingen`
   ADD KEY `IDX_24E5FDC2D3124B3F` (`iz_deelnemer_id`),
   ADD KEY `IDX_24E5FDC2C9788B0A` (`voorkeurGeslacht_id`),
   ADD KEY `IDX_24E5FDC28B2EFA2C` (`iz_koppeling_id`),
-  ADD KEY `IDX_24E5FDC2950213F` (`hulpvraagsoort_id`);
+  ADD KEY `IDX_24E5FDC2950213F` (`hulpvraagsoort_id`),
+  ADD KEY `IDX_24E5FDC2C217B9F` (`iz_vraagaanbod_id`);
 
 --
 -- Indexen voor tabel `iz_koppeling_doelgroep`
@@ -4927,11 +5269,30 @@ ALTER TABLE `iz_projecten`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexen voor tabel `iz_reserveringen`
+--
+ALTER TABLE `iz_reserveringen`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_B9D71E14A8450D8C` (`hulpvraag_id`),
+  ADD KEY `IDX_B9D71E14B42008F3` (`hulpaanbod_id`),
+  ADD KEY `IDX_B9D71E143D707F64` (`medewerker_id`);
+
+--
+-- Indexen voor tabel `iz_succesindicatoren`
+--
+ALTER TABLE `iz_succesindicatoren`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_178943F7FC4DB9384AD26064` (`naam`,`discr`);
+
+--
 -- Indexen voor tabel `iz_verslagen`
 --
 ALTER TABLE `iz_verslagen`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idz_iz_verslag_iz_koppeling_id` (`iz_koppeling_id`);
+  ADD KEY `idz_iz_verslag_iz_koppeling_id` (`iz_koppeling_id`),
+  ADD KEY `IDX_570FE99B3D707F64` (`medewerker_id`),
+  ADD KEY `IDX_570FE99BD3124B3F` (`iz_deelnemer_id`),
+  ADD KEY `IDX_570FE99B8B2EFA2C` (`iz_koppeling_id`);
 
 --
 -- Indexen voor tabel `iz_via_personen`
@@ -5011,6 +5372,14 @@ ALTER TABLE `medewerkers`
 --
 ALTER TABLE `migration_versions`
   ADD PRIMARY KEY (`version`);
+
+--
+-- Indexen voor tabel `mw_documenten`
+--
+ALTER TABLE `mw_documenten`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_99E478283C427B2F` (`klant_id`),
+  ADD KEY `IDX_99E478283D707F64` (`medewerker_id`);
 
 --
 -- Indexen voor tabel `nationaliteiten`
@@ -5373,14 +5742,16 @@ ALTER TABLE `registraties`
 --
 ALTER TABLE `schorsingen`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_9E658EBF3C427B2F` (`klant_id`);
+  ADD KEY `IDX_9E658EBF3C427B2F` (`klant_id`),
+  ADD KEY `IDX_9E658EBF4947630C` (`locatie_id`);
 
 --
 -- Indexen voor tabel `schorsingen_redenen`
 --
 ALTER TABLE `schorsingen_redenen`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_schorsingen_redenen_schorsing_id` (`schorsing_id`);
+  ADD KEY `IDX_BB99D0FFD29703A5` (`reden_id`),
+  ADD KEY `IDX_BB99D0FFA52077DE` (`schorsing_id`);
 
 --
 -- Indexen voor tabel `schorsing_locatie`
@@ -5535,6 +5906,11 @@ ALTER TABLE `zrm_v2_settings`
 --
 
 --
+-- AUTO_INCREMENT voor een tabel `amoc_landen`
+--
+ALTER TABLE `amoc_landen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT voor een tabel `awbz_hoofdaannemers`
 --
 ALTER TABLE `awbz_hoofdaannemers`
@@ -5573,12 +5949,12 @@ ALTER TABLE `back_on_tracks`
 -- AUTO_INCREMENT voor een tabel `bedrijfitems`
 --
 ALTER TABLE `bedrijfitems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `bedrijfsectoren`
 --
 ALTER TABLE `bedrijfsectoren`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `bot_koppelingen`
 --
@@ -5593,7 +5969,7 @@ ALTER TABLE `bot_verslagen`
 -- AUTO_INCREMENT voor een tabel `categorieen`
 --
 ALTER TABLE `categorieen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `clip_behandelaars`
 --
@@ -5653,7 +6029,7 @@ ALTER TABLE `contactjournals`
 -- AUTO_INCREMENT voor een tabel `contactsoorts`
 --
 ALTER TABLE `contactsoorts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `dagbesteding_afsluitingen`
 --
@@ -5728,11 +6104,16 @@ ALTER TABLE `dagbesteding_verslagen`
 -- AUTO_INCREMENT voor een tabel `doorverwijzers`
 --
 ALTER TABLE `doorverwijzers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `ext_log_entries`
 --
 ALTER TABLE `ext_log_entries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `ga_documenten`
+--
+ALTER TABLE `ga_documenten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `gd27`
@@ -5753,12 +6134,12 @@ ALTER TABLE `groepsactiviteiten`
 -- AUTO_INCREMENT voor een tabel `groepsactiviteiten_afsluitingen`
 --
 ALTER TABLE `groepsactiviteiten_afsluitingen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `groepsactiviteiten_groepen`
 --
 ALTER TABLE `groepsactiviteiten_groepen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `groepsactiviteiten_groepen_klanten`
 --
@@ -5783,7 +6164,7 @@ ALTER TABLE `groepsactiviteiten_klanten`
 -- AUTO_INCREMENT voor een tabel `groepsactiviteiten_redenen`
 --
 ALTER TABLE `groepsactiviteiten_redenen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `groepsactiviteiten_verslagen`
 --
@@ -5798,12 +6179,12 @@ ALTER TABLE `groepsactiviteiten_vrijwilligers`
 -- AUTO_INCREMENT voor een tabel `hi5_answers`
 --
 ALTER TABLE `hi5_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hi5_answer_types`
 --
 ALTER TABLE `hi5_answer_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hi5_evaluaties`
 --
@@ -5813,17 +6194,17 @@ ALTER TABLE `hi5_evaluaties`
 -- AUTO_INCREMENT voor een tabel `hi5_evaluaties_hi5_evaluatie_questions`
 --
 ALTER TABLE `hi5_evaluaties_hi5_evaluatie_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hi5_evaluatie_paragraphs`
 --
 ALTER TABLE `hi5_evaluatie_paragraphs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hi5_evaluatie_questions`
 --
 ALTER TABLE `hi5_evaluatie_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hi5_intakes`
 --
@@ -5863,12 +6244,12 @@ ALTER TABLE `hi5_intakes_verslavingsgebruikswijzen`
 -- AUTO_INCREMENT voor een tabel `hi5_questions`
 --
 ALTER TABLE `hi5_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hoofdaannemers`
 --
 ALTER TABLE `hoofdaannemers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `hs_activiteiten`
 --
@@ -5938,12 +6319,12 @@ ALTER TABLE `i18n`
 -- AUTO_INCREMENT voor een tabel `infobaliedoelgroepen`
 --
 ALTER TABLE `infobaliedoelgroepen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `inkomens`
 --
 ALTER TABLE `inkomens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `inkomens_awbz_intakes`
 --
@@ -5958,7 +6339,7 @@ ALTER TABLE `inkomens_intakes`
 -- AUTO_INCREMENT voor een tabel `inloop_afsluiting_redenen`
 --
 ALTER TABLE `inloop_afsluiting_redenen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `inloop_binnen_via`
 --
@@ -5988,7 +6369,7 @@ ALTER TABLE `inloop_vrijwilligers`
 -- AUTO_INCREMENT voor een tabel `instanties`
 --
 ALTER TABLE `instanties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `instanties_awbz_intakes`
 --
@@ -6023,7 +6404,7 @@ ALTER TABLE `intakes_verslavingsgebruikswijzen`
 -- AUTO_INCREMENT voor een tabel `inventarisaties`
 --
 ALTER TABLE `inventarisaties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `inventarisaties_verslagen`
 --
@@ -6048,6 +6429,11 @@ ALTER TABLE `iz_deelnemers_iz_intervisiegroepen`
 -- AUTO_INCREMENT voor een tabel `iz_deelnemers_iz_projecten`
 --
 ALTER TABLE `iz_deelnemers_iz_projecten`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `iz_documenten`
+--
+ALTER TABLE `iz_documenten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `iz_doelgroepen`
@@ -6105,6 +6491,16 @@ ALTER TABLE `iz_ontstaan_contacten`
 ALTER TABLE `iz_projecten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT voor een tabel `iz_reserveringen`
+--
+ALTER TABLE `iz_reserveringen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `iz_succesindicatoren`
+--
+ALTER TABLE `iz_succesindicatoren`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT voor een tabel `iz_verslagen`
 --
 ALTER TABLE `iz_verslagen`
@@ -6138,17 +6534,17 @@ ALTER TABLE `landen`
 -- AUTO_INCREMENT voor een tabel `legitimaties`
 --
 ALTER TABLE `legitimaties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `locaties`
 --
 ALTER TABLE `locaties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `locatie_tijden`
 --
 ALTER TABLE `locatie_tijden`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `logs`
 --
@@ -6158,6 +6554,11 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT voor een tabel `medewerkers`
 --
 ALTER TABLE `medewerkers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `mw_documenten`
+--
+ALTER TABLE `mw_documenten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `nationaliteiten`
@@ -6283,7 +6684,7 @@ ALTER TABLE `opmerkingen`
 -- AUTO_INCREMENT voor een tabel `pfo_aard_relaties`
 --
 ALTER TABLE `pfo_aard_relaties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `pfo_clienten`
 --
@@ -6308,7 +6709,7 @@ ALTER TABLE `pfo_documenten`
 -- AUTO_INCREMENT voor een tabel `pfo_groepen`
 --
 ALTER TABLE `pfo_groepen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `pfo_verslagen`
 --
@@ -6318,7 +6719,7 @@ ALTER TABLE `pfo_verslagen`
 -- AUTO_INCREMENT voor een tabel `postcodegebieden`
 --
 ALTER TABLE `postcodegebieden`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `queue_tasks`
 --
@@ -6328,7 +6729,7 @@ ALTER TABLE `queue_tasks`
 -- AUTO_INCREMENT voor een tabel `redenen`
 --
 ALTER TABLE `redenen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `registraties`
 --
@@ -6353,7 +6754,7 @@ ALTER TABLE `trajecten`
 -- AUTO_INCREMENT voor een tabel `verblijfstatussen`
 --
 ALTER TABLE `verblijfstatussen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `verslagen`
 --
@@ -6368,22 +6769,22 @@ ALTER TABLE `verslaginfos`
 -- AUTO_INCREMENT voor een tabel `verslavingen`
 --
 ALTER TABLE `verslavingen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `verslavingsfrequenties`
 --
 ALTER TABLE `verslavingsfrequenties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `verslavingsgebruikswijzen`
 --
 ALTER TABLE `verslavingsgebruikswijzen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `verslavingsperiodes`
 --
 ALTER TABLE `verslavingsperiodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `vrijwilligers`
 --
@@ -6393,7 +6794,7 @@ ALTER TABLE `vrijwilligers`
 -- AUTO_INCREMENT voor een tabel `woonsituaties`
 --
 ALTER TABLE `woonsituaties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `zrm_reports`
 --
@@ -6403,7 +6804,7 @@ ALTER TABLE `zrm_reports`
 -- AUTO_INCREMENT voor een tabel `zrm_settings`
 --
 ALTER TABLE `zrm_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `zrm_v2_reports`
 --
@@ -6413,10 +6814,16 @@ ALTER TABLE `zrm_v2_reports`
 -- AUTO_INCREMENT voor een tabel `zrm_v2_settings`
 --
 ALTER TABLE `zrm_v2_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Beperkingen voor geëxporteerde tabellen
 --
+
+--
+-- Beperkingen voor tabel `amoc_landen`
+--
+ALTER TABLE `amoc_landen`
+  ADD CONSTRAINT `FK_2B24A60A1994904A` FOREIGN KEY (`land_id`) REFERENCES `landen` (`id`);
 
 --
 -- Beperkingen voor tabel `clip_behandelaars`
@@ -6585,6 +6992,20 @@ ALTER TABLE `dagbesteding_verslagen`
   ADD CONSTRAINT `FK_F41415953D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
 
 --
+-- Beperkingen voor tabel `ga_documenten`
+--
+ALTER TABLE `ga_documenten`
+  ADD CONSTRAINT `FK_409E56123D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
+  ADD CONSTRAINT `FK_409E561276B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `vrijwilligers` (`id`);
+
+--
+-- Beperkingen voor tabel `ga_gaklantintake_zrm`
+--
+ALTER TABLE `ga_gaklantintake_zrm`
+  ADD CONSTRAINT `FK_D68056715FA93F88` FOREIGN KEY (`gaklantintake_id`) REFERENCES `groepsactiviteiten_intakes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_D6805671C8250F57` FOREIGN KEY (`zrm_id`) REFERENCES `zrm_reports` (`id`) ON DELETE CASCADE;
+
+--
 -- Beperkingen voor tabel `groepsactiviteiten`
 --
 ALTER TABLE `groepsactiviteiten`
@@ -6610,14 +7031,15 @@ ALTER TABLE `groepsactiviteiten_groepen_vrijwilligers`
 -- Beperkingen voor tabel `groepsactiviteiten_intakes`
 --
 ALTER TABLE `groepsactiviteiten_intakes`
+  ADD CONSTRAINT `FK_843277B3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
   ADD CONSTRAINT `FK_843277B64BCC47A` FOREIGN KEY (`groepsactiviteiten_afsluiting_id`) REFERENCES `groepsactiviteiten_afsluitingen` (`id`);
 
 --
 -- Beperkingen voor tabel `groepsactiviteiten_klanten`
 --
 ALTER TABLE `groepsactiviteiten_klanten`
-  ADD CONSTRAINT `FK_560B17695BF7B988` FOREIGN KEY (`groepsactiviteit_id`) REFERENCES `groepsactiviteiten` (`id`),
-  ADD CONSTRAINT `FK_560B17693C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`);
+  ADD CONSTRAINT `FK_560B17693C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`),
+  ADD CONSTRAINT `FK_560B17695BF7B988` FOREIGN KEY (`groepsactiviteit_id`) REFERENCES `groepsactiviteiten` (`id`);
 
 --
 -- Beperkingen voor tabel `groepsactiviteiten_verslagen`
@@ -6747,8 +7169,8 @@ ALTER TABLE `hs_klus_dienstverlener`
 -- Beperkingen voor tabel `hs_klus_document`
 --
 ALTER TABLE `hs_klus_document`
-  ADD CONSTRAINT `FK_869EC9C5C33F7837` FOREIGN KEY (`document_id`) REFERENCES `hs_documenten` (`id`),
-  ADD CONSTRAINT `FK_869EC9C5BA5374AF` FOREIGN KEY (`klus_id`) REFERENCES `hs_klussen` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_869EC9C5BA5374AF` FOREIGN KEY (`klus_id`) REFERENCES `hs_klussen` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_869EC9C5C33F7837` FOREIGN KEY (`document_id`) REFERENCES `hs_documenten` (`id`);
 
 --
 -- Beperkingen voor tabel `hs_klus_memo`
@@ -6817,6 +7239,13 @@ ALTER TABLE `inloop_dossier_statussen`
   ADD CONSTRAINT `FK_12D2B570D29703A5` FOREIGN KEY (`reden_id`) REFERENCES `inloop_afsluiting_redenen` (`id`);
 
 --
+-- Beperkingen voor tabel `inloop_intake_zrm`
+--
+ALTER TABLE `inloop_intake_zrm`
+  ADD CONSTRAINT `FK_92197717733DE450` FOREIGN KEY (`intake_id`) REFERENCES `intakes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_92197717C8250F57` FOREIGN KEY (`zrm_id`) REFERENCES `zrm_reports` (`id`) ON DELETE CASCADE;
+
+--
 -- Beperkingen voor tabel `inloop_memos`
 --
 ALTER TABLE `inloop_memos`
@@ -6826,16 +7255,16 @@ ALTER TABLE `inloop_memos`
 -- Beperkingen voor tabel `inloop_vrijwilligers`
 --
 ALTER TABLE `inloop_vrijwilligers`
-  ADD CONSTRAINT `FK_56110480D8471945` FOREIGN KEY (`binnen_via_id`) REFERENCES `inloop_binnen_via` (`id`),
   ADD CONSTRAINT `FK_561104803D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
-  ADD CONSTRAINT `FK_5611048076B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `vrijwilligers` (`id`);
+  ADD CONSTRAINT `FK_5611048076B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `vrijwilligers` (`id`),
+  ADD CONSTRAINT `FK_56110480D8471945` FOREIGN KEY (`binnen_via_id`) REFERENCES `inloop_binnen_via` (`id`);
 
 --
 -- Beperkingen voor tabel `inloop_vrijwilliger_document`
 --
 ALTER TABLE `inloop_vrijwilliger_document`
-  ADD CONSTRAINT `FK_6401B15DC33F7837` FOREIGN KEY (`document_id`) REFERENCES `inloop_documenten` (`id`),
-  ADD CONSTRAINT `FK_6401B15D76B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `inloop_vrijwilligers` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_6401B15D76B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `inloop_vrijwilligers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_6401B15DC33F7837` FOREIGN KEY (`document_id`) REFERENCES `inloop_documenten` (`id`);
 
 --
 -- Beperkingen voor tabel `inloop_vrijwilliger_locatie`
@@ -6848,8 +7277,14 @@ ALTER TABLE `inloop_vrijwilliger_locatie`
 -- Beperkingen voor tabel `inloop_vrijwilliger_memo`
 --
 ALTER TABLE `inloop_vrijwilliger_memo`
-  ADD CONSTRAINT `FK_94FA9B19B4D32439` FOREIGN KEY (`memo_id`) REFERENCES `inloop_memos` (`id`),
-  ADD CONSTRAINT `FK_94FA9B1976B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `inloop_vrijwilligers` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_94FA9B1976B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `inloop_vrijwilligers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_94FA9B19B4D32439` FOREIGN KEY (`memo_id`) REFERENCES `inloop_memos` (`id`);
+
+--
+-- Beperkingen voor tabel `intakes`
+--
+ALTER TABLE `intakes`
+  ADD CONSTRAINT `FK_AB70F5AE48D0634A` FOREIGN KEY (`verblijfstatus_id`) REFERENCES `verblijfstatussen` (`id`);
 
 --
 -- Beperkingen voor tabel `iz_deelnemers`
@@ -6858,6 +7293,32 @@ ALTER TABLE `iz_deelnemers`
   ADD CONSTRAINT `FK_89B5B51C782093FC` FOREIGN KEY (`contact_ontstaan`) REFERENCES `iz_ontstaan_contacten` (`id`),
   ADD CONSTRAINT `FK_89B5B51CF0A6F57E` FOREIGN KEY (`binnengekomen_via`) REFERENCES `iz_via_personen` (`id`),
   ADD CONSTRAINT `FK_89B5B51CFBE387F6` FOREIGN KEY (`iz_afsluiting_id`) REFERENCES `iz_afsluitingen` (`id`);
+
+--
+-- Beperkingen voor tabel `iz_deelnemers_documenten`
+--
+ALTER TABLE `iz_deelnemers_documenten`
+  ADD CONSTRAINT `FK_66AE504F55B482C2` FOREIGN KEY (`izdeelnemer_id`) REFERENCES `iz_deelnemers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_66AE504FC33F7837` FOREIGN KEY (`document_id`) REFERENCES `iz_documenten` (`id`) ON DELETE CASCADE;
+
+--
+-- Beperkingen voor tabel `iz_deelnemers_iz_intervisiegroepen`
+--
+ALTER TABLE `iz_deelnemers_iz_intervisiegroepen`
+  ADD CONSTRAINT `FK_3A903EEF495B2A54` FOREIGN KEY (`iz_intervisiegroep_id`) REFERENCES `iz_intervisiegroepen` (`id`),
+  ADD CONSTRAINT `FK_3A903EEFD3124B3F` FOREIGN KEY (`iz_deelnemer_id`) REFERENCES `iz_deelnemers` (`id`);
+
+--
+-- Beperkingen voor tabel `iz_deelnemers_iz_projecten`
+--
+ALTER TABLE `iz_deelnemers_iz_projecten`
+  ADD CONSTRAINT `FK_65A512DB56CEA1A9` FOREIGN KEY (`iz_project_id`) REFERENCES `iz_projecten` (`id`);
+
+--
+-- Beperkingen voor tabel `iz_documenten`
+--
+ALTER TABLE `iz_documenten`
+  ADD CONSTRAINT `FK_C7F213503D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
 
 --
 -- Beperkingen voor tabel `iz_doelstellingen`
@@ -6874,10 +7335,44 @@ ALTER TABLE `iz_hulpaanbod_hulpvraagsoort`
   ADD CONSTRAINT `FK_D839A990B42008F3` FOREIGN KEY (`hulpaanbod_id`) REFERENCES `iz_koppelingen` (`id`) ON DELETE CASCADE;
 
 --
+-- Beperkingen voor tabel `iz_hulpvraag_succesindicatorfinancieel`
+--
+ALTER TABLE `iz_hulpvraag_succesindicatorfinancieel`
+  ADD CONSTRAINT `FK_3A3B526F3FEB2492` FOREIGN KEY (`succesindicatorfinancieel_id`) REFERENCES `iz_succesindicatoren` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_3A3B526FA8450D8C` FOREIGN KEY (`hulpvraag_id`) REFERENCES `iz_koppelingen` (`id`) ON DELETE CASCADE;
+
+--
+-- Beperkingen voor tabel `iz_hulpvraag_succesindicatorparticipatie`
+--
+ALTER TABLE `iz_hulpvraag_succesindicatorparticipatie`
+  ADD CONSTRAINT `FK_128F913865A9F272` FOREIGN KEY (`succesindicatorparticipatie_id`) REFERENCES `iz_succesindicatoren` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_128F9138A8450D8C` FOREIGN KEY (`hulpvraag_id`) REFERENCES `iz_koppelingen` (`id`) ON DELETE CASCADE;
+
+--
+-- Beperkingen voor tabel `iz_hulpvraag_succesindicatorpersoonlijk`
+--
+ALTER TABLE `iz_hulpvraag_succesindicatorpersoonlijk`
+  ADD CONSTRAINT `FK_BC9D7F44A8450D8C` FOREIGN KEY (`hulpvraag_id`) REFERENCES `iz_koppelingen` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_BC9D7F44F9892974` FOREIGN KEY (`succesindicatorpersoonlijk_id`) REFERENCES `iz_succesindicatoren` (`id`) ON DELETE CASCADE;
+
+--
 -- Beperkingen voor tabel `iz_intakes`
 --
 ALTER TABLE `iz_intakes`
   ADD CONSTRAINT `FK_11EFC53D3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
+
+--
+-- Beperkingen voor tabel `iz_intake_zrm`
+--
+ALTER TABLE `iz_intake_zrm`
+  ADD CONSTRAINT `FK_C84288B3733DE450` FOREIGN KEY (`intake_id`) REFERENCES `iz_intakes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_C84288B3C8250F57` FOREIGN KEY (`zrm_id`) REFERENCES `zrm_reports` (`id`) ON DELETE CASCADE;
+
+--
+-- Beperkingen voor tabel `iz_intervisiegroepen`
+--
+ALTER TABLE `iz_intervisiegroepen`
+  ADD CONSTRAINT `FK_86CA227E3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
 
 --
 -- Beperkingen voor tabel `iz_koppelingen`
@@ -6894,8 +7389,8 @@ ALTER TABLE `iz_koppelingen`
 -- Beperkingen voor tabel `iz_koppeling_doelgroep`
 --
 ALTER TABLE `iz_koppeling_doelgroep`
-  ADD CONSTRAINT `FK_8E6CE05DE5A2DFCE` FOREIGN KEY (`doelgroep_id`) REFERENCES `iz_doelgroepen` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_8E6CE05D5C6E6B2` FOREIGN KEY (`koppeling_id`) REFERENCES `iz_koppelingen` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_8E6CE05D5C6E6B2` FOREIGN KEY (`koppeling_id`) REFERENCES `iz_koppelingen` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_8E6CE05DE5A2DFCE` FOREIGN KEY (`doelgroep_id`) REFERENCES `iz_doelgroepen` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `iz_matchingklant_doelgroep`
@@ -6932,13 +7427,36 @@ ALTER TABLE `iz_matching_vrijwilligers`
   ADD CONSTRAINT `FK_1CA45FA7C99F99BF` FOREIGN KEY (`iz_vrijwilliger_id`) REFERENCES `iz_deelnemers` (`id`);
 
 --
+-- Beperkingen voor tabel `iz_reserveringen`
+--
+ALTER TABLE `iz_reserveringen`
+  ADD CONSTRAINT `FK_B9D71E143D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
+  ADD CONSTRAINT `FK_B9D71E14A8450D8C` FOREIGN KEY (`hulpvraag_id`) REFERENCES `iz_koppelingen` (`id`),
+  ADD CONSTRAINT `FK_B9D71E14B42008F3` FOREIGN KEY (`hulpaanbod_id`) REFERENCES `iz_koppelingen` (`id`);
+
+--
+-- Beperkingen voor tabel `iz_verslagen`
+--
+ALTER TABLE `iz_verslagen`
+  ADD CONSTRAINT `FK_570FE99B3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
+
+--
 -- Beperkingen voor tabel `klanten`
 --
 ALTER TABLE `klanten`
-  ADD CONSTRAINT `FK_F538C5BC8B2671BD` FOREIGN KEY (`huidigeStatus_id`) REFERENCES `inloop_dossier_statussen` (`id`),
   ADD CONSTRAINT `FK_F538C5BC1C729A47` FOREIGN KEY (`geslacht_id`) REFERENCES `geslachten` (`id`),
   ADD CONSTRAINT `FK_F538C5BC1D103C3F` FOREIGN KEY (`laste_intake_id`) REFERENCES `intakes` (`id`),
-  ADD CONSTRAINT `FK_F538C5BCCECBFEB7` FOREIGN KEY (`nationaliteit_id`) REFERENCES `nationaliteiten` (`id`);
+  ADD CONSTRAINT `FK_F538C5BC46708ED5` FOREIGN KEY (`werkgebied`) REFERENCES `werkgebieden` (`naam`),
+  ADD CONSTRAINT `FK_F538C5BC8B2671BD` FOREIGN KEY (`huidigeStatus_id`) REFERENCES `inloop_dossier_statussen` (`id`),
+  ADD CONSTRAINT `FK_F538C5BCCECBFEB7` FOREIGN KEY (`nationaliteit_id`) REFERENCES `nationaliteiten` (`id`),
+  ADD CONSTRAINT `FK_F538C5BCFB02B9C2` FOREIGN KEY (`postcodegebied`) REFERENCES `ggw_gebieden` (`naam`);
+
+--
+-- Beperkingen voor tabel `mw_documenten`
+--
+ALTER TABLE `mw_documenten`
+  ADD CONSTRAINT `FK_99E478283C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`),
+  ADD CONSTRAINT `FK_99E478283D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
 
 --
 -- Beperkingen voor tabel `odp_coordinatoren`
@@ -7116,23 +7634,23 @@ ALTER TABLE `oek_vrijwilligers`
 -- Beperkingen voor tabel `oek_vrijwilliger_document`
 --
 ALTER TABLE `oek_vrijwilliger_document`
-  ADD CONSTRAINT `FK_725F2FCAC33F7837` FOREIGN KEY (`document_id`) REFERENCES `oek_documenten` (`id`),
-  ADD CONSTRAINT `FK_725F2FCA76B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `oek_vrijwilligers` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_725F2FCA76B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `oek_vrijwilligers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_725F2FCAC33F7837` FOREIGN KEY (`document_id`) REFERENCES `oek_documenten` (`id`);
 
 --
 -- Beperkingen voor tabel `oek_vrijwilliger_memo`
 --
 ALTER TABLE `oek_vrijwilliger_memo`
-  ADD CONSTRAINT `FK_5ED2E90CB4D32439` FOREIGN KEY (`memo_id`) REFERENCES `oek_memos` (`id`),
-  ADD CONSTRAINT `FK_5ED2E90C76B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `oek_vrijwilligers` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_5ED2E90C76B43BDC` FOREIGN KEY (`vrijwilliger_id`) REFERENCES `oek_vrijwilligers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_5ED2E90CB4D32439` FOREIGN KEY (`memo_id`) REFERENCES `oek_memos` (`id`);
 
 --
 -- Beperkingen voor tabel `pfo_clienten`
 --
 ALTER TABLE `pfo_clienten`
-  ADD CONSTRAINT `FK_3C237EDD3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
   ADD CONSTRAINT `FK_3C237EDD1C729A47` FOREIGN KEY (`geslacht_id`) REFERENCES `geslachten` (`id`),
   ADD CONSTRAINT `FK_3C237EDD27025694` FOREIGN KEY (`groep`) REFERENCES `pfo_groepen` (`id`),
+  ADD CONSTRAINT `FK_3C237EDD3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
   ADD CONSTRAINT `FK_3C237EDDC41BE3` FOREIGN KEY (`aard_relatie`) REFERENCES `pfo_aard_relaties` (`id`);
 
 --
@@ -7146,15 +7664,15 @@ ALTER TABLE `pfo_clienten_documenten`
 -- Beperkingen voor tabel `pfo_clienten_supportgroups`
 --
 ALTER TABLE `pfo_clienten_supportgroups`
-  ADD CONSTRAINT `FK_73EA8C843926A77` FOREIGN KEY (`pfo_supportgroup_client_id`) REFERENCES `pfo_clienten` (`id`),
-  ADD CONSTRAINT `FK_39F077D963E315A` FOREIGN KEY (`pfo_client_id`) REFERENCES `pfo_clienten` (`id`);
+  ADD CONSTRAINT `FK_39F077D963E315A` FOREIGN KEY (`pfo_client_id`) REFERENCES `pfo_clienten` (`id`),
+  ADD CONSTRAINT `FK_73EA8C843926A77` FOREIGN KEY (`pfo_supportgroup_client_id`) REFERENCES `pfo_clienten` (`id`);
 
 --
 -- Beperkingen voor tabel `pfo_clienten_verslagen`
 --
 ALTER TABLE `pfo_clienten_verslagen`
-  ADD CONSTRAINT `FK_EC92AD4163E315A` FOREIGN KEY (`pfo_client_id`) REFERENCES `pfo_clienten` (`id`),
-  ADD CONSTRAINT `FK_EC92AD411E813AB1` FOREIGN KEY (`pfo_verslag_id`) REFERENCES `pfo_verslagen` (`id`);
+  ADD CONSTRAINT `FK_EC92AD411E813AB1` FOREIGN KEY (`pfo_verslag_id`) REFERENCES `pfo_verslagen` (`id`),
+  ADD CONSTRAINT `FK_EC92AD4163E315A` FOREIGN KEY (`pfo_client_id`) REFERENCES `pfo_clienten` (`id`);
 
 --
 -- Beperkingen voor tabel `pfo_documenten`
@@ -7186,21 +7704,29 @@ ALTER TABLE `registraties`
 -- Beperkingen voor tabel `schorsingen`
 --
 ALTER TABLE `schorsingen`
-  ADD CONSTRAINT `FK_9E658EBF3C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`);
+  ADD CONSTRAINT `FK_9E658EBF3C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`),
+  ADD CONSTRAINT `FK_9E658EBF4947630C` FOREIGN KEY (`locatie_id`) REFERENCES `locaties` (`id`);
+
+--
+-- Beperkingen voor tabel `schorsingen_redenen`
+--
+ALTER TABLE `schorsingen_redenen`
+  ADD CONSTRAINT `FK_BB99D0FFA52077DE` FOREIGN KEY (`schorsing_id`) REFERENCES `schorsingen` (`id`),
+  ADD CONSTRAINT `FK_BB99D0FFD29703A5` FOREIGN KEY (`reden_id`) REFERENCES `redenen` (`id`);
 
 --
 -- Beperkingen voor tabel `schorsing_locatie`
 --
 ALTER TABLE `schorsing_locatie`
-  ADD CONSTRAINT `FK_52DA67664947630C` FOREIGN KEY (`locatie_id`) REFERENCES `locaties` (`id`),
-  ADD CONSTRAINT `FK_52DA6766A52077DE` FOREIGN KEY (`schorsing_id`) REFERENCES `schorsingen` (`id`);
+  ADD CONSTRAINT `FK_52DA67664947630C` FOREIGN KEY (`locatie_id`) REFERENCES `locaties` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_52DA6766A52077DE` FOREIGN KEY (`schorsing_id`) REFERENCES `schorsingen` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `verslagen`
 --
 ALTER TABLE `verslagen`
-  ADD CONSTRAINT `FK_2BBABA713D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
-  ADD CONSTRAINT `FK_2BBABA713C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`);
+  ADD CONSTRAINT `FK_2BBABA713C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`),
+  ADD CONSTRAINT `FK_2BBABA713D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`);
 
 --
 -- Beperkingen voor tabel `vrijwilligers`
@@ -7209,7 +7735,9 @@ ALTER TABLE `vrijwilligers`
   ADD CONSTRAINT `FK_F0C4D2371994904A` FOREIGN KEY (`land_id`) REFERENCES `landen` (`id`),
   ADD CONSTRAINT `FK_F0C4D2371C729A47` FOREIGN KEY (`geslacht_id`) REFERENCES `geslachten` (`id`),
   ADD CONSTRAINT `FK_F0C4D2373D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`),
-  ADD CONSTRAINT `FK_F0C4D237CECBFEB7` FOREIGN KEY (`nationaliteit_id`) REFERENCES `nationaliteiten` (`id`);
+  ADD CONSTRAINT `FK_F0C4D23746708ED5` FOREIGN KEY (`werkgebied`) REFERENCES `werkgebieden` (`naam`),
+  ADD CONSTRAINT `FK_F0C4D237CECBFEB7` FOREIGN KEY (`nationaliteit_id`) REFERENCES `nationaliteiten` (`id`),
+  ADD CONSTRAINT `FK_F0C4D237FB02B9C2` FOREIGN KEY (`postcodegebied`) REFERENCES `ggw_gebieden` (`naam`);
 
 --
 -- Beperkingen voor tabel `zrm_reports`
@@ -7222,7 +7750,3 @@ ALTER TABLE `zrm_reports`
 --
 ALTER TABLE `zrm_v2_reports`
   ADD CONSTRAINT `FK_751519083C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

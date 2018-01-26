@@ -1,0 +1,73 @@
+<?php
+
+namespace Tests\GaBundle\Controller;
+
+use AppBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+
+class KlantenControllerTest extends WebTestCase
+{
+    public function testIndex()
+    {
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $this->logIn($medewerker);
+
+        $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
+        $this->assertStatusCode(200, $this->client);
+        $rows = $crawler->filter('table.table tbody tr');
+        $this->assertEquals(15, $rows->count());
+    }
+
+    public function testSort()
+    {
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $this->logIn($medewerker);
+
+        $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
+        $this->assertStatusCode(200, $this->client);
+        $headers = $crawler->filter('table.table tr th a');
+        $this->assertGreaterThan(0, $headers->count());
+
+        $headers->each(function ($header) {
+            // @see https://github.com/KnpLabs/knp-components/issues/160
+            $request = Request::create($header->link()->getUri());
+            $_GET = $request->query->all();
+
+            $this->client->click($header->link());
+            $this->assertStatusCode(200, $this->client);
+            $_GET = [];
+        });
+    }
+
+    public function testFilter()
+    {
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $this->logIn($medewerker);
+
+        $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
+        $this->assertStatusCode(200, $this->client);
+        $form = $crawler->selectButton('klant_filter[filter]')->form([
+            'klant_filter[klant][naam]' => 'ee',
+        ]);
+
+        $crawler = $this->client->submit($form);
+        $rows = $crawler->filter('table.table tbody tr');
+        $this->assertEquals(2, $rows->count());
+    }
+
+    public function testAddFilter()
+    {
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $this->logIn($medewerker);
+
+        $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_add'));
+        $this->assertStatusCode(200, $this->client);
+        $form = $crawler->selectButton('klant_filter[filter]')->form([
+            'klant_filter[naam]' => 'ee',
+        ]);
+
+        $crawler = $this->client->submit($form);
+        $rows = $crawler->filter('table.table tbody tr');
+        $this->assertEquals(11, $rows->count());
+    }
+}

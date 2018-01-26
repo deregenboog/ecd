@@ -9,6 +9,36 @@
     </p>
     <table class="table table-hover">
         <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th>
+                        {{ form_widget(filter.naam) }}
+                        {{ form_errors(filter.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.werkgebied) }}
+                        {{ form_errors(filter.werkgebied) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.startdatum.start) }}
+                        {{ form_errors(filter.startdatum.start) }}
+                        {{ form_widget(filter.startdatum.end) }}
+                        {{ form_errors(filter.startdatum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.einddatum.start) }}
+                        {{ form_errors(filter.einddatum.start) }}
+                        {{ form_widget(filter.einddatum.end) }}
+                        {{ form_errors(filter.einddatum.end) }}
+                    </th>
+                    <th colspan="3">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
             <tr>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Naam', 'groep.naam') }}
@@ -22,11 +52,13 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Einddatum', 'groep.einddatum') }}
                 </th>
+                <th>Aantal activiteiten</th>
+                <th>Aantal leden</th>
             </tr>
         </thead>
         <tbody>
             {% for groep in pagination %}
-                <tr data-href="{{ path(route_base~'view', {id: groep.id}) }}" class="{{ (groep.einddatum and groep.einddatum <= today) ? 'danger' }}">
+                <tr data-href="{{ path(route_base~'view', {id: groep.id}) }}" class="{{ groep.afgesloten ? 'danger' }}">
                     <td>
                         {{ groep }}
                     </td>
@@ -38,6 +70,12 @@
                     </td>
                     <td>
                         {{ groep.einddatum ? groep.einddatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ groep.activiteiten|length }}
+                    </td>
+                    <td>
+                        {{ groep.actieveLidmaatschappen|length }}
                     </td>
                 </tr>
             {% endfor %}

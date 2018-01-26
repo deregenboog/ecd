@@ -15,10 +15,10 @@ use OekBundle\Form\AfsluitingType;
 use OekBundle\Form\DeelnemerFilterType;
 use OekBundle\Form\DeelnemerType;
 use OekBundle\Service\DeelnemerDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/deelnemers")

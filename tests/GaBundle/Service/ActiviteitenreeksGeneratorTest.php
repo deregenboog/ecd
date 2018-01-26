@@ -16,6 +16,7 @@ class ActiviteitenreeksGeneratorTest extends TestCase
         $activiteit->setNaam('Activiteit xyz');
         $data = new ActiviteitenReeksModel($activiteit);
         $data
+            ->setTijd(\DateTime::createFromFormat('H:i', '20:15'))
             ->setPeriode(new AppDateRangeModel(new \DateTime('2018-01-01'), new \DateTime('2018-12-31')))
             ->setFrequentie(4)
             ->setWeekdag('Thursday');
@@ -49,6 +50,7 @@ class ActiviteitenreeksGeneratorTest extends TestCase
         $activiteit = new Activiteit();
         $data = new ActiviteitenReeksModel($activiteit);
         $data
+            ->setTijd(\DateTime::createFromFormat('H:i', '20:15'))
             ->setPeriode(new AppDateRangeModel(new \DateTime('2018-01-01'), new \DateTime('2018-12-31')))
             ->setFrequentie(4)
             ->setWeekdag('Thursday');
@@ -56,18 +58,18 @@ class ActiviteitenreeksGeneratorTest extends TestCase
         $activiteiten = ActiviteitenreeksGenerator::generate($data);
 
         $expected = [
-            new \DateTime('2018-01-25'),
-            new \DateTime('2018-02-22'),
-            new \DateTime('2018-03-22'),
-            new \DateTime('2018-04-26'),
-            new \DateTime('2018-05-24'),
-            new \DateTime('2018-06-28'),
-            new \DateTime('2018-07-26'),
-            new \DateTime('2018-08-23'),
-            new \DateTime('2018-09-27'),
-            new \DateTime('2018-10-25'),
-            new \DateTime('2018-11-22'),
-            new \DateTime('2018-12-27'),
+            new \DateTime('2018-01-25 20:15'),
+            new \DateTime('2018-02-22 20:15'),
+            new \DateTime('2018-03-22 20:15'),
+            new \DateTime('2018-04-26 20:15'),
+            new \DateTime('2018-05-24 20:15'),
+            new \DateTime('2018-06-28 20:15'),
+            new \DateTime('2018-07-26 20:15'),
+            new \DateTime('2018-08-23 20:15'),
+            new \DateTime('2018-09-27 20:15'),
+            new \DateTime('2018-10-25 20:15'),
+            new \DateTime('2018-11-22 20:15'),
+            new \DateTime('2018-12-27 20:15'),
         ];
 
         $actual = array_map(function ($activiteit) {
@@ -86,8 +88,8 @@ class ActiviteitenreeksGeneratorTest extends TestCase
         }, $activiteiten);
 
         $this->assertCount(53, $actual);
-        $this->assertEquals(new \DateTime('2018-01-01'), array_shift($actual));
-        $this->assertEquals(new \DateTime('2018-12-31'), array_pop($actual));
+        $this->assertEquals(new \DateTime('2018-01-01 20:15'), array_shift($actual));
+        $this->assertEquals(new \DateTime('2018-12-31 20:15'), array_pop($actual));
 
         $data
             ->setFrequentie(0)
@@ -99,8 +101,47 @@ class ActiviteitenreeksGeneratorTest extends TestCase
         }, $activiteiten);
 
         $this->assertCount(52, $actual);
-        $this->assertEquals(new \DateTime('2018-01-02'), array_shift($actual));
-        $this->assertEquals(new \DateTime('2018-12-25'), array_pop($actual));
+        $this->assertEquals(new \DateTime('2018-01-02 20:15'), array_shift($actual));
+        $this->assertEquals(new \DateTime('2018-12-25 20:15'), array_pop($actual));
+
+        $data
+            ->setPeriode(new AppDateRangeModel(new \DateTime('2018-01-01'), new \DateTime('2018-12-31')))
+            ->setFrequentie(5)
+            ->setWeekdag('Tuesday');
+
+        $activiteiten = ActiviteitenreeksGenerator::generate($data);
+
+        $expected = [
+            new \DateTime('2018-01-30 20:15'),
+            new \DateTime('2018-05-29 20:15'),
+            new \DateTime('2018-07-31 20:15'),
+            new \DateTime('2018-10-30 20:15'),
+        ];
+
+        $actual = array_map(function ($activiteit) {
+            return $activiteit->getDatum();
+        }, $activiteiten);
+
+        $this->assertEquals($expected, $actual);
+
+        $data
+            ->setPeriode(new AppDateRangeModel(new \DateTime('2018-01-01'), new \DateTime('2018-10-29')))
+            ->setFrequentie(5)
+            ->setWeekdag('Tuesday');
+
+        $activiteiten = ActiviteitenreeksGenerator::generate($data);
+
+        $expected = [
+            new \DateTime('2018-01-30 20:15'),
+            new \DateTime('2018-05-29 20:15'),
+            new \DateTime('2018-07-31 20:15'),
+        ];
+
+        $actual = array_map(function ($activiteit) {
+            return $activiteit->getDatum();
+        }, $activiteiten);
+
+        $this->assertEquals($expected, $actual);
     }
 
     public function testGeneratorGeneratesNothingWhenNothingInDateRange()
@@ -108,6 +149,7 @@ class ActiviteitenreeksGeneratorTest extends TestCase
         $activiteit = new Activiteit();
         $data = new ActiviteitenReeksModel($activiteit);
         $data
+            ->setTijd(\DateTime::createFromFormat('H:i', '20:15'))
             ->setPeriode(new AppDateRangeModel(new \DateTime('2018-02-20'), new \DateTime('2018-02-19')))
             ->setFrequentie(0)
             ->setWeekdag('Monday');

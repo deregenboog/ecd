@@ -32,6 +32,7 @@ class ZrmSubscriber implements EventSubscriber
     public function setMetadata(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
+        $zrms = [];
 
         if ($entity instanceof ZrmInterface) {
             /** @var $zrm Zrm */
@@ -40,13 +41,11 @@ class ZrmSubscriber implements EventSubscriber
             $zrms = $entity->getZrms();
         }
 
-        if (isset($zrms)) {
-            /** @var $zrm Zrm */
-            foreach ($zrms as $zrm) {
-                if (false === ($zrm->getModel() && $zrm->getForeignKey())) {
-                    $zrm->setModel(get_class($entity))->setForeignKey($entity->getId());
-                    $args->getEntityManager()->flush($zrm);
-                }
+        /* @var $zrm Zrm */
+        foreach (array_filter($zrms) as $zrm) {
+            if (false === ($zrm->getModel() && $zrm->getForeignKey())) {
+                $zrm->setModel(get_class($entity))->setForeignKey($entity->getId());
+                $args->getEntityManager()->flush($zrm);
             }
         }
     }

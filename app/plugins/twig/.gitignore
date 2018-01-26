@@ -1,7 +1,0 @@
-.DS_Store
-
-vendors/twig
-vendors/composer
-vendors/autoload.php
-
-!empty

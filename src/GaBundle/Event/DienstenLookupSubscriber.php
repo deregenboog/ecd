@@ -5,7 +5,7 @@ namespace GaBundle\Event;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
-use GaBundle\Entity\KlantIntake;
+use GaBundle\Entity\Klantdossier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -37,15 +37,15 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        $intake = $this->entityManager->getRepository(KlantIntake::class)
+        $dossier = $this->entityManager->getRepository(Klantdossier::class)
             ->findOneBy(['klant' => $klant]);
 
-        if ($intake instanceof KlantIntake) {
+        if ($dossier instanceof Klantdossier) {
             $event->addDienst([
                 'name' => 'Groepsactiviteiten',
-                'url' => $this->generator->generate('ga_klantintakes_view', ['id' => $intake->getId()]),
-                'from' => $intake->getIntakedatum() ? $intake->getIntakedatum()->format('d-m-Y') : null,
-                'to' => $intake->getAfsluitdatum() ? $intake->getAfsluitdatum()->format('d-m-Y') : null,
+                'url' => $this->generator->generate('ga_klantdossiers_view', ['id' => $dossier->getId()]),
+                'from' => $dossier->getAanmelddatum()->format('d-m-Y'),
+                'to' => $dossier->getAfsluitdatum() ? $dossier->getAfsluitdatum()->format('d-m-Y') : null,
                 'type' => 'date',
                 'value' => '',
             ]);

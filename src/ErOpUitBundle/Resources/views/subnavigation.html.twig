@@ -7,4 +7,14 @@
 <ul class="nav nav-tabs">
     {{ html.navLink('Klanten', path('eropuit_klanten_index'), isActiveRoute('eropuit_klanten_')) }}
     {{ html.navLink('Vrijwilligers', path('eropuit_vrijwilligers_index'), isActiveRoute('eropuit_vrijwilligers_')) }}
+    {% if is_granted('ROLE_EROPUIT_BEHEER') %}
+        <li role="presentation" class="dropdown {{ isActivePath('eropuit/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Uitschrijfredenen', path('eropuit_uitschrijfredenen_index'), isActiveRoute('eropuit_uitschrijfredenen_')) }}
+            </ul>
+        </li>
+    {% endif %}
 </ul>

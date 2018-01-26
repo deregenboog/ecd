@@ -8,9 +8,9 @@ use Doctrine\ORM\EntityRepository;
 abstract class AbstractReport extends BaseAbstractReport
 {
     /**
-     * EntityRepository.
+     * @var EntityRepository[]
      */
-    protected $repository;
+    protected $repositories;
 
     /**
      * @var \DateTime
@@ -38,9 +38,9 @@ abstract class AbstractReport extends BaseAbstractReport
 
     protected $yDescription;
 
-    public function __construct(EntityRepository $repository)
+    public function __construct($repositories)
     {
-        $this->repository = $repository;
+        $this->repositories = $repositories;
     }
 
     public function getTitle()

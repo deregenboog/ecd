@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Er op uit | Vrijwilligers
+    ErOpUit-kalender | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content_top %}
-    <h1>Vrijwilliger {{ entity }}</h1>
+    <h1>{{ title }} {{ entity }}</h1>
 {% endblock %}
 
 {% block content_left %}
@@ -21,10 +21,13 @@
     <h2>ErOpUit-kalender</h2>
     <p>
         {% if entity.uitschrijfdatum %}
-            {{ html.link('Lidmaatschap activeren', path('ga_vrijwilligerlidmaatschappen_reopen', {id: entity.id}), 'open') }}
+            <p class="alert alert-warning">
+                Deze {{ entity_name }} is uitgeschreven.
+            </p>
+            {{ html.link('Inschrijven', path(route_base~'reopen', {id: entity.id}), 'open') }}
         {% else %}
-            {{ html.link('Lidmaatschap wijzigen', path('ga_vrijwilligerlidmaatschappen_edit', {id: entity.id}), 'edit') }}
-            {{ html.link('Lidmaatschap beëindigen', path('ga_vrijwilligerlidmaatschappen_close', {id: entity.id}), 'close') }}
+            {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+            {{ html.link('Uitschrijven', path(route_base~'close', {id: entity.id}), 'close') }}
         {% endif %}
     </p>
     <dl class="dl-horizontal">

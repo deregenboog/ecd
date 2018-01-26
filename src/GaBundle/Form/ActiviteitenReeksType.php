@@ -3,6 +3,7 @@
 namespace GaBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,6 +24,7 @@ class ActiviteitenReeksType extends AbstractType
             ->add($builder->create('activiteit', ActiviteitType::class, [
                 'data' => $activiteit,
             ])->remove('datum'))
+            ->add('tijd', AppTimeType::class)
             ->add('periode', AppDateRangeType::class, [
             ])
             ->add('frequentie', ChoiceType::class, [
@@ -33,6 +35,7 @@ class ActiviteitenReeksType extends AbstractType
                     '2e' => 2,
                     '3e' => 3,
                     '4e' => 4,
+                    '5e' => 5,
                 ],
             ])
             ->add('weekdag', ChoiceType::class, [

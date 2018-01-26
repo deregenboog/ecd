@@ -1,6 +1,0 @@
-GaBundle\Entity\KlantIntake:
-    ga_klant_intake_{1..50}:
-        klant: '@klant_*'
-        medewerker: '@medewerker_*'
-        intakedatum: '<dateTimeThisDecade()>'
-        afsluitdatum: '50%? <dateTimeThisDecade()>'

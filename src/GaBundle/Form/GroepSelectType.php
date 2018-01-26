@@ -17,45 +17,21 @@ class GroepSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'klant' => null,
-            'vrijwilliger' => null,
             'placeholder' => '',
             'required' => true,
+            'dossier' => null,
             'class' => Groep::class,
             'query_builder' => function (Options $options) {
                 return function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('groep')->orderBy('groep.naam')
-                        ->where('groep.einddatum IS NULL');
+                    $builder = $repository->createQueryBuilder('groep')
+                        ->orderBy('groep.naam');
 
-                    if ($options['klant']) {
-                        // get groups already member of...
-                        $klantGroepen = $options['em']->getRepository(Groep::class)
-                            ->createQueryBuilder('groep')
-                            ->innerJoin('groep.klantlidmaatschappen', 'lidmaatschap')
-                            ->innerJoin('lidmaatschap.klant', 'klant', 'WITH', 'klant = :klant')
-                            ->setParameter('klant', $options['klant'])
-                            ->getQuery()
-                            ->getResult();
-
-                        // ...and exclude them from choices
-                        if (count($klantGroepen)) {
-                            $builder->andWhere('groep NOT IN (:klantGroepen)')->setParameter('klantGroepen', $klantGroepen);
-                        }
-                    }
-
-                    if ($options['vrijwilliger']) {
-                        // get groups already member of...
-                        $vrijwilligerGroepen = $options['em']->getRepository(Groep::class)
-                            ->createQueryBuilder('groep')
-                            ->innerJoin('groep.vrijwilligerlidmaatschappen', 'lidmaatschap')
-                            ->innerJoin('lidmaatschap.vrijwilliger', 'vrijwilliger', 'WITH', 'vrijwilliger = :vrijwilliger')
-                            ->setParameter('vrijwilliger', $options['vrijwilliger'])
-                            ->getQuery()
-                            ->getResult();
-
-                        // ...and exclude them from choices
-                        if (count($vrijwilligerGroepen)) {
-                            $builder->andWhere('groep NOT IN (:vrijwilligerGroepen)')->setParameter('vrijwilligerGroepen', $vrijwilligerGroepen);
+                    if (isset($options['dossier']) && count($options['dossier']) > 0) {
+                        $groepen = array_filter(array_map(function ($lidmaatschap) {
+                            return $lidmaatschap->getGroep();
+                        }, $options['dossier']->getLidmaatschappen()->toArray()));
+                        if (count($groepen)) {
+                            $builder->andWhere('groep NOT IN (:groepen)')->setParameter(':groepen', $groepen);
                         }
                     }
 

@@ -3,15 +3,13 @@
 namespace GaBundle\Form;
 
 use AppBundle\Form\EmailMessageType as AppEmailMessageType;
-use GaBundle\Entity\Deelnemer;
+use GaBundle\Entity\Klantdossier;
+use GaBundle\Entity\Vrijwilligerdossier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use GaBundle\Entity\Intake;
-use GaBundle\Entity\KlantIntake;
-use GaBundle\Entity\VrijwilligerIntake;
 
 class EmailMessageType extends AbstractType
 {
@@ -22,11 +20,11 @@ class EmailMessageType extends AbstractType
     {
         $emails = [];
         if (isset($options['to'])) {
-            foreach ($options['to'] as $intake) {
-                if ($intake instanceof KlantIntake) {
-                    $emails[] = $intake->getKlant()->getEmail();
-                } elseif ($intake instanceof VrijwilligerIntake) {
-                    $emails[] = $intake->getVrijwilliger()->getEmail();
+            foreach ($options['to'] as $dossier) {
+                if ($dossier instanceof Klantdossier) {
+                    $emails[] = $dossier->getKlant()->getEmail();
+                } elseif ($dossier instanceof Vrijwilligerdossier) {
+                    $emails[] = $dossier->getVrijwilliger()->getEmail();
                 }
             }
         }

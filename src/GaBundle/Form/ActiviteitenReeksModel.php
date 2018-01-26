@@ -13,6 +13,11 @@ class ActiviteitenReeksModel
     private $activiteit;
 
     /**
+     * @var \DateTime
+     */
+    private $tijd;
+
+    /**
      * @var AppDateRangeModel
      */
     private $periode;
@@ -40,6 +45,24 @@ class ActiviteitenReeksModel
     public function setActiviteit(Activiteit $activiteit)
     {
         $this->activiteit = $activiteit;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTijd()
+    {
+        return $this->tijd;
+    }
+
+    /**
+     * @param \DateTime $tijd
+     */
+    public function setTijd(\DateTime $tijd)
+    {
+        $this->tijd = $tijd;
 
         return $this;
     }
@@ -75,6 +98,10 @@ class ActiviteitenReeksModel
      */
     public function setFrequentie($frequentie)
     {
+        if ($frequentie < 0 || $frequentie > 5) {
+            throw new \InvalidArgumentException('Frequency must be an integer between 0 and 5');
+        }
+
         $this->frequentie = $frequentie;
 
         return $this;

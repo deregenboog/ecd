@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Groepsactiviteiten | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Ga/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+
+    {% if 'klant_filter' == form.vars.name %}
+        {% if klanten is not defined %}
+            <p>Zoek een bestaande {{ entity_name }} op nummer, naam, BSN of geboortedatum.</p>
+            {{ form(form) }}
+        {% else %}
+            <p>
+                Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+                "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+            </p>
+            <p>
+                {{ html.link('Nieuwe '~entity_name, path(route_base~'add', {klant: 'new'}), 'plus') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nummer</th>
+                        <th>Naam</th>
+                        <th>BSN</th>
+                        <th>Geboortedatum</th>
+                    </tr>
+                </thead>
+                {% for entity in klanten %}
+                    <tr data-href="{{ path(route_base~'add', {klant: entity.id}) }}">
+                        <td>{{ entity.id }}</td>
+                        <td>{{ entity }}</td>
+                        <td>{{ entity.bsn }}</td>
+                        <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+
+    {% if 'klantdossier' == form.vars.name %}
+        {{ form(form) }}
+    {% endif %}
+{% endblock %}

@@ -2,9 +2,13 @@
 
 namespace GaBundle\Filter;
 
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
+use GaBundle\Entity\Groep;
+use GaBundle\Entity\Klantdossier;
+use GaBundle\Entity\Vrijwilligerdossier;
 
 class SelectieFilter implements FilterInterface
 {
@@ -14,7 +18,7 @@ class SelectieFilter implements FilterInterface
     public $groepen;
 
     /**
-     * @var array
+     * @var ArrayCollection|Werkgebied[]
      */
     public $stadsdelen;
 
@@ -30,20 +34,22 @@ class SelectieFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-        if (in_array('klant', $builder->getAllAliases())) {
-            $entity = 'klant';
-        } elseif (in_array('vrijwilliger', $builder->getAllAliases())) {
-            $entity = 'vrijwilliger';
+        switch ($builder->getDQLPart('from')[0]->getFrom()) {
+            case Klantdossier::class:
+                $builder->innerJoin('dossier.klant', 'base');
+                break;
+            case Vrijwilligerdossier::class:
+                $builder->innerJoin('dossier.vrijwilliger', 'base');
+                break;
+            default:
+                throw new \LogicException('This should not be reached!');
         }
 
-        $classLidmaatschap = sprintf('GaBundle\Entity\%sLidmaatschap', ucfirst($entity));
         $builder
-//             ->addSelect('MIN(lidmaatschap.startdatum) AS startdatum')
-            ->innerJoin($classLidmaatschap, 'lidmaatschap', 'WITH', "lidmaatschap.{$entity} = {$entity}")
-            ->innerJoin('lidmaatschap.groep', 'groep')
-            ->andWhere('lidmaatschap.startdatum <= :today')
-            ->andWhere('lidmaatschap.einddatum IS NULL OR lidmaatschap.einddatum > :today')
-            ->groupBy("{$entity}.id")
+            ->andWhere('lidmaatschap.id IS NOT NULL')
+            ->andWhere('DATE(lidmaatschap.startdatum) <= :today')
+            ->andWhere('lidmaatschap.einddatum IS NULL OR DATE(lidmaatschap.einddatum) > :today')
+            ->groupBy('dossier.id')
             ->setParameter('today', new \DateTime('today'))
         ;
 
@@ -56,17 +62,19 @@ class SelectieFilter implements FilterInterface
 
         if ($this->stadsdelen && count($this->stadsdelen)) {
             $builder
-                ->andWhere("{$entity}.werkgebied IN (:stadsdelen)")
+                ->andWhere('base.werkgebied IN (:stadsdelen)')
                 ->setParameter('stadsdelen', $this->stadsdelen)
             ;
         }
 
         if (in_array('post', $this->communicatie)) {
-            $builder->andWhere("{$entity}.geenPost = false OR {$entity}.geenPost IS NULL");
+            $builder->andWhere('base.geenPost = false OR base.geenPost IS NULL');
         }
 
         if (in_array('email', $this->communicatie)) {
-            $builder->andWhere("{$entity}.geenEmail = false OR {$entity}.geenEmail IS NULL");
+            $builder
+                ->andWhere('base.email IS NOT NULL')
+                ->andWhere('base.geenEmail = false OR base.geenEmail IS NULL');
         }
     }
 }

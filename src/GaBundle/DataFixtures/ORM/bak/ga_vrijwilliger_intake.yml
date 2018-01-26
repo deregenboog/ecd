@@ -1,6 +1,0 @@
-GaBundle\Entity\GaVrijwilligerIntake:
-    ga_vrijwilliger_intake_{1..50}:
-        vrijwilliger: '@vrijwilliger_*'
-        medewerker: '@medewerker_*'
-        intakedatum: '<dateTimeThisDecade()>'
-        afsluitdatum: '50%? <dateTimeThisDecade()>'

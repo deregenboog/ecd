@@ -5,11 +5,11 @@ namespace OekBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Service\NameFormatter;
-use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity(repositoryClass="OekBundle\Repository\DeelnemerRepository")

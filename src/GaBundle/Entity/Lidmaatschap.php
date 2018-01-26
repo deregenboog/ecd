@@ -8,13 +8,32 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * @ORM\Entity
+ * @ORM\Table(name="ga_lidmaatschappen")
  * @ORM\HasLifecycleCallbacks
- * @ORM\MappedSuperclass
  * @Gedmo\Loggable
  */
-abstract class Lidmaatschap
+class Lidmaatschap
 {
     use IdentifiableTrait, TimestampableTrait;
+
+    /**
+     * @var Groep
+     *
+     * @ORM\ManyToOne(targetEntity="Groep", inversedBy="lidmaatschappen")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $groep;
+
+    /**
+     * @var Dossier
+     *
+     * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="lidmaatschappen")
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $dossier;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -36,27 +55,28 @@ abstract class Lidmaatschap
     protected $afsluitreden;
 
     /**
-     * @ORM\Column(name="communicatie_email", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $communicatieEmail = true;
 
     /**
-     * @ORM\Column(name="communicatie_telefoon", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $communicatieTelefoon = true;
 
     /**
-     * @ORM\Column(name="communicatie_post", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $communicatiePost = true;
 
-    public function __construct(Groep $groep = null)
+    public function __construct(Groep $groep = null, Dossier $dossier = null)
     {
         $this->startdatum = new \DateTime('today');
         $this->groep = $groep;
+        $this->dossier = $dossier;
     }
 
     public function getGroep()
@@ -67,6 +87,18 @@ abstract class Lidmaatschap
     public function setGroep(Groep $groep)
     {
         $this->groep = $groep;
+
+        return $this;
+    }
+
+    public function getDossier()
+    {
+        return $this->dossier;
+    }
+
+    public function setDossier(Dossier $dossier)
+    {
+        $this->dossier = $dossier;
 
         return $this;
     }
@@ -143,11 +175,26 @@ abstract class Lidmaatschap
         return $this;
     }
 
+    public function close()
+    {
+        $this->einddatum = new \DateTime();
+
+        return $this;
+    }
+
     public function reopen()
     {
         $this->einddatum = null;
         $this->afsluitreden = null;
 
         return $this;
+    }
+
+    public function isActief()
+    {
+        $today = new \DateTime('today');
+
+        return $this->startdatum <= $today
+            && (!$this->einddatum || $this->einddatum < $today);
     }
 }

@@ -4,8 +4,9 @@ namespace Tests\GaBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Zrm;
-use GaBundle\Entity\KlantIntake;
+use GaBundle\Entity\Intake;
 use PHPUnit\Framework\TestCase;
+use GaBundle\Entity\Klantdossier;
 
 class KlantIntakeTest extends TestCase
 {
@@ -14,10 +15,12 @@ class KlantIntakeTest extends TestCase
         $klant = new Klant();
         $zrm = Zrm::create();
 
-        $intake = new KlantIntake($klant);
+        $dossier = new Klantdossier($klant);
+
+        $intake = new Intake($dossier);
         $intake->setZrm($zrm);
 
-        $this->assertSame($intake->getKlant(), $zrm->getKlant());
+        $this->assertSame($intake->getDossier()->getKlant(), $zrm->getKlant());
         $this->assertContains($zrm, $klant->getZrms());
     }
 }

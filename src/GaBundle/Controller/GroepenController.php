@@ -4,13 +4,14 @@ namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\Groep;
+use GaBundle\Form\GroepFilterType;
 use GaBundle\Form\GroepType;
 use GaBundle\Service\GroepDaoInterface;
 use GaBundle\Service\LidmaatschapDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/groepen")
@@ -22,6 +23,7 @@ class GroepenController extends AbstractController
     protected $entityName = 'groep';
     protected $entityClass = Groep::class;
     protected $formClass = GroepType::class;
+    protected $filterFormClass = GroepFilterType::class;
     protected $baseRouteName = 'ga_groepen_';
 
     /**

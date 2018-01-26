@@ -2,6 +2,7 @@
 
 namespace GaBundle\Form;
 
+use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityRepository;
 use GaBundle\Entity\Vrijwilligerdossier;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,18 +18,33 @@ class VrijwilligerdossierSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'activiteit' => null,
+            'groep' => null,
             'label' => 'Vrijwilliger',
             'placeholder' => '',
             'required' => true,
             'class' => Vrijwilligerdossier::class,
+            'choice_label' => function (Vrijwilligerdossier $dossier) {
+                return NameFormatter::formatFormal($dossier->getVrijwilliger());
+            },
             'query_builder' => function (Options $options) {
                 return function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('dossier')
+                    $builder = $repository->createQueryBuilder('dossier')
                         ->innerJoin('dossier.vrijwilliger', 'vrijwilliger')
-                        ->where('dossier NOT IN (:exclude)')
-                        ->setParameter('exclude', $options['exclude'])
                         ->orderBy('vrijwilliger.achternaam')
                     ;
+
+                    if ($options['activiteit']) {
+                        $this->excludeForActiviteit($options['activiteit'], $builder);
+                    }
+
+                    if ($options['groep'] && count($options['groep']) > 0) {
+                        $builder
+                            ->andWhere('dossier NOT IN (:dossiers)')
+                            ->setParameter('dossiers', $options['groep']->getDossiers());
+                    }
+
+                    return $builder;
                 };
             },
         ]);

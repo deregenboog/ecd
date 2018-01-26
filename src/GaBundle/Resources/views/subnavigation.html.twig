@@ -5,8 +5,8 @@
     <li class="active">{{ title }}</li>
 </ol>
 <ul class="nav nav-tabs">
-    {{ html.navLink('Deelnemers', path('ga_klantintakes_index'), isActiveRoute('ga_klanten_') or isActiveRoute('ga_klantintakes_')) }}
-    {{ html.navLink('Vrijwilligers', path('ga_vrijwilligerintakes_index'), isActiveRoute('ga_vrijwilligers_') or isActiveRoute('ga_vrijwilligerintakes_')) }}
+    {{ html.navLink('Deelnemers', path('ga_klantdossiers_index'), isActiveRoute('ga_klantdossiers_')) }}
+    {{ html.navLink('Vrijwilligers', path('ga_vrijwilligerdossiers_index'), isActiveRoute('ga_vrijwilligerdossiers_')) }}
     {{ html.navLink('Groepen', path('ga_groepen_index'), isActiveRoute('ga_groepen_')) }}
     {{ html.navLink('Activiteiten', path('ga_activiteiten_index'), isActiveRoute('ga_activiteiten_')) }}
     {{ html.navLink('Rapportages', path('ga_rapportages_index'), isActiveRoute('ga_rapportages_')) }}
@@ -17,7 +17,8 @@
                 Beheer <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                {{ html.navLink('Afsluitredenen intakes', path('ga_intakeafsluitredenen_index'), isActiveRoute('ga_intakeafsluitredenen_')) }}
+                {{ html.navLink('Annuleringsredenen activiteiten', path('ga_activiteitannuleringsredenen_index'), isActiveRoute('ga_activiteitannuleringsredenen_')) }}
+                {{ html.navLink('Afsluitredenen dossiers', path('ga_dossierafsluitredenen_index'), isActiveRoute('ga_intakeafsluitredenen_')) }}
                 {{ html.navLink('Afsluitredenen lidmaatschappen', path('ga_lidmaatschapafsluitredenen_index'), isActiveRoute('ga_lidmaatschapaflsuitredenen_')) }}
             </ul>
         </li>

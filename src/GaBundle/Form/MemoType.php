@@ -3,15 +3,14 @@
 namespace GaBundle\Form;
 
 use AppBundle\Form\AppDateTimeType;
+use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use GaBundle\Entity\Memo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\AppTextareaType;
 
 class MemoType extends AbstractType
 {

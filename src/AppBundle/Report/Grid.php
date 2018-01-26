@@ -115,9 +115,9 @@ class Grid
         }
 
         foreach ($this->result as $row) {
-            if ($this->yPath) {
+            if (isset($this->yPath)) {
                 $yLabel = $row[$this->yPath];
-                $yLabels[] = $yLabel;
+                $yLabels[] = (string) $yLabel;
             }
         }
         if ($this->ySort) {

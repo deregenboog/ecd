@@ -1,0 +1,29 @@
+{% extends 'GaBundle:klantdossiers:view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block tabs %}
+    {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {current: 'verslagen'} %}
+{% endblock %}
+
+{% block tab_content %}
+    <div class="tab-content">
+        <div id="verslagen" class="tab-pane active">
+            <h2>Verslagen</h2>
+            {% if not entity.afgesloten %}
+                {{ html.link('Verslag toevoegen', path('ga_verslagen_add', {dossier: entity.id}), 'add') }}
+            {% endif %}
+            {% for verslag in entity.verslagen %}
+                <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }}</h3>
+                <p>
+                    {{ html.link('Verslag bewerken', path('ga_verslagen_edit', {id: verslag.id}), 'edit') }}
+                </p>
+                <dl class="dl-horizontal">
+                    <dt>Medewerker</dt>
+                    <dd>{{ verslag.medewerker }}</dd>
+                    <dt>Opmerking</dt>
+                    <dd><div class="well">{{ verslag.opmerking|nl2br }}</div></dd>
+                </dl>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

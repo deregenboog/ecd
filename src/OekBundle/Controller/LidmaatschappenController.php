@@ -8,8 +8,8 @@ use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Groep;
 use OekBundle\Entity\Lidmaatschap;
 use OekBundle\Form\LidmaatschapType;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/lidmaatschappen")

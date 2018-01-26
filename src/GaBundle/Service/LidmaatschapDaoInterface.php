@@ -3,7 +3,6 @@
 namespace GaBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use GaBundle\Entity\Groep;
 use GaBundle\Entity\Lidmaatschap;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -18,17 +17,9 @@ interface LidmaatschapDaoInterface
     public function findAll($page = null, FilterInterface $filter = null);
 
     /**
-     * @param Groep $groep
-     * @param int   $page
-     *
-     * @return PaginationInterface
-     */
-    public function findByGroep(Groep $entity);
-
-    /**
      * @param int $id
      *
-     * @return Lidmaatschap
+     * @return Dossier
      */
     public function find($id);
 

@@ -11,10 +11,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\GroepRepository")
- * @ORM\Table(name="groepsactiviteiten_groepen")
+ * @ORM\Table(name="ga_groepen")
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
  *     "ErOpUit" = "GroepErOpUit",
  *     "Buurtmaatjes" = "GroepBuurtmaatjes",
@@ -49,10 +49,10 @@ abstract class Groep
     protected $werkgebied;
 
     /**
-     * @ORM\Column(name="activiteiten_registreren", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
-    protected $activiteitenRegistreren;
+    protected $activiteitenRegistreren = true;
 
     /**
      * @ORM\Column(type="date", nullable=false)
@@ -67,18 +67,11 @@ abstract class Groep
     protected $einddatum;
 
     /**
-     * @var KlantLidmaatschap[]|ArrayCollection
+     * @var Lidmaatschap[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="KlantLidmaatschap", mappedBy="groep")
+     * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="groep", cascade={"persist"})
      */
-    protected $klantlidmaatschappen;
-
-    /**
-     * @var VrijwilligerLidmaatschap[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="VrijwilligerLidmaatschap", mappedBy="groep")
-     */
-    protected $vrijwilligerlidmaatschappen;
+    protected $lidmaatschappen;
 
     /**
      * @var Activiteit[]|ArrayCollection
@@ -92,8 +85,7 @@ abstract class Groep
     {
         $this->startdatum = new \DateTime('today');
         $this->activiteiten = new ArrayCollection();
-        $this->klantlidmaatschappen = new ArrayCollection();
-        $this->vrijwilligerlidmaatschappen = new ArrayCollection();
+        $this->lidmaatschappen = new ArrayCollection();
     }
 
     public function __toString()
@@ -179,51 +171,60 @@ abstract class Groep
         return $this;
     }
 
-    public function getKlantLidmaatschappen()
+    public function getLidmaatschappen()
     {
-        return $this->klantlidmaatschappen;
+        return $this->lidmaatschappen;
     }
 
-    public function addKlantLidmaatschap(KlantLidmaatschap $lidmaatschap)
+    public function getActieveLidmaatschappen()
     {
-        $this->klantlidmaatschappen[] = $lidmaatschap;
-        $lidmaatschap->setGroep($this);
+        return array_filter($this->lidmaatschappen->toArray(), function (Lidmaatschap $lidmaatschap) {
+            return $lidmaatschap->isActief();
+        });
+    }
 
-        return $this;
+    public function getKlantLidmaatschappen()
+    {
+        return array_filter(
+            $this->lidmaatschappen->toArray(),
+            function (Lidmaatschap $lidmaatschap) {
+                return $lidmaatschap->getDossier() instanceof Klantdossier;
+            }
+        );
     }
 
     public function getVrijwilligerLidmaatschappen()
     {
-        return $this->vrijwilligerlidmaatschappen;
+        return array_filter(
+            $this->lidmaatschappen->toArray(),
+            function (Lidmaatschap $lidmaatschap) {
+                return $lidmaatschap->getDossier() instanceof Vrijwilligerdossier;
+            }
+        );
     }
 
-    public function addVrijwilligerLidmaatschap(VrijwilligerLidmaatschap $lidmaatschap)
+    public function addLidmaatschap(Lidmaatschap $lidmaatschap)
     {
-        $this->vrijwilligerlidmaatschappen[] = $lidmaatschap;
+        $this->lidmaatschappen[] = $lidmaatschap;
         $lidmaatschap->setGroep($this);
 
         return $this;
     }
 
-    public function getKlanten()
+    public function getDossiers()
     {
         $dossiers = [];
-        foreach ($this->klantLidmaatschappen as $lidmaatschap) {
-            $dossiers[] = $lidmaatschap->getKlant();
+        foreach ($this->lidmaatschappen as $lidmaatschap) {
+            $dossiers[] = $lidmaatschap->getDossier();
         }
         $dossiers = array_filter($dossiers);
 
         return new ArrayCollection($dossiers);
     }
 
-    public function getVrijwilligers()
+    public function isAfgesloten()
     {
-        $dossiers = [];
-        foreach ($this->vrijwilligerLidmaatschappen as $lidmaatschap) {
-            $dossiers[] = $lidmaatschap->getVrijwilliger();
-        }
-        $dossiers = array_filter($dossiers);
-
-        return new ArrayCollection($dossiers);
+        return $this->einddatum instanceof \DateTime
+            && $this->einddatum <= new \DateTime('today');
     }
 }

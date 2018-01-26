@@ -9,7 +9,6 @@ use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
-use Symfony\Component\HttpKernel\Client;
 
 class FactuurSubscriberTest extends WebTestCase
 {

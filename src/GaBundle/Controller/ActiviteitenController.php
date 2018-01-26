@@ -6,17 +6,20 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Form\Model\AppDateRangeModel;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Filter\ActiviteitFilter;
+use GaBundle\Form\ActiviteitCancelType;
 use GaBundle\Form\ActiviteitFilterType;
 use GaBundle\Form\ActiviteitType;
+use GaBundle\Form\DeelnamesType;
 use GaBundle\Service\ActiviteitDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/activiteiten")
+ * @Template
  */
 class ActiviteitenController extends AbstractChildController
 {
@@ -49,6 +52,28 @@ class ActiviteitenController extends AbstractChildController
     public function calendarAction()
     {
         return [];
+    }
+
+    /**
+     * @Route("/{id}/cancel")
+     */
+    public function cancelAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = ActiviteitCancelType::class;
+
+        return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/editdeelnames")
+     */
+    public function editDeelnamesAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = DeelnamesType::class;
+
+        return $this->processForm($request, $entity);
     }
 
     /**

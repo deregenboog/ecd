@@ -25,7 +25,7 @@ class ActiviteitType extends AbstractType
                 'dummy_label' => (string) $activiteit->getGroep(),
             ]);
         } else {
-            $builder->add('groep', GroepSelectType::class);
+            $builder->add('groep', GroepSelectType::class, ['required' => false]);
         }
 
         $builder

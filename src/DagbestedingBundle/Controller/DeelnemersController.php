@@ -9,14 +9,14 @@ use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Form\DeelnemerCloseType;
 use DagbestedingBundle\Form\DeelnemerFilterType;
+use DagbestedingBundle\Form\DeelnemerReopenType;
 use DagbestedingBundle\Form\DeelnemerSelectType;
 use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use DagbestedingBundle\Form\DeelnemerReopenType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/deelnemers")

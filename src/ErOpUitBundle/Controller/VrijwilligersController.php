@@ -7,14 +7,16 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use ErOpUitBundle\Entity\Vrijwilliger;
+use ErOpUitBundle\Form\VrijwilligerCloseType;
 use ErOpUitBundle\Form\VrijwilligerFilterType;
+use ErOpUitBundle\Form\VrijwilligerReopenType;
 use ErOpUitBundle\Form\VrijwilligerType;
 use ErOpUitBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligers")
@@ -60,6 +62,32 @@ class VrijwilligersController extends AbstractController
         }
 
         return $this->doSearch($request);
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $this->formClass = VrijwilligerReopenType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->reopen();
+
+        return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $this->formClass = VrijwilligerCloseType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->close();
+
+        return $this->processForm($request, $entity);
     }
 
     private function doSearch(Request $request)

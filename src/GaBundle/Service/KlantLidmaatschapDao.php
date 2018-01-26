@@ -4,7 +4,7 @@ namespace GaBundle\Service;
 
 use AppBundle\Entity\Klant;
 use GaBundle\Entity\Groep;
-use GaBundle\Entity\KlantLidmaatschap;
+use GaBundle\Entity\Klantdossier;
 
 class KlantLidmaatschapDao extends LidmaatschapDao
 {
@@ -21,13 +21,11 @@ class KlantLidmaatschapDao extends LidmaatschapDao
         ],
     ];
 
-    protected $class = KlantLidmaatschap::class;
-
     public function findByGroep(Groep $groep, $page = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', klant, werkgebied')
-            ->innerJoin($this->alias.'.klant', 'klant')
+            ->innerJoin(Klantdossier::class, 'dossier', 'WITH', $this->alias.'.dossier = dossier')
+            ->innerJoin('dossier.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->where($this->alias.'.groep = :groep')
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum > :today")

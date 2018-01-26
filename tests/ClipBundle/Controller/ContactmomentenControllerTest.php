@@ -2,14 +2,8 @@
 
 namespace Tests\ClipBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
-use Symfony\Component\Security\Core\User\UserInterface;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContactmomentenControllerTest extends WebTestCase
 {

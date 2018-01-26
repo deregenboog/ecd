@@ -5,8 +5,8 @@ namespace ErOpUitBundle\Form;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
-use Doctrine\ORM\EntityRepository;
 use ErOpUitBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -20,18 +20,15 @@ class VrijwilligerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data'] instanceof Vrijwilliger
-            && $options['data']->getVrijwilliger() instanceof AppVrijwilliger
-            && $options['data']->getVrijwilliger()->getId()
+        /** @var $vrijwilliger Vrijwilliger */
+        $vrijwilliger = $options['data'];
+
+        if ($vrijwilliger instanceof Vrijwilliger
+            && $vrijwilliger->getVrijwilliger() instanceof AppVrijwilliger
+            && $vrijwilliger->getVrijwilliger()->getId()
         ) {
-            $builder->add('vrijwilliger', null, [
-                'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('vrijwilliger')
-                        ->where('vrijwilliger = :vrijwilliger')
-                        ->setParameter('vrijwilliger', $options['data']->getVrijwilliger())
-                    ;
-                },
+            $builder->add('vrijwilliger', DummyChoiceType::class, [
+                'dummy_label' => (string) $vrijwilliger->getVrijwilliger(),
             ]);
         } else {
             $builder
@@ -45,9 +42,9 @@ class VrijwilligerType extends AbstractType
 
         $builder
             ->add('inschrijfdatum', AppDateType::class)
-            ->add('actief')
-            ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
-            ->add('hulpverlener', HulpverlenerType::class)
+            ->add('communicatieEmail')
+            ->add('communicatiePost')
+            ->add('communicatieTelefoon')
             ->add('submit', SubmitType::class)
         ;
     }

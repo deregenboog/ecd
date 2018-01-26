@@ -67,14 +67,14 @@ class ActiviteitFilter implements FilterInterface
         if ($this->tijd) {
             if ($this->tijd->getStart()) {
                 $builder
-                    ->andWhere('TIME(activiteit.tijd) >= :tijd_van')
-                    ->setParameter('tijd_van', $this->tijd->getStart()->format('H:i:s'))
+                    ->andWhere('TIME(activiteit.datum) >= :tijd_van')
+                    ->setParameter('tijd_van', $this->tijd->getStart()->format('H:i'))
                 ;
             }
             if ($this->tijd->getEnd()) {
                 $builder
-                    ->andWhere('TIME(activiteit.tijd) <= :tijd_tot')
-                    ->setParameter('tijd_tot', $this->tijd->getEnd()->format('H:i:s'))
+                    ->andWhere('TIME(activiteit.datum) <= :tijd_tot')
+                    ->setParameter('tijd_tot', $this->tijd->getEnd()->format('H:i'))
                 ;
             }
         }

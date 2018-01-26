@@ -2,11 +2,11 @@
 
 namespace GaBundle\Form;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use GaBundle\Entity\Activiteit;
+use GaBundle\Entity\Deelname;
+use GaBundle\Entity\Dossier;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
@@ -19,35 +19,32 @@ class ActiviteitSelectType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $today = new \DateTime('today');
-
         $resolver->setDefaults([
-            'klant' => null,
-            'vrijwilliger' => null,
+            'dossier' => '',
             'placeholder' => '',
             'required' => true,
             'class' => Activiteit::class,
             'query_builder' => function (Options $options) {
                 return function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('activiteit')
-                        ->where('activiteit.datum >= :datum')
-                        ->setParameter('datum', new \DateTime('1 january last year'))
-                        ->orderBy('activiteit.datum, activiteit.naam')
-                    ;
+                    $builder = $repository->createQueryBuilder('activiteit')->orderBy('activiteit.datum, activiteit.naam');
 
-                    if ($options['klant']) {
-                        $this->excludeForKlant($options['klant'], $builder);
-                    }
-
-                    if ($options['vrijwilliger']) {
-                        $this->excludeForVrijwilliger($options['vrijwilliger'], $builder);
+                    if ($options['dossier']) {
+                        $this->excludeForDossier($options['dossier'], $builder);
                     }
 
                     return $builder;
                 };
             },
-            'preferred_choices' => function (Activiteit $activiteit) use ($today) {
-                return abs($today->diff($activiteit->getDatum())->days) <= 31;
+            'preferred_choices' => function (Options $options) {
+                return $options['em']->getRepository(Activiteit::class)->createQueryBuilder('activiteit')
+                    ->where('activiteit.datum BETWEEN :start AND :end')
+                    ->setParameters([
+                        'start' => new \DateTime('-1 month'),
+                        'end' => new \DateTime('+1 month'),
+                    ])
+                    ->getQuery()
+                    ->getResult()
+                ;
             },
         ]);
     }
@@ -60,42 +57,20 @@ class ActiviteitSelectType extends AbstractType
         return EntityType::class;
     }
 
-    private function excludeForKlant(Klant $klant, QueryBuilder $builder)
+    private function excludeForDossier(Dossier $dossier, QueryBuilder $builder)
     {
-        // get activities already enrolled in...
-        $klantActiviteiten = $builder->getEntityManager()->getRepository(Activiteit::class)
-            ->createQueryBuilder('activiteit')
-            ->innerJoin('activiteit.klantDeelnames', 'deelname')
-            ->innerJoin('deelname.klant', 'klant', 'WITH', 'klant = :klant')
-            ->setParameter('klant', $klant)
-            ->getQuery()
-            ->getResult()
-        ;
+        $map = function (Deelname $deelname) {
+            if ($deelname->getActiviteit()) {
+                return $deelname->getActiviteit()->getId();
+            }
+        };
 
-        // ...and exclude them from choices
-        if (count($klantActiviteiten)) {
-            $builder->andWhere('activiteit NOT IN (:klantActiviteiten)')->setParameter('klantActiviteiten', $klantActiviteiten);
-        }
-    }
+        $activiteitIds = array_map($map, $dossier->getDeelnames()->toArray());
+        $activiteitIds = array_filter($activiteitIds);
 
-    private function excludeForVrijwilliger(Vrijwilliger $vrijwilliger, QueryBuilder $builder)
-    {
-        // get activities already enrolled in...
-        $vrijwilligerActiviteiten = $builder->getEntityManager()->getRepository(Activiteit::class)
-            ->createQueryBuilder('activiteit')
-            ->innerJoin('activiteit.vrijwilligerDeelnames', 'deelname')
-            ->innerJoin('deelname.vrijwilliger', 'vrijwilliger', 'WITH', 'vrijwilliger = :vrijwilliger')
-            ->setParameter('vrijwilliger', $vrijwilliger)
-            ->getQuery()
-            ->getResult()
-        ;
-
-        // ...and exclude them from choices
-        if (count($vrijwilligerActiviteiten)) {
-            $builder
-                ->andWhere('activiteit NOT IN (:vrijwilligerActiviteiten)')
-                ->setParameter('vrijwilligerActiviteiten', $vrijwilligerActiviteiten)
-            ;
+        if (count($activiteitIds) > 0) {
+            $builder->andWhere('activiteit.id NOT IN (:activiteit_ids)')
+            ->setParameter('activiteit_ids', $activiteitIds);
         }
     }
 }
