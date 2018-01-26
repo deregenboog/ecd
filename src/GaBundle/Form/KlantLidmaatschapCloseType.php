@@ -34,7 +34,7 @@ class KlantLidmaatschapCloseType extends AbstractType
             ])
             ->add('einddatum', AppDateType::class)
             ->add('afsluitreden', EntityType::class, [
-                'class' => LidmaatschapAfsluitreden::::class,
+                'class' => LidmaatschapAfsluitreden::class,
             ])
             ->add('submit', SubmitType::class)
         ;

@@ -9,6 +9,10 @@ _dagbesteding:
     resource: "@DagbestedingBundle/Resources/config/routing.yml"
     prefix: /dagbesteding
 
+_eropuit:
+    resource: "@ErOpUitBundle/Resources/config/routing.yml"
+    prefix: /eropuit
+
 _ga:
     resource: "@GaBundle/Resources/config/routing.yml"
 

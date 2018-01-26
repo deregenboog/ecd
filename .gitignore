@@ -55,4 +55,5 @@
 /.php_cs.cache
 /cache.properties
 
+# Node modules
 /app/webroot/node_modules

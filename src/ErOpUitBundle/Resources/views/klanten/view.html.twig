@@ -1,0 +1,46 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Er op uit | Klanten
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@ErOpUit/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>Klant {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <h2>ErOpUit-kalender</h2>
+    <p>
+        {% if entity.uitschrijfdatum %}
+            {{ html.link('Lidmaatschap activeren', path('ga_klantlidmaatschappen_reopen', {id: entity.id}), 'open') }}
+        {% else %}
+            {{ html.link('Lidmaatschap wijzigen', path('ga_klantlidmaatschappen_edit', {id: entity.id}), 'edit') }}
+            {{ html.link('Lidmaatschap beëindigen', path('ga_klantlidmaatschappen_close', {id: entity.id}), 'close') }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Inschrijfdatum</dt>
+        <dd>{{ entity.inschrijfdatum|date('d-m-Y') }}</dd>
+        <dt>Uitschrijfdatum</dt>
+        <dd>{{ entity.uitschrijfdatum ? entity.uitschrijfdatum|date('d-m-Y') }}</dd>
+        <dt>Uitschrijfreden</dt>
+        <dd>{{ entity.uitschrijfreden }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Communicatie e-mail</dt>
+        <dd>{{ entity.communicatieEmail ? 'Ja' :'Nee' }}</dd>
+        <dt>Communicatie post</dt>
+        <dd>{{ entity.communicatiePost ? 'Ja' :'Nee' }}</dd>
+        <dt>Communicatie telefoon</dt>
+        <dd>{{ entity.communicatieTelefoon ? 'Ja' :'Nee' }}</dd>
+    </dl>
+{% endblock %}

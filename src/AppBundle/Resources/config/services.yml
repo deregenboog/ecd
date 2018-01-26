@@ -76,3 +76,9 @@ services:
 
     app.export.report:
         class: AppBundle\Export\ReportExport
+
+    AppBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - '@AppBundle\Service\KlantDao'
+        tags:
+            - { name: kernel.event_subscriber }

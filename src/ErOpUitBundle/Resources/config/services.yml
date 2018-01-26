@@ -1,0 +1,11 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+
+services:
+    ErOpUitBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }

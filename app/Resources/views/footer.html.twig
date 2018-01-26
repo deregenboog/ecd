@@ -18,16 +18,23 @@
                 }, 1000);
             }, 50);
         });
-        // navigate to active tab
-        $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show')
-        // change urls when activating other tab
-        $('.nav-tabs a').on('shown.bs.tab', function(event) {
+
+        var adjustUrls = function(event) {
             window.history.replaceState({}, window.document.title, $(event.target).attr('href'));
             $('a[href*="redirect="]').each(function(index, element) {
 //                $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+encodeURIComponent(window.location.href)));
                 $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+window.location.pathname+window.location.hash));
             });
-        });
+        };
+
+        // navigate to active tab or pill
+        $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show');
+        $('.nav-pills a[href="'+window.location.hash+'"]').tab('show');
+
+        // adjust urls when activating other tab or pill
+        $('.nav-tabs a').on('shown.bs.tab', adjustUrls);
+        $('.nav-pills a').on('shown.bs.tab', adjustUrls);
+
         // make table rows clickable
         $('table.table.table-hover tr').click(function() {
             if (typeof($(this).data('href')) != 'undefined') {

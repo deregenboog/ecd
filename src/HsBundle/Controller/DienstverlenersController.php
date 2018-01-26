@@ -78,6 +78,10 @@ class DienstverlenersController extends AbstractController
 
             if ($count > 100) {
                 $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
             }
 
             return [

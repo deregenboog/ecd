@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\NotDeletableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,6 +27,8 @@ use InloopBundle\Entity\Schorsing;
  */
 class Klant extends Persoon
 {
+    use NotDeletableTrait;
+
     /**
      * @ORM\Column(name="MezzoID", type="integer")
      * @Gedmo\Versioned

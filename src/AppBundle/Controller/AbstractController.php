@@ -177,7 +177,7 @@ class AbstractController extends SymfonyController
         return $this->processForm($request, $entity);
     }
 
-    protected function processForm(Request $request, $entity)
+    protected function processForm(Request $request, $entity = null)
     {
         if (!$this->formClass) {
             throw new AppException(get_class($this).'::formClass not set!');
