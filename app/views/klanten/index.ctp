@@ -6,18 +6,24 @@
 ?>
 
 <h2><?php __('Klantenlijst');?></h2>
+<?= $html->link(
+    'Nieuwe klant invoeren',
+        array('action' => 'add'),
+        array(),
+        __('Hebt u de algemene klantenlijst al gechecked? Weet u zeker dat dit een nieuwe klant is?', true)
+); ?>
+<?php  if (in_array(GROUP_TEAMLEIDERS, $userGroups)): ?>
+    |
+    <?= $this->Html->link(
+        'Lijst van mogelijk dubbele invoer',
+        array(
+            'controller' => 'klanten',
+            'action' => 'findDuplicates',
+        )
+    ); ?>
+<?php endif; ?>
 
 <?php
-    echo $html->link('Nieuwe klant invoeren', array('action' => 'add'), array(),
-        __('Hebt u de algemene klantenlijst al gechecked? Weet u zeker dat dit een nieuwe klant is?', true));
-    if (in_array(GROUP_TEAMLEIDERS, $userGroups)) {
-        echo ' | '.
-            $this->Html->link('Lijst van mogelijk dubbele invoer', array(
-                'controller' => 'klanten',
-                'action' => 'findDuplicates',
-            ));
-    }
-
     echo $form->create('Klant', array('controller' => 'klanten', 'action'=>'index', 'id'=>'filters'));
     $dd = array('type' => 'text', 'label' => false);
     echo '<table class="filter"><tr>';
