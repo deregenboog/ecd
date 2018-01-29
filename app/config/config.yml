@@ -144,4 +144,5 @@ ivory_ck_editor:
     configs:
         basic:
             disableNativeSpellChecker: false
+            enterMode: CKEDITOR.ENTER_BR
             toolbar: [["Bold", "Italic", "Underline"]]

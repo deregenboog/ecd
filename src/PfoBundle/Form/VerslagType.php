@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class VerslagType extends AbstractType
 {
@@ -63,6 +65,13 @@ class VerslagType extends AbstractType
             ->add('verslag', CKEditorType::class, ['attr' => ['rows' => 10]])
             ->add('submit', SubmitType::class)
         ;
+
+        $builder->get('verslag')->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            $data = $event->getData();
+            if ($data === strip_tags($data)) {
+                $event->setData(nl2br($data));
+            }
+        });
     }
 
     /**
