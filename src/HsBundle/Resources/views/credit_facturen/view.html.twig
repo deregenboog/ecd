@@ -38,10 +38,22 @@
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#memos">Klantinfo</a></li>
+        {% if entity.locked %}
+            <li><a data-toggle="tab" href="#betalingen">Betalingen</a></li>
+            <li><a data-toggle="tab" href="#herinneringen">Betalingsherinneringen</a></li>
+        {% endif %}
     </ul>
     <div class="tab-content">
         <div id="memos" class="tab-pane active">
             {% include '@Hs/memos/_list.html.twig' with {klant: entity.klant} %}
         </div>
+        {% if entity.locked %}
+            <div id="betalingen" class="tab-pane">
+                {% include '@Hs/betalingen/_list.html.twig' with {factuur: entity} %}
+            </div>
+            <div id="herinneringen" class="tab-pane">
+                {% include '@Hs/herinneringen/_list.html.twig' with {factuur: entity} %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
