@@ -31,7 +31,7 @@
                 <td width="30%">{{ registratie.arbeider }}</td>
                 <td width="10%">{{ registratie.start|date('H:i') }}</td>
                 <td width="10%">{{ registratie.eind|date('H:i') }}</td>
-                <td width="10%" align="right">{{ registratie.uren }} á {{ 2.5|money }}</td>
+                <td width="10%" align="right">{{ registratie.uren }} à {{ 2.5|money }}</td>
                 <td width="10%" align="right">{{ (2.5 * registratie.uren)|money }}</td>
             </tr>
         {% endfor %}
