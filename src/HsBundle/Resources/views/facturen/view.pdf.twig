@@ -24,33 +24,31 @@
 </p>
 <p>
     <table>
-        {% for registratie in entity.registraties %}
+        {% for i, registratie in entity.registraties %}
             <tr>
-                <td width="15%">{{ registratie.datum|date('d-m-Y') }}</td>
-                <td width="15%">{{ registratie.activiteit }}</td>
-                <td width="30%">{{ registratie.arbeider }}</td>
-                <td width="10%">{{ registratie.start|date('H:i') }}</td>
-                <td width="10%">{{ registratie.eind|date('H:i') }}</td>
-                <td width="10%" align="right">{{ registratie.uren }} à {{ 2.5|money }}</td>
-                <td width="10%" align="right">{{ (2.5 * registratie.uren)|money }}</td>
+                <td width="20%">{{ registratie.datum|date('d-m-Y') }}</td>
+                <td width="20%">{{ registratie.activiteit }}</td>
+                <td width="15%" align="right">{{ registratie.start|date('H:i') }} uur</td>
+                <td width="15%" align="right">{{ registratie.eind|date('H:i') }} uur</td>
+                <td width="15%" align="right">{% if i == 0 %}à {{ 2.5|money }}{% endif %}</td>
+                <td width="15%" align="right">{{ (2.5 * registratie.uren)|money }}</td>
             </tr>
         {% endfor %}
         {% for declaratie in entity.declaraties %}
             <tr>
-                <td width="15%">{{ declaratie.datum|date('d-m-Y') }}</td>
-                <td width="15%">{{ declaratie.declaratieCategorie }}</td>
-                <td width="30%"></td>
-                <td width="10%"></td>
-                <td width="10%"></td>
-                <td width="10%"></td>
-                <td width="10%" align="right">{{ declaratie.bedrag|money }}</td>
+                <td width="20%">{{ declaratie.datum|date('d-m-Y') }}</td>
+                <td width="20%">{{ declaratie.declaratieCategorie }}</td>
+                <td width="15%"></td>
+                <td width="15%"></td>
+                <td width="15%"></td>
+                <td width="15%" align="right">{{ declaratie.bedrag|money }}</td>
             </tr>
         {% endfor %}
         <tr>
-            <td colspan="7"></td>
+            <td colspan="6"></td>
         </tr>
         <tr>
-            <td colspan="6"></td>
+            <td colspan="5">Totaal</td>
             <td align="right">{{ entity.bedrag|money }}</td>
         </tr>
     </table>
