@@ -20,6 +20,8 @@ use AppBundle\Exception\AppException;
 use HsBundle\Exception\HsException;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Form\CreditfactuurType;
+use HsBundle\Filter\FactuurFilter;
+use Symfony\Component\DependencyInjection\Tests\Fixtures\includes\HotPath\P1;
 
 /**
  * @Route("/facturen")
@@ -85,7 +87,11 @@ class FacturenController extends AbstractChildController
                     return $this->download($form->getData());
                 }
                 if ($form->has('zipDownload') && $form->get('zipDownload')->isClicked()) {
-                    return $this->zipDownload($form->getData());
+                    try {
+                        return $this->zipDownload($form->getData());
+                    } catch (HsException $e) {
+                        // ignore
+                    }
                 }
             }
             $filter = $form->getData();
@@ -172,6 +178,9 @@ class FacturenController extends AbstractChildController
 
     private function zipDownload(FilterInterface $filter)
     {
+        // only include locked invoices
+        $filter->status = true;
+
         if (!$this->export) {
             throw new AppException(get_class($this).'::export not set!');
         }
@@ -181,6 +190,12 @@ class FacturenController extends AbstractChildController
         $dir = $this->getParameter('kernel.cache_dir');
         $filename = $this->getDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
+
+        if (0 === count($collection)) {
+            $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
+
+            throw new HsException('Geen definitieve facturen gevonden.');
+        }
 
         @unlink($dir.'/'.$filename);
 
