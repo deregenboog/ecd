@@ -24,7 +24,7 @@
 </p>
 <p>
     <table>
-        {% for i, registratie in entity.registraties %}
+        {% for i, registratie in entity.registraties|orderBy('getDatum') %}
             <tr>
                 <td width="20%">{{ registratie.datum|date('d-m-Y') }}</td>
                 <td width="20%">{{ registratie.activiteit }}</td>

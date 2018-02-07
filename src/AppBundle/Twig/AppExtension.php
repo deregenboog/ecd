@@ -3,6 +3,7 @@
 namespace AppBundle\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\Common\Collections\Collection;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -64,7 +65,27 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('color', [$this, 'colorFilter'], ['is_safe' => ['html']]),
             new \Twig_SimpleFilter('green', [$this, 'greenFilter'], ['is_safe' => ['html']]),
             new \Twig_SimpleFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFilter('orderBy', [$this, 'orderBy']),
         ];
+    }
+
+    public function orderBy($collection, $method)
+    {
+        if ($collection instanceof Collection) {
+            $collection = $collection->toArray();
+        }
+
+        usort($collection, function($itemA, $itemB) use ($method) {
+            if (call_user_func([$itemA, $method]) > call_user_func([$itemB, $method])) {
+                return 1;
+            }
+            if (call_user_func([$itemA, $method]) < call_user_func([$itemB, $method])) {
+                return -1;
+            }
+            return 0;
+        });
+
+        return $collection;
     }
 
     public function tablessFilter($value)
