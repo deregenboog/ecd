@@ -129,7 +129,7 @@ class FactuurSubscriber implements EventSubscriber
     {
         $generateNummer = function (Klant $klant, AppDateRangeModel $dateRange) {
             return sprintf(
-                '%d/%d',
+                '%d-%d',
                 $klant->getId(),
                 $dateRange->getEnd()->format('ymd')
             );
