@@ -1,15 +1,17 @@
 <h1 align="right">Homeservice Amsterdam</h1>
 <p align="right">
+    De Regenboog Groep<br>
     Derde Schinkelstraat 9<br>
     1075 TJ AMSTERDAM<br>
     Tel. (020) 626 0969<br>
-    De Regenboog Groep<br>
 </p>
 <p style="font-weight: bold;">
     {{ entity.klant.naam }}<br>
     {{ entity.klant.adres }}<br>
     {{ entity.klant.postcode }} {{ entity.klant.plaats }}
 </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p style="font-weight: bold;">
     Betreft: {{ entity.betreft }}<br>
     Datum: {{ entity.datum|date('d-m-Y') }}

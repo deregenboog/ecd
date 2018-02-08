@@ -9,6 +9,7 @@ use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 use AppBundle\Controller\AbstractChildController;
 use HsBundle\Service\HerinneringDaoInterface;
+use HsBundle\Pdf\PdfHerinnering;
 
 /**
  * @Route("/herinneringen")
@@ -48,21 +49,7 @@ class HerinneringenController extends AbstractChildController
 
     private function viewPdf(Herinnering $entity)
     {
-        $html = $this->renderView('@Hs/herinneringen/view.pdf.twig', ['entity' => $entity]);
-
-        \App::import('Vendor', 'xtcpdf');
-        $pdf = new \XTCPDF();
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Homeservice Amsterdam');
-        $pdf->setPrintHeader(false);
-        $pdf->xfootertext = 'Uw betaling kunt u overmaken op bankrekeningnummer NL46 INGB 0000215793 o.v.v. factuurnummer ten name van Stichting De Regenboog Groep.';
-        $pdf->SetTitle('Betalingsherinnering '.$entity->getId());
-        $pdf->SetSubject('Betalingsherinnering Homeservice');
-        $pdf->SetFont('helvetica', '', 10);
-
-        $pdf->AddPage();
-        $pdf->Image(('img/drg-logo-142px.jpg'), 160, 0, 40, 40);
-        $pdf->writeHTMLCell(0, 0, null, 40, $html);
+        $pdf = $this->createPdf($entity);
         $response = new Response($pdf->Output(null, 'S'));
 
         $filename = sprintf('homeservice-betalingsherinnering-%d.pdf', $entity->getId());
@@ -71,5 +58,12 @@ class HerinneringenController extends AbstractChildController
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
+    }
+
+    private function createPdf(Herinnering $entity)
+    {
+        $html = $this->renderView('@Hs/herinneringen/view.pdf.twig', ['entity' => $entity]);
+
+        return new PdfHerinnering($html, $entity);
     }
 }

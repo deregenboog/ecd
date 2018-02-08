@@ -22,6 +22,7 @@ use HsBundle\Entity\Creditfactuur;
 use HsBundle\Form\CreditfactuurType;
 use HsBundle\Filter\FactuurFilter;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\includes\HotPath\P1;
+use HsBundle\Pdf\PdfFactuur;
 
 /**
  * @Route("/facturen")
@@ -246,20 +247,6 @@ class FacturenController extends AbstractChildController
             $html = $this->renderView('@Hs/facturen/view.pdf.twig', ['entity' => $entity]);
         }
 
-        \App::import('Vendor', 'xtcpdf');
-        $pdf = new \XTCPDF();
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Homeservice Amsterdam');
-        $pdf->setPrintHeader(false);
-        $pdf->xfootertext = 'Uw betaling kunt u overmaken op bankrekeningnummer NL46 INGB 0000215793 o.v.v. factuurnummer ten name van Stichting De Regenboog Groep.';
-        $pdf->SetTitle('Factuur '.$entity);
-        $pdf->SetSubject('Factuur Homeservice');
-        $pdf->SetFont('helvetica', '', 10);
-
-        $pdf->AddPage();
-        $pdf->Image(('img/drg-logo-142px.jpg'), 160, 0, 40, 40);
-        $pdf->writeHTMLCell(0, 0, null, 40, $html);
-
-        return $pdf;
+        return new PdfFactuur($html);
     }
 }
