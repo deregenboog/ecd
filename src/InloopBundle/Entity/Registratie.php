@@ -34,7 +34,6 @@ class Registratie
     /**
      * @var Locatie
      * @ORM\ManyToOne(targetEntity="Locatie")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $locatie;
@@ -42,7 +41,6 @@ class Registratie
     /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $klant;
