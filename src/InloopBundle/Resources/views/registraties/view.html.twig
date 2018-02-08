@@ -59,8 +59,6 @@
                         <th>Locatie</th>
                         <th>Binnen</th>
                         <th>Buiten</th>
-                        <th>Douche</th>
-                        <th>MW</th>
                         <th>Kleding</th>
                         <th>Maaltijd</th>
                         <th>Activering</th>
@@ -73,8 +71,6 @@
                             <td>{{ registratie.locatie }}</td>
                             <td>{{ registratie.binnen|date('d-m-Y H:i') }}</td>
                             <td>{{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}</td>
-                            <td>{{ registratie.douche }}</td>
-                            <td>{{ registratie.mw }}</td>
                             <td>{{ registratie.kleding ? 'Ja' : 'Nee' }}</td>
                             <td>{{ registratie.maaltijd ? 'Ja' : 'Nee' }}</td>
                             <td>{{ registratie.activering ? 'Ja' : 'Nee' }}</td>
