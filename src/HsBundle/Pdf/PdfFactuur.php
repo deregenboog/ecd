@@ -2,11 +2,11 @@
 
 namespace HsBundle\Pdf;
 
-\App::import('Vendor', 'xtcpdf');
+use HsBundle\Entity\Factuur;
 
-class PdfFactuur extends \XTCPDF
+class PdfFactuur extends \TCPDF
 {
-    public function __construct($html)
+    public function __construct($html, Factuur $entity)
     {
         parent::__construct();
 
@@ -20,7 +20,13 @@ class PdfFactuur extends \XTCPDF
         $this->SetSubject('Factuur Homeservice');
 
         $this->AddPage();
-        $this->Image(('img/drg-logo-142px.jpg'), 5, 0, 40, 40);
-        $this->writeHTMLCell(0, 0, null, 10, $html);
+        $this->Image(('img/drg-logo-142px.jpg'), 10, 0, 40, 40);
+        $this->writeHTMLCell(null, null, 15, 10, $html);
+
+        if (!$entity->isLocked()) {
+            $this->SetFont('helvetica', 'B', 36);
+            $this->SetTextColor(128, 128, 128);
+            $this->writeHTMLCell(null, null, 130, 48, 'CONCEPT');
+        }
     }
 }

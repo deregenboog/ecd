@@ -179,9 +179,6 @@ class FacturenController extends AbstractChildController
 
     private function zipDownload(FilterInterface $filter)
     {
-        // only include locked invoices
-        $filter->status = true;
-
         if (!$this->export) {
             throw new AppException(get_class($this).'::export not set!');
         }
@@ -237,7 +234,7 @@ class FacturenController extends AbstractChildController
     /**
      * @param Factuur $entity
      *
-     * @return \XTCPDF
+     * @return \TCPDF
      */
     private function createPdf(Factuur $entity)
     {
@@ -247,6 +244,6 @@ class FacturenController extends AbstractChildController
             $html = $this->renderView('@Hs/facturen/view.pdf.twig', ['entity' => $entity]);
         }
 
-        return new PdfFactuur($html);
+        return new PdfFactuur($html, $entity);
     }
 }
