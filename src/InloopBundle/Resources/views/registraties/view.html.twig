@@ -1,0 +1,92 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>
+        Registratie {{ entity }}
+    </h1>
+    <p>
+        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Locatie</dt>
+        <dd>{{ entity.locatie }}</dd>
+        <dt>Binnen</dt>
+        <dd>{{ entity.binnen|date('d-m-Y H:i') }}</dd>
+        <dt>Buiten</dt>
+        <dd>{{ entity.buiten ? entity.buiten|date('d-m-Y H:i') }}</dd>
+        <dt>Kleding</dt>
+        <dd>{{ entity.kleding ? 'Ja' : 'Nee' }}</dd>
+        <dt>Maaltijd</dt>
+        <dd>{{ entity.maaltijd ? 'Ja' : 'Nee' }}</dd>
+        <dt>Activering</dt>
+        <dd>{{ entity.activering ? 'Ja' : 'Nee' }}</dd>
+        <dt>Veegploeg</dt>
+        <dd>{{ entity.veegploeg ? 'Ja' : 'Nee' }}</dd>
+    </dl>
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#registraties">Registraties</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="registraties" class="tab-pane active">
+            <h2>Recente registraties</h2>
+            <p>
+                {% set url = path('inloop_registraties_index', {'registratie_filter[klant][id]': entity.klant.id}) %}
+                {{ html.viewLink(url) }}
+                {{ html.link('Alle registraties van '~entity.klant, url) }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Locatie</th>
+                        <th>Binnen</th>
+                        <th>Buiten</th>
+                        <th>Douche</th>
+                        <th>MW</th>
+                        <th>Kleding</th>
+                        <th>Maaltijd</th>
+                        <th>Activering</th>
+                        <th>Veegploeg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registratie in entity.klant.recenteRegistraties %}
+                        <tr data-href="{{ path(route_base~'view', {id: registratie.id}) }}" class="{{ entity.id == registratie.id ? 'info' }}">
+                            <td>{{ registratie.locatie }}</td>
+                            <td>{{ registratie.binnen|date('d-m-Y H:i') }}</td>
+                            <td>{{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}</td>
+                            <td>{{ registratie.douche }}</td>
+                            <td>{{ registratie.mw }}</td>
+                            <td>{{ registratie.kleding ? 'Ja' : 'Nee' }}</td>
+                            <td>{{ registratie.maaltijd ? 'Ja' : 'Nee' }}</td>
+                            <td>{{ registratie.activering ? 'Ja' : 'Nee' }}</td>
+                            <td>{{ registratie.veegploeg ? 'Ja' : 'Nee' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="verslagen" class="tab-pane">
+        </div>
+        <div id="documenten" class="tab-pane">
+        </div>
+    </div>
+{% endblock %}

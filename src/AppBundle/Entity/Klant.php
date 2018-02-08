@@ -8,6 +8,7 @@ use InloopBundle\Entity\Intake;
 use Doctrine\Common\Collections\ArrayCollection;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\DossierStatus;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -35,6 +36,14 @@ class Klant extends Persoon
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
      */
     private $intakes;
+
+    /**
+     * @var Intake[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $registraties;
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
@@ -84,6 +93,7 @@ class Klant extends Persoon
     public function __construct()
     {
         $this->intakes = new ArrayCollection();
+        $this->registraties = new ArrayCollection();
     }
 
     public function getLaatsteZrm()
@@ -108,6 +118,18 @@ class Klant extends Persoon
         $this->laatsteTbcControle = $laatsteTbcControle;
 
         return $this;
+    }
+
+    public function getRegistraties()
+    {
+        return $this->registraties;
+    }
+
+    public function getRecenteRegistraties()
+    {
+        $criteria = Criteria::create()->orderBy(['id' => 'DESC'])->setMaxResults(20);
+
+        return $this->registraties->matching($criteria);
     }
 
     public function getIntakes()

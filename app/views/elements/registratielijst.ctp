@@ -17,6 +17,7 @@
         'class' => 'registratie-ok-icon',
     ]);
 ?>
+
 <h2>Bezoekersregistratie voor <?php echo $locatie_name; ?></h2>
 <p>Aantal geregistreerde klanten op dit moment: <?= $registered_clients; ?></p>
 <p>Totaal aantal geregistreerde klanten:
@@ -37,6 +38,7 @@
             <th><a href="javascript:void(null);" onclick="ecd_sandbox.sortTableOnShowerOrder();">Douche</a></th>
             <th><?php __('Kleding'); ?></th>
             <th><?php __('Maaltijd'); ?></th>
+            <th><?php __('Veegploeg'); ?></th>
             <th>Activering<br/>(geen&nbsp;Hi5)</th>
             <th class ="mwCol"><a href="javascript:void(null);" onclick="ecd_sandbox.sortTableOnMwOrder();">Maatsch.<br/>werk</a></th>
             <th><?php __('TBC-check'); ?></th>
@@ -132,6 +134,12 @@
                         'registratie' => $registratie, ]
                     ); ?>
                 </td>
+                <td id='veegploeg__<?= $registratie['Registratie']['id']; ?>'>
+                    <?= $this->element('registratie_checkboxes', [
+                        'fieldname' => 'veegploeg',
+                        'registratie' => $registratie,
+                    ]); ?>
+                </td>
                 <td id='activering__<?= $registratie['Registratie']['id']; ?>'>
                     <?= $this->element('registratie_checkboxes', [
                         'fieldname' => 'activering',
@@ -200,6 +208,7 @@
                 <th><a href="javascript:void(null);" onclick="ecd_sandbox.sortTableOnShowerOrder();">Douche</a></th>
                 <th><?php __('Kleding'); ?></th>
                 <th><?php __('Maaltijd'); ?></th>
+                <th><?php __('Veegploeg'); ?></th>
                 <th>Activering<br/>(geen&nbsp;Hi5)</th>
                 <th class ="mwCol">
                     <a href="javascript:void(null);" onclick="ecd_sandbox.sortTableOnMwOrder();">Maatsch.<br>werk</a>
@@ -311,6 +320,12 @@
                             'registratie' => $registratie, ]
                         ); ?>
                     </td>
+                    <td id='veegploeg__<?php echo $registratie['Registratie']['id']; ?>'>
+                        <?= $this->element('registratie_checkboxes', [
+                            'fieldname' => 'veegploeg',
+                            'registratie' => $registratie,
+                        ]); ?>
+                    </td>
                     <td id='activering__<?php echo $registratie['Registratie']['id']; ?>'>
                         <?= $this->element('registratie_checkboxes', [
                             'fieldname' => 'activering',
@@ -359,6 +374,7 @@
                 <th>Douche</th>
                 <th>Kleding</th>
                 <th>Maaltijd</th>
+                <th>Veegploeg</th>
                 <th>Activering<br/>(geen&nbsp;Hi5)</th>
                 <th class ="mwCol">Maatsch.<br/>werk</th>
                 <th>TBC-check</th>
@@ -476,6 +492,12 @@
                     <td>
                         <?= $this->element('registratie_simple_checkbox', [
                             'fieldname' => 'maaltijd',
+                            'registratie' => &$registratie,
+                        ]); ?>
+                    </td>
+                    <td>
+                        <?= $this->element('registratie_simple_checkbox', [
+                            'fieldname' => 'veegploeg',
                             'registratie' => &$registratie,
                         ]); ?>
                     </td>

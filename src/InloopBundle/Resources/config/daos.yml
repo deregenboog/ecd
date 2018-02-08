@@ -10,6 +10,10 @@ services:
         parent: inloop.dao
         class: InloopBundle\Service\KlantDao
 
+    inloop.dao.registratie:
+        parent: inloop.dao
+        class: InloopBundle\Service\RegistratieDao
+
     inloop.dao.schorsing:
         parent: inloop.dao
         class: InloopBundle\Service\SchorsingDao

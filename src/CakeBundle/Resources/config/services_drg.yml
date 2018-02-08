@@ -481,6 +481,7 @@ parameters:
                 - DagbestedingBundle\Controller\Verslagen
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Registraties
                 - InloopBundle\Controller\Schorsingen
                 - clip
                 - ClipBundle\Controller\Behandelaars
