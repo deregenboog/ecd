@@ -100,8 +100,19 @@ class Registratie extends AppModel
             $intake_field = null;
         }
 
-        $registratie_fields = ['id', 'locatie_id', 'klant_id', 'binnen',
-            'buiten', 'douche', 'mw', 'kleding', 'maaltijd', 'activering', 'gbrv',
+        $registratie_fields = [
+            'id',
+            'locatie_id',
+            'klant_id',
+            'binnen',
+            'buiten',
+            'douche',
+            'mw',
+            'kleding',
+            'maaltijd',
+            'veegploeg',
+            'activering',
+            'gbrv',
         ];
         $klant_fields = ['achternaam', 'voornaam', 'roepnaam', 'laatste_TBC_controle'];
 
@@ -162,7 +173,7 @@ class Registratie extends AppModel
         }
 
         $result = $this->query('
-            SELECT Registratie.id, Registratie.binnen, Registratie.buiten, Registratie.douche, Registratie.mw, Registratie.kleding, Registratie.maaltijd, Registratie.activering, Registratie.gbrv,
+            SELECT Registratie.id, Registratie.binnen, Registratie.buiten, Registratie.douche, Registratie.mw, Registratie.kleding, Registratie.maaltijd, Registratie.veegploeg, Registratie.activering, Registratie.gbrv,
                 Klant.voornaam, Klant.achternaam, Klant.roepnaam, Klant.tussenvoegsel, Klant.laatste_TBC_controle, Registratie.klant_id
             FROM registraties Registratie
             INNER JOIN (
@@ -646,7 +657,7 @@ class Registratie extends AppModel
         }
 
         $fields = [
-            'douche', 'maaltijd', 'kleding', 'activering', 'mw', 'gbrv',
+            'douche', 'maaltijd', 'veegploeg', 'kleding', 'activering', 'mw', 'gbrv',
         ];
 
         $changed = false;

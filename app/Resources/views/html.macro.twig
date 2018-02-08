@@ -43,6 +43,12 @@
     </a>
 {% endmacro %}
 
+{% macro cancelLink(url) %}
+    <a href="{{ url }}">
+        <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+    </a>
+{% endmacro %}
+
 {% macro navLink(label, url, active) %}
     <li role="presentation" class="{{ active ? "active" }}">
         <a href="{{ url }}" >{{ label }}</a>

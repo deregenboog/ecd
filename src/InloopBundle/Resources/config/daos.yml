@@ -18,6 +18,9 @@ services:
     InloopBundle\Service\MemoDao:
         parent: inloop.dao
 
+    InloopBundle\Service\RegistratieDao:
+        parent: inloop.dao
+
     InloopBundle\Service\SchorsingDao:
         parent: inloop.dao
         
@@ -35,4 +38,3 @@ services:
         arguments:
             -
               - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
-

@@ -23,7 +23,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require __DIR__.'/../autoload.php';
-Debug::enable();
+Debug::enable(E_ALL & ~E_STRICT & ~E_DEPRECATED);
 
 $kernel = new AppKernel('dev', true);
 if (PHP_VERSION_ID < 70000) {

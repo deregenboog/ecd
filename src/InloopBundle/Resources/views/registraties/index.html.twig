@@ -1,0 +1,109 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.id) }}
+                        {{ form_errors(filter.klant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geslacht) }}
+                        {{ form_errors(filter.klant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.locatie) }}
+                        {{ form_errors(filter.locatie) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.binnen.start) }}
+                        {{ form_errors(filter.binnen.start) }}
+                        {{ form_widget(filter.binnen.end) }}
+                        {{ form_errors(filter.binnen.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.buiten.start) }}
+                        {{ form_errors(filter.buiten.start) }}
+                        {{ form_widget(filter.buiten.end) }}
+                        {{ form_errors(filter.buiten.end) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Locatie', 'locatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Buiten', 'registratie.buiten') }}
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registratie in pagination %}
+            <tr data-href="{{ path('inloop_registraties_view', {id: registratie.id}) }}">
+                <td>
+                    {{ registratie.klant.id }}
+                </td>
+                <td>
+                    {{ registratie.klant }}
+                </td>
+                <td>
+                    {{ registratie.klant.geslacht }}
+                </td>
+                <td>
+                    {{ registratie.locatie }}
+                </td>
+                <td>
+                    {{ registratie.binnen ? registratie.binnen|date('d-m-Y H:i') }}
+                </td>
+                <td>
+                    {{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}
+                </td>
+                <td>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

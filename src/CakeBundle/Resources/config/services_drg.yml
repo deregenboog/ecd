@@ -509,6 +509,7 @@ parameters:
                 - InloopBundle\Controller\Documenten
                 - InloopBundle\Controller\Klanten
                 - InloopBundle\Controller\Memos
+                - InloopBundle\Controller\Registraties
                 - InloopBundle\Controller\Schorsingen
                 - InloopBundle\Controller\Vrijwilligers
                 - clip

@@ -65,7 +65,7 @@ class FactuurFactory implements FactuurFactoryInterface
 
     private function getNummer(Klant $klant)
     {
-        return sprintf('%d/%d', $klant->getId(), $this->end->format('ymd'));
+        return sprintf('%d-%d', $klant->getId(), $this->end->format('ymd'));
     }
 
     private function getBetreft($nummer)

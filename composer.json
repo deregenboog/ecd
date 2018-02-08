@@ -55,7 +55,8 @@
         "beberlei/DoctrineExtensions" : "^1.0",
         "symfony/templating" : "^3.4",
         "symfony/translation" : "^3.4",
-        "egeloen/ckeditor-bundle" : "^6.0"
+        "egeloen/ckeditor-bundle" : "^6.0",
+        "tecnickcom/tcpdf": "^6.2"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer" : "^2",

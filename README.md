@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/deregenboog/ecd.svg?branch=master)](https://travis-ci.org/deregenboog/ecd)
+
 # Electronisch Cliëntendossier (ECD)
 
 ## Requirements

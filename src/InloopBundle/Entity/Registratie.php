@@ -72,42 +72,49 @@ class Registratie
      * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\Versioned
      */
-    private $douche;
+    private $douche = 0;
 
     /**
      * @var int
      * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\Versioned
      */
-    private $mw;
+    private $mw = 0;
 
     /**
      * @var int
      * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\Versioned
      */
-    private $gbrv;
+    private $gbrv = 0;
 
     /**
-     * @var int
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
     private $kleding = false;
 
     /**
-     * @var int
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
     private $maaltijd = false;
 
     /**
-     * @var int
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
     private $activering = false;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $veegploeg = false;
 
     /**
      * @var int
@@ -115,6 +122,21 @@ class Registratie
      * @Gedmo\Versioned
      */
     private $closed = false;
+
+    public function __toString()
+    {
+        $parts = [
+            (string) $this->klant,
+            (string) $this->locatie,
+            $this->binnen->format('d-m-Y H:i')
+        ];
+
+        if ($this->buiten) {
+            $parts[] = $this->buiten->format('- H:i');
+        }
+
+        return implode(' ', $parts);
+    }
 
     public function getId()
     {
@@ -201,6 +223,18 @@ class Registratie
     public function setGbrv($gbrv)
     {
         $this->gbrv = $gbrv;
+
+        return $this;
+    }
+
+    public function getVeegploeg()
+    {
+        return $this->veegploeg;
+    }
+
+    public function setVeegploeg($veegploeg)
+    {
+        $this->veegploeg = $veegploeg;
 
         return $this;
     }
