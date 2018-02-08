@@ -1,15 +1,9 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '::add.html.twig' %}
 
 {% block title %}
-    OEK | Verwijzingen Door |
+    Op Eigen Kracht | Verwijzingen Door
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
-{% endblock %}
-
-{% block content %}
-    <h1>Verwijzing door toevoegen</h1>
-    {{ form(form) }}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}

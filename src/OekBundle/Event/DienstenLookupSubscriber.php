@@ -7,7 +7,7 @@ use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Klant;
-use OekBundle\Entity\OekKlant;
+use OekBundle\Entity\Deelnemer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
@@ -44,15 +44,15 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             $event->setKlant($klant);
         }
 
-        $oekKlant = $this->entityManager->getRepository(OekKlant::class)
+        $deelnemer = $this->entityManager->getRepository(Deelnemer::class)
             ->findOneBy(['klant' => $klant]);
 
-        if ($oekKlant instanceof OekKlant) {
+        if ($deelnemer instanceof Deelnemer) {
             $event->addDienst([
                 'name' => 'Op eigen kracht',
-                'url' => $this->generator->generate('oek_klanten_view', ['id' => $oekKlant->getId()]),
-                'from' => $oekKlant->getOekAanmelding() ? $oekKlant->getOekAanmelding()->getDatum()->format('Y-m-d') : null,
-                'to' => $oekKlant->getOekAfsluiting() ? $oekKlant->getOekAfsluiting()->getDatum()->format('Y-m-d') : null,
+                'url' => $this->generator->generate('oek_deelnemers_view', ['id' => $deelnemer->getId()]),
+                'from' => $deelnemer->getAanmelding() ? $deelnemer->getAanmelding()->getDatum()->format('Y-m-d') : null,
+                'to' => $deelnemer->getAfsluiting() ? $deelnemer->getAfsluiting()->getDatum()->format('Y-m-d') : null,
                 'type' => 'date',
                 'value' => '',
             ]);

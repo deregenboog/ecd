@@ -3,17 +3,19 @@
 namespace AppBundle\Export;
 
 use Symfony\Component\HttpFoundation\Response;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 abstract class AbstractExport implements ExportInterface
 {
     /**
-     * @var \PHPExcel
+     * @var Spreadsheet
      */
     protected $excel;
 
     public function send($filename)
     {
-        if (!$this->excel instanceof \PHPExcel) {
+        if (!$this->excel instanceof Spreadsheet) {
             throw new ExportException('Call create() before calling send()!');
         }
 
@@ -31,7 +33,7 @@ abstract class AbstractExport implements ExportInterface
 
     public function getResponse($filename)
     {
-        if (!$this->excel instanceof \PHPExcel) {
+        if (!$this->excel instanceof Spreadsheet) {
             throw new ExportException('Call create() before calling getResponse()!');
         }
 
@@ -49,6 +51,6 @@ abstract class AbstractExport implements ExportInterface
 
     protected function getWriter()
     {
-        return \PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+        return IOFactory::createWriter($this->excel, 'Xlsx');
     }
 }

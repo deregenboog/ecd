@@ -1,3 +1,3 @@
-OekBundle\Entity\OekVerwijzingNaar:
+OekBundle\Entity\VerwijzingNaar:
     oek_verwijzing_naar_{1..10}:
         naam: '<word()>'

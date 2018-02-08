@@ -2,10 +2,11 @@
 
 namespace OekBundle\Controller;
 
-use OekBundle\Form\OekRapportageType;
-use AppBundle\Report\AbstractReport;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\GenericExport;
+use JMS\DiExtraBundle\Annotation as DI;
+use OekBundle\Form\RapportageType;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -13,7 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RapportagesController extends AbstractRapportagesController
 {
-    protected $formClass = OekRapportageType::class;
+    protected $formClass = RapportageType::class;
+
+    /**
+     * @var GenericExport
+     *
+     * @DI\Inject("oek.export.report")
+     */
+    protected $export;
 
     /**
      * @Route("/")
@@ -21,35 +29,5 @@ class RapportagesController extends AbstractRapportagesController
     public function indexAction(Request $request)
     {
         return parent::indexAction($request);
-    }
-
-    public function download(AbstractReport $report)
-    {
-        $data = $this->extractDataFromReport($report);
-
-        foreach ($data['reports'] as &$subReport) {
-            if ($firstRow = reset($subReport['data'])) {
-                $subReport['columns'] = array_keys($firstRow);
-                array_unshift($subReport['columns'], $subReport['yDescription']);
-            } else {
-                // Geen rijen dus geen kolommen.
-                $subReport['columns'] = ['Geen data.'];
-            }
-        }
-
-        $response = $this->render('@Oek/rapportages/download.csv.twig', $data);
-
-        $filename = sprintf(
-            '%s-%s-%s.xls',
-            $report->getTitle(),
-            $report->getStartDate()->format('d-m-Y'),
-            $report->getEndDate()->format('d-m-Y')
-        );
-
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        return $response;
     }
 }

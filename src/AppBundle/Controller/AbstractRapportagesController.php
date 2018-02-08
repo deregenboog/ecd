@@ -51,7 +51,6 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         $data = $this->extractDataFromReport($report);
 
-        $this->autoRender = false;
         $filename = sprintf(
             '%s-%s-%s.xls',
             $report->getTitle(),

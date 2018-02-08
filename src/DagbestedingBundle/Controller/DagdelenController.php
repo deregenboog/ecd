@@ -19,6 +19,7 @@ class DagdelenController extends AbstractController
     protected $entityClass = Dagdeel::class;
     protected $filterFormClass = DagdeelFilterType::class;
     protected $baseRouteName = 'dagbesteding_dagdelen_';
+    protected $disabledActions = ['view', 'add', 'edit', 'delete'];
 
     /**
      * @var DagdeelDaoInterface

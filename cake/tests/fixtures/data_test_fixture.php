@@ -11,56 +11,50 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.6700
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  */
-class DataTestFixture extends CakeTestFixture {
+class DataTestFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'DataTest'
+     */
+    public $name = 'DataTest';
 
-/**
- * name property
- *
- * @var string 'DataTest'
- * @access public
- */
-	var $name = 'DataTest';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer', 'key' => 'primary'],
+        'count' => ['type' => 'integer', 'default' => 0],
+        'float' => ['type' => 'float', 'default' => 0],
+        //'timestamp' => array('type' => 'timestamp', 'default' => null, 'null' => true),
+        'created' => ['type' => 'datetime', 'default' => null],
+        'updated' => ['type' => 'datetime', 'default' => null],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'count' => array('type' => 'integer', 'default' => 0),
-		'float' => array('type' => 'float', 'default' => 0),
-		//'timestamp' => array('type' => 'timestamp', 'default' => null, 'null' => true),
-		'created' => array('type' => 'datetime', 'default' => null),
-		'updated' => array('type' => 'datetime', 'default' => null)
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array(
-			'count' => 2,
-			'float' => 2.4,
-			'created' => '2010-09-06 12:28:00',
-			'updated' => '2010-09-06 12:28:00'
-		)
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        [
+            'count' => 2,
+            'float' => 2.4,
+            'created' => '2010-09-06 12:28:00',
+            'updated' => '2010-09-06 12:28:00',
+        ],
+    ];
 }

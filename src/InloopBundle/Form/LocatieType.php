@@ -7,15 +7,33 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use InloopBundle\Entity\Locatie;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormBuilder;
+use AppBundle\Form\BaseType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\AppDateType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class LocatieType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('naam')
+            ->add('datumVan', AppDateType::class)
+            ->add('datumTot', AppDateType::class)
+            ->add('submit', SubmitType::class)
+        ;
+    }
+
+        /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseType::class;
     }
 
     /**
@@ -25,11 +43,6 @@ class LocatieType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Locatie::class,
-            'query_builder' => function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('locatie')
-                    ->orderBy('locatie.naam')
-                ;
-            },
         ]);
     }
 }

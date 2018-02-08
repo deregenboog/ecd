@@ -1,0 +1,52 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Op Eigen Kracht | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {% set edit_link = path('oek_vrijwilligers_edit', {id: entity.id}) %}
+        {{ html.editLink(edit_link) }}
+        {{ html.link(entity_name|capitalize~' wijzigen', edit_link) }}
+
+        {% if entity.deletable %}
+            {% set delete_link = path('oek_vrijwilligers_delete', {id: entity.id}) %}
+            {{ html.deleteLink(delete_link) }}
+            {{ html.link(entity_name|capitalize~' verwijderen', delete_link) }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.vrijwilliger.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#memos">Memo's</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="memos" class="tab-pane active">
+            {% include '@Oek/memos/_list.html.twig' with {vrijwilliger: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include '@Oek/documenten/_list.html.twig' with {vrijwilliger: entity} %}
+        </div>
+    </div>
+{% endblock %}

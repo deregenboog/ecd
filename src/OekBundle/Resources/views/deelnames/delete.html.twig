@@ -2,18 +2,18 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Deelnames |
+    Op Eigen Kracht | Deelnames
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
     <h1>Deelname verwijderen</h1>
     <p>
-        Weet u zeker dat u deelnemer <strong>{{ oekDeelname.oekKlant }}</strong>
-        van training <strong>{{ oekDeelname.oekTraining }}</strong> wilt verwijderen?
+        Weet u zeker dat u deelnemer <strong>{{ deelname.deelnemer }}</strong>
+        van training <strong>{{ deelname.training }}</strong> wilt verwijderen?
         <br>
         {{ form(form) }}
     </p>

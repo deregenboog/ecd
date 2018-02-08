@@ -24,6 +24,12 @@ services:
               - { key: traject, dao: '@dagbesteding.dao.traject' }
               - { key: rapportage, dao: '@dagbesteding.dao.rapportage' }
 
+    dagbesteding.traject.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+
     dagbesteding.rapportage.entities:
         class: ArrayObject
         arguments:

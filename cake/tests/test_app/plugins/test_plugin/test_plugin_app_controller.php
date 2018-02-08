@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Suite TestPlugin AppController
+ * Test Suite TestPlugin AppController.
  *
  * PHP versions 4 and 5
  *
@@ -11,10 +11,12 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.cases.libs
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.5432
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
-class TestPluginAppController extends AppController { }
+class TestPluginAppController extends AppController
+{
+}

@@ -12,82 +12,86 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <table class="table table-hover">
-        <tr>
+        <thead>
             {{ form_start(filter) }}
-            <th>
-                {{ form_widget(filter.klant.naam) }}
-                {{ form_errors(filter.klant.naam) }}
-            </th>
-            <th>
-                {{ form_widget(filter.soort) }}
-                {{ form_errors(filter.soort) }}
-            </th>
-            <th>
-                {{ form_widget(filter.resultaatgebied.soort) }}
-                {{ form_errors(filter.resultaatgebied.soort) }}
-            </th>
-            <th>
-                {{ form_widget(filter.begeleider) }}
-                {{ form_errors(filter.begeleider) }}
-            </th>
-            <th>
-                {{ form_widget(filter.project) }}
-                {{ form_errors(filter.project) }}
-            </th>
-            <th>
-                {{ form_widget(filter.startdatum.start) }}
-                {{ form_errors(filter.startdatum.start) }}
-                {{ form_widget(filter.startdatum.end) }}
-                {{ form_errors(filter.startdatum.end) }}
-            </th>
-            <th>
-                {{ form_widget(filter.rapportage.datum.start) }}
-                {{ form_errors(filter.rapportage.datum.start) }}
-                {{ form_widget(filter.rapportage.datum.end) }}
-                {{ form_errors(filter.rapportage.datum.end) }}
-            </th>
-            <th>
-                {{ form_widget(filter.afsluitdatum.start) }}
-                {{ form_errors(filter.afsluitdatum.start) }}
-                {{ form_widget(filter.afsluitdatum.end) }}
-                {{ form_errors(filter.afsluitdatum.end) }}
-            </th>
-            <th>
-                {{ form_widget(filter.filter) }}
-                {{ form_widget(filter.download) }}
-            </th>
+                <tr>
+                    <th colspan="8">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.soort) }}
+                        {{ form_errors(filter.soort) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.resultaatgebied.soort) }}
+                        {{ form_errors(filter.resultaatgebied.soort) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.begeleider) }}
+                        {{ form_errors(filter.begeleider) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.project) }}
+                        {{ form_errors(filter.project) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.startdatum.start) }}
+                        {{ form_errors(filter.startdatum.start) }}
+                        {{ form_widget(filter.startdatum.end) }}
+                        {{ form_errors(filter.startdatum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.rapportage.datum.start) }}
+                        {{ form_errors(filter.rapportage.datum.start) }}
+                        {{ form_widget(filter.rapportage.datum.end) }}
+                        {{ form_errors(filter.rapportage.datum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.afsluitdatum.start) }}
+                        {{ form_errors(filter.afsluitdatum.start) }}
+                        {{ form_widget(filter.afsluitdatum.end) }}
+                        {{ form_errors(filter.afsluitdatum.end) }}
+                    </th>
+                </tr>
             {{ form_end(filter) }}
-        </tr>
-        <tr>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Soort', 'trajectsoort.naam') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Resultaatgebied', 'resultaatgebiedsoort.naam') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Trajectbegeleider', 'begeleider.naam') }}
-            </th>
-            <th>
-                Project(en)
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Rapportagedata', 'rapportage.datum') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'traject.afsluitdatum') }}
-            </th>
-            <th>
-            </th>
-        </tr>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Soort', 'trajectsoort.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Resultaatgebied', 'resultaatgebiedsoort.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Trajectbegeleider', 'begeleider.naam') }}
+                </th>
+                <th>
+                    Project(en)
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Rapportagedata', 'rapportage.datum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'traject.afsluitdatum') }}
+                </th>
+            </tr>
+        </thead>
         {% for traject in pagination %}
-        <tr>
+        <tr data-href="{{ path('dagbesteding_trajecten_view', {id: traject.id}) }}">
             <td>
                 {{ traject.deelnemer.klant.naam }}
             </td>
@@ -122,15 +126,6 @@
                 {% if traject.afsluitdatum %}
                     {{ traject.afsluitdatum ? traject.afsluitdatum|date('d-m-Y') }}<br>
                     ({{ traject.afsluiting }})
-                {% endif %}
-            </td>
-            <td>
-                {{ html.viewLink(path('dagbesteding_trajecten_view', {id: traject.id})) }}
-                {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
-                    {{ html.editLink(path('dagbesteding_trajecten_edit', {id: traject.id})) }}
-                    {% if traject.deletable %}
-                        {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: traject.id})) }}
-                    {% endif %}
                 {% endif %}
             </td>
         </tr>

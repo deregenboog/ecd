@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Plugin Post Model
+ * Test Plugin Post Model.
  *
  *
  *
@@ -13,25 +13,25 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
- * @link          http://cakephp.org CakePHP Project
- * @package       cake
- * @subpackage    cake.cake.tests.test_app.plugins.test_plugin
+ *
+ * @see          http://cakephp.org CakePHP Project
  * @since         CakePHP v 1.2.0.4487
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class TestPluginPost extends TestPluginAppModel {
+class TestPluginPost extends TestPluginAppModel
+{
+    /**
+     * Name property.
+     *
+     * @var string
+     */
+    public $name = 'Post';
 
-/**
- * Name property
- *
- * @var string
- */
-	var $name = 'Post';
-
-/**
- * useTable property
- *
- * @var string
- */
-	var $useTable = 'posts';
+    /**
+     * useTable property.
+     *
+     * @var string
+     */
+    public $useTable = 'posts';
 }

@@ -117,11 +117,33 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /hs/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/hs'
+        inloop_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /inloop/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/inloop'
         odp_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/odp'
+        oek_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /oek/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/oek'
+        pfo_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /pfo/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/pfo'
 
 shivas_versioning:
     version_parameter: application_version
     version_file: version.yml
+
+ivory_ck_editor:
+    jquery: true
+    default_config: basic
+    configs:
+        basic:
+            disableNativeSpellChecker: false
+            removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
+            enterMode: CKEDITOR.ENTER_BR
+            toolbar: [["Bold", "Italic", "Underline"]]

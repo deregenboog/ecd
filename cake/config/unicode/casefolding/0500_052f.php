@@ -17,15 +17,15 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.cake.config.unicode.casefolding
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.5691
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
- * The upper field is the decimal value of the upper case character
+ * The upper field is the decimal value of the upper case character.
  *
  * The lower filed is an array of the decimal values that form the lower case version of a character.
  *
@@ -39,11 +39,11 @@
  *     Note that the Turkic mappings do not maintain canonical equivalence without additional processing.
  *     See the discussions of case mapping in the Unicode Standard for more information.
  */
-$config['0500_052f'][] = array('upper' => 1280, 'status' => 'C', 'lower' => array(1281)); /* CYRILLIC CAPITAL LETTER KOMI DE */
-$config['0500_052f'][] = array('upper' => 1282, 'status' => 'C', 'lower' => array(1283)); /* CYRILLIC CAPITAL LETTER KOMI DJE */
-$config['0500_052f'][] = array('upper' => 1284, 'status' => 'C', 'lower' => array(1285)); /* CYRILLIC CAPITAL LETTER KOMI ZJE */
-$config['0500_052f'][] = array('upper' => 1286, 'status' => 'C', 'lower' => array(1287)); /* CYRILLIC CAPITAL LETTER KOMI DZJE */
-$config['0500_052f'][] = array('upper' => 1288, 'status' => 'C', 'lower' => array(1289)); /* CYRILLIC CAPITAL LETTER KOMI LJE */
-$config['0500_052f'][] = array('upper' => 1290, 'status' => 'C', 'lower' => array(1291)); /* CYRILLIC CAPITAL LETTER KOMI NJE */
-$config['0500_052f'][] = array('upper' => 1292, 'status' => 'C', 'lower' => array(1293)); /* CYRILLIC CAPITAL LETTER KOMI SJE */
-$config['0500_052f'][] = array('upper' => 1294, 'status' => 'C', 'lower' => array(1295)); /* CYRILLIC CAPITAL LETTER KOMI TJE */
+$config['0500_052f'][] = ['upper' => 1280, 'status' => 'C', 'lower' => [1281]]; /* CYRILLIC CAPITAL LETTER KOMI DE */
+$config['0500_052f'][] = ['upper' => 1282, 'status' => 'C', 'lower' => [1283]]; /* CYRILLIC CAPITAL LETTER KOMI DJE */
+$config['0500_052f'][] = ['upper' => 1284, 'status' => 'C', 'lower' => [1285]]; /* CYRILLIC CAPITAL LETTER KOMI ZJE */
+$config['0500_052f'][] = ['upper' => 1286, 'status' => 'C', 'lower' => [1287]]; /* CYRILLIC CAPITAL LETTER KOMI DZJE */
+$config['0500_052f'][] = ['upper' => 1288, 'status' => 'C', 'lower' => [1289]]; /* CYRILLIC CAPITAL LETTER KOMI LJE */
+$config['0500_052f'][] = ['upper' => 1290, 'status' => 'C', 'lower' => [1291]]; /* CYRILLIC CAPITAL LETTER KOMI NJE */
+$config['0500_052f'][] = ['upper' => 1292, 'status' => 'C', 'lower' => [1293]]; /* CYRILLIC CAPITAL LETTER KOMI SJE */
+$config['0500_052f'][] = ['upper' => 1294, 'status' => 'C', 'lower' => [1295]]; /* CYRILLIC CAPITAL LETTER KOMI TJE */

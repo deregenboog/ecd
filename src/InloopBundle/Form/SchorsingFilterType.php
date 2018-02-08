@@ -27,7 +27,7 @@ class SchorsingFilterType extends AbstractType
         }
 
         if (in_array('locatie', $options['enabled_filters'])) {
-            $builder->add('locatie', LocatieType::class, [
+            $builder->add('locatie', LocatieSelectType::class, [
                 'required' => false,
             ]);
         }

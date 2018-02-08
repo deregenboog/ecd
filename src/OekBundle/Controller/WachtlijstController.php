@@ -3,95 +3,85 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use AppBundle\Entity\Klant;
-use OekBundle\Entity\OekKlant;
-use OekBundle\Form\OekKlantFilterType;
+use AppBundle\Entity\Klant as AppKlant;
+use OekBundle\Entity\Deelnemer;
+use OekBundle\Form\DeelnemerFilterType;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Routing\Annotation\Route;
+use JMS\DiExtraBundle\Annotation as DI;
+use AppBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/wachtlijst")
  */
-class WachtlijstController extends SymfonyController
+class WachtlijstController extends AbstractController
 {
-    private $enabledFilters = [
-        'klant' => ['id', 'naam', 'stadsdeel'],
-        'groep',
-        'aanmelddatum',
-        'afsluitdatum',
-    ];
+    protected $title = 'Wachtlijst deelnemers';
+    protected $filterFormClass = DeelnemerFilterType::class;
+    protected $baseRouteName = 'oek_deelnemers_';
+    protected $disabledActions = ['view', 'add', 'edit', 'delete'];
 
-    private $sortFieldWhitelist = [
-        'klant.id',
-        'klant.achternaam',
-        'werkgebied.naam',
-        'oekGroep.naam',
-        'oekAanmelding.datum',
-        'oekAfsluiting.datum',
-    ];
+    /**
+     * @var DeelnemerDaoInterface
+     *
+     * @DI\Inject("OekBundle\Service\DeelnemerDao")
+     */
+    protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("oek.export.wachtlijst")
+     */
+    protected $export;
 
     /**
      * @Route("/")
      */
-    public function index()
+    public function indexAction(Request $request)
     {
-        $repository = $this->getEntityManager()->getRepository(OekKlant::class);
-        $builder = $repository->createQueryBuilder('oekKlant')
-            ->select('oekKlant, klant, oekAanmelding, oekAfsluiting, verwijzingAanmelding, verwijzingAfsluiting, oekDossierStatus, oekLidmaatschap, oekGroep')
-            ->innerJoin('oekKlant.klant', 'klant')
-            ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->leftJoin('oekKlant.oekAanmelding', 'oekAanmelding')
-            ->leftJoin('oekKlant.oekAfsluiting', 'oekAfsluiting')
-            ->leftJoin('oekAanmelding.verwijzing', 'verwijzingAanmelding')
-            ->leftJoin('oekAfsluiting.verwijzing', 'verwijzingAfsluiting')
-            ->leftJoin('oekKlant.oekDossierStatus', 'oekDossierStatus')
-            ->innerJoin('oekKlant.oekLidmaatschappen', 'oekLidmaatschap')
-            ->innerJoin('oekLidmaatschap.oekGroep', 'oekGroep')
-        ;
-
-        $filter = $this->createFilter();
-        if ($filter->isValid()) {
-            $filter->getData()->applyTo($builder);
-            if ($filter->get('download')->isClicked()) {
-                return $this->download($builder);
+        $filter = null;
+        if ($this->filterFormClass) {
+            $form = $this->createForm($this->filterFormClass, null, ['enabled_filters' => [
+                'klant' => ['id', 'naam', 'stadsdeel'],
+                'groep',
+                'aanmelddatum',
+            ]]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->has('download') && $form->get('download')->isClicked()) {
+                    return $this->download($form->getData());
+                }
             }
+            $filter = $form->getData();
         }
 
-        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => 'klant.achternaam',
-            'defaultSortDirection' => 'asc',
-            'sortFieldWhitelist' => $this->sortFieldWhitelist,
-            'wrap-queries' => true, // because of HAVING clause in filter
-        ]);
+        $page = $request->get('page', 1);
+        $pagination = $this->dao->findWachtlijst($page, $filter);
 
-        return ['filter' => $filter->createView(), 'pagination' => $pagination];
+        return [
+            'filter' => isset($form) ? $form->createView() : null,
+            'pagination' => $pagination,
+        ];
     }
 
-    public function download(QueryBuilder $builder)
+    protected function download(FilterInterface $filter)
     {
-        $oekKlanten = $builder->getQuery()->getResult();
+        ini_set('memory_limit', '512M');
 
-        $response = $this->render('@Oek/wachtlijst/download.csv.twig', compact('oekKlanten'));
+        $filename = $this->getDownloadFilename();
+        $collection = $this->dao->findWachtlijst(null, $filter);
 
-        $filename = sprintf('op-eigen-kracht-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        return $response;
+        return $this->export->create($collection)->getResponse($filename);
     }
 
-    /**
-     * @return FormInterface
-     */
-    private function createFilter()
+    protected function getDownloadFilename()
     {
-        $filter = $this->createForm(OekKlantFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
-        $filter->handleRequest($this->getRequest());
-
-        return $filter;
+        return sprintf('op-eigen-kracht-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
     }
 }

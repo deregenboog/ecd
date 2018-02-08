@@ -1,4 +1,4 @@
-;<?php exit() ?>
+;<?php exit(); ?>
 ; SVN FILE: $Id$
 ;/**
 ; * ACL Configuration

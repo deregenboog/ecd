@@ -5,7 +5,7 @@ namespace DagbestedingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\NamableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\ActivatableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Resultaatgebiedsoort
 {
-    use IdentifiableTrait, NamableTrait, ActivatableTrait;
+    use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
     /**
      * @var ArrayCollection|Resultaatgebied[]

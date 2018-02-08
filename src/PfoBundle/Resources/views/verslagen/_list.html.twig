@@ -1,0 +1,32 @@
+{% if client is defined %}
+    {% set entity = client %}
+    {% set url = path('pfo_verslagen_add', {client: entity.id}) %}
+{% endif %}
+
+<h2>Verslagen</h2>
+{% if url is defined %}
+    <p>
+        {{ html.addLink(url) }}
+        {{ html.link('Verslag toevoegen', url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <tr>
+        <th>Datum</th>
+        <th>Contacttype</th>
+        <th>Medewerker</th>
+        <th>Verslag</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for verslag in entity.verslagen %}
+        <tr>
+            <td>{{ verslag.created|date('d-m-Y') }}</td>
+            <td>{{ verslag.type }}</td>
+            <td>{{ verslag.medewerker }}</td>
+            <td>{{ verslag.verslag|striptags('<strong><em><u>')|raw|nl2br }}</td>
+            <td>
+                {{ html.editLink(path('pfo_verslagen_edit', {id: verslag.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PagesControllerTest file
+ * PagesControllerTest file.
  *
  * PHP versions 4 and 5
  *
@@ -11,62 +11,55 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.tests.cases.libs.controller
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.5436
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 if (!class_exists('AppController')) {
-	require_once LIBS . 'controller' . DS . 'app_controller.php';
+    require_once LIBS.'controller'.DS.'app_controller.php';
 } elseif (!defined('APP_CONTROLLER_EXISTS')) {
-	define('APP_CONTROLLER_EXISTS', true);
+    define('APP_CONTROLLER_EXISTS', true);
 }
 App::import('Controller', 'Pages');
 
 /**
- * PagesControllerTest class
- *
- * @package       cake
- * @subpackage    cake.tests.cases.libs.controller
+ * PagesControllerTest class.
  */
-class PagesControllerTest extends CakeTestCase {
+class PagesControllerTest extends CakeTestCase
+{
+    /**
+     * endTest method.
+     */
+    public function endTest()
+    {
+        App::build();
+    }
 
-/**
- * endTest method
- *
- * @access public
- * @return void
- */
-	function endTest() {
-		App::build();
-	}
+    /**
+     * testDisplay method.
+     */
+    public function testDisplay()
+    {
+        if ($this->skipIf(defined('APP_CONTROLLER_EXISTS'), '%s Need a non-existent AppController')) {
+            return;
+        }
 
-/**
- * testDisplay method
- *
- * @access public
- * @return void
- */
-	function testDisplay() {
-		if ($this->skipIf(defined('APP_CONTROLLER_EXISTS'), '%s Need a non-existent AppController')) {
-			return;
-		}
+        App::build([
+            'views' => [TEST_CAKE_CORE_INCLUDE_PATH.'tests'.DS.'test_app'.DS.'views'.DS, TEST_CAKE_CORE_INCLUDE_PATH.'libs'.DS.'view'.DS],
+        ]);
+        $Pages = new PagesController();
 
-		App::build(array(
-			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS, TEST_CAKE_CORE_INCLUDE_PATH . 'libs' . DS . 'view' . DS)
-		));
-		$Pages = new PagesController();
+        $Pages->viewPath = 'posts';
+        $Pages->display('index');
+        $this->assertPattern('/posts index/', $Pages->output);
+        $this->assertEqual($Pages->viewVars['page'], 'index');
 
-		$Pages->viewPath = 'posts';
-		$Pages->display('index');
-		$this->assertPattern('/posts index/', $Pages->output);
-		$this->assertEqual($Pages->viewVars['page'], 'index');
-
-		$Pages->viewPath = 'themed';
-		$Pages->display('test_theme', 'posts', 'index');
-		$this->assertPattern('/posts index themed view/', $Pages->output);
-		$this->assertEqual($Pages->viewVars['page'], 'test_theme');
-		$this->assertEqual($Pages->viewVars['subpage'], 'posts');
-	}
+        $Pages->viewPath = 'themed';
+        $Pages->display('test_theme', 'posts', 'index');
+        $this->assertPattern('/posts index themed view/', $Pages->output);
+        $this->assertEqual($Pages->viewVars['page'], 'test_theme');
+        $this->assertEqual($Pages->viewVars['subpage'], 'posts');
+    }
 }

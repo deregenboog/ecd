@@ -53,3 +53,4 @@
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
 /.php_cs.cache
+/cache.properties

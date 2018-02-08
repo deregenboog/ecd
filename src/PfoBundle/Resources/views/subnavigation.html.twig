@@ -1,0 +1,14 @@
+{% import '::html.macro.twig' as html %}
+<ul class="nav nav-tabs">
+    {{ html.navLink('Clienten', path('pfo_clienten_index'), isActiveRoute('pfo_clienten_')) }}
+    {{ html.navLink('Rapportage', path('pfo_rapportages_index'), isActiveRoute('pfo_rapportages_')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('pfo/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Aard relaties', path('pfo_aardrelaties_index'), isActiveRoute('pfo_aardrelaties_')) }}
+            {{ html.navLink('Groepen', path('pfo_groepen_index'), isActiveRoute('pfo_groepen_')) }}
+        </ul>
+    </li>
+</ul>

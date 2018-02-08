@@ -2,11 +2,11 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    OEK | Trainingen |
+    Op Eigen Kracht | Trainingen
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -29,8 +29,8 @@
                 {{ form_errors(filter.naam) }}
             </th>
             <th>
-                {{ form_widget(filter.oekGroep) }}
-                {{ form_errors(filter.oekGroep) }}
+                {{ form_widget(filter.groep) }}
+                {{ form_errors(filter.groep) }}
             </th>
             <th></th>
             <th>
@@ -48,47 +48,47 @@
         </tr>
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'oekTraining.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'training.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'oekTraining.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'training.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Groep', 'oekGroep.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Groep', 'groep.naam') }}
             </th>
             <th>
                 Deelnemers
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Startdatum', 'oekTraining.startdatum') }}
+                {{ knp_pagination_sortable(pagination, 'Startdatum', 'training.startdatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Einddatum', 'oekTraining.einddatum') }}
+                {{ knp_pagination_sortable(pagination, 'Einddatum', 'training.einddatum') }}
             </th>
             <th></th>
         </tr>
-        {% for oekTraining in pagination %}
+        {% for training in pagination %}
             <tr>
                 <td>
-                    {{ html.link(oekTraining.id, path('oek_trainingen_view', {id: oekTraining.id})) }}
+                    {{ html.link(training.id, path('oek_trainingen_view', {id: training.id})) }}
                 </td>
                 <td>
-                    {{ html.link(oekTraining.naam, path('oek_trainingen_view', {id: oekTraining.id})) }}
+                    {{ html.link(training.naam, path('oek_trainingen_view', {id: training.id})) }}
                 </td>
                 <td>
-                    {{ html.link(oekTraining.oekGroep, path('oek_groepen_view', {id: oekTraining.oekGroep.id})) }}
+                    {{ html.link(training.groep, path('oek_groepen_view', {id: training.groep.id})) }}
                 </td>
-                <td>{{ oekTraining.oekKlanten.count() }}</td>
+                <td>{{ training.deelnemers.count() }}</td>
                 <td>
-                    {{ oekTraining.startdatum ? oekTraining.startdatum|date('d-m-Y') }}
-                    {{ oekTraining.starttijd ? oekTraining.starttijd|date('H:i') ~ ' uur' }}
+                    {{ training.startdatum ? training.startdatum|date('d-m-Y') }}
+                    {{ training.starttijd ? training.starttijd|date('H:i') ~ ' uur' }}
                 </td>
-                <td>{{ oekTraining.einddatum ? oekTraining.einddatum|date('d-m-Y') }}</td>
+                <td>{{ training.einddatum ? training.einddatum|date('d-m-Y') }}</td>
                 <td>
-                    {{ html.viewLink(path('oek_trainingen_view', {id: oekTraining.id})) }}
-                    {{ html.editLink(path('oek_trainingen_edit', {id: oekTraining.id})) }}
-                    {% if oekTraining.deletable %}
-                        {{ html.deleteLink(path('oek_trainingen_delete', {id: oekTraining.id})) }}
+                    {{ html.viewLink(path('oek_trainingen_view', {id: training.id})) }}
+                    {{ html.editLink(path('oek_trainingen_edit', {id: training.id})) }}
+                    {% if training.deletable %}
+                        {{ html.deleteLink(path('oek_trainingen_delete', {id: training.id})) }}
                     {% endif %}
                 </td>
             </tr>

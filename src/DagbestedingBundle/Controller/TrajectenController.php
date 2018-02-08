@@ -15,11 +15,12 @@ use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Form\DagdelenRangeType;
 use DagbestedingBundle\Form\DagdelenRangeModel;
+use AppBundle\Controller\AbstractChildController;
 
 /**
  * @Route("/trajecten")
  */
-class TrajectenController extends AbstractController
+class TrajectenController extends AbstractChildController
 {
     protected $title = 'Trajecten';
     protected $entityName = 'Traject';
@@ -27,6 +28,7 @@ class TrajectenController extends AbstractController
     protected $formClass = TrajectType::class;
     protected $filterFormClass = TrajectFilterType::class;
     protected $baseRouteName = 'dagbesteding_trajecten_';
+    protected $addMethod = 'addTraject';
 
     /**
      * @var TrajectDaoInterface
@@ -36,6 +38,13 @@ class TrajectenController extends AbstractController
     protected $dao;
 
     /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("dagbesteding.traject.entities")
+     */
+    protected $entities;
+
+    /**
      * @var GenericExport
      *
      * @DI\Inject("dagbesteding.export.trajecten")
@@ -43,9 +52,9 @@ class TrajectenController extends AbstractController
     protected $export;
 
     /**
-     * @Route("/add/{deelnemer}")
+     * @Route("/add")
      */
-    public function addAction(Request $request, Deelnemer $deelnemer)
+    public function addAction(Request $request)
     {
         if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten aan te maken.');
@@ -53,27 +62,7 @@ class TrajectenController extends AbstractController
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
-        $entity = new $this->entityClass();
-        $entity->setDeelnemer($deelnemer);
-
-        $form = $this->createForm($this->formClass, $entity);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $this->dao->create($entity);
-                $this->addFlash('success', $this->entityName.' is opgeslagen.');
-            } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->redirectToView($entity);
-        }
-
-        return [
-            'form' => $form->createView(),
-        ];
+        return parent::addAction($request);
     }
 
     /**
@@ -188,6 +177,7 @@ class TrajectenController extends AbstractController
 
         return [
             'entity' => $entity,
+            'project' => $project,
             'form' => $form->createView(),
         ];
     }

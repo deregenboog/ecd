@@ -1,0 +1,50 @@
+services:
+    oek.dao:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    OekBundle\Service\DeelnemerDao:
+        parent: oek.dao
+
+    OekBundle\Service\DocumentDao:
+        parent: oek.dao
+
+    OekBundle\Service\GroepDao:
+        parent: oek.dao
+
+    OekBundle\Service\MemoDao:
+        parent: oek.dao
+
+    OekBundle\Service\TrainingDao:
+        parent: oek.dao
+
+    OekBundle\Service\VerwijzingDoorDao:
+        parent: oek.dao
+
+    OekBundle\Service\VerwijzingNaarDao:
+        parent: oek.dao
+
+    OekBundle\Service\VrijwilligerDao:
+        parent: oek.dao
+
+    oek.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
+
+    oek.memo.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
+
+    oek.training.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: null }
+              - { key: groep, dao: '@OekBundle\Service\GroepDao' }

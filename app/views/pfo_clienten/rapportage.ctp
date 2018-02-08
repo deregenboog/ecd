@@ -1,11 +1,6 @@
 <?php
-    $years = [
-        '2013' => '2013',
-        '2014' => '2014',
-        '2015' => '2015',
-        '2016' => '2016',
-        '2017' => '2017',
-    ];
+    $range = range(date('Y'), 2013);
+    $years = array_combine($range, $range);
     echo $this->element('pfo_subnavigation');
 ?>
 

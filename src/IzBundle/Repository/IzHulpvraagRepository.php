@@ -29,6 +29,32 @@ class IzHulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countKoppelingenByAfsluitreden($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('izEindeKoppeling.naam AS afsluitreden')
+            ->innerJoin('izHulpaanbod.izEindeKoppeling', 'izEindeKoppeling')
+            ->groupBy('afsluitreden')
+        ;
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByProjectAndAfsluitreden($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('izProject.naam AS project')
+            ->addSelect('izEindeKoppeling.naam AS afsluitreden')
+            ->innerJoin('izHulpaanbod.izEindeKoppeling', 'izEindeKoppeling')
+            ->innerJoin('izHulpaanbod.izProject', 'izProject')
+            ->groupBy('izProject', 'afsluitreden')
+        ;
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countKoppelingenByCoordinator($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()

@@ -1,8 +1,9 @@
 <?php
+
 /*Sessions schema generated on: 2007-11-25 07:11:54 : 1196004714*/
 
 /**
- * This is Sessions Schema file
+ * This is Sessions Schema file.
  *
  * Use it to configure database for Sessions
  *
@@ -15,10 +16,10 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app.config.sql
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 0.2.9
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -28,22 +29,23 @@
  * cake schema run create Sessions
  *
  */
-class SessionsSchema extends CakeSchema {
+class SessionsSchema extends CakeSchema
+{
+    public $name = 'Sessions';
 
-	var $name = 'Sessions';
+    public function before($event = [])
+    {
+        return true;
+    }
 
-	function before($event = array()) {
-		return true;
-	}
+    public function after($event = [])
+    {
+    }
 
-	function after($event = array()) {
-	}
-
-	var $cake_sessions = array(
-			'id' => array('type'=>'string', 'null' => false, 'key' => 'primary'),
-			'data' => array('type'=>'text', 'null' => true, 'default' => NULL),
-			'expires' => array('type'=>'integer', 'null' => true, 'default' => NULL),
-			'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
-		);
-
+    public $cake_sessions = [
+            'id' => ['type' => 'string', 'null' => false, 'key' => 'primary'],
+            'data' => ['type' => 'text', 'null' => true, 'default' => null],
+            'expires' => ['type' => 'integer', 'null' => true, 'default' => null],
+            'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+        ];
 }

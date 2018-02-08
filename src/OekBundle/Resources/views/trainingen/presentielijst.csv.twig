@@ -4,7 +4,7 @@
 {% endfor %}{% endif %}
 {{ "Bijeenkomst " ~ aantalBijeenkomsten }}
 {% for deelname in deelnames %}
-    {{- deelname.oekKlant ~ tab -}}
+    {{- deelname.deelnemer ~ tab -}}
     {% if aantalBijeenkomsten > 1 %}{% for i in 1..(aantalBijeenkomsten-1) %}
         {{- " " ~ tab -}}
     {% endfor %}{% endif %}

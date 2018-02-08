@@ -1,10 +1,9 @@
 inloop_annotations:
     resource: "@InloopBundle/Controller"
     type: annotation
-    prefix: /inloop
 
 inloop_index:
-    path: /inloop/
+    path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: inloop_klanten_index

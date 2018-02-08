@@ -7,6 +7,9 @@ use AppBundle\Export\GenericExport;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class IzSelectionExport extends GenericExport
 {
@@ -45,19 +48,20 @@ class IzSelectionExport extends GenericExport
     }
 
     /**
-     * @return \PHPExcel_Worksheet
+     * @return Worksheet
      */
     protected function prepare()
     {
         if ($this->excel) {
             $sheet = $this->excel->getActiveSheet();
         } else {
-            $this->excel = new \PHPExcel();
+            $this->excel = new Spreadsheet();
             $sheet = $this->excel->getActiveSheet();
-            $column = 0;
+            $column = 1;
             foreach ($this->headers as $header) {
-                $sheet->setCellValueByColumnAndRow($column, 1, $header, true)
-                ->getStyle()->getFont()->setBold(true);
+                $sheet->getCellByColumnAndRow($column, 1)
+                    ->setValue($header)
+                    ->getStyle()->getFont()->setBold(true);
                 $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
                 ++$column;
             }

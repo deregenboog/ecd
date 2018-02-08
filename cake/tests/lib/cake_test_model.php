@@ -11,21 +11,19 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.cake.tests.libs
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4667
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 require_once LIBS.'model'.DS.'model.php';
 
 /**
  * Short description for class.
- *
- * @package       cake
- * @subpackage    cake.cake.tests.lib
  */
-class CakeTestModel extends Model {
-	var $useDbConfig = 'test_suite';
-	var $cacheSources = false;
+class CakeTestModel extends Model
+{
+    public $useDbConfig = 'test_suite';
+    public $cacheSources = false;
 }

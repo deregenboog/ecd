@@ -11,50 +11,45 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.6879 //Correct version number as needed**
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
  * Short description for file.
  *
- * @package       cake
- * @subpackage    cake.tests.fixtures
  * @since         CakePHP(tm) v 1.2.0.6879 //Correct version number as needed**
  */
-class NodeFixture extends CakeTestFixture {
+class NodeFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'Node'
+     */
+    public $name = 'Node';
 
-/**
- * name property
- *
- * @var string 'Node'
- * @access public
- */
-	var $name = 'Node';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer', 'key' => 'primary'],
+        'name' => 'string',
+        'state' => 'integer',
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'name' => 'string',
-		'state' => 'integer'
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('id' => 1, 'name' => 'First', 'state' => 50),
-		array('id' => 2, 'name' => 'Second', 'state' => 60),
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['id' => 1, 'name' => 'First', 'state' => 50],
+        ['id' => 2, 'name' => 'Second', 'state' => 60],
+    ];
 }

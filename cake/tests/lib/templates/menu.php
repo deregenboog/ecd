@@ -11,10 +11,10 @@
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
- * @package       cake
- * @subpackage    cake.cake.tests.lib
+ *
+ * @see          http://book.cakephp.org/1.3/en/The-Manual/Common-Tasks-With-CakePHP/Testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.4433
+ *
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 ?>
@@ -23,8 +23,8 @@
 	<li>
 		<span style="font-size: 18px">App</span>
 		<ul>
-			<li><a href='<?php echo $groups;?>&amp;app=true'>Test Groups</a></li>
-			<li><a href='<?php echo $cases;?>&amp;app=true'>Test Cases</a></li>
+			<li><a href='<?php echo $groups; ?>&amp;app=true'>Test Groups</a></li>
+			<li><a href='<?php echo $cases; ?>&amp;app=true'>Test Cases</a></li>
 		</ul>
 	</li>
 <?php
@@ -32,25 +32,25 @@ if (!empty($plugins)):
 ?>
 	<li style="padding-top: 10px">
 		<span style="font-size: 18px">Plugins</span>
-	<?php foreach($plugins as $plugin):
-			$pluginPath = Inflector::underscore($plugin);
-	?>
+	<?php foreach ($plugins as $plugin):
+            $pluginPath = Inflector::underscore($plugin);
+    ?>
 			<ul>
 				<li style="padding-top: 10px">
-					<span  style="font-size: 18px"><?php echo $plugin;?></span>
+					<span  style="font-size: 18px"><?php echo $plugin; ?></span>
 					<ul>
-						<li><a href='<?php echo $groups;?>&amp;plugin=<?php echo $pluginPath; ?>'>Test Groups</a></li>
-						<li><a href='<?php echo $cases;?>&amp;plugin=<?php echo $pluginPath; ?>'>Test Cases</a></li>
+						<li><a href='<?php echo $groups; ?>&amp;plugin=<?php echo $pluginPath; ?>'>Test Groups</a></li>
+						<li><a href='<?php echo $cases; ?>&amp;plugin=<?php echo $pluginPath; ?>'>Test Cases</a></li>
 					</ul>
 				</li>
 			</ul>
 	<?php endforeach; ?>
 	</li>
-<?php endif;?>
+<?php endif; ?>
 	<li style="padding-top: 10px">
 		<span style="font-size: 18px">Core</span>
 		<ul>
-			<li><a href='<?php echo $groups;?>'>Test Groups</a></li>
+			<li><a href='<?php echo $groups; ?>'>Test Groups</a></li>
 			<li><a href='<?php echo $cases;?>'>Test Cases</a></li>
 		</ul>
 	</li>

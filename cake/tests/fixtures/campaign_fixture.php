@@ -1,6 +1,6 @@
 <?php
 /**
- * Short description for campaign_fixture.php
+ * Short description for campaign_fixture.php.
  *
  * Long description for campaign_fixture.php
  *
@@ -12,49 +12,43 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * @link          http://www.cakephp.org
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ *
+ * @see          http://www.cakephp.org
  * @since         1.2
+ *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
- * CampaignFixture class
- *
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ * CampaignFixture class.
  */
-class CampaignFixture extends CakeTestFixture {
+class CampaignFixture extends CakeTestFixture
+{
+    /**
+     * name property.
+     *
+     * @var string 'Campaign'
+     */
+    public $name = 'Campaign';
 
-/**
- * name property
- *
- * @var string 'Campaign'
- * @access public
- */
-	var $name = 'Campaign';
+    /**
+     * fields property.
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer', 'key' => 'primary'],
+        'name' => ['type' => 'string', 'length' => 255, 'null' => false],
+    ];
 
-/**
- * fields property
- *
- * @var array
- * @access public
- */
-	var $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
-	);
-
-/**
- * records property
- *
- * @var array
- * @access public
- */
-	var $records = array(
-		array('name' => 'Hurtigruten'),
-		array('name' => 'Colorline'),
-		array('name' => 'Queen of Scandinavia')
-	);
+    /**
+     * records property.
+     *
+     * @var array
+     */
+    public $records = [
+        ['name' => 'Hurtigruten'],
+        ['name' => 'Colorline'],
+        ['name' => 'Queen of Scandinavia'],
+    ];
 }

@@ -87,6 +87,9 @@ parameters:
                 - Opmerkingen
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Documenten
+                - InloopBundle\Controller\Memos
+                - InloopBundle\Controller\Vrijwilligers
             GROUP_MAATSCHAPPELIJK:
                 - Awbz
                 - AwbzHoofdaannemers
@@ -102,7 +105,10 @@ parameters:
                 - Attachments
                 - inloop
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Documenten
+                - InloopBundle\Controller\Memos
                 - InloopBundle\Controller\Schorsingen
+                - InloopBundle\Controller\Vrijwilligers
             GROUP_HI5:
                 - Intakes
                 - Klanten
@@ -123,11 +129,13 @@ parameters:
                 - Klanten
                 - Registraties
             GROUP_PFO:
-                - PfoClienten
-                - PfoRapporten
-                - PfoAardRelaties
-                - PfoGroepen
-                - PfoVerslagen
+                - pfo
+                - PfoBundle\Controller\AardRelaties
+                - PfoBundle\Controller\Clienten
+                - PfoBundle\Controller\Documenten
+                - PfoBundle\Controller\Groepen
+                - PfoBundle\Controller\Rapportages
+                - PfoBundle\Controller\Verslagen
             GROUP_TRAJECTBEGELEIDER:
                 - Awbz
                 - AwbzHoofdaannemers
@@ -187,11 +195,14 @@ parameters:
                 - OdpBundle\Controller\Verslagen
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_IZ_BEHEER:
                 - IzAfsluitingen
@@ -232,13 +243,16 @@ parameters:
                 - OdpBundle\Controller\Woningbouwcorporaties
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
@@ -269,22 +283,28 @@ parameters:
             GROUP_OEK:
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_OEK_BEHEER:
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_ODP:
                 - odp
@@ -447,19 +467,24 @@ parameters:
                 - OdpBundle\Controller\Woningbouwcorporaties
                 - oek
                 - OekBundle\Controller\Deelnames
+                - OekBundle\Controller\Deelnemers
+                - OekBundle\Controller\Documenten
                 - OekBundle\Controller\Groepen
-                - OekBundle\Controller\Klanten
                 - OekBundle\Controller\Lidmaatschappen
+                - OekBundle\Controller\Memos
                 - OekBundle\Controller\Rapportages
                 - OekBundle\Controller\Trainingen
                 - OekBundle\Controller\VerwijzingenDoor
                 - OekBundle\Controller\VerwijzingenNaar
+                - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
-                - PfoClienten
-                - PfoRapporten
-                - PfoAardRelaties
-                - PfoGroepen
-                - PfoVerslagen
+                - pfo
+                - PfoBundle\Controller\AardRelaties
+                - PfoBundle\Controller\Clienten
+                - PfoBundle\Controller\Documenten
+                - PfoBundle\Controller\Groepen
+                - PfoBundle\Controller\Rapportages
+                - PfoBundle\Controller\Verslagen
                 - dagbesteding
                 - DagbestedingBundle\Controller\Afsluitingen
                 - DagbestedingBundle\Controller\Contactpersonen
@@ -480,9 +505,13 @@ parameters:
                 - DagbestedingBundle\Controller\Trajectsoorten
                 - DagbestedingBundle\Controller\Verslagen
                 - inloop
+                - InloopBundle\Controller\BinnenVia
+                - InloopBundle\Controller\Documenten
                 - InloopBundle\Controller\Klanten
+                - InloopBundle\Controller\Memos
                 - InloopBundle\Controller\Registraties
                 - InloopBundle\Controller\Schorsingen
+                - InloopBundle\Controller\Vrijwilligers
                 - clip
                 - ClipBundle\Controller\Behandelaars
                 - ClipBundle\Controller\Clienten
@@ -511,6 +540,23 @@ parameters:
                 - HsBundle\Controller\Rapportages
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
+                - IzAfsluitingen
+                - IzKlanten
+                - IzVrijwilligers
+                - IzDeelnemers
+                - IzHulpvragen
+                - IzHulpaanbiedingen
+                - IzKoppelingen
+                - IzRapportages
+                - IzEindekoppelingen
+                - IzIntervisiegroepen
+                - IzKoppelingen
+                - IzOntstaan
+                - IzProjecten
+                - IzVerslagen
+                - IzViaPersonen
+                - IzVraagaanboden
+                - IzOntstaanContacten
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Hulpvraagsoorten
@@ -541,9 +587,9 @@ parameters:
             Awbz:
                 label: AWBZ
                 url: Awbz
-            PfoClienten:
+            pfo:
                 label: PFO
-                url: PfoClienten
+                url: pfo
             IzKlanten:
                 label: IZ
                 url: iz_klanten

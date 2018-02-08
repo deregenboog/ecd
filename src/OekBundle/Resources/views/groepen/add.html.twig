@@ -1,16 +1,9 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '::add.html.twig' %}
 
 {% block title %}
-    OEK | Groepen |
+    Op Eigen Kracht | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
-{% endblock %}
-
-{% block content %}
-    <h1>Groep toevoegen</h1>
-
-    {{ form(form) }}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}

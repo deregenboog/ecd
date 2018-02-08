@@ -2,11 +2,16 @@
 
 namespace AppBundle\Export;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 class ReportExport extends AbstractExport
 {
     public function create($data)
     {
-        $this->excel = new \PHPExcel();
+        $this->excel = new Spreadsheet();
 
         foreach ($data['reports'] as $i => $report) {
             $reportTitle = preg_replace('[^A-Za-z0-9]', '_', $report['title']);
@@ -17,29 +22,35 @@ class ReportExport extends AbstractExport
                 $sheet = $this->excel->getActiveSheet();
                 $sheet->setTitle($reportTitle);
             } else {
-                $sheet = new \PHPExcel_Worksheet($this->excel, $reportTitle);
+                $sheet = new Worksheet($this->excel, $reportTitle);
                 $this->excel->addSheet($sheet);
             }
 
             $row = 1;
-            $sheet->setCellValueByColumnAndRow(0, $row, $data['title'], true)
+            $sheet->getCellByColumnAndRow(1, $row)
+                ->setValue($data['title'])
                 ->getStyle()->getFont()->setBold(true);
             $sheet->getColumnDimensionByColumn(0)->setAutoSize(true);
             ++$row;
-            $sheet->setCellValueByColumnAndRow(0, $row, $report['title'], true)
+            $sheet->getCellByColumnAndRow(1, $row)
+                ->setValue($report['title'])
                 ->getStyle()->getFont()->setBold(true);
 
             ++$row;
             ++$row;
-            $sheet->setCellValueByColumnAndRow(0, $row, 'Startdatum', true)
+            $sheet->getCellByColumnAndRow(1, $row)
+                ->setValue('Startdatum', true)
                 ->getStyle()->getFont()->setBold(true);
-            $sheet->setCellValueByColumnAndRow(1, $row, \PHPExcel_Shared_Date::PHPToExcel($data['startDate']), true)
-                ->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+            $sheet->getCellByColumnAndRow(2, $row)
+                ->setValue(Date::PHPToExcel($data['startDate']))
+                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
             ++$row;
-            $sheet->setCellValueByColumnAndRow(0, $row, 'Einddatum', true)
+            $sheet->getCellByColumnAndRow(1, $row)
+                ->setValue('Einddatum')
                 ->getStyle()->getFont()->setBold(true);
-            $sheet->setCellValueByColumnAndRow(1, $row, \PHPExcel_Shared_Date::PHPToExcel($data['endDate']), true)
-                ->getStyle()->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+            $sheet->getCellByColumnAndRow(2, $row)
+                ->setValue(Date::PHPToExcel($data['endDate']))
+                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
 
             if (isset($report['xDescription']) && isset($report['yDescription'])) {
                 $description = sprintf('%s / %s', $report['yDescription'], $report['xDescription']);
@@ -52,12 +63,14 @@ class ReportExport extends AbstractExport
             }
             ++$row;
             ++$row;
-            $sheet->setCellValueByColumnAndRow(0, $row, $description, true)
+            $sheet->getCellByColumnAndRow(1, $row)
+                ->setValue($description)
                 ->getStyle()->getFont()->setBold(true);
 
-            $column = 1;
+            $column = 2;
             foreach (array_keys(current($report['data'])) as $y) {
-                $sheet->setCellValueByColumnAndRow($column, $row, $y, true)
+                $sheet->getCellByColumnAndRow($column, $row)
+                    ->setValue($y)
                     ->getStyle()->getFont()->setBold(true);
                 $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
                 ++$column;
@@ -66,19 +79,20 @@ class ReportExport extends AbstractExport
             ++$row;
             $rowDataStart = $row;
             foreach ($report['data'] as $x => $series) {
-                $sheet->setCellValueByColumnAndRow(0, $row, $x, true)
+                $sheet->getCellByColumnAndRow(1, $row)
+                    ->setValue($x)
                     ->getStyle()->getFont()->setBold(true);
                 ++$row;
             }
 
-            $column = 1;
+            $column = 2;
             $row = $rowDataStart;
             foreach ($report['data'] as $series) {
                 foreach ($series as $value) {
-                    $sheet->setCellValueByColumnAndRow($column, $row, $value);
+                    $sheet->getCellByColumnAndRow($column, $row)->setValue($value);
                     ++$column;
                 }
-                $column = 1;
+                $column = 2;
                 ++$row;
             }
         }

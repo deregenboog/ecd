@@ -94,9 +94,9 @@ parameters:
             Awbz:
                 label: AWBZ
                 url: Awbz
-            PfoClienten:
+            pfo:
                 label: PFO
-                url: PfoClienten
+                url: pfo
             IzKlanten:
                 label: IZ
                 url: iz_klanten

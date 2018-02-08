@@ -1,16 +1,9 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '::edit.html.twig' %}
 
 {% block title %}
-    OEK | Verwijzingen Naar |
+    Op Eigen Kracht | Verwijzingen Naar
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Oek/oek_subnavigation.html.twig' %}
-{% endblock %}
-
-{% block content %}
-    <h1>Verwijzing wijzigen</h1>
-
-    {{ form(form) }}
+    {% include '@Oek/subnavigation.html.twig' %}
 {% endblock %}
