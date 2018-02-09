@@ -39,35 +39,35 @@ class RegistratieFilter implements FilterInterface
             ;
         }
 
-//         if ($this->datumVan) {
-//             if ($this->datumVan->getStart()) {
-//                 $builder
-//                     ->andWhere('schorsing.datumVan >= :datum_van_start')
-//                     ->setParameter('datum_van_start', $this->datumVan->getStart())
-//                 ;
-//             }
-//             if ($this->datumVan->getEnd()) {
-//                 $builder
-//                     ->andWhere('schorsing.datumVan <= :datum_van_end')
-//                     ->setParameter('datum_van_end', $this->datumVan->getEnd())
-//                 ;
-//             }
-//         }
+        if ($this->binnen) {
+            if ($this->binnen->getStart()) {
+                $builder
+                    ->andWhere('DATE(registratie.binnen) >= :datum_van_start')
+                    ->setParameter('datum_van_start', $this->binnen->getStart())
+                ;
+            }
+            if ($this->binnen->getEnd()) {
+                $builder
+                    ->andWhere('DATE(registratie.binnen) <= :datum_van_end')
+                    ->setParameter('datum_van_end', $this->binnen->getEnd())
+                ;
+            }
+        }
 
-//         if ($this->datumTot) {
-//             if ($this->datumTot->getStart()) {
-//                 $builder
-//                     ->andWhere('schorsing.datumTot >= :datum_tot_start')
-//                     ->setParameter('datum_tot_start', $this->datumTot->getStart())
-//                 ;
-//             }
-//             if ($this->datumTot->getEnd()) {
-//                 $builder
-//                     ->andWhere('schorsing.datumTot <= :datum_tot_end')
-//                     ->setParameter('datum_tot_end', $this->datumTot->getEnd())
-//                 ;
-//             }
-//         }
+        if ($this->buiten) {
+            if ($this->buiten->getStart()) {
+                $builder
+                    ->andWhere('DATE(registratie.buiten) >= :datum_tot_start')
+                    ->setParameter('datum_tot_start', $this->buiten->getStart())
+                ;
+            }
+            if ($this->buiten->getEnd()) {
+                $builder
+                    ->andWhere('DATE(registratie.buiten) <= :datum_tot_end')
+                    ->setParameter('datum_tot_end', $this->buiten->getEnd())
+                ;
+            }
+        }
 
         if ($this->klant) {
             $this->klant->applyTo($builder);
