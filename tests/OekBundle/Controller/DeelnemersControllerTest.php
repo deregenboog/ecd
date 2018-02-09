@@ -7,7 +7,7 @@ use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DomCrawler\Link;
 
-class KlantenControllerTest extends WebTestCase
+class DeelnemersControllerTest extends WebTestCase
 {
     protected function setUp()
     {
