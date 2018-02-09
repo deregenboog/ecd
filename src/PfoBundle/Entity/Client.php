@@ -204,7 +204,7 @@ class Client
     /**
      * @var Client[]
      *
-     * @ORM\ManyToMany(targetEntity="Client")
+     * @ORM\ManyToMany(targetEntity="Client", inversedBy="gekoppeldeClienten")
      * @ORM\JoinTable(
      *     name="pfo_clienten_supportgroups",
      *     joinColumns={@ORM\JoinColumn(name="pfo_supportgroup_client_id")},
@@ -216,12 +216,7 @@ class Client
     /**
      * @var Client[]
      *
-     * @ORM\ManyToMany(targetEntity="Client")
-     * @ORM\JoinTable(
-     *     name="pfo_clienten_supportgroups",
-     *     joinColumns={@ORM\JoinColumn(name="pfo_client_id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="pfo_supportgroup_client_id")}
-     * )
+     * @ORM\ManyToMany(targetEntity="Client", mappedBy="hoofdclienten")
      */
     private $gekoppeldeClienten;
 
