@@ -27,7 +27,7 @@ class RegistratiesController extends AbstractController
     /**
      * @var RegistratieDaoInterface
      *
-     * @DI\Inject("inloop.dao.registratie")
+     * @DI\Inject("InloopBundle\Service\RegistratieDao")
      */
     protected $dao;
 }
