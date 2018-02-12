@@ -36,7 +36,7 @@ class ClientType extends AbstractType
             ])
             ->add('geslacht')
             ->add('geboortedatum', AppDateType::class, [
-                'required' => true,
+                'required' => false,
             ])
             ->add('adres')
             ->add('postcode')
