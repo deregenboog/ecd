@@ -4,7 +4,9 @@ namespace HsBundle\Pdf;
 
 use HsBundle\Entity\Factuur;
 
-class PdfFactuur extends \TCPDF
+\App::import('Vendor', 'xtcpdf');
+
+class PdfFactuur extends \XTCPDF
 {
     public function __construct($html, Factuur $entity)
     {

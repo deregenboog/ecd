@@ -4,7 +4,9 @@ namespace HsBundle\Pdf;
 
 use HsBundle\Entity\Herinnering;
 
-class PdfHerinnering extends \TCPDF
+\App::import('Vendor', 'xtcpdf');
+
+class PdfHerinnering extends \XTCPDF
 {
     public function __construct($html, Herinnering $entity)
     {
