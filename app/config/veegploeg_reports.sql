@@ -298,30 +298,30 @@ order by range_start asc
 
 (SELECT
     `naam`,
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Onbekend',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Facetoface contacten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Telefonische consulten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Clientgebonden contacten',
-    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND  `v`.`contactsoort_id` is not null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Aantal unieke bezoekers'
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Onbekend',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Facetoface contacten',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Telefonische consulten',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Clientgebonden contacten',
+    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND  `v`.`contactsoort_id` is not null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Aantal unieke bezoekers'
 FROM `locaties` `tl`
 ORDER BY `naam`)
 UNION
 (SELECT
     'Overige locaties',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` is null AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Onbekend',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 3 AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Face-to-face contacten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 2 AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Telefonische consulten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 1 AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Clientgebonden contacten',
-    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg) AND v.locatie_id is null), '-') AS 'Aantal unieke bezoekers'
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` is null AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Onbekend',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 3 AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Face-to-face contacten',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 2 AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Telefonische consulten',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 1 AND v.locatie_id is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Clientgebonden contacten',
+    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg) AND v.locatie_id is null), '-') AS 'Aantal unieke bezoekers'
 )
 UNION
 (SELECT
     'Alle locaties samen',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Onbekend',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Face-to-face contacten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Telefonische consulten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Clientgebonden contacten',
-    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)), '-') AS 'Aantal unieke bezoekers'
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` is null AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Onbekend',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Face-to-face contacten',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Telefonische consulten',
+    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Clientgebonden contacten',
+    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE v.`datum` between :from and :until AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)), '-') AS 'Aantal unieke bezoekers'
 )
 ;
 
@@ -339,7 +339,7 @@ select n.naam nationaliteit, count(distinct klant_id) cnt
     on (k.nationaliteit_id = n.id)
  where contactsoort_id = 3
    and v.datum between :from and :until
- AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)
+ AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)
  group by 1
  order by n.id
 ;
@@ -361,7 +361,7 @@ INNER
     ON `v`.`medewerker_id` = `m`.`id`
 WHERE
     v.datum between :from and :until
-AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)
+AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)
 GROUP BY 1
 ORDER BY 2 DESC)
 UNION
@@ -375,7 +375,7 @@ INNER
     ON `v`.`medewerker_id` = `m`.`id`
 WHERE
     v.datum between :from and :until
-AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)
+AND v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)
 GROUP BY 1
 ORDER BY 2 DESC
 )
@@ -396,7 +396,7 @@ select l.naam, count(distinct iv.id) cnt
   left
   join inventarisaties_verslagen iv
     on (v.id = iv.verslag_id)
-  WHERE v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)
+  WHERE v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)
  group by 1
 )
 UNION
@@ -409,7 +409,7 @@ select 'Alle locaties samen' naam, count(distinct iv.id) cnt
   left
   join inventarisaties_verslagen iv
     on (v.id = iv.verslag_id)
-  WHERE v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visits_veegploeg)
+  WHERE v.klant_id IN (SELECT DISTINCT klant_id FROM tmp_visitors_veegploeg)
  group by 1
 )
 ;
