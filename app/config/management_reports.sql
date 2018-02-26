@@ -192,36 +192,37 @@ LIMIT 10
 -- START 14-15-16. - Douches, maaltijden en dagdelen.sql
 -- Number of douches/kleding/maaltijd/activeringen per location per period
 -- HEAD: Douches, maaltijden, dagdelen, kleding en veegploeg
--- FIELDS: a.naam - Locatie; a.Aantal douches - Aantal douches; a.Aantal maaltijden - Aantal maaltijden; a.Aantal activeringen - Aantal activeringen; a.Aantal unieke activeringen - Aantal personen activering; a.Aantal kleding - Aantal kleding; a.Aantal veegploeg - Aantal veegploeg
+-- FIELDS: a.naam - Locatie; a.Aantal douches - Aantal douches; a.Aantal maaltijden - Aantal maaltijden; a.Aantal activeringen - Aantal activeringen; a.Aantal unieke activeringen - Aantal personen activering; a.Aantal kleding - Aantal kleding; a.Aantal veegploeg - Aantal veegploeg; a.Aantal personen veegploeg - Aantal personen veegploeg
 -- ARRAY
 -- SUMMARY
 -- !DISABLE
-select *
-from (
-(SELECT
-    `naam`,
-    IFNULL((SELECT SUM(IF(`douche` = -1, 1, 0)) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal douches',
-    IFNULL((SELECT SUM(`maaltijd`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal maaltijden',
-    IFNULL((SELECT SUM(`activering`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal activeringen',
-    IFNULL((SELECT SUM(`veegploeg`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal veegploeg',
-    IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until AND `tr`.`activering` = 1), 0) AS 'Aantal unieke activeringen',
-    IFNULL((SELECT SUM(`kleding`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal kleding',
-    naam as order_name
-FROM `locaties` `tl`
-)
+SELECT * FROM (
+    (SELECT
+        `naam`,
+        IFNULL((SELECT SUM(IF(`douche` = -1, 1, 0)) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal douches',
+        IFNULL((SELECT SUM(`maaltijd`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal maaltijden',
+        IFNULL((SELECT SUM(`activering`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal activeringen',
+        IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until AND `tr`.`activering` = 1), 0) AS 'Aantal unieke activeringen',
+        IFNULL((SELECT SUM(`kleding`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal kleding',
+        IFNULL((SELECT SUM(`veegploeg`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until), 0) AS 'Aantal veegploeg',
+        IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` between :from and :until AND `tr`.`veegploeg` = 1), 0) AS 'Aantal personen veegploeg',
+        naam as order_name
+    FROM `locaties` `tl`
+    )
 UNION
-(SELECT
-    'Alle locaties samen',
+    (SELECT
+        'Alle locaties samen',
         IFNULL((SELECT SUM(IF(`douche` = -1, 1, 0)) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
-    IFNULL((SELECT SUM(`maaltijd`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
-    IFNULL((SELECT SUM(`activering`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
-    IFNULL((SELECT SUM(`veegploeg`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
-    IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `binnen` between :from and :until AND `activering` = 1), 0),
-    IFNULL((SELECT SUM(`kleding`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
-    'ZZZZZZ' as order_name
-)
+        IFNULL((SELECT SUM(`maaltijd`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
+        IFNULL((SELECT SUM(`activering`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
+        IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `binnen` between :from and :until AND `activering` = 1), 0),
+        IFNULL((SELECT SUM(`kleding`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
+        IFNULL((SELECT SUM(`veegploeg`) FROM `registraties` `tr` WHERE `binnen` between :from and :until), 0),
+        IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `binnen` between :from and :until AND `veegploeg` = 1), 0),
+        'ZZZZZZ' as order_name
+    )
 ) a
-order by order_name
+ORDER BY order_name
 ;
 
 
