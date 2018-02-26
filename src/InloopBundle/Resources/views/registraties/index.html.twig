@@ -15,7 +15,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="6">
+                    <th colspan="10">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -51,6 +51,22 @@
                         {{ form_widget(filter.buiten.end) }}
                         {{ form_errors(filter.buiten.end) }}
                     </th>
+                    <th>
+                        {{ form_widget(filter.maaltijd) }}
+                        {{ form_errors(filter.maaltijd) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.activering) }}
+                        {{ form_errors(filter.activering) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.kleding) }}
+                        {{ form_errors(filter.kleding) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.veegploeg) }}
+                        {{ form_errors(filter.veegploeg) }}
+                    </th>
                 </tr>
             {{ form_end(filter) }}
             <tr>
@@ -73,6 +89,16 @@
                     {{ knp_pagination_sortable(pagination, 'Buiten', 'registratie.buiten') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Maaltijd', 'registratie.maaltijd') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Activering', 'registratie.activering') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Kleding', 'registratie.kleding') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Veegploeg', 'registratie.veegploeg') }}
                 </th>
             </tr>
         </thead>
@@ -98,6 +124,16 @@
                     {{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}
                 </td>
                 <td>
+                    {{ registratie.maaltijd ? 'Ja' : 'Nee' }}
+                </td>
+                <td>
+                    {{ registratie.activering ? 'Ja' : 'Nee' }}
+                </td>
+                <td>
+                    {{ registratie.kleding ? 'Ja' : 'Nee' }}
+                </td>
+                <td>
+                    {{ registratie.veegploeg ? 'Ja' : 'Nee' }}
                 </td>
             </tr>
             {% endfor %}

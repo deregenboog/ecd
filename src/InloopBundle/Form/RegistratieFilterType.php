@@ -13,6 +13,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\SchorsingFilter;
 use InloopBundle\Filter\RegistratieFilter;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RegistratieFilterType extends AbstractType
 {
@@ -44,6 +45,20 @@ class RegistratieFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];
+        foreach ($props as $prop) {
+            if (in_array($prop, $options['enabled_filters'])) {
+                $builder->add($prop, ChoiceType::class, [
+                    'required' => false,
+                    'placeholder' => '',
+                    'choices' => [
+                        'Nee' => 0,
+                        'Ja' => 1,
+                    ],
+                ]);
+            }
+        }
     }
 
     /**
@@ -66,6 +81,10 @@ class RegistratieFilterType extends AbstractType
                 'locatie',
                 'binnen',
                 'buiten',
+                'maaltijd',
+                'activering',
+                'kleding',
+                'veegploeg',
                 'filter',
                 'download',
             ],

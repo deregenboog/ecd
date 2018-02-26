@@ -26,6 +26,26 @@ class RegistratieFilter implements FilterInterface
     public $buiten;
 
     /**
+     * @var bool
+     */
+    public $maaltijd;
+
+    /**
+     * @var bool
+     */
+    public $activering;
+
+    /**
+     * @var bool
+     */
+    public $kleding;
+
+    /**
+     * @var bool
+     */
+    public $veegploeg;
+
+    /**
      * @var AppKlantFilter
      */
     public $klant;
@@ -66,6 +86,13 @@ class RegistratieFilter implements FilterInterface
                     ->andWhere('DATE(registratie.buiten) <= :datum_tot_end')
                     ->setParameter('datum_tot_end', $this->buiten->getEnd())
                 ;
+            }
+        }
+
+        $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];
+        foreach ($props as $prop) {
+            if (!is_null($this->{$prop})) {
+                $builder->andWhere("registratie.{$prop} = :{$prop}")->setParameter($prop, $this->{$prop});
             }
         }
 
