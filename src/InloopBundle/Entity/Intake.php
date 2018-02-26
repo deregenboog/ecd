@@ -6,6 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Inkomen;
+use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Verblijfsstatus;
+use AppBundle\Entity\Legitimatie;
+use AppBundle\Entity\Woonsituatie;
 
 /**
  * @ORM\Entity
@@ -73,13 +78,37 @@ class Intake
      */
     private $amocToegangTot;
 
-    private $verblijfsstatus;
-
+    /**
+     * @var string
+     *
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     */
     private $postadres;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     */
     private $postcode;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     */
     private $woonplaats;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     */
+    private $telefoonnummer;
 
     /**
      * @var bool
@@ -97,9 +126,134 @@ class Intake
      */
     private $magGebruiken;
 
+    /**
+     * @var Inkomen[]
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Inkomen")
+     * @ORM\JoinTable(name="inkomens_intakes")
+     */
+    private $inkomens;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="inkomen_overig")
+     */
+    private $inkomenOverig;
+
+    /**
+     * @var Verblijfsstatus
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
+     * @ORM\JoinColumn(name="verblijfstatus_id")
+     */
+    private $verblijfsstatus;
+
+    /**
+     * @var Legitimatie
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Legitimatie")
+     * @ORM\JoinColumn()
+     */
+    private $legitimatie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="legitimatie_nummer")
+     */
+    private $legitimatieNummer;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="legitimatie_geldig_tot")
+     */
+    private $legitimatieGeldigTot;
+
+    /**
+     * @var Woonsituatie
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Woonsituatie")
+     * @ORM\JoinColumn()
+     */
+    private $woonsituatie;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="verblijf_in_NL_sinds")
+     */
+    private $verblijfInNederlandSinds;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="verblijf_in_amsterdam_sinds")
+     */
+    private $verblijfInAmsterdamSinds;
+
+    /**
+     * @return \DateTime
+     */
+    public function getVerblijfInNederlandSinds()
+    {
+        return $this->verblijfInNederlandSinds;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getVerblijfInAmsterdamSinds()
+    {
+        return $this->verblijfInAmsterdamSinds;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTelefoonnummer()
+    {
+        return $this->telefoonnummer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostadres()
+    {
+        return $this->postadres;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostcode()
+    {
+        return $this->postcode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWoonplaats()
+    {
+        return $this->woonplaats;
+    }
+
+    public function __construct()
+    {
+        $this->inkomens = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getKlant()
+    {
+        return $this->klant;
     }
 
     public function setKlant(Klant $klant)
@@ -142,5 +296,50 @@ class Intake
     public function setGebruikersruimte(Locatie $locatie)
     {
         $this->gebruikersruimte = $locatie;
+    }
+
+    public function getInkomens()
+    {
+        return $this->inkomens;
+    }
+
+    public function getVerblijfsstatus()
+    {
+        return $this->verblijfsstatus;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->medewerker;
+    }
+
+    public function getAmocToegangTot()
+    {
+        return $this->amocToegangTot;
+    }
+
+    public function getLegitimatie()
+    {
+        return $this->legitimatie;
+    }
+
+    public function getLegitimatieNummer()
+    {
+        return $this->legitimatieNummer;
+    }
+
+    public function getLegitimatieGeldigTot()
+    {
+        return $this->legitimatieGeldigTot;
+    }
+
+    public function getInkomenOverig()
+    {
+        return $this->inkomenOverig;
+    }
+
+    public function getWoonsituatie()
+    {
+        return $this->woonsituatie;
     }
 }
