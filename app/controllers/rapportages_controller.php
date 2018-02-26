@@ -884,6 +884,11 @@ class RapportagesController extends AppController
         $this->set(compact('date_from', 'date_to'));
     }
 
+    public function veegploeg()
+    {
+        $this->management();
+    }
+
     /**
      * Management report.
      */
@@ -906,6 +911,48 @@ class RapportagesController extends AppController
         $conditions['until'] = "'".$date_to." 23:59:59'";
 
         $reports = $this->_calculateManagementReport($conditions, 'management_reports.sql');
+
+        $this->autoLayout = false;
+
+        $this->set(compact('reports'));
+        if (!empty($this->data['options']['excel'])) {
+            $this->layout = false;
+            $file = 'management_report.xls';
+            header('Content-type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment; filename=\"$file\";");
+            header('Content-Transfer-Encoding: binary');
+            //$this->log($reports,'reports');
+            $this->render('management_excel');
+        } else {
+            // Why doesn't this view use a layout?
+            // $this->layout = 'ajax';
+        }
+    }
+
+    /**
+     * Veegploeg report.
+     */
+    public function ajaxVeegploeg()
+    {
+        $conditions = [];
+
+        //dates
+        $date_from = null;
+        $date_to = null;
+        $date_from = '2017-01-01';
+        $date_to = '2017-12-31';
+        $this->_prepare_dates($date_from, $date_to);
+
+        if (!$date_from || !$date_to) {
+            $this->autoRender = false;
+
+            return 'Bad dates!';
+        }
+
+        $conditions['from'] = "'".$date_from." 00:00:00'";
+        $conditions['until'] = "'".$date_to." 23:59:59'";
+
+        $reports = $this->_calculateManagementReport($conditions, 'veegploeg_reports.sql');
 
         $this->autoLayout = false;
 
@@ -1004,11 +1051,11 @@ class RapportagesController extends AppController
                 $this->log($error);
                 if (!$email) {
                     $this->_genericSendEmail([
-                                'to' => $addresses,
-                                'content' => $error,
-                                'template' => 'blank',
-                                'subject' => 'ECD error',
-                                ]);
+                        'to' => $addresses,
+                        'content' => $error,
+                        'template' => 'blank',
+                        'subject' => 'ECD error',
+                    ]);
                     ++$email;
                 }
             }

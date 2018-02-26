@@ -8,6 +8,7 @@
     <li><?= $html->link('AWBZ-indicaties', ['action' => 'awbz_indicaties']); ?></li>
     <li><?= $html->link('AWBZ facturatie', ['controller' => 'awbz', 'action' => 'rapportage']); ?></li>
     <li><?= $html->link('Ecd management', ['action' => 'management']); ?></li>
+    <li><?= $html->link('Veegploeg', ['action' => 'veegploeg']); ?></li>
     <li><?= $html->link('Activering', ['action' => 'activering']); ?></li>
     <li><?= $html->link('Geen hulpverlenerscontact', ['action' => 'geenHulpverlenerscontact']); ?></li>
     <li><?= $html->link('Infobalierapportage', ['action' => 'infobalie']); ?></li>

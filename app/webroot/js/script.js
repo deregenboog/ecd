@@ -545,6 +545,35 @@ function startManagementReports() {
     });
 }
 
+function startVeegploegReports() {
+    console.log('startVeegploegReports');
+    $('form input[type=submit]').click(function(e) {
+        console.log('click');
+        var form = $(this).parents('form');
+        if ($('#optionsExcel').is(':checked')) {
+            form.attr('target', 'iframeExcel');
+        } else {
+            e.preventDefault();
+            $('#divAjaxLoading').show();
+            $(this).attr('disabled', 'disabled');
+            button=$(this);
+            $('#divVeegploegReport').html('');
+            $.ajax({
+                type: 'post',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data) {
+                    $('#divVeegploegReport').html(data);
+                    //$('#optionsManagementForm input[type=submit]').removeAttr('disabled');
+                    button.removeAttr('disabled');
+                    $('#divAjaxLoading').hide();
+                }
+            });
+        }
+
+    });
+}
+
 /**
  * Page loaders for any page. Just look up the id of the body on a page
  * (which is a contact of the controller and the action) and add a function
