@@ -11,6 +11,7 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Form\RegistratieFilterType;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Form\RegistratieType;
+use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/registraties")
@@ -30,4 +31,11 @@ class RegistratiesController extends AbstractController
      * @DI\Inject("InloopBundle\Service\RegistratieDao")
      */
     protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("inloop.export.registraties")
+     */
+    protected $export;
 }

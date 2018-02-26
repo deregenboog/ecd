@@ -227,7 +227,7 @@ class Registratie
         return $this;
     }
 
-    public function getVeegploeg()
+    public function isVeegploeg()
     {
         return $this->veegploeg;
     }
