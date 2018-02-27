@@ -20,8 +20,9 @@ class AgressieDoelwitType extends AbstractType
 
         $builder
             ->add("typeDoelwitAgressie$i", ChoiceType::class, [
-                'label' => 'Tegen wie is de agressie gericht?',
-                'expanded' => true,
+                'label' => "Functie",
+                'required' => false,
+                'expanded' => false,
                 'choices' => [
                     'medewerker' => 1,
                     'stagiair' => 2,
@@ -29,7 +30,8 @@ class AgressieDoelwitType extends AbstractType
                 ],
             ])
             ->add("doelwitAgressie$i", null, [
-                'label' => 'Naam',
+                'label' => "Naam",
+                'required' => false,
             ])
         ;
     }

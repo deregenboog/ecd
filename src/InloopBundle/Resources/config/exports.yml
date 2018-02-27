@@ -36,6 +36,8 @@ services:
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
                 GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
+                Geboorteland: { expression: 'entity.getKlant().getGeboorteland()' }
+                Nationaliteit: { expression: 'entity.getKlant().getNationaliteit()' }
                 Locatie: { expression: 'entity.getLocatie()' }
                 Binnen: { expression: 'entity.getBinnen()', type: 'datetime' }
                 Buiten: { expression: 'entity.getBuiten()', type: 'datetime' }

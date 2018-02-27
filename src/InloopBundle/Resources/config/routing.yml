@@ -6,4 +6,4 @@ inloop_index:
     path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: inloop_klanten_index
+        route: inloop_registraties_locationselect

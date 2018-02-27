@@ -28,13 +28,13 @@
         <dt>Buiten</dt>
         <dd>{{ entity.buiten ? entity.buiten|date('d-m-Y H:i') }}</dd>
         <dt>Kleding</dt>
-        <dd>{{ entity.kleding ? 'Ja' : 'Nee' }}</dd>
+        <dd>{{ entity.kleding ? html.tick }}</dd>
         <dt>Maaltijd</dt>
-        <dd>{{ entity.maaltijd ? 'Ja' : 'Nee' }}</dd>
+        <dd>{{ entity.maaltijd ? html.tick }}</dd>
         <dt>Activering</dt>
-        <dd>{{ entity.activering ? 'Ja' : 'Nee' }}</dd>
+        <dd>{{ entity.activering ? html.tick }}</dd>
         <dt>Veegploeg</dt>
-        <dd>{{ entity.veegploeg ? 'Ja' : 'Nee' }}</dd>
+        <dd>{{ entity.veegploeg ? html.tick }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
@@ -48,11 +48,13 @@
     <div class="tab-content">
         <div id="registraties" class="tab-pane active">
             <h2>Recente registraties</h2>
+            {#
             <p>
                 {% set url = path('inloop_registraties_index', {'registratie_filter[klant][id]': entity.klant.id}) %}
                 {{ html.viewLink(url) }}
                 {{ html.link('Alle registraties van '~entity.klant, url) }}
             </p>
+            #}
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -71,10 +73,10 @@
                             <td>{{ registratie.locatie }}</td>
                             <td>{{ registratie.binnen|date('d-m-Y H:i') }}</td>
                             <td>{{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}</td>
-                            <td>{{ registratie.kleding ? 'Ja' : 'Nee' }}</td>
-                            <td>{{ registratie.maaltijd ? 'Ja' : 'Nee' }}</td>
-                            <td>{{ registratie.activering ? 'Ja' : 'Nee' }}</td>
-                            <td>{{ registratie.veegploeg ? 'Ja' : 'Nee' }}</td>
+                            <td>{{ registratie.kleding ? html.tick }}</td>
+                            <td>{{ registratie.maaltijd ? html.tick }}</td>
+                            <td>{{ registratie.activering ? html.tick }}</td>
+                            <td>{{ registratie.veegploeg ? html.tick }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

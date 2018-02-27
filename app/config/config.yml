@@ -87,6 +87,9 @@ doctrine:
             foutieve_invoer:
                 class: IzBundle\Doctrine\FoutieveInvoerFilter
                 enabled: true
+            overleden:
+                class: AppBundle\Doctrine\OverledenFilter
+                enabled: false
 
 jms_di_extra: ~
 

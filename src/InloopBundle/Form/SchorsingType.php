@@ -32,6 +32,7 @@ class SchorsingType extends AbstractType
             ])
             ->add('redenOverig', null, [
                 'label' => false,
+                'required' => false,
             ])
             ->add('agressie', JaNeeType::class, [
                 'label' => 'Is de agressie gericht tegen een medewerker, stagair of vrijwilliger?',
@@ -44,7 +45,7 @@ class SchorsingType extends AbstractType
         foreach (range(1, 4) as $i) {
             $builder->add("agressiedoelwit_$i", AgressieDoelwitType::class, [
                 'index' => $i,
-                'label' => "Betrokkene $i",
+                'label' => 1 === $i ? "Tegen wie is de agressie gericht? Betrokkene $i" : "Betrokkene $i",
                 'attr' => [
                     'class' => 'agressie  agressie_children',
                 ],
@@ -52,9 +53,23 @@ class SchorsingType extends AbstractType
         }
 
         $builder
-            ->add('opmerking')
-            ->add('locatiehoofd')
-            ->add('bijzonderheden')
+            ->add('aangifte', JaNeeType::class, [
+                'label' => 'Is er aangifte gedaan?',
+                'attr' => [
+                    'class' => 'agressie  agressie_children',
+                    'novalidate' => 'novalidate',
+                ],
+            ])
+            ->add('nazorg', JaNeeType::class, [
+                'label' => 'Is er nazorg nodig?',
+                'attr' => [
+                    'class' => 'agressie  agressie_children',
+                    'novalidate' => 'novalidate',
+                ],
+            ])
+            ->add('opmerking', null, ['required' => false])
+            ->add('locatiehoofd', null, ['required' => false])
+            ->add('bijzonderheden', null, ['required' => false])
             ->add('submit', SubmitType::class)
         ;
     }
@@ -74,6 +89,7 @@ class SchorsingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Schorsing::class,
+            'attr' => ['novalidate' => 'novalidate'],
         ]);
     }
 }

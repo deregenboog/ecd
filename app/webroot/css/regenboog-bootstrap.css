@@ -21,6 +21,7 @@
 .nav-tabs > li.active > a:focus
 .nav-tabs > li.active > a:hover {
     cursor: pointer ! important;
+    background-color: #ddd;
 }
 
 footer {
@@ -31,6 +32,7 @@ footer {
 
 a {
     color: #003d4c;
+    cursor: pointer ! important;
 }
 a:hover {
     color: #367889;
@@ -60,7 +62,7 @@ h4 {
 
 /* tables */
 th {
-    background: #f5f5f5;
+    background: #ddd;
 }
 
 th a.asc:after {
@@ -69,6 +71,7 @@ th a.asc:after {
 th a.desc:after {
     content: ' ⇡';
 }
+table.table.table-hover tr[data-id]:hover,
 table.table.table-hover tr[data-href]:hover {
     cursor: pointer;
 }

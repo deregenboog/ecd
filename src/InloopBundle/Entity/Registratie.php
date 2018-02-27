@@ -82,6 +82,8 @@ class Registratie
     private $mw = 0;
 
     /**
+     * @deprecated
+     *
      * @var int
      * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\Versioned
@@ -123,6 +125,13 @@ class Registratie
      */
     private $closed = false;
 
+    public function __construct(Klant $klant, Locatie $locatie)
+    {
+        $this->setKlant($klant);
+        $this->setLocatie($locatie);
+        $this->binnen = new \DateTime();
+    }
+
     public function __toString()
     {
         $parts = [
@@ -148,7 +157,7 @@ class Registratie
         return $this->locatie;
     }
 
-    public function setLocatie(Locatie $locatie)
+    private function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
 
@@ -160,9 +169,10 @@ class Registratie
         return $this->klant;
     }
 
-    public function setKlant(Klant $klant)
+    private function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+//         $klant->setLaatsteRegistratie($this);
 
         return $this;
     }
@@ -187,6 +197,7 @@ class Registratie
     public function setBuiten(\DateTime $buiten)
     {
         $this->buiten = $buiten;
+        $this->closed = true;
 
         return $this;
     }
@@ -211,18 +222,6 @@ class Registratie
     public function setMw($mw)
     {
         $this->mw = $mw;
-
-        return $this;
-    }
-
-    public function getGbrv()
-    {
-        return $this->gbrv;
-    }
-
-    public function setGbrv($gbrv)
-    {
-        $this->gbrv = $gbrv;
 
         return $this;
     }
@@ -275,12 +274,12 @@ class Registratie
         return $this;
     }
 
-    public function getClosed()
+    public function isClosed()
     {
         return $this->closed;
     }
 
-    public function isClosed($closed)
+    public function setClosed($closed)
     {
         $this->closed = $closed;
 

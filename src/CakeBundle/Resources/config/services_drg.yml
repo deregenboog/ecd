@@ -60,15 +60,17 @@ parameters:
                 - Rapportages
                 - InloopBundle\Controller\Schorsingen
             GROUP_PORTIER:
-                - Registraties
+                - InloopBundle\Controller\Registraties
                 - Opmerkingen
+                - InloopBundle\Controller\Opmerkingen
             GROUP_MLO:
                 - Intakes
                 - Klanten
                 - AppBundle\Controller\Klanten
-                - Registraties
+                - InloopBundle\Controller\Registraties
                 - Schorsingen
                 - Opmerkingen
+                - InloopBundle\Controller\Opmerkingen
                 - inloop
                 - InloopBundle\Controller\Klanten
                 - InloopBundle\Controller\Documenten
@@ -82,8 +84,9 @@ parameters:
                 - Intakes
                 - Klanten
                 - AppBundle\Controller\Klanten
-                - Registraties
+                - InloopBundle\Controller\Registraties
                 - Opmerkingen
+                - InloopBundle\Controller\Opmerkingen
                 - MaatschappelijkWerk
                 - mw
                 - MwBundle\Controller\Klanten
@@ -112,12 +115,12 @@ parameters:
                 - BotVerslagen
                 - BotKoppelingen
             GROUP_VOLUNTEERS:
-                - Registraties
+                - InloopBundle\Controller\Registraties
             GROUP_STAGE:
                 - Intakes
                 - Klanten
                 - AppBundle\Controller\Klanten
-                - Registraties
+                - InloopBundle\Controller\Registraties
             GROUP_PFO:
                 - pfo
                 - PfoBundle\Controller\AardRelaties
@@ -178,8 +181,9 @@ parameters:
                 - MwBundle\Controller\Rapportages
                 - MwInventarisaties
                 - Opmerkingen
+                - InloopBundle\Controller\Opmerkingen
                 - Rapportages
-                - Registraties
+                - InloopBundle\Controller\Registraties
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
@@ -524,9 +528,10 @@ parameters:
                 - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - Verslagen
-                - Registraties
+                - InloopBundle\Controller\Registraties
                 - Schorsingen
                 - Opmerkingen
+                - InloopBundle\Controller\Opmerkingen
                 - Rapportages
                 - Attachments
                 - BackOnTrack
@@ -608,6 +613,7 @@ parameters:
                 - DagbestedingBundle\Controller\Trajecten
                 - DagbestedingBundle\Controller\Trajectsoorten
                 - DagbestedingBundle\Controller\Verslagen
+                - registratie
                 - inloop
                 - InloopBundle\Controller\BinnenVia
                 - InloopBundle\Controller\Documenten
@@ -732,9 +738,9 @@ parameters:
             Vrijwilligers:
                 label: Vrijwilligers
                 url: vrijwilligers
-            Registraties:
+            registratie:
                 label: Registratie
-                url: Registraties
+                url: inloop/registraties
             inloop:
                 label: Inloophuizen
                 url: inloop

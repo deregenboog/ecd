@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use AppBundle\Service\NameFormatter;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -52,6 +53,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'administrator_name' => $this->administratorName,
             'administrator_email' => $this->administratorEmail,
             'redirect_uri' => self::getRedirectUri($this->requestStack->getCurrentRequest()),
+            'tbc_months_period'  => \Configure::read('TBC_months_period'),
         ];
     }
 
@@ -81,6 +83,11 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('aanhef', [$this, 'aanhef']),
             new \Twig_SimpleFilter('naam_voor_achter', [$this, 'naamVoorAchter']),
             new \Twig_SimpleFilter('naam_achter_voor', [$this, 'naamAchterVoor']),
+            new \Twig_SimpleFilter('name_formal', [$this, 'nameFormal']),
+            new \Twig_SimpleFilter('name_informal', [$this, 'nameInformal']),
+            new \Twig_SimpleFilter('diff', [$this, 'diff']),
+            new \Twig_SimpleFilter('human_days', [$this, 'humanDays']),
+            new \Twig_SimpleFilter('implode', [$this, 'implode']),
         ];
     }
 
@@ -134,6 +141,16 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         }
 
         return implode(' ', $parts);
+    }
+
+    public function nameFormal(Persoon $persoon)
+    {
+        return NameFormatter::formatFormal($persoon);
+    }
+
+    public function nameInformal(Persoon $persoon)
+    {
+        return NameFormatter::formatInformal($persoon);
     }
 
     public function aanhef(Geslacht $geslacht = null)
@@ -286,5 +303,57 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function redFilter($value)
     {
         return $this->colorFilter($value, 'red');
+    }
+
+    public function diff(\DateTime $a, \DateTime $b)
+    {
+        return $a->diff($b);
+    }
+
+    /**
+     * Humanizes the number of days: translates it to days, weeks, months or
+     * years depending on the number of days.
+     *
+     * @param int $days Number of days
+     *
+     * @return string
+     */
+    public function humanDays($days)
+    {
+        if (0 == $days) {
+            return 'vandaag';
+        }
+
+        if (1 == $days) {
+            return '1 dag';
+        }
+
+        if ($days < 7) {
+            return $days . ' dagen';
+        }
+
+        if ($days < 30) {
+            return floor($days / 7) . ' weken';
+        }
+
+        if ($days < 365) {
+            return floor($days / 30) . ' maanden';
+        }
+
+        if (1 == floor($days / 365)) {
+            return '1 jaar';
+        }
+
+        return floor($days / 365). ' jaren';
+    }
+
+    public function implode($collection, $separator = ', ')
+    {
+        $values = [];
+        foreach ($collection as $item) {
+            $values[] = (string) $item;
+        }
+
+        return implode($values, $separator);
     }
 }

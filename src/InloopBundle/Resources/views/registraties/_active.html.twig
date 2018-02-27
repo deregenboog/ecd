@@ -1,0 +1,182 @@
+{% import '::html.macro.twig' as html %}
+
+<table class="table table-hover">
+    <thead>
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="3">
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.binnen.start) }}
+                    {{ form_errors(filter.binnen.start) }}
+                    {{ form_widget(filter.binnen.end) }}
+                    {{ form_errors(filter.binnen.end) }}
+                </th>
+                <th>
+                </th>
+                <th>
+                    {{ form_widget(filter.douche) }}
+                    {{ form_errors(filter.douche) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.kleding) }}
+                    {{ form_errors(filter.kleding) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.maaltijd) }}
+                    {{ form_errors(filter.maaltijd) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.veegploeg) }}
+                    {{ form_errors(filter.veegploeg) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.activering) }}
+                    {{ form_errors(filter.activering) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.mw) }}
+                    {{ form_errors(filter.mw) }}
+                </th>
+                <th colspan="3">
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                    </span>
+                </th>
+            </tr>
+        {{ form_end(filter) }}
+        <tr>
+            <th>
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
+            </th>
+            <th>
+                Buiten
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Douche', 'registratie.douche') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Kleding', 'registratie.kleding') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Maaltijd', 'registratie.maaltijd') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Veegploeg', 'registratie.veegploeg') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Activering', 'registratie.activering') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'MW', 'registratie.mw') }}
+            </th>
+            <th>
+                TBC-check
+            </th>
+            <th>
+                Schorsingen
+            </th>
+            <th>
+                Opmerkingen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registratie in pagination %}
+        <tr data-id="{{ registratie.id }}">
+            <td>
+                <a class="remove" title="Registratie ongedaan maken">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
+            </td>
+            <td>
+                {{ registratie.klant.voornaam }}
+                {% if registratie.klant.roepnaam %}({{ registratie.klant.roepnaam }}){% endif %}
+            </td>
+            <td>
+                {% if registratie.klant.tussenvoegsel %}{{ registratie.klant.tussenvoegsel }}{% endif %}
+                {{ registratie.klant.achternaam }}
+            </td>
+            <td>
+                {{ registratie.binnen|date('H:i') }} uur ({{ registratie.binnen|date('d-m-Y') }})<br>
+            </td>
+            <td>
+                <a class="checkout" title="Uitchecken">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                </a>
+            </td>
+            <td>
+                {% if registratie.douche > 0 %}
+                    <a class="douche">{{ registratie.douche }}</a>
+                {% else %}
+                    <input class="douche" type="checkbox" {{ registratie.douche ? 'checked' }}/>
+                {% endif %}
+            </td>
+            <td>
+                <input class="kleding" type="checkbox" {{ registratie.kleding ? 'checked' }}/>
+            </td>
+            <td>
+                <input class="maaltijd" type="checkbox" {{ registratie.maaltijd ? 'checked' }}/>
+            </td>
+            <td>
+                <input class="veegploeg" type="checkbox" {{ registratie.veegploeg ? 'checked' }}/>
+            </td>
+            <td>
+                <input class="activering" type="checkbox" {{ registratie.activering ? 'checked' }}/>
+            </td>
+            <td>
+                {% if registratie.mw > 0 %}
+                    <a class="mw">{{ registratie.mw }}</a>
+                {% else %}
+                    <input class="mw" type="checkbox" {{ registratie.mw ? 'checked' }}/>
+                {% endif %}
+            </td>
+            <td>
+                {% if locatie.tbcCheck() %}
+                    {% if not registratie.klant.laatsteTbcControle %}
+                        <strong class="text-danger">onbekend</strong>
+                    {% else %}
+                        {% set valid_until = registratie.klant.laatsteTbcControle|date_modify('+'~tbc_months_period~'months') %}
+                        {% if valid_until <= today %}
+                            <strong class="text-danger">is verlopen</strong>
+                        {% else %}
+                            <strong class="text-warning">over {{ today|diff(valid_until).days|human_days }}</strong>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ path('inloop_schorsingen_klantview', {klant: registratie.klant.id}) }}">
+                    {{ registratie.klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('inloop_opmerkingen_index', {klant: registratie.klant.id, locatie: registratie.locatie.id}) }}">
+                    {{ registratie.klant.openstaandeOpmerkingen|length > 0 ? registratie.klant.opmerkingen|length~' opmerkingen' : 'geen' }}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>
+{%  if pagination.totalItemCount > 0 %}
+    <p class="pull-right">
+        <a class="checkout-all" title="Alle bezoekers uitchecken" data-id="{{ locatie.id }}">
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+            Alle bezoekers van {{ locatie }} uitchecken
+        </a>
+    </p>
+{% endif %}

@@ -5,10 +5,12 @@
     <li class="active">{{ title }}</li>
 </ol>
 <ul class="nav nav-tabs">
+    {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_locationselect'), isActiveRoute('inloop_registraties_')) }}
     {{ html.navLink('Klanten', path('inloop_klanten_index'), isActiveRoute('inloop_klanten_')) }}
     {{ html.navLink('Vrijwilligers', path('inloop_vrijwilligers_index'), isActiveRoute('inloop_vrijwilligers_')) }}
-    {{ html.navLink('Registraties', path('inloop_registraties_index'), isActiveRoute('inloop_registraties_')) }}
+    {#{ html.navLink('Intakes', path('inloop_intakes_index'), isActiveRoute('inloop_intakes_')) }#}
     {{ html.navLink('Schorsingen', path('inloop_schorsingen_index'), isActiveRoute('inloop_schorsingen_')) }}
+    {#{ html.navLink('Opmerkingen', path('inloop_opmerkingen_index'), isActiveRoute('inloop_opmerkingen_')) }#}
     <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Beheer <span class="caret"></span>

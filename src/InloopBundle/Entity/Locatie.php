@@ -273,4 +273,37 @@ class Locatie
 
         return false;
     }
+
+    public function getLastClosingTime($dayLimit = 0)
+    {
+        $date =  new \DateTime(sprintf('-%d days', $dayLimit));
+        $original = clone $date;
+
+        $count = 7;
+        do {
+            $closingTime = $this->getClosingTimeByDayOfWeek($date->format('w'));
+            $date->modify('-1 day');
+            --$count;
+            if (0 == $count) {
+                break;
+            }
+        } while (!$closingTime || $closingTime > $original);
+
+        var_dump($closingTime, $original, $count); die;
+
+        return $closingTime;
+
+
+
+        var_dump($builder); die;
+    }
+
+    public function getClosingTimeByDayOfWeek($dayOfWeek)
+    {
+        foreach ($this->locatietijden as $locatietijd) {
+            if ($dayOfWeek == $locatietijd->getDagVanDeWeek()) {
+                return $locatietijd->getSluitingstijd();
+            }
+        }
+    }
 }

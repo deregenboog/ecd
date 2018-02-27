@@ -67,6 +67,15 @@ class Intake implements ZrmInterface
     private $gebruikersruimte;
 
     /**
+     * @var Locatie
+     *
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\JoinColumn(name="locatie3_id")
+     * @Gedmo\Versioned
+     */
+    private $locatie3;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
@@ -149,7 +158,7 @@ class Intake implements ZrmInterface
      * @var Verblijfsstatus
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
-     * @ORM\JoinColumn(name="verblijfstatus_id")
+     * @ORM\JoinColumn(name="verblijfstatus_id", nullable=true)
      */
     private $verblijfsstatus;
 
@@ -261,6 +270,8 @@ class Intake implements ZrmInterface
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+
+        return $this;
     }
 
     public function isToegangInloophuis()
@@ -288,6 +299,8 @@ class Intake implements ZrmInterface
     public function setIntakelocatie(Locatie $locatie)
     {
         $this->intakelocatie = $locatie;
+
+        return $this;
     }
 
     public function getGebruikersruimte()
@@ -298,6 +311,20 @@ class Intake implements ZrmInterface
     public function setGebruikersruimte(Locatie $locatie)
     {
         $this->gebruikersruimte = $locatie;
+
+        return $this;
+    }
+
+    public function getLocatie3()
+    {
+        return $this->locatie3;
+    }
+
+    public function setLocatie3(Locatie $locatie)
+    {
+        $this->locatie3 = $locatie;
+
+        return $this;
     }
 
     public function getInkomens()

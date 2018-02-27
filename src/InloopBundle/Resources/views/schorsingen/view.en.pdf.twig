@@ -1,0 +1,61 @@
+<h1>SUSPENSION NOTE</h1>
+<p>
+    {%- spaceless %}
+        On {{ entity.datumVan|date('d-m-Y') }} you were suspended at our location(s) {{ entity.locaties|implode }}.
+        The reason for your suspension was a disobedience of the house rules.
+        Please find in the following table a short description of the incident and the length of your suspension.
+        Also we would like to inform you about the way you can appeal against this decision.
+    {% endspaceless -%}
+</p>
+<table>
+    <tr>
+        <td><b>Name visitor</b></td>
+        <td>{{ entity.klant|naam_voor_achter }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Location(s)</b></td>
+        <td>
+            <p>{{- entity.locaties|implode }}<br></p>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Name head of location</b></td>
+        <td>{{ entity.locatiehoofd }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Reason for suspension</b></td>
+        <td>
+            <p>{{- entity.redenen|implode }}</p>
+            <p>{{ entity.opmerking }}<br></p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Length of suspension</b>
+        </td>
+        <td>
+            {{- entity.datumTot|diff(entity.datumVan).days }} dagen
+            ({{ entity.datumVan|date('d-m-Y') }} t/m {{ entity.datumTot|date('d-m-Y') }})<br>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Special notes</b></td>
+        <td>{{ entity.bijzonderheden }}<br></td>
+    </tr>
+    <tr>
+        <td><b>How to appeal</b></td>
+        <td>
+            <p>If you do not agree with your suspension, you can make an apointment with the head of location or the region manager.</p>
+            <p>You can contact the independent confidential mediator Lina Berger: 06 34293959.</p>
+            <p>You can also contact the independent Complaints Commission of POA: 06 14264972 info@klachtencommissiepoa.nl.</p>
+            <br>
+        </td>
+    </tr>
+</table>
+<p>
+    {%- spaceless %}
+        Safety, cosines, peace and quiet are our main concern for visitors,
+        neighbours and workers alike inside and outside of our locations. We are
+        confident of your cooperation and contribution to these values in the future.
+    {% endspaceless -%}
+</p>

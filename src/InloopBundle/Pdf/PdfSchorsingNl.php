@@ -2,11 +2,14 @@
 
 namespace InloopBundle\Pdf;
 
+use AppBundle\Service\NameFormatter;
+use InloopBundle\Entity\Schorsing;
+
 \App::import('Vendor', 'xtcpdf');
 
 class PdfSchorsingNl extends \XTCPDF
 {
-    public function __construct($html, $naamKlant)
+    public function __construct($html, Schorsing $schorsing)
     {
         parent::__construct();
 
@@ -16,7 +19,7 @@ class PdfSchorsingNl extends \XTCPDF
         $this->setPrintFooter(false);
         $this->SetFont('helvetica', '', 10);
 
-        $this->SetTitle("Schorsing van $naamKlant");
+        $this->SetTitle("Schorsing van ".NameFormatter::formatInformal($schorsing->getKlant()));
         $this->SetSubject('Schorsing');
 
         $this->AddPage();

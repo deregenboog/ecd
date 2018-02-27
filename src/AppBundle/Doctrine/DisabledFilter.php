@@ -12,7 +12,7 @@ class DisabledFilter extends SQLFilter
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
         if (in_array($targetEntity->getName(), [Klant::class, Vrijwilliger::class])) {
-            return sprintf('%s.disabled = 0', $targetTableAlias);
+            return sprintf('(%s.disabled IS NULL OR %s.disabled = 0)', $targetTableAlias, $targetTableAlias);
         }
 
         return '';

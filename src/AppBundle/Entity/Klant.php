@@ -11,6 +11,7 @@ use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
+use InloopBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
@@ -146,6 +147,7 @@ class Klant extends Persoon
      * @var Opmerking[]
      *
      * @ORM\OneToMany(targetEntity="Opmerking", mappedBy="klant")
+     * @ORM\OrderBy({"id" = "DESC"})
      */
     private $opmerkingen;
 
@@ -187,14 +189,21 @@ class Klant extends Persoon
         return $this->registraties;
     }
 
-    public function getRecenteRegistraties()
+    public function getRecenteRegistraties($n = 50)
     {
         $criteria = Criteria::create()
             ->orderBy(['id' => 'DESC'])
-            ->setMaxResults(50)
+            ->setMaxResults((int) $n)
         ;
 
         return $this->registraties->matching($criteria);
+    }
+
+    public function getLaatsteRegistratie()
+    {
+        $registraties = $this->getRecenteRegistraties(1);
+
+        return count($registraties) > 0 ? $registraties[0] : null;
     }
 
     public function getSchorsingen()
@@ -202,14 +211,68 @@ class Klant extends Persoon
         return $this->schorsingen;
     }
 
-    public function getRecenteSchorsingen()
+    public function getHuidigeSchorsingen()
     {
+        $today = new \DateTime('today');
         $criteria = Criteria::create()
+            ->where(Criteria::expr()->lte('datumVan', $today))
+            ->andWhere(Criteria::expr()->gte('datumTot', $today))
             ->orderBy(['id' => 'DESC'])
-            ->setMaxResults(50)
         ;
 
         return $this->schorsingen->matching($criteria);
+    }
+
+    public function getVerlopenSchorsingen()
+    {
+        $today = new \DateTime('today');
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gt('datumVan', $today))
+            ->orWhere(Criteria::expr()->lt('datumTot', $today))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->schorsingen->matching($criteria);
+    }
+
+    public function getRecenteSchorsingen($n = 50)
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'DESC'])
+            ->setMaxResults((int) $n)
+        ;
+
+        return $this->schorsingen->matching($criteria);
+    }
+
+    public function getLaatsteSchorsing()
+    {
+        $registraties = $this->getRecenteSchorsingen(1);
+
+        return count($registraties) > 0 ? $registraties[0] : null;
+    }
+
+    public function getOngezieneSchorsingen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('gezien', false))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->schorsingen->matching($criteria);
+    }
+
+    public function getSchorsingenVoorLocatie(Locatie $locatie)
+    {
+        $schorsingen = [];
+
+        foreach ($this->schorsingen as $schorsing) {
+            if ($schorsing->getLocaties()->contains($locatie)) {
+                $schorsingen[] = $schorsing;
+            }
+        }
+
+        return new ArrayCollection($schorsingen);
     }
 
     public function getIntakes()
@@ -238,6 +301,30 @@ class Klant extends Persoon
         return $this;
     }
 
+//     public function addRegistratie(Registratie $registratie)
+//     {
+//         $this->registraties->add($registratie);
+//         $registratie->setKlant($this);
+//         $this->laatsteRegistratie = $registratie;
+
+//         return $this;
+//     }
+
+//     public function removeRegistratie(Registratie $registratie)
+//     {
+//         $this->registraties->removeElement($registratie);
+//         $this->laatsteRegistratie = count($this->registraties) > 0 ? $this->registraties[0] : null;
+
+//         return $this;
+//     }
+
+//     public function setLaatsteRegistratie(Registratie $laatsteRegistratie)
+//     {
+//         $this->laatsteRegistratie = $laatsteRegistratie;
+
+//         return $this;
+//     }
+
     public function getHuidigeStatus()
     {
         return $this->huidigeStatus;
@@ -248,11 +335,6 @@ class Klant extends Persoon
         $this->huidigeStatus = $huidigeStatus;
 
         return $this;
-    }
-
-    public function getLaatsteRegistratie()
-    {
-        return $this->laatsteRegistratie;
     }
 
     public function getZrms()
@@ -284,5 +366,15 @@ class Klant extends Persoon
     public function getOpmerkingen()
     {
         return $this->opmerkingen;
+    }
+
+    public function getOpenstaandeOpmerkingen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('gezien', false))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->opmerkingen->matching($criteria);
     }
 }

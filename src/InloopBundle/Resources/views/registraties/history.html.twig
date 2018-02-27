@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }} {{ locatie }}</h1>
+    <ul class="nav nav-tabs">
+        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_index', {locatie: locatie.id}), isActiveRoute('inloop_registraties_index')) }}
+        {{ html.navLink('Nu binnen', path('inloop_registraties_active', {locatie: locatie.id}), isActiveRoute('inloop_registraties_active')) }}
+        {{ html.navLink('Recent uitgecheckt', path('inloop_registraties_history', {locatie: locatie.id}), isActiveRoute('inloop_registraties_history')) }}
+    </ul>
+    <div id="content">
+        {% include 'InloopBundle:registraties:_history.html.twig' %}
+    </div>
+{% endblock %}

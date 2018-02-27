@@ -67,8 +67,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Einddatum', 'schorsing.datumTot') }}
                 </th>
-                <th>
-                </th>
+                <th>Gezien</th>
             </tr>
         </thead>
         <tbody>
@@ -97,6 +96,7 @@
                     {{ schorsing.datumTot|date('d-m-Y') }}
                 </td>
                 <td>
+                    {{ schorsing.gezien ? html.tick }}
                 </td>
             </tr>
             {% endfor %}

@@ -19,7 +19,7 @@ class Locatietijd
     /**
      * @var Locatie
      *
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie", inversedBy="locatietijden")
      * @Gedmo\Versioned
      */
     private $locatie;

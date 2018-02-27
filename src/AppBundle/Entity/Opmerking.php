@@ -61,7 +61,12 @@ class Opmerking
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
-    private $gezien;
+    private $gezien = false;
+
+    public function __construct(Klant $klant = null)
+    {
+        $this->setKlant($klant);
+    }
 
     public function getId()
     {

@@ -39,4 +39,25 @@ interface RegistratieDaoInterface
      * @return Registratie
      */
     public function update(Registratie $entity);
+
+    /**
+     * @param Registratie $entity
+     *
+     * @return Registratie
+     */
+    public function delete(Registratie $entity);
+
+    /**
+     * @param Registratie $entity
+     *
+     * @return Registratie
+     */
+    public function checkout(Registratie $entity);
+
+    /**
+     * @param Klant $klant
+     *
+     * @return void
+     */
+    public function checkoutKlantFromAllLocations(Klant $klant);
 }

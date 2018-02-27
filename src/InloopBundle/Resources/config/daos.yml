@@ -12,6 +12,9 @@ services:
     InloopBundle\Service\DocumentDao:
         parent: inloop.dao
 
+    InloopBundle\Service\IntakeDao:
+        parent: inloop.dao
+
     InloopBundle\Service\KlantDao:
         parent: inloop.dao
 
@@ -19,6 +22,9 @@ services:
         parent: inloop.dao
 
     InloopBundle\Service\MemoDao:
+        parent: inloop.dao
+
+    InloopBundle\Service\OpmerkingDao:
         parent: inloop.dao
 
     InloopBundle\Service\RegistratieDao:

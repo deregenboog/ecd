@@ -1,0 +1,97 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }}</h1>
+    <p>
+        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <h2>Algemeen</h2>
+    <dl class="dl-horizontal">
+        <dt>Naam intakes</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Datum intake</dt>
+        <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
+    </dl>
+    <h2>Adresgegevens</h2>
+    <dl class="dl-horizontal">
+        <dt>Adres</dt>
+        <dd>{{ entity.postadres }}</dd>
+        <dt>Postcode</dt>
+        <dd>{{ entity.postcode }}</dd>
+        <dt>Woonplaats</dt>
+        <dd>{{ entity.woonplaats }}</dd>
+        <dt>Verblijft in Nederland sinds</dt>
+        <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
+        <dt>Verblijft in Amsterdam sinds</dt>
+        <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
+        <dt>Verblijfsstatus</dt>
+        <dd>{{ entity.Verblijfsstatus }}</dd>
+        <dt>Telefoonnummer</dt>
+        <dd>{{ entity.telefoonnummer }}</dd>
+    </dl>
+    <h2>Locatiekeuze</h2>
+    <dl class="dl-horizontal">
+        <dt>Intakelocatie</dt>
+        <dd>{{ entity.intakelocatie }}</dd>
+        <dt>Toegang inloophuis</dt>
+        <dd>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
+        <dt>Einddatum toegang AMOC</dt>
+        <dd>{{ entity.amocToegangTot ? entity.amocToegangTot|date('d-m-Y') }}</dd>
+        <dt>Toegang gebruikersruimte</dt>
+        <dd>{{ entity.gebruikersruimte }}</dd>
+    </dl>
+    <h2>Legitimatie</h2>
+    <dl class="dl-horizontal">
+        <dt>Legitimatie</dt>
+        <dd>{{ entity.legitimatie }}</dd>
+        <dt>Nummer</dt>
+        <dd>{{ entity.legitimatieNummer }}</dd>
+        <dt>Geldig tot</dt>
+        <dd>{{ entity.legitimatieGeldigTot }}</dd>
+    </dl>
+    <h2>Verslaving</h2>
+    <dl class="dl-horizontal">
+        <dt>Problematiek</dt>
+        <dd>
+            <ul>
+                {% for verslaving in entity.verslavingen %}
+                    <li>{{ verslaving }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    <h2>Inkomen en woonsituatie</h2>
+    <dl class="dl-horizontal">
+        <dt></dt>
+        <dd>{{ entity.id }}</dd>
+    </dl>
+    <h2>Overige hulpverlening</h2>
+    <dl class="dl-horizontal">
+        <dt></dt>
+        <dd>{{ entity.id }}</dd>
+    </dl>
+    <h2>Verwachtingen en plannen</h2>
+    <dl class="dl-horizontal">
+        <dt></dt>
+        <dd>{{ entity.id }}</dd>
+    </dl>
+    <h2>Indruk</h2>
+    <h2>Ondersteuning</h2>
+{% endblock %}
