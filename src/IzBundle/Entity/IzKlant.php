@@ -43,6 +43,38 @@ class IzKlant extends IzDeelnemer
      */
     protected $izOntstaanContact;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     */
+    private $organisatie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="naam_aanmelder")
+     * @Gedmo\Versioned
+     */
+    private $naamAanmelder;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_aanmelder")
+     * @Gedmo\Versioned
+     */
+    private $emailAanmelder;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefoon_aanmelder")
+     * @Gedmo\Versioned
+     */
+    private $telefoonAanmelder;
+
     public function __construct()
     {
         $this->izHulpvragen = new ArrayCollection();
@@ -85,5 +117,77 @@ class IzKlant extends IzDeelnemer
     public function getMatching()
     {
         return $this->matching;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrganisatie()
+    {
+        return $this->organisatie;
+    }
+
+    /**
+     * @param string $organisatie
+     */
+    public function setOrganisatie($organisatie)
+    {
+        $this->organisatie = $organisatie;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNaamAanmelder()
+    {
+        return $this->naamAanmelder;
+    }
+
+    /**
+     * @param string $naamAanmelder
+     */
+    public function setNaamAanmelder($naamAanmelder)
+    {
+        $this->naamAanmelder = $naamAanmelder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailAanmelder()
+    {
+        return $this->emailAanmelder;
+    }
+
+    /**
+     * @param string $emailAanmelder
+     */
+    public function setEmailAanmelder($emailAanmelder)
+    {
+        $this->emailAanmelder = $emailAanmelder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTelefoonAanmelder()
+    {
+        return $this->telefoonAanmelder;
+    }
+
+    /**
+     * @param string $telefoonAanmelder
+     */
+    public function setTelefoonAanmelder($telefoonAanmelder)
+    {
+        $this->telefoonAanmelder = $telefoonAanmelder;
+
+        return $this;
     }
 }

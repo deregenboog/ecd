@@ -92,7 +92,11 @@ services:
                 Werkgebied: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
-                Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()', type: 'date' }
+                Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()' }
+                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
+                Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
+                E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
+                Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
 
     iz.export.hulpaanbiedingen:
         class: AppBundle\Export\GenericExport
@@ -149,6 +153,10 @@ services:
                 Postcodegebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
                 Gezin met kinderen: { expression: 'entity.getIzKlant().getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIzIntake()' }
+                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
+                Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
+                E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
+                Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
                 Nummer vrijwilliger: { expression: 'entity.getIzHulpaanbod().getIzVrijwilliger().getVrijwilliger().getId()' }
                 Intakedatum vrijwilliger: { expression: 'entity.getIzHulpaanbod().getIzVrijwilliger().getIzIntake().getIntakeDatum()', condition: 'entity.getIzHulpaanbod().getIzVrijwilliger().getIzIntake()', type: 'date' }
                 Afsluitdatum vrijwilliger: { expression: 'entity.getIzHulpaanbod().getIzVrijwilliger().getAfsluitDatum()', type: 'date' }
