@@ -67,15 +67,15 @@ class IzKoppelingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izProject', $options['enabled_filters'])) {
-            $builder->add('izProject', EntityType::class, [
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
                 'label' => 'Project',
                 'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('izProject')
-                        ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
-                        ->orderBy('izProject.naam', 'ASC')
+                    return $repo->createQueryBuilder('project')
+                        ->where('project.einddatum IS NULL OR project.einddatum >= :now')
+                        ->orderBy('project.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
                 },
             ]);
@@ -115,10 +115,13 @@ class IzKoppelingFilterType extends AbstractType
             ]);
         }
 
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
+        if (in_array('filter', $options['enabled_filters'])) {
+            $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
+        }
+
+        if (in_array('download', $options['enabled_filters'])) {
+            $builder->add('download', SubmitType::class, ['label' => 'Downloaden']);
+        }
     }
 
     /**
@@ -128,7 +131,16 @@ class IzKoppelingFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzKoppelingFilter::class,
-            'enabled_filters' => [],
+            'enabled_filters' => [
+                'koppelingStartdatum',
+                'koppelingEinddatum',
+                'lopendeKoppelingen',
+                'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
+                'vrijwilliger' => ['voornaam', 'achternaam'],
+                'project',
+                'izHulpvraagMedewerker',
+                'izHulpaanbodMedewerker',
+            ],
         ]);
     }
 

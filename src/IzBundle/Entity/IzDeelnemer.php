@@ -71,9 +71,16 @@ abstract class IzDeelnemer
      */
     protected $izAfsluiting;
 
+    /**
+     * @var IzVerslag[]
+     * @ORM\OneToMany(targetEntity="IzVerslag", mappedBy="izDeelnemer")
+     */
+    protected $verslagen;
+
     public function __construct()
     {
         $this->izKoppelingen = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
     }
 
     public function getId()

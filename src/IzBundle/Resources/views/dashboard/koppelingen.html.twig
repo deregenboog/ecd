@@ -1,0 +1,156 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Informele Zorg | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Iz/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul class="nav nav-tabs">
+        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Openstaande hulpvragen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Openstaande hulpaanbiedingen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_koppelingen') }}">Actieve koppelingen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="hulpvragen" class="tab-pane">
+        </div>
+        <div id="hulpaanbiedingen" class="tab-pane">
+        </div>
+        <div id="koppelingen" class="tab-pane active">
+            <h2>Actieve koppelingen</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        {{ form_start(filter) }}
+                            <tr>
+                                <th colspan="9">
+                                    <span class="pull-right">
+                                        {{ form_widget(filter.filter) }}
+                                    </span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_widget(filter.klant.voornaam) }}
+                                    {{ form_errors(filter.klant.voornaam) }}
+                                    {{ form_widget(filter.klant.achternaam) }}
+                                    {{ form_errors(filter.klant.achternaam) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.vrijwilliger.voornaam) }}
+                                    {{ form_errors(filter.vrijwilliger.voornaam) }}
+                                    {{ form_widget(filter.vrijwilliger.achternaam) }}
+                                    {{ form_errors(filter.vrijwilliger.achternaam) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.project) }}
+                                    {{ form_errors(filter.project) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.koppelingStartdatum) }}
+                                    {{ form_errors(filter.koppelingStartdatum) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.klant.stadsdeel) }}
+                                    {{ form_errors(filter.klant.stadsdeel) }}
+                                </th>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        {{ form_end(filter) }}
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+                        </th>
+                        <th>
+                            Project
+                        </th>
+                        <th>
+                            Startdatum koppeling
+                        </th>
+                        <th>
+                            Werkgebied
+                        </th>
+                        <th>
+                            Laatste verslag
+                        </th>
+                        <th>
+                            Invervisiegroep(en) VW
+                        </th>
+                        <th>
+                            Tussenevaluatie
+                        </th>
+                        <th>
+                            Eindevaluatie
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for izHulpvraag in pagination %}
+                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~izHulpvraag.izKlant.id) }}">
+                            <td>
+                                {{ izHulpvraag.izKlant.klant.naam }}
+                            </td>
+                            <td>
+                                {{ izHulpvraag.izHulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                            </td>
+                            <td>
+                                {{ izHulpvraag.izProject }}
+                            </td>
+                            <td>
+                                {{ izHulpvraag.koppelingStartdatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ izHulpvraag.izKlant.klant.werkgebied }}
+                            </td>
+                            <td>
+                                {% set dateHulpvraag = false %}
+                                {% set dateHulpaanbod = false %}
+                                {% if izHulpvraag.verslagen|length > 0 %}
+                                    {% set dateHulpvraag = izHulpvraag.verslagen.0.created %}
+                                {% endif %}
+                                {% if izHulpvraag.izHulpaanbod.verslagen|length > 0 %}
+                                    {% set dateHulpaanbod = izHulpvraag.izHulpaanbod.verslagen.0.created %}
+                                {% endif %}
+                                {% if dateHulpvraag and dateHulpaanbod %}
+                                    {{ dateHulpvraag > dateHulpaanbod ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
+                                {% else %}
+                                    {{ dateHulpvraag ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <ul>
+                                    {% for intervisiegroep in izHulpvraag.izHulpaanbod.izVrijwilliger.intervisiegroepen %}
+                                        <li>{{ intervisiegroep }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                {{ izHulpvraag.koppelingStartdatum|date_modify("+6 months")|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ izHulpvraag.koppelingStartdatum|date_modify("+1 year")|date('d-m-Y') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}

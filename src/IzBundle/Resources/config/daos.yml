@@ -14,6 +14,14 @@ services:
         parent: app.dao.abstract
         class: IzBundle\Service\DoelstellingDao
 
+    iz.dao.hulpaanbod:
+        parent: app.dao.abstract
+        class: IzBundle\Service\HulpaanbodDao
+    
+    iz.dao.hulpvraag:
+        parent: app.dao.abstract
+        class: IzBundle\Service\HulpvraagDao
+
     iz.dao.hulpvraagsoort:
         parent: app.dao.abstract
         class: IzBundle\Service\HulpvraagsoortDao
@@ -29,4 +37,4 @@ services:
     iz.dao.vrijwilliger:
         parent: app.dao.abstract
         class: IzBundle\Service\VrijwilligerDao
-    
+

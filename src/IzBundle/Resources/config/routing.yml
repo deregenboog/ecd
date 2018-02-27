@@ -40,4 +40,4 @@ iz_index:
     path: /iz/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: iz_deelnemers_index
+        route: iz_dashboard_index

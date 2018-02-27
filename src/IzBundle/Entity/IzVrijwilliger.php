@@ -36,6 +36,18 @@ class IzVrijwilliger extends IzDeelnemer
     private $izHulpaanbiedingen;
 
     /**
+     * @var ArrayCollection|Intervisiegroep[]
+     * @ORM\ManyToMany(targetEntity="Intervisiegroep", inversedBy="izVrijwilligers")
+     * @ORM\JoinTable(
+     *     name="iz_deelnemers_iz_intervisiegroepen",
+     *     joinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="iz_intervisiegroep_id")}
+     * )
+     * @ORM\OrderBy({"naam": "asc"})
+     */
+    private $intervisiegroepen;
+
+    /**
      * @var IzViaPersoon
      * @ORM\ManyToOne(targetEntity="IzViaPersoon")
      * @ORM\JoinColumn(name="binnengekomen_via")
@@ -46,6 +58,7 @@ class IzVrijwilliger extends IzDeelnemer
     public function __construct()
     {
         $this->izHulpaanbiedingen = new ArrayCollection();
+        $this->intervisiegroepen = new ArrayCollection();
     }
 
     public function __toString()
@@ -85,5 +98,10 @@ class IzVrijwilliger extends IzDeelnemer
     public function getMatching()
     {
         return $this->matching;
+    }
+
+    public function getIntervisiegroepen()
+    {
+        return $this->intervisiegroepen;
     }
 }

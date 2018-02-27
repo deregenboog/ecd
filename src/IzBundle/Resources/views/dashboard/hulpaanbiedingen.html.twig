@@ -1,0 +1,136 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Informele Zorg | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Iz/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul class="nav nav-tabs">
+        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Openstaande hulpvragen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Openstaande hulpaanbiedingen</a></li>
+        <li><a href="{{ path('iz_dashboard_koppelingen') }}">Actieve koppelingen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="hulpvragen" class="tab-pane">
+        </div>
+        <div id="hulpaanbiedingen" class="tab-pane active">
+            <h2>Openstaande hulpaanbiedingen</h2>
+            <table class="table table-hover">
+                <thead>
+                    {{ form_start(filter) }}
+                        <tr>
+                            <th colspan="10">
+                                <span class="pull-right">
+                                    {{ form_widget(filter.filter) }}
+                                </span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ form_widget(filter.vrijwilliger.id) }}
+                                {{ form_errors(filter.vrijwilliger.id) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.vrijwilliger.voornaam) }}
+                                {{ form_errors(filter.vrijwilliger.voornaam) }}
+                                {{ form_widget(filter.vrijwilliger.achternaam) }}
+                                {{ form_errors(filter.vrijwilliger.achternaam) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.vrijwilliger.geboortedatumRange.start) }}
+                                {{ form_errors(filter.vrijwilliger.geboortedatumRange.start) }}
+                                {{ form_widget(filter.vrijwilliger.geboortedatumRange.end) }}
+                                {{ form_errors(filter.vrijwilliger.geboortedatumRange.end) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.izProject) }}
+                                {{ form_errors(filter.izProject) }}
+                            </th>
+                            <th>
+                            </th>
+                            <th>
+                                {{ form_widget(filter.startdatum) }}
+                                {{ form_errors(filter.startdatum) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+                                {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+                            </th>
+                        </tr>
+                    {{ form_end(filter) }}
+                    <tr>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Nummer', 'vrijwilliger.id') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakeDatum') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Startdatum hulpaanbod', 'hulpaanbod.startdatum') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
+                        </th>
+                        <th>VOG aangevraagd</th>
+                        <th>VOG aanwezig</th>
+                        <th>Overeenkomst aanwezig</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hulpaanbod in pagination %}
+                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~hulpaanbod.izVrijwilliger.id) }}">
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum ? hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izProject }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.izIntake.intakedatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.startdatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.werkgebied }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.vogAangevraagd ? 'Ja' : 'Nee' }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.vogAanwezig ? 'Ja' : 'Nee' }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.overeenkomstAanwezig ? 'Ja' : 'Nee' }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+        <div id="koppelingen" class="tab-pane">
+        </div>
+    </div>
+{% endblock %}

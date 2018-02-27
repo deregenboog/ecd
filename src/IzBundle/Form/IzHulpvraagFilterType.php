@@ -68,10 +68,13 @@ class IzHulpvraagFilterType extends AbstractType
             ]);
         }
 
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
+        if (in_array('filter', $options['enabled_filters'])) {
+            $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
+        }
+
+        if (in_array('download', $options['enabled_filters'])) {
+            $builder->add('download', SubmitType::class, ['label' => 'Downloaden']);
+        }
     }
 
     /**
@@ -81,7 +84,14 @@ class IzHulpvraagFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzHulpvraagFilter::class,
-            'enabled_filters' => [],
+            'enabled_filters' => [
+                'startdatum',
+                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'izProject',
+                'medewerker',
+                'filter',
+                'download',
+            ],
         ]);
     }
 

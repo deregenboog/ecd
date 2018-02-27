@@ -1,5 +1,6 @@
 {% import '::html.macro.twig' as html %}
 <ul class="nav nav-tabs">
+    {{ html.navLink('Mijn IZ', path('iz_dashboard_index'), isActiveRoute('iz_dashboard_')) }}
     {{ html.navLink('Deelnemers', path('iz_klanten_index'), isActiveRoute('iz_klanten_')) }}
     {{ html.navLink('Vrijwilligers', path('iz_vrijwilligers_index'), isActiveRoute('iz_vrijwilligers_')) }}
     {{ html.navLink('Hulpvragen', path('iz_hulpvragen_index'), isActiveRoute('iz_hulpvragen_')) }}

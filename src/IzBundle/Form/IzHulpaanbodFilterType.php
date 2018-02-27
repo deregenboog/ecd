@@ -68,10 +68,13 @@ class IzHulpaanbodFilterType extends AbstractType
             ]);
         }
 
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-            ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
+        if (in_array('filter', $options['enabled_filters'])) {
+            $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
+        }
+
+        if (in_array('download', $options['enabled_filters'])) {
+            $builder->add('download', SubmitType::class, ['label' => 'Downloaden']);
+        }
     }
 
     /**
@@ -81,7 +84,12 @@ class IzHulpaanbodFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzHulpaanbodFilter::class,
-            'enabled_filters' => [],
+            'enabled_filters' => [
+                'startdatum',
+                'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'izProject',
+                'medewerker',
+            ],
         ]);
     }
 

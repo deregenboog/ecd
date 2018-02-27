@@ -92,7 +92,7 @@ services:
                 Werkgebied: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
-                Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()' }
+                Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()', type: 'date' }
                 Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }

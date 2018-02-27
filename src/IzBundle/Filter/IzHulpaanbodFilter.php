@@ -37,21 +37,21 @@ class IzHulpaanbodFilter
 
         if ($this->startdatum) {
             $builder
-                ->andWhere('izHulpaanbod.startdatum = :startdatum')
+                ->andWhere('hulpaanbod.startdatum = :startdatum')
                 ->setParameter('startdatum', $this->startdatum)
             ;
         }
 
         if ($this->izProject) {
             $builder
-                ->andWhere('izHulpaanbod.izProject = :izProject')
+                ->andWhere('hulpaanbod.izProject = :izProject')
                 ->setParameter('izProject', $this->izProject)
             ;
         }
 
         if ($this->medewerker) {
             $builder
-                ->andWhere('izHulpaanbod.medewerker = :medewerker')
+                ->andWhere('hulpaanbod.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
             ;
         }

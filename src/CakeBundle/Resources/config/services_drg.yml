@@ -176,6 +176,7 @@ parameters:
                 - Klanten
                 - Vrijwilligers
                 - IzKlanten
+                - iz
                 - IzVrijwilligers
                 - IzDeelnemers
                 - IzHulpvragen
@@ -183,6 +184,7 @@ parameters:
                 - IzKoppelingen
                 - IzRapportages
                 - IzVerslagen
+                - IzBundle\Controller\Dashboard
                 - Attachments
                 - odp
                 - OdpBundle\Controller\Documenten
@@ -205,6 +207,7 @@ parameters:
                 - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_IZ_BEHEER:
+                - iz
                 - IzAfsluitingen
                 - IzKlanten
                 - IzVrijwilligers
@@ -222,6 +225,7 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
+                - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Hulpvraagsoorten
@@ -540,6 +544,7 @@ parameters:
                 - HsBundle\Controller\Rapportages
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
+                - iz
                 - IzAfsluitingen
                 - IzKlanten
                 - IzVrijwilligers
@@ -557,6 +562,7 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
+                - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Hulpvraagsoorten
@@ -591,8 +597,8 @@ parameters:
                 label: PFO
                 url: pfo
             IzKlanten:
-                label: IZ
-                url: iz_klanten
+                label: Informele Zorg
+                url: iz
             groepsactiviteiten_klanten:
                 label: Groepsactiviteiten
                 url: groepsactiviteiten_klanten
@@ -691,11 +697,6 @@ parameters:
 services:
     cake.service.config:
         class: CakeBundle\Service\CakeConfiguration
-
-    cake.service.cache_warmer:
-        class: CakeBundle\Service\CakeCacheWarmer
-        tags:
-            - { name: kernel.cache_warmer, priority: 100 }
 
     cake.event.controller:
         class: CakeBundle\Event\KernelSubscriber

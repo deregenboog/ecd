@@ -32,7 +32,7 @@ class IzVerslag
 
     /**
      * @var IzDeelnemer
-     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
+     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="verslagen")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      * @Gedmo\Versioned
      */
@@ -40,7 +40,7 @@ class IzVerslag
 
     /**
      * @var IzKoppeling
-     * @ORM\OneToOne(targetEntity="IzKoppeling")
+     * @ORM\ManyToOne(targetEntity="IzKoppeling", inversedBy="verslagen")
      * @ORM\JoinColumn(name="iz_koppeling_id")
      * @Gedmo\Versioned
      */

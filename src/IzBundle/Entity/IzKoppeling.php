@@ -97,6 +97,18 @@ abstract class IzKoppeling
      */
     private $izDeelnemer;
 
+    /**
+     * @var IzVerslag[]
+     * @ORM\OneToMany(targetEntity="IzVerslag", mappedBy="izKoppeling")
+     * @ORM\OrderBy({"created": "desc"})
+     */
+    protected $verslagen;
+
+    public function __construct()
+    {
+        $this->verslagen = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -200,5 +212,10 @@ abstract class IzKoppeling
         }
 
         return $this->getEinddatum() instanceof \DateTime && $this->getEinddatum() <= $now;
+    }
+
+    public function getVerslagen()
+    {
+        return $this->verslagen;
     }
 }
