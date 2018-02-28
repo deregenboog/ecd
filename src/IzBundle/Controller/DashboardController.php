@@ -95,7 +95,16 @@ class DashboardController extends SymfonyController
         $form = $this->createForm(IzHulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
-                'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'vrijwilliger' => [
+                    'id',
+                    'voornaam',
+                    'achternaam',
+                    'geboortedatumRange',
+                    'stadsdeel',
+                    'vogAangevraagd',
+                    'vogAanwezig',
+                    'overeenkomstAanwezig',
+                ],
                 'izProject',
                 'filter',
             ],

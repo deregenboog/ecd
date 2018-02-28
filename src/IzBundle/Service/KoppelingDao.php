@@ -10,12 +10,12 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'izHulpvraag.koppelingStartdatum',
-        'defaultSortDirection' => 'desc',
+        'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'izHulpvraag.koppelingStartdatum',
             'izHulpvraag.koppelingEinddatum',
             'klant.achternaam',
-            'klant.werkgebied',
+            'werkgebied.naam',
             'vrijwilliger.achternaam',
             'izProject.naam',
             'medewerker.achternaam',
@@ -30,6 +30,7 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
             ->addSelect('medewerker, izProject, izKlant, izOntstaanContact, klant, izHulpaanbod, izVrijwilliger, vrijwilliger, izBinnengekomenVia')
             ->innerJoin('izHulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('izKlant.izOntstaanContact', 'izOntstaanContact')
             ->innerJoin('izHulpvraag.izProject', 'izProject')
             ->innerJoin('izHulpvraag.medewerker', 'medewerker')

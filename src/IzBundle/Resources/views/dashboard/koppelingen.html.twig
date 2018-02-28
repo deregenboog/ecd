@@ -78,13 +78,13 @@
                             {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
                         </th>
                         <th>
-                            Project
+                            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
                         </th>
                         <th>
-                            Startdatum koppeling
+                            {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'izHulpvraag.koppelingStartdatum') }}
                         </th>
                         <th>
-                            Werkgebied
+                            {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                         </th>
                         <th>
                             Laatste verslag
@@ -93,10 +93,10 @@
                             Invervisiegroep(en) VW
                         </th>
                         <th>
-                            Tussenevaluatie
+                            {{ knp_pagination_sortable(pagination, 'Tussenevaluatie', 'izHulpvraag.koppelingStartdatum') }}
                         </th>
                         <th>
-                            Eindevaluatie
+                            {{ knp_pagination_sortable(pagination, 'Eindevaluatie', 'izHulpvraag.koppelingStartdatum') }}
                         </th>
                     </tr>
                 </thead>

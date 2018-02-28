@@ -86,9 +86,15 @@
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                         </th>
-                        <th>VOG aangevraagd</th>
-                        <th>VOG aanwezig</th>
-                        <th>Overeenkomst aanwezig</th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'VOG aangevraagd', 'vrijwilliger.vogAangevraagd') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'VOG aanwezig', 'vrijwilliger.vogAanwezig') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Overeenkomst aanwezig', 'vrijwilliger.overeenkomstAanwezig') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
