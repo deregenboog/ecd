@@ -39,7 +39,7 @@ class IzKoppelingFilter implements FilterInterface
     /**
      * @var IzProject
      */
-    public $project;
+    public $izProject;
 
     /**
      * @var Medewerker
@@ -87,10 +87,10 @@ class IzKoppelingFilter implements FilterInterface
             ;
         }
 
-        if ($this->project) {
+        if ($this->izProject) {
             $builder
-                ->andWhere('izHulpvraag.izProject = :project')
-                ->setParameter('project', $this->project)
+                ->andWhere('izHulpvraag.izProject = :izProject')
+                ->setParameter('izProject', $this->izProject)
             ;
         }
 

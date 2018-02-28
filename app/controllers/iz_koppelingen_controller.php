@@ -16,17 +16,6 @@ class IzKoppelingenController extends AppController
      */
     public $view = 'AppTwig';
 
-    private $enabledFilters = [
-        'koppelingStartdatum',
-        'koppelingEinddatum',
-        'lopendeKoppelingen',
-        'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
-        'vrijwilliger' => ['voornaam', 'achternaam'],
-        'izProject',
-        'izHulpvraagMedewerker',
-        'izHulpaanbodMedewerker',
-    ];
-
     /**
      * @var KoppelingDaoInterface
      */
@@ -69,9 +58,7 @@ class IzKoppelingenController extends AppController
 
     private function createFilter()
     {
-        $form = $this->createForm(IzKoppelingFilterType::class, null, [
-            'enabled_filters' => $this->enabledFilters,
-        ]);
+        $form = $this->createForm(IzKoppelingFilterType::class);
         $form->handleRequest($this->getRequest());
 
         return $form;

@@ -89,6 +89,8 @@ class IzHulpaanbodFilterType extends AbstractType
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'izProject',
                 'medewerker',
+                'filter',
+                'download',
             ],
         ]);
     }

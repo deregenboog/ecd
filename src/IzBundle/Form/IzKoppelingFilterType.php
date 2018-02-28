@@ -67,8 +67,8 @@ class IzKoppelingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', EntityType::class, [
+        if (in_array('izProject', $options['enabled_filters'])) {
+            $builder->add('izProject', EntityType::class, [
                 'required' => false,
                 'class' => IzProject::class,
                 'label' => 'Project',
@@ -137,9 +137,11 @@ class IzKoppelingFilterType extends AbstractType
                 'lopendeKoppelingen',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
-                'project',
+                'izProject',
                 'izHulpvraagMedewerker',
                 'izHulpaanbodMedewerker',
+                'filter',
+                'download',
             ],
         ]);
     }

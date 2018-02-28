@@ -1,5 +1,10 @@
 <div id="subheader">
     {{ html.link(
+        'Mijn IZ',
+        {'controller': 'iz/mijn', 'action': 'hulpvragen'}
+    )|raw }}
+    &nbsp;&nbsp;
+    {{ html.link(
         'Deelnemers',
         {'controller': 'iz_klanten', 'action': 'index'},
         {'class': this.name == 'IzKlanten' ? 'selected' : ''}
