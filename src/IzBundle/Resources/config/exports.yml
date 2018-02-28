@@ -23,7 +23,7 @@ services:
                 Gezin met kinderen: { expression: 'entity.getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
                 Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
-                Openstaande hulpvragen: { expression: 'export.getProjectenOpenstaandeHulpvragen(entity)' }
+                Open hulpvragen: { expression: 'export.getProjectenOpenstaandeHulpvragen(entity)' }
                 Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
                 Startdatum eerste koppeling: { expression: 'export.getStartdatumEersteKoppeling(entity)', type: 'date' }
@@ -57,7 +57,7 @@ services:
                 Stagiair: { expression: 'entity.getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
                 Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
-                Openstaande hulpaanbiedingen: { expression: 'export.getProjectenOpenstaandeHulpaanbiedingen(entity)' }
+                Open hulpaanbiedingen: { expression: 'export.getProjectenOpenstaandeHulpaanbiedingen(entity)' }
                 Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
                 Startdatum eerste koppeling: { expression: 'export.getStartdatumEersteKoppeling(entity)', type: 'date' }

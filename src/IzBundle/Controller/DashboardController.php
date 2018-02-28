@@ -53,7 +53,7 @@ class DashboardController extends SymfonyController
      */
     public function indexAction()
     {
-        return $this->redirectToRoute('iz_dashboard_hulpvragen');
+        return $this->redirectToRoute('iz_dashboard_koppelingen');
     }
 
     /**

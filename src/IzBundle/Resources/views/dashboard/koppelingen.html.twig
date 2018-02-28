@@ -1,5 +1,6 @@
 {% extends '::base.html.twig' %}
 {% import '::html.macro.twig' as html %}
+{% import _self as iz %}
 
 {% block title %}
     Informele Zorg | {{ title }}
@@ -12,9 +13,9 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Openstaande hulpvragen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Openstaande hulpaanbiedingen</a></li>
-        <li class="active"><a href="{{ path('iz_dashboard_koppelingen') }}">Actieve koppelingen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_koppelingen') }}">Lopende koppelingen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Open hulpvragen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane">
@@ -22,7 +23,7 @@
         <div id="hulpaanbiedingen" class="tab-pane">
         </div>
         <div id="koppelingen" class="tab-pane active">
-            <h2>Actieve koppelingen</h2>
+            <h2>Lopende koppelingen</h2>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -102,7 +103,7 @@
                 </thead>
                 <tbody>
                     {% for izHulpvraag in pagination %}
-                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~izHulpvraag.izKlant.id) }}">
+                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~izHulpvraag.izKlant.id) }}" style="{{ iz.koppeling_warning_style(izHulpvraag) }}">
                             <td>
                                 {{ izHulpvraag.izKlant.klant.naam }}
                             </td>
@@ -119,19 +120,7 @@
                                 {{ izHulpvraag.izKlant.klant.werkgebied }}
                             </td>
                             <td>
-                                {% set dateHulpvraag = false %}
-                                {% set dateHulpaanbod = false %}
-                                {% if izHulpvraag.verslagen|length > 0 %}
-                                    {% set dateHulpvraag = izHulpvraag.verslagen.0.created %}
-                                {% endif %}
-                                {% if izHulpvraag.izHulpaanbod.verslagen|length > 0 %}
-                                    {% set dateHulpaanbod = izHulpvraag.izHulpaanbod.verslagen.0.created %}
-                                {% endif %}
-                                {% if dateHulpvraag and dateHulpaanbod %}
-                                    {{ dateHulpvraag > dateHulpaanbod ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
-                                {% else %}
-                                    {{ dateHulpvraag ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
-                                {% endif %}
+                                {{ iz.koppeling_laatste_verslag(izHulpvraag) }}
                             </td>
                             <td>
                                 <ul>
@@ -154,3 +143,29 @@
         </div>
     </div>
 {% endblock %}
+
+{% macro koppeling_warning_style(izHulpvraag) %}
+    {% if izHulpvraag.koppelingStartdatum|date('Y') >= 2018 %}
+        {% if izHulpvraag.koppelingStartdatum|date_modify('+6 months') < today %}
+            {{ 'background-color: red; color: white' }}
+        {% elseif izHulpvraag.koppelingStartdatum|date_modify('+5 months +2 weeks') < today %}
+            {{ 'background-color: orange; color: white' }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro koppeling_laatste_verslag(izHulpvraag) %}
+    {% set dateHulpvraag = false %}
+    {% set dateHulpaanbod = false %}
+    {% if izHulpvraag.verslagen|length > 0 %}
+        {% set dateHulpvraag = izHulpvraag.verslagen.0.created %}
+    {% endif %}
+    {% if izHulpvraag.izHulpaanbod.verslagen|length > 0 %}
+        {% set dateHulpaanbod = izHulpvraag.izHulpaanbod.verslagen.0.created %}
+    {% endif %}
+    {% if dateHulpvraag and dateHulpaanbod %}
+        {{ dateHulpvraag > dateHulpaanbod ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
+    {% else %}
+        {{ dateHulpvraag ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
+    {% endif %}
+{% endmacro %}

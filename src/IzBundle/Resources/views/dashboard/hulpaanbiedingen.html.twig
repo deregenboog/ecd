@@ -12,15 +12,15 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Openstaande hulpvragen</a></li>
-        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Openstaande hulpaanbiedingen</a></li>
-        <li><a href="{{ path('iz_dashboard_koppelingen') }}">Actieve koppelingen</a></li>
+        <li><a href="{{ path('iz_dashboard_koppelingen') }}">Lopende koppelingen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Open hulpvragen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane">
         </div>
         <div id="hulpaanbiedingen" class="tab-pane active">
-            <h2>Openstaande hulpaanbiedingen</h2>
+            <h2>Open hulpaanbiedingen</h2>
             <table class="table table-hover">
                 <thead>
                     {{ form_start(filter) }}
