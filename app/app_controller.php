@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use AppBundle\Exception\AppException;
 
 class AppController extends Controller implements ContainerAwareInterface
 {
@@ -326,24 +327,31 @@ class AppController extends Controller implements ContainerAwareInterface
         if (Configure::read('acl.login.medewerker_id')) {
             $medewerker = $this->getEntityManager()->getRepository(Medewerker::class)
                 ->find(Configure::read('acl.login.medewerker_id'));
-            if ($medewerker) {
-                $auth = [
-                    'Medewerker' => [
-                        'id' => $medewerker->getId(),
-                        'username' => $medewerker->getUsername(),
-                        'uidnumber' => $medewerker->getId(),
-                        'Group' => $medewerker->getGroepen(),
-                        'LdapUser' => [
-                            'displayname' => $medewerker->getNaam(),
-                            'givenname' => $medewerker->getNaam(),
-                            'sn' => $medewerker->getNaam(),
-                            'uidnumber' => $medewerker->getId(),
-                            'mail' => $medewerker->getUsername().'@deregenboog.org',
-                        ],
-                    ],
-                ];
-                $this->Session->write('Auth', $auth);
+            if (!$medewerker) {
+                throw new AppException(sprintf(
+                    'Entity of class %s with ID %d not found! Did you load the database fixtures? Try running "%s".',
+                    Medewerker::class,
+                    Configure::read('acl.login.medewerker_id'),
+                    'bin/console hautelook_alice:doctrine:fixtures:load'
+                ));
             }
+
+            $auth = [
+                'Medewerker' => [
+                    'id' => $medewerker->getId(),
+                    'username' => $medewerker->getUsername(),
+                    'uidnumber' => $medewerker->getId(),
+                    'Group' => $medewerker->getGroepen(),
+                    'LdapUser' => [
+                        'displayname' => $medewerker->getNaam(),
+                        'givenname' => $medewerker->getNaam(),
+                        'sn' => $medewerker->getNaam(),
+                        'uidnumber' => $medewerker->getId(),
+                        'mail' => $medewerker->getEmail(),
+                    ],
+                ],
+            ];
+            $this->Session->write('Auth', $auth);
         }
 
         $auth = $this->Session->read('Auth');

@@ -28,6 +28,11 @@ class Medewerker
     private $username;
 
     /**
+     * @ORM\Column(nullable=false)
+     */
+    private $email;
+
+    /**
      * @ORM\Column(name="active", type="boolean")
      */
     private $actief = true;
@@ -47,6 +52,11 @@ class Medewerker
         $this->username = $username;
 
         return $this;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     public function getNaam()
