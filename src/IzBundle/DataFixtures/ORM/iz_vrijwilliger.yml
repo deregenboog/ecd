@@ -4,4 +4,4 @@ IzBundle\Entity\IzVrijwilliger:
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
         izAfsluiting: '30%? @iz_afsluiting_*'
-        izBinnengekomenVia: '30%? @iz_via_persoon_*'
+        binnengekomenVia: '30%? @iz_via_persoon_*'

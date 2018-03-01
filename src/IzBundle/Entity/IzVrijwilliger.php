@@ -48,12 +48,12 @@ class IzVrijwilliger extends IzDeelnemer
     private $intervisiegroepen;
 
     /**
-     * @var IzViaPersoon
-     * @ORM\ManyToOne(targetEntity="IzViaPersoon")
+     * @var BinnengekomenVia
+     * @ORM\ManyToOne(targetEntity="BinnengekomenVia")
      * @ORM\JoinColumn(name="binnengekomen_via")
      * @Gedmo\Versioned
      */
-    protected $izBinnengekomenVia;
+    protected $binnengekomenVia;
 
     public function __construct()
     {
@@ -83,14 +83,14 @@ class IzVrijwilliger extends IzDeelnemer
         return $this->izHulpaanbiedingen;
     }
 
-    public function getIzBinnengekomenVia()
+    public function getBinnengekomenVia()
     {
-        return $this->izBinnengekomenVia;
+        return $this->binnengekomenVia;
     }
 
-    public function setIzBinnengekomenVia(IzViaPersoon $izBinnengekomenVia)
+    public function setBinnengekomenVia(BinnengekomenVia $binnengekomenVia)
     {
-        $this->izBinnengekomenVia = $izBinnengekomenVia;
+        $this->binnengekomenVia = $binnengekomenVia;
 
         return $this;
     }

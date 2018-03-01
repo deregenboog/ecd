@@ -1,0 +1,78 @@
+{% extends '@Iz/index.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            {% include '@Iz/hulpvragen/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Startdatum', 'izHulpvraag.startdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hulpvraag in pagination %}
+                <tr data-href="{{ path('cake_iz_hulpvragen_view', {iz_klant_id: hulpvraag.izKlant.id}) }}">
+                    <td>
+                        {{ hulpvraag.startdatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.izKlant.klant.id }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.izKlant.klant.naam }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.izKlant.klant.geboortedatum is empty ? "" : hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.project }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.medewerker }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.izKlant.klant.werkgebied }}
+                    </td>
+                    {% set zrm = hulpvraag.izKlant.klant.laatsteZrm|date('U') %}
+                    {% if zrm < '-6 months'|date('U') %}
+                        {% set style = 'background-color: red; color: white;' %}
+                    {% elseif zrm < '-5 months'|date('U') %}
+                        {% set style = 'background-color: orange; color: white;' %}
+                    {% else %}
+                        {% set style = '' %}
+                    {% endif %}
+                    <td style="{{ style }}">
+                        {{ hulpvraag.izKlant.klant.laatsteZrm is empty ? "" : hulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

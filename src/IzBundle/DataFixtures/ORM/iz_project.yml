@@ -1,4 +1,4 @@
-IzBundle\Entity\IzProject:
+IzBundle\Entity\Project:
     iz_project_Maatjes *:
         naam: 'Maatjes *'
         startdatum: '<(new \DateTime("2014-01-01"))>'

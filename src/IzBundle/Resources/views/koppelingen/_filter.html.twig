@@ -1,0 +1,50 @@
+{{ form_start(filter) }}
+    <tr>
+        <th colspan="8">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            {{ form_widget(filter.klant.voornaam) }}
+            {{ form_errors(filter.klant.voornaam) }}
+            {{ form_widget(filter.klant.achternaam) }}
+            {{ form_errors(filter.klant.achternaam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.voornaam) }}
+            {{ form_errors(filter.vrijwilliger.voornaam) }}
+            {{ form_widget(filter.vrijwilliger.achternaam) }}
+            {{ form_errors(filter.vrijwilliger.achternaam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.koppelingStartdatum) }}
+            {{ form_errors(filter.koppelingStartdatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.lopendeKoppelingen) }}
+            {{ form_errors(filter.lopendeKoppelingen) }}
+            {{ form_widget(filter.koppelingEinddatum) }}
+            {{ form_errors(filter.koppelingEinddatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.project) }}
+            {{ form_errors(filter.project) }}
+        </th>
+        <th>
+            {{ form_widget(filter.izHulpvraagMedewerker) }}
+            {{ form_errors(filter.izHulpvraagMedewerker) }}
+        </th>
+        <th>
+            {{ form_widget(filter.izHulpaanbodMedewerker) }}
+            {{ form_errors(filter.izHulpaanbodMedewerker) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.stadsdeel) }}
+            {{ form_errors(filter.klant.stadsdeel) }}
+        </th>
+    </tr>
+{{ form_end(filter) }}

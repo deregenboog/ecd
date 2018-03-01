@@ -24,7 +24,7 @@ class IzAfsluiting
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      * @Gedmo\Versioned
      */
     private $naam;
@@ -50,8 +50,22 @@ class IzAfsluiting
         return $this->naam;
     }
 
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
     public function isActief()
     {
         return $this->actief;
+    }
+
+    public function setActief($actief)
+    {
+        $this->actief = (bool) $actief;
+
+        return $this;
     }
 }

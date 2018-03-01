@@ -23,7 +23,7 @@ class DoelstellingType extends AbstractType
             ->add('jaar', ChoiceType::class, [
                 'choices' => array_combine($range, $range),
             ])
-            ->add('project', IzProjectType::class, ['placeholder' => 'Selecteer een project'])
+            ->add('project', ProjectSelectType::class, ['placeholder' => 'Selecteer een project'])
             ->add('categorie', ChoiceType::class, [
                 'required' => false,
                 'placeholder' => 'Stadsdeel',

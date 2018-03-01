@@ -36,7 +36,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->leftJoin('izVrijwilliger.izIntake', 'intake')
-            ->innerJoin('hulpaanbod.izProject', 'project')
+            ->innerJoin('hulpaanbod.project', 'project')
             ->innerJoin('hulpaanbod.medewerker', 'medewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')

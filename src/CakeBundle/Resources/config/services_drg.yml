@@ -177,6 +177,13 @@ parameters:
                 - Vrijwilligers
                 - IzKlanten
                 - iz
+                - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Hulpaanbiedingen
+                - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intervisiegroepen
+                - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Vrijwilligers
                 - IzVrijwilligers
                 - IzDeelnemers
                 - IzHulpvragen
@@ -184,7 +191,6 @@ parameters:
                 - IzKoppelingen
                 - IzRapportages
                 - IzVerslagen
-                - IzBundle\Controller\Dashboard
                 - Attachments
                 - odp
                 - OdpBundle\Controller\Documenten
@@ -207,7 +213,6 @@ parameters:
                 - OekBundle\Controller\Vrijwilligers
                 - OekBundle\Controller\Wachtlijst
             GROUP_IZ_BEHEER:
-                - iz
                 - IzAfsluitingen
                 - IzKlanten
                 - IzVrijwilligers
@@ -225,10 +230,20 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
+                - iz
+                - IzBundle\Controller\AfsluitredenenDeelnemer
+                - IzBundle\Controller\AfsluitredenenKoppeling
+                - IzBundle\Controller\AfsluitredenenVraagAanbod
                 - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvraagsoorten
+                - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intervisiegroepen
+                - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Vrijwilligers
                 - odp
                 - OdpBundle\Controller\Coordinatoren
                 - OdpBundle\Controller\Documenten
@@ -544,7 +559,6 @@ parameters:
                 - HsBundle\Controller\Rapportages
                 - HsBundle\Controller\Registraties
                 - HsBundle\Controller\Vrijwilligers
-                - iz
                 - IzAfsluitingen
                 - IzKlanten
                 - IzVrijwilligers
@@ -562,16 +576,31 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
+                - iz
+                - IzBundle\Controller\BinnengekomenViaOpties
+                - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\EindeVraagAanbod
+                - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvraagsoorten
+                - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intakes
+                - IzBundle\Controller\Intervisiegroepen
+                - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\MatchingKlant
+                - IzBundle\Controller\MatchingVrijwilliger
+                - IzBundle\Controller\Projecten
+                - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Selecties
+                - IzBundle\Controller\Verslagen
+                - IzBundle\Controller\Vrijwilligers
 
         # controller: {label, url}
         all_menu_items:
-            Hi5:
-                label: Hi5
-                url: Hi5
             Klanten:
                 label: Klanten
                 url: Klanten
@@ -593,30 +622,33 @@ parameters:
             Awbz:
                 label: AWBZ
                 url: Awbz
-            pfo:
-                label: PFO
-                url: pfo
-            IzKlanten:
-                label: Informele Zorg
-                url: iz
+            clip:
+                label: Clip
+                url: clip
+            dagbesteding:
+                label: Dagbesteding
+                url: dagbesteding
             groepsactiviteiten_klanten:
                 label: Groepsactiviteiten
                 url: groepsactiviteiten_klanten
+            Hi5:
+                label: Hi5
+                url: Hi5
+            hs:
+                label: Homeservice
+                url: hs
+            iz:
+                label: Informele Zorg
+                url: iz
             odp:
                 label: Onder de Pannen
                 url: odp
             oek:
                 label: Op Eigen Kracht
                 url: oek
-            dagbesteding:
-                label: Dagbesteding
-                url: dagbesteding
-            clip:
-                label: Clip
-                url: clip
-            hs:
-                label: Homeservice
-                url: hs
+            pfo:
+                label: PFO
+                url: pfo
             Admin:
                 label: Admin
                 url: Admin

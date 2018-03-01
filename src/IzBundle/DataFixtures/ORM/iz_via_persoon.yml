@@ -1,4 +1,4 @@
-IzBundle\Entity\IzViaPersoon:
+IzBundle\Entity\BinnengekomenVia:
     iz_via_persoon_Aardige Amsterdammer:
         naam: 'Aardige Amsterdammer'
         actief: 1

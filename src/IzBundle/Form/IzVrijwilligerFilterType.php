@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use IzBundle\Filter\IzVrijwilligerFilter;
 use IzBundle\Entity\IzHulpaanbod;
 use AppBundle\Entity\Vrijwilliger;
@@ -57,15 +57,15 @@ class IzVrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izProject', $options['enabled_filters'])) {
-            $builder->add('izProject', EntityType::class, [
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', EntityType::class, [
                 'required' => false,
                 'label' => 'Project',
-                'class' => IzProject::class,
+                'class' => Project::class,
                 'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('izProject')
-                        ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
-                        ->orderBy('izProject.naam', 'ASC')
+                    return $repo->createQueryBuilder('project')
+                        ->where('project.einddatum IS NULL OR project.einddatum >= :now')
+                        ->orderBy('project.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
                 },
             ]);
@@ -137,7 +137,7 @@ class IzVrijwilligerFilterType extends AbstractType
                 'openDossiers',
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
-                'izProject',
+                'project',
                 'izIntakeMedewerker',
                 'izHulpaanbodMedewerker',
                 'zonderActiefHulpaanbod',

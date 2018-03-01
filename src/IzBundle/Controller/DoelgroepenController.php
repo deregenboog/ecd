@@ -3,11 +3,11 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
+use IzBundle\Service\DoelgroepDaoInterface;
 
 /**
  * @Route("/admin/doelgroepen")
@@ -21,9 +21,9 @@ class DoelgroepenController extends AbstractController
     protected $baseRouteName = 'iz_doelgroepen_';
 
     /**
-     * @var BehandelaarDaoInterface
+     * @var DoelgroepDaoInterface
      *
-     * @DI\Inject("iz.dao.doelgroep")
+     * @DI\Inject("IzBundle\Service\DoelgroepDao")
      */
     protected $dao;
 

@@ -30,21 +30,21 @@ class DashboardController extends SymfonyController
     /**
      * @var HulpvraagDaoInterface
      *
-     * @DI\Inject("iz.dao.hulpvraag")
+     * @DI\Inject("IzBundle\Service\HulpvraagDao")
      */
     protected $hulpvraagDao;
 
     /**
      * @var HulpaanbodDaoInterface
      *
-     * @DI\Inject("iz.dao.hulpaanbod")
+     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
      */
     protected $hulpaanbodDao;
 
     /**
      * @var KoppelingDaoInterface
      *
-     * @DI\Inject("iz.dao.koppeling")
+     * @DI\Inject("IzBundle\Service\KoppelingDao")
      */
     protected $koppelingDao;
 
@@ -68,7 +68,7 @@ class DashboardController extends SymfonyController
             'enabled_filters' => [
                 'startdatum',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
-                'izProject',
+                'project',
                 'filter',
             ],
         ]);
@@ -105,7 +105,7 @@ class DashboardController extends SymfonyController
                     'vogAanwezig',
                     'overeenkomstAanwezig',
                 ],
-                'izProject',
+                'project',
                 'filter',
             ],
         ]);
@@ -134,7 +134,7 @@ class DashboardController extends SymfonyController
                 'koppelingStartdatum',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
-                'izProject',
+                'project',
                 'filter',
             ],
         ]);

@@ -1,49 +1,19 @@
 <div id="subheader">
-    {{ html.link(
-        'Mijn IZ',
-        {'controller': 'iz/mijn', 'action': ''}
-    )|raw }}
+    {{ html.link('Mijn IZ', path('iz_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link(
-        'Deelnemers',
-        {'controller': 'iz_klanten', 'action': 'index'},
-        {'class': this.name == 'IzKlanten' ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Deelnemers', path('iz_klanten_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link(
-        'Vrijwilligers',
-        {'controller': 'iz_vrijwilligers', 'action': 'index'},
-        {'class': this.name == 'IzVrijwilligers' ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Vrijwilligers', path('iz_vrijwilligers_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link(
-        'Hulpvragen',
-        {'controller': 'iz_hulpvragen', 'action': 'index'},
-        {'class': this.name == 'IzHulpvragen' ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Hulpvragen', path('iz_hulpvragen_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link(
-        'Hulpaanbiedingen',
-        {'controller': 'iz_hulpaanbiedingen', 'action': 'index'},
-        {'class': this.name == 'IzHulpaanbiedingen' ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Hulpaanbiedingen', path('iz_hulpaanbiedingen_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link('Koppelingen', {
-        'controller': 'iz_koppelingen', 'action': 'index'},
-        {'class': this.name == 'IzKoppelingen' ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Koppelingen', path('iz_koppelingen_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link(
-        'Rapportages',
-        {'controller': 'iz_rapportages', 'action': 'index'},
-        {'class': this.name == 'IzRapportages' ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Rapportages', path('iz_rapportages_index'))|raw }}
     &nbsp;&nbsp;
-    {{ html.link(
-        'Selecties',
-        {'controller': 'iz_deelnemers', 'action': 'selecties'},
-        {'class': (this.name == 'IzDeelnemers' and this.action == 'selecties') ? 'selected' : ''}
-    )|raw }}
+    {{ html.link('Selecties', path('iz_selecties_index'))|raw }}
     &nbsp;&nbsp;
     {{ html.link('Intervisiegroepen',
         {'controller': 'iz_deelnemers', 'action': 'intervisiegroepen'}

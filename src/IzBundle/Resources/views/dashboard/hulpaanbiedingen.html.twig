@@ -49,8 +49,8 @@
                                 {{ form_errors(filter.vrijwilliger.geboortedatumRange.end) }}
                             </th>
                             <th>
-                                {{ form_widget(filter.izProject) }}
-                                {{ form_errors(filter.izProject) }}
+                                {{ form_widget(filter.project) }}
+                                {{ form_errors(filter.project) }}
                             </th>
                             <th>
                             </th>
@@ -110,7 +110,7 @@
                                 {{ hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum ? hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ hulpaanbod.izProject }}
+                                {{ hulpaanbod.project }}
                             </td>
                             <td>
                                 {{ hulpaanbod.izVrijwilliger.izIntake.intakedatum|date('d-m-Y') }}

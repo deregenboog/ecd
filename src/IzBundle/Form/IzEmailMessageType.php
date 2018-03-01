@@ -9,6 +9,7 @@ use AppBundle\Form\EmailMessageType;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class IzEmailMessageType extends AbstractType
 {
@@ -32,6 +33,7 @@ class IzEmailMessageType extends AbstractType
                 }
             }
         }
+
         // remove empty values
         $emails = array_filter($emails);
         // copy values to keys
@@ -44,6 +46,7 @@ class IzEmailMessageType extends AbstractType
             ->remove('bcc')
             ->add('from', HiddenType::class, ['data' => $options['from']])
             ->add('to', HiddenType::class, ['data' => implode(', ', $emails)])
+            ->add('submit', SubmitType::class)
         ;
     }
 
@@ -55,7 +58,6 @@ class IzEmailMessageType extends AbstractType
         $resolver->setDefaults([
             'from' => null,
             'to' => [],
-            'action' => '/iz_deelnemers/email_selectie',
         ]);
     }
 

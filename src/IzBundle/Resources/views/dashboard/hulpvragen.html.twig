@@ -47,8 +47,8 @@
                                 {{ form_errors(filter.klant.geboortedatumRange.end) }}
                             </th>
                             <th>
-                                {{ form_widget(filter.izProject) }}
-                                {{ form_errors(filter.izProject) }}
+                                {{ form_widget(filter.project) }}
+                                {{ form_errors(filter.project) }}
                             </th>
                             <th>
                             </th>
@@ -99,7 +99,7 @@
                                 {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ hulpvraag.izProject }}
+                                {{ hulpvraag.project }}
                             </td>
                             <td>
                                 {{ hulpvraag.izKlant.izIntake.intakedatum|date('d-m-Y') }}

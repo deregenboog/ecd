@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table(name="iz_matching_vrijwilligers")
  * @Gedmo\Loggable
  */
-class MatchingVrijwilliger
+class MatchingVrijwilliger extends Matching
 {
     use IdentifiableTrait;
 
@@ -27,7 +27,7 @@ class MatchingVrijwilliger
     /**
      * @var string
      *
-     * @ORM\Column
+     * @ORM\Column(type="text")
      */
     private $info;
 
@@ -101,6 +101,23 @@ class MatchingVrijwilliger
     public function setVoorkeurVoorNederlands($voorkeurVoorNederlands)
     {
         $this->voorkeurVoorNederlands = (bool) $voorkeurVoorNederlands;
+
+        return $this;
+    }
+
+    public function getIzDeelnemer()
+    {
+        return $this->izVrijwilliger;
+    }
+
+    public function getIzVrijwilliger()
+    {
+        return $this->izVrijwilliger;
+    }
+
+    public function setIzVrijwilliger(IzVrijwilliger $vrijwilliger)
+    {
+        $this->izVrijwilliger = $vrijwilliger;
 
         return $this;
     }

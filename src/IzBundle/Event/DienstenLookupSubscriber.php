@@ -49,9 +49,9 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ->findOneBy(['klant' => $klant]);
 
         if ($izKlant) {
-            $url = $this->generator->generate('iz_klanten_toon_aanmelding', [
-                'klantId' => $izKlant->getKlant()->getId(),
-                'izKlantId' => $izKlant->getId(),
+            $url = $this->generator->generate('cake_iz_klanten_toon_aanmelding', [
+                'klant_id' => $izKlant->getKlant()->getId(),
+                'id' => $izKlant->getId(),
             ]);
             if ($izKlant->getDatumAanmelding() && count($izKlant->getIzHulpvragen()) > 0) {
                 $laatsteHulpvraag = $izKlant->getIzHulpvragen()[0];

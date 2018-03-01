@@ -1,40 +1,48 @@
 services:
-    iz.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
-    iz.dao.doelgroep:
+    IzBundle\Service\AfsluitingDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\DoelgroepDao
 
-    iz.dao.doelstelling:
+    IzBundle\Service\BinnengekomenViaDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\DoelstellingDao
 
-    iz.dao.hulpaanbod:
+    IzBundle\Service\ContactOntstaanDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\HulpaanbodDao
+
+    IzBundle\Service\DoelgroepDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\DoelstellingDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\EindeVraagAanbodDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\EindeKoppelingDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\EindeVraagAanbodDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\HulpaanbodDao:
+        parent: app.dao.abstract
     
-    iz.dao.hulpvraag:
+    IzBundle\Service\HulpvraagDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\HulpvraagDao
 
-    iz.dao.hulpvraagsoort:
+    IzBundle\Service\HulpvraagsoortDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\HulpvraagsoortDao
 
-    iz.dao.klant:
+    IzBundle\Service\IntervisiegroepDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\KlantDao
 
-    iz.dao.koppeling:
+    IzBundle\Service\KlantDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\KoppelingDao
+
+    IzBundle\Service\KoppelingDao:
+        parent: app.dao.abstract
     
-    iz.dao.vrijwilliger:
+    IzBundle\Service\ProjectDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\VrijwilligerDao
 
+    IzBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract

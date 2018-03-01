@@ -11,11 +11,11 @@ class IzHulpvraagRepository extends EntityRepository
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()
-            ->addSelect('izProject.naam AS project')
+            ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('izHulpvraag.izProject', 'izProject')
-            ->groupBy('izProject', 'stadsdeel');
+            ->innerJoin('izHulpvraag.project', 'project')
+            ->groupBy('project', 'stadsdeel');
         $this->applyHulpvragenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -32,8 +32,8 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByAfsluitreden($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('izEindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('izHulpaanbod.izEindeKoppeling', 'izEindeKoppeling')
+            ->addSelect('eindeKoppeling.naam AS afsluitreden')
+            ->innerJoin('izHulpaanbod.eindeKoppeling', 'eindeKoppeling')
             ->groupBy('afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -44,11 +44,11 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByProjectAndAfsluitreden($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('izProject.naam AS project')
-            ->addSelect('izEindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('izHulpaanbod.izEindeKoppeling', 'izEindeKoppeling')
-            ->innerJoin('izHulpaanbod.izProject', 'izProject')
-            ->groupBy('izProject', 'afsluitreden')
+            ->addSelect('project.naam AS projectnaam')
+            ->addSelect('eindeKoppeling.naam AS afsluitreden')
+            ->innerJoin('izHulpaanbod.eindeKoppeling', 'eindeKoppeling')
+            ->innerJoin('izHulpaanbod.project', 'project')
+            ->groupBy('project', 'afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -70,9 +70,9 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByProject($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('izProject.naam AS project')
-            ->innerJoin('izHulpaanbod.izProject', 'izProject')
-            ->groupBy('izProject');
+            ->addSelect('project.naam AS projectnaam')
+            ->innerJoin('izHulpaanbod.project', 'project')
+            ->groupBy('project');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -103,11 +103,11 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('izProject.naam AS project')
+            ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('izHulpaanbod.izProject', 'izProject')
-            ->groupBy('izProject', 'stadsdeel');
+            ->innerJoin('izHulpaanbod.project', 'project')
+            ->groupBy('project', 'stadsdeel');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -116,11 +116,11 @@ class IzHulpvraagRepository extends EntityRepository
     public function countKoppelingenByProjectAndPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('izProject.naam AS project')
+            ->addSelect('project.naam AS projectnaam')
             ->addSelect('ggwgebied.naam AS postcodegebied')
-            ->innerJoin('izHulpaanbod.izProject', 'izProject')
+            ->innerJoin('izHulpaanbod.project', 'project')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
-            ->groupBy('izProject', 'postcodegebied');
+            ->groupBy('project', 'postcodegebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();

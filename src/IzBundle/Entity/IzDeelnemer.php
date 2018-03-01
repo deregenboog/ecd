@@ -72,8 +72,8 @@ abstract class IzDeelnemer
     protected $izAfsluiting;
 
     /**
-     * @var IzVerslag[]
-     * @ORM\OneToMany(targetEntity="IzVerslag", mappedBy="izDeelnemer")
+     * @var Verslag[]
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izDeelnemer")
      */
     protected $verslagen;
 

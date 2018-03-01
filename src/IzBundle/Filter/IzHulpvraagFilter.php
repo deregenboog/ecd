@@ -3,7 +3,7 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 
@@ -20,9 +20,9 @@ class IzHulpvraagFilter
     public $klant;
 
     /**
-     * @var IzProject
+     * @var Project
      */
-    public $izProject;
+    public $project;
 
     /**
      * @var Medewerker
@@ -42,10 +42,10 @@ class IzHulpvraagFilter
             ;
         }
 
-        if ($this->izProject) {
+        if ($this->project) {
             $builder
-                ->andWhere('hulpvraag.izProject = :izProject')
-                ->setParameter('izProject', $this->izProject)
+                ->andWhere('hulpvraag.project = :project')
+                ->setParameter('project', $this->project)
             ;
         }
 

@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormError;
 use OekBundle\Service\DeelnemerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
+use AppBundle\Service\KlantDaoInterface;
 
 /**
  * @Route("/deelnemers")
@@ -50,9 +51,9 @@ class DeelnemersController extends AbstractController
     protected $export;
 
     /**
-     * @var \AppBundle\Service\KlantDaoInterface
+     * @var KlantDaoInterface
      *
-     * @DI\Inject("app.dao.klant")
+     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
 

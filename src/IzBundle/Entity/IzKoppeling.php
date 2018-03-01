@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -74,20 +75,20 @@ abstract class IzKoppeling
     protected $medewerker;
 
     /**
-     * @var IzProject
-     * @ORM\ManyToOne(targetEntity="IzProject")
+     * @var Project
+     * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumn(name="project_id", nullable=false)
      * @Gedmo\Versioned
      */
-    protected $izProject;
+    protected $project;
 
     /**
-     * @var IzEindeKoppeling
-     * @ORM\ManyToOne(targetEntity="IzEindeKoppeling")
+     * @var EindeKoppeling
+     * @ORM\ManyToOne(targetEntity="EindeKoppeling")
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
      * @Gedmo\Versioned
      */
-    protected $izEindeKoppeling;
+    protected $eindeKoppeling;
 
     /**
      * @var IzDeelnemer
@@ -98,8 +99,8 @@ abstract class IzKoppeling
     private $izDeelnemer;
 
     /**
-     * @var IzVerslag[]
-     * @ORM\OneToMany(targetEntity="IzVerslag", mappedBy="izKoppeling")
+     * @var Verslag[]
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izKoppeling")
      * @ORM\OrderBy({"created": "desc"})
      */
     protected $verslagen;
@@ -138,14 +139,14 @@ abstract class IzKoppeling
         return $this;
     }
 
-    public function getIzProject()
+    public function getProject()
     {
-        return $this->izProject;
+        return $this->project;
     }
 
-    public function setIzProject(IzProject $izProject)
+    public function setProject(Project $project)
     {
-        $this->izProject = $izProject;
+        $this->project = $project;
 
         return $this;
     }
@@ -198,9 +199,9 @@ abstract class IzKoppeling
         return $this;
     }
 
-    public function getIzEindeKoppeling()
+    public function getEindeKoppeling()
     {
-        return $this->izEindeKoppeling;
+        return $this->eindeKoppeling;
     }
 
     public function isAfgesloten()

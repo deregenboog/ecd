@@ -3,7 +3,7 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Filter\FilterInterface;
@@ -35,9 +35,9 @@ class IzVrijwilligerFilter implements FilterInterface
     public $actief;
 
     /**
-     * @var IzProject
+     * @var Project
      */
-    public $izProject;
+    public $project;
 
     /**
      * @var Medewerker
@@ -87,21 +87,21 @@ class IzVrijwilligerFilter implements FilterInterface
             $this->vrijwilliger->applyTo($builder);
         }
 
-        if ($this->izProject) {
+        if ($this->project) {
             switch ($this->actief) {
                 case self::ACTIEF_OOIT:
                     $builder
-                        ->andWhere('izHulpaanbod.izProject = :izProject')
-                        ->setParameter('izProject', $this->izProject)
+                        ->andWhere('izHulpaanbod.project = :project')
+                        ->setParameter('project', $this->project)
                     ;
                     break;
                 case self::ACTIEF_NU:
                 default:
                     $builder
-                        ->andWhere('izHulpaanbod.izProject = :izProject')
+                        ->andWhere('izHulpaanbod.project = :project')
                         ->andWhere('izHulpaanbod.einddatum IS NULL')
                         ->andWhere('izHulpaanbod.koppelingEinddatum IS NULL')
-                        ->setParameter('izProject', $this->izProject)
+                        ->setParameter('project', $this->project)
                     ;
                     break;
             }

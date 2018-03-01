@@ -3,7 +3,7 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
 
@@ -20,9 +20,9 @@ class IzHulpaanbodFilter
     public $vrijwilliger;
 
     /**
-     * @var IzProject
+     * @var Project
      */
-    public $izProject;
+    public $project;
 
     /**
      * @var Medewerker
@@ -42,10 +42,10 @@ class IzHulpaanbodFilter
             ;
         }
 
-        if ($this->izProject) {
+        if ($this->project) {
             $builder
-                ->andWhere('hulpaanbod.izProject = :izProject')
-                ->setParameter('izProject', $this->izProject)
+                ->andWhere('hulpaanbod.project = :project')
+                ->setParameter('project', $this->project)
             ;
         }
 

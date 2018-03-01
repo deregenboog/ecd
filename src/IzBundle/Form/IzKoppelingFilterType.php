@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\IzHulpvraag;
 use IzBundle\Filter\IzKoppelingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\IzHulpaanbod;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -67,10 +67,10 @@ class IzKoppelingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izProject', $options['enabled_filters'])) {
-            $builder->add('izProject', EntityType::class, [
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', EntityType::class, [
                 'required' => false,
-                'class' => IzProject::class,
+                'class' => Project::class,
                 'label' => 'Project',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('project')
@@ -137,7 +137,7 @@ class IzKoppelingFilterType extends AbstractType
                 'lopendeKoppelingen',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
-                'izProject',
+                'project',
                 'izHulpvraagMedewerker',
                 'izHulpaanbodMedewerker',
                 'filter',

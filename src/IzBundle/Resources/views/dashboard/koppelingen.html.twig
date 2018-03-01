@@ -49,8 +49,8 @@
                                     {{ form_errors(filter.vrijwilliger.achternaam) }}
                                 </th>
                                 <th>
-                                    {{ form_widget(filter.izProject) }}
-                                    {{ form_errors(filter.izProject) }}
+                                    {{ form_widget(filter.project) }}
+                                    {{ form_errors(filter.project) }}
                                 </th>
                                 <th>
                                     {{ form_widget(filter.koppelingStartdatum) }}
@@ -79,7 +79,7 @@
                             {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
                         </th>
                         <th>
-                            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+                            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'izHulpvraag.koppelingStartdatum') }}
@@ -111,7 +111,7 @@
                                 {{ izHulpvraag.izHulpaanbod.izVrijwilliger.vrijwilliger.naam }}
                             </td>
                             <td>
-                                {{ izHulpvraag.izProject }}
+                                {{ izHulpvraag.project }}
                             </td>
                             <td>
                                 {{ izHulpvraag.koppelingStartdatum|date('d-m-Y') }}

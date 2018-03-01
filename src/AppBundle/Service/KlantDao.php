@@ -8,6 +8,19 @@ use AppBundle\Filter\FilterInterface;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
+    protected $paginationOptions = [
+        'defaultSortFieldName' => 'klant.achternaam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'klant.id',
+            'klant.achternaam',
+            'klant.geboortedatum',
+            'geslacht.volledig',
+            'werkgebied.naam',
+            'postcodegebied.naam',
+        ],
+    ];
+
     protected $class = Klant::class;
 
     protected $alias = 'klant';
@@ -20,7 +33,11 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->leftJoin("{$this->alias}.geslacht", 'geslacht')
+            ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
+            ->leftJoin("{$this->alias}.postcodegebied", 'postcodegebied')
+        ;
 
         if ($filter) {
             $filter->applyTo($builder);

@@ -1,0 +1,14 @@
+services:
+    app.dao.abstract:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    AppBundle\Service\KlantDao:
+        parent: app.dao.abstract
+
+    AppBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+

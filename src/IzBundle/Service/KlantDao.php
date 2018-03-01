@@ -6,6 +6,7 @@ use IzBundle\Entity\IzKlant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
+use AppBundle\Entity\Klant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -21,7 +22,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'izIntakeMedewerker.voornaam',
             'izHulpvraagMedewerker.voornaam',
             'izKlant.afsluitDatum',
-            'izProject.naam',
+            'project.naam',
         ],
     ];
 
@@ -32,13 +33,13 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $expr = new Expr();
 
         $builder = $this->repository->createQueryBuilder('izKlant')
-            ->select('izKlant, klant, izHulpvraag, izProject, izIntake, izIntakeMedewerker, izHulpvraagMedewerker')
+            ->select('izKlant, klant, izHulpvraag, project, izIntake, izIntakeMedewerker, izHulpvraagMedewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('izKlant.izIntake', 'izIntake')
             ->leftJoin('izIntake.medewerker', 'izIntakeMedewerker')
             ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')
-            ->leftJoin('izHulpvraag.izProject', 'izProject')
+            ->leftJoin('izHulpvraag.project', 'project')
             ->leftJoin('izHulpvraag.medewerker', 'izHulpvraagMedewerker', 'WITH', $expr->andX(
                 $expr->orX('izHulpvraag.einddatum IS NULL', 'izHulpvraag.einddatum > :now'),
                 $expr->orX('izHulpvraag.koppelingEinddatum IS NULL', 'izHulpvraag.koppelingEinddatum > :now')
@@ -55,6 +56,16 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return IzKlant
+     */
+    public function findOneByKlant(Klant $klant)
+    {
+        return $this->repository->findOneBy(['klant' => $klant]);
     }
 
     public function create(IzKlant $klant)

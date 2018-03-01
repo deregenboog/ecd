@@ -13,7 +13,7 @@ class IzKlantenExport extends GenericExport
 
         foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
             if (!$hulpvraag->isGekoppeld() && !$hulpvraag->isAfgesloten()) {
-                $projecten[] = $hulpvraag->getIzProject();
+                $projecten[] = $hulpvraag->getProject();
             }
         }
 
@@ -26,7 +26,7 @@ class IzKlantenExport extends GenericExport
 
         foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
             if ($hulpvraag->isGekoppeld() && !$hulpvraag->isAfgesloten()) {
-                $projecten[] = $hulpvraag->getIzProject();
+                $projecten[] = $hulpvraag->getProject();
             }
         }
 
@@ -39,7 +39,7 @@ class IzKlantenExport extends GenericExport
 
         foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
             if ($hulpvraag->isGekoppeld() && $hulpvraag->isAfgesloten()) {
-                $projecten[] = $hulpvraag->getIzProject();
+                $projecten[] = $hulpvraag->getProject();
             }
         }
 

@@ -13,7 +13,7 @@ class ReportsCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $definition = $container->getDefinition('iz.form.rapportage');
+        $definition = $container->getDefinition('IzBundle\Form\RapportageType');
 
         $reports = [];
         foreach ($container->findTaggedServiceIds('iz.rapportage') as $id => $params) {

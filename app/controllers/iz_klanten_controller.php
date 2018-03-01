@@ -27,7 +27,7 @@ class IzKlantenController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->klantDao = $this->container->get('iz.dao.klant');
+        $this->klantDao = $this->container->get('IzBundle\Service\KlantDao');
     }
 
     public function index()

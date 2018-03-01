@@ -4,8 +4,6 @@ namespace IzBundle\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Vrijwilliger;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKoppeling;
 use IzBundle\Entity\IzKlant;

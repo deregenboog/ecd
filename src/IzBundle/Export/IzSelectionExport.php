@@ -93,11 +93,11 @@ class IzSelectionExport extends GenericExport
 
         if ($izDeelnemer instanceof IzKlant) {
             foreach ($izDeelnemer->getIzHulpvragen() as $hulpvraag) {
-                $projecten[] = $hulpvraag->getIzProject();
+                $projecten[] = $hulpvraag->getProject();
             }
         } elseif ($izDeelnemer instanceof IzVrijwilliger) {
             foreach ($izDeelnemer->getIzHulpaanbiedingen() as $izHulpaanbod) {
-                $projecten[] = $izHulpaanbod->getIzProject();
+                $projecten[] = $izHulpaanbod->getProject();
             }
         }
 

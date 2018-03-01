@@ -20,7 +20,7 @@ class IzHulpvragenController extends AppController
 
     private $sortFieldWhitelist = [
         'izHulpvraag.startdatum',
-        'izProject.naam',
+        'project.naam',
         'klant.id',
         'klant.voornaam',
         'klant.achternaam',
@@ -40,7 +40,7 @@ class IzHulpvragenController extends AppController
 
         $builder = $repository->createQueryBuilder('izHulpvraag')
             ->innerJoin('izHulpvraag.izKlant', 'izKlant')
-            ->innerJoin('izHulpvraag.izProject', 'izProject')
+            ->innerJoin('izHulpvraag.project', 'project')
             ->innerJoin('izHulpvraag.medewerker', 'medewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->where('izHulpvraag.izHulpaanbod IS NULL')

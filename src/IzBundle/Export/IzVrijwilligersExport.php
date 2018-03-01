@@ -13,7 +13,7 @@ class IzVrijwilligersExport extends GenericExport
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
             if (!$izHulpaanbod->isGekoppeld() && !$izHulpaanbod->isAfgesloten()) {
-                $projecten[] = $izHulpaanbod->getIzProject();
+                $projecten[] = $izHulpaanbod->getProject();
             }
         }
 
@@ -26,7 +26,7 @@ class IzVrijwilligersExport extends GenericExport
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
             if ($izHulpaanbod->isGekoppeld() && !$izHulpaanbod->isAfgesloten()) {
-                $projecten[] = $izHulpaanbod->getIzProject();
+                $projecten[] = $izHulpaanbod->getProject();
             }
         }
 
@@ -39,7 +39,7 @@ class IzVrijwilligersExport extends GenericExport
 
         foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $izHulpaanbod) {
             if ($izHulpaanbod->isGekoppeld() && $izHulpaanbod->isAfgesloten()) {
-                $projecten[] = $izHulpaanbod->getIzProject();
+                $projecten[] = $izHulpaanbod->getProject();
             }
         }
 

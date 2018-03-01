@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Informele Zorg | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Iz/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'afsluitreden.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'afsluitreden.actief') }}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ entity.naam }}
+                </td>
+                <td>
+                    {{ entity.actief ? 'Ja' : 'Nee' }}
+                </td>
+                <td>
+                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

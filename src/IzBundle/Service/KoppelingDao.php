@@ -17,7 +17,7 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
             'klant.achternaam',
             'werkgebied.naam',
             'vrijwilliger.achternaam',
-            'izProject.naam',
+            'project.naam',
             'medewerker.achternaam',
         ],
     ];
@@ -27,17 +27,17 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('izHulpvraag')
-            ->addSelect('medewerker, izProject, izKlant, izOntstaanContact, klant, izHulpaanbod, izVrijwilliger, vrijwilliger, izBinnengekomenVia')
+            ->addSelect('medewerker, project, izKlant, contactOntstaan, klant, izHulpaanbod, izVrijwilliger, vrijwilliger, binnengekomenVia')
             ->innerJoin('izHulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->leftJoin('izKlant.izOntstaanContact', 'izOntstaanContact')
-            ->innerJoin('izHulpvraag.izProject', 'izProject')
+            ->leftJoin('izKlant.contactOntstaan', 'contactOntstaan')
+            ->innerJoin('izHulpvraag.project', 'project')
             ->innerJoin('izHulpvraag.medewerker', 'medewerker')
             ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
             ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izVrijwilliger.izBinnengekomenVia', 'izBinnengekomenVia')
+            ->leftJoin('izVrijwilliger.binnengekomenVia', 'binnengekomenVia')
         ;
 
         if ($filter) {

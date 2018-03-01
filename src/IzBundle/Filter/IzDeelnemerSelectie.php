@@ -3,16 +3,16 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Filter\FilterInterface;
 
 class IzDeelnemerSelectie implements FilterInterface
 {
     /**
-     * @var ArrayCollection|IzProject[]
+     * @var ArrayCollection|Project[]
      */
-    public $izProjecten;
+    public $projecten;
 
     /**
      * @var array
@@ -29,11 +29,6 @@ class IzDeelnemerSelectie implements FilterInterface
      */
     public $communicatie;
 
-    /**
-     * @var string
-     */
-    public $formaat;
-
     public function applyTo(QueryBuilder $builder)
     {
         switch (current($builder->getRootAliases())) {
@@ -45,10 +40,10 @@ class IzDeelnemerSelectie implements FilterInterface
                 break;
         }
 
-        if ($this->izProjecten && count($this->izProjecten)) {
+        if ($this->projecten && count($this->projecten)) {
             $builder
-                ->andWhere('izProject.id IN (:iz_projecten)')
-                ->setParameter('iz_projecten', $this->izProjecten)
+                ->andWhere('project.id IN (:projecten)')
+                ->setParameter('projecten', $this->projecten)
             ;
         }
 

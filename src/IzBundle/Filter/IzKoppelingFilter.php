@@ -3,7 +3,7 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
@@ -37,9 +37,9 @@ class IzKoppelingFilter implements FilterInterface
     public $lopendeKoppelingen;
 
     /**
-     * @var IzProject
+     * @var Project
      */
-    public $izProject;
+    public $project;
 
     /**
      * @var Medewerker
@@ -87,10 +87,10 @@ class IzKoppelingFilter implements FilterInterface
             ;
         }
 
-        if ($this->izProject) {
+        if ($this->project) {
             $builder
-                ->andWhere('izHulpvraag.izProject = :izProject')
-                ->setParameter('izProject', $this->izProject)
+                ->andWhere('izHulpvraag.project = :project')
+                ->setParameter('project', $this->project)
             ;
         }
 

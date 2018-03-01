@@ -32,7 +32,7 @@
         <td><?php echo $izProject['IzProject']['startdatum']; ?>&nbsp;</td>
         <td><?php echo $izProject['IzProject']['einddatum']; ?>&nbsp;</td>
         <td><?php echo $izProject['IzProject']['heeft_koppelingen'] == 1 ? 'Ja' : 'Nee' ; ?>&nbsp;</td>
-        <td><?php echo $izProject['IzProject']['prestatie_strategy'] == IzBundle\Entity\IzProject::STRATEGY_PRESTATIE_STARTED ? 'Gestart' : 'Totaal' ; ?>&nbsp;</td>
+        <td><?php echo $izProject['IzProject']['prestatie_strategy'] == IzBundle\Entity\Project::STRATEGY_PRESTATIE_STARTED ? 'Gestart' : 'Totaal' ; ?>&nbsp;</td>
         <td class="actions">
             <?php
                 $wrench = $html->image('wrench.png');

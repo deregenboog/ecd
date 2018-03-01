@@ -24,7 +24,7 @@ class IzKoppelingenController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->koppelingDao = $this->container->get('iz.dao.koppeling');
+        $this->koppelingDao = $this->container->get('IzBundle\Service\KoppelingDao');
     }
 
     public function index()

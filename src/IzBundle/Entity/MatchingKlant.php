@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table(name="iz_matching_klanten")
  * @Gedmo\Loggable
  */
-class MatchingKlant
+class MatchingKlant extends Matching
 {
     use IdentifiableTrait;
 
@@ -27,7 +27,7 @@ class MatchingKlant
     /**
      * @var string
      *
-     * @ORM\Column
+     * @ORM\Column(type="text")
      */
     private $info;
 
@@ -101,6 +101,23 @@ class MatchingKlant
     public function setSpreektNederlands($spreektNederlands)
     {
         $this->spreektNederlands = (bool) $spreektNederlands;
+
+        return $this;
+    }
+
+    public function getIzDeelnemer()
+    {
+        return $this->izKlant;
+    }
+
+    public function getIzKlant()
+    {
+        return $this->izKlant;
+    }
+
+    public function setIzKlant(IzKlant $klant)
+    {
+        $this->izKlant = $klant;
 
         return $this;
     }

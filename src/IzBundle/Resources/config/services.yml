@@ -30,22 +30,17 @@ services:
         arguments:
             - IzBundle\Entity\IzKlant
 
-    iz.repository.iz_project:
+    iz.repository.project:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
-            - IzBundle\Entity\IzProject
+            - IzBundle\Entity\Project
 
     iz.repository.iz_vrijwilliger:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - IzBundle\Entity\IzVrijwilliger
-
-    iz.form.rapportage:
-        class: IzBundle\Form\IzRapportageType
-        tags:
-            - { name: form.type }
 
     iz.data_fixtures.faker_provider:
         class: IzBundle\DataFixtures\IzFakerProvider

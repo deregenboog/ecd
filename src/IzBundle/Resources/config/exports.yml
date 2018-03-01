@@ -33,6 +33,13 @@ services:
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Ontstaan contact: { expression: 'entity.getIzOntstaanContact()' }
 
+    iz.export.intervisiegroepen:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - IzBundle\Entity\Intervisiegroep
+            -
+                Naam: { expression: 'entity.getNaam()' }
+
     iz.export.vrijwilligers:
         class: IzBundle\Export\IzVrijwilligersExport
         arguments:
@@ -73,7 +80,7 @@ services:
             - IzBundle\Entity\IzHulpvraag
             -
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
-                Project: { expression: 'entity.getIzProject()' }
+                Project: { expression: 'entity.getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
                 Nummer: { expression: 'entity.getIzKlant().getKlant().getId()' }
                 Intakedatum: { expression: 'entity.getIzKlant().getIzIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIzIntake()', type: 'date' }
@@ -104,7 +111,7 @@ services:
             - IzBundle\Entity\IzHulpaanbod
             -
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
-                Project: { expression: 'entity.getIzProject()' }
+                Project: { expression: 'entity.getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
                 Nummer: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getId()' }
                 Intakedatum: { expression: 'entity.getIzVrijwilliger().getIzIntake().getIntakeDatum()', condition: 'entity.getIzVrijwilliger().getIzIntake()', type: 'date' }
@@ -132,7 +139,7 @@ services:
                 Startdatum koppeling: { expression: 'entity.getKoppelingStartdatum()', type: 'date' }
                 Einddatum koppeling: { expression: 'entity.getKoppelingEinddatum()', type: 'date' }
                 Afsluitreden: { expression: 'entity.getIzEindeKoppeling()' }
-                Project: { expression: 'entity.getIzProject()' }
+                Project: { expression: 'entity.getProject()' }
                 Medewerker hulpvraag: { expression: 'entity.getMedewerker()' }
                 Medewerker hulpaanbod: { expression: 'entity.getIzHulpaanbod().getMedewerker()' }
                 Nummer deelnemer: { expression: 'entity.getIzKlant().getKlant().getId()' }
