@@ -11,7 +11,7 @@ parameters:
     profile: drg
     administrator_name: Bart Huttinga
     administrator_email: bhuttinga@deregenboog.org
-    ldap_active_directory: ''
+    ldap_active_directory: true
     ldap_host: ''
     ldap_port: ''
     ldap_base_dn: ''
