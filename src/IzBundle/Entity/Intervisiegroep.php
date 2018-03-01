@@ -44,12 +44,7 @@ class Intervisiegroep
     /**
      * @var ArrayCollection|IzVrijwilliger[]
      *
-     * @ORM\ManyToMany(targetEntity="IzVrijwilliger")
-     * @ORM\JoinTable(
-     *     name="iz_deelnemers_iz_intervisiegroepen",
-     *     joinColumns={@ORM\JoinColumn(name="iz_intervisiegroep_id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")}
-     * )
+     * @ORM\ManyToMany(targetEntity="IzVrijwilliger", mappedBy="intervisiegroepen")
      */
     private $vrijwilligers;
 

@@ -37,7 +37,7 @@ class IzVrijwilliger extends IzDeelnemer
 
     /**
      * @var ArrayCollection|Intervisiegroep[]
-     * @ORM\ManyToMany(targetEntity="Intervisiegroep", inversedBy="izVrijwilligers")
+     * @ORM\ManyToMany(targetEntity="Intervisiegroep", inversedBy="vrijwilligers")
      * @ORM\JoinTable(
      *     name="iz_deelnemers_iz_intervisiegroepen",
      *     joinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")},
