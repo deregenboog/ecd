@@ -161,7 +161,7 @@ class IzKlant extends IzDeelnemer
         return $this->ontstaanContact;
     }
 
-    public function setOntstaanContact(OntstaanContact $ontstaanContact)
+    public function setOntstaanContact(ContactOntstaan $ontstaanContact)
     {
         $this->ontstaanContact = $ontstaanContact;
 
