@@ -22,7 +22,7 @@ services:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
-            - IzBundle\Entity\IzHulpvraag
+            - IzBundle\Entity\Hulpvraag
 
     iz.repository.iz_klant:
         class: Doctrine\ORM\EntityRepository

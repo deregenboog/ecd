@@ -9,13 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Form\KlantFilterType;
-use IzBundle\Entity\IzHulpvraag;
+use AppBundle\Form\VrijwilligerFilterType;
+use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Project;
-use IzBundle\Filter\IzHulpvraagFilter;
+use IzBundle\Filter\HulpaanbodFilter;
 use Symfony\Component\Form\AbstractType;
 
-class IzHulpvraagFilterType extends AbstractType
+class HulpaanbodFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -27,15 +27,13 @@ class IzHulpvraagFilterType extends AbstractType
                 'required' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj',
-                ],
+                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ]);
         }
 
-        if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
+        if (key_exists('vrijwilliger', $options['enabled_filters'])) {
+            $builder->add('vrijwilliger', VrijwilligerFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
             ]);
         }
 
@@ -48,7 +46,8 @@ class IzHulpvraagFilterType extends AbstractType
                     return $repo->createQueryBuilder('project')
                         ->where('project.einddatum IS NULL OR project.einddatum >= :now')
                         ->orderBy('project.naam', 'ASC')
-                        ->setParameter('now', new \DateTime());
+                        ->setParameter('now', new \DateTime())
+                        ;
                 },
             ]);
         }
@@ -60,10 +59,11 @@ class IzHulpvraagFilterType extends AbstractType
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->innerJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
-                        ->orderBy('medewerker.voornaam', 'ASC');
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
                 },
             ]);
         }
@@ -83,10 +83,10 @@ class IzHulpvraagFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => IzHulpvraagFilter::class,
+            'data_class' => HulpaanbodFilter::class,
             'enabled_filters' => [
                 'startdatum',
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'project',
                 'medewerker',
                 'filter',
@@ -100,6 +100,6 @@ class IzHulpvraagFilterType extends AbstractType
      */
     public function getParent()
     {
-        return IzKoppelingFilterType::class;
+        return KoppelingFilterType::class;
     }
 }

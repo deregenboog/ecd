@@ -9,7 +9,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 
-class IzKoppelingFilter implements FilterInterface
+class KoppelingFilter implements FilterInterface
 {
     /**
      * @var KlantFilter
@@ -49,12 +49,12 @@ class IzKoppelingFilter implements FilterInterface
         /**
      * @var Medewerker
      */
-    public $izHulpvraagMedewerker;
+    public $hulpvraagMedewerker;
 
     /**
      * @var Medewerker
      */
-    public $izHulpaanbodMedewerker;
+    public $hulpaanbodMedewerker;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -68,50 +68,50 @@ class IzKoppelingFilter implements FilterInterface
 
         if ($this->koppelingStartdatum) {
             $builder
-                ->andWhere('izHulpvraag.koppelingStartdatum = :koppelingStartdatum')
+                ->andWhere('hulpvraag.koppelingStartdatum = :koppelingStartdatum')
                 ->setParameter('koppelingStartdatum', $this->koppelingStartdatum)
             ;
         }
 
         if ($this->koppelingEinddatum) {
             $builder
-                ->andWhere('izHulpvraag.koppelingEinddatum = :koppelingEinddatum')
+                ->andWhere('hulpvraag.koppelingEinddatum = :koppelingEinddatum')
                 ->setParameter('koppelingEinddatum', $this->koppelingEinddatum)
             ;
         }
 
         if ($this->lopendeKoppelingen) {
             $builder
-                ->andWhere('izHulpvraag.koppelingEinddatum IS NULL OR izHulpvraag.koppelingEinddatum > :now')
+                ->andWhere('hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now')
                 ->setParameter('now', new \DateTime())
             ;
         }
 
         if ($this->project) {
             $builder
-                ->andWhere('izHulpvraag.project = :project')
+                ->andWhere('hulpvraag.project = :project')
                 ->setParameter('project', $this->project)
             ;
         }
 
         if ($this->medewerker) {
             $builder
-                ->andWhere('izHulpvraag.medewerker = :medewerker OR izHulpaanbod.medewerker = :medewerker')
+                ->andWhere('hulpvraag.medewerker = :medewerker OR hulpaanbod.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
             ;
         }
 
-        if ($this->izHulpvraagMedewerker) {
+        if ($this->hulpvraagMedewerker) {
             $builder
-                ->andWhere('izHulpvraag.medewerker = :izHulpvraagMedewerker')
-                ->setParameter('izHulpvraagMedewerker', $this->izHulpvraagMedewerker)
+                ->andWhere('hulpvraag.medewerker = :hulpvraagMedewerker')
+                ->setParameter('hulpvraagMedewerker', $this->hulpvraagMedewerker)
             ;
         }
 
-        if ($this->izHulpaanbodMedewerker) {
+        if ($this->hulpaanbodMedewerker) {
             $builder
-                ->andWhere('izHulpaanbod.medewerker = :izHulpaanbodMedewerker')
-                ->setParameter('izHulpaanbodMedewerker', $this->izHulpaanbodMedewerker)
+                ->andWhere('hulpaanbod.medewerker = :hulpaanbodMedewerker')
+                ->setParameter('hulpaanbodMedewerker', $this->hulpaanbodMedewerker)
             ;
         }
     }

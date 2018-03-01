@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Export\AbstractExport;
-use IzBundle\Entity\IzKoppeling;
-use IzBundle\Form\IzKoppelingFilterType;
+use IzBundle\Entity\Koppeling;
+use IzBundle\Form\KoppelingFilterType;
 
 /**
  * @Route("/koppelingen")
@@ -16,9 +16,9 @@ class KoppelingenController extends AbstractController
 {
     protected $title = 'Koppelingen';
     protected $entityName = 'koppeling';
-    protected $entityClass = IzKoppeling::class;
-//     protected $formClass = IzKoppelingType::class;
-    protected $filterFormClass = IzKoppelingFilterType::class;
+    protected $entityClass = Koppeling::class;
+//     protected $formClass = KoppelingType::class;
+    protected $filterFormClass = KoppelingFilterType::class;
     protected $baseRouteName = 'iz_koppelingen_';
     protected $disabledActions = ['view', 'add', 'edit', 'delete'];
 

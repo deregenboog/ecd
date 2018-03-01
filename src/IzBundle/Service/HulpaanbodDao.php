@@ -2,10 +2,10 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Entity\Hulpaanbod;
 
 class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 {
@@ -29,7 +29,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         ],
     ];
 
-    protected $class = IzHulpaanbod::class;
+    protected $class = Hulpaanbod::class;
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
@@ -40,9 +40,9 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->innerJoin('hulpaanbod.medewerker', 'medewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
-            ->where('hulpaanbod.izHulpvraag IS NULL')
+            ->where('hulpaanbod.hulpvraag IS NULL')
             ->andWhere('hulpaanbod.einddatum IS NULL')
-            ->andWhere('izVrijwilliger.izAfsluiting IS NULL')
+            ->andWhere('izVrijwilliger.afsluiting IS NULL')
         ;
 
         if ($filter) {
@@ -56,17 +56,17 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function create(IzHulpaanbod $entity)
+    public function create(Hulpaanbod $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(IzHulpaanbod $entity)
+    public function update(Hulpaanbod $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(IzHulpaanbod $entity)
+    public function delete(Hulpaanbod $entity)
     {
         $this->doDelete($entity);
     }

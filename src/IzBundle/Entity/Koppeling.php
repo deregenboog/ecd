@@ -14,11 +14,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"hulpvraag" = "IzHulpvraag", "hulpaanbod" = "IzHulpaanbod"})
+ * @ORM\DiscriminatorMap({"hulpvraag" = "Hulpvraag", "hulpaanbod" = "Hulpaanbod"})
  * @Gedmo\Loggable
  * @Gedmo\SoftDeleteable
  */
-abstract class IzKoppeling
+abstract class Koppeling
 {
     use TimestampableTrait;
 
@@ -92,7 +92,7 @@ abstract class IzKoppeling
 
     /**
      * @var IzDeelnemer
-     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="izKoppelingen")
+     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="koppelingen")
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      * @Gedmo\Versioned
      */
@@ -100,7 +100,7 @@ abstract class IzKoppeling
 
     /**
      * @var Verslag[]
-     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izKoppeling")
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="koppeling")
      * @ORM\OrderBy({"created": "desc"})
      */
     protected $verslagen;

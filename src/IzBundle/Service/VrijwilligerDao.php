@@ -18,7 +18,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'vrijwilliger.geboortedatum',
             'vrijwilliger.werkgebied',
             'izIntakeMedewerker.voornaam',
-            'izHulpaanbodMedewerker.voornaam',
+            'hulpaanbodMedewerker.voornaam',
             'izVrijwilliger.afsluitDatum',
             'project.naam',
         ],
@@ -31,15 +31,15 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $expr = new Expr();
 
         $builder = $this->repository->createQueryBuilder('izVrijwilliger')
-            ->select('izVrijwilliger, vrijwilliger, izHulpaanbod, project, izIntake, izIntakeMedewerker, izHulpaanbodMedewerker')
+            ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, izIntake, izIntakeMedewerker, hulpaanbodMedewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.izIntake', 'izIntake')
             ->leftJoin('izIntake.medewerker', 'izIntakeMedewerker')
-            ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'izHulpaanbod')
-            ->leftJoin('izHulpaanbod.project', 'project')
-            ->leftJoin('izHulpaanbod.medewerker', 'izHulpaanbodMedewerker', 'WITH', $expr->andX(
-                $expr->orX('izHulpaanbod.einddatum IS NULL', 'izHulpaanbod.einddatum > :now'),
-                $expr->orX('izHulpaanbod.koppelingEinddatum IS NULL', 'izHulpaanbod.koppelingEinddatum > :now')
+            ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
+            ->leftJoin('hulpaanbod.project', 'project')
+            ->leftJoin('hulpaanbod.medewerker', 'hulpaanbodMedewerker', 'WITH', $expr->andX(
+                $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),
+                $expr->orX('hulpaanbod.koppelingEinddatum IS NULL', 'hulpaanbod.koppelingEinddatum > :now')
             ))
             ->setParameter('now', new \DateTime())
         ;

@@ -29,8 +29,8 @@ class IzVrijwilliger extends IzDeelnemer
     protected $matching;
 
     /**
-     * @var ArrayCollection|IzHulpaanbod[]
-     * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
+     * @var ArrayCollection|Hulpaanbod[]
+     * @ORM\OneToMany(targetEntity="Hulpaanbod", mappedBy="izVrijwilliger")
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpaanbiedingen;

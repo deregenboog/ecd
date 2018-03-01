@@ -5,7 +5,7 @@ namespace IzBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\MatchingVrijwilliger;
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 
 class IzKlantRepository extends EntityRepository
 {
@@ -20,11 +20,11 @@ class IzKlantRepository extends EntityRepository
         $builder = $this->createQueryBuilder('izKlant')
             ->select('izKlant, klant')
             ->leftJoin('izKlant.matching', 'matching')
-            ->innerJoin('izKlant.izHulpvragen', 'izHulpvraag', 'WITH', 'izHulpvraag.einddatum IS NULL AND izHulpvraag.izHulpaanbod IS NULL')
+            ->innerJoin('izKlant.izHulpvragen', 'hulpvraag', 'WITH', 'hulpvraag.einddatum IS NULL AND hulpvraag.hulpaanbod IS NULL')
             ->innerJoin('izKlant.izIntake', 'izIntake')
             ->innerJoin('izKlant.klant', 'klant')
             ->andWhere('izKlant.afsluitDatum IS NULL')
-            ->orderBy('izHulpvraag.startdatum', 'ASC')
+            ->orderBy('hulpvraag.startdatum', 'ASC')
         ;
 
         // doelgroepen
@@ -76,7 +76,7 @@ class IzKlantRepository extends EntityRepository
     {
         $builder = $this->getCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->innerJoin('izHulpvraag.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
@@ -86,7 +86,7 @@ class IzKlantRepository extends EntityRepository
                 // exclude beginstand
                 $beginstandBuilder = $this->getCountBuilder()
                     ->select("CONCAT_WS('-', izKlant.id, project.id)")
-                    ->innerJoin('izHulpvraag.project', 'project')
+                    ->innerJoin('hulpvraag.project', 'project')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
                 $builder->andWhere($builder->expr()->notIn(
@@ -98,7 +98,7 @@ class IzKlantRepository extends EntityRepository
                 // exclude eindstand
                 $eindstandBuilder = $this->getCountBuilder()
                     ->select("CONCAT_WS('-', izKlant.id, project.id)")
-                    ->innerJoin('izHulpvraag.project', 'project')
+                    ->innerJoin('hulpvraag.project', 'project')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
                 $builder->andWhere($builder->expr()->notIn(
@@ -156,7 +156,7 @@ class IzKlantRepository extends EntityRepository
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('izHulpvraag.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->addGroupBy('project', 'stadsdeel');
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -166,7 +166,7 @@ class IzKlantRepository extends EntityRepository
                 $beginstandBuilder = $this->getCountBuilder()
                     ->select("CONCAT_WS('-', izKlant.id, project.naam, werkgebied.naam)")
                     ->leftJoin('klant.werkgebied', 'werkgebied')
-                    ->innerJoin('izHulpvraag.project', 'project')
+                    ->innerJoin('hulpvraag.project', 'project')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
                 $builder->andWhere($builder->expr()->notIn(
@@ -179,7 +179,7 @@ class IzKlantRepository extends EntityRepository
                 $eindstandBuilder = $this->getCountBuilder()
                     ->select("CONCAT_WS('-', izKlant.id, project.naam, werkgebied.naam)")
                     ->leftJoin('klant.werkgebied', 'werkgebied')
-                    ->innerJoin('izHulpvraag.project', 'project')
+                    ->innerJoin('hulpvraag.project', 'project')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
                 $builder->andWhere($builder->expr()->notIn(
@@ -197,9 +197,9 @@ class IzKlantRepository extends EntityRepository
         return $this->createQueryBuilder('izKlant')
             ->select('COUNT(DISTINCT izKlant.id) AS aantal')
             ->innerJoin('izKlant.klant', 'klant')
-            ->innerJoin('izKlant.izHulpvragen', 'izHulpvraag')
-            ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
-            ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
+            ->innerJoin('izKlant.izHulpvragen', 'hulpvraag')
+            ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
+            ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
         ;
     }
@@ -209,19 +209,19 @@ class IzKlantRepository extends EntityRepository
         switch ($report) {
             case self::REPORT_BEGINSTAND:
                 $builder
-                    ->andWhere('izHulpvraag.koppelingStartdatum < :startdatum')
+                    ->andWhere('hulpvraag.koppelingStartdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
-                        'izHulpvraag.koppelingEinddatum IS NULL',
-                        "izHulpvraag.koppelingEinddatum = '0000-00-00'",
-                        'izHulpvraag.koppelingEinddatum >= :startdatum'
+                        'hulpvraag.koppelingEinddatum IS NULL',
+                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        'hulpvraag.koppelingEinddatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate)
                 ;
                 break;
             case self::REPORT_GESTART:
                 $builder
-                    ->andWhere('izHulpvraag.koppelingStartdatum >= :startdatum')
-                    ->andWhere('izHulpvraag.koppelingStartdatum <= :einddatum')
+                    ->andWhere('hulpvraag.koppelingStartdatum >= :startdatum')
+                    ->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
@@ -229,12 +229,12 @@ class IzKlantRepository extends EntityRepository
             case self::REPORT_NIEUW_GESTART:
                 $izKlantenBuilder = $this->_em->createQueryBuilder()
                     ->select('izKlant.id')
-                    ->from(IzHulpvraag::class, 'izHulpvraag')
-                    ->innerJoin('izHulpvraag.izKlant', 'izKlant')
-                    ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
+                    ->from(Hulpvraag::class, 'hulpvraag')
+                    ->innerJoin('hulpvraag.izKlant', 'izKlant')
+                    ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
                     ->innerJoin('izKlant.klant', 'klant')
                     ->groupBy('izKlant.id')
-                    ->having('MIN(izHulpvraag.koppelingStartdatum) BETWEEN :startdatum AND :einddatum')
+                    ->having('MIN(hulpvraag.koppelingStartdatum) BETWEEN :startdatum AND :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
@@ -245,19 +245,19 @@ class IzKlantRepository extends EntityRepository
                 break;
             case self::REPORT_AFGESLOTEN:
                 $builder
-                    ->andWhere('izHulpvraag.koppelingEinddatum >= :startdatum')
-                    ->andWhere('izHulpvraag.koppelingEinddatum <= :einddatum')
+                    ->andWhere('hulpvraag.koppelingEinddatum >= :startdatum')
+                    ->andWhere('hulpvraag.koppelingEinddatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
                 break;
             case self::REPORT_EINDSTAND:
                 $builder
-                    ->andWhere('izHulpvraag.koppelingStartdatum <= :einddatum')
+                    ->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
-                        'izHulpvraag.koppelingEinddatum IS NULL',
-                        "izHulpvraag.koppelingEinddatum = '0000-00-00'",
-                        'izHulpvraag.koppelingEinddatum > :einddatum'
+                        'hulpvraag.koppelingEinddatum IS NULL',
+                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        'hulpvraag.koppelingEinddatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate)
                 ;

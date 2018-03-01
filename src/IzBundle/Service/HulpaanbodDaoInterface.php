@@ -2,10 +2,10 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Entity\Hulpaanbod;
 
 interface HulpaanbodDaoInterface
 {
@@ -20,22 +20,22 @@ interface HulpaanbodDaoInterface
     /**
      * @param int $id
      *
-     * @return IzHulpaanbod
+     * @return Hulpaanbod
      */
     public function find($id);
 
     /**
-     * @param IzHulpaanbod $entity
+     * @param Hulpaanbod $entity
      */
-    public function create(IzHulpaanbod $entity);
+    public function create(Hulpaanbod $entity);
 
     /**
-     * @param IzHulpaanbod $koppeling
+     * @param Hulpaanbod $koppeling
      */
-    public function update(IzHulpaanbod $entity);
+    public function update(Hulpaanbod $entity);
 
     /**
-     * @param IzHulpaanbod $koppeling
+     * @param Hulpaanbod $koppeling
      */
-    public function delete(IzHulpaanbod $entity);
+    public function delete(Hulpaanbod $entity);
 }

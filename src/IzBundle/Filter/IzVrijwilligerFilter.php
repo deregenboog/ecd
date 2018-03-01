@@ -47,7 +47,7 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $izHulpaanbodMedewerker;
+    public $hulpaanbodMedewerker;
 
     /**
      * @var bool
@@ -91,16 +91,16 @@ class IzVrijwilligerFilter implements FilterInterface
             switch ($this->actief) {
                 case self::ACTIEF_OOIT:
                     $builder
-                        ->andWhere('izHulpaanbod.project = :project')
+                        ->andWhere('hulpaanbod.project = :project')
                         ->setParameter('project', $this->project)
                     ;
                     break;
                 case self::ACTIEF_NU:
                 default:
                     $builder
-                        ->andWhere('izHulpaanbod.project = :project')
-                        ->andWhere('izHulpaanbod.einddatum IS NULL')
-                        ->andWhere('izHulpaanbod.koppelingEinddatum IS NULL')
+                        ->andWhere('hulpaanbod.project = :project')
+                        ->andWhere('hulpaanbod.einddatum IS NULL')
+                        ->andWhere('hulpaanbod.koppelingEinddatum IS NULL')
                         ->setParameter('project', $this->project)
                     ;
                     break;
@@ -114,22 +114,22 @@ class IzVrijwilligerFilter implements FilterInterface
             ;
         }
 
-        if ($this->izHulpaanbodMedewerker) {
+        if ($this->hulpaanbodMedewerker) {
             $builder
-                ->andWhere('izHulpaanbodMedewerker = :izHulpaanbodMedewerker')
-                ->setParameter('izHulpaanbodMedewerker', $this->izHulpaanbodMedewerker)
+                ->andWhere('hulpaanbodMedewerker = :hulpaanbodMedewerker')
+                ->setParameter('hulpaanbodMedewerker', $this->hulpaanbodMedewerker)
             ;
         }
 
         if ($this->zonderActiefHulpaanbod) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izVrijwilliger.id')
-                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actiefIzHulpaanbod', 'WITH', $builder->expr()->andX(
-                    'actiefIzHulpaanbod.izHulpvraag IS NULL',
-                    'actiefIzHulpaanbod.einddatum IS NULL OR actiefIzHulpaanbod.einddatum >= :now'
+                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actiefHulpaanbod', 'WITH', $builder->expr()->andX(
+                    'actiefHulpaanbod.hulpvraag IS NULL',
+                    'actiefHulpaanbod.einddatum IS NULL OR actiefHulpaanbod.einddatum >= :now'
                 ))
                 ->addGroupBy('izVrijwilliger.id')
-                ->andHaving('COUNT(actiefIzHulpaanbod) = 0')
+                ->andHaving('COUNT(actiefHulpaanbod) = 0')
                 ->setParameter('now', new \DateTime())
             ;
 
@@ -142,12 +142,12 @@ class IzVrijwilligerFilter implements FilterInterface
         if ($this->zonderActieveKoppeling) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izVrijwilliger.id')
-                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
-                    'actieveIzKoppeling.izHulpvraag IS NOT NULL',
-                    'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
+                ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
+                    'actieveKoppeling.hulpvraag IS NOT NULL',
+                    'actieveKoppeling.koppelingEinddatum IS NULL OR actieveKoppeling.koppelingEinddatum >= :now'
                 ))
                 ->addGroupBy('izVrijwilliger.id')
-                ->andHaving('COUNT(actieveIzKoppeling) = 0')
+                ->andHaving('COUNT(actieveKoppeling) = 0')
                 ->setParameter('now', new \DateTime())
             ;
 

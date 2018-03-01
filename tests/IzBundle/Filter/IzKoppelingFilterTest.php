@@ -8,10 +8,10 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use Doctrine\ORM\EntityManager;
-use IzBundle\Entity\IzHulpvraag;
-use IzBundle\Filter\IzKoppelingFilter;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Filter\KoppelingFilter;
 
-class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
+class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
 {
     public function testKlantFilter()
     {
@@ -46,7 +46,7 @@ class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpvraag.koppelingStartdatum = :koppelingStartdatum',
+            'hulpvraag.koppelingStartdatum = :koppelingStartdatum',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -64,7 +64,7 @@ class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpvraag.koppelingEinddatum = :koppelingEinddatum',
+            'hulpvraag.koppelingEinddatum = :koppelingEinddatum',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -83,7 +83,7 @@ class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpvraag.koppelingEinddatum IS NULL OR izHulpvraag.koppelingEinddatum > :now',
+            'hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -102,7 +102,7 @@ class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpvraag.project = :project',
+            'hulpvraag.project = :project',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -111,47 +111,47 @@ class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIzHulpvraagFilter()
+    public function testHulpvraagFilter()
     {
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
         $now = new \DateTime('now');
-        $filter->izHulpvraagMedewerker = new Medewerker();
+        $filter->hulpvraagMedewerker = new Medewerker();
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpvraag.medewerker = :izHulpvraagMedewerker',
+            'hulpvraag.medewerker = :hulpvraagMedewerker',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->izHulpvraagMedewerker,
-            $builder->getParameter('izHulpvraagMedewerker')->getValue()
+            $filter->hulpvraagMedewerker,
+            $builder->getParameter('hulpvraagMedewerker')->getValue()
         );
     }
 
-    public function testIzHulpaanbodFilter()
+    public function testHulpaanbodFilter()
     {
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
         $now = new \DateTime('now');
-        $filter->izHulpaanbodMedewerker = new Medewerker();
+        $filter->hulpaanbodMedewerker = new Medewerker();
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpaanbod.medewerker = :izHulpaanbodMedewerker',
+            'hulpaanbod.medewerker = :hulpaanbodMedewerker',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->izHulpaanbodMedewerker,
-            $builder->getParameter('izHulpaanbodMedewerker')->getValue()
+            $filter->hulpaanbodMedewerker,
+            $builder->getParameter('hulpaanbodMedewerker')->getValue()
         );
     }
 
     private function createSUT()
     {
-        return new IzKoppelingFilter();
+        return new KoppelingFilter();
     }
 
     private function createQueryBuilder()

@@ -6,7 +6,7 @@ use IzBundle\Entity\BinnengekomenVia;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\IzEindeVraagAanbod;
 use IzBundle\Entity\EindeKoppeling;
-use IzBundle\Entity\IzAfsluiting;
+use IzBundle\Entity\Afsluiting;
 
 class AfsluitingDao extends AbstractDao implements AfsluitingDaoInterface
 {
@@ -20,21 +20,21 @@ class AfsluitingDao extends AbstractDao implements AfsluitingDaoInterface
         ],
     ];
 
-    protected $class = IzAfsluiting::class;
+    protected $class = Afsluiting::class;
 
     protected $alias = 'afsluitreden';
 
-    public function create(IzAfsluiting $entity)
+    public function create(Afsluiting $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(IzAfsluiting $entity)
+    public function update(Afsluiting $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(IzAfsluiting $entity)
+    public function delete(Afsluiting $entity)
     {
         $this->doDelete($entity);
     }

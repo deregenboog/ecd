@@ -2,18 +2,18 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 
 class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'izHulpvraag.koppelingStartdatum',
+        'defaultSortFieldName' => 'hulpvraag.koppelingStartdatum',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
-            'izHulpvraag.koppelingStartdatum',
-            'izHulpvraag.koppelingEinddatum',
+            'hulpvraag.koppelingStartdatum',
+            'hulpvraag.koppelingEinddatum',
             'klant.achternaam',
             'werkgebied.naam',
             'vrijwilliger.achternaam',
@@ -22,20 +22,20 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
         ],
     ];
 
-    protected $class = IzHulpvraag::class;
+    protected $class = Hulpvraag::class;
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder('izHulpvraag')
-            ->addSelect('medewerker, project, izKlant, contactOntstaan, klant, izHulpaanbod, izVrijwilliger, vrijwilliger, binnengekomenVia')
-            ->innerJoin('izHulpvraag.izKlant', 'izKlant')
+        $builder = $this->repository->createQueryBuilder('hulpvraag')
+            ->addSelect('medewerker, project, izKlant, contactOntstaan, klant, hulpaanbod, izVrijwilliger, vrijwilliger, binnengekomenVia')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('izKlant.contactOntstaan', 'contactOntstaan')
-            ->innerJoin('izHulpvraag.project', 'project')
-            ->innerJoin('izHulpvraag.medewerker', 'medewerker')
-            ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
-            ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
+            ->innerJoin('hulpvraag.project', 'project')
+            ->innerJoin('hulpvraag.medewerker', 'medewerker')
+            ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
+            ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.binnengekomenVia', 'binnengekomenVia')
         ;
@@ -51,17 +51,17 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function create(IzHulpvraag $koppeling)
+    public function create(Hulpvraag $koppeling)
     {
         $this->doCreate($koppeling);
     }
 
-    public function update(IzHulpvraag $koppeling)
+    public function update(Hulpvraag $koppeling)
     {
         $this->doUpdate($koppeling);
     }
 
-    public function delete(IzHulpvraag $koppeling)
+    public function delete(Hulpvraag $koppeling)
     {
         $this->doDelete($koppeling);
     }

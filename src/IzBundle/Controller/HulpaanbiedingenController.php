@@ -4,9 +4,9 @@ namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
-use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Form\HulpaanbodType;
-use IzBundle\Form\IzHulpaanbodFilterType;
+use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,8 +22,8 @@ class HulpaanbiedingenController extends AbstractController
 {
     protected $title = 'Hulpaanbiedingen';
     protected $entityName = 'hulpaanbod';
-    protected $entityClass = IzHulpaanbod::class;
-    protected $filterFormClass = IzHulpaanbodFilterType::class;
+    protected $entityClass = Hulpaanbod::class;
+    protected $filterFormClass = HulpaanbodFilterType::class;
     protected $baseRouteName = 'iz_hulpaanbiedingen_';
 
     /**

@@ -1,4 +1,4 @@
-IzBundle\Entity\IzAfsluiting:
+IzBundle\Entity\Afsluiting:
     iz_afsluiting_Overig:
         naam: 'Overig'
         actief: true

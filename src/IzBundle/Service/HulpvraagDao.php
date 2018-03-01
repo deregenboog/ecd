@@ -2,7 +2,7 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 
@@ -25,7 +25,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         ],
     ];
 
-    protected $class = IzHulpvraag::class;
+    protected $class = Hulpvraag::class;
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
@@ -36,9 +36,9 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->innerJoin('hulpvraag.medewerker', 'medewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->where('hulpvraag.izHulpaanbod IS NULL')
+            ->where('hulpvraag.hulpaanbod IS NULL')
             ->andWhere('hulpvraag.einddatum IS NULL')
-            ->andWhere('izKlant.izAfsluiting IS NULL')
+            ->andWhere('izKlant.afsluiting IS NULL')
         ;
 
         if ($filter) {
@@ -52,17 +52,17 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function create(IzHulpvraag $entity)
+    public function create(Hulpvraag $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(IzHulpvraag $entity)
+    public function update(Hulpvraag $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(IzHulpvraag $entity)
+    public function delete(Hulpvraag $entity)
     {
         $this->doDelete($entity);
     }

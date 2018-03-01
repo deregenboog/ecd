@@ -3,7 +3,7 @@
 namespace IzBundle\Report;
 
 use AppBundle\Report\Table;
-use IzBundle\Repository\IzHulpvraagRepository;
+use IzBundle\Repository\HulpvraagRepository;
 use IzBundle\Repository\DoelstellingRepository;
 use IzBundle\Entity\Project;
 use AppBundle\Exception\ReportException;
@@ -46,7 +46,7 @@ class Managementrapportage extends AbstractReport
     ];
 
     public function __construct(
-        IzHulpvraagRepository $repository,
+        HulpvraagRepository $repository,
         DoelstellingRepository $doelstellingRepository,
         ProjectRepository $projectRepository
     ) {

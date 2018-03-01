@@ -5,7 +5,7 @@ namespace IzBundle\Service;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\EindeKoppeling;
-use IzBundle\Entity\IzAfsluiting;
+use IzBundle\Entity\Afsluiting;
 
 interface AfsluitingDaoInterface
 {
@@ -20,22 +20,22 @@ interface AfsluitingDaoInterface
     /**
      * @param int $id
      *
-     * @return IzAfsluiting
+     * @return Afsluiting
      */
     public function find($id);
 
     /**
-     * @param IzAfsluiting $entity
+     * @param Afsluiting $entity
      */
-    public function create(IzAfsluiting $entity);
+    public function create(Afsluiting $entity);
 
     /**
-     * @param IzAfsluiting $entity
+     * @param Afsluiting $entity
      */
-    public function update(IzAfsluiting $entity);
+    public function update(Afsluiting $entity);
 
     /**
-     * @param IzAfsluiting $entity
+     * @param Afsluiting $entity
      */
-    public function delete(IzAfsluiting $entity);
+    public function delete(Afsluiting $entity);
 }

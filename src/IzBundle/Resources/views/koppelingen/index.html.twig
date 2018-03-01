@@ -14,10 +14,10 @@
                     {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'izHulpvraag.koppelingStartdatum') }}
+                    {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'hulpvraag.koppelingStartdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Einddatum koppeling', 'izHulpvraag.koppelingEinddatum') }}
+                    {{ knp_pagination_sortable(pagination, 'Einddatum koppeling', 'hulpvraag.koppelingEinddatum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
@@ -34,31 +34,31 @@
             </tr>
         </thead>
         <tbody>
-            {% for izHulpvraag in pagination %}
-                <tr data-href="{{ path('cake_iz_hulpvragen_view', {iz_klant_id: izHulpvraag.izKlant.id}) }}">
+            {% for hulpvraag in pagination %}
+                <tr data-href="{{ path('cake_iz_hulpvragen_view', {iz_klant_id: hulpvraag.izKlant.id}) }}">
                     <td>
-                        {{ izHulpvraag.izKlant.klant.naam }}
+                        {{ hulpvraag.izKlant.klant.naam }}
                     </td>
                     <td>
-                        {{ izHulpvraag.izHulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                        {{ hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
                     </td>
                     <td>
-                        {{ izHulpvraag.koppelingStartdatum is empty ? "" : izHulpvraag.koppelingStartdatum|date('d-m-Y') }}
+                        {{ hulpvraag.koppelingStartdatum is empty ? "" : hulpvraag.koppelingStartdatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ izHulpvraag.koppelingEinddatum is empty ? "" : izHulpvraag.koppelingEinddatum|date('d-m-Y') }}
+                        {{ hulpvraag.koppelingEinddatum is empty ? "" : hulpvraag.koppelingEinddatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ izHulpvraag.project }}
+                        {{ hulpvraag.project }}
                     </td>
                     <td>
-                        {{ izHulpvraag.medewerker }}
+                        {{ hulpvraag.medewerker }}
                     </td>
                     <td>
-                        {{ izHulpvraag.izHulpaanbod.medewerker }}
+                        {{ hulpvraag.hulpaanbod.medewerker }}
                     </td>
                     <td>
-                        {{ izHulpvraag.izKlant.klant.werkgebied }}
+                        {{ hulpvraag.izKlant.klant.werkgebied }}
                     </td>
                 </tr>
             {% endfor %}

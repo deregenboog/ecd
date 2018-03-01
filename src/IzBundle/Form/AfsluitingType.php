@@ -10,7 +10,7 @@ use AppBundle\Form\BaseType;
 use IzBundle\Entity\BinnengekomenVia;
 use IzBundle\Entity\IzEindeVraagAanbod;
 use IzBundle\Entity\EindeKoppeling;
-use IzBundle\Entity\IzAfsluiting;
+use IzBundle\Entity\Afsluiting;
 
 class AfsluitingType extends AbstractType
 {
@@ -32,7 +32,7 @@ class AfsluitingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => IzAfsluiting::class,
+            'class' => Afsluiting::class,
         ]);
     }
 

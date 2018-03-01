@@ -39,10 +39,10 @@ abstract class IzDeelnemer
     protected $deletedAt;
 
     /**
-     * @var ArrayCollection|IzKoppeling[]
-     * @ORM\OneToMany(targetEntity="IzKoppeling", mappedBy="izDeelnemer")
+     * @var ArrayCollection|Koppeling[]
+     * @ORM\OneToMany(targetEntity="Koppeling", mappedBy="izDeelnemer")
      */
-    private $izKoppelingen;
+    private $koppelingen;
 
     /**
      * @var IzIntake
@@ -64,12 +64,12 @@ abstract class IzDeelnemer
     protected $datumAanmelding;
 
     /**
-     * @var IzAfsluiting
-     * @ORM\ManyToOne(targetEntity="IzAfsluiting")
+     * @var Afsluiting
+     * @ORM\ManyToOne(targetEntity="Afsluiting")
      * @ORM\JoinColumn(name="iz_afsluiting_id")
      * @Gedmo\Versioned
      */
-    protected $izAfsluiting;
+    protected $afsluiting;
 
     /**
      * @var Verslag[]
@@ -79,7 +79,7 @@ abstract class IzDeelnemer
 
     public function __construct()
     {
-        $this->izKoppelingen = new ArrayCollection();
+        $this->koppelingen = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
     }
 
@@ -88,9 +88,9 @@ abstract class IzDeelnemer
         return $this->id;
     }
 
-    public function getIzAfsluiting()
+    public function getAfsluiting()
     {
-        return $this->izAfsluiting;
+        return $this->afsluiting;
     }
 
     public function getIzIntake()
@@ -106,7 +106,7 @@ abstract class IzDeelnemer
     public function isGekoppeld()
     {
         $now = new \DateTime();
-        foreach ($this->izKoppelingen as $koppelking) {
+        foreach ($this->koppelingen as $koppelking) {
             if ($koppelking->isGekoppeld()
                 && $koppelking->getKoppelingStartdatum() <= $now
                 && (is_null($koppelking->getKoppelingEinddatum()) || $koppelking->getKoppelingEinddatum() >= $now)

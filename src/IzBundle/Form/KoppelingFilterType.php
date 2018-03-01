@@ -6,12 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzHulpvraag;
-use IzBundle\Filter\IzKoppelingFilter;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Filter\KoppelingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Entity\Hulpaanbod;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\KlantFilterType;
@@ -19,7 +19,7 @@ use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Form\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class IzKoppelingFilterType extends AbstractType
+class KoppelingFilterType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -81,15 +81,15 @@ class IzKoppelingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izHulpvraagMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpvraagMedewerker', EntityType::class, [
+        if (in_array('hulpvraagMedewerker', $options['enabled_filters'])) {
+            $builder->add('hulpvraagMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
@@ -98,15 +98,15 @@ class IzKoppelingFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpaanbodMedewerker', EntityType::class, [
+        if (in_array('hulpaanbodMedewerker', $options['enabled_filters'])) {
+            $builder->add('hulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker hulpaanbod',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                        ->innerJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
@@ -130,7 +130,7 @@ class IzKoppelingFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => IzKoppelingFilter::class,
+            'data_class' => KoppelingFilter::class,
             'enabled_filters' => [
                 'koppelingStartdatum',
                 'koppelingEinddatum',
@@ -138,8 +138,8 @@ class IzKoppelingFilterType extends AbstractType
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',
-                'izHulpvraagMedewerker',
-                'izHulpaanbodMedewerker',
+                'hulpvraagMedewerker',
+                'hulpaanbodMedewerker',
                 'filter',
                 'download',
             ],

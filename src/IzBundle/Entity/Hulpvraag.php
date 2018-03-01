@@ -6,11 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass="IzBundle\Repository\IzHulpvraagRepository")
+ * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
  * @ORM\Table(name="iz_koppelingen")
  * @Gedmo\Loggable
  */
-class IzHulpvraag extends IzKoppeling
+class Hulpvraag extends Koppeling
 {
     /**
      * @var IzKlant
@@ -21,12 +21,12 @@ class IzHulpvraag extends IzKoppeling
     protected $izKlant;
 
     /**
-     * @var IzHulpaanbod
-     * @ORM\OneToOne(targetEntity="IzHulpaanbod")
+     * @var Hulpaanbod
+     * @ORM\OneToOne(targetEntity="Hulpaanbod")
      * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
      * @Gedmo\Versioned
      */
-    protected $izHulpaanbod;
+    protected $hulpaanbod;
 
     public function getIzKlant()
     {
@@ -40,20 +40,20 @@ class IzHulpvraag extends IzKoppeling
         return $this;
     }
 
-    public function getIzHulpaanbod()
+    public function getHulpaanbod()
     {
-        return $this->izHulpaanbod;
+        return $this->hulpaanbod;
     }
 
-    public function setIzHulpaanbod(IzHulpaanbod $izHulpaanbod = null)
+    public function setHulpaanbod(Hulpaanbod $hulpaanbod = null)
     {
-        $this->izHulpaanbod = $izHulpaanbod;
+        $this->hulpaanbod = $hulpaanbod;
 
         return $this;
     }
 
     public function isGekoppeld()
     {
-        return $this->izHulpaanbod instanceof IzHulpaanbod;
+        return $this->hulpaanbod instanceof Hulpaanbod;
     }
 }

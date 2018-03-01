@@ -39,12 +39,12 @@ class Verslag
     private $izDeelnemer;
 
     /**
-     * @var IzKoppeling
-     * @ORM\ManyToOne(targetEntity="IzKoppeling", inversedBy="verslagen")
+     * @var Koppeling
+     * @ORM\ManyToOne(targetEntity="Koppeling", inversedBy="verslagen")
      * @ORM\JoinColumn(name="iz_koppeling_id")
      * @Gedmo\Versioned
      */
-    private $izKoppeling;
+    private $koppeling;
 
     /**
      * @var Medewerker
@@ -95,14 +95,14 @@ class Verslag
         return $this;
     }
 
-    public function getIzKoppeling()
+    public function getKoppeling()
     {
-        return $this->izKoppeling;
+        return $this->koppeling;
     }
 
-    public function setIzKoppeling(IzKoppeling $izKoppeling)
+    public function setKoppeling(Koppeling $koppeling)
     {
-        $this->izKoppeling = $izKoppeling;
+        $this->koppeling = $koppeling;
 
         return $this;
     }

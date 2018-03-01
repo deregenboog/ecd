@@ -2,7 +2,7 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
 
@@ -19,22 +19,22 @@ interface HulpvraagDaoInterface
     /**
      * @param int $id
      *
-     * @return IzHulpvraag
+     * @return Hulpvraag
      */
     public function find($id);
 
     /**
-     * @param IzHulpvraag $entity
+     * @param Hulpvraag $entity
      */
-    public function create(IzHulpvraag $entity);
+    public function create(Hulpvraag $entity);
 
     /**
-     * @param IzHulpvraag $entity
+     * @param Hulpvraag $entity
      */
-    public function update(IzHulpvraag $entity);
+    public function update(Hulpvraag $entity);
 
     /**
-     * @param IzHulpvraag $entity
+     * @param Hulpvraag $entity
      */
-    public function delete(IzHulpvraag $entity);
+    public function delete(Hulpvraag $entity);
 }

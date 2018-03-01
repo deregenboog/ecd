@@ -10,15 +10,15 @@ use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
 use AppBundle\Controller\SymfonyController;
 use IzBundle\Service\KoppelingDaoInterface;
-use IzBundle\Form\IzKoppelingFilterType;
-use IzBundle\Filter\IzKoppelingFilter;
-use IzBundle\Filter\IzHulpvraagFilter;
-use IzBundle\Filter\IzHulpaanbodFilter;
+use IzBundle\Form\KoppelingFilterType;
+use IzBundle\Filter\KoppelingFilter;
+use IzBundle\Filter\HulpvraagFilter;
+use IzBundle\Filter\HulpaanbodFilter;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\IzHulpvraagFilterType;
+use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Form\IzHulpaanbodFilterType;
+use IzBundle\Form\HulpaanbodFilterType;
 
 /**
  * @Route("/mijn")
@@ -63,8 +63,8 @@ class DashboardController extends SymfonyController
     {
         $medewerker = $this->getMedewerker();
 
-        $filter = new IzHulpvraagFilter();
-        $form = $this->createForm(IzHulpvraagFilterType::class, $filter, [
+        $filter = new HulpvraagFilter();
+        $form = $this->createForm(HulpvraagFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
@@ -91,8 +91,8 @@ class DashboardController extends SymfonyController
     {
         $medewerker = $this->getMedewerker();
 
-        $filter = new IzHulpaanbodFilter();
-        $form = $this->createForm(IzHulpaanbodFilterType::class, $filter, [
+        $filter = new HulpaanbodFilter();
+        $form = $this->createForm(HulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
                 'vrijwilliger' => [
@@ -128,8 +128,8 @@ class DashboardController extends SymfonyController
     {
         $medewerker = $this->getMedewerker();
 
-        $filter = new IzKoppelingFilter();
-        $form = $this->createForm(IzKoppelingFilterType::class, $filter, [
+        $filter = new KoppelingFilter();
+        $form = $this->createForm(KoppelingFilterType::class, $filter, [
             'enabled_filters' => [
                 'koppelingStartdatum',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],

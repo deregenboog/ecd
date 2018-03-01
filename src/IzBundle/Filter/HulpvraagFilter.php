@@ -7,7 +7,7 @@ use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 
-class IzHulpvraagFilter
+class HulpvraagFilter
 {
     /**
      * @var \DateTime

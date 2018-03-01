@@ -12,7 +12,7 @@ use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzKlantFilter;
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -88,15 +88,15 @@ class IzKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izHulpvraagMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpvraagMedewerker', EntityType::class, [
+        if (in_array('hulpvraagMedewerker', $options['enabled_filters'])) {
+            $builder->add('hulpvraagMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker(s) hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC');
@@ -138,7 +138,7 @@ class IzKlantFilterType extends AbstractType
                 'actief',
                 'project',
                 'izIntakeMedewerker',
-                'izHulpvraagMedewerker',
+                'hulpvraagMedewerker',
                 'zonderActieveHulpvraag',
                 'zonderActieveKoppeling',
                 'filter',

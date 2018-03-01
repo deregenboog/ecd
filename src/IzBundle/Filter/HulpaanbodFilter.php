@@ -7,7 +7,7 @@ use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
 
-class IzHulpaanbodFilter
+class HulpaanbodFilter
 {
     /**
      * @var \DateTime

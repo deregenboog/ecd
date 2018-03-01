@@ -96,8 +96,8 @@ class IzSelectionExport extends GenericExport
                 $projecten[] = $hulpvraag->getProject();
             }
         } elseif ($izDeelnemer instanceof IzVrijwilliger) {
-            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $izHulpaanbod) {
-                $projecten[] = $izHulpaanbod->getProject();
+            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $hulpaanbod) {
+                $projecten[] = $hulpaanbod->getProject();
             }
         }
 
@@ -120,8 +120,8 @@ class IzSelectionExport extends GenericExport
                 $medewerkers[] = $hulpvraag->getMedewerker();
             }
         } elseif ($izDeelnemer instanceof IzVrijwilliger) {
-            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $izHulpaanbod) {
-                $medewerkers[] = $izHulpaanbod->getMedewerker();
+            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $hulpaanbod) {
+                $medewerkers[] = $hulpaanbod->getMedewerker();
             }
         }
 

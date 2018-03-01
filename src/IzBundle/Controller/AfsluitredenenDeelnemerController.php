@@ -9,7 +9,7 @@ use IzBundle\Entity\IzEindeKoppeling;
 use IzBundle\Entity\EindeKoppeling;
 use IzBundle\Service\EindeKoppelingDaoInterface;
 use IzBundle\Form\EindeKoppelingType;
-use IzBundle\Entity\IzAfsluiting;
+use IzBundle\Entity\Afsluiting;
 use IzBundle\Service\AfsluitingDaoInterface;
 use IzBundle\Form\AfsluitingType;
 
@@ -20,7 +20,7 @@ class AfsluitredenenDeelnemerController extends AbstractController
 {
     protected $title = 'Afsluitredenen deelnemers';
     protected $entityName = 'afsluitreden deelnemer';
-    protected $entityClass = IzAfsluiting::class;
+    protected $entityClass = Afsluiting::class;
     protected $formClass = AfsluitingType::class;
     protected $baseRouteName = 'iz_afsluitredenendeelnemer_';
 

@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="iz_koppelingen")
  * @Gedmo\Loggable
  */
-class IzHulpaanbod extends IzKoppeling
+class Hulpaanbod extends Koppeling
 {
     /**
      * @var IzVrijwilliger
@@ -21,12 +21,12 @@ class IzHulpaanbod extends IzKoppeling
     private $izVrijwilliger;
 
     /**
-     * @var IzHulpvraag
-     * @ORM\OneToOne(targetEntity="IzHulpvraag")
+     * @var Hulpvraag
+     * @ORM\OneToOne(targetEntity="Hulpvraag")
      * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
      * @Gedmo\Versioned
      */
-    private $izHulpvraag;
+    private $hulpvraag;
 
     public function getIzVrijwilliger()
     {
@@ -40,20 +40,20 @@ class IzHulpaanbod extends IzKoppeling
         return $this;
     }
 
-    public function getIzHulpvraag()
+    public function getHulpvraag()
     {
-        return $this->izHulpvraag;
+        return $this->hulpvraag;
     }
 
-    public function setIzHulpvraag(IzHulpvraag $izHulpvraag)
+    public function setHulpvraag(Hulpvraag $hulpvraag)
     {
-        $this->izHulpvraag = $izHulpvraag;
+        $this->hulpvraag = $hulpvraag;
 
         return $this;
     }
 
     public function isGekoppeld()
     {
-        return $this->izHulpvraag instanceof IzHulpvraag;
+        return $this->hulpvraag instanceof Hulpvraag;
     }
 }

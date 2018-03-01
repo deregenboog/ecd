@@ -82,7 +82,7 @@
                             {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                         </th>
                         <th>
-                            {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'izHulpvraag.koppelingStartdatum') }}
+                            {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'hulpvraag.koppelingStartdatum') }}
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
@@ -94,46 +94,46 @@
                             Invervisiegroep(en) VW
                         </th>
                         <th>
-                            {{ knp_pagination_sortable(pagination, 'Tussenevaluatie', 'izHulpvraag.koppelingStartdatum') }}
+                            {{ knp_pagination_sortable(pagination, 'Tussenevaluatie', 'hulpvraag.koppelingStartdatum') }}
                         </th>
                         <th>
-                            {{ knp_pagination_sortable(pagination, 'Eindevaluatie', 'izHulpvraag.koppelingStartdatum') }}
+                            {{ knp_pagination_sortable(pagination, 'Eindevaluatie', 'hulpvraag.koppelingStartdatum') }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for izHulpvraag in pagination %}
-                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~izHulpvraag.izKlant.id) }}" style="{{ iz.koppeling_warning_style(izHulpvraag) }}">
+                    {% for hulpvraag in pagination %}
+                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~hulpvraag.izKlant.id) }}" style="{{ iz.koppeling_warning_style(hulpvraag) }}">
                             <td>
-                                {{ izHulpvraag.izKlant.klant.naam }}
+                                {{ hulpvraag.izKlant.klant.naam }}
                             </td>
                             <td>
-                                {{ izHulpvraag.izHulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                                {{ hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
                             </td>
                             <td>
-                                {{ izHulpvraag.project }}
+                                {{ hulpvraag.project }}
                             </td>
                             <td>
-                                {{ izHulpvraag.koppelingStartdatum|date('d-m-Y') }}
+                                {{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ izHulpvraag.izKlant.klant.werkgebied }}
+                                {{ hulpvraag.izKlant.klant.werkgebied }}
                             </td>
                             <td>
-                                {{ iz.koppeling_laatste_verslag(izHulpvraag) }}
+                                {{ iz.koppeling_laatste_verslag(hulpvraag) }}
                             </td>
                             <td>
                                 <ul>
-                                    {% for intervisiegroep in izHulpvraag.izHulpaanbod.izVrijwilliger.intervisiegroepen %}
+                                    {% for intervisiegroep in hulpvraag.hulpaanbod.izVrijwilliger.intervisiegroepen %}
                                         <li>{{ intervisiegroep }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                             <td>
-                                {{ izHulpvraag.koppelingStartdatum|date_modify("+6 months")|date('d-m-Y') }}
+                                {{ hulpvraag.koppelingStartdatum|date_modify("+6 months")|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ izHulpvraag.koppelingStartdatum|date_modify("+1 year")|date('d-m-Y') }}
+                                {{ hulpvraag.koppelingStartdatum|date_modify("+1 year")|date('d-m-Y') }}
                             </td>
                         </tr>
                     {% endfor %}
@@ -144,24 +144,24 @@
     </div>
 {% endblock %}
 
-{% macro koppeling_warning_style(izHulpvraag) %}
-    {% if izHulpvraag.koppelingStartdatum|date('Y') >= 2018 %}
-        {% if izHulpvraag.koppelingStartdatum|date_modify('+6 months') < today %}
+{% macro koppeling_warning_style(hulpvraag) %}
+    {% if hulpvraag.koppelingStartdatum|date('Y') >= 2018 %}
+        {% if hulpvraag.koppelingStartdatum|date_modify('+6 months') < today %}
             {{ 'background-color: red; color: white' }}
-        {% elseif izHulpvraag.koppelingStartdatum|date_modify('+5 months +2 weeks') < today %}
+        {% elseif hulpvraag.koppelingStartdatum|date_modify('+5 months +2 weeks') < today %}
             {{ 'background-color: orange; color: white' }}
         {% endif %}
     {% endif %}
 {% endmacro %}
 
-{% macro koppeling_laatste_verslag(izHulpvraag) %}
+{% macro koppeling_laatste_verslag(hulpvraag) %}
     {% set dateHulpvraag = false %}
     {% set dateHulpaanbod = false %}
-    {% if izHulpvraag.verslagen|length > 0 %}
-        {% set dateHulpvraag = izHulpvraag.verslagen.0.created %}
+    {% if hulpvraag.verslagen|length > 0 %}
+        {% set dateHulpvraag = hulpvraag.verslagen.0.created %}
     {% endif %}
-    {% if izHulpvraag.izHulpaanbod.verslagen|length > 0 %}
-        {% set dateHulpaanbod = izHulpvraag.izHulpaanbod.verslagen.0.created %}
+    {% if hulpvraag.hulpaanbod.verslagen|length > 0 %}
+        {% set dateHulpaanbod = hulpvraag.hulpaanbod.verslagen.0.created %}
     {% endif %}
     {% if dateHulpvraag and dateHulpaanbod %}
         {{ dateHulpvraag > dateHulpaanbod ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}

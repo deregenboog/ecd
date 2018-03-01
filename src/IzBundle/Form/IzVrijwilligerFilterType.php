@@ -12,7 +12,7 @@ use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzVrijwilligerFilter;
-use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Entity\Hulpaanbod;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -88,15 +88,15 @@ class IzVrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izHulpaanbodMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpaanbodMedewerker', EntityType::class, [
+        if (in_array('hulpaanbodMedewerker', $options['enabled_filters'])) {
+            $builder->add('hulpaanbodMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker(s) hulpaanbod',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzHulpaanbod::class, 'izHulpaanbod', 'WITH', 'izHulpaanbod.medewerker = medewerker')
+                        ->innerJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
@@ -139,7 +139,7 @@ class IzVrijwilligerFilterType extends AbstractType
                 'actief',
                 'project',
                 'izIntakeMedewerker',
-                'izHulpaanbodMedewerker',
+                'hulpaanbodMedewerker',
                 'zonderActiefHulpaanbod',
                 'zonderActieveKoppeling',
                 'filter',

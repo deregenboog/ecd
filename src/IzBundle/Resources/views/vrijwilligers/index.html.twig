@@ -25,7 +25,7 @@
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }} /
-                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'izHulpaanbodMedewerker.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'hulpaanbodMedewerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
@@ -54,8 +54,8 @@
                     </td>
                     <td>
                         <ul>
-                            {% for izHulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
-                                <li>{{ izHulpaanbod.project }} {{ izHulpaanbod.medewerker ? '('~izHulpaanbod.medewerker~')' }}</li>
+                            {% for hulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                                <li>{{ hulpaanbod.project }} {{ hulpaanbod.medewerker ? '('~hulpaanbod.medewerker~')' }}</li>
                             {% endfor %}
                         </ul>
                     </td>

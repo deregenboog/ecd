@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Postcodegebied;
 
-class IzHulpvraagRepository extends EntityRepository
+class HulpvraagRepository extends EntityRepository
 {
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
@@ -14,7 +14,7 @@ class IzHulpvraagRepository extends EntityRepository
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('izHulpvraag.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project', 'stadsdeel');
         $this->applyHulpvragenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -33,7 +33,7 @@ class IzHulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('eindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('izHulpaanbod.eindeKoppeling', 'eindeKoppeling')
+            ->innerJoin('hulpaanbod.eindeKoppeling', 'eindeKoppeling')
             ->groupBy('afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -46,8 +46,8 @@ class IzHulpvraagRepository extends EntityRepository
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('eindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('izHulpaanbod.eindeKoppeling', 'eindeKoppeling')
-            ->innerJoin('izHulpaanbod.project', 'project')
+            ->innerJoin('hulpaanbod.eindeKoppeling', 'eindeKoppeling')
+            ->innerJoin('hulpaanbod.project', 'project')
             ->groupBy('project', 'afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -59,7 +59,7 @@ class IzHulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect("CONCAT_WS(' ', medewerker.voornaam, medewerker.tussenvoegsel, medewerker.achternaam) AS coordinator")
-            ->innerJoin('izHulpaanbod.medewerker', 'medewerker')
+            ->innerJoin('hulpaanbod.medewerker', 'medewerker')
             ->groupBy('medewerker')
             ->orderBy('medewerker.voornaam');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -71,7 +71,7 @@ class IzHulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->innerJoin('izHulpaanbod.project', 'project')
+            ->innerJoin('hulpaanbod.project', 'project')
             ->groupBy('project');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -106,7 +106,7 @@ class IzHulpvraagRepository extends EntityRepository
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('izHulpaanbod.project', 'project')
+            ->innerJoin('hulpaanbod.project', 'project')
             ->groupBy('project', 'stadsdeel');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -118,7 +118,7 @@ class IzHulpvraagRepository extends EntityRepository
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('ggwgebied.naam AS postcodegebied')
-            ->innerJoin('izHulpaanbod.project', 'project')
+            ->innerJoin('hulpaanbod.project', 'project')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
             ->groupBy('project', 'postcodegebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -128,40 +128,40 @@ class IzHulpvraagRepository extends EntityRepository
 
     private function getHulpvragenCountBuilder()
     {
-        return $this->createQueryBuilder('izHulpvraag')
-            ->select('COUNT(izHulpvraag.id) AS aantal')
-            ->innerJoin('izHulpvraag.izKlant', 'izKlant')
+        return $this->createQueryBuilder('hulpvraag')
+            ->select('COUNT(hulpvraag.id) AS aantal')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
         ;
     }
 
     private function getKoppelingenCountBuilder()
     {
-        return $this->createQueryBuilder('izHulpvraag')
-            ->select('COUNT(izHulpvraag.id) AS aantal')
-            ->innerJoin('izHulpvraag.izKlant', 'izKlant')
+        return $this->createQueryBuilder('hulpvraag')
+            ->select('COUNT(hulpvraag.id) AS aantal')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
-            ->innerJoin('izHulpvraag.izHulpaanbod', 'izHulpaanbod')
-            ->innerJoin('izHulpaanbod.izVrijwilliger', 'izVrijwilliger')
+            ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
+            ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
         ;
     }
 
     private function applyHulpvragenReportFilter(QueryBuilder $builder, $report, \DateTime $startDate, \DateTime $endDate)
     {
-        // use izHulpvraag.startdatum by default, but use izHulpvraag.created if necessary
-        $startdatumDql = "CASE WHEN izHulpvraag.startdatum IS NULL OR izHulpvraag.startdatum = '0000-00-00'
-            THEN izHulpvraag.created ELSE izHulpvraag.startdatum END";
+        // use hulpvraag.startdatum by default, but use hulpvraag.created if necessary
+        $startdatumDql = "CASE WHEN hulpvraag.startdatum IS NULL OR hulpvraag.startdatum = '0000-00-00'
+            THEN hulpvraag.created ELSE hulpvraag.startdatum END";
 
-        // use izHulpvraag.einddatum by default, but use izHulpvraag.koppelingEinddatum if necessary
-        $einddatumDql = "CASE WHEN (izHulpvraag.einddatum IS NULL OR izHulpvraag.startdatum = '0000-00-00')
-            AND izHulpvraag.koppelingEinddatum IS NOT NULL
-            AND izHulpvraag.koppelingEinddatum <> '0000-00-00'
-            THEN izHulpvraag.koppelingEinddatum ELSE izHulpvraag.einddatum END";
+        // use hulpvraag.einddatum by default, but use hulpvraag.koppelingEinddatum if necessary
+        $einddatumDql = "CASE WHEN (hulpvraag.einddatum IS NULL OR hulpvraag.startdatum = '0000-00-00')
+            AND hulpvraag.koppelingEinddatum IS NOT NULL
+            AND hulpvraag.koppelingEinddatum <> '0000-00-00'
+            THEN hulpvraag.koppelingEinddatum ELSE hulpvraag.einddatum END";
 
         // special case because WHERE (CASE WHEN ... THEN ... ELSE ... END) IS NULL does not work in DQL (while it does in SQL)
-        $einddatumIsNullDql = "CASE WHEN (izHulpvraag.einddatum IS NULL OR izHulpvraag.einddatum = '0000-00-00')
-            AND (izHulpvraag.koppelingEinddatum IS NULL OR izHulpvraag.koppelingEinddatum = '0000-00-00')
+        $einddatumIsNullDql = "CASE WHEN (hulpvraag.einddatum IS NULL OR hulpvraag.einddatum = '0000-00-00')
+            AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum = '0000-00-00')
             THEN 0 ELSE 1 END";
 
         switch ($report) {
@@ -187,7 +187,7 @@ class IzHulpvraagRepository extends EntityRepository
                     ->setParameter('einddatum', $endDate);
                 break;
             case 'eindstand':
-                $builder->andWhere('izHulpvraag.startdatum <= :einddatum')
+                $builder->andWhere('hulpvraag.startdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
                         "{$einddatumIsNullDql} = 0",
                         "{$einddatumDql} = '0000-00-00'",
@@ -204,39 +204,39 @@ class IzHulpvraagRepository extends EntityRepository
     {
         switch ($report) {
             case 'beginstand':
-                $builder->andWhere('izHulpvraag.koppelingStartdatum < :startdatum')
+                $builder->andWhere('hulpvraag.koppelingStartdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
-                        'izHulpvraag.koppelingEinddatum IS NULL',
-                        "izHulpvraag.koppelingEinddatum = '0000-00-00'",
-                        'izHulpvraag.koppelingEinddatum >= :startdatum'
+                        'hulpvraag.koppelingEinddatum IS NULL',
+                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        'hulpvraag.koppelingEinddatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate);
                 break;
             case 'gestart':
-                $builder->andWhere('izHulpvraag.koppelingStartdatum >= :startdatum')
-                    ->andWhere('izHulpvraag.koppelingStartdatum <= :einddatum')
+                $builder->andWhere('hulpvraag.koppelingStartdatum >= :startdatum')
+                    ->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate);
                 break;
             case 'afgesloten':
-                $builder->andWhere('izHulpvraag.koppelingEinddatum >= :startdatum')
-                    ->andWhere('izHulpvraag.koppelingEinddatum <= :einddatum')
+                $builder->andWhere('hulpvraag.koppelingEinddatum >= :startdatum')
+                    ->andWhere('hulpvraag.koppelingEinddatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate);
                 break;
             case 'succesvol_afgesloten':
-                $builder->andWhere('izHulpvraag.koppelingEinddatum >= :startdatum')
-                    ->andWhere('izHulpvraag.koppelingEinddatum <= :einddatum')
-                    ->andWhere('izHulpvraag.koppelingSuccesvol = true')
+                $builder->andWhere('hulpvraag.koppelingEinddatum >= :startdatum')
+                    ->andWhere('hulpvraag.koppelingEinddatum <= :einddatum')
+                    ->andWhere('hulpvraag.koppelingSuccesvol = true')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate);
                 break;
             case 'eindstand':
-                $builder->andWhere('izHulpvraag.koppelingStartdatum <= :einddatum')
+                $builder->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
-                        'izHulpvraag.koppelingEinddatum IS NULL',
-                        "izHulpvraag.koppelingEinddatum = '0000-00-00'",
-                        'izHulpvraag.koppelingEinddatum > :einddatum'
+                        'hulpvraag.koppelingEinddatum IS NULL',
+                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        'hulpvraag.koppelingEinddatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate);
                 break;

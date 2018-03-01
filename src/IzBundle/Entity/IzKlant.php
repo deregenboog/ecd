@@ -30,8 +30,8 @@ class IzKlant extends IzDeelnemer
     protected $matching;
 
     /**
-     * @var ArrayCollection|IzHulpvraag[]
-     * @ORM\OneToMany(targetEntity="IzHulpvraag", mappedBy="izKlant", cascade={"persist"})
+     * @var ArrayCollection|Hulpvraag[]
+     * @ORM\OneToMany(targetEntity="Hulpvraag", mappedBy="izKlant", cascade={"persist"})
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpvragen;
@@ -105,7 +105,7 @@ class IzKlant extends IzDeelnemer
         return $this->izHulpvragen;
     }
 
-    public function addHulpvraag(IzHulpvraag $hulpvraag)
+    public function addHulpvraag(Hulpvraag $hulpvraag)
     {
         $this->izHulpvragen[] = $hulpvraag;
         $hulpvraag->setIzKlant($this);
@@ -116,7 +116,7 @@ class IzKlant extends IzDeelnemer
     public function getOpenHulpvragen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('izHulpaanbod'))
+            ->where(Criteria::expr()->isNull('hulpaanbod'))
             ->andWhere(Criteria::expr()->isNull('einddatum'))
         ;
 
@@ -126,7 +126,7 @@ class IzKlant extends IzDeelnemer
     public function getActieveKoppelingen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->neq('izHulpaanbod', null))
+            ->where(Criteria::expr()->neq('hulpaanbod', null))
             ->andWhere(Criteria::expr()->orX(
                 Criteria::expr()->isNull('koppelingEinddatum'),
                 Criteria::expr()->gte('koppelingEinddatum', new \DateTime('today'))
@@ -139,7 +139,7 @@ class IzKlant extends IzDeelnemer
     public function getAfgeslotenHulpvragen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('izHulpaanbod'))
+            ->where(Criteria::expr()->isNull('hulpaanbod'))
             ->andWhere(Criteria::expr()->neq('einddatum', null))
         ;
 
@@ -149,7 +149,7 @@ class IzKlant extends IzDeelnemer
     public function getAfgeslotenKoppelingen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->neq('izHulpaanbod', null))
+            ->where(Criteria::expr()->neq('hulpaanbod', null))
             ->andWhere(Criteria::expr()->lt('koppelingEinddatum', new \DateTime('today')))
         ;
 
