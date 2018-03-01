@@ -3,7 +3,7 @@
 namespace Tests\IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
@@ -92,22 +92,22 @@ class IzKoppelingFilterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIzProjectFilter()
+    public function testProjectFilter()
     {
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
         $now = new \DateTime('now');
-        $filter->izProject = new IzProject();
+        $filter->project = new Project();
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'izHulpvraag.izProject = :izProject',
+            'izHulpvraag.project = :project',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->izProject,
-            $builder->getParameter('izProject')->getValue()
+            $filter->project,
+            $builder->getParameter('project')->getValue()
         );
     }
 

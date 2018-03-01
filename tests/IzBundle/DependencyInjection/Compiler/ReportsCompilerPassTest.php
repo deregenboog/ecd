@@ -15,7 +15,7 @@ class ReportsCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container = $this->createMock(ContainerBuilder::class);
         $container->method('getDefinition')
-            ->with('iz.form.rapportage')
+            ->with('IzBundle\Form\RapportageType')
             ->willReturn($form);
         $container->method('findTaggedServiceIds')
             ->with('iz.rapportage')
