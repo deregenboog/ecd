@@ -48,7 +48,6 @@ class DoelstellingType extends AbstractType
         ]);
     }
 
-
     public function getParent()
     {
         return BaseType::class;

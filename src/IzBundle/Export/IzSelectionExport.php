@@ -9,7 +9,6 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class IzSelectionExport extends GenericExport
 {
@@ -106,8 +105,8 @@ class IzSelectionExport extends GenericExport
 
     public function getMedewerkerIntake(IzDeelnemer $izDeelnemer)
     {
-        if ($izDeelnemer->getIzIntake()) {
-            return $izDeelnemer->getIzIntake()->getMedewerker();
+        if ($izDeelnemer->getIntake()) {
+            return $izDeelnemer->getIntake()->getMedewerker();
         }
     }
 

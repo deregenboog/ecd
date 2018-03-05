@@ -2,10 +2,7 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\BinnengekomenVia;
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\IzEindeVraagAanbod;
-use IzBundle\Entity\EindeKoppeling;
 use IzBundle\Entity\Afsluiting;
 
 class AfsluitingDao extends AbstractDao implements AfsluitingDaoInterface

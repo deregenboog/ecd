@@ -8,6 +8,9 @@ services:
     IzBundle\Service\ContactOntstaanDao:
         parent: app.dao.abstract
 
+    IzBundle\Service\DeelnemerDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\DoelgroepDao:
         parent: app.dao.abstract
 
@@ -25,11 +28,14 @@ services:
 
     IzBundle\Service\HulpaanbodDao:
         parent: app.dao.abstract
-    
+
     IzBundle\Service\HulpvraagDao:
         parent: app.dao.abstract
 
     IzBundle\Service\HulpvraagsoortDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\IntakeDao:
         parent: app.dao.abstract
 
     IzBundle\Service\IntervisiegroepDao:
@@ -46,3 +52,29 @@ services:
 
     IzBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
+
+    iz.intake.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
+
+    iz.hulpvraag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klant, dao: '@IzBundle\Service\KlantDao' }
+
+    iz.intake.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
+
+
+    iz.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
+              

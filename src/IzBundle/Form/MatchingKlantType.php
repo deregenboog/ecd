@@ -12,6 +12,7 @@ use IzBundle\Entity\Doelgroep;
 use IzBundle\Entity\Hulpvraagsoort;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use IzBundle\Entity\MatchingKlant;
+use AppBundle\Form\BaseType;
 
 class MatchingKlantType extends AbstractType
 {
@@ -46,7 +47,7 @@ class MatchingKlantType extends AbstractType
                     'Nee' => 0,
                 ],
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 

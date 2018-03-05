@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzEindeKoppeling;
 use IzBundle\Entity\EindeKoppeling;
 use IzBundle\Service\EindeKoppelingDaoInterface;
 use IzBundle\Form\EindeKoppelingType;

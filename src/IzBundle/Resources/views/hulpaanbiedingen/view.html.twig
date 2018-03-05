@@ -1,0 +1,105 @@
+{% extends 'IzBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity.izVrijwilliger }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izVrijwilliger.vrijwilliger} %}
+{% endblock %}
+
+{% block content_right %}
+    <h2>Hulpaanbod</h2>
+    <p>
+        {{ html.viewLink(path('cake_iz_hulpaanbiedingen_view', {iz_vrijwilliger_id: entity.izVrijwilliger.id})) }}
+        {{ html.link('Naar IZ-dossier', path('cake_iz_hulpaanbiedingen_view', {iz_vrijwilliger_id: entity.izVrijwilliger.id})) }}
+        {{ html.editLink(path('iz_hulpaanbiedingen_edit', {id: entity.id})) }}
+        {{ html.link('Bewerken', path('iz_hulpaanbiedingen_edit', {id: entity.id})) }}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Project</dt>
+        <dd>{{ entity.project }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Hulpvraagsoorten</dt>
+        <dd>
+            <ul>
+                {% for hulpvraagsoort in entity.hulpvraagsoorten %}
+                    <li>{{ hulpvraagsoort }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Doelgroepen</dt>
+        <dd>
+            <ul>
+                {% for doelgroep in entity.doelgroepen %}
+                    <li>{{ doelgroep }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Dagdeel</dt>
+        <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
+        <dt>Spreekt Nederlands</dt>
+        <dd>{{ entity.voorkeurVoorNederlands ? 'Ja' : 'Geen voorkeur' }}</dd>
+        <dt>Voorkeur geslacht</dt>
+        <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
+    </dl>
+    <h2>Kandidaat hulpvragen</h2>
+    {% if 0 == kandidaten|length %}
+        <p>Geen kandidaten gevonden.</p>
+    {% else %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Startdatum<br>hulpvraag</th>
+                    <th>Deelnemer</th>
+                    <th>Geslacht<br>Geboortedatum</th>
+                    <th>Stadsdeel</th>
+                    <th>Hulpvraagsoorten</th>
+                    <th>Doelgroepen</th>
+                    <th>Nederlands</th>
+                    <th>Matchingsinformatie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hulpvraag in kandidaten %}
+                    <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
+                        <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
+                        <td>{{ hulpvraag.izKlant }}</td>
+                        <td>
+                            {{ hulpvraag.izKlant.klant.geslacht }}<br>
+                            {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
+                        </td>
+                        <td>{{ hulpvraag.izKlant.klant.werkgebied }}</td>
+                        <td>
+                            <ul>
+                                {% if hulpvraag.primaireHulpvraagsoort %}
+                                    <li>
+                                        <strong>{{ hulpvraag.primaireHulpvraagsoort }}</strong>
+                                    </li>
+                                {% endif %}
+                                {% for hulpvraagsoort in hulpvraag.secundaireHulpvraagsoorten %}
+                                    <li>{{ hulpvraagsoort }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                {% for doelgroep in hulpvraag.doelgroepen %}
+                                    <li>{{ doelgroep }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ hulpvraag.spreektNederlands ? 'Ja' : 'Nee' }}</td>
+                        <td>{{ hulpvraag.info }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

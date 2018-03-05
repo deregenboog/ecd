@@ -2,12 +2,8 @@
 
 namespace IzBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\Doelgroep;
-use IzBundle\Form\DoelgroepType;
 use AppBundle\Controller\SymfonyController;
 use IzBundle\Service\KoppelingDaoInterface;
 use IzBundle\Form\KoppelingFilterType;

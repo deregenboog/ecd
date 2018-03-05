@@ -2,10 +2,9 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzEindeVraagAanbod;
+use IzBundle\Entity\EindeVraagAanbod;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\EindeVraagAanbod;
 
 interface EindeVraagAanbodDaoInterface
 {

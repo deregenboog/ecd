@@ -46,7 +46,7 @@ class KoppelingFilter implements FilterInterface
      */
     public $medewerker;
 
-        /**
+    /**
      * @var Medewerker
      */
     public $hulpvraagMedewerker;

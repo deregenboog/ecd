@@ -88,7 +88,7 @@
                 </thead>
                 <tbody>
                     {% for hulpvraag in pagination %}
-                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~hulpvraag.izKlant.id) }}">
+                        <tr data-href="{{ path('cake_iz_hulpvragen_view', {iz_klant_id: hulpvraag.izKlant.id}) }}">
                             <td>
                                 {{ hulpvraag.izKlant.klant.id }}
                             </td>
@@ -102,7 +102,7 @@
                                 {{ hulpvraag.project }}
                             </td>
                             <td>
-                                {{ hulpvraag.izKlant.izIntake.intakedatum|date('d-m-Y') }}
+                                {{ hulpvraag.izKlant.intake.intakedatum|date('d-m-Y') }}
                             </td>
                             <td>
                                 {{ hulpvraag.startdatum|date('d-m-Y') }}

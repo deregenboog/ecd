@@ -7,8 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
-use IzBundle\Entity\BinnengekomenVia;
-use IzBundle\Entity\IzEindeVraagAanbod;
+use IzBundle\Entity\EindeVraagAanbod;
 
 class EindeVraagAanbodType extends AbstractType
 {
@@ -29,7 +28,7 @@ class EindeVraagAanbodType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => IzEindeVraagAanbod::class,
+            'class' => EindeVraagAanbod::class,
         ]);
     }
 

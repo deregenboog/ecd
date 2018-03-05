@@ -99,7 +99,7 @@
                 </thead>
                 <tbody>
                     {% for hulpaanbod in pagination %}
-                        <tr data-href="{{ relative_path('/iz_deelnemers/koppelingen/'~hulpaanbod.izVrijwilliger.id) }}">
+                        <tr data-href="{{ path('cake_iz_hulpaanbiedingen_view', {iz_vrijwilliger_id: hulpaanbod.izVrijwilliger.id}) }}">
                             <td>
                                 {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
                             </td>
@@ -113,7 +113,7 @@
                                 {{ hulpaanbod.project }}
                             </td>
                             <td>
-                                {{ hulpaanbod.izVrijwilliger.izIntake.intakedatum|date('d-m-Y') }}
+                                {{ hulpaanbod.izVrijwilliger.intake.intakedatum|date('d-m-Y') }}
                             </td>
                             <td>
                                 {{ hulpaanbod.startdatum|date('d-m-Y') }}

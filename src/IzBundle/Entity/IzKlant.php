@@ -23,13 +23,6 @@ class IzKlant extends IzDeelnemer
     protected $klant;
 
     /**
-     * @var MatchingKlant
-     * @ORM\OneToOne(targetEntity="MatchingKlant", mappedBy="izKlant", cascade={"persist"})
-     * @Gedmo\Versioned
-     */
-    protected $matching;
-
-    /**
      * @var ArrayCollection|Hulpvraag[]
      * @ORM\OneToMany(targetEntity="Hulpvraag", mappedBy="izKlant", cascade={"persist"})
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
@@ -156,27 +149,14 @@ class IzKlant extends IzDeelnemer
         return $this->izHulpvragen->matching($criteria);
     }
 
-    public function getOntstaanContact()
+    public function getContactOntstaan()
     {
-        return $this->ontstaanContact;
+        return $this->contactOntstaan;
     }
 
-    public function setOntstaanContact(ContactOntstaan $ontstaanContact)
+    public function setContactOntstaan(ContactOntstaan $contactOntstaan)
     {
-        $this->ontstaanContact = $ontstaanContact;
-
-        return $this;
-    }
-
-    public function getMatching()
-    {
-        return $this->matching;
-    }
-
-    public function setMatching(MatchingKlant $matching)
-    {
-        $this->matching = $matching;
-        $matching->setIzKlant($this);
+        $this->contactOntstaan = $contactOntstaan;
 
         return $this;
     }

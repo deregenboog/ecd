@@ -21,7 +21,7 @@ class IzKlantRepository extends EntityRepository
             ->select('izKlant, klant')
             ->leftJoin('izKlant.matching', 'matching')
             ->innerJoin('izKlant.izHulpvragen', 'hulpvraag', 'WITH', 'hulpvraag.einddatum IS NULL AND hulpvraag.hulpaanbod IS NULL')
-            ->innerJoin('izKlant.izIntake', 'izIntake')
+            ->innerJoin('izKlant.intake', 'intake')
             ->innerJoin('izKlant.klant', 'klant')
             ->andWhere('izKlant.afsluitDatum IS NULL')
             ->orderBy('hulpvraag.startdatum', 'ASC')

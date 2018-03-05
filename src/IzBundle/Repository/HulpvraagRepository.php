@@ -5,9 +5,66 @@ namespace IzBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Postcodegebied;
+use IzBundle\Entity\Hulpaanbod;
 
 class HulpvraagRepository extends EntityRepository
 {
+    public function findMatching(Hulpaanbod $hulpaanbod)
+    {
+        $builder = $this->createQueryBuilder('hulpvraag')
+            ->select('hulpvraag, izKlant, klant')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
+            ->innerJoin('izKlant.intake', 'intake')
+            ->innerJoin('izKlant.klant', 'klant')
+            ->andWhere('hulpvraag.einddatum IS NULL') // hulpvraag niet afgesloten
+            ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
+            ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
+            ->orderBy('hulpvraag.startdatum', 'ASC')
+        ;
+
+        // doelgroepen
+        if (count($hulpaanbod->getDoelgroepen()) > 0) {
+            $builder
+                ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
+                ->andWhere('doelgroep.id IS NULL OR doelgroep IN (:doelgroepen)')
+                ->setParameter('doelgroepen', $hulpaanbod->getDoelgroepen())
+            ;
+        }
+
+        // hulpvraagsoorten
+        if (count($hulpaanbod->getHulpvraagsoorten()) > 0) {
+            $builder
+                ->leftJoin('hulpvraag.primaireHulpvraagsoort', 'primaireHulpvraagsoort')
+                ->leftJoin('hulpvraag.secundaireHulpvraagsoorten', 'secundaireHulpvraagsoort')
+                ->andWhere('primaireHulpvraagsoort IN (:hulpvraagsoorten) OR secundaireHulpvraagsoort IN (:hulpvraagsoorten)')
+                ->setParameter('hulpvraagsoorten', $hulpaanbod->getHulpvraagsoorten())
+            ;
+        }
+
+        // taal
+        if (!$hulpaanbod->isVoorkeurVoorNederlands()) {
+            $builder->andWhere('hulpvraag.spreektNederlands = true');
+        }
+
+        // dagdeel
+        if ($hulpaanbod->getDagdeel()) {
+            $builder
+                ->andWhere('hulpvraag.dagdeel = :dagdeel')
+                ->setParameter('dagdeel', $hulpaanbod->getDagdeel())
+            ;
+        }
+
+        // stadsdeel
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getWerkgebied()) {
+            $builder
+                ->andWhere('klant.werkgebied = :stadsdeel')
+                ->setParameter('stadsdeel', $hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getWerkgebied())
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()

@@ -48,6 +48,7 @@
     }
 
     $add_icon = $html->image('add.png');
+    $connect_icon = $html->image('lock_open.png');
     $delete_icon = $html->image('delete.png');
 ?>
 
@@ -91,6 +92,7 @@
             <?php if ($persoon_model == 'Klant'): ?>
                 <th>Koppelen aan<br/><?= $label_other; ?></th>
             <?php endif; ?>
+            <th>Matching</th>
             <th>Afsluiten</th>
         </tr>
     </thead>
@@ -183,6 +185,17 @@
                         <?= $this->Form->end(); ?>
                     </td>
                 <?php endif; ?>
+                <td>
+                    <?php if ($persoon_model == 'Klant'): ?>
+                        <a href="/iz/hulpvragen/<?= $koppeling['IzKoppeling']['id'] ?>/view">
+                            <?= $connect_icon; ?>
+                        </a>
+                    <?php else: ?>
+                        <a href="/iz/hulpaanbiedingen/<?= $koppeling['IzKoppeling']['id'] ?>/view">
+                            <?= $connect_icon; ?>
+                        </a>
+                    <?php endif; ?>
+                </td>
                 <td width='200px' id="editvakoppeling<?= $key; ?>">
                     <a href="#" id="eindeVaIzKoppeling<?= $key; ?>"  class='editvakoppeling'><?= $delete_icon; ?></a>
                     <div id="VaIzKoppelingAfsluitElement<?= $key; ?>" style="display: none;">

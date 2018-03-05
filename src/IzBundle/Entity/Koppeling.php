@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Geslacht;
 
 /**
  * @ORM\Entity
@@ -20,6 +21,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 abstract class Koppeling
 {
+    const DAGDEEL_OVERDAG = 'Overdag';
+    const DAGDEEL_AVOND = 'Avond';
+    const DAGDEEL_WEEKEND = 'Weekend';
+
     use TimestampableTrait;
 
     /**
@@ -32,7 +37,7 @@ abstract class Koppeling
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deleted", type="datetime")
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
     protected $deletedAt;
 
@@ -105,8 +110,38 @@ abstract class Koppeling
      */
     protected $verslagen;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $info;
+
+    /**
+     * @var Doelgroep[]
+     *
+     * @ORM\ManyToMany(targetEntity="Doelgroep")
+     */
+    protected $doelgroepen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    protected $dagdeel;
+
+    /**
+     * @var Geslacht
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $voorkeurGeslacht;
+
     public function __construct()
     {
+        $this->startdatum = new \DateTime();
         $this->verslagen = new ArrayCollection();
     }
 
@@ -218,5 +253,58 @@ abstract class Koppeling
     public function getVerslagen()
     {
         return $this->verslagen;
+    }
+
+    public function isKoppelingSuccesvol()
+    {
+        return $this->koppelingSuccesvol;
+    }
+
+    public function getInfo()
+    {
+        return $this->info;
+    }
+
+    public function setInfo($info = null)
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    public function getDoelgroepen()
+    {
+        return $this->doelgroepen;
+    }
+
+    public function setDoelgroepen($doelgroepen)
+    {
+        $this->doelgroepen = $doelgroepen;
+
+        return $this;
+    }
+
+    public function getDagdeel()
+    {
+        return $this->dagdeel;
+    }
+
+    public function setDagdeel($dagdeel = null)
+    {
+        $this->dagdeel = $dagdeel;
+
+        return $this;
+    }
+
+    public function getVoorkeurGeslacht()
+    {
+        return $this->voorkeurGeslacht;
+    }
+
+    public function setVoorkeurGeslacht(Geslacht $geslacht = null)
+    {
+        $this->voorkeurGeslacht = $geslacht;
+
+        return $this;
     }
 }

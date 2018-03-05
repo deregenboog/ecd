@@ -12,7 +12,7 @@ use AppBundle\Entity\Medewerker;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class IzIntake
+class Intake
 {
     /**
      * @ORM\Id
@@ -59,7 +59,7 @@ class IzIntake
 
     /**
      * @var IzDeelnemer
-     * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="izIntake")
+     * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="intake")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      * @Gedmo\Versioned
      */

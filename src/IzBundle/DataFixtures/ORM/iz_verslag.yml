@@ -1,5 +1,0 @@
-IzBundle\Entity\IzVerslag:
-    iz_verslag_{1..250}:
-        iz_deelnemer: '@iz_klant_*'
-        medewerker: '@medewerker_*'
-        opmerking: <sentence(100)>

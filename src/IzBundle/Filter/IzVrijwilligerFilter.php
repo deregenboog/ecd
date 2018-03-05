@@ -42,7 +42,7 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $izIntakeMedewerker;
+    public $intakeMedewerker;
 
     /**
      * @var Medewerker
@@ -107,10 +107,10 @@ class IzVrijwilligerFilter implements FilterInterface
             }
         }
 
-        if ($this->izIntakeMedewerker) {
+        if ($this->intakeMedewerker) {
             $builder
-                ->andWhere('izIntakeMedewerker = :izIntakeMedewerker')
-                ->setParameter('izIntakeMedewerker', $this->izIntakeMedewerker)
+                ->andWhere('intakeMedewerker = :intakeMedewerker')
+                ->setParameter('intakeMedewerker', $this->intakeMedewerker)
             ;
         }
 

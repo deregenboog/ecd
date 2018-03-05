@@ -3,7 +3,6 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Form\DoelstellingType;

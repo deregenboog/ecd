@@ -4,6 +4,8 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
@@ -27,6 +29,33 @@ class Hulpvraag extends Koppeling
      * @Gedmo\Versioned
      */
     protected $hulpaanbod;
+
+    /**
+     * @var Hulpvraagsoort
+     * @ORM\ManyToOne(targetEntity="Hulpvraagsoort")
+     * @Gedmo\Versioned
+     */
+    protected $primaireHulpvraagsoort;
+
+    /**
+     * @var Hulpvraagsoort[]
+     * @ORM\ManyToMany(targetEntity="Hulpvraagsoort")
+     */
+    protected $secundaireHulpvraagsoorten;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="spreekt_nederlands", type="boolean", nullable=false)
+     */
+    private $spreektNederlands = true;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->secundarieHulpvraagsoorten = new ArrayCollection();
+        $this->doelgroepen = new ArrayCollection();
+    }
 
     public function getIzKlant()
     {
@@ -55,5 +84,41 @@ class Hulpvraag extends Koppeling
     public function isGekoppeld()
     {
         return $this->hulpaanbod instanceof Hulpaanbod;
+    }
+
+    public function getPrimaireHulpvraagsoort()
+    {
+        return $this->primaireHulpvraagsoort;
+    }
+
+    public function setPrimaireHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
+    {
+        $this->primaireHulpvraagsoort = $hulpvraagsoort;
+
+        return $this;
+    }
+
+    public function getSecundaireHulpvraagsoorten()
+    {
+        return $this->secundaireHulpvraagsoorten;
+    }
+
+    public function setSecundaireHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
+    {
+        $this->secundaireHulpvraagsoorten[] = $hulpvraagsoort;
+
+        return $this;
+    }
+
+    public function isSpreektNederlands()
+    {
+        return $this->spreektNederlands;
+    }
+
+    public function setSpreektNederlands($spreektNederlands)
+    {
+        $this->spreektNederlands = (bool) $spreektNederlands;
+
+        return $this;
     }
 }

@@ -19,10 +19,10 @@ abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwillige
 
         $gestartListing = new Listing($this->gestart, $this->columns);
         $gestartListing->setStartDate($this->startDate)->setEndDate($this->endDate);
-        
+
         $nieuwGestartListing = new Listing($this->nieuwGestart, $this->columns);
         $nieuwGestartListing->setStartDate($this->startDate)->setEndDate($this->endDate);
-        
+
         $afgeslotenListing = new Listing($this->afgesloten, $this->columns);
         $afgeslotenListing->setStartDate($this->startDate)->setEndDate($this->endDate);
 

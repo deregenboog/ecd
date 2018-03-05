@@ -17,7 +17,7 @@ use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\IzIntake;
+use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IzVrijwilligerFilterType extends AbstractType
@@ -71,15 +71,15 @@ class IzVrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izIntakeMedewerker', $options['enabled_filters'])) {
-            $builder->add('izIntakeMedewerker', EntityType::class, [
+        if (in_array('intakeMedewerker', $options['enabled_filters'])) {
+            $builder->add('intakeMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker intake',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzIntake::class, 'izIntake', 'WITH', 'izIntake.medewerker = medewerker')
+                        ->innerJoin(Intake::class, 'intake', 'WITH', 'intake.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
@@ -138,7 +138,7 @@ class IzVrijwilligerFilterType extends AbstractType
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
-                'izIntakeMedewerker',
+                'intakeMedewerker',
                 'hulpaanbodMedewerker',
                 'zonderActiefHulpaanbod',
                 'zonderActieveKoppeling',

@@ -13,18 +13,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Form\HulpvraagConnectType;
 use IzBundle\Form\HulpvraagCloseType;
-use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\Hulpaanbod;
 
 /**
  * @Route("/hulpvragen")
  */
-class HulpvragenController extends AbstractController
+class HulpvragenController extends AbstractChildController
 {
     protected $title = 'Hulpvragen';
     protected $entityName = 'hulpvraag';
     protected $entityClass = Hulpvraag::class;
+    protected $formClass = HulpvraagType::class;
     protected $filterFormClass = HulpvraagFilterType::class;
     protected $baseRouteName = 'iz_hulpvragen_';
+    protected $disabledActions = ['delete'];
+    protected $addMethod = 'addHulpvraag';
 
     /**
      * @var HulpvraagDaoInterface
@@ -34,9 +37,45 @@ class HulpvragenController extends AbstractController
     protected $dao;
 
     /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("iz.hulpvraag.entities")
+     */
+    protected $entities;
+
+    /**
      * @var AbstractExport
      *
      * @DI\Inject("iz.export.hulpvragen")
      */
     protected $export;
+
+    /**
+     * @Route("/{id}/connect")
+     */
+    public function connectAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = HulpvraagConnectType::class;
+
+        return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = HulpvraagCloseType::class;
+
+        return $this->processForm($request, $entity);
+    }
+
+    protected function addParams($entity)
+    {
+        return [
+            'kandidaten' => $this->getEntityManager()->getRepository(Hulpaanbod::class)->findMatching($entity),
+        ];
+    }
 }

@@ -17,7 +17,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'vrijwilliger.achternaam',
             'vrijwilliger.geboortedatum',
             'vrijwilliger.werkgebied',
-            'izIntakeMedewerker.voornaam',
+            'intakeMedewerker.voornaam',
             'hulpaanbodMedewerker.voornaam',
             'izVrijwilliger.afsluitDatum',
             'project.naam',
@@ -31,10 +31,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $expr = new Expr();
 
         $builder = $this->repository->createQueryBuilder('izVrijwilliger')
-            ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, izIntake, izIntakeMedewerker, hulpaanbodMedewerker')
+            ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, intake, intakeMedewerker, hulpaanbodMedewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->leftJoin('izVrijwilliger.izIntake', 'izIntake')
-            ->leftJoin('izIntake.medewerker', 'izIntakeMedewerker')
+            ->leftJoin('izVrijwilliger.intake', 'intake')
+            ->leftJoin('intake.medewerker', 'intakeMedewerker')
             ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
             ->leftJoin('hulpaanbod.project', 'project')
             ->leftJoin('hulpaanbod.medewerker', 'hulpaanbodMedewerker', 'WITH', $expr->andX(

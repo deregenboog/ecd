@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\IzIntake;
+use IzBundle\Entity\Intake;
 use IzBundle\Filter\IntervisiegroepFilter;
 
 class IntervisiegroepFilterType extends AbstractType
@@ -56,7 +56,7 @@ class IntervisiegroepFilterType extends AbstractType
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzIntake::class, 'izIntake', 'WITH', 'izIntake.medewerker = medewerker')
+                        ->innerJoin(Intake::class, 'intake', 'WITH', 'intake.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')

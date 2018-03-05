@@ -31,7 +31,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
     {
         $builder = $this->repository->createQueryBuilder('hulpvraag')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
-            ->leftJoin('izKlant.izIntake', 'intake')
+            ->leftJoin('izKlant.intake', 'intake')
             ->innerJoin('hulpvraag.project', 'project')
             ->innerJoin('hulpvraag.medewerker', 'medewerker')
             ->innerJoin('izKlant.klant', 'klant')

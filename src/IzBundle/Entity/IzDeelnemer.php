@@ -34,7 +34,7 @@ abstract class IzDeelnemer
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deleted", type="datetime")
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
     protected $deletedAt;
 
@@ -45,23 +45,34 @@ abstract class IzDeelnemer
     private $koppelingen;
 
     /**
-     * @var IzIntake
-     * @ORM\OneToOne(targetEntity="IzIntake", mappedBy="izDeelnemer")
+     * @var Intake
+     * @ORM\OneToOne(targetEntity="Intake", mappedBy="izDeelnemer", cascade={"persist"})
      * @Gedmo\Versioned
      */
-    protected $izIntake;
-
-    /**
-     * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $afsluitDatum;
+    protected $intake;
 
     /**
      * @ORM\Column(name="datum_aanmelding", type="date")
      * @Gedmo\Versioned
      */
     protected $datumAanmelding;
+
+    /**
+     * @var Project[]
+     * @ORM\ManyToMany(targetEntity="Project")
+     * @ORM\JoinTable(
+     *     name="iz_deelnemers_iz_projecten",
+     *     joinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="iz_project_id")}
+     * )
+     */
+    protected $projecten;
+
+    /**
+     * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $afsluitDatum;
 
     /**
      * @var Afsluiting
@@ -72,14 +83,26 @@ abstract class IzDeelnemer
     protected $afsluiting;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $notitie;
+
+    /**
      * @var Verslag[]
-     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izDeelnemer")
+     *
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izDeelnemer", cascade={"persist"})
+     * @ORM\JoinColumn(name="iz_verslagen")
+     * @ORM\OrderBy({"created"="desc"})
      */
     protected $verslagen;
 
     public function __construct()
     {
         $this->koppelingen = new ArrayCollection();
+        $this->projecten = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
     }
 
@@ -93,14 +116,48 @@ abstract class IzDeelnemer
         return $this->afsluiting;
     }
 
-    public function getIzIntake()
+    public function setAfsluiting(Afsluiting $afsluiting)
     {
-        return $this->izIntake;
+        $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function getIntake()
+    {
+        return $this->intake;
+    }
+
+    public function setIntake(Intake $intake)
+    {
+        $this->intake = $intake;
+        $intake->setIzDeelnemer($this);
+
+        return $this;
+    }
+
+    public function getProjecten()
+    {
+        return $this->projecten;
+    }
+
+    public function setProjecten(ArrayCollection $projecten)
+    {
+        $this->projecten = $projecten;
+
+        return $this;
     }
 
     public function getAfsluitDatum()
     {
         return $this->afsluitDatum;
+    }
+
+    public function setAfsluitDatum(\DateTime $afsluitdatum)
+    {
+        $this->afsluitDatum = $afsluitdatum;
+
+        return $this;
     }
 
     public function isGekoppeld()
@@ -121,5 +178,36 @@ abstract class IzDeelnemer
     public function getDatumAanmelding()
     {
         return $this->datumAanmelding;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotitie()
+    {
+        return $this->notitie;
+    }
+
+    /**
+     * @param string $notitie
+     */
+    public function setNotitie($notitie)
+    {
+        $this->notitie = $notitie;
+
+        return $this;
+    }
+
+    public function getVerslagen()
+    {
+        return $this->verslagen;
+    }
+
+    public function addVerslag(Verslag $verslag)
+    {
+        $this->verslagen[] = $verslag;
+        $verslag->setIzDeelnemer($this);
+
+        return $this;
     }
 }

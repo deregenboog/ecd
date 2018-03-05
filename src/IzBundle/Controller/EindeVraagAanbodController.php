@@ -5,7 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzEindeVraagAanbod;
+use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Form\EindeVraagAanbodType;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
 
@@ -16,7 +16,7 @@ class EindeVraagAanbodController extends AbstractController
 {
     protected $title = 'Redenen einde hulpvraag/hulpaanbod';
     protected $entityName = 'reden einde hulpvraag/hulpaanbod';
-    protected $entityClass = IzEindeVraagAanbod::class;
+    protected $entityClass = EindeVraagAanbod::class;
     protected $formClass = EindeVraagAanbodType::class;
     protected $baseRouteName = 'iz_eindevraagaanbod_';
 

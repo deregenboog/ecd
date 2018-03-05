@@ -1,0 +1,94 @@
+<?php
+
+namespace IzBundle\Form;
+
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\Medewerker;
+use IzBundle\Entity\Project;
+use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\MedewerkerType;
+use IzBundle\Entity\Hulpvraag;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use IzBundle\Entity\Koppeling;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+
+class HulpvraagType extends AbstractType
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('startdatum', AppDateType::class)
+            ->add('project', ProjectSelectType::class)
+            ->add('medewerker', MedewerkerType::class)
+            ->add('primaireHulpvraagsoort')
+            ->add('secundaireHulpvraagsoorten', null, [
+                'expanded' => true,
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('hulpvraagsoort')
+                        ->where('hulpvraagsoort.actief = true')
+                        ->orderBy('hulpvraagsoort.naam')
+                    ;
+                },
+            ])
+            ->add('doelgroepen', null, [
+                'expanded' => true,
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('doelgroep')
+                        ->where('doelgroep.actief = true')
+                        ->orderBy('doelgroep.naam')
+                    ;
+                },
+            ])
+            ->add('dagdeel', ChoiceType::class, [
+                'required' => false,
+                'placeholder' => 'Geen voorkeur',
+                'choices' => [
+                    Koppeling::DAGDEEL_OVERDAG => Koppeling::DAGDEEL_OVERDAG,
+                    Koppeling::DAGDEEL_AVOND => Koppeling::DAGDEEL_AVOND,
+                    Koppeling::DAGDEEL_WEEKEND => Koppeling::DAGDEEL_WEEKEND,
+                ],
+            ])
+            ->add('spreektNederlands', null, [
+                'required' => false,
+                'label' => 'Spreekt Nederlands',
+            ])
+            ->add('voorkeurGeslacht', null, [
+                'required' => false,
+                'placeholder' => 'Geen voorkeur',
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('geslacht')
+                        ->where('geslacht.volledig <> :onbekend')
+                        ->setParameter('onbekend', 'Onbekend')
+                    ;
+                },
+            ])
+            ->add('submit', SubmitType::class)
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Hulpvraag::class,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseType::class;
+    }
+}

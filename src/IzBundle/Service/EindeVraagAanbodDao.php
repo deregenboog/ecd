@@ -2,9 +2,7 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\BinnengekomenVia;
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\IzEindeVraagAanbod;
 use IzBundle\Entity\EindeVraagAanbod;
 
 class EindeVraagAanbodDao extends AbstractDao implements EindeVraagAanbodDaoInterface

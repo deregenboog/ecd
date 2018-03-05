@@ -1,0 +1,476 @@
+IzBundle\Entity\Afsluiting:
+    iz_afsluiting_Overig:
+        naam: 'Overig'
+        actief: true
+    iz_afsluiting_Overleden:
+        naam: 'Overleden'
+        actief: true
+    iz_afsluiting_Verhuisd:
+        naam: 'Verhuisd'
+        actief: true
+    iz_afsluiting_Koppeling loopt niet :
+        naam: 'Koppeling loopt niet '
+        actief: true
+    iz_afsluiting_Geslaagde koppeling:
+        naam: 'Geslaagde koppeling'
+        actief: true
+    iz_afsluiting_Onbereikbaar:
+        naam: 'Onbereikbaar'
+        actief: true
+    iz_afsluiting_Niet meer beschikbaar/nodig:
+        naam: 'Niet meer beschikbaar/nodig'
+        actief: true
+    iz_afsluiting_Foutieve invoer:
+        naam: 'Foutieve invoer'
+        actief: true
+
+IzBundle\Entity\EindeKoppeling:
+    iz_einde_koppeling_Overig:
+        naam: 'Overig'
+        actief: true
+    iz_einde_koppeling_D/V overleden:
+        naam: 'D/V overleden'
+        actief: true
+    iz_einde_koppeling_D/V verhuisd:
+        naam: 'D/V verhuisd'
+        actief: true
+    iz_einde_koppeling_Koppeling loopt niet:
+        naam: 'Koppeling loopt niet'
+        actief: true
+    iz_einde_koppeling_D/V onbereikbaar:
+        naam: 'D/V onbereikbaar'
+        actief: true
+    iz_einde_koppeling_Geslaagde koppeling:
+        naam: 'Geslaagde koppeling'
+        actief: true
+    iz_einde_koppeling_D/V niet meer beschikbaar:
+        naam: 'D/V niet meer beschikbaar'
+        actief: true
+    iz_einde_koppeling_Foutieve invoer:
+        naam: 'Foutieve invoer'
+        actief: true
+
+IzBundle\Entity\Doelstelling:
+    doelstelling_{1..25}:
+        project: '@iz_project_*'
+        jaar: '<numberBetween(2016, 2018)>'
+        aantal: '<numberBetween(10, 500)>'
+
+IzBundle\Entity\BinnengekomenVia:
+    iz_binnengekomen_via_Aardige Amsterdammer:
+        naam: 'Aardige Amsterdammer'
+        actief: true
+    iz_binnengekomen_via_Blijfgroep xx:
+        naam: 'Blijfgroep xx'
+        actief: false
+    iz_binnengekomen_via_Clientenbelang xx:
+        naam: 'Clientenbelang xx'
+        actief: false
+    iz_binnengekomen_via_Doorverwijzing intern DRG:
+        naam: 'Doorverwijzing intern DRG'
+        actief: true
+    iz_binnengekomen_via_Eigen aanmelding xx:
+        naam: 'Eigen aanmelding xx'
+        actief: false
+    iz_binnengekomen_via_Internet/Website:
+        naam: 'Internet/Website'
+        actief: true
+    iz_binnengekomen_via_Krant:
+        naam: 'Krant'
+        actief: true
+    iz_binnengekomen_via_MEE xx:
+        naam: 'MEE xx'
+        actief: false
+    iz_binnengekomen_via_MVO (Maatschappelijk Verantwoord Ondernemen) :
+        naam: 'MVO (Maatschappelijk Verantwoord Ondernemen) '
+        actief: true
+    iz_binnengekomen_via_Markten:
+        naam: 'Markten'
+        actief: true
+    iz_binnengekomen_via_Member get member (familie, vrienden, via via):
+        naam: 'Member get member (familie, vrienden, via via)'
+        actief: true
+    iz_binnengekomen_via_Netwerkbijeenkomsten stadsdelen xx:
+        naam: 'Netwerkbijeenkomsten stadsdelen xx'
+        actief: false
+    iz_binnengekomen_via_Onderwijsinstelling:
+        naam: 'Onderwijsinstelling'
+        actief: true
+    iz_binnengekomen_via_Orientatiebijeenkomt DRG:
+        naam: 'Orientatiebijeenkomt DRG'
+        actief: true
+    iz_binnengekomen_via_Overig:
+        naam: 'Overig'
+        actief: true
+    iz_binnengekomen_via_Overig IZ xx:
+        naam: 'Overig IZ xx'
+        actief: false
+    iz_binnengekomen_via_Samen Doen xx:
+        naam: 'Samen Doen xx'
+        actief: false
+    iz_binnengekomen_via_Sociale Dienst (DWI) xx:
+        naam: 'Sociale Dienst (DWI) xx'
+        actief: false
+    iz_binnengekomen_via_VA :
+        naam: 'VA '
+        actief: true
+    iz_binnengekomen_via_VCA:
+        naam: 'VCA'
+        actief: true
+    iz_binnengekomen_via_Voedselbank xx:
+        naam: 'Voedselbank xx'
+        actief: false
+    iz_binnengekomen_via_Zelf(hulp)organisaties xx:
+        naam: 'Zelf(hulp)organisaties xx'
+        actief: false
+    iz_binnengekomen_via_Zorg 1e lijn (huisarts) xx:
+        naam: 'Zorg 1e lijn (huisarts) xx'
+        actief: false
+    iz_binnengekomen_via_Zorginstelling (2e lijn) (GGZ, DAC, Cordaan, Sxxx:
+        naam: 'Zorginstelling (2e lijn) (GGZ, DAC, Cordaan, Sxxx'
+        actief: false
+    iz_binnengekomen_via_Maatschappelijke dienstencentrum xx:
+        naam: 'Maatschappelijke dienstencentrum xx'
+        actief: false
+    iz_binnengekomen_via_Oranje Fonds:
+        naam: 'Oranje Fonds'
+        actief: true
+    iz_binnengekomen_via_Grip op je geld xx:
+        naam: 'Grip op je geld xx'
+        actief: false
+    iz_binnengekomen_via_Campagne Vrijwilligerswerving:
+        naam: 'Campagne Vrijwilligerswerving'
+        actief: true
+
+IzBundle\Entity\ContactOntstaan:
+    iz_ontstaan_contacten_Aardige Amsterdammer xx:
+        naam: 'Aardige Amsterdammer xx'
+        actief: false
+    iz_ontstaan_contacten_Blijfgroep:
+        naam: 'Blijfgroep'
+        actief: true
+    iz_ontstaan_contacten_Clientenbelang:
+        naam: 'Clientenbelang'
+        actief: true
+    iz_ontstaan_contacten_Doorverwijzing intern DRG:
+        naam: 'Doorverwijzing intern DRG'
+        actief: true
+    iz_ontstaan_contacten_Eigen aanmelding:
+        naam: 'Eigen aanmelding'
+        actief: true
+    iz_ontstaan_contacten_Internet/Website:
+        naam: 'Internet/Website'
+        actief: true
+    iz_ontstaan_contacten_Krant xx:
+        naam: 'Krant xx'
+        actief: false
+    iz_ontstaan_contacten_MEE:
+        naam: 'MEE'
+        actief: true
+    iz_ontstaan_contacten_MVO (Maatschappelijk Verantwoord Ondernemen)  xx:
+        naam: 'MVO (Maatschappelijk Verantwoord Ondernemen)  xx'
+        actief: false
+    iz_ontstaan_contacten_Markten xx:
+        naam: 'Markten xx'
+        actief: false
+    iz_ontstaan_contacten_Via via:
+        naam: 'Via via'
+        actief: true
+    iz_ontstaan_contacten_Wijkzorg:
+        naam: 'Wijkzorg'
+        actief: true
+    iz_ontstaan_contacten_Onderwijsinstelling xx:
+        naam: 'Onderwijsinstelling xx'
+        actief: false
+    iz_ontstaan_contacten_Orientatiebijeenkomt DRG xx:
+        naam: 'Orientatiebijeenkomt DRG xx'
+        actief: false
+    iz_ontstaan_contacten_Overig:
+        naam: 'Overig'
+        actief: true
+    iz_ontstaan_contacten_Overig IZ xx:
+        naam: 'Overig IZ xx'
+        actief: false
+    iz_ontstaan_contacten_Samen Doen:
+        naam: 'Samen Doen'
+        actief: true
+    iz_ontstaan_contacten_Sociale Dienst (DWI):
+        naam: 'Sociale Dienst (DWI)'
+        actief: true
+    iz_ontstaan_contacten_Via VA xx:
+        naam: 'Via VA xx'
+        actief: false
+    iz_ontstaan_contacten_Via VCA xx:
+        naam: 'Via VCA xx'
+        actief: false
+    iz_ontstaan_contacten_Voedselbank:
+        naam: 'Voedselbank'
+        actief: true
+    iz_ontstaan_contacten_Zelf(hulp)organisaties:
+        naam: 'Zelf(hulp)organisaties'
+        actief: true
+    iz_ontstaan_contacten_Zorg 1e lijn (huisarts):
+        naam: 'Zorg 1e lijn (huisarts)'
+        actief: true
+    iz_ontstaan_contacten_Zorginstelling (2e lijn) (GGZ, Cordaan, SPV/PB´er):
+        naam: 'Zorginstelling (2e lijn) (GGZ, Cordaan, SPV/PB´er)'
+        actief: true
+    iz_ontstaan_contacten_Maatschappelijke dienstencentrum:
+        naam: 'Maatschappelijke dienstencentrum'
+        actief: true
+    iz_ontstaan_contacten_Oranje Fonds xx:
+        naam: 'Oranje Fonds xx'
+        actief: false
+    iz_ontstaan_contacten_Grip op je Geld:
+        naam: 'Grip op je Geld'
+        actief: true
+    iz_ontstaan_contacten_Ouder en Kind Centrum:
+        naam: 'Ouder en Kind Centrum'
+        actief: true
+
+IzBundle\Entity\Project:
+    iz_project_Maatjes *:
+        naam: 'Maatjes *'
+        startdatum: '<(new \DateTime("2014-01-01"))>'
+        einddatum: '<(new \DateTime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Maatje - Telefoon *:
+        naam: 'Maatje - Telefoon *'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Maatje - E-mail *:
+        naam: 'Maatje - E-mail *'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Studiemaatjes ST *:
+        naam: 'Studiemaatjes ST *'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Maatje - Kwartiermaken *:
+        naam: 'Maatje - Kwartiermaken *'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Sportmaatjes *:
+        naam: 'Sportmaatjes *'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Jongerenmaatjes SY *:
+        naam: 'Jongerenmaatjes SY *'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_MZO - maatje:
+        naam: 'MZO - maatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_AV - maatje:
+        naam: 'AV - maatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_maatje sport:
+        naam: 'maatje sport'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_AV - maatje jong (SY):
+        naam: 'AV - maatje jong (SY)'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_maatje telefoon:
+        naam: 'maatje telefoon'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_maatje migrant:
+        naam: 'maatje migrant'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_maatje e-mail:
+        naam: 'maatje e-mail'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_Time Out:
+        naam: 'Time Out'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: '<(new Datetime("2014-01-01"))>'
+        heeftKoppelingen: true
+    iz_project_BZ - buddy:
+        naam: 'BZ - buddy'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_VONK - maatje:
+        naam: 'VONK - maatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_VJN - coach:
+        naam: 'VJN - coach'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_PM - maatje:
+        naam: 'PM - maatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_TC - coach:
+        naam: 'TC - coach'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_RBS - buddy:
+        naam: 'RBS - buddy'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_2forT - maatje:
+        naam: '2forT - maatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_BdH - maatje:
+        naam: 'BdH - maatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_Toeleidingsmaatje:
+        naam: 'Toeleidingsmaatje'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_BT - coach:
+        naam: 'BT - coach'
+        startdatum: '<(new Datetime("2014-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_Grip op je Geld:
+        naam: 'Grip op je Geld'
+        startdatum: '<(new Datetime("2015-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_Inloopvrijwilliger:
+        naam: 'Inloopvrijwilliger'
+        startdatum: '<(new Datetime("2015-01-01"))>'
+        einddatum: '<(new Datetime("2015-10-15"))>'
+        heeftKoppelingen: true
+    iz_project_Testproject:
+        naam: 'Testproject'
+        startdatum: '<(new Datetime("2015-08-01"))>'
+        einddatum: '<(new Datetime("2015-08-01"))>'
+        heeftKoppelingen: true
+    iz_project_RBS - vluchtelingen:
+        naam: 'RBS - vluchtelingen'
+        startdatum: '<(new Datetime("2016-01-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: true
+    iz_project_Nazorg:
+        naam: 'Nazorg'
+        startdatum: '<(new Datetime("2016-08-01"))>'
+        einddatum: NULL
+        heeftKoppelingen: false
+
+IzBundle\Entity\EindeVraagAanbod:
+    iz_vraag_aanbod_Overig:
+        naam: Overig
+    iz_vraag_aanbod_Overleden:
+        naam: Overleden
+    iz_vraag_aanbod_Verhuisd:
+        naam: Verhuisd
+    iz_vraag_aanbod_Onbereikbaar:
+        naam: Onbereikbaar
+    iz_vraag_aanbod_Foutieve invoer:
+        naam: Foutieve invoer
+    iz_vraag_aanbod_Niet meer nodig:
+        naam: Niet meer nodig
+
+IzBundle\Entity\Doelgroep:
+    iz_doelgroep_{1..10}:
+        naam (unique): '<word()>'
+
+IzBundle\Entity\Hulpvraagsoort:
+    iz_hulpvraagsoort_{1..10}:
+        naam (unique): '<word()>'
+
+IzBundle\Entity\IzKlant:
+    iz_klant_{1..25}:
+        klant (unique): '@klant_*'
+        datumAanmelding: '<dateTimeThisDecade()>'
+        afsluitDatum: '30%? <dateTimeThisDecade()>'
+        afsluiting: '30%? @iz_afsluiting_*'
+        contactOntstaan: '30%? @iz_ontstaan_contacten_*'
+
+IzBundle\Entity\IzVrijwilliger:
+    iz_vrijwilliger_{26..50}:
+        vrijwilliger (unique): '@vrijwilliger_*'
+        datumAanmelding: '<dateTimeThisDecade()>'
+        afsluitDatum: '30%? <dateTimeThisDecade()>'
+        afsluiting: '30%? @iz_afsluiting_*'
+        binnengekomenVia: '30%? @iz_binnengekomen_via_*'
+
+IzBundle\Entity\Intake:
+    iz_intake_{1..25}:
+        izDeelnemer: '@iz_klant_<current()>'
+        intakeDatum: <dateTimeThisDecade()>
+        medewerker: '@medewerker_*'
+    iz_intake_{26..50}:
+        izDeelnemer: '@iz_vrijwilliger_<current()>'
+        intakeDatum: <dateTimeThisDecade()>
+        medewerker: '@medewerker_*'
+
+IzBundle\Entity\Hulpaanbod:
+    iz_hulpaanbod_{1..100}:
+        izVrijwilliger: '@iz_vrijwilliger_*'
+        project: '@iz_project_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        doelgroepen: ['@iz_doelgroep_*']
+        hulpvraagsoorten: ['@iz_hulpvraagsoort_*']
+        info: '<sentence()>'
+        voorkeurVoorNederlands: false
+        voorkeurGeslacht: '30%? @geslacht_*'
+
+IzBundle\Entity\Hulpvraag:
+    iz_hulpvraag_{1..50}:
+        izKlant: '@iz_klant_*'
+        project: '@iz_project_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
+        koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
+        doelgroepen: ['@iz_doelgroep_*']
+        primaireHulpvraagsoort: '@iz_hulpvraagsoort_*'
+        secundaireHulpvraagsoorten: ['@iz_hulpvraagsoort_*']
+        info: '<sentence()>'
+        spreektNederlands: true
+        voorkeurGeslacht: '30%? @geslacht_*'
+    iz_hulpvraag_{51..100}:
+        izKlant: '@iz_klant_*'
+        project: '@iz_project_*'
+        medewerker: '@medewerker_*'
+        hulpaanbod (unique): '@iz_hulpaanbod_*'
+        startdatum: '<dateTimeThisDecade()>'
+        koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
+        koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
+        doelgroepen: ['@iz_doelgroep_*']
+        primaireHulpvraagsoort: '@iz_hulpvraagsoort_*'
+        secundaireHulpvraagsoorten: ['@iz_hulpvraagsoort_*']
+        info: '<sentence()>'
+        spreektNederlands: true
+        voorkeurGeslacht: '30%? @geslacht_*'
+
+IzBundle\Entity\Verslag:
+    iz_verslag_{1..250}:
+        izDeelnemer: '@iz_klant_*'
+        medewerker: '@medewerker_*'
+        opmerking: <sentence(100)>

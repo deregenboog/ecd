@@ -1,6 +1,0 @@
-IzBundle\Entity\Hulpaanbod:
-    iz_hulpaanbod_{1..400}:
-        izVrijwilliger: '@iz_vrijwilliger_*'
-        project: '@iz_project_*'
-        medewerker: '@medewerker_*'
-        startdatum: '<dateTimeThisDecade()>'

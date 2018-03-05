@@ -1,7 +1,0 @@
-IzBundle\Entity\IzVrijwilliger:
-    iz_vrijwilliger_{1..100}:
-        vrijwilliger (unique): '@vrijwilliger_*'
-        datumAanmelding: '<dateTimeThisDecade()>'
-        afsluitDatum: '30%? <dateTimeThisDecade()>'
-        afsluiting: '30%? @iz_afsluiting_*'
-        binnengekomenVia: '30%? @iz_via_persoon_*'

@@ -21,7 +21,7 @@
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'izIntakeMedewerker.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'intakeMedewerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }} /
@@ -51,7 +51,7 @@
                         {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ izKlant.izIntake ? izKlant.izIntake.medewerker }}
+                        {{ izKlant.intake ? izKlant.intake.medewerker }}
                     </td>
                     <td>
                         <ul>

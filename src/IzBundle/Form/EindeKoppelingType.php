@@ -7,8 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
-use IzBundle\Entity\BinnengekomenVia;
-use IzBundle\Entity\IzEindeVraagAanbod;
 use IzBundle\Entity\EindeKoppeling;
 
 class EindeKoppelingType extends AbstractType

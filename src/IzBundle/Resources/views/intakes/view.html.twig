@@ -1,0 +1,55 @@
+{% extends 'IzBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
+        <h1>Deelnemer {{ entity.izDeelnemer }}</h1>
+        <p>
+            {{ html.editLink(path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
+            {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
+        </p>
+    {% else %}
+        <h1>Vrijwilliger {{ entity.izDeelnemer }}</h1>
+        <p>
+            {{ html.editLink(path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
+            {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
+        </p>
+    {% endif %}
+{% endblock %}
+
+{% block content_left %}
+    {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
+        {% include '::klant_basis.html.twig' with {klant: entity.izDeelnemer.klant} %}
+    {% else %}
+        {% include '::vrijwilliger_basis.html.twig' with {klant: entity.izDeelnemer.vrijwilliger} %}
+    {% endif %}
+{% endblock %}
+
+{% block content_right %}
+    {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
+        {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity.izDeelnemer, current: 'intake'} %}
+    {% else %}
+        {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity.izDeelnemer, current: 'intake'} %}
+    {% endif %}
+    <div class="tab-content">
+        <div id="intake" class="tab-pane active">
+            <h2>Intake</h2>
+            <p>
+                {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
+            </p>
+            <dl class="dl-horizontal">
+                <dt>Intakedatum</dt>
+                <dd>{{ entity and entity.intakedatum ? entity.intakedatum|date('d-m-Y') }}</dd>
+                <dt>Coördinator</dt>
+                <dd>{{ entity ? entity.medewerker }}</dd>
+                <dt>Gezin met kinderen</dt>
+                <dd>{{ entity ? entity.gezinMetKinderen ? 'Ja' }}</dd>
+            </dl>
+            {#% if entity.zrm %}
+                <h2>Zelfredzaamheidmatrix</h2>
+                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+            {% endif %#}
+        </div>
+    </div>
+{% endblock %}

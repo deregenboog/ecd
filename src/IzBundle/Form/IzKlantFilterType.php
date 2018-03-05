@@ -17,7 +17,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\IzIntake;
+use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IzKlantFilterType extends AbstractType
@@ -71,15 +71,15 @@ class IzKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izIntakeMedewerker', $options['enabled_filters'])) {
-            $builder->add('izIntakeMedewerker', EntityType::class, [
+        if (in_array('intakeMedewerker', $options['enabled_filters'])) {
+            $builder->add('intakeMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker intake',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzIntake::class, 'izIntake', 'WITH', 'izIntake.medewerker = medewerker')
+                        ->innerJoin(Intake::class, 'intake', 'WITH', 'intake.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
@@ -137,7 +137,7 @@ class IzKlantFilterType extends AbstractType
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
-                'izIntakeMedewerker',
+                'intakeMedewerker',
                 'hulpvraagMedewerker',
                 'zonderActieveHulpvraag',
                 'zonderActieveKoppeling',

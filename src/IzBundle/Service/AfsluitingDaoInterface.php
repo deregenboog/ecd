@@ -4,7 +4,6 @@ namespace IzBundle\Service;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\EindeKoppeling;
 use IzBundle\Entity\Afsluiting;
 
 interface AfsluitingDaoInterface

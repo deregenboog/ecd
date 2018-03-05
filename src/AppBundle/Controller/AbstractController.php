@@ -130,7 +130,15 @@ class AbstractController extends SymfonyController
             throw new AccessDeniedHttpException();
         }
 
-        return ['entity' => $this->dao->find($id)];
+        $this->beforeFind($id);
+        $entity = $this->dao->find($id);
+        $this->afterFind($entity);
+
+        $params = ['entity' => $entity];
+
+        $params = array_merge($params, $this->addParams($entity));
+
+        return $params;
     }
 
     /**
@@ -163,6 +171,10 @@ class AbstractController extends SymfonyController
 
     protected function processForm(Request $request, $entity)
     {
+        if (!$this->formClass) {
+            throw new AppException(get_class($this).'::formClass not set!');
+        }
+
         $form = $this->createForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
@@ -262,5 +274,20 @@ class AbstractController extends SymfonyController
     protected function createEntity($parentEntity)
     {
         return new $this->entityClass();
+    }
+
+    protected function beforeFind($id)
+    {
+        return;
+    }
+
+    protected function afterFind($entity)
+    {
+        return;
+    }
+
+    protected function addParams($entity)
+    {
+        return [];
     }
 }

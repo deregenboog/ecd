@@ -6,7 +6,7 @@ services:
             -
                 Nummer: { expression: 'entity.getKlant().getId()' }
                 Aanmelddatum: { expression: 'entity.getDatumAanmelding()', type: 'date' }
-                Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
+                Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
                 Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
@@ -20,7 +20,7 @@ services:
                 Mobiel: { expression: 'entity.getKlant().getMobiel()' }
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
-                Gezin met kinderen: { expression: 'entity.getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
+                Gezin met kinderen: { expression: 'entity.getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIntake()' }
                 Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
                 Open hulpvragen: { expression: 'export.getProjectenOpenstaandeHulpvragen(entity)' }
@@ -28,7 +28,7 @@ services:
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
                 Startdatum eerste koppeling: { expression: 'export.getStartdatumEersteKoppeling(entity)', type: 'date' }
                 Laatste afsluiting koppeling: { expression: 'export.getDatumLaatsteAfgeslotenKoppeling(entity)', type: 'date' }
-                Medewerker intake: { expression: 'entity.getIzIntake().getMedewerker()', condition: 'entity.getIzIntake()' }
+                Medewerker intake: { expression: 'entity.getIntake().getMedewerker()', condition: 'entity.getIntake()' }
                 Medewerker(s) hulpvraag: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Ontstaan contact: { expression: 'entity.getIzOntstaanContact()' }
@@ -47,7 +47,7 @@ services:
             -
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
                 Aanmelddatum: { expression: 'entity.getDatumAanmelding()', type: 'date' }
-                Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
+                Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
@@ -61,7 +61,7 @@ services:
                 Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
                 Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
-                Stagiair: { expression: 'entity.getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
+                Stagiair: { expression: 'entity.getIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIntake()' }
                 Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
                 Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
                 Open hulpaanbiedingen: { expression: 'export.getProjectenOpenstaandeHulpaanbiedingen(entity)' }
@@ -69,7 +69,7 @@ services:
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
                 Startdatum eerste koppeling: { expression: 'export.getStartdatumEersteKoppeling(entity)', type: 'date' }
                 Laatste afsluiting koppeling: { expression: 'export.getDatumLaatsteAfgeslotenKoppeling(entity)', type: 'date' }
-                Medewerker intake: { expression: 'entity.getIzIntake().getMedewerker()', condition: 'entity.getIzIntake()' }
+                Medewerker intake: { expression: 'entity.getIntake().getMedewerker()', condition: 'entity.getIntake()' }
                 Medewerker(s) hulpaanbod: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Binnengekomen via: { expression: 'entity.getIzBinnengekomenVia()' }
@@ -83,7 +83,7 @@ services:
                 Project: { expression: 'entity.getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
                 Nummer: { expression: 'entity.getIzKlant().getKlant().getId()' }
-                Intakedatum: { expression: 'entity.getIzKlant().getIzIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIzIntake()', type: 'date' }
+                Intakedatum: { expression: 'entity.getIzKlant().getIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getIzKlant().getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getIzKlant().getKlant().getGeslacht()' }
                 Voornaam: { expression: 'entity.getIzKlant().getKlant().getVoornaam()' }
@@ -114,7 +114,7 @@ services:
                 Project: { expression: 'entity.getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
                 Nummer: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getId()' }
-                Intakedatum: { expression: 'entity.getIzVrijwilliger().getIzIntake().getIntakeDatum()', condition: 'entity.getIzVrijwilliger().getIzIntake()', type: 'date' }
+                Intakedatum: { expression: 'entity.getIzVrijwilliger().getIntake().getIntakeDatum()', condition: 'entity.getIzVrijwilliger().getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getIzVrijwilliger().getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getGeslacht()' }
                 Voornaam: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getVoornaam()' }
@@ -143,7 +143,7 @@ services:
                 Medewerker hulpvraag: { expression: 'entity.getMedewerker()' }
                 Medewerker hulpaanbod: { expression: 'entity.getHulpaanbod().getMedewerker()' }
                 Nummer deelnemer: { expression: 'entity.getIzKlant().getKlant().getId()' }
-                Intakedatum deelnemer: { expression: 'entity.getIzKlant().getIzIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIzIntake()', type: 'date' }
+                Intakedatum deelnemer: { expression: 'entity.getIzKlant().getIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIntake()', type: 'date' }
                 Afsluitdatum deelnemer: { expression: 'entity.getIzKlant().getAfsluitDatum()', type: 'date' }
                 Geslacht deelnemer: { expression: 'entity.getIzKlant().getKlant().getGeslacht()' }
                 Voornaam deelnemer: { expression: 'entity.getIzKlant().getKlant().getVoornaam()' }
@@ -159,13 +159,13 @@ services:
                 Werkgebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
                 Postcodegebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
-                Gezin met kinderen: { expression: 'entity.getIzKlant().getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIzIntake()' }
+                Gezin met kinderen: { expression: 'entity.getIzKlant().getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
                 Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
                 Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
                 Nummer vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getId()' }
-                Intakedatum vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIzIntake().getIntakeDatum()', condition: 'entity.getHulpaanbod().getIzVrijwilliger().getIzIntake()', type: 'date' }
+                Intakedatum vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake().getIntakeDatum()', condition: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake()', type: 'date' }
                 Afsluitdatum vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getAfsluitDatum()', type: 'date' }
                 Geslacht vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getGeslacht()' }
                 Voornaam vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getVoornaam()' }
@@ -181,7 +181,7 @@ services:
                 Werkgebied vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getWerkgebied()' }
                 Postcodegebied vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getPostcodegebied()' }
                 Binnengekomen via: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIzBinnengekomenVia()' }
-                Stagiair: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getHulpaanbod().getIzVrijwilliger().getIzIntake()' }
+                Stagiair: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake()' }
 
     iz.export.report:
         class: AppBundle\Export\ReportExport
@@ -192,7 +192,7 @@ services:
             - IzBundle\Entity\IzKlant
             -
                 Nummer: { expression: '"K" ~ entity.getKlant().getId()' }
-                Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
+                Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
                 Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
@@ -212,12 +212,12 @@ services:
                 Projecten: { expression: 'export.getProjecten(entity)' }
                 Medewerker intake: { expression: 'export.getMedewerkerIntake(entity)' }
                 Medewerkers koppelingen: { expression: 'export.getMedewerkers(entity)' }
-                Gezin met kinderen: { expression: 'entity.getIzIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
+                Gezin met kinderen: { expression: 'entity.getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIntake()' }
                 Stagiair: { expression: 'null' }
             - IzBundle\Entity\IzVrijwilliger
             -
                 Nummer: { expression: '"V" ~ entity.getVrijwilliger().getId()' }
-                Intakedatum: { expression: 'entity.getIzIntake().getIntakeDatum()', condition: 'entity.getIzIntake()', type: 'date' }
+                Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
@@ -238,4 +238,4 @@ services:
                 Medewerker intake: { expression: 'export.getMedewerkerIntake(entity)' }
                 Medewerkers koppelingen: { expression: 'export.getMedewerkers(entity)' }
                 Gezin met kinderen: { expression: 'null' }
-                Stagiair: { expression: 'entity.getIzIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIzIntake()' }
+                Stagiair: { expression: 'entity.getIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIntake()' }

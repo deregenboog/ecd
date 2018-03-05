@@ -51,7 +51,7 @@ class MatchingVrijwilligerType extends AbstractType
                     'Nee' => 0,
                 ],
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('submit', SubmitType::class)
         ;
     }
 

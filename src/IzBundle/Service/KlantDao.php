@@ -19,7 +19,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.geboortedatum',
             'werkgebied.naam',
             'klant.laatsteZrm',
-            'izIntakeMedewerker.voornaam',
+            'intakeMedewerker.voornaam',
             'hulpvraagMedewerker.voornaam',
             'izKlant.afsluitDatum',
             'project.naam',
@@ -33,11 +33,11 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $expr = new Expr();
 
         $builder = $this->repository->createQueryBuilder('izKlant')
-            ->select('izKlant, klant, hulpvraag, project, izIntake, izIntakeMedewerker, hulpvraagMedewerker')
+            ->select('izKlant, klant, hulpvraag, project, intake, intakeMedewerker, hulpvraagMedewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->leftJoin('izKlant.izIntake', 'izIntake')
-            ->leftJoin('izIntake.medewerker', 'izIntakeMedewerker')
+            ->leftJoin('izKlant.intake', 'intake')
+            ->leftJoin('intake.medewerker', 'intakeMedewerker')
             ->leftJoin('izKlant.izHulpvragen', 'hulpvraag')
             ->leftJoin('hulpvraag.project', 'project')
             ->leftJoin('hulpvraag.medewerker', 'hulpvraagMedewerker', 'WITH', $expr->andX(
