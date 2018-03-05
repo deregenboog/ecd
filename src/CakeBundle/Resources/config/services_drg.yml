@@ -175,15 +175,19 @@ parameters:
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
-                - IzKlanten
                 - iz
                 - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intakes
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Koppelingen
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Selecties
+                - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\Vrijwilligers
+                - IzKlanten
                 - IzVrijwilligers
                 - IzDeelnemers
                 - IzHulpvragen
@@ -234,15 +238,24 @@ parameters:
                 - IzBundle\Controller\AfsluitredenenDeelnemer
                 - IzBundle\Controller\AfsluitredenenKoppeling
                 - IzBundle\Controller\AfsluitredenenVraagAanbod
+                - IzBundle\Controller\BinnengekomenViaOpties
+                - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
-                - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Doelstellingen
+                - IzBundle\Controller\EindeVraagAanbod
                 - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvraagsoorten
                 - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intakes
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Selecties
+                - IzBundle\Controller\Verslagen
+                - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
                 - odp
                 - OdpBundle\Controller\Coordinatoren
@@ -577,12 +590,14 @@ parameters:
                 - IzVraagaanboden
                 - IzOntstaanContacten
                 - iz
+                - IzBundle\Controller\AfsluitredenenDeelnemer
+                - IzBundle\Controller\AfsluitredenenKoppeling
+                - IzBundle\Controller\AfsluitredenenVraagAanbod
                 - IzBundle\Controller\BinnengekomenViaOpties
                 - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
-                - IzBundle\Controller\Documenten
-                - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\EindeVraagAanbod
                 - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvraagsoorten
@@ -591,12 +606,11 @@ parameters:
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
-                - IzBundle\Controller\MatchingKlant
-                - IzBundle\Controller\MatchingVrijwilliger
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
+                - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
 
         # controller: {label, url}
