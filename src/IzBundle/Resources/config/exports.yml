@@ -31,7 +31,7 @@ services:
                 Medewerker intake: { expression: 'entity.getIntake().getMedewerker()', condition: 'entity.getIntake()' }
                 Medewerker(s) hulpvraag: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
-                Ontstaan contact: { expression: 'entity.getIzOntstaanContact()' }
+                Ontstaan contact: { expression: 'entity.getContactOntstaan()' }
 
     iz.export.intervisiegroepen:
         class: AppBundle\Export\GenericExport
@@ -98,7 +98,7 @@ services:
                 Telefoon: { expression: 'entity.getIzKlant().getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
-                Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
+                Ontstaan contact: { expression: 'entity.getIzKlant().getContactOntstaan()' }
                 Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()', type: 'date' }
                 Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
@@ -158,7 +158,7 @@ services:
                 Telefoon deelnemer: { expression: 'entity.getIzKlant().getKlant().getTelefoon()' }
                 Werkgebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
                 Postcodegebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
-                Ontstaan contact: { expression: 'entity.getIzKlant().getIzOntstaanContact()' }
+                Ontstaan contact: { expression: 'entity.getIzKlant().getContactOntstaan()' }
                 Gezin met kinderen: { expression: 'entity.getIzKlant().getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
                 Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
