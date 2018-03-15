@@ -4,7 +4,7 @@ namespace Application\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -26,11 +26,11 @@ class Version20171026175507 extends AbstractMigration
 
         $this->addSql(sprintf(
             "UPDATE iz_projecten SET prestatie_strategy = '%s'",
-            IzProject::STRATEGY_PRESTATIE_TOTAL
+            Project::STRATEGY_PRESTATIE_TOTAL
         ));
         $this->addSql(sprintf(
             "UPDATE iz_projecten SET prestatie_strategy = '%s' WHERE naam IN ('PM - maatje', 'TC - coach', 'VONK - maatje')",
-            IzProject::STRATEGY_PRESTATIE_STARTED
+            Project::STRATEGY_PRESTATIE_STARTED
         ));
     }
 
