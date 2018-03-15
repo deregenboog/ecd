@@ -77,6 +77,13 @@ class Activiteit
         return $this->klussen;
     }
 
+    public function addKlus(Klus $klus)
+    {
+        $this->klussen[] = $klus;
+
+        return $this;
+    }
+
     public function isDeletable()
     {
         return 0 === count($this->klussen);
