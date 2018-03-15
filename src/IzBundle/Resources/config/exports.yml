@@ -100,7 +100,7 @@ services:
                 Postcodegebied: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getContactOntstaan()' }
                 Laatste ZRM: { expression: 'entity.getIzKlant().getKlant().getLaatsteZrm()', type: 'date' }
-                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
+                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatieAanmelder()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
                 Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
@@ -160,7 +160,7 @@ services:
                 Postcodegebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getContactOntstaan()' }
                 Gezin met kinderen: { expression: 'entity.getIzKlant().getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
-                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatie()' }
+                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatieAanmelder()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
                 Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
