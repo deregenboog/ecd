@@ -7,7 +7,7 @@ use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 
-class HuurovereenkomstDao extends AbstractDao
+class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'huurovereenkomst.id',
@@ -63,32 +63,41 @@ class HuurovereenkomstDao extends AbstractDao
         $this->doDelete($huurovereenkomst);
     }
 
-    public function countByWoningbouwcorporatie(\DateTime $startdate, \DateTime $enddate)
+    public function countByVorm(\DateTime $startdate, \DateTime $enddate)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("COUNT({$this->alias}.id) AS aantal, woningbouwcorporatie.naam AS groep")
-            ->innerJoin("{$this->alias}.huuraanbod", 'huuraanbod')
-            ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
-            ->leftJoin('verhuurder.woningbouwcorporatie', 'woningbouwcorporatie')
-            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
-            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+        $builder = $this->getCountBuilder($startdate, $enddate)
+            ->addSelect("{$this->alias}.vorm AS groep")
+            ->andWhere("{$this->alias}.startdatum <= :end")
+            ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
             ->groupBy('groep')
         ;
-
-        $this->applyFilter($builder, $startdate, $enddate);
 
         return $builder->getQuery()->getResult();
     }
 
-    protected function applyFilter(QueryBuilder $builder, \DateTime $startdate, \DateTime $enddate)
+    public function countByWoningbouwcorporatie(\DateTime $startdate, \DateTime $enddate)
     {
-        $builder
-            ->andWhere("{$this->alias}.startdatum < :end")
-            ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum > :start")
-            ->setParameters([
-                'start' => $startdate,
-                'end' => $enddate,
-            ])
+        $builder = $this->getCountBuilder($startdate, $enddate)
+            ->addSelect('woningbouwcorporatie.naam AS groep')
+            ->innerJoin("{$this->alias}.huuraanbod", 'huuraanbod')
+            ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
+            ->leftJoin('verhuurder.woningbouwcorporatie', 'woningbouwcorporatie')
+            ->andWhere("{$this->alias}.startdatum <= :end")
+            ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
+            ->groupBy('groep')
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
+
+    private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
+    {
+        return $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id) AS aantal")
+            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+            ->setParameters(['start' => $startdate, 'end' => $enddate])
         ;
     }
 }

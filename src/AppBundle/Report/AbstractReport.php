@@ -37,6 +37,11 @@ abstract class AbstractReport
      */
     protected $reports = [];
 
+    /**
+     * @var array
+     */
+    protected $tables = [];
+
     protected $beginstand;
 
     protected $gestart;

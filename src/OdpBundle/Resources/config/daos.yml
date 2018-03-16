@@ -19,6 +19,9 @@ services:
         parent: odp.dao
         class: OdpBundle\Service\HuuraanbodAfsluitingDao
 
+    OdpBundle\Service\HuurderDao:
+        parent: odp.dao
+
     odp.dao.huurderafsluiting:
         parent: odp.dao
         class: OdpBundle\Service\HuurderAfsluitingDao
@@ -34,6 +37,9 @@ services:
     odp.dao.huurverzoekafsluiting:
         parent: odp.dao
         class: OdpBundle\Service\HuurverzoekAfsluitingDao
+
+    OdpBundle\Service\VerhuurderDao:
+        parent: odp.dao
 
     odp.dao.verhuurderafsluiting:
         parent: odp.dao

@@ -4,9 +4,21 @@ services:
         tags:
             - { name: form.type }
 
-    odp.report.huurovereenkomsten_per_woningbouwcorporatie:
-        class: OdpBundle\Report\HuurovereenkomstenPerWoningbouwcorporatie
+    OdpBundle\Report\Huurders:
+        arguments:
+            - '@OdpBundle\Service\HuurderDao'
+        tags:
+            - { name: odp.rapportage }
+
+    OdpBundle\Report\KoppelingenPerWoningbouwcorporatie:
         arguments:
             - "@odp.dao.huurovereenkomst"
         tags:
-            - { name: odp.rapportage, category: Koppelingen }
+            - { name: odp.rapportage }
+
+    OdpBundle\Report\Verhuurders:
+        arguments:
+            - '@OdpBundle\Service\VerhuurderDao'
+        tags:
+            - { name: odp.rapportage }
+

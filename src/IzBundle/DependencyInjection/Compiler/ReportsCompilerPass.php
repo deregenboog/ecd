@@ -2,25 +2,10 @@
 
 namespace IzBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
+use AppBundle\DependencyInjection\Compiler\AbstractReportsCompilerPass;
 
-class ReportsCompilerPass implements CompilerPassInterface
+class ReportsCompilerPass extends AbstractReportsCompilerPass
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        $definition = $container->getDefinition('IzBundle\Form\RapportageType');
-
-        $reports = [];
-        foreach ($container->findTaggedServiceIds('iz.rapportage') as $id => $params) {
-            $category = $params[0]['category'];
-            $reports[$category][$id] = new Reference($id);
-        }
-
-        $definition->addArgument($reports);
-    }
+    protected $serviceId = 'IzBundle\Form\RapportageType';
+    protected $tagId = 'iz.rapportage';
 }

@@ -2,25 +2,11 @@
 
 namespace PfoBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
+use AppBundle\DependencyInjection\Compiler\AbstractReportsCompilerPass;
 
-class ReportsCompilerPass implements CompilerPassInterface
+class ReportsCompilerPass extends AbstractReportsCompilerPass
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        $definition = $container->getDefinition('pfo.form.rapportage');
+    protected $serviceId = 'pfo.form.rapportage';
 
-        $reports = [];
-        foreach ($container->findTaggedServiceIds('pfo.rapportage') as $id => $params) {
-            $category = $params[0]['category'];
-            $reports[$category][$id] = new Reference($id);
-        }
-
-        $definition->addArgument($reports);
-    }
+    protected $tagId = 'pfo.rapportage';
 }
