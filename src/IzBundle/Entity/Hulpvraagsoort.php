@@ -23,9 +23,28 @@ class Hulpvraagsoort
 {
     use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $toelichting;
+
     public function __toString()
     {
         return $this->naam;
+    }
+
+    public function getToelichting()
+    {
+        return $this->toelichting;
+    }
+
+    public function setToelichting($toelichting = null)
+    {
+        $this->toelichting = $toelichting;
+
+        return $this;
     }
 
     public function isDeletable()

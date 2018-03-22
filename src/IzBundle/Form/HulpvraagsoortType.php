@@ -18,6 +18,7 @@ class HulpvraagsoortType extends AbstractType
     {
         $builder
             ->add('naam')
+            ->add('toelichting')
             ->add('actief')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
