@@ -34,9 +34,8 @@ class HulpvraagRepository extends EntityRepository
         // hulpvraagsoorten
         if (count($hulpaanbod->getHulpvraagsoorten()) > 0) {
             $builder
-                ->leftJoin('hulpvraag.primaireHulpvraagsoort', 'primaireHulpvraagsoort')
-                ->leftJoin('hulpvraag.secundaireHulpvraagsoorten', 'secundaireHulpvraagsoort')
-                ->andWhere('primaireHulpvraagsoort IN (:hulpvraagsoorten) OR secundaireHulpvraagsoort IN (:hulpvraagsoorten)')
+                ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+                ->andWhere('hulpvraagsoort IN (:hulpvraagsoorten)')
                 ->setParameter('hulpvraagsoorten', $hulpaanbod->getHulpvraagsoorten())
             ;
         }

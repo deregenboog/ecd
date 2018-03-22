@@ -76,18 +76,7 @@
                             {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
                         </td>
                         <td>{{ hulpvraag.izKlant.klant.werkgebied }}</td>
-                        <td>
-                            <ul>
-                                {% if hulpvraag.primaireHulpvraagsoort %}
-                                    <li>
-                                        <strong>{{ hulpvraag.primaireHulpvraagsoort }}</strong>
-                                    </li>
-                                {% endif %}
-                                {% for hulpvraagsoort in hulpvraag.secundaireHulpvraagsoorten %}
-                                    <li>{{ hulpvraagsoort }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
+                        <td>{{ hulpvraag.hulpvraagsoort }}</td>
                         <td>
                             <ul>
                                 {% for doelgroep in hulpvraag.doelgroepen %}

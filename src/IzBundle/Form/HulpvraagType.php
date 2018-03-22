@@ -28,10 +28,7 @@ class HulpvraagType extends AbstractType
             ->add('startdatum', AppDateType::class)
             ->add('project', ProjectSelectType::class)
             ->add('medewerker', MedewerkerType::class)
-            ->add('primaireHulpvraagsoort', HulpvraagsoortSelectType::class)
-            ->add('secundaireHulpvraagsoorten', HulpvraagsoortSelectType::class, [
-                'expanded' => true,
-            ])
+            ->add('hulpvraagsoort', HulpvraagsoortSelectType::class)
             ->add('doelgroepen', null, [
                 'expanded' => true,
                 'query_builder' => function(EntityRepository $repository) {

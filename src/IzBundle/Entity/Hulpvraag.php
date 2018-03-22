@@ -35,13 +35,7 @@ class Hulpvraag extends Koppeling
      * @ORM\ManyToOne(targetEntity="Hulpvraagsoort")
      * @Gedmo\Versioned
      */
-    protected $primaireHulpvraagsoort;
-
-    /**
-     * @var Hulpvraagsoort[]
-     * @ORM\ManyToMany(targetEntity="Hulpvraagsoort")
-     */
-    protected $secundaireHulpvraagsoorten;
+    protected $hulpvraagsoort;
 
     /**
      * @var bool
@@ -86,26 +80,14 @@ class Hulpvraag extends Koppeling
         return $this->hulpaanbod instanceof Hulpaanbod;
     }
 
-    public function getPrimaireHulpvraagsoort()
+    public function getHulpvraagsoort()
     {
-        return $this->primaireHulpvraagsoort;
+        return $this->hulpvraagsoort;
     }
 
-    public function setPrimaireHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
+    public function setHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
     {
-        $this->primaireHulpvraagsoort = $hulpvraagsoort;
-
-        return $this;
-    }
-
-    public function getSecundaireHulpvraagsoorten()
-    {
-        return $this->secundaireHulpvraagsoorten;
-    }
-
-    public function setSecundaireHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
-    {
-        $this->secundaireHulpvraagsoorten[] = $hulpvraagsoort;
+        $this->hulpvraagsoort = $hulpvraagsoort;
 
         return $this;
     }

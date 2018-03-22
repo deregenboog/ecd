@@ -26,16 +26,8 @@
         <dd>{{ entity.medewerker }}</dd>
     </dl>
     <dl class="dl-horizontal">
-        <dt>Primaire hulpvraagsoort</dt>
-        <dd>{{ entity.primaireHulpvraagsoort }}</dd>
-        <dt>Secundaire hulpvraagsoorten</dt>
-        <dd>
-            <ul>
-                {% for hulpvraagsoort in entity.secundaireHulpvraagsoorten %}
-                    <li>{{ hulpvraagsoort }}</li>
-                {% endfor %}
-            </ul>
-        </dd>
+        <dt>Hulpvraagsoort</dt>
+        <dd>{{ entity.hulpvraagsoort }}</dd>
         <dt>Doelgroepen</dt>
         <dd>
             <ul>

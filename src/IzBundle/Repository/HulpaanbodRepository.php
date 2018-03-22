@@ -32,15 +32,11 @@ class HulpaanbodRepository extends EntityRepository
         }
 
         // hulpvraagsoorten
-        $hulpvraagsoorten = array_filter(array_merge(
-            [$hulpvraag->getPrimaireHulpvraagsoort()],
-            $hulpvraag->getSecundaireHulpvraagsoorten()->toArray()
-        ));
         if (count($hulpvraagsoorten) > 0) {
             $builder
                 ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
-                ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort IN (:hulpvraagsoorten)')
-                ->setParameter('hulpvraagsoorten', $hulpvraagsoorten)
+                ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort = :hulpvraagsoort')
+                ->setParameter('hulpvraagsoort', $hulpvraag->getHulpvraagsoort())
             ;
         }
 

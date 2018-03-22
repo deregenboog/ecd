@@ -449,8 +449,7 @@ IzBundle\Entity\Hulpvraag:
         koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
         koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
         doelgroepen: ['@iz_doelgroep_*']
-        primaireHulpvraagsoort: '@iz_hulpvraagsoort_*'
-        secundaireHulpvraagsoorten: ['@iz_hulpvraagsoort_*']
+        hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
         spreektNederlands: true
         voorkeurGeslacht: '30%? @geslacht_*'
@@ -463,8 +462,7 @@ IzBundle\Entity\Hulpvraag:
         koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
         koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
         doelgroepen: ['@iz_doelgroep_*']
-        primaireHulpvraagsoort: '@iz_hulpvraagsoort_*'
-        secundaireHulpvraagsoorten: ['@iz_hulpvraagsoort_*']
+        hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
         spreektNederlands: true
         voorkeurGeslacht: '30%? @geslacht_*'
