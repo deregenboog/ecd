@@ -43,5 +43,16 @@ services:
                 Werkgebied: { expression: 'entity.getClient().getWerkgebied()' }
                 Aanmelddatum: { expression: 'entity.getClient().getAanmelddatum()', type: 'date' }
 
+    clip.export.contactmomenten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - ClipBundle\Entity\Contactmoment
+            -
+                Vraagnummer: { expression: 'entity.getVraag().getId()' }
+                Onderwerp: { expression: 'entity.getVraag().getSoort()' }
+                Medewerker: { expression: 'entity.getBehandelaar()' }
+                Datum: { expression: 'entity.getDatum()', type: 'date' }
+                Verslag: { expression: 'entity.getOpmerking()' }
+
     clip.export.report:
         class: AppBundle\Export\ReportExport
