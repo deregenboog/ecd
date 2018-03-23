@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Entity\Koppeling;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\AppTextareaType;
 
 class HulpvraagType extends AbstractType
 {
@@ -69,6 +70,13 @@ class HulpvraagType extends AbstractType
                         ->setParameter('onbekend', 'Onbekend')
                     ;
                 },
+            ])
+            ->add('info', AppTextareaType::class, [
+                'label' => 'Info m.b.t. matching',
+                'attr' => [
+                    'cols' => 50,
+                    'rows' => 4,
+                ],
             ])
             ->add('submit', SubmitType::class)
         ;

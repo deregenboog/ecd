@@ -17,6 +17,7 @@ use IzBundle\Entity\Koppeling;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
+use AppBundle\Form\AppTextareaType;
 
 class HulpaanbodType extends AbstractType
 {
@@ -75,6 +76,13 @@ class HulpaanbodType extends AbstractType
                         ->setParameter('onbekend', 'Onbekend')
                     ;
                 },
+            ])
+            ->add('info', AppTextareaType::class, [
+                'label' => 'Info m.b.t. matching',
+                'attr' => [
+                    'cols' => 50,
+                    'rows' => 4,
+                ],
             ])
             ->add('submit', SubmitType::class)
         ;
