@@ -25,11 +25,20 @@ class HulpvraagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startdatum', AppDateType::class)
-            ->add('project', ProjectSelectType::class)
-            ->add('medewerker', MedewerkerType::class)
-            ->add('hulpvraagsoort', HulpvraagsoortSelectType::class)
+            ->add('startdatum', AppDateType::class, [
+                'required' => true,
+            ])
+            ->add('project', ProjectSelectType::class, [
+                'required' => true,
+            ])
+            ->add('medewerker', MedewerkerType::class, [
+                'required' => true,
+            ])
+            ->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
+                'required' => true,
+            ])
             ->add('doelgroepen', null, [
+                'required' => true,
                 'expanded' => true,
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('doelgroep')

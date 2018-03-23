@@ -16,6 +16,7 @@ class ProjectSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'placeholder' => '',
             'class' => Project::class,
             'query_builder' => function (EntityRepository $repo) {
                 return $repo->createQueryBuilder('p')

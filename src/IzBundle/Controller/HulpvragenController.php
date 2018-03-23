@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Form\HulpvraagConnectType;
 use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\IzKlant;
 
 /**
  * @Route("/hulpvragen")
@@ -77,5 +78,16 @@ class HulpvragenController extends AbstractChildController
         return [
             'kandidaten' => $this->getEntityManager()->getRepository(Hulpaanbod::class)->findMatching($entity),
         ];
+    }
+
+    protected function redirectToView($entity)
+    {
+        if ($entity instanceof Hulpvraag) {
+            $id = $entity->getIzKlant()->getId();
+        } elseif ($entity instanceof IzKlant) {
+            $id = $entity->getId();
+        }
+
+        return $this->redirectToRoute('cake_iz_hulpvragen_view', ['iz_klant_id' => $id]);
     }
 }

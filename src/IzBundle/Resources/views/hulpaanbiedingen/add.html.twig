@@ -1,11 +1,14 @@
-{% extends 'IzBundle:vrijwilligers:view.html.twig' %}
+{% extends 'IzBundle:hulpaanbiedingen:view.html.twig' %}
 
-{% set entity = entity.izVrijwilliger %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        $(function() {
-            $('.nav-tabs a[href="#koppelingen"]').tab('show')
-        });
-    </script>
+{% block content_right %}
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+        <h2>Hulpaanbod toevoegen</h2>
+        <p>
+            {{ html.cancelLink(path('cake_iz_hulpaanbiedingen_view', {iz_vrijwilliger_id: entity.izVrijwilliger.id})) }}
+            {{ html.link('Annuleren', path('cake_iz_hulpaanbiedingen_view', {iz_vrijwilliger_id: entity.izVrijwilliger.id})) }}
+        </p>
+        {{ form(form) }}
+        </div>
+    </div>
 {% endblock %}

@@ -1,23 +1,9 @@
 <?php
     $now = strtotime(date('Y-m-d'));
-    switch ($persoon_model) {
-        case 'Klant':
-            $label_other = 'Vrijwilliger';
-            $toevoegen_label = 'Hulpvraag';
-            break;
-        case 'Vrijwilliger':
-            $label_other = 'Klant';
-            $toevoegen_label = 'Hulpaanbod';
-            break;
-        default:
-            $label_other = 'undefined';
-            $toevoegen_label = 'undefined';
-            break;
-    }
-
+    $label_other = ('Klant' === $persoon_model) ? 'Vrijwilliger' : 'Klant';
     $url = $this->Html->url(['controller' => 'iz_deelnemers', 'action' => 'koppelingen', $id], true);
-    $startdatum = date('Y-m-d');
 
+    $startdatum = date('Y-m-d');
     if (!empty($this->data['IzKoppeling']['startdatum'])):
         if (is_array($this->data['IzKoppeling']['startdatum'])):
             if (!empty($this->data['IzKoppeling']['startdatum']['year']) && !empty($this->data['IzKoppeling']['startdatum']['month']) && !empty($this->data['IzKoppeling']['startdatum']['day'])):
@@ -28,9 +14,7 @@
         endif;
     endif;
 
-    $einddatum = date('Y-m-d');
     $einddatum = null;
-
     if (!empty($this->data['IzKoppeling']['einddatum'])) {
         if (is_array($this->data['IzKoppeling']['einddatum'])) {
             if (!empty($this->data['IzKoppeling']['einddatum']['year']) && !empty($this->data['IzKoppeling']['einddatum']['month']) && !empty($this->data['IzKoppeling']['einddatum']['day'])) {
@@ -40,48 +24,21 @@
             $einddatum = $this->data['IzKoppeling']['einddatum'];
         }
     }
-
-    $show_add = 'none';
-
-    if (isset($this->data['IzDeelnemer']['form']) && $this->data['IzDeelnemer']['form'] == 'add') {
-        $show_add = 'block';
-    }
-
-    $add_icon = $html->image('add.png');
-    $connect_icon = $html->image('lock_open.png');
-    $delete_icon = $html->image('delete.png');
 ?>
 
-<h2 style="display: inline-block;"><?= $toevoegen_label; ?></h2>
-<a href="#" id="addIzKoppeling"><?= $add_icon; ?></a>
-<div id="IzKoppelingToevoegen" style="display : <?= $show_add; ?>;">
-    <?= $this->Form->create('IzKoppeling', ['url' => $url]) ?>
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <?= $this->Form->input('project_id', ['label' => 'Project', 'options' => $activeprojects]) ?>
-                    <?= $this->Form->hidden('IzDeelnemer.id', ['value' => $id]) ?>
-                    <?= $this->Form->hidden('IzDeelnemer.form', ['value' => 'add']) ?>
-                </td>
-                <td>
-                    <?= $date->input('IzKoppeling.startdatum', $startdatum, [
-                        'label' => 'Start datum',
-                        'rangeHigh' => (date('Y') + 10).date('-m-d'),
-                        'rangeLow' => (date('Y') - 19).date('-m-d'),
-                    ]) ?>
-                    <br/>
-                    <?= $this->Form->hidden('IzDeelnemer.einddatum', ['value' => null]) ?>
-                </td>
-                <td>
-                    <?= $this->Form->input('medewerker_id', ['label' => 'Coordinator']) ?>
-                    <?= $this->Form->submit('Toevoegen') ?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <?= $this->Form->end(); ?>
-</div>
+<?php if ('Klant' === $persoon_model): ?>
+    <h2>Hulpvragen</h2>
+    <a href="/iz/hulpvragen/add?klant=<?= $id ?>">
+        <?= $html->image('add.png'); ?>
+        Hulpvraag toevoegen
+    </a>
+<?php else: ?>
+    <h2>Hulpaanbiedingen</h2>
+    <a href="/iz/hulpaanbiedingen/add?vrijwilliger=<?= $id ?>">
+        <?= $html->image('add.png'); ?>
+        Hulpaanbod toevoegen
+    </a>
+<?php endif; ?>
 
 <table>
     <thead>
@@ -188,16 +145,16 @@
                 <td>
                     <?php if ($persoon_model == 'Klant'): ?>
                         <a href="/iz/hulpvragen/<?= $koppeling['IzKoppeling']['id'] ?>/view">
-                            <?= $connect_icon; ?>
+                            <?= $html->image('lock_open.png'); ?>
                         </a>
                     <?php else: ?>
                         <a href="/iz/hulpaanbiedingen/<?= $koppeling['IzKoppeling']['id'] ?>/view">
-                            <?= $connect_icon; ?>
+                            <?= $html->image('lock_open.png'); ?>
                         </a>
                     <?php endif; ?>
                 </td>
                 <td width='200px' id="editvakoppeling<?= $key; ?>">
-                    <a href="#" id="eindeVaIzKoppeling<?= $key; ?>"  class='editvakoppeling'><?= $delete_icon; ?></a>
+                    <a href="#" id="eindeVaIzKoppeling<?= $key; ?>"  class='editvakoppeling'><?= $html->image('delete.png'); ?></a>
                     <div id="VaIzKoppelingAfsluitElement<?= $key; ?>" style="display: none;">
                         <?= $this->element('../iz_deelnemers/koppelingen_vraag_aanbod_afsluiten', ['key' => $key]); ?>
                     </div>
@@ -290,7 +247,7 @@
                 </td>
                 <?php if ($persoon_model == 'Klant'): ?>
                     <td width='200px' id="editkoppeling<?= $key; ?>">
-                        <a href="#" id="eindeIzKoppeling<?= $key; ?>"  class='editkoppeling'><?= $delete_icon; ?></a>
+                        <a href="#" id="eindeIzKoppeling<?= $key; ?>"  class='editkoppeling'><?= $html->image('delete.png'); ?></a>
                         <div id="IzKoppelingAfsluitElement<?= $key; ?>" style="display: none;">
                             <?= $this->element('../iz_deelnemers/koppelingen_afsluiten', ['key' => $key]); ?>
                         </div>

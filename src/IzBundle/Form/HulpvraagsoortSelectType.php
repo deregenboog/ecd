@@ -19,6 +19,7 @@ class HulpvraagsoortSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'placeholder' => '',
             'class' => Hulpvraagsoort::class,
             'query_builder' => function(EntityRepository $repository) {
                 return $repository->createQueryBuilder('hulpvraagsoort')

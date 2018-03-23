@@ -26,9 +26,15 @@ class HulpaanbodType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startdatum', AppDateType::class)
-            ->add('project', ProjectSelectType::class)
-            ->add('medewerker', MedewerkerType::class)
+            ->add('startdatum', AppDateType::class, [
+                'required' => true,
+            ])
+            ->add('project', ProjectSelectType::class, [
+                'required' => true,
+            ])
+            ->add('medewerker', MedewerkerType::class, [
+                'required' => true,
+            ])
             ->add('hulpvraagsoorten', null, [
                 'expanded' => true,
                 'query_builder' => function(EntityRepository $repository) {

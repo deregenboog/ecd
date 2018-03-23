@@ -65,6 +65,12 @@ services:
             -
               - { key: klant, dao: '@IzBundle\Service\KlantDao' }
 
+    iz.hulpaanbod.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
+
     iz.intake.entities:
         class: ArrayObject
         arguments:

@@ -23,7 +23,7 @@ class IzVrijwilliger extends IzDeelnemer
 
     /**
      * @var ArrayCollection|Hulpaanbod[]
-     * @ORM\OneToMany(targetEntity="Hulpaanbod", mappedBy="izVrijwilliger")
+     * @ORM\OneToMany(targetEntity="Hulpaanbod", mappedBy="izVrijwilliger", cascade={"persist"})
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpaanbiedingen;
@@ -74,6 +74,14 @@ class IzVrijwilliger extends IzDeelnemer
     public function getIzHulpaanbiedingen()
     {
         return $this->izHulpaanbiedingen;
+    }
+
+    public function addHulpaanbod(Hulpaanbod $hulpaanbod)
+    {
+        $this->izHulpaanbiedingen[] = $hulpaanbod;
+        $hulpaanbod->setIzVrijwilliger($this);
+
+        return $this;
     }
 
     public function getBinnengekomenVia()
