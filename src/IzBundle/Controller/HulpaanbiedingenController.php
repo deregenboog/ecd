@@ -12,6 +12,8 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Form\HulpaanbodType;
 use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Service\HulpvraagDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/hulpaanbiedingen")
@@ -34,6 +36,13 @@ class HulpaanbiedingenController extends AbstractChildController
     protected $dao;
 
     /**
+     * @var HulpvraagDaoInterface
+     *
+     * @DI\Inject("IzBundle\Service\HulpvraagDao")
+     */
+    protected $hulpvraagDao;
+
+    /**
      * @var \ArrayObject
      *
      * @DI\Inject("iz.hulpaanbod.entities")
@@ -47,10 +56,10 @@ class HulpaanbiedingenController extends AbstractChildController
      */
     protected $export;
 
-    protected function addParams($entity)
+    protected function addParams($entity, Request $request)
     {
         return [
-            'kandidaten' => $this->getEntityManager()->getRepository(Hulpvraag::class)->findMatching($entity),
+            'kandidaten' => $this->hulpvraagDao->findMatching($entity, $request->get('page', 1)),
         ];
     }
 

@@ -5,6 +5,8 @@ namespace IzBundle\Service;
 use IzBundle\Entity\Hulpvraag;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Koppeling;
+use IzBundle\Entity\Hulpaanbod;
 
 class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 {
@@ -22,6 +24,9 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             'klant.laatsteZrm',
             'werkgebied.naam',
             'medewerker.achternaam',
+            'stadsdeel.naam',
+            'geslacht.volledig',
+            'hulpvraagsoort.naam',
         ],
     ];
 
@@ -65,5 +70,89 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
     public function delete(Hulpvraag $entity)
     {
         $this->doDelete($entity);
+    }
+
+    public function findMatching(Hulpaanbod $hulpaanbod, $page = 1)
+    {
+        $builder = $this->repository->createQueryBuilder('hulpvraag')
+            ->select('hulpvraag, izKlant, klant')
+            ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('izKlant.intake', 'intake')
+            ->innerJoin('izKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'stadsdeel')
+            ->leftJoin('klant.geslacht', 'geslacht')
+            ->andWhere('hulpvraag.einddatum IS NULL') // hulpvraag niet afgesloten
+            ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
+            ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
+            ->orderBy('hulpvraag.startdatum', 'ASC')
+        ;
+
+        // doelgroepen
+        if (count($hulpaanbod->getDoelgroepen()) > 0) {
+            $builder
+                ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
+                ->andWhere('doelgroep.id IS NULL OR doelgroep IN (:doelgroepen)')
+                ->setParameter('doelgroepen', $hulpaanbod->getDoelgroepen())
+            ;
+        }
+
+        // hulpvraagsoorten
+        if (count($hulpaanbod->getHulpvraagsoorten()) > 0) {
+            $builder
+                ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+                ->andWhere('hulpvraagsoort IN (:hulpvraagsoorten)')
+                ->setParameter('hulpvraagsoorten', $hulpaanbod->getHulpvraagsoorten())
+            ;
+        }
+
+        // taal
+        if (!$hulpaanbod->isVoorkeurVoorNederlands()) {
+            $builder->andWhere('hulpvraag.spreektNederlands = true');
+        }
+
+        // dagdeel
+        if ($hulpaanbod->getDagdeel()) {
+            switch ($hulpaanbod->getDagdeel()) {
+                case Koppeling::DAGDEEL_OVERDAG:
+                    $dagdelen = [Koppeling::DAGDEEL_OVERDAG];
+                    break;
+                case Koppeling::DAGDEEL_AVOND:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                case Koppeling::DAGDEEL_WEEKEND:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                case Koppeling::DAGDEEL_AVOND_WEEKEND:
+                default:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                default:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_OVERDAG,
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+            }
+            $builder
+                ->andWhere('hulpvraag.dagdeel IS NULL OR hulpvraag.dagdeel IN (:dagdelen)')
+                ->setParameter('dagdelen', $dagdelen)
+            ;
+        }
+
+        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
     }
 }

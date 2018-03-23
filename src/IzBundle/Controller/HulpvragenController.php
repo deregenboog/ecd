@@ -15,6 +15,7 @@ use IzBundle\Form\HulpvraagConnectType;
 use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\IzKlant;
+use IzBundle\Service\HulpaanbodDaoInterface;
 
 /**
  * @Route("/hulpvragen")
@@ -36,6 +37,13 @@ class HulpvragenController extends AbstractChildController
      * @DI\Inject("IzBundle\Service\HulpvraagDao")
      */
     protected $dao;
+
+    /**
+     * @var HulpaanbodDaoInterface
+     *
+     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
+     */
+    protected $hulpaanbodDao;
 
     /**
      * @var \ArrayObject
@@ -73,10 +81,10 @@ class HulpvragenController extends AbstractChildController
         return $this->processForm($request, $entity);
     }
 
-    protected function addParams($entity)
+    protected function addParams($entity, Request $request)
     {
         return [
-            'kandidaten' => $this->getEntityManager()->getRepository(Hulpaanbod::class)->findMatching($entity),
+            'kandidaten' => $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1)),
         ];
     }
 

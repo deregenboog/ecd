@@ -124,7 +124,7 @@ class AbstractController extends SymfonyController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         if (in_array('view', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
@@ -136,7 +136,7 @@ class AbstractController extends SymfonyController
 
         $params = ['entity' => $entity];
 
-        $params = array_merge($params, $this->addParams($entity));
+        $params = array_merge($params, $this->addParams($entity, $request));
 
         return $params;
     }
@@ -286,7 +286,7 @@ class AbstractController extends SymfonyController
         return;
     }
 
-    protected function addParams($entity)
+    protected function addParams($entity, Request $request)
     {
         return [];
     }
