@@ -13,6 +13,7 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->createQueryBuilder('hulpvraag')
             ->select('hulpvraag, izKlant, klant')
+            ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.intake', 'intake')
             ->innerJoin('izKlant.klant', 'klant')
