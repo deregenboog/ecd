@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Postcodegebied;
 use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Koppeling;
 
 class HulpvraagRepository extends EntityRepository
 {
@@ -48,9 +49,42 @@ class HulpvraagRepository extends EntityRepository
 
         // dagdeel
         if ($hulpaanbod->getDagdeel()) {
+            switch ($hulpaanbod->getDagdeel()) {
+                case Koppeling::DAGDEEL_OVERDAG:
+                    $dagdelen = [Koppeling::DAGDEEL_OVERDAG];
+                    break;
+                case Koppeling::DAGDEEL_AVOND:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                case Koppeling::DAGDEEL_WEEKEND:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                case Koppeling::DAGDEEL_AVOND_WEEKEND:
+                default:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                default:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_OVERDAG,
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+            }
             $builder
-                ->andWhere('hulpvraag.dagdeel = :dagdeel')
-                ->setParameter('dagdeel', $hulpaanbod->getDagdeel())
+            ->andWhere('hulpvraag.dagdeel IS NULL OR hulpvraag.dagdeel IN (:dagdelen)')
+            ->setParameter('dagdelen', $dagdelen)
             ;
         }
 

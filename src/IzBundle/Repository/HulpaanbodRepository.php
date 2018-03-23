@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use Doctrine\Common\Collections\ArrayCollection;
+use IzBundle\Entity\Koppeling;
 
 class HulpaanbodRepository extends EntityRepository
 {
@@ -48,9 +49,42 @@ class HulpaanbodRepository extends EntityRepository
 
         // dagdeel
         if ($hulpvraag->getDagdeel()) {
+            switch ($hulpvraag->getDagdeel()) {
+                case Koppeling::DAGDEEL_OVERDAG:
+                    $dagdelen = [Koppeling::DAGDEEL_OVERDAG];
+                    break;
+                case Koppeling::DAGDEEL_AVOND:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                case Koppeling::DAGDEEL_WEEKEND:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                case Koppeling::DAGDEEL_AVOND_WEEKEND:
+                default:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+                default:
+                    $dagdelen = [
+                        Koppeling::DAGDEEL_OVERDAG,
+                        Koppeling::DAGDEEL_AVOND,
+                        Koppeling::DAGDEEL_WEEKEND,
+                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                    ];
+                    break;
+            }
             $builder
-                ->andWhere('hulpaanbod.dagdeel = :dagdeel')
-                ->setParameter('dagdeel', $hulpvraag->getDagdeel())
+                ->andWhere('hulpaanbod.dagdeel IS NULL OR hulpaanbod.dagdeel IN (:dagdelen)')
+                ->setParameter('dagdelen', $dagdelen)
             ;
         }
 

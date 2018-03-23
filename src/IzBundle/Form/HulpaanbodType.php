@@ -61,6 +61,7 @@ class HulpaanbodType extends AbstractType
                     Koppeling::DAGDEEL_OVERDAG => Koppeling::DAGDEEL_OVERDAG,
                     Koppeling::DAGDEEL_AVOND => Koppeling::DAGDEEL_AVOND,
                     Koppeling::DAGDEEL_WEEKEND => Koppeling::DAGDEEL_WEEKEND,
+                    Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
                 ],
             ])
             ->add('voorkeurVoorNederlands', null, [

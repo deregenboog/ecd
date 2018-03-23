@@ -24,6 +24,7 @@ abstract class Koppeling
     const DAGDEEL_OVERDAG = 'Overdag';
     const DAGDEEL_AVOND = 'Avond';
     const DAGDEEL_WEEKEND = 'Weekend';
+    const DAGDEEL_AVOND_WEEKEND = 'Avond/weekend';
 
     use TimestampableTrait;
 
