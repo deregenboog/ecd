@@ -4,6 +4,7 @@ namespace AppBundle\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Common\Collections\Collection;
+use AppBundle\Entity\Geslacht;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -66,7 +67,24 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('green', [$this, 'greenFilter'], ['is_safe' => ['html']]),
             new \Twig_SimpleFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
             new \Twig_SimpleFilter('orderBy', [$this, 'orderBy']),
+            new \Twig_SimpleFilter('aanhef', [$this, 'aanhef']),
         ];
+    }
+
+    public function aanhef(Geslacht $geslacht = null)
+    {
+        if (!$geslacht) {
+            return 'heer/mevrouw';
+        }
+
+        switch ($geslacht->getAfkorting()) {
+            case 'M':
+                return 'heer';
+            case 'V':
+                return 'mevrouw';
+            default:
+                return 'heer/mevrouw';
+        }
     }
 
     public function orderBy($collection, $method)

@@ -6,7 +6,7 @@
     Tel. (020) 626 0969<br>
 </p>
 <p style="font-weight: bold;">
-    {{ entity.factuur.klant.naam }}<br>
+    {{ entity.factuur.klant.geslacht|aanhef|capitalize }} {{ entity.factuur.klant.tussenvoegsel }} {{ entity.factuur.klant.achternaam }}<br>
     {{ entity.factuur.klant.adres }}<br>
     {{ entity.factuur.klant.postcode }} {{ entity.factuur.klant.plaats }}
 </p>
@@ -17,7 +17,7 @@
     Datum: {{ entity.datum|date('d-m-Y') }}
 </p>
 <p>
-    Geachte klant,
+    Geachte {{ entity.factuur.klant.geslacht|aanhef }} {{ entity.factuur.klant.tussenvoegsel }} {{ entity.factuur.klant.achternaam }},
 </p>
 <p>
     Uit onze administratie blijkt dat er nog een bedrag openstaat voor werkzaamheden die wij in het verleden bij u<br>
