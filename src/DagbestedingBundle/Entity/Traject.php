@@ -380,9 +380,20 @@ class Traject
         return $this;
     }
 
-    public function getProjecten()
+    public function getProjecten($inclusiefHistorischeProjecten = false)
     {
-        return $this->projecten;
+        if (!$inclusiefHistorischeProjecten) {
+            return $this->projecten;
+        }
+
+        $projecten = clone $this->projecten;
+        foreach ($this->dagdelen as $dagdeel) {
+            if (!$projecten->contains($dagdeel->getProject())) {
+                $projecten[] = $dagdeel->getProject();
+            }
+        }
+
+        return $projecten;
     }
 
     public function addProject(Project $project)
@@ -454,12 +465,12 @@ class Traject
 
         $months = [];
         while ($date >= $start) {
-            $months[$key($date)] = [
+            $month = [
                 'maand' => clone $date,
                 'projecten' => [],
             ];
-            foreach ($this->projecten as $project) {
-                $months[$key($date)]['projecten'][$project->getId()] = [
+            foreach ($this->getProjecten(true) as $project) {
+                $month['projecten'][$project->getId()] = [
                     'project' => $project,
                     'A' => 0,
                     'Z' => 0,
@@ -467,14 +478,13 @@ class Traject
                     'V' => 0,
                 ];
             }
+            $months[$key($date)] = $month;
             $date->modify('-1 month');
         }
 
         foreach ($this->dagdelen as $dagdeel) {
             ++$months[$key($dagdeel->getDatum())]['projecten'][$dagdeel->getProject()->getId()][$dagdeel->getAanwezigheid()];
         }
-
-        krsort($months);
 
         return $months;
     }
