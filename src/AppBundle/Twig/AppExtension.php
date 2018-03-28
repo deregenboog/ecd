@@ -95,7 +95,13 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
     public function moneyFilter($value)
     {
-        return money_format('%+#1n', (float) $value);
+        // check if locale set in %framework.default_locale% is supported
+        if (setlocale(LC_ALL, 0)) {
+            return money_format('%+#1n', (float) $value);
+        }
+
+        // or fallback
+        return '€ '.number_format((float) $value, 2, ',', '.');
     }
 
     /**

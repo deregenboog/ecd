@@ -58,7 +58,13 @@ class Betaling
 
     public function __toString()
     {
-        return money_format('%(#1n', $this->bedrag);
+        // check if locale set in %framework.default_locale% is supported
+        if (setlocale(LC_ALL, 0)) {
+            return money_format('%(#1n', (float) $this->bedrag);
+        }
+
+        // or fallback
+        return '€ '.number_format((float) $this->bedrag, 2, ',', '.');
     }
 
     public function getId()
