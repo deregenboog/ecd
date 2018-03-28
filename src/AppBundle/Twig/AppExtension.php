@@ -101,7 +101,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         }
 
         // or fallback
-        return '€ '.number_format((float) $value, 2, ',', '.');
+        return 'EUR '.number_format((float) $value, 2, ',', '.');
     }
 
     /**
