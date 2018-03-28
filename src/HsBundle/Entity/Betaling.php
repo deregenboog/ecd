@@ -59,7 +59,7 @@ class Betaling
     public function __toString()
     {
         // check if locale set in %framework.default_locale% is supported
-        if (setlocale(LC_ALL, 0)) {
+        if (setlocale(LC_ALL, 0) && 'C' !== setlocale(LC_ALL, 0)) {
             return money_format('%(#1n', (float) $this->bedrag);
         }
 
