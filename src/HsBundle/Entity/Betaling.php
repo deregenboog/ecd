@@ -64,7 +64,7 @@ class Betaling
         }
 
         // or fallback
-        return 'EUR '.number_format((float) $this->bedrag, 2, ',', '.');
+        return '€ '.number_format((float) $this->bedrag, 2, ',', '.');
     }
 
     public function getId()
