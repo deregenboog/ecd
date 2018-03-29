@@ -68,6 +68,9 @@ class HulpaanbodType extends AbstractType
                 'required' => false,
                 'label' => 'Voorkeur voor Nederlands',
             ])
+            ->add('coachend', null, [
+                'required' => false,
+            ])
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',

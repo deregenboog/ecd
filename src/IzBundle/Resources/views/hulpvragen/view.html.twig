@@ -69,6 +69,9 @@
                     <th>Hulpvraagsoorten</th>
                     <th>Doelgroepen</th>
                     <th>Nederlands</th>
+                    <th>
+                        {{ knp_pagination_sortable(kandidaten, 'Coachend', 'hulpaanbod.coachend') }}
+                    </th>
                     <th>Matchingsinformatie</th>
                 </tr>
             </thead>
@@ -107,6 +110,7 @@
                             {% endif %}
                         </td>
                         <td>{{ hulpaanbod.voorkeurVoorNederlands ? 'Ja' : 'Geen voorkeur' }}</td>
+                        <td>{{ hulpaanbod.coachend ? 'Ja' : 'Nee' }}</td>
                         <td>{{ hulpaanbod.info }}</td>
                     </tr>
                 {% endfor %}

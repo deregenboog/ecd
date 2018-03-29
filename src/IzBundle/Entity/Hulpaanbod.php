@@ -42,6 +42,13 @@ class Hulpaanbod extends Koppeling
      */
     private $voorkeurVoorNederlands = false;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $coachend = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -110,6 +117,18 @@ class Hulpaanbod extends Koppeling
     public function setVoorkeurVoorNederlands($voorkeurVoorNederlands)
     {
         $this->voorkeurVoorNederlands = (bool) $voorkeurVoorNederlands;
+
+        return $this;
+    }
+
+    public function isCoachend()
+    {
+        return (bool) $this->coachend;
+    }
+
+    public function setCoachend($coachend)
+    {
+        $this->coachend = (bool) $coachend;
 
         return $this;
     }
