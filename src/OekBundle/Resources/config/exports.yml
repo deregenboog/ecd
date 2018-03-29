@@ -82,5 +82,8 @@ services:
                 E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
                 Verwezen door: { expression: 'entity.getDeelnemer().getAanmelding().getVerwijzing()', condition: 'entity.getDeelnemer().getAanmelding()' }
 
+    oek.export.presentielijst:
+        class: OekBundle\Export\PresentielijstExport
+
     oek.export.report:
         class: AppBundle\Export\ReportExport

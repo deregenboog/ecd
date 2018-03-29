@@ -1,0 +1,49 @@
+<?php
+
+namespace OekBundle\Export;
+
+use AppBundle\Export\AbstractExport;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use OekBundle\Entity\Training;
+use AppBundle\Exception\AppException;
+
+class PresentielijstExport extends AbstractExport
+{
+    public function create($training)
+    {
+        if (!$training instanceof Training) {
+            throw new AppException(sprintf(
+                '%s::create() expects object of type %s, %s given.',
+                __CLASS__,
+                Training::class,
+                get_class($training)
+            ));
+        }
+
+        $this->excel = new Spreadsheet();
+        $sheet = $this->excel->getActiveSheet();
+        $sheet->getDefaultColumnDimension()->setAutoSize(true);
+
+        $aantal = $training->getGroep()->getAantalBijeenkomsten();
+        if ($aantal > 1) {
+            foreach (range(1, $aantal) as $i) {
+                $sheet->getCellByColumnAndRow($i + 1, 1)
+                    ->setValue('Bijeenkomst '.$i)
+                    ->getStyle()->getFont()->setBold(true);
+            }
+        }
+
+        $deelnames = $training->getDeelnames();
+        foreach ($deelnames as $i => $deelname) {
+            $sheet->getCellByColumnAndRow(1, $i + 2)
+                ->setValue((string) $deelname->getDeelnemer())
+                ->getStyle()->getFont()->setBold(true);
+        }
+
+        foreach ($sheet->getColumnIterator() as $column) {
+            $sheet->getColumnDimension($column->getColumnIndex())->setAutoSize(true);
+        }
+
+        return $this;
+    }
+}

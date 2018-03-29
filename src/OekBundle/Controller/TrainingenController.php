@@ -46,6 +46,13 @@ class TrainingenController extends AbstractChildController
     /**
      * @var ExportInterface
      *
+     * @DI\Inject("oek.export.presentielijst")
+     */
+    protected $exportPresentielijst;
+
+    /**
+     * @var ExportInterface
+     *
      * @DI\Inject("oek.export.deelnemerslijst")
      */
     protected $exportDeelnemerslijst;
@@ -97,24 +104,14 @@ class TrainingenController extends AbstractChildController
      */
     public function presentielijstAction($id)
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(Training::class);
-        $training = $repository->find($id);
+        ini_set('memory_limit', '512M');
 
-        $aantalBijeenkomsten = $training->getGroep()->getAantalBijeenkomsten();
-        $deelnames = $training->getDeelnames();
-
-        $response = $this->render('@Oek/trainingen/presentielijst.csv.twig', [
-            'aantalBijeenkomsten' => $aantalBijeenkomsten,
-            'deelnames' => $deelnames,
-        ]);
-
+        $training = $this->dao->find($id);
         $filename = sprintf('op-eigen-kracht-presentielijst-training-%s.xls', $training->getId());
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
 
-        return $response;
+        return $this->exportPresentielijst
+            ->create($training)
+            ->getResponse($filename);
     }
 
     /**
