@@ -437,7 +437,7 @@ IzBundle\Entity\Hulpaanbod:
         doelgroepen: ['@iz_doelgroep_*']
         hulpvraagsoorten: ['@iz_hulpvraagsoort_*']
         info: '<sentence()>'
-        voorkeurVoorNederlands: false
+        expat: false
         voorkeurGeslacht: '30%? @geslacht_*'
 
 IzBundle\Entity\Hulpvraag:
@@ -451,7 +451,7 @@ IzBundle\Entity\Hulpvraag:
         doelgroepen: ['@iz_doelgroep_*']
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
-        spreektNederlands: true
+        geschiktVoorExpat: true
         voorkeurGeslacht: '30%? @geslacht_*'
     iz_hulpvraag_{51..100}:
         izKlant: '@iz_klant_*'
@@ -464,7 +464,7 @@ IzBundle\Entity\Hulpvraag:
         doelgroepen: ['@iz_doelgroep_*']
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
-        spreektNederlands: true
+        geschiktVoorExpat: true
         voorkeurGeslacht: '30%? @geslacht_*'
 
 IzBundle\Entity\Verslag:

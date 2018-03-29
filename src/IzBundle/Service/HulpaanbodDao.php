@@ -15,6 +15,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'hulpaanbod.startdatum',
+            'hulpaanbod.expat',
             'hulpaanbod.coachend',
             'project.naam',
             'intake.intakeDatum',
@@ -109,9 +110,9 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ;
         }
 
-        // taal
-        if (!$hulpvraag->isSpreektNederlands()) {
-            $builder->andWhere('hulpaanbod.voorkeurVoorNederlands = false');
+        // expat
+        if (!$hulpvraag->isGeschiktVoorExpat()) {
+            $builder->andWhere('hulpaanbod.expat IS NULL OR hulpaanbod.expat = false');
         }
 
         // dagdeel

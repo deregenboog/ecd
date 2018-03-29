@@ -44,8 +44,8 @@
         </dd>
         <dt>Dagdeel</dt>
         <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
-        <dt>Spreekt Nederlands</dt>
-        <dd>{{ entity.voorkeurVoorNederlands ? 'Ja' : 'Geen voorkeur' }}</dd>
+        <dt>Expat</dt>
+        <dd>{{ entity.expat ? 'Ja' : 'Nee' }}</dd>
         <dt>Coachend</dt>
         <dd>{{ entity.coachend ? 'Ja' : 'Nee' }}</dd>
         <dt>Voorkeur geslacht</dt>
@@ -80,7 +80,7 @@
                         Doelgroepen
                     </th>
                     <th>
-                        Nederlands
+                        {{ knp_pagination_sortable(kandidaten, 'Geschikt voor expat', 'hulpvraag.geschiktVoorExpat') }}
                     </th>
                     <th>
                         Matchingsinformatie
@@ -107,7 +107,7 @@
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td>{{ hulpvraag.spreektNederlands ? 'Ja' : 'Nee' }}</td>
+                        <td>{{ hulpvraag.geschiktVoorExpat ? 'Ja' : 'Nee' }}</td>
                         <td>{{ hulpvraag.info }}</td>
                     </tr>
                 {% endfor %}

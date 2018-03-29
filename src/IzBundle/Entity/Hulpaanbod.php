@@ -38,9 +38,9 @@ class Hulpaanbod extends Koppeling
     /**
      * @var bool
      *
-     * @ORM\Column(name="voorkeur_voor_nederlands", type="boolean", nullable=false)
+     * @ORM\Column(name="expat", type="boolean", nullable=false)
      */
-    private $voorkeurVoorNederlands = false;
+    private $expat = false;
 
     /**
      * @var bool
@@ -109,14 +109,14 @@ class Hulpaanbod extends Koppeling
         return $this;
     }
 
-    public function isVoorkeurVoorNederlands()
+    public function isExpat()
     {
-        return $this->voorkeurVoorNederlands;
+        return $this->expat;
     }
 
-    public function setVoorkeurVoorNederlands($voorkeurVoorNederlands)
+    public function setExpat($expat)
     {
-        $this->voorkeurVoorNederlands = (bool) $voorkeurVoorNederlands;
+        $this->expat = (bool) $expat;
 
         return $this;
     }

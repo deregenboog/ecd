@@ -64,9 +64,8 @@ class HulpaanbodType extends AbstractType
                     Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
                 ],
             ])
-            ->add('voorkeurVoorNederlands', null, [
+            ->add('expat', null, [
                 'required' => false,
-                'label' => 'Voorkeur voor Nederlands',
             ])
             ->add('coachend', null, [
                 'required' => false,

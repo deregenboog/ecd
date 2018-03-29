@@ -40,9 +40,9 @@ class Hulpvraag extends Koppeling
     /**
      * @var bool
      *
-     * @ORM\Column(name="spreekt_nederlands", type="boolean", nullable=false)
+     * @ORM\Column(name="expat", type="boolean", nullable=false)
      */
-    private $spreektNederlands = true;
+    private $geschiktVoorExpat = false;
 
     public function __construct()
     {
@@ -92,14 +92,14 @@ class Hulpvraag extends Koppeling
         return $this;
     }
 
-    public function isSpreektNederlands()
+    public function isGeschiktVoorExpat()
     {
-        return $this->spreektNederlands;
+        return $this->geschiktVoorExpat;
     }
 
-    public function setSpreektNederlands($spreektNederlands)
+    public function setGeschiktVoorExpat($geschiktVoorExpat)
     {
-        $this->spreektNederlands = (bool) $spreektNederlands;
+        $this->geschiktVoorExpat = (bool) $geschiktVoorExpat;
 
         return $this;
     }

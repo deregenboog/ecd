@@ -15,38 +15,6 @@ class IzVrijwilligerRepository extends EntityRepository
     const REPORT_AFGESLOTEN = 'afgesloten';
     const REPORT_EINDSTAND = 'eindstand';
 
-    public function findMatching(MatchingKlant $matching)
-    {
-        $builder = $this->createQueryBuilder('izVrijwilliger')
-            ->select('izVrijwilliger, vrijwilliger')
-            ->leftJoin('izVrijwilliger.matching', 'matching')
-            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod', 'WITH', 'hulpaanbod.einddatum IS NULL AND hulpaanbod.hulpvraag IS NULL')
-            ->innerJoin('izVrijwilliger.intake', 'intake')
-            ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->andWhere('izVrijwilliger.afsluitDatum IS NULL')
-            ->orderBy('hulpaanbod.startdatum', 'ASC')
-        ;
-
-        // doelgroepen
-        $builder
-            ->innerJoin('matching.doelgroepen', 'doelgroep', 'WITH', 'doelgroep IN (:doelgroepen)')
-            ->setParameter('doelgroepen', $matching->getDoelgroepen())
-        ;
-
-        // hulpvraagsoort
-        $builder
-            ->innerJoin('matching.hulpvraagsoorten', 'hulpvraagsoort', 'WITH', 'hulpvraagsoort = :hulpvraagsoort')
-            ->setParameter('hulpvraagsoort', $matching->getHulpvraagsoort())
-        ;
-
-        // spreek Nederlands
-        if (false === $matching->isSpreektNederlands()) {
-            $builder->andWhere('matching.voorkeurVoorNederlands = false');
-        }
-
-        return $builder->setMaxResults(20)->getQuery()->getResult();
-    }
-
     public function count($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder();

@@ -58,9 +58,8 @@ class HulpvraagType extends AbstractType
                     Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
                 ],
             ])
-            ->add('spreektNederlands', null, [
+            ->add('geschiktVoorExpat', null, [
                 'required' => false,
-                'label' => 'Spreekt Nederlands',
             ])
             ->add('voorkeurGeslacht', null, [
                 'required' => false,

@@ -15,6 +15,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'hulpvraag.startdatum',
+            'hulpvraag.geschiktVoorExpat',
             'project.naam',
             'intake.intakeDatum',
             'klant.id',
@@ -107,9 +108,9 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ;
         }
 
-        // taal
-        if (!$hulpaanbod->isVoorkeurVoorNederlands()) {
-            $builder->andWhere('hulpvraag.spreektNederlands = true');
+        // expat
+        if ($hulpaanbod->isExpat()) {
+            $builder->andWhere('hulpvraag.geschiktVoorExpat = true');
         }
 
         // dagdeel
