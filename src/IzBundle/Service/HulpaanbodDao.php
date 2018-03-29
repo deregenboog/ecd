@@ -132,7 +132,6 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                     ];
                     break;
                 case Koppeling::DAGDEEL_AVOND_WEEKEND:
-                default:
                     $dagdelen = [
                         Koppeling::DAGDEEL_AVOND,
                         Koppeling::DAGDEEL_WEEKEND,

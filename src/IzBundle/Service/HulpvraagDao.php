@@ -131,7 +131,6 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
                     ];
                     break;
                 case Koppeling::DAGDEEL_AVOND_WEEKEND:
-                default:
                     $dagdelen = [
                         Koppeling::DAGDEEL_AVOND,
                         Koppeling::DAGDEEL_WEEKEND,
