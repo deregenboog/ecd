@@ -7,17 +7,17 @@ use Doctrine\ORM\QueryBuilder;
 
 class TrainingRepository extends EntityRepository
 {
-    public function countByGroepAndStadsdeel(\DateTime $startDate, \DateTime $endDate)
+    public function countByNaamAndGroep(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
             ->addSelect('groep.naam AS groepnaam')
-            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->addSelect('training.naam AS trainingnaam')
             ->innerJoin('training.groep', 'groep')
             ->innerJoin('training.deelnames', 'deelname')
             ->innerJoin('deelname.deelnemer', 'deelnemer')
             ->innerJoin('deelnemer.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->groupBy('groepnaam', 'stadsdeel')
+            ->groupBy('groepnaam', 'trainingnaam')
         ;
 
         $this->applyReportFilter($builder, $startDate, $endDate);
