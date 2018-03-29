@@ -2,17 +2,11 @@
 
 namespace OekBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
-use AppBundle\Entity\Klant as AppKlant;
-use OekBundle\Entity\Deelnemer;
 use OekBundle\Form\DeelnemerFilterType;
-use Symfony\Component\Form\FormInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Routing\Annotation\Route;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\ExportInterface;
 

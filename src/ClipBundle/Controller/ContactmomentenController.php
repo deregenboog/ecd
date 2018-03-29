@@ -9,6 +9,7 @@ use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Form\ContactmomentType;
 use ClipBundle\Service\ContactmomentDaoInterface;
 use ClipBundle\Form\ContactmomentFilterType;
+use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/contactmomenten")
@@ -36,6 +37,13 @@ class ContactmomentenController extends AbstractChildController
      * @DI\Inject("clip.contactmoment.entities")
      */
     protected $entities;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("clip.export.contactmomenten")
+     */
+    protected $export;
 
     /**
      * @Route("/{id}/view")

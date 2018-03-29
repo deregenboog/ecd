@@ -19,13 +19,13 @@
 <table class="table">
     <tr>
         <th></th>
-        {% for project in entity.projecten %}
+        {% for project in entity.projecten(true) %}
             <th colspan="5">{{ project }}</th>
         {% endfor %}
     </tr>
     <tr>
         <th>Maand</th>
-        {% for project in entity.projecten %}
+        {% for project in entity.projecten(true) %}
             <th>{{ macro.color('A', 'A') }}</th>
             <th>{{ macro.color('Z', 'Z') }}</th>
             <th>{{ macro.color('O', 'O') }}</th>

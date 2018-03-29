@@ -33,13 +33,7 @@ services:
         tags:
             - { name: form.type }
 
-    OekBundle\Report\DeelnemersPerGroepStadsdeel:
-        arguments:
-            - "@oek.repository.deelnemer"
-        tags:
-            - { name: oek.rapportage, category: Deelnemers }
-
-    OekBundle\Report\DeelnemersPerTrainingStadsdeel:
+    OekBundle\Report\DeelnemersPerTrainingGroep:
         arguments:
             - "@oek.repository.deelnemer"
         tags:
@@ -57,7 +51,7 @@ services:
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
-    OekBundle\Report\TrainingenPerGroepStadsdeel:
+    OekBundle\Report\TrainingenPerGroepNaam:
         arguments:
             - "@oek.repository.training"
         tags:

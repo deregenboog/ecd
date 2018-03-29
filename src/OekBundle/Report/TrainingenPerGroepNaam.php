@@ -6,19 +6,19 @@ use AppBundle\Report\Table;
 use OekBundle\Repository\TrainingRepository;
 use AppBundle\Report\AbstractReport;
 
-class TrainingenPerGroepStadsdeel extends AbstractReport
+class TrainingenPerGroepNaam extends AbstractReport
 {
-    protected $title = 'Trainingen per groep en stadsdeel';
+    protected $title = 'Trainingen per naam training en groep';
 
-    protected $xPath = 'stadsdeel';
+    protected $xPath = 'groepnaam';
 
-    protected $yPath = 'groepnaam';
+    protected $yPath = 'trainingnaam';
 
     protected $nPath = 'aantal';
 
-    protected $xDescription = 'Stadsdeel';
+    protected $xDescription = 'Groep';
 
-    protected $yDescription = 'Groep';
+    protected $yDescription = 'Naam training';
 
     protected $table;
 
@@ -29,7 +29,7 @@ class TrainingenPerGroepStadsdeel extends AbstractReport
 
     protected function init()
     {
-        $this->table = $this->repository->countByGroepAndStadsdeel($this->startDate, $this->endDate);
+        $this->table = $this->repository->countByNaamAndGroep($this->startDate, $this->endDate);
     }
 
     protected function build()

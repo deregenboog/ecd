@@ -58,6 +58,7 @@ class ContactmomentFilterType extends AbstractType
                 'behandelaar',
                 'datum',
                 'filter',
+                'download',
             ],
         ]);
     }

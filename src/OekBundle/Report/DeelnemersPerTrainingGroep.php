@@ -4,26 +4,26 @@ namespace OekBundle\Report;
 
 use AppBundle\Report\Table;
 use OekBundle\Entity\DeelnameStatus;
-use OekBundle\Repository\KlantRepository;
 use AppBundle\Report\AbstractReport;
+use OekBundle\Repository\DeelnemerRepository;
 
-class DeelnemersPerGroepStadsdeel extends AbstractReport
+class DeelnemersPerTrainingGroep extends AbstractReport
 {
-    protected $title = 'Deelnemers per groep en stadsdeel';
+    protected $title = 'Deelnemers per naam training en groep';
 
-    protected $xPath = 'stadsdeel';
+    protected $xPath = 'groepnaam';
 
-    protected $yPath = 'groepnaam';
+    protected $yPath = 'trainingnaam';
 
     protected $nPath = 'aantal';
 
-    protected $xDescription = 'Stadsdeel';
+    protected $xDescription = 'Groep';
 
-    protected $yDescription = 'Groep';
+    protected $yDescription = 'Naam training';
 
     protected $tables = [];
 
-    public function __construct(KlantRepository $repository)
+    public function __construct(DeelnemerRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -33,7 +33,7 @@ class DeelnemersPerGroepStadsdeel extends AbstractReport
         $statussen = DeelnameStatus::getAllStatuses();
 
         foreach ($statussen as $status) {
-            $this->tables[$status] = $this->repository->countByGroepAndStadsdeel($status, $this->startDate, $this->endDate);
+            $this->tables[$status] = $this->repository->countByGroepAndTraining($status, $this->startDate, $this->endDate);
         }
     }
 

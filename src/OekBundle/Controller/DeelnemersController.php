@@ -2,16 +2,11 @@
 
 namespace OekBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
 use AppBundle\Entity\Klant;
 use OekBundle\Entity\Deelnemer;
 use OekBundle\Form\DeelnemerType;
 use AppBundle\Form\KlantFilterType;
-use Doctrine\DBAL\Driver\PDOException;
 use OekBundle\Form\DeelnemerFilterType;
-use AppBundle\Form\ConfirmationType;
-use Symfony\Component\Form\FormInterface;
-use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Form\AanmeldingType;
 use OekBundle\Form\AfsluitingType;

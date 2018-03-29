@@ -2,11 +2,8 @@
 
 namespace OekBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
-use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\Groep;
 use OekBundle\Form\GroepType;
-use AppBundle\Form\ConfirmationType;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
