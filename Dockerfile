@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:7.1-apache
 
 COPY docker/php.ini /usr/local/etc/php/
 
@@ -14,8 +14,7 @@ RUN echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
 
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
-#RUN docker-php-ext-install mysql pdo_mysql intl ldap zip
-RUN docker-php-ext-install mysql pdo_mysql ldap zip
+RUN docker-php-ext-install mysqli pdo_mysql intl ldap zip
 
 RUN pecl install xdebug-2.5.5 && docker-php-ext-enable xdebug
 COPY docker/xdebug.ini /tmp/xdebug.ini
