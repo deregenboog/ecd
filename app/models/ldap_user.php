@@ -1,5 +1,7 @@
 <?php
 
+use AppBundle\Exception\AppException;
+
 class LdapUser extends AppModel
 {
     const ACCOUNT_EXPIRES_NEVER = 9223372036854775807;
@@ -51,8 +53,7 @@ class LdapUser extends AppModel
         }
 
         if (!$this->testConnection()) {
-            debug('Cannot connect to ldapserver');
-            die;
+            throw new AppException('Cannot connect to authentication server');
         }
     }
 
