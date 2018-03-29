@@ -631,10 +631,10 @@ class Set
         }
 
         if (!is_array($path)) {
-            if (!class_exists('String')) {
-                App::import('Core', 'String');
+            if (!class_exists('Str')) {
+                App::import('Core', 'Str');
             }
-            $path = String::tokenize($path, '.', '{', '}');
+            $path = Str::tokenize($path, '.', '{', '}');
         }
         $tmp = [];
 

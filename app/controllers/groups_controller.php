@@ -226,7 +226,7 @@ class GroupsController extends AppController
 
     public function _isPlugin($ctrlName = null)
     {
-        $arr = String::tokenize($ctrlName, '/');
+        $arr = Str::tokenize($ctrlName, '/');
         if (count($arr) > 1) {
             return true;
         } else {
@@ -236,7 +236,7 @@ class GroupsController extends AppController
 
     public function _getPluginControllerPath($ctrlName = null)
     {
-        $arr = String::tokenize($ctrlName, '/');
+        $arr = Str::tokenize($ctrlName, '/');
         if (2 == count($arr)) {
             return $arr[0].'.'.$arr[1];
         } else {
@@ -246,7 +246,7 @@ class GroupsController extends AppController
 
     public function _getPluginName($ctrlName = null)
     {
-        $arr = String::tokenize($ctrlName, '/');
+        $arr = Str::tokenize($ctrlName, '/');
         if (2 == count($arr)) {
             return $arr[0];
         } else {
@@ -256,7 +256,7 @@ class GroupsController extends AppController
 
     public function _getPluginControllerName($ctrlName = null)
     {
-        $arr = String::tokenize($ctrlName, '/');
+        $arr = Str::tokenize($ctrlName, '/');
         if (2 == count($arr)) {
             return $arr[1];
         } else {

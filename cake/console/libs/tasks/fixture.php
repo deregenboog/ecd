@@ -288,7 +288,7 @@ class FixtureTask extends BakeTask
                             isset($fieldInfo['length']) && 36 == $fieldInfo['length']
                         );
                         if ($isPrimaryUuid) {
-                            $insert = String::uuid();
+                            $insert = Str::uuid();
                         } else {
                             $insert = 'Lorem ipsum dolor sit amet';
                             if (!empty($fieldInfo['length'])) {

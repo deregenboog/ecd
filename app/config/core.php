@@ -351,14 +351,14 @@ Configure::write('attachment.max_size', '10M');
  */
 function __tr($string, $params = [])
 {
-    if (!class_exists('String')) {
-        App::import('Core', 'String');
+    if (!class_exists('Str')) {
+        App::import('Core', 'Str');
     }
 
     // First translate.
     $message = __($string, true);
     // Then replace parameter keywords
-    $message = String::insert($message, $params);
+    $message = Str::insert($message, $params);
 
     return $message;
 }

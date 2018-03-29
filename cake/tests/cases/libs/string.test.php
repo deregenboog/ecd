@@ -17,7 +17,7 @@
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::import('Core', 'String');
+App::import('Core', 'Str');
 
 /**
  * StringTest class.
@@ -29,7 +29,7 @@ class StringTest extends CakeTestCase
      */
     public function testUuidGeneration()
     {
-        $result = String::uuid();
+        $result = Str::uuid();
         $pattern = '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/';
         $match = preg_match($pattern, $result);
         $this->assertTrue($match);
@@ -45,7 +45,7 @@ class StringTest extends CakeTestCase
         $pattern = '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/';
 
         for ($i = 0; $i < $count; ++$i) {
-            $result = String::uuid();
+            $result = Str::uuid();
             $match = preg_match($pattern, $result);
             $this->assertTrue($match);
             $this->assertFalse(in_array($result, $check));
@@ -60,127 +60,127 @@ class StringTest extends CakeTestCase
     {
         $string = 'some string';
         $expected = 'some string';
-        $result = String::insert($string, []);
+        $result = Str::insert($string, []);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = :sum. Cake is :adjective.';
         $expected = '2 + 2 = 4. Cake is yummy.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = %sum. Cake is %adjective.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['before' => '%']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['before' => '%']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = 2sum2. Cake is 9adjective9.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['format' => '/([\d])%s\\1/']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['format' => '/([\d])%s\\1/']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = 12sum21. Cake is 23adjective45.';
         $expected = '2 + 2 = 4. Cake is 23adjective45.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['format' => '/([\d])([\d])%s\\2\\1/']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['format' => '/([\d])([\d])%s\\2\\1/']);
         $this->assertEqual($result, $expected);
 
         $string = ':web :web_site';
         $expected = 'www http';
-        $result = String::insert($string, ['web' => 'www', 'web_site' => 'http']);
+        $result = Str::insert($string, ['web' => 'www', 'web_site' => 'http']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = <sum. Cake is <adjective>.';
         $expected = '2 + 2 = <sum. Cake is yummy.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['before' => '<', 'after' => '>']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['before' => '<', 'after' => '>']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = \:sum. Cake is :adjective.';
         $expected = '2 + 2 = :sum. Cake is yummy.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = !:sum. Cake is :adjective.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['escape' => '!']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['escape' => '!']);
         $this->assertEqual($result, $expected);
 
         $string = '2 + 2 = \%sum. Cake is %adjective.';
         $expected = '2 + 2 = %sum. Cake is yummy.';
-        $result = String::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['before' => '%']);
+        $result = Str::insert($string, ['sum' => '4', 'adjective' => 'yummy'], ['before' => '%']);
         $this->assertEqual($result, $expected);
 
         $string = ':a :b \:a :a';
         $expected = '1 2 :a 1';
-        $result = String::insert($string, ['a' => 1, 'b' => 2]);
+        $result = Str::insert($string, ['a' => 1, 'b' => 2]);
         $this->assertEqual($result, $expected);
 
         $string = ':a :b :c';
         $expected = '2 3';
-        $result = String::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
+        $result = Str::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
         $this->assertEqual($result, $expected);
 
         $string = ':a :b :c';
         $expected = '1 3';
-        $result = String::insert($string, ['a' => 1, 'c' => 3], ['clean' => true]);
+        $result = Str::insert($string, ['a' => 1, 'c' => 3], ['clean' => true]);
         $this->assertEqual($result, $expected);
 
         $string = ':a :b :c';
         $expected = '2 3';
-        $result = String::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
+        $result = Str::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
         $this->assertEqual($result, $expected);
 
         $string = ':a, :b and :c';
         $expected = '2 and 3';
-        $result = String::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
+        $result = Str::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
         $this->assertEqual($result, $expected);
 
         $string = '":a, :b and :c"';
         $expected = '"1, 2"';
-        $result = String::insert($string, ['a' => 1, 'b' => 2], ['clean' => true]);
+        $result = Str::insert($string, ['a' => 1, 'b' => 2], ['clean' => true]);
         $this->assertEqual($result, $expected);
 
         $string = '"${a}, ${b} and ${c}"';
         $expected = '"1, 2"';
-        $result = String::insert($string, ['a' => 1, 'b' => 2], ['before' => '${', 'after' => '}', 'clean' => true]);
+        $result = Str::insert($string, ['a' => 1, 'b' => 2], ['before' => '${', 'after' => '}', 'clean' => true]);
         $this->assertEqual($result, $expected);
 
         $string = '<img src=":src" alt=":alt" class="foo :extra bar"/>';
         $expected = '<img src="foo" class="foo bar"/>';
-        $result = String::insert($string, ['src' => 'foo'], ['clean' => 'html']);
+        $result = Str::insert($string, ['src' => 'foo'], ['clean' => 'html']);
 
         $this->assertEqual($result, $expected);
 
         $string = '<img src=":src" class=":no :extra"/>';
         $expected = '<img src="foo"/>';
-        $result = String::insert($string, ['src' => 'foo'], ['clean' => 'html']);
+        $result = Str::insert($string, ['src' => 'foo'], ['clean' => 'html']);
         $this->assertEqual($result, $expected);
 
         $string = '<img src=":src" class=":no :extra"/>';
         $expected = '<img src="foo" class="bar"/>';
-        $result = String::insert($string, ['src' => 'foo', 'extra' => 'bar'], ['clean' => 'html']);
+        $result = Str::insert($string, ['src' => 'foo', 'extra' => 'bar'], ['clean' => 'html']);
         $this->assertEqual($result, $expected);
 
-        $result = String::insert('this is a ? string', 'test');
+        $result = Str::insert('this is a ? string', 'test');
         $expected = 'this is a test string';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert('this is a ? string with a ? ? ?', ['long', 'few?', 'params', 'you know']);
+        $result = Str::insert('this is a ? string with a ? ? ?', ['long', 'few?', 'params', 'you know']);
         $expected = 'this is a long string with a few? params you know';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert('update saved_urls set url = :url where id = :id', ['url' => 'http://www.testurl.com/param1:url/param2:id', 'id' => 1]);
+        $result = Str::insert('update saved_urls set url = :url where id = :id', ['url' => 'http://www.testurl.com/param1:url/param2:id', 'id' => 1]);
         $expected = 'update saved_urls set url = http://www.testurl.com/param1:url/param2:id where id = 1';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert('update saved_urls set url = :url where id = :id', ['id' => 1, 'url' => 'http://www.testurl.com/param1:url/param2:id']);
+        $result = Str::insert('update saved_urls set url = :url where id = :id', ['id' => 1, 'url' => 'http://www.testurl.com/param1:url/param2:id']);
         $expected = 'update saved_urls set url = http://www.testurl.com/param1:url/param2:id where id = 1';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert(':me cake. :subject :verb fantastic.', ['me' => 'I :verb', 'subject' => 'cake', 'verb' => 'is']);
+        $result = Str::insert(':me cake. :subject :verb fantastic.', ['me' => 'I :verb', 'subject' => 'cake', 'verb' => 'is']);
         $expected = 'I :verb cake. cake is fantastic.';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert(':I.am: :not.yet: passing.', ['I.am' => 'We are'], ['before' => ':', 'after' => ':', 'clean' => ['replacement' => ' of course', 'method' => 'text']]);
+        $result = Str::insert(':I.am: :not.yet: passing.', ['I.am' => 'We are'], ['before' => ':', 'after' => ':', 'clean' => ['replacement' => ' of course', 'method' => 'text']]);
         $expected = 'We are of course passing.';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert(
+        $result = Str::insert(
             ':I.am: :not.yet: passing.',
             ['I.am' => 'We are'],
             ['before' => ':', 'after' => ':', 'clean' => true]
@@ -188,28 +188,28 @@ class StringTest extends CakeTestCase
         $expected = 'We are passing.';
         $this->assertEqual($result, $expected);
 
-        $result = String::insert('?-pended result', ['Pre']);
+        $result = Str::insert('?-pended result', ['Pre']);
         $expected = 'Pre-pended result';
         $this->assertEqual($result, $expected);
 
         $string = 'switching :timeout / :timeout_count';
         $expected = 'switching 5 / 10';
-        $result = String::insert($string, ['timeout' => 5, 'timeout_count' => 10]);
+        $result = Str::insert($string, ['timeout' => 5, 'timeout_count' => 10]);
         $this->assertEqual($result, $expected);
 
         $string = 'switching :timeout / :timeout_count';
         $expected = 'switching 5 / 10';
-        $result = String::insert($string, ['timeout_count' => 10, 'timeout' => 5]);
+        $result = Str::insert($string, ['timeout_count' => 10, 'timeout' => 5]);
         $this->assertEqual($result, $expected);
 
         $string = 'switching :timeout_count by :timeout';
         $expected = 'switching 10 by 5';
-        $result = String::insert($string, ['timeout' => 5, 'timeout_count' => 10]);
+        $result = Str::insert($string, ['timeout' => 5, 'timeout_count' => 10]);
         $this->assertEqual($result, $expected);
 
         $string = 'switching :timeout_count by :timeout';
         $expected = 'switching 10 by 5';
-        $result = String::insert($string, ['timeout_count' => 10, 'timeout' => 5]);
+        $result = Str::insert($string, ['timeout_count' => 10, 'timeout' => 5]);
         $this->assertEqual($result, $expected);
     }
 
@@ -218,33 +218,33 @@ class StringTest extends CakeTestCase
      */
     public function testCleanInsert()
     {
-        $result = String::cleanInsert(':incomplete', [
+        $result = Str::cleanInsert(':incomplete', [
             'clean' => true, 'before' => ':', 'after' => '',
         ]);
         $this->assertEqual($result, '');
 
-        $result = String::cleanInsert(':incomplete', [
+        $result = Str::cleanInsert(':incomplete', [
             'clean' => ['method' => 'text', 'replacement' => 'complete'],
             'before' => ':', 'after' => '', ]
         );
         $this->assertEqual($result, 'complete');
 
-        $result = String::cleanInsert(':in.complete', [
+        $result = Str::cleanInsert(':in.complete', [
             'clean' => true, 'before' => ':', 'after' => '',
         ]);
         $this->assertEqual($result, '');
 
-        $result = String::cleanInsert(':in.complete and', [
+        $result = Str::cleanInsert(':in.complete and', [
             'clean' => true, 'before' => ':', 'after' => '', ]
         );
         $this->assertEqual($result, '');
 
-        $result = String::cleanInsert(':in.complete or stuff', [
+        $result = Str::cleanInsert(':in.complete or stuff', [
             'clean' => true, 'before' => ':', 'after' => '',
         ]);
         $this->assertEqual($result, 'stuff');
 
-        $result = String::cleanInsert(
+        $result = Str::cleanInsert(
             '<p class=":missing" id=":missing">Text here</p>',
             ['clean' => 'html', 'before' => ':', 'after' => '']
         );
@@ -253,12 +253,12 @@ class StringTest extends CakeTestCase
 
     /**
      * Tests that non-insertable variables (i.e. arrays) are skipped when used as values in
-     * String::insert().
+     * Str::insert().
      */
     public function testAutoIgnoreBadInsertData()
     {
         $data = ['foo' => 'alpha', 'bar' => 'beta', 'fale' => []];
-        $result = String::insert('(:foo > :bar || :fale!)', $data, ['clean' => 'text']);
+        $result = Str::insert('(:foo > :bar || :fale!)', $data, ['clean' => 'text']);
         $this->assertEqual($result, '(alpha > beta || !)');
     }
 
@@ -267,23 +267,23 @@ class StringTest extends CakeTestCase
      */
     public function testTokenize()
     {
-        $result = String::tokenize('A,(short,boring test)');
+        $result = Str::tokenize('A,(short,boring test)');
         $expected = ['A', '(short,boring test)'];
         $this->assertEqual($result, $expected);
 
-        $result = String::tokenize('A,(short,more interesting( test)');
+        $result = Str::tokenize('A,(short,more interesting( test)');
         $expected = ['A', '(short,more interesting( test)'];
         $this->assertEqual($result, $expected);
 
-        $result = String::tokenize('A,(short,very interesting( test))');
+        $result = Str::tokenize('A,(short,very interesting( test))');
         $expected = ['A', '(short,very interesting( test))'];
         $this->assertEqual($result, $expected);
 
-        $result = String::tokenize('"single tag"', ' ', '"', '"');
+        $result = Str::tokenize('"single tag"', ' ', '"', '"');
         $expected = ['"single tag"'];
         $this->assertEqual($expected, $result);
 
-        $result = String::tokenize('tagA "single tag" tagB', ' ', '"', '"');
+        $result = Str::tokenize('tagA "single tag" tagB', ' ', '"', '"');
         $expected = ['tagA', '"single tag"', 'tagB'];
         $this->assertEqual($expected, $result);
     }
@@ -292,7 +292,7 @@ class StringTest extends CakeTestCase
     {
         $string = ':a, :b and :c?';
         $expected = '2 and 3?';
-        $result = String::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
+        $result = Str::insert($string, ['b' => 2, 'c' => 3], ['clean' => true]);
         $this->assertEqual($expected, $result);
     }
 }
