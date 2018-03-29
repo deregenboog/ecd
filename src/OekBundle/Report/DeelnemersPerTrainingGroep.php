@@ -4,7 +4,6 @@ namespace OekBundle\Report;
 
 use AppBundle\Report\Table;
 use OekBundle\Entity\DeelnameStatus;
-use OekBundle\Repository\KlantRepository;
 use AppBundle\Report\AbstractReport;
 use OekBundle\Repository\DeelnemerRepository;
 

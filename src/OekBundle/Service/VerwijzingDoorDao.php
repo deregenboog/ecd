@@ -3,11 +3,6 @@
 namespace OekBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
-use JMS\DiExtraBundle\Annotation as DI;
-use OekBundle\Entity\Deelnemer;
-use OekBundle\Entity\Training;
 use OekBundle\Entity\VerwijzingDoor;
 
 class VerwijzingDoorDao extends AbstractDao implements VerwijzingDoorDaoInterface

@@ -3,7 +3,6 @@
 namespace OekBundle\Form;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
-use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
 use Doctrine\ORM\EntityRepository;

@@ -2,16 +2,11 @@
 
 namespace OekBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
 use OekBundle\Entity\Training;
 use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
-use AppBundle\Form\ConfirmationType;
 use OekBundle\Form\EmailMessageType;
-use OekBundle\Entity\Groep;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;

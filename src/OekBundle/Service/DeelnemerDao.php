@@ -34,15 +34,15 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, aanmelding, afsluiting, verwijzingAanmelding, verwijzingAfsluiting, dossierStatus, deelname, training")
-            ->innerJoin("{$this->alias}.klant", "klant")
-            ->leftJoin("klant.werkgebied", "werkgebied")
-            ->leftJoin("{$this->alias}.aanmelding", "aanmelding")
-            ->leftJoin("{$this->alias}.afsluiting", "afsluiting")
-            ->leftJoin("aanmelding.verwijzing", "verwijzingAanmelding")
-            ->leftJoin("afsluiting.verwijzing", "verwijzingAfsluiting")
-            ->leftJoin("{$this->alias}.dossierStatus", "dossierStatus")
-            ->leftJoin("{$this->alias}.deelnames", "deelname")
-            ->leftJoin("deelname.training", "training")
+            ->innerJoin("{$this->alias}.klant", 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->leftJoin("{$this->alias}.aanmelding", 'aanmelding')
+            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
+            ->leftJoin('aanmelding.verwijzing', 'verwijzingAanmelding')
+            ->leftJoin('afsluiting.verwijzing', 'verwijzingAfsluiting')
+            ->leftJoin("{$this->alias}.dossierStatus", 'dossierStatus')
+            ->leftJoin("{$this->alias}.deelnames", 'deelname')
+            ->leftJoin('deelname.training', 'training')
         ;
 
         if ($filter) {

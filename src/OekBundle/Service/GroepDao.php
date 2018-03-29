@@ -4,8 +4,6 @@ namespace OekBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
-use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Training;
 use OekBundle\Entity\Groep;
 
