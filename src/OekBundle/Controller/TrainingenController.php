@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/trainingen")
@@ -41,6 +42,13 @@ class TrainingenController extends AbstractChildController
      * @DI\Inject("oek.training.entities")
      */
     protected $entities;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("oek.export.deelnemerslijst")
+     */
+    protected $exportDeelnemerslijst;
 
     /**
      * @Route("/{id}/email")
@@ -114,21 +122,13 @@ class TrainingenController extends AbstractChildController
      */
     public function deelnemerslijstAction($id)
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(Training::class);
-        $training = $repository->find($id);
+        ini_set('memory_limit', '512M');
 
-        $deelnames = $training->getDeelnames();
-
-        $response = $this->render('@Oek/trainingen/deelnemerslijst.csv.twig', [
-            'deelnames' => $deelnames,
-        ]);
-
+        $training = $this->dao->find($id);
         $filename = sprintf('op-eigen-kracht-deelnemerslijst-training-%s.xls', $training->getId());
-        $response->headers->set('Content-type', 'application/vnd.ms-excel');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
 
-        return $response;
+        return $this->exportDeelnemerslijst
+            ->create($training->getDeelnames())
+            ->getResponse($filename);
     }
 }

@@ -66,5 +66,21 @@ services:
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
                 GGW-gebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
 
+    oek.export.deelnemerslijst:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OekBundle\Entity\Deelname
+            -
+                Nummer: { expression: 'entity.getDeelnemer().getKlant().getId()' }
+                Deelnemer: { expression: 'entity.getDeelnemer()' }
+                Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
+                Plaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
+                Stadsdeel: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
+                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
+                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
+                E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
+                Verwezen door: { expression: 'entity.getDeelnemer().getAanmelding().getVerwijzing()', condition: 'entity.getDeelnemer().getAanmelding()' }
+
     oek.export.report:
         class: AppBundle\Export\ReportExport
