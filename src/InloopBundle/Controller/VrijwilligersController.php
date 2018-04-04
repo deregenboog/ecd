@@ -62,7 +62,7 @@ class VrijwilligersController extends AbstractController
 
     protected function getDownloadFilename()
     {
-        return sprintf('op-eigen-kracht-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        return sprintf('op-eigen-kracht-vrijwilligers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
     private function doSearch(Request $request)

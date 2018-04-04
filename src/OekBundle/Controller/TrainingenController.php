@@ -102,7 +102,7 @@ class TrainingenController extends AbstractChildController
         ini_set('memory_limit', '512M');
 
         $training = $this->dao->find($id);
-        $filename = sprintf('op-eigen-kracht-presentielijst-training-%s.xls', $training->getId());
+        $filename = sprintf('op-eigen-kracht-presentielijst-training-%s.xlsx', $training->getId());
 
         return $this->exportPresentielijst
             ->create($training)
@@ -117,7 +117,7 @@ class TrainingenController extends AbstractChildController
         ini_set('memory_limit', '512M');
 
         $training = $this->dao->find($id);
-        $filename = sprintf('op-eigen-kracht-deelnemerslijst-training-%s.xls', $training->getId());
+        $filename = sprintf('op-eigen-kracht-deelnemerslijst-training-%s.xlsx', $training->getId());
 
         return $this->exportDeelnemerslijst
             ->create($training->getDeelnames())
