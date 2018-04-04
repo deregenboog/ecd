@@ -4,6 +4,7 @@ namespace AppBundle\Report;
 
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Filter\FilterInterface;
 
 abstract class AbstractReport
 {
@@ -65,6 +66,19 @@ abstract class AbstractReport
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setFilter(array $filter)
+    {
+        if (array_key_exists('startdatum', $filter)) {
+            $this->startDate = $filter['startdatum'];
+        }
+
+        if (array_key_exists('startdatum', $filter)) {
+            $this->endDate = $filter['einddatum'];
+        }
+
+        return $this;
     }
 
     public function getStartDate()

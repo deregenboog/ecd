@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content_right %}
-    <h2>Rapport {{ title ? '"'~title~'"' }}</h2>
+    <h2>{{ title ? 'Rapport "'~title~'"' }}</h2>
     {% if reports is defined %}
         {{ include('@Odp/rapportages/_pivot_tables.html.twig') }}
     {% endif %}

@@ -23,6 +23,10 @@ _inloop:
 _iz:
     resource: "@IzBundle/Resources/config/routing.yml"
 
+_mw:
+    resource: "@MwBundle/Resources/config/routing.yml"
+    prefix: /mw
+
 _odp:
     resource: "@OdpBundle/Resources/config/routing.yml"
     prefix: /odp
@@ -34,3 +38,9 @@ _oek:
 _pfo:
     resource: "@PfoBundle/Resources/config/routing.yml"
     prefix: /pfo
+
+mw_rapportage_redirect:
+    path: /maatschappelijk_werk/rapportage
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: mw_rapportages_index

@@ -59,6 +59,7 @@ class AppKernel extends Kernel
             new DagbestedingBundle\DagbestedingBundle(),
             new ClipBundle\ClipBundle(),
             new PfoBundle\PfoBundle(),
+            new MwBundle\MwBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -90,6 +90,7 @@ stof_doctrine_extensions:
             loggable: true
             timestampable: true
             softdeleteable: true
+            tree: true
 
 knp_paginator: ~
 

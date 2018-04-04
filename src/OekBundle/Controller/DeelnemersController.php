@@ -128,7 +128,7 @@ class DeelnemersController extends AbstractController
 
     protected function getDownloadFilename()
     {
-        return sprintf('op-eigen-kracht-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
+        return sprintf('op-eigen-kracht-deelnemers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
     private function doSearch(Request $request)

@@ -386,7 +386,7 @@ class VerslagenController extends AppController
             'depth',
         ]);
 
-        $inventarisaties_couts = $this->Verslag->InventarisatiesVerslagen->getInventarisatiesCount($inventarisaties);
+        $this->Verslag->InventarisatiesVerslagen->getInventarisatiesCount($inventarisaties);
 
         $medewerkers = $this->Verslag->Medewerker->find('list');
 
