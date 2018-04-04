@@ -22,12 +22,7 @@ abstract class AbstractRapportagesController extends SymfonyController
             // get reporting service
             /** @var AbstractReport $report */
             $report = $this->container->get($form->get('rapport')->getData());
-
-            // set options
-            $report
-                ->setStartDate($form->get('startdatum')->getData())
-                ->setEndDate($form->get('einddatum')->getData())
-            ;
+            $report->setFilter($form->getData());
 
             if ($form->get('download')->isClicked()) {
                 return $this->download($report);
@@ -52,7 +47,7 @@ abstract class AbstractRapportagesController extends SymfonyController
         $data = $this->extractDataFromReport($report);
 
         $filename = sprintf(
-            '%s-%s-%s.xls',
+            '%s-%s-%s.xlsx',
             $report->getTitle(),
             $report->getStartDate()->format('d-m-Y'),
             $report->getEndDate()->format('d-m-Y')

@@ -1,0 +1,6 @@
+services:
+    MwBundle\Service\InventarisatieDao:
+        parent: app.dao.abstract
+
+    MwBundle\Service\KlantDao:
+        parent: app.dao.abstract

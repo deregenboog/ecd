@@ -100,6 +100,7 @@ parameters:
                 - Registraties
                 - Opmerkingen
                 - MaatschappelijkWerk
+                - MwBundle\Controller\Rapportages
                 - Verslagen
                 - Rapportages
                 - Attachments
@@ -164,6 +165,7 @@ parameters:
                 - Intakes
                 - Klanten
                 - MaatschappelijkWerk
+                - MwBundle\Controller\Rapportages
                 - MwInventarisaties
                 - Opmerkingen
                 - Rapportages
@@ -435,12 +437,14 @@ parameters:
                 - Klanten
                 - Hi5
                 - MaatschappelijkWerk
+                - MwInventarisaties
+                - mw
+                - MwBundle\Controller\Rapportages
                 - Verslagen
                 - Registraties
                 - Schorsingen
                 - Opmerkingen
                 - Rapportages
-                - MwInventarisaties
                 - Attachments
                 - BackOnTrack
                 - BotVerslagen
@@ -581,6 +585,9 @@ parameters:
             MaatschappelijkWerk:
                 label: Maatschappelijk werk
                 url: MaatschappelijkWerk
+#            mw:
+#                label: Maatschappelijk werk
+#                url: mw
             Rapportages:
                 label: Rapportages
                 url: Rapportages

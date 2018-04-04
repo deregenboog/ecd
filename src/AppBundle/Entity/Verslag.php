@@ -42,6 +42,12 @@ class Verslag
     private $klant;
 
     /**
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @Gedmo\Versioned
+     */
+    private $locatie;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Medewerker")
      * @Gedmo\Versioned
      */

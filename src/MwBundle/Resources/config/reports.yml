@@ -1,0 +1,11 @@
+services:
+    mw.form.rapportage:
+        class: MwBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    MwBundle\Report\Inventarisaties:
+        arguments:
+            - '@MwBundle\Service\InventarisatieDao'
+        tags:
+            - { name: mw.rapportage, category: Inventarisaties }
