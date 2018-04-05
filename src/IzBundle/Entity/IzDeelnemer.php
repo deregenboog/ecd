@@ -116,7 +116,7 @@ abstract class IzDeelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(Afsluiting $afsluiting)
+    public function setAfsluiting(Afsluiting $afsluiting = null)
     {
         $this->afsluiting = $afsluiting;
 
@@ -153,7 +153,7 @@ abstract class IzDeelnemer
         return $this->afsluitDatum;
     }
 
-    public function setAfsluitDatum(\DateTime $afsluitdatum)
+    public function setAfsluitDatum(\DateTime $afsluitdatum = null)
     {
         $this->afsluitDatum = $afsluitdatum;
 

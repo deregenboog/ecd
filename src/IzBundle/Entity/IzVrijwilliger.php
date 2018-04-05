@@ -89,7 +89,7 @@ class IzVrijwilliger extends IzDeelnemer
         return $this->binnengekomenVia;
     }
 
-    public function setBinnengekomenVia(BinnengekomenVia $binnengekomenVia)
+    public function setBinnengekomenVia(BinnengekomenVia $binnengekomenVia = null)
     {
         $this->binnengekomenVia = $binnengekomenVia;
 

@@ -65,7 +65,7 @@ class Intake
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum_intake", type="date")
+     * @ORM\Column(name="datum_intake", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $intakedatum;
@@ -73,7 +73,7 @@ class Intake
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="amoc_toegang_tot", type="date")
+     * @ORM\Column(name="amoc_toegang_tot", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $amocToegangTot;
@@ -81,7 +81,7 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * @Gedmo\Versioned
      */
     private $postadres;
@@ -89,7 +89,7 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * @Gedmo\Versioned
      */
     private $postcode;
@@ -97,7 +97,7 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * @Gedmo\Versioned
      */
     private $woonplaats;
@@ -105,7 +105,7 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * @Gedmo\Versioned
      */
     private $telefoonnummer;
@@ -113,7 +113,7 @@ class Intake
     /**
      * @var bool
      *
-     * @ORM\Column(name="toegang_inloophuis", type="boolean")
+     * @ORM\Column(name="toegang_inloophuis", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $toegangInloophuis;
@@ -121,7 +121,7 @@ class Intake
     /**
      * @var bool
      *
-     * @ORM\Column(name="mag_gebruiken", type="boolean")
+     * @ORM\Column(name="mag_gebruiken", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $magGebruiken;
@@ -137,7 +137,7 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="inkomen_overig")
+     * @ORM\Column(name="inkomen_overig", nullable=true)
      */
     private $inkomenOverig;
 
@@ -153,21 +153,20 @@ class Intake
      * @var Legitimatie
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Legitimatie")
-     * @ORM\JoinColumn()
      */
     private $legitimatie;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="legitimatie_nummer")
+     * @ORM\Column(name="legitimatie_nummer", nullable=true)
      */
     private $legitimatieNummer;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="legitimatie_geldig_tot")
+     * @ORM\Column(name="legitimatie_geldig_tot", nullable=true)
      */
     private $legitimatieGeldigTot;
 
@@ -175,21 +174,20 @@ class Intake
      * @var Woonsituatie
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Woonsituatie")
-     * @ORM\JoinColumn()
      */
     private $woonsituatie;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="verblijf_in_NL_sinds")
+     * @ORM\Column(name="verblijf_in_NL_sinds", nullable=true)
      */
     private $verblijfInNederlandSinds;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="verblijf_in_amsterdam_sinds")
+     * @ORM\Column(name="verblijf_in_amsterdam_sinds", nullable=true)
      */
     private $verblijfInAmsterdamSinds;
 

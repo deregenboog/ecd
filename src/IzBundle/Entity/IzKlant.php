@@ -154,7 +154,7 @@ class IzKlant extends IzDeelnemer
         return $this->contactOntstaan;
     }
 
-    public function setContactOntstaan(ContactOntstaan $contactOntstaan)
+    public function setContactOntstaan(ContactOntstaan $contactOntstaan = null)
     {
         $this->contactOntstaan = $contactOntstaan;
 
