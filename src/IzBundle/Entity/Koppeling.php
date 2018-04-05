@@ -55,6 +55,18 @@ abstract class Koppeling
     protected $einddatum;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $tussenevaluatiedatum;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $eindevaluatiedatum;
+
+    /**
      * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
      * @Gedmo\Versioned
      */
@@ -142,7 +154,7 @@ abstract class Koppeling
 
     public function __construct()
     {
-        $this->startdatum = new \DateTime();
+        $this->startdatum = new \DateTime('today');
         $this->verslagen = new ArrayCollection();
     }
 
@@ -199,6 +211,30 @@ abstract class Koppeling
         return $this;
     }
 
+    public function getTussenevaluatiedatum()
+    {
+        return $this->tussenevaluatiedatum;
+    }
+
+    public function setTussenevaluatiedatum(\DateTime $datum = null)
+    {
+        $this->tussenevaluatiedatum = $datum;
+
+        return $this;
+    }
+
+    public function getEindevaluatiedatum()
+    {
+        return $this->eindevaluatiedatum;
+    }
+
+    public function setEindevaluatiedatum(\DateTime $datum = null)
+    {
+        $this->eindevaluatiedatum = $datum;
+
+        return $this;
+    }
+
     public function getEinddatum()
     {
         return $this->einddatum;
@@ -219,6 +255,16 @@ abstract class Koppeling
     public function setKoppelingStartdatum(\DateTime $koppelingStartdatum = null)
     {
         $this->koppelingStartdatum = $koppelingStartdatum;
+
+        if ($koppelingStartdatum && !$this->tussenevaluatiedatum) {
+            $this->tussenevaluatiedatum = clone $koppelingStartdatum;
+            $this->tussenevaluatiedatum->modify('+3 months');
+        }
+
+        if ($koppelingStartdatum && !$this->eindevaluatiedatum) {
+            $this->eindevaluatiedatum = clone $koppelingStartdatum;
+            $this->eindevaluatiedatum->modify('+6 months');
+        }
 
         return $this;
     }

@@ -14,6 +14,8 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
         'sortFieldWhitelist' => [
             'hulpvraag.koppelingStartdatum',
             'hulpvraag.koppelingEinddatum',
+            'hulpvraag.tussenevaluatiedatum',
+            'hulpvraag.eindevaluatiedatum',
             'klant.achternaam',
             'werkgebied.naam',
             'vrijwilliger.achternaam',

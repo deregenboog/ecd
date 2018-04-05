@@ -94,10 +94,10 @@
                             Invervisiegroep(en) VW
                         </th>
                         <th>
-                            {{ knp_pagination_sortable(pagination, 'Tussenevaluatie', 'hulpvraag.koppelingStartdatum') }}
+                            {{ knp_pagination_sortable(pagination, 'Tussenevaluatie', 'hulpvraag.tussenevaluatiedatum') }}
                         </th>
                         <th>
-                            {{ knp_pagination_sortable(pagination, 'Eindevaluatie', 'hulpvraag.koppelingStartdatum') }}
+                            {{ knp_pagination_sortable(pagination, 'Eindevaluatie', 'hulpvraag.eindevaluatiedatum') }}
                         </th>
                     </tr>
                 </thead>
@@ -130,10 +130,10 @@
                                 </ul>
                             </td>
                             <td>
-                                {{ hulpvraag.koppelingStartdatum|date_modify("+6 months")|date('d-m-Y') }}
+                                {{ hulpvraag.tussenevaluatiedatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ hulpvraag.koppelingStartdatum|date_modify("+1 year")|date('d-m-Y') }}
+                                {{ hulpvraag.eindevaluatiedatum|date('d-m-Y') }}
                             </td>
                         </tr>
                     {% endfor %}
