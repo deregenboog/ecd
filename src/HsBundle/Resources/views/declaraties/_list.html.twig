@@ -36,8 +36,9 @@
                 </td>
                 <td>{{ declaratie.factuur }}</td>
                 <td>
-                    {% if not declaratie.factuur %}
+                    {% if not declaratie.factuur or not declaratie.factuur.locked %}
                         {{ html.editLink(path('hs_declaraties_edit', {id: declaratie.id})) }}
+                        {{ html.deleteLink(path('hs_declaraties_delete', {id: declaratie.id})) }}
                     {% endif %}
                 </td>
             </tr>
