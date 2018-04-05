@@ -60,7 +60,7 @@ class DeclaratiesController extends AbstractChildController
     {
         $entity = $this->dao->find($id);
 
-        if ($entity->getFactuur() instanceof Factuur) {
+        if ($entity->getFactuur() instanceof Factuur && $entity->getFactuur()->isLocked()) {
             return $this->redirectToRoute('hs_klussen_index');
         }
 
@@ -72,6 +72,12 @@ class DeclaratiesController extends AbstractChildController
      */
     public function deleteAction(Request $request, $id)
     {
-        return $this->redirectToRoute('hs_klussen_index');
+        $entity = $this->dao->find($id);
+
+        if ($entity->getFactuur() instanceof Factuur && $entity->getFactuur()->isLocked()) {
+            return $this->redirectToRoute('hs_klussen_index');
+        }
+
+        return parent::deleteAction($request, $id);
     }
 }
