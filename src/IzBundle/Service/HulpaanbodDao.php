@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Koppeling;
+use AppBundle\Entity\Geslacht;
 
 class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 {
@@ -113,6 +114,15 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         // expat
         if (!$hulpvraag->isGeschiktVoorExpat()) {
             $builder->andWhere('hulpaanbod.expat IS NULL OR hulpaanbod.expat = false');
+        }
+
+        // geslacht
+        if ($hulpvraag->getVoorkeurGeslacht()) {
+            $builder
+                ->andWhere('geslacht.id IS NULL OR geslacht.afkorting = :onbekend OR geslacht = :voorkeur_geslacht')
+                ->setParameter('onbekend', Geslacht::AFKORTING_ONBEKEND)
+                ->setParameter('voorkeur_geslacht', $hulpvraag->getVoorkeurGeslacht())
+            ;
         }
 
         // dagdeel
