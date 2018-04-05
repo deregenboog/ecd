@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use AppBundle\Exception\AppException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
@@ -28,7 +29,7 @@ class Hulpvraag extends Koppeling
      * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
      * @Gedmo\Versioned
      */
-    protected $hulpaanbod;
+    private $hulpaanbod;
 
     /**
      * @var Hulpvraagsoort
@@ -71,6 +72,12 @@ class Hulpvraag extends Koppeling
     public function setHulpaanbod(Hulpaanbod $hulpaanbod = null)
     {
         $this->hulpaanbod = $hulpaanbod;
+        if (!$hulpaanbod->getHulpvraag()) {
+            if ($hulpaanbod->getHulpvraag() != $this) {
+                throw new AppException('Fout bij koppelen!');
+            }
+            $hulpaanbod->setHulpvraag($this);
+        }
 
         return $this;
     }
