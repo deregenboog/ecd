@@ -6,8 +6,9 @@ use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
+use AppBundle\Filter\FilterInterface;
 
-class HulpaanbodFilter
+class HulpaanbodFilter implements FilterInterface
 {
     /**
      * @var \DateTime

@@ -15,6 +15,10 @@ use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Form\HulpaanbodFilterType;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Service\AbstractDao;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Export\AbstractExport;
 
 /**
  * @Route("/mijn")
@@ -45,6 +49,27 @@ class DashboardController extends SymfonyController
     protected $koppelingDao;
 
     /**
+     * @var AbstractExport
+     *
+     * @DI\Inject("iz.export.hulpvragen")
+     */
+    protected $hulpvragenExport;
+
+    /**
+     * @var AbstractExport
+     *
+     * @DI\Inject("iz.export.hulpaanbiedingen")
+     */
+    protected $hulpaanbiedingenExport;
+
+    /**
+     * @var AbstractExport
+     *
+     * @DI\Inject("iz.export.koppelingen")
+     */
+    protected $koppelingenExport;
+
+    /**
      * @Route("/")
      */
     public function indexAction()
@@ -60,16 +85,24 @@ class DashboardController extends SymfonyController
         $medewerker = $this->getMedewerker();
 
         $filter = new HulpvraagFilter();
+        $filter->medewerker = $medewerker;
+
         $form = $this->createForm(HulpvraagFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'project',
                 'filter',
+                'download',
             ],
         ]);
         $form->handleRequest($request);
-        $filter->medewerker = $medewerker;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->has('download') && $form->get('download')->isClicked()) {
+                return $this->download($filter, $this->hulpvraagDao, $this->hulpvragenExport, 'hulpvragen');
+            }
+        }
 
         $page = $request->get('page', 1);
         $hulpvragen = $this->hulpvraagDao->findAll($page, $filter);
@@ -88,6 +121,8 @@ class DashboardController extends SymfonyController
         $medewerker = $this->getMedewerker();
 
         $filter = new HulpaanbodFilter();
+        $filter->medewerker = $medewerker;
+
         $form = $this->createForm(HulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
@@ -103,10 +138,16 @@ class DashboardController extends SymfonyController
                 ],
                 'project',
                 'filter',
+                'download',
             ],
         ]);
         $form->handleRequest($request);
-        $filter->medewerker = $medewerker;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->has('download') && $form->get('download')->isClicked()) {
+                return $this->download($filter, $this->hulpaanbodDao, $this->hulpaanbiedingenExport, 'koppelingen');
+            }
+        }
 
         $page = $request->get('page', 1);
         $hulpaanbiedingen = $this->hulpaanbodDao->findAll($page, $filter);
@@ -125,6 +166,9 @@ class DashboardController extends SymfonyController
         $medewerker = $this->getMedewerker();
 
         $filter = new KoppelingFilter();
+        $filter->medewerker = $medewerker;
+        $filter->lopendeKoppelingen = true;
+
         $form = $this->createForm(KoppelingFilterType::class, $filter, [
             'enabled_filters' => [
                 'koppelingStartdatum',
@@ -132,11 +176,16 @@ class DashboardController extends SymfonyController
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',
                 'filter',
+                'download',
             ],
         ]);
         $form->handleRequest($request);
-        $filter->medewerker = $medewerker;
-        $filter->lopendeKoppelingen = true;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->has('download') && $form->get('download')->isClicked()) {
+                return $this->download($filter, $this->koppelingDao, $this->koppelingenExport, 'koppelingen');
+            }
+        }
 
         $page = $request->get('page', 1);
         $koppelingen = $this->koppelingDao->findAll($page, $filter);
@@ -145,5 +194,15 @@ class DashboardController extends SymfonyController
             'filter' => $form->createView(),
             'pagination' => $koppelingen,
         ];
+    }
+
+    private function download(FilterInterface $filter, AbstractDao $dao, ExportInterface $export, $name)
+    {
+        ini_set('memory_limit', '512M');
+
+        $filename = sprintf('mijn-%s-%s.xlsx', $name, (new \DateTime())->format('Y-m-d'));
+        $collection = $dao->findAll(null, $filter);
+
+        return $export->create($collection)->getResponse($filename);
     }
 }

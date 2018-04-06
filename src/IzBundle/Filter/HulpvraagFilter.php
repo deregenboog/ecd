@@ -6,8 +6,9 @@ use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
+use AppBundle\Filter\FilterInterface;
 
-class HulpvraagFilter
+class HulpvraagFilter implements FilterInterface
 {
     /**
      * @var \DateTime
