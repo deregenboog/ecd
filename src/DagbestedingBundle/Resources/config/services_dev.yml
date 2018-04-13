@@ -1,0 +1,5 @@
+services:
+    dagbesteding.data_fixtures.faker_provider:
+        class: DagbestedingBundle\DataFixtures\DagbestedingFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }

@@ -39,19 +39,6 @@ services:
         tags:
             - { name: form.type }
 
-    hs.data_fixtures.faker_provider:
-        class: HsBundle\DataFixtures\HsFakerProvider
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@hs.factory.factuur'
-        tags:
-            - { name: hautelook_alice.faker.provider }
-
-    hs.data_fixtures.processor:
-        class: HsBundle\DataFixtures\HsProcessor
-        tags:
-            - { name: hautelook_alice.alice.processor }
-
     hs.event.diensten_lookup_subscriber:
         class: HsBundle\Event\DienstenLookupSubscriber
         arguments:

@@ -11,11 +11,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    oek.data_fixtures.faker_provider:
-        class: OekBundle\DataFixtures\OekFakerProvider
-        tags:
-            - { name: hautelook_alice.faker.provider }
-
     oek.repository.deelnemer:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
