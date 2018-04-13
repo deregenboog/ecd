@@ -46,8 +46,3 @@ services:
         class: IzBundle\Form\IzRapportageType
         tags:
             - { name: form.type }
-
-    iz.data_fixtures.faker_provider:
-        class: IzBundle\DataFixtures\IzFakerProvider
-        tags:
-            - { name: hautelook_alice.faker.provider }

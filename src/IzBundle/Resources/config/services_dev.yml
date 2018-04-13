@@ -1,0 +1,5 @@
+services:
+    iz.data_fixtures.faker_provider:
+        class: IzBundle\DataFixtures\IzFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }

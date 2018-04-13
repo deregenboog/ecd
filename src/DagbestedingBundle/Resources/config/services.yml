@@ -50,8 +50,3 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
-
-    dagbesteding.data_fixtures.faker_provider:
-        class: DagbestedingBundle\DataFixtures\DagbestedingFakerProvider
-        tags:
-            - { name: hautelook_alice.faker.provider }

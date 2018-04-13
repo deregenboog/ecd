@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -24,5 +25,11 @@ class DagbestedingExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        try {
+            $loader->load(sprintf('services_%s.yml', $container->getParameter('kernel.environment')));
+        } catch (FileLocatorFileNotFoundException $exception) {
+            // ignore
+        }
     }
 }
