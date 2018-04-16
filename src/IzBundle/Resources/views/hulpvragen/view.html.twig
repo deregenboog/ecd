@@ -7,8 +7,9 @@
 
 {% block content_left %}
     <h2>IZ-dossier</h2>
-    {{ html.viewLink(path('iz_klanten_view', {id: entity.izKlant.id})) }}
-    {{ html.link('Naar IZ-dossier', path('iz_klanten_view', {id: entity.izKlant.id})) }}
+    {% set url = path('cake_iz_klanten_toon_aanmelding', {klant_id: entity.izKlant.klant.id, id: entity.izKlant.id}) %}
+    {{ html.viewLink(url) }}
+    {{ html.link('Naar IZ-dossier', url) }}
     {% include '::klant_basis.html.twig' with {klant: entity.izKlant.klant} %}
 {% endblock %}
 
