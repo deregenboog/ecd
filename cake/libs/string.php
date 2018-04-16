@@ -21,7 +21,7 @@
 /**
  * String handling methods.
  */
-class String
+class Str
 {
     /**
      * Generate a random UUID.
@@ -195,7 +195,7 @@ class String
      * - escape: The character or string used to escape the before character / string (Defaults to `\`)
      * - format: A regex to use for matching variable placeholders. Default is: `/(?<!\\)\:%s/`
      *   (Overwrites before, after, breaks escape / clean)
-     * - clean: A boolean or array with instructions for String::cleanInsert
+     * - clean: A boolean or array with instructions for Str::cleanInsert
      *
      * @param string $str     A string containing variable placeholders
      * @param string $data    A key => val array where each key stands for a placeholder variable name
@@ -264,10 +264,10 @@ class String
     }
 
     /**
-     * Cleans up a String::insert() formated string with given $options depending on the 'clean' key in
+     * Cleans up a Str::insert() formated string with given $options depending on the 'clean' key in
      * $options. The default method used is text but html is also available. The goal of this function
      * is to replace all whitespace and uneeded markup around placeholders that did not get replaced
-     * by String::insert().
+     * by Str::insert().
      *
      * @param string $str
      * @param string $options
@@ -275,7 +275,7 @@ class String
      * @return string
      * @static
      *
-     * @see String::insert()
+     * @see Str::insert()
      */
     public static function cleanInsert($str, $options)
     {

@@ -32,7 +32,7 @@ class Doelstelling
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="IzProject")
+     * @ORM\ManyToOne(targetEntity="Project")
      * @Gedmo\Versioned
      */
     private $project;
@@ -89,7 +89,7 @@ class Doelstelling
         return $this->project;
     }
 
-    public function setProject(IzProject $project)
+    public function setProject(Project $project)
     {
         $this->project = $project;
 

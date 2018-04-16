@@ -1041,7 +1041,7 @@ class RapportagesController extends AppController
             if ($config['isDisabled']) {
                 continue;
             }
-            $sql = String::insert($config['sql'], $conditions);
+            $sql = Str::insert($config['sql'], $conditions);
             $reports[$key]['run'] = $sql;
             $reports[$key]['result'] = $dataSource->query($sql);
             if ('management_reports.sql' == $file && empty($reports[$key]['result'])) {

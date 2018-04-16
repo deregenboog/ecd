@@ -968,7 +968,7 @@ DIGEST;
         $data = [
             'username' => 'Willy Smith',
             'password' => 'password',
-            'nonce' => String::uuid(),
+            'nonce' => Str::uuid(),
             'nc' => 1,
             'cnonce' => 1,
             'realm' => $realm,

@@ -1,0 +1,14 @@
+{% extends 'IzBundle:hulpaanbiedingen:view.html.twig' %}
+
+{% block content_right %}
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+        <h2>Hulpaanbod wijzigen</h2>
+        <p>
+            {{ html.cancelLink(path('iz_hulpaanbiedingen_view', {id: entity.id})) }}
+            {{ html.link('Annuleren', path('iz_hulpaanbiedingen_view', {id: entity.id})) }}
+        </p>
+        {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

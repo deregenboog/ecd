@@ -6,8 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\IzProject;
-use AppBundle\Form\StadsdeelFilterType;
+use IzBundle\Entity\Project;
+use AppBundle\Form\StadsdeelSelectType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Filter\IzDeelnemerSelectie;
 use Doctrine\ORM\EntityRepository;
@@ -28,25 +28,25 @@ class IzDeelnemerSelectieType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
-            ->add('izProjecten', EntityType::class, [
-                'class' => IzProject::class,
+            ->add('projecten', EntityType::class, [
+                'class' => Project::class,
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,
                 'label' => 'Projecten',
                 'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('izProject')
-                    ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
-                    ->orderBy('izProject.naam', 'ASC')
-                    ->setParameter('now', new \DateTime())
-                ;
+                    return $repo->createQueryBuilder('project')
+                        ->where('project.einddatum IS NULL OR project.einddatum >= :now')
+                        ->orderBy('project.naam', 'ASC')
+                        ->setParameter('now', new \DateTime())
+                    ;
                 },
             ])
             ->add('alleStadsdelen', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false,
             ])
-            ->add('stadsdelen', StadsdeelFilterType::class, [
+            ->add('stadsdelen', StadsdeelSelectType::class, [
                 'label' => 'Stadsdelen',
                 'required' => false,
                 'multiple' => true,
@@ -76,22 +76,10 @@ class IzDeelnemerSelectieType extends AbstractType
                     'Geen post' => 'geen_post',
                 ],
             ])
-            ->add('formaat', ChoiceType::class, [
-                'label' => 'Actie',
-                'required' => true,
-                'expanded' => true,
-                'choices' => [
-                    'Excel-lijst' => 'excel',
-                    'E-mail' => 'email',
-                ],
-                'data' => 'excel',
-            ])
-            ->remove('filter')
-            ->remove('download')
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $data = $event->getData();
                 if ($data['alleProjecten']) {
-                    unset($data['izProjecten']);
+                    unset($data['projecten']);
                 }
                 if ($data['alleStadsdelen']) {
                     unset($data['stadsdelen']);

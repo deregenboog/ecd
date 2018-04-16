@@ -1,0 +1,1149 @@
+AppBundle\Entity\Geslacht:
+    geslacht_1:
+        __construct: ['Man', 'M']
+    geslacht_2:
+        __construct: ['Vrouw', 'V']
+    geslacht_3:
+        __construct: ['Onbekend', 'O']
+
+AppBundle\Entity\Werkgebied:
+    werkgebied_1:
+        __construct: ['Amstelveen']
+    werkgebied_2:
+        __construct: ['Centrum']
+    werkgebied_3:
+        __construct: ['Diemen']
+    werkgebied_4:
+        __construct: ['Nieuw-West']
+    werkgebied_5:
+        __construct: ['Noord']
+    werkgebied_6:
+        __construct: ['Oost']
+    werkgebied_7:
+        __construct: ['West']
+    werkgebied_8:
+        __construct: ['Westpoort']
+    werkgebied_9:
+        __construct: ['Zuid']
+    werkgebied_10:
+        __construct: ['Zuidoost']
+
+AppBundle\Entity\GgwGebied:
+    ggw_gebied_1:
+        __construct: ['Bijlmer Centrum']
+    ggw_gebied_2:
+        __construct: ['Bijlmer Oost']
+    ggw_gebied_3:
+        __construct: ['Bos en Lommer']
+    ggw_gebied_4:
+        __construct: ['Buitenveldert / Zuidas']
+    ggw_gebied_5:
+        __construct: ['Centrum-Oost']
+    ggw_gebied_6:
+        __construct: ['Centrum-West']
+    ggw_gebied_7:
+        __construct: ['De Aker, Sloten en Nieuw Sloten']
+    ggw_gebied_8:
+        __construct: ['De Pijp / Rivierenbuurt']
+    ggw_gebied_9:
+        __construct: ['Gaasperdam / Driemond']
+    ggw_gebied_10:
+        __construct: ['Geuzenveld-Slotermeer-Sloterdijken']
+    ggw_gebied_11:
+        __construct: ['Ijburg / Eiland Zeeburg']
+    ggw_gebied_12:
+        __construct: ['Indische Buurt / Oostelijk Havengebied']
+    ggw_gebied_13:
+        __construct: ['Oost']
+    ggw_gebied_14:
+        __construct: ['Osdorp']
+    ggw_gebied_15:
+        __construct: ['Oud West / De Baarsjes']
+    ggw_gebied_16:
+        __construct: ['Oud Zuid']
+    ggw_gebied_17:
+        __construct: ['Oud-Noord']
+    ggw_gebied_18:
+        __construct: ['Oud-Oost']
+    ggw_gebied_19:
+        __construct: ['Slotervaart']
+    ggw_gebied_20:
+        __construct: ['Watergraafsmeer']
+    ggw_gebied_21:
+        __construct: ['West']
+    ggw_gebied_22:
+        __construct: ['Westerpark']
+
+AppBundle\Entity\Land:
+    land_Onbekend:
+        land: 'Onbekend'
+        afkorting2: ''
+        afkorting3: ''
+    land_Canada:
+        land: 'Canada'
+        afkorting2: ''
+        afkorting3: ''
+    land_Frankrijk:
+        land: 'Frankrijk'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zwitserland:
+        land: 'Zwitserland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Cuba:
+        land: 'Cuba'
+        afkorting2: ''
+        afkorting3: ''
+    land_Suriname:
+        land: 'Suriname'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tunesië:
+        land: 'Tunesië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oostenrijk:
+        land: 'Oostenrijk'
+        afkorting2: ''
+        afkorting3: ''
+    land_België:
+        land: 'België'
+        afkorting2: ''
+        afkorting3: ''
+    land_Iran:
+        land: 'Iran'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nieuwzeeland:
+        land: 'Nieuwzeeland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zuidafrika:
+        land: 'Zuidafrika'
+        afkorting2: ''
+        afkorting3: ''
+    land_Denemarken:
+        land: 'Denemarken'
+        afkorting2: ''
+        afkorting3: ''
+    land_Hongarije:
+        land: 'Hongarije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Saoediarabië:
+        land: 'Saoediarabië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Liberia:
+        land: 'Liberia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Etiopië:
+        land: 'Etiopië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Chili:
+        land: 'Chili'
+        afkorting2: ''
+        afkorting3: ''
+    land_Marokko:
+        land: 'Marokko'
+        afkorting2: ''
+        afkorting3: ''
+    land_Togo:
+        land: 'Togo'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ghana:
+        land: 'Ghana'
+        afkorting2: ''
+        afkorting3: ''
+    land_Angola:
+        land: 'Angola'
+        afkorting2: ''
+        afkorting3: ''
+    land_Filipijnen:
+        land: 'Filipijnen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mali:
+        land: 'Mali'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ivoorkust:
+        land: 'Ivoorkust'
+        afkorting2: ''
+        afkorting3: ''
+    land_Colombia:
+        land: 'Colombia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Albanië:
+        land: 'Albanië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kameroen:
+        land: 'Kameroen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Singapore:
+        land: 'Singapore'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zweden:
+        land: 'Zweden'
+        afkorting2: ''
+        afkorting3: ''
+    land_Cyprus:
+        land: 'Cyprus'
+        afkorting2: ''
+        afkorting3: ''
+    land_Irak:
+        land: 'Irak'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mauritius:
+        land: 'Mauritius'
+        afkorting2: ''
+        afkorting3: ''
+    land_Jemen:
+        land: 'Jemen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Slovenië:
+        land: 'Slovenië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zaïre:
+        land: 'Zaïre'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kroatië:
+        land: 'Kroatië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Rusland:
+        land: 'Rusland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Armenië:
+        land: 'Armenië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bhutan:
+        land: 'Bhutan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Frans Guyana:
+        land: 'Frans Guyana'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guadeloupe:
+        land: 'Guadeloupe'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kaapverdische Eilanden:
+        land: 'Kaapverdische Eilanden'
+        afkorting2: ''
+        afkorting3: ''
+    land_Martinique:
+        land: 'Martinique'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guinee Bissau:
+        land: 'Guinee Bissau'
+        afkorting2: ''
+        afkorting3: ''
+    land_Wallis en Futuna:
+        land: 'Wallis en Futuna'
+        afkorting2: ''
+        afkorting3: ''
+    land_Aruba:
+        land: 'Aruba'
+        afkorting2: ''
+        afkorting3: ''
+    land_Burkina Faso:
+        land: 'Burkina Faso'
+        afkorting2: ''
+        afkorting3: ''
+    land_Azerbajdsjan:
+        land: 'Azerbajdsjan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Belarus (Wit-Rusland):
+        land: 'Belarus (Wit-Rusland)'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kazachstan:
+        land: 'Kazachstan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Macedonië:
+        land: 'Macedonië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Servië:
+        land: 'Servië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bonaire:
+        land: 'Bonaire'
+        afkorting2: ''
+        afkorting3: ''
+    land_Curaçao:
+        land: 'Curaçao'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sint Maarten:
+        land: 'Sint Maarten'
+        afkorting2: ''
+        afkorting3: ''
+    land_Moldavië:
+        land: 'Moldavië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Burundi:
+        land: 'Burundi'
+        afkorting2: ''
+        afkorting3: ''
+    land_Finland:
+        land: 'Finland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Griekenland:
+        land: 'Griekenland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guatemala:
+        land: 'Guatemala'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nigeria:
+        land: 'Nigeria'
+        afkorting2: ''
+        afkorting3: ''
+    land_Libië:
+        land: 'Libië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ierland:
+        land: 'Ierland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Brazilië:
+        land: 'Brazilië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Rwanda:
+        land: 'Rwanda'
+        afkorting2: ''
+        afkorting3: ''
+    land_Venezuela:
+        land: 'Venezuela'
+        afkorting2: ''
+        afkorting3: ''
+    land_IJsland:
+        land: 'IJsland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Somalia:
+        land: 'Somalia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Verenigde Staten van Amerika:
+        land: 'Verenigde Staten van Amerika'
+        afkorting2: ''
+        afkorting3: ''
+    land_Australië:
+        land: 'Australië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Jamaica:
+        land: 'Jamaica'
+        afkorting2: ''
+        afkorting3: ''
+    land_Luxemburg:
+        land: 'Luxemburg'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mauritanië:
+        land: 'Mauritanië'
+        afkorting2: ''
+        afkorting3: ''
+    land_China:
+        land: 'China'
+        afkorting2: ''
+        afkorting3: ''
+    land_Afghanistan:
+        land: 'Afghanistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Indonesië:
+        land: 'Indonesië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guyana:
+        land: 'Guyana'
+        afkorting2: ''
+        afkorting3: ''
+    land_Noorwegen:
+        land: 'Noorwegen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Duitsland:
+        land: 'Duitsland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nederland:
+        land: 'Nederland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Israël:
+        land: 'Israël'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nepal:
+        land: 'Nepal'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zuidkorea:
+        land: 'Zuidkorea'
+        afkorting2: ''
+        afkorting3: ''
+    land_Spanje:
+        land: 'Spanje'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oekraine:
+        land: 'Oekraine'
+        afkorting2: ''
+        afkorting3: ''
+    land_Grootbrittannië:
+        land: 'Grootbrittannië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Niger:
+        land: 'Niger'
+        afkorting2: ''
+        afkorting3: ''
+    land_Haïti:
+        land: 'Haïti'
+        afkorting2: ''
+        afkorting3: ''
+    land_Jordanië:
+        land: 'Jordanië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Turkije:
+        land: 'Turkije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Joegoslavië:
+        land: 'Joegoslavië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Algerije:
+        land: 'Algerije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oezbekistan:
+        land: 'Oezbekistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sierra Leone:
+        land: 'Sierra Leone'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tadzjikistan:
+        land: 'Tadzjikistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Georgië:
+        land: 'Georgië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bosnië-Herzegovina:
+        land: 'Bosnië-Herzegovina'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tsjechië:
+        land: 'Tsjechië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Slowakije:
+        land: 'Slowakije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Democratische Republiek Congo:
+        land: 'Democratische Republiek Congo'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oeganda:
+        land: 'Oeganda'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kenya:
+        land: 'Kenya'
+        afkorting2: ''
+        afkorting3: ''
+    land_Mexico:
+        land: 'Mexico'
+        afkorting2: ''
+        afkorting3: ''
+    land_Gambia:
+        land: 'Gambia'
+        afkorting2: ''
+        afkorting3: ''
+    land_Syrië:
+        land: 'Syrië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Nederlandse Antillen:
+        land: 'Nederlandse Antillen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Egypte:
+        land: 'Egypte'
+        afkorting2: ''
+        afkorting3: ''
+    land_Argentinië:
+        land: 'Argentinië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Honduras:
+        land: 'Honduras'
+        afkorting2: ''
+        afkorting3: ''
+    land_Pakistan:
+        land: 'Pakistan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Senegal:
+        land: 'Senegal'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bulgarije:
+        land: 'Bulgarije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Dominicaanse Republiek:
+        land: 'Dominicaanse Republiek'
+        afkorting2: ''
+        afkorting3: ''
+    land_Polen:
+        land: 'Polen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Rusland (oud):
+        land: 'Rusland (oud)'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tanzania:
+        land: 'Tanzania'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sri Lanka:
+        land: 'Sri Lanka'
+        afkorting2: ''
+        afkorting3: ''
+    land_Soedan:
+        land: 'Soedan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Japan:
+        land: 'Japan'
+        afkorting2: ''
+        afkorting3: ''
+    land_Panama:
+        land: 'Panama'
+        afkorting2: ''
+        afkorting3: ''
+    land_Uruguay:
+        land: 'Uruguay'
+        afkorting2: ''
+        afkorting3: ''
+    land_Ecuador:
+        land: 'Ecuador'
+        afkorting2: ''
+        afkorting3: ''
+    land_Guinee:
+        land: 'Guinee'
+        afkorting2: ''
+        afkorting3: ''
+    land_Libanon:
+        land: 'Libanon'
+        afkorting2: ''
+        afkorting3: ''
+    land_Italië:
+        land: 'Italië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Koeweit:
+        land: 'Koeweit'
+        afkorting2: ''
+        afkorting3: ''
+    land_India:
+        land: 'India'
+        afkorting2: ''
+        afkorting3: ''
+    land_Roemenië:
+        land: 'Roemenië'
+        afkorting2: ''
+        afkorting3: ''
+    land_Tsjechoslowakije:
+        land: 'Tsjechoslowakije'
+        afkorting2: ''
+        afkorting3: ''
+    land_Peru:
+        land: 'Peru'
+        afkorting2: ''
+        afkorting3: ''
+    land_Portugal:
+        land: 'Portugal'
+        afkorting2: ''
+        afkorting3: ''
+    land_Palestina:
+        land: 'Palestina'
+        afkorting2: ''
+        afkorting3: ''
+    land_Letland:
+        land: 'Letland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Estland:
+        land: 'Estland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Litouwen:
+        land: 'Litouwen'
+        afkorting2: ''
+        afkorting3: ''
+    land_Saarland:
+        land: 'Saarland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Goudkust:
+        land: 'Goudkust'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bangladesh:
+        land: 'Bangladesh'
+        afkorting2: ''
+        afkorting3: ''
+    land_Duitse Democratische Republiek:
+        land: 'Duitse Democratische Republiek'
+        afkorting2: ''
+        afkorting3: ''
+    land_Zimbabwe:
+        land: 'Zimbabwe'
+        afkorting2: ''
+        afkorting3: ''
+    land_Eritrea:
+        land: 'Eritrea'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kongo:
+        land: 'Kongo'
+        afkorting2: ''
+        afkorting3: ''
+    land_Kongo Kinshasa:
+        land: 'Kongo Kinshasa'
+        afkorting2: ''
+        afkorting3: ''
+    land_Sovjetunie:
+        land: 'Sovjetunie'
+        afkorting2: ''
+        afkorting3: ''
+    land_Korea:
+        land: 'Korea'
+        afkorting2: ''
+        afkorting3: ''
+    land_Oem el Koewein:
+        land: 'Oem el Koewein'
+        afkorting2: ''
+        afkorting3: ''
+    land_Bondsrepubliek Duitsland:
+        land: 'Bondsrepubliek Duitsland'
+        afkorting2: ''
+        afkorting3: ''
+    land_Westelijke Sahara:
+        land: 'Westelijke Sahara'
+        afkorting2: ''
+        afkorting3: ''
+    land_Overig:
+        land: 'Overig'
+        afkorting2: ''
+        afkorting3: ''
+    land_Trinidad en Tobago:
+        land: 'Trinidad en Tobago'
+        afkorting2: ''
+        afkorting3: ''
+    land_Vietnam:
+        land: 'Vietnam'
+        afkorting2: ''
+        afkorting3: ''
+
+AppBundle\Entity\Nationaliteit:
+    nationaliteit_Onbekend:
+        naam: 'Onbekend'
+        afkorting: ''
+    nationaliteit_Nederlandse:
+        naam: 'Nederlandse'
+        afkorting: ''
+    nationaliteit_Behandeld als Nederlander:
+        naam: 'Behandeld als Nederlander'
+        afkorting: ''
+    nationaliteit_Slowaakse:
+        naam: 'Slowaakse'
+        afkorting: ''
+    nationaliteit_Tsjechische:
+        naam: 'Tsjechische'
+        afkorting: ''
+    nationaliteit_Burger van Georgië:
+        naam: 'Burger van Georgië'
+        afkorting: ''
+    nationaliteit_Burger van Tadzjikistan:
+        naam: 'Burger van Tadzjikistan'
+        afkorting: ''
+    nationaliteit_Burger van Oekraine:
+        naam: 'Burger van Oekraine'
+        afkorting: ''
+    nationaliteit_Burger van Moldavië:
+        naam: 'Burger van Moldavië'
+        afkorting: ''
+    nationaliteit_Burger van Kazachstan:
+        naam: 'Burger van Kazachstan'
+        afkorting: ''
+    nationaliteit_Burger van Belarus (Wit-Rusland):
+        naam: 'Burger van Belarus (Wit-Rusland)'
+        afkorting: ''
+    nationaliteit_Burger van Azerbajdsjan:
+        naam: 'Burger van Azerbajdsjan'
+        afkorting: ''
+    nationaliteit_Burger van Rusland:
+        naam: 'Burger van Rusland'
+        afkorting: ''
+    nationaliteit_Burger van Slovenië:
+        naam: 'Burger van Slovenië'
+        afkorting: ''
+    nationaliteit_Burger van Kroatië:
+        naam: 'Burger van Kroatië'
+        afkorting: ''
+    nationaliteit_Letse:
+        naam: 'Letse'
+        afkorting: ''
+    nationaliteit_Estnische:
+        naam: 'Estnische'
+        afkorting: ''
+    nationaliteit_Litouwse:
+        naam: 'Litouwse'
+        afkorting: ''
+    nationaliteit_Albanese:
+        naam: 'Albanese'
+        afkorting: ''
+    nationaliteit_Belgische:
+        naam: 'Belgische'
+        afkorting: ''
+    nationaliteit_Bulgaarse:
+        naam: 'Bulgaarse'
+        afkorting: ''
+    nationaliteit_Deense:
+        naam: 'Deense'
+        afkorting: ''
+    nationaliteit_Burger van de Bondsrepubliek Duitsland:
+        naam: 'Burger van de Bondsrepubliek Duitsland'
+        afkorting: ''
+    nationaliteit_Finse:
+        naam: 'Finse'
+        afkorting: ''
+    nationaliteit_Franse:
+        naam: 'Franse'
+        afkorting: ''
+    nationaliteit_Jemenitische:
+        naam: 'Jemenitische'
+        afkorting: ''
+    nationaliteit_Griekse:
+        naam: 'Griekse'
+        afkorting: ''
+    nationaliteit_Brits burger:
+        naam: 'Brits burger'
+        afkorting: ''
+    nationaliteit_Hongaarse:
+        naam: 'Hongaarse'
+        afkorting: ''
+    nationaliteit_Ierse:
+        naam: 'Ierse'
+        afkorting: ''
+    nationaliteit_IJslandse:
+        naam: 'IJslandse'
+        afkorting: ''
+    nationaliteit_Italiaanse:
+        naam: 'Italiaanse'
+        afkorting: ''
+    nationaliteit_Joegoslavische:
+        naam: 'Joegoslavische'
+        afkorting: ''
+    nationaliteit_Luxemburgse:
+        naam: 'Luxemburgse'
+        afkorting: ''
+    nationaliteit_Maltese:
+        naam: 'Maltese'
+        afkorting: ''
+    nationaliteit_Noorse:
+        naam: 'Noorse'
+        afkorting: ''
+    nationaliteit_Oostenrijkse:
+        naam: 'Oostenrijkse'
+        afkorting: ''
+    nationaliteit_Poolse:
+        naam: 'Poolse'
+        afkorting: ''
+    nationaliteit_Portugese:
+        naam: 'Portugese'
+        afkorting: ''
+    nationaliteit_Roemeense:
+        naam: 'Roemeense'
+        afkorting: ''
+    nationaliteit_Spaanse:
+        naam: 'Spaanse'
+        afkorting: ''
+    nationaliteit_Zweedse:
+        naam: 'Zweedse'
+        afkorting: ''
+    nationaliteit_Zwitserse:
+        naam: 'Zwitserse'
+        afkorting: ''
+    nationaliteit_Brits onderdaan:
+        naam: 'Brits onderdaan'
+        afkorting: ''
+    nationaliteit_Eritrese:
+        naam: 'Eritrese'
+        afkorting: ''
+    nationaliteit_Macedonische:
+        naam: 'Macedonische'
+        afkorting: ''
+    nationaliteit_Algerijnse:
+        naam: 'Algerijnse'
+        afkorting: ''
+    nationaliteit_Angolese:
+        naam: 'Angolese'
+        afkorting: ''
+    nationaliteit_Burundische:
+        naam: 'Burundische'
+        afkorting: ''
+    nationaliteit_Burger van Burkina Faso:
+        naam: 'Burger van Burkina Faso'
+        afkorting: ''
+    nationaliteit_Centrafrikaanse:
+        naam: 'Centrafrikaanse'
+        afkorting: ''
+    nationaliteit_Kongolese:
+        naam: 'Kongolese'
+        afkorting: ''
+    nationaliteit_Egyptische:
+        naam: 'Egyptische'
+        afkorting: ''
+    nationaliteit_Etiopische:
+        naam: 'Etiopische'
+        afkorting: ''
+    nationaliteit_Gambiaanse:
+        naam: 'Gambiaanse'
+        afkorting: ''
+    nationaliteit_Ghanese:
+        naam: 'Ghanese'
+        afkorting: ''
+    nationaliteit_Guinese:
+        naam: 'Guinese'
+        afkorting: ''
+    nationaliteit_Ivoriaanse:
+        naam: 'Ivoriaanse'
+        afkorting: ''
+    nationaliteit_Kameroense:
+        naam: 'Kameroense'
+        afkorting: ''
+    nationaliteit_Kenyaanse:
+        naam: 'Kenyaanse'
+        afkorting: ''
+    nationaliteit_Liberiaanse:
+        naam: 'Liberiaanse'
+        afkorting: ''
+    nationaliteit_Libische:
+        naam: 'Libische'
+        afkorting: ''
+    nationaliteit_Malinese:
+        naam: 'Malinese'
+        afkorting: ''
+    nationaliteit_Marokkaanse:
+        naam: 'Marokkaanse'
+        afkorting: ''
+    nationaliteit_Burger van Mauritanië:
+        naam: 'Burger van Mauritanië'
+        afkorting: ''
+    nationaliteit_Burger van Niger:
+        naam: 'Burger van Niger'
+        afkorting: ''
+    nationaliteit_Nigeriaanse:
+        naam: 'Nigeriaanse'
+        afkorting: ''
+    nationaliteit_Oegandese:
+        naam: 'Oegandese'
+        afkorting: ''
+    nationaliteit_Guineebissause:
+        naam: 'Guineebissause'
+        afkorting: ''
+    nationaliteit_Zuidafrikaanse:
+        naam: 'Zuidafrikaanse'
+        afkorting: ''
+    nationaliteit_Senegalese:
+        naam: 'Senegalese'
+        afkorting: ''
+    nationaliteit_Sierraleoonse:
+        naam: 'Sierraleoonse'
+        afkorting: ''
+    nationaliteit_Soedanese:
+        naam: 'Soedanese'
+        afkorting: ''
+    nationaliteit_Somalische:
+        naam: 'Somalische'
+        afkorting: ''
+    nationaliteit_Tanzaniaanse:
+        naam: 'Tanzaniaanse'
+        afkorting: ''
+    nationaliteit_Togolese:
+        naam: 'Togolese'
+        afkorting: ''
+    nationaliteit_Tunesische:
+        naam: 'Tunesische'
+        afkorting: ''
+    nationaliteit_Canadese:
+        naam: 'Canadese'
+        afkorting: ''
+    nationaliteit_Cubaanse:
+        naam: 'Cubaanse'
+        afkorting: ''
+    nationaliteit_Jamaicaanse:
+        naam: 'Jamaicaanse'
+        afkorting: ''
+    nationaliteit_Mexicaanse:
+        naam: 'Mexicaanse'
+        afkorting: ''
+    nationaliteit_Nicaraguaanse:
+        naam: 'Nicaraguaanse'
+        afkorting: ''
+    nationaliteit_Amerikaans burger:
+        naam: 'Amerikaans burger'
+        afkorting: ''
+    nationaliteit_Argentijnse:
+        naam: 'Argentijnse'
+        afkorting: ''
+    nationaliteit_Braziliaanse:
+        naam: 'Braziliaanse'
+        afkorting: ''
+    nationaliteit_Chileense:
+        naam: 'Chileense'
+        afkorting: ''
+    nationaliteit_Colombiaanse:
+        naam: 'Colombiaanse'
+        afkorting: ''
+    nationaliteit_Ecuadoraanse:
+        naam: 'Ecuadoraanse'
+        afkorting: ''
+    nationaliteit_Guyaanse:
+        naam: 'Guyaanse'
+        afkorting: ''
+    nationaliteit_Peruaanse:
+        naam: 'Peruaanse'
+        afkorting: ''
+    nationaliteit_Surinaamse:
+        naam: 'Surinaamse'
+        afkorting: ''
+    nationaliteit_Venezolaanse:
+        naam: 'Venezolaanse'
+        afkorting: ''
+    nationaliteit_Afghaanse:
+        naam: 'Afghaanse'
+        afkorting: ''
+    nationaliteit_Bhutaanse:
+        naam: 'Bhutaanse'
+        afkorting: ''
+    nationaliteit_Burmaanse:
+        naam: 'Burmaanse'
+        afkorting: ''
+    nationaliteit_Srilankaanse:
+        naam: 'Srilankaanse'
+        afkorting: ''
+    nationaliteit_Chinese:
+        naam: 'Chinese'
+        afkorting: ''
+    nationaliteit_Cyprische:
+        naam: 'Cyprische'
+        afkorting: ''
+    nationaliteit_Burger van India:
+        naam: 'Burger van India'
+        afkorting: ''
+    nationaliteit_Indonesische:
+        naam: 'Indonesische'
+        afkorting: ''
+    nationaliteit_Iraakse:
+        naam: 'Iraakse'
+        afkorting: ''
+    nationaliteit_Iraanse:
+        naam: 'Iraanse'
+        afkorting: ''
+    nationaliteit_Israëlische:
+        naam: 'Israëlische'
+        afkorting: ''
+    nationaliteit_Japanse:
+        naam: 'Japanse'
+        afkorting: ''
+    nationaliteit_Laotiaanse:
+        naam: 'Laotiaanse'
+        afkorting: ''
+    nationaliteit_Libanese:
+        naam: 'Libanese'
+        afkorting: ''
+    nationaliteit_Maldivische:
+        naam: 'Maldivische'
+        afkorting: ''
+    nationaliteit_Mongolische:
+        naam: 'Mongolische'
+        afkorting: ''
+    nationaliteit_Nepalese:
+        naam: 'Nepalese'
+        afkorting: ''
+    nationaliteit_Pakistaanse:
+        naam: 'Pakistaanse'
+        afkorting: ''
+    nationaliteit_Singaporaanse:
+        naam: 'Singaporaanse'
+        afkorting: ''
+    nationaliteit_Syrische:
+        naam: 'Syrische'
+        afkorting: ''
+    nationaliteit_Turkse:
+        naam: 'Turkse'
+        afkorting: ''
+    nationaliteit_Zuidkoreaanse:
+        naam: 'Zuidkoreaanse'
+        afkorting: ''
+    nationaliteit_Burger van Bangladesh:
+        naam: 'Burger van Bangladesh'
+        afkorting: ''
+    nationaliteit_Australische:
+        naam: 'Australische'
+        afkorting: ''
+    nationaliteit_Nieuwzeelandse:
+        naam: 'Nieuwzeelandse'
+        afkorting: ''
+    nationaliteit_Westsamoaanse:
+        naam: 'Westsamoaanse'
+        afkorting: ''
+    nationaliteit_Burger van Britse afhankelijke gebieden:
+        naam: 'Burger van Britse afhankelijke gebieden'
+        afkorting: ''
+    nationaliteit_Amerikaans onderdaan:
+        naam: 'Amerikaans onderdaan'
+        afkorting: ''
+    nationaliteit_British National (overseas):
+        naam: 'British National (overseas)'
+        afkorting: ''
+    nationaliteit_Burger van Servië:
+        naam: 'Burger van Servië'
+        afkorting: ''
+    nationaliteit_Staatloos:
+        naam: 'Staatloos'
+        afkorting: ''
+    nationaliteit_Overig:
+        naam: 'Overig'
+        afkorting: ''
+    nationaliteit_Indiaas:
+        naam: 'Indiaas'
+        afkorting: ''
+    nationaliteit_Burger van Trinidad en Tobago:
+        naam: 'Burger van Trinidad en Tobago'
+        afkorting: ''
+    nationaliteit_Vietnamees:
+        naam: 'Vietnamees'
+        afkorting: ''
+    nationaliteit_Bosnier:
+        naam: 'Bosnier'
+        afkorting: ''
+
+AppBundle\Entity\Medewerker:
+    medewerker_1:
+        username: 'bhuttinga'
+        email: 'bhuttinga@deregenboog.org'
+        voornaam: 'Bart'
+        achternaam: 'Huttinga'
+        groepen:
+            - 'CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog'
+            - 'CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog'
+            - 'CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog'
+            - 'CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog'
+    medewerker_{2..10}:
+        username: '<username()>'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_{11..15}:
+        username: '<username()>'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        groepen: ['CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog']
+    medewerker_{16..20}:
+        username: '<username()>'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        groepen: ['CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog']
+
+AppBundle\Entity\Klant:
+    klant_{1..200}:
+        roepnaam: '<firstname()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        geslacht: '@geslacht_*'
+        geboortedatum: '<date()>'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        laatsteTbcControle: '<dateTimeThisDecade()>'
+        laatsteZrm: '<dateTimeThisDecade()>'
+#        addIntake: ['@intake_<current()>']
+#        laatsteRegistratie: '@registratie_*'
+        overleden: '10%? 1 : 0'
+        disabled: '10%? 1 : 0'
+        werkgebied: '80%? @werkgebied_*'
+        postcodegebied: '80%? @ggw_gebied_*'
+        geenPost: '10%? 1 : 0'
+        geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_*'
+        nationaliteit: '@nationaliteit_*'
+
+AppBundle\Entity\Vrijwilliger:
+    vrijwilliger_{1..200}:
+        roepnaam: '<firstname()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        geslacht: '@geslacht_*'
+        geboortedatum: '<date()>'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        disabled: '10%? 1 : 0'
+        werkgebied: '@werkgebied_*'
+        postcodegebied: '80%? @ggw_gebied_*'
+        geenPost: '10%? 1 : 0'
+        geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_*'
+        nationaliteit: '@nationaliteit_*'

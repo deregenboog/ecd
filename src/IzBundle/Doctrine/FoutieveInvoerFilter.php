@@ -4,14 +4,12 @@ namespace IzBundle\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Vrijwilliger;
 use IzBundle\Entity\IzDeelnemer;
-use IzBundle\Entity\IzKoppeling;
+use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Entity\IzHulpvraag;
-use IzBundle\Entity\IzHulpaanbod;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Hulpaanbod;
 
 class FoutieveInvoerFilter extends SQLFilter
 {
@@ -21,7 +19,7 @@ class FoutieveInvoerFilter extends SQLFilter
             return sprintf('%s.iz_afsluiting_id IS NULL OR %s.iz_afsluiting_id <> 10', $targetTableAlias, $targetTableAlias);
         }
 
-        if (in_array($targetEntity->getName(), [IzKoppeling::class, IzHulpvraag::class, IzHulpaanbod::class])) {
+        if (in_array($targetEntity->getName(), [Koppeling::class, Hulpvraag::class, Hulpaanbod::class])) {
             return sprintf('%s.iz_eindekoppeling_id IS NULL OR %s.iz_eindekoppeling_id <> 10', $targetTableAlias, $targetTableAlias);
         }
 

@@ -27,7 +27,7 @@ class DoelstellingFilterType extends AbstractType
                 'choices' => array_combine($range, $range),
                 'required' => false,
             ])
-            ->add('project', IzProjectType::class, [
+            ->add('project', ProjectSelectType::class, [
                 'required' => false,
             ])
             ->add('categorie', ChoiceType::class, [

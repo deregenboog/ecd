@@ -194,7 +194,7 @@ class MedewerkersController extends AppController
                 break;
             case 'ldap':
                 Cache::clear(false, 'ldap');
-                $messages[] = 'Default cache deleted.';
+                $messages[] = 'LDAP cache deleted.';
                 break;
             case 'views':
                 clearCache(null, 'views');

@@ -1,0 +1,85 @@
+{% extends '@Iz/index.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include '@Iz/klanten/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'intakeMedewerker.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }} /
+                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'hulpvraagMedewerker.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izKlant.afsluitDatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for izKlant in pagination %}
+                <tr data-href="{{ path('cake_iz_klanten_toon_aanmelding', {klant_id: izKlant.klant.id, id: izKlant.id}) }}">
+                    <td>
+                        {{ izKlant.klant.id }}
+                    </td>
+                    <td>
+                        {{ izKlant.klant }}
+                    </td>
+                    <td>
+                        {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ izKlant.intake ? izKlant.intake.medewerker }}
+                    </td>
+                    <td>
+                        <ul>
+                            {% for hulpvraag in izKlant.izHulpvragen %}
+                                <li>{{ hulpvraag.project }} {{ hulpvraag.medewerker ? '('~hulpvraag.medewerker~')' }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {{ izKlant.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ izKlant.afsluitdatum ? izKlant.afsluitdatum|date('d-m-Y') }}
+                    </td>
+                    {% set zrm = izKlant.klant.laatsteZrm|date('U') %}
+                    {% if zrm < '-6 months'|date('U') %}
+                        {% set style = 'background-color: red; color: white;' %}
+                    {% elseif zrm < '-5 months'|date('U') %}
+                        {% set style = 'background-color: orange; color: white;' %}
+                    {% else %}
+                        {% set style = '' %}
+                    {% endif %}
+                    <td style="{{ style }}">
+                        {{ izKlant.klant.laatsteZrm is empty ? "" : izKlant.klant.laatsteZrm|date('d-m-Y') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

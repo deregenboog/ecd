@@ -1,0 +1,10 @@
+{% extends 'IzBundle:hulpvragen:view.html.twig' %}
+
+{% block content_right %}
+    <h2>Koppeling wijzigen</h2>
+    <p>
+        {{ html.cancelLink(path('iz_hulpvragen_view', {id: entity.id})) }}
+        {{ html.link('Annuleren', path('iz_hulpvragen_view', {id: entity.id})) }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

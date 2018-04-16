@@ -18,7 +18,7 @@
             {{ form_row(form.klant.geboortedatumRange) }}
         </th>
         <th>
-            {{ form_row(form.izProject) }}
+            {{ form_row(form.project) }}
         </th>
         <th>
             {{ form_row(form.medewerker) }}
@@ -46,7 +46,7 @@
             {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
@@ -79,7 +79,7 @@
                 {{ izHulpvraag.izKlant.klant.geboortedatum is empty ? "" : izHulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
             </td>
             <td>
-                {{ izHulpvraag.izProject }}
+                {{ izHulpvraag.project }}
             </td>
             <td>
                 {{ izHulpvraag.medewerker }}

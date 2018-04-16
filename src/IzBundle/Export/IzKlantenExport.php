@@ -11,9 +11,9 @@ class IzKlantenExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            if (!$izHulpvraag->isGekoppeld() && !$izHulpvraag->isAfgesloten()) {
-                $projecten[] = $izHulpvraag->getIzProject();
+        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+            if (!$hulpvraag->isGekoppeld() && !$hulpvraag->isAfgesloten()) {
+                $projecten[] = $hulpvraag->getProject();
             }
         }
 
@@ -24,9 +24,9 @@ class IzKlantenExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            if ($izHulpvraag->isGekoppeld() && !$izHulpvraag->isAfgesloten()) {
-                $projecten[] = $izHulpvraag->getIzProject();
+        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+            if ($hulpvraag->isGekoppeld() && !$hulpvraag->isAfgesloten()) {
+                $projecten[] = $hulpvraag->getProject();
             }
         }
 
@@ -37,9 +37,9 @@ class IzKlantenExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            if ($izHulpvraag->isGekoppeld() && $izHulpvraag->isAfgesloten()) {
-                $projecten[] = $izHulpvraag->getIzProject();
+        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+            if ($hulpvraag->isGekoppeld() && $hulpvraag->isAfgesloten()) {
+                $projecten[] = $hulpvraag->getProject();
             }
         }
 
@@ -50,9 +50,9 @@ class IzKlantenExport extends GenericExport
     {
         $data = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            if ($izHulpvraag->isGekoppeld()) {
-                $data[] = $izHulpvraag->getKoppelingStartdatum();
+        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+            if ($hulpvraag->isGekoppeld()) {
+                $data[] = $hulpvraag->getKoppelingStartdatum();
             }
         }
 
@@ -78,9 +78,9 @@ class IzKlantenExport extends GenericExport
     {
         $data = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            if ($izHulpvraag->isGekoppeld() && $izHulpvraag->isAfgesloten()) {
-                $data[] = $izHulpvraag->getKoppelingEinddatum();
+        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+            if ($hulpvraag->isGekoppeld() && $hulpvraag->isAfgesloten()) {
+                $data[] = $hulpvraag->getKoppelingEinddatum();
             }
         }
 
@@ -104,9 +104,9 @@ class IzKlantenExport extends GenericExport
     {
         $medewerkers = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $izHulpvraag) {
-            if ($izHulpvraag->getMedewerker()) {
-                $medewerkers[] = $izHulpvraag->getMedewerker();
+        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+            if ($hulpvraag->getMedewerker()) {
+                $medewerkers[] = $hulpvraag->getMedewerker();
             }
         }
 

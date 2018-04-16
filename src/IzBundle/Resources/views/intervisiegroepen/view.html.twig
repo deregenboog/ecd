@@ -1,0 +1,51 @@
+{% extends 'IzBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_left %}
+    <h2>{{ entity_name|capitalize    }}</h2>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum|date('d-m-Y') }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="vrijwilligers" class="tab-pane active">
+            <h2>Vrijwilligers</h2>
+            <p>
+                {% if entity.vrijwilligers|length > 0 %}
+                    {{ html.emailLink(path('iz_intervisiegroepen_email', {id: entity.id})) }}
+                    {{ html.link('E-mailen', path('iz_intervisiegroepen_email', {id: entity.id})) }}
+                    {{ html.downloadLink(path('iz_intervisiegroepen_download', {id: entity.id})) }}
+                    {{ html.link('Downloaden', path('iz_intervisiegroepen_download', {id: entity.id})) }}
+                {% endif %}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vrijwilliger in entity.vrijwilligers %}
+                        <tr data-href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id}) }}">
+                            <td>{{ vrijwilliger }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

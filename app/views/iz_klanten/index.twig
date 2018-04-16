@@ -37,11 +37,11 @@
             {{ form_row(form.izIntakeMedewerker) }}
         </th>
         <th>
-            {{ form_label(form.izProject) }}
+            {{ form_label(form.project) }}
             {{ form_widget(form.actief) }}
-            {{ form_widget(form.izProject) }}
+            {{ form_widget(form.project) }}
             {{ form_errors(form.actief) }}
-            {{ form_errors(form.izProject) }}
+            {{ form_errors(form.project) }}
             {{ form_row(form.izHulpvraagMedewerker) }}
         </th>
         <th>
@@ -70,7 +70,7 @@
             {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'izIntakeMedewerker.voornaam') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }} /
+            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }} /
             {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'izHulpvraagMedewerker.voornaam') }}
         </th>
         <th>
@@ -108,7 +108,7 @@
             <td>
                 <ul>
                     {% for izHulpvraag in izKlant.izHulpvragen %}
-                        <li>{{ izHulpvraag.izProject }} {{ izHulpvraag.medewerker ? '('~izHulpvraag.medewerker~')' }}</li>
+                        <li>{{ izHulpvraag.project }} {{ izHulpvraag.medewerker ? '('~izHulpvraag.medewerker~')' }}</li>
                     {% endfor %}
                 </ul>
             </td>

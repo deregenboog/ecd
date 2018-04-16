@@ -3,11 +3,11 @@
 namespace IzBundle\Report;
 
 use AppBundle\Report\Table;
-use IzBundle\Repository\IzHulpvraagRepository;
+use IzBundle\Repository\HulpvraagRepository;
 use IzBundle\Repository\DoelstellingRepository;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Exception\ReportException;
-use IzBundle\Repository\IzProjectRepository;
+use IzBundle\Repository\ProjectRepository;
 use IzBundle\Entity\Doelstelling;
 
 class Managementrapportage extends AbstractReport
@@ -32,7 +32,7 @@ class Managementrapportage extends AbstractReport
     private $data = [];
 
     /**
-     * @var IzProject[]
+     * @var Project[]
      */
     private $projecten;
 
@@ -46,9 +46,9 @@ class Managementrapportage extends AbstractReport
     ];
 
     public function __construct(
-        IzHulpvraagRepository $repository,
+        HulpvraagRepository $repository,
         DoelstellingRepository $doelstellingRepository,
-        IzProjectRepository $projectRepository
+        ProjectRepository $projectRepository
     ) {
         $this->repository = $repository;
         $this->doelstellingRepository = $doelstellingRepository;
@@ -90,7 +90,7 @@ class Managementrapportage extends AbstractReport
 
         $prestaties = $gestart;
         foreach ($this->projecten as $project) {
-            if (IzProject::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+            if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                 $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
                     return $row['project'] === $project->getNaam();
                 }));
@@ -128,7 +128,7 @@ class Managementrapportage extends AbstractReport
 
         $prestaties = $gestart;
         foreach ($this->projecten as $project) {
-            if (IzProject::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+            if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                 $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
                     return $row['project'] === $project->getNaam();
                 }));
@@ -227,7 +227,7 @@ class Managementrapportage extends AbstractReport
 
         $prestaties = $gestart;
         foreach ($this->projecten as $project) {
-            if (IzProject::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+            if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                 $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
                     return $row['project'] === $project->getNaam();
                 }));

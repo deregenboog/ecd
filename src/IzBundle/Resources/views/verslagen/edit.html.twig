@@ -1,0 +1,11 @@
+{% extends 'IzBundle:klanten:view.html.twig' %}
+
+{% set entity = entity.izKlant %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            $('.nav-tabs a[href="#koppelingen"]').tab('show')
+        });
+    </script>
+{% endblock %}

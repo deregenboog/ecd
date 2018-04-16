@@ -1,32 +1,86 @@
 services:
-    iz.dao:
-        abstract: true
+    IzBundle\Service\AfsluitingDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\BinnengekomenViaDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\ContactOntstaanDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\DeelnemerDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\DoelgroepDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\DoelstellingDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\EindeVraagAanbodDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\EindeKoppelingDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\EindeVraagAanbodDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\HulpaanbodDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\HulpvraagDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\HulpvraagsoortDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\IntakeDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\IntervisiegroepDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\KlantDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\KoppelingDao:
+        parent: app.dao.abstract
+    
+    IzBundle\Service\ProjectDao:
+        parent: app.dao.abstract
+
+    IzBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    iz.intake.entities:
+        class: ArrayObject
         arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
 
-    iz.dao.doelgroep:
-        parent: app.dao.abstract
-        class: IzBundle\Service\DoelgroepDao
+    iz.hulpvraag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klant, dao: '@IzBundle\Service\KlantDao' }
 
-    iz.dao.doelstelling:
-        parent: app.dao.abstract
-        class: IzBundle\Service\DoelstellingDao
+    iz.hulpaanbod.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
 
-    iz.dao.hulpvraagsoort:
-        parent: app.dao.abstract
-        class: IzBundle\Service\HulpvraagsoortDao
+    iz.intake.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
 
-    iz.dao.klant:
-        parent: app.dao.abstract
-        class: IzBundle\Service\KlantDao
 
-    iz.dao.koppeling:
-        parent: app.dao.abstract
-        class: IzBundle\Service\KoppelingDao
-    
-    iz.dao.vrijwilliger:
-        parent: app.dao.abstract
-        class: IzBundle\Service\VrijwilligerDao
-    
+    iz.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
+              

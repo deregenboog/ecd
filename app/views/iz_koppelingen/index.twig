@@ -20,7 +20,7 @@
                 {{ form_row(form.lopendeKoppelingen) }}
             </th>
             <th>
-                {{ form_row(form.izProject) }}
+                {{ form_row(form.project) }}
             </th>
             <th>
                 {{ form_row(form.izHulpvraagMedewerker) }}
@@ -49,7 +49,7 @@
             {{ knp_pagination_sortable(pagination, 'Einddatum koppeling', 'izHulpvraag.koppelingEinddatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'medewerker.achternaam') }}
@@ -81,7 +81,7 @@
                 {{ izHulpvraag.koppelingEinddatum is empty ? "" : izHulpvraag.koppelingEinddatum|date('d-m-Y') }}
             </td>
             <td>
-                {{ izHulpvraag.izProject }}
+                {{ izHulpvraag.project }}
             </td>
             <td>
                 {{ izHulpvraag.medewerker }}

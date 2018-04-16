@@ -114,7 +114,7 @@ class DATABASE_CONFIG
 
         switch ($conn->getDriver()->getName()) {
             case 'pdo_mysql':
-                $this->default['driver'] = 'mysql';
+                $this->default['driver'] = 'mysqli';
                 break;
             default:
                 throw new \Exception('Unsupported database driver: '.$conn->getDriver()->getName());

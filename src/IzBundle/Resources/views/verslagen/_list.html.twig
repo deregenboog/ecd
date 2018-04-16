@@ -1,0 +1,22 @@
+<h2>Verslagen</h2>
+{% if form is defined and 'verslag' == form.vars.name %}
+    <p>
+        {{ html.cancelLink(path('iz_klanten_view', {id: deelnemer.id, _fragment: 'verslagen'})) }}
+        {{ html.link('Annuleren', path('iz_klanten_view', {id: deelnemer.id, _fragment: 'verslagen'})) }}
+    </p>
+    {{ form(form) }}
+{% else %}
+    <p>
+        {{ html.addLink(path('iz_verslagen_add', {deelnemer: deelnemer.id})) }}
+        {{ html.link('Verslag toevoegen', path('iz_verslagen_add', {deelnemer: deelnemer.id})) }}
+    </p>
+    {% for verslag in entity.verslagen %}
+        <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }}</h3>
+        <dl class="dl-horizontal">
+            <dt>Medewerker</dt>
+            <dd>{{ verslag.medewerker }}</dd>
+            <dt>Verslag</dt>
+            <dd>{{ verslag.opmerking|nl2br }}</dd>
+        </dl>
+    {% endfor %}
+{% endif %}

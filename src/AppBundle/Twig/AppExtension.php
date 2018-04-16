@@ -49,6 +49,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('class', 'get_class'),
             new \Twig_SimpleFunction('isActiveRoute', [$this, 'isActiveRoute']),
             new \Twig_SimpleFunction('isActivePath', [$this, 'isActivePath']),
         ];
@@ -165,7 +166,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
         $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
         foreach ($patterns as $pattern) {
-            if (false !== strpos($route, $pattern)) {
+            if (0 === strpos($route, $pattern) || 0 === strpos($route, 'app_'.$pattern)) {
                 return true;
             }
         }
@@ -181,7 +182,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
         $path = $this->requestStack->getCurrentRequest()->getPathInfo();
         foreach ($patterns as $pattern) {
-            if (false !== strpos($path, $pattern)) {
+            if (1 === strpos($path, $pattern)) {
                 return true;
             }
         }

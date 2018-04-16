@@ -66,9 +66,6 @@
                     <li class="<?= $this->action == 'verslagen_persoon' ? 'tab_acted' : '' ?>">
                         <?= $html->link('Verslagen', ['action' => 'verslagen_persoon', $id]); ?>
                     </li>
-                    <li class="<?= $this->action == 'toon_matching' ? 'tab_acted' : '' ?>">
-                        <?= $html->link('Matching', ['action' => 'toon_matching', $id]); ?>
-                    </li>
                     <li class="<?= $this->action == 'koppelingen' ? 'tab_acted' : '' ?>">
                         <?= $html->link('Koppelingen', ['action' => 'koppelingen', $id]); ?>
                     </li>
@@ -120,12 +117,6 @@
                         break;
                     case 'verslagen_persoon':
                         echo $this->element('../iz_deelnemers/verslagen');
-                        break;
-                    case 'toon_matching':
-                        echo $this->element('../iz_deelnemers/toon_matching');
-                        break;
-                    case 'matching':
-                        echo $this->element('../iz_deelnemers/matching');
                         break;
                     case 'koppelingen':
                         echo $this->element('../iz_deelnemers/koppelingen');

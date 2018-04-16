@@ -1,7 +1,0 @@
-IzBundle\Entity\IzKlant:
-    iz_klant_{1..100}:
-        klant (unique): '@klant_*'
-        datumAanmelding: '<dateTimeThisDecade()>'
-        afsluitDatum: '30%? <dateTimeThisDecade()>'
-        izAfsluiting: '30%? @iz_afsluiting_*'
-        izOntstaanContact: '30%? @iz_ontstaan_contacten_*'

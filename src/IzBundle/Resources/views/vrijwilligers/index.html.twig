@@ -1,0 +1,75 @@
+{% extends '@Iz/index.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include '@Iz/vrijwilligers/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Nummer', 'vrijwilliger.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'intakeMedewerker.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }} /
+                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'hulpaanbodMedewerker.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izVrijwilliger.afsluitDatum') }}
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for izVrijwilliger in pagination %}
+                <tr data-href="{{ path('cake_iz_vrijwilligers_toon_aanmelding', {vrijwilliger_id: izVrijwilliger.vrijwilliger.id, id: izVrijwilliger.id}) }}">
+                    <td>
+                        {{ izVrijwilliger.vrijwilliger.id }}
+                    </td>
+                    <td>
+                        {{ izVrijwilliger }}
+                    </td>
+                    <td>
+                        {{ izVrijwilliger.vrijwilliger.geboortedatum ? izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ izVrijwilliger.intake ? izVrijwilliger.intake.medewerker }}
+                    </td>
+                    <td>
+                        <ul>
+                            {% for hulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                                <li>{{ hulpaanbod.project }} {{ hulpaanbod.medewerker ? '('~hulpaanbod.medewerker~')' }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {{ izVrijwilliger.vrijwilliger.werkgebied }}
+                    </td>
+                    <td>
+                        {{ izVrijwilliger.afsluitdatum ? izVrijwilliger.afsluitdatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

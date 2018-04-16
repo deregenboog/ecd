@@ -34,28 +34,22 @@ abstract class IzDeelnemer
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deleted", type="datetime")
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
     protected $deletedAt;
 
     /**
-     * @var ArrayCollection|IzKoppeling[]
-     * @ORM\OneToMany(targetEntity="IzKoppeling", mappedBy="izDeelnemer")
+     * @var ArrayCollection|Koppeling[]
+     * @ORM\OneToMany(targetEntity="Koppeling", mappedBy="izDeelnemer")
      */
-    private $izKoppelingen;
+    private $koppelingen;
 
     /**
-     * @var IzIntake
-     * @ORM\OneToOne(targetEntity="IzIntake", mappedBy="izDeelnemer")
+     * @var Intake
+     * @ORM\OneToOne(targetEntity="Intake", mappedBy="izDeelnemer", cascade={"persist"})
      * @Gedmo\Versioned
      */
-    protected $izIntake;
-
-    /**
-     * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $afsluitDatum;
+    protected $intake;
 
     /**
      * @ORM\Column(name="datum_aanmelding", type="date")
@@ -64,16 +58,52 @@ abstract class IzDeelnemer
     protected $datumAanmelding;
 
     /**
-     * @var IzAfsluiting
-     * @ORM\ManyToOne(targetEntity="IzAfsluiting")
+     * @var Project[]
+     * @ORM\ManyToMany(targetEntity="Project")
+     * @ORM\JoinTable(
+     *     name="iz_deelnemers_iz_projecten",
+     *     joinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="iz_project_id")}
+     * )
+     */
+    protected $projecten;
+
+    /**
+     * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $afsluitDatum;
+
+    /**
+     * @var Afsluiting
+     * @ORM\ManyToOne(targetEntity="Afsluiting")
      * @ORM\JoinColumn(name="iz_afsluiting_id")
      * @Gedmo\Versioned
      */
-    protected $izAfsluiting;
+    protected $afsluiting;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $notitie;
+
+    /**
+     * @var Verslag[]
+     *
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izDeelnemer", cascade={"persist"})
+     * @ORM\JoinColumn(name="iz_verslagen")
+     * @ORM\OrderBy({"created"="desc"})
+     */
+    protected $verslagen;
 
     public function __construct()
     {
-        $this->izKoppelingen = new ArrayCollection();
+        $this->koppelingen = new ArrayCollection();
+        $this->projecten = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
     }
 
     public function getId()
@@ -81,14 +111,41 @@ abstract class IzDeelnemer
         return $this->id;
     }
 
-    public function getIzAfsluiting()
+    public function getAfsluiting()
     {
-        return $this->izAfsluiting;
+        return $this->afsluiting;
     }
 
-    public function getIzIntake()
+    public function setAfsluiting(Afsluiting $afsluiting = null)
     {
-        return $this->izIntake;
+        $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function getIntake()
+    {
+        return $this->intake;
+    }
+
+    public function setIntake(Intake $intake)
+    {
+        $this->intake = $intake;
+        $intake->setIzDeelnemer($this);
+
+        return $this;
+    }
+
+    public function getProjecten()
+    {
+        return $this->projecten;
+    }
+
+    public function setProjecten(ArrayCollection $projecten)
+    {
+        $this->projecten = $projecten;
+
+        return $this;
     }
 
     public function getAfsluitDatum()
@@ -96,10 +153,17 @@ abstract class IzDeelnemer
         return $this->afsluitDatum;
     }
 
+    public function setAfsluitDatum(\DateTime $afsluitdatum = null)
+    {
+        $this->afsluitDatum = $afsluitdatum;
+
+        return $this;
+    }
+
     public function isGekoppeld()
     {
         $now = new \DateTime();
-        foreach ($this->izKoppelingen as $koppelking) {
+        foreach ($this->koppelingen as $koppelking) {
             if ($koppelking->isGekoppeld()
                 && $koppelking->getKoppelingStartdatum() <= $now
                 && (is_null($koppelking->getKoppelingEinddatum()) || $koppelking->getKoppelingEinddatum() >= $now)
@@ -114,5 +178,36 @@ abstract class IzDeelnemer
     public function getDatumAanmelding()
     {
         return $this->datumAanmelding;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotitie()
+    {
+        return $this->notitie;
+    }
+
+    /**
+     * @param string $notitie
+     */
+    public function setNotitie($notitie)
+    {
+        $this->notitie = $notitie;
+
+        return $this;
+    }
+
+    public function getVerslagen()
+    {
+        return $this->verslagen;
+    }
+
+    public function addVerslag(Verslag $verslag)
+    {
+        $this->verslagen[] = $verslag;
+        $verslag->setIzDeelnemer($this);
+
+        return $this;
     }
 }

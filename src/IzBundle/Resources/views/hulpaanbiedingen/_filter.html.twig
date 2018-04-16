@@ -1,0 +1,44 @@
+{{ form_start(filter) }}
+    <tr>
+        <th colspan="7">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            {{ form_widget(filter.startdatum) }}
+            {{ form_errors(filter.startdatum) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.id) }}
+            {{ form_errors(filter.vrijwilliger.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.voornaam) }}
+            {{ form_errors(filter.vrijwilliger.voornaam) }}
+            {{ form_widget(filter.vrijwilliger.achternaam) }}
+            {{ form_errors(filter.vrijwilliger.achternaam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.geboortedatumRange.start) }}
+            {{ form_errors(filter.vrijwilliger.geboortedatumRange.start) }}
+            {{ form_widget(filter.vrijwilliger.geboortedatumRange.end) }}
+            {{ form_errors(filter.vrijwilliger.geboortedatumRange.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.project) }}
+            {{ form_errors(filter.project) }}
+        </th>
+        <th>
+            {{ form_widget(filter.medewerker) }}
+            {{ form_errors(filter.medewerker) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+            {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+        </th>
+    </tr>
+{{ form_end(filter) }}

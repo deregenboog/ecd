@@ -1,0 +1,87 @@
+{% extends 'IzBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>Deelnemer {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'aanmelding'} %}
+    <div class="tab-content">
+        <div id="aanmelding" class="tab-pane active">
+            <h2>Aanmelding</h2>
+            <p>
+                {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+            </p>
+            {% if form is defined and 'iz_klant' == form.vars.name %}
+                <p>
+                    {{ html.cancelLink(path('iz_klanten_view', {id: entity.id, _fragment: 'aanmelding'})) }}
+                    {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.id, _fragment: 'aanmelding'})) }}
+                </p>
+                {{ form(form) }}
+            {% else %}
+                <dl class="dl-horizontal">
+                    <dt>Aanmelddatum</dt>
+                    <dd>{{ entity.datumAanmelding ? entity.datumAanmelding|date('d-m-Y') }}</dd>
+                    <dt>Interesse in projecten</dt>
+                    <dd>
+                        <ul>
+                            {% for project in entity.projecten %}
+                                <li>{{ project }}</li>
+                            {% endfor %}
+                        </ul>
+                    </dd>
+                    <dt>Contact ontstaan</dt>
+                    <dd>{{ entity.contactOntstaan }}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Aanmeldende organisatie</dt>
+                    <dd>{{ entity.organisatieAanmelder }}</dd>
+                    <dt>Naam aanmelder</dt>
+                    <dd>{{ entity.naamAanmelder }}</dd>
+                    <dt>E-mail aanmelder</dt>
+                    <dd>{{ entity.emailAanmelder }}</dd>
+                    <dt>Telefoon aanmelder</dt>
+                    <dd>{{ entity.telefoonAanmelder }}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Notitie</dt>
+                    <dd>{{ entity.notitie|nl2br }}</dd>
+                </dl>
+            {% endif %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'IzBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {#% include 'IzBundle:documenten:_list.html.twig' with {deelnemer: entity} %#}
+        </div>
+        <div id="matching" class="tab-pane">
+            {#% include 'IzBundle:matchingklant:_detail.html.twig' with {klant: entity} %#}
+        </div>
+        <div id="koppelingen" class="tab-pane">
+            {% include 'IzBundle:hulpvragen:_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="afsluiting" class="tab-pane">
+            <h2>Afsluiting</h2>
+            {% if entity.afsluitdatum or entity.afsluiting %}
+                <dl class="dl-horizontal">
+                    <dt>Afsluitdatum</dt>
+                    <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+                    <dt>Afsluitreden</dt>
+                    <dd>{{ entity.afsluiting }}</dd>
+                </dl>
+            {% else %}
+                <p>
+                    {{ html.closeLink(path('iz_klanten_close', {id: entity.id})) }}
+                    {{ html.link('Dossier afsluiten', path('iz_klanten_close', {id: entity.id})) }}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

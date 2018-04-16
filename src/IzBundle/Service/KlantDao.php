@@ -6,6 +6,7 @@ use IzBundle\Entity\IzKlant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
+use AppBundle\Entity\Klant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -18,10 +19,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.geboortedatum',
             'werkgebied.naam',
             'klant.laatsteZrm',
-            'izIntakeMedewerker.voornaam',
-            'izHulpvraagMedewerker.voornaam',
+            'intakeMedewerker.voornaam',
+            'hulpvraagMedewerker.voornaam',
             'izKlant.afsluitDatum',
-            'izProject.naam',
+            'project.naam',
         ],
     ];
 
@@ -32,16 +33,16 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $expr = new Expr();
 
         $builder = $this->repository->createQueryBuilder('izKlant')
-            ->select('izKlant, klant, izHulpvraag, izProject, izIntake, izIntakeMedewerker, izHulpvraagMedewerker')
+            ->select('izKlant, klant, hulpvraag, project, intake, intakeMedewerker, hulpvraagMedewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->leftJoin('izKlant.izIntake', 'izIntake')
-            ->leftJoin('izIntake.medewerker', 'izIntakeMedewerker')
-            ->leftJoin('izKlant.izHulpvragen', 'izHulpvraag')
-            ->leftJoin('izHulpvraag.izProject', 'izProject')
-            ->leftJoin('izHulpvraag.medewerker', 'izHulpvraagMedewerker', 'WITH', $expr->andX(
-                $expr->orX('izHulpvraag.einddatum IS NULL', 'izHulpvraag.einddatum > :now'),
-                $expr->orX('izHulpvraag.koppelingEinddatum IS NULL', 'izHulpvraag.koppelingEinddatum > :now')
+            ->leftJoin('izKlant.intake', 'intake')
+            ->leftJoin('intake.medewerker', 'intakeMedewerker')
+            ->leftJoin('izKlant.izHulpvragen', 'hulpvraag')
+            ->leftJoin('hulpvraag.project', 'project')
+            ->leftJoin('hulpvraag.medewerker', 'hulpvraagMedewerker', 'WITH', $expr->andX(
+                $expr->orX('hulpvraag.einddatum IS NULL', 'hulpvraag.einddatum > :now'),
+                $expr->orX('hulpvraag.koppelingEinddatum IS NULL', 'hulpvraag.koppelingEinddatum > :now')
             ))
             ->setParameter('now', new \DateTime())
         ;
@@ -55,6 +56,16 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return IzKlant
+     */
+    public function findOneByKlant(Klant $klant)
+    {
+        return $this->repository->findOneBy(['klant' => $klant]);
     }
 
     public function create(IzKlant $klant)

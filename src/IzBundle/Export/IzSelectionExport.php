@@ -9,7 +9,6 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class IzSelectionExport extends GenericExport
 {
@@ -92,12 +91,12 @@ class IzSelectionExport extends GenericExport
         $projecten = [];
 
         if ($izDeelnemer instanceof IzKlant) {
-            foreach ($izDeelnemer->getIzHulpvragen() as $izHulpvraag) {
-                $projecten[] = $izHulpvraag->getIzProject();
+            foreach ($izDeelnemer->getIzHulpvragen() as $hulpvraag) {
+                $projecten[] = $hulpvraag->getProject();
             }
         } elseif ($izDeelnemer instanceof IzVrijwilliger) {
-            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $izHulpaanbod) {
-                $projecten[] = $izHulpaanbod->getIzProject();
+            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $hulpaanbod) {
+                $projecten[] = $hulpaanbod->getProject();
             }
         }
 
@@ -106,8 +105,8 @@ class IzSelectionExport extends GenericExport
 
     public function getMedewerkerIntake(IzDeelnemer $izDeelnemer)
     {
-        if ($izDeelnemer->getIzIntake()) {
-            return $izDeelnemer->getIzIntake()->getMedewerker();
+        if ($izDeelnemer->getIntake()) {
+            return $izDeelnemer->getIntake()->getMedewerker();
         }
     }
 
@@ -116,12 +115,12 @@ class IzSelectionExport extends GenericExport
         $medewerkers = [];
 
         if ($izDeelnemer instanceof IzKlant) {
-            foreach ($izDeelnemer->getIzHulpvragen() as $izHulpvraag) {
-                $medewerkers[] = $izHulpvraag->getMedewerker();
+            foreach ($izDeelnemer->getIzHulpvragen() as $hulpvraag) {
+                $medewerkers[] = $hulpvraag->getMedewerker();
             }
         } elseif ($izDeelnemer instanceof IzVrijwilliger) {
-            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $izHulpaanbod) {
-                $medewerkers[] = $izHulpaanbod->getMedewerker();
+            foreach ($izDeelnemer->getIzHulpaanbiedingen() as $hulpaanbod) {
+                $medewerkers[] = $hulpaanbod->getMedewerker();
             }
         }
 

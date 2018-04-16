@@ -1361,9 +1361,9 @@ class Model extends Overloadable
                 if (empty($this->data[$this->alias][$this->primaryKey]) && $isUUID) {
                     if (array_key_exists($this->primaryKey, $this->data[$this->alias])) {
                         $j = array_search($this->primaryKey, $fields);
-                        $values[$j] = String::uuid();
+                        $values[$j] = Str::uuid();
                     } else {
-                        list($fields[], $values[]) = [$this->primaryKey, String::uuid()];
+                        list($fields[], $values[]) = [$this->primaryKey, Str::uuid()];
                     }
                 }
 
@@ -2291,7 +2291,7 @@ class Model extends Overloadable
                 $list = ["{n}.{$this->alias}.{$this->primaryKey}", "{n}.{$this->alias}.{$this->displayField}", null];
             } else {
                 if (!is_array($query['fields'])) {
-                    $query['fields'] = String::tokenize($query['fields']);
+                    $query['fields'] = Str::tokenize($query['fields']);
                 }
 
                 if (1 == count($query['fields'])) {

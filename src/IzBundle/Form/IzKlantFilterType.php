@@ -10,14 +10,14 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use IzBundle\Filter\IzKlantFilter;
-use IzBundle\Entity\IzHulpvraag;
+use IzBundle\Entity\Hulpvraag;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\IzIntake;
+use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IzKlantFilterType extends AbstractType
@@ -57,29 +57,29 @@ class IzKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izProject', $options['enabled_filters'])) {
-            $builder->add('izProject', EntityType::class, [
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', EntityType::class, [
                 'required' => false,
                 'label' => 'Project',
-                'class' => IzProject::class,
+                'class' => Project::class,
                 'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('izProject')
-                        ->where('izProject.einddatum IS NULL OR izProject.einddatum >= :now')
-                        ->orderBy('izProject.naam', 'ASC')
+                    return $repo->createQueryBuilder('project')
+                        ->where('project.einddatum IS NULL OR project.einddatum >= :now')
+                        ->orderBy('project.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
                 },
             ]);
         }
 
-        if (in_array('izIntakeMedewerker', $options['enabled_filters'])) {
-            $builder->add('izIntakeMedewerker', EntityType::class, [
+        if (in_array('intakeMedewerker', $options['enabled_filters'])) {
+            $builder->add('intakeMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker intake',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzIntake::class, 'izIntake', 'WITH', 'izIntake.medewerker = medewerker')
+                        ->innerJoin(Intake::class, 'intake', 'WITH', 'intake.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
@@ -88,15 +88,15 @@ class IzKlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('izHulpvraagMedewerker', $options['enabled_filters'])) {
-            $builder->add('izHulpvraagMedewerker', EntityType::class, [
+        if (in_array('hulpvraagMedewerker', $options['enabled_filters'])) {
+            $builder->add('hulpvraagMedewerker', EntityType::class, [
                 'required' => false,
                 'class' => Medewerker::class,
                 'label' => 'Medewerker(s) hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
-                        ->innerJoin(IzHulpvraag::class, 'izHulpvraag', 'WITH', 'izHulpvraag.medewerker = medewerker')
+                        ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC');
@@ -136,9 +136,9 @@ class IzKlantFilterType extends AbstractType
                 'openDossiers',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
-                'izProject',
-                'izIntakeMedewerker',
-                'izHulpvraagMedewerker',
+                'project',
+                'intakeMedewerker',
+                'hulpvraagMedewerker',
                 'zonderActieveHulpvraag',
                 'zonderActieveKoppeling',
                 'filter',

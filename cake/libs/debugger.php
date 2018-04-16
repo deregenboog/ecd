@@ -29,7 +29,7 @@ if (!class_exists('Object')) {
 if (!class_exists('CakeLog')) {
     require_once LIBS.'cake_log.php';
 }
-if (!class_exists('String')) {
+if (!class_exists('Str')) {
     require_once LIBS.'string.php';
 }
 
@@ -304,7 +304,7 @@ class Debugger extends Object
         if (Configure::read('log')) {
             $tpl = $_this->_templates['log']['error'];
             $options = ['before' => '{:', 'after' => '}'];
-            CakeLog::write($level, String::insert($tpl, $data, $options));
+            CakeLog::write($level, Str::insert($tpl, $data, $options));
         }
 
         if ('Fatal Error' == $error) {
@@ -394,7 +394,7 @@ class Debugger extends Object
                 $trace['path'] = self::trimPath($trace['file']);
                 $trace['reference'] = $reference;
                 unset($trace['object'], $trace['args']);
-                $back[] = String::insert($tpl, $trace, ['before' => '{:', 'after' => '}']);
+                $back[] = Str::insert($tpl, $trace, ['before' => '{:', 'after' => '}']);
             }
         }
 
@@ -682,7 +682,7 @@ class Debugger extends Object
                 if (isset($detect[$key]) && empty($insert[$detect[$key]])) {
                     continue;
                 }
-                $links[$key] = String::insert($val, $insert, $insertOpts);
+                $links[$key] = Str::insert($val, $insert, $insertOpts);
             }
         }
 
@@ -693,12 +693,12 @@ class Debugger extends Object
             if (is_array($$key)) {
                 $$key = join("\n", $$key);
             }
-            $info .= String::insert($tpl[$key], compact($key) + $insert, $insertOpts);
+            $info .= Str::insert($tpl[$key], compact($key) + $insert, $insertOpts);
         }
         $links = join(' | ', $links);
         unset($data['context']);
 
-        echo String::insert($tpl['error'], compact('links', 'info') + $data, $insertOpts);
+        echo Str::insert($tpl['error'], compact('links', 'info') + $data, $insertOpts);
     }
 
     /**

@@ -3,12 +3,12 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Form\DoelstellingType;
 use IzBundle\Entity\Doelstelling;
 use IzBundle\Form\DoelstellingFilterType;
+use IzBundle\Service\DoelstellingDaoInterface;
 
 /**
  * @Route("/admin/doelstellingen")
@@ -23,9 +23,9 @@ class DoelstellingenController extends AbstractController
     protected $baseRouteName = 'iz_doelstellingen_';
 
     /**
-     * @var BehandelaarDaoInterface
+     * @var DoelstellingDaoInterface
      *
-     * @DI\Inject("iz.dao.doelstelling")
+     * @DI\Inject("IzBundle\Service\DoelstellingDao")
      */
     protected $dao;
 

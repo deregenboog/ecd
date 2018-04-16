@@ -1,36 +1,3 @@
-iz_deelnemers_index:
-    path: /iz_deelnemers
-
-iz_klanten_index:
-    path: /iz_klanten
-
-iz_vrijwilligers_index:
-    path: /iz_vrijwilligers
-
-iz_hulpvragen_index:
-    path: /iz_hulpvragen
-
-iz_hulpaanbiedingen_index:
-    path: /iz_hulpaanbiedingen
-
-iz_koppelingen_index:
-    path: /iz_koppelingen
-
-iz_rapportages_index:
-    path: /iz_rapportages
-
-iz_selecties_index:
-    path: /iz_deelnemers/selecties
-
-iz_intervisiegroepen_index:
-    path: /iz_intervisiegroepen
-
-iz_beheer_index:
-    path: /iz_deelnemers/beheer
-
-iz_klanten_toon_aanmelding:
-    path: /iz_deelnemers/toon_aanmelding/Klant/{klantId}/{izKlantId}
-
 iz_annotations:
     resource: "@IzBundle/Controller"
     type: annotation
@@ -40,4 +7,25 @@ iz_index:
     path: /iz/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: iz_deelnemers_index
+        route: iz_dashboard_index
+
+iz_klanten_add:
+    path: /iz_klanten/add
+
+cake_iz_klanten_toon_aanmelding:
+    path: /iz_deelnemers/toon_aanmelding/Klant/{klant_id}/{id}
+
+iz_vrijwilligers_add:
+    path: /iz_vrijwilligers/add
+
+cake_iz_hulpvragen_view:
+    path: /iz_deelnemers/koppelingen/{iz_klant_id}
+
+cake_iz_hulpaanbiedingen_view:
+    path: /iz_deelnemers/koppelingen/{iz_vrijwilliger_id}
+
+cake_iz_vrijwilligers_toon_aanmelding:
+    path: /iz_deelnemers/toon_aanmelding/Vrijwilliger/{vrijwilliger_id}/{id}
+
+cake_iz_intervisiegroepen_index:
+    path: /iz_deelnemers/intervisiegroepen

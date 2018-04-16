@@ -1,5 +1,0 @@
-IzBundle\Entity\Doelstelling:
-    doelstelling_{1..25}:
-        project (unique): '@iz_project_*'
-        jaar: 2017
-        aantal: '<numberBetween(10, 500)>'

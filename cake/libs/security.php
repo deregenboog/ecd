@@ -76,8 +76,8 @@ class Security extends Object
      */
     public static function generateAuthKey()
     {
-        if (!class_exists('String')) {
-            App::import('Core', 'String');
+        if (!class_exists('Str')) {
+            App::import('Core', 'Str');
         }
 
         return self::hash(String::uuid());

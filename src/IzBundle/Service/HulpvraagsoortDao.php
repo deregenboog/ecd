@@ -12,6 +12,7 @@ class HulpvraagsoortDao extends AbstractDao implements HulpvraagsoortDaoInterfac
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'hulpvraagsoort.naam',
+            'hulpvraagsoort.toelichting',
             'hulpvraagsoort.actief',
         ],
     ];

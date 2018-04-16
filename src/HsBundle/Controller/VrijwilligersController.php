@@ -44,7 +44,7 @@ class VrijwilligersController extends AbstractController
     /**
      * @var VrijwilligerDaoInterface
      *
-     * @DI\Inject("app.dao.vrijwilliger")
+     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
 

@@ -45,7 +45,7 @@ class DienstverlenersController extends AbstractController
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("app.dao.klant")
+     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
 

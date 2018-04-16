@@ -22,6 +22,9 @@
                     {{ knp_pagination_sortable(pagination, 'Naam', 'hulpvraagsoort.naam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Toelichting', 'hulpvraagsoort.toelichting') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Actief', 'hulpvraagsoort.actief') }}
                 </th>
                 <th></th>
@@ -32,6 +35,9 @@
             <tr>
                 <td>
                     {{ hulpvraagsoort.naam }}
+                </td>
+                <td>
+                    {{ hulpvraagsoort.toelichting }}
                 </td>
                 <td>
                     {{ hulpvraagsoort.actief ? 'Ja' : 'Nee' }}

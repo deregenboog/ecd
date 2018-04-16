@@ -20,8 +20,8 @@
         <?= $this->Form->input('prestatie_strategy', [
             'label' => 'Prestatieberekening',
             'options' => [
-                IzBundle\Entity\IzProject::STRATEGY_PRESTATIE_TOTAL => 'Totaal',
-                IzBundle\Entity\IzProject::STRATEGY_PRESTATIE_STARTED => 'Gestart',
+                IzBundle\Entity\Project::STRATEGY_PRESTATIE_TOTAL => 'Totaal',
+                IzBundle\Entity\Project::STRATEGY_PRESTATIE_STARTED => 'Gestart',
             ],
         ]) ?>
     </fieldset>

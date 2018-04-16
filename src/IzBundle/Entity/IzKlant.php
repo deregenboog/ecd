@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
@@ -15,41 +16,34 @@ class IzKlant extends IzDeelnemer
 {
     /**
      * @var Klant
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(name="foreign_key", nullable=true)
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
-     * @var MatchingKlant
-     * @ORM\OneToOne(targetEntity="MatchingKlant", mappedBy="izKlant")
-     * @Gedmo\Versioned
-     */
-    protected $matching;
-
-    /**
-     * @var ArrayCollection|IzHulpvraag[]
-     * @ORM\OneToMany(targetEntity="IzHulpvraag", mappedBy="izKlant")
+     * @var ArrayCollection|Hulpvraag[]
+     * @ORM\OneToMany(targetEntity="Hulpvraag", mappedBy="izKlant", cascade={"persist"})
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpvragen;
 
     /**
-     * @var IzOntstaanContact
-     * @ORM\ManyToOne(targetEntity="IzOntstaanContact")
+     * @var ContactOntstaan
+     * @ORM\ManyToOne(targetEntity="ContactOntstaan")
      * @ORM\JoinColumn(name="contact_ontstaan")
      * @Gedmo\Versioned
      */
-    protected $izOntstaanContact;
+    private $contactOntstaan;
 
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(name="organisatie")
      * @Gedmo\Versioned
      */
-    private $organisatie;
+    private $organisatieAanmelder;
 
     /**
      * @var string
@@ -75,8 +69,10 @@ class IzKlant extends IzDeelnemer
      */
     private $telefoonAanmelder;
 
-    public function __construct()
+    public function __construct(Klant $klant = null)
     {
+        $this->klant = $klant;
+        $this->datumAanmelding = new \DateTime('today');
         $this->izHulpvragen = new ArrayCollection();
     }
 
@@ -102,37 +98,83 @@ class IzKlant extends IzDeelnemer
         return $this->izHulpvragen;
     }
 
-    public function getIzOntstaanContact()
+    public function addHulpvraag(Hulpvraag $hulpvraag)
     {
-        return $this->izOntstaanContact;
-    }
-
-    public function setIzOntstaanContact(IzOntstaanContact $izOntstaanContact)
-    {
-        $this->izOntstaanContact = $izOntstaanContact;
+        $this->izHulpvragen[] = $hulpvraag;
+        $hulpvraag->setIzKlant($this);
 
         return $this;
     }
 
-    public function getMatching()
+    public function getOpenHulpvragen()
     {
-        return $this->matching;
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('hulpaanbod'))
+            ->andWhere(Criteria::expr()->isNull('einddatum'))
+        ;
+
+        return $this->izHulpvragen->matching($criteria);
+    }
+
+    public function getActieveKoppelingen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->neq('hulpaanbod', null))
+            ->andWhere(Criteria::expr()->orX(
+                Criteria::expr()->isNull('koppelingEinddatum'),
+                Criteria::expr()->gte('koppelingEinddatum', new \DateTime('today'))
+            ))
+        ;
+
+        return $this->izHulpvragen->matching($criteria);
+    }
+
+    public function getAfgeslotenHulpvragen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('hulpaanbod'))
+            ->andWhere(Criteria::expr()->neq('einddatum', null))
+        ;
+
+        return $this->izHulpvragen->matching($criteria);
+    }
+
+    public function getAfgeslotenKoppelingen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->neq('hulpaanbod', null))
+            ->andWhere(Criteria::expr()->lt('koppelingEinddatum', new \DateTime('today')))
+        ;
+
+        return $this->izHulpvragen->matching($criteria);
+    }
+
+    public function getContactOntstaan()
+    {
+        return $this->contactOntstaan;
+    }
+
+    public function setContactOntstaan(ContactOntstaan $contactOntstaan = null)
+    {
+        $this->contactOntstaan = $contactOntstaan;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getOrganisatie()
+    public function getOrganisatieAanmelder()
     {
-        return $this->organisatie;
+        return $this->organisatieAanmelder;
     }
 
     /**
-     * @param string $organisatie
+     * @param string $organisatieAanmelder
      */
-    public function setOrganisatie($organisatie)
+    public function setOrganisatieAanmelder($organisatieAanmelder)
     {
-        $this->organisatie = $organisatie;
+        $this->organisatieAanmelder = $organisatieAanmelder;
 
         return $this;
     }

@@ -19,7 +19,7 @@
             {{ form_row(form.vrijwilliger.geboortedatumRange) }}
         </th>
         <th>
-            {{ form_row(form.izProject) }}
+            {{ form_row(form.project) }}
         </th>
         <th>
             {{ form_row(form.medewerker) }}
@@ -47,7 +47,7 @@
             {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
         </th>
         <th>
-            {{ knp_pagination_sortable(pagination, 'Project', 'izProject.naam') }}
+            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
         </th>
         <th>
             {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
@@ -79,7 +79,7 @@
                 {% endif %}
             </td>
             <td>
-                {{ izHulpaanbod.izProject }}
+                {{ izHulpaanbod.project }}
             </td>
             <td>
                 {{ izHulpaanbod.medewerker }}

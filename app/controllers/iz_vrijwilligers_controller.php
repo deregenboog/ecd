@@ -27,7 +27,7 @@ class IzVrijwilligersController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->vrijwilligerDao = $this->container->get('iz.dao.vrijwilliger');
+        $this->vrijwilligerDao = $this->container->get('IzBundle\Service\VrijwilligerDao');
     }
 
     public function index()

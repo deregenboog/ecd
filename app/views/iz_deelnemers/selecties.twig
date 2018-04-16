@@ -7,8 +7,8 @@
         <legend>Projecten</legend>
         {{ form_widget(form.alleProjecten) }}
         {{ form_errors(form.alleProjecten) }}
-        {{ form_widget(form.izProjecten, {'attr': {'size': 20}}) }}
-        {{ form_errors(form.izProjecten) }}
+        {{ form_widget(form.projecten, {'attr': {'size': 20}}) }}
+        {{ form_errors(form.projecten) }}
     </fieldset>
 </div>
 <div class="center3cDiv">
@@ -51,13 +51,13 @@
     $(function() {
         $('#iz_deelnemer_selectie_alleProjecten').change(function() {
             if ($('#iz_deelnemer_selectie_alleProjecten').is(':checked')) {
-                $('#iz_deelnemer_selectie_izProjecten input').prop('checked', true);
+                $('#iz_deelnemer_selectie_projecten input').prop('checked', true);
             } else {
-                $('#iz_deelnemer_selectie_izProjecten input').prop('checked', false);
+                $('#iz_deelnemer_selectie_projecten input').prop('checked', false);
             }
         });
 
-        $('#iz_deelnemer_selectie_izProjecten input').change(function() {
+        $('#iz_deelnemer_selectie_projecten input').change(function() {
             $('#iz_deelnemer_selectie_alleProjecten').prop('checked', false);
         });
 
@@ -69,13 +69,13 @@
             }
         });
 
-        $('#iz_deelnemer_selectie_izProjecten input').change(function() {
+        $('#iz_deelnemer_selectie_projecten input').change(function() {
             $('#iz_deelnemer_selectie_alleProjecten').prop('checked', false);
         });
 
         // check all
         $('#iz_deelnemer_selectie_alleProjecten').prop('checked', true);
-        $('#iz_deelnemer_selectie_izProjecten input').prop('checked', true);
+        $('#iz_deelnemer_selectie_projecten input').prop('checked', true);
         $('#iz_deelnemer_selectie_alleStadsdelen').prop('checked', true);
         $('#iz_deelnemer_selectie_stadsdelen input').prop('checked', true);
     });

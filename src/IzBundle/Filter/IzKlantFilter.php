@@ -3,7 +3,7 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
@@ -35,19 +35,19 @@ class IzKlantFilter implements FilterInterface
     public $actief;
 
     /**
-     * @var IzProject
+     * @var Project
      */
-    public $izProject;
+    public $project;
 
     /**
      * @var Medewerker
      */
-    public $izIntakeMedewerker;
+    public $intakeMedewerker;
 
     /**
      * @var Medewerker
      */
-    public $izHulpvraagMedewerker;
+    public $hulpvraagMedewerker;
 
     /**
      * @var bool
@@ -87,49 +87,49 @@ class IzKlantFilter implements FilterInterface
             $this->klant->applyTo($builder);
         }
 
-        if ($this->izProject) {
+        if ($this->project) {
             switch ($this->actief) {
                 case self::ACTIEF_OOIT:
                     $builder
-                        ->andWhere('izHulpvraag.izProject = :izProject')
-                        ->setParameter('izProject', $this->izProject)
+                        ->andWhere('hulpvraag.project = :project')
+                        ->setParameter('project', $this->project)
                     ;
                     break;
                 case self::ACTIEF_NU:
                 default:
                     $builder
-                        ->andWhere('izHulpvraag.izProject = :izProject')
-                        ->andWhere('izHulpvraag.einddatum IS NULL')
-                        ->andWhere('izHulpvraag.koppelingEinddatum IS NULL')
-                        ->setParameter('izProject', $this->izProject)
+                        ->andWhere('hulpvraag.project = :project')
+                        ->andWhere('hulpvraag.einddatum IS NULL')
+                        ->andWhere('hulpvraag.koppelingEinddatum IS NULL')
+                        ->setParameter('project', $this->project)
                     ;
                     break;
             }
         }
 
-        if ($this->izIntakeMedewerker) {
+        if ($this->intakeMedewerker) {
             $builder
-                ->andWhere('izIntakeMedewerker = :izIntakeMedewerker')
-                ->setParameter('izIntakeMedewerker', $this->izIntakeMedewerker)
+                ->andWhere('intakeMedewerker = :intakeMedewerker')
+                ->setParameter('intakeMedewerker', $this->intakeMedewerker)
             ;
         }
 
-        if ($this->izHulpvraagMedewerker) {
+        if ($this->hulpvraagMedewerker) {
             $builder
-                ->andWhere('izHulpvraagMedewerker = :izHulpvraagMedewerker')
-                ->setParameter('izHulpvraagMedewerker', $this->izHulpvraagMedewerker)
+                ->andWhere('hulpvraagMedewerker = :hulpvraagMedewerker')
+                ->setParameter('hulpvraagMedewerker', $this->hulpvraagMedewerker)
             ;
         }
 
         if ($this->zonderActieveHulpvraag) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izKlant.id')
-                ->leftJoin('izKlant.izHulpvragen', 'actieveIzHulpvraag', 'WITH', $builder->expr()->andX(
-                    'actieveIzHulpvraag.izHulpaanbod IS NULL',
-                    'actieveIzHulpvraag.einddatum IS NULL OR actieveIzHulpvraag.einddatum >= :now'
+                ->leftJoin('izKlant.izHulpvragen', 'actieveHulpvraag', 'WITH', $builder->expr()->andX(
+                    'actieveHulpvraag.hulpaanbod IS NULL',
+                    'actieveHulpvraag.einddatum IS NULL OR actieveHulpvraag.einddatum >= :now'
                 ))
                 ->addGroupBy('izKlant.id')
-                ->andHaving('COUNT(actieveIzHulpvraag) = 0')
+                ->andHaving('COUNT(actieveHulpvraag) = 0')
                 ->setParameter('now', new \DateTime())
             ;
 
@@ -142,12 +142,12 @@ class IzKlantFilter implements FilterInterface
         if ($this->zonderActieveKoppeling) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izKlant.id')
-                ->leftJoin('izKlant.izHulpvragen', 'actieveIzKoppeling', 'WITH', $builder->expr()->andX(
-                    'actieveIzKoppeling.izHulpaanbod IS NOT NULL',
-                    'actieveIzKoppeling.koppelingEinddatum IS NULL OR actieveIzKoppeling.koppelingEinddatum >= :now'
+                ->leftJoin('izKlant.izHulpvragen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
+                    'actieveKoppeling.hulpaanbod IS NOT NULL',
+                    'actieveKoppeling.koppelingEinddatum IS NULL OR actieveKoppeling.koppelingEinddatum >= :now'
                 ))
                 ->addGroupBy('izKlant.id')
-                ->andHaving('COUNT(actieveIzKoppeling) = 0')
+                ->andHaving('COUNT(actieveKoppeling) = 0')
                 ->setParameter('now', new \DateTime())
             ;
 

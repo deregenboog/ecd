@@ -23,7 +23,7 @@ class HulpvraagsoortenController extends AbstractController
     /**
      * @var HulpvraagsoortDaoInterface
      *
-     * @DI\Inject("iz.dao.hulpvraagsoort")
+     * @DI\Inject("IzBundle\Service\HulpvraagsoortDao")
      */
     protected $dao;
 

@@ -73,7 +73,7 @@ class SqlReportComponent extends Component
             if ($config['isDisabled']) {
                 continue;
             }
-            $sql = String::insert($config['sql'], $conditions);
+            $sql = Str::insert($config['sql'], $conditions);
             $reports[$key]['result'] = $dataSource->query($sql);
         }
 

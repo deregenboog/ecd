@@ -1,0 +1,62 @@
+{{ form_start(filter) }}
+    <tr>
+        <th colspan="6">
+            <span class="form-inline">
+                {{ form_widget(filter.zonderActiefHulpaanbod) }}
+                {{ form_widget(filter.zonderActieveKoppeling) }}
+                {{ form_widget(filter.openDossiers) }}
+            </span>
+        </th>
+        <th colspan="2">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+                {{ form_widget(filter.download) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            {{ form_widget(filter.vrijwilliger.id) }}
+            {{ form_errors(filter.vrijwilliger.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.voornaam) }}
+            {{ form_errors(filter.vrijwilliger.voornaam) }}
+            {{ form_widget(filter.vrijwilliger.achternaam) }}
+            {{ form_errors(filter.vrijwilliger.achternaam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.geboortedatumRange.start) }}
+            {{ form_errors(filter.vrijwilliger.geboortedatumRange.start) }}
+            {{ form_widget(filter.vrijwilliger.geboortedatumRange.end) }}
+            {{ form_errors(filter.vrijwilliger.geboortedatumRange.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.intakeMedewerker) }}
+            {{ form_errors(filter.intakeMedewerker) }}
+        </th>
+        <th>
+            <span class="form-inline">
+                {{ form_widget(filter.actief) }}
+                {{ form_widget(filter.project) }}
+            </span>
+            <br>
+            {{ form_errors(filter.actief) }}
+            {{ form_errors(filter.project) }}
+            {{ form_widget(filter.hulpaanbodMedewerker) }}
+            {{ form_errors(filter.hulpaanbodMedewerker) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+            {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+        </th>
+        <th>
+            {{ form_widget(filter.afsluitDatum.start) }}
+            {{ form_errors(filter.afsluitDatum.start) }}
+            {{ form_widget(filter.afsluitDatum.end) }}
+            {{ form_errors(filter.afsluitDatum.end) }}
+        </th>
+        <th>
+        </th>
+    </tr>
+{{ form_end(filter) }}

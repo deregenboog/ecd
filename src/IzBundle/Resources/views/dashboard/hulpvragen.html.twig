@@ -1,0 +1,139 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Informele Zorg | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Iz/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <span class="pull-right">
+        {{ form(medewerker_filter) }}
+    </span>
+    <h1>{{ title }}</h1>
+    <ul class="nav nav-tabs">
+        <li><a href="{{ path('iz_dashboard_koppelingen', {medewerker: medewerker_filter.vars.value}) }}">Lopende koppelingen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpvragen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="hulpvragen" class="tab-pane active">
+            <h2>Open hulpvragen</h2>
+            <table class="table table-hover">
+                <thead>
+                    {{ form_start(filter) }}
+                        <tr>
+                            <th colspan="7">
+                                <span class="pull-right">
+                                    {{ form_widget(filter.filter) }}
+                                    {{ form_widget(filter.download) }}
+                                </span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ form_widget(filter.klant.id) }}
+                                {{ form_errors(filter.klant.id) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.klant.voornaam) }}
+                                {{ form_errors(filter.klant.voornaam) }}
+                                {{ form_widget(filter.klant.achternaam) }}
+                                {{ form_errors(filter.klant.achternaam) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                                {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                                {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                                {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.project) }}
+                                {{ form_errors(filter.project) }}
+                            </th>
+                            <th>
+                            </th>
+                            <th>
+                                {{ form_widget(filter.startdatum) }}
+                                {{ form_errors(filter.startdatum) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.klant.stadsdeel) }}
+                                {{ form_errors(filter.klant.stadsdeel) }}
+                            </th>
+                        </tr>
+                    {{ form_end(filter) }}
+                    <tr>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakeDatum') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Startdatum hulpvraag', 'hulpvraag.startdatum') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hulpvraag in pagination %}
+                        <tr data-href="{{ path('cake_iz_hulpvragen_view', {iz_klant_id: hulpvraag.izKlant.id}) }}">
+                            <td>
+                                {{ hulpvraag.izKlant.klant.id }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.izKlant.klant }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.project }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.izKlant.intake.intakedatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.startdatum|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.izKlant.klant.werkgebied }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+        <div id="hulpaanbiedingen" class="tab-pane">
+        </div>
+        <div id="koppelingen" class="tab-pane">
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            // make table rows clickable
+            $('form #medewerker').change(function() {
+                $(this).closest('form').submit();
+            });
+        });
+    </script>
+{% endblock %}

@@ -177,6 +177,18 @@ parameters:
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
+                - iz
+                - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Hulpaanbiedingen
+                - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intakes
+                - IzBundle\Controller\Intervisiegroepen
+                - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Selecties
+                - IzBundle\Controller\Verslagen
+                - IzBundle\Controller\Vrijwilligers
                 - IzKlanten
                 - IzVrijwilligers
                 - IzDeelnemers
@@ -215,9 +227,29 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
-                - IzBundle\Controller\Doelstellingen
+                - iz
+                - IzBundle\Controller\AfsluitredenenDeelnemer
+                - IzBundle\Controller\AfsluitredenenKoppeling
+                - IzBundle\Controller\AfsluitredenenVraagAanbod
+                - IzBundle\Controller\BinnengekomenViaOpties
+                - IzBundle\Controller\ContactOntstaanOpties
+                - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Doelstellingen
+                - IzBundle\Controller\EindeVraagAanbod
+                - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvraagsoorten
+                - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intakes
+                - IzBundle\Controller\Intervisiegroepen
+                - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Projecten
+                - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Selecties
+                - IzBundle\Controller\Verslagen
+                - IzBundle\Controller\ViaPersonen
+                - IzBundle\Controller\Vrijwilligers
                 - oek
                 - OekBundle\Controller\Deelnames
                 - OekBundle\Controller\Deelnemers
@@ -536,15 +568,32 @@ parameters:
                 - IzViaPersonen
                 - IzVraagaanboden
                 - IzOntstaanContacten
-                - IzBundle\Controller\Doelstellingen
+                - iz
+                - IzBundle\Controller\AfsluitredenenDeelnemer
+                - IzBundle\Controller\AfsluitredenenKoppeling
+                - IzBundle\Controller\AfsluitredenenVraagAanbod
+                - IzBundle\Controller\BinnengekomenViaOpties
+                - IzBundle\Controller\ContactOntstaanOpties
+                - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Doelgroepen
+                - IzBundle\Controller\Doelstellingen
+                - IzBundle\Controller\EindeVraagAanbod
+                - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvraagsoorten
+                - IzBundle\Controller\Hulpvragen
+                - IzBundle\Controller\Intakes
+                - IzBundle\Controller\Intervisiegroepen
+                - IzBundle\Controller\Klanten
+                - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Projecten
+                - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Selecties
+                - IzBundle\Controller\Verslagen
+                - IzBundle\Controller\ViaPersonen
+                - IzBundle\Controller\Vrijwilligers
 
         # controller: {label, url}
         all_menu_items:
-            Hi5:
-                label: Hi5
-                url: Hi5
             Klanten:
                 label: Klanten
                 url: Klanten
@@ -569,30 +618,33 @@ parameters:
             Awbz:
                 label: AWBZ
                 url: Awbz
-            pfo:
-                label: PFO
-                url: pfo
-            IzKlanten:
-                label: IZ
-                url: iz_klanten
+            clip:
+                label: Clip
+                url: clip
+            dagbesteding:
+                label: Dagbesteding
+                url: dagbesteding
             groepsactiviteiten_klanten:
                 label: Groepsactiviteiten
                 url: groepsactiviteiten_klanten
+            Hi5:
+                label: Hi5
+                url: Hi5
+            hs:
+                label: Homeservice
+                url: hs
+            iz:
+                label: Informele Zorg
+                url: iz
             odp:
                 label: Onder de Pannen
                 url: odp
             oek:
                 label: Op Eigen Kracht
                 url: oek
-            dagbesteding:
-                label: Dagbesteding
-                url: dagbesteding
-            clip:
-                label: Clip
-                url: clip
-            hs:
-                label: Homeservice
-                url: hs
+            pfo:
+                label: PFO
+                url: pfo
             Admin:
                 label: Admin
                 url: Admin
@@ -673,11 +725,6 @@ parameters:
 services:
     cake.service.config:
         class: CakeBundle\Service\CakeConfiguration
-
-    cake.service.cache_warmer:
-        class: CakeBundle\Service\CakeCacheWarmer
-        tags:
-            - { name: kernel.cache_warmer, priority: 100 }
 
     cake.event.controller:
         class: CakeBundle\Event\KernelSubscriber

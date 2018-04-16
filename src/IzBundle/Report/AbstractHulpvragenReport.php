@@ -3,13 +3,13 @@
 namespace IzBundle\Report;
 
 use AppBundle\Report\Table;
-use IzBundle\Repository\IzHulpvraagRepository;
+use IzBundle\Repository\HulpvraagRepository;
 
 abstract class AbstractHulpvragenReport extends AbstractReport
 {
     protected $succesvolAfgesloten;
 
-    public function __construct(IzHulpvraagRepository $repository)
+    public function __construct(HulpvraagRepository $repository)
     {
         $this->repository = $repository;
     }

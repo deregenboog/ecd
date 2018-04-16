@@ -1,5 +1,5 @@
 <?php
-	$tag = String::uuid();
+	$tag = Str::uuid();
 ?>
 <div id="verslag<?= $tag?>">
 

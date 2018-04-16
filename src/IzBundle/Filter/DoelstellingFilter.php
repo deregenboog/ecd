@@ -3,7 +3,7 @@
 namespace IzBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzProject;
+use IzBundle\Entity\Project;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Werkgebied;
 
@@ -15,7 +15,7 @@ class DoelstellingFilter implements FilterInterface
     public $jaar;
 
     /**
-     * @var IzProject
+     * @var Project
      */
     public $project;
 

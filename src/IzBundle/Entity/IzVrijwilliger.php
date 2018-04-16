@@ -22,30 +22,36 @@ class IzVrijwilliger extends IzDeelnemer
     protected $vrijwilliger;
 
     /**
-     * @var MatchingVrijwilliger
-     * @ORM\OneToOne(targetEntity="MatchingVrijwilliger", mappedBy="izVrijwilliger")
-     * @Gedmo\Versioned
-     */
-    protected $matching;
-
-    /**
-     * @var ArrayCollection|IzHulpaanbod[]
-     * @ORM\OneToMany(targetEntity="IzHulpaanbod", mappedBy="izVrijwilliger")
+     * @var ArrayCollection|Hulpaanbod[]
+     * @ORM\OneToMany(targetEntity="Hulpaanbod", mappedBy="izVrijwilliger", cascade={"persist"})
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $izHulpaanbiedingen;
 
     /**
-     * @var IzViaPersoon
-     * @ORM\ManyToOne(targetEntity="IzViaPersoon")
+     * @var ArrayCollection|Intervisiegroep[]
+     * @ORM\ManyToMany(targetEntity="Intervisiegroep", inversedBy="vrijwilligers")
+     * @ORM\JoinTable(
+     *     name="iz_deelnemers_iz_intervisiegroepen",
+     *     joinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="iz_intervisiegroep_id")}
+     * )
+     * @ORM\OrderBy({"naam": "asc"})
+     */
+    private $intervisiegroepen;
+
+    /**
+     * @var BinnengekomenVia
+     * @ORM\ManyToOne(targetEntity="BinnengekomenVia")
      * @ORM\JoinColumn(name="binnengekomen_via")
      * @Gedmo\Versioned
      */
-    protected $izBinnengekomenVia;
+    protected $binnengekomenVia;
 
     public function __construct()
     {
         $this->izHulpaanbiedingen = new ArrayCollection();
+        $this->intervisiegroepen = new ArrayCollection();
     }
 
     public function __toString()
@@ -70,20 +76,28 @@ class IzVrijwilliger extends IzDeelnemer
         return $this->izHulpaanbiedingen;
     }
 
-    public function getIzBinnengekomenVia()
+    public function addHulpaanbod(Hulpaanbod $hulpaanbod)
     {
-        return $this->izBinnengekomenVia;
-    }
-
-    public function setIzBinnengekomenVia(IzViaPersoon $izBinnengekomenVia)
-    {
-        $this->izBinnengekomenVia = $izBinnengekomenVia;
+        $this->izHulpaanbiedingen[] = $hulpaanbod;
+        $hulpaanbod->setIzVrijwilliger($this);
 
         return $this;
     }
 
-    public function getMatching()
+    public function getBinnengekomenVia()
     {
-        return $this->matching;
+        return $this->binnengekomenVia;
+    }
+
+    public function setBinnengekomenVia(BinnengekomenVia $binnengekomenVia = null)
+    {
+        $this->binnengekomenVia = $binnengekomenVia;
+
+        return $this;
+    }
+
+    public function getIntervisiegroepen()
+    {
+        return $this->intervisiegroepen;
     }
 }
