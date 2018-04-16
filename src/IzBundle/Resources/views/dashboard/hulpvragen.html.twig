@@ -15,9 +15,9 @@
     </span>
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li><a href="{{ path('iz_dashboard_koppelingen', {medewerker: filter.vars.value}) }}">Lopende koppelingen</a></li>
-        <li class="active"><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: filter.vars.value}) }}">Open hulpvragen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
+        <li><a href="{{ path('iz_dashboard_koppelingen', {medewerker: medewerker_filter.vars.value}) }}">Lopende koppelingen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpvragen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane active">
