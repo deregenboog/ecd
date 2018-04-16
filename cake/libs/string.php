@@ -185,7 +185,7 @@ class Str
     /**
      * Replaces variable placeholders inside a $str with any given $data. Each key in the $data array
      * corresponds to a variable placeholder name in $str.
-     * Example: `String::insert(':name is :age years old.', array('name' => 'Bob', '65'));`
+     * Example: `Str::insert(':name is :age years old.', array('name' => 'Bob', '65'));`
      * Returns: Bob is 65 years old.
      *
      * Available $options are:

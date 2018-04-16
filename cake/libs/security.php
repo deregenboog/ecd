@@ -80,7 +80,7 @@ class Security extends Object
             App::import('Core', 'Str');
         }
 
-        return self::hash(String::uuid());
+        return self::hash(Str::uuid());
     }
 
     /**

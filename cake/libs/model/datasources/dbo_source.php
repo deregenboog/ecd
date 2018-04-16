@@ -17,7 +17,7 @@
  *
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::import('Core', ['Set', 'String']);
+App::import('Core', ['Set', 'Str']);
 
 /**
  * DboSource.
@@ -363,7 +363,7 @@ class DboSource extends DataSource
                 }
                 $args[1] = array_map([&$this, 'value'], $args[1]);
 
-                return $this->fetchAll(String::insert($args[0], $args[1]), $cache);
+                return $this->fetchAll(Str::insert($args[0], $args[1]), $cache);
             }
         }
     }

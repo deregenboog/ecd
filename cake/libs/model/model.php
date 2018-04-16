@@ -23,7 +23,7 @@
 /**
  * Included libs.
  */
-App::import('Core', ['ClassRegistry', 'Validation', 'Set', 'String']);
+App::import('Core', ['ClassRegistry', 'Validation', 'Set', 'Str']);
 App::import('Model', 'ModelBehavior', false);
 App::import('Model', 'ConnectionManager', false);
 
@@ -1443,7 +1443,7 @@ class Model extends Overloadable
                             $db->value($row),
                         ];
                         if ($isUUID && $primaryAdded) {
-                            $values[] = $db->value(String::uuid());
+                            $values[] = $db->value(Str::uuid());
                         }
                         $values = implode(',', $values);
                         $newValues[] = "({$values})";
