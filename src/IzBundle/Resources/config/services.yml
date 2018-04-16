@@ -42,7 +42,7 @@ services:
         arguments:
             - IzBundle\Entity\IzVrijwilliger
 
-    iz.data_fixtures.faker_provider:
-        class: IzBundle\DataFixtures\IzFakerProvider
+    iz.form.rapportage:
+        class: IzBundle\Form\IzRapportageType
         tags:
-            - { name: hautelook_alice.faker.provider }
+            - { name: form.type }
