@@ -19,6 +19,8 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\AbstractExport;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Form\MedewerkerType;
 
 /**
  * @Route("/mijn")
@@ -84,6 +86,11 @@ class DashboardController extends SymfonyController
     {
         $medewerker = $this->getMedewerker();
 
+        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
+            'label' => '',
+            'method' => 'GET',
+        ])->handleRequest($request);
+
         $filter = new HulpvraagFilter();
         $filter->medewerker = $medewerker;
 
@@ -108,6 +115,7 @@ class DashboardController extends SymfonyController
         $hulpvragen = $this->hulpvraagDao->findAll($page, $filter);
 
         return [
+            'medewerker_filter' => $medewerkerForm->createView(),
             'filter' => $form->createView(),
             'pagination' => $hulpvragen,
         ];
@@ -119,6 +127,11 @@ class DashboardController extends SymfonyController
     public function hulpaanbiedingenAction(Request $request)
     {
         $medewerker = $this->getMedewerker();
+
+        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
+            'label' => '',
+            'method' => 'GET',
+        ])->handleRequest($request);
 
         $filter = new HulpaanbodFilter();
         $filter->medewerker = $medewerker;
@@ -153,6 +166,7 @@ class DashboardController extends SymfonyController
         $hulpaanbiedingen = $this->hulpaanbodDao->findAll($page, $filter);
 
         return [
+            'medewerker_filter' => $medewerkerForm->createView(),
             'filter' => $form->createView(),
             'pagination' => $hulpaanbiedingen,
         ];
@@ -164,6 +178,11 @@ class DashboardController extends SymfonyController
     public function koppelingenAction(Request $request)
     {
         $medewerker = $this->getMedewerker();
+
+        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
+            'label' => '',
+            'method' => 'GET',
+        ])->handleRequest($request);
 
         $filter = new KoppelingFilter();
         $filter->medewerker = $medewerker;
@@ -191,9 +210,20 @@ class DashboardController extends SymfonyController
         $koppelingen = $this->koppelingDao->findAll($page, $filter);
 
         return [
+            'medewerker_filter' => $medewerkerForm->createView(),
             'filter' => $form->createView(),
             'pagination' => $koppelingen,
         ];
+    }
+
+    protected function getMedewerker()
+    {
+        $medewerkerId = (int) $this->getRequest()->get('medewerker');
+        if ($medewerkerId) {
+            return $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+        }
+
+        return parent::getMedewerker();
     }
 
     private function download(FilterInterface $filter, AbstractDao $dao, ExportInterface $export, $name)

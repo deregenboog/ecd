@@ -10,11 +10,14 @@
 {% endblock %}
 
 {% block content %}
+    <span class="pull-right">
+        {{ form(medewerker_filter) }}
+    </span>
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li><a href="{{ path('iz_dashboard_koppelingen') }}">Lopende koppelingen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Open hulpvragen</a></li>
-        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Open hulpaanbiedingen</a></li>
+        <li><a href="{{ path('iz_dashboard_koppelingen', {medewerker: filter.vars.value}) }}">Lopende koppelingen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: filter.vars.value}) }}">Open hulpvragen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane">
@@ -140,4 +143,15 @@
         <div id="koppelingen" class="tab-pane">
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            // make table rows clickable
+            $('form #medewerker').change(function() {
+                $(this).closest('form').submit();
+            });
+        });
+    </script>
 {% endblock %}
