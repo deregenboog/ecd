@@ -3,8 +3,9 @@
 namespace GaBundle\Report;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Report\AbstractReport as BaseAbstractReport;
 
-abstract class AbstractReport
+abstract class AbstractReport extends BaseAbstractReport
 {
     /**
      * EntityRepository.
@@ -41,10 +42,6 @@ abstract class AbstractReport
     {
         $this->repository = $repository;
     }
-
-    abstract protected function init();
-
-    abstract protected function build();
 
     public function getTitle()
     {
