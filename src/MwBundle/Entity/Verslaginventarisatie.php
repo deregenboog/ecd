@@ -31,7 +31,7 @@ class Verslaginventarisatie
     /**
      * @var Inventarisatie
      *
-     * @ORM\ManyToOne(targetEntity="Inventarisatie")
+     * @ORM\ManyToOne(targetEntity="Inventarisatie", inversedBy="verslaginventarisaties")
      * @Gedmo\Versioned
      */
     private $inventarisatie;

@@ -54,7 +54,7 @@ class Huurverzoek
     /**
      * @var HuurverzoekAfsluiting
      *
-     * @ORM\ManyToOne(targetEntity="HuurverzoekAfsluiting", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="HuurverzoekAfsluiting", inversedBy="huurverzoeken", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */

@@ -54,7 +54,7 @@ class Huuraanbod
     /**
      * @var HuuraanbodAfsluiting
      *
-     * @ORM\ManyToOne(targetEntity="HuuraanbodAfsluiting", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="HuuraanbodAfsluiting", inversedBy="huuraanbiedingen", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */

@@ -74,7 +74,7 @@ class Registratie implements FactuurSubjectInterface
 
     /**
      * @var Activiteit
-     * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="klussen")
+     * @ORM\ManyToOne(targetEntity="Activiteit")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

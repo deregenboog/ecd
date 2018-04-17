@@ -14,6 +14,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Huurder extends Deelnemer
 {
     /**
+     * @var HuurderAfsluiting
+     *
+     * @ORM\ManyToOne(targetEntity="HuurderAfsluiting", inversedBy="huurders", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $afsluiting;
+
+    /**
      * @var ArrayCollection|Huurverzoek[]
      *
      * @ORM\OneToMany(targetEntity="Huurverzoek", mappedBy="huurder", cascade={"persist"})

@@ -80,15 +80,6 @@ abstract class Deelnemer
     protected $klantmanager;
 
     /**
-     * @var Afsluiting
-     *
-     * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $afsluiting;
-
-    /**
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")

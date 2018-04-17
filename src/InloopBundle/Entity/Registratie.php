@@ -40,7 +40,7 @@ class Registratie
 
     /**
      * @var Klant
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="registraties")
      * @Gedmo\Versioned
      */
     private $klant;

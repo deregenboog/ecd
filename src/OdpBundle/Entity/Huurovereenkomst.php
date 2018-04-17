@@ -75,7 +75,7 @@ class Huurovereenkomst
     /**
      * @var HuurovereenkomstAfsluiting
      *
-     * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", inversedBy="huurovereenkomsten", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -83,14 +83,14 @@ class Huurovereenkomst
 
     /**
      * @var Huuraanbod
-     * @ORM\ManyToOne(targetEntity="Huuraanbod")
+     * @ORM\OneToOne(targetEntity="Huuraanbod", inversedBy="huurovereenkomst")
      * @Gedmo\Versioned
      */
     private $huuraanbod;
 
     /**
      * @var Huurverzoek
-     * @ORM\ManyToOne(targetEntity="Huurverzoek")
+     * @ORM\OneToOne(targetEntity="Huurverzoek", inversedBy="huurovereenkomst")
      * @Gedmo\Versioned
      */
     private $huurverzoek;
