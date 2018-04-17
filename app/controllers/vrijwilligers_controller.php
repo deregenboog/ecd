@@ -220,7 +220,7 @@ class VrijwilligersController extends AppController
         if ($postcode) {
             $result = [
                 'stadsdeel' => $postcode->getStadsdeel()->getNaam(),
-                'postcodegebied' => $postcode->getPostcodegebied()->getNaam(),
+                'postcodegebied' => $postcode->getPostcodegebied() ? $postcode->getPostcodegebied()->getNaam() : '',
                 'message' => 'Success',
             ];
         } elseif (in_array((int) substr($this->getParam('postcode'), 0, 4), range(1110, 1113))) {
