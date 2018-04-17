@@ -12,6 +12,7 @@ use ClipBundle\Form\VraagCloseType;
 use AppBundle\Export\ExportInterface;
 use ClipBundle\Form\VragenType;
 use ClipBundle\Form\VragenModel;
+use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/vragen")
@@ -109,6 +110,31 @@ class VragenController extends AbstractVragenController
             }
 
             return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $url = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+            if ($form->get('yes')->isClicked()) {
+                $entity->heropen();
+                $this->dao->update($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+            return $this->redirect($url);
         }
 
         return [

@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} heropenen</h1>
+    <p>
+        Weet u zeker dat u {{ entity_name }}
+        {{ html.link(entity, path('clip_vragen_view', {id: entity.id})) }}
+        wilt heropenen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

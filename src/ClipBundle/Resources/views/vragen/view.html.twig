@@ -23,6 +23,9 @@
             {{ html.link('Wijzigen', path('clip_vragen_edit', {id: entity.id})) }}
             {{ html.closeLink(path('clip_vragen_close', {id: entity.id})) }}
             {{ html.link('Afsluiten', path('clip_vragen_close', {id: entity.id})) }}
+        {% else %}
+            {{ html.editLink(path('clip_vragen_reopen', {id: entity.id})) }}
+            {{ html.link('Heropenen', path('clip_vragen_reopen', {id: entity.id})) }}
         {% endif %}
         {% if entity.deletable %}
             {{ html.deleteLink(path('clip_vragen_delete', {id: entity.id})) }}

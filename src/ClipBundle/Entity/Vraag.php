@@ -298,4 +298,11 @@ class Vraag
 
         return $this;
     }
+
+    public function heropen()
+    {
+        $this->afsluitdatum = null;
+
+        return $this;
+    }
 }
