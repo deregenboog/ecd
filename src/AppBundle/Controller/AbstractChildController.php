@@ -108,6 +108,9 @@ class AbstractChildController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
+                $url = $request->get('redirect');
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
                 if ($parentEntity && $this->deleteMethod) {
                     $parentEntity->{$this->deleteMethod}($entity);
                     $this->parentDao->update($parentEntity);
@@ -115,13 +118,13 @@ class AbstractChildController extends AbstractController
                 $this->dao->delete($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
-                if ($url = $request->get('redirect')) {
+                if ($url && false === strpos($viewUrl, $url)) {
                     return $this->redirect($url);
                 }
 
                 return $this->redirectToIndex();
             } else {
-                if ($url = $request->get('redirect')) {
+                if ($url) {
                     return $this->redirect($url);
                 }
 

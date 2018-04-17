@@ -228,7 +228,7 @@ class AbstractController extends SymfonyController
                 $this->dao->delete($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
-                if ($url && !strpos($viewUrl, $url)) {
+                if ($url && false === strpos($viewUrl, $url)) {
                     return $this->redirect($url);
                 }
 
