@@ -7,3 +7,19 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: error
+        # https://symfony.com/doc/3.4/logging/monolog_email.html
+        mail:
+            type: fingers_crossed
+            action_level: critical
+            handler: deduplicated
+        deduplicated:
+            type: deduplication
+            handler: swift
+        swift:
+            type: swift_mailer
+            from_email: 'noreply@deregenboog.org'
+            to_email: '%administrator_email%'
+            subject: 'ECD error: %%message%%'
+            level: debug
+            formatter: monolog.formatter.html
+            content_type: text/html
