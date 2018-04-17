@@ -12,6 +12,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\Table(name="clip_vragen")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 class Vraag
 {
@@ -23,6 +24,13 @@ class Vraag
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
 
     /**
      * @ORM\Column(type="string")
@@ -258,9 +266,14 @@ class Vraag
         return null === $this->afsluitdatum;
     }
 
+    /**
+     * SoftDeleteable, so it's safe to return true.
+     *
+     * @return boolean
+     */
     public function isDeletable()
     {
-        return false;
+        return true;
     }
 
     public function getCommunicatiekanaal()
