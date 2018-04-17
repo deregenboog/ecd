@@ -15,10 +15,12 @@
 
 {% block content_right %}
     <h2>Hulpvraag</h2>
-    <p>
-        {{ html.editLink(path('iz_hulpvragen_edit', {id: entity.id})) }}
-        {{ html.link('Bewerken', path('iz_hulpvragen_edit', {id: entity.id})) }}
-    </p>
+    {% if not entity.gekoppeld %}
+        <p>
+            {{ html.editLink(path('iz_hulpvragen_edit', {id: entity.id})) }}
+            {{ html.link('Bewerken', path('iz_hulpvragen_edit', {id: entity.id})) }}
+        </p>
+    {% endif %}
     <dl class="dl-horizontal">
         <dt>Startdatum</dt>
         <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
