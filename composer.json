@@ -12,20 +12,9 @@
             "App\\" : "app/"
         },
         "classmap" : [
-            "app/controllers",
-            "app/models",
             "app/AppKernel.php",
             "app/AppCache.php",
-            "app/app_controller.php",
-            "app/app_error.php",
-            "app/app_model.php",
-            "cake/libs/"
-        ],
-        "exclude-from-classmap" : [
-            "cake/libs/overloadable_php4.php",
-            "cake/libs/controller/app_controller.php",
-            "cake/libs/model/app_model.php",
-            "cake/libs/view/helpers/html.php"
+            "app/AppCache.php"
         ]
     },
     "autoload-dev" : {

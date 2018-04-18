@@ -1,9 +1,6 @@
 imports:
     - { resource: config_dev.yml }
 
-parameters:
-    acl_disabled: false
-
 framework:
     test: ~
     session:

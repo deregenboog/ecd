@@ -1,7 +1,0 @@
-Deelnemer{{ tab }}Geboortedatum{{ tab }}Medewerker{{ tab }}Afsluitdatum
-{% for intake in intakes %}
-    {{- attribute(intake, entityName) ~ tab -}}
-    {{- attribute(intake, entityName).geboortedatum  ~ tab -}}
-    {{- intake.medewerker  ~ tab-}}
-    {{- intake.afsluitdatum ? intake.afsluitdatum | date('d-m-Y') }}
-{% endfor %}

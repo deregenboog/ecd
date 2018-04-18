@@ -1,3 +1,0 @@
-<?php
-
-echo $params['content'];
