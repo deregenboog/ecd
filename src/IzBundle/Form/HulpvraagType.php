@@ -2,22 +2,23 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerSelectType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulp;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Project;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\Project;
-use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\MedewerkerType;
-use IzBundle\Entity\Hulpvraag;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use IzBundle\Entity\Koppeling;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\AppTextareaType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\Doelgroep;
 
 class HulpvraagType extends AbstractType
 {
@@ -33,36 +34,27 @@ class HulpvraagType extends AbstractType
             ->add('project', ProjectSelectType::class, [
                 'required' => true,
             ])
-            ->add('medewerker', MedewerkerType::class, [
+            ->add('medewerker', MedewerkerSelectType::class, [
                 'required' => true,
             ])
             ->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => true,
             ])
-            ->add('doelgroep', EntityType::class, [
-                'required' => true,
+            ->add('voorkeurStadsdelen', EntityType::class, [
                 'expanded' => true,
-                'multiple' => false,
-                'class' => Doelgroep::class,
+                'multiple' => true,
+                'class' => Werkgebied::class,
                 'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('doelgroep')
-                        ->where('doelgroep.actief = true')
-                        ->orderBy('doelgroep.naam')
+                    return $repository->createQueryBuilder('stadsdeel')
+                        ->orderBy('stadsdeel.naam')
                     ;
                 },
             ])
-            ->add('dagdeel', ChoiceType::class, [
+            ->add('beschikbareDagen', ChoiceType::class, [
                 'required' => false,
-                'placeholder' => 'Geen voorkeur',
-                'choices' => [
-                    Koppeling::DAGDEEL_OVERDAG => Koppeling::DAGDEEL_OVERDAG,
-                    Koppeling::DAGDEEL_AVOND => Koppeling::DAGDEEL_AVOND,
-                    Koppeling::DAGDEEL_WEEKEND => Koppeling::DAGDEEL_WEEKEND,
-                    Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
-                ],
-            ])
-            ->add('geschiktVoorExpat', null, [
-                'required' => false,
+                'choices' => array_combine(array_keys(Hulp::DAGEN), array_keys(Hulp::DAGEN)),
+                'expanded' => true,
+                'multiple' => true,
             ])
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
@@ -73,6 +65,22 @@ class HulpvraagType extends AbstractType
                         ->setParameter('onbekend', 'Onbekend')
                     ;
                 },
+            ])
+            ->add('voorkeurMinLeeftijd', NumberType::class, [
+                'required' => false,
+                'label' => 'Voorkeur leeftijd minimaal',
+            ])
+            ->add('voorkeurMaxLeeftijd', NumberType::class, [
+                'required' => false,
+                'label' => 'Voorkeur leeftijd maximaal',
+            ])
+            ->add('voorkeurNietRoker', null, [
+                'label' => 'Voorkeur voor niet-roker',
+                'required' => false,
+            ])
+            ->add('voorkeurGeenDieren', null, [
+                'label' => 'Voorkeur voor geen huisdieren',
+                'required' => false,
             ])
             ->add('info', AppTextareaType::class, [
                 'label' => 'Info m.b.t. matching',

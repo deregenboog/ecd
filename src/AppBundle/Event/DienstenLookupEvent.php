@@ -2,8 +2,8 @@
 
 namespace AppBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use AppBundle\Entity\Klant;
+use Symfony\Component\EventDispatcher\Event;
 
 class DienstenLookupEvent extends Event
 {

@@ -165,7 +165,8 @@ class IzKlantRepository extends EntityRepository
             ->select('COUNT(DISTINCT izKlant.id) AS aantal')
             ->innerJoin('izKlant.klant', 'klant')
             ->innerJoin('izKlant.hulpvragen', 'hulpvraag')
-            ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
+            ->innerJoin('hulpvraag.koppeling', 'koppeling')
+            ->innerJoin('koppeling.hulpaanbod', 'hulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
         ;
@@ -176,19 +177,18 @@ class IzKlantRepository extends EntityRepository
         switch ($report) {
             case self::REPORT_BEGINSTAND:
                 $builder
-                    ->andWhere('hulpvraag.koppelingStartdatum < :startdatum')
+                    ->andWhere('koppeling.startdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
-                        'hulpvraag.koppelingEinddatum IS NULL',
-                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
-                        'hulpvraag.koppelingEinddatum >= :startdatum'
+                        'koppeling.afsluitdatum IS NULL',
+                        'koppeling.afsluitdatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate)
                 ;
                 break;
             case self::REPORT_GESTART:
                 $builder
-                    ->andWhere('hulpvraag.koppelingStartdatum >= :startdatum')
-                    ->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
+                    ->andWhere('koppeling.startdatum >= :startdatum')
+                    ->andWhere('koppeling.startdatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
@@ -198,10 +198,11 @@ class IzKlantRepository extends EntityRepository
                     ->select('izKlant.id')
                     ->from(Hulpvraag::class, 'hulpvraag')
                     ->innerJoin('hulpvraag.izKlant', 'izKlant')
-                    ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
+                    ->innerJoin('hulpvraag.koppeling', 'koppeling')
+                    ->innerJoin('koppeling.hulpaanbod', 'hulpaanbod')
                     ->innerJoin('izKlant.klant', 'klant')
                     ->groupBy('izKlant.id')
-                    ->having('MIN(hulpvraag.koppelingStartdatum) BETWEEN :startdatum AND :einddatum')
+                    ->having('MIN(koppeling.startdatum) BETWEEN :startdatum AND :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
@@ -212,19 +213,18 @@ class IzKlantRepository extends EntityRepository
                 break;
             case self::REPORT_AFGESLOTEN:
                 $builder
-                    ->andWhere('hulpvraag.koppelingEinddatum >= :startdatum')
-                    ->andWhere('hulpvraag.koppelingEinddatum <= :einddatum')
+                    ->andWhere('koppeling.afsluitdatum >= :startdatum')
+                    ->andWhere('koppeling.afsluitdatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
                 break;
             case self::REPORT_EINDSTAND:
                 $builder
-                    ->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
+                    ->andWhere('koppeling.startdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
-                        'hulpvraag.koppelingEinddatum IS NULL',
-                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
-                        'hulpvraag.koppelingEinddatum > :einddatum'
+                        'koppeling.afsluitdatum IS NULL',
+                        'koppeling.afsluitdatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate)
                 ;

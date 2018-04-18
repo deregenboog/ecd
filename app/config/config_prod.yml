@@ -17,7 +17,7 @@ monolog:
             handler: swift
         swift:
             type: swift_mailer
-            from_email: 'noreply@deregenboog.org'
+            from_email: "%mailer_user%"
             to_email: '%administrator_email%'
             subject: 'ECD error: %%message%%'
             level: debug

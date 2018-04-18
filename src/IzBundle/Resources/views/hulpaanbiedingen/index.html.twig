@@ -11,9 +11,6 @@
                     {{ knp_pagination_sortable(pagination, 'Startdatum', 'hulpaanbod.startdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Vrijwilligernummer', 'vrijwilliger.id') }}
-                </th>
-                <th>
                     {{ knp_pagination_sortable(pagination, 'Naam', 'vrijwilliger.achternaam') }}
                 </th>
                 <th>
@@ -37,10 +34,7 @@
                         {{ hulpaanbod.startdatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
-                    </td>
-                    <td>
-                        {{ hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                        {{ hulpaanbod.izVrijwilliger }}
                     </td>
                     <td>
                         {% if (hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum) %}

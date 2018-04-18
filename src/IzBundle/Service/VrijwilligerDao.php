@@ -2,10 +2,10 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
+use IzBundle\Entity\IzVrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -19,6 +19,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'werkgebied.naam',
             'intakeMedewerker.voornaam',
             'hulpaanbodMedewerker.voornaam',
+            'izVrijwilliger.datumAanmelding',
             'izVrijwilliger.afsluitDatum',
             'project.naam',
         ],
@@ -35,12 +36,15 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin('izVrijwilliger.intake', 'intake')
+            ->leftJoin('izVrijwilliger.status', 'deelnemerstatus')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
             ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
+            ->leftJoin('hulpaanbod.koppeling', 'koppeling')
+            ->leftJoin('koppeling.status', 'koppelingstatus')
             ->leftJoin('hulpaanbod.project', 'project')
             ->leftJoin('hulpaanbod.medewerker', 'hulpaanbodMedewerker', 'WITH', $expr->andX(
                 $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),
-                $expr->orX('hulpaanbod.koppelingEinddatum IS NULL', 'hulpaanbod.koppelingEinddatum > :now')
+                $expr->orX('koppeling.afsluitdatum IS NULL', 'koppeling.afsluitdatum > :now')
             ))
             ->setParameter('now', new \DateTime())
         ;

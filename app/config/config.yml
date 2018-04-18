@@ -1,6 +1,6 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: services.yml }
+    - { resource: security.yml }
     - { resource: version.yml, ignore_errors: true }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -12,12 +12,16 @@ parameters:
 
 framework:
     default_locale: '%locale%'
-    translator: { fallbacks: ['nl_NL', 'nl'] }
+    translator:
+        fallbacks: ['nl_NL', 'nl']
+    csrf_protection: ~
     secret: "%secret%"
     session:
-        name: ECD
-        cookie_lifetime: 86400 # 60*60*24
+#        name: ECD
+#        cookie_lifetime: 86400 # 60*60*24
         save_path: '%kernel.root_dir%/../var/sessions'
+#        storage_id: session.storage.php_bridge
+#        handler_id: ~
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
@@ -65,6 +69,7 @@ doctrine:
             datetime_functions:
                 date: Luxifer\DQL\Datetime\Date
                 date_format: Luxifer\DQL\Datetime\DateFormat
+                year: DoctrineExtensions\Query\Mysql\Year
                 hour: DoctrineExtensions\Query\Mysql\Hour
                 minute: DoctrineExtensions\Query\Mysql\Minute
                 now: DoctrineExtensions\Query\Mysql\Now
@@ -83,6 +88,14 @@ doctrine:
                 class: IzBundle\Doctrine\FoutieveInvoerFilter
                 enabled: true
 
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\Medewerker
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+
 jms_di_extra: ~
 
 stof_doctrine_extensions:
@@ -94,9 +107,6 @@ stof_doctrine_extensions:
             tree: true
 
 knp_paginator: ~
-
-swiftmailer:
-    transport: mail
 
 assetic:
     debug: "%kernel.debug%"
@@ -143,13 +153,3 @@ vich_uploader:
 shivas_versioning:
     version_parameter: application_version
     version_file: version.yml
-
-fos_ck_editor:
-    jquery: true
-    default_config: basic
-    configs:
-        basic:
-            disableNativeSpellChecker: false
-            removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
-            enterMode: CKEDITOR.ENTER_BR
-            toolbar: [["Bold", "Italic", "Underline"]]

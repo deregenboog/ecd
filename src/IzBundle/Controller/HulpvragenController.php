@@ -5,19 +5,20 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Form\HulpvraagType;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Form\HulpvraagFilterType;
+use IzBundle\Form\HulpvraagType;
+use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpvraagConnectType;
-use IzBundle\Form\HulpvraagCloseType;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Service\HulpaanbodDaoInterface;
 
 /**
  * @Route("/hulpvragen")
+ * @Template
  */
 class HulpvragenController extends AbstractChildController
 {
@@ -59,16 +60,17 @@ class HulpvragenController extends AbstractChildController
     protected $export;
 
     /**
-     * @Route("/{id}/connect")
+     * @Route("/{id}/view")
      */
-    public function connectAction(Request $request, $id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        $entity->setKoppelingStartdatum(new \DateTime());
 
-        $this->formClass = HulpvraagConnectType::class;
+        if ($entity->isGekoppeld()) {
+            return $this->redirectToRoute('iz_koppelingen_view', ['id' => $entity->getKoppeling()->getId()]);
+        }
 
-        return $this->processForm($request, $entity);
+        return parent::viewAction($request, $id);
     }
 
     /**

@@ -35,8 +35,10 @@
         <div id="intake" class="tab-pane active">
             <h2>Intake</h2>
             <p>
-                {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-                {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
+                {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id}), 'edit') }}
+                {% if 'IzKlant' == short_class(entity.izDeelnemer) and not entity.zrm %}
+                    {{ html.link('ZRM toevoegen', path('iz_zrms_add', {intake: entity.id}), 'add') }}
+                {% endif %}
             </p>
             <dl class="dl-horizontal">
                 <dt>Intakedatum</dt>
@@ -51,7 +53,7 @@
                     <dd>{{ entity ? entity.stagiair ? 'Ja' }}</dd>
                 {% endif %}
             </dl>
-            {{ render(controller('IzBundle:Intakes:_zrms', {id: entity.id})) }}
+            {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
         </div>
     </div>
 {% endblock %}

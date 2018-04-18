@@ -2,53 +2,56 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 class MedewerkerType extends AbstractType
 {
     /**
-     * @var Medewerker
+     * @var array
      */
-    private $medewerker;
+    private $roles = [];
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(RoleHierarchy $roleHierarchy, $maxRole)
     {
-        if (isset($_SESSION['Auth']['Medewerker']['id'])) {
-            $medewerkId = $_SESSION['Auth']['Medewerker']['id'];
-            $this->medewerker = $entityManager->find(Medewerker::class, $medewerkId);
+        // get all roles
+        $reachableRoles = $roleHierarchy->getReachableRoles([new Role($maxRole)]);
+        foreach ($reachableRoles as $role) {
+            if ('ROLE_' === substr($role->getRole(), 0, 5)) {
+                $label = ucfirst(strtolower(substr($role->getRole(), 5)));
+                $this->roles[$label] = $role->getRole();
+            }
         }
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            if (!$event->getData()) {
-                $event->getForm()->setData($this->medewerker);
-            }
-        });
+        $builder
+            ->add('actief')
+            ->add('username')
+            ->add('email')
+            ->add('voornaam')
+            ->add('tussenvoegsel')
+            ->add('achternaam')
+            ->add('roles', ChoiceType::class, [
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => $this->roles,
+            ])
+            ->add('submit', SubmitType::class)
+        ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'class' => Medewerker::class,
-            'placeholder' => 'Selecteer een medewerker',
-            'query_builder' => function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('medewerker')
-                    ->where('medewerker.actief = true')
-                    ->orderBy('medewerker.voornaam');
-            },
         ]);
     }
 
@@ -57,6 +60,6 @@ class MedewerkerType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseType::class;
     }
 }

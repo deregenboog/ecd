@@ -2,11 +2,11 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\AddressTrait;
 use AppBundle\Model\PersonTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
@@ -25,12 +25,6 @@ class Persoon
     protected $id;
 
     /**
-     * @ORM\Column(name="BSN", type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $bsn;
-
-    /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker")
      * @ORM\JoinColumn(nullable=false)
@@ -41,7 +35,7 @@ class Persoon
     /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $land;
@@ -49,7 +43,7 @@ class Persoon
     /**
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $nationaliteit;
@@ -77,6 +71,22 @@ class Persoon
      * @Gedmo\Versioned
      */
     protected $disabled = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $roker = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $dierenbezitter = false;
 
     public function getId()
     {
@@ -110,21 +120,9 @@ class Persoon
         return $this->land;
     }
 
-    public function setLand(Land $land)
+    public function setLand(Land $land = null)
     {
         $this->land = $land;
-
-        return $this;
-    }
-
-    public function getBsn()
-    {
-        return $this->bsn;
-    }
-
-    public function setBsn($bsn)
-    {
-        $this->bsn = $bsn;
 
         return $this;
     }
@@ -134,7 +132,7 @@ class Persoon
         return $this->nationaliteit;
     }
 
-    public function setNationaliteit(Nationaliteit $nationaliteit)
+    public function setNationaliteit(Nationaliteit $nationaliteit = null)
     {
         $this->nationaliteit = $nationaliteit;
 
@@ -185,6 +183,30 @@ class Persoon
     public function setDisabled($disabled)
     {
         $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    public function isRoker()
+    {
+        return $this->roker;
+    }
+
+    public function setRoker($roker)
+    {
+        $this->roker = (bool) $roker;
+
+        return $this;
+    }
+
+    public function isDierenbezitter()
+    {
+        return $this->dierenbezitter;
+    }
+
+    public function setDierenbezitter($dierenbezitter)
+    {
+        $this->dierenbezitter = (bool) $dierenbezitter;
 
         return $this;
     }

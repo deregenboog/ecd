@@ -36,3 +36,5 @@ RUN a2enmod rewrite headers && a2dissite 000-default && a2ensite app
 
 COPY docker/init.sh /init.sh
 RUN chmod +x /init.sh
+
+RUN useradd -ms /bin/bash ecd

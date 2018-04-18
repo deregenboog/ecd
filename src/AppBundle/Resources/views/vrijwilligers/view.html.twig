@@ -30,8 +30,6 @@
         <dd>{{ entity.land }}</dd>
         <dt>Nationaliteit</dt>
         <dd>{{ entity.nationaliteit }}</dd>
-        <dt>BSN</dt>
-        <dd>{{ entity.bsn }}</dd>
     </dl>
     <h2>Contactgegevens</h2>
     <dl class="dl-horizontal">
@@ -63,7 +61,7 @@
     <h2>Opmerking</h2>
     <dl class="dl-horizontal">
         <dt>Opmerking</dt>
-        <dd>{{ entity.opmerking|nl2br }}</dd>
+        <dd>{{ entity.opmerking|raw }}</dd>
     </dl>
 {% endblock %}
 

@@ -2,196 +2,159 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\SoftDeleteableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Geslacht;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_koppelingen")
  * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"hulpvraag" = "Hulpvraag", "hulpaanbod" = "Hulpaanbod"})
  * @Gedmo\Loggable
  * @Gedmo\SoftDeleteable
  */
-abstract class Koppeling
+class Koppeling
 {
-    const DAGDEEL_OVERDAG = 'Overdag';
-    const DAGDEEL_AVOND = 'Avond';
-    const DAGDEEL_WEEKEND = 'Weekend';
-    const DAGDEEL_AVOND_WEEKEND = 'Avond/weekend';
-
-    use TimestampableTrait;
+    use IdentifiableTrait, SoftDeleteableTrait, TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="deleted", type="datetime", nullable=true)
-     */
-    protected $deletedAt;
-
-    /**
-     * @ORM\Column(type="datetime")
+     * @var Hulpvraag
+     * @ORM\OneToOne(targetEntity="Hulpvraag", inversedBy="koppeling")
      * @Gedmo\Versioned
      */
-    protected $startdatum;
+    private $hulpvraag;
+
+    /**
+     * @var Hulpaanbod
+     * @ORM\OneToOne(targetEntity="Hulpaanbod", inversedBy="koppeling")
+     * @Gedmo\Versioned
+     */
+    private $hulpaanbod;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $startdatum;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Koppelingstatus")
+     * @Gedmo\Versioned
+     */
+    private $status;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Versioned
      */
-    protected $einddatum;
+    private $afsluitdatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $tussenevaluatiedatum;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $eindevaluatiedatum;
-
-    /**
-     * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $koppelingStartdatum;
-
-    /**
-     * @ORM\Column(name="koppeling_einddatum", type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $koppelingEinddatum;
-
-    /**
-     * @ORM\Column(name="koppeling_succesvol", type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $koppelingSuccesvol;
-
-    /**
-     * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $medewerker;
-
-    /**
-     * @var Project
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $project;
-
-    /**
-     * @var EindeVraagAanbod
-     * @ORM\ManyToOne(targetEntity="EindeVraagAanbod")
-     * @ORM\JoinColumn(name="iz_vraagaanbod_id")
-     * @Gedmo\Versioned
-     */
-    protected $eindeVraagAanbod;
-
-    /**
-     * @var EindeKoppeling
-     * @ORM\ManyToOne(targetEntity="EindeKoppeling")
+     * @var AfsluitredenKoppeling
+     * @ORM\ManyToOne(targetEntity="AfsluitredenKoppeling")
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
      * @Gedmo\Versioned
      */
-    protected $eindeKoppeling;
+    private $afsluitreden;
 
     /**
-     * @var IzDeelnemer
-     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="koppelingen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     * @ORM\Column(name="succesvol", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
-    private $izDeelnemer;
+    private $succesvol;
 
     /**
      * @var Verslag[]
-     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="koppeling", cascade={"persist"})
-     * @ORM\OrderBy({"created": "desc"})
-     */
-    protected $verslagen;
-
-    /**
-     * @var string
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc"})
      */
-    protected $info;
+    private $verslagen;
 
-    /**
-     * @var Doelgroep[]
-     *
-     * @ORM\ManyToMany(targetEntity="Doelgroep")
-     */
-    protected $doelgroepen;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(nullable=true)
-     */
-    protected $dagdeel;
-
-    /**
-     * @var Geslacht
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    protected $voorkeurGeslacht;
-
-    public function __construct()
+    public function __toString()
     {
+        return sprintf('%s - %s', $this->hulpvraag->getIzKlant(), $this->hulpaanbod->getIzVrijwilliger());
+    }
+
+    /**
+     * @return IzKlant
+     */
+    public function getIzKlant()
+    {
+        return $this->hulpvraag->getIzKlant();
+    }
+
+    /**
+     * @return Hulpvraag
+     */
+    public function getHulpvraag()
+    {
+        return $this->hulpvraag;
+    }
+
+    /**
+     * @param Hulpvraag $hulpvraag
+     */
+    public function setHulpvraag($hulpvraag)
+    {
+        $this->hulpvraag = $hulpvraag;
+
+        return $this;
+    }
+
+    /**
+     * @return Hulpaanbod
+     */
+    public function getHulpaanbod()
+    {
+        return $this->hulpaanbod;
+    }
+
+    /**
+     * @param Hulpaanbod $hulpaanbod
+     */
+    public function setHulpaanbod($hulpaanbod)
+    {
+        $this->hulpaanbod = $hulpaanbod;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function __construct(Hulpvraag $hulpvraag = null, Hulpaanbod $hulpaanbod = null)
+    {
+        $this->hulpvraag = $hulpvraag;
+        $this->hulpaanbod = $hulpaanbod;
+
         $this->startdatum = new \DateTime('today');
         $this->verslagen = new ArrayCollection();
-        $this->doelgroepen = new ArrayCollection();
-        $this->reserveringen = new ArrayCollection();
     }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getDeelnemer()
-    {
-        return $this->izDeelnemer;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getIzDeelnemer()
-    {
-        return $this->izDeelnemer;
-    }
-
-    public function setDeelnemer(IzDeelnemer $izDeelnemer)
-    {
-        $this->izDeelnemer = $izDeelnemer;
-
-        return $this;
     }
 
     public function getMedewerker()
@@ -202,18 +165,6 @@ abstract class Koppeling
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
-
-        return $this;
-    }
-
-    public function getProject()
-    {
-        return $this->project;
-    }
-
-    public function setProject(Project $project)
-    {
-        $this->project = $project;
 
         return $this;
     }
@@ -230,137 +181,69 @@ abstract class Koppeling
         return $this;
     }
 
-    public function getTussenevaluatiedatum()
+    public function getAfsluitdatum()
     {
-        return $this->tussenevaluatiedatum;
+        return $this->afsluitdatum;
     }
 
-    public function getEindevaluatiedatum()
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
-        return $this->eindevaluatiedatum;
-    }
-
-    public function getEinddatum()
-    {
-        return $this->einddatum;
-    }
-
-    public function setEinddatum(\DateTime $einddatum = null)
-    {
-        $this->einddatum = $einddatum;
+        $this->afsluitdatum = $afsluitdatum;
 
         return $this;
     }
 
-    public function getKoppelingStartdatum()
+    public function getAfsluitreden()
     {
-        return $this->koppelingStartdatum;
+        return $this->afsluitreden;
     }
 
-    public function getKoppelingEinddatum()
+    public function setAfsluitreden(AfsluitredenKoppeling $afsluitreden)
     {
-        return $this->koppelingEinddatum;
-    }
-
-    /**
-     * @return EindeKoppeling
-     */
-    public function getEindeKoppeling()
-    {
-        return $this->eindeKoppeling;
-    }
-
-    /**
-     * @return IzEindeVraagAanbod
-     */
-    public function getEindeVraagAanbod()
-    {
-        return $this->eindeVraagAanbod;
-    }
-
-    public function setEindeVraagAanbod(EindeVraagAanbod $eindeVraagAanbod)
-    {
-        $this->eindeVraagAanbod = $eindeVraagAanbod;
+        $this->afsluitreden = $afsluitreden;
 
         return $this;
     }
 
     public function isAfgesloten()
     {
-        $now = new \DateTime();
-
-        if ($this->isGekoppeld()) {
-            return $this->getKoppelingEinddatum() instanceof \DateTime && $this->getKoppelingEinddatum() <= $now;
-        }
-
-        return $this->getEinddatum() instanceof \DateTime && $this->getEinddatum() <= $now;
+        return $this->afsluitdatum instanceof \DateTime
+            && $this->afsluitdatum <= new \DateTime('today');
     }
 
     /**
      * @return bool
      */
-    public function isKoppelingSuccesvol()
+    public function isSuccesvol()
     {
-        return $this->koppelingSuccesvol;
+        return $this->succesvol;
     }
 
-    public function getInfo()
+    public function getVerslagen()
     {
-        return $this->info;
-    }
-
-    public function setInfo($info = null)
-    {
-        $this->info = $info;
-
-        return $this;
-    }
-
-    public function getDagdeel()
-    {
-        return $this->dagdeel;
-    }
-
-    public function setDagdeel($dagdeel = null)
-    {
-        $this->dagdeel = $dagdeel;
-
-        return $this;
-    }
-
-    public function getVoorkeurGeslacht()
-    {
-        return $this->voorkeurGeslacht;
-    }
-
-    public function setVoorkeurGeslacht(Geslacht $geslacht = null)
-    {
-        $this->voorkeurGeslacht = $geslacht;
-
-        return $this;
+        return $this->verslagen;
     }
 
     public function addVerslag(Verslag $verslag)
     {
         $this->verslagen[] = $verslag;
-        $verslag->setKoppeling($this);
-        $verslag->setIzDeelnemer($this->getDeelnemer());
     }
 
-    public function isGereserveerd()
+    public function getEvaluaties()
     {
-        return $this->getHuidigeReservering() instanceof Reservering;
-    }
+        $evaluaties = [];
 
-    public function getHuidigeReservering()
-    {
-        $today = new \DateTime('today');
-        foreach ($this->reserveringen as $reservering) {
-            if ($today >= $reservering->getStartdatum()
-                && $today <= $reservering->getEinddatum()
-            ) {
-                return $reservering;
+        foreach ($this->verslagen as $verslag) {
+            if ($verslag instanceof Evaluatie) {
+                $evaluaties[] = $verslag;
             }
         }
+
+        return $evaluaties;
+    }
+
+    public function addEvaluatie(Evaluatie $evaluatie)
+    {
+        return $this->addVerslag($evaluatie);
     }
 }

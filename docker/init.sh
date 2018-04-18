@@ -7,14 +7,7 @@ done
 
 >&2 echo "MySQL is up - executing command"
 
-bin/console doctrine:migrations:migrate -n
-
-COUNT=`mysql -h "database" -u$MYSQL_USER -p$MYSQL_PASSWORD -e "SELECT (1) FROM medewerkers WHERE id = 1;" $MYSQL_DATABASE`
-if [ -z "${COUNT}" ]
-then
-    >&2 echo "Loading data fixtures"
-    bin/console hautelook_alice:doctrine:fixtures:load -n
-else
-    >&2 echo "Skipping data fixtures"
-fi
+bin/console doctrine:database:create
+bin/console doctrine:schema:create
+bin/console hautelook_alice:doctrine:fixtures:load -n
 

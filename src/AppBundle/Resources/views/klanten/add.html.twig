@@ -31,7 +31,6 @@
                     {{ form_row(form.geboortedatum) }}
                     {{ form_row(form.land) }}
                     {{ form_row(form.nationaliteit) }}
-                    {{ form_row(form.bsn) }}
                 </div>
                 <div class="col-xs-6">
                     <h2>Contactgegevens</h2>
@@ -47,12 +46,14 @@
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <h2>Verslag</h2>
+                    <h2>Dossier</h2>
+                    {{ form_row(form.medewerker) }}
                     {{ form_row(form.opmerking) }}
                 </div>
                 <div class="col-xs-6">
-                    <h2>Medewerker</h2>
-                    {{ form_row(form.medewerker) }}
+                    <h2>Overigen</h2>
+                    {{ form_row(form.roker) }}
+                    {{ form_row(form.dierenbezitter) }}
                     <span class="pull-right">
                         {{ form_row(form.submit) }}
                     </span>

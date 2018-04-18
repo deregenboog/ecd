@@ -3,15 +3,17 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use DagbestedingBundle\Service\ProjectDaoInterface;
+use IzBundle\Entity\Project;
+use IzBundle\Form\ProjectType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\Project;
-use DagbestedingBundle\Service\ProjectDaoInterface;
-use IzBundle\Form\ProjectType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/projecten")
+ * @Template
  */
 class ProjectenController extends AbstractController
 {

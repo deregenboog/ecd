@@ -14,8 +14,6 @@
     <dd>{{ vrijwilliger.land }}</dd>
     <dt>Nationaliteit</dt>
     <dd>{{ vrijwilliger.nationaliteit }}</dd>
-    <dt>BSN</dt>
-    <dd>{{ vrijwilliger.bsn }}</dd>
     <dt>Medewerker</dt>
     <dd>{{ vrijwilliger.medewerker }}</dd>
     <dt>Adres</dt>
@@ -33,4 +31,20 @@
     <dd>{{ vrijwilliger.telefoon }}</dd>
     <dt>E-mail</dt>
     <dd>{{ vrijwilliger.email }}</dd>
+</dl>
+<dl class="dl-horizontal">
+    <dt>VOG aangevraagd</dt>
+    <dd>{{ vrijwilliger.vogAangevraagd ? 'Ja' : 'Nee' }}</dd>
+    <dt>VOG aanwezig</dt>
+    <dd>{{ vrijwilliger.vogAanwezig ? vrijwilliger.vogAanwezig|date('d-m-Y') : 'Nee' }}</dd>
+    <dt>Vrijwilligersovereenkomst aanwezig</dt>
+    <dd>{{ vrijwilliger.overeenkomstAanwezig ? 'Ja' : 'Nee' }}</dd>
+    <dt>SIA-cursus gevolgd</dt>
+    <dd>{{ vrijwilliger.datumSiaCursus ? vrijwilliger.datumSiaCursus|date('d-m-Y') : 'Nee' }}</dd>
+</dl>
+<dl class="dl-horizontal">
+    <dt>Rookt</dt>
+    <dd>{{ vrijwilliger.roker ? 'Ja' : 'Nee' }}</dd>
+    <dt>Heeft huisdieren</dt>
+    <dd>{{ vrijwilliger.dierenbezitter ? 'Ja' : 'Nee' }}</dd>
 </dl>

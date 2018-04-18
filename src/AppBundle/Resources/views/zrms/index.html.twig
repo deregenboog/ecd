@@ -24,9 +24,6 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Datum', 'zrm.created') }}
                 </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Module', 'zrm.requestModule') }}
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -40,9 +37,6 @@
                     </td>
                     <td>
                         {{ zrm.created|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ zrm.requestModule }}
                     </td>
                 </tr>
             {% endfor %}

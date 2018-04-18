@@ -2,10 +2,10 @@
 
 namespace AppBundle\DependencyInjection\Compiler;
 
+use AppBundle\Exception\AppException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use AppBundle\Exception\AppException;
 
 abstract class AbstractReportsCompilerPass implements CompilerPassInterface
 {

@@ -2,17 +2,17 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
+use AppBundle\Entity\Klant;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\CKEditorType;
+use AppBundle\Form\KlantType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\IzKlant;
-use AppBundle\Form\AppTextareaType;
-use AppBundle\Form\KlantType;
-use AppBundle\Entity\Klant;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzKlantType extends AbstractType
 {
@@ -21,16 +21,19 @@ class IzKlantType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data'] instanceof IzKlant
-            && $options['data']->getKlant() instanceof Klant
-            && $options['data']->getKlant()->getId()
+        /** @var $izKlant IzKlant */
+        $izKlant = $options['data'];
+
+        if ($izKlant instanceof IzKlant
+            && $izKlant->getKlant() instanceof Klant
+            && $izKlant->getKlant()->getId()
         ) {
             $builder->add('klant', null, [
                 'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($izKlant) {
                     return $repository->createQueryBuilder('klant')
                         ->where('klant = :klant')
-                        ->setParameter('klant', $options['data']->getKlant())
+                        ->setParameter('klant', $izKlant->getKlant())
                     ;
                 },
             ]);
@@ -42,6 +45,14 @@ class IzKlantType extends AbstractType
                 ->remove('geenPost')
                 ->remove('geenEmail')
             ;
+        }
+
+        if ($izKlant->hasOpenHulpvragen() || $izKlant->hasActieveKoppelingen()) {
+            $izKlant->setStatus(null);
+        } else {
+            $builder->add('status', DeelnemerstatusSelectType::class, [
+                'required' => false,
+            ]);
         }
 
         $builder
@@ -58,7 +69,13 @@ class IzKlantType extends AbstractType
             ->add('telefoonAanmelder', null, [
                 'required' => false,
             ])
-            ->add('notitie', AppTextareaType::class, [
+            ->add('notitie', CKEditorType::class, [
+                'required' => false,
+            ])
+            ->add('naamContactpersoon', null, [
+                'required' => false,
+            ])
+            ->add('telefoonContactpersoon', null, [
                 'required' => false,
             ])
             ->add('submit', SubmitType::class)

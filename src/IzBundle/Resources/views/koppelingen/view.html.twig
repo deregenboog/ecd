@@ -1,30 +1,55 @@
 {% extends 'IzBundle::view.html.twig' %}
 {% import '::html.macro.twig' as html %}
+{% import 'IzBundle::iz.macro.twig' as iz %}
 
 {% block content_top %}
     <h1>
         {{ entity_name|capitalize }}
-        {{ entity.izKlant.klant|naam_voor_achter }} -
-        {{ entity.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter }}
+        {{ entity.izKlant }} -
+        {{ entity.hulpaanbod.izVrijwilliger }}
     </h1>
 {% endblock %}
 
 {% block content_left %}
     <h2>Koppeling</h2>
     <p>
-        {{ html.editLink(path('iz_koppelingen_edit', {id: entity.id})) }}
-        {{ html.link('Bewerken', path('iz_koppelingen_edit', {id: entity.id})) }}
+        {{ html.link('Bewerken', path('iz_koppelingen_edit', {id: entity.id}), 'edit') }}
         {% if not entity.afgesloten %}
-            {{ html.closeLink(path('iz_koppelingen_close', {id: entity.id})) }}
-            {{ html.link('Koppeling beëindigen', path('iz_koppelingen_close', {id: entity.id})) }}
+            {{ html.link('Koppeling beëindigen', path('iz_koppelingen_close', {id: entity.id}), 'close') }}
         {% endif %}
     </p>
     <dl class="dl-horizontal">
-        <dt>Deelnemer</dt>
-        <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
-        <dt>Coördinator hulpvraag</dt>
-        <dd>{{ entity.medewerker }}</dd>
+        <dt>Status</dt>
+        <dd>{{ entity.status }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum ? entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Evaluatiedata</dt>
+        <dd>{{ iz.koppeling_evaluatie_list(entity) }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden beëindiging</dt>
+        <dd>{{ entity.afsluitreden }}</dd>
+        <dt>Koppeling succesvol</dt>
+        <dd>{{ entity.succesvol ? 'Ja' }}</dd>
     </dl>
+    <h2>Hulpvraag</h2>
+    <dl class="dl-horizontal">
+        <dt>Deelnemer</dt>
+        <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.hulpvraag.izKlant.id})) }}</dd>
+        <dt>Coördinator hulpvraag</dt>
+        <dd>{{ entity.hulpvraag.medewerker }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Startdatum</dt>
+        <dd>{{ entity.hulpvraag.startdatum|date('d-m-Y') }}</dd>
+        <dt>Project</dt>
+        <dd>{{ entity.hulpvraag.project }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Hulpvraagsoort</dt>
+        <dd>{{ entity.hulpvraag.hulpvraagsoort }}</dd>
+    </dl>
+    <h2>Hulpaanbod</h2>
     <dl class="dl-horizontal">
         <dt>Vrijwilliger</dt>
         <dd>{{ html.link(entity.hulpaanbod.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.hulpaanbod.izVrijwilliger.id})) }}</dd>
@@ -32,72 +57,13 @@
         <dd>{{ entity.hulpaanbod.medewerker }}</dd>
     </dl>
     <dl class="dl-horizontal">
-        <dt>Startdatum koppeling</dt>
-        <dd>{{ entity.koppelingStartdatum ? entity.koppelingStartdatum|date('d-m-Y') }}</dd>
-        <dt>Datum tussenevaluatie</dt>
-        <dd>{{ entity.tussenevaluatiedatum ? entity.tussenevaluatiedatum|date('d-m-Y') }}</dd>
-        <dt>Datum eindevaluatie</dt>
-        <dd>{{ entity.eindevaluatiedatum ? entity.eindevaluatiedatum|date('d-m-Y') }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Einddatum koppeling</dt>
-        <dd>{{ entity.koppelingEinddatum ? entity.koppelingEinddatum|date('d-m-Y') }}</dd>
-        <dt>Reden beëindiging</dt>
-        <dd>{{ entity.eindeKoppeling }}</dd>
-        <dt>Koppeling succesvol</dt>
-        <dd>{{ entity.koppelingSuccesvol ? 'Ja' }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.hulpaanbod.startdatum|date('d-m-Y') }}</dd>
+        <dt>Project</dt>
+        <dd>{{ entity.hulpaanbod.project }}</dd>
     </dl>
 {% endblock %}
 
 {% block content_right %}
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-        <li><a data-toggle="tab" href="#hulpaanbod">Hulpaanbod</a></li>
-        <li><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="verslagen" class="tab-pane active">
-            {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
-        </div>
-        <div id="hulpvraag" class="tab-pane">
-            <h2>Hulpvraag</h2>
-            {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
-            {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
-            <dl class="dl-horizontal">
-                <dt>Deelnemer</dt>
-                <dd>{{ entity.izKlant }}</dd>
-                <dt>Coördinator</dt>
-                <dd>{{ entity.medewerker }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Startdatum</dt>
-                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-                <dt>Project</dt>
-                <dd>{{ entity.project }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Hulpvraagsoort</dt>
-                <dd>{{ entity.hulpvraagsoort }}</dd>
-                <dt>Doelgroep</dt>
-                <dd>{{ entity.doelgroep }}</dd>
-            </dl>
-        </div>
-        <div id="hulpaanbod" class="tab-pane">
-            <h2>Hulpaanbod</h2>
-            {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-            {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-            <dl class="dl-horizontal">
-                <dt>Vrijwilliger</dt>
-                <dd>{{ entity.hulpaanbod.izVrijwilliger }}</dd>
-                <dt>Coördinator</dt>
-                <dd>{{ entity.medewerker }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Startdatum</dt>
-                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-                <dt>Project</dt>
-                <dd>{{ entity.project }}</dd>
-            </dl>
-        </div>
-    </div>
+    {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
 {% endblock %}

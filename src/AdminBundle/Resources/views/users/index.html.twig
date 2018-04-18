@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block subnavigation %}
+    {% include '@Admin/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Nummer', 'medewerker.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                </th>
+                <th>Rollen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medewerker in pagination %}
+                <tr data-href="{{ path(route_base~'edit', {id: medewerker.id}) }}">
+                    <td>
+                        {{ medewerker.id }}
+                    </td>
+                    <td>
+                        {{ medewerker }}
+                    </td>
+                    <td>
+                        <ul>
+                            {% for role in medewerker.roles %}
+                                <li>{{ role }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

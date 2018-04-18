@@ -1,5 +1,0 @@
-GaBundle\Entity\GaVrijwilligerDeelname:
-    ga_vrijwilliger_deelname_{1..50}:
-        vrijwilliger: '@vrijwilliger_*'
-        gaActiviteit: '@ga_activiteit_*'
-        status: 'Aanwezig'

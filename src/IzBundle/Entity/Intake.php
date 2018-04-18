@@ -2,11 +2,11 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Zrm;
+use AppBundle\Model\ZrmInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Model\ZrmTrait;
-use AppBundle\Model\ZrmInterface;
 
 /**
  * @ORM\Entity
@@ -16,8 +16,6 @@ use AppBundle\Model\ZrmInterface;
  */
 class Intake implements ZrmInterface
 {
-    use ZrmTrait;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -78,11 +76,11 @@ class Intake implements ZrmInterface
     private $medewerker;
 
     /**
-     * @var string
-     * @ORM\Column(name="gesprek_verslag", type="string", nullable=true)
-     * @Gedmo\Versioned
+     * @var Zrm
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
      */
-    private $gespreksverslag;
+    private $zrm;
 
     public function __construct()
     {
@@ -163,14 +161,15 @@ class Intake implements ZrmInterface
         return $this;
     }
 
-    public function getGespreksverslag()
+    public function getZrm()
     {
-        return $this->gespreksverslag;
+        return $this->zrm;
     }
 
-    public function setGespreksverslag($gespreksverslag = null)
+    public function setZrm(Zrm $zrm)
     {
-        $this->gespreksverslag = $gespreksverslag;
+        $this->zrm = $zrm;
+        $zrm->setKlant($this->getIzDeelnemer()->getKlant());
 
         return $this;
     }

@@ -1,0 +1,62 @@
+<h2>Hulpvraag</h2>
+<p>
+    {% if not entity.afgesloten %}
+        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
+        {% if not entity.gekoppeld %}
+            {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
+            {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
+        {% endif %}
+    {% endif %}
+</p>
+<dl class="dl-horizontal">
+    <dt>Deelnemer</dt>
+    <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
+    <dt>Medewerker</dt>
+    <dd>{{ entity.medewerker }}</dd>
+    <dt>Startdatum</dt>
+    <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+    {% if entity.afgesloten %}
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+        <dt>Afsluitreden</dt>
+        <dd>{{ entity.eindeVraagAanbod }}</dd>
+    {% endif %}
+</dl>
+<dl class="dl-horizontal">
+    <dt>Project</dt>
+    <dd>{{ entity.project }}</dd>
+    <dt>Hulpvraagsoort</dt>
+    <dd>{{ entity.hulpvraagsoort }}</dd>
+    <dt>Beschikbare dagen</dt>
+    <dd>
+        <ul>
+            {% for dag in entity.beschikbareDagen %}
+                <li>{{ dag }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+    <dt>Voorkeur stadsdelen</dt>
+    <dd>
+        <ul>
+            {% for stadsdeel in entity.voorkeurStadsdelen %}
+                <li>{{ stadsdeel }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+    <dt>Voorkeur geslacht</dt>
+    <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
+    <dt>Voorkeur leeftijd</dt>
+    <dd>
+        <ul>
+            <li>Minimaal: {{ entity.voorkeurMinLeeftijd ? entity.voorkeurMinLeeftijd~' jaar' : 'geen voorkeur' }}</li>
+            <li>Maximaal: {{ entity.voorkeurMaxLeeftijd ? entity.voorkeurMaxLeeftijd~' jaar' : 'geen voorkeur' }}</li>
+        </ul>
+    </dd>
+    <dt>Voorkeur roken</dt>
+    <dd>{{ entity.voorkeurNietRoker ? 'Voorkeur voor niet-roker' : 'Geen voorkeur' }}</dd>
+    <dt>Voorkeur huisdieren</dt>
+    <dd>{{ entity.voorkeurGeenDieren ? 'Voorkeur voor geen huisdieren' : 'Geen voorkeur' }}</dd>
+    <dt>Matchingsinformatie</dt>
+    <dd><div class="well">{{ entity.info }}</div></dd>
+</dl>

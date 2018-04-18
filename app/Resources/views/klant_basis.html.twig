@@ -16,8 +16,6 @@
     <dd>{{ klant.land }}</dd>
     <dt>Nationaliteit</dt>
     <dd>{{ klant.nationaliteit }}</dd>
-    <dt>BSN</dt>
-    <dd>{{ klant.bsn }}</dd>
     <dt>Medewerker</dt>
     <dd>{{ klant.medewerker }}</dd>
     <dt>Adres</dt>
@@ -42,8 +40,11 @@
     <dt>Geen e-mail</dt>
     <dd>{{ klant.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
     <dt>Opmerking</dt>
-    <dd>{{ klant.opmerking }}</dd>
+    <dd>{{ klant.opmerking|raw }}</dd>
 </dl>
-
-{{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}
-{{ render(controller('AppBundle:Klanten:_zrms', {id: klant.id})) }}
+<dl class="dl-horizontal">
+    <dt>Rookt</dt>
+    <dd>{{ klant.roker ? 'Ja' : 'Nee' }}</dd>
+    <dt>Heeft huisdieren</dt>
+    <dd>{{ klant.dierenbezitter ? 'Ja' : 'Nee' }}</dd>
+</dl>

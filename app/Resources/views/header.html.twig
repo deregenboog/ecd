@@ -10,22 +10,26 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ relative_path('/') }}">
-                <img src="{{ asset('img/drg-logo-50px.jpg') }}" alt="Logo DRG">
-            </a>
+            <a class="navbar-brand" href="{{ path('home') }}"></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
-                {% for controller, label in menu_allowed %}
-                    {{ html.navLink(label, relative_path("/" ~ controller), isActiveRoute(controller ~ '_')) }}
-                {% endfor %}
+                {% include '::_nav.html.twig' %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if userFullName is defined %}
-                    <li><a href="#">Ingelogd als {{ userFullName }}</a></li>
-                    <li>{{ html.link('Uitloggen', relative_path('/medewerkers/logout')) }}</li>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li>
+                        <a href="{{ path('home') }}">
+                            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_security_logout') }}">
+                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                        </a>
+                    </li>
                 {% else %}
-                    <li>{{ html.link('Inloggen', relative_path('/medewerkers/login')) }}</li>
+                    <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
                 {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->

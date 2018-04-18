@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -15,8 +15,6 @@ use AppBundle\Model\TimestampableTrait;
 class Geslacht
 {
     use TimestampableTrait;
-
-    const AFKORTING_ONBEKEND = 'O';
 
     /**
      * @ORM\Id

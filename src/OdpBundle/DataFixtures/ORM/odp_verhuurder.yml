@@ -1,5 +1,0 @@
-OdpBundle\Entity\Verhuurder:
-    odp_verhuurder_{1..100}:
-        klant (unique): '@klant_*'
-        medewerker: '@medewerker_*'
-        aanmelddatum: '<dateTimeThisDecade()>'

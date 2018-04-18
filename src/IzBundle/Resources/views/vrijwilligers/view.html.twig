@@ -1,5 +1,6 @@
 {% extends 'IzBundle::view.html.twig' %}
 {% import '::html.macro.twig' as html %}
+{% import 'IzBundle::iz.macro.twig' as iz %}
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
@@ -21,7 +22,13 @@
                 </p>
                 {{ form(form) }}
             {% else %}
+                <p>
+                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                    {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+                </p>
                 <dl class="dl-horizontal">
+                    <dt>Status</dt>
+                    <dd>{{ iz.vrijwilliger_status_list(entity) }}</dd>
                     <dt>Aanmelddatum</dt>
                     <dd>{{ entity.datumAanmelding ? entity.datumAanmelding|date('d-m-Y') }}</dd>
                     <dt>Interesse in projecten</dt>
@@ -33,17 +40,19 @@
                         </ul>
                     </dd>
                 </dl>
-                <h3>Aanmelder</h3>
                 <dl class="dl-horizontal">
                     <dt>Binnengekomen via</dt>
                     <dd>{{ entity.binnengekomenVia }}</dd>
                     <dt>Notitie</dt>
-                    <dd class="well">{{ entity.notitie|nl2br }}</dd>
+                    <dd class="well">{{ entity.notitie|raw }}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Naam contactpersoon</dt>
+                    <dd>{{ entity.naamContactpersoon }}</dd>
+                    <dt>Telefoon contactpersoon</dt>
+                    <dd>{{ entity.telefoonContactpersoon }}</dd>
                 </dl>
             {% endif %}
-        </div>
-        <div id="intervisiegroepen" class="tab-pane">
-            {% include 'IzBundle:intervisiegroepen:_list.html.twig' with {vrijwilliger: entity} %}
         </div>
         <div id="verslagen" class="tab-pane">
             {% include 'IzBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}

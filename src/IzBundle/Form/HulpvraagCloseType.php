@@ -2,14 +2,14 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpvraagCloseType extends AbstractType
 {

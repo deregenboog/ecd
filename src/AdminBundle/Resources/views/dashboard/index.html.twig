@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block subnavigation %}
+    {% include '@Admin/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul>
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ html.navLink('Gebruikers', path('admin_users_index'), isActiveRoute('admin_users_')) }}
+        {% endif %}
+    </ul>
+{% endblock %}

@@ -1,5 +1,6 @@
 {% extends '@Iz/index.html.twig' %}
 {% import '::html.macro.twig' as html %}
+{% import 'IzBundle::iz.macro.twig' as iz %}
 
 {% block content %}
     <h1>{{ title }}</h1>
@@ -11,8 +12,9 @@
         <thead>
             {% include '@Iz/vrijwilligers/_filter.html.twig' %}
             <tr>
+                <th>Status</th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Nummer', 'vrijwilliger.id') }}
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'izVrijwilliger.datumAanmelding') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
@@ -33,15 +35,16 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izVrijwilliger.afsluitDatum') }}
                 </th>
-                <th>
-                </th>
             </tr>
         </thead>
         <tbody>
             {% for izVrijwilliger in pagination %}
                 <tr data-href="{{ path(route_base~'view', {id: izVrijwilliger.id}) }}">
                     <td>
-                        {{ izVrijwilliger.vrijwilliger.id }}
+                        {{ iz.vrijwilliger_status_list(izVrijwilliger) }}
+                    </td>
+                    <td>
+                        {{ izVrijwilliger.datumAanmelding ? izVrijwilliger.datumAanmelding|date('d-m-Y') }}
                     </td>
                     <td>
                         {{ izVrijwilliger }}
@@ -64,8 +67,6 @@
                     </td>
                     <td>
                         {{ izVrijwilliger.afsluitdatum ? izVrijwilliger.afsluitdatum|date('d-m-Y') }}
-                    </td>
-                    <td>
                     </td>
                 </tr>
             {% endfor %}

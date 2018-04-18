@@ -4,7 +4,6 @@ services:
         arguments:
             - IzBundle\Entity\IzKlant
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
                 Aanmelddatum: { expression: 'entity.getDatumAanmelding()', type: 'date' }
                 Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
@@ -33,19 +32,11 @@ services:
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Ontstaan contact: { expression: 'entity.getContactOntstaan()' }
 
-    iz.export.intervisiegroepen:
-        class: AppBundle\Export\GenericExport
-        arguments:
-            - IzBundle\Entity\Intervisiegroep
-            -
-                Naam: { expression: 'entity.getNaam()' }
-
     iz.export.vrijwilligers:
         class: IzBundle\Export\IzVrijwilligersExport
         arguments:
             - IzBundle\Entity\IzVrijwilliger
             -
-                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
                 Aanmelddatum: { expression: 'entity.getDatumAanmelding()', type: 'date' }
                 Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
@@ -82,7 +73,6 @@ services:
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Project: { expression: 'entity.getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
-                Nummer: { expression: 'entity.getIzKlant().getKlant().getId()' }
                 Intakedatum: { expression: 'entity.getIzKlant().getIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getIzKlant().getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getIzKlant().getKlant().getGeslacht()' }
@@ -113,7 +103,6 @@ services:
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Project: { expression: 'entity.getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
-                Nummer: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getId()' }
                 Intakedatum: { expression: 'entity.getIzVrijwilliger().getIntake().getIntakeDatum()', condition: 'entity.getIzVrijwilliger().getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getIzVrijwilliger().getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getGeslacht()' }
@@ -136,35 +125,33 @@ services:
         arguments:
             - IzBundle\Entity\Koppeling
             -
-                Startdatum koppeling: { expression: 'entity.getKoppelingStartdatum()', type: 'date' }
-                Einddatum koppeling: { expression: 'entity.getKoppelingEinddatum()', type: 'date' }
-                Afsluitreden: { expression: 'entity.getEindeKoppeling()' }
-                Project: { expression: 'entity.getProject()' }
-                Medewerker hulpvraag: { expression: 'entity.getMedewerker()' }
+                Startdatum koppeling: { expression: 'entity.getStartdatum()', type: 'date' }
+                Einddatum koppeling: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Afsluitreden: { expression: 'entity.getAfsluitreden()' }
+                Project: { expression: 'entity.getHulpvraag().getProject()' }
+                Medewerker hulpvraag: { expression: 'entity.getHulpvraag().getMedewerker()' }
                 Medewerker hulpaanbod: { expression: 'entity.getHulpaanbod().getMedewerker()' }
-                Nummer deelnemer: { expression: 'entity.getIzKlant().getKlant().getId()' }
-                Intakedatum deelnemer: { expression: 'entity.getIzKlant().getIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIntake()', type: 'date' }
-                Afsluitdatum deelnemer: { expression: 'entity.getIzKlant().getAfsluitDatum()', type: 'date' }
-                Geslacht deelnemer: { expression: 'entity.getIzKlant().getKlant().getGeslacht()' }
-                Voornaam deelnemer: { expression: 'entity.getIzKlant().getKlant().getVoornaam()' }
-                Tussenvoegsel deelnemer: { expression: 'entity.getIzKlant().getKlant().getTussenvoegsel()' }
-                Achternaam deelnemer: { expression: 'entity.getIzKlant().getKlant().getAchternaam()' }
-                Geboortedatum deelnemer: { expression: 'entity.getIzKlant().getKlant().getGeboortedatum()', type: 'date' }
-                E-mail deelnemer: { expression: 'entity.getIzKlant().getKlant().getEmail()' }
-                Adres deelnemer: { expression: 'entity.getIzKlant().getKlant().getAdres()' }
-                Postcode deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcode()' }
-                Woonplaats deelnemer: { expression: 'entity.getIzKlant().getKlant().getPlaats()' }
-                Mobiel deelnemer: { expression: 'entity.getIzKlant().getKlant().getMobiel()' }
-                Telefoon deelnemer: { expression: 'entity.getIzKlant().getKlant().getTelefoon()' }
-                Werkgebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getWerkgebied()' }
-                Postcodegebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
-                Ontstaan contact: { expression: 'entity.getIzKlant().getContactOntstaan()' }
-                Gezin met kinderen: { expression: 'entity.getIzKlant().getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
-                Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatieAanmelder()' }
-                Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
-                E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
-                Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
-                Nummer vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getId()' }
+                Intakedatum deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIntake()', type: 'date' }
+                Afsluitdatum deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getAfsluitDatum()', type: 'date' }
+                Geslacht deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getGeslacht()' }
+                Voornaam deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getVoornaam()' }
+                Tussenvoegsel deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getTussenvoegsel()' }
+                Achternaam deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getAchternaam()' }
+                Geboortedatum deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getGeboortedatum()', type: 'date' }
+                E-mail deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getEmail()' }
+                Adres deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getAdres()' }
+                Postcode deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getPostcode()' }
+                Woonplaats deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getPlaats()' }
+                Mobiel deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getMobiel()' }
+                Telefoon deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getTelefoon()' }
+                Werkgebied deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getWerkgebied()' }
+                Postcodegebied deelnemer: { expression: 'entity.getHulpvraag().getIzKlant().getKlant().getPostcodegebied()' }
+                Ontstaan contact: { expression: 'entity.getHulpvraag().getIzKlant().getContactOntstaan()' }
+                Gezin met kinderen: { expression: 'entity.getHulpvraag().getIzKlant().getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
+                Aanmeldende organisatie: { expression: 'entity.getHulpvraag().getIzKlant().getOrganisatieAanmelder()' }
+                Naam aanmelder: { expression: 'entity.getHulpvraag().getIzKlant().getNaamAanmelder()' }
+                E-mail aanmelder: { expression: 'entity.getHulpvraag().getIzKlant().getEmailAanmelder()' }
+                Telefoon aanmelder: { expression: 'entity.getHulpvraag().getIzKlant().getTelefoonAanmelder()' }
                 Intakedatum vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake().getIntakeDatum()', condition: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake()', type: 'date' }
                 Afsluitdatum vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getAfsluitDatum()', type: 'date' }
                 Geslacht vrijwilliger: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getVrijwilliger().getGeslacht()' }
@@ -191,7 +178,6 @@ services:
         arguments:
             - IzBundle\Entity\IzKlant
             -
-                Nummer: { expression: '"K" ~ entity.getKlant().getId()' }
                 Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
@@ -216,7 +202,6 @@ services:
                 Stagiair: { expression: 'null' }
             - IzBundle\Entity\IzVrijwilliger
             -
-                Nummer: { expression: '"V" ~ entity.getVrijwilliger().getId()' }
                 Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', condition: 'entity.getIntake()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }

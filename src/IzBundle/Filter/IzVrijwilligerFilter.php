@@ -2,17 +2,28 @@
 
 namespace IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Deelnemerstatus;
+use IzBundle\Entity\Project;
 
 class IzVrijwilligerFilter implements FilterInterface
 {
     const ACTIEF_NU = 'nu';
     const ACTIEF_OOIT = 'ooit';
+
+    /**
+     * @var string
+     */
+    public $status;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $datumAanmelding;
 
     /**
      * @var AppDateRangeModel
@@ -61,6 +72,33 @@ class IzVrijwilligerFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
+        if ($this->status) {
+            if ('Kan gekoppeld worden' === $this->status) {
+                // met open hulpaanbod
+                $builder->andWhere('koppeling.id IS NULL');
+            } else {
+                $builder
+                    ->andWhere('deelnemerstatus.naam = :statusnaam OR koppelingstatus.naam = :statusnaam')
+                    ->setParameter('statusnaam', $this->status)
+                ;
+            }
+        }
+
+        if ($this->datumAanmelding) {
+            if ($this->datumAanmelding->getStart()) {
+                $builder
+                    ->andWhere('izKlant.datumAanmelding >= :izKlant_datumAanmelding_van')
+                    ->setParameter('izKlant_datumAanmelding_van', $this->datumAanmelding->getStart())
+                ;
+            }
+            if ($this->datumAanmelding->getEnd()) {
+                $builder
+                    ->andWhere('izKlant.datumAanmelding <= :izKlant_datumAanmelding_tot')
+                    ->setParameter('izKlant_datumAanmelding_tot', $this->datumAanmelding->getEnd())
+                ;
+            }
+        }
+
         if ($this->afsluitDatum) {
             if ($this->afsluitDatum->getStart()) {
                 $builder
@@ -100,7 +138,7 @@ class IzVrijwilligerFilter implements FilterInterface
                     $builder
                         ->andWhere('hulpaanbod.project = :project')
                         ->andWhere('hulpaanbod.einddatum IS NULL')
-                        ->andWhere('hulpaanbod.koppelingEinddatum IS NULL')
+                        ->andWhere('koppeling.afsluitdatum IS NULL')
                         ->setParameter('project', $this->project)
                     ;
                     break;
@@ -124,37 +162,45 @@ class IzVrijwilligerFilter implements FilterInterface
         if ($this->zonderActiefHulpaanbod) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izVrijwilliger.id')
-                ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'actiefHulpaanbod', 'WITH', $builder->expr()->andX(
-                    'actiefHulpaanbod.hulpvraag IS NULL',
-                    'actiefHulpaanbod.einddatum IS NULL OR actiefHulpaanbod.einddatum >= :now'
+                ->innerJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
+                ->leftJoin('hulpaanbod.koppeling', 'koppeling')
+                ->andWhere($builder->expr()->andX(
+                    'koppeling.id IS NULL',
+                    'hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :now'
                 ))
                 ->addGroupBy('izVrijwilliger.id')
-                ->andHaving('COUNT(actiefHulpaanbod) = 0')
                 ->setParameter('now', new \DateTime())
             ;
 
-            $builder
-                ->andWhere('izVrijwilliger.id IN (:zonder_actief_hulpaanbod)')
-                ->setParameter('zonder_actief_hulpaanbod', $this->getIds($subBuilder))
-            ;
+            $metActiefHulpaanbod = $this->getIds($subBuilder);
+            if ($metActiefHulpaanbod) {
+                $builder
+                    ->andWhere('izVrijwilliger.id NOT IN (:met_actief_hulpaanbod)')
+                    ->setParameter('met_actief_hulpaanbod', $metActiefHulpaanbod)
+                ;
+            }
         }
 
         if ($this->zonderActieveKoppeling) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izVrijwilliger.id')
-                ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
-                    'actieveKoppeling.hulpvraag IS NOT NULL',
-                    'actieveKoppeling.koppelingEinddatum IS NULL OR actieveKoppeling.koppelingEinddatum >= :now'
+                ->innerJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
+                ->innerJoin('hulpaanbod.koppeling', 'koppeling')
+                ->andWhere($builder->expr()->andX(
+                    'koppeling.id IS NOT NULL',
+                    'koppeling.afsluitdatum IS NULL OR koppeling.afsluitdatum >= :now'
                 ))
                 ->addGroupBy('izVrijwilliger.id')
-                ->andHaving('COUNT(actieveKoppeling) = 0')
                 ->setParameter('now', new \DateTime())
             ;
 
-            $builder
-                ->andWhere('izVrijwilliger.id IN (:zonder_actieve_koppeling)')
-                ->setParameter('zonder_actieve_koppeling', $this->getIds($subBuilder))
-            ;
+            $metActieveKoppeling = $this->getIds($subBuilder);
+            if ($metActieveKoppeling) {
+                $builder
+                    ->andWhere('izVrijwilliger.id IN (:met_actieve_koppeling)')
+                    ->setParameter('met_actieve_koppeling', $this->getIds($subBuilder))
+                ;
+            }
         }
     }
 

@@ -2,14 +2,17 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="iz_verslagen")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"verslag" = "Verslag", "evaluatie" = "Evaluatie"})
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
@@ -22,37 +25,32 @@ class Verslag
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
-    private $opmerking;
-
-    /**
-     * @var IzDeelnemer
-     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="verslagen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id")
-     * @Gedmo\Versioned
-     */
-    private $izDeelnemer;
-
-    /**
-     * @var Koppeling
-     * @ORM\ManyToOne(targetEntity="Koppeling", inversedBy="verslagen")
-     * @ORM\JoinColumn(name="iz_koppeling_id")
-     * @Gedmo\Versioned
-     */
-    private $koppeling;
+    protected $opmerking;
 
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    private $medewerker;
+    protected $medewerker;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $datum;
+
+    public function __construct()
+    {
+        $this->datum = new \DateTime('today');
+    }
 
     public function getId()
     {
@@ -95,15 +93,20 @@ class Verslag
         return $this;
     }
 
-    public function getKoppeling()
+    public function getDatum()
     {
-        return $this->koppeling;
+        return $this->datum;
     }
 
-    public function setKoppeling(Koppeling $koppeling)
+    public function setDatum(\DateTime $datum)
     {
-        $this->koppeling = $koppeling;
+        $this->datum = $datum;
 
         return $this;
+    }
+
+    public function isEmpty()
+    {
+        return '' === trim(str_replace('&nbsp;', '', strip_tags($this->opmerking)));
     }
 }

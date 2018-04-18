@@ -2,8 +2,8 @@
 
 namespace AppBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 trait OptionalMedewerkerTrait

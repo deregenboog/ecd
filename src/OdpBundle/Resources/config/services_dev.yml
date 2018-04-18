@@ -1,5 +1,0 @@
-services:
-    odp.data_fixtures.faker_provider:
-        class: OdpBundle\DataFixtures\OdpFakerProvider
-        tags:
-            - { name: hautelook_alice.faker.provider }

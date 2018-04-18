@@ -1,0 +1,110 @@
+@logo-url: url("/img/logo-rode-kruis-70px.png");
+@brand-primary: #dc281e;
+@navbar-default-bg: #eeeeee;
+@footer-bg: #5a5e64;
+
+//== Navbar
+//
+//##
+
+// Basics of a navbar
+@navbar-height:                    70px;
+@navbar-margin-bottom:             @line-height-computed;
+@navbar-border-radius:             @border-radius-base;
+@navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
+@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+@navbar-collapse-max-height:       340px;
+
+@navbar-default-color:             white;
+@navbar-default-bg:                #eeeeee;
+@navbar-default-border:            darken(@navbar-default-bg, 6.5%);
+
+// Navbar links
+@navbar-default-link-color:                black;
+@navbar-default-link-hover-color:          #333;
+@navbar-default-link-hover-bg:             transparent;
+@navbar-default-link-active-color:         white;
+@navbar-default-link-active-bg:            darken(@navbar-default-bg, 6.5%);
+@navbar-default-link-disabled-color:       #ccc;
+@navbar-default-link-disabled-bg:          transparent;
+
+// Navbar brand label
+@navbar-default-brand-color:               @navbar-default-link-color;
+@navbar-default-brand-hover-color:         darken(@navbar-default-brand-color, 10%);
+@navbar-default-brand-hover-bg:            transparent;
+
+// Navbar toggle
+@navbar-default-toggle-hover-bg:           #ddd;
+@navbar-default-toggle-icon-bar-bg:        #888;
+@navbar-default-toggle-border-color:       #ddd;
+
+// @nav-bg-color: #eeeeee;
+// @nav-text-color: #000000;
+// @nav-active-bg-color: #5a5e64;
+// @nav-active-text-color: #ffffff;
+
+@import "~bootstrap/less/bootstrap";
+@import "app-footer";
+
+@navbar-height: 70px;
+
+.navbar-default {
+    .navbar-brand {
+        display: block;
+        width: 100px;
+        height: 70px;
+        padding: 10px;
+        background: @logo-url center center no-repeat;
+    }
+    .navbar-nav {
+        li > a {
+            font-size: 90%;
+            font-weight: bold;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+         }
+    }
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus
+.nav-tabs > li.active > a:hover {
+    cursor: pointer ! important;
+}
+
+a {
+    color: #003d4c;
+}
+a:hover {
+    color: #367889;
+}
+a img {
+    border:none;
+}
+
+h1, h2, h3, h4 {
+}
+
+.clear {
+    clear: both;
+}
+
+/* tables */
+th a.asc:after {
+    content: ' ⇣';
+}
+th a.desc:after {
+    content: ' ⇡';
+}
+table.table.table-hover tr[data-href]:hover {
+    cursor: pointer;
+}
+
+/* forms */
+#klus_dienstverleners > .checkbox,
+#klus_vrijwilligers > .checkbox {
+    float:left;
+    width: 25em;
+}

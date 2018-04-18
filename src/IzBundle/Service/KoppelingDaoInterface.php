@@ -2,9 +2,9 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Hulpvraag;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use IzBundle\Entity\Koppeling;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface KoppelingDaoInterface
 {
@@ -24,17 +24,17 @@ interface KoppelingDaoInterface
     public function find($id);
 
     /**
-     * @param IzKlant $koppeling
+     * @param Koppeling $koppeling
      */
-    public function create(Hulpvraag $koppeling);
+    public function create(Koppeling $koppeling);
 
     /**
-     * @param IzKlant $koppeling
+     * @param Koppeling $koppeling
      */
-    public function update(Hulpvraag $koppeling);
+    public function update(Koppeling $koppeling);
 
     /**
-     * @param IzKlant $koppeling
+     * @param Koppeling $koppeling
      */
-    public function delete(Hulpvraag $koppeling);
+    public function delete(Koppeling $koppeling);
 }

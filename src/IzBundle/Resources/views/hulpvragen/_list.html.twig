@@ -1,5 +1,5 @@
 <h2>Koppelingen</h2>
-{% if form is defined and form.vars.name in ['hulpvraag', 'hulpvraag_connect', 'hulpvraag_close'] %}
+{% if form is defined and form.vars.name in ['hulpvraag', 'hulpvraag_close'] %}
     <p>
         {{ html.cancelLink(path('iz_klanten_view', {id: klant.id, _fragment: 'koppelingen'})) }}
         {{ html.link('Annuleren', path('iz_klanten_view', {id: klant.id, _fragment: 'koppelingen'})) }}
@@ -27,8 +27,8 @@
                     <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>
+                        {{ html.link('Koppelen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'hulpvraag'}), 'connect') }}
                         {{ html.link('Verslagen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
-                        {{ html.link('Koppelen', path('iz_hulpvragen_connect', {id: hulpvraag.id}), 'paperclip') }}
                         {{ html.link('Afsluiten', path('iz_hulpvragen_close', {id: hulpvraag.id}), 'close') }}
                     </td>
                 </tr>
@@ -49,21 +49,21 @@
             </tr>
         </thead>
         <tbody>
-            {% for hulpvraag in klant.actieveKoppelingen %}
-                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
-                    <td>{{ hulpvraag.project }}</td>
+            {% for koppeling in klant.actieveKoppelingen %}
+                <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}">
+                    <td>{{ koppeling.hulpvraag.project }}</td>
                     <td>
                         {{ html.link(
-                            hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter,
-                            path('iz_vrijwilligers_view', {id: hulpvraag.hulpaanbod.izVrijwilliger.id})
+                            koppeling.hulpaanbod.izVrijwilliger,
+                            path('iz_vrijwilligers_view', {id: koppeling.hulpaanbod.izVrijwilliger.id})
                         ) }}
                     </td>
-                    <td>{{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}</td>
-                    <td>{{ hulpvraag.koppelingEinddatum ? hulpvraag.koppelingEinddatum|date('d-m-Y') }}</td>
-                    <td>{{ hulpvraag.medewerker }}</td>
+                    <td>{{ koppeling.startdatum|date('d-m-Y') }}</td>
+                    <td>{{ koppeling.afsluitdatum ? koppeling.afsluitdatum|date('d-m-Y') }}</td>
+                    <td>{{ koppeling.hulpvraag.medewerker }}</td>
                     <td>
-                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
-                        {{ html.link('Afsluiten', path('iz_koppelingen_close', {id: hulpvraag.id}), 'close') }}
+                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: koppeling.id, _fragment: 'verslagen'}), 'list') }}
+                        {{ html.link('Afsluiten', path('iz_koppelingen_close', {id: koppeling.id}), 'close') }}
                     </td>
                 </tr>
             {% endfor %}
@@ -113,22 +113,22 @@
             </tr>
         </thead>
         <tbody>
-            {% for hulpvraag in klant.afgeslotenKoppelingen %}
-                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
-                    <td>{{ hulpvraag.project }}</td>
+            {% for koppeling in klant.afgeslotenKoppelingen %}
+                <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}">
+                    <td>{{ koppeling.hulpvraag.project }}</td>
                     <td>
                         {{ html.link(
-                            hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter,
-                            path('iz_vrijwilligers_view', {id: hulpvraag.hulpaanbod.izVrijwilliger.id})
+                            koppeling.hulpaanbod.izVrijwilliger,
+                            path('iz_vrijwilligers_view', {id: koppeling.hulpaanbod.izVrijwilliger.id})
                         ) }}
                     </td>
-                    <td>{{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}</td>
-                    <td>{{ hulpvraag.koppelingEinddatum ? hulpvraag.koppelingEinddatum|date('d-m-Y') }}</td>
-                    <td>{{ hulpvraag.medewerker }}</td>
-                    <td>{{ hulpvraag.koppelingSuccesvol ? 'Ja' : 'Nee' }}</td>
-                    <td>{{ hulpvraag.eindeKoppeling }}</td>
+                    <td>{{ koppeling.startdatum|date('d-m-Y') }}</td>
+                    <td>{{ koppeling.afsluitdatum ? koppeling.afsluitdatum|date('d-m-Y') }}</td>
+                    <td>{{ koppeling.hulpvraag.medewerker }}</td>
+                    <td>{{ koppeling.succesvol ? 'Ja' : 'Nee' }}</td>
+                    <td>{{ koppeling.afsluitreden }}</td>
                     <td>
-                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: koppeling.id, _fragment: 'verslagen'}), 'list') }}
                     </td>
                 </tr>
             {% endfor %}

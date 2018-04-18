@@ -2,11 +2,11 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -40,8 +40,8 @@ abstract class IzDeelnemer
     protected $deletedAt;
 
     /**
-     * @var ArrayCollection|Koppeling[]
-     * @ORM\OneToMany(targetEntity="Koppeling", mappedBy="izDeelnemer")
+     * @var ArrayCollection|Hulp[]
+     * @ORM\OneToMany(targetEntity="Hulp", mappedBy="izDeelnemer")
      */
     private $koppelingen;
 
@@ -57,6 +57,12 @@ abstract class IzDeelnemer
      * @Gedmo\Versioned
      */
     protected $datumAanmelding;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Deelnemerstatus")
+     * @Gedmo\Versioned
+     */
+    protected $status;
 
     /**
      * @var Project[]
@@ -94,9 +100,9 @@ abstract class IzDeelnemer
     /**
      * @var Verslag[]
      *
-     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izDeelnemer", cascade={"persist"})
-     * @ORM\JoinColumn(name="iz_verslagen")
-     * @ORM\OrderBy({"created"="desc"})
+     * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc"})
      */
     protected $verslagen;
 
@@ -109,6 +115,22 @@ abstract class IzDeelnemer
      */
     protected $documenten;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $naamContactpersoon;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $telefoonContactpersoon;
+
     public function __construct()
     {
         $this->koppelingen = new ArrayCollection();
@@ -120,6 +142,24 @@ abstract class IzDeelnemer
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
     public function getAfsluiting()
@@ -176,8 +216,8 @@ abstract class IzDeelnemer
         $now = new \DateTime();
         foreach ($this->koppelingen as $koppelking) {
             if ($koppelking->isGekoppeld()
-                && $koppelking->getKoppelingStartdatum() <= $now
-                && (is_null($koppelking->getKoppelingEinddatum()) || $koppelking->getKoppelingEinddatum() >= $now)
+                && $koppelking->getKoppeling()->getStartdatum() <= $now
+                && (is_null($koppelking->getKoppeling()->getAfsluitdatum()) || $koppelking->getKoppeling()->getAfsluitdatum() >= $now)
             ) {
                 return true;
             }
@@ -258,6 +298,67 @@ abstract class IzDeelnemer
     {
         $this->afsluitDatum = null;
         $this->afsluiting = null;
+
+        return $this;
+    }
+
+    public function getActieveKoppelingen()
+    {
+        return new ArrayCollection(array_filter(
+            $this->getKoppelingen()->toArray(),
+            function (Koppeling $koppeling) {
+                return !$koppeling->isAfgesloten();
+            }
+        ));
+    }
+
+    public function hasActieveKoppelingen()
+    {
+        return count($this->getActieveKoppelingen()) > 0;
+    }
+
+    public function getAfgeslotenKoppelingen()
+    {
+        return new ArrayCollection(array_filter(
+            $this->getKoppelingen()->toArray(),
+            function (Koppeling $koppeling) {
+                return $koppeling->isAfgesloten();
+            }
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getNaamContactpersoon()
+    {
+        return $this->naamContactpersoon;
+    }
+
+    /**
+     * @param string $naamContactpersoon
+     */
+    public function setNaamContactpersoon($naamContactpersoon = null)
+    {
+        $this->naamContactpersoon = $naamContactpersoon;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTelefoonContactpersoon()
+    {
+        return $this->telefoonContactpersoon;
+    }
+
+    /**
+     * @param string $telefoonContactpersoon
+     */
+    public function setTelefoonContactpersoon($telefoonContactpersoon = null)
+    {
+        $this->telefoonContactpersoon = $telefoonContactpersoon;
 
         return $this;
     }

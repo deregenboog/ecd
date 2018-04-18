@@ -1,5 +1,6 @@
 {% extends '@Iz/index.html.twig' %}
 {% import '::html.macro.twig' as html %}
+{% import 'IzBundle::iz.macro.twig' as iz %}
 
 {% block content %}
     <h1>{{ title }}</h1>
@@ -11,8 +12,9 @@
         <thead>
             {% include '@Iz/klanten/_filter.html.twig' %}
             <tr>
+                <th>Status</th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'izKlant.datumAanmelding') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
@@ -33,19 +35,19 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izKlant.afsluitDatum') }}
                 </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
-                </th>
             </tr>
         </thead>
         <tbody>
             {% for izKlant in pagination %}
                 <tr data-href="{{ path(route_base~'view', {id: izKlant.id}) }}">
                     <td>
-                        {{ izKlant.klant.id }}
+                        {{ iz.klant_status_list(izKlant) }}
                     </td>
                     <td>
-                        {{ izKlant.klant }}
+                        {{ izKlant.datumAanmelding ? izKlant.datumAanmelding|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ izKlant }}
                     </td>
                     <td>
                         {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
@@ -65,17 +67,6 @@
                     </td>
                     <td>
                         {{ izKlant.afsluitdatum ? izKlant.afsluitdatum|date('d-m-Y') }}
-                    </td>
-                    {% set zrm = izKlant.klant.laatsteZrm|date('U') %}
-                    {% if zrm < '-6 months'|date('U') %}
-                        {% set style = 'background-color: red; color: white;' %}
-                    {% elseif zrm < '-5 months'|date('U') %}
-                        {% set style = 'background-color: orange; color: white;' %}
-                    {% else %}
-                        {% set style = '' %}
-                    {% endif %}
-                    <td style="{{ style }}">
-                        {{ izKlant.klant.laatsteZrm is empty ? "" : izKlant.klant.laatsteZrm|date('d-m-Y') }}
                     </td>
                 </tr>
             {% endfor %}

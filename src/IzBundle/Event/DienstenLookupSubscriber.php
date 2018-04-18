@@ -6,9 +6,9 @@ use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
+use IzBundle\Entity\IzKlant;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use IzBundle\Entity\IzKlant;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {

@@ -1,4 +1,0 @@
-OekBundle\Entity\Deelname:
-    oek_deelname_{1..40}:
-        training: '@oek_training_<current()>'
-        deelnemer: '@oek_deelnemer_<current()>'

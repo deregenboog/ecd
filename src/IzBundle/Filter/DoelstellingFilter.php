@@ -2,10 +2,10 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Werkgebied;
 
 class DoelstellingFilter implements FilterInterface
 {

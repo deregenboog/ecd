@@ -2,14 +2,14 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Postcode;
+use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use AppBundle\Util\PostcodeFormatter;
-use AppBundle\Entity\Postcode;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressType extends AbstractType
 {

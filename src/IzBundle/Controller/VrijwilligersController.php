@@ -3,24 +3,26 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Event\Events;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Form\VrijwilligerFilterType;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Form\IzDeelnemerCloseType;
+use IzBundle\Form\IzVrijwilligerFilterType;
+use IzBundle\Form\IzVrijwilligerType;
+use IzBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Export\AbstractExport;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Form\IzVrijwilligerFilterType;
-use IzBundle\Service\VrijwilligerDaoInterface;
-use IzBundle\Form\IzVrijwilligerType;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\VrijwilligerFilterType;
-use AppBundle\Entity\Vrijwilliger;
-use Symfony\Component\Form\FormError;
-use IzBundle\Form\IzDeelnemerCloseType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use AppBundle\Event\Events;
-use AppBundle\Form\ConfirmationType;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/vrijwilligers")
+ * @Template
  */
 class VrijwilligersController extends AbstractController
 {
@@ -104,6 +106,7 @@ class VrijwilligersController extends AbstractController
 
                 $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
             }
+
             return $this->redirectToView($entity);
         }
 
@@ -116,7 +119,7 @@ class VrijwilligersController extends AbstractController
     private function doSearch(Request $request)
     {
         $filterForm = $this->createForm(VrijwilligerFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
+            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
 

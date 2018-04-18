@@ -1,0 +1,13 @@
+imports:
+    - { resource: reports_rk.yml }
+
+services:
+    IzBundle\Event\KoppelingSubscriber:
+        arguments:
+            - [
+                {'name': 'Eerste tussenevaluatie', 'date_modification': '+3 months'},
+                {'name': 'Tweede tussenevaluatie', 'date_modification': '+6 months'},
+                {'name': 'Eindevaluatie', 'date_modification': '+12 months'}
+              ]
+        tags:
+            - { name: doctrine.event_subscriber }

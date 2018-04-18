@@ -2,22 +2,22 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\Hulpvraag;
-use IzBundle\Filter\KoppelingFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\Hulpaanbod;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
-use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Project;
+use IzBundle\Filter\KoppelingFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KoppelingFilterType extends AbstractType
 {
@@ -26,25 +26,21 @@ class KoppelingFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('koppelingStartdatum', $options['enabled_filters'])) {
-            $builder->add('koppelingStartdatum', DateType::class, [
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', KoppelingstatusSelectType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj',
-                ],
             ]);
         }
 
-        if (in_array('koppelingEinddatum', $options['enabled_filters'])) {
-            $builder->add('koppelingEinddatum', DateType::class, [
+        if (in_array('startdatum', $options['enabled_filters'])) {
+            $builder->add('startdatum', AppDateType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj',
-                ],
+            ]);
+        }
+
+        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+            $builder->add('afsluitdatum', AppDateType::class, [
+                'required' => false,
             ]);
         }
 
@@ -52,6 +48,18 @@ class KoppelingFilterType extends AbstractType
             $builder->add('lopendeKoppelingen', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Alleen lopende koppelingen',
+            ]);
+        }
+
+        if (key_exists('hulpvraag', $options['enabled_filters'])) {
+            $builder->add('hulpvraag', HulpvraagFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['hulpvraag'],
+            ]);
+        }
+
+        if (key_exists('izKlant', $options['enabled_filters'])) {
+            $builder->add('izKlant', IzKlantFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['izKlant'],
             ]);
         }
 
@@ -90,8 +98,7 @@ class KoppelingFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
@@ -107,8 +114,7 @@ class KoppelingFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
@@ -132,14 +138,14 @@ class KoppelingFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => KoppelingFilter::class,
             'enabled_filters' => [
-                'koppelingStartdatum',
-                'koppelingEinddatum',
+                'status',
+                'startdatum',
+                'afsluitdatum',
                 'lopendeKoppelingen',
+                'izKlant' => ['datumAanmelding'],
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
-                'project',
-                'hulpvraagMedewerker',
-                'hulpaanbodMedewerker',
+                'hulpvraag' => ['hulpvraagsoort'],
                 'filter',
                 'download',
             ],

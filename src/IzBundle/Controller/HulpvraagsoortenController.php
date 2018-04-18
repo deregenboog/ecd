@@ -3,15 +3,17 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Form\HulpvraagsoortType;
 use IzBundle\Service\HulpvraagsoortDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/hulpvraagsoorten")
+ * @Template
  */
 class HulpvraagsoortenController extends AbstractController
 {

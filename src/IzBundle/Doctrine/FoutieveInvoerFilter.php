@@ -4,12 +4,12 @@ namespace IzBundle\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzDeelnemer;
-use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Koppeling;
 
 class FoutieveInvoerFilter extends SQLFilter
 {

@@ -1,0 +1,9 @@
+admin_annotations:
+    resource: "@AdminBundle/Controller"
+    type: annotation
+
+admin_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: admin_dashboard_index

@@ -2,13 +2,12 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Service\NameFormatter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Vrijwilliger;
-use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
@@ -27,15 +26,9 @@ class IzVrijwilliger extends IzDeelnemer
     /**
      * @var ArrayCollection|Hulpaanbod[]
      * @ORM\OneToMany(targetEntity="Hulpaanbod", mappedBy="izVrijwilliger", cascade={"persist"})
-     * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
+     * @ORM\OrderBy({"startdatum" = "DESC"})
      */
     private $hulpaanbiedingen;
-
-    /**
-     * @var ArrayCollection|Lidmaatschap[]
-     * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="vrijwilliger", cascade={"persist"})
-     */
-    private $lidmaatschappen;
 
     /**
      * @var BinnengekomenVia
@@ -51,13 +44,12 @@ class IzVrijwilliger extends IzDeelnemer
         $this->vrijwilliger = $vrijwilliger;
         $this->datumAanmelding = new \DateTime('today');
         $this->hulpaanbiedingen = new ArrayCollection();
-        $this->intervisiegroepen = new ArrayCollection();
     }
 
     public function __toString()
     {
         try {
-            return $this->vrijwilliger->__toString();
+            return NameFormatter::formatInformal($this->vrijwilliger);
         } catch (EntityNotFoundException $e) {
             return '';
         }
@@ -77,16 +69,17 @@ class IzVrijwilliger extends IzDeelnemer
 
     public function getHulpaanbiedingen()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpvraag'));
-
-        return $this->hulpaanbiedingen->matching($criteria);
+        return $this->hulpaanbiedingen;
     }
 
     public function getKoppelingen()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpvraag', null));
-
-        return $this->hulpaanbiedingen->matching($criteria);
+        return new ArrayCollection(array_map(
+            function (Hulpaanbod $hulpaanbod) {
+                return $hulpaanbod->getKoppeling();
+            },
+            $this->getGekoppeldeHulpaanbiedingen()->toArray()
+            ));
     }
 
     public function addHulpaanbod(Hulpaanbod $hulpaanbod)
@@ -97,68 +90,49 @@ class IzVrijwilliger extends IzDeelnemer
         return $this;
     }
 
-    public function getOpenHulpaanbiedingen()
+    public function getNietGekoppeldeHulpaanbiedingen()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->orX(
-                Criteria::expr()->isNull('einddatum'),
-                Criteria::expr()->gt('einddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->getHulpaanbiedingen()->matching($criteria);
+        return new ArrayCollection(array_filter(
+            $this->hulpaanbiedingen->toArray(),
+            function (Hulpaanbod $hulpaanbod) {
+                return !$hulpaanbod->isGekoppeld();
+            }
+        ));
     }
 
-    public function getActieveKoppelingen()
+    public function getGekoppeldeHulpaanbiedingen()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->orX(
-                Criteria::expr()->isNull('koppelingEinddatum'),
-                Criteria::expr()->gt('koppelingEinddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
+        return new ArrayCollection(array_filter(
+            $this->hulpaanbiedingen->toArray(),
+            function (Hulpaanbod $hulpaanbod) {
+                return $hulpaanbod->isGekoppeld();
+            }
+        ));
+    }
 
-        return $this->getKoppelingen()->matching($criteria);
+    public function getOpenHulpaanbiedingen()
+    {
+        return new ArrayCollection(array_filter(
+            $this->getNietGekoppeldeHulpaanbiedingen()->toArray(),
+            function (Hulpaanbod $hulpaanbod) {
+                return !$hulpaanbod->isAfgesloten();
+            }
+        ));
+    }
+
+    public function hasOpenHulpaanbiedingen()
+    {
+        return count($this->getOpenHulpaanbiedingen()) > 0;
     }
 
     public function getAfgeslotenHulpaanbiedingen()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->neq('einddatum', null),
-                Criteria::expr()->lte('einddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->getHulpaanbiedingen()->matching($criteria);
-    }
-
-    public function getAfgeslotenKoppelingen()
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->neq('koppelingEinddatum', null),
-                Criteria::expr()->lte('koppelingEinddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->getKoppelingen()->matching($criteria);
+        return new ArrayCollection(array_filter(
+            $this->getNietGekoppeldeHulpaanbiedingen()->toArray(),
+            function (Hulpaanbod $hulpaanbod) {
+                return $hulpaanbod->isAfgesloten();
+            }
+        ));
     }
 
     public function getBinnengekomenVia()
@@ -173,42 +147,11 @@ class IzVrijwilliger extends IzDeelnemer
         return $this;
     }
 
-    public function getIntervisiegroepen()
-    {
-        $intervisiegroepen = [];
-
-        foreach ($this->lidmaatschappen as $lidmaatschap) {
-            $intervisiegroepen[] = $lidmaatschap->getIntervisiegroep();
-        }
-
-        $intervisiegroepen = array_filter($intervisiegroepen);
-        usort($intervisiegroepen, function (Intervisiegroep $a, Intervisiegroep $b) {
-            $naamA = $a->getNaam();
-            $naamB = $b->getNaam();
-
-            if ($naamA === $naamB) {
-                return 0;
-            }
-
-            return $naamA > $naamB ? 1 : -1;
-        });
-
-        return $intervisiegroepen;
-    }
-
-    public function addLidmaatschap(Lidmaatschap $lidmaatschap)
-    {
-        $this->lidmaatschappen[] = $lidmaatschap;
-        $lidmaatschap->setVrijwilliger($this);
-
-        return $this;
-    }
-
     public function isDeletable()
     {
         return false;
     }
-    
+
     public function isCloseable()
     {
         return 0 === count($this->getOpenHulpaanbiedingen()) + count($this->getActieveKoppelingen());

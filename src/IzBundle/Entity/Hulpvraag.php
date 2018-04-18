@@ -4,15 +4,12 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Exception\AppException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
- * @ORM\Table(name="iz_koppelingen")
  * @Gedmo\Loggable
  */
-class Hulpvraag extends Koppeling
+class Hulpvraag extends Hulp
 {
     /**
      * @var IzKlant
@@ -23,12 +20,11 @@ class Hulpvraag extends Koppeling
     protected $izKlant;
 
     /**
-     * @var Hulpaanbod
-     * @ORM\OneToOne(targetEntity="Hulpaanbod")
-     * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
+     * @var Koppeling
+     * @ORM\OneToOne(targetEntity="Koppeling", mappedBy="hulpvraag", cascade={"persist"})
      * @Gedmo\Versioned
      */
-    private $hulpaanbod;
+    protected $koppeling;
 
     /**
      * @var Hulpvraagsoort
@@ -38,22 +34,10 @@ class Hulpvraag extends Koppeling
     protected $hulpvraagsoort;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="expat", type="boolean", nullable=false)
-     */
-    private $geschiktVoorExpat = false;
-
-    /**
      * @var Reservering
      * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpvraag")
      */
     protected $reserveringen;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function __toString()
     {
@@ -72,28 +56,12 @@ class Hulpvraag extends Koppeling
         return $this;
     }
 
-    public function getHulpaanbod()
+    public function setKoppeling(Koppeling $koppeling = null)
     {
-        return $this->hulpaanbod;
-    }
-
-    public function setHulpaanbod(Hulpaanbod $hulpaanbod = null)
-    {
-        if ($hulpaanbod->getHulpvraag() && $hulpaanbod->getHulpvraag() != $this) {
-            throw new AppException('Fout bij koppelen!');
-        }
-
-        $this->hulpaanbod = $hulpaanbod;
-        if (null === $hulpaanbod->getHulpvraag()) {
-            $hulpaanbod->setHulpvraag($this);
-        }
+        $this->koppeling = $koppeling;
+        $koppeling->setHulpvraag($this);
 
         return $this;
-    }
-
-    public function isGekoppeld()
-    {
-        return $this->hulpaanbod instanceof Hulpaanbod;
     }
 
     public function getHulpvraagsoort()
@@ -104,30 +72,6 @@ class Hulpvraag extends Koppeling
     public function setHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
     {
         $this->hulpvraagsoort = $hulpvraagsoort;
-
-        return $this;
-    }
-
-    public function getDoelgroep()
-    {
-        return count($this->doelgroepen) ? $this->doelgroepen[0] : null;
-    }
-
-    public function setDoelgroep(Doelgroep $doelgroep)
-    {
-        $this->doelgroepen = [$doelgroep];
-
-        return $this;
-    }
-
-    public function isGeschiktVoorExpat()
-    {
-        return $this->geschiktVoorExpat;
-    }
-
-    public function setGeschiktVoorExpat($geschiktVoorExpat)
-    {
-        $this->geschiktVoorExpat = (bool) $geschiktVoorExpat;
 
         return $this;
     }
@@ -208,13 +152,13 @@ class Hulpvraag extends Koppeling
     }
 
     /**
-     * @param EindeKoppeling $eindeKoppeling
+     * @param AfsluitredenKoppeling $afsluitredenKoppeling
      */
-    public function setEindeKoppeling(EindeKoppeling $eindeKoppeling, $setRelated = true)
+    public function setAfsluitredenKoppeling(AfsluitredenKoppeling $afsluitredenKoppeling, $setRelated = true)
     {
-        $this->eindeKoppeling = $eindeKoppeling;
+        $this->afsluitredenKoppeling = $afsluitredenKoppeling;
         if ($setRelated) {
-            $this->hulpaanbod->setEindeKoppeling($eindeKoppeling, false);
+            $this->hulpaanbod->setAfsluitredenKoppeling($afsluitredenKoppeling, false);
         }
 
         return $this;

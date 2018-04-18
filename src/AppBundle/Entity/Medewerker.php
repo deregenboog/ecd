@@ -2,16 +2,18 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\NameTrait;
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="medewerkers")
  * @Gedmo\Loggable
  */
-class Medewerker
+class Medewerker extends User implements UserInterface
 {
     use NameTrait;
 
@@ -20,17 +22,7 @@ class Medewerker
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
-
-    /**
-     * @ORM\Column(nullable=false)
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(nullable=false)
-     */
-    private $email;
+    protected $id;
 
     /**
      * @ORM\Column(name="active", type="boolean")
@@ -89,6 +81,18 @@ class Medewerker
     public function setGroepen(array $groepen = [])
     {
         $this->groepen = $groepen;
+
+        return $this;
+    }
+
+    public function isActief()
+    {
+        return (bool) $this->actief;
+    }
+
+    public function setActief($actief)
+    {
+        $this->actief = $actief;
 
         return $this;
     }

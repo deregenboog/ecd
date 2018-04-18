@@ -3,9 +3,9 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Klant;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Zrm;
+use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface ZrmDaoInterface
 {

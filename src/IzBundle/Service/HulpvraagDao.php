@@ -2,12 +2,12 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Hulpvraag;
+use AppBundle\Entity\Geslacht;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\Hulpaanbod;
-use AppBundle\Entity\Geslacht;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Koppeling;
 
 class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 {
@@ -15,23 +15,20 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         'defaultSortFieldName' => 'hulpvraag.startdatum',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
+            'geslacht.volledig',
             'hulpvraag.startdatum',
-            'hulpvraag.geschiktVoorExpat',
-            'project.naam',
             'intake.intakeDatum',
+            'izKlant.dierenbezitter',
             'klant.id',
             'klant.voornaam',
             'klant.achternaam',
             'klant.geboortedatum',
             'klant.laatsteZrm',
-            'werkgebied.naam',
+            'klant.roker',
             'medewerker.voornaam',
+            'project.naam',
             'stadsdeel.naam',
-            'geslacht.volledig',
-            'hulpvraagsoort.naam',
-            'doelgroep.naam',
         ],
-        'wrap-queries' => true, // because of ordering by to-many relation
     ];
 
     protected $class = Hulpvraag::class;
@@ -43,9 +40,10 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->leftJoin('izKlant.intake', 'intake')
             ->innerJoin('hulpvraag.project', 'project')
             ->innerJoin('hulpvraag.medewerker', 'medewerker')
+            ->leftJoin('hulpvraag.koppeling', 'koppeling')
             ->innerJoin('izKlant.klant', 'klant')
-            ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->where('hulpvraag.hulpaanbod IS NULL')
+            ->leftJoin('klant.werkgebied', 'stadsdeel')
+            ->where('koppeling.id IS NULL')
             ->andWhere('hulpvraag.einddatum IS NULL')
             ->andWhere('izKlant.afsluiting IS NULL')
         ;
@@ -83,8 +81,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->leftJoin('hulpvraag.reserveringen', 'reservering')
+            ->leftJoin('hulpvraag.koppeling', 'koppeling')
             ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
-            ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->innerJoin('izKlant.intake', 'intake')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'stadsdeel')
@@ -92,21 +90,12 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->andWhere('hulpvraag.startdatum <= :today') // hulpvraag gestart
             ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum >= :today') // hulpvraag niet afgesloten
             ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpvraag niet gereserveerd
-            ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
+            ->andWhere('koppeling.id IS NULL') // hulpvraag niet gekoppeld
             ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
-            ->orderBy('hulpvraag.startdatum', 'ASC')
             ->setParameters([
                 'today' => new \DateTime('today'),
             ])
         ;
-
-        // doelgroepen
-        if (count($hulpaanbod->getDoelgroepen()) > 0) {
-            $builder
-                ->andWhere('doelgroep.id IS NULL OR doelgroep IN (:doelgroepen)')
-                ->setParameter('doelgroepen', $hulpaanbod->getDoelgroepen())
-            ;
-        }
 
         // hulpvraagsoorten
         if (count($hulpaanbod->getHulpvraagsoorten()) > 0) {
@@ -116,57 +105,84 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ;
         }
 
-        // expat
-        if ($hulpaanbod->isExpat()) {
-            $builder->andWhere('hulpvraag.geschiktVoorExpat = true');
+        // stadsdelen
+        if (count($hulpaanbod->getVoorkeurStadsdelen()) > 0) {
+            $builder
+                ->andWhere('stadsdeel IN (:stadsdelen)')
+                ->setParameter('stadsdelen', $hulpaanbod->getVoorkeurStadsdelen())
+            ;
+        }
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getWerkgebied()) {
+            $builder
+                ->leftJoin('hulpvraag.voorkeurStadsdelen', 'voorkeurStadsdeel')
+                ->andWhere('voorkeurStadsdeel.naam IS NULL OR voorkeurStadsdeel = :stadsdeel')
+                ->setParameter('stadsdeel', $hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getWerkgebied())
+            ;
+        }
+
+        // roken
+        if ($hulpaanbod->isVoorkeurNietRoker()) {
+            $builder->andWhere('klant.roker = false');
+        }
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->isRoker()) {
+            $builder->andWhere('hulpvraag.voorkeurNietRoker = false');
+        }
+
+        // huisdieren
+        if ($hulpaanbod->isVoorkeurGeenDieren()) {
+            $builder->andWhere('klant.dierenbezitter = false');
+        }
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->isDierenbezitter()) {
+            $builder->andWhere('hulpvraag.voorkeurGeenDieren = false');
         }
 
         // geslacht
         if ($hulpaanbod->getVoorkeurGeslacht()) {
             $builder
-                ->andWhere('geslacht.id IS NULL OR geslacht.afkorting = :onbekend OR geslacht = :voorkeur_geslacht')
-                ->setParameter('onbekend', Geslacht::AFKORTING_ONBEKEND)
+                ->andWhere('geslacht.id IS NULL OR geslacht = :voorkeur_geslacht')
                 ->setParameter('voorkeur_geslacht', $hulpaanbod->getVoorkeurGeslacht())
             ;
         }
-
-        // dagdeel
-        if ($hulpaanbod->getDagdeel()) {
-            switch ($hulpaanbod->getDagdeel()) {
-                case Koppeling::DAGDEEL_OVERDAG:
-                    $dagdelen = [Koppeling::DAGDEEL_OVERDAG];
-                    break;
-                case Koppeling::DAGDEEL_AVOND:
-                    $dagdelen = [
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-                case Koppeling::DAGDEEL_WEEKEND:
-                    $dagdelen = [
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-                case Koppeling::DAGDEEL_AVOND_WEEKEND:
-                    $dagdelen = [
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-                default:
-                    $dagdelen = [
-                        Koppeling::DAGDEEL_OVERDAG,
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-            }
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeslacht()) {
             $builder
-                ->andWhere('hulpvraag.dagdeel IS NULL OR hulpvraag.dagdeel IN (:dagdelen)')
-                ->setParameter('dagdelen', $dagdelen)
+                ->andWhere('hulpvraag.voorkeurGeslacht IS NULL OR hulpvraag.voorkeurGeslacht = :geslacht')
+                ->setParameter('geslacht', $hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeslacht())
+            ;
+        }
+
+        // dagen
+        if ($hulpaanbod->getBeschikbareDagen(true) > 0) {
+            $builder
+                ->andWhere('hulpvraag.beschikbareDagen = 0 OR BIT_AND(hulpvraag.beschikbareDagen, :beschikbare_dagen) > 0')
+                ->setParameter('beschikbare_dagen', $hulpaanbod->getBeschikbareDagen(true))
+            ;
+        }
+
+        // minimale leeftijd
+        if ($hulpaanbod->getVoorkeurMinLeeftijd()) {
+            $builder
+                ->andWhere('klant.geboortedatum IS NULL OR YEAR(klant.geboortedatum) <= :geboortedatum_min')
+                ->setParameter('geboortedatum_min', date('Y') - $hulpaanbod->getVoorkeurMinLeeftijd())
+            ;
+        }
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeboortedatum()) {
+            $builder
+                ->andWhere('hulpvraag.voorkeurMinLeeftijd IS NULL OR hulpvraag.voorkeurMinLeeftijd <= :leeftijd_min')
+                ->setParameter('leeftijd_min', (new \DateTime())->diff($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeboortedatum())->y)
+            ;
+        }
+
+        // maximale leeftijd
+        if ($hulpaanbod->getVoorkeurMaxLeeftijd()) {
+            $builder
+                ->andWhere('klant.geboortedatum IS NULL OR YEAR(klant.geboortedatum) >= :geboortedatum_max')
+                ->setParameter('geboortedatum_max', date('Y') - $hulpaanbod->getVoorkeurMaxLeeftijd())
+            ;
+        }
+        if ($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeboortedatum()) {
+            $builder
+                ->andWhere('hulpvraag.voorkeurMaxLeeftijd IS NULL OR hulpvraag.voorkeurMaxLeeftijd >= :leeftijd_max')
+                ->setParameter('leeftijd_max', (new \DateTime())->diff($hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeboortedatum())->y)
             ;
         }
 

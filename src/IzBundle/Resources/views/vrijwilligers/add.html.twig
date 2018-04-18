@@ -24,7 +24,6 @@
                 <tr>
                     <th>#</th>
                     <th>Naam</th>
-                    <th>BSN</th>
                     <th>Geboortedatum</th>
                 </tr>
             </thead>
@@ -32,13 +31,12 @@
                 <tr data-href="{{ path('iz_vrijwilligers_add', {vrijwilliger: entity.id}) }}">
                     <td>{{ entity.id }}</td>
                     <td>{{ entity }}</td>
-                    <td>{{ entity.bsn }}</td>
                     <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
                 </tr>
             {% endfor %}
         </table>
     {% elseif filterForm is defined %}
-        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        <p>Zoek een bestaande {{ entity_name }} op naam of geboortedatum.</p>
         {{ form(filterForm) }}
     {% endif %}
 

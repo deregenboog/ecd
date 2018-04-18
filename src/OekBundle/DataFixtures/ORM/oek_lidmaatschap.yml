@@ -1,4 +1,0 @@
-OekBundle\Entity\Lidmaatschap:
-    oek_lidmaatschap_{1..40}:
-        groep: '@oek_groep_*'
-        deelnemer: '@oek_deelnemer_<current()>'

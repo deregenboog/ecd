@@ -2,9 +2,9 @@
 
 namespace AppBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use AppBundle\Entity\Klant;
 use AppBundle\Service\KlantDaoInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {

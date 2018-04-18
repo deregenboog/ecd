@@ -1,5 +1,6 @@
 {% extends '@Iz/index.html.twig' %}
 {% import '::html.macro.twig' as html %}
+{% import 'IzBundle::iz.macro.twig' as iz %}
 
 {% block content %}
     <h1>{{ title }}</h1>
@@ -8,57 +9,63 @@
             {% include '@Iz/koppelingen/_filter.html.twig' %}
             <tr>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Status', 'status.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum deelnemer', 'izKlant.datumAanmelding') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'hulpvraag.koppelingStartdatum') }}
+                    {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'koppeling.startdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Einddatum koppeling', 'hulpvraag.koppelingEinddatum') }}
+                    {{ knp_pagination_sortable(pagination, 'Einddatum koppeling', 'koppeling.afsluitdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'medewerkerHulpvraag.voornaam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'medewerkerHulpaanbod.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                 </th>
+                <th>
+                    Evaluaties
+                </th>
             </tr>
         </thead>
         <tbody>
-            {% for hulpvraag in pagination %}
-                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
+            {% for koppeling in pagination %}
+                <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}">
                     <td>
-                        {{ hulpvraag.izKlant.klant.naam }}
+                        {{ koppeling.status }}
                     </td>
                     <td>
-                        {{ hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                        {{ koppeling.hulpvraag.izKlant.datumAanmelding|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ hulpvraag.koppelingStartdatum is empty ? "" : hulpvraag.koppelingStartdatum|date('d-m-Y') }}
+                        {{ koppeling.hulpvraag.izKlant }}
                     </td>
                     <td>
-                        {{ hulpvraag.koppelingEinddatum is empty ? "" : hulpvraag.koppelingEinddatum|date('d-m-Y') }}
+                        {{ koppeling.hulpaanbod.izVrijwilliger }}
                     </td>
                     <td>
-                        {{ hulpvraag.project }}
+                        {{ koppeling.startdatum is empty ? "" : koppeling.startdatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ hulpvraag.medewerker }}
+                        {{ koppeling.afsluitdatum is empty ? "" : koppeling.afsluitdatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ hulpvraag.hulpaanbod.medewerker }}
+                        {{ koppeling.hulpvraag.hulpvraagsoort }}
                     </td>
                     <td>
-                        {{ hulpvraag.izKlant.klant.werkgebied }}
+                        {{ koppeling.hulpvraag.izKlant.klant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ iz.koppeling_evaluatie_list(koppeling) }}
                     </td>
                 </tr>
             {% endfor %}

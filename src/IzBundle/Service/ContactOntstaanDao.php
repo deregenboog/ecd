@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\ContactOntstaan;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\ContactOntstaan;
 
 class ContactOntstaanDao extends AbstractDao implements ContactOntstaanDaoInterface
 {

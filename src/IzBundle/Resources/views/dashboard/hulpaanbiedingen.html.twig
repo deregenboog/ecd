@@ -37,10 +37,6 @@
                         </tr>
                         <tr>
                             <th>
-                                {{ form_widget(filter.vrijwilliger.id) }}
-                                {{ form_errors(filter.vrijwilliger.id) }}
-                            </th>
-                            <th>
                                 {{ form_widget(filter.vrijwilliger.voornaam) }}
                                 {{ form_errors(filter.vrijwilliger.voornaam) }}
                                 {{ form_widget(filter.vrijwilliger.achternaam) }}
@@ -69,9 +65,6 @@
                         </tr>
                     {{ form_end(filter) }}
                     <tr>
-                        <th>
-                            {{ knp_pagination_sortable(pagination, 'Nummer', 'vrijwilliger.id') }}
-                        </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
                         </th>
@@ -105,11 +98,8 @@
                     {% for hulpaanbod in pagination %}
                         <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}">
                             <td>
-                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
-                            </td>
-                            <td>
                                 {{ html.link(
-                                    hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter,
+                                    hulpaanbod.izVrijwilliger,
                                     path('iz_vrijwilligers_view', {id: hulpaanbod.izVrijwilliger.id})
                                 ) }}
                             </td>
@@ -132,7 +122,7 @@
                                 {{ hulpaanbod.izVrijwilliger.vrijwilliger.vogAangevraagd ? 'Ja' : 'Nee' }}
                             </td>
                             <td>
-                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.vogAanwezig ? 'Ja' : 'Nee' }}
+                                {{ hulpaanbod.izVrijwilliger.vrijwilliger.vogAanwezig ? hulpaanbod.izVrijwilliger.vrijwilliger.vogAanwezig|date('d-m-Y') : 'Nee' }}
                             </td>
                             <td>
                                 {{ hulpaanbod.izVrijwilliger.vrijwilliger.overeenkomstAanwezig ? 'Ja' : 'Nee' }}
@@ -151,8 +141,7 @@
 {% block scripts %}
     <script type="text/javascript">
         $(function() {
-            // make table rows clickable
-            $('form #medewerker').change(function() {
+            $('form #medewerker_select').change(function() {
                 $(this).closest('form').submit();
             });
         });

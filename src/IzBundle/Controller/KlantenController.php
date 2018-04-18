@@ -3,25 +3,27 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Form\KlantFilterType;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Form\IzDeelnemerCloseType;
+use IzBundle\Form\IzKlantFilterType;
+use IzBundle\Form\IzKlantType;
+use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Service\KlantDaoInterface;
-use AppBundle\Export\AbstractExport;
-use IzBundle\Form\IzKlantFilterType;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\KlantFilterType;
-use AppBundle\Entity\Klant;
-use IzBundle\Form\IzKlantType;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
-use IzBundle\Form\IzDeelnemerCloseType;
-use Symfony\Component\Form\FormError;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use AppBundle\Form\ConfirmationType;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/klanten")
+ * @Template
  */
 class KlantenController extends AbstractController
 {
@@ -105,6 +107,7 @@ class KlantenController extends AbstractController
 
                 $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
             }
+
             return $this->redirectToView($entity);
         }
 
@@ -117,7 +120,7 @@ class KlantenController extends AbstractController
     private function doSearch(Request $request)
     {
         $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
+            'enabled_filters' => ['id', 'naam', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
 
@@ -184,9 +187,11 @@ class KlantenController extends AbstractController
         ];
     }
 
-    protected function addParams(IzKlant $entity)
+    protected function addParams($entity, Request $request)
     {
-        $event = new DienstenLookupEvent($entity->getKlant()->getId(), []);
+        assert($entity instanceof IzKlant);
+
+        $event = new DienstenLookupEvent($entity->getKlant()->getId());
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
 
         return [

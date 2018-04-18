@@ -1,0 +1,12 @@
+imports:
+    - { resource: reports_drg.yml }
+
+services:
+    IzBundle\Event\KoppelingSubscriber:
+        arguments:
+            - [
+                {'name': 'Tussenevaluatie', 'date_modification': '+3 months'},
+                {'name': 'Eindevaluatie', 'date_modification': '+6 months'}
+              ]
+        tags:
+            - { name: doctrine.event_subscriber }

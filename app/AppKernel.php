@@ -1,8 +1,7 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use CakeBundle\Service\CakeConfiguration;
+use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
@@ -10,6 +9,7 @@ class AppKernel extends Kernel
     {
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
@@ -23,19 +23,11 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
-            new FOS\CKEditorBundle\FOSCKEditorBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+
+            new AdminBundle\AdminBundle(),
             new AppBundle\AppBundle(),
-            new CakeBundle\CakeBundle(),
-            new ClipBundle\ClipBundle(),
-            new DagbestedingBundle\DagbestedingBundle(),
-            new GaBundle\GaBundle(),
-            new HsBundle\HsBundle(),
-            new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
-            new MwBundle\MwBundle(),
-            new OdpBundle\OdpBundle(),
-            new OekBundle\OekBundle(),
-            new PfoBundle\PfoBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

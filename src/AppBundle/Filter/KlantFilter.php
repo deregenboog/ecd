@@ -2,12 +2,12 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Klant;
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Werkgebied;
 use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {
@@ -35,11 +35,6 @@ class KlantFilter implements FilterInterface
      * @var Geslacht
      */
     public $geslacht;
-
-    /**
-     * @var string
-     */
-    public $bsn;
 
     /**
      * @var \DateTime
@@ -109,13 +104,6 @@ class KlantFilter implements FilterInterface
             $builder
                 ->andWhere("{$alias}.geslacht = :{$alias}_geslacht")
                 ->setParameter("{$alias}_geslacht", $this->geslacht)
-            ;
-        }
-
-        if ($this->bsn) {
-            $builder
-                ->andWhere("{$alias}.bsn = :{$alias}_bsn")
-                ->setParameter("{$alias}_bsn", $this->bsn)
             ;
         }
 

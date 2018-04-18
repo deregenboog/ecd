@@ -1,0 +1,46 @@
+<?php
+
+namespace IzBundle\Controller;
+
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Entity\Zrm;
+use AppBundle\Form\ZrmFilterType;
+use AppBundle\Form\ZrmType;
+use AppBundle\Service\ZrmDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+/**
+ * @Route("/zrms")
+ * @Template
+ */
+class ZrmsController extends AbstractChildController
+{
+    protected $title = 'Zelfredzaamheidmatrixen';
+    protected $entityName = 'zelfredzaamheidmatrix';
+    protected $entityClass = Zrm::class;
+    protected $formClass = ZrmType::class;
+    protected $filterFormClass = ZrmFilterType::class;
+    protected $baseRouteName = 'iz_zrms_';
+    protected $addMethod = 'setZrm';
+
+    /**
+     * @var ZrmDaoInterface
+     *
+     * @DI\Inject("AppBundle\Service\ZrmDao")
+     */
+    protected $dao;
+
+    /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("iz.zrm.entities")
+     */
+    protected $entities;
+
+    protected function createEntity($parentEntity)
+    {
+        return Zrm::create();
+    }
+}

@@ -2,28 +2,30 @@
 
 namespace IzBundle\Controller;
 
+use AppBundle\Controller\SymfonyController;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\MedewerkerSelectType;
+use AppBundle\Service\AbstractDao;
+use IzBundle\Filter\HulpaanbodFilter;
+use IzBundle\Filter\HulpvraagFilter;
+use IzBundle\Filter\KoppelingFilter;
+use IzBundle\Form\HulpaanbodFilterType;
+use IzBundle\Form\HulpvraagFilterType;
+use IzBundle\Form\KoppelingFilterType;
+use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDaoInterface;
+use IzBundle\Service\KoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Controller\SymfonyController;
-use IzBundle\Service\KoppelingDaoInterface;
-use IzBundle\Form\KoppelingFilterType;
-use IzBundle\Filter\KoppelingFilter;
-use IzBundle\Filter\HulpvraagFilter;
-use IzBundle\Filter\HulpaanbodFilter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpvraagFilterType;
-use IzBundle\Service\HulpvraagDaoInterface;
-use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Form\HulpaanbodFilterType;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Export\AbstractExport;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Form\MedewerkerType;
 
 /**
  * @Route("/mijn")
+ * @Template
  */
 class DashboardController extends SymfonyController
 {
@@ -84,15 +86,10 @@ class DashboardController extends SymfonyController
      */
     public function hulpvragenAction(Request $request)
     {
-        $medewerker = $this->getMedewerker();
-
-        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
-            'label' => '',
-            'method' => 'GET',
-        ])->handleRequest($request);
+        $medewerkerForm = $this->createAndProcessMedewerkerForm($request);
 
         $filter = new HulpvraagFilter();
-        $filter->medewerker = $medewerker;
+        $filter->medewerker = $medewerkerForm->getData();
 
         $form = $this->createForm(HulpvraagFilterType::class, $filter, [
             'enabled_filters' => [
@@ -126,15 +123,10 @@ class DashboardController extends SymfonyController
      */
     public function hulpaanbiedingenAction(Request $request)
     {
-        $medewerker = $this->getMedewerker();
-
-        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
-            'label' => '',
-            'method' => 'GET',
-        ])->handleRequest($request);
+        $medewerkerForm = $this->createAndProcessMedewerkerForm($request);
 
         $filter = new HulpaanbodFilter();
-        $filter->medewerker = $medewerker;
+        $filter->medewerker = $medewerkerForm->getData();
 
         $form = $this->createForm(HulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
@@ -177,23 +169,21 @@ class DashboardController extends SymfonyController
      */
     public function koppelingenAction(Request $request)
     {
-        $medewerker = $this->getMedewerker();
-
-        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
-            'label' => '',
-            'method' => 'GET',
-        ])->handleRequest($request);
+        $medewerkerForm = $this->createAndProcessMedewerkerForm($request);
 
         $filter = new KoppelingFilter();
-        $filter->medewerker = $medewerker;
+        $filter->medewerker = $medewerkerForm->getData();
         $filter->lopendeKoppelingen = true;
 
         $form = $this->createForm(KoppelingFilterType::class, $filter, [
             'enabled_filters' => [
-                'koppelingStartdatum',
+                'status',
+                'startdatum',
+                'lopendeKoppelingen',
+                'izKlant' => ['datumAanmelding'],
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
-                'project',
+                'hulpvraag' => ['hulpvraagsoort'],
                 'filter',
                 'download',
             ],
@@ -218,12 +208,30 @@ class DashboardController extends SymfonyController
 
     protected function getMedewerker()
     {
-        $medewerkerId = (int) $this->getRequest()->get('medewerker');
+        $medewerkerId = $this->get('session')->get('iz_mijn_medewerker_id');
         if ($medewerkerId) {
-            return $this->getEntityManager()->find(Medewerker::class, $medewerkerId);
+            $medewerker = $this->getEntityManager()->find(Medewerker::class, (int) $medewerkerId);
+            if ($medewerker) {
+                return $medewerker;
+            }
         }
 
         return parent::getMedewerker();
+    }
+
+    private function createAndProcessMedewerkerForm(Request $request)
+    {
+        $medewerkerForm = $this->createForm(MedewerkerSelectType::class, $this->getMedewerker(), [
+            'label' => '',
+            'method' => 'GET',
+        ])->handleRequest($request);
+
+        if ($medewerkerForm->isSubmitted() && $medewerkerForm->isValid()) {
+            $medewerkerId = $medewerkerForm->getData()->getId();
+            $this->get('session')->set('iz_mijn_medewerker_id', $medewerkerId);
+        }
+
+        return $medewerkerForm;
     }
 
     private function download(FilterInterface $filter, AbstractDao $dao, ExportInterface $export, $name)

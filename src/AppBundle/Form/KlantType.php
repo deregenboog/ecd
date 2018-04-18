@@ -2,18 +2,18 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Util\PostcodeFormatter;
 use AppBundle\Entity\Postcode;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantType extends AbstractType
 {
@@ -46,19 +46,26 @@ class KlantType extends AbstractType
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
 //             ->add('overleden', CheckboxType::class, ['required' => false])
-            ->add('land')
-            ->add('nationaliteit')
-            ->add('bsn', null, ['label' => 'BSN'])
-            ->add('medewerker', MedewerkerType::class)
+            ->add('land', LandSelectType::class, ['required' => false])
+            ->add('nationaliteit', NationaliteitSelectType::class, ['required' => false])
+            ->add('medewerker', MedewerkerSelectType::class)
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('opmerking', AppTextareaType::class, ['required' => false])
+            ->add('opmerking', CKEditorType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
+            ->add('roker', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Rookt',
+            ])
+            ->add('dierenbezitter', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Heeft huisdieren',
+            ])
             ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Klant $data */

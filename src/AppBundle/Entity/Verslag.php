@@ -2,10 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use InloopBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
@@ -37,16 +36,10 @@ class Verslag
     private $opmerking;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Klant")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="verslagen")
      * @Gedmo\Versioned
      */
     private $klant;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     * @Gedmo\Versioned
-     */
-    private $locatie;
 
     /**
      * @ORM\ManyToOne(targetEntity="Medewerker")
@@ -128,24 +121,6 @@ class Verslag
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
-
-        return $this;
-    }
-
-    /**
-     * @return Locatie
-     */
-    public function getLocatie()
-    {
-        return $this->locatie;
-    }
-
-    /**
-     * @param Locatie $locatie
-     */
-    public function setLocatie(Locatie $locatie)
-    {
-        $this->locatie = $locatie;
 
         return $this;
     }

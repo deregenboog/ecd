@@ -19,7 +19,8 @@
 !/var/sessions/.gitkeep
 
 # Backups
-/backups/*
+/app/backups/*
+!/app/backups/.gitkeep
 
 # SQL data
 /app/sql/*
@@ -27,8 +28,8 @@
 !/app/sql/10-data.sql
 
 # Uploads
-/archive/*
-!/archive/.gitkeep
+/app/uploads/*
+!/app/uploads/.gitkeep
 
 # Docker
 /.mysql/*
@@ -55,4 +56,7 @@
 /.php_cs.cache
 /cache.properties
 
-/app/webroot/node_modules
+# Frontend deps
+/app/Resources/assets/js/ckeditor5-build-classic/build
+/node_modules
+/web/build

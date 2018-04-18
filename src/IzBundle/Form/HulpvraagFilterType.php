@@ -2,18 +2,19 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\KlantFilterType;
+use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpvraagFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use IzBundle\Entity\Hulpvraagsoort;
 
 class HulpvraagFilterType extends AbstractType
 {
@@ -39,6 +40,20 @@ class HulpvraagFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', EntityType::class, [
+                'required' => false,
+                'class' => Hulpvraagsoort::class,
+                'label' => 'Hulpvraagsoort',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('hulpvraagsoort')
+                        ->where('hulpvraagsoort.actief = true')
+                        ->orderBy('hulpvraagsoort.naam', 'ASC')
+                    ;
+                },
+            ]);
+        }
+
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', EntityType::class, [
                 'required' => false,
@@ -61,8 +76,7 @@ class HulpvraagFilterType extends AbstractType
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC');
                 },
             ]);
@@ -86,7 +100,7 @@ class HulpvraagFilterType extends AbstractType
             'data_class' => HulpvraagFilter::class,
             'enabled_filters' => [
                 'startdatum',
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'klant' => ['voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'project',
                 'medewerker',
                 'filter',

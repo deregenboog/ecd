@@ -1,0 +1,73 @@
+security:
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: ^/
+            anonymous: true
+            logout: true
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
+#        - { path: ^/clip, roles: ROLE_CLIP }
+#        - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }
+#        - { path: ^/dagbesteding, roles: ROLE_DAGBESTEDING }
+#        - { path: ^/hs/admin, roles: ROLE_HOMESERVICE_BEHEER }
+#        - { path: ^/hs, roles: ROLE_HOMESERVICE }
+#        - { path: ^/inloop, roles: ROLE_INLOOP }
+#        - { path: ^/odp/admin, roles: ROLE_ODP_BEHEER }
+#        - { path: ^/odp, roles: ROLE_ODP }
+#        - { path: ^/oek/admin, roles: ROLE_OEK_BEHEER }
+#        - { path: ^/oek, roles: ROLE_OEK }
+#        - { path: ^/medewerkers/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
+
+    role_hierarchy:
+        ROLE_IZ:
+            - CONTROLLER_KLANTEN
+            - CONTROLLER_VRIJWILLIGERS
+            - CONTROLLER_IZKLANTEN
+            - CONTROLLER_IZVRIJWILLIGERS
+            - CONTROLLER_IZDEELNEMERS
+            - CONTROLLER_IZHULPVRAGEN
+            - CONTROLLER_IZHULPAANBIEDINGEN
+            - CONTROLLER_IZKOPPELINGEN
+            - CONTROLLER_IZRAPPORTAGES
+            - CONTROLLER_IZVERSLAGEN
+            - CONTROLLER_ATTACHMENTS
+        ROLE_IZ_VRIJWILLIGER:
+            - CONTROLLER_REGISTRATIES
+        ROLE_IZ_BEHEER:
+            - CONTROLLER_IZAFSLUITINGEN
+            - CONTROLLER_IZKLANTEN
+            - CONTROLLER_IZVRIJWILLIGERS
+            - CONTROLLER_IZDEELNEMERS
+            - CONTROLLER_IZHULPVRAGEN
+            - CONTROLLER_IZHULPAANBIEDINGEN
+            - CONTROLLER_IZKOPPELINGEN
+            - CONTROLLER_IZRAPPORTAGES
+            - CONTROLLER_IZEINDEKOPPELINGEN
+            - CONTROLLER_IZINTERVISIEGROEPEN
+            - CONTROLLER_IZKOPPELINGEN
+            - CONTROLLER_IZONTSTAAN
+            - CONTROLLER_IZPROJECTEN
+            - CONTROLLER_IZVERSLAGEN
+            - CONTROLLER_IZVIAPERSONEN
+            - CONTROLLER_IZVRAAGAANBODEN
+            - CONTROLLER_IZONTSTAANCONTACTEN
+        ROLE_ADMIN:
+            - ROLE_IZ
+            - ROLE_IZ_VRIJWILLIGER
+            - ROLE_IZ_BEHEER

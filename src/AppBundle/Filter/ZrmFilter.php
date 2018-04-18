@@ -2,8 +2,8 @@
 
 namespace AppBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class ZrmFilter implements FilterInterface
 {
@@ -16,11 +16,6 @@ class ZrmFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $created;
-
-    /**
-     * @var string
-     */
-    public $requestModule;
 
     /**
      * @var KlantFilter
@@ -49,13 +44,6 @@ class ZrmFilter implements FilterInterface
                     ->setParameter("{$alias}_created_tot", $this->created->getEnd())
                 ;
             }
-        }
-
-        if ($this->requestModule) {
-            $builder
-                ->andWhere("{$alias}.requestModule = :{$alias}_request_module")
-                ->setParameter("{$alias}_request_module", $this->requestModule)
-            ;
         }
 
         if ($this->klant) {

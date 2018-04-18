@@ -3,15 +3,17 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\EindeVraagAanbod;
+use IzBundle\Form\EindeVraagAanbodType;
+use IzBundle\Service\EindeVraagAanbodDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\EindeVraagAanbod;
-use IzBundle\Service\EindeVraagAanbodDaoInterface;
-use IzBundle\Form\EindeVraagAanbodType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/afsluitredenenvraagaanbod")
+ * @Template
  */
 class AfsluitredenenVraagAanbodController extends AbstractController
 {

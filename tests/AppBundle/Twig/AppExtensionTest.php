@@ -2,10 +2,10 @@
 
 namespace Tests\AppBundle\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use PHPUnit\Framework\TestCase;
-use AppBundle\Twig\AppExtension;
 use AppBundle\Entity\Klant;
+use AppBundle\Twig\AppExtension;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AppExtensionTest extends TestCase
 {

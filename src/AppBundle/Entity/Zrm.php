@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\IdentifiableTrait;
 
 /**
  * @ORM\Entity
@@ -26,34 +26,16 @@ abstract class Zrm
     ];
 
     /**
-     * @ORM\ManyToOne(targetEntity="Klant")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="zrms")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
-     * @ORM\Column(name="model", type="string", nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $model;
-
-    /**
-     * @ORM\Column(name="foreign_key", type="integer", nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $foreignKey;
-
-    /**
-     * @ORM\Column(name="request_module", type="string", nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $requestModule;
-
-    /**
      * @return Zrm
      */
-    public static function create(\DateTime $datum = null, $requestModule = null)
+    public static function create(\DateTime $datum = null)
     {
         if (!$datum) {
             $datum = new \DateTime();
@@ -64,10 +46,6 @@ abstract class Zrm
                 $zrm = new $model();
                 break;
             }
-        }
-
-        if ($requestModule) {
-            $zrm->setRequestModule($requestModule);
         }
 
         return $zrm;
@@ -86,42 +64,6 @@ abstract class Zrm
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
-
-        return $this;
-    }
-
-    public function getRequestModule()
-    {
-        return $this->requestModule;
-    }
-
-    public function setRequestModule($requestModule)
-    {
-        $this->requestModule = $requestModule;
-
-        return $this;
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    public function getForeignKey()
-    {
-        return $this->foreignKey;
-    }
-
-    public function setForeignKey($foreignKey)
-    {
-        $this->foreignKey = $foreignKey;
 
         return $this;
     }

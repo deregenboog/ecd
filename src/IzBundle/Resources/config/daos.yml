@@ -2,6 +2,9 @@ services:
     IzBundle\Service\AfsluitingDao:
         parent: app.dao.abstract
 
+    IzBundle\Service\AfsluitredenKoppelingDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\BinnengekomenViaDao:
         parent: app.dao.abstract
 
@@ -11,16 +14,13 @@ services:
     IzBundle\Service\DeelnemerDao:
         parent: app.dao.abstract
 
+    IzBundle\Service\DeelnemerstatusDao:
+        parent: app.dao.abstract
+    
     IzBundle\Service\DocumentDao:
         parent: app.dao.abstract
 
-    IzBundle\Service\DoelgroepDao:
-        parent: app.dao.abstract
-
     IzBundle\Service\DoelstellingDao:
-        parent: app.dao.abstract
-
-    IzBundle\Service\EindeKoppelingDao:
         parent: app.dao.abstract
 
     IzBundle\Service\EindeVraagAanbodDao:
@@ -38,15 +38,15 @@ services:
     IzBundle\Service\IntakeDao:
         parent: app.dao.abstract
 
-    IzBundle\Service\IntervisiegroepDao:
-        parent: app.dao.abstract
-
     IzBundle\Service\KlantDao:
         parent: app.dao.abstract
 
     IzBundle\Service\KoppelingDao:
         parent: app.dao.abstract
-    
+
+    IzBundle\Service\KoppelingstatusDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\ProjectDao:
         parent: app.dao.abstract
 
@@ -83,12 +83,12 @@ services:
             -
               - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
 
-    iz.lidmaatschap.entities:
+    iz.koppeling.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: intervisiegroep, dao: '@IzBundle\Service\IntervisiegroepDao' }
-              - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
+              - { key: hulpaanbod, dao: '@IzBundle\Service\HulpaanbodDao' }
+              - { key: hulpvraag, dao: '@IzBundle\Service\HulpvraagDao' }
 
     iz.verslag.entities:
         class: ArrayObject
@@ -98,4 +98,9 @@ services:
               - { key: hulpaanbod, dao: '@IzBundle\Service\HulpaanbodDao' }
               - { key: hulpvraag, dao: '@IzBundle\Service\HulpvraagDao' }
               - { key: koppeling, dao: '@IzBundle\Service\KoppelingDao' }
-              
+
+    iz.zrm.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: intake, dao: '@IzBundle\Service\IntakeDao' }

@@ -2,10 +2,10 @@
 
 namespace IzBundle\Service;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzKlant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
 
 interface KlantDaoInterface
 {

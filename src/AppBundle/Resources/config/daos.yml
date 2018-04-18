@@ -9,10 +9,13 @@ services:
     AppBundle\Service\KlantDao:
         parent: app.dao.abstract
 
-    AppBundle\Service\ZrmDao:
+    AppBundle\Service\MedewerkerDao:
         parent: app.dao.abstract
 
     AppBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    AppBundle\Service\ZrmDao:
         parent: app.dao.abstract
 
     app.zrm.entities:

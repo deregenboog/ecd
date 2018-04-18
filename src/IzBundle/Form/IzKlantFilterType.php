@@ -2,31 +2,56 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\FilterType;
+use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Deelnemerstatus;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Intake;
+use IzBundle\Entity\Koppelingstatus;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzKlantFilter;
-use IzBundle\Entity\Hulpvraag;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzKlantFilterType extends AbstractType
 {
+    private $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
+                'required' => false,
+                'label' => false,
+                'choices' => $this->getStatusChoices(),
+            ]);
+        }
+
+        if (in_array('datumAanmelding', $options['enabled_filters'])) {
+            $builder->add('datumAanmelding', AppDateRangeType::class, [
+                'required' => false,
+                'label' => false,
+            ]);
+        }
+
         if (in_array('afsluitDatum', $options['enabled_filters'])) {
             $builder->add('afsluitDatum', AppDateRangeType::class, [
                 'required' => false,
@@ -132,9 +157,11 @@ class IzKlantFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => IzKlantFilter::class,
             'enabled_filters' => [
+                'status',
+                'datumAanmelding',
                 'afsluitDatum',
                 'openDossiers',
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
+                'klant' => ['voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
                 'intakeMedewerker',
@@ -153,5 +180,24 @@ class IzKlantFilterType extends AbstractType
     public function getParent()
     {
         return FilterType::class;
+    }
+
+    private function getStatusChoices()
+    {
+        $choices = ['Kan gekoppeld worden'];
+
+        $deelnemerstatussen = $this->entityManager->getRepository(Deelnemerstatus::class)->findBy(['actief' => true]);
+        foreach ($deelnemerstatussen as $status) {
+            $choices[] = (string) $status;
+        }
+
+        $koppelingstatussen = $this->entityManager->getRepository(Koppelingstatus::class)->findBy(['actief' => true]);
+        foreach ($koppelingstatussen as $status) {
+            $choices[] = (string) $status;
+        }
+
+        sort($choices);
+
+        return array_combine($choices, $choices);
     }
 }

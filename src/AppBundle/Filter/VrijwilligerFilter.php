@@ -2,10 +2,10 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Vrijwilliger;
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class VrijwilligerFilter implements FilterInterface
 {
@@ -35,11 +35,6 @@ class VrijwilligerFilter implements FilterInterface
      * @var Geslacht
      */
     public $geslacht;
-
-    /**
-     * @var string
-     */
-    public $bsn;
 
     /**
      * @var \DateTime
@@ -109,13 +104,6 @@ class VrijwilligerFilter implements FilterInterface
             $builder
                 ->andWhere("{$this->alias}.geslacht = :{$this->alias}_geslacht")
                 ->setParameter("{$this->alias}_geslacht", $this->geslacht)
-            ;
-        }
-
-        if ($this->bsn) {
-            $builder
-                ->andWhere("{$this->alias}.bsn LIKE :{$this->alias}_bsn")
-                ->setParameter("{$this->alias}_bsn", "%{$this->bsn}%")
             ;
         }
 

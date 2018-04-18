@@ -1,0 +1,140 @@
+services:
+    IzBundle\Report\Managementrapportage:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+            - "@iz.repository.doelstelling"
+            - "@iz.repository.project"
+        tags:
+            - { name: iz.rapportage, category: Management }
+
+    IzBundle\Report\HulpvragenPerProjectStadsdeel:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Hulpvragen }
+
+    IzBundle\Report\KoppelingenTotaal:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerAfsluitreden:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerProjectAfsluitreden:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerCoordinator:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerProject:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerStadsdeel:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerPostcodegebied:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerProjectStadsdeel:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KoppelingenPerProjectPostcodegebied:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Koppelingen }
+
+    IzBundle\Report\KlantenTotaal:
+        arguments:
+            - "@iz.repository.iz_klant"
+        tags:
+            - { name: iz.rapportage, category: Deelnemers }
+
+    IzBundle\Report\KlantenPerProject:
+        arguments:
+            - "@iz.repository.iz_klant"
+        tags:
+            - { name: iz.rapportage, category: Deelnemers }
+
+    IzBundle\Report\KlantenPerStadsdeel:
+        arguments:
+            - "@iz.repository.iz_klant"
+        tags:
+            - { name: iz.rapportage, category: Deelnemers }
+
+    IzBundle\Report\KlantenPerProjectStadsdeel:
+        arguments:
+            - "@iz.repository.iz_klant"
+        tags:
+            - { name: iz.rapportage, category: Deelnemers }
+
+    IzBundle\Report\VrijwilligersTotaal:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersTotaalNamenlijst:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersPerProject:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersPerProjectNamenlijst:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersPerStadsdeelKlant:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersPerStadsdeelVrijwilliger:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }
+
+    IzBundle\Report\VrijwilligersPerProjectStadsdeelVrijwilliger:
+        arguments:
+            - "@iz.repository.iz_vrijwilliger"
+        tags:
+            - { name: iz.rapportage, category: Vrijwilligers }

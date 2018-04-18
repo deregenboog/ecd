@@ -2,31 +2,35 @@
 
 namespace IzBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Koppeling;
+use IzBundle\Form\KoppelingCloseType;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\KoppelingType;
-use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use IzBundle\Form\KoppelingCloseType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/koppelingen")
+ * @Template
  */
-class KoppelingenController extends AbstractController
+class KoppelingenController extends AbstractChildController
 {
     protected $title = 'Koppelingen';
     protected $entityName = 'koppeling';
     protected $entityClass = Koppeling::class;
     protected $formClass = KoppelingType::class;
     protected $filterFormClass = KoppelingFilterType::class;
+    protected $addMethod = 'setKoppeling';
     protected $baseRouteName = 'iz_koppelingen_';
     protected $disabledActions = ['delete'];
+    protected $forceRedirect = true;
 
     /**
      * @var KoppelingDaoInterface
@@ -34,6 +38,13 @@ class KoppelingenController extends AbstractController
      * @DI\Inject("IzBundle\Service\KoppelingDao")
      */
     protected $dao;
+
+    /**
+     * @var AbstractExport
+     *
+     * @DI\Inject("iz.koppeling.entities")
+     */
+    protected $entities;
 
     /**
      * @var HulpvraagDaoInterface
@@ -61,15 +72,12 @@ class KoppelingenController extends AbstractController
      */
     public function addAction(Request $request)
     {
-        $hulpvraag = $this->dao->find($request->get('hulpvraag'));
+        $hulpvraag = $this->hulpvraagDao->find($request->get('hulpvraag'));
         $hulpaanbod = $this->hulpaanbodDao->find($request->get('hulpaanbod'));
 
-        $hulpvraag
-            ->setHulpaanbod($hulpaanbod)
-            ->setKoppelingStartdatum(new \DateTime())
-        ;
+        $koppeling = new Koppeling($hulpvraag, $hulpaanbod);
 
-        return $this->processForm($request, $hulpvraag);
+        return $this->processForm($request, $koppeling);
     }
 
     /**
@@ -78,8 +86,8 @@ class KoppelingenController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        if (!$entity->getKoppelingEinddatum()) {
-            $entity->setKoppelingEinddatum(new \DateTime());
+        if (!$entity->getAfsluitdatum()) {
+            $entity->setAfsluitdatum(new \DateTime());
         }
         $this->formClass = KoppelingCloseType::class;
 

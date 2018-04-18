@@ -2,24 +2,27 @@
 
 namespace AppBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Entity\Klant;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/klanten")
+ * @Security("is_granted('CONTROLLER_KLANTEN')")
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
-    protected $entityName = 'klant';
+    protected $title = 'Deelnemers';
+    protected $entityName = 'deelnemer';
     protected $entityClass = Klant::class;
     protected $formClass = KlantType::class;
     protected $filterFormClass = KlantFilterType::class;
@@ -64,8 +67,10 @@ class KlantenController extends AbstractController
         ];
     }
 
-    protected function addParams(Klant $entity)
+    protected function addParams($entity, Request $request)
     {
+        assert($entity instanceof Klant);
+
         $event = new DienstenLookupEvent($entity->getId());
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
 

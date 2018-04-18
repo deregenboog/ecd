@@ -2,18 +2,24 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Exception\AppException;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Exception\AppException;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class AbstractController extends SymfonyController
+abstract class AbstractController extends SymfonyController
 {
+    /**
+     * @var string
+     */
+    protected $entityName;
+
     /**
      * @var string
      */
@@ -39,17 +45,32 @@ class AbstractController extends SymfonyController
      */
     protected $dao;
 
+    /**
+     * @var ExportInterface
+     */
+    protected $export;
+
+    /**
+     * @var string
+     */
+    protected $baseRouteName;
+
+    /**
+     * @var array
+     */
+    protected $disabledActions = [];
+
+    /**
+     * @var bool
+     */
+    protected $forceRedirect = false;
+
     public function setDao(AbstractDao $dao)
     {
         $this->dao = $dao;
 
         return $this;
     }
-
-    /**
-     * @var ExportInterface
-     */
-    protected $export;
 
     public function setExport(ExportInterface $export)
     {
@@ -59,12 +80,8 @@ class AbstractController extends SymfonyController
     }
 
     /**
-     * @var array
-     */
-    protected $disabledActions = [];
-
-    /**
      * @Route("/")
+     * @Template
      */
     public function indexAction(Request $request)
     {
@@ -122,6 +139,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/view")
+     * @Template
      */
     public function viewAction(Request $request, $id)
     {
@@ -142,6 +160,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/add")
+     * @Template
      */
     public function addAction(Request $request)
     {
@@ -156,6 +175,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/edit")
+     * @Template
      */
     public function editAction(Request $request, $id)
     {
@@ -192,11 +212,7 @@ class AbstractController extends SymfonyController
                 $this->addFlash('danger', $message);
             }
 
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToView($entity);
+            return $this->afterFormSubmitted($request, $entity);
         }
 
         return [
@@ -207,6 +223,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/delete")
+     * @Template
      */
     public function deleteAction(Request $request, $id)
     {
@@ -288,5 +305,15 @@ class AbstractController extends SymfonyController
     protected function addParams($entity, Request $request)
     {
         return [];
+    }
+
+    protected function afterFormSubmitted(Request $request, $entity)
+    {
+        $url = $request->get('redirect');
+        if ($url && !$this->forceRedirect) {
+            return $this->redirect($url);
+        }
+
+        return $this->redirectToView($entity);
     }
 }

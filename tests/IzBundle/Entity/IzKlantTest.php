@@ -2,13 +2,42 @@
 
 namespace Tests\IzBundle\Entity;
 
-use PHPUnit\Framework\TestCase;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\Koppeling;
+use PHPUnit\Framework\TestCase;
 
 class IzKlantTest extends TestCase
 {
+    public function testGetHulpvragen()
+    {
+        $izKlant = $this->getIzKlant();
+
+        $this->assertCount(8, $izKlant->getHulpvragen());
+    }
+
+    public function testGetGekoppeldeHulpvragen()
+    {
+        $izKlant = $this->getIzKlant();
+
+        $this->assertCount(4, $izKlant->getGekoppeldeHulpvragen());
+    }
+
+    public function testGetNietGekoppeldeHulpvragen()
+    {
+        $izKlant = $this->getIzKlant();
+
+        $this->assertCount(4, $izKlant->getNietGekoppeldeHulpvragen());
+    }
+
+    public function testGetKoppelingen()
+    {
+        $izKlant = $this->getIzKlant();
+
+        $this->assertCount(4, $izKlant->getKoppelingen());
+    }
+
     public function testGetOpenHulpvragen()
     {
         $izKlant = $this->getIzKlant();
@@ -56,21 +85,28 @@ class IzKlantTest extends TestCase
         $afgeslotenHulpvraag->setEinddatum(new \DateTime('today'));
         $izKlant->addHulpvraag($afgeslotenHulpvraag);
 
-        $actieveKoppeling = new Hulpvraag();
-        $actieveKoppeling->setHulpaanbod(new Hulpaanbod());
-        $izKlant->addHulpvraag($actieveKoppeling);
+        $hulpvraag = new Hulpvraag();
+        $actieveKoppeling = new Koppeling($hulpvraag, new Hulpaanbod());
+        $hulpvraag->setKoppeling($actieveKoppeling);
+        $izKlant->addHulpvraag($hulpvraag);
 
-        $actieveKoppeling = new Hulpvraag();
-        $actieveKoppeling->setHulpaanbod(new Hulpaanbod())->setKoppelingEinddatum(new \DateTime('tomorrow'));
-        $izKlant->addHulpvraag($actieveKoppeling);
+        $hulpvraag = new Hulpvraag();
+        $actieveKoppeling = new Koppeling($hulpvraag, new Hulpaanbod());
+        $actieveKoppeling->setAfsluitdatum(new \DateTime('tomorrow'));
+        $hulpvraag->setKoppeling($actieveKoppeling);
+        $izKlant->addHulpvraag($hulpvraag);
 
-        $afgeslotenKoppeling = new Hulpvraag();
-        $afgeslotenKoppeling->setHulpaanbod(new Hulpaanbod())->setKoppelingEinddatum(new \DateTime('yesterday'));
-        $izKlant->addHulpvraag($afgeslotenKoppeling);
+        $hulpvraag = new Hulpvraag();
+        $afgeslotenKoppeling = new Koppeling($hulpvraag, new Hulpaanbod());
+        $afgeslotenKoppeling->setAfsluitdatum(new \DateTime('yesterday'));
+        $hulpvraag->setKoppeling($afgeslotenKoppeling);
+        $izKlant->addHulpvraag($hulpvraag);
 
-        $afgeslotenKoppeling = new Hulpvraag();
-        $afgeslotenKoppeling->setHulpaanbod(new Hulpaanbod())->setKoppelingEinddatum(new \DateTime('today'));
-        $izKlant->addHulpvraag($afgeslotenKoppeling);
+        $hulpvraag = new Hulpvraag();
+        $afgeslotenKoppeling = new Koppeling($hulpvraag, new Hulpaanbod());
+        $afgeslotenKoppeling->setAfsluitdatum(new \DateTime('today'));
+        $hulpvraag->setKoppeling($afgeslotenKoppeling);
+        $izKlant->addHulpvraag($hulpvraag);
 
         return $izKlant;
     }

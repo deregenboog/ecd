@@ -2,15 +2,17 @@
 
 namespace IzBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractRapportagesController;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Export\ExportInterface;
 use IzBundle\Form\RapportageType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/rapportages")
+ * @Template
  */
 class RapportagesController extends AbstractRapportagesController
 {

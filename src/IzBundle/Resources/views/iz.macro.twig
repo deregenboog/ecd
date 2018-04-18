@@ -1,0 +1,61 @@
+{% macro evaluatie_style(evaluatie) %}
+    {% if not evaluatie.empty %}
+        {{ 'color: green' }}
+    {% elseif evaluatie.datum < today %}
+        {{ 'color: red' }}
+    {% elseif evaluatie.datum|date_modify('-2 weeks') < today %}
+        {{ 'color: orange' }}
+    {% endif %}
+{% endmacro %}
+
+{% macro koppeling_evaluatie_list(koppeling) %}
+    {% import _self as iz %}
+    {% import '::html.macro.twig' as html %}
+    <ul>
+        {% for evaluatie in koppeling.evaluaties %}
+            <li style="{{ iz.evaluatie_style(evaluatie) }}">
+                {{ evaluatie.naam }}
+                {{ evaluatie.datum ? evaluatie.datum|date('d-m-Y') }}
+                {% if evaluatie.empty %}
+                    {{ html.addLink(path('iz_evaluaties_edit', {id: evaluatie.id})) }}
+                {% else %}
+                    {{ html.editLink(path('iz_evaluaties_edit', {id: evaluatie.id})) }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro klant_status_list(klant) %}
+    {% if klant.status %}
+        {{ klant.status }}
+    {% else %}
+        <ul>
+            {% if klant.hasOpenHulpvragen %}
+                <li>Kan gekoppeld worden</li>
+            {% endif %}
+            {% if klant.hasActieveKoppelingen %}
+                {% for koppeling in klant.getActieveKoppelingen %}
+                    <li>{{ koppeling.status }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% macro vrijwilliger_status_list(vrijwilliger) %}
+    {% if vrijwilliger.status %}
+        {{ vrijwilliger.status }}
+    {% else %}
+        <ul>
+            {% if vrijwilliger.hasOpenHulpaanbiedingen %}
+                <li>Kan gekoppeld worden</li>
+            {% endif %}
+            {% if vrijwilliger.hasActieveKoppelingen %}
+                {% for koppeling in vrijwilliger.getActieveKoppelingen %}
+                    <li>{{ koppeling.status }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endmacro %}

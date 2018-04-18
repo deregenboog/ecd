@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Service\ZrmDaoInterface;
-use AppBundle\Form\ZrmType;
 use AppBundle\Entity\Zrm;
 use AppBundle\Form\ZrmFilterType;
+use AppBundle\Form\ZrmType;
+use AppBundle\Service\ZrmDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/zrms")
@@ -39,13 +39,5 @@ class ZrmsController extends AbstractChildController
     protected function createEntity($parentEntity)
     {
         return Zrm::create();
-    }
-
-    protected function beforeParentUpdate($parentEntity, $entity)
-    {
-        $entity
-            ->setModel('Klant')
-            ->setForeignKey($parentEntity->getId())
-        ;
     }
 }

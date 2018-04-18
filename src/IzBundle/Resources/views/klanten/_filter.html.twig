@@ -16,8 +16,14 @@
     </tr>
     <tr>
         <th>
-            {{ form_widget(filter.klant.id) }}
-            {{ form_errors(filter.klant.id) }}
+            {{ form_widget(filter.status) }}
+            {{ form_errors(filter.status) }}
+        </th>
+        <th>
+            {{ form_widget(filter.datumAanmelding.start) }}
+            {{ form_errors(filter.datumAanmelding.start) }}
+            {{ form_widget(filter.datumAanmelding.end) }}
+            {{ form_errors(filter.datumAanmelding.end) }}
         </th>
         <th>
             {{ form_widget(filter.klant.voornaam) }}
@@ -55,8 +61,6 @@
             {{ form_errors(filter.afsluitDatum.start) }}
             {{ form_widget(filter.afsluitDatum.end) }}
             {{ form_errors(filter.afsluitDatum.end) }}
-        </th>
-        <th>
         </th>
     </tr>
 {{ form_end(filter) }}

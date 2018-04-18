@@ -2,13 +2,13 @@
 
 namespace Tests\IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
 
 class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
@@ -42,16 +42,16 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->koppelingStartdatum = new \DateTime('2016-01-01');
+        $filter->startdatum = new \DateTime('2016-01-01');
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingStartdatum = :koppelingStartdatum',
+            'koppeling.startdatum = :startdatum',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->koppelingStartdatum,
-            $builder->getParameter('koppelingStartdatum')->getValue()
+            $filter->startdatum,
+            $builder->getParameter('startdatum')->getValue()
         );
     }
 
@@ -60,16 +60,16 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->koppelingEinddatum = new \DateTime('2016-12-31');
+        $filter->afsluitdatum = new \DateTime('2016-12-31');
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingEinddatum = :koppelingEinddatum',
+            'koppeling.afsluitdatum = :afsluitdatum',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->koppelingEinddatum,
-            $builder->getParameter('koppelingEinddatum')->getValue()
+            $filter->afsluitdatum,
+            $builder->getParameter('afsluitdatum')->getValue()
         );
     }
 
@@ -83,7 +83,7 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now',
+            'koppeling.afsluitdatum IS NULL OR koppeling.afsluitdatum > :now',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -102,7 +102,7 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.project = :project',
+            'hulpvraag.project = :project OR hulpaanbod.project = :project',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(

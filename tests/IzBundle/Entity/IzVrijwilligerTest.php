@@ -2,13 +2,42 @@
 
 namespace Tests\IzBundle\Entity;
 
-use PHPUnit\Framework\TestCase;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Entity\Koppeling;
+use PHPUnit\Framework\TestCase;
 
 class IzVrijwilligerTest extends TestCase
 {
+    public function testGetHulpaanbiedingen()
+    {
+        $izVrijwilliger = $this->getIzVrijwilliger();
+
+        $this->assertCount(8, $izVrijwilliger->getHulpaanbiedingen());
+    }
+
+    public function testGetGekoppeldeHulpaanbiedingen()
+    {
+        $izKlant = $this->getIzVrijwilliger();
+
+        $this->assertCount(4, $izKlant->getGekoppeldeHulpaanbiedingen());
+    }
+
+    public function testGetNietGekoppeldeHulpaanbiedingen()
+    {
+        $izKlant = $this->getIzVrijwilliger();
+
+        $this->assertCount(4, $izKlant->getNietGekoppeldeHulpaanbiedingen());
+    }
+
+    public function testGetKoppelingen()
+    {
+        $izKlant = $this->getIzVrijwilliger();
+
+        $this->assertCount(4, $izKlant->getKoppelingen());
+    }
+
     public function testGetOpenHulpaanbiedingen()
     {
         $izVrijwilliger = $this->getIzVrijwilliger();
@@ -56,21 +85,28 @@ class IzVrijwilligerTest extends TestCase
         $afgeslotenHulpvraag->setEinddatum(new \DateTime('today'));
         $izVrijwilliger->addHulpaanbod($afgeslotenHulpvraag);
 
-        $actieveKoppeling = new Hulpaanbod();
-        $actieveKoppeling->setHulpvraag(new Hulpvraag());
-        $izVrijwilliger->addHulpaanbod($actieveKoppeling);
+        $hulpaanbod = new Hulpaanbod();
+        $actieveKoppeling = new Koppeling(new Hulpvraag(), $hulpaanbod);
+        $hulpaanbod->setKoppeling($actieveKoppeling);
+        $izVrijwilliger->addHulpaanbod($hulpaanbod);
 
-        $actieveKoppeling = new Hulpaanbod();
-        $actieveKoppeling->setHulpvraag(new Hulpvraag())->setKoppelingEinddatum(new \DateTime('tomorrow'));
-        $izVrijwilliger->addHulpaanbod($actieveKoppeling);
+        $hulpaanbod = new Hulpaanbod();
+        $actieveKoppeling = new Koppeling(new Hulpvraag(), $hulpaanbod);
+        $actieveKoppeling->setAfsluitdatum(new \DateTime('tomorrow'));
+        $hulpaanbod->setKoppeling($actieveKoppeling);
+        $izVrijwilliger->addHulpaanbod($hulpaanbod);
 
-        $afgeslotenKoppeling = new Hulpaanbod();
-        $afgeslotenKoppeling->setHulpvraag(new Hulpvraag())->setKoppelingEinddatum(new \DateTime('yesterday'));
-        $izVrijwilliger->addHulpaanbod($afgeslotenKoppeling);
+        $hulpaanbod = new Hulpaanbod();
+        $afgeslotenKoppeling = new Koppeling(new Hulpvraag(), $hulpaanbod);
+        $afgeslotenKoppeling->setAfsluitdatum(new \DateTime('yesterday'));
+        $hulpaanbod->setKoppeling($afgeslotenKoppeling);
+        $izVrijwilliger->addHulpaanbod($hulpaanbod);
 
-        $afgeslotenKoppeling = new Hulpaanbod();
-        $afgeslotenKoppeling->setHulpvraag(new Hulpvraag())->setKoppelingEinddatum(new \DateTime('today'));
-        $izVrijwilliger->addHulpaanbod($afgeslotenKoppeling);
+        $hulpaanbod = new Hulpaanbod();
+        $afgeslotenKoppeling = new Koppeling(new Hulpvraag(), $hulpaanbod);
+        $afgeslotenKoppeling->setAfsluitdatum(new \DateTime('today'));
+        $hulpaanbod->setKoppeling($afgeslotenKoppeling);
+        $izVrijwilliger->addHulpaanbod($hulpaanbod);
 
         return $izVrijwilliger;
     }

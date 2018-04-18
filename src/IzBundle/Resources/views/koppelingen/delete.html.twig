@@ -1,0 +1,12 @@
+{% extends 'IzBundle:koppelingen:view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_right %}
+    <h2>{{ entity_name|capitalize }} verwijderen</h2>
+    <p>
+        {{ html.cancelLink(path(route_base~'view', {id: entity.id})) }}
+        {{ html.link('Annuleren', path(route_base~'view', {id: entity.id})) }}
+    </p>
+    <p>Weet u zeker dat u {{ entity_name }} <strong>{{ entity }}</strong> wilt verwijderen?</p>
+    {{ form(form) }}
+{% endblock %}

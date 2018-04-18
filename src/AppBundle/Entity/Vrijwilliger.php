@@ -25,16 +25,22 @@ class Vrijwilliger extends Persoon
     protected $vogAangevraagd = false;
 
     /**
-     * @ORM\Column(name="vog_aanwezig", type="boolean")
+     * @ORM\Column(name="vog_aanwezig", type="date", nullable=true)
      * @Gedmo\Versioned
      */
-    protected $vogAanwezig = false;
+    protected $vogAanwezig;
 
     /**
      * @ORM\Column(name="overeenkomst_aanwezig", type="boolean")
      * @Gedmo\Versioned
      */
     protected $overeenkomstAanwezig = false;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $datumSiaCursus;
 
     /**
      * @return bool
@@ -57,7 +63,7 @@ class Vrijwilliger extends Persoon
     }
 
     /**
-     * @return bool
+     * @return \DateTime
      */
     public function getVogAanwezig()
     {
@@ -65,11 +71,11 @@ class Vrijwilliger extends Persoon
     }
 
     /**
-     * @param bool $vogAanwezig
+     * @param \DateTime $vogAanwezig
      *
      * @return Vrijwilliger
      */
-    public function setVogAanwezig($vogAanwezig)
+    public function setVogAanwezig(\DateTime $vogAanwezig = null)
     {
         $this->vogAanwezig = $vogAanwezig;
 
@@ -95,4 +101,25 @@ class Vrijwilliger extends Persoon
 
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDatumSiaCursus()
+    {
+        return $this->datumSiaCursus;
+    }
+
+    /**
+     * @param \DateTime $datumSiaCursus
+     *
+     * @return Vrijwilliger
+     */
+    public function setDatumSiaCursus(\DateTime $datumSiaCursus = null)
+    {
+        $this->datumSiaCursus = $datumSiaCursus;
+
+        return $this;
+    }
+
 }

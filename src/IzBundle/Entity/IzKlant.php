@@ -2,13 +2,12 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Service\NameFormatter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Klant;
-use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
@@ -27,7 +26,7 @@ class IzKlant extends IzDeelnemer
     /**
      * @var ArrayCollection|Hulpvraag[]
      * @ORM\OneToMany(targetEntity="Hulpvraag", mappedBy="izKlant", cascade={"persist"})
-     * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
+     * @ORM\OrderBy({"startdatum" = "DESC"})
      */
     private $hulpvragen;
 
@@ -81,7 +80,7 @@ class IzKlant extends IzDeelnemer
     public function __toString()
     {
         try {
-            return $this->klant->__toString();
+            return NameFormatter::formatInformal($this->klant);
         } catch (EntityNotFoundException $e) {
             return '';
         }
@@ -101,16 +100,17 @@ class IzKlant extends IzDeelnemer
 
     public function getHulpvragen()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpaanbod'));
-
-        return $this->hulpvragen->matching($criteria);
+        return $this->hulpvragen;
     }
 
     public function getKoppelingen()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpaanbod', null));
-
-        return $this->hulpvragen->matching($criteria);
+        return new ArrayCollection(array_map(
+            function (Hulpvraag $hulpvraag) {
+                return $hulpvraag->getKoppeling();
+            },
+            $this->getGekoppeldeHulpvragen()->toArray()
+        ));
     }
 
     public function addHulpvraag(Hulpvraag $hulpvraag)
@@ -121,68 +121,49 @@ class IzKlant extends IzDeelnemer
         return $this;
     }
 
-    public function getOpenHulpvragen()
+    public function getNietGekoppeldeHulpvragen()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->orX(
-                Criteria::expr()->isNull('einddatum'),
-                Criteria::expr()->gt('einddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->getHulpvragen()->matching($criteria);
+        return new ArrayCollection(array_filter(
+            $this->hulpvragen->toArray(),
+            function (Hulpvraag $hulpvraag) {
+                return !$hulpvraag->isGekoppeld();
+            }
+        ));
     }
 
-    public function getActieveKoppelingen()
+    public function getGekoppeldeHulpvragen()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->orX(
-                Criteria::expr()->isNull('koppelingEinddatum'),
-                Criteria::expr()->gt('koppelingEinddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
+        return new ArrayCollection(array_filter(
+            $this->hulpvragen->toArray(),
+            function (Hulpvraag $hulpvraag) {
+                return $hulpvraag->isGekoppeld();
+            }
+        ));
+    }
 
-        return $this->getKoppelingen()->matching($criteria);
+    public function getOpenHulpvragen()
+    {
+        return new ArrayCollection(array_filter(
+            $this->getNietGekoppeldeHulpvragen()->toArray(),
+            function (Hulpvraag $hulpvraag) {
+                return !$hulpvraag->isAfgesloten();
+            }
+        ));
+    }
+
+    public function hasOpenHulpvragen()
+    {
+        return count($this->getOpenHulpvragen()) > 0;
     }
 
     public function getAfgeslotenHulpvragen()
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->neq('einddatum', null),
-                Criteria::expr()->lte('einddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->getHulpvragen()->matching($criteria);
-    }
-
-    public function getAfgeslotenKoppelingen()
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->neq('koppelingEinddatum', null),
-                Criteria::expr()->lte('koppelingEinddatum', new \DateTime('today'))
-            ))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->getKoppelingen()->matching($criteria);
+        return new ArrayCollection(array_filter(
+            $this->getNietGekoppeldeHulpvragen()->toArray(),
+            function (Hulpvraag $hulpvraag) {
+                return $hulpvraag->isAfgesloten();
+            }
+        ));
     }
 
     public function getContactOntstaan()

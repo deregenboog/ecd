@@ -31,8 +31,8 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
-#swiftmailer:
-#    delivery_address: me@example.com
+swiftmailer:
+    delivery_address: '%administrator_email%'
 
 hautelook_alice:
     db_drivers:

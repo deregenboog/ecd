@@ -2,27 +2,26 @@
 
 namespace AppBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Zrm;
+use Doctrine\ORM\Mapping as ORM;
 
 trait ZrmTrait
 {
     /**
-     * @var Zrm[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @var Zrm
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
      */
-    protected $zrms;
+    protected $zrm;
 
-    public function getZrms()
+    public function getZrm()
     {
-        return $this->zrms;
+        return $this->zrm;
     }
 
-    public function addZrm(Zrm $zrm)
+    public function setZrm(Zrm $zrm)
     {
-        $this->getIzDeelnemer()->getKlant()->addZrm($zrm);
-        $this->zrms[] = $zrm;
+        $this->zrm = $zrm;
 
         return $this;
     }

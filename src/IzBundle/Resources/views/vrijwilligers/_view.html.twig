@@ -29,7 +29,6 @@
                 <li class=" {{ 'intake' == active_tab ? 'active' }}">
                     <a href="{{ path('iz_intakes_view', {id: entity.intake.id}) }}">Intake</a>
                 </li>
-                <li class=" {{ 'intervisiegroepen' == active_tab ? 'active' }}"><a  href="#intervisiegroepen">Intervisiegroepen</a></li>
                 <li class=" {{ 'verslagen' == active_tab ? 'active' }}"><a  href="#verslagen">Verslagen</a></li>
                 <li class=" {{ 'documenten' == active_tab ? 'active' }}"><a  href="#documenten">Documenten</a></li>
                 <li class=" {{ 'koppelingen' == active_tab ? 'active' }}"><a  href="#koppelingen">Koppelingen</a></li>
@@ -43,10 +42,6 @@
         </div>
         <div id="intake" class="tab-pane {{ 'intake' == active_tab ? 'active' }}">
             {% block content_intake %}{% endblock %}
-        </div>
-        <div id="intervisiegroepen" class="tab-pane {{ 'intervisiegroepen' == active_tab ? 'active' }}">
-            <h2>Intervisiegroepen</h2>
-            {% include 'IzBundle:intervisiegroepen:_list.html.twig' %}
         </div>
         <div id="verslagen" class="tab-pane {{ 'verslagen' == active_tab ? 'active' }}">
             <h2>Verslagen</h2>

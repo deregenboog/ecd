@@ -2,12 +2,12 @@
 
 namespace AppBundle\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\Common\Collections\Collection;
 use AppBundle\Entity\Geslacht;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Persoon;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -59,6 +59,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     {
         return [
             new \Twig_SimpleFunction('class', 'get_class'),
+            new \Twig_SimpleFunction('short_class', [$this, 'getShortClass']),
             new \Twig_SimpleFunction('isActiveRoute', [$this, 'isActiveRoute']),
             new \Twig_SimpleFunction('isActivePath', [$this, 'isActivePath']),
         ];
@@ -81,6 +82,13 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('naam_voor_achter', [$this, 'naamVoorAchter']),
             new \Twig_SimpleFilter('naam_achter_voor', [$this, 'naamAchterVoor']),
         ];
+    }
+
+    public function getShortClass($object)
+    {
+        $refl = new \ReflectionClass($object);
+
+        return $refl->getShortName();
     }
 
     public function naamVoorAchter(Persoon $persoon)

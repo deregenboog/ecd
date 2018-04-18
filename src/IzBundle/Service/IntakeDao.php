@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Intake;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Intake;
 
 class IntakeDao extends AbstractDao implements IntakeDaoInterface
 {

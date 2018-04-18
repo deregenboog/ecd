@@ -6,7 +6,7 @@ services:
     links:
       - database
     ports:
-      - "80:80"
+      - "8100:80"
     volumes:
       - ".:/var/www/html"
     environment:
@@ -25,7 +25,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "81:80"
+      - "8101:80"
     links:
       - database
     environment:

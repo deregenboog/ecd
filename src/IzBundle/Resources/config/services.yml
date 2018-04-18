@@ -1,9 +1,24 @@
 imports:
     - { resource: daos.yml }
     - { resource: exports.yml }
-    - { resource: reports.yml }
 
 services:
+    IzBundle\Form\RapportageType:
+        tags:
+            - { name: form.type }
+
+    IzBundle\Form\IzKlantFilterType:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }
+
+    IzBundle\Form\IzVrijwilligerFilterType:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }
+
     iz.event.diensten_lookup_subscriber:
         class: IzBundle\Event\DienstenLookupSubscriber
         arguments:
@@ -41,8 +56,3 @@ services:
         factory: ["@doctrine", getRepository]
         arguments:
             - IzBundle\Entity\IzVrijwilliger
-
-    iz.form.rapportage:
-        class: IzBundle\Form\IzRapportageType
-        tags:
-            - { name: form.type }

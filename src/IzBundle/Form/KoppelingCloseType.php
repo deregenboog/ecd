@@ -2,16 +2,17 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Koppeling;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Koppeling;
-use AppBundle\Form\DummyChoiceType;
-use IzBundle\Entity\Hulpaanbod;
 
 class KoppelingCloseType extends AbstractType
 {
@@ -20,33 +21,33 @@ class KoppelingCloseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $hulpvraag = $options['data'];
-        $hulpaanbod = $hulpvraag->getHulpaanbod();
+        /** @var $koppeling Koppeling */
+        $koppeling = $options['data'];
 
-        if ($hulpvraag instanceof Hulpvraag) {
+        $koppeling->setStatus(null);
+
+        if ($koppeling->getHulpvraag() instanceof Hulpvraag) {
             $builder->add('hulpvraag', DummyChoiceType::class, [
-                'dummy_label' => (string) $hulpvraag,
+                'dummy_label' => (string) $koppeling->getHulpvraag(),
             ]);
         }
 
-        if ($hulpaanbod instanceof Hulpaanbod) {
+        if ($koppeling->getHulpaanbod() instanceof Hulpaanbod) {
             $builder->add('hulpaanbod', DummyChoiceType::class, [
-                'dummy_label' => (string) $hulpaanbod,
+                'dummy_label' => (string) $koppeling->getHulpaanbod(),
             ]);
         }
 
         $builder
-            ->add('koppelingEinddatum', AppDateType::class, [
-                'label' => 'Einddatum koppeling',
+            ->add('afsluitdatum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('eindeKoppeling', null, [
-                'label' => 'Afsluitreden',
-                'required' => true,
-                'placeholder' => '',
-            ])
-            ->add('koppelingSuccesvol', null, [
-                'required' => false,
+            ->add('afsluitreden', null, [
+                'query_builder' => function (EntityRepository $repository) use ($options) {
+                    return $repository->createQueryBuilder('einde')
+                        ->orderBy('einde.naam')
+                    ;
+                },
             ])
             ->add('submit', SubmitType::class)
         ;
@@ -58,7 +59,7 @@ class KoppelingCloseType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Hulpvraag::class,
+            'data_class' => Koppeling::class,
         ]);
     }
 

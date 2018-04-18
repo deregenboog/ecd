@@ -2,13 +2,13 @@
 
 namespace AppBundle\Test;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpKernel\Client;
-use Doctrine\DBAL\Driver\PDOSqlite\Driver as SqliteDriver;
-use Nelmio\Alice\Fixtures;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Driver\PDOSqlite\Driver as SqliteDriver;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\ORM\EntityManager;
+use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
+use Nelmio\Alice\Fixtures;
+use Symfony\Component\HttpKernel\Client;
 
 class WebTestCase extends BaseWebTestCase
 {

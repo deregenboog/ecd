@@ -23,13 +23,22 @@
         {{ html.addLink(add_url) }}
         {{ html.link('Verslag toevoegen', add_url) }}
     </p>
-    {% for verslag in verslagen %}
-        <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }} | {{ verslag.medewerker }}</h3>
-        <p>
-            {% set edit_url = path('iz_verslagen_edit', {id: verslag.id}) %}
-            {{ html.editLink(edit_url) }}
-            {{ html.link('Verslag bewerken', edit_url) }}
-        </p>
-        <div class="well">{{ verslag.opmerking|nl2br }}</div>
+    {% for verslag in verslagen if not verslag.empty %}
+        {% if 'Evaluatie' == short_class(verslag) %}
+            <h3>{{ verslag.naam }} {{ verslag.datum|date('d-m-Y') }} | {{ verslag.medewerker }}</h3>
+            <p>
+                {{ html.link('Evaluatie bewerken', path('iz_evaluaties_edit', {id: verslag.id}), 'edit') }}
+            </p>
+            <dl class="dl-horizontal">
+                <dt>Eenzaamheidscijfer</dt>
+                <dd>{{ verslag.eenzaamheidscijfer }}</dd>
+            </dl>
+        {% else %}
+            <h3>Verslag {{ verslag.datum|date('d-m-Y') }} | {{ verslag.medewerker }}</h3>
+            <p>
+                {{ html.link('Verslag bewerken', path('iz_verslagen_edit', {id: verslag.id}), 'edit') }}
+            </p>
+        {% endif %}
+        <div class="well">{{ verslag.opmerking|raw }}</div>
     {% endfor %}
 {% endif %}

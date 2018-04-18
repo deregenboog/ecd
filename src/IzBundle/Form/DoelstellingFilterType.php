@@ -2,16 +2,16 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Doelstelling;
 use IzBundle\Filter\DoelstellingFilter;
-use AppBundle\Entity\Werkgebied;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DoelstellingFilterType extends AbstractType
 {

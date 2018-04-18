@@ -1,1 +1,26 @@
 {% extends 'IzBundle::add.html.twig' %}
+
+{#% if 'Hulpvraag' == short_class(parent_entity) %}
+    {% set base_template = 'IzBundle:hulpvragen:view.html.twig' %}
+    {% set cancel_url = path('iz_hulpvragen_view', {id: parent_entity.id}) %}
+{% elseif 'Hulpaanbod' == short_class(parent_entity) %}
+    {% set base_template = 'IzBundle:hulpaanbiedingen:view.html.twig' %}
+    {% set cancel_url = path('iz_hulpaanbiedingen_view', {id: parent_entity.id}) %}
+{% endif %}
+
+{% extends base_template %}
+
+{% set entity = parent_entity %#}
+
+{% block content_right %}
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+            <h2>Koppeling toevoegen</h2>
+            <p>
+                {{ html.cancelLink(cancel_url) }}
+                {{ html.link('Annuleren', cancel_url) }}
+            </p>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

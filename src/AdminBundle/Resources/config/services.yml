@@ -1,0 +1,75 @@
+imports:
+    - { resource: daos.yml }
+
+services:
+#    twig.extension.routing: # override default routing extension
+#        class: AppBundle\Twig\RoutingExtension
+#        public: false
+#        arguments:
+#            - '@router'
+#            - '@request_stack'
+#        tags:
+#            - { name: twig.extension }
+#
+#    app.twig.app_extension:
+#        class: AppBundle\Twig\AppExtension
+#        public: false
+#        arguments:
+#            - '@request_stack'
+#            - '%locale%'
+#            - '%logo%'
+#            - '%administrator_name%'
+#            - '%administrator_email%'
+#        tags:
+#            - { name: twig.extension }
+#
+#    app.form.type.address:
+#        class: AppBundle\Form\AddressType
+#        arguments: ["@doctrine.orm.entity_manager"]
+#        tags:
+#            - { name: form.type }
+#
+#    app.form.type.klant:
+#        class: AppBundle\Form\KlantType
+#        arguments: ["@doctrine.orm.entity_manager"]
+#        tags:
+#            - { name: form.type }
+#
+#    app.form.type.medewerker:
+#        class: AppBundle\Form\MedewerkerSelectType
+#        arguments: ["@doctrine.orm.entity_manager"]
+#        tags:
+#            - { name: form.type }
+#
+#    app.event.kernel_subscriber:
+#        class: AppBundle\Event\KernelSubscriber
+#        arguments:
+#            - '@twig'
+#        tags:
+#            - { name: kernel.event_subscriber }
+#
+#    app.form.rapportage:
+#        class: AppBundle\Form\RapportageType
+#        tags:
+#            - { name: form.type }
+#
+#    app.report.klanten.zrm_score_per_postcodegebied:
+#        class: AppBundle\Report\ZrmScorePerPostcodegebied
+#        arguments:
+#            - "@doctrine.orm.entity_manager"
+#        tags:
+#            - { name: app.rapportage, category: ZRM }
+#
+#    app.report.klanten.zrm_v2_score_per_postcodegebied:
+#        class: AppBundle\Report\ZrmV2ScorePerPostcodegebied
+#        arguments:
+#            - "@doctrine.orm.entity_manager"
+#        tags:
+#            - { name: app.rapportage, category: ZRM }
+#
+#    app.export.report:
+#        class: AppBundle\Export\ReportExport
+#
+#    AppBundle\DataFixtures\AppProcessor:
+#        tags:
+#            - { name: hautelook_alice.alice.processor }

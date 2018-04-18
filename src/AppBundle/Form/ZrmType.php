@@ -2,12 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Zrm;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use AppBundle\Entity\Zrm;
 
 class ZrmType extends AbstractType
 {
@@ -16,23 +15,11 @@ class ZrmType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach ($options['data']::getFieldsAndLabels() as $field => $label) {
-            $builder->add($field, ZrmItemType::class, ['label' => $label]);
-        }
+        $zrm = ($options['data'] instanceof Zrm) ? $options['data'] : Zrm::create();
 
-        if (!isset($options['data']) || !$options['data']->getRequestModule()) {
-            $builder->add('requestModule', ChoiceType::class, [
-                'required' => true,
-                'label' => 'Module',
-                'placeholder' => 'Selecteer eem module',
-                'choices' => [
-                    'GroepsactiviteitenIntake' => 'GroepsactiviteitenIntake',
-                    'Hi5' => 'Hi5',
-                    'Intake' => 'Intake',
-                    'IzIntake' => 'IzIntake',
-                    'Klant' => 'Klant',
-                    'MaatschappelijkWerk' => 'MaatschappelijkWerk',
-                ],
+        foreach ($zrm::getFieldsAndLabels() as $field => $label) {
+            $builder->add($field, ZrmItemType::class, [
+                'label' => $label,
             ]);
         }
 

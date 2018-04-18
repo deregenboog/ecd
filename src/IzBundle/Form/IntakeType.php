@@ -2,21 +2,21 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\MedewerkerType;
-use IzBundle\Entity\IzVrijwilliger;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\CKEditorType;
+use AppBundle\Form\MedewerkerSelectType;
 use IzBundle\Entity\Intake;
-use AppBundle\Form\ZrmType;
-use AppBundle\Form\AppTextareaType;
-use AppBundle\Entity\Zrm;
-use Symfony\Component\Form\CallbackTransformer;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Entity\Verslag;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IntakeType extends AbstractType
 {
@@ -28,22 +28,27 @@ class IntakeType extends AbstractType
         /** @var $intake Intake */
         $intake = $options['data'];
 
-        $builder->addViewTransformer(new CallbackTransformer(
-            function (Intake $intake) {
-                return new IntakeModel($intake);
-            },
-            function (IntakeModel $model) {
-                return $model->getIntake();
-            }
-        ));
-
         $builder
             ->add('intakedatum', AppDateType::class)
-            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', MedewerkerSelectType::class)
         ;
 
         if (!$intake->getId()) {
-            $builder->add('verslag', AppTextareaType::class);
+            $builder
+                ->add('verslag', CKEditorType::class, ['mapped' => false])
+                ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                    $opmerking = $event->getForm()->get('verslag')->getData();
+                    $intake = $event->getData();
+
+                    $verslag = new Verslag();
+                    $verslag
+                        ->setMedewerker($intake->getMedewerker())
+                        ->setIzDeelnemer($intake->getIzDeelnemer())
+                        ->setOpmerking($opmerking)
+                    ;
+                    $intake->getIzDeelnemer()->addVerslag($verslag);
+                })
+            ;
         }
 
         if ($intake) {
@@ -51,12 +56,6 @@ class IntakeType extends AbstractType
                 $builder->add('gezinMetKinderen', CheckboxType::class, [
                     'required' => false,
                 ]);
-                if (!$intake->getId()) {
-                    $builder->add('zrm', ZrmType::class, [
-                        'data' => Zrm::create($intake->getIntakeDatum(), 'IzIntake'),
-                        'by_reference' => false,
-                    ]);
-                }
             } elseif ($intake->getIzDeelnemer() instanceof IzVrijwilliger) {
                 $builder->add('stagiair', CheckboxType::class, [
                     'required' => false,
@@ -73,7 +72,7 @@ class IntakeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => IntakeModel::class,
+            'data_class' => Intake::class,
         ]);
     }
 

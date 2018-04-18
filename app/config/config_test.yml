@@ -29,7 +29,12 @@ doctrine:
 swiftmailer:
     disable_delivery: true
 
+security:
+    firewalls:
+        main:
+            http_basic: ~
+
 liip_functional_test:
     cache_sqlite_db: true
     query:
-        max_query_count: 10
+        max_query_count: 20

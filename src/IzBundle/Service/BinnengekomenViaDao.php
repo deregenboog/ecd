@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\BinnengekomenVia;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\BinnengekomenVia;
 
 class BinnengekomenViaDao extends AbstractDao implements BinnengekomenViaDaoInterface
 {

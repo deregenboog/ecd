@@ -2,11 +2,12 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Filter\KlantFilter;
-use AppBundle\Filter\FilterInterface;
+use IzBundle\Entity\Hulpvraagsoort;
 
 class HulpvraagFilter implements FilterInterface
 {
@@ -29,6 +30,11 @@ class HulpvraagFilter implements FilterInterface
      * @var Medewerker
      */
     public $medewerker;
+
+    /**
+     * @var Hulpvraagsoort
+     */
+    public $hulpvraagsoort;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -54,6 +60,13 @@ class HulpvraagFilter implements FilterInterface
             $builder
                 ->andWhere('hulpvraag.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
+            ;
+        }
+
+        if ($this->hulpvraagsoort) {
+            $builder
+                ->andWhere('hulpvraag.hulpvraagsoort = :hulpvraagsoort')
+                ->setParameter('hulpvraagsoort', $this->hulpvraagsoort)
             ;
         }
     }

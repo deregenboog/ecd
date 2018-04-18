@@ -2,17 +2,17 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
 use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
 use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use IzBundle\Entity\Hulpaanbod;
-use AppBundle\Form\DummyChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpvraagConnectType extends AbstractType
 {
@@ -37,12 +37,13 @@ class HulpvraagConnectType extends AbstractType
                         ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
                         ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
                         ->leftJoin('hulpaanbod.reserveringen', 'reservering')
+                        ->leftJoin('hulpvraag.koppeling', 'koppeling')
                         ->innerJoin('izVrijwilliger.intake', 'intake')
                         ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
                         ->andWhere('hulpaanbod.startdatum <= :today') // hulpaanbod gestart
                         ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :today') // hulpaanbod niet afgesloten
                         ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpaanbod niet gereserveerd
-                        ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
+                        ->andWhere('koppeling.id IS NULL') // hulpaanbod niet gekoppeld
                         ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
                         ->orderBy('vrijwilliger.achternaam')
                         ->setParameters([
@@ -51,18 +52,7 @@ class HulpvraagConnectType extends AbstractType
                     ;
                 },
             ])
-            ->add('koppelingStartdatum', AppDateType::class, [
-                'label' => 'Startdatum koppeling',
-                'required' => true,
-            ])
-            ->add('tussenevaluatiedatum', AppDateType::class, [
-                'label' => 'Datum tussenevaluatie',
-                'required' => true,
-            ])
-            ->add('eindevaluatiedatum', AppDateType::class, [
-                'label' => 'Datum eindevaluatie',
-                'required' => true,
-            ])
+            ->add('startdatum', AppDateType::class)
             ->add('submit', SubmitType::class)
         ;
     }

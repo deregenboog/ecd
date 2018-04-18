@@ -2,14 +2,14 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpaanbod;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use IzBundle\Entity\Hulpaanbod;
 
 class HulpaanbodCloseType extends AbstractType
 {

@@ -259,19 +259,18 @@ class IzVrijwilligerRepository extends EntityRepository
         switch ($report) {
             case self::REPORT_BEGINSTAND:
                 $builder
-                    ->andWhere('hulpaanbod.koppelingStartdatum < :startdatum')
+                    ->andWhere('koppeling.startdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
-                        'hulpaanbod.koppelingEinddatum IS NULL',
-                        "hulpaanbod.koppelingEinddatum = '0000-00-00'",
-                        'hulpaanbod.koppelingEinddatum >= :startdatum'
+                        'koppeling.afsluitdatum IS NULL',
+                        'koppeling.afsluitdatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate)
                 ;
                 break;
             case self::REPORT_GESTART:
                 $builder
-                    ->andWhere('hulpaanbod.koppelingStartdatum >= :startdatum')
-                    ->andWhere('hulpaanbod.koppelingStartdatum <= :einddatum')
+                    ->andWhere('koppeling.startdatum >= :startdatum')
+                    ->andWhere('koppeling.startdatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
@@ -284,7 +283,7 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.hulpvraag', 'hulpvraag')
                     ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
                     ->groupBy('izVrijwilliger.id')
-                    ->having('MIN(hulpaanbod.koppelingStartdatum) BETWEEN :startdatum AND :einddatum')
+                    ->having('MIN(koppeling.startdatum) BETWEEN :startdatum AND :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
@@ -295,19 +294,18 @@ class IzVrijwilligerRepository extends EntityRepository
                 break;
             case self::REPORT_AFGESLOTEN:
                 $builder
-                    ->andWhere('hulpaanbod.koppelingEinddatum >= :startdatum')
-                    ->andWhere('hulpaanbod.koppelingEinddatum <= :einddatum')
+                    ->andWhere('koppeling.afsluitdatum >= :startdatum')
+                    ->andWhere('koppeling.afsluitdatum <= :einddatum')
                     ->setParameter('startdatum', $startDate)
                     ->setParameter('einddatum', $endDate)
                 ;
                 break;
             case self::REPORT_EINDSTAND:
                 $builder
-                    ->andWhere('hulpaanbod.koppelingStartdatum <= :einddatum')
+                    ->andWhere('koppeling.startdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
-                        'hulpaanbod.koppelingEinddatum IS NULL',
-                        "hulpaanbod.koppelingEinddatum = '0000-00-00'",
-                        'hulpaanbod.koppelingEinddatum > :einddatum'
+                        'koppeling.afsluitdatum IS NULL',
+                        'koppeling.afsluitdatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate)
                 ;

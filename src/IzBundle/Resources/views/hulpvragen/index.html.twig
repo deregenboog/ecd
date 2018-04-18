@@ -11,9 +11,6 @@
                     {{ knp_pagination_sortable(pagination, 'Startdatum', 'hulpvraag.startdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
-                </th>
-                <th>
                     {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
                 </th>
                 <th>
@@ -28,9 +25,6 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                 </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -40,10 +34,7 @@
                         {{ hulpvraag.startdatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ hulpvraag.izKlant.klant.id }}
-                    </td>
-                    <td>
-                        {{ hulpvraag.izKlant.klant.naam }}
+                        {{ hulpvraag.izKlant }}
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.geboortedatum is empty ? "" : hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
@@ -56,17 +47,6 @@
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.werkgebied }}
-                    </td>
-                    {% set zrm = hulpvraag.izKlant.klant.laatsteZrm|date('U') %}
-                    {% if zrm < '-6 months'|date('U') %}
-                        {% set style = 'background-color: red; color: white;' %}
-                    {% elseif zrm < '-5 months'|date('U') %}
-                        {% set style = 'background-color: orange; color: white;' %}
-                    {% else %}
-                        {% set style = '' %}
-                    {% endif %}
-                    <td style="{{ style }}">
-                        {{ hulpvraag.izKlant.klant.laatsteZrm is empty ? "" : hulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
                     </td>
                 </tr>
             {% endfor %}

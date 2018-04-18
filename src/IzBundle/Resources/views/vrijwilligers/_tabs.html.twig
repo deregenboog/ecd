@@ -22,13 +22,6 @@
                     <a href="{{ path('iz_intakes_view', {id: vrijwilliger.intake.id}) }}">Intake</a>
                 {% endif %}
             </li>
-            <li class="{{ current == 'intervisiegroepen' ? 'active' }}">
-                {% if current_route == 'iz_vrijwilligers_view' %}
-                    <a data-toggle="tab" href="#intervisiegroepen">Intervisiegroepen</a>
-                {% else %}
-                    <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'intervisiegroepen'}) }}">Intervisiegroepen</a>
-                {% endif %}
-            </li>
             <li class="{{ current == 'verslagen' ? 'active' }}">
                 {% if current_route == 'iz_vrijwilligers_view' %}
                     <a data-toggle="tab" href="#verslagen">Verslagen</a>
