@@ -134,10 +134,10 @@
                                 </ul>
                             </td>
                             <td>
-                                {{ hulpvraag.tussenevaluatiedatum|date('d-m-Y') }}
+                                {{ hulpvraag.tussenevaluatiedatum ? hulpvraag.tussenevaluatiedatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ hulpvraag.eindevaluatiedatum|date('d-m-Y') }}
+                                {{ hulpvraag.eindevaluatiedatum ? hulpvraag.eindevaluatiedatum|date('d-m-Y') }}
                             </td>
                         </tr>
                     {% endfor %}
