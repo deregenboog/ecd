@@ -180,6 +180,10 @@ class TwigView extends ThemeView {
                 $___dataForView['cakeDebug'] = null;
             }
 
+            if (array_key_exists('this', $___dataForView)) {
+                unset($___dataForView['this']);
+            }
+
             extract($___dataForView, EXTR_SKIP);
             ob_start();
             if ((Configure::read() > 0)) {

@@ -1102,13 +1102,10 @@ class IzDeelnemersController extends AppController
             $saved = false;
 
             $this->IzDeelnemer->begin();
-
             $this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->create();
 
             if (!empty($id)) {
-                if (!$this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->deleteAll(['iz_deelnemer_id' => $id])) {
-                    break;
-                }
+                $this->IzDeelnemer->IzDeelnemersIzIntervisiegroep->deleteAll(['iz_deelnemer_id' => $id]);
             }
 
             if (isset($this->data['IzDeelnemersIzIntervisiegroep'])) {
