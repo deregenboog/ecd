@@ -9,7 +9,7 @@ class VrijwilligersPerProjectStadsdeelKlant extends AbstractVrijwilligersReport
 {
     protected $title = 'Vrijwilligers per project en stadsdeel van de deelnemer';
 
-    protected $xPath = 'project';
+    protected $xPath = 'projectnaam';
 
     protected $yPath = 'stadsdeel';
 

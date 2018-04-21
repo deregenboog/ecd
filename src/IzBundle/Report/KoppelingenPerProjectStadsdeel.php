@@ -6,7 +6,7 @@ class KoppelingenPerProjectStadsdeel extends AbstractKoppelingenReport
 {
     protected $title = 'Koppelingen per project en stadsdeel';
 
-    protected $xPath = 'project';
+    protected $xPath = 'projectnaam';
 
     protected $yPath = 'stadsdeel';
 

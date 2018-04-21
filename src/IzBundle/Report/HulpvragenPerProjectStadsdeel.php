@@ -6,7 +6,7 @@ class HulpvragenPerProjectStadsdeel extends AbstractHulpvragenReport
 {
     protected $title = 'Hulpvragen per project en stadsdeel';
 
-    protected $xPath = 'project';
+    protected $xPath = 'projectnaam';
 
     protected $yPath = 'stadsdeel';
 

@@ -9,7 +9,7 @@ class KlantenPerProject extends AbstractKlantenReport
 {
     protected $title = 'Deelnemers per project';
 
-    protected $yPath = 'project';
+    protected $yPath = 'projectnaam';
 
     protected $nPath = 'aantal';
 

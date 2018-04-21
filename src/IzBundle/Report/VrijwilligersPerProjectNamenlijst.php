@@ -9,7 +9,7 @@ class VrijwilligersPerProjectNamenlijst extends AbstractVrijwilligersNamenlijstR
     protected $columns = [
         'Nummer' => 'id',
         'Naam' => 'naam',
-        'Project' => 'project',
+        'Project' => 'projectnaam',
     ];
 
     protected $title = 'Vrijwilligers per project (namenlijst)';

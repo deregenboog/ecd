@@ -9,7 +9,7 @@ class KlantenPerProjectStadsdeel extends AbstractKlantenReport
 {
     protected $title = 'Deelnemers per project en stadsdeel';
 
-    protected $xPath = 'project';
+    protected $xPath = 'projectnaam';
 
     protected $yPath = 'stadsdeel';
 

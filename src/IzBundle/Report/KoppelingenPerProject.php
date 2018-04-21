@@ -6,7 +6,7 @@ class KoppelingenPerProject extends AbstractKoppelingenReport
 {
     protected $title = 'Koppelingen per project';
 
-    protected $yPath = 'project';
+    protected $yPath = 'projectnaam';
 
     protected $nPath = 'aantal';
 

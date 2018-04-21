@@ -9,7 +9,7 @@ class VrijwilligersPerProject extends AbstractVrijwilligersReport
 {
     protected $title = 'Vrijwilligers per project';
 
-    protected $yPath = 'project';
+    protected $yPath = 'projectnaam';
 
     protected $nPath = 'aantal';
 

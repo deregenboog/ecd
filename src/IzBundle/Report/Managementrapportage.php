@@ -16,7 +16,7 @@ class Managementrapportage extends AbstractReport
 
     protected $xPath = 'kolom';
 
-    protected $yPath = 'project';
+    protected $yPath = 'projectnaam';
 
     protected $nPath = 'aantal';
 
@@ -92,7 +92,7 @@ class Managementrapportage extends AbstractReport
         foreach ($this->projecten as $project) {
             if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                 $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                    return $row['project'] === $project->getNaam();
+                    return $row['projectnaam'] === $project->getNaam();
                 }));
             }
         }
@@ -130,7 +130,7 @@ class Managementrapportage extends AbstractReport
         foreach ($this->projecten as $project) {
             if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                 $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                    return $row['project'] === $project->getNaam();
+                    return $row['projectnaam'] === $project->getNaam();
                 }));
             }
         }
@@ -195,7 +195,7 @@ class Managementrapportage extends AbstractReport
                 $amount = round($doelstelling['aantal'] / $remainingTeams);
                 $doelstelling['aantal'] -= $amount;
                 $teamData[$team][] = [
-                    'project' => $doelstelling['project'],
+                    'projectnaam' => $doelstelling['projectnaam'],
                     'kolom' => 'Doelstelling',
                     'aantal' => $amount,
                 ];
@@ -229,7 +229,7 @@ class Managementrapportage extends AbstractReport
         foreach ($this->projecten as $project) {
             if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                 $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                    return $row['project'] === $project->getNaam();
+                    return $row['projectnaam'] === $project->getNaam();
                 }));
             }
         }

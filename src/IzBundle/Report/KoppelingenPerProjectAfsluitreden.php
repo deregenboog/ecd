@@ -8,7 +8,7 @@ class KoppelingenPerProjectAfsluitreden extends AbstractKoppelingenReport
 {
     protected $title = 'Koppelingen per project en afsluitreden';
 
-    protected $xPath = 'project';
+    protected $xPath = 'projectnaam';
 
     protected $yPath = 'afsluitreden';
 

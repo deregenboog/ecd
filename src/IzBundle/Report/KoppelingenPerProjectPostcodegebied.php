@@ -6,7 +6,7 @@ class KoppelingenPerProjectPostcodegebied extends AbstractKoppelingenReport
 {
     protected $title = 'Koppelingen per project en postcodgebied';
 
-    protected $xPath = 'project';
+    protected $xPath = 'projectnaam';
 
     protected $yPath = 'postcodegebied';
 
