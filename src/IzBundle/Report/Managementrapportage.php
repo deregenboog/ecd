@@ -75,7 +75,7 @@ class Managementrapportage extends AbstractReport
     {
         $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
         array_walk($beginstand, function (&$item) {
-            $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
+            $item['kolom'] = 'Caseload startdatum';
         });
 
         $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
@@ -85,7 +85,7 @@ class Managementrapportage extends AbstractReport
 
         $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
         array_walk($eindstand, function (&$item) {
-            $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
+            $item['kolom'] = 'Caseload einddatum';
         });
 
         $prestaties = $gestart;
@@ -113,7 +113,7 @@ class Managementrapportage extends AbstractReport
     {
         $beginstand = $this->repository->countKoppelingenByProjectAndStadsdeel('beginstand', $this->startDate, $this->endDate);
         array_walk($beginstand, function (&$item) {
-            $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
+            $item['kolom'] = 'Caseload startdatum';
         });
 
         $gestart = $this->repository->countKoppelingenByProjectAndStadsdeel('gestart', $this->startDate, $this->endDate);
@@ -123,7 +123,7 @@ class Managementrapportage extends AbstractReport
 
         $eindstand = $this->repository->countKoppelingenByProjectAndStadsdeel('eindstand', $this->startDate, $this->endDate);
         array_walk($eindstand, function (&$item) {
-            $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
+            $item['kolom'] = 'Caseload einddatum';
         });
 
         $prestaties = $gestart;
@@ -212,7 +212,7 @@ class Managementrapportage extends AbstractReport
     {
         $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
         array_walk($beginstand, function (&$item) {
-            $item['kolom'] = 'Caseload '.$this->startDate->format('d-m-Y');
+            $item['kolom'] = 'Caseload startdatum';
         });
 
         $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
@@ -222,7 +222,7 @@ class Managementrapportage extends AbstractReport
 
         $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
         array_walk($eindstand, function (&$item) {
-            $item['kolom'] = 'Caseload '.$this->endDate->format('d-m-Y');
+            $item['kolom'] = 'Caseload einddatum';
         });
 
         $prestaties = $gestart;
