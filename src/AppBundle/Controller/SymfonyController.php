@@ -472,4 +472,9 @@ abstract class SymfonyController extends \AppController
     {
         return $this->baseRouteName;
     }
+
+    public function getRequest()
+    {
+        return $this->container->get('request_stack')->getCurrentRequest();
+    }
 }

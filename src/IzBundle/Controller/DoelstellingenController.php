@@ -9,6 +9,7 @@ use IzBundle\Form\DoelstellingType;
 use IzBundle\Entity\Doelstelling;
 use IzBundle\Form\DoelstellingFilterType;
 use IzBundle\Service\DoelstellingDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/doelstellingen")
@@ -32,7 +33,7 @@ class DoelstellingenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

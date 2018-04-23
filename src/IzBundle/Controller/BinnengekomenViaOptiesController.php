@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\BinnengekomenVia;
 use IzBundle\Form\BinnengekomenViaType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/binnengekomenviaopties")
@@ -29,7 +30,7 @@ class BinnengekomenViaOptiesController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

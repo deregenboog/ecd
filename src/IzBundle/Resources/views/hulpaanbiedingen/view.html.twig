@@ -7,7 +7,7 @@
 
 {% block content_left %}
     <h2>IZ-dossier</h2>
-    {% set url = path('cake_iz_vrijwilligers_toon_aanmelding', {vrijwilliger_id: entity.izVrijwilliger.vrijwilliger.id, id: entity.izVrijwilliger.id}) %}
+    {% set url = path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id}) %}
     {{ html.viewLink(url) }}
     {{ html.link('Naar IZ-dossier', url) }}
     {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izVrijwilliger.vrijwilliger} %}

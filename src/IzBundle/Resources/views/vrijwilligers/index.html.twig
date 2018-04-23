@@ -39,7 +39,7 @@
         </thead>
         <tbody>
             {% for izVrijwilliger in pagination %}
-                <tr data-href="{{ path('cake_iz_vrijwilligers_toon_aanmelding', {vrijwilliger_id: izVrijwilliger.vrijwilliger.id, id: izVrijwilliger.id}) }}">
+                <tr data-href="{{ path(route_base~'view', {id: izVrijwilliger.id}) }}">
                     <td>
                         {{ izVrijwilliger.vrijwilliger.id }}
                     </td>

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\Project;
 use DagbestedingBundle\Service\ProjectDaoInterface;
 use IzBundle\Form\ProjectType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/projecten")
@@ -30,7 +31,7 @@ class ProjectenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

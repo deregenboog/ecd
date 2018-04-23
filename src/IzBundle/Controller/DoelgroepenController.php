@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
 use IzBundle\Service\DoelgroepDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/doelgroepen")
@@ -30,7 +31,7 @@ class DoelgroepenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }
