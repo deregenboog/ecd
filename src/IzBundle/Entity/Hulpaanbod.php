@@ -76,11 +76,12 @@ class Hulpaanbod extends Koppeling
 
     public function setHulpvraag(Hulpvraag $hulpvraag)
     {
+        if ($hulpvraag->getHulpaanbod() && $hulpvraag->getHulpaanbod() != $this) {
+            throw new AppException('Fout bij koppelen!');
+        }
+
         $this->hulpvraag = $hulpvraag;
-        if (!$hulpvraag->getHulpaanbod()) {
-            if ($hulpvraag->getHulpaanbod() != $this) {
-                throw new AppException('Fout bij koppelen!');
-            }
+        if (null === $hulpvraag->getHulpaanbod()) {
             $hulpvraag->setHulpaanbod($this);
         }
 

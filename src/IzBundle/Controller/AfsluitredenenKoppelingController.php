@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\EindeKoppeling;
 use IzBundle\Service\EindeKoppelingDaoInterface;
 use IzBundle\Form\EindeKoppelingType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/afsluitredenenkoppeling")
@@ -30,7 +31,7 @@ class AfsluitredenenKoppelingController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

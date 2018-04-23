@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
 use IzBundle\Form\EindeVraagAanbodType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/afsluitredenenvraagaanbod")
@@ -30,7 +31,7 @@ class AfsluitredenenVraagAanbodController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

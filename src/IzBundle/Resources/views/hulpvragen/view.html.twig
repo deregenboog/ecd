@@ -7,7 +7,7 @@
 
 {% block content_left %}
     <h2>IZ-dossier</h2>
-    {% set url = path('cake_iz_klanten_toon_aanmelding', {klant_id: entity.izKlant.klant.id, id: entity.izKlant.id}) %}
+    {% set url = path('iz_klanten_view', {id: entity.izKlant.id}) %}
     {{ html.viewLink(url) }}
     {{ html.link('Naar IZ-dossier', url) }}
     {% include '::klant_basis.html.twig' with {klant: entity.izKlant.klant} %}
@@ -17,8 +17,8 @@
     <h2>Hulpvraag</h2>
     {% if not entity.gekoppeld %}
         <p>
-            {{ html.editLink(path('iz_hulpvragen_edit', {id: entity.id})) }}
-            {{ html.link('Bewerken', path('iz_hulpvragen_edit', {id: entity.id})) }}
+            {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+            {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
         </p>
     {% endif %}
     <dl class="dl-horizontal">

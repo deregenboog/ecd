@@ -5,8 +5,8 @@
         <div id="koppelingen" class="tab-pane active">
         <h2>Hulpvraag toevoegen</h2>
         <p>
-            {{ html.cancelLink(path('cake_iz_hulpvragen_view', {iz_klant_id: entity.izKlant.id})) }}
-            {{ html.link('Annuleren', path('cake_iz_hulpvragen_view', {iz_klant_id: entity.izKlant.id})) }}
+            {{ html.cancelLink(path('iz_klanten_view', {id: entity.izKlant.id})) }}
+            {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.izKlant.id})) }}
         </p>
         {{ form(form) }}
         </div>

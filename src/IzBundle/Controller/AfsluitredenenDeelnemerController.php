@@ -8,14 +8,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IzBundle\Entity\Afsluiting;
 use IzBundle\Service\AfsluitingDaoInterface;
 use IzBundle\Form\AfsluitingType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/afsluitredenendeelnemer")
  */
 class AfsluitredenenDeelnemerController extends AbstractController
 {
-    protected $title = 'Afsluitredenen deelnemers';
-    protected $entityName = 'afsluitreden deelnemer';
+    protected $title = 'Afsluitredenen deelnemers/vrijwilligers';
+    protected $entityName = 'afsluitreden deelnemer/vrijwilliger';
     protected $entityClass = Afsluiting::class;
     protected $formClass = AfsluitingType::class;
     protected $baseRouteName = 'iz_afsluitredenendeelnemer_';
@@ -30,7 +31,7 @@ class AfsluitredenenDeelnemerController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

@@ -446,8 +446,6 @@ IzBundle\Entity\Hulpvraag:
         project: '@iz_project_*'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
-        koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
-        koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
         doelgroepen: ['@iz_doelgroep_*']
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'

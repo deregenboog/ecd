@@ -53,6 +53,19 @@ class KlantenController extends AbstractController
     private $klantDao;
 
     /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        return $this->redirectToRoute('cake_iz_klanten_toon_aanmelding', [
+            'klant_id' => $entity->getKlant()->getId(),
+            'id' => $entity->getId(),
+        ]);
+    }
+
+    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
@@ -147,19 +160,11 @@ class KlantenController extends AbstractController
 
     protected function addParams(IzKlant $entity)
     {
-        $event = new DienstenLookupEvent($entity->getKlant()->getId());
+        $event = new DienstenLookupEvent($entity->getKlant()->getId(), []);
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
-
-        $matching = $entity->getMatching();
-        if ($matching) {
-            $kandidaten = $this->getEntityManager()->getRepository(IzVrijwilliger::class)->findMatching($matching);
-        } else {
-            $kandidaten = [];
-        }
 
         return [
             'diensten' => $event->getDiensten(),
-            'kandidaten' => $kandidaten,
         ];
     }
 }

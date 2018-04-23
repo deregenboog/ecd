@@ -107,7 +107,7 @@
                 </thead>
                 <tbody>
                     {% for hulpvraag in pagination %}
-                        <tr data-href="{{ path('cake_iz_hulpvragen_view', {iz_klant_id: hulpvraag.izKlant.id}) }}" style="{{ iz.koppeling_warning_style(hulpvraag) }}">
+                        <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}" style="{{ iz.koppeling_warning_style(hulpvraag) }}">
                             <td>
                                 {{ hulpvraag.izKlant.klant.naam }}
                             </td>
