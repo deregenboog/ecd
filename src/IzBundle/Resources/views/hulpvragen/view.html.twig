@@ -46,6 +46,8 @@
         <dd>{{ entity.geschiktVoorExpat ? 'Ja' : 'Nee' }}</dd>
         <dt>Voorkeur geslacht</dt>
         <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
+        <dt>Matchingsinformatie</dt>
+        <dd>{{ entity.info }}</dd>
     </dl>
     {% if entity.gekoppeld %}
         <h2>Koppeling</h2>

@@ -4,8 +4,6 @@ App::import('Model', 'ZrmReport');
 
 class ZrmV2Report extends ZrmReport
 {
-    public $name = 'ZrmV2Report';
-
     public $zrm_items = [
         'financien' => 'Financiën',
         'werk_opleiding' => 'Werk en Opleiding',
@@ -122,6 +120,20 @@ class ZrmV2Report extends ZrmReport
             ],
         ],
     ];
+
+    public function beforeFind(array $queryData)
+    {
+        $queryData['conditions']['discr'] = 'zrmv2';
+
+        return $queryData;
+    }
+
+    public function beforeSave($options = [])
+    {
+        $this->set('discr', 'zrmv2');
+
+        return true;
+    }
 
     public function afterSave($created)
     {
