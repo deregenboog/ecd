@@ -35,7 +35,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('izVrijwilliger.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
-            ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
+            ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
             ->leftJoin('hulpaanbod.project', 'project')
             ->leftJoin('hulpaanbod.medewerker', 'hulpaanbodMedewerker', 'WITH', $expr->andX(
                 $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),

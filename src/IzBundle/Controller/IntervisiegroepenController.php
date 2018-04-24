@@ -12,9 +12,10 @@ use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IntervisiegroepFilterType;
 use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Form\IzEmailMessageType;
+use AppBundle\Exception\AppException;
 
 /**
- * @Route("/admin/intervisiegroepen")
+ * @Route("/intervisiegroepen")
  */
 class IntervisiegroepenController extends AbstractController
 {

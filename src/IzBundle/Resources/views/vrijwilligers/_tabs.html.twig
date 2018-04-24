@@ -1,0 +1,62 @@
+{% set current_route = app.request.attributes.get('_route') %}
+{% import _self as macro %}
+
+<ul class="nav nav-tabs">
+    <li class="{{ current == 'aanmelding' ? 'active' }}">
+        {% if current_route == 'iz_vrijwilligers_view' %}
+            <a data-toggle="tab" href="#aanmelding">Aanmelding</a>
+        {% else %}
+            <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'aanmelding'}) }}">Aanmelding</a>
+        {% endif %}
+    </li>
+    {% if vrijwilliger.id %}
+        {% if not vrijwilliger.intake or not vrijwilliger.intake.id %}
+            <li class="{{ current == 'intake' ? 'active' }}">
+                <a href="{{ path('iz_intakes_add', {deelnemer: vrijwilliger.id}) }}">Intake</a>
+            </li>
+        {% else %}
+            <li class="{{ current == 'intake' ? 'active' }}">
+                {% if current_route == 'iz_intakes_view' %}
+                    <a data-toggle="tab" href="#intake">Intake</a>
+                {% else %}
+                    <a href="{{ path('iz_intakes_view', {id: vrijwilliger.intake.id}) }}">Intake</a>
+                {% endif %}
+            </li>
+            <li class="{{ current == 'intervisiegroepen' ? 'active' }}">
+                {% if current_route == 'iz_vrijwilligers_view' %}
+                    <a data-toggle="tab" href="#intervisiegroepen">Intervisiegroepen</a>
+                {% else %}
+                    <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'intervisiegroepen'}) }}">Intervisiegroepen</a>
+                {% endif %}
+            </li>
+            <li class="{{ current == 'verslagen' ? 'active' }}">
+                {% if current_route == 'iz_vrijwilligers_view' %}
+                    <a data-toggle="tab" href="#verslagen">Verslagen</a>
+                {% else %}
+                    <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'verslagen'}) }}">Verslagen</a>
+                {% endif %}
+            </li>
+            <li class="{{ current == 'documenten' ? 'active' }}">
+                {% if current_route == 'iz_vrijwilligers_view' %}
+                    <a data-toggle="tab" href="#documenten">Documenten</a>
+                {% else %}
+                    <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'documenten'}) }}">Documenten</a>
+                {% endif %}
+            </li>
+            <li class="{{ current == 'koppelingen' ? 'active' }}">
+                {% if current_route == 'iz_vrijwilligers_view' %}
+                    <a data-toggle="tab" href="#koppelingen">Koppelingen</a>
+                {% else %}
+                    <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'koppelingen'}) }}">Koppelingen</a>
+                {% endif %}
+            </li>
+        {% endif %}
+        <li class="{{ current == 'afsluiting' ? 'active' }}">
+            {% if current_route == 'iz_vrijwilligers_view' %}
+                <a data-toggle="tab" href="#afsluiting">Afsluiting</a>
+            {% else %}
+                <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'afsluiting'}) }}">Afsluiting</a>
+            {% endif %}
+        </li>
+    {% endif %}
+</ul>

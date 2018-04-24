@@ -27,7 +27,7 @@ class IzKlant extends IzDeelnemer
      * @ORM\OneToMany(targetEntity="Hulpvraag", mappedBy="izKlant", cascade={"persist"})
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
-    private $izHulpvragen;
+    private $hulpvragen;
 
     /**
      * @var ContactOntstaan
@@ -73,7 +73,7 @@ class IzKlant extends IzDeelnemer
     {
         $this->klant = $klant;
         $this->datumAanmelding = new \DateTime('today');
-        $this->izHulpvragen = new ArrayCollection();
+        $this->hulpvragen = new ArrayCollection();
     }
 
     public function __toString()
@@ -93,14 +93,14 @@ class IzKlant extends IzDeelnemer
         return $this;
     }
 
-    public function getIzHulpvragen()
+    public function getHulpvragen()
     {
-        return $this->izHulpvragen;
+        return $this->hulpvragen;
     }
 
     public function addHulpvraag(Hulpvraag $hulpvraag)
     {
-        $this->izHulpvragen[] = $hulpvraag;
+        $this->hulpvragen[] = $hulpvraag;
         $hulpvraag->setIzKlant($this);
 
         return $this;
@@ -113,7 +113,7 @@ class IzKlant extends IzDeelnemer
             ->andWhere(Criteria::expr()->isNull('einddatum'))
         ;
 
-        return $this->izHulpvragen->matching($criteria);
+        return $this->hulpvragen->matching($criteria);
     }
 
     public function getActieveKoppelingen()
@@ -126,7 +126,7 @@ class IzKlant extends IzDeelnemer
             ))
         ;
 
-        return $this->izHulpvragen->matching($criteria);
+        return $this->hulpvragen->matching($criteria);
     }
 
     public function getAfgeslotenHulpvragen()
@@ -136,7 +136,7 @@ class IzKlant extends IzDeelnemer
             ->andWhere(Criteria::expr()->neq('einddatum', null))
         ;
 
-        return $this->izHulpvragen->matching($criteria);
+        return $this->hulpvragen->matching($criteria);
     }
 
     public function getAfgeslotenKoppelingen()
@@ -146,7 +146,7 @@ class IzKlant extends IzDeelnemer
             ->andWhere(Criteria::expr()->lt('koppelingEinddatum', new \DateTime('today')))
         ;
 
-        return $this->izHulpvragen->matching($criteria);
+        return $this->hulpvragen->matching($criteria);
     }
 
     public function getContactOntstaan()

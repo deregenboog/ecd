@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Exception\AppException;
 
 /**
  * @ORM\Entity
@@ -99,11 +100,21 @@ abstract class IzDeelnemer
      */
     protected $verslagen;
 
+    /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="iz_deelnemers_documenten", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"created": "DESC"})
+     */
+    protected $documenten;
+
     public function __construct()
     {
         $this->koppelingen = new ArrayCollection();
         $this->projecten = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
+        $this->documenen = new ArrayCollection();
     }
 
     public function getId()
@@ -207,6 +218,18 @@ abstract class IzDeelnemer
     {
         $this->verslagen[] = $verslag;
         $verslag->setIzDeelnemer($this);
+
+        return $this;
+    }
+
+    public function getDocumenten()
+    {
+        return $this->documenten;
+    }
+
+    public function addDocument(Document $document)
+    {
+        $this->documenten[] = $document;
 
         return $this;
     }

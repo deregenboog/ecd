@@ -1,0 +1,21 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Intervisiegroepen</h2>
+<p>
+    {{ html.addLink(path('iz_lidmaatschappen_add')) }}
+    {{ html.link('Intervisiegroep toevoegen', path('iz_lidmaatschappen_add', {vrijwilliger: vrijwilliger.id})) }}
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Naam</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for intervisiegroep in entity.intervisiegroepen %}
+            <tr data-href="{{ path('iz_intervisiegroepen_view', {id: intervisiegroep.id}) }}">
+                <td>{{ intervisiegroep }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

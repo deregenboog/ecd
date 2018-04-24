@@ -5,6 +5,7 @@ namespace AppBundle\Twig;
 use Symfony\Bridge\Twig\Extension\RoutingExtension as BaseRoutingExtension;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 
 class RoutingExtension extends BaseRoutingExtension
 {
@@ -17,6 +18,11 @@ class RoutingExtension extends BaseRoutingExtension
      * @var RequestStack
      */
     private $requestStack;
+
+    public static function getRedirectUri(Request $request)
+    {
+        return preg_replace('/^.*[?&]redirect=([^&]*).*/', '$1', $request->getRequestUri());
+    }
 
     public function __construct(
         UrlGeneratorInterface $generator,
@@ -37,7 +43,7 @@ class RoutingExtension extends BaseRoutingExtension
     public function getPath($name, $parameters = [], $relative = false)
     {
         if (!array_key_exists('redirect', $parameters)) {
-            $parameters['redirect'] = $this->requestStack->getCurrentRequest()->get('url');
+            $parameters['redirect'] = $this->requestStack->getCurrentRequest()->getRequestUri();
         }
 
         return parent::getPath($name, $parameters, $relative);

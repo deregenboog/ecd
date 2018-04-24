@@ -7,7 +7,7 @@ class IzOntstaanContact extends AppModel
 
     public $cachekey = 'IzOntstaanContact';
 
-    public function beforeSave(&$model)
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
 

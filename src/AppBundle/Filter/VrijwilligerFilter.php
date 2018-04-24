@@ -32,6 +32,11 @@ class VrijwilligerFilter implements FilterInterface
     public $achternaam;
 
     /**
+     * @var Geslacht
+     */
+    public $geslacht;
+
+    /**
      * @var string
      */
     public $bsn;
@@ -47,9 +52,15 @@ class VrijwilligerFilter implements FilterInterface
     public $geboortedatumRange;
 
     /**
-     * @var string
+     * @var Werkgebied
      */
     public $stadsdeel;
+
+    
+    /**
+     * @var GgwGebied
+     */
+    public $postcodegebied;
 
     /**
      * @var Medewerker
@@ -95,6 +106,13 @@ class VrijwilligerFilter implements FilterInterface
             }
         }
 
+        if ($this->geslacht) {
+            $builder
+                ->andWhere("{$this->alias}.geslacht = :{$this->alias}_geslacht")
+                ->setParameter("{$this->alias}_geslacht", $this->geslacht)
+            ;
+        }
+
         if ($this->bsn) {
             $builder
                 ->andWhere("{$this->alias}.bsn LIKE :{$this->alias}_bsn")
@@ -124,15 +142,18 @@ class VrijwilligerFilter implements FilterInterface
             }
         }
 
-        if (isset($this->stadsdeel)) {
-            if ('-' == $this->stadsdeel) {
-                $builder->andWhere("{$this->alias}.werkgebied IS NULL OR {$this->alias}.werkgebied = ''");
-            } else {
-                $builder
-                    ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
-                    ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
-                ;
-            }
+        if ($this->stadsdeel) {
+            $builder
+                ->andWhere("{$this->alias}.werkgebied = :{$this->alias}_stadsdeel")
+                ->setParameter("{$this->alias}_stadsdeel", $this->stadsdeel)
+            ;
+        }
+
+        if ($this->postcodegebied) {
+            $builder
+                ->andWhere("{$this->alias}.postcodegebied = :{$this->alias}_postcodegebied")
+                ->setParameter("{$this->alias}_postcodegebied", $this->postcodegebied)
+            ;
         }
 
         if ($this->medewerker) {

@@ -25,23 +25,29 @@
         <div id="vrijwilligers" class="tab-pane active">
             <h2>Vrijwilligers</h2>
             <p>
+                {{ html.addLink(path('iz_lidmaatschappen_add', {intervisiegroep: entity.id})) }}
+                {{ html.link('Vrijwilliger toevoegen', path('iz_lidmaatschappen_add', {intervisiegroep: entity.id})) }}
                 {% if entity.vrijwilligers|length > 0 %}
-                    {{ html.emailLink(path('iz_intervisiegroepen_email', {id: entity.id})) }}
-                    {{ html.link('E-mailen', path('iz_intervisiegroepen_email', {id: entity.id})) }}
-                    {{ html.downloadLink(path('iz_intervisiegroepen_download', {id: entity.id})) }}
-                    {{ html.link('Downloaden', path('iz_intervisiegroepen_download', {id: entity.id})) }}
+                    <span class="pull-right">
+                        {{ html.emailLink(path('iz_intervisiegroepen_email', {id: entity.id})) }}
+                        {{ html.link('E-mailen', path('iz_intervisiegroepen_email', {id: entity.id})) }}
+                        {{ html.downloadLink(path('iz_intervisiegroepen_download', {id: entity.id})) }}
+                        {{ html.link('Downloaden', path('iz_intervisiegroepen_download', {id: entity.id})) }}
+                    </span>
                 {% endif %}
             </p>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Naam</th>
+                        <th>E-mail</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for vrijwilliger in entity.vrijwilligers %}
                         <tr data-href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id}) }}">
                             <td>{{ vrijwilliger }}</td>
+                            <td>{{ vrijwilliger.vrijwilliger.email }}</td>
                         </tr>
                     {% endfor%}
                 </tbody>

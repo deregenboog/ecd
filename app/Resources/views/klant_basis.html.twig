@@ -44,3 +44,6 @@
     <dt>Opmerking</dt>
     <dd>{{ klant.opmerking }}</dd>
 </dl>
+
+{{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}
+{{ render(controller('AppBundle:Klanten:_zrms', {id: klant.id})) }}

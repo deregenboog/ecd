@@ -101,6 +101,14 @@ abstract class Koppeling
     protected $project;
 
     /**
+     * @var EindeVraagAanbod
+     * @ORM\ManyToOne(targetEntity="EindeVraagAanbod")
+     * @ORM\JoinColumn(name="iz_vraagaanbod_id")
+     * @Gedmo\Versioned
+     */
+    protected $eindeVraagAanbod;
+
+    /**
      * @var EindeKoppeling
      * @ORM\ManyToOne(targetEntity="EindeKoppeling")
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
@@ -118,7 +126,7 @@ abstract class Koppeling
 
     /**
      * @var Verslag[]
-     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="koppeling")
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="koppeling", cascade={"persist"})
      * @ORM\OrderBy({"created": "desc"})
      */
     protected $verslagen;
@@ -163,6 +171,14 @@ abstract class Koppeling
         return $this->id;
     }
 
+    public function getDeelnemer()
+    {
+        return $this->izDeelnemer;
+    }
+
+    /**
+     * @deprecated
+     */
     public function getIzDeelnemer()
     {
         return $this->izDeelnemer;
@@ -170,7 +186,7 @@ abstract class Koppeling
 
     public function setDeelnemer(IzDeelnemer $izDeelnemer)
     {
-        $this->izKlant = $izDeelnemer;
+        $this->izDeelnemer = $izDeelnemer;
 
         return $this;
     }
@@ -281,9 +297,27 @@ abstract class Koppeling
         return $this;
     }
 
+    /**
+     * @return EindeKoppeling
+     */
     public function getEindeKoppeling()
     {
         return $this->eindeKoppeling;
+    }
+
+    /**
+     * @return IzEindeVraagAanbod
+     */
+    public function getEindeVraagAanbod()
+    {
+        return $this->eindeVraagAanbod;
+    }
+
+    public function setEindeVraagAanbod(EindeVraagAanbod $eindeVraagAanbod)
+    {
+        $this->eindeVraagAanbod = $eindeVraagAanbod;
+
+        return $this;
     }
 
     public function isAfgesloten()
@@ -297,11 +331,9 @@ abstract class Koppeling
         return $this->getEinddatum() instanceof \DateTime && $this->getEinddatum() <= $now;
     }
 
-    public function getVerslagen()
-    {
-        return $this->verslagen;
-    }
-
+    /**
+     * @return bool
+     */
     public function isKoppelingSuccesvol()
     {
         return $this->koppelingSuccesvol;
@@ -353,5 +385,12 @@ abstract class Koppeling
         $this->voorkeurGeslacht = $geslacht;
 
         return $this;
+    }
+
+    public function addVerslag(Verslag $verslag)
+    {
+        $this->verslagen[] = $verslag;
+        $verslag->setKoppeling($this);
+        $verslag->setIzDeelnemer($this->getDeelnemer());
     }
 }

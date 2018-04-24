@@ -36,13 +36,6 @@
                     <a href="{{ path('iz_klanten_view', {id: klant.id, _fragment: 'documenten'}) }}">Documenten</a>
                 {% endif %}
             </li>
-            <li class="{{ current == 'matching' ? 'active' }}">
-                {% if current_route == 'iz_klanten_view' %}
-                    <a data-toggle="tab" href="#matching">Matching</a>
-                {% else %}
-                    <a href="{{ path('iz_klanten_view', {id: klant.id, _fragment: 'matching'}) }}">Matching</a>
-                {% endif %}
-            </li>
             <li class="{{ current == 'koppelingen' ? 'active' }}">
                 {% if current_route == 'iz_klanten_view' %}
                     <a data-toggle="tab" href="#koppelingen">Koppelingen</a>

@@ -1,0 +1,104 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'AppBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.id) }}
+                        {{ form_errors(filter.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.naam) }}
+                        {{ form_errors(filter.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.geslacht) }}
+                        {{ form_errors(filter.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.geboortedatum) }}
+                        {{ form_errors(filter.geboortedatum) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.stadsdeel) }}
+                        {{ form_errors(filter.stadsdeel) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.postcodegebied) }}
+                        {{ form_errors(filter.postcodegebied) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'GGW-gebied', 'postcodegebied.naam') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for klant in pagination %}
+            <tr data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                <td>
+                    {{ klant.id }}
+                </td>
+                <td>
+                    {{ klant }}
+                </td>
+                <td>
+                    {{ klant.geslacht }}
+                </td>
+                <td>
+                    {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ klant.werkgebied }}
+                </td>
+                <td>
+                    {{ klant.postcodegebied }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

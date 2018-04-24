@@ -4,16 +4,18 @@ namespace IzBundle\Controller;
 
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Form\HulpaanbodType;
 use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Form\HulpaanbodType;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Service\HulpvraagDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
+use IzBundle\Form\HulpaanbodConnectType;
+use IzBundle\Form\HulpaanbodCloseType;
 
 /**
  * @Route("/hulpaanbiedingen")
@@ -56,6 +58,28 @@ class HulpaanbiedingenController extends AbstractChildController
      */
     protected $export;
 
+    /**
+     * @Route("/{id}/connect")
+     */
+    public function connectAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = HulpaanbodConnectType::class;
+
+        return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = HulpaanbodCloseType::class;
+
+        return $this->processForm($request, $entity);
+    }
+
     protected function addParams($entity, Request $request)
     {
         return [
@@ -71,6 +95,6 @@ class HulpaanbiedingenController extends AbstractChildController
             $id = $entity->getId();
         }
 
-        return $this->redirectToRoute('cake_iz_hulpaanbiedingen_view', ['iz_vrijwilliger_id' => $id]);
+        return $this->redirectToRoute('iz_hulpaanbiedingen_view', ['id' => $id]);
     }
 }

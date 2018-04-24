@@ -43,6 +43,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'today' => new \DateTime('today'),
             'administrator_name' => $this->administratorName,
             'administrator_email' => $this->administratorEmail,
+            'redirect_uri' => RoutingExtension::getRedirectUri($this->requestStack->getCurrentRequest()),
         ];
     }
 

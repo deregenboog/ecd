@@ -1,0 +1,61 @@
+{% extends 'IzBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'aanmelding'} %}
+    <div class="tab-content">
+        <div id="aanmelding" class="tab-pane active">
+            <h2>Aanmelding</h2>
+            {% if form is defined and 'iz_vrijwilliger' == form.vars.name %}
+                <p>
+                    {{ html.cancelLink(path('iz_vrijwilligers_view', {id: entity.id, _fragment: 'aanmelding'})) }}
+                    {{ html.link('Annuleren', path('iz_vrijwilligers_view', {id: entity.id, _fragment: 'aanmelding'})) }}
+                </p>
+                {{ form(form) }}
+            {% else %}
+                <dl class="dl-horizontal">
+                    <dt>Aanmelddatum</dt>
+                    <dd>{{ entity.datumAanmelding ? entity.datumAanmelding|date('d-m-Y') }}</dd>
+                    <dt>Interesse in projecten</dt>
+                    <dd>
+                        <ul>
+                            {% for project in entity.projecten %}
+                                <li>{{ project }}</li>
+                            {% endfor %}
+                        </ul>
+                    </dd>
+                </dl>
+                <h3>Aanmelder</h3>
+                <dl class="dl-horizontal">
+                    <dt>Binnengekomen via</dt>
+                    <dd>{{ entity.binnengekomenVia }}</dd>
+                    <dt>Notitie</dt>
+                    <dd>{{ entity.notitie|nl2br }}</dd>
+                </dl>
+            {% endif %}
+        </div>
+        <div id="intervisiegroepen" class="tab-pane">
+            {% include 'IzBundle:intervisiegroepen:_list.html.twig' with {vrijwilliger: entity} %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'IzBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'IzBundle:documenten:_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="koppelingen" class="tab-pane">
+            {% include 'IzBundle:hulpaanbiedingen:_list.html.twig' with {vrijwilliger: entity} %}
+        </div>
+        <div id="afsluiting" class="tab-pane">
+            {% include 'IzBundle:afsluitingen:_detail.html.twig' with {vrijwilliger: entity} %}
+        </div>
+    </div>
+{% endblock %}

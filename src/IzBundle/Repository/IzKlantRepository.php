@@ -165,7 +165,7 @@ class IzKlantRepository extends EntityRepository
         return $this->createQueryBuilder('izKlant')
             ->select('COUNT(DISTINCT izKlant.id) AS aantal')
             ->innerJoin('izKlant.klant', 'klant')
-            ->innerJoin('izKlant.izHulpvragen', 'hulpvraag')
+            ->innerJoin('izKlant.hulpvragen', 'hulpvraag')
             ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')

@@ -5,6 +5,10 @@ namespace IzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Zrm;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\ZrmTrait;
+use AppBundle\Model\ZrmInterface;
 
 /**
  * @ORM\Entity
@@ -12,8 +16,10 @@ use AppBundle\Entity\Medewerker;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Intake
+class Intake implements ZrmInterface
 {
+    use ZrmTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -73,6 +79,13 @@ class Intake
      */
     private $medewerker;
 
+    public function __construct()
+    {
+        $this->intakeDatum = new \DateTime('today');
+        $this->zrm = Zrm::create($this->intakeDatum);
+        $this->zrm->setRequestModule('IzIntake');
+    }
+
     public function getId()
     {
         return $this->id;
@@ -109,9 +122,23 @@ class Intake
         return $this->gezinMetKinderen;
     }
 
+    public function setGezinMetKinderen($gezinMetKinderen)
+    {
+        $this->gezinMetKinderen = (bool) $gezinMetKinderen;
+
+        return $this;
+    }
+
     public function isStagiair()
     {
         return $this->stagiair;
+    }
+
+    public function setStagiair($stagiair)
+    {
+        $this->stagiair = (bool) $stagiair;
+
+        return $this;
     }
 
     public function getMedewerker()

@@ -1,0 +1,29 @@
+{{ form_start(filter) }}
+    <tr>
+        <th colspan="4">
+            <span class="pull-right">
+                {{ form_widget(filter.filter) }}
+            </span>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            {{ form_widget(filter.klant.id) }}
+            {{ form_errors(filter.klant.id) }}
+        </th>
+        <th>
+            {{ form_widget(filter.klant.naam) }}
+            {{ form_errors(filter.klant.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.created.start) }}
+            {{ form_errors(filter.created.start) }}
+            {{ form_widget(filter.created.end) }}
+            {{ form_errors(filter.created.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.requestModule) }}
+            {{ form_errors(filter.requestModule) }}
+        </th>
+    </tr>
+{{ form_end(filter) }}

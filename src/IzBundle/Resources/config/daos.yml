@@ -11,6 +11,9 @@ services:
     IzBundle\Service\DeelnemerDao:
         parent: app.dao.abstract
 
+    IzBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\DoelgroepDao:
         parent: app.dao.abstract
 
@@ -53,6 +56,12 @@ services:
     IzBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
 
+    iz.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
+
     iz.intake.entities:
         class: ArrayObject
         arguments:
@@ -77,10 +86,19 @@ services:
             -
               - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
 
+    iz.lidmaatschap.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: intervisiegroep, dao: '@IzBundle\Service\IntervisiegroepDao' }
+              - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
 
     iz.verslag.entities:
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
+              - { key: hulpaanbod, dao: '@IzBundle\Service\HulpaanbodDao' }
+              - { key: hulpvraag, dao: '@IzBundle\Service\HulpvraagDao' }
+              - { key: koppeling, dao: '@IzBundle\Service\KoppelingDao' }
               

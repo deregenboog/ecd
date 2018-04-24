@@ -1,0 +1,25 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>ZRMs</h2>
+<p>
+    {{ html.viewLink(path('app_zrms_index', {'zrm_filter[klant][id]': klant.id})) }}
+    {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': klant.id})) }}
+    {{ html.addLink(path('app_zrms_add', {klant: klant.id})) }}
+    {{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: klant.id})) }}
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>Module</th>
+        <th>Datum</th>
+    </tr>
+    {% for zrm in klant.zrms if zrm.id %}
+        <tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
+            <td>
+                {{ zrm.requestModule }}
+            </td>
+            <td>
+                {{ zrm.created|date('d-m-Y') }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

@@ -34,6 +34,7 @@ twig:
     form_themes:
 #        - form_div_layout.html.twig
         - bootstrap_3_horizontal_layout.html.twig
+        - form/zrm.html.twig
     cache: '%kernel.cache_dir%/twig'
     globals:
         app_version: v%application_version%
@@ -67,8 +68,9 @@ doctrine:
                 date_format: Luxifer\DQL\Datetime\DateFormat
                 hour: DoctrineExtensions\Query\Mysql\Hour
                 minute: DoctrineExtensions\Query\Mysql\Minute
+                now: DoctrineExtensions\Query\Mysql\Now
                 time_diff: DoctrineExtensions\Query\Mysql\TimeDiff
-                time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec                
+                time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
         filters:
@@ -122,6 +124,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /inloop/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/inloop'
+        iz_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /iz/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/iz'
         odp_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download
