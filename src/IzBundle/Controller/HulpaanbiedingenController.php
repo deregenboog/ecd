@@ -56,18 +56,6 @@ class HulpaanbiedingenController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @Route("/{id}/view")
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        return $this->redirectToRoute('cake_iz_hulpaanbiedingen_view', [
-            'iz_vrijwilliger_id' => $entity->getIzVrijwilliger()->getId(),
-        ]);
-    }
-
     protected function addParams($entity, Request $request)
     {
         return [

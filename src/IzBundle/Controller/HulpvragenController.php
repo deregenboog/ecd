@@ -60,18 +60,6 @@ class HulpvragenController extends AbstractChildController
     protected $export;
 
     /**
-     * @Route("/{id}/view")
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        return $this->redirectToRoute('cake_iz_hulpvragen_view', [
-            'iz_klant_id' => $entity->getIzKlant()->getId(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}/connect")
      */
     public function connectAction(Request $request, $id)
