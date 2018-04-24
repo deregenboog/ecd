@@ -20,8 +20,8 @@ class Version20180424090940 extends AbstractMigration
 
         $this->addSql('ALTER TABLE zrm_reports ADD discr VARCHAR(5) NOT NULL, ADD financien INT DEFAULT NULL, ADD werk_opleiding INT DEFAULT NULL, ADD tijdsbesteding INT DEFAULT NULL, ADD huiselijke_relaties INT DEFAULT NULL, ADD lichamelijke_gezondheid INT DEFAULT NULL, ADD middelengebruik INT DEFAULT NULL, ADD basale_adl INT DEFAULT NULL, ADD instrumentele_adl INT DEFAULT NULL');
         $this->addSql("UPDATE zrm_reports SET discr = 'zrmv1' WHERE discr = ''");
-        $this->addSql("INSERT INTO zrm_reports (discr, klant_id, model, foreign_key, request_module, financien, werk_opleiding, tijdsbesteding, huisvesting, huiselijke_relaties, geestelijke_gezondheid, lichamelijke_gezondheid, middelengebruik, basale_adl, instrumentele_adl, sociaal_netwerk, maatschappelijke_participatie, justitie)
-            SELECT 'zrmv2', klant_id, model, foreign_key, request_module, financien, werk_opleiding, tijdsbesteding, huisvesting, huiselijke_relaties, geestelijke_gezondheid, lichamelijke_gezondheid, middelengebruik, basale_adl, instrumentele_adl, sociaal_netwerk, maatschappelijke_participatie, justitie
+        $this->addSql("INSERT INTO zrm_reports (discr, klant_id, model, foreign_key, request_module, financien, werk_opleiding, tijdsbesteding, huisvesting, huiselijke_relaties, geestelijke_gezondheid, lichamelijke_gezondheid, middelengebruik, basale_adl, instrumentele_adl, sociaal_netwerk, maatschappelijke_participatie, justitie, created, modified)
+            SELECT 'zrmv2', klant_id, model, foreign_key, request_module, financien, werk_opleiding, tijdsbesteding, huisvesting, huiselijke_relaties, geestelijke_gezondheid, lichamelijke_gezondheid, middelengebruik, basale_adl, instrumentele_adl, sociaal_netwerk, maatschappelijke_participatie, justitie, created, modified
             FROM zrm_v2_reports");
         $this->addSql('UPDATE klanten
             INNER JOIN (
