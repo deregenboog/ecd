@@ -153,6 +153,20 @@ class ZrmReport extends AppModel
         return $zrmReportModel;
     }
 
+    public function beforeFind(array $queryData)
+    {
+        $queryData['conditions']['discr'] = 'zrmv1';
+
+        return $queryData;
+    }
+
+    public function beforeSave($options = [])
+    {
+        $this->set('discr', 'zrmv1');
+
+        return true;
+    }
+
     public function afterSave($created)
     {
         if (!empty($this->data['ZrmReport']['klant_id'])) {
