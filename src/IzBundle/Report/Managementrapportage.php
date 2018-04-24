@@ -88,13 +88,19 @@ class Managementrapportage extends AbstractReport
             $item['kolom'] = 'Caseload einddatum';
         });
 
-        $prestaties = $gestart;
-        foreach ($this->projecten as $project) {
-            if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
-                $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                    return $row['projectnaam'] === $project->getNaam();
-                }));
+        if ($this->startDate->format('Y') <= 2017) {
+            $prestaties = $gestart;
+            foreach ($this->projecten as $project) {
+                if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+                    $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
+                        return $row['projectnaam'] === $project->getNaam();
+                    }));
+                }
             }
+        } elseif ($this->startDate->format('Y') == 2018) {
+            $prestaties = array_merge($beginstand, $gestart);
+        } else {
+            $prestaties = $gestart;
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
@@ -126,13 +132,19 @@ class Managementrapportage extends AbstractReport
             $item['kolom'] = 'Caseload einddatum';
         });
 
-        $prestaties = $gestart;
-        foreach ($this->projecten as $project) {
-            if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
-                $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                    return $row['projectnaam'] === $project->getNaam();
-                }));
+        if ($this->startDate->format('Y') <= 2017) {
+            $prestaties = $gestart;
+            foreach ($this->projecten as $project) {
+                if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+                    $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
+                        return $row['projectnaam'] === $project->getNaam();
+                    }));
+                }
             }
+        } elseif ($this->startDate->format('Y') == 2018) {
+            $prestaties = array_merge($beginstand, $gestart);
+        } else {
+            $prestaties = $gestart;
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
@@ -225,13 +237,19 @@ class Managementrapportage extends AbstractReport
             $item['kolom'] = 'Caseload einddatum';
         });
 
-        $prestaties = $gestart;
-        foreach ($this->projecten as $project) {
-            if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
-                $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                    return $row['projectnaam'] === $project->getNaam();
-                }));
+        if ($this->startDate->format('Y') <= 2017) {
+            $prestaties = $gestart;
+            foreach ($this->projecten as $project) {
+                if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
+                    $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
+                        return $row['projectnaam'] === $project->getNaam();
+                    }));
+                }
             }
+        } elseif ($this->startDate->format('Y') == 2018) {
+            $prestaties = array_merge($beginstand, $gestart);
+        } else {
+            $prestaties = $gestart;
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
