@@ -27,6 +27,9 @@ _mw:
     resource: "@MwBundle/Resources/config/routing.yml"
     prefix: /mw
 
+_mw_cake:
+    resource: "@MwBundle/Resources/config/routing_cake.yml"
+
 _odp:
     resource: "@OdpBundle/Resources/config/routing.yml"
     prefix: /odp

@@ -1146,27 +1146,29 @@ class Klant extends AppModel
             return $diensten;
         }
 
-        if (!empty($klant['GroepsactiviteitenIntake'])) {
-            $diensten[] = [
-                'name' => 'GA',
-                'url' => ['controller' => 'groepsactiviteiten', 'action' => 'intakes', 'Klant', $klant['Klant']['id']],
-                'from' => $klant['GroepsactiviteitenIntake']['intakedatum'],
-                'to' => null,
-                'type' => 'date',
-                'value' => '',
-            ];
-        }
+        // this has been moved to GaBundle
+//         if (!empty($klant['GroepsactiviteitenIntake'])) {
+//             $diensten[] = [
+//                 'name' => 'GA',
+//                 'url' => ['controller' => 'groepsactiviteiten', 'action' => 'intakes', 'Klant', $klant['Klant']['id']],
+//                 'from' => $klant['GroepsactiviteitenIntake']['intakedatum'],
+//                 'to' => null,
+//                 'type' => 'date',
+//                 'value' => '',
+//             ];
+//         }
 
-        if (!empty($klant['Verslag'][0])) {
-            $diensten[] = [
-                'name' => 'Mw',
-                'url' => ['controller' => 'maatschappelijk_werk', 'action' => 'view', $klant['Klant']['id']],
-                'from' => $klant['Verslag'][0]['datum'],
-                'to' => null,
-                'type' => 'date',
-                'value' => '',
-            ];
-        }
+        // this has been moved to MwBundle
+//         if (!empty($klant['Verslag'][0])) {
+//             $diensten[] = [
+//                 'name' => 'Mw',
+//                 'url' => ['controller' => 'maatschappelijk_werk', 'action' => 'view', $klant['Klant']['id']],
+//                 'from' => $klant['Verslag'][0]['datum'],
+//                 'to' => null,
+//                 'type' => 'date',
+//                 'value' => '',
+//             ];
+//         }
 
         if (!empty($klant['Hi5Intake'][0])) {
             $diensten[] = [
@@ -1204,16 +1206,17 @@ class Klant extends AppModel
             ];
         }
 
-        if (!empty($klant['LasteIntake']['locatie1_id'])) {
-            $diensten[] = [
-                'name' => 'Gebr. ruimte',
-                'url' => null,
-                'from' => null,
-                'to' => null,
-                'type' => 'string',
-                'value' => $all[$klant['LasteIntake']['locatie1_id']],
-            ];
-        }
+        // this has been moved to InloopBundle
+//         if (!empty($klant['LasteIntake']['locatie1_id'])) {
+//             $diensten[] = [
+//                 'name' => 'Gebr. ruimte',
+//                 'url' => null,
+//                 'from' => null,
+//                 'to' => null,
+//                 'type' => 'string',
+//                 'value' => $all[$klant['LasteIntake']['locatie1_id']],
+//             ];
+//         }
 
         if ($eventDispatcher instanceof EventDispatcherInterface) {
             $event = new DienstenLookupEvent($klant['Klant']['id'], $diensten);
