@@ -162,30 +162,30 @@ class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturnOnConsecutiveCalls(
                 [
-                    ['project' => 'Project1', 'stadsdeel' => 'Centrum', 'aantal' => 100],
-                    ['project' => 'Project1', 'stadsdeel' => 'Zuid', 'aantal' => 40],
-                    ['project' => 'Project2', 'stadsdeel' => 'Oost', 'aantal' => 250],
-                    ['project' => 'Project2', 'stadsdeel' => 'Noord', 'aantal' => 30],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Centrum', 'aantal' => 100],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Zuid', 'aantal' => 40],
+                    ['projectnaam' => 'Project2', 'stadsdeel' => 'Oost', 'aantal' => 250],
+                    ['projectnaam' => 'Project2', 'stadsdeel' => 'Noord', 'aantal' => 30],
                 ],
                 [
-                    ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 50],
-                    ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 50],
+                    ['projectnaam' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
                 ],
                 [
-                    ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 40],
-                    ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 40],
+                    ['projectnaam' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
                 ],
                 [
-                    ['project' => 'Project1', 'stadsdeel' => 'Zuid', 'aantal' => 40],
-                    ['project' => 'Project2', 'stadsdeel' => 'Noord', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Zuid', 'aantal' => 40],
+                    ['projectnaam' => 'Project2', 'stadsdeel' => 'Noord', 'aantal' => 20],
                 ],
                 [
-                    ['project' => 'Project1', 'stadsdeel' => 'Centrum', 'aantal' => 100],
-                    ['project' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 250],
-                    ['project' => 'Project1', 'stadsdeel' => 'Zuid', 'aantal' => 0],
-                    ['project' => 'Project2', 'stadsdeel' => 'Oost', 'aantal' => 50],
-                    ['project' => 'Project2', 'stadsdeel' => 'Noord', 'aantal' => 10],
-                    ['project' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Centrum', 'aantal' => 100],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Oost', 'aantal' => 250],
+                    ['projectnaam' => 'Project1', 'stadsdeel' => 'Zuid', 'aantal' => 0],
+                    ['projectnaam' => 'Project2', 'stadsdeel' => 'Oost', 'aantal' => 50],
+                    ['projectnaam' => 'Project2', 'stadsdeel' => 'Noord', 'aantal' => 10],
+                    ['projectnaam' => 'Project3', 'stadsdeel' => 'West', 'aantal' => 20],
                 ]
             )
         ;

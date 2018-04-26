@@ -107,25 +107,25 @@ class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturnOnConsecutiveCalls(
                 [
-                    ['project' => 'Project1', 'aantal' => 100],
-                    ['project' => 'Project2', 'aantal' => 250],
+                    ['projectnaam' => 'Project1', 'aantal' => 100],
+                    ['projectnaam' => 'Project2', 'aantal' => 250],
                 ],
                 [
-                    ['project' => 'Project1', 'aantal' => 50],
-                    ['project' => 'Project3', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'aantal' => 50],
+                    ['projectnaam' => 'Project3', 'aantal' => 20],
                 ],
                 [
-                    ['project' => 'Project1', 'aantal' => 40],
-                    ['project' => 'Project3', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'aantal' => 40],
+                    ['projectnaam' => 'Project3', 'aantal' => 20],
                 ],
                 [
-                    ['project' => 'Project1', 'aantal' => 40],
-                    ['project' => 'Project2', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'aantal' => 40],
+                    ['projectnaam' => 'Project2', 'aantal' => 20],
                 ],
                 [
-                    ['project' => 'Project1', 'aantal' => 110],
-                    ['project' => 'Project2', 'aantal' => 230],
-                    ['project' => 'Project3', 'aantal' => 20],
+                    ['projectnaam' => 'Project1', 'aantal' => 110],
+                    ['projectnaam' => 'Project2', 'aantal' => 230],
+                    ['projectnaam' => 'Project3', 'aantal' => 20],
                 ]
             )
         ;
