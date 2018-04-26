@@ -8,6 +8,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Geslacht;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -142,6 +143,7 @@ abstract class Koppeling
      * @var Doelgroep[]
      *
      * @ORM\ManyToMany(targetEntity="Doelgroep")
+     * @Assert\Count(min = 1, minMessage = "Selecteer ten minste één doelgroep")
      */
     protected $doelgroepen;
 
