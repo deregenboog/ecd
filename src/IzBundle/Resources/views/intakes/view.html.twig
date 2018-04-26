@@ -43,8 +43,13 @@
                 <dd>{{ entity and entity.intakedatum ? entity.intakedatum|date('d-m-Y') }}</dd>
                 <dt>Coördinator</dt>
                 <dd>{{ entity ? entity.medewerker }}</dd>
-                <dt>Gezin met kinderen</dt>
-                <dd>{{ entity ? entity.gezinMetKinderen ? 'Ja' }}</dd>
+                {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
+                    <dt>Gezin met kinderen</dt>
+                    <dd>{{ entity ? entity.gezinMetKinderen ? 'Ja' }}</dd>
+                {% else %}
+                    <dt>Stagiair</dt>
+                    <dd>{{ entity ? entity.stagiair ? 'Ja' }}</dd>
+                {% endif %}
             </dl>
             {{ render(controller('IzBundle:Intakes:_zrms', {id: entity.id})) }}
         </div>

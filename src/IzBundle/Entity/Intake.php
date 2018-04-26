@@ -82,8 +82,6 @@ class Intake implements ZrmInterface
     public function __construct()
     {
         $this->intakeDatum = new \DateTime('today');
-        $this->zrm = Zrm::create($this->intakeDatum);
-        $this->zrm->setRequestModule('IzIntake');
     }
 
     public function getId()

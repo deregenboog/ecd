@@ -67,6 +67,16 @@ class IntakeModel
         return $this->intake->setGezinMetKinderen($gezinMetKinderen);
     }
 
+    public function isStagiair()
+    {
+        return $this->intake->isStagiair();
+    }
+
+    public function setStagiair($stagiair)
+    {
+        return $this->intake->setStagiair($stagiair);
+    }
+
     public function getVerslag()
     {
         return null;
@@ -86,12 +96,12 @@ class IntakeModel
 
     public function getZrm()
     {
-        return $this->intake->getZrm();
+        return null;
     }
 
     public function setZrm(Zrm $zrm)
     {
-        $this->intake->setZrm($zrm);
+        $this->intake->addZrm($zrm);
 
         return $this;
     }

@@ -19,11 +19,6 @@ class RoutingExtension extends BaseRoutingExtension
      */
     private $requestStack;
 
-    public static function getRedirectUri(Request $request)
-    {
-        return preg_replace('/^.*[?&]redirect=([^&]*).*/', '$1', $request->getRequestUri());
-    }
-
     public function __construct(
         UrlGeneratorInterface $generator,
         RequestStack $requestStack
@@ -43,7 +38,7 @@ class RoutingExtension extends BaseRoutingExtension
     public function getPath($name, $parameters = [], $relative = false)
     {
         if (!array_key_exists('redirect', $parameters)) {
-            $parameters['redirect'] = $this->requestStack->getCurrentRequest()->getRequestUri();
+            $parameters['redirect'] = '/'.$this->requestStack->getCurrentRequest()->get('url');
         }
 
         return parent::getPath($name, $parameters, $relative);

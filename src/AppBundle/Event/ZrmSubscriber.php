@@ -36,10 +36,15 @@ class ZrmSubscriber implements EventSubscriber
         $entity = $args->getObject();
 
         if ($entity instanceof ZrmInterface) {
-            $zrm = $entity->getZrm();
-            if ($zrm) {
-                $zrm->setModel(get_class($entity))->setForeignKey($entity->getId());
-                $args->getEntityManager()->flush($zrm);
+            $zrms = $entity->getZrms();
+            if ($zrms) {
+                /** @var $zrm Zrm */
+                foreach ($zrms as $zrm) {
+                    if (false === ($zrm->getModel() && $zrm->getForeignKey())) {
+                        $zrm->setModel(get_class($entity))->setForeignKey($entity->getId());
+                        $args->getEntityManager()->flush($zrm);
+                    }
+                }
             }
         }
     }

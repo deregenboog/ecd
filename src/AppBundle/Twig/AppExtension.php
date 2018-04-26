@@ -5,6 +5,7 @@ namespace AppBundle\Twig;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Common\Collections\Collection;
 use AppBundle\Entity\Geslacht;
+use Symfony\Component\HttpFoundation\Request;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -22,6 +23,11 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * @var string
      */
     private $administratorEmail;
+
+    public static function getRedirectUri(Request $request)
+    {
+        return preg_replace('/^.*[?&]redirect=([^&]*).*/', '$1', $request->getRequestUri());
+    }
 
     public function __construct(
         RequestStack $requestStack,
@@ -43,7 +49,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'today' => new \DateTime('today'),
             'administrator_name' => $this->administratorName,
             'administrator_email' => $this->administratorEmail,
-            'redirect_uri' => RoutingExtension::getRedirectUri($this->requestStack->getCurrentRequest()),
+            'redirect_uri' => self::getRedirectUri($this->requestStack->getCurrentRequest()),
         ];
     }
 

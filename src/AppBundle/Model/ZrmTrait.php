@@ -25,8 +25,6 @@ trait ZrmTrait
 
     public function addZrm(Zrm $zrm)
     {
-        $zrm->setRequestModule('IzIntake');
-
         $this->getIzDeelnemer()->getKlant()->addZrm($zrm);
         $this->zrms[] = $zrm;
 

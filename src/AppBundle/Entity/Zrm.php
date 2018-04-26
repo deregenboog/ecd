@@ -53,7 +53,7 @@ abstract class Zrm
     /**
      * @return Zrm
      */
-    public static function create(\DateTime $datum = null)
+    public static function create(\DateTime $datum = null, $requestModule = null)
     {
         if (!$datum) {
             $datum = new \DateTime();
@@ -61,9 +61,15 @@ abstract class Zrm
 
         foreach (self::ZRM_VERSIONS as $model => $date) {
             if ($datum >= new \DateTime($date)) {
-                return new $model();
+                $zrm = new $model();
             }
         }
+
+        if ($requestModule) {
+            $zrm->setRequestModule($requestModule);
+        }
+
+        return $zrm;
     }
 
     public function __construct(Klant $klant = null)

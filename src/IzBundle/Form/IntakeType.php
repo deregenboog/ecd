@@ -48,19 +48,21 @@ class IntakeType extends AbstractType
             $builder->add('verslag', AppTextareaType::class);
         }
 
-        if (isset($options['data'])) {
-            if ($options['data']->getIzDeelnemer() instanceof IzKlant) {
+        if ($intake) {
+            if ($intake->getIzDeelnemer() instanceof IzKlant) {
                 $builder->add('gezinMetKinderen', CheckboxType::class, [
                     'required' => false,
                 ]);
                 if (!$intake->getId()) {
                     $builder->add('zrm', ZrmType::class, [
-                        'data' => $intake->getZrm(),
+                        'data' => Zrm::create($intake->getIntakeDatum(), 'IzIntake'),
                         'by_reference' => false,
                     ]);
                 }
-            } elseif ($options['data']->getIzDeelnemer() instanceof IzVrijwilliger) {
-                $builder->add('stagiair');
+            } elseif ($intake->getIzDeelnemer() instanceof IzVrijwilliger) {
+                $builder->add('stagiair', CheckboxType::class, [
+                    'required' => false,
+                ]);
             }
         }
 
