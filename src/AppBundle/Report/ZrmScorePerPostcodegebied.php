@@ -22,7 +22,7 @@ class ZrmScorePerPostcodegebied extends AbstractReport
     protected $tables = [];
 
     protected $class = ZrmV1::class;
-    
+
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
@@ -30,8 +30,9 @@ class ZrmScorePerPostcodegebied extends AbstractReport
 
     protected function init()
     {
-        $leefgebieden = $this->class::getFieldsAndLabels();
-        
+        $class = $this->class;
+        $leefgebieden = $class::getFieldsAndLabels();
+
         foreach (range(1, 5) as $score) {
             $data = [];
             foreach ($leefgebieden as $leefgebied => $title) {
