@@ -616,9 +616,9 @@ parameters:
             Rapportages:
                 label: Rapportages
                 url: Rapportages
-            Awbz:
-                label: AWBZ
-                url: Awbz
+#            Awbz:
+#                label: AWBZ
+#                url: Awbz
             clip:
                 label: Clip
                 url: clip
@@ -628,9 +628,9 @@ parameters:
             groepsactiviteiten_klanten:
                 label: Groepsactiviteiten
                 url: groepsactiviteiten_klanten
-            Hi5:
-                label: Hi5
-                url: Hi5
+#            Hi5:
+#                label: Hi5
+#                url: Hi5
             hs:
                 label: Homeservice
                 url: hs
