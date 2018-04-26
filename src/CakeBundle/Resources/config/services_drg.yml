@@ -179,12 +179,14 @@ parameters:
                 - Vrijwilligers
                 - iz
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvragen
                 - IzBundle\Controller\Intakes
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Rapportages
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
@@ -234,6 +236,7 @@ parameters:
                 - IzBundle\Controller\BinnengekomenViaOpties
                 - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\EindeVraagAanbod
@@ -244,6 +247,7 @@ parameters:
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
                 - IzBundle\Controller\Selecties
@@ -575,6 +579,7 @@ parameters:
                 - IzBundle\Controller\BinnengekomenViaOpties
                 - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\EindeVraagAanbod
@@ -585,13 +590,13 @@ parameters:
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
-                - '*'
 
         # controller: {label, url}
         all_menu_items:
