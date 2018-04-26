@@ -16,6 +16,7 @@ use InloopBundle\Entity\Locatie;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Afsluiting;
+use Doctrine\ORM\EntityRepository;
 
 class KlantFilterType extends AbstractType
 {
@@ -34,6 +35,12 @@ class KlantFilterType extends AbstractType
             $builder->add('gebruikersruimte', EntityType::class, [
                 'class' => Locatie::class,
                 'required' => false,
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('locatie')
+                        ->where('locatie.gebruikersruimte = true')
+                        ->orderBy('locatie.naam')
+                    ;
+                },
             ]);
         }
 
@@ -41,6 +48,11 @@ class KlantFilterType extends AbstractType
             $builder->add('laatsteIntakeLocatie', EntityType::class, [
                 'class' => Locatie::class,
                 'required' => false,
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('locatie')
+                        ->orderBy('locatie.naam')
+                    ;
+                },
             ]);
         }
 

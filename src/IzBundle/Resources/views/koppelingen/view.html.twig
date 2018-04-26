@@ -24,46 +24,60 @@
 {% endblock %}
 
 {% block content_right %}
-    <h2>Hulpvraag</h2>
-    {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
-    {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
-    <dl class="dl-horizontal">
-        <dt>Deelnemer</dt>
-        <dd>{{ entity.izKlant }}</dd>
-        <dt>Coördinator</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Startdatum</dt>
-        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-        <dt>Project</dt>
-        <dd>{{ entity.project }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Hulpvraagsoort</dt>
-        <dd>{{ entity.hulpvraagsoort }}</dd>
-        <dt>Doelgroepen</dt>
-        <dd>
-            <ul>
-                {% for doelgroep in entity.doelgroepen %}
-                    <li>{{ doelgroep }}</li>
-                {% endfor %}
-            </ul>
-        </dd>
-    </dl>
-    <h2>Hulpaanbod</h2>
-    {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-    {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-    <dl class="dl-horizontal">
-        <dt>Vrijwilliger</dt>
-        <dd>{{ entity.hulpaanbod.izVrijwilliger }}</dd>
-        <dt>Coördinator</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Startdatum</dt>
-        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-        <dt>Project</dt>
-        <dd>{{ entity.project }}</dd>
-    </dl>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
+        <li><a data-toggle="tab" href="#hulpaanbod">Hulpaanbod</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="hulpvraag" class="tab-pane active">
+            <h2>Hulpvraag</h2>
+            {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
+            {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
+            <dl class="dl-horizontal">
+                <dt>Deelnemer</dt>
+                <dd>{{ entity.izKlant }}</dd>
+                <dt>Coördinator</dt>
+                <dd>{{ entity.medewerker }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Startdatum</dt>
+                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+                <dt>Project</dt>
+                <dd>{{ entity.project }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Hulpvraagsoort</dt>
+                <dd>{{ entity.hulpvraagsoort }}</dd>
+                <dt>Doelgroepen</dt>
+                <dd>
+                    <ul>
+                        {% for doelgroep in entity.doelgroepen %}
+                            <li>{{ doelgroep }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div id="hulpaanbod" class="tab-pane">
+            <h2>Hulpaanbod</h2>
+            {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
+            {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
+            <dl class="dl-horizontal">
+                <dt>Vrijwilliger</dt>
+                <dd>{{ entity.hulpaanbod.izVrijwilliger }}</dd>
+                <dt>Coördinator</dt>
+                <dd>{{ entity.medewerker }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Startdatum</dt>
+                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+                <dt>Project</dt>
+                <dd>{{ entity.project }}</dd>
+            </dl>
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
+        </div>
+    </div>
 {% endblock %}

@@ -53,19 +53,6 @@ class KlantenController extends AbstractController
     private $klantDao;
 
     /**
-     * @Route("/{id}/view")
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        return $this->redirectToRoute('cake_iz_klanten_toon_aanmelding', [
-            'klant_id' => $entity->getKlant()->getId(),
-            'id' => $entity->getId(),
-        ]);
-    }
-
-    /**
      * @Route("/add")
      */
     public function addAction(Request $request)

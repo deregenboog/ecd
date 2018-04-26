@@ -1,5 +1,6 @@
 imports:
     - { resource: daos.yml }
+    - { resource: exports.yml }
 
 services:
     twig.extension.routing: # override default routing extension
@@ -47,6 +48,10 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    AppBundle\Event\ZrmSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+
     app.form.rapportage:
         class: AppBundle\Form\RapportageType
         tags:
@@ -68,3 +73,7 @@ services:
 
     app.export.report:
         class: AppBundle\Export\ReportExport
+
+    AppBundle\DataFixtures\AppProcessor:
+        tags:
+            - { name: hautelook_alice.alice.processor }

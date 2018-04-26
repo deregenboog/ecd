@@ -96,6 +96,6 @@ class HulpvragenController extends AbstractChildController
             $id = $entity->getId();
         }
 
-        return $this->redirectToRoute('cake_iz_hulpvragen_view', ['iz_klant_id' => $id]);
+        return $this->redirectToRoute('iz_hulpvragen_view', ['id' => $id]);
     }
 }

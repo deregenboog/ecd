@@ -13,6 +13,12 @@ use AppBundle\Form\MedewerkerType;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Entity\Intake;
 use AppBundle\Form\ZrmType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Entity\Zrm;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class IntakeType extends AbstractType
 {
@@ -21,33 +27,44 @@ class IntakeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var $intake Intake */
+        $intake = $options['data'];
+
+        $builder->addViewTransformer(new CallbackTransformer(
+            function(Intake $intake) {
+                return new IntakeModel($intake);
+            },
+            function(IntakeModel $model) {
+                return $model->getIntake();
+            }
+        ));
+
         $builder
             ->add('intakedatum', AppDateType::class)
             ->add('medewerker', MedewerkerType::class)
-            ->add('doelgroepen', null, [
-                'expanded' => true,
-            ])
         ;
+
+        if (!$intake->getId()) {
+            $builder->add('verslag', AppTextareaType::class);
+        }
 
         if (isset($options['data'])) {
             if ($options['data']->getIzDeelnemer() instanceof IzKlant) {
-                $builder
-                    ->add('gezinMetKinderen')
-//                     ->add('zrm', ZrmType::class, [
-//                         'required' => false,
-//                         'data' => $options['data']->getZrm(),
-//                     ])
-                ;
-            }
-
-            if ($options['data']->getIzDeelnemer() instanceof IzVrijwilliger) {
+                $builder->add('gezinMetKinderen', CheckboxType::class, [
+                    'required' => false,
+                ]);
+                if (!$intake->getId()) {
+                    $builder->add('zrm', ZrmType::class, [
+                        'data' => $intake->getZrm(),
+                        'by_reference' => false,
+                    ]);
+                }
+            } elseif ($options['data']->getIzDeelnemer() instanceof IzVrijwilliger) {
                 $builder->add('stagiair');
             }
         }
 
-        $builder
-            ->add('submit', SubmitType::class)
-        ;
+        $builder->add('submit', SubmitType::class);
     }
 
     /**
@@ -56,7 +73,7 @@ class IntakeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => Intake::class,
+            'data_class' => IntakeModel::class,
         ]);
     }
 

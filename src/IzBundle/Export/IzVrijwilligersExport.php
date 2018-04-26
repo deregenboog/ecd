@@ -11,7 +11,7 @@ class IzVrijwilligersExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $hulpaanbod) {
+        foreach ($izVrijwilliger->getHulpaanbiedingen() as $hulpaanbod) {
             if (!$hulpaanbod->isGekoppeld() && !$hulpaanbod->isAfgesloten()) {
                 $projecten[] = $hulpaanbod->getProject();
             }
@@ -24,7 +24,7 @@ class IzVrijwilligersExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $hulpaanbod) {
+        foreach ($izVrijwilliger->getHulpaanbiedingen() as $hulpaanbod) {
             if ($hulpaanbod->isGekoppeld() && !$hulpaanbod->isAfgesloten()) {
                 $projecten[] = $hulpaanbod->getProject();
             }
@@ -37,7 +37,7 @@ class IzVrijwilligersExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $hulpaanbod) {
+        foreach ($izVrijwilliger->getHulpaanbiedingen() as $hulpaanbod) {
             if ($hulpaanbod->isGekoppeld() && $hulpaanbod->isAfgesloten()) {
                 $projecten[] = $hulpaanbod->getProject();
             }
@@ -50,7 +50,7 @@ class IzVrijwilligersExport extends GenericExport
     {
         $data = [];
 
-        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $hulpaanbod) {
+        foreach ($izVrijwilliger->getHulpaanbiedingen() as $hulpaanbod) {
             if ($hulpaanbod->isGekoppeld()) {
                 $data[] = $hulpaanbod->getKoppelingStartdatum();
             }
@@ -78,7 +78,7 @@ class IzVrijwilligersExport extends GenericExport
     {
         $data = [];
 
-        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $hulpaanbod) {
+        foreach ($izVrijwilliger->getHulpaanbiedingen() as $hulpaanbod) {
             if ($hulpaanbod->isGekoppeld() && $hulpaanbod->isAfgesloten()) {
                 $data[] = $hulpaanbod->getKoppelingEinddatum();
             }
@@ -104,7 +104,7 @@ class IzVrijwilligersExport extends GenericExport
     {
         $medewerkers = [];
 
-        foreach ($izVrijwilliger->getIzHulpaanbiedingen() as $hulpaanbod) {
+        foreach ($izVrijwilliger->getHulpaanbiedingen() as $hulpaanbod) {
             if ($hulpaanbod->getMedewerker()) {
                 $medewerkers[] = $hulpaanbod->getMedewerker();
             }

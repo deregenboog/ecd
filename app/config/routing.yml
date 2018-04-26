@@ -22,10 +22,14 @@ _inloop:
 
 _iz:
     resource: "@IzBundle/Resources/config/routing.yml"
+    prefix: /iz
 
 _mw:
     resource: "@MwBundle/Resources/config/routing.yml"
     prefix: /mw
+
+_mw_cake:
+    resource: "@MwBundle/Resources/config/routing_cake.yml"
 
 _odp:
     resource: "@OdpBundle/Resources/config/routing.yml"

@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>Deelnemer {{ entity }}</h1>
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
 {% endblock %}
 
 {% block content_left %}
@@ -59,10 +59,7 @@
             {% include 'IzBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {#% include 'IzBundle:documenten:_list.html.twig' with {deelnemer: entity} %#}
-        </div>
-        <div id="matching" class="tab-pane">
-            {#% include 'IzBundle:matchingklant:_detail.html.twig' with {klant: entity} %#}
+            {% include 'IzBundle:documenten:_list.html.twig' with {deelnemer: entity} %}
         </div>
         <div id="koppelingen" class="tab-pane">
             {% include 'IzBundle:hulpvragen:_list.html.twig' with {klant: entity} %}

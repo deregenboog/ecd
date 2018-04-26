@@ -54,7 +54,7 @@
                     </td>
                     <td>
                         <ul>
-                            {% for hulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                            {% for hulpaanbod in izVrijwilliger.hulpaanbiedingen %}
                                 <li>{{ hulpaanbod.project }} {{ hulpaanbod.medewerker ? '('~hulpaanbod.medewerker~')' }}</li>
                             {% endfor %}
                         </ul>

@@ -1,0 +1,42 @@
+services:
+    app.export.klanten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - AppBundle\Entity\Klant
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Geslacht: { expression: 'entity.getGeslacht()' }
+                Voornaam: { expression: 'entity.getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getEmail()' }
+                Adres: { expression: 'entity.getAdres()' }
+                Postcode: { expression: 'entity.getPostcode()' }
+                Woonplaats: { expression: 'entity.getPlaats()' }
+                Mobiel: { expression: 'entity.getMobiel()' }
+                Telefoon: { expression: 'entity.getTelefoon()' }
+                Werkgebied: { expression: 'entity.getWerkgebied()' }
+                Geen post: { expression: 'entity.getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getGeenEmail() ? "ja" : "nee"' }
+
+    app.export.vrijwilligers:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - AppBundle\Entity\Vrijwilliger
+            -
+                Nummer: { expression: 'entity.getId()' }
+                Geslacht: { expression: 'entity.getGeslacht()' }
+                Voornaam: { expression: 'entity.getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getEmail()' }
+                Adres: { expression: 'entity.getAdres()' }
+                Postcode: { expression: 'entity.getPostcode()' }
+                Woonplaats: { expression: 'entity.getPlaats()' }
+                Mobiel: { expression: 'entity.getMobiel()' }
+                Telefoon: { expression: 'entity.getTelefoon()' }
+                Werkgebied: { expression: 'entity.getWerkgebied()' }
+                Geen post: { expression: 'entity.getGeenPost() ? "ja" : "nee"' }
+                Geen e-mail: { expression: 'entity.getGeenEmail() ? "ja" : "nee"' }

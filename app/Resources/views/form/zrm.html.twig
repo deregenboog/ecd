@@ -1,0 +1,27 @@
+{% block zrm_widget %}
+    <table class="table table-hover">
+        <tr>
+            <th>&nbsp;</th>
+            {% for choice in (form.children|first).vars.choices %}
+                <th>{{ choice.label }}</th>
+            {% endfor %}
+        </tr>
+        {%- for child in form %}
+            {{ form_row(child) }}
+        {%- endfor -%}
+    </table>
+{% endblock %}
+
+{% block zrm_item_row %}
+    <tr>
+        <th>{{ form_label(form) }}</th>
+        {%- for child in form %}
+            <td>
+                {{- form_widget(child, {
+                    label: false,
+                    parent_label_class: label_attr.class|default('')
+                }) -}}
+            </td>
+        {% endfor -%}
+    </tr>
+{% endblock %}

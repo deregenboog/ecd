@@ -51,7 +51,7 @@ class KlantFilter implements FilterInterface
 
         if ($this->gebruikersruimte) {
             $builder
-                ->andWhere('klant.gebruikersruimte = :gebruikersruimte')
+                ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
                 ->setParameter('gebruikersruimte', $this->gebruikersruimte)
             ;
         }

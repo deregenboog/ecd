@@ -17,7 +17,7 @@ class Hulpvraag extends Koppeling
 {
     /**
      * @var IzKlant
-     * @ORM\ManyToOne(targetEntity="IzKlant", inversedBy="izHulpvragen")
+     * @ORM\ManyToOne(targetEntity="IzKlant", inversedBy="hulpvragen")
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      * @Gedmo\Versioned
      */
@@ -50,6 +50,11 @@ class Hulpvraag extends Koppeling
         parent::__construct();
         $this->secundarieHulpvraagsoorten = new ArrayCollection();
         $this->doelgroepen = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s | %s | %s', $this->izKlant, $this->project, $this->startdatum->format('d-m-Y'));
     }
 
     public function getIzKlant()
@@ -110,5 +115,25 @@ class Hulpvraag extends Koppeling
         $this->geschiktVoorExpat = (bool) $geschiktVoorExpat;
 
         return $this;
+    }
+
+    public function getVerslagen($includeRelated = true)
+    {
+        if (!$includeRelated || !$this->isGekoppeld()) {
+            return $this->verslagen;
+        }
+
+        $verslagen = array_merge(
+            $this->verslagen->toArray(),
+            $this->hulpaanbod->getVerslagen(false)->toArray()
+        );
+        usort($verslagen, function(Verslag $a, Verslag $b) {
+            $datumA = $a->getCreated();
+            $datumB = $b->getCreated();
+
+            return $datumA < $datumB ? 1 : -1;
+        });
+
+        return $verslagen;
     }
 }

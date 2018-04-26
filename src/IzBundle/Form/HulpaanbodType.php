@@ -46,6 +46,7 @@ class HulpaanbodType extends AbstractType
                 },
             ])
             ->add('doelgroepen', null, [
+                'required' => true,
                 'expanded' => true,
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('doelgroep')

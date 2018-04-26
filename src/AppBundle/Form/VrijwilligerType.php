@@ -7,6 +7,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use AppBundle\Util\PostcodeFormatter;
+use AppBundle\Entity\Postcode;
 
 class VrijwilligerType extends AbstractType
 {
@@ -38,12 +43,32 @@ class VrijwilligerType extends AbstractType
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('opmerking')
+            ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
             ->add('vogAangevraagd', null, ['label' => 'VOG aangevraagd'])
             ->add('vogAanwezig', null, ['label' => 'VOG aanwezig'])
             ->add('overeenkomstAanwezig', null, ['label' => 'Vrijwilligersovereenkomst aanwezig'])
+            ->add('submit', SubmitType::class)
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                /* @var Klant $data */
+                $data = $event->getData();
+                if ($data->getPostcode()) {
+                    $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));
+
+                    try {
+                        $postcode = $this->entityManager->getRepository(Postcode::class)->find($data->getPostcode());
+                        if ($postcode) {
+                            $data
+                                ->setWerkgebied($postcode->getStadsdeel())
+                                ->setPostcodegebied($postcode->getPostcodegebied())
+                            ;
+                        }
+                    } catch (\Exception $e) {
+                        // ignore
+                    }
+                }
+            })
         ;
     }
 

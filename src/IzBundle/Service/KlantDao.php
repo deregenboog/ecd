@@ -38,7 +38,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('izKlant.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
-            ->leftJoin('izKlant.izHulpvragen', 'hulpvraag')
+            ->leftJoin('izKlant.hulpvragen', 'hulpvraag')
             ->leftJoin('hulpvraag.project', 'project')
             ->leftJoin('hulpvraag.medewerker', 'hulpvraagMedewerker', 'WITH', $expr->andX(
                 $expr->orX('hulpvraag.einddatum IS NULL', 'hulpvraag.einddatum > :now'),

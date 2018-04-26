@@ -2,6 +2,13 @@ imports:
     - { resource: exports.yml }
 
 services:
+    GaBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
     ga.repository.ga_groep_buurtmaatjes:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]

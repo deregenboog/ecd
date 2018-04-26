@@ -15,6 +15,8 @@ use AppBundle\Entity\Postcodegebied;
 use AppBundle\Util\PostcodeFormatter;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Entity\Postcode;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class KlantType extends AbstractType
 {
@@ -46,6 +48,7 @@ class KlantType extends AbstractType
                 },
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
+//             ->add('overleden', CheckboxType::class, ['required' => false])
             ->add('land')
             ->add('nationaliteit')
             ->add('bsn', null, ['label' => 'BSN'])
@@ -56,9 +59,10 @@ class KlantType extends AbstractType
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('opmerking')
+            ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
+            ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Klant $data */
                 $data = $event->getData();

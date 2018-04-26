@@ -10,7 +10,7 @@ class IzViaPersoon extends AppModel
 
     public $cachekeyall = 'IzViaPersoonAll';
 
-    public function beforeSave(&$model)
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
 

@@ -51,7 +51,7 @@
             {% for hulpaanbod in vrijwilliger.actieveKoppelingen %}
                 <tr>
                     <td>{{ hulpaanbod.project }}</td>
-                    <td>{{ hulpaanbod.izHulpvraag.izKlant }}</td>
+                    <td>{{ hulpaanbod.hulpvraag.izKlant }}</td>
                     <td>{{ hulpaanbod.koppelingStartdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.koppelingEinddatum ? hulpaanbod.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>
@@ -101,7 +101,7 @@
             {% for hulpaanbod in vrijwilliger.afgeslotenKoppelingen %}
                 <tr>
                     <td>{{ hulpaanbod.project }}</td>
-                    <td>{{ hulpaanbod.izHulpvraag.izKlant }}</td>
+                    <td>{{ hulpaanbod.hulpvraag.izKlant }}</td>
                     <td>{{ hulpaanbod.koppelingStartdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.koppelingEinddatum ? hulpaanbod.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>

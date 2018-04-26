@@ -1,0 +1,69 @@
+{% extends 'IzBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        {% if not entity.id %}
+            <li class=" {{ 'aanmelding' == active_tab ? 'active' }}"><a href="#">Aanmelding</a></li>
+        {% else %}
+            <li class=" {{ 'aanmelding' == active_tab ? 'active' }}">
+                <a href="{{ path('iz_klanten_view', {id: entity.id}) }}">Aanmelding</a>
+            </li>
+            {% if not entity.intake or not entity.intake.id %}
+                <li class=" {{ 'intake' == active_tab ? 'active' }}">
+                    <a href="{{ path('iz_intakes_add', {klant: entity.id}) }}">Intake</a>
+                </li>
+            {% else %}
+                <li class=" {{ 'intake' == active_tab ? 'active' }}">
+                    <a href="{{ path('iz_intakes_view', {id: entity.intake.id}) }}">Intake</a>
+                </li>
+                <li class=" {{ 'intervisiegroepen' == active_tab ? 'active' }}"><a  href="#intervisiegroepen">Intervisiegroepen</a></li>
+                <li class=" {{ 'verslagen' == active_tab ? 'active' }}"><a  href="#verslagen">Verslagen</a></li>
+                <li class=" {{ 'documenten' == active_tab ? 'active' }}"><a  href="#documenten">Documenten</a></li>
+                <li class=" {{ 'koppelingen' == active_tab ? 'active' }}"><a  href="#koppelingen">Koppelingen</a></li>
+            {% endif %}
+            <li class=" {{ 'afsluiting' == active_tab ? 'active' }}"><a  href="#afsluiting">Afsluiting</a></li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div id="aanmelding" class="tab-pane {{ 'aanmelding' == active_tab ? 'active' }}">
+            {% block content_aanmelding %}{% endblock %}
+        </div>
+        <div id="intake" class="tab-pane {{ 'intake' == active_tab ? 'active' }}">
+            {% block content_intake %}{% endblock %}
+        </div>
+        <div id="intervisiegroepen" class="tab-pane {{ 'intervisiegroepen' == active_tab ? 'active' }}">
+            <h2>Intervisiegroepen</h2>
+            {% include 'IzBundle:intervisiegroepen:_list.html.twig' %}
+        </div>
+        <div id="verslagen" class="tab-pane {{ 'verslagen' == active_tab ? 'active' }}">
+            <h2>Verslagen</h2>
+            {% include 'IzBundle:verslagen:_list.html.twig' %}
+        </div>
+        <div id="documenten" class="tab-pane {{ 'documenten' == active_tab ? 'active' }}">
+            <h2>Documenten</h2>
+            {% include 'IzBundle:documenten:_list.html.twig' %}
+        </div>
+        <div id="matching" class="tab-pane {{ 'matching' == active_tab ? 'active' }}">
+            {% block content_matching %}{% endblock %}
+        </div>
+        <div id="koppelingen" class="tab-pane {{ 'koppelingen' == active_tab ? 'active' }}">
+            {% block content_koppelingen %}{% endblock %}
+        </div>
+        <div id="afsluiting" class="tab-pane {{ 'afsluiting' == active_tab ? 'active' }}">
+            {% block content_afsluiting %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

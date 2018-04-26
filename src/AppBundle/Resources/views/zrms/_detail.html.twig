@@ -1,0 +1,30 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Zelfredzaamheidmatrix</h2>
+<p>
+    {{ html.editLink(path('app_zrms_edit', {id: entity.id})) }}
+    {{ html.link('ZRM bewerken', path('app_zrms_edit', {id: entity.id})) }}
+</p>
+<dl class="dl-horizontal">
+    <dt>Module</dt>
+    <dd>{{ entity.requestModule }}</dd>
+    <dt>Datum</dt>
+    <dd>{{ entity.created|date('d-m-Y') }}</dd>
+</dl>
+<table class="table table-hover">
+    <tbody>
+        {% for field, label in entity.fieldsAndLabels %}
+            <tr>
+                <th>{{ label }}</th>
+                <td width="50%">
+                    {% if (99 != attribute(entity, field)) %}
+                        {% set value = attribute(entity, field) %}
+                        <div style="padding-right: 5px; text-align: right; color: white; background-color: green; width: {{ value * 20 }}%;">
+                            <strong>{{ value }}</strong>
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

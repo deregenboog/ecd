@@ -54,3 +54,5 @@
 /app/bootstrap.php.cache
 /.php_cs.cache
 /cache.properties
+
+/app/webroot/node_modules

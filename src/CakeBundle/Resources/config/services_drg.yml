@@ -591,6 +591,7 @@ parameters:
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
+                - '*'
 
         # controller: {label, url}
         all_menu_items:

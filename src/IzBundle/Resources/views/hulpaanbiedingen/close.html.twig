@@ -1,0 +1,11 @@
+{% extends 'IzBundle:vrijwilligers:view.html.twig' %}
+
+{% set entity = entity.izVrijwilliger %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            $('.nav-tabs a[href="#koppelingen"]').tab('show')
+        });
+    </script>
+{% endblock %}

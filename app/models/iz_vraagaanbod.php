@@ -22,7 +22,7 @@ class IzVraagaanbod extends AppModel
     ];
     public $cachekey = 'IzVraagaanbodList';
 
-    public function beforeSave(&$model)
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
 

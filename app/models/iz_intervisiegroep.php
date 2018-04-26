@@ -38,7 +38,7 @@ class IzIntervisiegroep extends AppModel
         ],
     ];
 
-    public function beforeSave(&$model)
+    public function beforeSave($options = [])
     {
         Cache::delete($this->getcachekey(false));
         Cache::delete($this->getcachekey(true));

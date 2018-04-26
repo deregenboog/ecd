@@ -51,19 +51,6 @@ class VrijwilligersController extends AbstractController
     private $vrijwilligerDao;
 
     /**
-     * @Route("/{id}/view")
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        return $this->redirectToRoute('cake_iz_vrijwilligers_toon_aanmelding', [
-            'vrijwilliger_id' => $entity->getVrijwilliger()->getId(),
-            'id' => $entity->getId(),
-        ]);
-    }
-
-    /**
      * @Route("/add")
      */
     public function addAction(Request $request)

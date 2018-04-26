@@ -1,6 +1,17 @@
-{% extends 'IzBundle:klanten:view.html.twig' %}
+{% if 'IzBundle\\Entity\\IzKlant' == class(parent_entity) %}
+    {% set base_template = 'IzBundle:klanten:view.html.twig' %}
+{% elseif 'IzBundle\\Entity\\IzVrijwilliger' == class(parent_entity) %}
+    {% set base_template = 'IzBundle:vrijwilligers:view.html.twig' %}
+{% elseif 'IzBundle\\Entity\\Hulpvraag' == class(parent_entity) %}
+    {% set base_template = 'IzBundle:hulpvragen:view.html.twig' %}
+{% elseif 'IzBundle\\Entity\\Hulpaanbod' == class(parent_entity) %}
+    {% set base_template = 'IzBundle:hulpaanbiedingen:view.html.twig' %}
+{% elseif 'IzBundle\\Entity\\Koppeling' == class(parent_entity) %}
+    {% set base_template = 'IzBundle:koppelingen:view.html.twig' %}
+{% endif %}
+{% extends base_template %}
 
-{% set entity = entity.izDeelnemer %}
+{% set entity = parent_entity %}
 
 {% block scripts %}
     <script type="text/javascript">

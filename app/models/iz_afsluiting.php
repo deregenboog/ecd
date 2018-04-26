@@ -11,7 +11,7 @@ class IzAfsluiting extends AppModel
     public $cachekey = 'IzAfsluitingList';
     public $active_key = 'IzAfsluitingListActive';
 
-    public function beforeSave(&$model)
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
         Cache::delete($this->active_key);

@@ -73,7 +73,11 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
+            $builder->add('stadsdeel', StadsdeelSelectType::class);
+        }
+
+        if (in_array('postcodegebied', $options['enabled_filters'])) {
+            $builder->add('postcodegebied', PostcodegebiedSelectType::class);
         }
 
         if (in_array('plaats', $options['enabled_filters'])) {

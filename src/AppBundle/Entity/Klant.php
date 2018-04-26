@@ -46,7 +46,15 @@ class Klant extends Persoon
     private $zrms;
 
     /**
-     * @var Intake[]
+     * @var Verslag[]
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Verslag", mappedBy="klant")
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $verslagen;
+
+    /**
+     * @var Registratie[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
      * @ORM\OrderBy({"id" = "DESC"})
@@ -103,6 +111,7 @@ class Klant extends Persoon
         $this->intakes = new ArrayCollection();
         $this->registraties = new ArrayCollection();
         $this->zrms = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
     }
 
     public function getLaatsteZrm()
@@ -193,6 +202,19 @@ class Klant extends Persoon
     {
         $this->zrms[] = $zrm;
         $zrm->setKlant($this);
+
+        return $this;
+    }
+
+    public function getVerslagen()
+    {
+        return $this->verslagen;
+    }
+
+    public function addVerslag(Verslag $verslag)
+    {
+        $this->verslagen[] = $verslag;
+        $verslag->setKlant($this);
 
         return $this;
     }
