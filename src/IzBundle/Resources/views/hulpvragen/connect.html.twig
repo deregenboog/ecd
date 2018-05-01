@@ -2,7 +2,6 @@
 
 {% set entity = entity.izKlant %}
 
-{% block scripts %}
 {% block content_right %}
     {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'koppelingen'} %}
     <div class="tab-content">
@@ -17,6 +16,7 @@
     </div>
 {% endblock %}
 
+{% block scripts %}
     <script type="text/javascript">
         $(function() {
             $('.nav-tabs a[href="#koppelingen"]').tab('show')

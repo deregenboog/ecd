@@ -30,12 +30,12 @@ class HulpaanbodConnectType extends AbstractType
                         ->innerJoin('hulpvraag.izKlant', 'izKlant')
                         ->innerJoin('izKlant.klant', 'klant')
                         ->where('hulpvraag.hulpaanbod IS NULL')
-                        ->andWhere('hulpvraag.project = :project')
+//                         ->andWhere('hulpvraag.project = :project')
                         ->andWhere('hulpvraag.startdatum >= :today')
                         ->andWhere('hulpvraag.einddatum IS NULL')
                         ->orderBy('klant.achternaam')
                         ->setParameters([
-                            'project' => $hulpaanbod->getProject(),
+//                             'project' => $hulpaanbod->getProject(),
                             'today' => new \DateTime('today'),
                         ])
                     ;

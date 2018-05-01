@@ -2,6 +2,20 @@
 
 {% set entity = entity.izVrijwilliger %}
 
+{% block content_right %}
+    {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'koppelingen'} %}
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+            <h2>Koppelingen</h2>
+            <p>
+                {{ html.cancelLink(redirect_uri) }}
+                {{ html.link('Annuleren', redirect_uri) }}
+            </p>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
 {% block scripts %}
     <script type="text/javascript">
         $(function() {
