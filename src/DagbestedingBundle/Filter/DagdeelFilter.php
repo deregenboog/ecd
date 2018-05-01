@@ -4,12 +4,12 @@ namespace DagbestedingBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\KlantFilterType;
+use AppBundle\Filter\KlantFilter;
 
 class DagdeelFilter implements FilterInterface
 {
     /**
-     * @var KlantFilterType
+     * @var KlantFilter
      */
     public $klant;
 
