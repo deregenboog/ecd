@@ -25,6 +25,11 @@
     </p>
     {% for verslag in verslagen %}
         <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }} | {{ verslag.medewerker }}</h3>
+        <p>
+            {% set edit_url = path('iz_verslagen_edit', {id: verslag.id}) %}
+            {{ html.editLink(edit_url) }}
+            {{ html.link('Verslag bewerken', edit_url) }}
+        </p>
         <div class="well">{{ verslag.opmerking|nl2br }}</div>
     {% endfor %}
 {% endif %}
