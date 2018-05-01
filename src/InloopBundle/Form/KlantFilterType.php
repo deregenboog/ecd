@@ -32,15 +32,8 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
-            $builder->add('gebruikersruimte', EntityType::class, [
-                'class' => Locatie::class,
+            $builder->add('gebruikersruimte', GebruikersruimteSelectType::class, [
                 'required' => false,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('locatie')
-                        ->where('locatie.gebruikersruimte = true')
-                        ->orderBy('locatie.naam')
-                    ;
-                },
             ]);
         }
 
