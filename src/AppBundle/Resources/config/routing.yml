@@ -4,15 +4,3 @@ home:
 app_annotations:
     resource: "@AppBundle/Controller"
     type: annotation
-
-app_klanten_view:
-    path: /klanten/view/{id}
-
-app_klanten_add:
-    path: /klanten/add
-
-app_klanten_edit:
-    path: /klanten/edit/{id}/generic:1
-
-app_vrijwilligers_edit:
-    path: /vrijwilligers/edit/{id}

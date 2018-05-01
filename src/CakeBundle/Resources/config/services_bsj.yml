@@ -97,9 +97,9 @@ parameters:
             pfo:
                 label: PFO
                 url: pfo
-            IzKlanten:
-                label: IZ
-                url: iz_klanten
+            iz:
+                label: Informele Zorg
+                url: iz
             groepsactiviteiten_klanten:
                 label: Groepsactiviteiten
                 url: groepsactiviteiten_klanten
@@ -198,11 +198,6 @@ parameters:
 services:
     cake.service.config:
         class: CakeBundle\Service\CakeConfiguration
-
-    cake.service.cache_warmer:
-        class: CakeBundle\Service\CakeCacheWarmer
-        tags:
-            - { name: kernel.cache_warmer, priority: 100 }
 
     cake.event.controller:
         class: CakeBundle\Event\KernelSubscriber

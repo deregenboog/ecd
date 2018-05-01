@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\Geslacht;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -47,6 +48,13 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('geslacht', $options['enabled_filters'])) {
+            $builder->add('geslacht', EntityType::class, [
+                'class' => Geslacht::class,
+                'required' => false,
+            ]);
+        }
+
         if (in_array('bsn', $options['enabled_filters'])) {
             $builder->add('bsn', null, [
                 'required' => false,
@@ -67,7 +75,11 @@ class VrijwilligerFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
+            $builder->add('stadsdeel', StadsdeelSelectType::class);
+        }
+
+        if (in_array('postcodegebied', $options['enabled_filters'])) {
+            $builder->add('postcodegebied', PostcodegebiedSelectType::class);
         }
 
         if (in_array('medewerker', $options['enabled_filters'])) {
@@ -95,6 +107,14 @@ class VrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VrijwilligerFilter::class,
+            'enabled_filters' => [
+                'id',
+                'naam',
+                'geslacht',
+                'geboortedatum',
+                'stadsdeel',
+                'postcodegebied',
+            ],
         ]);
     }
 

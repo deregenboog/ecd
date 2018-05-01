@@ -82,6 +82,7 @@ parameters:
             GROUP_MLO:
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Registraties
                 - Schorsingen
                 - Opmerkingen
@@ -97,6 +98,7 @@ parameters:
                 - AwbzIntakes
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Registraties
                 - Opmerkingen
                 - MaatschappelijkWerk
@@ -113,6 +115,7 @@ parameters:
             GROUP_HI5:
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Attachments
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
@@ -128,6 +131,7 @@ parameters:
             GROUP_STAGE:
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Registraties
             GROUP_PFO:
                 - pfo
@@ -164,6 +168,7 @@ parameters:
                 - Hi5
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - MaatschappelijkWerk
                 - MwBundle\Controller\Rapportages
                 - MwInventarisaties
@@ -173,10 +178,15 @@ parameters:
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - InloopBundle\Controller\Schorsingen
             GROUP_IZ:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
+                - IzKlanten
+                - AppBundle\Controller\Zrms
                 - iz
                 - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Documenten
@@ -269,7 +279,9 @@ parameters:
                 - OekBundle\Controller\Wachtlijst
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - Attachments
                 - Groepsactiviteiten
                 - GroepsactiviteitenKlanten
@@ -281,7 +293,9 @@ parameters:
                 - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - Attachments
                 - Groepsactiviteiten
                 - GroepsactiviteitenKlanten
@@ -406,7 +420,9 @@ parameters:
                 - ClipBundle\Controller\Vragen
             GROUP_HOMESERVICE:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - hs
                 - HsBundle\Controller\Betalingen
                 - HsBundle\Controller\Declaraties
@@ -422,7 +438,9 @@ parameters:
                 - HsBundle\Controller\Vrijwilligers
             GROUP_HOMESERVICE_BEHEER:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - hs
                 - HsBundle\Controller\Activiteiten
                 - HsBundle\Controller\Betalingen
@@ -446,10 +464,13 @@ parameters:
                 - AwbzIntakes
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
+                - AppBundle\Controller\Zrms
                 - Hi5
                 - MaatschappelijkWerk
                 - MwInventarisaties
                 - mw
+                - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - Verslagen
                 - Registraties
@@ -460,6 +481,7 @@ parameters:
                 - BackOnTrack
                 - BotVerslagen
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - groepsactiviteiten_klanten
                 - Medewerkers
                 - LdapUsers
@@ -479,6 +501,7 @@ parameters:
                 - Verslavingsperiodes
                 - Woonsituaties
                 - AppBundle\Controller\Rapportages
+                - AppBundle\Controller\Zrms
                 - odp
                 - OdpBundle\Controller\Coordinatoren
                 - OdpBundle\Controller\Documenten
@@ -612,15 +635,25 @@ parameters:
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
+                - GroepsactiviteitenGroepen
+                - GroepsactiviteitenRedenen
 
         # controller: {label, url}
         all_menu_items:
             Klanten:
                 label: Klanten
-                url: Klanten
+                url: klanten
             Vrijwilligers:
                 label: Vrijwilligers
-                url: Vrijwilligers
+                url: vrijwilligers
             Registraties:
                 label: Registratie
                 url: Registraties
