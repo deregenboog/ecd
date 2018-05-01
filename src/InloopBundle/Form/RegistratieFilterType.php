@@ -7,11 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Filter\SchorsingFilter;
 use InloopBundle\Filter\RegistratieFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 

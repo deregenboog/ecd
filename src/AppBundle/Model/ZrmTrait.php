@@ -3,10 +3,6 @@
 namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Entity\GgwGebied;
-use AppBundle\Entity\Werkgebied;
 use AppBundle\Entity\Zrm;
 
 trait ZrmTrait

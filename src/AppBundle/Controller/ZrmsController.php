@@ -2,15 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\Doelgroep;
-use IzBundle\Form\DoelgroepType;
-use IzBundle\Service\DoelgroepDaoInterface;
-use IzBundle\Entity\ContactOntstaan;
-use AppBundle\Entity\ZrmV2;
 use AppBundle\Service\ZrmDaoInterface;
 use AppBundle\Form\ZrmType;
 use AppBundle\Entity\Zrm;

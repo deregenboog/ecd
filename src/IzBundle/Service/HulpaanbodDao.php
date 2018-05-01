@@ -134,20 +134,20 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                 case Koppeling::DAGDEEL_AVOND:
                     $dagdelen = [
                         Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 case Koppeling::DAGDEEL_WEEKEND:
                     $dagdelen = [
                         Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 case Koppeling::DAGDEEL_AVOND_WEEKEND:
                     $dagdelen = [
                         Koppeling::DAGDEEL_AVOND,
                         Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 default:
@@ -155,7 +155,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                         Koppeling::DAGDEEL_OVERDAG,
                         Koppeling::DAGDEEL_AVOND,
                         Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
             }

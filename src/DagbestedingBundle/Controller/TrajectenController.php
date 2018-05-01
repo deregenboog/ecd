@@ -2,8 +2,6 @@
 
 namespace DagbestedingBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;

@@ -13,7 +13,6 @@ use IzBundle\Form\IzVrijwilligerType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Entity\Vrijwilliger;
-use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\FormError;
 use IzBundle\Form\IzDeelnemerCloseType;
 

@@ -9,10 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use ClipBundle\Entity\Contactmoment;
-use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Behandelaar;
 use AppBundle\Form\AppTextareaType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ContactmomentType extends AbstractType
 {

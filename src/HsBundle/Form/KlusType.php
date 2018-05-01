@@ -9,7 +9,6 @@ use HsBundle\Entity\Klus;
 use AppBundle\Form\AppDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use HsBundle\Entity\Memo;

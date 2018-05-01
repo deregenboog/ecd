@@ -15,7 +15,6 @@ use AppBundle\Entity\Klant;
 use IzBundle\Form\IzKlantType;
 use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
-use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Form\IzDeelnemerCloseType;
 use Symfony\Component\Form\FormError;
 

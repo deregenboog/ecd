@@ -56,7 +56,6 @@ class VrijwilligerFilter implements FilterInterface
      */
     public $stadsdeel;
 
-    
     /**
      * @var GgwGebied
      */

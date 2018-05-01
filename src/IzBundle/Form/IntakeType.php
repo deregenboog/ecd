@@ -15,8 +15,6 @@ use IzBundle\Entity\Intake;
 use AppBundle\Form\ZrmType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Entity\Zrm;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -31,10 +29,10 @@ class IntakeType extends AbstractType
         $intake = $options['data'];
 
         $builder->addViewTransformer(new CallbackTransformer(
-            function(Intake $intake) {
+            function (Intake $intake) {
                 return new IntakeModel($intake);
             },
-            function(IntakeModel $model) {
+            function (IntakeModel $model) {
                 return $model->getIntake();
             }
         ));

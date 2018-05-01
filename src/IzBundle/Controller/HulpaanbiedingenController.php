@@ -10,7 +10,6 @@ use IzBundle\Service\HulpaanbodDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractChildController;
-use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Service\HulpvraagDaoInterface;
 use Symfony\Component\HttpFoundation\Request;

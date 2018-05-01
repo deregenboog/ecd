@@ -7,7 +7,6 @@ use AppBundle\Entity\Medewerker;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation\Loggable;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\VerslagRepository")

@@ -58,7 +58,6 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
-
             $stadsdeel = $this->getWerkgebied($values[1]);
 
             $postcodegebied = null;

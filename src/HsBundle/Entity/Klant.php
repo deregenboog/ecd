@@ -10,7 +10,6 @@ use AppBundle\Model\AddressTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Geslacht;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity

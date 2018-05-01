@@ -97,7 +97,7 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif ($this->startDate->format('Y') == 2018) {
+        } elseif (2018 == $this->startDate->format('Y')) {
             $prestaties = array_merge($beginstand, $gestart);
         } else {
             $prestaties = $gestart;
@@ -141,7 +141,7 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif ($this->startDate->format('Y') == 2018) {
+        } elseif (2018 == $this->startDate->format('Y')) {
             $prestaties = array_merge($beginstand, $gestart);
         } else {
             $prestaties = $gestart;
@@ -246,7 +246,7 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif ($this->startDate->format('Y') == 2018) {
+        } elseif (2018 == $this->startDate->format('Y')) {
             $prestaties = array_merge($beginstand, $gestart);
         } else {
             $prestaties = $gestart;

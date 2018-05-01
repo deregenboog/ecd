@@ -8,9 +8,6 @@ use MwBundle\Form\RapportageType;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Controller\AbstractRapportagesController;
 use Symfony\Component\HttpFoundation\Request;
-use MwBundle\Entity\Verslaginventarisatie;
-use MwBundle\Entity\Inventarisatie;
-use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 /**
  * @Route("/rapportages")

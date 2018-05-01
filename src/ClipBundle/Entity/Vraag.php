@@ -269,7 +269,7 @@ class Vraag
     /**
      * SoftDeleteable, so it's safe to return true.
      *
-     * @return boolean
+     * @return bool
      */
     public function isDeletable()
     {

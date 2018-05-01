@@ -47,7 +47,7 @@ class RegistratieType extends AbstractType
                         ])
                     ;
                 },
-                'group_by' => function($value, $key, $index) {
+                'group_by' => function ($value, $key, $index) {
                     if ($value instanceof Dienstverlener) {
                         return 'Dienstverleners';
                     } else {
@@ -89,7 +89,6 @@ class RegistratieType extends AbstractType
                     }
 
                     return $builder;
-
                 },
             ])
             ->add('datum', AppDateType::class)

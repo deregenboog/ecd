@@ -77,7 +77,6 @@ class FactuurFilterType extends AbstractType
             ;
         }
 
-
         if (in_array('zipDownload', $options['enabled_filters'])) {
             $builder->add('zipDownload', SubmitType::class);
         }

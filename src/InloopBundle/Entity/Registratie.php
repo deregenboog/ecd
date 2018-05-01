@@ -128,7 +128,7 @@ class Registratie
         $parts = [
             (string) $this->klant,
             (string) $this->locatie,
-            $this->binnen->format('d-m-Y H:i')
+            $this->binnen->format('d-m-Y H:i'),
         ];
 
         if ($this->buiten) {

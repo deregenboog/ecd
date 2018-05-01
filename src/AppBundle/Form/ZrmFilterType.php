@@ -5,11 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Filter\ZrmFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -69,7 +65,7 @@ class ZrmFilterType extends AbstractType
             'enabled_filters' => [
                 'created',
                 'requestModule',
-                'klant' => ['id', 'naam']
+                'klant' => ['id', 'naam'],
             ],
         ]);
     }

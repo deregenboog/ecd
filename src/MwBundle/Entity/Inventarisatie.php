@@ -3,9 +3,7 @@
 namespace MwBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\IdentifiableTrait;
 
 /**
@@ -155,7 +153,7 @@ class Inventarisatie
     /**
      * @param Inventarisatie $parent
      */
-    public function setParent(Inventarisatie $parent)
+    public function setParent(self $parent)
     {
         $this->parent = $parent;
 
@@ -179,7 +177,7 @@ class Inventarisatie
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getActief()
     {
@@ -187,7 +185,7 @@ class Inventarisatie
     }
 
     /**
-     * @param boolean $actief
+     * @param bool $actief
      */
     public function setActief($actief)
     {

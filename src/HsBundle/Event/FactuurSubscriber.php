@@ -10,9 +10,7 @@ use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Registratie;
-use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\PostFlushEventArgs;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Exception\InvoiceLockedException;
 

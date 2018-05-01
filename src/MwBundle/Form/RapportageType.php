@@ -19,7 +19,7 @@ class RapportageType extends BaseRapportageType
             'placeholder' => 'Alle locaties',
             'required' => false,
             'class' => Locatie::class,
-            'query_builder' => function(EntityRepository $repository) {
+            'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('locatie')
                     ->orderBy('locatie.naam');
             },

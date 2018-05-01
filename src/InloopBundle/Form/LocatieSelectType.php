@@ -25,7 +25,7 @@ class LocatieSelectType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Locatie::class,
-            'query_builder' => function(EntityRepository $repository) {
+            'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('locatie')
                     ->where("locatie.datumVan <> '0000-00-00' AND locatie.datumVan <= :today")
                     ->andWhere("locatie.datumTot IS NULL OR locatie.datumTot = '0000-00-00' OR locatie.datumTot >= :today")

@@ -15,6 +15,6 @@ class DisabledFilter extends SQLFilter
             return sprintf('%s.disabled = 0', $targetTableAlias);
         }
 
-        return "";
+        return '';
     }
 }

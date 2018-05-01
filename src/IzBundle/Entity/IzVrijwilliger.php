@@ -146,7 +146,7 @@ class IzVrijwilliger extends IzDeelnemer
         }
 
         $intervisiegroepen = array_filter($intervisiegroepen);
-        usort($intervisiegroepen, function(Intervisiegroep $a, Intervisiegroep $b) {
+        usort($intervisiegroepen, function (Intervisiegroep $a, Intervisiegroep $b) {
             $naamA = $a->getNaam();
             $naamB = $b->getNaam();
 

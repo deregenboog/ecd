@@ -20,7 +20,7 @@ abstract class Zrm
 {
     use IdentifiableTrait, TimestampableTrait;
 
-    CONST ZRM_VERSIONS = [
+    const ZRM_VERSIONS = [
         ZrmV2::class => '2017-10-05',
         ZrmV1::class => '2010-01-01',
     ];

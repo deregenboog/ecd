@@ -2,10 +2,8 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Klant;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
-use AppBundle\Entity\Geslacht;
 
 class ZrmFilter implements FilterInterface
 {

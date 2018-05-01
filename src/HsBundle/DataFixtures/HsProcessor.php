@@ -9,7 +9,7 @@ use HsBundle\Entity\Registratie;
 final class HsProcessor implements ProcessorInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function preProcess($object)
     {
@@ -23,7 +23,7 @@ final class HsProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function postProcess($object)
     {

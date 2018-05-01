@@ -4,7 +4,6 @@ namespace IzBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\MatchingKlant;
 use IzBundle\Entity\Hulpaanbod;
 
 class IzVrijwilligerRepository extends EntityRepository

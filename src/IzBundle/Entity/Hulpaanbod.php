@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Exception\AppException;
-use IzBundle\Entity\Verslag;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpaanbodRepository")
@@ -157,7 +156,7 @@ class Hulpaanbod extends Koppeling
             $this->verslagen->toArray(),
             $this->hulpvraag->getVerslagen(false)->toArray()
         );
-        usort($verslagen, function(Verslag $a, Verslag $b) {
+        usort($verslagen, function (Verslag $a, Verslag $b) {
             $datumA = $a->getCreated();
             $datumB = $b->getCreated();
 

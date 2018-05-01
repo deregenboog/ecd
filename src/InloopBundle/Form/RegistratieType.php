@@ -4,9 +4,6 @@ namespace InloopBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\AppDateTimeType;

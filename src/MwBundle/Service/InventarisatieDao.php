@@ -3,8 +3,6 @@
 namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
 use MwBundle\Entity\Inventarisatie;
 use InloopBundle\Entity\Locatie;
 

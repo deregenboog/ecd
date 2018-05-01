@@ -8,7 +8,6 @@ use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use GaBundle\Entity\GaIntake;
 use GaBundle\Entity\GaKlantIntake;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface

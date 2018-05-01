@@ -25,7 +25,6 @@ class DocumentType extends AbstractType
             ])
             ->add('medewerker', MedewerkerType::class, [
             ]);
-        ;
 
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }

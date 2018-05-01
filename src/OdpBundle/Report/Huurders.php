@@ -2,9 +2,7 @@
 
 namespace OdpBundle\Report;
 
-use OdpBundle\Service\HuurovereenkomstDao;
 use AppBundle\Report\AbstractReport;
-use OdpBundle\Service\HuurderDao;
 use OdpBundle\Service\HuurderDaoInterface;
 
 class Huurders extends AbstractReport

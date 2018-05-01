@@ -134,6 +134,7 @@ class VragenController extends AbstractVragenController
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
             }
+
             return $this->redirect($url);
         }
 

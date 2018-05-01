@@ -5,8 +5,6 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use InloopBundle\Form\SchorsingFilterType;
-use InloopBundle\Entity\Schorsing;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Form\RegistratieFilterType;
 use InloopBundle\Service\RegistratieDaoInterface;

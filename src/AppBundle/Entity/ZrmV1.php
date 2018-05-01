@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -106,7 +105,7 @@ class ZrmV1 extends Zrm
      *
      * @return string[]
      */
-    static public function getFieldsAndLabels()
+    public static function getFieldsAndLabels()
     {
         return [
             'inkomen' => 'Inkomen',

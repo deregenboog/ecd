@@ -20,8 +20,6 @@ use AppBundle\Exception\AppException;
 use HsBundle\Exception\HsException;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Form\CreditfactuurType;
-use HsBundle\Filter\FactuurFilter;
-use Symfony\Component\DependencyInjection\Tests\Fixtures\includes\HotPath\P1;
 use HsBundle\Pdf\PdfFactuur;
 
 /**

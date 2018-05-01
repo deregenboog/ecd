@@ -116,7 +116,7 @@ class Intervisiegroep
         }
 
         $vrijwilligers = array_filter($vrijwilligers);
-        usort($vrijwilligers, function(IzVrijwilliger $a, IzVrijwilliger $b) {
+        usort($vrijwilligers, function (IzVrijwilliger $a, IzVrijwilliger $b) {
             $naamA = $a->getVrijwilliger()->getNaam();
             $naamB = $b->getVrijwilliger()->getNaam();
 

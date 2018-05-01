@@ -11,7 +11,6 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AbstractController extends SymfonyController
 {

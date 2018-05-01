@@ -4,7 +4,6 @@ namespace IzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\IdentifiableTrait;
 
 /**
@@ -68,6 +67,4 @@ class Lidmaatschap
 
         return $this;
     }
-
-
 }

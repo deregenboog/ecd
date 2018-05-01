@@ -2,13 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Export\AbstractExport;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Service\VrijwilligerDaoInterface;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerType;

@@ -4,7 +4,6 @@ namespace AppBundle\Report;
 
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Filter\FilterInterface;
 
 abstract class AbstractReport
 {

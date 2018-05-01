@@ -6,7 +6,6 @@ use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use HsBundle\Entity\Arbeider;
 use AppBundle\Form\Model\AppDateRangeModel;
-use HsBundle\Entity\Klant;
 use HsBundle\Entity\Activiteit;
 
 class RegistratieFilter implements FilterInterface

@@ -18,7 +18,7 @@ class DummyChoiceType extends AbstractType
             'disabled' => true,
             'mapped' => false,
             'dummy_label' => '',
-            'choices' => function(Options $options) {
+            'choices' => function (Options $options) {
                 return [$options['dummy_label'] => ''];
             },
         ]);

@@ -7,15 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\FilterType;
-use HsBundle\Filter\KlusFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use HsBundle\Entity\Activiteit;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use HsBundle\Entity\Klus;
-use HsBundle\Filter\KlantFilter;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use HsBundle\Filter\RegistratieFilter;
@@ -45,7 +39,7 @@ class RegistratieFilterType extends AbstractType
                         ->orderBy('basisvrijwilliger.achternaam, klant.achternaam')
                     ;
                 },
-                'group_by' => function($value, $key, $index) {
+                'group_by' => function ($value, $key, $index) {
                     if ($value instanceof Dienstverlener) {
                         return 'Dienstverleners';
                     } else {

@@ -13,7 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Form\HulpvraagConnectType;
 use IzBundle\Form\HulpvraagCloseType;
-use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Service\HulpaanbodDaoInterface;
 

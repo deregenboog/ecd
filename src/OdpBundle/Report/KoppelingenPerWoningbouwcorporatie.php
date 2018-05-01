@@ -2,7 +2,6 @@
 
 namespace OdpBundle\Report;
 
-use OdpBundle\Service\HuurovereenkomstDao;
 use AppBundle\Report\AbstractReport;
 use OdpBundle\Service\HuurovereenkomstDaoInterface;
 

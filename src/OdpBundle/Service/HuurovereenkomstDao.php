@@ -90,7 +90,6 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         return $builder->getQuery()->getResult();
     }
 
-
     private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
     {
         return $this->repository->createQueryBuilder($this->alias)

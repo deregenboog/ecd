@@ -101,13 +101,14 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             $collection = $collection->toArray();
         }
 
-        usort($collection, function($itemA, $itemB) use ($method) {
+        usort($collection, function ($itemA, $itemB) use ($method) {
             if (call_user_func([$itemA, $method]) > call_user_func([$itemB, $method])) {
                 return 1;
             }
             if (call_user_func([$itemA, $method]) < call_user_func([$itemB, $method])) {
                 return -1;
             }
+
             return 0;
         });
 
@@ -134,6 +135,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * Combines the filter "money" and "color".
      *
      * @param float $value
+     *
      * @return string
      */
     public function saldoFilter($value)
@@ -148,6 +150,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * Inversed version of "saldo" filter.
      *
      * @param float $value
+     *
      * @return string
      */
     public function factuurSaldoFilter($value)

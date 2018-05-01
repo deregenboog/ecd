@@ -4,7 +4,6 @@ namespace HsBundle\Service;
 
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
-use Doctrine\Common\Collections\Criteria;
 use AppBundle\Form\Model\AppDateRangeModel;
 use HsBundle\Entity\FactuurSubjectInterface;
 use HsBundle\Entity\Declaratie;

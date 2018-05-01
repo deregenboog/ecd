@@ -178,6 +178,7 @@ class Verslag
 
     /**
      * @param Contactsoort $contactsoort
+     *
      * @return \AppBundle\Entity\Verslag
      */
     public function setContactsoort(Contactsoort $contactsoort)
@@ -197,6 +198,7 @@ class Verslag
 
     /**
      * @param int $duur
+     *
      * @return \AppBundle\Entity\Verslag
      */
     public function setDuur($duur)

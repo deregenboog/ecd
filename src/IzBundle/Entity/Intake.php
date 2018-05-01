@@ -5,8 +5,6 @@ namespace IzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Zrm;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\ZrmTrait;
 use AppBundle\Model\ZrmInterface;
 

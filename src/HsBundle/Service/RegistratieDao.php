@@ -162,7 +162,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
-            ->addSelect("activiteit.naam AS groep")
+            ->addSelect('activiteit.naam AS groep')
             ->innerJoin('registratie.activiteit', 'activiteit')
             ->groupBy('groep')
         ;

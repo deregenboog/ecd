@@ -3,11 +3,8 @@
 namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
-use ClipBundle\Service\VraagDaoInterface;
-use ClipBundle\Service\ContactmomentDaoInterface;
 use MwBundle\Service\InventarisatieDaoInterface;
 use AppBundle\Report\Grid;
-use AppBundle\Report\Table;
 use InloopBundle\Entity\Locatie;
 
 class Inventarisaties extends AbstractReport

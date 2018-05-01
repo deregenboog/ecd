@@ -14,7 +14,6 @@ use AppBundle\Form\MedewerkerType;
 use IzBundle\Entity\Hulpvraag;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Entity\Koppeling;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\AppTextareaType;
 
@@ -41,7 +40,7 @@ class HulpvraagType extends AbstractType
             ->add('doelgroepen', null, [
                 'required' => true,
                 'expanded' => true,
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('doelgroep')
                         ->where('doelgroep.actief = true')
                         ->orderBy('doelgroep.naam')
@@ -64,7 +63,7 @@ class HulpvraagType extends AbstractType
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->where('geslacht.volledig <> :onbekend')
                         ->setParameter('onbekend', 'Onbekend')
