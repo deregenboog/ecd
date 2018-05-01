@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use ClipBundle\Entity\Leeftijdscategorie;
+use ClipBundle\Entity\Viacategorie;
 
 class ViacategorieType extends AbstractType
 {
@@ -29,7 +30,7 @@ class ViacategorieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Leeftijdscategorie::class,
+            'data_class' => Viacategorie::class,
         ]);
     }
 
