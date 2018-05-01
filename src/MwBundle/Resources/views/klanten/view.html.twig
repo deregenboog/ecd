@@ -1,0 +1,37 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Maatschappelijk werk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Mw/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity} %}
+{% endblock %}
+
+{% block content_right %}
+    {% for verslag in entity.verslagen %}
+        <h2>Verslag van {{ verslag.datum|date('d-m-Y') }}</h2>
+        <dl class="dl-horizontal">
+            <dt>Locatie</dt>
+            <dd>{{ verslag.locatie }}</dd>
+            <dt>Medewerker</dt>
+            <dd>{{ verslag.medewerker }}</dd>
+            <dt>Contactsoort</dt>
+            <dd>{{ verslag.contactsoort }}</dd>
+            {% if verslag.duur %}
+                <dt>Duur</dt>
+                <dd>{{ verslag.duur }} minuten</dd>
+            {% endif %}
+        </dl>
+        <p>{{ verslag.opmerking|nl2br }}</p>
+    {% endfor %}
+{% endblock %}

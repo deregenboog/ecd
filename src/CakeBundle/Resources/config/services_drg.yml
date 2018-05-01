@@ -102,6 +102,8 @@ parameters:
                 - Registraties
                 - Opmerkingen
                 - MaatschappelijkWerk
+                - mw
+                - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - Verslagen
                 - Rapportages
@@ -170,6 +172,8 @@ parameters:
                 - Klanten
                 - AppBundle\Controller\Klanten
                 - MaatschappelijkWerk
+                - mw
+                - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - MwInventarisaties
                 - Opmerkingen
@@ -660,12 +664,9 @@ parameters:
             inloop:
                 label: Inloophuizen
                 url: inloop
-            MaatschappelijkWerk:
+            mw:
                 label: Maatschappelijk werk
-                url: MaatschappelijkWerk
-#            mw:
-#                label: Maatschappelijk werk
-#                url: mw
+                url: mw
             Rapportages:
                 label: Rapportages
                 url: Rapportages
