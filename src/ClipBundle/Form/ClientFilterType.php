@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
 use ClipBundle\Filter\ClientFilter;
-use AppBundle\Form\StadsdeelFilterType;
+use AppBundle\Form\StadsdeelSelectType;
 
 class ClientFilterType extends AbstractType
 {
@@ -30,7 +30,7 @@ class ClientFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class, [
+            $builder->add('stadsdeel', StadsdeelSelectType::class, [
             ]);
         }
 
