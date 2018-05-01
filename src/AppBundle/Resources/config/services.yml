@@ -73,7 +73,3 @@ services:
 
     app.export.report:
         class: AppBundle\Export\ReportExport
-
-    AppBundle\DataFixtures\AppProcessor:
-        tags:
-            - { name: hautelook_alice.alice.processor }
