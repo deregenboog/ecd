@@ -5,7 +5,6 @@ namespace Tests\OekBundle\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DomCrawler\Link;
 
 class DeelnemersControllerTest extends WebTestCase
 {

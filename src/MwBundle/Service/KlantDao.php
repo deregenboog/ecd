@@ -42,7 +42,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
             ->groupBy($this->alias.'.id');
-        ;
 
         if ($filter) {
             $filter->applyTo($builder);

@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
-use ClipBundle\Entity\Leeftijdscategorie;
 use ClipBundle\Entity\Viacategorie;
 
 class ViacategorieType extends AbstractType

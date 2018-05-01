@@ -5,7 +5,6 @@ namespace Tests\OdpBundle\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DomCrawler\Link;
 
 class HuuraanbiedingenControllerTest extends WebTestCase
 {

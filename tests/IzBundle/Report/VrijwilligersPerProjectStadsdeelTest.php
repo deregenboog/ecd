@@ -2,7 +2,6 @@
 
 namespace Tests\IzBundle\Report;
 
-use IzBundle\Report\VrijwilligersPerProjectStadsdeel;
 use IzBundle\Repository\IzVrijwilligerRepository;
 use IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant;
 

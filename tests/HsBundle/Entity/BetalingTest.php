@@ -12,7 +12,7 @@ class BetalingTest extends \PHPUnit_Framework_TestCase
         $factuur = $this->createMock(Factuur::class);
         $betaling = new Betaling($factuur);
 
-        $format = function($value) {
+        $format = function ($value) {
             return money_format('%(#1n', $value);
         };
 

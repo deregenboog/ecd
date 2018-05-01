@@ -6,7 +6,6 @@ use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Registratie;
-use HsBundle\Exception\InvoiceLockedException;
 use HsBundle\Entity\Betaling;
 use HsBundle\Entity\Herinnering;
 
