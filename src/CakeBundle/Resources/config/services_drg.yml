@@ -463,6 +463,21 @@ parameters:
                 - groepsactiviteiten_klanten
                 - Medewerkers
                 - LdapUsers
+                - Doorverwijzers
+                - Geslachten
+                - Instanties
+                - Inkomens
+                - Inventarisaties
+                - Landen
+                - Legitimaties
+                - Locaties
+                - Nationaliteiten
+                - Verblijfstatussen
+                - Verslavingen
+                - Verslavingsfrequenties
+                - Verslavingsgebruikswijzen
+                - Verslavingsperiodes
+                - Woonsituaties
                 - AppBundle\Controller\Rapportages
                 - odp
                 - OdpBundle\Controller\Coordinatoren
