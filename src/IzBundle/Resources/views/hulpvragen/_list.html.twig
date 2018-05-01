@@ -37,7 +37,7 @@
     </table>
 
     <h3>Actieve koppelingen</h3>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -49,7 +49,7 @@
         </thead>
         <tbody>
             {% for hulpvraag in klant.actieveKoppelingen %}
-                <tr>
+                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
                     <td>{{ hulpvraag.project }}</td>
                     <td>{{ hulpvraag.hulpaanbod.izVrijwilliger }}</td>
                     <td>{{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}</td>
@@ -61,7 +61,7 @@
     </table>
 
     <h3><small>Afgesloten hulpvragen</small></h3>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -73,7 +73,7 @@
         </thead>
         <tbody>
             {% for hulpvraag in klant.afgeslotenHulpvragen %}
-                <tr>
+                <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
                     <td>{{ hulpvraag.project }}</td>
                     <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.einddatum ? hulpvraag.einddatum|date('d-m-Y') }}</td>
@@ -85,7 +85,7 @@
     </table>
 
     <h3><small>Afgesloten koppelingen</small></h3>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -99,7 +99,7 @@
         </thead>
         <tbody>
             {% for hulpvraag in klant.afgeslotenKoppelingen %}
-                <tr>
+                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
                     <td>{{ hulpvraag.project }}</td>
                     <td>{{ hulpvraag.hulpaanbod.izVrijwilliger }}</td>
                     <td>{{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}</td>

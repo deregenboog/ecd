@@ -11,7 +11,7 @@
         {{ html.addLink(path('iz_hulpaanbiedingen_add', {vrijwilliger: vrijwilliger.id})) }}
         {{ html.link('Hulpaanbod toevoegen', path('iz_hulpaanbiedingen_add', {vrijwilliger: vrijwilliger.id})) }}
     </p>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {% for hulpaanbod in vrijwilliger.openHulpaanbiedingen %}
-                <tr>
+                <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}">
                     <td>{{ hulpaanbod.project }}</td>
                     <td>{{ hulpaanbod.startdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>
@@ -37,7 +37,7 @@
     </table>
 
     <h3>Actieve koppelingen</h3>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -49,7 +49,7 @@
         </thead>
         <tbody>
             {% for hulpaanbod in vrijwilliger.actieveKoppelingen %}
-                <tr>
+                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id}) }}">
                     <td>{{ hulpaanbod.project }}</td>
                     <td>{{ hulpaanbod.hulpvraag.izKlant }}</td>
                     <td>{{ hulpaanbod.koppelingStartdatum|date('d-m-Y') }}</td>
@@ -61,7 +61,7 @@
     </table>
 
     <h3><small>Afgesloten hulpaanbiedingen</small></h3>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -73,7 +73,7 @@
         </thead>
         <tbody>
             {% for hulpaanbod in vrijwilliger.afgeslotenHulpaanbiedingen %}
-                <tr>
+                <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}">
                     <td>{{ hulpaanbod.project }}</td>
                     <td>{{ hulpaanbod.startdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.einddatum ? hulpaanbod.einddatum|date('d-m-Y') }}</td>
@@ -85,7 +85,7 @@
     </table>
 
     <h3><small>Afgesloten koppelingen</small></h3>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Project</th>
@@ -99,7 +99,7 @@
         </thead>
         <tbody>
             {% for hulpaanbod in vrijwilliger.afgeslotenKoppelingen %}
-                <tr>
+                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id}) }}">
                     <td>{{ hulpaanbod.project }}</td>
                     <td>{{ hulpaanbod.hulpvraag.izKlant }}</td>
                     <td>{{ hulpaanbod.koppelingStartdatum|date('d-m-Y') }}</td>

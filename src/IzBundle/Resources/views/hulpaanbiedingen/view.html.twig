@@ -21,7 +21,7 @@
     <div class="tab-content">
         <div id="hulpaanbod" class="tab-pane active">
             <h2>Hulpaanbod</h2>
-            {% if not entity.gekoppeld %}
+            {% if not entity.afgesloten and not entity.gekoppeld %}
                 <p>
                     {{ html.editLink(path('iz_hulpaanbiedingen_edit', {id: entity.id})) }}
                     {{ html.link('Bewerken', path('iz_hulpaanbiedingen_edit', {id: entity.id})) }}
@@ -32,6 +32,8 @@
             <dl class="dl-horizontal">
                 <dt>Startdatum</dt>
                 <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+                <dt>Einddatum</dt>
+                <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
                 <dt>Project</dt>
                 <dd>{{ entity.project }}</dd>
                 <dt>Medewerker</dt>
@@ -69,7 +71,7 @@
                 <h2>Koppeling</h2>
                 {{ html.viewLink(path('iz_koppelingen_view', {id: entity.hulpvraag.id})) }}
                 {{ html.link('Naar koppeling', path('iz_koppelingen_view', {id: entity.hulpvraag.id})) }}
-            {% elseif kandidaten is defined %}
+            {% elseif not entity.afgesloten and kandidaten is defined %}
                 <h2>Kandidaat hulpvragen</h2>
                 {% if 0 == kandidaten|length %}
                     <p>Geen kandidaten gevonden.</p>
