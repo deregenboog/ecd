@@ -53,6 +53,9 @@ services:
     IzBundle\Service\ProjectDao:
         parent: app.dao.abstract
 
+    IzBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
 

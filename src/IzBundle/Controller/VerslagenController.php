@@ -9,6 +9,7 @@ use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
 use AppBundle\Controller\AbstractChildController;
 use Symfony\Component\HttpFoundation\Request;
+use IzBundle\Service\VerslagDaoInterface;
 
 /**
  * @Route("/verslagen")
@@ -23,9 +24,9 @@ class VerslagenController extends AbstractChildController
     protected $addMethod = 'addVerslag';
 
     /**
-     * @var DoelgroepDaoInterface
+     * @var VerslagDaoInterface
      *
-     * @DI\Inject("IzBundle\Service\DoelgroepDao")
+     * @DI\Inject("IzBundle\Service\VerslagDao")
      */
     protected $dao;
 
