@@ -45,20 +45,6 @@ class KernelSubscriber implements EventSubscriberInterface
     public function onKernelRequest(GetResponseEvent $event)
     {
         $this->setLdapConfiguration();
-
-        // @todo remove this when no longer needed
-        $em = $this->container->get('doctrine.orm.entity_manager');
-
-        $queries = [];
-        foreach ([Klant::class, Vrijwilliger::class] as $model) {
-            foreach (['werkgebied', 'postcodegebied'] as $property) {
-                $queries[] = "UPDATE {$model} AS model SET model.{$property} = NULL WHERE model.{$property} = ''";
-            }
-        }
-
-        foreach ($queries as $query) {
-            $em->createQuery($query)->execute();
-        }
     }
 
     public function onKernelController(FilterControllerEvent $event)

@@ -477,6 +477,14 @@ class Klant extends AppModel
 
     public function beforeSave($options = [])
     {
+        // convert empty strings to null
+        if ('' === $this->data['Klant']['werkgebied']) {
+            $this->data['Klant']['werkgebied'] = null;
+        }
+        if ('' === $this->data['Klant']['postcodegebied']) {
+            $this->data['Klant']['postcodegebied'] = null;
+        }
+
         if (!$this->id && empty($this->data['Klant']['id'])) {
             $this->send_admin_email = true;
             $this->changes = $this->data;
