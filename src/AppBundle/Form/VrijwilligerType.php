@@ -12,9 +12,20 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use AppBundle\Util\PostcodeFormatter;
 use AppBundle\Entity\Postcode;
+use Doctrine\ORM\EntityManager;
 
 class VrijwilligerType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * {@inheritdoc}
      */
