@@ -32,14 +32,8 @@
     <dl class="dl-horizontal">
         <dt>Hulpvraagsoort</dt>
         <dd>{{ entity.hulpvraagsoort }}</dd>
-        <dt>Doelgroepen</dt>
-        <dd>
-            <ul>
-                {% for doelgroep in entity.doelgroepen %}
-                    <li>{{ doelgroep }}</li>
-                {% endfor %}
-            </ul>
-        </dd>
+        <dt>Doelgroep</dt>
+        <dd>{{ entity.doelgroep }}</dd>
         <dt>Dagdeel</dt>
         <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
         <dt>Geschikt voor expat</dt>
@@ -66,7 +60,6 @@
                         </th>
                         <th>
                             {{ knp_pagination_sortable(kandidaten, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
-
                         </th>
                         <th>
                             {{ knp_pagination_sortable(kandidaten, 'Geslacht', 'geslacht.volledig') }}

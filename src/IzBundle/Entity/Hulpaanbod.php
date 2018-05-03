@@ -54,7 +54,6 @@ class Hulpaanbod extends Koppeling
     {
         parent::__construct();
         $this->hulpvraagsoorten = new ArrayCollection();
-        $this->doelgroepen = new ArrayCollection();
     }
 
     public function getIzVrijwilliger()

@@ -7,8 +7,10 @@ use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Doelgroep;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,16 +36,11 @@ class HulpvraagType extends AbstractType
             ])
             ->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => true,
+                'multiple' => false,
             ])
-            ->add('doelgroepen', null, [
+            ->add('doelgroep', DoelgroepSelectType::class, [
                 'required' => true,
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('doelgroep')
-                        ->where('doelgroep.actief = true')
-                        ->orderBy('doelgroep.naam')
-                    ;
-                },
+                'multiple' => false,
             ])
             ->add('dagdeel', ChoiceType::class, [
                 'required' => false,

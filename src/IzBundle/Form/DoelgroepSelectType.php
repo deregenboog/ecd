@@ -3,12 +3,12 @@
 namespace IzBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\Hulpvraagsoort;
+use IzBundle\Entity\Doelgroep;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class HulpvraagsoortSelectType extends AbstractType
+class DoelgroepSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,19 +18,12 @@ class HulpvraagsoortSelectType extends AbstractType
         $resolver->setDefaults([
             'placeholder' => '',
             'expanded' => true,
-            'class' => Hulpvraagsoort::class,
+            'class' => Doelgroep::class,
             'query_builder' => function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('hulpvraagsoort')
-                    ->where('hulpvraagsoort.actief = true')
-                    ->orderBy('hulpvraagsoort.naam')
+                return $repository->createQueryBuilder('doelgroep')
+                    ->where('doelgroep.actief = true')
+                    ->orderBy('doelgroep.naam')
                 ;
-            },
-            'choice_attr' => function (Hulpvraagsoort $hulpvraagsoort) {
-                if ($hulpvraagsoort->getToelichting()) {
-                    return ['title' => $hulpvraagsoort->getToelichting()];
-                }
-
-                return [];
             },
         ]);
     }

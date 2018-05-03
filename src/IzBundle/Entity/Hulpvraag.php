@@ -3,7 +3,6 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Exception\AppException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -47,8 +46,6 @@ class Hulpvraag extends Koppeling
     public function __construct()
     {
         parent::__construct();
-        $this->secundarieHulpvraagsoorten = new ArrayCollection();
-        $this->doelgroepen = new ArrayCollection();
     }
 
     public function getIzKlant()
@@ -95,6 +92,18 @@ class Hulpvraag extends Koppeling
     public function setHulpvraagsoort(Hulpvraagsoort $hulpvraagsoort)
     {
         $this->hulpvraagsoort = $hulpvraagsoort;
+
+        return $this;
+    }
+
+    public function getDoelgroep()
+    {
+        return count($this->doelgroepen) ? $this->doelgroepen[0] : null;
+    }
+
+    public function setDoelgroep(Doelgroep $doelgroep)
+    {
+        $this->doelgroepen = [$doelgroep];
 
         return $this;
     }

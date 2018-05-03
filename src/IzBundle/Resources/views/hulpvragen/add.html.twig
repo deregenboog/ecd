@@ -12,3 +12,16 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            // copy title from input to label
+            $('input[type="radio"], input[type="checkbox"]').each(function() {
+                if ($(this).attr('title')) {
+                    $(this).closest('label').attr('title', $(this).attr('title'));
+                }
+            });
+        });
+    </script>
+{% endblock %}

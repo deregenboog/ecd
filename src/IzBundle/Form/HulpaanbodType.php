@@ -32,23 +32,11 @@ class HulpaanbodType extends AbstractType
             ->add('medewerker', MedewerkerType::class, [
                 'required' => true,
             ])
-            ->add('hulpvraagsoorten', null, [
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('hulpvraagsoort')
-                        ->where('hulpvraagsoort.actief = true')
-                        ->orderBy('hulpvraagsoort.naam')
-                    ;
-                },
+            ->add('hulpvraagsoorten', HulpvraagsoortSelectType::class, [
+                'multiple' => true,
             ])
-            ->add('doelgroepen', null, [
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('doelgroep')
-                        ->where('doelgroep.actief = true')
-                        ->orderBy('doelgroep.naam')
-                    ;
-                },
+            ->add('doelgroepen', DoelgroepSelectType::class, [
+                'multiple' => true,
             ])
             ->add('dagdeel', ChoiceType::class, [
                 'required' => false,
