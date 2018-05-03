@@ -446,11 +446,11 @@ class KlantenController extends AppController
             $this->redirect(['action' => 'index']);
         }
 
-        if (!$this->Klant->disable($id)) {
+//         if (!$this->Klant->disable($id)) {
             $this->flashError(__('Klant was not deleted', true));
-        } else {
-            $this->flash(__('Klant deleted', true));
-        }
+//         } else {
+//             $this->flash(__('Klant deleted', true));
+//         }
         $this->redirect(['action' => 'index']);
     }
 
@@ -484,9 +484,9 @@ class KlantenController extends AppController
         $failures = '';
 
         foreach ($this->params['pass'] as $id) {
-            if (!$this->Klant->disable($id)) {
+//             if (!$this->Klant->disable($id)) {
                 $failures .= $id.' ';
-            }
+//             }
         }
 
         if (!empty($failures)) {

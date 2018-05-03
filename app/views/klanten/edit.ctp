@@ -51,7 +51,7 @@
     </fieldset>
     <?= $this->Form->submit(__('Opslaan', true), ['div' => 'submit']); ?>
      <div class="submit">
-        <?php if ($user_is_administrator): ?>
+        <?php if (false /* disabled */ && $user_is_administrator): ?>
             <?= $this->Html->link(__('Delete', true),
                 ['action' => 'disable', $this->data['Klant']['id']],
                 ['class' => 'delete-button'],
