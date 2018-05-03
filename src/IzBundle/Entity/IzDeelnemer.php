@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -210,7 +211,11 @@ abstract class IzDeelnemer
 
     public function getVerslagen()
     {
-        return $this->verslagen;
+        $criteria = Criteria::create()->where(
+            Criteria::expr()->neq('koppeling', null)
+        );
+
+        return $this->verslagen->matching($criteria);
     }
 
     public function addVerslag(Verslag $verslag)
