@@ -56,7 +56,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             $dienst = [
                 'name' => 'GA',
                 'url' => $url,
-                'from' => $gaIntake->getIntakedatum()->format('d-m-Y'),
+                'from' => $gaIntake->getIntakedatum() ? $gaIntake->getIntakedatum()->format('d-m-Y') : null,
                 'to' => null,
                 'type' => 'date',
                 'value' => '',
