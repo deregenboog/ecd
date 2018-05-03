@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use IzBundle\Entity\Koppeling;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\AppTextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use IzBundle\Entity\Doelgroep;
 
 class HulpvraagType extends AbstractType
 {
@@ -37,9 +39,11 @@ class HulpvraagType extends AbstractType
             ->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => true,
             ])
-            ->add('doelgroepen', null, [
+            ->add('doelgroep', EntityType::class, [
                 'required' => true,
                 'expanded' => true,
+                'multiple' => false,
+                'class' => Doelgroep::class,
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('doelgroep')
                         ->where('doelgroep.actief = true')

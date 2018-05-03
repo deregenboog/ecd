@@ -143,7 +143,6 @@ abstract class Koppeling
      * @var Doelgroep[]
      *
      * @ORM\ManyToMany(targetEntity="Doelgroep")
-     * @Assert\Count(min = 1, minMessage = "Selecteer ten minste één doelgroep")
      */
     protected $doelgroepen;
 
@@ -166,6 +165,7 @@ abstract class Koppeling
     {
         $this->startdatum = new \DateTime('today');
         $this->verslagen = new ArrayCollection();
+        $this->doelgroepen = new ArrayCollection();
     }
 
     public function getId()
@@ -349,18 +349,6 @@ abstract class Koppeling
     public function setInfo($info = null)
     {
         $this->info = $info;
-
-        return $this;
-    }
-
-    public function getDoelgroepen()
-    {
-        return $this->doelgroepen;
-    }
-
-    public function setDoelgroepen($doelgroepen)
-    {
-        $this->doelgroepen = $doelgroepen;
 
         return $this;
     }

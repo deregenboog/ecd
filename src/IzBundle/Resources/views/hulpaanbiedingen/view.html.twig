@@ -121,13 +121,7 @@
                                     </td>
                                     <td>{{ hulpvraag.izKlant.klant.werkgebied }}</td>
                                     <td>{{ hulpvraag.hulpvraagsoort }}</td>
-                                    <td>
-                                        <ul>
-                                            {% for doelgroep in hulpvraag.doelgroepen %}
-                                                <li>{{ doelgroep }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </td>
+                                    <td>{{ hulpvraag.doelgroep }}</td>
                                     <td>{{ hulpvraag.geschiktVoorExpat ? 'Ja' : 'Nee' }}</td>
                                     <td>{{ hulpvraag.info }}</td>
                                 </tr>
