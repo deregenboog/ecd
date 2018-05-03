@@ -49,14 +49,8 @@
             <dl class="dl-horizontal">
                 <dt>Hulpvraagsoort</dt>
                 <dd>{{ entity.hulpvraagsoort }}</dd>
-                <dt>Doelgroepen</dt>
-                <dd>
-                    <ul>
-                        {% for doelgroep in entity.doelgroepen %}
-                            <li>{{ doelgroep }}</li>
-                        {% endfor %}
-                    </ul>
-                </dd>
+                <dt>Doelgroep</dt>
+                <dd>{{ entity.doelgroep }}</dd>
             </dl>
         </div>
         <div id="hulpaanbod" class="tab-pane">
