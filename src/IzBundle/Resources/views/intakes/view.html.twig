@@ -50,6 +50,8 @@
                     <dt>Stagiair</dt>
                     <dd>{{ entity ? entity.stagiair ? 'Ja' }}</dd>
                 {% endif %}
+                <dt>Gespreksverslag</dt>
+                <dd><div class="well">{{ entity.gespreksverslag|nl2br }}</div></dd>
             </dl>
             {{ render(controller('IzBundle:Intakes:_zrms', {id: entity.id})) }}
         </div>

@@ -77,6 +77,13 @@ class Intake implements ZrmInterface
      */
     private $medewerker;
 
+    /**
+     * @var string
+     * @ORM\Column(name="gesprek_verslag", type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $gespreksverslag;
+
     public function __construct()
     {
         $this->intakeDatum = new \DateTime('today');
@@ -152,6 +159,18 @@ class Intake implements ZrmInterface
     public function setIzDeelnemer(IzDeelnemer $izDeelnemer)
     {
         $this->izDeelnemer = $izDeelnemer;
+
+        return $this;
+    }
+
+    public function getGespreksverslag()
+    {
+        return $this->gespreksverslag;
+    }
+
+    public function setGespreksverslag($gespreksverslag = null)
+    {
+        $this->gespreksverslag = $gespreksverslag;
 
         return $this;
     }

@@ -108,8 +108,9 @@ class Groep
 
     public function getTrainingenToekomstig()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->gte('einddatum', new \DateTime()));
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gte('einddatum', new \DateTime()))
+        ;
 
         return $this->trainingen->matching($criteria);
     }

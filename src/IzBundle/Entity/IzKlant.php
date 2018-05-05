@@ -111,6 +111,10 @@ class IzKlant extends IzDeelnemer
         $criteria = Criteria::create()
             ->where(Criteria::expr()->isNull('hulpaanbod'))
             ->andWhere(Criteria::expr()->isNull('einddatum'))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpvragen->matching($criteria);
@@ -124,6 +128,10 @@ class IzKlant extends IzDeelnemer
                 Criteria::expr()->isNull('koppelingEinddatum'),
                 Criteria::expr()->gte('koppelingEinddatum', new \DateTime('today'))
             ))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpvragen->matching($criteria);
@@ -134,6 +142,10 @@ class IzKlant extends IzDeelnemer
         $criteria = Criteria::create()
             ->where(Criteria::expr()->isNull('hulpaanbod'))
             ->andWhere(Criteria::expr()->neq('einddatum', null))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpvragen->matching($criteria);
@@ -144,6 +156,10 @@ class IzKlant extends IzDeelnemer
         $criteria = Criteria::create()
             ->where(Criteria::expr()->neq('hulpaanbod', null))
             ->andWhere(Criteria::expr()->lt('koppelingEinddatum', new \DateTime('today')))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpvragen->matching($criteria);

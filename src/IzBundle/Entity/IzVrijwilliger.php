@@ -87,6 +87,10 @@ class IzVrijwilliger extends IzDeelnemer
         $criteria = Criteria::create()
             ->where(Criteria::expr()->isNull('hulpvraag'))
             ->andWhere(Criteria::expr()->isNull('einddatum'))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpaanbiedingen->matching($criteria);
@@ -100,6 +104,10 @@ class IzVrijwilliger extends IzDeelnemer
                 Criteria::expr()->isNull('koppelingEinddatum'),
                 Criteria::expr()->gte('koppelingEinddatum', new \DateTime('today'))
             ))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpaanbiedingen->matching($criteria);
@@ -110,6 +118,10 @@ class IzVrijwilliger extends IzDeelnemer
         $criteria = Criteria::create()
             ->where(Criteria::expr()->isNull('hulpvraag'))
             ->andWhere(Criteria::expr()->neq('einddatum', null))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpaanbiedingen->matching($criteria);
@@ -120,6 +132,10 @@ class IzVrijwilliger extends IzDeelnemer
         $criteria = Criteria::create()
             ->where(Criteria::expr()->neq('hulpvraag', null))
             ->andWhere(Criteria::expr()->lt('koppelingEinddatum', new \DateTime('today')))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
         ;
 
         return $this->hulpaanbiedingen->matching($criteria);
