@@ -3,11 +3,11 @@
 define('WEBROOT_DIR', basename(dirname(__FILE__)));
 define('WWW_ROOT', dirname(__FILE__).'/');
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\HttpFoundation\Request;
 
 // If you don't want to setup permissions the proper way, just uncomment the following PHP line
-// read http://symfony.com/doc/current/setup.html#checking-symfony-application-configuration-and-setup
+// read https://symfony.com/doc/current/setup.html#checking-symfony-application-configuration-and-setup
 // for more information
 //umask(0000);
 umask(0002);
@@ -22,8 +22,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../autoload.php';
+require __DIR__.'/../../vendor/autoload.php';
 Debug::enable(E_ALL & ~E_STRICT & ~E_DEPRECATED);
 
 $kernel = new AppKernel('dev', true);
