@@ -370,10 +370,10 @@ class RapportagesController extends AppController
 
     public function locatie_nieuwe_klanten()
     {
-        $date_from = mysql_escape_string($this->getParam('date_from'));
-        $date_until = mysql_escape_string($this->getParam('date_until'));
-        $geslacht_id = mysql_escape_string($this->getParam('geslacht_id'));
-        $locatie_id = mysql_escape_string($this->getParam('locatie_id'));
+        $date_from = (new DateTime($this->getParam('date_from')))->format('Y-m-d');
+        $date_until = (new DateTime($this->getParam('date_until')))->format('Y-m-d');
+        $geslacht_id = (int) $this->getParam('geslacht_id');
+        $locatie_id = (int) $this->getParam('locatie_id');
 
         $where = " binnen >= '{$date_from}' and binnen < '{$date_until}' ";
         $where .= " and k.created >= '{$date_from}' and k.created < '{$date_until}' ";
@@ -431,17 +431,17 @@ class RapportagesController extends AppController
                 //correct values
                 'Schorsing.datum_van <=' => $date_to,
             ];
-            $date_until = mysql_escape_string($this->_add_day($date_to));
-            $date_from = mysql_escape_string($date_from);
+            $date_until = (new DateTime($this->_add_day($date_to)))->format('Y-m-d');
+            $date_from = (new DateTime($date_from))->format('Y-m-d');
 
             $where = " binnen >= '{$date_from}' and binnen < '{$date_until}' ";
 
             if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
-                $locatie_id = mysql_escape_string($this->data['options']['location']);
+                $locatie_id = (int) $this->data['options']['location'];
                 $where .= " and locatie_id = {$locatie_id} ";
             }
             if (!empty($this->data['options']['geslacht_id']) && $this->data['options']['geslacht_id'] != 0) {
-                $geslacht_id = mysql_escape_string($this->data['options']['geslacht_id']);
+                $geslacht_id = (int) $this->data['options']['geslacht_id'];
                 $where .= " and geslacht_id = {$geslacht_id} ";
             }
 
@@ -1251,8 +1251,8 @@ class RapportagesController extends AppController
 
         if ($this->data) {
             $this->_prepare_dates($date_from, $date_to);
-            $date_from = mysql_escape_string($date_from);
-            $date_until = mysql_escape_string($this->_add_day($date_to));
+            $date_from = (new DateTime($date_from))->format('Y-m-d');
+            $date_until = (new DateTime($this->_add_day($date_to)))->format('Y-m-d');
 
             $this->loadModel(\Klant::class);
             $repatrieringen = $this->Klant->find('all', [

@@ -149,12 +149,14 @@ class IzDeelnemer extends AppModel
 
     private function e($s)
     {
+        $connection = ConnectionManager::getDataSource($this->useDbConfig)->connection;
+
         if (is_array($s)) {
             foreach ($s as $k => $v) {
-                $s[$k] = mysql_escape_string($v);
+                $s[$k] = mysqli_escape_string($connection, $v);
             }
         } else {
-            $s = mysql_escape_string($s);
+            $s = mysqli_escape_string($connection, $s);
         }
 
         return $s;
@@ -162,6 +164,7 @@ class IzDeelnemer extends AppModel
 
     public function getIntervisiePersonen($params)
     {
+        $connection = ConnectionManager::getDataSource($this->useDbConfig)->connection;
         $geslachten = $this->Klant->Geslacht->find('list');
 
         $personen = [];
@@ -173,7 +176,7 @@ class IzDeelnemer extends AppModel
         $query = "select p.id, 'Vrijwilliger' as model, voornaam, geslacht_id, tussenvoegsel, achternaam, geboortedatum, email, adres, postcode, werkgebied, plaats, mobiel, telefoon, CONCAT_WS(' ', `voornaam`, `tussenvoegsel`, `achternaam`) as name, p.medewerker_id, iz.id as iz_deelnemer_id, group_concat(ip.iz_project_id) as project_ids from vrijwilligers p join iz_deelnemers iz on iz.foreign_key = p.id and iz.model = 'Vrijwilliger' left join iz_deelnemers_iz_projecten ip on ip.iz_deelnemer_id = iz.id	";
         if (!empty($params['IzDeelnemer']['intervisiegroep_id'])) {
             $ids = implode(',', $params['IzDeelnemer']['intervisiegroep_id']);
-            $ids = mysql_escape_string($ids);
+            $ids = mysqli_escape_string($connection, $ids);
             $query .= " join ( select qiz.id from iz_deelnemers qiz join iz_deelnemers_iz_intervisiegroepen qizg on qizg.iz_deelnemer_id = qiz.id and iz_intervisiegroep_id in ( {$ids} )) as subq on subq.id = iz.id  ";
         }
 
