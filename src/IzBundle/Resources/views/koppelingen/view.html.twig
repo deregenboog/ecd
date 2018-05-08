@@ -29,12 +29,15 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
+        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#hulpaanbod">Hulpaanbod</a></li>
-        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
     </ul>
     <div class="tab-content">
-        <div id="hulpvraag" class="tab-pane active">
+        <div id="verslagen" class="tab-pane active">
+            {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
+        </div>
+        <div id="hulpvraag" class="tab-pane">
             <h2>Hulpvraag</h2>
             {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
             {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
@@ -73,9 +76,6 @@
                 <dt>Project</dt>
                 <dd>{{ entity.project }}</dd>
             </dl>
-        </div>
-        <div id="verslagen" class="tab-pane">
-            {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
         </div>
     </div>
 {% endblock %}
