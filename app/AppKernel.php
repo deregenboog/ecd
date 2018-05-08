@@ -47,7 +47,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
-            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new FOS\CKEditorBundle\FOSCKEditorBundle(),
             new CakeBundle\CakeBundle(),
             new AppBundle\AppBundle(),
             new InloopBundle\InloopBundle(),
