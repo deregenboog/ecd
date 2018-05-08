@@ -47,10 +47,6 @@
         </div>
         <div id="verslagen" class="tab-pane">
             {% include 'IzBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
-            {% if entity.intake and entity.intake.gespreksverslag %}
-                <h3>Intakeverslag {{ entity.intake.intakeDatum|date('d-m-Y') }} | {{ entity.intake.medewerker }}</h3>
-                <div class="well">{{ entity.intake.gespreksverslag|nl2br }}</div>
-            {% endif %}
         </div>
         <div id="documenten" class="tab-pane">
             {% include 'IzBundle:documenten:_list.html.twig' with {deelnemer: entity} %}

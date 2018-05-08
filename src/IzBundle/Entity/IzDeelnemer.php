@@ -212,7 +212,7 @@ abstract class IzDeelnemer
     public function getVerslagen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->neq('koppeling', null))
+            ->where(Criteria::expr()->isNull('koppeling'))
             ->orderBy(['created' => 'desc'])
         ;
 
