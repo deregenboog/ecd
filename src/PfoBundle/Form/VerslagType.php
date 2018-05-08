@@ -11,7 +11,7 @@ use PfoBundle\Entity\Verslag;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
-use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
