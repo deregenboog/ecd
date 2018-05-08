@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Debug\Debug;
 
-umask(0000);
+umask(0002);
 
 set_time_limit(0);
 
