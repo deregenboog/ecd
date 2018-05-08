@@ -5,6 +5,8 @@ define('WWW_ROOT', dirname(__FILE__).'/');
 
 use Symfony\Component\HttpFoundation\Request;
 
+umask(0002);
+
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require __DIR__.'/../autoload.php';
 include_once __DIR__.'/../bootstrap.php.cache';

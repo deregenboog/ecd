@@ -186,6 +186,14 @@ class Vrijwilliger extends AppModel
 
     public function beforeSave($options = [])
     {
+        // convert empty strings to null
+        if ('' === $this->data['Vrijwilliger']['werkgebied']) {
+            $this->data['Vrijwilliger']['werkgebied'] = null;
+        }
+        if ('' === $this->data['Vrijwilliger']['postcodegebied']) {
+            $this->data['Vrijwilliger']['postcodegebied'] = null;
+        }
+
         if (empty($this->id) && empty($this->data['Vrijwilliger']['id'])) {
             $this->send_admin_email = true;
             $this->changes = $this->data;
