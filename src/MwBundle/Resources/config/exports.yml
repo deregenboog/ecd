@@ -17,8 +17,8 @@ services:
                 Mobiel: { expression: 'entity[0].getMobiel()' }
                 Telefoon: { expression: 'entity[0].getTelefoon()' }
                 Werkgebied: { expression: 'entity[0].getWerkgebied()' }
-                Geen post: { expression: 'entity[0].getGeenPost() ? "ja" : "nee"' }
-                Geen e-mail: { expression: 'entity[0].getGeenEmail() ? "ja" : "nee"' }
+                Post: { expression: 'entity[0].getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mail: { expression: 'entity[0].getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     mw.export.report:
         class: AppBundle\Export\ReportExport
