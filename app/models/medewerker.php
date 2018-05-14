@@ -130,7 +130,7 @@ class Medewerker extends AppModel
             $users = [];
             foreach ($ldapUsers as $ldapUser) {
                 $accountExpires = $ldapUser['LdapUser']['accountexpires'];
-                if ($accountExpires == LdapUser::ACCOUNT_EXPIRES_NEVER) {
+                if (in_array($accountExpires, [LdapUser::ACCOUNT_EXPIRES_NULL, LdapUser::ACCOUNT_EXPIRES_NEVER])) {
                     $users[] = $ldapUser['LdapUser']['samaccountname'];
                 } else {
                     // @see http://php.net/manual/en/ref.ldap.php#116606

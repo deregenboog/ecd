@@ -155,7 +155,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="begeleidings_formulier", type="date")
+     * @ORM\Column(name="begeleidings_formulier", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $begeleidingsformulierOverhandigd;
@@ -163,7 +163,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="brief_huisarts", type="date")
+     * @ORM\Column(name="brief_huisarts", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $briefHuisartsVerstuurd;
@@ -171,7 +171,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="evaluatie_formulier", type="date")
+     * @ORM\Column(name="evaluatie_formulier", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $evaluatieformulierOverhandigd;
@@ -179,7 +179,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum_afgesloten", type="date")
+     * @ORM\Column(name="datum_afgesloten", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -383,7 +383,7 @@ class Client
     /**
      * @param \DateTime $begeleidingsformulierOverhandigd
      */
-    public function setBegeleidingsformulierOverhandigd(\DateTime $begeleidingsformulierOverhandigd)
+    public function setBegeleidingsformulierOverhandigd(\DateTime $begeleidingsformulierOverhandigd = null)
     {
         $this->begeleidingsformulierOverhandigd = $begeleidingsformulierOverhandigd;
 
@@ -401,7 +401,7 @@ class Client
     /**
      * @param \DateTime $briefHuisartsVerstuurd
      */
-    public function setBriefHuisartsVerstuurd(\DateTime $briefHuisartsVerstuurd)
+    public function setBriefHuisartsVerstuurd(\DateTime $briefHuisartsVerstuurd = null)
     {
         $this->briefHuisartsVerstuurd = $briefHuisartsVerstuurd;
 
@@ -419,7 +419,7 @@ class Client
     /**
      * @param \DateTime $evaluatieformulierOverhandigd
      */
-    public function setEvaluatieformulierOverhandigd(\DateTime $evaluatieformulierOverhandigd)
+    public function setEvaluatieformulierOverhandigd(\DateTime $evaluatieformulierOverhandigd = null)
     {
         $this->evaluatieformulierOverhandigd = $evaluatieformulierOverhandigd;
 
@@ -437,7 +437,7 @@ class Client
     /**
      * @param \DateTime $afsluitdatum
      */
-    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 

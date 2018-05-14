@@ -54,19 +54,22 @@ class FactuurTest extends \PHPUnit_Framework_TestCase
         $factuur = new Factuur(new Klant());
         $this->assertEquals(new \DateTime('today'), $factuur->getDatum());
 
+        $yesterday = new \DateTime('yesterday');
         $declaratie = new Declaratie();
-        $declaratie->setDatum(new \DateTime('yesterday'));
+        $declaratie->setDatum($yesterday);
         $factuur->addDeclaratie($declaratie);
-        $this->assertEquals(new \DateTime('yesterday'), $factuur->getDatum());
+        $this->assertEquals($yesterday, $factuur->getDatum());
 
+        $plusTwoDays = new \DateTime('+2 days');
         $registratie = new Registratie();
-        $registratie->setDatum(new \DateTime('+2 days'));
+        $registratie->setDatum($plusTwoDays);
         $factuur->addRegistratie($registratie);
-        $this->assertEquals(new \DateTime('+2 days'), $factuur->getDatum());
+        $this->assertEquals($plusTwoDays, $factuur->getDatum());
 
+        $tomorrow = new \DateTime('tomorrow');
         $declaratie = new Declaratie();
-        $declaratie->setDatum(new \DateTime('tomorrow'));
+        $declaratie->setDatum($tomorrow);
         $factuur->addDeclaratie($declaratie);
-        $this->assertEquals(new \DateTime('+2 days'), $factuur->getDatum());
+        $this->assertEquals($plusTwoDays, $factuur->getDatum());
     }
 }

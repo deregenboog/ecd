@@ -12,18 +12,14 @@ class BetalingTest extends \PHPUnit_Framework_TestCase
         $factuur = $this->createMock(Factuur::class);
         $betaling = new Betaling($factuur);
 
-        $format = function ($value) {
-            return money_format('%(#1n', $value);
-        };
-
         $betaling->setBedrag(123.45);
-        $this->assertEquals($format(123.45), (string) $betaling);
+        $this->assertEquals('€ 123,45', (string) $betaling);
 
         $betaling->setBedrag(123.456789);
-        $this->assertEquals($format(123.46), (string) $betaling);
+        $this->assertEquals('€ 123,46', (string) $betaling);
 
         $betaling->setBedrag(123.454321);
-        $this->assertEquals($format(123.45), (string) $betaling);
+        $this->assertEquals('€ 123,45', (string) $betaling);
     }
 
     public function testIsDeletable()

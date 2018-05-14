@@ -4,7 +4,8 @@ use AppBundle\Exception\AppException;
 
 class LdapUser extends AppModel
 {
-    const ACCOUNT_EXPIRES_NEVER = 9223372036854775807;
+    const ACCOUNT_EXPIRES_NULL = 0;
+    const ACCOUNT_EXPIRES_NEVER = 0x7FFFFFFFFFFFFFFF;
 
     public $name = 'LdapUser';
     public $useTable = false;
