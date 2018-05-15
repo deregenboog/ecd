@@ -40,6 +40,7 @@ class RapportagesControllerTest extends WebTestCase
 
         $this->assertStatusCode(200, $client);
         $form = $crawler->selectButton('Rapport tonen')->form();
+
         $reports = $crawler->filter('select option');
         $this->assertGreaterThan(1, $reports->count());
 
@@ -47,7 +48,7 @@ class RapportagesControllerTest extends WebTestCase
             if ('' === $report->getAttribute('value')) {
                 continue;
             }
-            $form['oek_rapportage[rapport]'] = $report->getAttribute('value');
+            $form['rapportage[rapport]'] = $report->getAttribute('value');
             $crawler = $client->submit($form);
             $this->assertStatusCode(200, $client);
         }

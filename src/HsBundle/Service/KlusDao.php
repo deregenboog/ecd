@@ -19,6 +19,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
             'werkgebied.naam',
             'activiteit.naam',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Klus::class;

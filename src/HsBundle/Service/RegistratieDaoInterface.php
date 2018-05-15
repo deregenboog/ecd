@@ -37,4 +37,16 @@ interface RegistratieDaoInterface
      * @param Registratie $registratie
      */
     public function delete(Registratie $registratie);
+
+    public function countUrenByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByActiviteit(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByKlant(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByKlus(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByDienstverlener(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByVrijwilliger(\DateTime $start = null, \DateTime $end = null);
 }

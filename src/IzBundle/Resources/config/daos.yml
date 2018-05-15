@@ -20,9 +20,6 @@ services:
     IzBundle\Service\DoelstellingDao:
         parent: app.dao.abstract
 
-    IzBundle\Service\EindeVraagAanbodDao:
-        parent: app.dao.abstract
-
     IzBundle\Service\EindeKoppelingDao:
         parent: app.dao.abstract
 
@@ -60,12 +57,6 @@ services:
         parent: app.dao.abstract
 
     iz.document.entities:
-        class: ArrayObject
-        arguments:
-            -
-              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
-
-    iz.intake.entities:
         class: ArrayObject
         arguments:
             -
