@@ -17,8 +17,8 @@ services:
                 Mobiel: { expression: 'entity.getMobiel()' }
                 Telefoon: { expression: 'entity.getTelefoon()' }
                 Werkgebied: { expression: 'entity.getWerkgebied()' }
-                Post: { expression: 'entity.getGeenPost() ? "Geen post" : "Wel post"' }
-                E-mail: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
+                Postvoorkeur: { expression: 'entity.getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     app.export.vrijwilligers:
         class: AppBundle\Export\GenericExport
@@ -38,5 +38,5 @@ services:
                 Mobiel: { expression: 'entity.getMobiel()' }
                 Telefoon: { expression: 'entity.getTelefoon()' }
                 Werkgebied: { expression: 'entity.getWerkgebied()' }
-                Post: { expression: 'entity.getGeenPost() ? "Geen post" : "Wel post"' }
-                E-mail: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
+                Postvoorkeur: { expression: 'entity.getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
