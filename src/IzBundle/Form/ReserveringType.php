@@ -12,16 +12,18 @@ use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
 use AppBundle\Form\DummyChoiceType;
 use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Reservering;
+use AppBundle\Form\MedewerkerType;
 
-class KoppelingType extends AbstractType
+class ReserveringType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $hulpvraag = $options['data'];
-        $hulpaanbod = $hulpvraag->getHulpaanbod();
+        $hulpvraag = $options['data']->getHulpvraag();
+        $hulpaanbod = $options['data']->getHulpaanbod();
 
         if ($hulpvraag instanceof Hulpvraag) {
             $builder->add('hulpvraag', DummyChoiceType::class, [
@@ -36,16 +38,11 @@ class KoppelingType extends AbstractType
         }
 
         $builder
-            ->add('koppelingStartdatum', AppDateType::class, [
-                'label' => 'Startdatum koppeling',
+            ->add('medewerker', MedewerkerType::class)
+            ->add('startdatum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('tussenevaluatiedatum', AppDateType::class, [
-                'label' => 'Datum tussenevaluatie',
-                'required' => true,
-            ])
-            ->add('eindevaluatiedatum', AppDateType::class, [
-                'label' => 'Datum eindevaluatie',
+            ->add('einddatum', AppDateType::class, [
                 'required' => true,
             ])
             ->add('submit', SubmitType::class)
@@ -58,7 +55,7 @@ class KoppelingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Hulpvraag::class,
+            'data_class' => Reservering::class,
         ]);
     }
 

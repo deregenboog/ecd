@@ -12,25 +12,26 @@ use IzBundle\Form\KoppelingType;
 use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Service\KoppelingDaoInterface;
+use IzBundle\Entity\Reservering;
+use IzBundle\Form\ReserveringType;
 
 /**
- * @Route("/koppelingen")
+ * @Route("/reserveringen")
  */
-class KoppelingenController extends AbstractController
+class ReserveringenController extends AbstractController
 {
-    protected $title = 'Koppelingen';
-    protected $entityName = 'koppeling';
-    protected $entityClass = Koppeling::class;
-    protected $formClass = KoppelingType::class;
+    protected $title = 'Reserveringen';
+    protected $entityName = 'reservering';
+    protected $entityClass = Reservering::class;
+    protected $formClass = ReserveringType::class;
     protected $filterFormClass = KoppelingFilterType::class;
     protected $baseRouteName = 'iz_koppelingen_';
-    protected $disabledActions = ['delete'];
+    protected $disabledActions = ['index', 'view', 'delete'];
 
     /**
-     * @var KoppelingDaoInterface
+     * @var ReserveringDaoInterface
      *
-     * @DI\Inject("IzBundle\Service\KoppelingDao")
+     * @DI\Inject("IzBundle\Service\ReserveringDao")
      */
     protected $dao;
 
@@ -49,25 +50,15 @@ class KoppelingenController extends AbstractController
     protected $hulpaanbodDao;
 
     /**
-     * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.koppelingen")
-     */
-    protected $export;
-
-    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
     {
-        $hulpvraag = $this->dao->find($request->get('hulpvraag'));
+        $hulpvraag = $this->hulpvraagDao->find($request->get('hulpvraag'));
         $hulpaanbod = $this->hulpaanbodDao->find($request->get('hulpaanbod'));
 
-        $hulpvraag
-            ->setHulpaanbod($hulpaanbod)
-            ->setKoppelingStartdatum(new \DateTime())
-        ;
+        $reservering = new Reservering($hulpvraag, $hulpaanbod);
 
-        return $this->processForm($request, $hulpvraag);
+        return $this->processForm($request, $reservering);
     }
 }

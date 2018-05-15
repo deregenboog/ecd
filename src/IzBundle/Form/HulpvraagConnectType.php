@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
 use IzBundle\Entity\Hulpaanbod;
+use AppBundle\Form\DummyChoiceType;
 
 class HulpvraagConnectType extends AbstractType
 {
@@ -21,6 +22,12 @@ class HulpvraagConnectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $hulpvraag = $options['data'];
+
+        if ($hulpvraag instanceof Hulpvraag) {
+            $builder->add('hulpvraag', DummyChoiceType::class, [
+                'dummy_label' => (string) $hulpvraag,
+            ]);
+        }
 
         $builder
             ->add('hulpaanbod', null, [
@@ -41,7 +48,18 @@ class HulpvraagConnectType extends AbstractType
                     ;
                 },
             ])
-            ->add('koppelingStartdatum', AppDateType::class)
+            ->add('koppelingStartdatum', AppDateType::class, [
+                'label' => 'Startdatum koppeling',
+                'required' => true,
+            ])
+            ->add('tussenevaluatiedatum', AppDateType::class, [
+                'label' => 'Datum tussenevaluatie',
+                'required' => true,
+            ])
+            ->add('eindevaluatiedatum', AppDateType::class, [
+                'label' => 'Datum eindevaluatie',
+                'required' => true,
+            ])
             ->add('submit', SubmitType::class)
         ;
     }

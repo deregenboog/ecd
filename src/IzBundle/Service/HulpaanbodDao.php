@@ -83,10 +83,12 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
             ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
+            ->leftJoin('hulpaanbod.reserveringen', 'reservering')
             ->innerJoin('izVrijwilliger.intake', 'intake')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'stadsdeel')
             ->leftJoin('vrijwilliger.geslacht', 'geslacht')
+            ->andWhere('reservering.id IS NULL OR NOW() NOT BETWEEN reservering.startdatum AND reservering.einddatum') // geen actieve reserveringen
             ->andWhere('hulpaanbod.einddatum IS NULL') // hulpaanbod niet afgesloten
             ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten

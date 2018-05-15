@@ -50,6 +50,9 @@ services:
     IzBundle\Service\ProjectDao:
         parent: app.dao.abstract
 
+    IzBundle\Service\ReserveringDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\VerslagDao:
         parent: app.dao.abstract
 

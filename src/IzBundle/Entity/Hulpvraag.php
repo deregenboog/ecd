@@ -44,6 +44,12 @@ class Hulpvraag extends Koppeling
      */
     private $geschiktVoorExpat = false;
 
+    /**
+     * @var Reservering
+     * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpvraag")
+     */
+    protected $reserveringen;
+
     public function __construct()
     {
         parent::__construct();

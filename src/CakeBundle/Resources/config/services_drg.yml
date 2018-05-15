@@ -185,6 +185,7 @@ parameters:
                 - IzBundle\Controller\Koppelingen
                 - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\Vrijwilligers
@@ -247,6 +248,7 @@ parameters:
                 - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
@@ -618,6 +620,7 @@ parameters:
                 - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen

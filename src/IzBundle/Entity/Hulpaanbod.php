@@ -50,6 +50,12 @@ class Hulpaanbod extends Koppeling
      */
     private $coachend = false;
 
+    /**
+     * @var Reservering
+     * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpaanbod")
+     */
+    protected $reserveringen;
+
     public function __construct()
     {
         parent::__construct();

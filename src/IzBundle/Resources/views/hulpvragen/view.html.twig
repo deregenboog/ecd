@@ -57,6 +57,23 @@
                 <h2>Koppeling</h2>
                 {{ html.viewLink(path('iz_koppelingen_view', {id: entity.id})) }}
                 {{ html.link('Naar koppeling', path('iz_koppelingen_view', {id: entity.id})) }}
+            {% elseif entity.gereserveerd %}
+                <h2>Reservering</h2>
+                <p>
+                    {{ html.link('Reservering bewerken', path('iz_reserveringen_edit', {id: entity.huidigeReservering.id}), 'pencil') }}
+                    {{ html.link('Reservering omzetten in koppeling', path('iz_koppelingen_add', {hulpvraag: entity.huidigeReservering.hulpvraag.id, hulpaanbod: entity.huidigeReservering.hulpaanbod.id}), 'paperclip') }}
+                </p>
+                <p>
+                    Deze hulpvraag is
+                    <strong>
+                        van {{ entity.huidigeReservering.startdatum|date('d-m-Y') }}
+                        tot {{ entity.huidigeReservering.einddatum|date('d-m-Y') }}
+                    </strong>
+                    gereserveerd voor hulpaanbod
+                    <strong>
+                        {{ html.link(entity.huidigeReservering.hulpvraag, path('iz_hulpvragen_view', {id: entity.huidigeReservering.hulpvraag.id})) }}
+                    </strong>.
+                </p>
             {% elseif not entity.afgesloten and kandidaten is defined %}
                 <h2>Kandidaat hulpaanbiedingen</h2>
                 {% if 0 == kandidaten|length %}
@@ -90,6 +107,8 @@
                                     {{ knp_pagination_sortable(kandidaten, 'Coachend', 'hulpaanbod.coachend') }}
                                 </th>
                                 <th>Matchingsinformatie</th>
+                                <th>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,6 +148,10 @@
                                     <td>{{ hulpaanbod.expat ? 'Ja' : 'Nee' }}</td>
                                     <td>{{ hulpaanbod.coachend ? 'Ja' : 'Nee' }}</td>
                                     <td>{{ hulpaanbod.info }}</td>
+                                    <td>
+                                        {{ html.link('Reserveren', path('iz_reserveringen_add', {hulpvraag: entity.id, hulpaanbod: hulpaanbod.id}), 'tag') }}
+                                        {{ html.link('Koppelen', path('iz_koppelingen_add', {hulpvraag: entity.id, hulpaanbod: hulpaanbod.id}), 'paperclip') }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

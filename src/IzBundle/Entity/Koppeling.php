@@ -166,6 +166,7 @@ abstract class Koppeling
         $this->startdatum = new \DateTime('today');
         $this->verslagen = new ArrayCollection();
         $this->doelgroepen = new ArrayCollection();
+        $this->reserveringen = new ArrayCollection();
     }
 
     public function getId()
@@ -382,5 +383,22 @@ abstract class Koppeling
         $this->verslagen[] = $verslag;
         $verslag->setKoppeling($this);
         $verslag->setIzDeelnemer($this->getDeelnemer());
+    }
+
+    public function isGereserveerd()
+    {
+        return $this->getHuidigeReservering() instanceof Reservering;
+    }
+
+    public function getHuidigeReservering()
+    {
+        $today = new \DateTime('today');
+        foreach ($this->reserveringen as $reservering) {
+            if ($today >= $reservering->getStartdatum()
+                && $today <= $reservering->getEinddatum()
+            ) {
+                return $reservering;
+            }
+        }
     }
 }

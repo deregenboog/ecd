@@ -63,6 +63,8 @@ class HulpaanbiedingenController extends AbstractChildController
     public function connectAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+        $entity->setKoppelingStartdatum(new \DateTime());
+
         $this->formClass = HulpaanbodConnectType::class;
 
         return $this->processForm($request, $entity);

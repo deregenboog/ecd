@@ -7,6 +7,14 @@
     </a>
 {% endmacro %}
 
+{% macro iconLink(url, icon) %}
+    <a href="{{ url }}">
+        {% if icon %}
+            <span class="glyphicon glyphicon-{{ icon }}" aria-hidden="true"></span>
+        {% endif %}
+    </a>
+{% endmacro %}
+
 {% macro viewLink(url) %}
     <a href="{{ url }}" title="Bekijken">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
