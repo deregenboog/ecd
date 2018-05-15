@@ -21,18 +21,16 @@
                 <modified />
             </fileset>
         </apply>
-        <apply executable="${console}" taskname="lint-twig" failonerror="true">
+        <exec executable="${console}" taskname="lint-twig" failonerror="true">
             <arg value="lint:twig" />
-            <fileset dir="${src}">
-                <modified />
-            </fileset>
-        </apply>
-        <apply executable="${console}" taskname="lint-yaml" failonerror="true">
+            <arg value="--env=test" />
+            <arg path="${src}" />
+        </exec>
+        <exec executable="${console}" taskname="lint-yaml" failonerror="true">
             <arg value="lint:yaml" />
-            <fileset dir="${src}">
-                <modified />
-            </fileset>
-        </apply>
+            <arg value="--env=test" />
+            <arg path="${src}" />
+        </exec>
         <property name="lint.done" value="true" />
     </target>
 

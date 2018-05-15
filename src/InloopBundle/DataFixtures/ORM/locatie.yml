@@ -147,24 +147,3 @@ InloopBundle\Entity\Locatie:
         datumVan: '0000-00-00'
         datuMTot: '0000-00-00'
         maatschappelijkWerk: true
-    locatie_Westerpark:
-        naam: 'Westerpark'
-        nachtopvang: false
-        gebruikersruimte: false
-        datumVan: '0000-00-00'
-        datuMTot: '0000-00-00'
-        maatschappelijkWerk: true
-    locatie_Westerpark:
-        naam: 'Westerpark'
-        nachtopvang: false
-        gebruikersruimte: false
-        datumVan: '0000-00-00'
-        datuMTot: '0000-00-00'
-        maatschappelijkWerk: true
-    locatie_De Eik:
-        naam: 'De Eik'
-        nachtopvang: false
-        gebruikersruimte: false
-        datumVan: '2037-01-01'
-        datuMTot: '2017-01-01'
-        maatschappelijkWerk: true

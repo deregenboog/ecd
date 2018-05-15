@@ -44,9 +44,6 @@ services:
                 Kleding: { expression: 'entity.isKleding()' }
                 Veegploeg: { expression: 'entity.isVeegploeg()' }
                 Inkomens: { expression: 'export.getInkomens(entity.getKlant())' }
-                Adres: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
-                Postcode: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
-                Woonplaats: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
                 Verblijf in Nederland sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInNederlandSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
                 Verblijf in Amsterdam sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInAmsterdamSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
                 Verblijfsstatus: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }

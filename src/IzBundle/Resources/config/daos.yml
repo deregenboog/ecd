@@ -17,9 +17,6 @@ services:
     IzBundle\Service\DoelstellingDao:
         parent: app.dao.abstract
 
-    IzBundle\Service\EindeVraagAanbodDao:
-        parent: app.dao.abstract
-
     IzBundle\Service\EindeKoppelingDao:
         parent: app.dao.abstract
 
@@ -53,12 +50,6 @@ services:
     IzBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
 
-    iz.intake.entities:
-        class: ArrayObject
-        arguments:
-            -
-              - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
-
     iz.hulpvraag.entities:
         class: ArrayObject
         arguments:
@@ -76,7 +67,6 @@ services:
         arguments:
             -
               - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
-
 
     iz.verslag.entities:
         class: ArrayObject

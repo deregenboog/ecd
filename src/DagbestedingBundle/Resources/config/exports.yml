@@ -22,9 +22,9 @@ services:
                 Aanmelddatum: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
                 Reden afsluiting: { expression: 'entity.getTraject().getDeelnemer().getAfsluiting()' }
-                Startdatum: { expression: 'entity.getTraject().getStartdatum()', type: 'date' }
-                Einddatum: { expression: 'entity.getTraject().getEinddatum()', type: 'date' }
-                Afsluitdatum: { expression: 'entity.getTraject().getAfsluitdatum()', type: 'date' }
+                Startdatum traject: { expression: 'entity.getTraject().getStartdatum()', type: 'date' }
+                Einddatum traject: { expression: 'entity.getTraject().getEinddatum()', type: 'date' }
+                Afsluitdatum traject: { expression: 'entity.getTraject().getAfsluitdatum()', type: 'date' }
                 Project: { expression: 'entity.getProject()' }
                 Datum: { expression: 'entity.getDatum()', type: 'date' }
                 Dagdeel: { expression: 'entity.getDagdeel()' }
@@ -78,8 +78,8 @@ services:
                 Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
                 Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
-                Aanmelddatum: { expression: 'entity.getDeelnemer().getAanmelddatum()', type: 'date' }
-                Afsluitdatum: { expression: 'entity.getDeelnemer().getAfsluitDatum()', type: 'date' }
+                Aanmelddatum deelnemer: { expression: 'entity.getDeelnemer().getAanmelddatum()', type: 'date' }
+                Afsluitdatum deelnemer: { expression: 'entity.getDeelnemer().getAfsluitDatum()', type: 'date' }
                 Reden afsluiting: { expression: 'entity.getDeelnemer().getAfsluiting()' }
 
     dagbesteding.export.report:
