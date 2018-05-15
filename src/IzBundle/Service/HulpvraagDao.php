@@ -85,8 +85,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'stadsdeel')
             ->leftJoin('klant.geslacht', 'geslacht')
-            ->andWhere('hulpvraag.startdatum >= :today') // hulpvraag gestart
-            ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum <= :today') // hulpvraag niet afgesloten
+            ->andWhere('hulpvraag.startdatum <= :today') // hulpvraag gestart
+            ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum >= :today') // hulpvraag niet afgesloten
             ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpvraag niet gereserveerd
             ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
             ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten

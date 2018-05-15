@@ -39,8 +39,8 @@ class HulpvraagConnectType extends AbstractType
                         ->leftJoin('hulpaanbod.reserveringen', 'reservering')
                         ->innerJoin('izVrijwilliger.intake', 'intake')
                         ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-                        ->andWhere('hulpaanbod.startdatum >= :today') // hulpaanbod gestart
-                        ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum <= :today') // hulpaanbod niet afgesloten
+                        ->andWhere('hulpaanbod.startdatum <= :today') // hulpaanbod gestart
+                        ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :today') // hulpaanbod niet afgesloten
                         ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpaanbod niet gereserveerd
                         ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
                         ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
