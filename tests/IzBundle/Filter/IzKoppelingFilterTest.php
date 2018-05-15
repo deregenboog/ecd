@@ -87,8 +87,8 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $now,
-            $builder->getParameter('now')->getValue()
+            $now->getTimestamp(),
+            $builder->getParameter('now')->getValue()->getTimestamp()
         );
     }
 

@@ -3,7 +3,7 @@
 namespace AppBundle\Report;
 
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\ZrmV2Report;
+use AppBundle\Entity\ZrmV2;
 
 class ZrmV2ScorePerPostcodegebied extends AbstractReport
 {
@@ -30,17 +30,17 @@ class ZrmV2ScorePerPostcodegebied extends AbstractReport
     {
         $leefgebieden = [
             'Financiën' => 'financien',
-            'Werk en opleiding' => 'werk_opleiding',
+            'Werk en opleiding' => 'werkOpleiding',
             'Tijdsbesteding' => 'tijdsbesteding',
             'Huisvesting' => 'huisvesting',
-            'Huiselijke relaties' => 'huiselijke_relaties',
-            'Geestelijke gezondheid' => 'geestelijke_gezondheid',
-            'Lichamelijke gezondheid' => 'lichamelijke_gezondheid',
+            'Huiselijke relaties' => 'huiselijkeRelaties',
+            'Geestelijke gezondheid' => 'geestelijkeGezondheid',
+            'Lichamelijke gezondheid' => 'lichamelijkeGezondheid',
             'Middelengebruik' => 'middelengebruik',
-            'Basale ADL' => 'basale_adl',
-            'Instrumentele ADL' => 'instrumentele_adl',
-            'Sociaal netwerk' => 'sociaal_netwerk',
-            'Maatschappelijke participatie' => 'maatschappelijke_participatie',
+            'Basale ADL' => 'basaleAdl',
+            'Instrumentele ADL' => 'instrumenteleAdl',
+            'Sociaal netwerk' => 'sociaalNetwerk',
+            'Maatschappelijke participatie' => 'maatschappelijkeParticipatie',
             'Justitie' => 'justitie',
         ];
 
@@ -49,7 +49,7 @@ class ZrmV2ScorePerPostcodegebied extends AbstractReport
             foreach ($leefgebieden as $title => $leefgebied) {
                 $result = $this->em->createQueryBuilder()
                     ->select("postcodegebied.naam AS groep, COUNT(zrm.{$leefgebied}) AS aantal")
-                    ->from(ZrmV2Report::class, 'zrm')
+                    ->from(ZrmV2::class, 'zrm')
                     ->innerJoin('zrm.klant', 'klant')
                     ->leftJoin('klant.postcodegebied', 'postcodegebied')
                     ->where("zrm.{$leefgebied} = {$score}")

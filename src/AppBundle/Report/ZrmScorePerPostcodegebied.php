@@ -3,7 +3,7 @@
 namespace AppBundle\Report;
 
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\ZrmReport;
+use AppBundle\Entity\ZrmV1;
 
 class ZrmScorePerPostcodegebied extends AbstractReport
 {
@@ -33,12 +33,12 @@ class ZrmScorePerPostcodegebied extends AbstractReport
             'Dagbesteding' => 'dagbesteding',
             'Huisvesting' => 'huisvesting',
             'Gezinsrelaties' => 'gezinsrelaties',
-            'Geestelijke gezondheid' => 'geestelijke_gezondheid',
-            'Fysieke gezondheid' => 'fysieke_gezondheid',
+            'Geestelijke gezondheid' => 'geestelijkeGezondheid',
+            'Fysieke gezondheid' => 'fysiekeGezondheid',
             'Verslaving' => 'verslaving',
-            'ADL-vaardigheden' => 'adl_vaardigheden',
-            'Sociaal netwerk' => 'sociaal_netwerk',
-            'Maatschappelijke participatie' => 'maatschappelijke_participatie',
+            'ADL-vaardigheden' => 'adlVaardigheden',
+            'Sociaal netwerk' => 'sociaalNetwerk',
+            'Maatschappelijke participatie' => 'maatschappelijkeParticipatie',
             'Justitie' => 'justitie',
         ];
 
@@ -47,7 +47,7 @@ class ZrmScorePerPostcodegebied extends AbstractReport
             foreach ($leefgebieden as $title => $leefgebied) {
                 $result = $this->em->createQueryBuilder()
                     ->select("postcodegebied.naam AS groep, COUNT(zrm.{$leefgebied}) AS aantal")
-                    ->from(ZrmReport::class, 'zrm')
+                    ->from(ZrmV1::class, 'zrm')
                     ->innerJoin('zrm.klant', 'klant')
                     ->leftJoin('klant.postcodegebied', 'postcodegebied')
                     ->where("zrm.{$leefgebied} = {$score}")
