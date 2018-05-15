@@ -34,15 +34,18 @@ class HulpaanbodConnectType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($hulpaanbod) {
                     return $repository->createQueryBuilder('hulpvraag')
                         ->select('hulpvraag, izKlant, klant')
+                        ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
                         ->innerJoin('hulpvraag.izKlant', 'izKlant')
+                        ->leftJoin('hulpvraag.reserveringen', 'reservering')
+                        ->innerJoin('izKlant.intake', 'intake')
                         ->innerJoin('izKlant.klant', 'klant')
-                        ->where('hulpvraag.hulpaanbod IS NULL')
-//                         ->andWhere('hulpvraag.project = :project')
-                        ->andWhere('hulpvraag.startdatum >= :today')
-                        ->andWhere('hulpvraag.einddatum IS NULL')
+                        ->andWhere('hulpvraag.startdatum >= :today') // hulpvraag gestart
+                        ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum <= :today') // hulpvraag niet afgesloten
+                        ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpvraag niet gereserveerd
+                        ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
+                        ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
                         ->orderBy('klant.achternaam')
                         ->setParameters([
-//                             'project' => $hulpaanbod->getProject(),
                             'today' => new \DateTime('today'),
                         ])
                     ;
