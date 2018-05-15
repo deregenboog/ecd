@@ -29,7 +29,9 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             'stadsdeel.naam',
             'geslacht.volledig',
             'hulpvraagsoort.naam',
+            'doelgroep.naam',
         ],
+        'wrap-queries' => true, // because of ordering by to-many relation
     ];
 
     protected $class = Hulpvraag::class;
@@ -81,6 +83,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->leftJoin('hulpvraag.reserveringen', 'reservering')
+            ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->innerJoin('izKlant.intake', 'intake')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'stadsdeel')

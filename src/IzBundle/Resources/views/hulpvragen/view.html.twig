@@ -98,8 +98,12 @@
                                 <th>
                                     {{ knp_pagination_sortable(kandidaten, 'Stadsdeel', 'stadsdeel.naam') }}
                                 </th>
-                                <th>Hulpvraagsoorten</th>
-                                <th>Doelgroepen</th>
+                                <th>
+                                    {{ knp_pagination_sortable(kandidaten, 'Hulpvraagsoorten', 'hulpvraagsoort.naam') }}
+                                </th>
+                                <th>
+                                    {{ knp_pagination_sortable(kandidaten, 'Doelgroepen', 'doelgroep.naam') }}
+                                </th>
                                 <th>
                                     {{ knp_pagination_sortable(kandidaten, 'Expat', 'hulpaanbod.expat') }}
                                 </th>

@@ -32,7 +32,10 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             'medewerker.achternaam',
             'stadsdeel.naam',
             'geslacht.volledig',
+            'hulpvraagsoort.naam',
+            'doelgroep.naam',
         ],
+        'wrap-queries' => true, // because of ordering by to-many relation
     ];
 
     protected $class = Hulpaanbod::class;
@@ -84,6 +87,8 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->leftJoin('hulpaanbod.reserveringen', 'reservering')
+            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
+            ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->innerJoin('izVrijwilliger.intake', 'intake')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'stadsdeel')
@@ -109,7 +114,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         }
 
         // hulpvraagsoorten
-        if (count($hulpvraagsoorten) > 0) {
+        if ($hulpvraag->getHulpvraagsoort()) {
             $builder
                 ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
                 ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort = :hulpvraagsoort')
