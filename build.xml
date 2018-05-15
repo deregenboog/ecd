@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="deregenboog/ecd" default="default">
+    <property name="console" value="${basedir}/bin/console" />
     <property name="src" value="${basedir}/src" />
     <property name="tests" value="${basedir}/tests" />
     <property name="bin" value="${basedir}/vendor/bin" />
@@ -9,13 +10,27 @@
     <target name="default" depends="lint,phpcpd,phpunit" />
 
     <target name="lint" unless="lint.done" description="Perform syntax check of sourcecode files">
-        <apply executable="php" taskname="lint" failonerror="true">
+        <apply executable="php" taskname="lint-php" failonerror="true">
             <arg value="-l" />
             <fileset dir="${src}">
                 <include name="**/*.php" />
+                <modified />
             </fileset>
             <fileset dir="${tests}">
                 <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+        <apply executable="${console}" taskname="lint-twig" failonerror="true">
+            <arg value="lint:twig" />
+            <fileset dir="${src}">
+                <modified />
+            </fileset>
+        </apply>
+        <apply executable="${console}" taskname="lint-yaml" failonerror="true">
+            <arg value="lint:yaml" />
+            <fileset dir="${src}">
+                <modified />
             </fileset>
         </apply>
         <property name="lint.done" value="true" />
