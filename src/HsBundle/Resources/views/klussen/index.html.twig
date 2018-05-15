@@ -49,7 +49,7 @@
             {% for entity in pagination %}
                 <tr data-href="{{ path(view_route, {id: entity.id}) }}">
                     <td>{{ entity.klant }}</td>
-                    <td>{{ entity.klant.werkgebied }}</td>
+                    <td>{{ entity.klant ? entity.klant.werkgebied }}</td>
                     <td>
                         <ul>
                             {% for activiteit in entity.activiteiten %}

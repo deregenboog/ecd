@@ -38,7 +38,7 @@ class DeelnemersControllerTest extends WebTestCase
     public function testSortColumns()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oek/klanten/');
+        $crawler = $client->request('GET', '/oek/deelnemers/');
 
         $headers = $crawler->filter('tr th a');
         $this->assertGreaterThan(1, $headers->count());
