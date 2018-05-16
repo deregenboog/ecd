@@ -103,7 +103,6 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         // doelgroepen
         if (count($hulpaanbod->getDoelgroepen()) > 0) {
             $builder
-                ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
                 ->andWhere('doelgroep.id IS NULL OR doelgroep IN (:doelgroepen)')
                 ->setParameter('doelgroepen', $hulpaanbod->getDoelgroepen())
             ;
