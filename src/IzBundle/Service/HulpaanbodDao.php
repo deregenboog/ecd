@@ -115,7 +115,6 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         // hulpvraagsoorten
         if ($hulpvraag->getHulpvraagsoort()) {
             $builder
-                ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
                 ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort = :hulpvraagsoort')
                 ->setParameter('hulpvraagsoort', $hulpvraag->getHulpvraagsoort())
             ;
