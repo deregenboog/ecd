@@ -34,7 +34,9 @@ class HulpaanbodType extends AbstractType
             ->add('medewerker', MedewerkerType::class, [
                 'required' => true,
             ])
-            ->add('hulpvraagsoorten', HulpvraagsoortSelectType::class)
+            ->add('hulpvraagsoorten', HulpvraagsoortSelectType::class, [
+                'multiple' => true,
+            ])
             ->add('doelgroepen', null, [
                 'required' => true,
                 'expanded' => true,
