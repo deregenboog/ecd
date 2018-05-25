@@ -17,6 +17,7 @@ class HulpvraagsoortSelectType extends AbstractType
     {
         $resolver->setDefaults([
             'placeholder' => '',
+            'expanded' => true,
             'class' => Hulpvraagsoort::class,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('hulpvraagsoort')
@@ -26,7 +27,7 @@ class HulpvraagsoortSelectType extends AbstractType
             },
             'choice_label' => function (Hulpvraagsoort $hulpvraagsoort) {
                 if ($hulpvraagsoort->getToelichting()) {
-                    return sprintf('%s (%s)', (string) $hulpvraagsoort, $hulpvraagsoort->getToelichting());
+                    return sprintf('%s - %s', (string) $hulpvraagsoort, $hulpvraagsoort->getToelichting());
                 }
 
                 return (string) $hulpvraagsoort;
