@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
@@ -56,8 +57,8 @@ class IzVrijwilliger extends IzDeelnemer
     public function __toString()
     {
         try {
-            return (string) $this->vrijwilliger;
-        } catch (FatalErrorException $e) {
+            return $this->vrijwilliger->__toString();
+        } catch (EntityNotFoundException $e) {
             return '';
         }
     }

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
@@ -80,8 +81,8 @@ class IzKlant extends IzDeelnemer
     public function __toString()
     {
         try {
-            return (string) $this->klant;
-        } catch (FatalErrorException $e) {
+            return $this->klant->__toString();
+        } catch (EntityNotFoundException $e) {
             return '';
         }
     }
