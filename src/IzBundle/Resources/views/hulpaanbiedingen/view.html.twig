@@ -6,10 +6,31 @@
 {% endblock %}
 
 {% block content_left %}
-    <h2>IZ-dossier</h2>
-    {% set url = path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id}) %}
-    {{ html.viewLink(url) }}
-    {{ html.link('Naar IZ-dossier', url) }}
+    <h2>Hulpaanbod</h2>
+    {% if not entity.afgesloten and not entity.gekoppeld %}
+        <p>
+            {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+            {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
+            {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
+            {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
+            {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
+            {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
+        </p>
+    {% endif %}
+    <dl class="dl-horizontal">
+        <dt>Vrijwilliger</dt>
+        <dd>{{ html.link(entity.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id})) }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        {% if entity.afgesloten %}
+            <dt>Afsluitdatum</dt>
+            <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+            <dt>Afsluitreden</dt>
+            <dd>{{ entity.eindeVraagAanbod }}</dd>
+        {% endif %}
+    </dl>
     {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izVrijwilliger.vrijwilliger} %}
 {% endblock %}
 
@@ -23,23 +44,31 @@
             <h2>Hulpaanbod</h2>
             {% if not entity.afgesloten and not entity.gekoppeld %}
                 <p>
-                    {{ html.editLink(path('iz_hulpaanbiedingen_edit', {id: entity.id})) }}
-                    {{ html.link('Bewerken', path('iz_hulpaanbiedingen_edit', {id: entity.id})) }}
+                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                    {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
+                    {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
+                    {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
                     {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
                     {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
                 </p>
             {% endif %}
             <dl class="dl-horizontal">
-                <dt>Startdatum</dt>
-                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-                <dt>Einddatum</dt>
-                <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
-                <dt>Project</dt>
-                <dd>{{ entity.project }}</dd>
+                <dt>Vrijwilliger</dt>
+                <dd>{{ html.link(entity.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id})) }}</dd>
                 <dt>Medewerker</dt>
                 <dd>{{ entity.medewerker }}</dd>
+                <dt>Startdatum</dt>
+                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+                {% if entity.afgesloten %}
+                    <dt>Afsluitdatum</dt>
+                    <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+                    <dt>Afsluitreden</dt>
+                    <dd>{{ entity.eindeVraagAanbod }}</dd>
+                {% endif %}
             </dl>
             <dl class="dl-horizontal">
+                <dt>Project</dt>
+                <dd>{{ entity.project }}</dd>
                 <dt>Hulpvraagsoorten</dt>
                 <dd>
                     <ul>
@@ -65,7 +94,7 @@
                 <dt>Voorkeur geslacht</dt>
                 <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
                 <dt>Matchingsinformatie</dt>
-                <dd>{{ entity.info }}</dd>
+                <dd><div class="well">{{ entity.info }}</div></dd>
             </dl>
             {% if entity.gekoppeld %}
                 <h2>Koppeling</h2>
@@ -120,9 +149,7 @@
                                 <th>
                                     {{ knp_pagination_sortable(kandidaten, 'Geschikt voor expat', 'hulpvraag.geschiktVoorExpat') }}
                                 </th>
-                                <th>
-                                    Matchingsinformatie
-                                </th>
+                                <th>Matchingsinformatie</th>
                                 <th>
                                 </th>
                             </tr>

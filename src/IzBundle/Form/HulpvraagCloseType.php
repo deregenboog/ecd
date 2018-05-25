@@ -20,9 +20,14 @@ class HulpvraagCloseType extends AbstractType
     {
         $builder
             ->add('einddatum', AppDateType::class, [
+                'label' => 'Afsluitdatum',
+                'required' => true,
                 'data' => new \DateTime('today'),
             ])
             ->add('eindeVraagAanbod', null, [
+                'label' => 'Afsluitreden',
+                'required' => true,
+                'placeholder' => '',
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     return $repository->createQueryBuilder('einde')
                         ->orderBy('einde.naam')
