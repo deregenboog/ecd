@@ -14,7 +14,23 @@
     <p>
         {{ html.editLink(path('iz_koppelingen_edit', {id: entity.id})) }}
         {{ html.link('Bewerken', path('iz_koppelingen_edit', {id: entity.id})) }}
+        {% if not entity.afgesloten %}
+            {{ html.closeLink(path('iz_koppelingen_close', {id: entity.id})) }}
+            {{ html.link('Koppeling beëindigen', path('iz_koppelingen_close', {id: entity.id})) }}
+        {% endif %}
     </p>
+    <dl class="dl-horizontal">
+        <dt>Deelnemer</dt>
+        <dd>{{ entity.izKlant }}</dd>
+        <dt>Coördinator hulpvraag</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Vrijwilliger</dt>
+        <dd>{{ entity.hulpaanbod.izVrijwilliger }}</dd>
+        <dt>Coördinator hulpaanbod</dt>
+        <dd>{{ entity.hulpaanbod.medewerker }}</dd>
+    </dl>
     <dl class="dl-horizontal">
         <dt>Startdatum koppeling</dt>
         <dd>{{ entity.koppelingStartdatum ? entity.koppelingStartdatum|date('d-m-Y') }}</dd>
@@ -22,8 +38,14 @@
         <dd>{{ entity.tussenevaluatiedatum ? entity.tussenevaluatiedatum|date('d-m-Y') }}</dd>
         <dt>Datum eindevaluatie</dt>
         <dd>{{ entity.eindevaluatiedatum ? entity.eindevaluatiedatum|date('d-m-Y') }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>Einddatum koppeling</dt>
         <dd>{{ entity.koppelingEinddatum ? entity.koppelingEinddatum|date('d-m-Y') }}</dd>
+        <dt>Reden beëindiging</dt>
+        <dd>{{ entity.eindeKoppeling }}</dd>
+        <dt>Koppeling succesvol</dt>
+        <dd>{{ entity.koppelingSuccesvol ? 'Ja' : 'Nee' }}</dd>
     </dl>
 {% endblock %}
 

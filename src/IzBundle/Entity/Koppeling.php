@@ -235,23 +235,9 @@ abstract class Koppeling
         return $this->tussenevaluatiedatum;
     }
 
-    public function setTussenevaluatiedatum(\DateTime $datum = null)
-    {
-        $this->tussenevaluatiedatum = $datum;
-
-        return $this;
-    }
-
     public function getEindevaluatiedatum()
     {
         return $this->eindevaluatiedatum;
-    }
-
-    public function setEindevaluatiedatum(\DateTime $datum = null)
-    {
-        $this->eindevaluatiedatum = $datum;
-
-        return $this;
     }
 
     public function getEinddatum()
@@ -271,33 +257,9 @@ abstract class Koppeling
         return $this->koppelingStartdatum;
     }
 
-    public function setKoppelingStartdatum(\DateTime $koppelingStartdatum = null)
-    {
-        $this->koppelingStartdatum = $koppelingStartdatum;
-
-        if ($koppelingStartdatum && !$this->tussenevaluatiedatum) {
-            $this->tussenevaluatiedatum = clone $koppelingStartdatum;
-            $this->tussenevaluatiedatum->modify('+3 months');
-        }
-
-        if ($koppelingStartdatum && !$this->eindevaluatiedatum) {
-            $this->eindevaluatiedatum = clone $koppelingStartdatum;
-            $this->eindevaluatiedatum->modify('+6 months');
-        }
-
-        return $this;
-    }
-
     public function getKoppelingEinddatum()
     {
         return $this->koppelingEinddatum;
-    }
-
-    public function setKoppelingEinddatum(\DateTime $koppelingEinddatum = null)
-    {
-        $this->koppelingEinddatum = $koppelingEinddatum;
-
-        return $this;
     }
 
     /**

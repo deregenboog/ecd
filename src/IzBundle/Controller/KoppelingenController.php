@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
+use IzBundle\Form\KoppelingCloseType;
 
 /**
  * @Route("/koppelingen")
@@ -69,5 +70,19 @@ class KoppelingenController extends AbstractController
         ;
 
         return $this->processForm($request, $hulpvraag);
+    }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        if (!$entity->getKoppelingEinddatum()) {
+            $entity->setKoppelingEinddatum(new \DateTime());
+        }
+        $this->formClass = KoppelingCloseType::class;
+
+        return $this->processForm($request, $entity);
     }
 }

@@ -151,4 +151,85 @@ class Hulpvraag extends Koppeling
 
         return $verslagen;
     }
+
+    public function setKoppelingStartdatum(\DateTime $koppelingStartdatum = null, $setRelated = true)
+    {
+        $this->koppelingStartdatum = $koppelingStartdatum;
+
+        if ($koppelingStartdatum && !$this->tussenevaluatiedatum) {
+            $tussenevaluatiedatum = clone $koppelingStartdatum;
+            $tussenevaluatiedatum->modify('+3 months');
+            $this->setTussenevaluatiedatum($tussenevaluatiedatum);
+        }
+
+        if ($koppelingStartdatum && !$this->eindevaluatiedatum) {
+            $eindevaluatiedatum = clone $koppelingStartdatum;
+            $eindevaluatiedatum->modify('+6 months');
+            $this->setEindevaluatiedatum($eindevaluatiedatum);
+        }
+
+        if ($setRelated) {
+            $this->hulpaanbod->setKoppelingStartdatum($koppelingStartdatum, false);
+            $this->hulpaanbod->setTussenevaluatiedatum($this->tussenevaluatiedatum);
+            $this->hulpaanbod->setEindevaluatiedatum($this->eindevaluatiedatum);
+        }
+
+        return $this;
+    }
+
+    public function setTussenevaluatiedatum(\DateTime $datum = null, $setRelated = true)
+    {
+        $this->tussenevaluatiedatum = $datum;
+        if ($setRelated) {
+            $this->hulpaanbod->setTussenevaluatiedatum($datum, false);
+        }
+
+        return $this;
+    }
+
+    public function setEindevaluatiedatum(\DateTime $datum = null, $setRelated = true)
+    {
+        $this->eindevaluatiedatum = $datum;
+        if ($setRelated) {
+            $this->hulpaanbod->setEindevaluatiedatum($datum, false);
+        }
+
+        return $this;
+    }
+
+    public function setKoppelingEinddatum(\DateTime $koppelingEinddatum = null, $setRelated = true)
+    {
+        $this->koppelingEinddatum = $koppelingEinddatum;
+        if ($setRelated) {
+            $this->hulpaanbod->setKoppelingEinddatum($koppelingEinddatum, false);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param EindeKoppeling $eindeKoppeling
+     */
+    public function setEindeKoppeling(EindeKoppeling $eindeKoppeling, $setRelated = true)
+    {
+        $this->eindeKoppeling = $eindeKoppeling;
+        if ($setRelated) {
+            $this->hulpaanbod->setEindeKoppeling($eindeKoppeling, false);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param bool $koppelingSuccesvol
+     */
+    public function setKoppelingSuccesvol($koppelingSuccesvol, $setRelated = true)
+    {
+        $this->koppelingSuccesvol = (bool) $koppelingSuccesvol;
+        if ($setRelated) {
+            $this->hulpaanbod->setKoppelingSuccesvol($koppelingSuccesvol, false);
+        }
+
+        return $this;
+    }
 }
