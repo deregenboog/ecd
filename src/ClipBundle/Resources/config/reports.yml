@@ -60,6 +60,14 @@ services:
         tags:
             - { name: clip.rapportage, category: Vragen }
 
+    clip.report.vragen_per_stadsdeel:
+        class: ClipBundle\Report\VragenPerStadsdeel
+        arguments:
+            - "@clip.dao.vraag"
+            - "@clip.dao.contactmoment"
+        tags:
+            - { name: clip.rapportage, category: Vragen }
+
     clip.report.vragen_per_vraagsoort:
         class: ClipBundle\Report\VragenPerVraagsoort
         arguments:

@@ -50,6 +50,8 @@ interface ContactmomentDaoInterface
 
     public function countByMaand(\DateTime $startdate, \DateTime $enddate);
 
+    public function countByStadsdeel(\DateTime $startdate, \DateTime $enddate);
+
     public function countByViacategorie(\DateTime $startdate, \DateTime $enddate);
 
     public function countByVraagsoort(\DateTime $startdate, \DateTime $enddate);
