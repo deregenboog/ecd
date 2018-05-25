@@ -42,6 +42,13 @@ class HulpaanbodType extends AbstractType
                         ->orderBy('hulpvraagsoort.naam')
                     ;
                 },
+                'choice_label' => function($value, $key, $index) {
+                    if ($value->getToelichting()) {
+                        return sprintf('%s - %s', $value, $value->getToelichting());
+                    }
+
+                    return (string) $value;
+                },
             ])
             ->add('doelgroepen', null, [
                 'required' => true,
