@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\Common\Collections\Criteria;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
@@ -54,7 +55,11 @@ class IzVrijwilliger extends IzDeelnemer
 
     public function __toString()
     {
-        return (string) $this->vrijwilliger;
+        try {
+            return (string) $this->vrijwilliger;
+        } catch (FatalErrorException $e) {
+            return '';
+        }
     }
 
     public function getVrijwilliger()
