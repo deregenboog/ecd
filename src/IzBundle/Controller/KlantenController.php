@@ -69,6 +69,15 @@ class KlantenController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+
+        if (count($entity->getOpenHulpvragen()) > 0
+            || count($entity->getActieveKoppelingen()) > 0
+        ) {
+            $this->addFlash('danger', 'Dit dossier kan niet worden afgesloten omdat er nog open hulpvragen en/of actieve koppelingen zijn.');
+
+            return $this->redirectToView($entity);
+        }
+
         $this->formClass = IzDeelnemerCloseType::class;
 
         return $this->processForm($request, $entity);

@@ -1,17 +1,5 @@
-{% extends 'IzBundle::view.html.twig' %}
+{% extends 'IzBundle:klanten:view.html.twig' %}
 {% import '::html.macro.twig' as html %}
-
-{% block content_top %}
-    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
-    <p>
-        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
-    </p>
-{% endblock %}
-
-{% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
-{% endblock %}
 
 {% block content_right %}
     {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'afsluiting'} %}
