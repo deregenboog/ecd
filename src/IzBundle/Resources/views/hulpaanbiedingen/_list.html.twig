@@ -28,7 +28,6 @@
                     <td>{{ hulpaanbod.medewerker }}</td>
                     <td>
                         {{ html.link('Verslagen', path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id, _fragment: 'verslagen'}), 'list') }}
-                        {{ html.link('Details bekijken', path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}), 'search') }}
                         {{ html.link('Koppelen', path('iz_hulpaanbiedingen_connect', {id: hulpaanbod.id}), 'paperclip') }}
                         {{ html.link('Afsluiten', path('iz_hulpaanbiedingen_close', {id: hulpaanbod.id}), 'lock') }}
                     </td>
@@ -46,16 +45,26 @@
                 <th>Startdatum koppeling</th>
                 <th>Einddatum koppeling</th>
                 <th>Coördinator</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for hulpaanbod in vrijwilliger.actieveKoppelingen %}
                 <tr data-href="{{ path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id}) }}">
                     <td>{{ hulpaanbod.project }}</td>
-                    <td>{{ hulpaanbod.hulpvraag.izKlant }}</td>
+                    <td>
+                        {{ html.link(
+                            hulpaanbod.hulpvraag.izKlant.klant|naam_voor_achter,
+                            path('iz_klanten_view', {id: hulpaanbod.hulpvraag.izKlant.id})
+                        ) }}
+                    </td>
                     <td>{{ hulpaanbod.koppelingStartdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.koppelingEinddatum ? hulpaanbod.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>
+                    <td>
+                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                        {{ html.link('Afsluiten', path('iz_koppelingen_close', {id: hulpaanbod.hulpvraag.id}), 'lock') }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -70,6 +79,7 @@
                 <th>Einddatum hulpaanbod</th>
                 <th>Coördinator</th>
                 <th>Reden afsluiting</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -80,6 +90,9 @@
                     <td>{{ hulpaanbod.einddatum ? hulpaanbod.einddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>
                     <td>{{ hulpaanbod.eindeVraagAanbod }}</td>
+                    <td>
+                        {{ html.link('Verslagen', path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id, _fragment: 'verslagen'}), 'list') }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -96,18 +109,27 @@
                 <th>Coördinator</th>
                 <th>Succesvol</th>
                 <th>Reden afsluiting</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for hulpaanbod in vrijwilliger.afgeslotenKoppelingen %}
                 <tr data-href="{{ path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id}) }}">
                     <td>{{ hulpaanbod.project }}</td>
-                    <td>{{ hulpaanbod.hulpvraag.izKlant }}</td>
+                    <td>
+                        {{ html.link(
+                            hulpaanbod.hulpvraag.izKlant.klant|naam_voor_achter,
+                            path('iz_klanten_view', {id: hulpaanbod.hulpvraag.izKlant.id})
+                        ) }}
+                    </td>
                     <td>{{ hulpaanbod.koppelingStartdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.koppelingEinddatum ? hulpaanbod.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>
                     <td>{{ hulpaanbod.koppelingSuccesvol ? 'Ja' : 'Nee' }}</td>
                     <td>{{ hulpaanbod.eindeKoppeling }}</td>
+                    <td>
+                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

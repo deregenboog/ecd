@@ -28,7 +28,6 @@
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>
                         {{ html.link('Verslagen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
-                        {{ html.link('Details bekijken', path('iz_hulpvragen_view', {id: hulpvraag.id}), 'search') }}
                         {{ html.link('Koppelen', path('iz_hulpvragen_connect', {id: hulpvraag.id}), 'paperclip') }}
                         {{ html.link('Afsluiten', path('iz_hulpvragen_close', {id: hulpvraag.id}), 'lock') }}
                     </td>
@@ -46,16 +45,26 @@
                 <th>Startdatum koppeling</th>
                 <th>Einddatum koppeling</th>
                 <th>Coördinator</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for hulpvraag in klant.actieveKoppelingen %}
                 <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
                     <td>{{ hulpvraag.project }}</td>
-                    <td>{{ hulpvraag.hulpaanbod.izVrijwilliger }}</td>
+                    <td>
+                        {{ html.link(
+                            hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter,
+                            path('iz_vrijwilligers_view', {id: hulpvraag.hulpaanbod.izVrijwilliger.id})
+                        ) }}
+                    </td>
                     <td>{{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.koppelingEinddatum ? hulpvraag.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.medewerker }}</td>
+                    <td>
+                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                        {{ html.link('Afsluiten', path('iz_koppelingen_close', {id: hulpvraag.id}), 'lock') }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -70,6 +79,7 @@
                 <th>Einddatum hulpvraag</th>
                 <th>Coördinator</th>
                 <th>Reden afsluiting</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -80,6 +90,9 @@
                     <td>{{ hulpvraag.einddatum ? hulpvraag.einddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>{{ hulpvraag.eindeVraagAanbod }}</td>
+                    <td>
+                        {{ html.link('Verslagen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -96,18 +109,27 @@
                 <th>Coördinator</th>
                 <th>Succesvol</th>
                 <th>Reden afsluiting</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for hulpvraag in klant.afgeslotenKoppelingen %}
                 <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
                     <td>{{ hulpvraag.project }}</td>
-                    <td>{{ hulpvraag.hulpaanbod.izVrijwilliger }}</td>
+                    <td>
+                        {{ html.link(
+                            hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter,
+                            path('iz_vrijwilligers_view', {id: hulpvraag.hulpaanbod.izVrijwilliger.id})
+                        ) }}
+                    </td>
                     <td>{{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.koppelingEinddatum ? hulpvraag.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>{{ hulpvraag.koppelingSuccesvol ? 'Ja' : 'Nee' }}</td>
                     <td>{{ hulpvraag.eindeKoppeling }}</td>
+                    <td>
+                        {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
