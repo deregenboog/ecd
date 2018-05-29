@@ -101,7 +101,16 @@ class IzKlant extends IzDeelnemer
 
     public function getHulpvragen()
     {
-        return $this->hulpvragen;
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpaanbod'));
+
+        return $this->hulpvragen->matching($criteria);
+    }
+
+    public function getKoppelingen()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpaanbod', null));
+
+        return $this->hulpvragen->matching($criteria);
     }
 
     public function addHulpvraag(Hulpvraag $hulpvraag)
@@ -115,24 +124,9 @@ class IzKlant extends IzDeelnemer
     public function getOpenHulpvragen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('hulpaanbod'))
-            ->andWhere(Criteria::expr()->isNull('einddatum'))
-            ->orderBy([
-                'startdatum' => 'DESC',
-                'koppelingStartdatum' => 'DESC',
-            ])
-        ;
-
-        return $this->hulpvragen->matching($criteria);
-    }
-
-    public function getActieveKoppelingen()
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->neq('hulpaanbod', null))
-            ->andWhere(Criteria::expr()->orX(
-                Criteria::expr()->isNull('koppelingEinddatum'),
-                Criteria::expr()->gte('koppelingEinddatum', new \DateTime('today'))
+            ->where(Criteria::expr()->orX(
+                Criteria::expr()->isNull('einddatum'),
+                Criteria::expr()->gt('einddatum', new \DateTime('today'))
             ))
             ->orderBy([
                 'startdatum' => 'DESC',
@@ -140,35 +134,55 @@ class IzKlant extends IzDeelnemer
             ])
         ;
 
-        return $this->hulpvragen->matching($criteria);
+        return $this->getHulpvragen()->matching($criteria);
+    }
+
+    public function getActieveKoppelingen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->orX(
+                Criteria::expr()->isNull('koppelingEinddatum'),
+                Criteria::expr()->gt('koppelingEinddatum', new \DateTime('today'))
+            ))
+            ->orderBy([
+                'startdatum' => 'DESC',
+                'koppelingStartdatum' => 'DESC',
+            ])
+        ;
+
+        return $this->getKoppelingen()->matching($criteria);
     }
 
     public function getAfgeslotenHulpvragen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->isNull('hulpaanbod'))
-            ->andWhere(Criteria::expr()->neq('einddatum', null))
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->neq('einddatum', null),
+                Criteria::expr()->lte('einddatum', new \DateTime('today'))
+            ))
             ->orderBy([
                 'startdatum' => 'DESC',
                 'koppelingStartdatum' => 'DESC',
             ])
         ;
 
-        return $this->hulpvragen->matching($criteria);
+        return $this->getHulpvragen()->matching($criteria);
     }
 
     public function getAfgeslotenKoppelingen()
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->neq('hulpaanbod', null))
-            ->andWhere(Criteria::expr()->lt('koppelingEinddatum', new \DateTime('today')))
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->neq('koppelingEinddatum', null),
+                Criteria::expr()->lte('koppelingEinddatum', new \DateTime('today'))
+            ))
             ->orderBy([
                 'startdatum' => 'DESC',
                 'koppelingStartdatum' => 'DESC',
             ])
         ;
 
-        return $this->hulpvragen->matching($criteria);
+        return $this->getKoppelingen()->matching($criteria);
     }
 
     public function getContactOntstaan()
