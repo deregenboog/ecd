@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use AppBundle\Entity\Geslacht;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Persoon;
+use Doctrine\ORM\EntityNotFoundException;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -86,17 +87,21 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     {
         $parts = [];
 
-        if ($persoon->getVoornaam()) {
-            $parts[] = $persoon->getVoornaam();
-        }
-        if ($persoon->getRoepnaam()) {
-            $parts[] = "({$persoon->getRoepnaam()})";
-        }
-        if ($persoon->getTussenvoegsel()) {
-            $parts[] = $persoon->getTussenvoegsel();
-        }
-        if ($persoon->getAchternaam()) {
-            $parts[] = $persoon->getAchternaam();
+        try {
+            if ($persoon->getVoornaam()) {
+                $parts[] = $persoon->getVoornaam();
+            }
+            if ($persoon->getRoepnaam()) {
+                $parts[] = "({$persoon->getRoepnaam()})";
+            }
+            if ($persoon->getTussenvoegsel()) {
+                $parts[] = $persoon->getTussenvoegsel();
+            }
+            if ($persoon->getAchternaam()) {
+                $parts[] = $persoon->getAchternaam();
+            }
+        } catch (EntityNotFoundException $e) {
+            // ignore
         }
 
         return implode(' ', $parts);
@@ -106,21 +111,25 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     {
         $parts = [];
 
-        if ($persoon->getAchternaam()) {
-            if ($persoon->getVoornaam() || $persoon->getTussenvoegsel() || $persoon->getRoepnaam()) {
-                $parts[] = $persoon->getAchternaam().',';
-            } else {
-                $parts[] = $persoon->getAchternaam();
+        try {
+            if ($persoon->getAchternaam()) {
+                if ($persoon->getVoornaam() || $persoon->getTussenvoegsel() || $persoon->getRoepnaam()) {
+                    $parts[] = $persoon->getAchternaam().',';
+                } else {
+                    $parts[] = $persoon->getAchternaam();
+                }
             }
-        }
-        if ($persoon->getVoornaam()) {
-            $parts[] = $persoon->getVoornaam();
-        }
-        if ($persoon->getRoepnaam()) {
-            $parts[] = "({$persoon->getRoepnaam()})";
-        }
-        if ($persoon->getTussenvoegsel()) {
-            $parts[] = $persoon->getTussenvoegsel();
+            if ($persoon->getVoornaam()) {
+                $parts[] = $persoon->getVoornaam();
+            }
+            if ($persoon->getRoepnaam()) {
+                $parts[] = "({$persoon->getRoepnaam()})";
+            }
+            if ($persoon->getTussenvoegsel()) {
+                $parts[] = $persoon->getTussenvoegsel();
+            }
+        } catch (EntityNotFoundException $e) {
+            // ignore
         }
 
         return implode(' ', $parts);
