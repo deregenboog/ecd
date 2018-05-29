@@ -7,16 +7,18 @@
 
 {% block content_left %}
     <h2>Hulpvraag</h2>
-    {% if not entity.afgesloten and not entity.gekoppeld %}
-        <p>
+    <p>
+        {% if not entity.afgesloten %}
             {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
             {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
-            {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
-            {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-            {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
-            {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
-        </p>
-    {% endif %}
+            {% if not entity.gekoppeld %}
+                {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
+                {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
+                {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
+                {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
+            {% endif %}
+        {% endif %}
+    </p>
     <dl class="dl-horizontal">
         <dt>Deelnemer</dt>
         <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
@@ -42,16 +44,18 @@
     <div class="tab-content">
         <div id="hulpvraag" class="tab-pane active">
             <h2>Hulpvraag</h2>
-            {% if not entity.afgesloten and not entity.gekoppeld %}
-                <p>
+            <p>
+                {% if not entity.afgesloten %}
                     {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
                     {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
-                    {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
-                    {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-                    {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
-                    {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
-                </p>
-            {% endif %}
+                    {% if not entity.gekoppeld %}
+                        {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
+                        {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
+                        {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
+                        {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
+                    {% endif %}
+                {% endif %}
+            </p>
             <dl class="dl-horizontal">
                 <dt>Deelnemer</dt>
                 <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
