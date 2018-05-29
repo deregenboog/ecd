@@ -25,7 +25,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             'klant.geboortedatum',
             'klant.laatsteZrm',
             'werkgebied.naam',
-            'medewerker.achternaam',
+            'medewerker.voornaam',
             'stadsdeel.naam',
             'geslacht.volledig',
             'hulpvraagsoort.naam',

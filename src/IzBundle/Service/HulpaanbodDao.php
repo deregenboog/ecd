@@ -29,7 +29,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             'vrijwilliger.vogAanwezig',
             'vrijwilliger.overeenkomstAanwezig',
             'werkgebied.naam',
-            'medewerker.achternaam',
+            'medewerker.voornaam',
             'stadsdeel.naam',
             'geslacht.volledig',
             'hulpvraagsoort.naam',
