@@ -1,5 +1,8 @@
 <?php
 
+use InloopBundle\Pdf\PdfSchorsingNl;
+use InloopBundle\Pdf\PdfSchorsingEn;
+
 class SchorsingenController extends AppController
 {
     public $name = 'Schorsingen';
@@ -378,9 +381,13 @@ class SchorsingenController extends AppController
             'geslacht'
         ));
 
-        $this->layout = 'pdf'; //this will use the pdf.ctp layout
-        if ($eng) {
-            $this->render('/schorsingen/get_eng_pdf');
-        }
+        $this->autoLayout = false;
+        $template = $eng ? '/schorsingen/get_eng_pdf' : '/schorsingen/get_pdf';
+        $html = $this->render($template);
+
+        $pdf = $eng ? new PdfSchorsingEn($html, $klant_naam) : new PdfSchorsingNl($html, $klant_naam);
+        header('Content-type: application/pdf');
+
+        return $pdf->Output('schorsing-'.$begindatum_schorsing.'.pdf', 'I');
     }
 }

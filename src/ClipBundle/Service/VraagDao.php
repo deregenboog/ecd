@@ -148,6 +148,20 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+    public function countByStadsdeel(\DateTime $startdate, \DateTime $enddate)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id) AS aantal, stadsdeel.naam AS groep")
+            ->innerJoin("{$this->alias}.client", 'client')
+            ->leftJoin('client.werkgebied', 'stadsdeel')
+            ->groupBy('groep')
+        ;
+
+        $this->applyFilter($builder, $startdate, $enddate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countByGeslacht(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)

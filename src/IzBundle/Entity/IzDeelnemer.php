@@ -192,6 +192,16 @@ abstract class IzDeelnemer
     }
 
     /**
+     * @param \DateTime $datum
+     */
+    public function setDatumAanmelding(\DateTime $datum)
+    {
+        $this->datumAanmelding = $datum;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getNotitie()

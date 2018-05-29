@@ -143,4 +143,18 @@ class VragenController extends AbstractVragenController
             'form' => $form->createView(),
         ];
     }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        if (!array_key_exists(GROUP_CLIP_BEHEER, $this->userGroups)) {
+            return $this->redirectToView($entity);
+        }
+
+        return parent::deleteAction($request, $id);
+    }
 }

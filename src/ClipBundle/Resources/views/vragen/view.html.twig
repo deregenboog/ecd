@@ -27,7 +27,7 @@
             {{ html.editLink(path('clip_vragen_reopen', {id: entity.id})) }}
             {{ html.link('Heropenen', path('clip_vragen_reopen', {id: entity.id})) }}
         {% endif %}
-        {% if entity.deletable %}
+        {% if entity.deletable and (constant('GROUP_CLIP_BEHEER') in userGroups|keys) %}
             {{ html.deleteLink(path('clip_vragen_delete', {id: entity.id})) }}
             {{ html.link('Verwijderen', path('clip_vragen_delete', {id: entity.id})) }}
         {% endif %}

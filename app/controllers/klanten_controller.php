@@ -3,6 +3,7 @@
 use AppBundle\Entity\Klant;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Pdf\PdfBrief;
 
 class KlantenController extends AppController
 {
@@ -501,8 +502,16 @@ class KlantenController extends AppController
     {
         $klant = $this->Klant->read(null, $klantId);
         $this->set('klant', $klant);
-        $this->layout = 'print';
-        Configure::write('debug', 0);
+
+        $this->autoLayout = false;
+        $html = $this->render('/klanten/print_letter');
+
+        $pdf = new PdfBrief($html);
+        header('Content-type: application/pdf');
+
+        return $pdf->Output('doorverwijsbrief-amoc.pdf', 'I');
+
+
     }
 
     public function upload($klantId = null, $group = null)

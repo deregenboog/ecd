@@ -45,23 +45,19 @@
         <div class="input select">
             <?= $this->Form->label('nothing_at_all', $name.' schorsen'.$location_name_for_label.' voor:') ?>
             <div class="checkbox">
-                <input id="SchorsingDays0" type="radio" name="data[Schorsing][days]" value="0"> </input>
+                <input id="SchorsingDays0" type="radio" name="data[Schorsing][days]" value="0"/>
                 <?= $this->Form->label('Days0', 'de rest van de dag (1 dag)') ?>
             </div>
             <div class="checkbox">
-                <input id="SchorsingDays1" type="radio" name="data[Schorsing][days]" value="1"> </input>
+                <input id="SchorsingDays1" type="radio" name="data[Schorsing][days]" value="1"/>
                 <?= $this->Form->label('Days1', 'vandaag en morgen (2 dagen)') ?>
             </div>
             <div class="checkbox">
-                <input id="SchorsingDays2" type="radio" name="data[Schorsing][days]" value="2"> </input>
+                <input id="SchorsingDays2" type="radio" name="data[Schorsing][days]" value="2"/>
                 <?= $this->Form->label('Days2', '3 dagen') ?>
             </div>
             <div class="checkbox">
-                <input id="SchorsingDays3" type="radio" name="data[Schorsing][days]" value="4"> </input>
-                <?= $this->Form->label('Days3', '5 dagen') ?>
-            </div>
-            <div class="checkbox">
-                <input id="SchorsingDays4" type="radio" name="data[Schorsing][days]" value="-1"> </input>
+                <input id="SchorsingDays4" type="radio" name="data[Schorsing][days]" value="-1"/>
                 <?= $this->Form->label('Days4', 'schorsing tot en met ') ?>
                 <br/>
                 <?= $dateInput ?>
