@@ -27,9 +27,10 @@
                     <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>
-                        {{ html.editLink(path('iz_hulpvragen_edit', {id: hulpvraag.id})) }}
-                        {{ html.connectLink(path('iz_hulpvragen_connect', {id: hulpvraag.id})) }}
-                        {{ html.closeLink(path('iz_hulpvragen_close', {id: hulpvraag.id})) }}
+                        {{ html.link('Verslagen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
+                        {{ html.link('Details bekijken', path('iz_hulpvragen_view', {id: hulpvraag.id}), 'search') }}
+                        {{ html.link('Koppelen', path('iz_hulpvragen_connect', {id: hulpvraag.id}), 'paperclip') }}
+                        {{ html.link('Afsluiten', path('iz_hulpvragen_close', {id: hulpvraag.id}), 'lock') }}
                     </td>
                 </tr>
             {% endfor %}
