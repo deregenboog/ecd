@@ -18,6 +18,7 @@ use AppBundle\Event\DienstenLookupEvent;
 use IzBundle\Form\IzDeelnemerCloseType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/klanten")
@@ -85,6 +86,32 @@ class KlantenController extends AbstractController
             $this->processForm($request, $entity),
             ['messages' => $event->getArgument('messages')]
         );
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     private function doSearch(Request $request)

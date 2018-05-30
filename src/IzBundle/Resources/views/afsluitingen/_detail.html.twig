@@ -1,25 +1,24 @@
-<h2>Afsluiting</h2>
 {% if klant is defined %}
     {% set entity = klant %}
     {% set close_url = path('iz_klanten_close', {id: klant.id}) %}
+    {% set reopen_url = path('iz_klanten_reopen', {id: klant.id}) %}
 {% elseif vrijwilliger is defined %}
     {% set entity = vrijwilliger %}
     {% set close_url = path('iz_vrijwilligers_close', {id: vrijwilliger.id}) %}
+    {% set reopen_url = path('iz_vrijwilligers_reopen', {id: vrijwilliger.id}) %}
 {% endif %}
 
-{% if entity.afsluitdatum or entity.afsluiting %}
+<h2>Afsluiting</h2>
+{% if entity.afgesloten %}
+    <p>
+        {{ html.link('Dossier heropenen', reopen_url, 'repeat') }}
+    </p>
     <dl class="dl-horizontal">
         <dt>Afsluitdatum</dt>
         <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Afsluitreden</dt>
         <dd>{{ entity.afsluiting }}</dd>
     </dl>
-{% elseif form is defined and form.vars.name in ['iz_deelnemer_close'] %}
-    <p>
-        {{ html.cancelLink(path('iz_klanten_view', {id: entity.id, _fragment: 'afsluiting'})) }}
-        {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.id, _fragment: 'afsluiting'})) }}
-    </p>
-    {{ form(form) }}
 {% else %}
     <p>
         {{ html.closeLink(close_url) }}

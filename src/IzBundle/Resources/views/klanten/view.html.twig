@@ -65,20 +65,7 @@
             {% include 'IzBundle:hulpvragen:_list.html.twig' with {klant: entity} %}
         </div>
         <div id="afsluiting" class="tab-pane">
-            <h2>Afsluiting</h2>
-            {% if entity.afsluitdatum or entity.afsluiting %}
-                <dl class="dl-horizontal">
-                    <dt>Afsluitdatum</dt>
-                    <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
-                    <dt>Afsluitreden</dt>
-                    <dd>{{ entity.afsluiting }}</dd>
-                </dl>
-            {% else %}
-                <p>
-                    {{ html.closeLink(path('iz_klanten_close', {id: entity.id})) }}
-                    {{ html.link('Dossier afsluiten', path('iz_klanten_close', {id: entity.id})) }}
-                </p>
-            {% endif %}
+            {% include 'IzBundle:afsluitingen:_detail.html.twig' with {klant: entity} %}
         </div>
     </div>
 {% endblock %}

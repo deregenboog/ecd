@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormError;
 use IzBundle\Form\IzDeelnemerCloseType;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use AppBundle\Event\Events;
+use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/vrijwilligers")
@@ -84,6 +85,32 @@ class VrijwilligersController extends AbstractController
             $this->processForm($request, $entity),
             ['messages' => $event->getArgument('messages')]
         );
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     private function doSearch(Request $request)

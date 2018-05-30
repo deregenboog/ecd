@@ -248,4 +248,17 @@ abstract class IzDeelnemer
 
         return $this;
     }
+
+    public function isAfgesloten()
+    {
+        return $this->afsluitDatum || $this->afsluiting;
+    }
+
+    public function reopen()
+    {
+        $this->afsluitDatum = null;
+        $this->afsluiting = null;
+
+        return $this;
+    }
 }

@@ -1,0 +1,19 @@
+{% extends 'IzBundle:klanten:view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_right %}
+    {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'afsluiting'} %}
+    <div class="tab-content">
+        <div id="afsluiting" class="tab-pane active">
+            <h2>Afsluiting</h2>
+            <p>
+                {{ html.cancelLink(path('iz_klanten_view', {id: entity.id, _fragment: 'afsluiting'})) }}
+                {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.id, _fragment: 'afsluiting'})) }}
+            </p>
+            <p>
+                Weet u zeker dat u het dossier van {{ entity_name }} <strong>{{ entity }}</strong> wilt heropenen?<br>
+                {{ form(form) }}
+            </p>
+        </div>
+    </div>
+{% endblock %}
