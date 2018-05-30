@@ -62,6 +62,7 @@ abstract class Zrm
         foreach (self::ZRM_VERSIONS as $model => $date) {
             if ($datum >= new \DateTime($date)) {
                 $zrm = new $model();
+                break;
             }
         }
 
