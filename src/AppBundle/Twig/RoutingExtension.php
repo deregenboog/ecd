@@ -37,7 +37,7 @@ class RoutingExtension extends BaseRoutingExtension
     public function getPath($name, $parameters = [], $relative = false)
     {
         if (!array_key_exists('redirect', $parameters)) {
-            $parameters['redirect'] = '/'.$this->requestStack->getCurrentRequest()->get('url');
+            $parameters['redirect'] = '/'.$this->requestStack->getMasterRequest()->get('url');
         }
 
         return parent::getPath($name, $parameters, $relative);
