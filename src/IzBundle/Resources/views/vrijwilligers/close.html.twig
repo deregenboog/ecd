@@ -9,6 +9,9 @@
                 {{ html.cancelLink(path('iz_vrijwilligers_view', {id: entity.id, _fragment: 'afsluiting'})) }}
                 {{ html.link('Annuleren', path('iz_vrijwilligers_view', {id: entity.id, _fragment: 'afsluiting'})) }}
             </p>
+            {% for message in messages %}
+                <p class="text-danger">{{ message|raw }}</p>
+            {% endfor %}
             {{ form(form) }}
         </div>
     </div>

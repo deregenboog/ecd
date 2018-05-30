@@ -208,4 +208,9 @@ class IzVrijwilliger extends IzDeelnemer
     {
         return false;
     }
+    
+    public function isCloseable()
+    {
+        return 0 === count($this->getOpenHulpaanbiedingen()) + count($this->getActieveKoppelingen());
+    }
 }

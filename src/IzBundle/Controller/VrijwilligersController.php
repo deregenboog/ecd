@@ -15,6 +15,8 @@ use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\FormError;
 use IzBundle\Form\IzDeelnemerCloseType;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use AppBundle\Event\Events;
 
 /**
  * @Route("/vrijwilligers")
@@ -67,18 +69,21 @@ class VrijwilligersController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+        $this->formClass = IzDeelnemerCloseType::class;
 
-        if (count($entity->getOpenHulpaanbiedingen()) > 0
-            || count($entity->getActieveKoppelingen()) > 0
-        ) {
+        if (!$entity->isCloseable()) {
             $this->addFlash('danger', 'Dit dossier kan niet worden afgesloten omdat er nog open hulpaanbiedingen en/of actieve koppelingen zijn.');
 
             return $this->redirectToView($entity);
         }
 
-        $this->formClass = IzDeelnemerCloseType::class;
+        $event = new GenericEvent($entity->getVrijwilliger(), ['messages' => []]);
+        $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
 
-        return $this->processForm($request, $entity);
+        return array_merge(
+            $this->processForm($request, $entity),
+            ['messages' => $event->getArgument('messages')]
+        );
     }
 
     private function doSearch(Request $request)
