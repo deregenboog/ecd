@@ -2,10 +2,8 @@
 
 <h2>ZRMs</h2>
 <p>
-    {{ html.viewLink(path('app_zrms_index', {'zrm_filter[klant][id]': klant.id})) }}
-    {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': klant.id})) }}
-    {{ html.addLink(path('app_zrms_add', {klant: klant.id})) }}
-    {{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: klant.id})) }}
+    {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': klant.id}), 'view') }}
+    {{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: klant.id}), 'add') }}
 </p>
 <table class="table table-hover">
     <tr>

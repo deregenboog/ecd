@@ -107,7 +107,7 @@
             {% elseif entity.gereserveerd %}
                 <h2>Reservering</h2>
                 <p>
-                    {{ html.link('Reservering bewerken', path('iz_reserveringen_edit', {id: entity.huidigeReservering.id}), 'pencil') }}
+                    {{ html.link('Reservering bewerken', path('iz_reserveringen_edit', {id: entity.huidigeReservering.id}), 'edit') }}
                     {{ html.link('Reservering omzetten in koppeling', path('iz_koppelingen_add', {hulpvraag: entity.huidigeReservering.hulpvraag.id, hulpaanbod: entity.huidigeReservering.hulpaanbod.id}), 'paperclip') }}
                 </p>
                 <p>

@@ -29,7 +29,7 @@
                     <td>
                         {{ html.link('Verslagen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
                         {{ html.link('Koppelen', path('iz_hulpvragen_connect', {id: hulpvraag.id}), 'paperclip') }}
-                        {{ html.link('Afsluiten', path('iz_hulpvragen_close', {id: hulpvraag.id}), 'lock') }}
+                        {{ html.link('Afsluiten', path('iz_hulpvragen_close', {id: hulpvraag.id}), 'close') }}
                     </td>
                 </tr>
             {% endfor %}
@@ -63,7 +63,7 @@
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>
                         {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
-                        {{ html.link('Afsluiten', path('iz_koppelingen_close', {id: hulpvraag.id}), 'lock') }}
+                        {{ html.link('Afsluiten', path('iz_koppelingen_close', {id: hulpvraag.id}), 'close') }}
                     </td>
                 </tr>
             {% endfor %}

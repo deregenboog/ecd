@@ -1,72 +1,64 @@
-{% macro link(label, url, icon) %}
-    <a href="{{ url }}">
-        {% if icon %}
-            <span class="glyphicon glyphicon-{{ icon }}" aria-hidden="true"></span>
-        {% endif %}
-        {{ label }}
-    </a>
+{% macro link(label, url, icon, title) %}
+    {% spaceless %}
+        <a href="{{ url }}" {% if title %}title="{{ title }}"{% endif %}>
+            {% if icon %}
+                {% if icon == 'view' %}{% set icon = 'search' %}{% endif %}
+                {% if icon == 'add' %}{% set icon = 'plus' %}{% endif %}
+                {% if icon == 'edit' %}{% set icon = 'pencil' %}{% endif %}
+                {% if icon == 'delete' %}{% set icon = 'remove' %}{% endif %}
+                {% if icon == 'close' %}{% set icon = 'lock' %}{% endif %}
+                {% if icon == 'reopen' %}{% set icon = 'reset' %}{% endif %}
+                {% if icon == 'download' %}{% set icon = 'download-alt' %}{% endif %}
+                {% if icon == 'cancel' %}{% set icon = 'arrow-left' %}{% endif %}
+                {% if icon == 'connect' %}{% set icon = 'paperclip' %}{% endif %}
+                {% if icon == 'email' %}{% set icon = 'envelope' %}{% endif %}
+                <span class="glyphicon glyphicon-{{ icon }}" aria-hidden="true"></span>
+            {% endif %}
+            {% if label %}
+                {{ label }}
+            {% endif %}
+        </a>
+    {% endspaceless %}
 {% endmacro %}
 
-{% macro iconLink(url, icon) %}
-    <a href="{{ url }}">
-        {% if icon %}
-            <span class="glyphicon glyphicon-{{ icon }}" aria-hidden="true"></span>
-        {% endif %}
-    </a>
+{% macro iconLink(url, icon, title) %}
+    {{ _self.link(null, url, icon, title) }}
 {% endmacro %}
 
 {% macro viewLink(url) %}
-    <a href="{{ url }}" title="Bekijken">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'view', 'Bekijken') }}
 {% endmacro %}
 
 {% macro addLink(url) %}
-    <a href="{{ url }}" title="Toevoegen">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'add', 'Toevoegen') }}
 {% endmacro %}
 
 {% macro editLink(url) %}
-    <a href="{{ url }}" title="Wijzigen">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'edit', 'Wijzigen') }}
 {% endmacro %}
 
 {% macro deleteLink(url) %}
-    <a href="{{ url }}" title="Verwijderen">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'delete', 'Verwijderen') }}
 {% endmacro %}
 
 {% macro closeLink(url) %}
-    <a href="{{ url }}" title="Afsluiten">
-        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'close', 'Afsluiten') }}
 {% endmacro %}
 
 {% macro downloadLink(url) %}
-    <a href="{{ url }}" title="Downloaden">
-        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'download', 'Downloaden') }}
 {% endmacro %}
 
 {% macro cancelLink(url) %}
-    <a href="{{ url }}" title="Annuleren">
-        <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'cancel', 'Annuleren') }}
 {% endmacro %}
 
 {% macro connectLink(url) %}
-    <a href="{{ url }}" title="Koppelen">
-        <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'connect', 'Koppelen') }}
 {% endmacro %}
 
 {% macro emailLink(url) %}
-    <a href="{{ url }}" title="E-mailen">
-        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-    </a>
+    {{ _self.iconLink(url, 'email', 'E-mailen') }}
 {% endmacro %}
 
 {% macro navLink(label, url, active) %}
