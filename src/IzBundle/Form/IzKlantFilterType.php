@@ -13,7 +13,6 @@ use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzKlantFilter;
 use IzBundle\Entity\Hulpvraag;
-use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;

@@ -4,8 +4,6 @@ namespace IzBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Postcodegebied;
-use IzBundle\Entity\Hulpaanbod;
 
 class HulpvraagRepository extends EntityRepository
 {

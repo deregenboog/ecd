@@ -8,7 +8,6 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Geslacht;
-use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Exception\AppException;
 
 /**

@@ -2,8 +2,6 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Hulpvraag;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\Reservering;
 

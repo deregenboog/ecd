@@ -7,7 +7,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 use Doctrine\ORM\EntityNotFoundException;
 
 /**

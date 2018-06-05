@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Attachment;
-use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\Document;
 use Symfony\Component\Filesystem\Filesystem;
 

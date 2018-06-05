@@ -104,6 +104,7 @@ class VrijwilligersController extends AbstractController
 
                 $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
             }
+
             return $this->redirectToView($entity);
         }
 

@@ -13,7 +13,6 @@ use AppBundle\Entity\Medewerker;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzVrijwilligerFilter;
 use IzBundle\Entity\Hulpaanbod;
-use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\VrijwilligerFilterType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Form\AppDateRangeType;

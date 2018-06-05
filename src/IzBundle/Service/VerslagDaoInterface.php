@@ -2,7 +2,6 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Doelgroep;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\Verslag;

@@ -9,7 +9,6 @@ use Symfony\Component\Form\AbstractType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Koppeling;
 use AppBundle\Form\DummyChoiceType;
 use IzBundle\Entity\Hulpaanbod;
 

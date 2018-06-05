@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\IzKlant;
 use AppBundle\Form\BaseType;

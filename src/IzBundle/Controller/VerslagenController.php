@@ -4,7 +4,6 @@ namespace IzBundle\Controller;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Service\DoelgroepDaoInterface;
 use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
 use AppBundle\Controller\AbstractChildController;

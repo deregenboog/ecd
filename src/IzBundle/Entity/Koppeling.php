@@ -39,7 +39,7 @@ class Koppeling
      */
     private $succesvol;
 
-    static public function create(Hulpvraag $hulpvraag, Hulpaanbod $hulpaanbod)
+    public static function create(Hulpvraag $hulpvraag, Hulpaanbod $hulpaanbod)
     {
         $koppeling = new self($hulpvraag, $hulpaanbod);
         $hulpvraag->setKoppeling($koppeling);
@@ -176,7 +176,7 @@ class Koppeling
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSuccesvol()
     {
@@ -184,7 +184,7 @@ class Koppeling
     }
 
     /**
-     * @param boolean $succesvol
+     * @param bool $succesvol
      */
     public function setSuccesvol($succesvol)
     {
