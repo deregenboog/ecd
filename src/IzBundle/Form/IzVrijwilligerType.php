@@ -9,30 +9,30 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
 use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzVrijwilliger;
 use AppBundle\Form\AppTextareaType;
-use AppBundle\Form\KlantType;
-use AppBundle\Entity\Klant;
+use AppBundle\Form\VrijwilligerType;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\DummyChoiceType;
 
-class IzKlantType extends AbstractType
+class IzVrijwilligerType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data'] instanceof IzKlant
-            && $options['data']->getKlant() instanceof Klant
-            && $options['data']->getKlant()->getId()
+        if ($options['data'] instanceof IzVrijwilliger
+            && $options['data']->getVrijwilliger() instanceof Vrijwilliger
+            && $options['data']->getVrijwilliger()->getId()
         ) {
-            $builder->add('klant', DummyChoiceType::class, [
+            $builder->add('vrijwilliger', DummyChoiceType::class, [
                 'dummy_label' => (string) $options['data'],
             ]);
         } else {
             $builder
-                ->add('klant', KlantType::class, ['required' => true])
-                ->get('klant')
+                ->add('vrijwilliger', VrijwilligerType::class, ['required' => true])
+                ->get('vrijwilliger')
                 ->remove('opmerking')
                 ->remove('geenPost')
                 ->remove('geenEmail')
@@ -41,16 +41,7 @@ class IzKlantType extends AbstractType
 
         $builder
             ->add('datumAanmelding', AppDateType::class)
-            ->add('organisatieAanmelder', null, [
-                'required' => false,
-            ])
-            ->add('naamAanmelder', null, [
-                'required' => false,
-            ])
-            ->add('emailAanmelder', null, [
-                'required' => false,
-            ])
-            ->add('telefoonAanmelder', null, [
+            ->add('binnengekomenVia', null, [
                 'required' => false,
             ])
             ->add('notitie', AppTextareaType::class, [
@@ -66,7 +57,7 @@ class IzKlantType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => IzKlant::class,
+            'class' => IzVrijwilliger::class,
         ]);
     }
 
