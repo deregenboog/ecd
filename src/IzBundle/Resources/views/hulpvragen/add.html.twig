@@ -1,12 +1,15 @@
-{% extends 'IzBundle:hulpvragen:view.html.twig' %}
+{% extends 'IzBundle:klanten:view.html.twig' %}
+
+{% set entity = parent_entity %}
 
 {% block content_right %}
+    {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'koppelingen'} %}
     <div class="tab-content">
         <div id="koppelingen" class="tab-pane active">
         <h2>Hulpvraag toevoegen</h2>
         <p>
-            {{ html.cancelLink(path('iz_klanten_view', {id: entity.izKlant.id})) }}
-            {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.izKlant.id})) }}
+            {{ html.cancelLink(path('iz_klanten_view', {id: entity.id})) }}
+            {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.id})) }}
         </p>
         {{ form(form) }}
         </div>
