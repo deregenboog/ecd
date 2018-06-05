@@ -10,10 +10,10 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\MedewerkerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use IzBundle\Entity\Koppeling;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
 use AppBundle\Form\AppTextareaType;
+use IzBundle\Entity\Hulp;
 
 class HulpaanbodType extends AbstractType
 {
@@ -49,10 +49,10 @@ class HulpaanbodType extends AbstractType
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',
                 'choices' => [
-                    Koppeling::DAGDEEL_OVERDAG => Koppeling::DAGDEEL_OVERDAG,
-                    Koppeling::DAGDEEL_AVOND => Koppeling::DAGDEEL_AVOND,
-                    Koppeling::DAGDEEL_WEEKEND => Koppeling::DAGDEEL_WEEKEND,
-                    Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
+                    Hulp::DAGDEEL_OVERDAG => Hulp::DAGDEEL_OVERDAG,
+                    Hulp::DAGDEEL_AVOND => Hulp::DAGDEEL_AVOND,
+                    Hulp::DAGDEEL_WEEKEND => Hulp::DAGDEEL_WEEKEND,
+                    Hulp::DAGDEEL_AVOND_WEEKEND => Hulp::DAGDEEL_AVOND_WEEKEND,
                 ],
             ])
             ->add('expat', null, [

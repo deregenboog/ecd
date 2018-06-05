@@ -6,8 +6,8 @@ use IzBundle\Entity\Hulpvraag;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Entity\Koppeling;
 use AppBundle\Entity\Geslacht;
+use IzBundle\Entity\Hulp;
 
 class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 {
@@ -137,34 +137,34 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         // dagdeel
         if ($hulpvraag->getDagdeel()) {
             switch ($hulpvraag->getDagdeel()) {
-                case Koppeling::DAGDEEL_OVERDAG:
-                    $dagdelen = [Koppeling::DAGDEEL_OVERDAG];
+                case Hulp::DAGDEEL_OVERDAG:
+                    $dagdelen = [Hulp::DAGDEEL_OVERDAG];
                     break;
-                case Koppeling::DAGDEEL_AVOND:
+                case Hulp::DAGDEEL_AVOND:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_AVOND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
-                case Koppeling::DAGDEEL_WEEKEND:
+                case Hulp::DAGDEEL_WEEKEND:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_WEEKEND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
-                case Koppeling::DAGDEEL_AVOND_WEEKEND:
+                case Hulp::DAGDEEL_AVOND_WEEKEND:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_AVOND,
+                        Hulp::DAGDEEL_WEEKEND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 default:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_OVERDAG,
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_OVERDAG,
+                        Hulp::DAGDEEL_AVOND,
+                        Hulp::DAGDEEL_WEEKEND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
             }
