@@ -12,7 +12,7 @@ use AppBundle\Exception\AppException;
  * @ORM\Table(name="iz_koppelingen")
  * @Gedmo\Loggable
  */
-class Hulpaanbod extends Koppeling
+class Hulpaanbod extends Hulp
 {
     /**
      * @var IzVrijwilliger
@@ -86,31 +86,25 @@ class Hulpaanbod extends Koppeling
 
     public function setHulpvraag(Hulpvraag $hulpvraag)
     {
-        if ($hulpvraag->getHulpaanbod() && $hulpvraag->getHulpaanbod() != $this) {
-            throw new AppException('Fout bij koppelen!');
-        }
-
-        $this->hulpvraag = $hulpvraag;
-        if (null === $hulpvraag->getHulpaanbod()) {
-            $hulpvraag->setHulpaanbod($this);
-        }
+        Koppeling::create($hulpvraag, $this);
 
         return $this;
     }
 
-    public function isGekoppeld()
+    public function getKoppeling()
     {
-        return $this->hulpvraag instanceof Hulpvraag;
+        if ($this->hulpvraag) {
+            return new Koppeling($this->hulpvraag, $this);
+        }
     }
 
-    public function getDoelgroepen()
+    public function setKoppeling(Koppeling $koppeling)
     {
-        return $this->doelgroepen;
-    }
+        if ($this->getKoppeling()) {
+            throw new AppException('Dit hulpaanbod is al gekoppeld.');
+        }
 
-    public function setDoelgroepen($doelgroepen)
-    {
-        $this->doelgroepen = $doelgroepen;
+        $this->hulpvraag = $koppeling->getHulpvraag();
 
         return $this;
     }
@@ -123,6 +117,18 @@ class Hulpaanbod extends Koppeling
     public function setHulpvraagsoorten($hulpvraagsoorten)
     {
         $this->hulpvraagsoorten = $hulpvraagsoorten;
+
+        return $this;
+    }
+
+    public function getDoelgroepen()
+    {
+        return $this->doelgroepen;
+    }
+
+    public function setDoelgroepen($doelgroepen)
+    {
+        $this->doelgroepen = $doelgroepen;
 
         return $this;
     }
@@ -171,83 +177,10 @@ class Hulpaanbod extends Koppeling
         return $verslagen;
     }
 
-    public function setKoppelingStartdatum(\DateTime $koppelingStartdatum = null, $setRelated = true)
+    public function setKoppelingStartdatum(\DateTime $startdatum = null)
     {
-        $this->koppelingStartdatum = $koppelingStartdatum;
-
-        if ($koppelingStartdatum && !$this->tussenevaluatiedatum) {
-            $tussenevaluatiedatum = clone $koppelingStartdatum;
-            $tussenevaluatiedatum->modify('+3 months');
-            $this->setTussenevaluatiedatum($tussenevaluatiedatum);
-        }
-
-        if ($koppelingStartdatum && !$this->eindevaluatiedatum) {
-            $eindevaluatiedatum = clone $koppelingStartdatum;
-            $eindevaluatiedatum->modify('+6 months');
-            $this->setEindevaluatiedatum($eindevaluatiedatum);
-        }
-
-        if ($setRelated) {
-            $this->hulpvraag->setKoppelingStartdatum($koppelingStartdatum, false);
-            $this->hulpvraag->setTussenevaluatiedatum($this->tussenevaluatiedatum);
-            $this->hulpvraag->setEindevaluatiedatum($this->eindevaluatiedatum);
-        }
-
-        return $this;
-    }
-
-    public function setTussenevaluatiedatum(\DateTime $datum = null, $setRelated = true)
-    {
-        $this->tussenevaluatiedatum = $datum;
-        if ($setRelated) {
-            $this->hulpvraag->setTussenevaluatiedatum($datum, false);
-        }
-
-        return $this;
-    }
-
-    public function setEindevaluatiedatum(\DateTime $datum = null, $setRelated = true)
-    {
-        $this->eindevaluatiedatum = $datum;
-        if ($setRelated) {
-            $this->hulpvraag->setEindevaluatiedatum($datum, false);
-        }
-
-        return $this;
-    }
-
-    public function setKoppelingEinddatum(\DateTime $koppelingEinddatum = null, $setRelated = true)
-    {
-        $this->koppelingEinddatum = $koppelingEinddatum;
-        if ($setRelated) {
-            $this->hulpvraag->setKoppelingEinddatum($koppelingEinddatum, false);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param EindeKoppeling $eindeKoppeling
-     */
-    public function setEindeKoppeling(EindeKoppeling $eindeKoppeling, $setRelated = true)
-    {
-        $this->eindeKoppeling = $eindeKoppeling;
-        if ($setRelated) {
-            $this->hulpvraag->setEindeKoppeling($eindeKoppeling, false);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param bool $koppelingSuccesvol
-     */
-    public function setKoppelingSuccesvol($koppelingSuccesvol, $setRelated = true)
-    {
-        $this->koppelingSuccesvol = (bool) $koppelingSuccesvol;
-        if ($setRelated) {
-            $this->hulpvraag->setKoppelingSuccesvol($koppelingSuccesvol, false);
-        }
+        $this->koppelingStartdatum = $startdatum;
+        $this->getKoppeling()->setStartdatum($startdatum);
 
         return $this;
     }

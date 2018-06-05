@@ -11,7 +11,6 @@ use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpvraagConnectType;
 use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Service\HulpaanbodDaoInterface;
@@ -57,19 +56,6 @@ class HulpvragenController extends AbstractChildController
      * @DI\Inject("iz.export.hulpvragen")
      */
     protected $export;
-
-    /**
-     * @Route("/{id}/connect")
-     */
-    public function connectAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-        $entity->setKoppelingStartdatum(new \DateTime());
-
-        $this->formClass = HulpvraagConnectType::class;
-
-        return $this->processForm($request, $entity);
-    }
 
     /**
      * @Route("/{id}/close")

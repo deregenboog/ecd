@@ -40,13 +40,13 @@
                         {{ hulpvraag.izKlant.klant.naam }}
                     </td>
                     <td>
-                        {{ hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                        {{ hulpvraag.koppeling.hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
                     </td>
                     <td>
-                        {{ hulpvraag.koppelingStartdatum is empty ? "" : hulpvraag.koppelingStartdatum|date('d-m-Y') }}
+                        {{ hulpvraag.koppeling.startdatum is empty ? "" : hulpvraag.koppeling.startdatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ hulpvraag.koppelingEinddatum is empty ? "" : hulpvraag.koppelingEinddatum|date('d-m-Y') }}
+                        {{ hulpvraag.koppeling.einddatum is empty ? "" : hulpvraag.koppeling.einddatum|date('d-m-Y') }}
                     </td>
                     <td>
                         {{ hulpvraag.project }}
@@ -55,7 +55,7 @@
                         {{ hulpvraag.medewerker }}
                     </td>
                     <td>
-                        {{ hulpvraag.hulpaanbod.medewerker }}
+                        {{ hulpvraag.koppeling.hulpaanbod.medewerker }}
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.werkgebied }}

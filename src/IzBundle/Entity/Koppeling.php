@@ -2,366 +2,211 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Geslacht;
-use Symfony\Component\Validator\Constraints as Assert;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="iz_koppelingen")
- * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"hulpvraag" = "Hulpvraag", "hulpaanbod" = "Hulpaanbod"})
- * @Gedmo\Loggable
- * @Gedmo\SoftDeleteable
- */
-abstract class Koppeling
+class Koppeling
 {
-    const DAGDEEL_OVERDAG = 'Overdag';
-    const DAGDEEL_AVOND = 'Avond';
-    const DAGDEEL_WEEKEND = 'Weekend';
-    const DAGDEEL_AVOND_WEEKEND = 'Avond/weekend';
-
-    use TimestampableTrait;
+    /**
+     * @var Hulpvraag
+     */
+    private $hulpvraag;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var Hulpaanbod
      */
-    protected $id;
+    private $hulpaanbod;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
-    protected $deletedAt;
+    private $startdatum;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Versioned
+     * @var \DateTime
      */
-    protected $startdatum;
+    private $einddatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
+     * @var \DateTime
      */
-    protected $einddatum;
+    private $tussenevaluatiedatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
+     * @var \DateTime
      */
-    protected $tussenevaluatiedatum;
+    private $eindevaluatiedatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
+     * @var bool
      */
-    protected $eindevaluatiedatum;
+    private $succesvol;
 
-    /**
-     * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $koppelingStartdatum;
-
-    /**
-     * @ORM\Column(name="koppeling_einddatum", type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $koppelingEinddatum;
-
-    /**
-     * @ORM\Column(name="koppeling_succesvol", type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $koppelingSuccesvol;
-
-    /**
-     * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $medewerker;
-
-    /**
-     * @var Project
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", nullable=false)
-     * @Gedmo\Versioned
-     */
-    protected $project;
-
-    /**
-     * @var EindeVraagAanbod
-     * @ORM\ManyToOne(targetEntity="EindeVraagAanbod")
-     * @ORM\JoinColumn(name="iz_vraagaanbod_id")
-     * @Gedmo\Versioned
-     */
-    protected $eindeVraagAanbod;
-
-    /**
-     * @var AfsluitredenKoppeling
-     *
-     * @ORM\ManyToOne(targetEntity="AfsluitredenKoppeling")
-     * @ORM\JoinColumn(name="iz_eindekoppeling_id")
-     * @Gedmo\Versioned
-     */
-    protected $afsluitredenKoppeling;
-
-    /**
-     * @var IzDeelnemer
-     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="koppelingen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $izDeelnemer;
-
-    /**
-     * @var Verslag[]
-     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="koppeling", cascade={"persist"})
-     * @ORM\OrderBy({"created": "desc"})
-     */
-    protected $verslagen;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $info;
-
-    /**
-     * @var Doelgroep[]
-     *
-     * @ORM\ManyToMany(targetEntity="Doelgroep")
-     */
-    protected $doelgroepen;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(nullable=true)
-     */
-    protected $dagdeel;
-
-    /**
-     * @var Geslacht
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    protected $voorkeurGeslacht;
-
-    public function __construct()
+    static public function create(Hulpvraag $hulpvraag, Hulpaanbod $hulpaanbod)
     {
-        $this->startdatum = new \DateTime('today');
-        $this->verslagen = new ArrayCollection();
-        $this->doelgroepen = new ArrayCollection();
-        $this->reserveringen = new ArrayCollection();
+        $koppeling = new self($hulpvraag, $hulpaanbod);
+        $hulpvraag->setKoppeling($koppeling);
+        $hulpaanbod->setKoppeling($koppeling);
+
+        if (!$koppeling->getStartdatum()) {
+            $koppeling->setStartdatum(new \DateTime('today'));
+        }
+        if (!$koppeling->getTussenevaluatiedatum()) {
+            $koppeling->setTussenevaluatiedatum(new \DateTime('+3 months'));
+        }
+        if (!$koppeling->getEindevaluatiedatum()) {
+            $koppeling->setEindevaluatiedatum(new \DateTime('+6 months'));
+        }
+
+        return $koppeling;
     }
 
-    public function getId()
+    public function __construct(Hulpvraag $hulpvraag, Hulpaanbod $hulpaanbod)
     {
-        return $this->id;
-    }
-
-    public function getDeelnemer()
-    {
-        return $this->izDeelnemer;
+        $this->hulpvraag = $hulpvraag;
+        $this->hulpaanbod = $hulpaanbod;
     }
 
     /**
-     * @deprecated
+     * @return Hulpvraag
      */
-    public function getIzDeelnemer()
+    public function getHulpvraag()
     {
-        return $this->izDeelnemer;
+        return $this->hulpvraag;
     }
 
-    public function setDeelnemer(IzDeelnemer $izDeelnemer)
+    /**
+     * @return Hulpaanbod
+     */
+    public function getHulpaanbod()
     {
-        $this->izDeelnemer = $izDeelnemer;
-
-        return $this;
+        return $this->hulpaanbod;
     }
 
-    public function getMedewerker()
-    {
-        return $this->medewerker;
-    }
-
-    public function setMedewerker(Medewerker $medewerker)
-    {
-        $this->medewerker = $medewerker;
-
-        return $this;
-    }
-
-    public function getProject()
-    {
-        return $this->project;
-    }
-
-    public function setProject(Project $project)
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
+    /**
+     * @return \DateTime
+     */
     public function getStartdatum()
     {
-        return $this->startdatum;
+        return $this->hulpvraag->getKoppelingStartdatum();
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    /**
+     * @param \DateTime $startdatum
+     */
+    public function setStartdatum(\DateTime $startdatum)
     {
-        $this->startdatum = $startdatum;
+        if ($this->hulpvraag->getKoppelingStartdatum() !== $startdatum) {
+            $this->hulpvraag->setKoppelingStartdatum($startdatum);
+        }
+        if ($this->hulpaanbod->getKoppelingStartdatum() !== $startdatum) {
+            $this->hulpaanbod->setKoppelingStartdatum($startdatum);
+        }
+
+        $this->setTussenevaluatiedatum((clone $startdatum)->modify('+3 months'));
+        $this->setEindevaluatiedatum((clone $startdatum)->modify('+6 months'));
 
         return $this;
     }
 
-    public function getTussenevaluatiedatum()
-    {
-        return $this->tussenevaluatiedatum;
-    }
-
-    public function getEindevaluatiedatum()
-    {
-        return $this->eindevaluatiedatum;
-    }
-
+    /**
+     * @return \DateTime
+     */
     public function getEinddatum()
     {
-        return $this->einddatum;
-    }
-
-    public function setEinddatum(\DateTime $einddatum = null)
-    {
-        $this->einddatum = $einddatum;
-
-        return $this;
-    }
-
-    public function getKoppelingStartdatum()
-    {
-        return $this->koppelingStartdatum;
-    }
-
-    public function getKoppelingEinddatum()
-    {
-        return $this->koppelingEinddatum;
+        return $this->hulpvraag->getKoppelingEinddatum();
     }
 
     /**
-     * @return AfsluitredenKoppeling
+     * @param \DateTime $einddatum
      */
-    public function getAfsluitredenKoppeling()
+    public function setEinddatum($einddatum)
     {
-        return $this->afsluitredenKoppeling;
-    }
-
-    /**
-     * @return IzEindeVraagAanbod
-     */
-    public function getEindeVraagAanbod()
-    {
-        return $this->eindeVraagAanbod;
-    }
-
-    public function setEindeVraagAanbod(EindeVraagAanbod $eindeVraagAanbod)
-    {
-        $this->eindeVraagAanbod = $eindeVraagAanbod;
-
-        return $this;
-    }
-
-    public function isAfgesloten()
-    {
-        $now = new \DateTime();
-
-        if ($this->isGekoppeld()) {
-            return $this->getKoppelingEinddatum() instanceof \DateTime && $this->getKoppelingEinddatum() <= $now;
+        if ($this->hulpvraag->getKoppelingEinddatum() !== $einddatum) {
+            $this->hulpvraag->setKoppelingEinddatum($einddatum);
+        }
+        if ($this->hulpaanbod->getKoppelingEinddatum() !== $einddatum) {
+            $this->hulpaanbod->setKoppelingEinddatum($einddatum);
         }
 
-        return $this->getEinddatum() instanceof \DateTime && $this->getEinddatum() <= $now;
+        return $this;
     }
 
     /**
-     * @return bool
+     * @return \DateTime
      */
-    public function isKoppelingSuccesvol()
+    public function getTussenevaluatiedatum()
     {
-        return $this->koppelingSuccesvol;
+        return $this->hulpvraag->getTussenevaluatiedatum();
     }
 
-    public function getInfo()
+    /**
+     * @param \DateTime $datum
+     */
+    public function setTussenevaluatiedatum(\DateTime $datum)
     {
-        return $this->info;
-    }
-
-    public function setInfo($info = null)
-    {
-        $this->info = $info;
-
-        return $this;
-    }
-
-    public function getDagdeel()
-    {
-        return $this->dagdeel;
-    }
-
-    public function setDagdeel($dagdeel = null)
-    {
-        $this->dagdeel = $dagdeel;
-
-        return $this;
-    }
-
-    public function getVoorkeurGeslacht()
-    {
-        return $this->voorkeurGeslacht;
-    }
-
-    public function setVoorkeurGeslacht(Geslacht $geslacht = null)
-    {
-        $this->voorkeurGeslacht = $geslacht;
-
-        return $this;
-    }
-
-    public function addVerslag(Verslag $verslag)
-    {
-        $this->verslagen[] = $verslag;
-        $verslag->setKoppeling($this);
-        $verslag->setIzDeelnemer($this->getDeelnemer());
-    }
-
-    public function isGereserveerd()
-    {
-        return $this->getHuidigeReservering() instanceof Reservering;
-    }
-
-    public function getHuidigeReservering()
-    {
-        $today = new \DateTime('today');
-        foreach ($this->reserveringen as $reservering) {
-            if ($today >= $reservering->getStartdatum()
-                && $today <= $reservering->getEinddatum()
-            ) {
-                return $reservering;
-            }
+        if ($this->hulpvraag->getTussenevaluatiedatum() !== $datum) {
+            $this->hulpvraag->setTussenevaluatiedatum($datum);
         }
+        if ($this->hulpaanbod->getTussenevaluatiedatum() !== $datum) {
+            $this->hulpaanbod->setTussenevaluatiedatum($datum);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEindevaluatiedatum()
+    {
+        return $this->hulpvraag->getEindevaluatiedatum();
+    }
+
+    /**
+     * @param \DateTime $datum
+     */
+    public function setEindevaluatiedatum(\DateTime $datum)
+    {
+        if ($this->hulpvraag->getEindevaluatiedatum() !== $datum) {
+            $this->hulpvraag->setEindevaluatiedatum($datum);
+        }
+        if ($this->hulpaanbod->getEindevaluatiedatum() !== $datum) {
+            $this->hulpaanbod->setEindevaluatiedatum($datum);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSuccesvol()
+    {
+        return $this->succesvol;
+    }
+
+    /**
+     * @param boolean $succesvol
+     */
+    public function setSuccesvol($succesvol)
+    {
+        if ($this->hulpvraag->isKoppelingSuccesvol() != $succesvol) {
+            $this->hulpvraag->setKoppelingSuccesvol($succesvol);
+        }
+        if ($this->hulpaanbod->isKoppelingSuccesvol() != $succesvol) {
+            $this->hulpaanbod->setKoppelingSuccesvol($succesvol);
+        }
+
+        return $this;
+    }
+
+    public function setAfsluitreden(AfsluitredenKoppeling $afsluitreden)
+    {
+        if ($this->hulpvraag->getAfsluitredenKoppeling() !== $afsluitreden) {
+            $this->hulpvraag->setAfsluitredenKoppeling($afsluitreden);
+        }
+        if ($this->hulpaanbod->getAfsluitredenKoppeling() !== $afsluitreden) {
+            $this->hulpaanbod->setAfsluitredenKoppeling($afsluitreden);
+        }
+
+        return $this;
     }
 }

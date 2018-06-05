@@ -13,7 +13,6 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Service\HulpvraagDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpaanbodConnectType;
 use IzBundle\Form\HulpaanbodCloseType;
 
 /**
@@ -56,19 +55,6 @@ class HulpaanbiedingenController extends AbstractChildController
      * @DI\Inject("iz.export.hulpaanbiedingen")
      */
     protected $export;
-
-    /**
-     * @Route("/{id}/connect")
-     */
-    public function connectAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-        $entity->setKoppelingStartdatum(new \DateTime());
-
-        $this->formClass = HulpaanbodConnectType::class;
-
-        return $this->processForm($request, $entity);
-    }
 
     /**
      * @Route("/{id}/close")

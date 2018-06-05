@@ -19,7 +19,7 @@ class Lidmaatschap
     /**
      * @var Intervisiegroep
      *
-     * @ORM\ManyToOne(targetEntity="Intervisiegroep", inversedBy="lidmaatschap")
+     * @ORM\ManyToOne(targetEntity="Intervisiegroep", inversedBy="lidmaatschappen")
      * @ORM\JoinColumn(name="iz_intervisiegroep_id")
      */
     private $intervisiegroep;
@@ -27,7 +27,7 @@ class Lidmaatschap
     /**
      * @var IzVrijwilliger
      *
-     * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="lidmaatschap")
+     * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="lidmaatschappen")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      */
     private $vrijwilliger;

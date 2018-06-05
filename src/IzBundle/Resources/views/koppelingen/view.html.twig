@@ -5,7 +5,7 @@
     <h1>
         {{ entity_name|capitalize }}
         {{ entity.izKlant.klant|naam_voor_achter }} -
-        {{ entity.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter }}
+        {{ entity.koppeling.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter }}
     </h1>
 {% endblock %}
 
@@ -27,9 +27,9 @@
     </dl>
     <dl class="dl-horizontal">
         <dt>Vrijwilliger</dt>
-        <dd>{{ html.link(entity.hulpaanbod.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.hulpaanbod.izVrijwilliger.id})) }}</dd>
+        <dd>{{ html.link(entity.koppeling.hulpaanbod.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.koppeling.hulpaanbod.izVrijwilliger.id})) }}</dd>
         <dt>Coördinator hulpaanbod</dt>
-        <dd>{{ entity.hulpaanbod.medewerker }}</dd>
+        <dd>{{ entity.koppeling.hulpaanbod.medewerker }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Startdatum koppeling</dt>
@@ -84,11 +84,11 @@
         </div>
         <div id="hulpaanbod" class="tab-pane">
             <h2>Hulpaanbod</h2>
-            {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-            {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
+            {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
+            {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
             <dl class="dl-horizontal">
                 <dt>Vrijwilliger</dt>
-                <dd>{{ entity.hulpaanbod.izVrijwilliger }}</dd>
+                <dd>{{ entity.koppeling.hulpaanbod.izVrijwilliger }}</dd>
                 <dt>Coördinator</dt>
                 <dd>{{ entity.medewerker }}</dd>
             </dl>

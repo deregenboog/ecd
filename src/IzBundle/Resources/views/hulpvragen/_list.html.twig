@@ -1,5 +1,5 @@
 <h2>Koppelingen</h2>
-{% if form is defined and form.vars.name in ['hulpvraag', 'hulpvraag_connect', 'hulpvraag_close'] %}
+{% if form is defined and form.vars.name in ['hulpvraag', 'hulpvraag_close'] %}
     <p>
         {{ html.cancelLink(path('iz_klanten_view', {id: klant.id, _fragment: 'koppelingen'})) }}
         {{ html.link('Annuleren', path('iz_klanten_view', {id: klant.id, _fragment: 'koppelingen'})) }}
@@ -27,8 +27,8 @@
                     <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
                     <td>{{ hulpvraag.medewerker }}</td>
                     <td>
+                        {{ html.link('Koppelen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'hulpvraag'}), 'connect') }}
                         {{ html.link('Verslagen', path('iz_hulpvragen_view', {id: hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
-                        {{ html.link('Koppelen', path('iz_hulpvragen_connect', {id: hulpvraag.id}), 'paperclip') }}
                         {{ html.link('Afsluiten', path('iz_hulpvragen_close', {id: hulpvraag.id}), 'close') }}
                     </td>
                 </tr>

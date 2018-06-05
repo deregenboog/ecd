@@ -39,8 +39,8 @@ class Verslag
     private $izDeelnemer;
 
     /**
-     * @var Koppeling
-     * @ORM\ManyToOne(targetEntity="Koppeling", inversedBy="verslagen")
+     * @var Hulp
+     * @ORM\ManyToOne(targetEntity="Hulp", inversedBy="verslagen")
      * @ORM\JoinColumn(name="iz_koppeling_id")
      * @Gedmo\Versioned
      */

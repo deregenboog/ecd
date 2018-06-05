@@ -40,8 +40,8 @@ abstract class IzDeelnemer
     protected $deletedAt;
 
     /**
-     * @var ArrayCollection|Koppeling[]
-     * @ORM\OneToMany(targetEntity="Koppeling", mappedBy="izDeelnemer")
+     * @var ArrayCollection|Hulp[]
+     * @ORM\OneToMany(targetEntity="Hulp", mappedBy="izDeelnemer")
      */
     private $koppelingen;
 

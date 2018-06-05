@@ -14,8 +14,6 @@
             {% if not entity.gekoppeld %}
                 {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
                 {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-                {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
-                {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
             {% endif %}
         {% endif %}
     </p>
@@ -46,13 +44,9 @@
             <h2>Hulpaanbod</h2>
             <p>
                 {% if not entity.afgesloten %}
-                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-                    {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
+                    {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id}), 'edit') }}
                     {% if not entity.gekoppeld %}
-                        {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
-                        {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-                        {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
-                        {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
+                        {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
                     {% endif %}
                 {% endif %}
             </p>
@@ -102,8 +96,8 @@
             </dl>
             {% if entity.gekoppeld %}
                 <h2>Koppeling</h2>
-                {{ html.viewLink(path('iz_koppelingen_view', {id: entity.hulpvraag.id})) }}
-                {{ html.link('Naar koppeling', path('iz_koppelingen_view', {id: entity.hulpvraag.id})) }}
+                {{ html.viewLink(path('iz_koppelingen_view', {id: entity.koppeling.hulpvraag.id})) }}
+                {{ html.link('Naar koppeling', path('iz_koppelingen_view', {id: entity.koppeling.hulpvraag.id})) }}
             {% elseif entity.gereserveerd %}
                 <h2>Reservering</h2>
                 <p>

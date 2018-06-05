@@ -14,8 +14,6 @@
             {% if not entity.gekoppeld %}
                 {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
                 {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-                {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
-                {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
             {% endif %}
         {% endif %}
     </p>
@@ -51,8 +49,6 @@
                     {% if not entity.gekoppeld %}
                         {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
                         {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-                        {{ html.connectLink(path(route_base~'connect', {id: entity.id})) }}
-                        {{ html.link('Koppelen', path(route_base~'connect', {id: entity.id})) }}
                     {% endif %}
                 {% endif %}
             </p>

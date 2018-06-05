@@ -11,26 +11,53 @@ class KoppelingTest extends \PHPUnit_Framework_TestCase
     public function testKoppelingStartdatumIsSetOnBothSides()
     {
         $startdatum = new \DateTime('2017-05-05');
+        $tussenevaluatiedatum = (clone $startdatum)->modify('+3 months');
+        $eindevaluatiedatum = (clone $startdatum)->modify('+6 months');
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpvraag->setHulpaanbod($hulpaanbod);
 
         $hulpvraag->setKoppelingStartdatum($startdatum);
-        $this->assertTrue($startdatum === $hulpvraag->getKoppelingStartdatum());
-        $this->assertTrue($startdatum === $hulpaanbod->getKoppelingStartdatum());
-        $this->assertTrue($hulpvraag->getTussenevaluatiedatum() === $hulpaanbod->getTussenevaluatiedatum());
-        $this->assertTrue($hulpvraag->getEindevaluatiedatum() === $hulpaanbod->getEindevaluatiedatum());
+        $this->assertEquals($startdatum, $hulpvraag->getKoppelingStartdatum());
+        $this->assertEquals($startdatum, $hulpaanbod->getKoppelingStartdatum());
+        $this->assertEquals($tussenevaluatiedatum, $hulpvraag->getTussenevaluatiedatum());
+        $this->assertEquals($hulpvraag->getTussenevaluatiedatum(), $hulpaanbod->getTussenevaluatiedatum());
+        $this->assertEquals($eindevaluatiedatum, $hulpvraag->getEindevaluatiedatum());
+        $this->assertEquals($hulpvraag->getEindevaluatiedatum(), $hulpaanbod->getEindevaluatiedatum());
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpaanbod->setHulpvraag($hulpvraag);
 
         $hulpaanbod->setKoppelingStartdatum($startdatum);
-        $this->assertTrue($startdatum === $hulpvraag->getKoppelingStartdatum());
-        $this->assertTrue($startdatum === $hulpaanbod->getKoppelingStartdatum());
-        $this->assertTrue($hulpvraag->getTussenevaluatiedatum() === $hulpaanbod->getTussenevaluatiedatum());
-        $this->assertTrue($hulpvraag->getEindevaluatiedatum() === $hulpaanbod->getEindevaluatiedatum());
+        $this->assertEquals($startdatum, $hulpvraag->getKoppelingStartdatum());
+        $this->assertEquals($startdatum, $hulpaanbod->getKoppelingStartdatum());
+        $this->assertEquals($tussenevaluatiedatum, $hulpaanbod->getTussenevaluatiedatum());
+        $this->assertEquals($hulpvraag->getTussenevaluatiedatum(), $hulpaanbod->getTussenevaluatiedatum());
+        $this->assertEquals($eindevaluatiedatum, $hulpaanbod->getEindevaluatiedatum());
+        $this->assertEquals($hulpvraag->getEindevaluatiedatum(), $hulpaanbod->getEindevaluatiedatum());
+    }
+
+    public function testKoppelingUpdatingStartdatumUpdatesEvaluatiedata()
+    {
+        $startdatum = new \DateTime('2017-05-05');
+        $tussenevaluatiedatum = (clone $startdatum)->modify('+3 months');
+        $eindevaluatiedatum = (clone $startdatum)->modify('+6 months');
+
+        $hulpvraag = new Hulpvraag();
+        $hulpaanbod = new Hulpaanbod();
+        $hulpvraag->setHulpaanbod($hulpaanbod);
+
+        $hulpvraag->setKoppelingStartdatum($startdatum);
+        $this->assertEquals($startdatum, $hulpvraag->getKoppelingStartdatum());
+        $this->assertEquals($tussenevaluatiedatum, $hulpvraag->getTussenevaluatiedatum());
+        $this->assertEquals($eindevaluatiedatum, $hulpvraag->getEindevaluatiedatum());
+
+        $hulpvraag->setKoppelingStartdatum($startdatum->modify('+1 week'));
+        $this->assertEquals($startdatum, $hulpvraag->getKoppelingStartdatum());
+        $this->assertEquals((clone $startdatum)->modify('+3 months'), $hulpvraag->getTussenevaluatiedatum());
+        $this->assertEquals((clone $startdatum)->modify('+6 months'), $hulpvraag->getEindevaluatiedatum());
     }
 
     public function testTussenevaluatiedatumIsSetOnBothSides()
@@ -42,16 +69,16 @@ class KoppelingTest extends \PHPUnit_Framework_TestCase
         $hulpvraag->setHulpaanbod($hulpaanbod);
 
         $hulpvraag->setTussenevaluatiedatum($datum);
-        $this->assertTrue($datum === $hulpvraag->getTussenevaluatiedatum());
-        $this->assertTrue($datum === $hulpaanbod->getTussenevaluatiedatum());
+        $this->assertEquals($datum, $hulpvraag->getTussenevaluatiedatum());
+        $this->assertEquals($datum, $hulpaanbod->getTussenevaluatiedatum());
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpaanbod->setHulpvraag($hulpvraag);
 
         $hulpaanbod->setTussenevaluatiedatum($datum);
-        $this->assertTrue($datum === $hulpvraag->getTussenevaluatiedatum());
-        $this->assertTrue($datum === $hulpaanbod->getTussenevaluatiedatum());
+        $this->assertEquals($datum, $hulpvraag->getTussenevaluatiedatum());
+        $this->assertEquals($datum, $hulpaanbod->getTussenevaluatiedatum());
     }
 
     public function testEindevaluatiedatumIsSetOnBothSides()
@@ -63,16 +90,16 @@ class KoppelingTest extends \PHPUnit_Framework_TestCase
         $hulpvraag->setHulpaanbod($hulpaanbod);
 
         $hulpvraag->setEindevaluatiedatum($datum);
-        $this->assertTrue($datum === $hulpvraag->getEindevaluatiedatum());
-        $this->assertTrue($datum === $hulpaanbod->getEindevaluatiedatum());
+        $this->assertEquals($datum, $hulpvraag->getEindevaluatiedatum());
+        $this->assertEquals($datum, $hulpaanbod->getEindevaluatiedatum());
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpaanbod->setHulpvraag($hulpvraag);
 
         $hulpaanbod->setEindevaluatiedatum($datum);
-        $this->assertTrue($datum === $hulpvraag->getEindevaluatiedatum());
-        $this->assertTrue($datum === $hulpaanbod->getEindevaluatiedatum());
+        $this->assertEquals($datum, $hulpvraag->getEindevaluatiedatum());
+        $this->assertEquals($datum, $hulpaanbod->getEindevaluatiedatum());
     }
 
     public function testKoppelingEinddatumIsSetOnBothSides()
@@ -84,16 +111,16 @@ class KoppelingTest extends \PHPUnit_Framework_TestCase
         $hulpvraag->setHulpaanbod($hulpaanbod);
 
         $hulpvraag->setKoppelingEinddatum($einddatum);
-        $this->assertTrue($einddatum === $hulpvraag->getKoppelingEinddatum());
-        $this->assertTrue($einddatum === $hulpaanbod->getKoppelingEinddatum());
+        $this->assertEquals($einddatum, $hulpvraag->getKoppelingEinddatum());
+        $this->assertEquals($einddatum, $hulpaanbod->getKoppelingEinddatum());
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpaanbod->setHulpvraag($hulpvraag);
 
         $hulpaanbod->setKoppelingEinddatum($einddatum);
-        $this->assertTrue($einddatum === $hulpvraag->getKoppelingEinddatum());
-        $this->assertTrue($einddatum === $hulpaanbod->getKoppelingEinddatum());
+        $this->assertEquals($einddatum, $hulpvraag->getKoppelingEinddatum());
+        $this->assertEquals($einddatum, $hulpaanbod->getKoppelingEinddatum());
     }
 
     public function testKoppelingSuccesvolIsSetOnBothSides()
@@ -105,16 +132,26 @@ class KoppelingTest extends \PHPUnit_Framework_TestCase
         $hulpvraag->setHulpaanbod($hulpaanbod);
 
         $hulpvraag->setKoppelingSuccesvol($koppelingSuccesvol);
-        $this->assertTrue($koppelingSuccesvol === $hulpvraag->isKoppelingSuccesvol());
-        $this->assertTrue($koppelingSuccesvol === $hulpaanbod->isKoppelingSuccesvol());
+        $this->assertEquals($koppelingSuccesvol, $hulpvraag->isKoppelingSuccesvol());
+        $this->assertEquals($koppelingSuccesvol, $hulpaanbod->isKoppelingSuccesvol());
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpaanbod->setHulpvraag($hulpvraag);
 
         $hulpaanbod->setKoppelingSuccesvol($koppelingSuccesvol);
-        $this->assertTrue($koppelingSuccesvol === $hulpvraag->isKoppelingSuccesvol());
-        $this->assertTrue($koppelingSuccesvol === $hulpaanbod->isKoppelingSuccesvol());
+        $this->assertEquals($koppelingSuccesvol, $hulpvraag->isKoppelingSuccesvol());
+        $this->assertEquals($koppelingSuccesvol, $hulpaanbod->isKoppelingSuccesvol());
+
+        $koppelingSuccesvol = false;
+
+        $hulpvraag->setKoppelingSuccesvol($koppelingSuccesvol);
+        $this->assertEquals($koppelingSuccesvol, $hulpvraag->isKoppelingSuccesvol());
+        $this->assertEquals($koppelingSuccesvol, $hulpaanbod->isKoppelingSuccesvol());
+
+        $hulpaanbod->setKoppelingSuccesvol($koppelingSuccesvol);
+        $this->assertEquals($koppelingSuccesvol, $hulpvraag->isKoppelingSuccesvol());
+        $this->assertEquals($koppelingSuccesvol, $hulpaanbod->isKoppelingSuccesvol());
     }
 
     public function testAfsluitredenKoppelingIsSetOnBothSides()

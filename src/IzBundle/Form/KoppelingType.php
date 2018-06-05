@@ -21,7 +21,7 @@ class KoppelingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $hulpvraag = $options['data'];
-        $hulpaanbod = $hulpvraag->getHulpaanbod();
+        $hulpaanbod = $hulpvraag->getKoppeling()->getHulpaanbod();
 
         if ($hulpvraag instanceof Hulpvraag) {
             $builder->add('hulpvraag', DummyChoiceType::class, [
