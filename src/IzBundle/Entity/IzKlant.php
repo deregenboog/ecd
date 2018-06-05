@@ -100,16 +100,7 @@ class IzKlant extends IzDeelnemer
 
     public function getHulpvragen()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpaanbod'));
-
-        return $this->hulpvragen->matching($criteria);
-    }
-
-    public function getKoppelingen()
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpaanbod', null));
-
-        return $this->hulpvragen->matching($criteria);
+        return $this->hulpvragen;
     }
 
     public function addHulpvraag(Hulpvraag $hulpvraag)
@@ -118,6 +109,20 @@ class IzKlant extends IzDeelnemer
         $hulpvraag->setIzKlant($this);
 
         return $this;
+    }
+
+    public function getNietGekoppeldeHulpvragen()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpaanbod'));
+
+        return $this->hulpvragen->matching($criteria);
+    }
+
+    public function getGekoppeldeHulpvragen()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpaanbod', null));
+
+        return $this->hulpvragen->matching($criteria);
     }
 
     public function getOpenHulpvragen()
@@ -133,7 +138,7 @@ class IzKlant extends IzDeelnemer
             ])
         ;
 
-        return $this->getHulpvragen()->matching($criteria);
+        return $this->getNietGekoppeldeHulpvragen()->matching($criteria);
     }
 
     public function getActieveKoppelingen()
@@ -149,7 +154,7 @@ class IzKlant extends IzDeelnemer
             ])
         ;
 
-        return $this->getKoppelingen()->matching($criteria);
+        return $this->getGekoppeldeHulpvragen()->matching($criteria);
     }
 
     public function getAfgeslotenHulpvragen()
@@ -165,7 +170,7 @@ class IzKlant extends IzDeelnemer
             ])
         ;
 
-        return $this->getHulpvragen()->matching($criteria);
+        return $this->getNietGekoppeldeHulpvragen()->matching($criteria);
     }
 
     public function getAfgeslotenKoppelingen()
@@ -181,7 +186,7 @@ class IzKlant extends IzDeelnemer
             ])
         ;
 
-        return $this->getKoppelingen()->matching($criteria);
+        return $this->getGekoppeldeHulpvragen()->matching($criteria);
     }
 
     public function getContactOntstaan()

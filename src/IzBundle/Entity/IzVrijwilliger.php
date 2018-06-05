@@ -50,7 +50,7 @@ class IzVrijwilliger extends IzDeelnemer
         $this->vrijwilliger = $vrijwilliger;
         $this->datumAanmelding = new \DateTime('today');
         $this->hulpaanbiedingen = new ArrayCollection();
-        $this->intervisiegroepen = new ArrayCollection();
+        $this->lidmaatschappen = new ArrayCollection();
     }
 
     public function __toString()
@@ -76,16 +76,7 @@ class IzVrijwilliger extends IzDeelnemer
 
     public function getHulpaanbiedingen()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpvraag'));
-
-        return $this->hulpaanbiedingen->matching($criteria);
-    }
-
-    public function getKoppelingen()
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpvraag', null));
-
-        return $this->hulpaanbiedingen->matching($criteria);
+        return $this->hulpaanbiedingen;
     }
 
     public function addHulpaanbod(Hulpaanbod $hulpaanbod)
@@ -94,6 +85,20 @@ class IzVrijwilliger extends IzDeelnemer
         $hulpaanbod->setIzVrijwilliger($this);
 
         return $this;
+    }
+
+    public function getNietGekoppeldeHulpaanbiedingen()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('hulpvraag'));
+
+        return $this->hulpaanbiedingen->matching($criteria);
+    }
+
+    public function getGekoppeldeHulpaanbiedingen()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->neq('hulpvraag', null));
+
+        return $this->hulpaanbiedingen->matching($criteria);
     }
 
     public function getOpenHulpaanbiedingen()
@@ -109,7 +114,7 @@ class IzVrijwilliger extends IzDeelnemer
             ])
         ;
 
-        return $this->getHulpaanbiedingen()->matching($criteria);
+        return $this->getNietGekoppeldeHulpaanbiedingen()->matching($criteria);
     }
 
     public function getActieveKoppelingen()
@@ -125,7 +130,7 @@ class IzVrijwilliger extends IzDeelnemer
             ])
         ;
 
-        return $this->getKoppelingen()->matching($criteria);
+        return $this->getGekoppeldeHulpaanbiedingen()->matching($criteria);
     }
 
     public function getAfgeslotenHulpaanbiedingen()
@@ -141,7 +146,7 @@ class IzVrijwilliger extends IzDeelnemer
             ])
         ;
 
-        return $this->getHulpaanbiedingen()->matching($criteria);
+        return $this->getNietGekoppeldeHulpaanbiedingen()->matching($criteria);
     }
 
     public function getAfgeslotenKoppelingen()
@@ -157,7 +162,7 @@ class IzVrijwilliger extends IzDeelnemer
             ])
         ;
 
-        return $this->getKoppelingen()->matching($criteria);
+        return $this->getGekoppeldeHulpaanbiedingen()->matching($criteria);
     }
 
     public function getBinnengekomenVia()
