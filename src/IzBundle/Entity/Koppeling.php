@@ -110,12 +110,13 @@ abstract class Koppeling
     protected $eindeVraagAanbod;
 
     /**
-     * @var EindeKoppeling
-     * @ORM\ManyToOne(targetEntity="EindeKoppeling")
+     * @var AfsluitredenKoppeling
+     *
+     * @ORM\ManyToOne(targetEntity="AfsluitredenKoppeling")
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
      * @Gedmo\Versioned
      */
-    protected $eindeKoppeling;
+    protected $afsluitredenKoppeling;
 
     /**
      * @var IzDeelnemer
@@ -263,11 +264,11 @@ abstract class Koppeling
     }
 
     /**
-     * @return EindeKoppeling
+     * @return AfsluitredenKoppeling
      */
-    public function getEindeKoppeling()
+    public function getAfsluitredenKoppeling()
     {
-        return $this->eindeKoppeling;
+        return $this->afsluitredenKoppeling;
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Tests\IzBundle\Entity;
 
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Entity\EindeKoppeling;
+use IzBundle\Entity\AfsluitredenKoppeling;
 
 class KoppelingTest extends \PHPUnit_Framework_TestCase
 {
@@ -117,24 +117,24 @@ class KoppelingTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($koppelingSuccesvol === $hulpaanbod->isKoppelingSuccesvol());
     }
 
-    public function testEindeKoppelingIsSetOnBothSides()
+    public function testAfsluitredenKoppelingIsSetOnBothSides()
     {
-        $eindeKoppeling = new EindeKoppeling();
+        $afsluitreden = new AfsluitredenKoppeling();
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpvraag->setHulpaanbod($hulpaanbod);
 
-        $hulpvraag->setEindeKoppeling($eindeKoppeling);
-        $this->assertTrue($eindeKoppeling === $hulpvraag->getEindeKoppeling());
-        $this->assertTrue($eindeKoppeling === $hulpaanbod->getEindeKoppeling());
+        $hulpvraag->setAfsluitredenKoppeling($afsluitreden);
+        $this->assertTrue($afsluitreden === $hulpvraag->getAfsluitredenKoppeling());
+        $this->assertTrue($afsluitreden === $hulpaanbod->getAfsluitredenKoppeling());
 
         $hulpvraag = new Hulpvraag();
         $hulpaanbod = new Hulpaanbod();
         $hulpaanbod->setHulpvraag($hulpvraag);
 
-        $hulpaanbod->setEindeKoppeling($eindeKoppeling);
-        $this->assertTrue($eindeKoppeling === $hulpvraag->getEindeKoppeling());
-        $this->assertTrue($eindeKoppeling === $hulpaanbod->getEindeKoppeling());
+        $hulpaanbod->setAfsluitredenKoppeling($afsluitreden);
+        $this->assertTrue($afsluitreden === $hulpvraag->getAfsluitredenKoppeling());
+        $this->assertTrue($afsluitreden === $hulpaanbod->getAfsluitredenKoppeling());
     }
 }

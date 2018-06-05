@@ -126,7 +126,7 @@
                     <td>{{ hulpaanbod.koppelingEinddatum ? hulpaanbod.koppelingEinddatum|date('d-m-Y') }}</td>
                     <td>{{ hulpaanbod.medewerker }}</td>
                     <td>{{ hulpaanbod.koppelingSuccesvol ? 'Ja' : 'Nee' }}</td>
-                    <td>{{ hulpaanbod.eindeKoppeling }}</td>
+                    <td>{{ hulpaanbod.afsluitredenKoppeling }}</td>
                     <td>
                         {{ html.link('Verslagen', path('iz_koppelingen_view', {id: hulpaanbod.hulpvraag.id, _fragment: 'verslagen'}), 'list') }}
                     </td>

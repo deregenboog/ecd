@@ -12,7 +12,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class EindeKoppeling
+class AfsluitredenKoppeling
 {
     use TimestampableTrait;
 

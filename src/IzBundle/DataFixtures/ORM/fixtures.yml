@@ -24,7 +24,7 @@ IzBundle\Entity\Afsluiting:
         naam: 'Foutieve invoer'
         actief: true
 
-IzBundle\Entity\EindeKoppeling:
+IzBundle\Entity\AfsluitredenKoppeling:
     iz_einde_koppeling_Overig:
         naam: 'Overig'
         actief: true

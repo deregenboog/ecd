@@ -40,7 +40,7 @@ class KoppelingCloseType extends AbstractType
                 'label' => 'Einddatum koppeling',
                 'required' => true,
             ])
-            ->add('eindeKoppeling', null, [
+            ->add('afsluitredenKoppeling', null, [
                 'label' => 'Afsluitreden',
                 'required' => true,
                 'placeholder' => '',

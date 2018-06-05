@@ -4,9 +4,9 @@ namespace IzBundle\Service;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\EindeKoppeling;
+use IzBundle\Entity\AfsluitredenKoppeling;
 
-interface EindeKoppelingDaoInterface
+interface AfsluitredenKoppelingDaoInterface
 {
     /**
      * @param int             $page
@@ -19,22 +19,22 @@ interface EindeKoppelingDaoInterface
     /**
      * @param int $id
      *
-     * @return EindeKoppeling
+     * @return AfsluitredenKoppeling
      */
     public function find($id);
 
     /**
-     * @param EindeKoppeling $entity
+     * @param AfsluitredenKoppeling $entity
      */
-    public function create(EindeKoppeling $entity);
+    public function create(AfsluitredenKoppeling $entity);
 
     /**
-     * @param EindeKoppeling $entity
+     * @param AfsluitredenKoppeling $entity
      */
-    public function update(EindeKoppeling $entity);
+    public function update(AfsluitredenKoppeling $entity);
 
     /**
-     * @param EindeKoppeling $entity
+     * @param AfsluitredenKoppeling $entity
      */
-    public function delete(EindeKoppeling $entity);
+    public function delete(AfsluitredenKoppeling $entity);
 }

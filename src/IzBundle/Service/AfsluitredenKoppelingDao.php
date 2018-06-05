@@ -3,9 +3,9 @@
 namespace IzBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\EindeKoppeling;
+use IzBundle\Entity\AfsluitredenKoppeling;
 
-class EindeKoppelingDao extends AbstractDao implements EindeKoppelingDaoInterface
+class AfsluitredenKoppelingDao extends AbstractDao implements AfsluitredenKoppelingDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'afsluitreden.naam',
@@ -17,21 +17,21 @@ class EindeKoppelingDao extends AbstractDao implements EindeKoppelingDaoInterfac
         ],
     ];
 
-    protected $class = EindeKoppeling::class;
+    protected $class = AfsluitredenKoppeling::class;
 
     protected $alias = 'afsluitreden';
 
-    public function create(EindeKoppeling $entity)
+    public function create(AfsluitredenKoppeling $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(EindeKoppeling $entity)
+    public function update(AfsluitredenKoppeling $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(EindeKoppeling $entity)
+    public function delete(AfsluitredenKoppeling $entity)
     {
         $this->doDelete($entity);
     }

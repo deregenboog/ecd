@@ -33,8 +33,8 @@ class HulpvraagRepository extends EntityRepository
     public function countKoppelingenByAfsluitreden($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('eindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('hulpaanbod.eindeKoppeling', 'eindeKoppeling')
+            ->addSelect('afsluitredenKoppeling.naam AS afsluitreden')
+            ->innerJoin('hulpaanbod.afsluitredenKoppeling', 'afsluitredenKoppeling')
             ->groupBy('afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -46,8 +46,8 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->addSelect('eindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('hulpaanbod.eindeKoppeling', 'eindeKoppeling')
+            ->addSelect('afsluitredenKoppeling.naam AS afsluitreden')
+            ->innerJoin('hulpaanbod.afsluitredenKoppeling', 'afsluitredenKoppeling')
             ->innerJoin('hulpaanbod.project', 'project')
             ->groupBy('project', 'afsluitreden')
         ;

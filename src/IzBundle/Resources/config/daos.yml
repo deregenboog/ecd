@@ -20,7 +20,7 @@ services:
     IzBundle\Service\DoelstellingDao:
         parent: app.dao.abstract
 
-    IzBundle\Service\EindeKoppelingDao:
+    IzBundle\Service\AfsluitredenKoppelingDao:
         parent: app.dao.abstract
 
     IzBundle\Service\EindeVraagAanbodDao:
