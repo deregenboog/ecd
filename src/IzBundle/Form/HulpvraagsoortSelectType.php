@@ -25,12 +25,12 @@ class HulpvraagsoortSelectType extends AbstractType
                     ->orderBy('hulpvraagsoort.naam')
                 ;
             },
-            'choice_label' => function (Hulpvraagsoort $hulpvraagsoort) {
+            'choice_attr' => function (Hulpvraagsoort $hulpvraagsoort) {
                 if ($hulpvraagsoort->getToelichting()) {
-                    return sprintf('%s - %s', (string) $hulpvraagsoort, $hulpvraagsoort->getToelichting());
+                    return ['title' => $hulpvraagsoort->getToelichting()];
                 }
 
-                return (string) $hulpvraagsoort;
+                return [];
             },
         ]);
     }
