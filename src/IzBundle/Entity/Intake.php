@@ -115,6 +115,16 @@ class Intake implements ZrmInterface
         return $this->intakeDatum;
     }
 
+    /**
+     * @param \DateTime $intakeDatum
+     */
+    public function setIntakeDatum(\DateTime $intakeDatum)
+    {
+        $this->intakeDatum = $intakeDatum;
+
+        return $this;
+    }
+
     public function getIzDeelnemer()
     {
         return $this->izDeelnemer;
