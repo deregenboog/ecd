@@ -17,7 +17,8 @@ framework:
     secret: "%secret%"
     session:
         name: ECD
-        cookie_lifetime: 86400 # 60*60*24
+        cookie_lifetime: 0 # until the browser is closed
+        gc_maxlifetime: 28800 # 8 hours
         save_path: '%kernel.root_dir%/../var/sessions'
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
