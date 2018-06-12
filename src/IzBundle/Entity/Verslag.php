@@ -100,7 +100,7 @@ class Verslag
         return $this->koppeling;
     }
 
-    public function setKoppeling(Koppeling $koppeling)
+    public function setKoppeling(Hulp $koppeling)
     {
         $this->koppeling = $koppeling;
 
