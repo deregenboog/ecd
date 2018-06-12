@@ -31,57 +31,32 @@
             <dd>{{ entity.eindeVraagAanbod }}</dd>
         {% endif %}
     </dl>
+    <dl class="dl-horizontal">
+        <dt>Project</dt>
+        <dd>{{ entity.project }}</dd>
+        <dt>Hulpvraagsoort</dt>
+        <dd>{{ entity.hulpvraagsoort }}</dd>
+        <dt>Doelgroep</dt>
+        <dd>{{ entity.doelgroep }}</dd>
+        <dt>Dagdeel</dt>
+        <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
+        <dt>Geschikt voor expat</dt>
+        <dd>{{ entity.geschiktVoorExpat ? 'Ja' : 'Nee' }}</dd>
+        <dt>Voorkeur geslacht</dt>
+        <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
+        <dt>Matchingsinformatie</dt>
+        <dd><div class="well">{{ entity.info }}</div></dd>
+    </dl>
     {% include '::klant_basis.html.twig' with {klant: entity.izKlant.klant} %}
 {% endblock %}
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
+        <li class="active"><a data-toggle="tab" href="#matching">Matching</a></li>
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
     </ul>
     <div class="tab-content">
-        <div id="hulpvraag" class="tab-pane active">
-            <h2>Hulpvraag</h2>
-            <p>
-                {% if not entity.afgesloten %}
-                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-                    {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id})) }}
-                    {% if not entity.gekoppeld %}
-                        {{ html.closeLink(path(route_base~'close', {id: entity.id})) }}
-                        {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id})) }}
-                    {% endif %}
-                {% endif %}
-            </p>
-            <dl class="dl-horizontal">
-                <dt>Deelnemer</dt>
-                <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
-                <dt>Medewerker</dt>
-                <dd>{{ entity.medewerker }}</dd>
-                <dt>Startdatum</dt>
-                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-                {% if entity.afgesloten %}
-                    <dt>Afsluitdatum</dt>
-                    <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
-                    <dt>Afsluitreden</dt>
-                    <dd>{{ entity.eindeVraagAanbod }}</dd>
-                {% endif %}
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Project</dt>
-                <dd>{{ entity.project }}</dd>
-                <dt>Hulpvraagsoort</dt>
-                <dd>{{ entity.hulpvraagsoort }}</dd>
-                <dt>Doelgroep</dt>
-                <dd>{{ entity.doelgroep }}</dd>
-                <dt>Dagdeel</dt>
-                <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
-                <dt>Geschikt voor expat</dt>
-                <dd>{{ entity.geschiktVoorExpat ? 'Ja' : 'Nee' }}</dd>
-                <dt>Voorkeur geslacht</dt>
-                <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
-                <dt>Matchingsinformatie</dt>
-                <dd><div class="well">{{ entity.info }}</div></dd>
-            </dl>
+        <div id="matching" class="tab-pane active">
             {% if entity.gekoppeld %}
                 <h2>Koppeling</h2>
                 {{ html.viewLink(path('iz_koppelingen_view', {id: entity.id})) }}
@@ -104,7 +79,7 @@
                     </strong>.
                 </p>
             {% elseif not entity.afgesloten and kandidaten is defined %}
-                <h2>Kandidaat hulpaanbiedingen</h2>
+                <h2>Kandidaten</h2>
                 {% if 0 == kandidaten|length %}
                     <p>Geen kandidaten gevonden.</p>
                 {% else %}

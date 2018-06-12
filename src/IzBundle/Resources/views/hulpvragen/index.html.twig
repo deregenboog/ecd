@@ -43,7 +43,7 @@
                         {{ hulpvraag.izKlant.klant.id }}
                     </td>
                     <td>
-                        {{ hulpvraag.izKlant.klant.naam }}
+                        {{ hulpvraag.izKlant.klant|naam_voor_achter }}
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.geboortedatum is empty ? "" : hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
