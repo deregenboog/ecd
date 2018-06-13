@@ -26,7 +26,14 @@ class GgwGebied
 
     public function __toString()
     {
-        return $this->naam;
+        switch ($this->naam) {
+            case 'Oost':
+                return 'Noord-Oost';
+            case 'West':
+                return 'Noord-West';
+            default:
+                return $this->naam;
+        }
     }
 
     public function getNaam()
