@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Vrijwilliger;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityNotFoundException;
+use AppBundle\Service\NameFormatter;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
@@ -56,7 +57,7 @@ class IzVrijwilliger extends IzDeelnemer
     public function __toString()
     {
         try {
-            return $this->vrijwilliger->__toString();
+            return NameFormatter::formatInformal($this->vrijwilliger);
         } catch (EntityNotFoundException $e) {
             return '';
         }

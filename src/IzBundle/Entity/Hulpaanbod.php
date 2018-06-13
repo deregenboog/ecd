@@ -64,7 +64,7 @@ class Hulpaanbod extends Hulp
 
     public function __toString()
     {
-        return sprintf('%s | %s | %s', $this->izVrijwilliger, $this->project, $this->startdatum->format('d-m-Y'));
+        return sprintf('%s | %s | %s', (string) $this->izVrijwilliger, $this->project, $this->startdatum->format('d-m-Y'));
     }
 
     public function getIzVrijwilliger()

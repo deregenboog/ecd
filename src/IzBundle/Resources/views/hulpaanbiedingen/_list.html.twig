@@ -54,7 +54,7 @@
                     <td>{{ hulpaanbod.project }}</td>
                     <td>
                         {{ html.link(
-                            hulpaanbod.hulpvraag.izKlant.klant|naam_voor_achter,
+                            hulpaanbod.hulpvraag.izKlant,
                             path('iz_klanten_view', {id: hulpaanbod.hulpvraag.izKlant.id})
                         ) }}
                     </td>
@@ -118,7 +118,7 @@
                     <td>{{ hulpaanbod.project }}</td>
                     <td>
                         {{ html.link(
-                            hulpaanbod.hulpvraag.izKlant.klant|naam_voor_achter,
+                            hulpaanbod.hulpvraag.izKlant,
                             path('iz_klanten_view', {id: hulpaanbod.hulpvraag.izKlant.id})
                         ) }}
                     </td>

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityNotFoundException;
+use AppBundle\Service\NameFormatter;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
@@ -80,7 +81,7 @@ class IzKlant extends IzDeelnemer
     public function __toString()
     {
         try {
-            return $this->klant->__toString();
+            return NameFormatter::formatInformal($this->klant);
         } catch (EntityNotFoundException $e) {
             return '';
         }

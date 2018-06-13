@@ -110,13 +110,13 @@
                         <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}" style="{{ iz.koppeling_warning_style(koppeling) }}">
                             <td>
                                 {{ html.link(
-                                    koppeling.izKlant.klant|naam_voor_achter,
+                                    koppeling.izKlant,
                                     path('iz_klanten_view', {id: koppeling.izKlant.id})
                                 ) }}
                             </td>
                             <td>
                                 {{ html.link(
-                                    koppeling.hulpaanbod.izVrijwilliger.vrijwilliger|naam_voor_achter,
+                                    koppeling.hulpaanbod.izVrijwilliger,
                                     path('iz_vrijwilligers_view', {id: koppeling.hulpaanbod.izVrijwilliger.id})
                                 ) }}
                             </td>
