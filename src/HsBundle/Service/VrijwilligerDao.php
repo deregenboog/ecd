@@ -33,11 +33,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("{$this->alias}, basisvrijwilliger, klus, registratie, memo, document")
+            ->select("{$this->alias}, basisvrijwilliger, klus, memo, document")
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
             ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.klussen", 'klus')
-            ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.documenten", 'document')
         ;
@@ -47,11 +46,11 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             $filter->applyTo($builder);
         }
 
-        if ($page <= 0) {
-            return $builder->getQuery()->getResult();
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        return $builder->getQuery()->getResult();
     }
 
     /**
