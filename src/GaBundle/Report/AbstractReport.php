@@ -2,8 +2,8 @@
 
 namespace GaBundle\Report;
 
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Report\AbstractReport as BaseAbstractReport;
+use Doctrine\ORM\EntityRepository;
 
 abstract class AbstractReport extends BaseAbstractReport
 {

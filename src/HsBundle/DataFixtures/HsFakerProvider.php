@@ -2,10 +2,10 @@
 
 namespace HsBundle\DataFixtures;
 
-use HsBundle\Service\FactuurFactoryInterface;
+use Doctrine\ORM\EntityManager;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
+use HsBundle\Service\FactuurFactoryInterface;
 
 final class HsFakerProvider
 {

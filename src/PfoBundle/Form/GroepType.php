@@ -2,13 +2,13 @@
 
 namespace PfoBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use PfoBundle\Entity\Groep;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseType;
-use PfoBundle\Entity\Groep;
-use AppBundle\Form\AppDateType;
 
 class GroepType extends AbstractType
 {

@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Verslag;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Verslag;
 
 class VerslagDao extends AbstractDao implements VerslagDaoInterface
 {

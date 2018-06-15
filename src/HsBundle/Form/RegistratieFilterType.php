@@ -2,21 +2,20 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\FilterType;
 use AppBundle\Form\AppDateRangeType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use HsBundle\Entity\Activiteit;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use HsBundle\Filter\RegistratieFilter;
-use HsBundle\Entity\Arbeider;
+use AppBundle\Form\FilterType;
 use Doctrine\ORM\EntityRepository;
+use HsBundle\Entity\Activiteit;
+use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Vrijwilliger;
+use HsBundle\Filter\RegistratieFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistratieFilterType extends AbstractType
 {

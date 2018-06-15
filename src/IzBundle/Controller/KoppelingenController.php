@@ -3,17 +3,17 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Koppeling;
+use IzBundle\Form\KoppelingCloseType;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\KoppelingType;
-use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use IzBundle\Form\KoppelingCloseType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/koppelingen")

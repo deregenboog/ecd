@@ -5,15 +5,15 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Form\HulpvraagType;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Form\HulpvraagFilterType;
+use IzBundle\Form\HulpvraagType;
+use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpvraagCloseType;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Service\HulpaanbodDaoInterface;
 
 /**
  * @Route("/hulpvragen")

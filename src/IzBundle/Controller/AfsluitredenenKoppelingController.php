@@ -3,11 +3,11 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\AfsluitredenKoppeling;
+use IzBundle\Form\AfsluitredenKoppelingType;
+use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\AfsluitredenKoppeling;
-use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
-use IzBundle\Form\AfsluitredenKoppelingType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

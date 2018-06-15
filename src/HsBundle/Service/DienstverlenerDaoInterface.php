@@ -2,10 +2,10 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Dienstverlener;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
 
 interface DienstverlenerDaoInterface
 {

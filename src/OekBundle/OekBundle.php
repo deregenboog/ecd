@@ -2,9 +2,9 @@
 
 namespace OekBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use OekBundle\DependencyInjection\Compiler\ReportsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OekBundle extends Bundle
 {

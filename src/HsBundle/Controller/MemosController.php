@@ -2,12 +2,12 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
-use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\MemoDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use AppBundle\Controller\AbstractChildController;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/memos")

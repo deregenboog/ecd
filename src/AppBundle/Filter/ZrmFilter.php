@@ -2,8 +2,8 @@
 
 namespace AppBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class ZrmFilter implements FilterInterface
 {

@@ -2,9 +2,9 @@
 
 namespace OekBundle\Service;
 
-use OekBundle\Entity\Memo;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use OekBundle\Entity\Memo;
 
 class MemoDao extends AbstractDao implements MemoDaoInterface
 {

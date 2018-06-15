@@ -3,15 +3,15 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Intervisiegroep;
-use IzBundle\Service\IntervisiegroepDaoInterface;
-use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IntervisiegroepFilterType;
-use Symfony\Component\HttpFoundation\Request;
+use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
+use IzBundle\Service\IntervisiegroepDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/intervisiegroepen")

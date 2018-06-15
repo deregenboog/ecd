@@ -2,12 +2,12 @@
 
 namespace DagbestedingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\Common\Collections\Criteria;
 use DagbestedingBundle\Form\DagdelenRangeModel;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity

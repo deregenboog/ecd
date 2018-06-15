@@ -2,13 +2,13 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\StadsdeelSelectType;
+use ClipBundle\Filter\ClientFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
-use ClipBundle\Filter\ClientFilter;
-use AppBundle\Form\StadsdeelSelectType;
 
 class ClientFilterType extends AbstractType
 {

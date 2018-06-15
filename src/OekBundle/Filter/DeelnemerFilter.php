@@ -3,10 +3,10 @@
 namespace OekBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\Groep;
-use AppBundle\Form\Model\AppDateRangeModel;
-use AppBundle\Filter\KlantFilter;
 
 class DeelnemerFilter implements FilterInterface
 {

@@ -2,12 +2,12 @@
 
 namespace InloopBundle\Form;
 
+use AppBundle\Form\BaseType;
+use InloopBundle\Entity\BinnenVia;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use InloopBundle\Entity\BinnenVia;
 
 class BinnenViaType extends AbstractType
 {

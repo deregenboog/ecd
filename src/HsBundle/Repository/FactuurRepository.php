@@ -2,8 +2,8 @@
 
 namespace HsBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 

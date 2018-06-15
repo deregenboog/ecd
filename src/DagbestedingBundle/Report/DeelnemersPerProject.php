@@ -2,8 +2,8 @@
 
 namespace DagbestedingBundle\Report;
 
-use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use AppBundle\Report\AbstractReport;
+use DagbestedingBundle\Service\DeelnemerDaoInterface;
 
 class DeelnemersPerProject extends AbstractReport
 {

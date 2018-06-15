@@ -2,13 +2,13 @@
 
 namespace OdpBundle\Controller;
 
-use OdpBundle\Entity\Coordinator;
-use OdpBundle\Service\CoordinatorDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
-use OdpBundle\Form\CoordinatorType;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
+use JMS\DiExtraBundle\Annotation as DI;
+use OdpBundle\Entity\Coordinator;
+use OdpBundle\Form\CoordinatorType;
+use OdpBundle\Service\CoordinatorDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/coordinatoren")

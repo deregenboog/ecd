@@ -4,10 +4,10 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
+use OekBundle\Entity\Deelname;
 use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Training;
 use OekBundle\Form\DeelnameType;
-use OekBundle\Entity\Deelname;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

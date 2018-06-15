@@ -2,9 +2,9 @@
 
 namespace IzBundle\Form;
 
-use IzBundle\Entity\Intake;
-use AppBundle\Entity\Zrm;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Zrm;
+use IzBundle\Entity\Intake;
 use IzBundle\Entity\Verslag;
 
 class IntakeModel

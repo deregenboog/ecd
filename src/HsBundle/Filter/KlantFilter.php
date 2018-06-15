@@ -2,9 +2,9 @@
 
 namespace HsBundle\Filter;
 
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Werkgebied;
 
 class KlantFilter implements FilterInterface
 {

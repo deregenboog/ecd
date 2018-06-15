@@ -2,12 +2,12 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Document;
 use HsBundle\Form\DocumentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use HsBundle\Service\DocumentDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/documenten")

@@ -2,8 +2,8 @@
 
 namespace IzBundle\Export;
 
-use IzBundle\Entity\IzVrijwilliger;
 use AppBundle\Export\GenericExport;
+use IzBundle\Entity\IzVrijwilliger;
 
 class IzVrijwilligersExport extends GenericExport
 {

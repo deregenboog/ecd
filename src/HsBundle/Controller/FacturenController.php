@@ -2,25 +2,25 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Entity\Factuur;
-use HsBundle\Form\FactuurFilterType;
-use Symfony\Component\Routing\Annotation\Route;
-use HsBundle\Service\FactuurDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
-use JMS\DiExtraBundle\Annotation as DI;
-use HsBundle\Entity\Klant;
-use HsBundle\Service\FactuurFactoryInterface;
-use Symfony\Component\HttpFoundation\Response;
-use HsBundle\Form\FactuurType;
-use HsBundle\Service\KlantDaoInterface;
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Exception\AppException;
-use HsBundle\Exception\HsException;
 use HsBundle\Entity\Creditfactuur;
+use HsBundle\Entity\Factuur;
+use HsBundle\Entity\Klant;
+use HsBundle\Exception\HsException;
 use HsBundle\Form\CreditfactuurType;
+use HsBundle\Form\FactuurFilterType;
+use HsBundle\Form\FactuurType;
 use HsBundle\Pdf\PdfFactuur;
+use HsBundle\Service\FactuurDaoInterface;
+use HsBundle\Service\FactuurFactoryInterface;
+use HsBundle\Service\KlantDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/facturen")

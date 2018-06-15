@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Form;
 
+use DagbestedingBundle\Entity\Trajectafsluiting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use DagbestedingBundle\Entity\Trajectafsluiting;
 
 class TrajectafsluitingType extends AbstractType
 {

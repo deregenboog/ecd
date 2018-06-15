@@ -2,8 +2,8 @@
 
 namespace PfoBundle\Report;
 
-use AppBundle\Report\Table;
 use AppBundle\Report\AbstractReport;
+use AppBundle\Report\Table;
 use PfoBundle\Repository\ClientRepository;
 
 class ClientenPerGroep extends AbstractReport

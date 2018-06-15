@@ -2,11 +2,11 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
-use AppBundle\Model\IdentifiableTrait;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 /**

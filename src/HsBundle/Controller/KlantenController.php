@@ -2,6 +2,8 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
+use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Klant;
 use HsBundle\Form\KlantFilterType;
 use HsBundle\Form\KlantType;
@@ -9,8 +11,6 @@ use HsBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
-use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/klanten")

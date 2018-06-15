@@ -3,9 +3,9 @@
 namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
-use MwBundle\Service\InventarisatieDaoInterface;
 use AppBundle\Report\Grid;
 use InloopBundle\Entity\Locatie;
+use MwBundle\Service\InventarisatieDaoInterface;
 
 class Inventarisaties extends AbstractReport
 {

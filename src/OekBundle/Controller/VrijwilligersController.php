@@ -2,18 +2,18 @@
 
 namespace OekBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
 use OekBundle\Form\VrijwilligerType;
 use OekBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
-use AppBundle\Export\ExportInterface;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/vrijwilligers")

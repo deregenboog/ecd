@@ -5,9 +5,9 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
+use ClipBundle\Service\HulpvragerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use ClipBundle\Service\HulpvragerDaoInterface;
 
 /**
  * @Route("/admin/hulpvragers")

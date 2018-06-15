@@ -2,14 +2,13 @@
 
 namespace InloopBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use InloopBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use AppBundle\Form\FilterType;
-use InloopBundle\Filter\VrijwilligerFilter;
-use AppBundle\Form\AppDateRangeType;
 
 class VrijwilligerFilterType extends AbstractType
 {

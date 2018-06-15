@@ -2,11 +2,11 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Filter\KlantFilter;
-use AppBundle\Filter\FilterInterface;
 
 class HulpvraagFilter implements FilterInterface
 {

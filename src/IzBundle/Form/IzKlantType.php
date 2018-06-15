@@ -2,18 +2,17 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
+use AppBundle\Form\KlantType;
+use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\AppTextareaType;
-use AppBundle\Form\KlantType;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\DummyChoiceType;
 
 class IzKlantType extends AbstractType
 {

@@ -3,12 +3,10 @@
 namespace OdpBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\QueryBuilder;
 use OdpBundle\Entity\Huuraanbod;
-use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Form\HuuraanbodCloseType;
 use OdpBundle\Form\HuuraanbodFilterType;

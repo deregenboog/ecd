@@ -2,13 +2,13 @@
 
 namespace OekBundle\Controller;
 
-use OekBundle\Form\DeelnemerFilterType;
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Filter\FilterInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use OekBundle\Form\DeelnemerFilterType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/wachtlijst")

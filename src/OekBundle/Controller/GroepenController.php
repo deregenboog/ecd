@@ -2,11 +2,11 @@
 
 namespace OekBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
+use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Groep;
 use OekBundle\Form\GroepType;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/groepen")

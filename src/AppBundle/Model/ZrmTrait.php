@@ -2,8 +2,8 @@
 
 namespace AppBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Zrm;
+use Doctrine\ORM\Mapping as ORM;
 
 trait ZrmTrait
 {

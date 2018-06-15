@@ -2,16 +2,16 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
 use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\Groep;
+use OekBundle\Entity\Lidmaatschap;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use OekBundle\Entity\Groep;
-use OekBundle\Entity\Lidmaatschap;
-use AppBundle\Form\BaseType;
 
 class LidmaatschapType extends AbstractType
 {

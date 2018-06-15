@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\TimestampableTrait;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\OptionalMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity

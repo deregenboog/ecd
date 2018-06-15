@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\GenericExport;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Form\DeelnemerCloseType;
@@ -14,7 +15,6 @@ use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\GenericExport;
 
 /**
  * @Route("/deelnemers")

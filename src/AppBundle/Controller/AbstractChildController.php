@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Exception\AppException;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Exception\AppException;
-use AppBundle\Service\AbstractDao;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use AppBundle\Form\ConfirmationType;
 
 class AbstractChildController extends AbstractController
 {

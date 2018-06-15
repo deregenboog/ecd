@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use DagbestedingBundle\Entity\Contactpersoon;
+use DagbestedingBundle\Form\ContactpersoonType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Controller\AbstractChildController;
-use DagbestedingBundle\Form\ContactpersoonType;
-use DagbestedingBundle\Entity\Contactpersoon;
 
 /**
  * @Route("/contactpersonen")

@@ -2,9 +2,9 @@
 
 namespace MwBundle\Service;
 
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {

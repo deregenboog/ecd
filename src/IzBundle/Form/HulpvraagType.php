@@ -2,20 +2,20 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulp;
+use IzBundle\Entity\Hulpvraag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\MedewerkerType;
-use IzBundle\Entity\Hulpvraag;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\AppTextareaType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\Doelgroep;
-use IzBundle\Entity\Hulp;
 
 class HulpvraagType extends AbstractType
 {

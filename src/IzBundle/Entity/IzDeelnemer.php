@@ -2,11 +2,11 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity

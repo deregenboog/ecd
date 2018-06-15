@@ -2,12 +2,11 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Klant;
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Werkgebied;
 use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {

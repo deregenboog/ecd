@@ -3,8 +3,8 @@
 namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class FactuurFilter implements FilterInterface
 {

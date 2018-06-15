@@ -2,18 +2,18 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Form\Model\AppDateRangeModel;
+use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Traject;
+use DagbestedingBundle\Form\DagdelenRangeModel;
+use DagbestedingBundle\Form\DagdelenRangeType;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;
+use DagbestedingBundle\Service\TrajectDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use DagbestedingBundle\Service\TrajectDaoInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
-use DagbestedingBundle\Entity\Project;
-use DagbestedingBundle\Form\DagdelenRangeType;
-use DagbestedingBundle\Form\DagdelenRangeModel;
-use AppBundle\Controller\AbstractChildController;
 
 /**
  * @Route("/trajecten")

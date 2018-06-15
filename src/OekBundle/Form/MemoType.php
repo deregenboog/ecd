@@ -2,15 +2,15 @@
 
 namespace OekBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use OekBundle\Entity\Memo;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
+use OekBundle\Entity\Memo;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemoType extends AbstractType
 {

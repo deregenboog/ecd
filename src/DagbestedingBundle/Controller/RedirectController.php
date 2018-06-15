@@ -2,8 +2,8 @@
 
 namespace DagbestedingBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\SymfonyController;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route

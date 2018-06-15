@@ -2,9 +2,9 @@
 
 namespace ClipBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Werkgebied;
+use AppBundle\Filter\FilterInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class ClientFilter implements FilterInterface
 {

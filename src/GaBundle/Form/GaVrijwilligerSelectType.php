@@ -2,14 +2,13 @@
 
 namespace GaBundle\Form;
 
+use AppBundle\Filter\VrijwilligerFilter;
+use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
+use GaBundle\Entity\GaVrijwilligerIntake;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Filter\VrijwilligerFilter;
-use AppBundle\Form\FilterType;
-use GaBundle\Entity\GaVrijwilligerIntake;
 
 class GaVrijwilligerSelectType extends AbstractType
 {

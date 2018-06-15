@@ -2,12 +2,12 @@
 
 namespace IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
+use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Project;
 
 class KoppelingFilter implements FilterInterface
 {

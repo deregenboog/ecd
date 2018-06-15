@@ -2,11 +2,11 @@
 
 namespace OdpBundle\Filter;
 
-use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class HuurovereenkomstFilter implements FilterInterface
 {

@@ -2,12 +2,12 @@
 
 namespace DagbestedingBundle\Form;
 
-use DagbestedingBundle\Entity\Traject;
-use DagbestedingBundle\Entity\Dagdeel;
 use AppBundle\Form\Model\AppDateRangeModel;
+use DagbestedingBundle\Entity\Dagdeel;
 use DagbestedingBundle\Entity\Project;
-use Symfony\Component\Validator\Constraints as Assert;
+use DagbestedingBundle\Entity\Traject;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class DagdelenRangeModel
 {

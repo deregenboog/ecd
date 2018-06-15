@@ -2,12 +2,12 @@
 
 namespace PfoBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Document;
 use PfoBundle\Form\DocumentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Service\DocumentDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/documenten")

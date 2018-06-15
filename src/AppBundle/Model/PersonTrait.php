@@ -2,9 +2,9 @@
 
 namespace AppBundle\Model;
 
+use AppBundle\Entity\Geslacht;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Geslacht;
 
 trait PersonTrait
 {

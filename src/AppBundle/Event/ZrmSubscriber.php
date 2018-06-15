@@ -2,10 +2,10 @@
 
 namespace AppBundle\Event;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use AppBundle\Entity\Zrm;
 use AppBundle\Model\ZrmInterface;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class ZrmSubscriber implements EventSubscriber
 {

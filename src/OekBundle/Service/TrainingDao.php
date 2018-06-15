@@ -2,9 +2,8 @@
 
 namespace OekBundle\Service;
 
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use OekBundle\Entity\Deelnemer;
+use AppBundle\Service\AbstractDao;
 use OekBundle\Entity\Training;
 
 class TrainingDao extends AbstractDao implements TrainingDaoInterface

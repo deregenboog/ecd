@@ -3,11 +3,11 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Form\ResultaatgebiedsoortType;
 use DagbestedingBundle\Service\ResultaatgebiedsoortDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/admin/resultaatgebiedsoorten")

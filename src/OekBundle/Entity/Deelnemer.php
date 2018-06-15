@@ -2,12 +2,12 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Klant;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity(repositoryClass="OekBundle\Repository\DeelnemerRepository")

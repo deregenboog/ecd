@@ -3,6 +3,7 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Client;
 use ClipBundle\Form\ClientCloseType;
 use ClipBundle\Form\ClientFilterType;
@@ -11,7 +12,6 @@ use ClipBundle\Service\ClientDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/clienten")

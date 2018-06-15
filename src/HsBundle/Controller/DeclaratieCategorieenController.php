@@ -2,12 +2,12 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\DeclaratieCategorie;
 use HsBundle\Form\DeclaratieCategorieType;
 use HsBundle\Service\DeclaratieCategorieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/declaratiecategorieen")

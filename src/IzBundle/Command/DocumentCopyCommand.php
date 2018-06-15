@@ -2,12 +2,12 @@
 
 namespace IzBundle\Command;
 
+use AppBundle\Entity\Attachment;
+use Doctrine\ORM\EntityManager;
+use IzBundle\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Attachment;
-use IzBundle\Entity\Document;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DocumentCopyCommand extends ContainerAwareCommand

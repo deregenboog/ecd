@@ -2,13 +2,13 @@
 
 namespace PfoBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use PfoBundle\Entity\AardRelatie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use PfoBundle\Entity\AardRelatie;
 
 class AardRelatieType extends AbstractType
 {

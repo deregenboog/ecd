@@ -2,15 +2,14 @@
 
 namespace DagbestedingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Filter\DeelnemerFilter;
-use AppBundle\Form\FilterType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerFilterType extends AbstractType
 {

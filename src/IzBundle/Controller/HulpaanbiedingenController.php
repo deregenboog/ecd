@@ -2,18 +2,18 @@
 
 namespace IzBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Form\HulpaanbodType;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Form\HulpaanbodCloseType;
 use IzBundle\Form\HulpaanbodFilterType;
+use IzBundle\Form\HulpaanbodType;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Controller\AbstractChildController;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Service\HulpvraagDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpaanbodCloseType;
 
 /**
  * @Route("/hulpaanbiedingen")

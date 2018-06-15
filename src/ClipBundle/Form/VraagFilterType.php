@@ -2,16 +2,15 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use ClipBundle\Entity\Vraagsoort;
+use ClipBundle\Filter\VraagFilter;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
-use ClipBundle\Filter\VraagFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use ClipBundle\Entity\Vraagsoort;
-use ClipBundle\Entity\Behandelaar;
-use Doctrine\ORM\EntityRepository;
 
 class VraagFilterType extends AbstractType
 {

@@ -2,9 +2,9 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Intervisiegroep;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Intervisiegroep;
 
 class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterface
 {

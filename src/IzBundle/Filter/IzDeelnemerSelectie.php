@@ -2,10 +2,10 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Filter\FilterInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Filter\FilterInterface;
 
 class IzDeelnemerSelectie implements FilterInterface
 {

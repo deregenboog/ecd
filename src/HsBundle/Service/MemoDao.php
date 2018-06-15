@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Memo;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Memo;
 
 class MemoDao extends AbstractDao implements MemoDaoInterface
 {

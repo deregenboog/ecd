@@ -2,20 +2,19 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use HsBundle\Entity\Registratie;
 use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\AppTimeType;
+use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
+use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Registratie;
+use HsBundle\Entity\Vrijwilliger;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use HsBundle\Entity\Arbeider;
-use HsBundle\Entity\Klus;
-use HsBundle\Entity\Dienstverlener;
-use HsBundle\Entity\Vrijwilliger;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistratieType extends AbstractType
 {

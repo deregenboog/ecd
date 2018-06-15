@@ -2,18 +2,17 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
+use AppBundle\Form\VrijwilligerType;
+use IzBundle\Entity\IzVrijwilliger;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzVrijwilliger;
-use AppBundle\Form\AppTextareaType;
-use AppBundle\Form\VrijwilligerType;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\DummyChoiceType;
 
 class IzVrijwilligerType extends AbstractType
 {

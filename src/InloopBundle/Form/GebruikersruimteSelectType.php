@@ -2,10 +2,10 @@
 
 namespace InloopBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use InloopBundle\Entity\Locatie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Locatie;
-use Doctrine\ORM\EntityRepository;
 
 class GebruikersruimteSelectType extends AbstractType
 {

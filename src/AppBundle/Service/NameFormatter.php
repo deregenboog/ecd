@@ -6,7 +6,7 @@ use AppBundle\Entity\Persoon;
 
 class NameFormatter
 {
-    static public function format(Persoon $persoon, $formal = true)
+    public static function format(Persoon $persoon, $formal = true)
     {
         if (false === $formal) {
             return self::formatInformal($persoon);
@@ -15,7 +15,7 @@ class NameFormatter
         return self::formatFormal($persoon);
     }
 
-    static public function formatInformal(Persoon $persoon)
+    public static function formatInformal(Persoon $persoon)
     {
         $parts = [];
 
@@ -35,7 +35,7 @@ class NameFormatter
         return implode(' ', $parts);
     }
 
-    static public function formatFormal(Persoon $persoon)
+    public static function formatFormal(Persoon $persoon)
     {
         $parts = [];
 

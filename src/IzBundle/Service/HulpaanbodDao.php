@@ -2,12 +2,12 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Hulpvraag;
+use AppBundle\Entity\Geslacht;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\Hulpaanbod;
-use AppBundle\Entity\Geslacht;
 use IzBundle\Entity\Hulp;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
 
 class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 {

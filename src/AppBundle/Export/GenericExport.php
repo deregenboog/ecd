@@ -2,11 +2,11 @@
 
 namespace AppBundle\Export;
 
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class GenericExport extends AbstractExport
 {

@@ -3,17 +3,14 @@
 namespace GaBundle\Event;
 
 use AppBundle\Entity\Klant;
-use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Entity\Persoon;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use GaBundle\Entity\GaKlantIntake;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use GaBundle\Entity\GaGroepErOpUit;
 use GaBundle\Entity\GaGroep;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Entity\Persoon;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CloseSubscriber implements EventSubscriberInterface
 {

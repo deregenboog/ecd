@@ -2,9 +2,9 @@
 
 namespace HsBundle\DataFixtures;
 
-use Nelmio\Alice\ProcessorInterface;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
+use Nelmio\Alice\ProcessorInterface;
 
 final class HsProcessor implements ProcessorInterface
 {

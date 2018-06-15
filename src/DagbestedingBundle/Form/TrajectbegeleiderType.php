@@ -2,16 +2,16 @@
 
 namespace DagbestedingBundle\Form;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use DagbestedingBundle\Entity\Trajectbegeleider;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use DagbestedingBundle\Entity\Trajectbegeleider;
-use AppBundle\Form\MedewerkerType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\BaseType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Medewerker;
 
 class TrajectbegeleiderType extends AbstractType
 {

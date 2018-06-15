@@ -2,10 +2,10 @@
 
 namespace InloopBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
-use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Model\MemoInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity

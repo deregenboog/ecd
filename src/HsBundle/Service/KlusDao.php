@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Klus;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Klus;
 
 class KlusDao extends AbstractDao implements KlusDaoInterface
 {

@@ -4,8 +4,8 @@ namespace OekBundle\Service;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
-use OekBundle\Entity\Vrijwilliger;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use OekBundle\Entity\Vrijwilliger;
 
 interface VrijwilligerDaoInterface
 {

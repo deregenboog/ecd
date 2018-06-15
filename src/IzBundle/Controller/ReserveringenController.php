@@ -3,14 +3,14 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\Reservering;
+use IzBundle\Form\KoppelingFilterType;
+use IzBundle\Form\ReserveringType;
+use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Form\KoppelingFilterType;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Service\HulpvraagDaoInterface;
-use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Entity\Reservering;
-use IzBundle\Form\ReserveringType;
 
 /**
  * @Route("/reserveringen")

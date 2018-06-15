@@ -2,8 +2,8 @@
 
 namespace IzBundle\DataFixtures;
 
-use IzBundle\Entity\Hulpaanbod;
 use Faker\Provider\DateTime;
+use IzBundle\Entity\Hulpaanbod;
 
 final class IzFakerProvider
 {

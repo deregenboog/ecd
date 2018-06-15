@@ -2,10 +2,10 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Huurovereenkomst;
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\FilterInterface;
+use OdpBundle\Entity\Huurovereenkomst;
 
 class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInterface
 {

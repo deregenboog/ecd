@@ -2,8 +2,8 @@
 
 namespace OekBundle\Export;
 
-use OekBundle\Entity\Deelnemer;
 use AppBundle\Export\GenericExport;
+use OekBundle\Entity\Deelnemer;
 
 class DeelnemersExport extends GenericExport
 {

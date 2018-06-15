@@ -2,8 +2,11 @@
 
 namespace OdpBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
+use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
@@ -11,11 +14,8 @@ use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\HuurovereenkomstCloseType;
 use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Form\ConfirmationType;
 use OdpBundle\Service\HuurovereenkomstDao;
-use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

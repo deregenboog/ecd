@@ -2,16 +2,16 @@
 
 namespace DagbestedingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Entity\Medewerker;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
-use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity

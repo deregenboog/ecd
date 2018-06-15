@@ -3,8 +3,8 @@
 namespace AppBundle\Twig;
 
 use Symfony\Bridge\Twig\Extension\RoutingExtension as BaseRoutingExtension;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RoutingExtension extends BaseRoutingExtension
 {

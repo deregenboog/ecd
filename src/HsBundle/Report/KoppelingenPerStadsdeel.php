@@ -2,9 +2,9 @@
 
 namespace HsBundle\Report;
 
+use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use HsBundle\Service\KlusDaoInterface;
-use AppBundle\Report\AbstractReport;
 
 class KoppelingenPerStadsdeel extends AbstractReport
 {

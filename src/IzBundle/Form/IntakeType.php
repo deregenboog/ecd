@@ -2,21 +2,21 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\MedewerkerType;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Entity\Intake;
-use AppBundle\Form\ZrmType;
-use AppBundle\Form\AppTextareaType;
 use AppBundle\Entity\Zrm;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\ZrmType;
+use IzBundle\Entity\Intake;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzVrijwilliger;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IntakeType extends AbstractType
 {

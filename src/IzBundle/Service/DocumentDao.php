@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Document;
 use Doctrine\ORM\EntityManager;
+use IzBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {

@@ -2,9 +2,9 @@
 
 namespace IzBundle\Service;
 
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\AfsluitredenKoppeling;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface AfsluitredenKoppelingDaoInterface
 {

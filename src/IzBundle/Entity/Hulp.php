@@ -2,13 +2,13 @@
 
 namespace IzBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Exception\AppException;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Geslacht;
-use AppBundle\Exception\AppException;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity

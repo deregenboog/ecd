@@ -2,14 +2,13 @@
 
 namespace GaBundle\Form;
 
+use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
+use GaBundle\Entity\GaKlantIntake;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use AppBundle\Filter\KlantFilter;
-use AppBundle\Form\FilterType;
-use GaBundle\Entity\GaKlantIntake;
 
 class GaKlantSelectType extends AbstractType
 {

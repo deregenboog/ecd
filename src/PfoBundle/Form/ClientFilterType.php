@@ -2,17 +2,17 @@
 
 namespace PfoBundle\Form;
 
-use PfoBundle\Entity\Groep;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\FilterType;
-use PfoBundle\Filter\ClientFilter;
 use AppBundle\Form\MedewerkerType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Doctrine\ORM\EntityRepository;
 use PfoBundle\Entity\Client;
+use PfoBundle\Entity\Groep;
+use PfoBundle\Filter\ClientFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClientFilterType extends AbstractType
 {

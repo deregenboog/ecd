@@ -2,10 +2,9 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Vrijwilliger;
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class VrijwilligerFilter implements FilterInterface
 {

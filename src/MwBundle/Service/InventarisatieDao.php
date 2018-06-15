@@ -3,8 +3,8 @@
 namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use MwBundle\Entity\Inventarisatie;
 use InloopBundle\Entity\Locatie;
+use MwBundle\Entity\Inventarisatie;
 
 class InventarisatieDao extends AbstractDao implements InventarisatieDaoInterface
 {

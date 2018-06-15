@@ -2,13 +2,13 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\BaseType;
 
 class IzKlantSelectType extends AbstractType
 {

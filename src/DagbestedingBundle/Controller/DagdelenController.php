@@ -3,11 +3,11 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Export\GenericExport;
 use DagbestedingBundle\Entity\Dagdeel;
 use DagbestedingBundle\Form\DagdeelFilterType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/dagdelen")

@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
+use Doctrine\ORM\QueryBuilder;
 
 class DagdeelFilter implements FilterInterface
 {

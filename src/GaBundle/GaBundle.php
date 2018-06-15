@@ -2,9 +2,9 @@
 
 namespace GaBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use GaBundle\DependencyInjection\Compiler\ReportsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class GaBundle extends Bundle
 {

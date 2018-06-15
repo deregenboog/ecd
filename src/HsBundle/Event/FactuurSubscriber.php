@@ -2,16 +2,16 @@
 
 namespace HsBundle\Event;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Events;
-use HsBundle\Entity\FactuurSubjectInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
-use HsBundle\Entity\Factuur;
-use HsBundle\Entity\Klant;
-use HsBundle\Entity\Declaratie;
-use HsBundle\Entity\Registratie;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Events;
 use HsBundle\Entity\Creditfactuur;
+use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\Factuur;
+use HsBundle\Entity\FactuurSubjectInterface;
+use HsBundle\Entity\Klant;
+use HsBundle\Entity\Registratie;
 use HsBundle\Exception\InvoiceLockedException;
 
 class FactuurSubscriber implements EventSubscriber

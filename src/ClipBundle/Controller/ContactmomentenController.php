@@ -2,14 +2,14 @@
 
 namespace ClipBundle\Controller;
 
-use ClipBundle\Entity\Contactmoment;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
+use ClipBundle\Entity\Contactmoment;
+use ClipBundle\Form\ContactmomentFilterType;
 use ClipBundle\Form\ContactmomentType;
 use ClipBundle\Service\ContactmomentDaoInterface;
-use ClipBundle\Form\ContactmomentFilterType;
-use AppBundle\Export\ExportInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/contactmomenten")

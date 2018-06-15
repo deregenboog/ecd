@@ -2,8 +2,8 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Document;
 use Doctrine\ORM\EntityManager;
+use HsBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {

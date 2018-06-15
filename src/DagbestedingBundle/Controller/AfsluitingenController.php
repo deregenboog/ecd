@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use DagbestedingBundle\Form\AfsluitingType;
 use DagbestedingBundle\Service\AfsluitingDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class AfsluitingenController extends SymfonyController
 {

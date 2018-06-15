@@ -2,8 +2,8 @@
 
 namespace HsBundle\Report;
 
-use AppBundle\Report\Table;
 use AppBundle\Report\AbstractReport;
+use AppBundle\Report\Table;
 use HsBundle\Service\RegistratieDaoInterface;
 
 class Uren extends AbstractReport

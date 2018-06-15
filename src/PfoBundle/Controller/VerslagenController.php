@@ -4,9 +4,9 @@ namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
 use PfoBundle\Entity\Verslag;
 use PfoBundle\Form\VerslagType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")

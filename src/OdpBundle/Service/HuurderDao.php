@@ -2,7 +2,6 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Afsluiting;
 use AppBundle\Service\AbstractDao;
 use OdpBundle\Entity\Huurder;
 

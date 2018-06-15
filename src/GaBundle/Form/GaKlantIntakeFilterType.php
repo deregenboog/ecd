@@ -2,11 +2,11 @@
 
 namespace GaBundle\Form;
 
+use AppBundle\Form\KlantFilterType;
 use GaBundle\Filter\GaKlantIntakeFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\KlantFilterType;
 
 class GaKlantIntakeFilterType extends AbstractType
 {

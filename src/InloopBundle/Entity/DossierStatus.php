@@ -2,12 +2,12 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Model\OptionalMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Entity\Klant;
-use AppBundle\Model\OptionalMedewerkerTrait;
-use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\DossierStatusRepository")

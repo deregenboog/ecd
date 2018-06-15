@@ -2,11 +2,11 @@
 
 namespace InloopBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\BinnenVia;
 use InloopBundle\Form\BinnenViaType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/binnenvia")

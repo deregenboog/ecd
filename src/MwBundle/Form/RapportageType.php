@@ -3,10 +3,10 @@
 namespace MwBundle\Form;
 
 use AppBundle\Form\RapportageType as BaseRapportageType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
 use Doctrine\ORM\EntityRepository;
+use InloopBundle\Entity\Locatie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class RapportageType extends BaseRapportageType
 {

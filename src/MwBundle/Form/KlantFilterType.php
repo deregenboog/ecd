@@ -2,18 +2,17 @@
 
 namespace MwBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use InloopBundle\Entity\Locatie;
+use InloopBundle\Form\GebruikersruimteSelectType;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
-use AppBundle\Form\AppDateRangeType;
-use InloopBundle\Form\GebruikersruimteSelectType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantFilterType extends AbstractType
 {

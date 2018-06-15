@@ -3,14 +3,14 @@
 namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\HuurovereenkomstAfsluiting;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use Doctrine\ORM\EntityRepository;
 
 class HuurovereenkomstCloseType extends AbstractType
 {

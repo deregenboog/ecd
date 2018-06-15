@@ -2,14 +2,14 @@
 
 namespace DagbestedingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Deelnemerafsluiting;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerCloseType extends AbstractType
 {

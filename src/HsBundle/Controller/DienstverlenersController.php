@@ -2,7 +2,9 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use HsBundle\Entity\Dienstverlener;
@@ -10,11 +12,9 @@ use HsBundle\Form\DienstverlenerFilterType;
 use HsBundle\Form\DienstverlenerType;
 use HsBundle\Service\DienstverlenerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
-use AppBundle\Export\ExportInterface;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/dienstverleners")

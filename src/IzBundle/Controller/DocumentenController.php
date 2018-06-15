@@ -2,12 +2,12 @@
 
 namespace IzBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Document;
 use IzBundle\Form\DocumentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use IzBundle\Service\DocumentDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/documenten")

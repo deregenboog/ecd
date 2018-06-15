@@ -3,8 +3,8 @@
 namespace ClipBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use ClipBundle\Entity\Leeftijdscategorie;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface LeeftijdscategorieDaoInterface
 {

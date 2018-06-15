@@ -2,16 +2,16 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Intake;
+use IzBundle\Filter\IntervisiegroepFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\FilterType;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\Intake;
-use IzBundle\Filter\IntervisiegroepFilter;
 
 class IntervisiegroepFilterType extends AbstractType
 {

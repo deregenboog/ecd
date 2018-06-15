@@ -2,11 +2,11 @@
 
 namespace MwBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
-use InloopBundle\Entity\Locatie;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Locatie;
 
 class KlantFilter implements FilterInterface
 {

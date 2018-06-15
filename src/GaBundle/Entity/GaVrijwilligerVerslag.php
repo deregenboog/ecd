@@ -2,9 +2,9 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Entity\Vrijwilliger;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @ORM\Entity

@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
-use AppBundle\Model\ActivatableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity

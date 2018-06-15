@@ -2,9 +2,9 @@
 
 namespace IzBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use IzBundle\DependencyInjection\Compiler\ReportsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IzBundle extends Bundle
 {

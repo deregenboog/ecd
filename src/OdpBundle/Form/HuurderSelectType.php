@@ -2,15 +2,14 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
+use OdpBundle\Entity\Huurder;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use AppBundle\Filter\FilterInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use OdpBundle\Entity\Huurder;
-use AppBundle\Form\BaseType;
 
 class HuurderSelectType extends AbstractType
 {

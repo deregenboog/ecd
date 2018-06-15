@@ -2,22 +2,22 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\Hulpvraag;
-use IzBundle\Filter\KoppelingFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\Hulpaanbod;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
-use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Project;
+use IzBundle\Filter\KoppelingFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KoppelingFilterType extends AbstractType
 {

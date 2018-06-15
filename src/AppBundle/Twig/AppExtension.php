@@ -2,12 +2,12 @@
 
 namespace AppBundle\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\Common\Collections\Collection;
 use AppBundle\Entity\Geslacht;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Persoon;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {

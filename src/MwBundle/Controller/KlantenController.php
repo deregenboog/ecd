@@ -2,16 +2,16 @@
 
 namespace MwBundle\Controller;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Export\ExportInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Form\KlantFilterType;
-use AppBundle\Event\DienstenLookupEvent;
-use AppBundle\Event\Events;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/klanten")

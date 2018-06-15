@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use HsBundle\Entity\DeclaratieCategorie;
-use AppBundle\Filter\FilterInterface;
 
 class DeclaratieCategorieDao extends AbstractDao implements DeclaratieCategorieDaoInterface
 {

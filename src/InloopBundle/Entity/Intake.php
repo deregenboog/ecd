@@ -2,17 +2,17 @@
 
 namespace InloopBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Inkomen;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Verblijfsstatus;
+use AppBundle\Entity\Klant;
 use AppBundle\Entity\Legitimatie;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Verblijfsstatus;
 use AppBundle\Entity\Woonsituatie;
 use AppBundle\Model\ZrmInterface;
 use AppBundle\Model\ZrmTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity

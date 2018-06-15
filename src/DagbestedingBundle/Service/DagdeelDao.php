@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Dagdeel;
-use AppBundle\Filter\FilterInterface;
 
 class DagdeelDao extends AbstractDao implements DagdeelDaoInterface
 {

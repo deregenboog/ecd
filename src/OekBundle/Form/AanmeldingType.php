@@ -2,16 +2,16 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use OekBundle\Entity\Aanmelding;
+use OekBundle\Entity\VerwijzingDoor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\AppDateType;
-use OekBundle\Entity\Aanmelding;
-use OekBundle\Entity\VerwijzingDoor;
-use AppBundle\Form\MedewerkerType;
-use AppBundle\Form\BaseType;
 
 class AanmeldingType extends AbstractType
 {

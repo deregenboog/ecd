@@ -2,13 +2,13 @@
 
 namespace IzBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
-use AppBundle\Controller\AbstractChildController;
-use Symfony\Component\HttpFoundation\Request;
 use IzBundle\Service\VerslagDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/verslagen")

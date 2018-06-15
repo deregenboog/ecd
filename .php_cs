@@ -22,6 +22,7 @@ return PhpCsFixer\Config::create()
     'psr0' => false,
     '@Symfony' => true,
     'array_syntax' => ['syntax' => 'short'],
+        'ordered_imports' => true,
 ])
 ->setFinder($finder)
 ;

@@ -3,12 +3,12 @@
 namespace MwBundle\Event;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Verslag;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use AppBundle\Entity\Verslag;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {

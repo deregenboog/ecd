@@ -2,12 +2,12 @@
 
 namespace ClipBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use ClipBundle\Entity\Viacategorie;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use ClipBundle\Entity\Viacategorie;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ViacategorieSelectType extends AbstractType
 {

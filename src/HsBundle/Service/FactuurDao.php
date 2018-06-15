@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Factuur;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Factuur;
 
 class FactuurDao extends AbstractDao implements FactuurDaoInterface
 {

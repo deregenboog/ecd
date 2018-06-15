@@ -2,9 +2,9 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormBuilderInterface;
 
 trait MedewerkerTypeTrait
 {

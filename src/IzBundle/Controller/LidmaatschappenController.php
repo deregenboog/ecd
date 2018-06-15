@@ -2,12 +2,12 @@
 
 namespace IzBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use IzBundle\Entity\Lidmaatschap;
+use IzBundle\Form\LidmaatschapType;
+use IzBundle\Service\IntervisiegroepDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Service\IntervisiegroepDaoInterface;
-use AppBundle\Controller\AbstractChildController;
-use IzBundle\Form\LidmaatschapType;
-use IzBundle\Entity\Lidmaatschap;
 
 /**
  * @Route("/lidmaatschappen")

@@ -3,8 +3,8 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Zrm;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 class ZrmDao extends AbstractDao implements ZrmDaoInterface
 {

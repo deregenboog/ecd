@@ -2,15 +2,15 @@
 
 namespace AppBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Entity\Klant;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

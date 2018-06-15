@@ -2,10 +2,10 @@
 
 namespace OekBundle\Export;
 
-use AppBundle\Export\AbstractExport;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use OekBundle\Entity\Training;
 use AppBundle\Exception\AppException;
+use AppBundle\Export\AbstractExport;
+use OekBundle\Entity\Training;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class PresentielijstExport extends AbstractExport
 {

@@ -3,8 +3,8 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Vrijwilliger;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {

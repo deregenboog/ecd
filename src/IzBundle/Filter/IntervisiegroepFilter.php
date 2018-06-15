@@ -2,10 +2,10 @@
 
 namespace IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class IntervisiegroepFilter implements FilterInterface
 {

@@ -2,13 +2,13 @@
 
 namespace OdpBundle\Controller;
 
-use OdpBundle\Entity\Woningbouwcorporatie;
-use OdpBundle\Service\WoningbouwcorporatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
-use OdpBundle\Form\WoningbouwcorporatieType;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
+use JMS\DiExtraBundle\Annotation as DI;
+use OdpBundle\Entity\Woningbouwcorporatie;
+use OdpBundle\Form\WoningbouwcorporatieType;
+use OdpBundle\Service\WoningbouwcorporatieDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/woningbouwcorporaties")
