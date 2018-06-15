@@ -35,6 +35,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select($this->alias.', klus, klant, werkgebied')
             ->innerJoin($this->alias.'.klus', 'klus')
             ->innerJoin('klus.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
