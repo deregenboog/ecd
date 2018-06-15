@@ -37,7 +37,7 @@ class Verslag
     private $opmerking;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Klant")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="verslagen")
      * @Gedmo\Versioned
      */
     private $klant;
