@@ -9,7 +9,7 @@ class DoelstellingRepository extends EntityRepository
     public function countByJaar($year)
     {
         return $this->createQueryBuilder('doelstelling')
-            ->select('p.naam as project, doelstelling.aantal')
+            ->select('p.naam AS projectnaam, doelstelling.aantal')
             ->innerJoin('doelstelling.project', 'p')
             ->where('doelstelling.jaar = :jaar')
             ->setParameter('jaar', $year)
@@ -21,7 +21,7 @@ class DoelstellingRepository extends EntityRepository
     public function countByJaarWithoutStadsdeel($year)
     {
         return $this->createQueryBuilder('doelstelling')
-            ->select('p.naam as project, SUM(doelstelling.aantal) as aantal')
+            ->select('p.naam AS projectnaam, SUM(doelstelling.aantal) AS aantal')
             ->innerJoin('doelstelling.project', 'p')
             ->where('doelstelling.jaar = :jaar')
             ->andWhere('doelstelling.stadsdeel IS NULL')
@@ -35,7 +35,7 @@ class DoelstellingRepository extends EntityRepository
     public function countByJaarAndProjectAndStadsdeel($year)
     {
         return $this->createQueryBuilder('doelstelling')
-            ->select('p.naam as project, s.naam as stadsdeel, doelstelling.aantal')
+            ->select('p.naam AS projectnaam, s.naam AS stadsdeel, doelstelling.aantal')
             ->innerJoin('doelstelling.project', 'p')
             ->innerJoin('doelstelling.stadsdeel', 's')
             ->where('doelstelling.jaar = :jaar')
@@ -49,7 +49,7 @@ class DoelstellingRepository extends EntityRepository
     public function countByJaarAndProjectAndCategorie($year)
     {
         return $this->createQueryBuilder('doelstelling')
-            ->select('p.naam as project, doelstelling.categorie, doelstelling.aantal')
+            ->select('p.naam AS projectnaam, doelstelling.categorie, doelstelling.aantal')
             ->innerJoin('doelstelling.project', 'p')
             ->where('doelstelling.jaar = :jaar')
             ->groupBy('doelstelling.project, doelstelling.categorie')
