@@ -8,18 +8,36 @@ use AppBundle\Filter\FilterInterface;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
+    protected $paginationOptions = [
+        'defaultSortFieldName' => 'vrijwilliger.achternaam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'vrijwilliger.id',
+            'vrijwilliger.achternaam',
+            'vrijwilliger.geboortedatum',
+            'geslacht.volledig',
+            'werkgebied.naam',
+            'postcodegebied.naam',
+        ],
+    ];
+
     protected $class = Vrijwilliger::class;
 
     protected $alias = 'vrijwilliger';
 
     /**
-     * @param int $page
+     * @param int             $page
+     * @param FilterInterface $filter
      *
      * @return PaginationInterface
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->leftJoin("{$this->alias}.geslacht", 'geslacht')
+            ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
+            ->leftJoin("{$this->alias}.postcodegebied", 'postcodegebied')
+        ;
 
         if ($filter) {
             $filter->applyTo($builder);

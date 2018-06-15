@@ -173,10 +173,12 @@ parameters:
                 - Schorsingen
                 - Verslagen
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - InloopBundle\Controller\Schorsingen
             GROUP_IZ:
                 - Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - iz
                 - IzBundle\Controller\Dashboard
                 - IzBundle\Controller\Hulpaanbiedingen
@@ -266,6 +268,7 @@ parameters:
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - Attachments
                 - Groepsactiviteiten
                 - GroepsactiviteitenKlanten
@@ -278,6 +281,7 @@ parameters:
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - Attachments
                 - Groepsactiviteiten
                 - GroepsactiviteitenKlanten
@@ -403,6 +407,7 @@ parameters:
             GROUP_HOMESERVICE:
                 - Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - hs
                 - HsBundle\Controller\Betalingen
                 - HsBundle\Controller\Declaraties
@@ -419,6 +424,7 @@ parameters:
             GROUP_HOMESERVICE_BEHEER:
                 - Klanten
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - hs
                 - HsBundle\Controller\Activiteiten
                 - HsBundle\Controller\Betalingen
@@ -456,6 +462,7 @@ parameters:
                 - BackOnTrack
                 - BotVerslagen
                 - Vrijwilligers
+                - AppBundle\Controller\Vrijwilligers
                 - groepsactiviteiten_klanten
                 - Medewerkers
                 - LdapUsers
@@ -599,7 +606,7 @@ parameters:
                 url: Klanten
             Vrijwilligers:
                 label: Vrijwilligers
-                url: Vrijwilligers
+                url: vrijwilligers
             Registraties:
                 label: Registratie
                 url: Registraties

@@ -8,7 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use AppBundle\Filter\FilterInterface;
 
-class AbstractDao
+abstract class AbstractDao
 {
     /**
      * @var EntityManagerInterface

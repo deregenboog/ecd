@@ -1,5 +1,6 @@
 imports:
     - { resource: daos.yml }
+    - { resource: exports.yml }
 
 services:
     twig.extension.routing: # override default routing extension
@@ -34,8 +35,12 @@ services:
         tags:
             - { name: form.type }
 
-    app.form.type.medewerker:
-        class: AppBundle\Form\MedewerkerType
+    AppBundle\Form\VrijwilligerType:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\MedewerkerType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
