@@ -64,19 +64,6 @@ abstract class Arbeider
         $this->inschrijving = new \DateTime('now');
     }
 
-    public function __toString()
-    {
-        if ($this instanceof Dienstverlener) {
-            return (string) $this->klant->getId();
-        }
-
-        if ($this instanceof Vrijwilliger) {
-            return (string) $this->vrijwilliger;
-        }
-
-        return '';
-    }
-
     public function getId()
     {
         return $this->id;

@@ -6,6 +6,8 @@ use AppBundle\Entity\Klant as AppKlant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Service\NameFormatter;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity
@@ -43,7 +45,11 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
 
     public function __toString()
     {
-        return (string) $this->klant;
+        try {
+            return NameFormatter::formatFormal($this->klant);
+        } catch (EntityNotFoundException $e) {
+            return '';
+        }
     }
 
     public function getId()
