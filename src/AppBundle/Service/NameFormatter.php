@@ -6,8 +6,12 @@ use AppBundle\Entity\Persoon;
 
 class NameFormatter
 {
-    static public function format(Persoon $persoon, $formal = true)
+    static public function format(Persoon $persoon = null, $formal = true)
     {
+        if (!$persoon) {
+            return '';
+        }
+
         if (false === $formal) {
             return self::formatInformal($persoon);
         }
@@ -15,8 +19,12 @@ class NameFormatter
         return self::formatFormal($persoon);
     }
 
-    static public function formatInformal(Persoon $persoon)
+    static public function formatInformal(Persoon $persoon = null)
     {
+        if (!$persoon) {
+            return '';
+        }
+
         $parts = [];
 
         if ($persoon->getVoornaam()) {
@@ -35,8 +43,12 @@ class NameFormatter
         return implode(' ', $parts);
     }
 
-    static public function formatFormal(Persoon $persoon)
+    static public function formatFormal(Persoon $persoon = null)
     {
+        if (!$persoon) {
+            return '';
+        }
+
         $parts = [];
 
         if ($persoon->getAchternaam()) {
