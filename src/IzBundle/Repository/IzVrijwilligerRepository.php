@@ -44,7 +44,7 @@ class IzVrijwilligerRepository extends EntityRepository
         $builder = $this->getCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->innerJoin('hulpaanbod.project', 'project')
-            ->addGroupBy('project')
+            ->groupBy('project')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -83,7 +83,7 @@ class IzVrijwilligerRepository extends EntityRepository
         $builder = $this->getCountBuilder()
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->addGroupBy('stadsdeel')
+            ->groupBy('stadsdeel')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 

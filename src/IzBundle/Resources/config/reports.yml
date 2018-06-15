@@ -77,6 +77,12 @@ services:
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
+    IzBundle\Report\KlantenTotaalNamenlijst:
+        arguments:
+            - "@iz.repository.iz_klant"
+        tags:
+            - { name: iz.rapportage, category: Deelnemers }
+
     IzBundle\Report\KlantenPerProject:
         arguments:
             - "@iz.repository.iz_klant"
