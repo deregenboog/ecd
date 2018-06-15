@@ -2,12 +2,12 @@
 
 namespace Tests\HsBundle\Entity;
 
-use HsBundle\Entity\Factuur;
-use HsBundle\Entity\Klant;
-use HsBundle\Entity\Declaratie;
-use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Betaling;
+use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Herinnering;
+use HsBundle\Entity\Klant;
+use HsBundle\Entity\Registratie;
 
 class FactuurTest extends \PHPUnit_Framework_TestCase
 {

@@ -3,7 +3,9 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -43,7 +45,11 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function __toString()
     {
-        return (string) $this->vrijwilliger;
+        try {
+            return NameFormatter::formatFormal($this->vrijwilliger);
+        } catch (EntityNotFoundException $e) {
+            return '';
+        }
     }
 
     public function getId()

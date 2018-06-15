@@ -3,7 +3,6 @@
 namespace Tests\ClipBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClientenControllerTest extends WebTestCase

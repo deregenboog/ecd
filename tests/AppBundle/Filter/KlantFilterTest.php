@@ -2,10 +2,9 @@
 
 namespace Tests\AppBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\KlantFilter;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 
 class KlantFilterTest extends \PHPUnit_Framework_TestCase
 {

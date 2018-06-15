@@ -2,9 +2,9 @@
 
 namespace Tests\HsBundle\Entity;
 
+use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
-use HsBundle\Entity\Dienstverlener;
 
 class KlantTest extends \PHPUnit_Framework_TestCase
 {

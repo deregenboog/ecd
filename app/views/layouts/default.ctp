@@ -6,7 +6,7 @@
         <?php __('ECD'); ?>
         <?= $title_for_layout; ?>
     </title>
-    <?= $html->meta('icon', $html->url('/favicon.ico')) ?>
+    <?= $html->meta('icon', $html->url('/favicon.png')) ?>
     <?= $this->Html->css('cake.generic', 'stylesheet', array('media' => 'screen')) ?>
     <?= $this->Html->css('datepicker') ?>
     <?= $this->Html->css('regenboog') ?>

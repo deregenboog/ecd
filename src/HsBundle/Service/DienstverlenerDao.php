@@ -33,11 +33,10 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("{$this->alias}, klant, klus, registratie, memo, document")
+            ->select("{$this->alias}, klant, klus, memo, document")
             ->innerJoin('dienstverlener.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.klussen", 'klus')
-            ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.documenten", 'document')
         ;

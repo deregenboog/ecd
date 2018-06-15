@@ -26,7 +26,7 @@ abstract class Zrm
     ];
 
     /**
-     * @ORM\ManyToOne(targetEntity="Klant")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="zrms")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

@@ -2,9 +2,9 @@
 
 namespace Tests\OekBundle\Entity;
 
-use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
+use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\VerwijzingDoor;
 use OekBundle\Entity\VerwijzingNaar;
 

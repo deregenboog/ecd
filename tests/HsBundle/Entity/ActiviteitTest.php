@@ -2,10 +2,10 @@
 
 namespace Tests\HsBundle\Entity;
 
-use HsBundle\Entity\Activiteit;
-use HsBundle\Entity\Klus;
-use HsBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\Activiteit;
+use HsBundle\Entity\Klant;
+use HsBundle\Entity\Klus;
 
 class ActiviteitTest extends \PHPUnit_Framework_TestCase
 {

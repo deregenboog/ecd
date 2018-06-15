@@ -2,10 +2,10 @@
 
 namespace Tests\IzBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use IzBundle\DependencyInjection\Compiler\ReportsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 class ReportsCompilerPassTest extends \PHPUnit_Framework_TestCase
 {

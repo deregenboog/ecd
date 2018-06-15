@@ -2,13 +2,12 @@
 
 namespace Tests\IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use Doctrine\ORM\EntityManager;
-use IzBundle\Entity\Hulpvraag;
+use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
 
 class KoppelingFilterTest extends \PHPUnit_Framework_TestCase

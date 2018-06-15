@@ -2,9 +2,9 @@
 
 namespace Tests\HsBundle\Entity;
 
-use HsBundle\Entity\Registratie;
-use HsBundle\Entity\Klus;
 use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
 
 class KlusTest extends \PHPUnit_Framework_TestCase

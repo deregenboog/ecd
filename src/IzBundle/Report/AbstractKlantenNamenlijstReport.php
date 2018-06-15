@@ -4,12 +4,12 @@ namespace IzBundle\Report;
 
 use AppBundle\Report\Listing;
 
-abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwilligersReport
+abstract class AbstractKlantenNamenlijstReport extends AbstractKlantenReport
 {
     protected $columns = [
         'Nummer' => 'id',
         'Naam' => 'naam',
-        'Aantal hulpaanbiedingen' => 'hulpaanbiedingen',
+        'Aantal hulpvragen' => 'hulpvragen',
     ];
 
     protected function build()
@@ -32,31 +32,31 @@ abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwillige
         $this->reports = [
             [
                 'title' => 'Beginstand',
-                'xDescription' => 'Vrijwilligers met een lopende koppeling op startdatum.',
+                'xDescription' => 'Deelnemers met een lopende koppeling op startdatum.',
                 'yDescription' => $this->yDescription,
                 'data' => $beginstandListing->render(),
             ],
             [
                 'title' => 'Gestart',
-                'xDescription' => 'Vrijwilligers die binnen de periode een koppeling startten en op startdatum geen lopende koppeling hadden.',
+                'xDescription' => 'Deelnemers die binnen de periode een koppeling startten en op startdatum geen lopende koppeling hadden.',
                 'yDescription' => $this->yDescription,
                 'data' => $gestartListing->render(),
             ],
             [
                 'title' => 'Nieuw gestart',
-                'xDescription' => 'Vrijwilligers die binnen de periode voor het eerst een koppeling startten.',
+                'xDescription' => 'Deelnemers die binnen de periode voor het eerst een koppeling startten.',
                 'yDescription' => $this->yDescription,
                 'data' => $nieuwGestartListing->render(),
             ],
             [
                 'title' => 'Afgesloten',
-                'xDescription' => 'Vrijwilligers die binnen de periode een koppeling afsloten en op einddatum geen lopende koppeling hadden.',
+                'xDescription' => 'Deelnemers die binnen de periode een koppeling afsloten en op einddatum geen lopende koppeling hadden.',
                 'yDescription' => $this->yDescription,
                 'data' => $afgeslotenListing->render(),
             ],
             [
                 'title' => 'Eindstand',
-                'xDescription' => 'Vrijwilligers met een lopende koppeling op einddatum.',
+                'xDescription' => 'Deelnemers met een lopende koppeling op einddatum.',
                 'yDescription' => $this->yDescription,
                 'data' => $eindstandListing->render(),
             ],

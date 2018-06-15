@@ -3,12 +3,12 @@
 namespace Tests\HsBundle\Entity;
 
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Document;
-use HsBundle\Entity\Memo;
-use HsBundle\Entity\Klus;
 use HsBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Memo;
 use HsBundle\Entity\Registratie;
 
 class DienstverlenerTest extends \PHPUnit_Framework_TestCase

@@ -6,7 +6,7 @@
         <?php __('DRG Intakeregistratie'); ?>
         <?php echo $title_for_layout; ?>
     </title>
-    <?= $html->meta('icon', $html->url('/favicon.ico')) ?>
+    <?= $html->meta('icon', $html->url('/favicon.png')) ?>
     <?= $this->Html->css('print_screen', 'stylesheet', array('media' => 'screen')) ?>
     <?= $this->Html->css('print', 'stylesheet', array('media' => 'print')) ?>
 </head>
