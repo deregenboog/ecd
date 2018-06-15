@@ -2,11 +2,8 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Afsluiting;
-use OdpBundle\Entity\HuurderAfsluiting;
 use AppBundle\Service\AbstractDao;
 use OdpBundle\Entity\Huurder;
-use Doctrine\ORM\QueryBuilder;
 
 class HuurderDao extends AbstractDao implements HuurderDaoInterface
 {
@@ -57,7 +54,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
         $builder = $this->getCountBuilder($startdate, $enddate)
             ->innerJoin("{$this->alias}.huurverzoeken", 'huurverzoek')
             ->innerJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
-            ->andWhere("huurovereenkomst.startdatum BETWEEN :start AND :end")
+            ->andWhere('huurovereenkomst.startdatum BETWEEN :start AND :end')
         ;
 
         return $builder->getQuery()->getResult();
@@ -68,7 +65,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
         $builder = $this->getCountBuilder($startdate, $enddate)
             ->innerJoin("{$this->alias}.huurverzoeken", 'huurverzoek')
             ->innerJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
-            ->andWhere("huurovereenkomst.einddatum BETWEEN :start AND :end")
+            ->andWhere('huurovereenkomst.einddatum BETWEEN :start AND :end')
         ;
 
         return $builder->getQuery()->getResult();

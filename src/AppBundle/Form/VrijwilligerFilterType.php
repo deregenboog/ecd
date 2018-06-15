@@ -2,15 +2,15 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Geslacht;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\VrijwilligerFilter;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Filter\VrijwilligerFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Geslacht;
 
 class VrijwilligerFilterType extends AbstractType
 {

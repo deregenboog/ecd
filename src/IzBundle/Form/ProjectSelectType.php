@@ -2,11 +2,11 @@
 
 namespace IzBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Project;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\Project;
-use Doctrine\ORM\EntityRepository;
 
 class ProjectSelectType extends AbstractType
 {

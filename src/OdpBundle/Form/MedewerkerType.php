@@ -2,10 +2,10 @@
 
 namespace OdpBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use OdpBundle\Entity\Coordinator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use OdpBundle\Entity\Coordinator;
-use Doctrine\ORM\EntityRepository;
 
 class MedewerkerType extends AbstractType
 {

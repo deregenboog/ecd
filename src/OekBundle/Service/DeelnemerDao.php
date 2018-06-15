@@ -2,9 +2,9 @@
 
 namespace OekBundle\Service;
 
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
 use OekBundle\Entity\Deelnemer;
 
 class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface

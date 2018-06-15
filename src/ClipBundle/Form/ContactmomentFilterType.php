@@ -2,12 +2,12 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use ClipBundle\Filter\ContactmomentFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
-use ClipBundle\Filter\ContactmomentFilter;
 
 class ContactmomentFilterType extends AbstractType
 {

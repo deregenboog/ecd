@@ -2,14 +2,13 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Export\ExportInterface;
+use ClipBundle\Entity\Vraag;
+use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use ClipBundle\Entity\Vraag;
-use AppBundle\Export\ExportInterface;
-use ClipBundle\Filter\VraagFilter;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 /**
  * @Route("/openstaandevragen")

@@ -2,12 +2,12 @@
 
 namespace Tests\HsBundle\Event;
 
-use HsBundle\Entity\Klant;
-use HsBundle\Entity\Dienstverlener;
-use HsBundle\Entity\Vrijwilliger;
-use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
+use HsBundle\Entity\Registratie;
+use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Service\FactuurFactory;
 
 class FactuurFactoryTest extends \PHPUnit_Framework_TestCase

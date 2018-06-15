@@ -2,14 +2,14 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Entity\Declaratie;
-use HsBundle\Form\DeclaratieType;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use HsBundle\Service\DeclaratieDaoInterface;
 use AppBundle\Controller\AbstractChildController;
+use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Factuur;
+use HsBundle\Form\DeclaratieType;
+use HsBundle\Service\DeclaratieDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/declaraties")

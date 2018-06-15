@@ -2,11 +2,11 @@
 
 namespace HsBundle\Command;
 
+use Doctrine\ORM\EntityManager;
+use HsBundle\Entity\Klus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use HsBundle\Entity\Klus;
-use Doctrine\ORM\EntityManager;
 
 class KlantUpdateCommand extends ContainerAwareCommand
 {

@@ -2,12 +2,12 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\BaseType;
 use OekBundle\Entity\Groep;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseType;
 
 class GroepType extends AbstractType
 {

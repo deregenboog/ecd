@@ -2,10 +2,8 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Schorsing;
+use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Registratie;
 
 class RegistratieDao extends AbstractDao implements SchorsingDaoInterface

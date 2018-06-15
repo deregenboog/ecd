@@ -2,16 +2,13 @@
 
 namespace InloopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\AppDateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\BaseType;
 use InloopBundle\Entity\Registratie;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistratieType extends AbstractType
 {

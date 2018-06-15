@@ -2,9 +2,9 @@
 
 namespace HsBundle\Report;
 
+use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use HsBundle\Service\KlantDaoInterface;
-use AppBundle\Report\AbstractReport;
 
 class KlantenPerStadsdeel extends AbstractReport
 {

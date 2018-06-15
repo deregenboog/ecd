@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\BinnenVia;
 

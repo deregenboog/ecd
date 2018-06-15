@@ -2,20 +2,20 @@
 
 namespace OdpBundle\Form;
 
-use AppBundle\Form\FilterType;
+use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
-use Symfony\Component\Form\AbstractType;
-use OdpBundle\Filter\HuurovereenkomstFilter;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OdpBundle\Entity\Huurovereenkomst;
-use AppBundle\Entity\Medewerker;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use OdpBundle\Filter\HuurovereenkomstFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HuurovereenkomstFilterType extends AbstractType
 {

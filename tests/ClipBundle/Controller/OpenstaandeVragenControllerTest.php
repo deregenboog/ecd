@@ -3,9 +3,7 @@
 namespace Tests\ClipBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DomCrawler\Link;
 
 class OpenstaandeVragenControllerTest extends WebTestCase
 {

@@ -2,13 +2,13 @@
 
 namespace PfoBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
-use PfoBundle\Form\ClientFilterType;
+use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Client;
-use PfoBundle\Service\ClientDaoInterface;
+use PfoBundle\Form\ClientFilterType;
 use PfoBundle\Form\ClientType;
+use PfoBundle\Service\ClientDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/clienten")

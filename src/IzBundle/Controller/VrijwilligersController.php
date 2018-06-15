@@ -3,19 +3,18 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Form\VrijwilligerFilterType;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Form\IzDeelnemerCloseType;
+use IzBundle\Form\IzVrijwilligerFilterType;
+use IzBundle\Form\IzVrijwilligerType;
+use IzBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Export\AbstractExport;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Form\IzVrijwilligerFilterType;
-use IzBundle\Service\VrijwilligerDaoInterface;
-use IzBundle\Form\IzVrijwilligerType;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\VrijwilligerFilterType;
-use AppBundle\Entity\Vrijwilliger;
-use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\FormError;
-use IzBundle\Form\IzDeelnemerCloseType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/vrijwilligers")

@@ -3,10 +3,10 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use InloopBundle\Entity\Memo;
 use InloopBundle\Form\MemoType;
 use InloopBundle\Service\MemoDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

@@ -2,14 +2,14 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use IzBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use IzBundle\Entity\Verslag;
-use AppBundle\Form\MedewerkerType;
-use AppBundle\Form\AppTextareaType;
 
 class VerslagType extends AbstractType
 {

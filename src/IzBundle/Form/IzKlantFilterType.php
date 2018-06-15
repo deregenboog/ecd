@@ -2,23 +2,22 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Intake;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzKlantFilter;
-use IzBundle\Entity\Hulpvraag;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzKlantFilterType extends AbstractType
 {

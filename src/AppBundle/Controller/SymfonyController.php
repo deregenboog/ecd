@@ -2,22 +2,22 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 abstract class SymfonyController extends \AppController
 {

@@ -2,9 +2,9 @@
 
 namespace OekBundle\Service;
 
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use OekBundle\Entity\Deelnemer;
 
 interface DeelnemerDaoInterface

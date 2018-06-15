@@ -3,17 +3,17 @@
 namespace GaBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
 use Doctrine\ORM\EntityRepository;
 use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Filter\GaIntakeFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use GaBundle\Filter\GaIntakeFilter;
 
 class GaIntakeFilterType extends AbstractType
 {

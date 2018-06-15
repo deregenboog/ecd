@@ -2,11 +2,11 @@
 
 namespace OdpBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use OdpBundle\Form\AfsluitingType;
 use OdpBundle\Service\AfsluitingDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class AfsluitingenController extends SymfonyController
 {

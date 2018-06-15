@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractRapportagesController;
 use DagbestedingBundle\Form\ReportingType;
-use Symfony\Component\Routing\Annotation\Route;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Controller\AbstractRapportagesController;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/reporting")

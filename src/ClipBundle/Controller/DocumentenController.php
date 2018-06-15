@@ -2,12 +2,12 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Entity\Document;
 use ClipBundle\Form\DocumentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use ClipBundle\Service\DocumentDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/documenten")

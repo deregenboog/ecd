@@ -2,19 +2,16 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Postcode;
+use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Stadsdeel;
-use AppBundle\Entity\Postcodegebied;
-use AppBundle\Util\PostcodeFormatter;
-use AppBundle\Entity\Werkgebied;
-use AppBundle\Entity\Postcode;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantType extends AbstractType
 {

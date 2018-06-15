@@ -2,12 +2,10 @@
 
 namespace MwBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Entity\Verslag;
+use AppBundle\Model\IdentifiableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\Timestampable;
 
 /**

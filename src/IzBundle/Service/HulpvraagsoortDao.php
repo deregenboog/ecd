@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Hulpvraagsoort;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Hulpvraagsoort;
 
 class HulpvraagsoortDao extends AbstractDao implements HulpvraagsoortDaoInterface
 {

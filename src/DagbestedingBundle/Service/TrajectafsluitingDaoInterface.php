@@ -2,8 +2,8 @@
 
 namespace DagbestedingBundle\Service;
 
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use DagbestedingBundle\Entity\Trajectafsluiting;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface TrajectafsluitingDaoInterface
 {

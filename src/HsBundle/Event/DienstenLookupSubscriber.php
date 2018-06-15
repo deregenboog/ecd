@@ -2,11 +2,11 @@
 
 namespace HsBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
-use HsBundle\Service\DienstverlenerDaoInterface;
+use AppBundle\Event\Events;
 use HsBundle\Entity\Dienstverlener;
+use HsBundle\Service\DienstverlenerDaoInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface

@@ -2,15 +2,15 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Klant;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantSelectType extends AbstractType
 {

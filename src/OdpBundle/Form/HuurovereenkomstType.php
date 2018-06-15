@@ -3,6 +3,7 @@
 namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Orx;
 use OdpBundle\Entity\Huuraanbod;
@@ -10,11 +11,10 @@ use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class HuurovereenkomstType extends AbstractType
 {

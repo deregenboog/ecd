@@ -2,11 +2,11 @@
 
 namespace InloopBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Filter\FilterInterface;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Locatie;
 
 class RegistratieFilter implements FilterInterface
 {

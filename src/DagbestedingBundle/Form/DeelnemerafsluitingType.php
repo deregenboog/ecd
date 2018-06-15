@@ -2,8 +2,8 @@
 
 namespace DagbestedingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use DagbestedingBundle\Entity\Deelnemerafsluiting;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerafsluitingType extends AbstractType

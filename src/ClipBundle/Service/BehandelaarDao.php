@@ -2,8 +2,8 @@
 
 namespace ClipBundle\Service;
 
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
 use ClipBundle\Entity\Behandelaar;
 
 class BehandelaarDao extends AbstractDao implements BehandelaarDaoInterface

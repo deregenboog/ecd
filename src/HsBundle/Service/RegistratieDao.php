@@ -2,12 +2,12 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Registratie;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use HsBundle\Entity\Dienstverlener;
-use HsBundle\Entity\Vrijwilliger;
+use AppBundle\Service\AbstractDao;
 use Doctrine\DBAL\Exception\DriverException;
+use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Registratie;
+use HsBundle\Entity\Vrijwilliger;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {

@@ -2,17 +2,17 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use AppBundle\Util\PostcodeFormatter;
 use AppBundle\Entity\Postcode;
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerType extends AbstractType
 {

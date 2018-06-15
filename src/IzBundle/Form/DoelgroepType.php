@@ -2,12 +2,12 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\BaseType;
+use IzBundle\Entity\Doelgroep;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use IzBundle\Entity\Doelgroep;
-use AppBundle\Form\BaseType;
 
 class DoelgroepType extends AbstractType
 {

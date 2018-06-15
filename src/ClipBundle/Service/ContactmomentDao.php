@@ -2,10 +2,10 @@
 
 namespace ClipBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use ClipBundle\Entity\Contactmoment;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\FilterInterface;
 
 class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
 {

@@ -2,18 +2,17 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType;
 use OekBundle\Entity\Groep;
+use OekBundle\Entity\Training;
+use OekBundle\Filter\DeelnemerFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
-use OekBundle\Filter\DeelnemerFilter;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use OekBundle\Entity\Training;
 
 class DeelnemerFilterType extends AbstractType
 {

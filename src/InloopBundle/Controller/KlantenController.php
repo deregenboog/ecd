@@ -4,12 +4,12 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use InloopBundle\Service\KlantDaoInterface;
-use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Form\AfsluitingType;
+use InloopBundle\Form\KlantFilterType;
+use InloopBundle\Service\KlantDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

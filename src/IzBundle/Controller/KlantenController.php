@@ -3,21 +3,20 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Form\KlantFilterType;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Form\IzDeelnemerCloseType;
+use IzBundle\Form\IzKlantFilterType;
+use IzBundle\Form\IzKlantType;
+use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Service\KlantDaoInterface;
-use AppBundle\Export\AbstractExport;
-use IzBundle\Form\IzKlantFilterType;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\KlantFilterType;
-use AppBundle\Entity\Klant;
-use IzBundle\Form\IzKlantType;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Form\IzDeelnemerCloseType;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/klanten")

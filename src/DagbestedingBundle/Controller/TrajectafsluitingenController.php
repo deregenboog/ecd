@@ -2,12 +2,12 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
+use DagbestedingBundle\Entity\Trajectafsluiting;
+use DagbestedingBundle\Form\TrajectafsluitingType;
+use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
-use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
-use DagbestedingBundle\Entity\Trajectafsluiting;
-use AppBundle\Controller\AbstractController;
-use DagbestedingBundle\Form\TrajectafsluitingType;
 
 /**
  * @Route("/admin/trajectafsluitingen")

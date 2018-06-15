@@ -2,18 +2,18 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\VrijwilligerFilterType;
+use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpaanbodFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpaanbodFilterType extends AbstractType
 {

@@ -2,11 +2,11 @@
 
 namespace InloopBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use InloopBundle\Entity\Locatie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
-use Doctrine\ORM\EntityRepository;
 
 class LocatieSelectType extends AbstractType
 {
@@ -25,7 +25,7 @@ class LocatieSelectType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Locatie::class,
-            'query_builder' => function(EntityRepository $repository) {
+            'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('locatie')
                     ->where("locatie.datumVan <> '0000-00-00' AND locatie.datumVan <= :today")
                     ->andWhere("locatie.datumTot IS NULL OR locatie.datumTot = '0000-00-00' OR locatie.datumTot >= :today")

@@ -2,19 +2,18 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
+use AppBundle\Form\KlantType;
+use AppBundle\Form\MedewerkerType;
+use OekBundle\Entity\Deelnemer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantType;
-use OekBundle\Entity\Deelnemer;
-use AppBundle\Form\MedewerkerType;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\DummyChoiceType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerType extends AbstractType
 {

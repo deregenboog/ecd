@@ -2,14 +2,14 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use HsBundle\Entity\Betaling;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use HsBundle\Entity\Betaling;
-use AppBundle\Form\AppDateType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BetalingType extends AbstractType
 {

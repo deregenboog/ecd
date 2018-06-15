@@ -2,10 +2,10 @@
 
 namespace AppBundle\Doctrine;
 
-use Doctrine\ORM\Mapping\ClassMetaData;
-use Doctrine\ORM\Query\Filter\SQLFilter;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Vrijwilliger;
+use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class DisabledFilter extends SQLFilter
 {
@@ -15,6 +15,6 @@ class DisabledFilter extends SQLFilter
             return sprintf('%s.disabled = 0', $targetTableAlias);
         }
 
-        return "";
+        return '';
     }
 }

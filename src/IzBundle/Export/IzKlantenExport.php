@@ -2,8 +2,8 @@
 
 namespace IzBundle\Export;
 
-use IzBundle\Entity\IzKlant;
 use AppBundle\Export\GenericExport;
+use IzBundle\Entity\IzKlant;
 
 class IzKlantenExport extends GenericExport
 {

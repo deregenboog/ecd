@@ -3,11 +3,11 @@
 namespace InloopBundle\Command;
 
 use AppBundle\Entity\Klant;
+use Doctrine\ORM\EntityManager;
+use InloopBundle\Entity\Intake;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use InloopBundle\Entity\Intake;
-use Doctrine\ORM\EntityManager;
 
 class FixLaatsteIntakeCommand extends ContainerAwareCommand
 {

@@ -5,9 +5,9 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Vraagsoort;
 use ClipBundle\Form\VraagsoortType;
+use ClipBundle\Service\VraagsoortDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use ClipBundle\Service\VraagsoortDaoInterface;
 
 /**
  * @Route("/admin/vraagsoorten")

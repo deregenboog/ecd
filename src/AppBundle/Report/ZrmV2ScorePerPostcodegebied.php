@@ -2,8 +2,8 @@
 
 namespace AppBundle\Report;
 
-use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\ZrmV2;
+use Doctrine\ORM\EntityManager;
 
 class ZrmV2ScorePerPostcodegebied extends AbstractReport
 {

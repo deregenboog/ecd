@@ -2,9 +2,9 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Verhuurder;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use OdpBundle\Entity\Verhuurder;
 
 interface VerhuurderDaoInterface
 {

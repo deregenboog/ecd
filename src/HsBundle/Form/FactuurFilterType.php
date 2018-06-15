@@ -2,19 +2,18 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use HsBundle\Filter\FactuurFilter;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FactuurFilterType extends AbstractType
 {
@@ -76,7 +75,6 @@ class FactuurFilterType extends AbstractType
                 })
             ;
         }
-
 
         if (in_array('zipDownload', $options['enabled_filters'])) {
             $builder->add('zipDownload', SubmitType::class);

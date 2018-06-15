@@ -2,9 +2,9 @@
 
 namespace OekBundle\Service;
 
-use OekBundle\Entity\Memo;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Filter\FilterInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use OekBundle\Entity\Memo;
 
 interface MemoDaoInterface
 {

@@ -2,10 +2,9 @@
 
 namespace AppBundle\Doctrine;
 
+use AppBundle\Entity\Klant;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Vrijwilliger;
 
 class OverledenFilter extends SQLFilter
 {
@@ -15,6 +14,6 @@ class OverledenFilter extends SQLFilter
             return sprintf('(%s.overleden IS NULL OR %s.overleden = 0)', $targetTableAlias, $targetTableAlias);
         }
 
-        return "";
+        return '';
     }
 }

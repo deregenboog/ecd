@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Service;
 
-use DagbestedingBundle\Entity\Trajectbegeleider;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use DagbestedingBundle\Entity\Trajectbegeleider;
 
 class TrajectbegeleiderDao extends AbstractDao implements TrajectbegeleiderDaoInterface
 {

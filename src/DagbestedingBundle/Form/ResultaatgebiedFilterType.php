@@ -3,12 +3,12 @@
 namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\FilterType;
+use DagbestedingBundle\Entity\Resultaatgebiedsoort;
+use DagbestedingBundle\Filter\ResultaatgebiedFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use DagbestedingBundle\Entity\Resultaatgebiedsoort;
-use DagbestedingBundle\Filter\ResultaatgebiedFilter;
 
 class ResultaatgebiedFilterType extends AbstractType
 {

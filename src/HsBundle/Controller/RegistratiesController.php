@@ -2,20 +2,20 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Entity\Registratie;
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Exception\AppException;
+use AppBundle\Export\ExportInterface;
+use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Klus;
+use HsBundle\Entity\Registratie;
+use HsBundle\Filter\RegistratieFilter;
+use HsBundle\Form\RegistratieFilterType;
 use HsBundle\Form\RegistratieType;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use HsBundle\Service\RegistratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use HsBundle\Entity\Arbeider;
-use AppBundle\Controller\AbstractChildController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use HsBundle\Filter\RegistratieFilter;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Exception\AppException;
-use HsBundle\Form\RegistratieFilterType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/registraties")

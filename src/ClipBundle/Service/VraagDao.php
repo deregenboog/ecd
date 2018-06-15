@@ -2,9 +2,9 @@
 
 namespace ClipBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use ClipBundle\Entity\Vraag;
-use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 
 class VraagDao extends AbstractDao implements VraagDaoInterface

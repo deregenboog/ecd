@@ -2,8 +2,8 @@
 
 namespace DagbestedingBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class RapportageFilter implements FilterInterface
 {

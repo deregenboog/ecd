@@ -2,9 +2,9 @@
 
 namespace InloopBundle\Service;
 
-use InloopBundle\Entity\Memo;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Memo;
 
 class MemoDao extends AbstractDao implements MemoDaoInterface
 {

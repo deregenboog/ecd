@@ -2,8 +2,8 @@
 
 namespace Tests\IzBundle\Report;
 
-use IzBundle\Repository\IzVrijwilligerRepository;
 use IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant;
+use IzBundle\Repository\IzVrijwilligerRepository;
 
 class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
 {

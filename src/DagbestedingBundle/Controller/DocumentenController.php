@@ -2,12 +2,12 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Document;
 use DagbestedingBundle\Form\DocumentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use DagbestedingBundle\Service\DocumentDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/documenten")

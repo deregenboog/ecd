@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Betaling;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 
 interface BetalingDaoInterface
 {

@@ -2,11 +2,10 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Exception\AppException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use AppBundle\Exception\AppException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")

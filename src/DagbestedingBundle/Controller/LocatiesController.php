@@ -5,9 +5,9 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Form\LocatieType;
+use DagbestedingBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use DagbestedingBundle\Service\LocatieDaoInterface;
 
 /**
  * @Route("/admin/locaties")

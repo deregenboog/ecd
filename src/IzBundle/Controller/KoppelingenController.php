@@ -3,12 +3,12 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Koppeling;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\KoppelingType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/koppelingen")

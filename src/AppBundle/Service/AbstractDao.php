@@ -2,11 +2,11 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
-use AppBundle\Filter\FilterInterface;
 
 abstract class AbstractDao
 {

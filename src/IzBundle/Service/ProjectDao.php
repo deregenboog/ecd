@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Project;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Project;
 
 class ProjectDao extends AbstractDao implements ProjectDaoInterface
 {

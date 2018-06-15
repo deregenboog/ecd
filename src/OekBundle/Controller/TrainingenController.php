@@ -2,14 +2,14 @@
 
 namespace OekBundle\Controller;
 
-use OekBundle\Entity\Training;
-use OekBundle\Form\TrainingFilterType;
-use OekBundle\Form\TrainingType;
-use OekBundle\Form\EmailMessageType;
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use OekBundle\Entity\Training;
+use OekBundle\Form\EmailMessageType;
+use OekBundle\Form\TrainingFilterType;
+use OekBundle\Form\TrainingType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trainingen")

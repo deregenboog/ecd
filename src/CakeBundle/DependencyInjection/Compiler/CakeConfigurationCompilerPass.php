@@ -2,9 +2,9 @@
 
 namespace CakeBundle\DependencyInjection\Compiler;
 
+use CakeBundle\Service\CakeConfiguration;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use CakeBundle\Service\CakeConfiguration;
 
 class CakeConfigurationCompilerPass implements CompilerPassInterface
 {

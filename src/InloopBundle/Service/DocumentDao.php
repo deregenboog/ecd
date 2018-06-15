@@ -2,8 +2,8 @@
 
 namespace InloopBundle\Service;
 
-use InloopBundle\Entity\Document;
 use Doctrine\ORM\EntityManager;
+use InloopBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {

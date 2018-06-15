@@ -2,8 +2,8 @@
 
 namespace OekBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class VrijwilligerFilter implements FilterInterface
 {

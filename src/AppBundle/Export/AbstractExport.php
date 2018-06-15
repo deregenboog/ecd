@@ -2,9 +2,9 @@
 
 namespace AppBundle\Export;
 
-use Symfony\Component\HttpFoundation\Response;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractExport implements ExportInterface
 {

@@ -2,21 +2,18 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Koppeling;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Medewerker;
-use IzBundle\Entity\Project;
-use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\MedewerkerType;
-use IzBundle\Entity\Hulpvraag;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use IzBundle\Entity\Koppeling;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\AppTextareaType;
 
 class HulpvraagType extends AbstractType
 {
@@ -41,7 +38,7 @@ class HulpvraagType extends AbstractType
             ->add('doelgroepen', null, [
                 'required' => true,
                 'expanded' => true,
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('doelgroep')
                         ->where('doelgroep.actief = true')
                         ->orderBy('doelgroep.naam')
@@ -64,7 +61,7 @@ class HulpvraagType extends AbstractType
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->where('geslacht.volledig <> :onbekend')
                         ->setParameter('onbekend', 'Onbekend')

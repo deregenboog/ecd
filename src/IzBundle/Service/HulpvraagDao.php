@@ -2,12 +2,12 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Hulpvraag;
+use AppBundle\Entity\Geslacht;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\Hulpaanbod;
-use AppBundle\Entity\Geslacht;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Koppeling;
 
 class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 {
@@ -131,20 +131,20 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
                 case Koppeling::DAGDEEL_AVOND:
                     $dagdelen = [
                         Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 case Koppeling::DAGDEEL_WEEKEND:
                     $dagdelen = [
                         Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 case Koppeling::DAGDEEL_AVOND_WEEKEND:
                     $dagdelen = [
                         Koppeling::DAGDEEL_AVOND,
                         Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 default:
@@ -152,7 +152,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
                         Koppeling::DAGDEEL_OVERDAG,
                         Koppeling::DAGDEEL_AVOND,
                         Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND
+                        Koppeling::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
             }

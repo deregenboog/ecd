@@ -3,9 +3,9 @@
 namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use HsBundle\Entity\Activiteit;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 class KlusFilter implements FilterInterface
 {

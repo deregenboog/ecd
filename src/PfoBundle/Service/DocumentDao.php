@@ -2,8 +2,8 @@
 
 namespace PfoBundle\Service;
 
-use PfoBundle\Entity\Document;
 use Doctrine\ORM\EntityManager;
+use PfoBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {

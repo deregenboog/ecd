@@ -3,8 +3,8 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use InloopBundle\Entity\Registratie;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface RegistratieDaoInterface
 {

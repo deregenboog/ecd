@@ -2,13 +2,13 @@
 
 namespace Tests\HsBundle\Entity;
 
-use HsBundle\Entity\Vrijwilliger;
-use HsBundle\Entity\Document;
-use HsBundle\Entity\Memo;
-use HsBundle\Entity\Klus;
-use HsBundle\Entity\Registratie;
-use HsBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\Document;
+use HsBundle\Entity\Klant;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Memo;
+use HsBundle\Entity\Registratie;
+use HsBundle\Entity\Vrijwilliger;
 
 class VrijwilligerTest extends \PHPUnit_Framework_TestCase
 {

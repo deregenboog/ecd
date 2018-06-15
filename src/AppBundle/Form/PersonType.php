@@ -2,12 +2,12 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Geslacht;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Geslacht;
 
 class PersonType extends AbstractType
 {

@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Activiteit;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Activiteit;
 
 class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
 {

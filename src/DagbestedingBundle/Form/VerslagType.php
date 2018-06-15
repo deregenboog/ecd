@@ -3,13 +3,13 @@
 namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use DagbestedingBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\AppTextareaType;
-use DagbestedingBundle\Entity\Verslag;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
 
 class VerslagType extends AbstractType
 {

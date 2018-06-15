@@ -2,9 +2,9 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Klant;
 
 /**
  * @ORM\Entity

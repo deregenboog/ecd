@@ -2,13 +2,13 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Form\BaseType;
+use HsBundle\Entity\Dienstverlener;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use HsBundle\Entity\Dienstverlener;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class DienstverlenersSelectType extends AbstractType
 {

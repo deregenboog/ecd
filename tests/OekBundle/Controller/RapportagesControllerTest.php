@@ -3,7 +3,6 @@
 namespace Tests\OekBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use AppBundle\Entity\Medewerker;
 
 class RapportagesControllerTest extends WebTestCase
 {

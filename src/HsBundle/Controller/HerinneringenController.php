@@ -2,14 +2,14 @@
 
 namespace HsBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
-use AppBundle\Controller\AbstractChildController;
-use HsBundle\Service\HerinneringDaoInterface;
 use HsBundle\Pdf\PdfHerinnering;
+use HsBundle\Service\HerinneringDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/herinneringen")

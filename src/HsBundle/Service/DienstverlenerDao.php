@@ -2,10 +2,10 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Dienstverlener;
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Dienstverlener;
 
 class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterface
 {

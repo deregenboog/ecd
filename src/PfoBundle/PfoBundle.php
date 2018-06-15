@@ -2,9 +2,9 @@
 
 namespace PfoBundle;
 
+use PfoBundle\DependencyInjection\Compiler\ReportsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use PfoBundle\DependencyInjection\Compiler\ReportsCompilerPass;
 
 class PfoBundle extends Bundle
 {

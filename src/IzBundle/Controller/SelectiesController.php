@@ -2,18 +2,18 @@
 
 namespace IzBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzKlant;
 use AppBundle\Controller\SymfonyController;
-use IzBundle\Form\IzDeelnemerSelectieType;
+use AppBundle\Exception\AppException;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\Request;
+use IzBundle\Entity\IzDeelnemer;
+use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Filter\IzDeelnemerSelectie;
-use Symfony\Component\Form\FormError;
-use AppBundle\Exception\AppException;
-use IzBundle\Entity\IzDeelnemer;
+use IzBundle\Form\IzDeelnemerSelectieType;
 use IzBundle\Form\IzEmailMessageType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/selecties")

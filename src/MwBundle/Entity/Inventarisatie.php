@@ -2,11 +2,9 @@
 
 namespace MwBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\IdentifiableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
@@ -179,7 +177,7 @@ class Inventarisatie
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getActief()
     {
@@ -187,7 +185,7 @@ class Inventarisatie
     }
 
     /**
-     * @param boolean $actief
+     * @param bool $actief
      */
     public function setActief($actief)
     {

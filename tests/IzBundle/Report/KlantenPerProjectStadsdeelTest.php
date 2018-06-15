@@ -2,8 +2,8 @@
 
 namespace Tests\IzBundle\Report;
 
-use IzBundle\Repository\IzKlantRepository;
 use IzBundle\Report\KlantenPerProjectStadsdeel;
+use IzBundle\Repository\IzKlantRepository;
 
 class KlantenPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\VrijwilligerFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Filter\VrijwilligerFilter;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 class IzVrijwilligerFilter implements FilterInterface
 {

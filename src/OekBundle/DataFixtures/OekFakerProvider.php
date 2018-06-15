@@ -2,12 +2,12 @@
 
 namespace OekBundle\DataFixtures;
 
-use OekBundle\Entity\Aanmelding;
-use OekBundle\Entity\VerwijzingDoor;
-use Faker\Provider\DateTime;
-use OekBundle\Entity\VerwijzingNaar;
-use OekBundle\Entity\Afsluiting;
 use AppBundle\Entity\Medewerker;
+use Faker\Provider\DateTime;
+use OekBundle\Entity\Aanmelding;
+use OekBundle\Entity\Afsluiting;
+use OekBundle\Entity\VerwijzingDoor;
+use OekBundle\Entity\VerwijzingNaar;
 
 final class OekFakerProvider
 {

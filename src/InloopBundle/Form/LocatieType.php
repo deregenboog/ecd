@@ -2,16 +2,13 @@
 
 namespace InloopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormBuilder;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use InloopBundle\Entity\Locatie;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocatieType extends AbstractType
 {
@@ -28,7 +25,7 @@ class LocatieType extends AbstractType
         ;
     }
 
-        /**
+    /**
      * {@inheritdoc}
      */
     public function getParent()

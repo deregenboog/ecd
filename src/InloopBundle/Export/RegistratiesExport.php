@@ -2,8 +2,8 @@
 
 namespace InloopBundle\Export;
 
-use AppBundle\Export\GenericExport;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\GenericExport;
 
 class RegistratiesExport extends GenericExport
 {

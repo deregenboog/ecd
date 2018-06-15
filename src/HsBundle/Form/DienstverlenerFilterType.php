@@ -2,16 +2,15 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use HsBundle\Filter\ArbeiderFilter;
+use HsBundle\Filter\DienstverlenerFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use HsBundle\Filter\DienstverlenerFilter;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use HsBundle\Filter\ArbeiderFilter;
 
 class DienstverlenerFilterType extends AbstractType
 {

@@ -2,13 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Entity\Intake;
-use Doctrine\Common\Collections\ArrayCollection;
-use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\DossierStatus;
-use Doctrine\Common\Collections\Criteria;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Registratie;
 
 /**
  * @ORM\Entity

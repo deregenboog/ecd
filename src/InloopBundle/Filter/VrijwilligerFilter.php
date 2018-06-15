@@ -2,9 +2,9 @@
 
 namespace InloopBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
 class VrijwilligerFilter implements FilterInterface

@@ -2,13 +2,12 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\FilterType;
+use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use OekBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use AppBundle\Form\FilterType;
-use OekBundle\Filter\VrijwilligerFilter;
 
 class VrijwilligerFilterType extends AbstractType
 {

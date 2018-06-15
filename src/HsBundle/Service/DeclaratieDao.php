@@ -2,8 +2,8 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Declaratie;
 use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Declaratie;
 
 class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
 {

@@ -2,10 +2,10 @@
 
 namespace AppBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use AppBundle\Controller\SymfonyController;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class KernelSubscriber implements EventSubscriberInterface
 {

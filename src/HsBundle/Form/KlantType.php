@@ -2,22 +2,21 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\Postcode;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Klant;
-use AppBundle\Form\AppDateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use AppBundle\Entity\Postcode;
-use AppBundle\Util\PostcodeFormatter;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantType extends AbstractType
 {

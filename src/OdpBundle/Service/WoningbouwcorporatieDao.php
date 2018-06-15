@@ -2,8 +2,8 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Woningbouwcorporatie;
 use AppBundle\Service\AbstractDao;
+use OdpBundle\Entity\Woningbouwcorporatie;
 
 class WoningbouwcorporatieDao extends AbstractDao implements WoningbouwcorporatieDaoInterface
 {

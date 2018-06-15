@@ -2,19 +2,19 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
 use Doctrine\ORM\EntityRepository;
+use OekBundle\Entity\Deelname;
 use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\Training;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use OekBundle\Entity\Training;
-use OekBundle\Entity\Deelname;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\DummyChoiceType;
 
 class DeelnameType extends AbstractType
 {

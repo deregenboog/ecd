@@ -2,14 +2,14 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Postcode;
+use AppBundle\Entity\Werkgebied;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Postcode;
 use Symfony\Component\Console\Input\InputOption;
-use AppBundle\Entity\Werkgebied;
-use AppBundle\Entity\GgwGebied;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ZipcodeLoaderCommand extends ContainerAwareCommand
 {
@@ -58,7 +58,6 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
-
             $stadsdeel = $this->getWerkgebied($values[1]);
 
             $postcodegebied = null;

@@ -2,9 +2,9 @@
 
 namespace CakeBundle\Service;
 
-use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\ClassLoader\MapClassLoader;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 class CakeCacheWarmer implements CacheWarmerInterface
 {
@@ -42,9 +42,9 @@ class CakeCacheWarmer implements CacheWarmerInterface
         $classes = [];
         $tokens = token_get_all($phpCode);
         for ($i = 2; $i < count($tokens); ++$i) {
-            if ($tokens[$i - 2][0] == T_CLASS
-                && $tokens[$i - 1][0] == T_WHITESPACE
-                && $tokens[$i][0] == T_STRING) {
+            if (T_CLASS == $tokens[$i - 2][0]
+                && T_WHITESPACE == $tokens[$i - 1][0]
+                && T_STRING == $tokens[$i][0]) {
                 $className = $tokens[$i][1];
                 $classes[] = $className;
             }

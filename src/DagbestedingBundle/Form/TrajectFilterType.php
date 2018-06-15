@@ -5,14 +5,14 @@ namespace DagbestedingBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Trajectsoort;
+use DagbestedingBundle\Filter\TrajectFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use DagbestedingBundle\Filter\TrajectFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use DagbestedingBundle\Entity\Trajectsoort;
-use DagbestedingBundle\Entity\Trajectbegeleider;
-use DagbestedingBundle\Entity\Project;
 
 class TrajectFilterType extends AbstractType
 {

@@ -2,12 +2,12 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Form\BaseType;
+use HsBundle\Entity\Hulpverlener;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use HsBundle\Entity\Hulpverlener;
 
 class HulpverlenerType extends AbstractType
 {

@@ -2,10 +2,10 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Entity\Klant;
 
 /**
  * @ORM\Entity
@@ -128,7 +128,7 @@ class Registratie
         $parts = [
             (string) $this->klant,
             (string) $this->locatie,
-            $this->binnen->format('d-m-Y H:i')
+            $this->binnen->format('d-m-Y H:i'),
         ];
 
         if ($this->buiten) {

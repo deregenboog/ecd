@@ -2,12 +2,12 @@
 
 namespace Tests\HsBundle\Event;
 
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use HsBundle\Entity\Dienstverlener;
 use HsBundle\Event\DienstenLookupSubscriber;
 use HsBundle\Service\DienstverlenerDaoInterface;
-use HsBundle\Entity\Dienstverlener;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriberTest extends \PHPUnit_Framework_TestCase

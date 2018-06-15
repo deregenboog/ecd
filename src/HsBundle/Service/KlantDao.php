@@ -2,11 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Klant;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\NoResultException;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Klant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {

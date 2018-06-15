@@ -2,21 +2,18 @@
 
 namespace PfoBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\BaseType;
-use PfoBundle\Entity\Groep;
-use AppBundle\Form\AppDateType;
-use PfoBundle\Entity\Verslag;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\FormEvents;
+use PfoBundle\Entity\Verslag;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VerslagType extends AbstractType
 {
@@ -42,7 +39,7 @@ class VerslagType extends AbstractType
             ->add('clienten', null, [
                 'multiple' => true,
                 'expanded' => true,
-                'query_builder' => function(EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($options) {
                     $client = $options['data']->getClienten()[0];
 
                     $clienten = [$client];
@@ -66,7 +63,7 @@ class VerslagType extends AbstractType
             ->add('submit', SubmitType::class)
         ;
 
-        $builder->get('verslag')->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+        $builder->get('verslag')->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $data = $event->getData();
             if ($data === strip_tags($data)) {
                 $event->setData(nl2br($data));

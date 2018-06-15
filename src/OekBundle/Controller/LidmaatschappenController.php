@@ -3,11 +3,11 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use OekBundle\Entity\Groep;
 use AppBundle\Form\ConfirmationType;
-use OekBundle\Form\LidmaatschapType;
-use OekBundle\Entity\Lidmaatschap;
 use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\Groep;
+use OekBundle\Entity\Lidmaatschap;
+use OekBundle\Form\LidmaatschapType;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

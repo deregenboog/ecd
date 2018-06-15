@@ -2,10 +2,10 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Vrijwilliger;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")

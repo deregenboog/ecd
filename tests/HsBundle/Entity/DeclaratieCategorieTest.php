@@ -2,8 +2,8 @@
 
 namespace Tests\HsBundle\Entity;
 
-use HsBundle\Entity\DeclaratieCategorie;
 use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\DeclaratieCategorie;
 
 class DeclaratieCategorieTest extends \PHPUnit_Framework_TestCase
 {

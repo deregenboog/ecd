@@ -2,21 +2,18 @@
 
 namespace PfoBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityRepository;
+use PfoBundle\Entity\Client;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\MedewerkerType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use AppBundle\Form\BaseType;
-use PfoBundle\Entity\Client;
-use AppBundle\Form\AppDateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ClientType extends AbstractType
 {
@@ -110,7 +107,7 @@ class ClientType extends AbstractType
                 'required' => false,
                 'multiple' => false,
                 'class' => Client::class,
-                'query_builder' => function(EntityRepository $repository) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('client')
                         ->innerJoin('client.gekoppeldeClienten', 'gekoppeldeClient')
                         ->orderBy('client.achternaam, client.voornaam')
@@ -123,7 +120,7 @@ class ClientType extends AbstractType
                 'required' => false,
                 'multiple' => false,
                 'class' => Client::class,
-                'query_builder' => function(EntityRepository $repository) use ($client) {
+                'query_builder' => function (EntityRepository $repository) use ($client) {
                     $gekoppeldeClienten = $client ? $client->getGekoppeldeClienten() : [];
 
                     return $repository->createQueryBuilder('client')
@@ -141,7 +138,7 @@ class ClientType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'class' => Client::class,
-                'query_builder' => function(EntityRepository $repository) use ($client) {
+                'query_builder' => function (EntityRepository $repository) use ($client) {
                     $gekoppeldeClienten = $client ? $client->getGekoppeldeClienten() : [];
 
                     return $repository->createQueryBuilder('client')

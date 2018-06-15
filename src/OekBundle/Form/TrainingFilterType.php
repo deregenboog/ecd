@@ -2,14 +2,14 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
 use OekBundle\Entity\Groep;
 use OekBundle\Filter\TrainingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
 
 class TrainingFilterType extends AbstractType
 {

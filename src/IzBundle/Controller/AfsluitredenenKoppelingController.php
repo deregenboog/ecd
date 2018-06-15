@@ -3,11 +3,11 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\EindeKoppeling;
+use IzBundle\Form\EindeKoppelingType;
+use IzBundle\Service\EindeKoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\EindeKoppeling;
-use IzBundle\Service\EindeKoppelingDaoInterface;
-use IzBundle\Form\EindeKoppelingType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

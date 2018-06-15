@@ -2,9 +2,9 @@
 
 namespace OdpBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use OdpBundle\Entity\Afsluiting;
-use AppBundle\Filter\FilterInterface;
 
 interface AfsluitingDaoInterface
 {

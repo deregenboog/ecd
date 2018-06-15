@@ -2,15 +2,15 @@
 
 namespace OdpBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
-use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use Doctrine\ORM\EntityManager;
 use OdpBundle\Entity\Deelnemer;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Verhuurder;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {

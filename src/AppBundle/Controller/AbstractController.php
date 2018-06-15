@@ -2,16 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Exception\AppException;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Exception\AppException;
-use AppBundle\Entity\Medewerker;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AbstractController extends SymfonyController
 {

@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
-use DagbestedingBundle\Entity\Trajectbegeleider;
+use AppBundle\Filter\KlantFilter;
 use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Entity\Trajectbegeleider;
+use Doctrine\ORM\QueryBuilder;
 
 class TrajectFilter implements FilterInterface
 {

@@ -3,11 +3,10 @@
 namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
-use HsBundle\Entity\Arbeider;
 use AppBundle\Form\Model\AppDateRangeModel;
-use HsBundle\Entity\Klant;
+use Doctrine\ORM\QueryBuilder;
 use HsBundle\Entity\Activiteit;
+use HsBundle\Entity\Arbeider;
 
 class RegistratieFilter implements FilterInterface
 {

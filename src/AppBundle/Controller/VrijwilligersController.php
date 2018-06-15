@@ -2,13 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Form\VrijwilligerFilterType;
+use AppBundle\Form\VrijwilligerType;
+use AppBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Export\AbstractExport;
-use AppBundle\Service\VrijwilligerDaoInterface;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerType;
-use AppBundle\Form\VrijwilligerFilterType;
 
 /**
  * @Route("/vrijwilligers")

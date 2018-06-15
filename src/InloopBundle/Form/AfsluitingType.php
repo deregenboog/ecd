@@ -2,17 +2,17 @@
 
 namespace InloopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Afsluiting;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
+use InloopBundle\Entity\Afsluiting;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AfsluitingType extends AbstractType
 {

@@ -2,9 +2,9 @@
 
 namespace OekBundle\Report;
 
+use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use OekBundle\Repository\TrainingRepository;
-use AppBundle\Report\AbstractReport;
 
 class TrainingenPerGroepNaam extends AbstractReport
 {

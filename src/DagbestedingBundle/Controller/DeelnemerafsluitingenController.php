@@ -2,12 +2,12 @@
 
 namespace DagbestedingBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use DagbestedingBundle\Entity\Deelnemerafsluiting;
-use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractController;
+use DagbestedingBundle\Entity\Deelnemerafsluiting;
 use DagbestedingBundle\Form\DeelnemerafsluitingType;
+use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/deelnemerafsluitingen")

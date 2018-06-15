@@ -2,17 +2,17 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
+use ClipBundle\Entity\Vraag;
+use ClipBundle\Form\VraagCloseType;
+use ClipBundle\Form\VraagType;
+use ClipBundle\Form\VragenModel;
+use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use ClipBundle\Entity\Vraag;
-use ClipBundle\Form\VraagType;
-use ClipBundle\Form\VraagCloseType;
-use AppBundle\Export\ExportInterface;
-use ClipBundle\Form\VragenType;
-use ClipBundle\Form\VragenModel;
-use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/vragen")
@@ -134,6 +134,7 @@ class VragenController extends AbstractVragenController
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
             }
+
             return $this->redirect($url);
         }
 

@@ -2,9 +2,9 @@
 
 namespace OekBundle\Report;
 
+use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use OekBundle\Repository\DeelnemerRepository;
-use AppBundle\Report\AbstractReport;
 
 abstract class AbstractDeelnemersVerwezen extends AbstractReport
 {

@@ -2,16 +2,16 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Form\FilterType;
+use HsBundle\Filter\KlantFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use HsBundle\Filter\KlantFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Werkgebied;
 
 class KlantFilterType extends AbstractType
 {

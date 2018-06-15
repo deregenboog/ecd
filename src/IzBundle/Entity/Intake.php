@@ -2,9 +2,9 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity

@@ -2,11 +2,11 @@
 
 namespace ClipBundle\Event;
 
+use AppBundle\Entity\Postcode;
+use ClipBundle\Entity\Client;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use ClipBundle\Entity\Client;
-use AppBundle\Entity\Postcode;
 
 class PostcodeSubscriber implements EventSubscriber
 {
