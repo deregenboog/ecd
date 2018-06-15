@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\DummyChoiceType;
 
 class VrijwilligerType extends AbstractType
 {
@@ -20,18 +21,15 @@ class VrijwilligerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data'] instanceof Vrijwilliger
-            && $options['data']->getVrijwilliger() instanceof AppVrijwilliger
-            && $options['data']->getVrijwilliger()->getId()
+        /** @var $vrijwilliger Vrijwilliger */
+        $vrijwilliger = $options['data'];
+
+        if ($vrijwilliger instanceof Vrijwilliger
+            && $vrijwilliger->getVrijwilliger() instanceof AppVrijwilliger
+            && $vrijwilliger->getVrijwilliger()->getId()
         ) {
-            $builder->add('vrijwilliger', null, [
-                'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('vrijwilliger')
-                        ->where('vrijwilliger = :vrijwilliger')
-                        ->setParameter('vrijwilliger', $options['data']->getVrijwilliger())
-                    ;
-                },
+            $builder->add('vrijwilliger', DummyChoiceType::class, [
+                'dummy_label' => (string) $vrijwilliger,
             ]);
         } else {
             $builder

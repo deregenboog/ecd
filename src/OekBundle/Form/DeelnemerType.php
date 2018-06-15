@@ -14,6 +14,7 @@ use AppBundle\Form\MedewerkerType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
 
 class DeelnemerType extends AbstractType
 {
@@ -22,21 +23,15 @@ class DeelnemerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var $deelnemer Deelnemer */
         $deelnemer = $options['data'];
 
         if ($deelnemer instanceof Deelnemer
             && $deelnemer->getKlant() instanceof Klant
             && $deelnemer->getKlant()->getId()
         ) {
-            // show disabled field with client if client is already set
-            $builder->add('klant', null, [
-                'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('klant')
-                        ->where('klant = :klant')
-                        ->setParameter('klant', $options['data']->getKlant())
-                    ;
-                },
+            $builder->add('klant', DummyChoiceType::class, [
+                'dummy_label' => (string) $deelnemer,
             ]);
         } else {
             $builder->add('klant', KlantType::class);
