@@ -97,6 +97,47 @@
                 {% else %}
                     <table class="table table-hover">
                         <thead>
+                            {{ form_start(filter) }}
+                                <tr>
+                                    <th>
+                                        {{ form_widget(filter.startdatum) }}
+                                        {{ form_errors(filter.startdatum) }}
+                                    </th>
+                                    <th>
+                                        {{ form_widget(filter.klant.voornaam) }}
+                                        {{ form_errors(filter.klant.voornaam) }}
+                                        {{ form_widget(filter.klant.achternaam) }}
+                                        {{ form_errors(filter.klant.achternaam) }}
+                                    </th>
+                                    <th>
+                                        {{ form_widget(filter.klant.geslacht) }}
+                                        {{ form_errors(filter.klant.geslacht) }}
+                                    </th>
+                                    <th>
+                                        {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                                        {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                                        {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                                        {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                                    </th>
+                                    <th>
+                                        {{ form_widget(filter.klant.stadsdeel) }}
+                                        {{ form_errors(filter.klant.stadsdeel) }}
+                                    </th>
+                                    <th>
+                                        {{ form_widget(filter.hulpvraagsoort) }}
+                                        {{ form_errors(filter.hulpvraagsoort) }}
+                                    </th>
+                                    <th>
+                                        {{ form_widget(filter.doelgroep) }}
+                                        {{ form_errors(filter.doelgroep) }}
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>
+                                        {{ form_widget(filter.filter) }}
+                                    </th>
+                                </tr>
+                            {{ form_end(filter) }}
                             <tr>
                                 <th>
                                     {{ knp_pagination_sortable(kandidaten, 'Startdatum hulpvraag', 'hulpvraag.startdatum') }}

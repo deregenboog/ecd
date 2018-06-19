@@ -80,7 +80,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         $this->doDelete($entity);
     }
 
-    public function findMatching(Hulpvraag $hulpvraag, $page = 1)
+    public function findMatching(Hulpvraag $hulpvraag, $page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
@@ -103,6 +103,10 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                 'today' => new \DateTime('today'),
             ])
         ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
 
         // doelgroepen
         if ($hulpvraag->getDoelgroep()) {

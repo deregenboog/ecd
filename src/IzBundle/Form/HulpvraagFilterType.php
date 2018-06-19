@@ -53,6 +53,20 @@ class HulpvraagFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('doelgroep', $options['enabled_filters'])) {
+            $builder->add('doelgroep', DoelgroepSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', EntityType::class, [
                 'required' => false,

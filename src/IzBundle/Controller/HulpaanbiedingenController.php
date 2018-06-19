@@ -9,6 +9,7 @@ use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Form\HulpaanbodCloseType;
 use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpaanbodType;
+use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -69,9 +70,30 @@ class HulpaanbiedingenController extends AbstractChildController
 
     protected function addParams($entity, Request $request)
     {
-        return [
-            'kandidaten' => $this->hulpvraagDao->findMatching($entity, $request->get('page', 1)),
-        ];
+        if ('iz_hulpaanbiedingen_view' === $request->get('_route')) {
+            $form = $this->createForm(HulpvraagFilterType::class, null, [
+                'enabled_filters' => [
+                    'startdatum',
+                    'klant' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
+                    'hulpvraagsoort',
+                    'doelgroep',
+                    'filter',
+                ],
+            ]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1), $form->getData());
+            } else {
+                $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1));
+            }
+
+            return [
+                'filter' => $form->createView(),
+                'kandidaten' => $kandidaten,
+            ];
+        }
+
+        return [];
     }
 
     protected function redirectToView($entity)
