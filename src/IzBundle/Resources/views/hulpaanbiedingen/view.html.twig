@@ -92,108 +92,104 @@
                 </p>
             {% elseif not entity.afgesloten and kandidaten is defined %}
                 <h2>Kandidaten</h2>
-                {% if 0 == kandidaten|length %}
-                    <p>Geen kandidaten gevonden.</p>
-                {% else %}
-                    <table class="table table-hover">
-                        <thead>
-                            {{ form_start(filter) }}
-                                <tr>
-                                    <th>
-                                        {{ form_widget(filter.startdatum) }}
-                                        {{ form_errors(filter.startdatum) }}
-                                    </th>
-                                    <th>
-                                        {{ form_widget(filter.klant.voornaam) }}
-                                        {{ form_errors(filter.klant.voornaam) }}
-                                        {{ form_widget(filter.klant.achternaam) }}
-                                        {{ form_errors(filter.klant.achternaam) }}
-                                    </th>
-                                    <th>
-                                        {{ form_widget(filter.klant.geslacht) }}
-                                        {{ form_errors(filter.klant.geslacht) }}
-                                    </th>
-                                    <th>
-                                        {{ form_widget(filter.klant.geboortedatumRange.start) }}
-                                        {{ form_errors(filter.klant.geboortedatumRange.start) }}
-                                        {{ form_widget(filter.klant.geboortedatumRange.end) }}
-                                        {{ form_errors(filter.klant.geboortedatumRange.end) }}
-                                    </th>
-                                    <th>
-                                        {{ form_widget(filter.klant.stadsdeel) }}
-                                        {{ form_errors(filter.klant.stadsdeel) }}
-                                    </th>
-                                    <th>
-                                        {{ form_widget(filter.hulpvraagsoort) }}
-                                        {{ form_errors(filter.hulpvraagsoort) }}
-                                    </th>
-                                    <th>
-                                        {{ form_widget(filter.doelgroep) }}
-                                        {{ form_errors(filter.doelgroep) }}
-                                    </th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>
-                                        {{ form_widget(filter.filter) }}
-                                    </th>
-                                </tr>
-                            {{ form_end(filter) }}
+                <table class="table table-hover">
+                    <thead>
+                        {{ form_start(filter) }}
                             <tr>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Startdatum hulpvraag', 'hulpvraag.startdatum') }}
+                                    {{ form_widget(filter.startdatum) }}
+                                    {{ form_errors(filter.startdatum) }}
                                 </th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Deelnemer', 'klant.achternaam') }}
+                                    {{ form_widget(filter.klant.voornaam) }}
+                                    {{ form_errors(filter.klant.voornaam) }}
+                                    {{ form_widget(filter.klant.achternaam) }}
+                                    {{ form_errors(filter.klant.achternaam) }}
                                 </th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Geslacht', 'geslacht.volledig') }}
+                                    {{ form_widget(filter.klant.geslacht) }}
+                                    {{ form_errors(filter.klant.geslacht) }}
                                 </th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Geboortedatum', 'klant.geboortedatum') }}
+                                    {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                                    {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                                    {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                                    {{ form_errors(filter.klant.geboortedatumRange.end) }}
                                 </th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Stadsdeel', 'stadsdeel.naam') }}
+                                    {{ form_widget(filter.klant.stadsdeel) }}
+                                    {{ form_errors(filter.klant.stadsdeel) }}
                                 </th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                                    {{ form_widget(filter.hulpvraagsoort) }}
+                                    {{ form_errors(filter.hulpvraagsoort) }}
                                 </th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Doelgroep', 'doelgroep.naam') }}
+                                    {{ form_widget(filter.doelgroep) }}
+                                    {{ form_errors(filter.doelgroep) }}
                                 </th>
+                                <th></th>
+                                <th></th>
                                 <th>
-                                    {{ knp_pagination_sortable(kandidaten, 'Geschikt voor expat', 'hulpvraag.geschiktVoorExpat') }}
-                                </th>
-                                <th>Matchingsinformatie</th>
-                                <th>
+                                    {{ form_widget(filter.filter) }}
                                 </th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for hulpvraag in kandidaten %}
-                                <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
-                                    <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
-                                    <td>{{ hulpvraag.izKlant }}</td>
-                                    <td>
-                                        {{ hulpvraag.izKlant.klant.geslacht }}
-                                    </td>
-                                    <td>
-                                        {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
-                                    </td>
-                                    <td>{{ hulpvraag.izKlant.klant.werkgebied }}</td>
-                                    <td>{{ hulpvraag.hulpvraagsoort }}</td>
-                                    <td>{{ hulpvraag.doelgroep }}</td>
-                                    <td>{{ hulpvraag.geschiktVoorExpat ? 'Ja' : 'Nee' }}</td>
-                                    <td>{{ hulpvraag.info }}</td>
-                                    <td>
-                                        {{ html.link('Reserveren', path('iz_reserveringen_add', {hulpvraag: hulpvraag.id, hulpaanbod: entity.id}), 'tag') }}
-                                        {{ html.link('Koppelen', path('iz_koppelingen_add', {hulpvraag: hulpvraag.id, hulpaanbod: entity.id}), 'paperclip') }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {{ knp_pagination_render(kandidaten) }}
-                {% endif %}
+                        {{ form_end(filter) }}
+                        <tr>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Startdatum hulpvraag', 'hulpvraag.startdatum') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Deelnemer', 'klant.achternaam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Geslacht', 'geslacht.volledig') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Geboortedatum', 'klant.geboortedatum') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Stadsdeel', 'stadsdeel.naam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Doelgroep', 'doelgroep.naam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Geschikt voor expat', 'hulpvraag.geschiktVoorExpat') }}
+                            </th>
+                            <th>Matchingsinformatie</th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hulpvraag in kandidaten %}
+                            <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
+                                <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
+                                <td>{{ hulpvraag.izKlant }}</td>
+                                <td>
+                                    {{ hulpvraag.izKlant.klant.geslacht }}
+                                </td>
+                                <td>
+                                    {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
+                                </td>
+                                <td>{{ hulpvraag.izKlant.klant.werkgebied }}</td>
+                                <td>{{ hulpvraag.hulpvraagsoort }}</td>
+                                <td>{{ hulpvraag.doelgroep }}</td>
+                                <td>{{ hulpvraag.geschiktVoorExpat ? 'Ja' : 'Nee' }}</td>
+                                <td>{{ hulpvraag.info }}</td>
+                                <td>
+                                    {{ html.link('Reserveren', path('iz_reserveringen_add', {hulpvraag: hulpvraag.id, hulpaanbod: entity.id}), 'tag') }}
+                                    {{ html.link('Koppelen', path('iz_koppelingen_add', {hulpvraag: hulpvraag.id, hulpaanbod: entity.id}), 'paperclip') }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(kandidaten) }}
             {% endif %}
         </div>
         <div id="verslagen" class="tab-pane">
