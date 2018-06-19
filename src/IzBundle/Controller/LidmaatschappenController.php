@@ -5,7 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Lidmaatschap;
 use IzBundle\Form\LidmaatschapType;
-use IzBundle\Service\IntervisiegroepDaoInterface;
+use IzBundle\Service\LidmaatschapDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -20,12 +20,12 @@ class LidmaatschappenController extends AbstractChildController
     protected $formClass = LidmaatschapType::class;
     protected $addMethod = 'addLidmaatschap';
     protected $baseRouteName = 'iz_lidmaatschappen_';
-    protected $disabledActions = ['index', 'view', 'edit', 'delete'];
+    protected $disabledActions = ['index', 'view', 'edit'];
 
     /**
-     * @var IntervisiegroepDaoInterface
+     * @var LidmaatschapDaoInterface
      *
-     * @DI\Inject("IzBundle\Service\IntervisiegroepDao")
+     * @DI\Inject("IzBundle\Service\LidmaatschapDao")
      */
     protected $dao;
 

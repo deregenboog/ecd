@@ -46,7 +46,10 @@ services:
 
     IzBundle\Service\KoppelingDao:
         parent: app.dao.abstract
-    
+
+    IzBundle\Service\LidmaatschapDao:
+        parent: app.dao.abstract
+
     IzBundle\Service\ProjectDao:
         parent: app.dao.abstract
 

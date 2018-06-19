@@ -12,9 +12,10 @@
         </tr>
     </thead>
     <tbody>
-        {% for intervisiegroep in entity.intervisiegroepen %}
-            <tr data-href="{{ path('iz_intervisiegroepen_view', {id: intervisiegroep.id}) }}">
-                <td>{{ intervisiegroep }}</td>
+        {% for lidmaatschap in entity.lidmaatschappen %}
+            <tr data-href="{{ path('iz_intervisiegroepen_view', {id: lidmaatschap.intervisiegroep.id}) }}">
+                <td>{{ lidmaatschap.intervisiegroep }}</td>
+                <td>{{ html.deleteLink(path('iz_lidmaatschappen_delete', {id: lidmaatschap.id})) }}</td>
             </tr>
         {% endfor %}
     </tbody>

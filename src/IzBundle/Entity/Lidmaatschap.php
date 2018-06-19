@@ -32,6 +32,11 @@ class Lidmaatschap
      */
     private $vrijwilliger;
 
+    public function __toString()
+    {
+        return sprintf('%s - %s', $this->intervisiegroep, $this->vrijwilliger);
+    }
+
     /**
      * @return Intervisiegroep
      */

@@ -107,8 +107,8 @@ class AbstractChildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-                $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
                 if ($parentEntity && $this->deleteMethod) {

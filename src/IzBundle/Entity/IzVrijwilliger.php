@@ -201,6 +201,11 @@ class IzVrijwilliger extends IzDeelnemer
         return $intervisiegroepen;
     }
 
+    public function getLidmaatschappen()
+    {
+        return $this->lidmaatschappen;
+    }
+
     public function addLidmaatschap(Lidmaatschap $lidmaatschap)
     {
         $this->lidmaatschappen[] = $lidmaatschap;
