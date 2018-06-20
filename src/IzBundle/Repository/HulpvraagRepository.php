@@ -46,7 +46,7 @@ class HulpvraagRepository extends EntityRepository
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('afsluitredenKoppeling.naam AS afsluitreden')
             ->innerJoin('hulpaanbod.afsluitredenKoppeling', 'afsluitredenKoppeling')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project', 'afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -70,7 +70,7 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -105,7 +105,7 @@ class HulpvraagRepository extends EntityRepository
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project', 'stadsdeel');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -117,7 +117,7 @@ class HulpvraagRepository extends EntityRepository
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('ggwgebied.naam AS postcodegebied')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
             ->groupBy('project', 'postcodegebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
