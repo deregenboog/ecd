@@ -3,6 +3,7 @@
 namespace IzBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
@@ -10,7 +11,6 @@ use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpaanbodFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,11 +23,8 @@ class HulpaanbodFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('startdatum', $options['enabled_filters'])) {
-            $builder->add('startdatum', DateType::class, [
+            $builder->add('startdatum', AppDateType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ]);
         }
 
