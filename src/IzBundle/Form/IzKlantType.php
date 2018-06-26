@@ -40,6 +40,7 @@ class IzKlantType extends AbstractType
 
         $builder
             ->add('datumAanmelding', AppDateType::class)
+            ->add('contactOntstaan', ContactOntstaanSelectType::class)
             ->add('organisatieAanmelder', null, [
                 'required' => false,
             ])
