@@ -43,12 +43,12 @@
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <h2>Verslag</h2>
-                    {{ form_row(form.opmerking) }}
+                    <h2>Opmerking</h2>
+                    {{ form_row(form.opmerking, {label: false}) }}
                 </div>
                 <div class="col-xs-6">
                     <h2>Medewerker</h2>
-                    {{ form_row(form.medewerker) }}
+                    {{ form_row(form.medewerker, {label: false}) }}
                 </div>
                 <div class="col-xs-6">
                     <h2>Overeenkomst</h2>
