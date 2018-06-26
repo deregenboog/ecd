@@ -34,7 +34,9 @@
                 {% endfor %}
             {% endfor %}
         </div>
+        {% block content_top %}{% endblock %}
         {% block content %}{% endblock %}
+        {% block content_bottom %}{% endblock %}
     </div>
     {% include '::footer.html.twig' %}
     {% block scripts %}{% endblock %}
