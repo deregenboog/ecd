@@ -38,6 +38,26 @@ class AbstractController extends SymfonyController
      */
     protected $dao;
 
+    /**
+     * @var ExportInterface
+     */
+    protected $export;
+
+    /**
+     * @var string
+     */
+    protected $baseRouteName;
+
+    /**
+     * @var array
+     */
+    protected $disabledActions = [];
+
+    /**
+     * @var bool
+     */
+    protected $forceRedirect = false;
+
     public function setDao(AbstractDao $dao)
     {
         $this->dao = $dao;
@@ -45,22 +65,12 @@ class AbstractController extends SymfonyController
         return $this;
     }
 
-    /**
-     * @var ExportInterface
-     */
-    protected $export;
-
     public function setExport(ExportInterface $export)
     {
         $this->export = $export;
 
         return $this;
     }
-
-    /**
-     * @var array
-     */
-    protected $disabledActions = [];
 
     /**
      * @Route("/")
@@ -191,11 +201,7 @@ class AbstractController extends SymfonyController
                 $this->addFlash('danger', $message);
             }
 
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToView($entity);
+            return $this->afterFormSubmitted($request, $entity);
         }
 
         return [
@@ -287,5 +293,15 @@ class AbstractController extends SymfonyController
     protected function addParams($entity, Request $request)
     {
         return [];
+    }
+
+    protected function afterFormSubmitted(Request $request, $entity)
+    {
+        $url = $request->get('redirect');
+        if ($url && !$this->forceRedirect) {
+            return $this->redirect($url);
+        }
+
+        return $this->redirectToView($entity);
     }
 }

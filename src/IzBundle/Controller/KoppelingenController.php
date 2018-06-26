@@ -85,4 +85,9 @@ class KoppelingenController extends AbstractController
 
         return $this->processForm($request, $entity);
     }
+
+    protected function afterFormSubmitted(Request $request, $entity)
+    {
+        return $this->redirectToView($entity);
+    }
 }
