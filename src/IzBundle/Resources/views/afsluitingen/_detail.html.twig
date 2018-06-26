@@ -20,8 +20,16 @@
         <dd>{{ entity.afsluiting }}</dd>
     </dl>
 {% else %}
-    <p>
-        {{ html.closeLink(close_url) }}
-        {{ html.link('Dossier afsluiten', close_url) }}
-    </p>
+    {% if not entity.closeable %}
+        <p class="text-danger">
+            Dit dossier kan niet gesloten worden omdat er nog
+            {% if klant is defined %}open hulpvragen en/of{% elseif vrijwilliger is defined %}open hulpaanbiedingen en/of{% endif %}
+            lopende koppelingen zijn.
+        </p>
+    {% else %}
+        <p>
+            {{ html.closeLink(close_url) }}
+            {{ html.link('Dossier afsluiten', close_url) }}
+        </p>
+    {% endif %}
 {% endif %}

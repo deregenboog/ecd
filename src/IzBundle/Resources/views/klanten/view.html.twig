@@ -2,6 +2,9 @@
 {% import '::html.macro.twig' as html %}
 
 {% block content_top %}
+    {% if entity.afgesloten %}
+        <p class="h3 text-danger pull-right">Dossier is afgesloten</p>
+    {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
 {% endblock %}
 
