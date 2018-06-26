@@ -32,9 +32,6 @@ class IzVrijwilligerType extends AbstractType
             $builder
                 ->add('vrijwilliger', VrijwilligerType::class, ['required' => true])
                 ->get('vrijwilliger')
-                ->remove('opmerking')
-                ->remove('geenPost')
-                ->remove('geenEmail')
             ;
         }
 

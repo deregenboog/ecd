@@ -62,7 +62,7 @@
             {{ form_start(creationForm) }}
                 <div class="col-xs-6">
                     <h2>Basisgegevens</h2>
-                    {{ form_widget(creationForm.vrijwilliger) }}
+                    {% include 'AppBundle:vrijwilligers:_form.html.twig' with {form: creationForm.vrijwilliger} %}
                 </div>
                 <div class="col-xs-6">
                     <h2>Informele Zorg</h2>
