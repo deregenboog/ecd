@@ -1,4 +1,4 @@
-{% extends '::base-2-col.html.twig' %}
+{% extends '::base.html.twig' %}
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
@@ -17,55 +17,77 @@
     </p>
 {% endblock %}
 
-{% block content_left %}
-    <h2>Persoonsgegevens</h2>
-    <dl class="dl-horizontal">
-        <dt>Naam</dt>
-        <dd>{{ entity }}</dd>
-        <dt>Geslacht</dt>
-        <dd>{{ entity.geslacht.volledig }}</dd>
-        <dt>Geboortedatum</dt>
-        <dd>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</dd>
-        <dt>Geboorteland</dt>
-        <dd>{{ entity.land }}</dd>
-        <dt>Nationaliteit</dt>
-        <dd>{{ entity.nationaliteit }}</dd>
-        <dt>BSN</dt>
-        <dd>{{ entity.bsn }}</dd>
-    </dl>
-    <h2>Contactgegevens</h2>
-    <dl class="dl-horizontal">
-        <dt>Adres</dt>
-        <dd>
-            {{ entity.adres }}<br>
-            {{ entity.postcode }} {{ entity.plaats }}
-        </dd>
-        <dt>Werkgebied</dt>
-        <dd>{{ entity.werkgebied }}</dd>
-        <dt>Postcodegebied</dt>
-        <dd>{{ entity.postcodegebied }}</dd>
-        <dt>Mobiel</dt>
-        <dd>{{ entity.mobiel }}</dd>
-        <dt>Telefoon</dt>
-        <dd>{{ entity.telefoon }}</dd>
-        <dt>E-mail</dt>
-        <dd>{{ entity.email }}</dd>
-        <dt>Post</dt>
-        <dd>{{ entity.geenPost ? 'Geen post' : 'Wel post' }}</dd>
-        <dt>E-mail</dt>
-        <dd>{{ entity.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
-    </dl>
-    <h2>Medewerker</h2>
-    <dl class="dl-horizontal">
-        <dt>Medewerker</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <h2>Opmerking</h2>
-    <dl class="dl-horizontal">
-        <dt>Opmerking</dt>
-        <dd>{{ entity.opmerking|nl2br }}</dd>
-    </dl>
-{% endblock %}
-
-{% block content_right %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>Persoonsgegevens</h2>
+                <dl class="dl-horizontal">
+                    <dt>Naam</dt>
+                    <dd>{{ entity }}</dd>
+                    <dt>Geslacht</dt>
+                    <dd>{{ entity.geslacht.volledig }}</dd>
+                    <dt>Geboortedatum</dt>
+                    <dd>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</dd>
+                    <dt>Geboorteland</dt>
+                    <dd>{{ entity.land }}</dd>
+                    <dt>Nationaliteit</dt>
+                    <dd>{{ entity.nationaliteit }}</dd>
+                    <dt>BSN</dt>
+                    <dd>{{ entity.bsn }}</dd>
+                </dl>
+            </div>
+            <div class="col-xs-6">
+                <h2>Contactgegevens</h2>
+                <dl class="dl-horizontal">
+                    <dt>Adres</dt>
+                    <dd>
+                        {{ entity.adres }}<br>
+                        {{ entity.postcode }} {{ entity.plaats }}
+                    </dd>
+                    <dt>Werkgebied</dt>
+                    <dd>{{ entity.werkgebied }}</dd>
+                    <dt>Postcodegebied</dt>
+                    <dd>{{ entity.postcodegebied }}</dd>
+                    <dt>Mobiel</dt>
+                    <dd>{{ entity.mobiel }}</dd>
+                    <dt>Telefoon</dt>
+                    <dd>{{ entity.telefoon }}</dd>
+                    <dt>E-mail</dt>
+                    <dd>{{ entity.email }}</dd>
+                    <dt>Post</dt>
+                    <dd>{{ entity.geenPost ? 'Geen post' : 'Wel post' }}</dd>
+                    <dt>E-mail</dt>
+                    <dd>{{ entity.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>Opmerking</h2>
+                <dl class="dl-horizontal">
+                    <dt>Opmerking</dt>
+                    <dd>{{ entity.opmerking|nl2br }}</dd>
+                </dl>
+            </div>
+            <div class="col-xs-6">
+                <h2>Medewerker</h2>
+                <dl class="dl-horizontal">
+                    <dt>Medewerker</dt>
+                    <dd>{{ entity.medewerker }}</dd>
+                </dl>
+            </div>
+            <div class="col-xs-6">
+                <h2>Overeenkomst</h2>
+                <dl class="dl-horizontal">
+                    <dt>VOG aangevraagd</dt>
+                    <dd>{{ entity.vogAangevraagd ? 'Ja' : 'Nee' }}</dd>
+                    <dt>VOG aanwezig</dt>
+                    <dd>{{ entity.vogAanwezig ? 'Ja' : 'Nee' }}</dd>
+                    <dt>Overeenkomst aanwezig</dt>
+                    <dd>{{ entity.overeenkomstAanwezig ? 'Ja' : 'Nee' }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
 {% endblock %}
