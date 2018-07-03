@@ -124,7 +124,7 @@ class IzKlantFilter implements FilterInterface
         if ($this->zonderActieveHulpvraag) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izKlant.id')
-                ->leftJoin('izKlant.izHulpvragen', 'actieveHulpvraag', 'WITH', $builder->expr()->andX(
+                ->leftJoin('izKlant.hulpvragen', 'actieveHulpvraag', 'WITH', $builder->expr()->andX(
                     'actieveHulpvraag.hulpaanbod IS NULL',
                     'actieveHulpvraag.einddatum IS NULL OR actieveHulpvraag.einddatum >= :now'
                 ))
@@ -142,7 +142,7 @@ class IzKlantFilter implements FilterInterface
         if ($this->zonderActieveKoppeling) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izKlant.id')
-                ->leftJoin('izKlant.izHulpvragen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
+                ->leftJoin('izKlant.hulpvragen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
                     'actieveKoppeling.hulpaanbod IS NOT NULL',
                     'actieveKoppeling.koppelingEinddatum IS NULL OR actieveKoppeling.koppelingEinddatum >= :now'
                 ))

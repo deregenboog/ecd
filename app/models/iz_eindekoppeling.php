@@ -24,7 +24,7 @@ class IzEindekoppeling extends AppModel
     public $cachekey = 'IzEindKoppelingList';
     public $active_key = 'IzEindKoppelingListactive';
 
-    public function beforeSave(&$model)
+    public function beforeSave($options = [])
     {
         Cache::delete($this->cachekey);
         Cache::delete($this->active_key);

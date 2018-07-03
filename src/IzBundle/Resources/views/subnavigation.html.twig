@@ -13,8 +13,8 @@
     {{ html.navLink('Koppelingen', path('iz_koppelingen_index'), isActiveRoute('iz_koppelingen_')) }}
     {{ html.navLink('Rapportages', path('iz_rapportages_index'), isActiveRoute('iz_rapportages_')) }}
     {{ html.navLink('Selecties', path('iz_selecties_index'), isActiveRoute('iz_selecties_')) }}
-    {{ html.navLink('Intervisiegroepen', path('cake_iz_intervisiegroepen_index'), isActiveRoute('iz_intervisiegroepen_')) }}
-    {% if constant('GROUP_IZ_BEHEER') in userGroups|keys %}
+    {{ html.navLink('Intervisiegroepen', path('iz_intervisiegroepen_index'), isActiveRoute('iz_intervisiegroepen_')) }}
+    {% if constant('GROUP_IZ_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
         <li role="presentation" class="dropdown {{ isActivePath('iz/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>
@@ -24,12 +24,12 @@
                 {{ html.navLink('Afsluitredenen hulpvragen/-aanbiedingen', path('iz_afsluitredenenvraagaanbod_index'), isActiveRoute('iz_afsluitredenenvraagaanbod_')) }}
                 {{ html.navLink('Afsluitredenen koppelingen', path('iz_afsluitredenenkoppeling_index'), isActiveRoute('iz_afsluitredenenkoppeling_')) }}
                 {{ html.navLink('Binnengekomen via-opties', path('iz_binnengekomenviaopties_index'), isActiveRoute('iz_binnengekomenviaopties_')) }}
-                {{ html.navLink('Contacten ontstaan-opties', path('iz_contactontstaanopties_index'), isActiveRoute('iz_contactontstaanopties_')) }}
+                {{ html.navLink('Contact ontstaan-opties', path('iz_contactontstaanopties_index'), isActiveRoute('iz_contactontstaanopties_')) }}
                 {{ html.navLink('Doelgroepen', path('iz_doelgroepen_index'), isActiveRoute('iz_doelgroepen_')) }}
                 {{ html.navLink('Doelstellingen', path('iz_doelstellingen_index'), isActiveRoute('iz_doelstellingen_')) }}
-                {{ html.navLink('Intervisiegroepen', path('iz_intervisiegroepen_index'), isActiveRoute('iz_intervisiegroepen_')) }}
                 {{ html.navLink('Hulpvraagsoorten', path('iz_hulpvraagsoorten_index'), isActiveRoute('iz_hulpvraagsoorten_')) }}
                 {{ html.navLink('Projecten', path('iz_projecten_index'), isActiveRoute('iz_projecten_')) }}
+                {{ html.navLink('Redenen einde hulpvraag/hulpaanbod', path('iz_eindevraagaanbod_index'), isActiveRoute('iz_eindevraagaanbod_')) }}
             </ul>
         </li>
     {% endif %}

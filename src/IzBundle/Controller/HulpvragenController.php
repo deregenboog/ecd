@@ -7,7 +7,6 @@ use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Form\HulpvraagCloseType;
-use IzBundle\Form\HulpvraagConnectType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\HulpvraagType;
 use IzBundle\Service\HulpaanbodDaoInterface;
@@ -15,6 +14,7 @@ use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use IzBundle\Form\HulpaanbodFilterType;
 
 /**
  * @Route("/hulpvragen")
@@ -59,17 +59,6 @@ class HulpvragenController extends AbstractChildController
     protected $export;
 
     /**
-     * @Route("/{id}/connect")
-     */
-    public function connectAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-        $this->formClass = HulpvraagConnectType::class;
-
-        return $this->processForm($request, $entity);
-    }
-
-    /**
      * @Route("/{id}/close")
      */
     public function closeAction(Request $request, $id)
@@ -82,9 +71,30 @@ class HulpvragenController extends AbstractChildController
 
     protected function addParams($entity, Request $request)
     {
-        return [
-            'kandidaten' => $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1)),
-        ];
+        if ('iz_hulpvragen_view' === $request->get('_route')) {
+            $form = $this->createForm(HulpaanbodFilterType::class, null, [
+                'enabled_filters' => [
+                    'startdatum',
+                    'vrijwilliger' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
+                    'hulpvraagsoort',
+                    'doelgroep',
+                    'filter',
+                ],
+            ]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1), $form->getData());
+            } else {
+                $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1));
+            }
+
+            return [
+                'filter' => $form->createView(),
+                'kandidaten' => $kandidaten,
+            ];
+        }
+
+        return [];
     }
 
     protected function redirectToView($entity)
@@ -95,6 +105,6 @@ class HulpvragenController extends AbstractChildController
             $id = $entity->getId();
         }
 
-        return $this->redirectToRoute('cake_iz_hulpvragen_view', ['iz_klant_id' => $id]);
+        return $this->redirectToRoute('iz_hulpvragen_view', ['id' => $id]);
     }
 }

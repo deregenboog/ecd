@@ -5,9 +5,9 @@ namespace IzBundle\Service;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Koppeling;
 
 class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 {
@@ -29,10 +29,13 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             'vrijwilliger.vogAanwezig',
             'vrijwilliger.overeenkomstAanwezig',
             'werkgebied.naam',
-            'medewerker.achternaam',
+            'medewerker.voornaam',
             'stadsdeel.naam',
             'geslacht.volledig',
+            'hulpvraagsoort.naam',
+            'doelgroep.naam',
         ],
+        'wrap-queries' => true, // because of ordering by to-many relation
     ];
 
     protected $class = Hulpaanbod::class;
@@ -77,35 +80,45 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         $this->doDelete($entity);
     }
 
-    public function findMatching(Hulpvraag $hulpvraag, $page = 1)
+    public function findMatching(Hulpvraag $hulpvraag, $page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
             ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
+            ->leftJoin('hulpaanbod.reserveringen', 'reservering')
+            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
+            ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->innerJoin('izVrijwilliger.intake', 'intake')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'stadsdeel')
             ->leftJoin('vrijwilliger.geslacht', 'geslacht')
-            ->andWhere('hulpaanbod.einddatum IS NULL') // hulpaanbod niet afgesloten
+            ->andWhere('hulpaanbod.startdatum <= :today') // hulpaanbod gestart
+            ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :today') // hulpaanbod niet afgesloten
+            ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpaanbod niet gereserveerd
             ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
             ->orderBy('hulpaanbod.startdatum', 'ASC')
+            ->setParameters([
+                'today' => new \DateTime('today'),
+            ])
         ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
 
         // doelgroepen
         if ($hulpvraag->getDoelgroep()) {
             $builder
-                ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
                 ->andWhere('doelgroep.id IS NULL OR doelgroep = (:doelgroep)')
                 ->setParameter('doelgroep', $hulpvraag->getDoelgroep())
             ;
         }
 
         // hulpvraagsoorten
-        if (count($hulpvraagsoorten) > 0) {
+        if ($hulpvraag->getHulpvraagsoort()) {
             $builder
-                ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
                 ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort = :hulpvraagsoort')
                 ->setParameter('hulpvraagsoort', $hulpvraag->getHulpvraagsoort())
             ;
@@ -128,34 +141,34 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         // dagdeel
         if ($hulpvraag->getDagdeel()) {
             switch ($hulpvraag->getDagdeel()) {
-                case Koppeling::DAGDEEL_OVERDAG:
-                    $dagdelen = [Koppeling::DAGDEEL_OVERDAG];
+                case Hulp::DAGDEEL_OVERDAG:
+                    $dagdelen = [Hulp::DAGDEEL_OVERDAG];
                     break;
-                case Koppeling::DAGDEEL_AVOND:
+                case Hulp::DAGDEEL_AVOND:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_AVOND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
-                case Koppeling::DAGDEEL_WEEKEND:
+                case Hulp::DAGDEEL_WEEKEND:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_WEEKEND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
-                case Koppeling::DAGDEEL_AVOND_WEEKEND:
+                case Hulp::DAGDEEL_AVOND_WEEKEND:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_AVOND,
+                        Hulp::DAGDEEL_WEEKEND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
                 default:
                     $dagdelen = [
-                        Koppeling::DAGDEEL_OVERDAG,
-                        Koppeling::DAGDEEL_AVOND,
-                        Koppeling::DAGDEEL_WEEKEND,
-                        Koppeling::DAGDEEL_AVOND_WEEKEND,
+                        Hulp::DAGDEEL_OVERDAG,
+                        Hulp::DAGDEEL_AVOND,
+                        Hulp::DAGDEEL_WEEKEND,
+                        Hulp::DAGDEEL_AVOND_WEEKEND,
                     ];
                     break;
             }

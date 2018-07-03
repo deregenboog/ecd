@@ -3,6 +3,7 @@
 namespace IzBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
@@ -14,7 +15,6 @@ use IzBundle\Filter\KoppelingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,24 +27,14 @@ class KoppelingFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('koppelingStartdatum', $options['enabled_filters'])) {
-            $builder->add('koppelingStartdatum', DateType::class, [
+            $builder->add('koppelingStartdatum', AppDateType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj',
-                ],
             ]);
         }
 
         if (in_array('koppelingEinddatum', $options['enabled_filters'])) {
-            $builder->add('koppelingEinddatum', DateType::class, [
+            $builder->add('koppelingEinddatum', AppDateType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj',
-                ],
             ]);
         }
 

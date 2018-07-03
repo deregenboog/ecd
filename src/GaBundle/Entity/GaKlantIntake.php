@@ -3,6 +3,8 @@
 namespace GaBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\ZrmInterface;
+use AppBundle\Model\ZrmTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -10,8 +12,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @Gedmo\Loggable
  */
-class GaKlantIntake extends GaIntake
+class GaKlantIntake extends GaIntake implements ZrmInterface
 {
+    use ZrmTrait;
+
     /**
      * @var Klant
      *

@@ -23,23 +23,6 @@ parameters:
                 agressie: "bhuttinga@deregenboog.org"
                 administratiebedrijf: "bhuttinga@deregenboog.org"
 
-        Config.language: dut
-
-        Calendar.dateDisplayFormat: d-M-y
-
-        volunteers:
-            vrijwilliger_oud_west: 14
-            vrijwilliger_eik: 9
-            vrijwilliger_de_kloof: 10
-            vrijwilliger_macom: 11
-            vrijwilliger_macom_nacht: 12
-            vwspreekbuis: 15
-
-        ldap:
-            groups:
-                werkbegeleiders: 10195
-                trajectbegeleiders: 10194
-
         ACL.groups:
             GROUP_USER: "CN=ECD Bureau Straatjurist,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_ADMIN: "CN=ECD Bureau Straatjurist Beheer,CN=Users,DC=cluster,DC=deregenboog"
@@ -70,9 +53,6 @@ parameters:
 
         # controller: {label, url}
         all_menu_items:
-            Hi5:
-                label: Hi5
-                url: Hi5
             Klanten:
                 label: Klanten
                 url: Klanten
@@ -91,122 +71,36 @@ parameters:
             Rapportages:
                 label: Rapportages
                 url: Rapportages
-            Awbz:
-                label: AWBZ
-                url: Awbz
-            pfo:
-                label: PFO
-                url: pfo
-            IzKlanten:
-                label: IZ
-                url: iz_klanten
+#            Awbz:
+#                label: AWBZ
+#                url: Awbz
+            clip:
+                label: Clip
+                url: clip
+            dagbesteding:
+                label: Dagbesteding
+                url: dagbesteding
             groepsactiviteiten_klanten:
                 label: Groepsactiviteiten
                 url: groepsactiviteiten_klanten
+#            Hi5:
+#                label: Hi5
+#                url: Hi5
+            hs:
+                label: Homeservice
+                url: hs
+            iz:
+                label: Informele Zorg
+                url: iz
             odp:
                 label: Onder de Pannen
                 url: odp
             oek:
                 label: Op Eigen Kracht
                 url: oek
-            dagbesteding:
-                label: Dagbesteding
-                url: dagbesteding
-            clip:
-                label: Clip
-                url: clip
-            hs:
-                label: Homeservice
-                url: hs
+            pfo:
+                label: PFO
+                url: pfo
             Admin:
                 label: Admin
                 url: Admin
-
-        TBC_months_period: 6
-
-        Landen.AMOC: [5002, 5009, 5010, 5015, 5017, 5039, 5040, 5049, 6002, 6003, 6007, 6018, 6029, 6037, 6039, 6066, 6067, 7003, 7024, 7028, 7044, 7047, 7050, 7064, 7065, 7066]
-
-        options_medewerker:
-            1: medewerker
-            2: stagiair
-            3: vrijwilliger
-
-        Communicatietypen:
-            iedereen: Iedereen
-            communicatie_email: E-Mail
-            communicatie_post: Post
-
-        IzFase:
-#            iedereen: Iedereen
-            aanmelding: Aanmelding
-            onvolledig: Onvolledige invoer
-            wachtlijst: Wachtlijst
-            gekoppeld: Gekoppeld
-#            beeindigd: Beeindigd
-            afgesloten: Afgesloten
-            koppeling_nvt: Koppeling n.v.t.
-
-        Persoontypen:
-            Klant: Klanten
-            Vrijwilliger: Vrijwilligers
-
-        Werkgebieden:
-            "": ""
-            "Amstelveen": "Amstelveen"
-            "Centrum": "Centrum"
-            "Diemen": "Diemen"
-            "Nieuw-West": "Nieuw-West"
-            "Noord": "Noord"
-            "Overig": "Overig"
-            "Oost": "Oost"
-            "West": "West"
-            "Westpoort": "Westpoort"
-            "Zuid": "Zuid"
-            "Zuidoost": "Zuidoost"
-
-        Postcodegebieden:
-            "": ""
-            "Bijlmer Centrum": "Bijlmer Centrum"
-            "Bijlmer Oost": "Bijlmer Oost"
-            "Bos en Lommer": "Bos en Lommer"
-            "Buitenveldert / Zuidas": "Buitenveldert / Zuidas"
-            "Centrum-Oost": "Centrum-Oost"
-            "Centrum-West": "Centrum-West"
-            "De Aker, Sloten en Nieuw Sloten": "De Aker, Sloten en Nieuw Sloten"
-            "De Pijp / Rivierenbuurt": "De Pijp / Rivierenbuurt"
-            "Gaasperdam / Driemond": "Gaasperdam / Driemond"
-            "Geuzenveld-Slotermeer-Sloterdijken": "Geuzenveld-Slotermeer-Sloterdijken"
-            "Ijburg / Eiland Zeeburg": "Ijburg / Eiland Zeeburg"
-            "Indische Buurt / Oostelijk Havengebied": "Indische Buurt / Oostelijk Havengebied"
-            "Oost": "Oost"
-            "Osdorp": "Osdorp"
-            "Oud West / De Baarsjes": "Oud West / De Baarsjes"
-            "Oud Zuid": "Oud Zuid"
-            "Oud-Noord": "Oud-Noord"
-            "Oud-Oost": "Oud-Oost"
-            "Slotervaart": "Slotervaart"
-            "Watergraafsmeer": "Watergraafsmeer"
-            "West": "West"
-            "Westerpark": "Westerpark"
-            "Overig": "Overig"
-
-        Afmeldstatus:
-            "": ""
-            "Aanwezig": "Aanwezig"
-            "Afwezig": "Afwezig"
-
-services:
-    cake.service.config:
-        class: CakeBundle\Service\CakeConfiguration
-
-    cake.service.cache_warmer:
-        class: CakeBundle\Service\CakeCacheWarmer
-        tags:
-            - { name: kernel.cache_warmer, priority: 100 }
-
-    cake.event.controller:
-        class: CakeBundle\Event\KernelSubscriber
-        arguments:
-            - '@service_container'
-        tags:
-            - { name: kernel.event_subscriber }

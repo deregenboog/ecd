@@ -21,6 +21,8 @@ class ZrmScorePerPostcodegebied extends AbstractReport
 
     protected $tables = [];
 
+    protected $class = ZrmV1::class;
+
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
@@ -28,26 +30,15 @@ class ZrmScorePerPostcodegebied extends AbstractReport
 
     protected function init()
     {
-        $leefgebieden = [
-            'Inkomen' => 'inkomen',
-            'Dagbesteding' => 'dagbesteding',
-            'Huisvesting' => 'huisvesting',
-            'Gezinsrelaties' => 'gezinsrelaties',
-            'Geestelijke gezondheid' => 'geestelijkeGezondheid',
-            'Fysieke gezondheid' => 'fysiekeGezondheid',
-            'Verslaving' => 'verslaving',
-            'ADL-vaardigheden' => 'adlVaardigheden',
-            'Sociaal netwerk' => 'sociaalNetwerk',
-            'Maatschappelijke participatie' => 'maatschappelijkeParticipatie',
-            'Justitie' => 'justitie',
-        ];
+        $class = $this->class;
+        $leefgebieden = $class::getFieldsAndLabels();
 
         foreach (range(1, 5) as $score) {
             $data = [];
-            foreach ($leefgebieden as $title => $leefgebied) {
+            foreach ($leefgebieden as $leefgebied => $title) {
                 $result = $this->em->createQueryBuilder()
                     ->select("postcodegebied.naam AS groep, COUNT(zrm.{$leefgebied}) AS aantal")
-                    ->from(ZrmV1::class, 'zrm')
+                    ->from($this->class, 'zrm')
                     ->innerJoin('zrm.klant', 'klant')
                     ->leftJoin('klant.postcodegebied', 'postcodegebied')
                     ->where("zrm.{$leefgebied} = {$score}")

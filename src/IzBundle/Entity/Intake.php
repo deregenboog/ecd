@@ -3,6 +3,8 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\ZrmInterface;
+use AppBundle\Model\ZrmTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -12,8 +14,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Intake
+class Intake implements ZrmInterface
 {
+    use ZrmTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -73,6 +77,18 @@ class Intake
      */
     private $medewerker;
 
+    /**
+     * @var string
+     * @ORM\Column(name="gesprek_verslag", type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $gespreksverslag;
+
+    public function __construct()
+    {
+        $this->intakeDatum = new \DateTime('today');
+    }
+
     public function getId()
     {
         return $this->id;
@@ -99,6 +115,16 @@ class Intake
         return $this->intakeDatum;
     }
 
+    /**
+     * @param \DateTime $intakeDatum
+     */
+    public function setIntakeDatum(\DateTime $intakeDatum)
+    {
+        $this->intakeDatum = $intakeDatum;
+
+        return $this;
+    }
+
     public function getIzDeelnemer()
     {
         return $this->izDeelnemer;
@@ -109,9 +135,23 @@ class Intake
         return $this->gezinMetKinderen;
     }
 
+    public function setGezinMetKinderen($gezinMetKinderen)
+    {
+        $this->gezinMetKinderen = (bool) $gezinMetKinderen;
+
+        return $this;
+    }
+
     public function isStagiair()
     {
         return $this->stagiair;
+    }
+
+    public function setStagiair($stagiair)
+    {
+        $this->stagiair = (bool) $stagiair;
+
+        return $this;
     }
 
     public function getMedewerker()
@@ -129,6 +169,18 @@ class Intake
     public function setIzDeelnemer(IzDeelnemer $izDeelnemer)
     {
         $this->izDeelnemer = $izDeelnemer;
+
+        return $this;
+    }
+
+    public function getGespreksverslag()
+    {
+        return $this->gespreksverslag;
+    }
+
+    public function setGespreksverslag($gespreksverslag = null)
+    {
+        $this->gespreksverslag = $gespreksverslag;
 
         return $this;
     }

@@ -15,10 +15,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.id',
             'klant.achternaam',
             'klant.geboortedatum',
-            'geslacht.afkorting',
+            'geslacht.volledig',
             'gebruikersruimte.naam',
-            'intakelocatie.naam',
+            'laatsteIntakeLocatie.naam',
+            'laatsteIntake.intakedatum',
+            'datumLaatsteVerslag',
+            'aantalVerslagen',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Klant::class;
@@ -28,8 +32,16 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->leftJoin($this->alias.'.werkgebied', 'werkgebied')
-        ;
+            ->select($this->alias.', intake, geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
+            ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
+            ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
+            ->innerJoin($this->alias.'.intakes', 'intake')
+            ->leftJoin($this->alias.'.verslagen', 'verslag')
+            ->leftJoin($this->alias.'.geslacht', 'geslacht')
+            ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
+            ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
+            ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
+            ->groupBy($this->alias.'.id');
 
         if ($filter) {
             $filter->applyTo($builder);

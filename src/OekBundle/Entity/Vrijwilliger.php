@@ -3,15 +3,15 @@
 namespace OekBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Model\DocumentSubjectInterface;
+use AppBundle\Model\DocumentSubjectTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\MemoSubjectInterface;
+use AppBundle\Model\MemoSubjectTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\MemoSubjectTrait;
-use AppBundle\Model\DocumentSubjectTrait;
-use AppBundle\Model\MemoSubjectInterface;
-use AppBundle\Model\DocumentSubjectInterface;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity

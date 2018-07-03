@@ -106,38 +106,44 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for hulpvraag in pagination %}
-                        <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}" style="{{ iz.koppeling_warning_style(hulpvraag) }}">
+                    {% for koppeling in pagination %}
+                        <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}" style="{{ iz.koppeling_warning_style(koppeling) }}">
                             <td>
-                                {{ hulpvraag.izKlant.klant.naam }}
+                                {{ html.link(
+                                    koppeling.izKlant,
+                                    path('iz_klanten_view', {id: koppeling.izKlant.id})
+                                ) }}
                             </td>
                             <td>
-                                {{ hulpvraag.hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                                {{ html.link(
+                                    koppeling.hulpaanbod.izVrijwilliger,
+                                    path('iz_vrijwilligers_view', {id: koppeling.hulpaanbod.izVrijwilliger.id})
+                                ) }}
                             </td>
                             <td>
-                                {{ hulpvraag.project }}
+                                {{ koppeling.project }}
                             </td>
                             <td>
-                                {{ hulpvraag.koppelingStartdatum|date('d-m-Y') }}
+                                {{ koppeling.koppelingStartdatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ hulpvraag.izKlant.klant.werkgebied }}
+                                {{ koppeling.izKlant.klant.werkgebied }}
                             </td>
                             <td>
-                                {{ iz.koppeling_laatste_verslag(hulpvraag) }}
+                                {{ iz.koppeling_laatste_verslag(koppeling) }}
                             </td>
                             <td>
                                 <ul>
-                                    {% for intervisiegroep in hulpvraag.hulpaanbod.izVrijwilliger.intervisiegroepen %}
+                                    {% for intervisiegroep in koppeling.hulpaanbod.izVrijwilliger.intervisiegroepen %}
                                         <li>{{ intervisiegroep }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                             <td>
-                                {{ hulpvraag.tussenevaluatiedatum ? hulpvraag.tussenevaluatiedatum|date('d-m-Y') }}
+                                {{ koppeling.tussenevaluatiedatum ? koppeling.tussenevaluatiedatum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ hulpvraag.eindevaluatiedatum ? hulpvraag.eindevaluatiedatum|date('d-m-Y') }}
+                                {{ koppeling.eindevaluatiedatum ? koppeling.eindevaluatiedatum|date('d-m-Y') }}
                             </td>
                         </tr>
                     {% endfor %}
@@ -159,24 +165,24 @@
     </script>
 {% endblock %}
 
-{% macro koppeling_warning_style(hulpvraag) %}
-    {% if hulpvraag.koppelingStartdatum|date('Y') >= 2018 %}
-        {% if hulpvraag.koppelingStartdatum|date_modify('+6 months') < today %}
+{% macro koppeling_warning_style(koppeling) %}
+    {% if koppeling.koppelingStartdatum|date('Y') >= 2018 %}
+        {% if koppeling.koppelingStartdatum|date_modify('+6 months') < today %}
             {{ 'background-color: red; color: white' }}
-        {% elseif hulpvraag.koppelingStartdatum|date_modify('+5 months +2 weeks') < today %}
+        {% elseif koppeling.koppelingStartdatum|date_modify('+5 months +2 weeks') < today %}
             {{ 'background-color: orange; color: white' }}
         {% endif %}
     {% endif %}
 {% endmacro %}
 
-{% macro koppeling_laatste_verslag(hulpvraag) %}
+{% macro koppeling_laatste_verslag(koppeling) %}
     {% set dateHulpvraag = false %}
     {% set dateHulpaanbod = false %}
-    {% if hulpvraag.verslagen|length > 0 %}
-        {% set dateHulpvraag = hulpvraag.verslagen.0.created %}
+    {% if koppeling.verslagen|length > 0 %}
+        {% set dateHulpvraag = koppeling.verslagen.0.created %}
     {% endif %}
-    {% if hulpvraag.hulpaanbod.verslagen|length > 0 %}
-        {% set dateHulpaanbod = hulpvraag.hulpaanbod.verslagen.0.created %}
+    {% if koppeling.hulpaanbod.verslagen|length > 0 %}
+        {% set dateHulpaanbod = koppeling.hulpaanbod.verslagen.0.created %}
     {% endif %}
     {% if dateHulpvraag and dateHulpaanbod %}
         {{ dateHulpvraag > dateHulpaanbod ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}

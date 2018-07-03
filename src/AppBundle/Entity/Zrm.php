@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="zrm_reports")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=5)
  * @ORM\DiscriminatorMap({"zrmv1" = "ZrmV1", "zrmv2" = "ZrmV2"})
@@ -18,6 +19,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 abstract class Zrm
 {
     use IdentifiableTrait, TimestampableTrait;
+
+    const ZRM_VERSIONS = [
+        ZrmV2::class => '2017-10-05',
+        ZrmV1::class => '2010-01-01',
+    ];
 
     /**
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="zrms")
@@ -44,6 +50,29 @@ abstract class Zrm
      */
     protected $requestModule;
 
+    /**
+     * @return Zrm
+     */
+    public static function create(\DateTime $datum = null, $requestModule = null)
+    {
+        if (!$datum) {
+            $datum = new \DateTime();
+        }
+
+        foreach (self::ZRM_VERSIONS as $model => $date) {
+            if ($datum >= new \DateTime($date)) {
+                $zrm = new $model();
+                break;
+            }
+        }
+
+        if ($requestModule) {
+            $zrm->setRequestModule($requestModule);
+        }
+
+        return $zrm;
+    }
+
     public function __construct(Klant $klant = null)
     {
         $this->klant = $klant;
@@ -69,6 +98,30 @@ abstract class Zrm
     public function setRequestModule($requestModule)
     {
         $this->requestModule = $requestModule;
+
+        return $this;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function getForeignKey()
+    {
+        return $this->foreignKey;
+    }
+
+    public function setForeignKey($foreignKey)
+    {
+        $this->foreignKey = $foreignKey;
 
         return $this;
     }

@@ -8,8 +8,8 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Koppeling;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,20 +36,27 @@ class HulpvraagType extends AbstractType
             ])
             ->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => true,
-                'multiple' => false,
             ])
-            ->add('doelgroep', DoelgroepSelectType::class, [
+            ->add('doelgroep', EntityType::class, [
                 'required' => true,
+                'expanded' => true,
                 'multiple' => false,
+                'class' => Doelgroep::class,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('doelgroep')
+                        ->where('doelgroep.actief = true')
+                        ->orderBy('doelgroep.naam')
+                    ;
+                },
             ])
             ->add('dagdeel', ChoiceType::class, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',
                 'choices' => [
-                    Koppeling::DAGDEEL_OVERDAG => Koppeling::DAGDEEL_OVERDAG,
-                    Koppeling::DAGDEEL_AVOND => Koppeling::DAGDEEL_AVOND,
-                    Koppeling::DAGDEEL_WEEKEND => Koppeling::DAGDEEL_WEEKEND,
-                    Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
+                    Hulp::DAGDEEL_OVERDAG => Hulp::DAGDEEL_OVERDAG,
+                    Hulp::DAGDEEL_AVOND => Hulp::DAGDEEL_AVOND,
+                    Hulp::DAGDEEL_WEEKEND => Hulp::DAGDEEL_WEEKEND,
+                    Hulp::DAGDEEL_AVOND_WEEKEND => Hulp::DAGDEEL_AVOND_WEEKEND,
                 ],
             ])
             ->add('geschiktVoorExpat', null, [

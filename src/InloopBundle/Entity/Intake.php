@@ -8,6 +8,8 @@ use AppBundle\Entity\Legitimatie;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Verblijfsstatus;
 use AppBundle\Entity\Woonsituatie;
+use AppBundle\Model\ZrmInterface;
+use AppBundle\Model\ZrmTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -17,8 +19,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="intakes")
  * @Gedmo\Loggable
  */
-class Intake
+class Intake implements ZrmInterface
 {
+    use ZrmTrait;
+
     /**
      * @var int
      *

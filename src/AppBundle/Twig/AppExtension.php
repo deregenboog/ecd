@@ -3,7 +3,10 @@
 namespace AppBundle\Twig;
 
 use AppBundle\Entity\Geslacht;
+use AppBundle\Entity\Persoon;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
@@ -22,6 +25,11 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * @var string
      */
     private $administratorEmail;
+
+    public static function getRedirectUri(Request $request)
+    {
+        return preg_replace('/^.*[?&]redirect=([^&]*).*/', '$1', $request->getRequestUri());
+    }
 
     public function __construct(
         RequestStack $requestStack,
@@ -43,6 +51,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'today' => new \DateTime('today'),
             'administrator_name' => $this->administratorName,
             'administrator_email' => $this->administratorEmail,
+            'redirect_uri' => self::getRedirectUri($this->requestStack->getCurrentRequest()),
         ];
     }
 
@@ -69,7 +78,61 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
             new \Twig_SimpleFilter('orderBy', [$this, 'orderBy']),
             new \Twig_SimpleFilter('aanhef', [$this, 'aanhef']),
+            new \Twig_SimpleFilter('naam_voor_achter', [$this, 'naamVoorAchter']),
+            new \Twig_SimpleFilter('naam_achter_voor', [$this, 'naamAchterVoor']),
         ];
+    }
+
+    public function naamVoorAchter(Persoon $persoon)
+    {
+        $parts = [];
+
+        try {
+            if ($persoon->getVoornaam()) {
+                $parts[] = $persoon->getVoornaam();
+            }
+            if ($persoon->getRoepnaam()) {
+                $parts[] = "({$persoon->getRoepnaam()})";
+            }
+            if ($persoon->getTussenvoegsel()) {
+                $parts[] = $persoon->getTussenvoegsel();
+            }
+            if ($persoon->getAchternaam()) {
+                $parts[] = $persoon->getAchternaam();
+            }
+        } catch (EntityNotFoundException $e) {
+            // ignore
+        }
+
+        return implode(' ', $parts);
+    }
+
+    public function naamAchterVoor(Persoon $persoon)
+    {
+        $parts = [];
+
+        try {
+            if ($persoon->getAchternaam()) {
+                if ($persoon->getVoornaam() || $persoon->getTussenvoegsel() || $persoon->getRoepnaam()) {
+                    $parts[] = $persoon->getAchternaam().',';
+                } else {
+                    $parts[] = $persoon->getAchternaam();
+                }
+            }
+            if ($persoon->getVoornaam()) {
+                $parts[] = $persoon->getVoornaam();
+            }
+            if ($persoon->getRoepnaam()) {
+                $parts[] = "({$persoon->getRoepnaam()})";
+            }
+            if ($persoon->getTussenvoegsel()) {
+                $parts[] = $persoon->getTussenvoegsel();
+            }
+        } catch (EntityNotFoundException $e) {
+            // ignore
+        }
+
+        return implode(' ', $parts);
     }
 
     public function aanhef(Geslacht $geslacht = null)

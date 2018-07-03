@@ -1,0 +1,130 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Maatschappelijk werk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Mw/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('app_klanten_add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path('app_klanten_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="8">
+                        <span class="pull-left">
+                            {{ form_widget(filter.alleenMetVerslag) }}
+                            {{ form_errors(filter.alleenMetVerslag) }}
+                        </span>
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.id) }}
+                        {{ form_errors(filter.klant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                        {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                        {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                        {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geslacht) }}
+                        {{ form_errors(filter.klant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.gebruikersruimte) }}
+                        {{ form_errors(filter.gebruikersruimte) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.laatsteIntakeLocatie) }}
+                        {{ form_errors(filter.laatsteIntakeLocatie) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.laatsteVerslagDatum.start) }}
+                        {{ form_errors(filter.laatsteVerslagDatum.start) }}
+                        {{ form_widget(filter.laatsteVerslagDatum.end) }}
+                        {{ form_errors(filter.laatsteVerslagDatum.end) }}
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Aantal verslagen', 'aantalVerslagen') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in pagination %}
+                {% set klant = item.0 %}
+                <tr data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                    <td>
+                        {{ klant.id }}
+                    </td>
+                    <td>
+                        {{ klant }}
+                    </td>
+                    <td>
+                        {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.geslacht }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
+                    </td>
+                    <td>
+                        {{ item.datumLaatsteVerslag }}
+                    </td>
+                    <td>
+                        {{ item.aantalVerslagen }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

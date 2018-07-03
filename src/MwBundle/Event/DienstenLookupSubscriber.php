@@ -57,7 +57,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             $dienst = [
                 'name' => 'Mw',
                 'url' => $url,
-                'from' => $verslag->getDatum()->format('d-m-Y'),
+                'from' => $verslag->getDatum() ? $verslag->getDatum()->format('d-m-Y') : null,
                 'to' => null,
                 'type' => 'date',
                 'value' => '',

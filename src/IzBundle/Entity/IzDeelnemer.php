@@ -4,6 +4,7 @@ namespace IzBundle\Entity;
 
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -39,8 +40,8 @@ abstract class IzDeelnemer
     protected $deletedAt;
 
     /**
-     * @var ArrayCollection|Koppeling[]
-     * @ORM\OneToMany(targetEntity="Koppeling", mappedBy="izDeelnemer")
+     * @var ArrayCollection|Hulp[]
+     * @ORM\OneToMany(targetEntity="Hulp", mappedBy="izDeelnemer")
      */
     private $koppelingen;
 
@@ -99,11 +100,21 @@ abstract class IzDeelnemer
      */
     protected $verslagen;
 
+    /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="iz_deelnemers_documenten", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"created": "DESC"})
+     */
+    protected $documenten;
+
     public function __construct()
     {
         $this->koppelingen = new ArrayCollection();
         $this->projecten = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
+        $this->documenen = new ArrayCollection();
     }
 
     public function getId()
@@ -210,13 +221,43 @@ abstract class IzDeelnemer
 
     public function getVerslagen()
     {
-        return $this->verslagen;
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('koppeling'))
+            ->orderBy(['created' => 'desc'])
+        ;
+
+        return $this->verslagen->matching($criteria);
     }
 
     public function addVerslag(Verslag $verslag)
     {
         $this->verslagen[] = $verslag;
         $verslag->setIzDeelnemer($this);
+
+        return $this;
+    }
+
+    public function getDocumenten()
+    {
+        return $this->documenten;
+    }
+
+    public function addDocument(Document $document)
+    {
+        $this->documenten[] = $document;
+
+        return $this;
+    }
+
+    public function isAfgesloten()
+    {
+        return $this->afsluitDatum || $this->afsluiting;
+    }
+
+    public function reopen()
+    {
+        $this->afsluitDatum = null;
+        $this->afsluiting = null;
 
         return $this;
     }

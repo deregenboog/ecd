@@ -6,8 +6,8 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\KlantType;
-use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,14 +25,8 @@ class IzKlantType extends AbstractType
             && $options['data']->getKlant() instanceof Klant
             && $options['data']->getKlant()->getId()
         ) {
-            $builder->add('klant', null, [
-                'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('klant')
-                        ->where('klant = :klant')
-                        ->setParameter('klant', $options['data']->getKlant())
-                    ;
-                },
+            $builder->add('klant', DummyChoiceType::class, [
+                'dummy_label' => (string) $options['data'],
             ]);
         } else {
             $builder
@@ -46,6 +40,7 @@ class IzKlantType extends AbstractType
 
         $builder
             ->add('datumAanmelding', AppDateType::class)
+            ->add('contactOntstaan', ContactOntstaanSelectType::class)
             ->add('organisatieAanmelder', null, [
                 'required' => false,
             ])

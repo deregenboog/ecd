@@ -4,7 +4,6 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,19 +33,13 @@ class RapportageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startdatum', DateType::class, [
+            ->add('startdatum', AppDateType::class, [
                 'required' => true,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'data' => new \DateTime('first day of January this year'),
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ])
-            ->add('einddatum', DateType::class, [
+            ->add('einddatum', AppDateType::class, [
                 'required' => true,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'data' => (new \DateTime('today')),
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ])
             ->add('rapport', ChoiceType::class, [
                 'required' => true,

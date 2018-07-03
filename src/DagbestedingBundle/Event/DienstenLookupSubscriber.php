@@ -48,9 +48,9 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ->findOneBy(['klant' => $klant]);
 
         if ($deelnemer instanceof Deelnemer) {
-            if ($deelnemer->getAfsluitdatum()) {
+            if ($deelnemer->getAanmelddatum() && $deelnemer->getAfsluitdatum()) {
                 $value = sprintf('Van %s tot %s', $deelnemer->getAanmelddatum()->format('d-m-Y'), $deelnemer->getAfsluitdatum()->format('d-m-Y'));
-            } else {
+            } elseif ($deelnemer->getAanmelddatum()) {
                 $value = sprintf('Sinds %s', $deelnemer->getAanmelddatum()->format('d-m-Y'));
             }
 

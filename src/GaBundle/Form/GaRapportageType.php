@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppDateType;
 
 class GaRapportageType extends AbstractType
 {
@@ -28,19 +29,13 @@ class GaRapportageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startdatum', DateType::class, [
+            ->add('startdatum', AppDateType::class, [
                 'required' => true,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'data' => new \DateTime('first day of January this year'),
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ])
-            ->add('einddatum', DateType::class, [
+            ->add('einddatum', AppDateType::class, [
                 'required' => true,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'data' => (new \DateTime('today')),
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
             ])
             ->add('rapport', ChoiceType::class, [
                 'required' => true,

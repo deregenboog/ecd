@@ -50,8 +50,12 @@ class TrajectType extends AbstractType
                     ])
                     ->add('startdatum', AppDateType::class)
                     ->add('begeleider')
-                    ->add('locaties')
-                    ->add('projecten')
+                    ->add('locaties', null, [
+                        'expanded' => true,
+                    ])
+                    ->add('projecten', null, [
+                        'expanded' => true,
+                    ])
                     ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
                 ;
                 break;

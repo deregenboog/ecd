@@ -24,7 +24,6 @@ services:
             -
               - { key: client, dao: '@clip.dao.client' }
 
-
 #    clip.event.diensten_lookup_subscriber:
 #        class: ClipBundle\Event\DienstenLookupSubscriber
 #        arguments:

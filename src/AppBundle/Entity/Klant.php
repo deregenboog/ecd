@@ -145,7 +145,10 @@ class Klant extends Persoon
 
     public function getRecenteRegistraties()
     {
-        $criteria = Criteria::create()->orderBy(['id' => 'DESC'])->setMaxResults(20);
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'DESC'])
+            ->setMaxResults(20)
+        ;
 
         return $this->registraties->matching($criteria);
     }

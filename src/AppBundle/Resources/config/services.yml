@@ -29,8 +29,7 @@ services:
         tags:
             - { name: form.type }
 
-    app.form.type.klant:
-        class: AppBundle\Form\KlantType
+    AppBundle\Form\KlantType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
@@ -51,6 +50,10 @@ services:
             - '@twig'
         tags:
             - { name: kernel.event_subscriber }
+
+    AppBundle\Event\ZrmSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
 
     app.form.rapportage:
         class: AppBundle\Form\RapportageType

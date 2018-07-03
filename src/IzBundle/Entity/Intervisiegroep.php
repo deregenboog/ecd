@@ -42,16 +42,15 @@ class Intervisiegroep
     private $medewerker;
 
     /**
-     * @var ArrayCollection|IzVrijwilliger[]
-     *
-     * @ORM\ManyToMany(targetEntity="IzVrijwilliger", mappedBy="intervisiegroepen")
+     * @var ArrayCollection|Lidmaatschap[]
+     * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="intervisiegroep", cascade={"persist"})
      */
-    private $vrijwilligers;
+    private $lidmaatschappen;
 
     public function __construct()
     {
         $this->startdatum = new \DateTime('today');
-        $this->vrijwilligers = new ArrayCollection();
+        $this->lidmaatschappen = new ArrayCollection();
     }
 
     /**
@@ -110,7 +109,33 @@ class Intervisiegroep
 
     public function getVrijwilligers()
     {
-        return $this->vrijwilligers;
+        $vrijwilligers = [];
+
+        foreach ($this->lidmaatschappen as $lidmaatschap) {
+            $vrijwilligers[] = $lidmaatschap->getVrijwilliger();
+        }
+
+        $vrijwilligers = array_filter($vrijwilligers);
+        usort($vrijwilligers, function (IzVrijwilliger $a, IzVrijwilliger $b) {
+            $naamA = $a->getVrijwilliger()->getNaam();
+            $naamB = $b->getVrijwilliger()->getNaam();
+
+            if ($naamA === $naamB) {
+                return 0;
+            }
+
+            return $naamA > $naamB ? 1 : -1;
+        });
+
+        return $vrijwilligers;
+    }
+
+    public function addLidmaatschap(Lidmaatschap $lidmaatschap)
+    {
+        $this->lidmaatschappen[] = $lidmaatschap;
+        $lidmaatschap->setIntervisiegroep($this);
+
+        return $this;
     }
 
     public function isDeletable()

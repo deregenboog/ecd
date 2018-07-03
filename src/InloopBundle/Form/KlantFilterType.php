@@ -5,6 +5,7 @@ namespace InloopBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\Locatie;
@@ -30,8 +31,7 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
-            $builder->add('gebruikersruimte', EntityType::class, [
-                'class' => Locatie::class,
+            $builder->add('gebruikersruimte', GebruikersruimteSelectType::class, [
                 'required' => false,
             ]);
         }
@@ -40,6 +40,11 @@ class KlantFilterType extends AbstractType
             $builder->add('laatsteIntakeLocatie', EntityType::class, [
                 'class' => Locatie::class,
                 'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('locatie')
+                        ->orderBy('locatie.naam')
+                    ;
+                },
             ]);
         }
 

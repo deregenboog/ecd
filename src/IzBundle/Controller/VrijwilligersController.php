@@ -4,7 +4,9 @@ namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Event\Events;
 use AppBundle\Export\AbstractExport;
+use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Form\IzDeelnemerCloseType;
@@ -13,6 +15,7 @@ use IzBundle\Form\IzVrijwilligerType;
 use IzBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -50,19 +53,6 @@ class VrijwilligersController extends AbstractController
     private $vrijwilligerDao;
 
     /**
-     * @Route("/{id}/view")
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        return $this->redirectToRoute('cake_iz_vrijwilligers_toon_aanmelding', [
-            'vrijwilliger_id' => $entity->getVrijwilliger()->getId(),
-            'id' => $entity->getId(),
-        ]);
-    }
-
-    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
@@ -82,7 +72,46 @@ class VrijwilligersController extends AbstractController
         $entity = $this->dao->find($id);
         $this->formClass = IzDeelnemerCloseType::class;
 
-        return $this->processForm($request, $entity);
+        if (!$entity->isCloseable()) {
+            $this->addFlash('danger', 'Dit dossier kan niet worden afgesloten omdat er nog open hulpaanbiedingen en/of actieve koppelingen zijn.');
+
+            return $this->redirectToView($entity);
+        }
+
+        $event = new GenericEvent($entity->getVrijwilliger(), ['messages' => []]);
+        $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
+
+        return array_merge(
+            $this->processForm($request, $entity),
+            ['messages' => $event->getArgument('messages')]
+        );
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     private function doSearch(Request $request)

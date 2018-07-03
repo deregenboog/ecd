@@ -17,7 +17,10 @@ class CakeConfigurationCompilerPass implements CompilerPassInterface
         $config = $container->get('cake.service.config');
 
         /* @var $params array */
-        $params = $container->getParameter('cake');
+        $params = array_merge(
+            $container->getParameter('cake_common'),
+            $container->getParameter('cake')
+        );
 
         /*
          * CakePHP Debug Level:.

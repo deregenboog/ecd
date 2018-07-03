@@ -4,6 +4,8 @@ namespace IzBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
+use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,6 +19,21 @@ class KoppelingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $hulpvraag = $options['data'];
+        $hulpaanbod = $hulpvraag->getKoppeling()->getHulpaanbod();
+
+        if ($hulpvraag instanceof Hulpvraag) {
+            $builder->add('hulpvraag', DummyChoiceType::class, [
+                'dummy_label' => (string) $hulpvraag,
+            ]);
+        }
+
+        if ($hulpaanbod instanceof Hulpaanbod) {
+            $builder->add('hulpaanbod', DummyChoiceType::class, [
+                'dummy_label' => (string) $hulpaanbod,
+            ]);
+        }
+
         $builder
             ->add('koppelingStartdatum', AppDateType::class, [
                 'label' => 'Startdatum koppeling',

@@ -23,23 +23,6 @@ parameters:
                 agressie: "bhuttinga@deregenboog.org"
                 administratiebedrijf: "bhuttinga@deregenboog.org"
 
-        Config.language: dut
-
-        Calendar.dateDisplayFormat: d-M-y
-
-        volunteers:
-            vrijwilliger_oud_west: 14
-            vrijwilliger_eik: 9
-            vrijwilliger_de_kloof: 10
-            vrijwilliger_macom: 11
-            vrijwilliger_macom_nacht: 12
-            vwspreekbuis: 15
-
-        ldap:
-            groups:
-                werkbegeleiders: 10195
-                trajectbegeleiders: 10194
-
         ACL.groups:
             GROUP_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
             GROUP_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
@@ -82,6 +65,7 @@ parameters:
             GROUP_MLO:
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Registraties
                 - Schorsingen
                 - Opmerkingen
@@ -97,9 +81,12 @@ parameters:
                 - AwbzIntakes
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Registraties
                 - Opmerkingen
                 - MaatschappelijkWerk
+                - mw
+                - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - Verslagen
                 - Rapportages
@@ -113,6 +100,7 @@ parameters:
             GROUP_HI5:
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Attachments
             GROUP_BACK_ON_TRACK_COORDINATOR:
                 - BackOnTrack
@@ -128,6 +116,7 @@ parameters:
             GROUP_STAGE:
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Registraties
             GROUP_PFO:
                 - pfo
@@ -164,7 +153,10 @@ parameters:
                 - Hi5
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - MaatschappelijkWerk
+                - mw
+                - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - MwInventarisaties
                 - Opmerkingen
@@ -177,17 +169,23 @@ parameters:
                 - InloopBundle\Controller\Schorsingen
             GROUP_IZ:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
                 - AppBundle\Controller\Vrijwilligers
+                - IzKlanten
+                - AppBundle\Controller\Zrms
                 - iz
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Hulpaanbiedingen
                 - IzBundle\Controller\Hulpvragen
                 - IzBundle\Controller\Intakes
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\Vrijwilligers
@@ -236,6 +234,7 @@ parameters:
                 - IzBundle\Controller\BinnengekomenViaOpties
                 - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\EindeVraagAanbod
@@ -246,8 +245,10 @@ parameters:
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
@@ -267,6 +268,7 @@ parameters:
                 - OekBundle\Controller\Wachtlijst
             GROUP_GROEPSACTIVITEIT:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
                 - AppBundle\Controller\Vrijwilligers
                 - Attachments
@@ -280,6 +282,7 @@ parameters:
                 - GroepsactiviteitenRapportages
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
                 - AppBundle\Controller\Vrijwilligers
                 - Attachments
@@ -406,6 +409,7 @@ parameters:
                 - ClipBundle\Controller\Vragen
             GROUP_HOMESERVICE:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
                 - AppBundle\Controller\Vrijwilligers
                 - hs
@@ -423,6 +427,7 @@ parameters:
                 - HsBundle\Controller\Vrijwilligers
             GROUP_HOMESERVICE_BEHEER:
                 - Klanten
+                - AppBundle\Controller\Klanten
                 - Vrijwilligers
                 - AppBundle\Controller\Vrijwilligers
                 - hs
@@ -448,10 +453,13 @@ parameters:
                 - AwbzIntakes
                 - Intakes
                 - Klanten
+                - AppBundle\Controller\Klanten
+                - AppBundle\Controller\Zrms
                 - Hi5
                 - MaatschappelijkWerk
                 - MwInventarisaties
                 - mw
+                - MwBundle\Controller\Klanten
                 - MwBundle\Controller\Rapportages
                 - Verslagen
                 - Registraties
@@ -466,7 +474,23 @@ parameters:
                 - groepsactiviteiten_klanten
                 - Medewerkers
                 - LdapUsers
+                - Doorverwijzers
+                - Geslachten
+                - Instanties
+                - Inkomens
+                - Inventarisaties
+                - Landen
+                - Legitimaties
+                - Locaties
+                - Nationaliteiten
+                - Verblijfstatussen
+                - Verslavingen
+                - Verslavingsfrequenties
+                - Verslavingsgebruikswijzen
+                - Verslavingsperiodes
+                - Woonsituaties
                 - AppBundle\Controller\Rapportages
+                - AppBundle\Controller\Zrms
                 - odp
                 - OdpBundle\Controller\Coordinatoren
                 - OdpBundle\Controller\Documenten
@@ -582,6 +606,7 @@ parameters:
                 - IzBundle\Controller\BinnengekomenViaOpties
                 - IzBundle\Controller\ContactOntstaanOpties
                 - IzBundle\Controller\Dashboard
+                - IzBundle\Controller\Documenten
                 - IzBundle\Controller\Doelgroepen
                 - IzBundle\Controller\Doelstellingen
                 - IzBundle\Controller\EindeVraagAanbod
@@ -592,18 +617,30 @@ parameters:
                 - IzBundle\Controller\Intervisiegroepen
                 - IzBundle\Controller\Klanten
                 - IzBundle\Controller\Koppelingen
+                - IzBundle\Controller\Lidmaatschappen
                 - IzBundle\Controller\Projecten
                 - IzBundle\Controller\Rapportages
+                - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
+                - Groepsactiviteiten
+                - GroepsactiviteitenKlanten
+                - groepsactiviteiten_klanten
+                - GroepsactiviteitenVrijwilligers
+                - groepsactiviteiten_vrijwilligers
+                - GroepsactiviteitenIntakes
+                - GroepsactiviteitenVerslagen
+                - GroepsactiviteitenRapportages
+                - GroepsactiviteitenGroepen
+                - GroepsactiviteitenRedenen
 
         # controller: {label, url}
         all_menu_items:
             Klanten:
                 label: Klanten
-                url: Klanten
+                url: klanten
             Vrijwilligers:
                 label: Vrijwilligers
                 url: vrijwilligers
@@ -613,12 +650,9 @@ parameters:
             inloop:
                 label: Inloophuizen
                 url: inloop
-            MaatschappelijkWerk:
+            mw:
                 label: Maatschappelijk werk
-                url: MaatschappelijkWerk
-#            mw:
-#                label: Maatschappelijk werk
-#                url: mw
+                url: mw
             Rapportages:
                 label: Rapportages
                 url: Rapportages
@@ -655,87 +689,3 @@ parameters:
             Admin:
                 label: Admin
                 url: Admin
-
-        TBC_months_period: 6
-
-        Landen.AMOC: [5002, 5009, 5010, 5015, 5017, 5039, 5040, 5049, 6002, 6003, 6007, 6018, 6029, 6037, 6039, 6066, 6067, 7003, 7024, 7028, 7044, 7047, 7050, 7064, 7065, 7066]
-
-        options_medewerker:
-            1: medewerker
-            2: stagiair
-            3: vrijwilliger
-
-        Communicatietypen:
-            iedereen: Iedereen
-            communicatie_email: E-Mail
-            communicatie_post: Post
-
-        IzFase:
-#            iedereen: Iedereen
-            aanmelding: Aanmelding
-            onvolledig: Onvolledige invoer
-            wachtlijst: Wachtlijst
-            gekoppeld: Gekoppeld
-#            beeindigd: Beeindigd
-            afgesloten: Afgesloten
-            koppeling_nvt: Koppeling n.v.t.
-
-        Persoontypen:
-            Klant: Klanten
-            Vrijwilliger: Vrijwilligers
-
-        Werkgebieden:
-            "": ""
-            "Amstelveen": "Amstelveen"
-            "Centrum": "Centrum"
-            "Diemen": "Diemen"
-            "Nieuw-West": "Nieuw-West"
-            "Noord": "Noord"
-            "Overig": "Overig"
-            "Oost": "Oost"
-            "West": "West"
-            "Westpoort": "Westpoort"
-            "Zuid": "Zuid"
-            "Zuidoost": "Zuidoost"
-
-        Postcodegebieden:
-            "": ""
-            "Bijlmer Centrum": "Bijlmer Centrum"
-            "Bijlmer Oost": "Bijlmer Oost"
-            "Bos en Lommer": "Bos en Lommer"
-            "Buitenveldert / Zuidas": "Buitenveldert / Zuidas"
-            "Centrum-Oost": "Centrum-Oost"
-            "Centrum-West": "Centrum-West"
-            "De Aker, Sloten en Nieuw Sloten": "De Aker, Sloten en Nieuw Sloten"
-            "De Pijp / Rivierenbuurt": "De Pijp / Rivierenbuurt"
-            "Gaasperdam / Driemond": "Gaasperdam / Driemond"
-            "Geuzenveld-Slotermeer-Sloterdijken": "Geuzenveld-Slotermeer-Sloterdijken"
-            "Ijburg / Eiland Zeeburg": "Ijburg / Eiland Zeeburg"
-            "Indische Buurt / Oostelijk Havengebied": "Indische Buurt / Oostelijk Havengebied"
-            "Oost": "Oost"
-            "Osdorp": "Osdorp"
-            "Oud West / De Baarsjes": "Oud West / De Baarsjes"
-            "Oud Zuid": "Oud Zuid"
-            "Oud-Noord": "Oud-Noord"
-            "Oud-Oost": "Oud-Oost"
-            "Slotervaart": "Slotervaart"
-            "Watergraafsmeer": "Watergraafsmeer"
-            "West": "West"
-            "Westerpark": "Westerpark"
-            "Overig": "Overig"
-
-        Afmeldstatus:
-            "": ""
-            "Aanwezig": "Aanwezig"
-            "Afwezig": "Afwezig"
-
-services:
-    cake.service.config:
-        class: CakeBundle\Service\CakeConfiguration
-
-    cake.event.controller:
-        class: CakeBundle\Event\KernelSubscriber
-        arguments:
-            - '@service_container'
-        tags:
-            - { name: kernel.event_subscriber }

@@ -597,7 +597,7 @@ class Client
         }
     }
 
-    public function setHoofdclient(Client $client = null)
+    public function setHoofdclient(self $client = null)
     {
         $this->hoofdclienten = new ArrayCollection([]);
 
@@ -613,7 +613,7 @@ class Client
         return $this->gekoppeldeClienten;
     }
 
-    public function addGekoppeldeClient(Client $client)
+    public function addGekoppeldeClient(self $client)
     {
         $this->gekoppeldeClienten[] = $client;
 

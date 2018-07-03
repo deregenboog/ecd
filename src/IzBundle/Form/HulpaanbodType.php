@@ -7,8 +7,8 @@ use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Entity\Koppeling;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -35,17 +35,24 @@ class HulpaanbodType extends AbstractType
             ->add('hulpvraagsoorten', HulpvraagsoortSelectType::class, [
                 'multiple' => true,
             ])
-            ->add('doelgroepen', DoelgroepSelectType::class, [
-                'multiple' => true,
+            ->add('doelgroepen', null, [
+                'required' => true,
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('doelgroep')
+                        ->where('doelgroep.actief = true')
+                        ->orderBy('doelgroep.naam')
+                    ;
+                },
             ])
             ->add('dagdeel', ChoiceType::class, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',
                 'choices' => [
-                    Koppeling::DAGDEEL_OVERDAG => Koppeling::DAGDEEL_OVERDAG,
-                    Koppeling::DAGDEEL_AVOND => Koppeling::DAGDEEL_AVOND,
-                    Koppeling::DAGDEEL_WEEKEND => Koppeling::DAGDEEL_WEEKEND,
-                    Koppeling::DAGDEEL_AVOND_WEEKEND => Koppeling::DAGDEEL_AVOND_WEEKEND,
+                    Hulp::DAGDEEL_OVERDAG => Hulp::DAGDEEL_OVERDAG,
+                    Hulp::DAGDEEL_AVOND => Hulp::DAGDEEL_AVOND,
+                    Hulp::DAGDEEL_WEEKEND => Hulp::DAGDEEL_WEEKEND,
+                    Hulp::DAGDEEL_AVOND_WEEKEND => Hulp::DAGDEEL_AVOND_WEEKEND,
                 ],
             ])
             ->add('expat', null, [

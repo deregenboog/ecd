@@ -1,0 +1,40 @@
+{% import '::html.macro.twig' as html %}
+
+{% if diensten is defined %}
+    <h2>Diensten</h2>
+    <table class="table">
+        {% if diensten|length > 0 %}
+            {% for dienst in diensten %}
+                <tr>
+                    <td>
+                        {% if dienst.url %}
+                            {% set link = html.link(dienst.name, dienst.url) %}
+                        {% else %}
+                            {% set link = dienst.name %}
+                        {% endif %}
+                        {{ link }}
+                    </td>
+                    <td>
+                        {% if 'date' == dienst.type %}
+                            {% set value = '' %}
+                            {% if not dienst.to %}
+                                {% set value = 'sinds ' %}
+                            {% endif %}
+                            {% set value = value~dienst.from~' ' %}
+                            {% if dienst.to %}
+                                {% set value = value~'tot '~dienst.to %}
+                            {% endif %}
+                        {% else %}
+                            {% set value = dienst.value %}
+                        {% endif %}
+                        {{ value }}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>Geen diensten</td>
+            </tr>
+        {% endif %}
+    </table>
+{% endif %}

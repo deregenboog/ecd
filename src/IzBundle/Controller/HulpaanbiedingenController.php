@@ -6,8 +6,10 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Form\HulpaanbodCloseType;
 use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpaanbodType;
+use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -55,11 +57,43 @@ class HulpaanbiedingenController extends AbstractChildController
      */
     protected $export;
 
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+        $this->formClass = HulpaanbodCloseType::class;
+
+        return $this->processForm($request, $entity);
+    }
+
     protected function addParams($entity, Request $request)
     {
-        return [
-            'kandidaten' => $this->hulpvraagDao->findMatching($entity, $request->get('page', 1)),
-        ];
+        if ('iz_hulpaanbiedingen_view' === $request->get('_route')) {
+            $form = $this->createForm(HulpvraagFilterType::class, null, [
+                'enabled_filters' => [
+                    'startdatum',
+                    'klant' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
+                    'hulpvraagsoort',
+                    'doelgroep',
+                    'filter',
+                ],
+            ]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1), $form->getData());
+            } else {
+                $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1));
+            }
+
+            return [
+                'filter' => $form->createView(),
+                'kandidaten' => $kandidaten,
+            ];
+        }
+
+        return [];
     }
 
     protected function redirectToView($entity)
@@ -70,6 +104,6 @@ class HulpaanbiedingenController extends AbstractChildController
             $id = $entity->getId();
         }
 
-        return $this->redirectToRoute('cake_iz_hulpaanbiedingen_view', ['iz_vrijwilliger_id' => $id]);
+        return $this->redirectToRoute('iz_hulpaanbiedingen_view', ['id' => $id]);
     }
 }

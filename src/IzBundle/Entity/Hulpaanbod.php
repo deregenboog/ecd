@@ -12,11 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="iz_koppelingen")
  * @Gedmo\Loggable
  */
-class Hulpaanbod extends Koppeling
+class Hulpaanbod extends Hulp
 {
     /**
      * @var IzVrijwilliger
-     * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="izHulpaanbiedingen")
+     * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="hulpaanbiedingen")
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      * @Gedmo\Versioned
      */
@@ -50,10 +50,21 @@ class Hulpaanbod extends Koppeling
      */
     private $coachend = false;
 
+    /**
+     * @var Reservering
+     * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpaanbod")
+     */
+    protected $reserveringen;
+
     public function __construct()
     {
         parent::__construct();
         $this->hulpvraagsoorten = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s | %s | %s', (string) $this->izVrijwilliger, $this->project, $this->startdatum->format('d-m-Y'));
     }
 
     public function getIzVrijwilliger()
@@ -75,31 +86,25 @@ class Hulpaanbod extends Koppeling
 
     public function setHulpvraag(Hulpvraag $hulpvraag)
     {
-        if ($hulpvraag->getHulpaanbod() && $hulpvraag->getHulpaanbod() != $this) {
-            throw new AppException('Fout bij koppelen!');
-        }
-
-        $this->hulpvraag = $hulpvraag;
-        if (null === $hulpvraag->getHulpaanbod()) {
-            $hulpvraag->setHulpaanbod($this);
-        }
+        Koppeling::create($hulpvraag, $this);
 
         return $this;
     }
 
-    public function isGekoppeld()
+    public function getKoppeling()
     {
-        return $this->hulpvraag instanceof Hulpvraag;
+        if ($this->hulpvraag) {
+            return new Koppeling($this->hulpvraag, $this);
+        }
     }
 
-    public function getDoelgroepen()
+    public function setKoppeling(Koppeling $koppeling)
     {
-        return $this->doelgroepen;
-    }
+        if ($this->getKoppeling()) {
+            throw new AppException('Dit hulpaanbod is al gekoppeld.');
+        }
 
-    public function setDoelgroepen($doelgroepen)
-    {
-        $this->doelgroepen = $doelgroepen;
+        $this->hulpvraag = $koppeling->getHulpvraag();
 
         return $this;
     }
@@ -112,6 +117,18 @@ class Hulpaanbod extends Koppeling
     public function setHulpvraagsoorten($hulpvraagsoorten)
     {
         $this->hulpvraagsoorten = $hulpvraagsoorten;
+
+        return $this;
+    }
+
+    public function getDoelgroepen()
+    {
+        return $this->doelgroepen;
+    }
+
+    public function setDoelgroepen($doelgroepen)
+    {
+        $this->doelgroepen = $doelgroepen;
 
         return $this;
     }
@@ -136,6 +153,34 @@ class Hulpaanbod extends Koppeling
     public function setCoachend($coachend)
     {
         $this->coachend = (bool) $coachend;
+
+        return $this;
+    }
+
+    public function getVerslagen($includeRelated = true)
+    {
+        if (!$includeRelated || !$this->isGekoppeld()) {
+            return $this->verslagen;
+        }
+
+        $verslagen = array_merge(
+            $this->verslagen->toArray(),
+            $this->hulpvraag->getVerslagen(false)->toArray()
+        );
+        usort($verslagen, function (Verslag $a, Verslag $b) {
+            $datumA = $a->getCreated();
+            $datumB = $b->getCreated();
+
+            return $datumA < $datumB ? 1 : -1;
+        });
+
+        return $verslagen;
+    }
+
+    public function setKoppelingStartdatum(\DateTime $startdatum = null)
+    {
+        $this->koppelingStartdatum = $startdatum;
+        $this->getKoppeling()->setStartdatum($startdatum);
 
         return $this;
     }

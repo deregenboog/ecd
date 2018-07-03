@@ -23,7 +23,7 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
@@ -40,7 +40,7 @@
                         {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
                     </td>
                     <td>
-                        {{ hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                        {{ hulpaanbod.izVrijwilliger }}
                     </td>
                     <td>
                         {% if (hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum) %}

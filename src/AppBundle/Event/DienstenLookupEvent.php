@@ -22,7 +22,7 @@ class DienstenLookupEvent extends Event
      */
     private $diensten;
 
-    public function __construct($klantId, array $diensten)
+    public function __construct($klantId, array $diensten = [])
     {
         $this->klantId = $klantId;
         $this->diensten = $diensten;

@@ -2,7 +2,11 @@
 {% import '::html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>{{ entity_name|capitalize }} {{ entity.izKlant }} {{ entity.hulpaanbod.izVrijwilliger }}</h1>
+    <h1>
+        {{ entity_name|capitalize }}
+        {{ entity.izKlant }} -
+        {{ entity.koppeling.hulpaanbod.izVrijwilliger }}
+    </h1>
 {% endblock %}
 
 {% block content_left %}
@@ -10,7 +14,23 @@
     <p>
         {{ html.editLink(path('iz_koppelingen_edit', {id: entity.id})) }}
         {{ html.link('Bewerken', path('iz_koppelingen_edit', {id: entity.id})) }}
+        {% if not entity.afgesloten %}
+            {{ html.closeLink(path('iz_koppelingen_close', {id: entity.id})) }}
+            {{ html.link('Koppeling beëindigen', path('iz_koppelingen_close', {id: entity.id})) }}
+        {% endif %}
     </p>
+    <dl class="dl-horizontal">
+        <dt>Deelnemer</dt>
+        <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
+        <dt>Coördinator hulpvraag</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Vrijwilliger</dt>
+        <dd>{{ html.link(entity.koppeling.hulpaanbod.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.koppeling.hulpaanbod.izVrijwilliger.id})) }}</dd>
+        <dt>Coördinator hulpaanbod</dt>
+        <dd>{{ entity.koppeling.hulpaanbod.medewerker }}</dd>
+    </dl>
     <dl class="dl-horizontal">
         <dt>Startdatum koppeling</dt>
         <dd>{{ entity.koppelingStartdatum ? entity.koppelingStartdatum|date('d-m-Y') }}</dd>
@@ -18,46 +38,66 @@
         <dd>{{ entity.tussenevaluatiedatum ? entity.tussenevaluatiedatum|date('d-m-Y') }}</dd>
         <dt>Datum eindevaluatie</dt>
         <dd>{{ entity.eindevaluatiedatum ? entity.eindevaluatiedatum|date('d-m-Y') }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>Einddatum koppeling</dt>
         <dd>{{ entity.koppelingEinddatum ? entity.koppelingEinddatum|date('d-m-Y') }}</dd>
+        <dt>Reden beëindiging</dt>
+        <dd>{{ entity.afsluitredenKoppeling }}</dd>
+        <dt>Koppeling succesvol</dt>
+        <dd>{{ entity.koppelingSuccesvol ? 'Ja' }}</dd>
     </dl>
 {% endblock %}
 
 {% block content_right %}
-    <h2>Hulpvraag</h2>
-    {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
-    {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
-    <dl class="dl-horizontal">
-        <dt>Deelnemer</dt>
-        <dd>{{ entity.izKlant }}</dd>
-        <dt>Coördinator</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Startdatum</dt>
-        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-        <dt>Project</dt>
-        <dd>{{ entity.project }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Hulpvraagsoort</dt>
-        <dd>{{ entity.hulpvraagsoort }}</dd>
-        <dt>Doelgroep</dt>
-        <dd>{{ entity.doelgroep }}</dd>
-    </dl>
-    <h2>Hulpaanbod</h2>
-    {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-    {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.hulpaanbod.id})) }}
-    <dl class="dl-horizontal">
-        <dt>Vrijwilliger</dt>
-        <dd>{{ entity.hulpaanbod.izVrijwilliger }}</dd>
-        <dt>Coördinator</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Startdatum</dt>
-        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-        <dt>Project</dt>
-        <dd>{{ entity.project }}</dd>
-    </dl>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#hulpaanbod">Hulpaanbod</a></li>
+        <li><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="verslagen" class="tab-pane active">
+            {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
+        </div>
+        <div id="hulpvraag" class="tab-pane">
+            <h2>Hulpvraag</h2>
+            {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
+            {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
+            <dl class="dl-horizontal">
+                <dt>Deelnemer</dt>
+                <dd>{{ entity.izKlant }}</dd>
+                <dt>Coördinator</dt>
+                <dd>{{ entity.medewerker }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Startdatum</dt>
+                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+                <dt>Project</dt>
+                <dd>{{ entity.project }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Hulpvraagsoort</dt>
+                <dd>{{ entity.hulpvraagsoort }}</dd>
+                <dt>Doelgroep</dt>
+                <dd>{{ entity.doelgroep }}</dd>
+            </dl>
+        </div>
+        <div id="hulpaanbod" class="tab-pane">
+            <h2>Hulpaanbod</h2>
+            {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
+            {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
+            <dl class="dl-horizontal">
+                <dt>Vrijwilliger</dt>
+                <dd>{{ entity.koppeling.hulpaanbod.izVrijwilliger }}</dd>
+                <dt>Coördinator</dt>
+                <dd>{{ entity.medewerker }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Startdatum</dt>
+                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+                <dt>Project</dt>
+                <dd>{{ entity.project }}</dd>
+            </dl>
+        </div>
+    </div>
 {% endblock %}

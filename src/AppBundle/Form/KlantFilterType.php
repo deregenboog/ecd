@@ -73,7 +73,11 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
+            $builder->add('stadsdeel', StadsdeelSelectType::class);
+        }
+
+        if (in_array('postcodegebied', $options['enabled_filters'])) {
+            $builder->add('postcodegebied', PostcodegebiedSelectType::class);
         }
 
         if (in_array('plaats', $options['enabled_filters'])) {
@@ -90,10 +94,13 @@ class KlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
-            'enabledFilters' => [
-                'klant' => ['id', 'naam', 'stadsdeel'],
-                'aanmelddatum',
-                'afsluitdatum',
+            'enabled_filters' => [
+                'id',
+                'naam',
+                'geslacht',
+                'geboortedatum',
+                'stadsdeel',
+                'postcodegebied',
             ],
         ]);
     }

@@ -11,10 +11,10 @@
                     {{ knp_pagination_sortable(pagination, 'Startdatum', 'hulpvraag.startdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Nummer', 'klant.id') }}
+                    {{ knp_pagination_sortable(pagination, 'Deelnemernummer', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
@@ -23,7 +23,7 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
@@ -43,7 +43,7 @@
                         {{ hulpvraag.izKlant.klant.id }}
                     </td>
                     <td>
-                        {{ hulpvraag.izKlant.klant.naam }}
+                        {{ hulpvraag.izKlant }}
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.geboortedatum is empty ? "" : hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}

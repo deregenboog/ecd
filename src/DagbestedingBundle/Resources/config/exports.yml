@@ -19,9 +19,9 @@ services:
                 Mobiel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getMobiel()' }
                 Telefoon: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getTraject().getDeelnemer().getKlant().getWerkgebied()' }
-                Aanmelddatum: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
-                Afsluitdatum: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
-                Reden afsluiting: { expression: 'entity.getTraject().getDeelnemer().getAfsluiting()' }
+                Aanmelddatum deelnemer: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
+                Afsluitdatum deelnemer: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
+                Reden afsluiting deelnemer: { expression: 'entity.getTraject().getDeelnemer().getAfsluiting()' }
                 Startdatum traject: { expression: 'entity.getTraject().getStartdatum()', type: 'date' }
                 Einddatum traject: { expression: 'entity.getTraject().getEinddatum()', type: 'date' }
                 Afsluitdatum traject: { expression: 'entity.getTraject().getAfsluitdatum()', type: 'date' }
@@ -60,10 +60,10 @@ services:
             - DagbestedingBundle\Entity\Traject
             -
                 Nummer: { expression: 'entity.getId()' }
-                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
-                Rapportagedata: { expression: 'export.getRapportagedata(entity)' }
-                Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
-                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Startdatum traject: { expression: 'entity.getStartdatum()', type: 'date' }
+                Rapportagedata traject: { expression: 'export.getRapportagedata(entity)' }
+                Einddatum traject: { expression: 'entity.getEinddatum()', type: 'date' }
+                Afsluitdatum traject: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Ris-dossiernummer: { expression: 'entity.getDeelnemer().getRisDossiernummer()' }
                 BSN: { expression: 'entity.getDeelnemer().getKlant().getBsn()' }
                 Geslacht: { expression: 'entity.getDeelnemer().getKlant().getGeslacht()' }
@@ -80,7 +80,7 @@ services:
                 Werkgebied: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
                 Aanmelddatum deelnemer: { expression: 'entity.getDeelnemer().getAanmelddatum()', type: 'date' }
                 Afsluitdatum deelnemer: { expression: 'entity.getDeelnemer().getAfsluitDatum()', type: 'date' }
-                Reden afsluiting: { expression: 'entity.getDeelnemer().getAfsluiting()' }
+                Reden afsluiting deelnemer: { expression: 'entity.getDeelnemer().getAfsluiting()' }
 
     dagbesteding.export.report:
         class: AppBundle\Export\ReportExport

@@ -3,3 +3,14 @@
     <li><a href="{{ path('home') }}">ECD</a></li>
     <li class="active">{{ title }}</li>
 </ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Klanten', path('app_klanten_index'), isActiveRoute('app_klanten_')) }}
+    {{ html.navLink('Zelfredzaamheidmatrixen', path('app_zrms_index'), isActiveRoute('app_zrms_')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('iz/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+        </ul>
+    </li>
+</ul>

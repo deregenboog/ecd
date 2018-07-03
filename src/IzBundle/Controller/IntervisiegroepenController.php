@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/admin/intervisiegroepen")
+ * @Route("/intervisiegroepen")
  */
 class IntervisiegroepenController extends AbstractController
 {

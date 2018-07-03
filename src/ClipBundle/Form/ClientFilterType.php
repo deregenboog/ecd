@@ -4,7 +4,7 @@ namespace ClipBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\StadsdeelFilterType;
+use AppBundle\Form\StadsdeelSelectType;
 use ClipBundle\Filter\ClientFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ class ClientFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class, [
+            $builder->add('stadsdeel', StadsdeelSelectType::class, [
             ]);
         }
 

@@ -8,7 +8,7 @@
             {{ html.editLink(path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
         </p>
-    {% else %}
+    {% elseif 'IzBundle\\Entity\\IzVrijwilliger' == class(entity.izDeelnemer) %}
         <h1>Vrijwilliger {{ entity.izDeelnemer }}</h1>
         <p>
             {{ html.editLink(path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
@@ -21,7 +21,7 @@
     {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
         {% include '::klant_basis.html.twig' with {klant: entity.izDeelnemer.klant} %}
     {% else %}
-        {% include '::vrijwilliger_basis.html.twig' with {klant: entity.izDeelnemer.vrijwilliger} %}
+        {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izDeelnemer.vrijwilliger} %}
     {% endif %}
 {% endblock %}
 
@@ -43,13 +43,15 @@
                 <dd>{{ entity and entity.intakedatum ? entity.intakedatum|date('d-m-Y') }}</dd>
                 <dt>Coördinator</dt>
                 <dd>{{ entity ? entity.medewerker }}</dd>
-                <dt>Gezin met kinderen</dt>
-                <dd>{{ entity ? entity.gezinMetKinderen ? 'Ja' }}</dd>
+                {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
+                    <dt>Gezin met kinderen</dt>
+                    <dd>{{ entity ? entity.gezinMetKinderen ? 'Ja' }}</dd>
+                {% else %}
+                    <dt>Stagiair</dt>
+                    <dd>{{ entity ? entity.stagiair ? 'Ja' }}</dd>
+                {% endif %}
             </dl>
-            {#% if entity.zrm %}
-                <h2>Zelfredzaamheidmatrix</h2>
-                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
-            {% endif %#}
+            {{ render(controller('IzBundle:Intakes:_zrms', {id: entity.id})) }}
         </div>
     </div>
 {% endblock %}

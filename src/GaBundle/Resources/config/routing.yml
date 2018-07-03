@@ -3,3 +3,12 @@ groepsactiviteiten_klanten_index:
 
 groepsactiviteiten_vrijwilligers_index:
     path: groepsactiviteiten_vrijwilligers
+
+groepsactiviteiten_intakes_view:
+    path: /groepsactiviteiten/intakes/Klant/{klant_id}
+
+groepsactiviteiten_klanten_groepen_view:
+    path: /groepsactiviteiten/groepen/Klant/{klant_id}
+
+groepsactiviteiten_vrijwilligers_groepen_view:
+    path: /groepsactiviteiten/groepen/Vrijwilliger/{vrijwilliger_id}

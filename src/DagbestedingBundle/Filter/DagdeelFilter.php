@@ -3,13 +3,13 @@
 namespace DagbestedingBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\KlantFilterType;
+use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
 
 class DagdeelFilter implements FilterInterface
 {
     /**
-     * @var KlantFilterType
+     * @var KlantFilter
      */
     public $klant;
 

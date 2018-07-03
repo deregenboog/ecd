@@ -3,11 +3,14 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Entity\Zrm;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Intake;
 use IzBundle\Form\IntakeType;
+use IzBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/intakes")
@@ -42,4 +45,27 @@ class IntakesController extends AbstractChildController
      * @DI\Inject("iz.export.klanten")
      */
     protected $export;
+
+    /**
+     * @Template("IzBundle:intakes:_zrms.html.twig")
+     */
+    public function _zrmsAction($id)
+    {
+        $entity = $this->dao->find($id);
+
+        $zrms = $this->getEntityManager()->getRepository(Zrm::class)->createQueryBuilder('zrm')
+            ->where('zrm.model IN (:models) AND zrm.foreignKey = :fk')
+            ->setParameters([
+                'models' => ['IzIntake', Intake::class],
+                'fk' => $entity->getId(),
+            ])
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return [
+            'intake' => $entity,
+            'zrms' => $zrms,
+        ];
+    }
 }

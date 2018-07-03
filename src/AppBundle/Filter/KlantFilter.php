@@ -3,6 +3,8 @@
 namespace AppBundle\Filter;
 
 use AppBundle\Entity\Geslacht;
+use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 
@@ -49,9 +51,14 @@ class KlantFilter implements FilterInterface
     public $geboortedatumRange;
 
     /**
-     * @var string
+     * @var Werkgebied
      */
     public $stadsdeel;
+
+    /**
+     * @var GgwGebied
+     */
+    public $postcodegebied;
 
     /**
      * @var string
@@ -133,15 +140,18 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if (isset($this->stadsdeel)) {
-            if ('-' == $this->stadsdeel) {
-                $builder->andWhere("{$alias}.werkgebied IS NULL OR {$alias}.werkgebied = ''");
-            } else {
-                $builder
-                    ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
-                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
-                ;
-            }
+        if ($this->stadsdeel) {
+            $builder
+                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+            ;
+        }
+
+        if ($this->postcodegebied) {
+            $builder
+                ->andWhere("{$alias}.postcodegebied = :{$alias}_postcodegebied")
+                ->setParameter("{$alias}_postcodegebied", $this->postcodegebied)
+            ;
         }
 
         if ($this->plaats) {

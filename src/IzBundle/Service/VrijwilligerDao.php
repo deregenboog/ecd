@@ -16,7 +16,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'vrijwilliger.id',
             'vrijwilliger.achternaam',
             'vrijwilliger.geboortedatum',
-            'vrijwilliger.werkgebied',
+            'werkgebied.naam',
             'intakeMedewerker.voornaam',
             'hulpaanbodMedewerker.voornaam',
             'izVrijwilliger.afsluitDatum',
@@ -33,9 +33,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $builder = $this->repository->createQueryBuilder('izVrijwilliger')
             ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, intake, intakeMedewerker, hulpaanbodMedewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+            ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin('izVrijwilliger.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
-            ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
+            ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
             ->leftJoin('hulpaanbod.project', 'project')
             ->leftJoin('hulpaanbod.medewerker', 'hulpaanbodMedewerker', 'WITH', $expr->andX(
                 $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),

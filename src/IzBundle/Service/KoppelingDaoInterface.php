@@ -19,22 +19,22 @@ interface KoppelingDaoInterface
     /**
      * @param int $id
      *
-     * @return IzKlant
+     * @return Hulpvraag
      */
     public function find($id);
 
     /**
-     * @param IzKlant $koppeling
+     * @param Hulpvraag $koppeling
      */
     public function create(Hulpvraag $koppeling);
 
     /**
-     * @param IzKlant $koppeling
+     * @param Hulpvraag $koppeling
      */
     public function update(Hulpvraag $koppeling);
 
     /**
-     * @param IzKlant $koppeling
+     * @param Hulpvraag $koppeling
      */
     public function delete(Hulpvraag $koppeling);
 }

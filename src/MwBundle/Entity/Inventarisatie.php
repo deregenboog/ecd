@@ -153,7 +153,7 @@ class Inventarisatie
     /**
      * @param Inventarisatie $parent
      */
-    public function setParent(Inventarisatie $parent)
+    public function setParent(self $parent)
     {
         $this->parent = $parent;
 

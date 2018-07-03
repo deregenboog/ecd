@@ -3,7 +3,7 @@
 namespace ClipBundle\Form;
 
 use AppBundle\Form\BaseType;
-use ClipBundle\Entity\Leeftijdscategorie;
+use ClipBundle\Entity\Viacategorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,7 +29,7 @@ class ViacategorieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Leeftijdscategorie::class,
+            'data_class' => Viacategorie::class,
         ]);
     }
 

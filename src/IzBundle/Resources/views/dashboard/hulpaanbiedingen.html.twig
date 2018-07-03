@@ -108,7 +108,10 @@
                                 {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
                             </td>
                             <td>
-                                {{ hulpaanbod.izVrijwilliger }}
+                                {{ html.link(
+                                    hulpaanbod.izVrijwilliger,
+                                    path('iz_vrijwilligers_view', {id: hulpaanbod.izVrijwilliger.id})
+                                ) }}
                             </td>
                             <td>
                                 {{ hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum ? hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}

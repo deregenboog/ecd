@@ -5,7 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
-use IzBundle\Service\DoelgroepDaoInterface;
+use IzBundle\Service\VerslagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +23,9 @@ class VerslagenController extends AbstractChildController
     protected $addMethod = 'addVerslag';
 
     /**
-     * @var DoelgroepDaoInterface
+     * @var VerslagDaoInterface
      *
-     * @DI\Inject("IzBundle\Service\DoelgroepDao")
+     * @DI\Inject("IzBundle\Service\VerslagDao")
      */
     protected $dao;
 

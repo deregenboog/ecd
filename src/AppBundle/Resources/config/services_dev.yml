@@ -1,0 +1,4 @@
+services:
+    AppBundle\DataFixtures\AppProcessor:
+        tags:
+            - { name: hautelook_alice.alice.processor }
