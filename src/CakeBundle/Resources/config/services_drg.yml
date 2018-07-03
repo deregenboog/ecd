@@ -640,7 +640,7 @@ parameters:
         all_menu_items:
             Klanten:
                 label: Klanten
-                url: klanten
+                url: Klanten
             Vrijwilligers:
                 label: Vrijwilligers
                 url: vrijwilligers
