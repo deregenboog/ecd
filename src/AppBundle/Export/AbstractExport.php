@@ -43,7 +43,7 @@ abstract class AbstractExport implements ExportInterface
 
         return new Response($content, Response::HTTP_OK, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'Content-Disposition' => sprintf(': attachment; filename="%s";', $filename),
+            'Content-Disposition' => sprintf('attachment; filename="%s";', $filename),
             'Content-Transfer-Encoding' => 'UTF-8',
             'Cache-Control' => 'max-age=0',
         ]);
