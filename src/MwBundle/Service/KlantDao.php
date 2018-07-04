@@ -35,7 +35,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select($this->alias.', intake, geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
             ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
-            ->innerJoin($this->alias.'.intakes', 'intake')
+            ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.verslagen', 'verslag')
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
