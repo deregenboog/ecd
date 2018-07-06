@@ -3,8 +3,8 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use AppBundle\Exception\AppException;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\NoResultException;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
@@ -36,7 +36,7 @@ class SelectiesController extends SymfonyController
                 if ($form->get('download')->isClicked()) {
                     return $this->download($form->getData());
                 }
-            } catch (AppException $e) {
+            } catch (NoResultException $e) {
                 $form->addError(new FormError('De zoekopdracht leverde geen resultaten op.'));
             }
         }
@@ -102,7 +102,7 @@ class SelectiesController extends SymfonyController
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
         if (0 === count($izKlanten) + count($izVrijwilligers)) {
-            throw new AppException();
+            throw new NoResultException();
         }
 
         $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
@@ -125,7 +125,7 @@ class SelectiesController extends SymfonyController
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
         if (0 === count($izKlanten) + count($izVrijwilligers)) {
-            throw new AppException();
+            throw new NoResultException();
         }
 
         // convert IzKlant and IzVrijwilliger collections to IzDeelnemer collection
@@ -165,7 +165,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(IzDeelnemerSelectie $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            $izVrijwilligers = $this->get('IzBundle\Service\VrijwilligerDao')->findAll(null, $filter);
+            return $this->get('IzBundle\Service\VrijwilligerDao')->findAll(null, $filter);
         }
 
         return new ArrayCollection();
