@@ -41,7 +41,7 @@ class InventarisatiesVerslagen extends AppModel
     public function getInvPaths(&$data)
     {
         foreach ($data['InventarisatiesVerslagen'] as &$record) {
-            if ($record['Inventarisatie']['titel'] !== 'Niets te melden') {
+            if ('Niets te melden' !== $record['Inventarisatie']['titel']) {
                 if (isset($record['Doorverwijzer']) && isset($record['Doorverwijzer']['naam'])) {
                     $doorverwijzer = $record['Doorverwijzer']['naam'];
                 }

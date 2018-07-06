@@ -182,7 +182,7 @@ class IzDeelnemer extends AppModel
 
         $where = ' (  isnull(datumafsluiting) or datumafsluiting > NOW()) ';
 
-        if (!empty($params['IzDeelnemer']['export']) && $params['IzDeelnemer']['export'] == 'email') {
+        if (!empty($params['IzDeelnemer']['export']) && 'email' == $params['IzDeelnemer']['export']) {
             if (!empty($where)) {
                 $where .= ' and ';
             }
@@ -415,7 +415,7 @@ class IzDeelnemer extends AppModel
                     $fase = 'afgesloten';
                 }
 
-                if (($fase == 'onvolledig' || $fase == 'aanmelding') && empty($hc)) {
+                if (('onvolledig' == $fase || 'aanmelding' == $fase) && empty($hc)) {
                     $fase = 'koppeling_nvt';
                 }
 
@@ -426,11 +426,11 @@ class IzDeelnemer extends AppModel
                 }
 
                 $s = 'O';
-                if ($model == 'Vrijwilliger') {
+                if ('Vrijwilliger' == $model) {
                     $s = 'V';
                 }
 
-                if ($model == 'Klant') {
+                if ('Klant' == $model) {
                     $s = 'K';
                 }
 
@@ -894,7 +894,7 @@ class IzDeelnemer extends AppModel
             if (empty($key)) {
                 continue;
             }
-            if ($key == 'Totaal') {
+            if ('Totaal' == $key) {
                 continue;
             }
             $results[$value] = [

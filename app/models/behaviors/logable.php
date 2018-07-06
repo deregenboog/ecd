@@ -134,7 +134,7 @@ class LogableBehavior extends ModelBehavior
 
     public function enableLog(&$Model, $enable = null)
     {
-        if ($enable !== null) {
+        if (null !== $enable) {
             $this->settings[$Model->alias]['enabled'] = $enable;
         }
 
@@ -176,7 +176,7 @@ class LogableBehavior extends ModelBehavior
         ];
         $params = array_merge($defaults, $params);
         $options = ['order' => $params['order'], 'conditions' => $params['conditions'], 'fields' => $params['fields'], 'limit' => $params['limit']];
-        if ($params[$this->settings[$Model->alias]['classField']] === null) {
+        if (null === $params[$this->settings[$Model->alias]['classField']]) {
             $params[$this->settings[$Model->alias]['classField']] = $Model->alias;
         }
         if ($params[$this->settings[$Model->alias]['classField']]) {
@@ -220,95 +220,95 @@ class LogableBehavior extends ModelBehavior
         return $res;
     }
 
-     /** Gets the last logged modification for a particular object, children are
-      * ignored. Extra search conditions can be passed. */
-     public function findLastModification(&$Model, $id = null, $conditions = [])
-     {
-         if (!$id) {
-             $id = $Model->id;
-         }
-         if (!$id) {
-             return null;
-         }
+    /** Gets the last logged modification for a particular object, children are
+     * ignored. Extra search conditions can be passed. */
+    public function findLastModification(&$Model, $id = null, $conditions = [])
+    {
+        if (!$id) {
+            $id = $Model->id;
+        }
+        if (!$id) {
+            return null;
+        }
 
-         $log = $Model->findLog([
+        $log = $Model->findLog([
                      $this->settings[$Model->alias]['classField'] => $Model->alias,
                      $this->settings[$Model->alias]['foreignKey'] => $id,
                      'conditions' => $conditions,
                      'order' => 'Log.created DESC',
                      'limit' => 1,
                      ]);
-         if (isset($log[0])) {
-             return $log[0];
-         } else {
-             return null;
-         }
-     }
+        if (isset($log[0])) {
+            return $log[0];
+        } else {
+            return null;
+        }
+    }
 
-     /** Find all modifications since a given date. In the simple mode, only
-      * changes for the current model and given $id are retrieved, but you can
-      * alternatively retrieve all related models data if you provide a data
-      * structure as $useThisStructure. For example, if you pass the whole
-      * array of a request (with its children, including their IDs in the 'id'
-      * field)), changes for all those objects will be returned.
-      *
-      * @param $id ID of the main object
-      * @param $date Date since which all changes will be reported
-      * @param $useThisStructure Optional array, that includes this and related
-      * models (with their IDs) so that changes for all them are reported.
-      * $param $conditions Extra find conditions, applied to all searches
-      */
-     public function findModificationsSince(&$Model, $id = null, $date = '1970-01-01',
+    /** Find all modifications since a given date. In the simple mode, only
+     * changes for the current model and given $id are retrieved, but you can
+     * alternatively retrieve all related models data if you provide a data
+     * structure as $useThisStructure. For example, if you pass the whole
+     * array of a request (with its children, including their IDs in the 'id'
+     * field)), changes for all those objects will be returned.
+     *
+     * @param $id ID of the main object
+     * @param $date Date since which all changes will be reported
+     * @param $useThisStructure Optional array, that includes this and related
+     * models (with their IDs) so that changes for all them are reported.
+     * $param $conditions Extra find conditions, applied to all searches
+     */
+    public function findModificationsSince(&$Model, $id = null, $date = '1970-01-01',
              &$useThisStructure = null, $conditions = [],
              $order = 'Log.created ASC')
-     {
-         $alias = $Model->alias;
+    {
+        $alias = $Model->alias;
 
-         if (!$useThisStructure) {
-             if (!$id) {
-                 $id = $Model->id;
-             }
-             if (!$id) {
-                 return null;
-             }
-             $useThisStructure[$alias]['id'] = $id;
-         }
+        if (!$useThisStructure) {
+            if (!$id) {
+                $id = $Model->id;
+            }
+            if (!$id) {
+                return null;
+            }
+            $useThisStructure[$alias]['id'] = $id;
+        }
 
-         $modelID = $useThisStructure[$alias]['id'];
+        $modelID = $useThisStructure[$alias]['id'];
 
-         $date_cond = ['Log.created >' => $date];
-         $cond = array_merge($date_cond, $conditions);
-         $related = [];
+        $date_cond = ['Log.created >' => $date];
+        $cond = array_merge($date_cond, $conditions);
+        $related = [];
 
-         // Parse the structure, to keep related models => IDs.
-         // Construct an array with all model => id of objects related to a given one.
-         $model_log = [];
+        // Parse the structure, to keep related models => IDs.
+        // Construct an array with all model => id of objects related to a given one.
+        $model_log = [];
 
-         foreach ($useThisStructure as $r_model => $data) {
-             // Assume that all primaryKeys are always 'id'. Easier.
-             if (isset($data['id'])) {
-                 if ($r_model != 'Attachment') {
-                     $id = $data['id'];
-                     $related[$r_model] = $data['id'];
-                     if ($r_model == $Model->alias) {
-                         $s_model = $r_model;
-                     } else {
-                         // Secondary models are stored in the log file with
-                         // their real names, not their aliases.
-                         $s_model = $Model->{$r_model}->name;
-                     }
-                     $res = $Model->quickFindLog($s_model, $id, $cond, $order);
-                 } else {
-                     // Attachments are not logged as changes in the same
-                     // object, but as successive new objects. We have to find
-                     // them in another way, and reformat the result.
-                     $attachments = $Model->Attachment->find('all', $modelID,
+        foreach ($useThisStructure as $r_model => $data) {
+            // Assume that all primaryKeys are always 'id'. Easier.
+            if (isset($data['id'])) {
+                if ('Attachment' != $r_model) {
+                    $id = $data['id'];
+                    $related[$r_model] = $data['id'];
+                    if ($r_model == $Model->alias) {
+                        $s_model = $r_model;
+                    } else {
+                        // Secondary models are stored in the log file with
+                        // their real names, not their aliases.
+                        $s_model = $Model->{$r_model}->name;
+                    }
+                    $res = $Model->quickFindLog($s_model, $id, $cond, $order);
+                } else {
+                    // Attachments are not logged as changes in the same
+                    // object, but as successive new objects. We have to find
+                    // them in another way, and reformat the result.
+                    $attachments = $Model->Attachment->find('all', $modelID,
                              ['conditions' => ['created' > $date,
                                      'foreign_key' => $modelID, ]]);
-                     $res = [];
-                     foreach ($attachments as &$file) {
-                         $attach = &$file['Attachment'];
-                         $res[] = ['Log' => [
+                    $res = [];
+                    foreach ($attachments as &$file) {
+                        $attach = &$file['Attachment'];
+                        $res[] = ['Log' => [
                                      'created' => $attach['created'],
                                      'model' => 'Attachment',
                                      'foreign_key' => $attach['id'],
@@ -320,121 +320,121 @@ class LogableBehavior extends ModelBehavior
                                              $attach['size'].')',
                                              ],
                                      ];
-                     }
-                 }
+                    }
+                }
 
-                 if (!empty($res)) {
-                     $clean = [];
-                     foreach ($res as $l) {
-                         $clean[] = $l['Log'];
-                     }
-                     $model_log[$r_model]['id'] = $id;
-                     $model_log[$r_model]['Log'] = $clean;
-                 }
-             } else {
-                 if ($r_model == 'Attachment') {
-                     $ids = $Model->Attachment->findByForeignKey($Model->id);
-                 }
+                if (!empty($res)) {
+                    $clean = [];
+                    foreach ($res as $l) {
+                        $clean[] = $l['Log'];
+                    }
+                    $model_log[$r_model]['id'] = $id;
+                    $model_log[$r_model]['Log'] = $clean;
+                }
+            } else {
+                if ('Attachment' == $r_model) {
+                    $ids = $Model->Attachment->findByForeignKey($Model->id);
+                }
 
-                 // hasMany-like relationships
-                 foreach ($data as $key => $child) {
-                     if (is_array($child) && isset($child['id'])) {
-                         $id = $child['id'];
-                         $related[$r_model][$key] = $id;
-                         $res = $Model->
+                // hasMany-like relationships
+                foreach ($data as $key => $child) {
+                    if (is_array($child) && isset($child['id'])) {
+                        $id = $child['id'];
+                        $related[$r_model][$key] = $id;
+                        $res = $Model->
                              quickFindLog($r_model, $id, $cond, $order);
 
-                         if (!empty($res)) {
-                             $clean = [];
-                             foreach ($res as $l) {
-                                 $clean[] = $l['Log'];
-                             }
-                             $model_log[$r_model][$key]['id'] = $id;
-                             $model_log[$r_model][$key]['Log'] = $clean;
-                         }
-                     }
-                 }
-             }
-         }
+                        if (!empty($res)) {
+                            $clean = [];
+                            foreach ($res as $l) {
+                                $clean[] = $l['Log'];
+                            }
+                            $model_log[$r_model][$key]['id'] = $id;
+                            $model_log[$r_model][$key]['Log'] = $clean;
+                        }
+                    }
+                }
+            }
+        }
 
-         return $model_log;
-     }
+        return $model_log;
+    }
 
-     /** Take the output of findModificationsSince() parse it and format as an
-      * array, reporting per model the initial and final values for
-      * each modified field.
-      */
-     public function formatChangesPerField(&$Model, $report, $showAllChanges = false)
-     {
-         $changes = [];
+    /** Take the output of findModificationsSince() parse it and format as an
+     * array, reporting per model the initial and final values for
+     * each modified field.
+     */
+    public function formatChangesPerField(&$Model, $report, $showAllChanges = false)
+    {
+        $changes = [];
 
-         foreach ($report as $model => &$data) {
-             if (Set::numeric(array_keys($data))) {
-                 // all keys are numbers? Then is "many" relationships
-                 $data_array = &$data;
-                 $many = true;
-             } else {
-                 $data_array = [$data];
-                 $many = false;
-             }
-             foreach ($data_array as $key => &$object) {
-                 $id = $object['id'];
-                 $history = $object['Log'];
-                 if ($many) {
-                     $changes[$model][$key] = [];
-                     $set = &$changes[$model][$key];
-                 } else {
-                     $changes[$model] = [];
-                     $set = &$changes[$model];
-                 }
-                 foreach ($history as $changeset) {
-                     $date = $changeset['created'];
-                     $author = $changeset['user_id'];
-                     $action = $changeset['action'];
-                     $change = $changeset['change'];
-                     preg_match_all("/([^ ]*) \((.*)\) => \((.*)\)/U", $change,
+        foreach ($report as $model => &$data) {
+            if (Set::numeric(array_keys($data))) {
+                // all keys are numbers? Then is "many" relationships
+                $data_array = &$data;
+                $many = true;
+            } else {
+                $data_array = [$data];
+                $many = false;
+            }
+            foreach ($data_array as $key => &$object) {
+                $id = $object['id'];
+                $history = $object['Log'];
+                if ($many) {
+                    $changes[$model][$key] = [];
+                    $set = &$changes[$model][$key];
+                } else {
+                    $changes[$model] = [];
+                    $set = &$changes[$model];
+                }
+                foreach ($history as $changeset) {
+                    $date = $changeset['created'];
+                    $author = $changeset['user_id'];
+                    $action = $changeset['action'];
+                    $change = $changeset['change'];
+                    preg_match_all("/([^ ]*) \((.*)\) => \((.*)\)/U", $change,
                              $matches);
-                     foreach ($matches[0] as $index => $fullMatch) {
-                         $field = $matches[1][$index];
-                         $old = $matches[2][$index];
-                         $new = $matches[3][$index];
-                         // Store initial value (only once, in case there are
-                         // multiple editions).
-                         if (!isset($set[$field]['old'])) {
-                             $set[$field]['old'] = $old;
-                         }
-                         // Store last value as 'new'. We are assuming that the
-                         // report comes sorted by date.
-                         $set[$field]['new'] = $new;
-                         $set[$field]['date'] = $date;
-                         $set[$field]['author'] = $author;
-                         $set[$field]['action'] = $action;
+                    foreach ($matches[0] as $index => $fullMatch) {
+                        $field = $matches[1][$index];
+                        $old = $matches[2][$index];
+                        $new = $matches[3][$index];
+                        // Store initial value (only once, in case there are
+                        // multiple editions).
+                        if (!isset($set[$field]['old'])) {
+                            $set[$field]['old'] = $old;
+                        }
+                        // Store last value as 'new'. We are assuming that the
+                        // report comes sorted by date.
+                        $set[$field]['new'] = $new;
+                        $set[$field]['date'] = $date;
+                        $set[$field]['author'] = $author;
+                        $set[$field]['action'] = $action;
 
-                         if ($showAllChanges) {
-                             // Store not only initial and final values, but
-                             // also all possible intermediate modifications.
-                             $set[$field]['changes'][$date]['value'] = $new;
-                             $set[$field]['changes'][$date]['author'] = $author;
-                             $set[$field]['changes'][$date]['action'] = $action;
-                         }
-                     }
-                 }
-                 if (!$showAllChanges) {
-                     // When not showing all intermediate states, we have to
-                     // consider that there is not real change if the final
-                     // value is equal to the initial one: the user reverted
-                     // the edition.
-                     foreach ($set as $field => $fdata) {
-                         if ($fdata['new'] == $fdata['old']) {
-                             unset($set[$field]);
-                         }
-                     }
-                 }
-             }
-         }
+                        if ($showAllChanges) {
+                            // Store not only initial and final values, but
+                            // also all possible intermediate modifications.
+                            $set[$field]['changes'][$date]['value'] = $new;
+                            $set[$field]['changes'][$date]['author'] = $author;
+                            $set[$field]['changes'][$date]['action'] = $action;
+                        }
+                    }
+                }
+                if (!$showAllChanges) {
+                    // When not showing all intermediate states, we have to
+                    // consider that there is not real change if the final
+                    // value is equal to the initial one: the user reverted
+                    // the edition.
+                    foreach ($set as $field => $fdata) {
+                        if ($fdata['new'] == $fdata['old']) {
+                            unset($set[$field]);
+                        }
+                    }
+                }
+            }
+        }
 
-         return $changes;
-     }
+        return $changes;
+    }
 
     /**
      * Get list of actions for one user.
@@ -484,7 +484,7 @@ class LogableBehavior extends ModelBehavior
             'recursive' => -1,
             'fields' => $fields,
         ]);
-        if (!isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
+        if (!isset($params['events']) || (isset($params['events']) && false == $params['events'])) {
             return $data;
         }
         $result = [];
@@ -494,23 +494,23 @@ class LogableBehavior extends ModelBehavior
             $result[$key]['Log']['event'] = $username;
             // have all the detail models and change as list :
             if (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action']) && isset($one['change']) && isset($one[$this->settings[$Model->alias]['foreignKey']])) {
-                if ($one['action'] == 'edit') {
+                if ('edit' == $one['action']) {
                     $result[$key]['Log']['event'] .= ' edited '.$one['change'].' of '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
-                    //	' at '.$one['created'];
-                } elseif ($one['action'] == 'add') {
+                //	' at '.$one['created'];
+                } elseif ('add' == $one['action']) {
                     $result[$key]['Log']['event'] .= ' added a '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
-                } elseif ($one['action'] == 'delete') {
+                } elseif ('delete' == $one['action']) {
                     $result[$key]['Log']['event'] .= ' deleted the '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
                 }
             } elseif (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action']) && isset($one[$this->settings[$Model->alias]['foreignKey']])) { // have model,model_id and action
-                 if ($one['action'] == 'edit') {
-                     $result[$key]['Log']['event'] .= ' edited '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
-                    //	' at '.$one['created'];
-                 } elseif ($one['action'] == 'add') {
-                     $result[$key]['Log']['event'] .= ' added a '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
-                 } elseif ($one['action'] == 'delete') {
-                     $result[$key]['Log']['event'] .= ' deleted the '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
-                 }
+                if ('edit' == $one['action']) {
+                    $result[$key]['Log']['event'] .= ' edited '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
+                //	' at '.$one['created'];
+                } elseif ('add' == $one['action']) {
+                    $result[$key]['Log']['event'] .= ' added a '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
+                } elseif ('delete' == $one['action']) {
+                    $result[$key]['Log']['event'] .= ' deleted the '.low($one[$this->settings[$Model->alias]['classField']]).'(id '.$one[$this->settings[$Model->alias]['foreignKey']].')';
+                }
             } else { // only description field exist
                 $result[$key]['Log']['event'] = $one['description'];
             }
@@ -640,7 +640,7 @@ class LogableBehavior extends ModelBehavior
         }
         $keys = array_keys($Model->data[$Model->alias]);
         $diff = array_diff($keys, $this->settings[$Model->alias]['ignore']);
-        if (sizeof($diff) == 0 && empty($Model->logableAction)) {
+        if (0 == sizeof($diff) && empty($Model->logableAction)) {
             return false;
         }
         if ($Model->id) {
@@ -684,12 +684,12 @@ class LogableBehavior extends ModelBehavior
                 } else {
                     $old = '';
                 }
-                if ($key != 'modified'
+                if ('modified' != $key
                     && !in_array($key, $this->settings[$Model->alias]['ignore'])
                     && $value != $old && in_array($key, $db_fields)) {
-                    if ($this->settings[$Model->alias]['change'] == 'full') {
+                    if ('full' == $this->settings[$Model->alias]['change']) {
                         $changed_fields[] = $key.' ('.$old.') => ('.$value.')';
-                    } elseif ($this->settings[$Model->alias]['change'] == 'serialize') {
+                    } elseif ('serialize' == $this->settings[$Model->alias]['change']) {
                         $changed_fields[$key] = ['old' => $old, 'value' => $value];
                     } else {
                         $changed_fields[] = $key;
@@ -700,10 +700,10 @@ class LogableBehavior extends ModelBehavior
             // Store the number of changes in the model, like that we can reuse
             // this information in other places.
             $Model->logable_changes = $changes;
-            if ($changes == 0) {
+            if (0 == $changes) {
                 return true;
             }
-            if ($this->settings[$Model->alias]['change'] == 'serialize') {
+            if ('serialize' == $this->settings[$Model->alias]['change']) {
                 $logData['Log']['change'] = serialize($changed_fields);
             } else {
                 $logData['Log']['change'] = implode(', ', $changed_fields);
@@ -726,7 +726,7 @@ class LogableBehavior extends ModelBehavior
      */
     public function _saveLog(&$Model, $logData, $title = null)
     {
-        if ($title !== null) {
+        if (null !== $title) {
             $logData['Log']['title'] = $title;
         } elseif ($Model->displayField == $Model->primaryKey) {
             $logData['Log']['title'] = $Model->alias.' ('.$Model->id.')';

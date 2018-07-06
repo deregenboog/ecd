@@ -37,7 +37,7 @@ class FormatHelper extends AppHelper
     */
     public function printData(&$value)
     {
-        if (strlen($value) == 0) {
+        if (0 == strlen($value)) {
             return '-';
         } else {
             return $value;
@@ -53,7 +53,7 @@ class FormatHelper extends AppHelper
      */
     public function printJaNee($value)
     {
-        return $value == '1' ? 'Ja' : 'Nee';
+        return '1' == $value ? 'Ja' : 'Nee';
     }
 
     /*

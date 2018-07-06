@@ -1,20 +1,20 @@
 <?php
 
 use AppBundle\Entity\Medewerker;
-use Symfony\Component\DependencyInjection\Container;
+use AppBundle\Exception\AppException;
 use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\TwigBundle\TwigEngine;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use AppBundle\Exception\AppException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AppController extends Controller implements ContainerAwareInterface
 {
@@ -184,7 +184,7 @@ class AppController extends Controller implements ContainerAwareInterface
 
         // A full Model.field reference is used to explore the $data.
         $d = Set::classicExtract($this->data, $full_name);
-        if ($d !== null) {
+        if (null !== $d) {
             if (is_string($d)) {
                 return trim($d);
             } else {

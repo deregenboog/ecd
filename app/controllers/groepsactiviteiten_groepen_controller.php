@@ -1,9 +1,8 @@
 <?php
 
 use GaBundle\Entity\GaGroep;
-use GaBundle\Entity\GaKlantLidmaatschap;
 use GaBundle\Entity\GaKlantIntake;
-use IzBundle\Entity\IzDeelnemer;
+use GaBundle\Entity\GaKlantLidmaatschap;
 use IzBundle\Entity\IzKlant;
 
 class GroepsactiviteitenGroepenController extends AppController

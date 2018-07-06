@@ -65,10 +65,10 @@ class LocatieTijd extends AppModel
             $closingTime = $this->getClosingTime($locationId, $date);
             $date = strtotime('-1day', $date);
             --$cnt;
-            if ($cnt == 0) {
+            if (0 == $cnt) {
                 break;
             }
-        } while ($closingTime == null || $closingTime > $original);
+        } while (null == $closingTime || $closingTime > $original);
 
         return $closingTime;
     }
@@ -83,8 +83,8 @@ class LocatieTijd extends AppModel
         $nextDate = date('Y-m-d', $now + DAY);
 
         $dayOfWeek = date('w', $now);
-        $prevDayOfWeek = $dayOfWeek - 1 == -1 ? 0 : $dayOfWeek - 1;
-        $nextDayOfWeek = $dayOfWeek + 1 == 7 ? 0 : $dayOfWeek + 1;
+        $prevDayOfWeek = -1 == $dayOfWeek - 1 ? 0 : $dayOfWeek - 1;
+        $nextDayOfWeek = 7 == $dayOfWeek + 1 ? 0 : $dayOfWeek + 1;
 
         $isOpen = $this->find('count', [
             'recursive' => -1,

@@ -77,7 +77,7 @@ class Verslag extends AppModel
     public function beforeSave($options = [])
     {
         if (!empty($this->data[$this->alias]['aanpassing_verslag'])) {
-            if (empty($this->data[$this->alias]['contactsoort_id']) || $this->data[$this->alias]['contactsoort_id'] != 3) {
+            if (empty($this->data[$this->alias]['contactsoort_id']) || 3 != $this->data[$this->alias]['contactsoort_id']) {
                 unset($this->data[$this->alias]['aanpassing_verslag']);
             }
         }

@@ -1,15 +1,15 @@
 <?php
 
+use Doctrine\Common\Collections\ArrayCollection;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Entity\MatchingKlant;
+use IzBundle\Entity\MatchingVrijwilliger;
 use IzBundle\Form\IzDeelnemerSelectieType;
 use IzBundle\Form\IzEmailMessageType;
-use Doctrine\Common\Collections\ArrayCollection;
 use IzBundle\Form\MatchingKlantType;
-use IzBundle\Entity\MatchingKlant;
 use IzBundle\Form\MatchingVrijwilligerType;
-use IzBundle\Entity\MatchingVrijwilliger;
 
 class IzDeelnemersController extends AppController
 {
@@ -266,7 +266,7 @@ class IzDeelnemersController extends AppController
             $saved = false;
 
             if ($retval) {
-                if ($iz_deelnemer['IzDeelnemer']['model'] == 'Klant') {
+                if ('Klant' == $iz_deelnemer['IzDeelnemer']['model']) {
                     $this->data[$zrmReportModel]['model'] = 'IzIntake';
                     $this->data[$zrmReportModel]['foreign_key'] = $this->IzDeelnemer->IzIntake->id;
                     $this->data[$zrmReportModel]['klant_id'] = $foreign_key;
@@ -736,10 +736,10 @@ class IzDeelnemersController extends AppController
 
             $this->IzDeelnemer->IzKoppeling->create();
 
-            if ($this->data['IzDeelnemer']['form'] == 'koppel') {
+            if ('koppel' == $this->data['IzDeelnemer']['form']) {
                 $iz_koppeling['IzKoppeling'] = $this->IzDeelnemer->IzKoppeling->getById($this->data['IzKoppeling']['iz_koppeling_id']);
 
-                if ($this->data['IzKoppeling']['koppeling_startdatum']['day'] == 0 || $this->data['IzKoppeling']['koppeling_startdatum']['month'] == 0 || $this->data['IzKoppeling']['koppeling_startdatum']['year'] == 0) {
+                if (0 == $this->data['IzKoppeling']['koppeling_startdatum']['day'] || 0 == $this->data['IzKoppeling']['koppeling_startdatum']['month'] || 0 == $this->data['IzKoppeling']['koppeling_startdatum']['year']) {
                     $this->data['IzKoppeling']['koppeling_startdatum'] = date('Y-m-d');
                 }
 
@@ -759,7 +759,7 @@ class IzDeelnemersController extends AppController
                 $saved = false;
             }
 
-            if ($saved && $this->data['IzDeelnemer']['form'] == 'koppel') {
+            if ($saved && 'koppel' == $this->data['IzDeelnemer']['form']) {
                 $this->IzDeelnemer->IzKoppeling->create();
                 if (!$this->IzDeelnemer->IzKoppeling->save($data)) {
                     $saved = false;
@@ -819,11 +819,11 @@ class IzDeelnemersController extends AppController
                 $koppelingen[$key]['IzKoppeling']['section'] = 3;
             }
 
-            if ($koppelingen[$key]['IzKoppeling']['section'] == 0 || $koppelingen[$key]['IzKoppeling']['section'] == 2) {
+            if (0 == $koppelingen[$key]['IzKoppeling']['section'] || 2 == $koppelingen[$key]['IzKoppeling']['section']) {
                 $usedprojects[] = $koppelingen[$key]['IzKoppeling']['project_id'];
             }
 
-            if ($koppelingen[$key]['IzKoppeling']['section'] == 0) {
+            if (0 == $koppelingen[$key]['IzKoppeling']['section']) {
                 $requestedprojects[] = $koppelingen[$key]['IzKoppeling']['project_id'];
             }
         }
@@ -850,7 +850,7 @@ class IzDeelnemersController extends AppController
         $candidates = $this->IzDeelnemer->IzKoppeling->getCandidatesForProjects($persoon_model, $requestedprojects);
 
         foreach ($koppelingen as $key => $koppeling) {
-            if ($koppelingen[$key]['IzKoppeling']['section'] != 0) {
+            if (0 != $koppelingen[$key]['IzKoppeling']['section']) {
                 $koppelingen[$key]['iz_koppeling_id'] = [];
                 continue;
             }
@@ -1065,7 +1065,7 @@ class IzDeelnemersController extends AppController
 
         $diensten = [];
 
-        if ($this->data['IzDeelnemer']['model'] == 'Klant') {
+        if ('Klant' == $this->data['IzDeelnemer']['model']) {
             $diensten = $this->IzDeelnemer->Klant->diensten($this->data['IzDeelnemer']['foreign_key'], $this->getEventDispatcher());
         }
 
@@ -1223,7 +1223,7 @@ class IzDeelnemersController extends AppController
 
         if (!empty($this->data)) {
             foreach ($this->data['Document'] as $key => $v) {
-                if ($v['file']['error'] != 0) {
+                if (0 != $v['file']['error']) {
                     unset($this->data['Document'][$key]);
                     continue;
                 }
@@ -1242,7 +1242,7 @@ class IzDeelnemersController extends AppController
 
             $function = 'getPersonen';
 
-            if ($this->data['IzDeelnemer']['emailsource'] == 'intervisiegroepen') {
+            if ('intervisiegroepen' == $this->data['IzDeelnemer']['emailsource']) {
                 $function = 'getIntervisiePersonen';
             }
 
@@ -1448,7 +1448,7 @@ class IzDeelnemersController extends AppController
             if ($validated) {
                 $personen = $this->IzDeelnemer->getIntervisiePersonen($this->data);
 
-                if ($this->data['IzDeelnemer']['export'] == 'csv') {
+                if ('csv' == $this->data['IzDeelnemer']['export']) {
                     $date = date('Ymd_His');
                     $file = "selecties_{$date}.xls";
 
@@ -1460,7 +1460,7 @@ class IzDeelnemersController extends AppController
 
                     $this->set('personen', $personen);
                     $this->render('selecties_excel');
-                } elseif ($this->data['IzDeelnemer']['export'] == 'etiket') {
+                } elseif ('etiket' == $this->data['IzDeelnemer']['export']) {
                     $data = [];
 
                     foreach ($personen as $persoon) {

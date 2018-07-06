@@ -119,10 +119,10 @@ class IzKoppeling extends AppModel
             $izDeelnemer = $this->IzDeelnemer->findById($izDeelnemerId);
 
             if ($izDeelnemer) {
-                if ($izDeelnemer['IzDeelnemer']['model'] == 'Klant') {
+                if ('Klant' == $izDeelnemer['IzDeelnemer']['model']) {
                     $this->data['IzKoppeling']['discr'] = 'hulpvraag';
                 }
-                if ($izDeelnemer['IzDeelnemer']['model'] == 'Vrijwilliger') {
+                if ('Vrijwilliger' == $izDeelnemer['IzDeelnemer']['model']) {
                     $this->data['IzKoppeling']['discr'] = 'hulpaanbod';
                 }
             }
@@ -133,7 +133,7 @@ class IzKoppeling extends AppModel
 
     public function getCandidatesForProjects($persoon_model, $project_ids)
     {
-        if ($persoon_model == 'Klant') {
+        if ('Klant' == $persoon_model) {
             $model = 'Vrijwilliger';
         } else {
             $model = 'Klant';

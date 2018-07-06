@@ -1,7 +1,5 @@
 <?php
 
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Vrijwilliger;
 
 class GroepsactiviteitenController extends AppController
 {
@@ -445,15 +443,15 @@ class GroepsactiviteitenController extends AppController
 
         $groepsactiviteit = $this->data[$persoon_groepsactiviteiten_groepen];
 
-        if (is_array($groepsactiviteit['einddatum']) && $groepsactiviteit['einddatum']['day'] == 0) {
+        if (is_array($groepsactiviteit['einddatum']) && 0 == $groepsactiviteit['einddatum']['day']) {
             $groepsactiviteit['einddatum'] = null;
         }
 
-        if (is_array($groepsactiviteit['einddatum']) && $groepsactiviteit['einddatum']['month'] == 0) {
+        if (is_array($groepsactiviteit['einddatum']) && 0 == $groepsactiviteit['einddatum']['month']) {
             $groepsactiviteit['einddatum'] = null;
         }
 
-        if (is_array($groepsactiviteit['einddatum']) && $groepsactiviteit['einddatum']['year'] == 0) {
+        if (is_array($groepsactiviteit['einddatum']) && 0 == $groepsactiviteit['einddatum']['year']) {
             $groepsactiviteit['einddatum'] = null;
         }
 
@@ -705,7 +703,7 @@ class GroepsactiviteitenController extends AppController
 
         if (!empty($this->data)) {
             foreach ($this->data['Document'] as $key => $v) {
-                if ($v['file']['error'] != 0) {
+                if (0 != $v['file']['error']) {
                     unset($this->data['Document'][$key]);
                     continue;
                 }
@@ -784,7 +782,7 @@ class GroepsactiviteitenController extends AppController
             if ($validated) {
                 $personen = $this->Groepsactiviteit->get_personen($this->data);
 
-                if ($this->data['Groepsactiviteit']['export'] == 'csv') {
+                if ('csv' == $this->data['Groepsactiviteit']['export']) {
                     $this->autoRender = false;
                     $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 
@@ -1202,14 +1200,14 @@ class GroepsactiviteitenController extends AppController
             $tmp['deelnemers_unique_cnt'] = 0;
 
             foreach ($groep['Deelnemers'] as $d) {
-                $tmp['deelnemers_unique_cnt'] += 1;
+                ++$tmp['deelnemers_unique_cnt'];
             }
 
             $tmp['vrijwilliegers_cnt'] = count($groep['Vrijwilligers']);
             $tmp['vrijwilligers_unique_cnt'] = 0;
 
             foreach ($groep['Vrijwilligers'] as $d) {
-                $tmp['vrijwilligers_unique_cnt'] += 1;
+                ++$tmp['vrijwilligers_unique_cnt'];
             }
 
             $report['result'][] = $tmp;

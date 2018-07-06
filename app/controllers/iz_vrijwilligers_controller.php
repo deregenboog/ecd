@@ -3,9 +3,9 @@
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\VrijwilligerFilterType;
+use AppBundle\Form\VrijwilligerType;
 use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Service\VrijwilligerDaoInterface;
-use AppBundle\Form\VrijwilligerType;
 
 class IzVrijwilligersController extends AppController
 {

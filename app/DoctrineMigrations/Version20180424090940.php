@@ -16,7 +16,7 @@ class Version20180424090940 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE zrm_reports ADD discr VARCHAR(5) NOT NULL, ADD financien INT DEFAULT NULL, ADD werk_opleiding INT DEFAULT NULL, ADD tijdsbesteding INT DEFAULT NULL, ADD huiselijke_relaties INT DEFAULT NULL, ADD lichamelijke_gezondheid INT DEFAULT NULL, ADD middelengebruik INT DEFAULT NULL, ADD basale_adl INT DEFAULT NULL, ADD instrumentele_adl INT DEFAULT NULL');
         $this->addSql("UPDATE zrm_reports SET discr = 'zrmv1' WHERE discr = ''");

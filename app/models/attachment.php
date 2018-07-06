@@ -195,7 +195,7 @@ class Attachment extends AppModel
      */
     public function getPathForId($id = null, $version = null)
     {
-        if ($id == null) {
+        if (null == $id) {
             return 'wrong path!';
         }
         //retrieve the file record from the DB
@@ -234,7 +234,7 @@ class Attachment extends AppModel
         return $file_path;
     }
 
- //view()
+    //view()
 
     /**
      * Returns the controller that is associated to the group.

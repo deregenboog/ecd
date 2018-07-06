@@ -252,7 +252,7 @@ class VerblijfstatussenController extends AppController
         foreach ($intakes2update as &$intake) {
             $save = true;
             //clients born in the NL
-            if ($intake['Klant']['Geboorteland']['land'] == 'Nederland') {
+            if ('Nederland' == $intake['Klant']['Geboorteland']['land']) {
                 //if the status is already correct - do not save
                 if ($intake['Intake']['verblijfstatus_id'] == $niet_recht_nl_id) {
                     $save = false;

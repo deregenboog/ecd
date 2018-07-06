@@ -1,12 +1,11 @@
 <?php
 
+use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\QueryBuilder;
 use GaBundle\Entity\GaVrijwilligerIntake;
 use GaBundle\Form\GaVrijwilligerIntakeFilterType;
-use Symfony\Component\Form\FormInterface;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerFilterType;
 use GaBundle\Form\GaVrijwilligerSelectType;
+use Symfony\Component\Form\FormInterface;
 
 class GroepsactiviteitenVrijwilligersController extends AppController
 {

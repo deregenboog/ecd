@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzKlant;
+use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\HulpvraagType;
@@ -14,7 +15,6 @@ use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpaanbodFilterType;
 
 /**
  * @Route("/hulpvragen")

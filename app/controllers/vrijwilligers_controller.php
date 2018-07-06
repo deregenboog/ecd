@@ -1,7 +1,7 @@
 <?php
 
-use AppBundle\Util\PostcodeFormatter;
 use AppBundle\Entity\Postcode;
+use AppBundle\Util\PostcodeFormatter;
 
 class VrijwilligersController extends AppController
 {

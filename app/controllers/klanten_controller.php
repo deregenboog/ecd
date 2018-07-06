@@ -1,8 +1,8 @@
 <?php
 
 use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Entity\Intake;
 use InloopBundle\Pdf\PdfBrief;
 
 class KlantenController extends AppController
@@ -448,7 +448,7 @@ class KlantenController extends AppController
         }
 
 //         if (!$this->Klant->disable($id)) {
-            $this->flashError(__('Klant was not deleted', true));
+        $this->flashError(__('Klant was not deleted', true));
 //         } else {
 //             $this->flash(__('Klant deleted', true));
 //         }
@@ -486,7 +486,7 @@ class KlantenController extends AppController
 
         foreach ($this->params['pass'] as $id) {
 //             if (!$this->Klant->disable($id)) {
-                $failures .= $id.' ';
+            $failures .= $id.' ';
 //             }
         }
 
@@ -510,8 +510,6 @@ class KlantenController extends AppController
         header('Content-type: application/pdf');
 
         return $pdf->Output('doorverwijsbrief-amoc.pdf', 'I');
-
-
     }
 
     public function upload($klantId = null, $group = null)

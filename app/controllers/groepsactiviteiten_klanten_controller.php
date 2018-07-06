@@ -1,12 +1,11 @@
 <?php
 
+use AppBundle\Form\KlantFilterType;
 use Doctrine\ORM\QueryBuilder;
 use GaBundle\Entity\GaKlantIntake;
 use GaBundle\Form\GaKlantIntakeFilterType;
-use Symfony\Component\Form\FormInterface;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
 use GaBundle\Form\GaKlantSelectType;
+use Symfony\Component\Form\FormInterface;
 
 class GroepsactiviteitenKlantenController extends AppController
 {

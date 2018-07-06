@@ -1,9 +1,9 @@
 <?php
 
-use InloopBundle\Entity\DossierStatus;
-use InloopBundle\Entity\Afsluiting;
-use InloopBundle\Entity\Aanmelding;
 use AppBundle\Entity\Klant;
+use InloopBundle\Entity\Aanmelding;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\DossierStatus;
 
 class IntakesController extends AppController
 {

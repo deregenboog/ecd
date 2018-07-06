@@ -1,7 +1,7 @@
 <?php
 
-use InloopBundle\Pdf\PdfSchorsingNl;
 use InloopBundle\Pdf\PdfSchorsingEn;
+use InloopBundle\Pdf\PdfSchorsingNl;
 
 class SchorsingenController extends AppController
 {
@@ -297,7 +297,7 @@ class SchorsingenController extends AppController
         $redenen = [];
         if (!empty($schorsing['Reden'])) {
             foreach ($schorsing['Reden'] as $reden) {
-                if ($reden['SchorsingenReden']['reden_id'] == 100) {
+                if (100 == $reden['SchorsingenReden']['reden_id']) {
                     $redenen[] = $reden['naam'].': '.$schorsing['Schorsing']['overig_reden'];
                 } else {
                     $redenen[] = $reden['naam'];

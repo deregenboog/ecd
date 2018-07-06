@@ -1,10 +1,10 @@
 <?php
 
-use IzBundle\Form\IzRapportageType;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Report\AbstractReport;
 use AppBundle\Exception\ReportException;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzVrijwilliger;
+use IzBundle\Form\IzRapportageType;
+use IzBundle\Report\AbstractReport;
 
 class IzRapportagesController extends AppController
 {

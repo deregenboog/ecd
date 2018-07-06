@@ -99,7 +99,7 @@ class LdapSource extends DataSource
     public function reconnect($config = null)
     {
         $this->disconnect();
-        if ($config != null) {
+        if (null != $config) {
             $this->config = am($this->_baseConfig, $this->config, $config);
         }
 
@@ -146,7 +146,7 @@ class LdapSource extends DataSource
 
         // Execute search query ------------------------
         $res = $this->_executeQuery($queryData);
-        if ($this->lastNumRows() == 0) {
+        if (0 == $this->lastNumRows()) {
             return false;
         }
 
@@ -168,7 +168,7 @@ class LdapSource extends DataSource
                         $db = &ConnectionManager :: getDataSource($linkModel->useDbConfig);
                     }
 
-                    if (isset($db) && $db != null) {
+                    if (isset($db) && null != $db) {
                         $stack = [$assoc];
                         $array = [];
                         $db->queryAssociation($model, $linkModel, $type, $assoc, $assocData, $array, true, $resultSet, $model->recursive - 1, $stack);
@@ -230,7 +230,7 @@ class LdapSource extends DataSource
         if (!isset($resultSet) || !is_array($resultSet)) {
             if (Configure :: read() > 0) {
                 e('<div style = "font: Verdana bold 12px; color: #FF0000">SQL Error in model '.$model->name.': ');
-                if (isset($this->error) && $this->error != null) {
+                if (isset($this->error) && null != $this->error) {
                     e($this->error);
                 }
                 e('</div>');
@@ -321,7 +321,7 @@ class LdapSource extends DataSource
         return $unix_timestamp;
     }
 
-// convertTimestamp_ADToUnix
+    // convertTimestamp_ADToUnix
 
     // Wont be implemeneted -----------------------------------------------------
 
@@ -399,7 +399,7 @@ class LdapSource extends DataSource
             $text = 'query';
         }
 
-        if (php_sapi_name() != 'cli') {
+        if ('cli' != php_sapi_name()) {
             echo "<table id=\"cakeSqlLog\" cellspacing=\"0\" border = \"0\">\n<caption>{$this->_queriesCnt} {$text} took {$this->_queriesTime} ms</caption>\n";
             echo "<thead>\n<tr><th>Nr</th><th>Query</th><th>Error</th><th>Affected</th><th>Num. rows</th><th>Took (ms)</th></tr>\n</thead>\n<tbody>\n";
 
@@ -528,7 +528,7 @@ class LdapSource extends DataSource
         $t = getMicrotime();
         $query = $this->_queryToString($queryData);
         if ($cache && isset($this->_queryCache[$query])) {
-            if (strpos(trim(strtolower($query)), $queryData['type']) !== false) {
+            if (false !== strpos(trim(strtolower($query)), $queryData['type'])) {
                 $res = $this->_queryCache[$query];
             }
         } else {
@@ -538,7 +538,7 @@ class LdapSource extends DataSource
                     if ($res = @ldap_search($this->connection, $queryData['targetDn'].','.$this->config['basedn'],
                             $queryData['conditions'], $queryData['fields'], 0, $queryData['limit'])) {
                         if ($cache) {
-                            if (strpos(trim(strtolower($query)), $queryData['type']) !== false) {
+                            if (false !== strpos(trim(strtolower($query)), $queryData['type'])) {
                                 $this->_queryCache[$query] = $res;
                             }
                         }
@@ -602,7 +602,7 @@ class LdapSource extends DataSource
     {
         $res = [];
         foreach ($data as $key => $row) {
-            if ($key === 'count') {
+            if ('count' === $key) {
                 continue;
             }
 
@@ -610,11 +610,11 @@ class LdapSource extends DataSource
                 if (!is_numeric($key1)) {
                     continue;
                 }
-                if ($row[$param]['count'] === 1) {
+                if (1 === $row[$param]['count']) {
                     $res[$key][$model->name][$param] = $row[$param][0];
                 } else {
                     foreach ($row[$param] as $key2 => $item) {
-                        if ($key2 === 'count') {
+                        if ('count' === $key2) {
                             continue;
                         }
                         $res[$key][$model->name][$param][] = $item;
@@ -642,7 +642,7 @@ class LdapSource extends DataSource
             $association = Inflector :: pluralize($association);
         }
 
-        if ($type == 'belongsTo' || $type == 'hasOne') {
+        if ('belongsTo' == $type || 'hasOne' == $type) {
             if (isset($merge[$association])) {
                 $data[$association] = $merge[$association][0];
             } else {
@@ -662,13 +662,13 @@ class LdapSource extends DataSource
                 }
             }
         } else {
-            if ($merge[0][$association] === false) {
+            if (false === $merge[0][$association]) {
                 if (!isset($data[$association])) {
                     $data[$association] = [];
                 }
             } else {
                 foreach ($merge as $i => $row) {
-                    if (count($row) == 1) {
+                    if (1 == count($row)) {
                         $data[$association][] = $row[$association];
                     } else {
                         $tmp = array_merge($row[$association], $row);

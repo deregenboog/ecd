@@ -29,11 +29,11 @@ class PfoAardRelatie extends AppModel
 
             if (!empty($current_id)) {
                 $dr[$a['PfoAardRelatie']['id']] = $a['PfoAardRelatie']['naam'];
-                if ($actual == false) {
+                if (false == $actual) {
                     $dr[$a['PfoAardRelatie']['id']] = $a['PfoAardRelatie']['naam'].' (verlopen)';
                 }
             } else {
-                if ($actual == true) {
+                if (true == $actual) {
                     $dr[$a['PfoAardRelatie']['id']] = $a['PfoAardRelatie']['naam'];
                 }
             }

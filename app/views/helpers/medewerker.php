@@ -16,7 +16,7 @@ class MedewerkerHelper extends AppHelper
             }
         }
 
-        if (count($list) === 0) {
+        if (0 === count($list)) {
             return $onEmpty;
         }
 

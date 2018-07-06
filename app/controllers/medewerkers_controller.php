@@ -255,7 +255,7 @@ class MedewerkersController extends AppController
         $retval = true;
 
         $first = $this->Geslacht->read('id', 1);
-        if (empty($first) || $first['Geslacht']['id'] != 1) {
+        if (empty($first) || 1 != $first['Geslacht']['id']) {
             $retval = false;
         }
 

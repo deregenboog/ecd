@@ -196,13 +196,13 @@ class HtmlHelper extends AppHelper
                 'description' => ['name' => 'description', 'content' => $url],
             ];
 
-            if ($type === 'icon' && $url === null) {
+            if ('icon' === $type && null === $url) {
                 $types['icon']['link'] = $this->webroot('favicon.png');
             }
 
             if (isset($types[$type])) {
                 $type = $types[$type];
-            } elseif (!isset($options['type']) && $url !== null) {
+            } elseif (!isset($options['type']) && null !== $url) {
                 if (is_array($url) && isset($url['ext'])) {
                     $type = $types[$url['ext']];
                 } else {
@@ -214,14 +214,14 @@ class HtmlHelper extends AppHelper
             } else {
                 $type = [];
             }
-        } elseif ($url !== null) {
+        } elseif (null !== $url) {
             $inline = $url;
         }
         $options = array_merge($type, $options);
         $out = null;
 
         if (isset($options['link'])) {
-            if (isset($options['rel']) && $options['rel'] === 'icon') {
+            if (isset($options['rel']) && 'icon' === $options['rel']) {
                 $out = sprintf($this->tags['metalink'], $options['link'], $this->_parseAttributes($options, ['link'], ' ', ' '));
                 $options['rel'] = 'shortcut icon';
             } else {
@@ -284,7 +284,7 @@ class HtmlHelper extends AppHelper
     public function link($title, $url = null, $options = [], $confirmMessage = false)
     {
         $escapeTitle = true;
-        if ($url !== null) {
+        if (null !== $url) {
             $url = $this->url($url);
         } else {
             $url = $this->url($title);
@@ -296,7 +296,7 @@ class HtmlHelper extends AppHelper
             $escapeTitle = $options['escape'];
         }
 
-        if ($escapeTitle === true) {
+        if (true === $escapeTitle) {
             $title = h($title);
         } elseif (is_string($escapeTitle)) {
             $title = htmlentities($title, ENT_QUOTES, $escapeTitle);
@@ -310,7 +310,7 @@ class HtmlHelper extends AppHelper
             $confirmMessage = str_replace("'", "\'", $confirmMessage);
             $confirmMessage = str_replace('"', '\"', $confirmMessage);
             $options['onclick'] = "return confirm('{$confirmMessage}');";
-        } elseif (isset($options['default']) && $options['default'] == false) {
+        } elseif (isset($options['default']) && false == $options['default']) {
             if (isset($options['onclick'])) {
                 $options['onclick'] .= ' event.returnValue = false; return false;';
             } else {
@@ -382,15 +382,15 @@ class HtmlHelper extends AppHelper
             return;
         }
 
-        if (strpos($path, '//') !== false) {
+        if (false !== strpos($path, '//')) {
             $url = $path;
         } else {
-            if ($path[0] !== '/') {
+            if ('/' !== $path[0]) {
                 $path = CSS_URL.$path;
             }
 
-            if (strpos($path, '?') === false) {
-                if (substr($path, -4) !== '.css') {
+            if (false === strpos($path, '?')) {
+                if ('.css' !== substr($path, -4)) {
                     $path .= '.css';
                 }
             }
@@ -398,16 +398,16 @@ class HtmlHelper extends AppHelper
 
             if (Configure::read('Asset.filter.css')) {
                 $pos = strpos($url, CSS_URL);
-                if ($pos !== false) {
+                if (false !== $pos) {
                     $url = substr($url, 0, $pos).'ccss/'.substr($url, $pos + strlen(CSS_URL));
                 }
             }
         }
 
-        if ($rel == 'import') {
+        if ('import' == $rel) {
             $out = sprintf($this->tags['style'], $this->_parseAttributes($options, ['inline'], '', ' '), '@import url('.$url.');');
         } else {
-            if ($rel == null) {
+            if (null == $rel) {
                 $rel = 'stylesheet';
             }
             $out = sprintf($this->tags['css'], $rel, $url, $this->_parseAttributes($options, ['inline'], '', ' '));
@@ -466,11 +466,11 @@ class HtmlHelper extends AppHelper
         }
         $this->__includedScripts[$url] = true;
 
-        if (strpos($url, '//') === false) {
-            if ($url[0] !== '/') {
+        if (false === strpos($url, '//')) {
+            if ('/' !== $url[0]) {
                 $url = JS_URL.$url;
             }
-            if (strpos($url, '?') === false && substr($url, -3) !== '.js') {
+            if (false === strpos($url, '?') && '.js' !== substr($url, -3)) {
                 $url .= '.js';
             }
             $url = $this->assetTimestamp($this->webroot($url));
@@ -656,8 +656,8 @@ class HtmlHelper extends AppHelper
     {
         if (is_array($path)) {
             $path = $this->url($path);
-        } elseif (strpos($path, '://') === false) {
-            if ($path[0] !== '/') {
+        } elseif (false === strpos($path, '://')) {
+            if ('/' !== $path[0]) {
                 $path = IMAGES_URL.$path;
             }
             $path = $this->assetTimestamp($this->webroot($path));
@@ -723,12 +723,12 @@ class HtmlHelper extends AppHelper
             $data = [$data];
         }
 
-        if ($oddTrOptions === true) {
+        if (true === $oddTrOptions) {
             $useCount = true;
             $oddTrOptions = null;
         }
 
-        if ($evenTrOptions === false) {
+        if (false === $evenTrOptions) {
             $continueOddEven = false;
             $evenTrOptions = null;
         }
@@ -786,7 +786,7 @@ class HtmlHelper extends AppHelper
         if (!is_array($options)) {
             $options = ['class' => $options];
         }
-        if ($text === null) {
+        if (null === $text) {
             $tag = 'tagstart';
         } else {
             $tag = 'tag';
@@ -840,10 +840,10 @@ class HtmlHelper extends AppHelper
         if (isset($options['escape'])) {
             $text = h($text);
         }
-        if ($class != null && !empty($class)) {
+        if (null != $class && !empty($class)) {
             $options['class'] = $class;
         }
-        if ($text === null) {
+        if (null === $text) {
             $tag = 'parastart';
         } else {
             $tag = 'para';
@@ -894,9 +894,9 @@ class HtmlHelper extends AppHelper
             if (is_array($item)) {
                 $item = $key.$this->nestedList($item, $options, $itemOptions, $tag);
             }
-            if (isset($itemOptions['even']) && $index % 2 == 0) {
+            if (isset($itemOptions['even']) && 0 == $index % 2) {
                 $itemOptions['class'] = $itemOptions['even'];
-            } elseif (isset($itemOptions['odd']) && $index % 2 != 0) {
+            } elseif (isset($itemOptions['odd']) && 0 != $index % 2) {
                 $itemOptions['class'] = $itemOptions['odd'];
             }
             $out .= sprintf($this->tags['li'], $this->_parseAttributes($itemOptions, ['even', 'odd'], ' ', ''), $item);

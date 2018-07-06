@@ -2,10 +2,10 @@
 
 namespace Tests\IzBundle\Entity;
 
-use PHPUnit\Framework\TestCase;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzKlant;
+use PHPUnit\Framework\TestCase;
 
 class IzKlantTest extends TestCase
 {

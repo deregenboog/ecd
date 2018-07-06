@@ -16,7 +16,7 @@ class Version20180501144543 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BC46708ED5 FOREIGN KEY (werkgebied) REFERENCES werkgebieden (naam)');
         $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BCFB02B9C2 FOREIGN KEY (postcodegebied) REFERENCES ggw_gebieden (naam)');

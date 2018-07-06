@@ -2,9 +2,9 @@
 
 namespace Tests\IzBundle\Entity;
 
-use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\AfsluitredenKoppeling;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
 
 class KoppelingTest extends \PHPUnit_Framework_TestCase
 {

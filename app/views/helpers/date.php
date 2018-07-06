@@ -43,8 +43,9 @@ class DateHelper extends AppHelper
     public function input($name = null, $date = null, $options = null)
     {
         //checking name
-        if ($name == null) {
+        if (null == $name) {
             throw new Exception('missing name! check the /app/views/helpers/date_picker.php');
+
             return;
         }
 
@@ -66,17 +67,18 @@ class DateHelper extends AppHelper
         $elementId = $this->getInputId($name);
         //changing name to data[Model][0][something]
         $name = $this->_calculateName($name);
-          //checking & preparing date
+        //checking & preparing date
         if (is_array($date)) {
             $date = $this->_dateFromArray($date);
         }
 
-        if ($date == null) {
+        if (null == $date) {
             $date = $this->_getDateFromData($name);
         }
         $regexp = '/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/';
-        if ($date != 'empty' && !preg_match($regexp, $date)) {
+        if ('empty' != $date && !preg_match($regexp, $date)) {
             throw new Exception('wrong date! check the /app/views/helpers/date.php | '.$date.' |');
+
             return;
         }
 
@@ -114,6 +116,7 @@ class DateHelper extends AppHelper
                     case 'rangeHigh':
                         if (!preg_match($regexp, $value)) {
                             throw new Exception('wrong date! check the /app/views/helpers/date_picker.php');
+
                             return;
                         }
                         $rangeHigh = ' range-high-'.$value;
@@ -123,6 +126,7 @@ class DateHelper extends AppHelper
                     case 'rangeLow':
                         if (!preg_match($regexp, $value)) {
                             throw new Exception('wrong date! check the /app/views/helpers/date_picker.php');
+
                             return;
                         }
                         $rangeLow = ' range-low-'.$value;
@@ -143,14 +147,14 @@ class DateHelper extends AppHelper
         $id .= $id;
 
         //whether the field is required (just a CSS simple class set):
-        if (isset($required) && $required == true) {
+        if (isset($required) && true == $required) {
             $required = ' required';
         } else {
             $required = '';
         }
 
         //writing label
-        if ($label != null) {
+        if (null != $label) {
             $labelFor = str_replace(['[', ']'], ['', ''], $name);
             $labelFor = substr($labelFor, 4);
             $output_string = '<div class="input date'.$required.'"><label for="'.$labelFor.'-'.$id.'">'.$label.'</label>';
@@ -161,7 +165,7 @@ class DateHelper extends AppHelper
         foreach ($format as $field) {
             $output_string .= '<select id="'.$elementId;
 
-            if ($field != 'y') { //for year the id must be without suffix (this means that the box is always next to year!)
+            if ('y' != $field) { //for year the id must be without suffix (this means that the box is always next to year!)
                 $output_string .= '-'.strtolower($field).strtolower($field);
             }
 
@@ -171,12 +175,12 @@ class DateHelper extends AppHelper
                 $output_string .= 'disabled="disabled"';
             }
 
-            if ($class != null || $field == 'y') { //adding classes
+            if (null != $class || 'y' == $field) { //adding classes
                 $output_string .= 'class="';
-                if ($class != null) { //if some class is set by the user
+                if (null != $class) { //if some class is set by the user
                     $output_string .= $class;
                 }
-                if ($field == 'y' && !$disabled) { //if year (disabled <=> no picker)
+                if ('y' == $field && !$disabled) { //if year (disabled <=> no picker)
                     $output_string .= ' '.$this->datePickerClasses;
                     $output_string .= $rangeLow.$rangeHigh;
                 }
@@ -189,10 +193,10 @@ class DateHelper extends AppHelper
             $output_string .= '</select>'."\n";
         }
         $output_string .= '</span>';
-        if ($label != null) {
+        if (null != $label) {
             $output_string .= '</div>';
         }
-        if ($errormsg != '') {
+        if ('' != $errormsg) {
             $output_string .= '<div class="error-message">'.$errormsg.'</div>';
         }
 
@@ -209,7 +213,7 @@ class DateHelper extends AppHelper
     */
     public function show($date, $options = null)
     {
-        if (empty($date) || $date == '0000-00-00') {
+        if (empty($date) || '0000-00-00' == $date) {
             return '';
         }
         //defaults:
@@ -224,7 +228,7 @@ class DateHelper extends AppHelper
                         $sep = $val;
                         break;
                     case 'short':
-                        if ($val === true || $val === false) {
+                        if (true === $val || false === $val) {
                             $short = $val;
                         }
                         break;
@@ -233,7 +237,7 @@ class DateHelper extends AppHelper
                 }//switch
             }//foreach
         }//is_array check
-        elseif ($options === false) { //backwards compatibility
+        elseif (false === $options) { //backwards compatibility
             $sep = ' ';
         }
 
@@ -245,7 +249,7 @@ class DateHelper extends AppHelper
         $format = explode('-', $format);
 
         foreach ($format as $key => $field) {
-            if ($field == 'M' || $field == 'F') {
+            if ('M' == $field || 'F' == $field) {
                 $format[$key] = __(date($field, strtotime($date)), true);
             } else {
                 $format[$key] = date($field, strtotime($date));
@@ -256,11 +260,11 @@ class DateHelper extends AppHelper
         return $output;
     }
 
-//show
+    //show
 
     public function show_time($date, $user_options = null)
     {
-        if (empty($date) || $date == '0000-00-00') {
+        if (empty($date) || '0000-00-00' == $date) {
             return '';
         }
         $defaults = [
@@ -280,7 +284,7 @@ class DateHelper extends AppHelper
         $name = str_replace('[', '[\'', $name);
         $evalString = 'if (!empty($this->'.$name.')) return $this->'.$name.';';
         $result = eval($evalString);
-        if ($result == null) {
+        if (null == $result) {
             //in case the data is empty
             return 'empty';
         }
@@ -326,7 +330,7 @@ class DateHelper extends AppHelper
 
     public function _prepareFormat($format_str)
     {
-        if ($format_str == null) {
+        if (null == $format_str) {
             $format_str = Configure::read('Calendar.dateDisplayFormat');
         }
 
@@ -335,7 +339,7 @@ class DateHelper extends AppHelper
 
     public function _createInputs($type, $default, $disabled, $minYear, $maxYear, &$str)
     { //$default like YYYY-MM-DD
-        if ($default == 'empty'); elseif ($default != null) {
+        if ('empty' == $default); elseif (null != $default) {
             $default = explode('-', $default);
         } else {
             $default = [
@@ -385,7 +389,7 @@ class DateHelper extends AppHelper
             switch ($type) {
                 case 'm':
                     $str .= '<option value="0" class="disabled"';
-                    if ($default == 'empty') {
+                    if ('empty' == $default) {
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('month', true).'</option>';
@@ -395,7 +399,7 @@ class DateHelper extends AppHelper
                             $str .= '0';
                         }
                         $str .= $i.'"';
-                        if ($default != null && $default != 'empty' && $default[1] == $i) {
+                        if (null != $default && 'empty' != $default && $default[1] == $i) {
                             $str .= ' selected="selected"';
                         }
                         $str .= '>'.$i.'</option>'."\n";
@@ -403,7 +407,7 @@ class DateHelper extends AppHelper
                     break;
                 case 'M':
                     $str .= '<option value="0" class="disabled"';
-                    if ($default == 'empty') {
+                    if ('empty' == $default) {
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('month', true).'</option>';
@@ -413,7 +417,7 @@ class DateHelper extends AppHelper
                             $str .= '0';
                         }
                         $str .= $i.'"';
-                        if ($default != null && $default != 'empty' && $default[1] == $i) {
+                        if (null != $default && 'empty' != $default && $default[1] == $i) {
                             $str .= ' selected="selected"';
                         }
                         $str .= '>'.$months[$i - 1].'</option>'."\n";
@@ -421,7 +425,7 @@ class DateHelper extends AppHelper
                     break;
                 case 'd':
                     $str .= '<option value="0" class="disabled"';
-                    if ($default == 'empty') {
+                    if ('empty' == $default) {
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('day', true).'</option>';
@@ -431,7 +435,7 @@ class DateHelper extends AppHelper
                             $str .= '0';
                         }
                         $str .= $i.'"';
-                        if ($default != null && $default != 'empty' && $default[2] == $i) {
+                        if (null != $default && 'empty' != $default && $default[2] == $i) {
                             $str .= ' selected="selected"';
                         }
                         $str .= '>'.$i.'</option>'."\n";
@@ -439,13 +443,13 @@ class DateHelper extends AppHelper
                     break;
                 case 'y':
                     $str .= '<option value="0" class="disabled"';
-                    if ($default == 'empty') {
+                    if ('empty' == $default) {
                         $str .= ' selected="selected"';
                     }
                     $str .= '>'.__('year', true).'</option>';
                     for ($i = $maxYear; $i >= $minYear; --$i) {
                         $str .= '<option';
-                        if ($default != null && $default != 'empty' && $default[0] == $i) {
+                        if (null != $default && 'empty' != $default && $default[0] == $i) {
                             $str .= ' selected="selected"';
                         }
                         $str .= ' value="'.$i.'">'.$i.'</option>'."\n";
@@ -454,11 +458,11 @@ class DateHelper extends AppHelper
         }//else
     }
 
- //create inputs
+    //create inputs
 
-/*
- * generate cake-style ids
-*/
+    /*
+     * generate cake-style ids
+    */
     public function getInputId($model)
     {
         $fieldId = '';
@@ -516,14 +520,14 @@ class DateHelper extends AppHelper
             $required_class = '';
         }
 
-    //wrapping div
+        //wrapping div
         $o = '<div class="input text'.$required_class.'">';
 
-    //input options common for both fields
+        //input options common for both fields
         $inv_field_opts['type'] = $dp_field_opts['type'] = 'text';
         $inv_field_opts['div'] = $dp_field_opts['div'] = false;
 
-    //visible field - ignored by cake
+        //visible field - ignored by cake
         if (isset($options['label']) && !empty($options['label'])) {
             $dp_field_opts['label'] = $options['label'];
         } else {
@@ -531,15 +535,15 @@ class DateHelper extends AppHelper
         }
         $o .= $this->Form->input($datepicker_fieldname, $dp_field_opts);
 
-    //invisible field (not type="hidden")
+        //invisible field (not type="hidden")
         $inv_field_opts['label'] = false;
         $inv_field_opts['style'] = 'display: none';
         $o .= $this->Form->input($fieldname, $inv_field_opts);
 
-    //retrieving the id of the last input generated by the Form helper
+        //retrieving the id of the last input generated by the Form helper
         $field_id = $this->Form->domId();
 
-    //showing the eraser to clear the field when needed
+        //showing the eraser to clear the field when needed
         if (!$options['required']) {
             $o .= $this->Html->image('/img/eraser.png', [
                 'id' => $field_id.'-clear',
@@ -547,13 +551,13 @@ class DateHelper extends AppHelper
             ]);
         }
 
-    //end of the wrapping div
+        //end of the wrapping div
         $o .= '</div>';
 
-    //JavaScript
+        //JavaScript
 
         //defaults
-        if ($this->picker_count == 0) {
+        if (0 == $this->picker_count) {
             $this->Js->buffer('
                 $.datepicker.setDefaults( $.datepicker.regional[ "nl" ] );
                 $.datepicker.setDefaults( {
@@ -612,7 +616,7 @@ class DateHelper extends AppHelper
      */
     public function humanDays($days)
     {
-        if ($days == 0) {
+        if (0 == $days) {
             return 'vandaag';
         } elseif ($days < 7) {
             return __tr(':days dagen', ['days' => floor($days)]);

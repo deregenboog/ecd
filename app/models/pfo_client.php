@@ -310,7 +310,7 @@ class PfoClient extends AppModel
         $clienten = [];
 
         foreach ($data as $client) {
-            if (count($client['PfoClientenSupportgroup']) == 0) {
+            if (0 == count($client['PfoClientenSupportgroup'])) {
                 continue;
             }
             $clienten[$client['PfoClient']['id']] = $all[$client['PfoClient']['id']];

@@ -1,11 +1,11 @@
 <?php
 
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Registratie;
-use InloopBundle\Entity\Locatie;
-use InloopBundle\Entity\Schorsing;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Entity\Geslacht;
+use AppBundle\Entity\Klant;
+use AppBundle\Form\Model\AppDateRangeModel;
+use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\Registratie;
+use InloopBundle\Entity\Schorsing;
 
 class RapportagesController extends AppController
 {
@@ -138,14 +138,14 @@ class RapportagesController extends AppController
 
         if (
                 !empty($this->data['options']['geslacht_id']) &&
-                $this->data['options']['geslacht_id'] != 0
+                0 != $this->data['options']['geslacht_id']
           ) {
             $geslacht_cond = [
                     'Klant.geslacht_id' => $this->data['options']['geslacht_id'],
                     ];
         }
 
-        if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
+        if (isset($this->data['options']) && 0 != $this->data['options']['location']) {
             $locatie_id = $this->data['options']['location'];
             $locatie_cond = ['locatie_id' => $locatie_id];
             $locatie_intake_cond = ['locatie2_id' => $locatie_id];
@@ -436,11 +436,11 @@ class RapportagesController extends AppController
 
             $where = " binnen >= '{$date_from}' and binnen < '{$date_until}' ";
 
-            if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
+            if (isset($this->data['options']) && 0 != $this->data['options']['location']) {
                 $locatie_id = (int) $this->data['options']['location'];
                 $where .= " and locatie_id = {$locatie_id} ";
             }
-            if (!empty($this->data['options']['geslacht_id']) && $this->data['options']['geslacht_id'] != 0) {
+            if (!empty($this->data['options']['geslacht_id']) && 0 != $this->data['options']['geslacht_id']) {
                 $geslacht_id = (int) $this->data['options']['geslacht_id'];
                 $where .= " and geslacht_id = {$geslacht_id} ";
             }
@@ -462,7 +462,7 @@ class RapportagesController extends AppController
 
             if (
                 !empty($this->data['options']['geslacht_id']) &&
-                $this->data['options']['geslacht_id'] != 0
+                0 != $this->data['options']['geslacht_id']
             ) {
                 $geslacht_cond = [
                     'Klant.geslacht_id' => $this->data['options']['geslacht_id'],
@@ -470,7 +470,7 @@ class RapportagesController extends AppController
             }
         }
 
-        if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
+        if (isset($this->data['options']) && 0 != $this->data['options']['location']) {
             $locatie_id = $this->data['options']['location'];
             $con = array_merge($con, ['locatie_id' => $locatie_id]);
             $suspensionConditions = array_merge($suspensionConditions, ['locatie_id' => $locatie_id]);
@@ -589,14 +589,14 @@ class RapportagesController extends AppController
                 'binnen <' => $this->_add_day($date_to),
             ];
 
-            if (isset($this->data['options']) && $this->data['options']['location'] != 0) {
+            if (isset($this->data['options']) && 0 != $this->data['options']['location']) {
                 $con = array_merge($con, ['locatie_id' => $this->data['options']['location']]);
                 $current_location = $this->data['options']['location'];
             }
 
             if (
                 !empty($this->data['options']['geslacht_id']) &&
-                $this->data['options']['geslacht_id'] != 0
+                0 != $this->data['options']['geslacht_id']
             ) {
                 $geslacht_cond = [
                     'Klant.geslacht_id' => $this->data['options']['geslacht_id'],
@@ -675,7 +675,7 @@ class RapportagesController extends AppController
             foreach ($schorsingen as &$schorsing) {
                 // when this iteration is over the same client as previous iteration:
                 if ($schorsing['Klant']['id'] == $previous_klant_id) {
-                    $clients[$previous_klant_id]['total_sch'] += 1;
+                    ++$clients[$previous_klant_id]['total_sch'];
                 } else {
                     // if the client has changed since the last iteration
                     // set the new id:
@@ -695,7 +695,7 @@ class RapportagesController extends AppController
                     empty($schorsing['Schorsing']['datum_tot']) ||
                     $schorsing['Schorsing']['datum_tot'] > $date_to
                 ) {
-                    $clients[$previous_klant_id]['active_sch'] += 1;
+                    ++$clients[$previous_klant_id]['active_sch'];
                 }
             }
         }

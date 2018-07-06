@@ -39,9 +39,9 @@ class Registratie extends AppModel
         $this->Behaviors->attach('Containable');
 
         $and = ['locatie_id' => $locatie_id];
-        if ($type == 'active') {
+        if ('active' == $type) {
             $and['buiten'] = null;
-        } elseif ($type == 'today_inactive') {
+        } elseif ('today_inactive' == $type) {
             $this->Locatie->id = $locatie_id;
             $nachtopvang = $this->Locatie->field('nachtopvang');
             $timelimit = $this->get_timelimit($locatie_id);
@@ -349,7 +349,7 @@ class Registratie extends AppModel
 
         if ($registratie_id) {
             if ($registratie = $this->findById($registratie_id)) {
-                if ($registratie['Registratie']['buiten'] == null) {
+                if (null == $registratie['Registratie']['buiten']) {
                     $this->removeKlantFromAllQueueLists($registratie);
                     $registratie['Registratie']['buiten'] = $now;
 
@@ -445,7 +445,7 @@ class Registratie extends AppModel
                 $r_to_save[$key][$fieldname] = $inc;
                 ++$inc;
             }
-        } elseif ($registratie_data['Registratie'][$fieldname] == -1) {
+        } elseif (-1 == $registratie_data['Registratie'][$fieldname]) {
             $r_to_save[$registratie_data['Registratie']['id']]['id'] = $registratie_data['Registratie']['id'];
             $r_to_save[$registratie_data['Registratie']['id']][$fieldname] = 0;
         }
@@ -485,7 +485,7 @@ class Registratie extends AppModel
             case 'add':
                 $max_value = 0;
                 $max_key = 0;
-                if ($registratie_data['Registratie']['buiten'] == null) {
+                if (null == $registratie_data['Registratie']['buiten']) {
                     foreach ($registraties as $key => $registratie) {
                         if ($registratie['Registratie'][$fieldname] > $max_value) {
                             $max_value = $registratie['Registratie'][$fieldname];
@@ -506,6 +506,7 @@ class Registratie extends AppModel
                     $this->save($registratie_to_save);
                 }
 
+                // no break
             case 'del':
                 $registraties = $this->delKlantFromQueueList($registratie_id, $fieldname, $registraties, $registratie_data);
                 break;
@@ -538,7 +539,7 @@ class Registratie extends AppModel
                 $r_to_save[$key]['douche'] = $inc;
                 ++$inc;
             }
-        } elseif ($registratie_data['Registratie']['douche'] == -1) {
+        } elseif (-1 == $registratie_data['Registratie']['douche']) {
             $r_to_save[$registratie_data['Registratie']['id']]['id'] = $registratie_data['Registratie']['id'];
             $r_to_save[$registratie_data['Registratie']['id']]['douche'] = 0;
         }
@@ -575,7 +576,7 @@ class Registratie extends AppModel
             case 'add':
                 $max_value = 0;
                 $max_key = 0;
-                if ($registratie_data['Registratie']['buiten'] == null) {
+                if (null == $registratie_data['Registratie']['buiten']) {
                     foreach ($registraties as $key => $registratie) {
                         if ($registratie['Registratie']['douche'] > $max_value) {
                             $max_value = $registratie['Registratie']['douche'];
@@ -596,6 +597,7 @@ class Registratie extends AppModel
                     $this->save($registratie_to_save);
                 }
 
+                // no break
             case 'del':
                 $registraties = $this->delKlantFromShowerList($registratie_id, $registraties, $registratie_data);
                 break;
@@ -664,7 +666,7 @@ class Registratie extends AppModel
 
         foreach ($fields as $field) {
             $prev_val = $previous_registration['Registratie'][$field];
-            if ($prev_val == 1 || $prev_val == -1) {
+            if (1 == $prev_val || -1 == $prev_val) {
                 $this->set($field, $prev_val);
                 $previous_registration['Registratie'][$field] = 0;
                 $changed = true;
@@ -697,7 +699,7 @@ class Registratie extends AppModel
             $data[$key]['Klant']['active_schorsingen'] = $schCount;
 
             $unseenOpm = $this->Klant->Opmerking->countUnSeenOpmerkingen($id);
-            if ($unseenOpm === 1) {
+            if (1 === $unseenOpm) {
                 $unseenOpm = '1 opmerking';
             } elseif ($unseenOpm > 1) {
                 $unseenOpm = $unseenOpm.' opmerkingen';

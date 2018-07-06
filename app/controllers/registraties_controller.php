@@ -1,6 +1,5 @@
 <?php
 
-use InloopBundle\Entity\Aanmelding;
 
 class RegistratiesController extends AppController
 {
@@ -487,7 +486,7 @@ class RegistratiesController extends AppController
                 }
             }
 
-            if ($klant['Klant']['new_TBC_check_needed'] == 'Ja' && $location['Locatie']['tbc_check'] == 1) {
+            if ('Ja' == $klant['Klant']['new_TBC_check_needed'] && 1 == $location['Locatie']['tbc_check']) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;
                 $sep = $separator;

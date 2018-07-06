@@ -1,8 +1,8 @@
 <?php
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Klant extends AppModel
 {
