@@ -1,9 +1,7 @@
 <h2>Basisgegevens</h2>
 <p>
-    {{ html.viewLink(path('app_klanten_view', {id: klant.id})) }}
-    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id})) }}
-    {{ html.editLink(path('app_klanten_edit', {id: klant.id})) }}
-    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id})) }}
+    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id}), 'edit') }}
 </p>
 <dl class="dl-horizontal">
     <dt>Naam</dt>
@@ -37,9 +35,9 @@
     <dd>{{ klant.email }}</dd>
 </dl>
 <dl class="dl-horizontal">
-    <dt>Geen post</dt>
+    <dt>Postvoorkeur</dt>
     <dd>{{ klant.geenPost ? 'Geen post' : 'Wel post' }}</dd>
-    <dt>Geen e-mail</dt>
+    <dt>E-mailvoorkeur</dt>
     <dd>{{ klant.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
     <dt>Opmerking</dt>
     <dd>{{ klant.opmerking }}</dd>
