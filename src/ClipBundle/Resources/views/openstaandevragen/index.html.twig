@@ -62,8 +62,6 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'vraag.startdatum') }}
             </th>
-            <th>
-            </th>
         </tr>
         {% for vraag in pagination %}
         <tr data-href="{{ path('clip_vragen_view', {id: vraag.id}) }}">
