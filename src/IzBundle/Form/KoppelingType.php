@@ -32,7 +32,7 @@ class KoppelingType extends AbstractType
             }
             $builder->get('hulpvraag')
                 ->add('deelnemer', DummyChoiceType::class, [
-                    'dummy_label' => (string) $hulpaanbod,
+                    'dummy_label' => (string) $hulpvraag,
                 ])
                 ->add('medewerker', MedewerkerType::class, [
                     'label' => 'Coördinator',
