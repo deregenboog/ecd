@@ -6,6 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
 use IzBundle\Entity\IzVrijwilliger;
+use AppBundle\Entity\Vrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -54,6 +55,16 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Vrijwilliger $vrijwilliger
+     *
+     * @return IzVrijwilliger
+     */
+    public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)
+    {
+        return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
     }
 
     public function create(IzVrijwilliger $vrijwilliger)
