@@ -28,6 +28,7 @@ class HulpaanbiedingenController extends AbstractChildController
     protected $filterFormClass = HulpaanbodFilterType::class;
     protected $addMethod = 'addHulpaanbod';
     protected $baseRouteName = 'iz_hulpaanbiedingen_';
+    protected $forceRedirect = true;
 
     /**
      * @var HulpaanbodDaoInterface
@@ -99,11 +100,11 @@ class HulpaanbiedingenController extends AbstractChildController
     protected function redirectToView($entity)
     {
         if ($entity instanceof Hulpaanbod) {
-            $id = $entity->getIzVrijwilliger()->getId();
+            $vrijwilligerId = $entity->getIzVrijwilliger()->getId();
         } elseif ($entity instanceof IzVrijwilliger) {
-            $id = $entity->getId();
+            $vrijwilligerId = $entity->getId();
         }
 
-        return $this->redirectToRoute('iz_hulpaanbiedingen_view', ['id' => $id]);
+        return $this->redirectToRoute('iz_vrijwilligers_view', ['id' => $vrijwilligerId, '_fragment' => 'koppelingen']);
     }
 }

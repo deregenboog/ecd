@@ -29,6 +29,7 @@ class HulpvragenController extends AbstractChildController
     protected $baseRouteName = 'iz_hulpvragen_';
     protected $disabledActions = ['delete'];
     protected $addMethod = 'addHulpvraag';
+    protected $forceRedirect = true;
 
     /**
      * @var HulpvraagDaoInterface
@@ -100,11 +101,11 @@ class HulpvragenController extends AbstractChildController
     protected function redirectToView($entity)
     {
         if ($entity instanceof Hulpvraag) {
-            $id = $entity->getIzKlant()->getId();
+            $klantId = $entity->getIzKlant()->getId();
         } elseif ($entity instanceof IzKlant) {
-            $id = $entity->getId();
+            $klantId = $entity->getId();
         }
 
-        return $this->redirectToRoute('iz_hulpvragen_view', ['id' => $id]);
+        return $this->redirectToRoute('iz_klanten_view', ['id' => $klantId, '_fragment' => 'koppelingen']);
     }
 }

@@ -297,9 +297,11 @@ class AbstractController extends SymfonyController
 
     protected function afterFormSubmitted(Request $request, $entity)
     {
-        $url = $request->get('redirect');
-        if ($url && !$this->forceRedirect) {
-            return $this->redirect($url);
+        if (!$this->forceRedirect) {
+            $url = $request->get('redirect');
+            if ($url) {
+                return $this->redirect($url);
+            }
         }
 
         return $this->redirectToView($entity);
