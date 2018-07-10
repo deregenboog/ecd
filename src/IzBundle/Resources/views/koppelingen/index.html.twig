@@ -37,10 +37,10 @@
             {% for hulpvraag in pagination %}
                 <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
                     <td>
-                        {{ hulpvraag.izKlant }}
+                        {{ hulpvraag|naam_klant }}
                     </td>
                     <td>
-                        {{ hulpvraag.koppeling.hulpaanbod.izVrijwilliger }}
+                        {{ hulpvraag.koppeling.hulpaanbod|naam_vrijwilliger }}
                     </td>
                     <td>
                         {{ hulpvraag.koppeling.startdatum is empty ? "" : hulpvraag.koppeling.startdatum|date('d-m-Y') }}

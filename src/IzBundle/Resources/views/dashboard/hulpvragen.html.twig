@@ -99,7 +99,7 @@
                             </td>
                             <td>
                                 {{ html.link(
-                                    hulpvraag.izKlant,
+                                    hulpvraag|naam_klant,
                                     path('iz_klanten_view', {id: hulpvraag.izKlant.id})
                                 ) }}
                             </td>

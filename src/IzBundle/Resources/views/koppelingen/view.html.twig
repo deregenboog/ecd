@@ -4,8 +4,8 @@
 {% block content_top %}
     <h1>
         {{ entity_name|capitalize }}
-        {{ entity.izKlant }} -
-        {{ entity.koppeling.hulpaanbod.izVrijwilliger }}
+        {{ entity|naam_klant }} -
+        {{ entity.koppeling.hulpaanbod|naam_vrijwilliger }}
     </h1>
 {% endblock %}
 
@@ -21,13 +21,13 @@
     </p>
     <dl class="dl-horizontal">
         <dt>Deelnemer</dt>
-        <dd>{{ html.link(entity.izKlant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
+        <dd>{{ html.link(entity|naam_klant, path('iz_klanten_view', {id: entity.izKlant.id})) }}</dd>
         <dt>Coördinator hulpvraag</dt>
         <dd>{{ entity.medewerker }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Vrijwilliger</dt>
-        <dd>{{ html.link(entity.koppeling.hulpaanbod.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.koppeling.hulpaanbod.izVrijwilliger.id})) }}</dd>
+        <dd>{{ html.link(entity.koppeling.hulpaanbod|naam_vrijwilliger, path('iz_vrijwilligers_view', {id: entity.koppeling.hulpaanbod.izVrijwilliger.id})) }}</dd>
         <dt>Coördinator hulpaanbod</dt>
         <dd>{{ entity.koppeling.hulpaanbod.medewerker }}</dd>
     </dl>
@@ -65,7 +65,7 @@
             {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
             <dl class="dl-horizontal">
                 <dt>Deelnemer</dt>
-                <dd>{{ entity.izKlant }}</dd>
+                <dd>{{ entity|naam_klant }}</dd>
                 <dt>Coördinator</dt>
                 <dd>{{ entity.medewerker }}</dd>
             </dl>
@@ -88,7 +88,7 @@
             {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
             <dl class="dl-horizontal">
                 <dt>Vrijwilliger</dt>
-                <dd>{{ entity.koppeling.hulpaanbod.izVrijwilliger }}</dd>
+                <dd>{{ entity.koppeling.hulpaanbod|naam_vrijwilliger }}</dd>
                 <dt>Coördinator</dt>
                 <dd>{{ entity.medewerker }}</dd>
             </dl>

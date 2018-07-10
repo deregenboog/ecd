@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>{{ entity_name|capitalize }} {{ entity.izVrijwilliger }}</h1>
+    <h1>{{ entity_name|capitalize }} {{ entity|naam_vrijwilliger }}</h1>
 {% endblock %}
 
 {% block content_left %}
@@ -17,7 +17,7 @@
     </p>
     <dl class="dl-horizontal">
         <dt>Vrijwilliger</dt>
-        <dd>{{ html.link(entity.izVrijwilliger, path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id})) }}</dd>
+        <dd>{{ html.link(entity|naam_vrijwilliger, path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id})) }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
         <dt>Startdatum</dt>
@@ -169,7 +169,7 @@
                         {% for hulpvraag in kandidaten %}
                             <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
                                 <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
-                                <td>{{ hulpvraag.izKlant }}</td>
+                                <td>{{ hulpvraag|naam_klant }}</td>
                                 <td>
                                     {{ hulpvraag.izKlant.klant.geslacht }}
                                 </td>

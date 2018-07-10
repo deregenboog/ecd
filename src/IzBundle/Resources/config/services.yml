@@ -46,3 +46,8 @@ services:
         class: IzBundle\Form\IzRapportageType
         tags:
             - { name: form.type }
+
+    IzBundle\Twig\IzExtension:
+        public: false
+        tags:
+            - { name: twig.extension }
