@@ -3,7 +3,10 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\AppException;
 use AppBundle\Export\AbstractExport;
+use AppBundle\Filter\FilterInterface;
+use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
 use IzBundle\Form\KoppelingCloseType;
 use IzBundle\Form\KoppelingFilterType;
@@ -90,4 +93,23 @@ class KoppelingenController extends AbstractController
     {
         return $this->redirectToView($entity);
     }
+
+//     protected function download(FilterInterface $filter)
+//     {
+//         if (!$this->export) {
+//             throw new AppException(get_class($this).'::export not set!');
+//         }
+
+//         ini_set('memory_limit', '512M');
+
+//         $filename = $this->getDownloadFilename();
+//         $hulpvragen = $this->dao->findAll(null, $filter);
+
+//         $converter = function(Hulpvraag $hulpvraag) {
+//             return new Koppeling($hulpvraag, $hulpvraag->getHulpaanbod());
+//         };
+//         $koppelingen = array_map($converter, $hulpvragen);
+
+//         return $this->export->create($koppelingen)->getResponse($filename);
+//     }
 }

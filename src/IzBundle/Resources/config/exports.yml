@@ -134,7 +134,7 @@ services:
     iz.export.koppelingen:
         class: AppBundle\Export\GenericExport
         arguments:
-            - IzBundle\Entity\Koppeling
+            - IzBundle\Entity\Hulpvraag
             -
                 Startdatum koppeling: { expression: 'entity.getKoppelingStartdatum()', type: 'date' }
                 Einddatum koppeling: { expression: 'entity.getKoppelingEinddatum()', type: 'date' }
