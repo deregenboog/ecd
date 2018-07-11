@@ -12,6 +12,20 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use AppBundle\Event\DienstenLookupEvent;
+use IzBundle\Event\Events;
+use Doctrine\ORM\EntityManager;
+use GaBundle\Entity\KlantIntake;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use GaBundle\Service\KlantIntakeDaoInterface;
+use IzBundle\Entity\Intake;
+use IzBundle\Entity\IzKlant;
+use GaBundle\Service\GroepDaoInterface;
+use GaBundle\Entity\KlantLidmaatschap;
+use GaBundle\Service\KlantLidmaatschapDao;
+use GaBundle\Service\LidmaatschapDaoInterface;
 
 class IzIntakeSubscriber implements EventSubscriberInterface
 {
@@ -70,11 +84,11 @@ class IzIntakeSubscriber implements EventSubscriberInterface
         $klant = $izIntake->getIzDeelnemer()->getKlant();
 
         $gaIntake = $this->klantIntakeDao->findOneByKlant($klant);
-        if ($gaIntake instanceof GaKlantIntake) {
+        if ($gaIntake instanceof KlantIntake) {
             return;
         }
 
-        $gaIntake = new GaKlantIntake();
+        $gaIntake = new KlantIntake();
         $gaIntake
             ->setKlant($izIntake->getIzDeelnemer()->getKlant())
             ->setGespreksverslag('Automatisch aangemaakt door IZ-inschrijving')
@@ -95,11 +109,11 @@ class IzIntakeSubscriber implements EventSubscriberInterface
         $groep = $this->groepDao->find($this->erOpUitGroepId);
 
         $lidmaatschap = $this->klantLidmaatschapDao->findOneByGroepAndKlant($groep, $klant);
-        if ($lidmaatschap instanceof GaKlantLidmaatschap) {
+        if ($lidmaatschap instanceof KlantLidmaatschap) {
             return;
         }
 
-        $lidmaatschap = new GaKlantLidmaatschap($groep, $klant);
+        $lidmaatschap = new KlantLidmaatschap($groep, $klant);
         $lidmaatschap
             ->setCommunicatieEmail(true)
             ->setCommunicatiePost(true)

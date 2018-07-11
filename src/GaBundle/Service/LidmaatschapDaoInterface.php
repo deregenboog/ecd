@@ -3,9 +3,9 @@
 namespace GaBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use GaBundle\Entity\GaGroep;
-use GaBundle\Entity\GaLidmaatschap;
+use GaBundle\Entity\Lidmaatschap;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use GaBundle\Entity\Groep;
 
 interface LidmaatschapDaoInterface
 {
@@ -23,7 +23,7 @@ interface LidmaatschapDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findByGroep(GaGroep $entity);
+    public function findByGroep(Groep $entity);
 
     /**
      * @param int $id
@@ -33,17 +33,17 @@ interface LidmaatschapDaoInterface
     public function find($id);
 
     /**
-     * @param GaLidmaatschap $entity
+     * @param Lidmaatschap $entity
      */
-    public function create(GaLidmaatschap $entity);
+    public function create(Lidmaatschap $entity);
 
     /**
-     * @param GaLidmaatschap $entity
+     * @param Lidmaatschap $entity
      */
-    public function update(GaLidmaatschap $entity);
+    public function update(Lidmaatschap $entity);
 
     /**
-     * @param GaLidmaatschap $entity
+     * @param Lidmaatschap $entity
      */
-    public function delete(GaLidmaatschap $entity);
+    public function delete(Lidmaatschap $entity);
 }

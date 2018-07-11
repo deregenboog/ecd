@@ -4,7 +4,7 @@ namespace GaBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use GaBundle\Entity\GaGroep;
+use GaBundle\Entity\Groep;
 
 class GroepDao extends AbstractDao implements GroepDaoInterface
 {
@@ -19,7 +19,7 @@ class GroepDao extends AbstractDao implements GroepDaoInterface
         ],
     ];
 
-    protected $class = GaGroep::class;
+    protected $class = Groep::class;
 
     protected $alias = 'groep';
 
@@ -30,17 +30,17 @@ class GroepDao extends AbstractDao implements GroepDaoInterface
         return $this->doFindAll($builder, $page, $filter);
     }
 
-    public function create(GaGroep $entity)
+    public function create(Groep $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(GaGroep $entity)
+    public function update(Groep $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(GaGroep $entity)
+    public function delete(Groep $entity)
     {
         $this->doDelete($entity);
     }

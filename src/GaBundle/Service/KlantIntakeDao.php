@@ -5,7 +5,7 @@ namespace GaBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Entity\KlantIntake;
 
 class KlantIntakeDao extends AbstractDao implements KlantIntakeDaoInterface
 {
@@ -22,7 +22,7 @@ class KlantIntakeDao extends AbstractDao implements KlantIntakeDaoInterface
         ],
     ];
 
-    protected $class = GaKlantIntake::class;
+    protected $class = KlantIntake::class;
 
     protected $alias = 'intake';
 
@@ -48,17 +48,17 @@ class KlantIntakeDao extends AbstractDao implements KlantIntakeDaoInterface
         return $this->repository->findOneBy(['klant' => $klant]);
     }
 
-    public function create(GaKlantIntake $entity)
+    public function create(KlantIntake $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(GaKlantIntake $entity)
+    public function update(KlantIntake $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(GaKlantIntake $entity)
+    public function delete(KlantIntake $entity)
     {
         $this->doDelete($entity);
     }

@@ -4,8 +4,8 @@ namespace GaBundle\Service;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
-use GaBundle\Entity\GaKlantIntake;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use GaBundle\Entity\KlantIntake;
 
 interface KlantIntakeDaoInterface
 {
@@ -32,17 +32,17 @@ interface KlantIntakeDaoInterface
     public function find($id);
 
     /**
-     * @param GaKlantIntake $entity
+     * @param KlantIntake $entity
      */
-    public function create(GaKlantIntake $entity);
+    public function create(KlantIntake $entity);
 
     /**
-     * @param GaKlantIntake $entity
+     * @param KlantIntake $entity
      */
-    public function update(GaKlantIntake $entity);
+    public function update(KlantIntake $entity);
 
     /**
-     * @param GaKlantIntake $entity
+     * @param KlantIntake $entity
      */
-    public function delete(GaKlantIntake $entity);
+    public function delete(KlantIntake $entity);
 }

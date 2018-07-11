@@ -3,8 +3,8 @@
 namespace IzBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvents;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use IzBundle\Entity\Intake;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

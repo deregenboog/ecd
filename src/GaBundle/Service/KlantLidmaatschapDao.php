@@ -2,9 +2,11 @@
 
 namespace GaBundle\Service;
 
+use AppBundle\Service\AbstractDao;
+use GaBundle\Entity\Lidmaatschap;
+use GaBundle\Entity\KlantLidmaatschap;
+use GaBundle\Entity\Groep;
 use AppBundle\Entity\Klant;
-use GaBundle\Entity\GaGroep;
-use GaBundle\Entity\GaKlantLidmaatschap;
 
 class KlantLidmaatschapDao extends LidmaatschapDao
 {
@@ -21,9 +23,9 @@ class KlantLidmaatschapDao extends LidmaatschapDao
         ],
     ];
 
-    protected $class = GaKlantLidmaatschap::class;
+    protected $class = KlantLidmaatschap::class;
 
-    public function findByGroep(GaGroep $groep, $page = null)
+    public function findByGroep(Groep $groep, $page = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', klant, werkgebied')
@@ -38,10 +40,10 @@ class KlantLidmaatschapDao extends LidmaatschapDao
         return $this->doFindAll($builder, $page);
     }
 
-    public function findOneByGroepAndKlant(GaGroep $groep, Klant $klant)
+    public function findOneByGroepAndKlant(Groep $groep, Klant $klant)
     {
         return $this->repository->findOneBy([
-            'gaGroep' => $groep,
+            'groep' => $groep,
             'klant' => $klant,
         ]);
     }

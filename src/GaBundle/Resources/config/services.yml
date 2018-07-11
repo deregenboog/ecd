@@ -11,9 +11,14 @@ services:
             - { name: kernel.event_subscriber }
 
     GaBundle\Event\CloseSubscriber:
+    GaBundle\Event\IzIntakeSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@router"
+            - '@GaBundle\Service\KlantIntakeDao'
+            - '@GaBundle\Service\GroepDao'
+            - '@GaBundle\Service\KlantLidmaatschapDao'
+            - 19
         tags:
             - { name: kernel.event_subscriber }
 

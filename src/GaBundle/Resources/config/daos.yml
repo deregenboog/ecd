@@ -6,4 +6,7 @@ services:
         parent: app.dao.abstract
 
     GaBundle\Service\KlantLidmaatschapDao:
-        parent: app.dao.abstract
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - 100
