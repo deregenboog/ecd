@@ -2,13 +2,10 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Form\BaseType;
+use AppBundle\Form\BaseSelectType;
 use IzBundle\Entity\Afsluiting;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseSelectType;
 
 class AfsluitingSelectType extends AbstractType
 {

@@ -13,7 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="model", type="string")
- * @ORM\DiscriminatorMap({"Klant" = "GaKlantIntake", "Vrijwilliger" = "GaVrijwilligerIntake"})
+ * @ORM\DiscriminatorMap({
+ *     "Klant" = "GaKlantIntake",
+ *     "Vrijwilliger" = "GaVrijwilligerIntake"
+ * })
  * @Gedmo\Loggable
  */
 abstract class GaIntake
@@ -115,10 +118,6 @@ abstract class GaIntake
      */
     protected $gaAfsluiting;
 
-    public function __construct()
-    {
-    }
-
     public function getId()
     {
         return $this->id;
@@ -130,6 +129,13 @@ abstract class GaIntake
     public function getMedewerker()
     {
         return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+
+        return $this;
     }
 
     /**
@@ -150,9 +156,23 @@ abstract class GaIntake
         return $this->gespreksverslag;
     }
 
+    public function setGespreksverslag($verslag = null)
+    {
+        $this->gespreksverslag = $verslag;
+
+        return $this;
+    }
+
     public function getIntakedatum()
     {
         return $this->intakedatum;
+    }
+
+    public function setIntakedatum(\DateTime $intakedatum)
+    {
+        $this->intakedatum = $intakedatum;
+
+        return $this;
     }
 
     public function getGaAfsluiting()

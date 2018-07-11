@@ -1,4 +1,5 @@
 imports:
+    - { resource: daos.yml }
     - { resource: exports.yml }
 
 services:
@@ -13,6 +14,15 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    GaBundle\Event\IzIntakeSubscriber:
+        arguments:
+            - '@GaBundle\Service\KlantIntakeDao'
+            - '@GaBundle\Service\GroepDao'
+            - '@GaBundle\Service\KlantLidmaatschapDao'
+            - 19
         tags:
             - { name: kernel.event_subscriber }
 

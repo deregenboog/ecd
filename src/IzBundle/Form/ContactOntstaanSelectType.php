@@ -2,12 +2,10 @@
 
 namespace IzBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\BaseSelectType;
 use IzBundle\Entity\ContactOntstaan;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseSelectType;
 
 class ContactOntstaanSelectType extends AbstractType
 {

@@ -2,11 +2,11 @@
 
 namespace IzBundle\Service;
 
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
 use IzBundle\Entity\IzVrijwilliger;
-use AppBundle\Entity\Vrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {

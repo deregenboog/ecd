@@ -30,7 +30,7 @@ interface VrijwilligerDaoInterface
      * @return IzVrijwilliger
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger);
-    
+
     /**
      * @param IzVrijwilliger $vrijwilliger
      */

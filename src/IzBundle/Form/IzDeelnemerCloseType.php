@@ -4,7 +4,6 @@ namespace IzBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
-use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\IzDeelnemer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

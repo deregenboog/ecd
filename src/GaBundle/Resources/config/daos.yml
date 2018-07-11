@@ -1,0 +1,9 @@
+services:
+    GaBundle\Service\GroepDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\KlantIntakeDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\KlantLidmaatschapDao:
+        parent: app.dao.abstract

@@ -2,14 +2,9 @@
 
 namespace IzBundle\Twig;
 
-use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Persoon;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
 
 class IzExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {

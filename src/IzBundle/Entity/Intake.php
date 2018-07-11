@@ -84,6 +84,30 @@ class Intake implements ZrmInterface
      */
     private $gespreksverslag;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $ondernemen;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $overdag;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $ontmoeten;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $regelzaken;
+
     public function __construct()
     {
         $this->intakeDatum = new \DateTime('today');
@@ -181,6 +205,78 @@ class Intake implements ZrmInterface
     public function setGespreksverslag($gespreksverslag = null)
     {
         $this->gespreksverslag = $gespreksverslag;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOndernemen()
+    {
+        return $this->ondernemen;
+    }
+
+    /**
+     * @param bool $ondernemen
+     */
+    public function setOndernemen($ondernemen)
+    {
+        $this->ondernemen = $ondernemen;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOverdag()
+    {
+        return $this->overdag;
+    }
+
+    /**
+     * @param bool $overdag
+     */
+    public function setOverdag($overdag)
+    {
+        $this->overdag = $overdag;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOntmoeten()
+    {
+        return $this->ontmoeten;
+    }
+
+    /**
+     * @param bool $ontmoeten
+     */
+    public function setOntmoeten($ontmoeten)
+    {
+        $this->ontmoeten = $ontmoeten;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRegelzaken()
+    {
+        return $this->regelzaken;
+    }
+
+    /**
+     * @param bool $regelzaken
+     */
+    public function setRegelzaken($regelzaken)
+    {
+        $this->regelzaken = $regelzaken;
 
         return $this;
     }
