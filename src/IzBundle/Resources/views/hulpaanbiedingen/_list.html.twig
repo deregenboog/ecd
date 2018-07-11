@@ -7,10 +7,13 @@
     {{ form(form) }}
 {% else %}
     <h3>Open hulpaanbiedingen</h3>
-    <p>
-        {{ html.addLink(path('iz_hulpaanbiedingen_add', {vrijwilliger: vrijwilliger.id})) }}
-        {{ html.link('Hulpaanbod toevoegen', path('iz_hulpaanbiedingen_add', {vrijwilliger: vrijwilliger.id})) }}
-    </p>
+    {% if not vrijwilliger.afgesloten %}
+        <p>
+            {{ html.addLink(path('iz_hulpaanbiedingen_add', {vrijwilliger: vrijwilliger.id})) }}
+            {{ html.link('Hulpaanbod toevoegen', path('iz_hulpaanbiedingen_add', {vrijwilliger: vrijwilliger.id})) }}
+        </p>
+    {% endif %}
+
     <table class="table table-hover">
         <thead>
             <tr>

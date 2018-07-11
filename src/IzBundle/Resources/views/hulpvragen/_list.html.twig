@@ -7,10 +7,12 @@
     {{ form(form) }}
 {% else %}
     <h3>Open hulpvragen</h3>
-    <p>
-        {{ html.addLink(path('iz_hulpvragen_add', {klant: klant.id})) }}
-        {{ html.link('Hulpvraag toevoegen', path('iz_hulpvragen_add', {klant: klant.id})) }}
-    </p>
+    {% if not klant.afgesloten %}
+        <p>
+            {{ html.addLink(path('iz_hulpvragen_add', {klant: klant.id})) }}
+            {{ html.link('Hulpvraag toevoegen', path('iz_hulpvragen_add', {klant: klant.id})) }}
+        </p>
+    {% endif %}
     <table class="table table-hover">
         <thead>
             <tr>
