@@ -37,8 +37,9 @@ class IzVrijwilligerType extends AbstractType
 
         $builder
             ->add('datumAanmelding', AppDateType::class)
-            ->add('binnengekomenVia', null, [
+            ->add('binnengekomenVia', BinnengekomenViaSelectType::class, [
                 'required' => false,
+                'current' => $options['data'] ? $options['data']->getBinnengekomenVia() : null,
             ])
             ->add('notitie', AppTextareaType::class, [
                 'required' => false,

@@ -24,16 +24,8 @@ class IzDeelnemerCloseType extends AbstractType
                 'required' => true,
                 'data' => new \DateTime('today'),
             ])
-            ->add('afsluiting', null, [
-                'label' => 'Afsluitreden',
+            ->add('afsluiting', AfsluitingSelectType::class, [
                 'required' => true,
-                'placeholder' => '',
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('afsluiting')
-                        ->where('afsluiting.actief = true')
-                        ->orderBy('afsluiting.naam')
-                    ;
-                },
             ])
             ->add('submit', SubmitType::class)
         ;

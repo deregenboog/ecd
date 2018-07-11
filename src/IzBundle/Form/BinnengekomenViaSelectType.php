@@ -2,14 +2,14 @@
 
 namespace IzBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\ContactOntstaan;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use IzBundle\Entity\BinnengekomenVia;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\BaseSelectType;
 
-class ContactOntstaanSelectType extends AbstractType
+class BinnengekomenViaSelectType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,7 @@ class ContactOntstaanSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => ContactOntstaan::class,
+            'class' => BinnengekomenVia::class,
         ]);
     }
 
