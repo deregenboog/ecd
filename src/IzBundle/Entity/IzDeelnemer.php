@@ -104,7 +104,7 @@ abstract class IzDeelnemer
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="iz_deelnemers_documenten", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(name="iz_deelnemers_documenten", inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE", unique=true)})
      * @ORM\OrderBy({"created": "DESC"})
      */
     protected $documenten;

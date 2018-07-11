@@ -1,31 +1,30 @@
-{% if deelnemer is defined %}
-    {% set entity = deelnemer %}
-    {% set url = path('iz_documenten_add', {deelnemer: entity.id}) %}
-{% endif %}
-
 <h2>Documenten</h2>
-{% if url is defined %}
-    <p>
-        {{ html.addLink(url) }}
-        {{ html.link('Document toevoegen', url) }}
-    </p>
-{% endif %}
-<table class="table table-hover">
+<p>
+    {% if deelnemer is defined %}
+        {{ html.link('Document toevoegen', path('iz_documenten_add', {deelnemer: deelnemer.id}), 'add') }}
+    {% endif %}
+</p>
+<table class="table">
     <tr>
         <th>Naam</th>
         <th>Datum</th>
         <th>Medewerker</th>
-        <th>Document</th>
+        <th colspan="2">Document</th>
     </tr>
+    {% if deelnemer is defined %}
+        {% set entity = deelnemer %}
+    {% endif %}
     {% for document in entity.documenten %}
         <tr>
             <td>{{ document.naam }}</td>
             <td>{{ document.created|date('d-m-Y') }}</td>
             <td>{{ document.medewerker }}</td>
             <td>
-                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
-                    Document downloaden
-                </a>
+                {{ html.link('Downloaden', vich_uploader_asset(document, 'file'), 'download') }}
+            </td>
+            <td>
+                {{ html.editLink(path('iz_documenten_edit', {id: document.id, redirect: app.request.get('url')})) }}
+                {{ html.deleteLink(path('iz_documenten_delete', {id: document.id, redirect: app.request.get('url')})) }}
             </td>
         </tr>
     {% endfor %}
