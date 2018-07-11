@@ -26,6 +26,8 @@ class IzKlantenController extends AppController
 
     public function beforeFilter()
     {
+        return $this->redirect('/iz/klanten');
+
         parent::beforeFilter();
         $this->klantDao = $this->container->get('IzBundle\Service\KlantDao');
     }

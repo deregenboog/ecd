@@ -26,6 +26,8 @@ class IzVrijwilligersController extends AppController
 
     public function beforeFilter()
     {
+        return $this->redirect('/iz/vrijwilligers');
+
         parent::beforeFilter();
         $this->vrijwilligerDao = $this->container->get('IzBundle\Service\VrijwilligerDao');
     }
