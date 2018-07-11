@@ -2,30 +2,16 @@
 
 namespace GaBundle\Event;
 
-use GaBundle\Entity\GaKlantIntake;
-use GaBundle\Entity\GaKlantLidmaatschap;
-use GaBundle\Service\GroepDaoInterface;
-use GaBundle\Service\KlantIntakeDaoInterface;
-use GaBundle\Service\LidmaatschapDaoInterface;
-use IzBundle\Entity\Intake;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Event\Events;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use AppBundle\Event\DienstenLookupEvent;
-use IzBundle\Event\Events;
-use Doctrine\ORM\EntityManager;
 use GaBundle\Entity\KlantIntake;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use GaBundle\Entity\KlantLidmaatschap;
+use GaBundle\Service\GroepDaoInterface;
 use GaBundle\Service\KlantIntakeDaoInterface;
+use GaBundle\Service\LidmaatschapDaoInterface;
 use IzBundle\Entity\Intake;
 use IzBundle\Entity\IzKlant;
-use GaBundle\Service\GroepDaoInterface;
-use GaBundle\Entity\KlantLidmaatschap;
-use GaBundle\Service\KlantLidmaatschapDao;
-use GaBundle\Service\LidmaatschapDaoInterface;
+use IzBundle\Event\Events;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IzIntakeSubscriber implements EventSubscriberInterface
 {

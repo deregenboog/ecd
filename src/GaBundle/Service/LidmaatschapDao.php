@@ -3,9 +3,8 @@
 namespace GaBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use GaBundle\Entity\Lidmaatschap;
 use GaBundle\Entity\Groep;
-use GaBundle\Entity\VrijwilligerLidmaatschap;
+use GaBundle\Entity\Lidmaatschap;
 
 abstract class LidmaatschapDao extends AbstractDao implements LidmaatschapDaoInterface
 {

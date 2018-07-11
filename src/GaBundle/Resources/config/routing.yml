@@ -4,11 +4,13 @@ groepsactiviteiten_klanten_index:
 groepsactiviteiten_vrijwilligers_index:
     path: groepsactiviteiten_vrijwilligers
 
-groepsactiviteiten_intakes_view:
-    path: /groepsactiviteiten/intakes/Klant/{klant_id}
+ga_annotations:
+    resource: "@GaBundle/Controller"
+    type: annotation
+    prefix: /ga
 
-groepsactiviteiten_klanten_groepen_view:
-    path: /groepsactiviteiten/groepen/Klant/{klant_id}
-
-groepsactiviteiten_vrijwilligers_groepen_view:
-    path: /groepsactiviteiten/groepen/Vrijwilliger/{vrijwilliger_id}
+ga_index:
+    path: /ga/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: ga_klantintakes_index

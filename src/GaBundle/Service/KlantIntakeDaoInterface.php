@@ -4,8 +4,8 @@ namespace GaBundle\Service;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use GaBundle\Entity\KlantIntake;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface KlantIntakeDaoInterface
 {

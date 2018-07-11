@@ -11,7 +11,6 @@ services:
             - { name: kernel.event_subscriber }
 
     GaBundle\Event\CloseSubscriber:
-    GaBundle\Event\IzIntakeSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@router"
@@ -31,254 +30,223 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    ga.repository.ga_groep_buurtmaatjes:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine", getRepository]
-        arguments:
-            - GaBundle\Entity\GaGroepBuurtmaatjes
-
-    ga.repository.ga_groep_eropuit:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine", getRepository]
-        arguments:
-            - GaBundle\Entity\GaGroepErOpUit
-
-    ga.repository.ga_groep_kwartiermaken:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine", getRepository]
-        arguments:
-            - GaBundle\Entity\GaGroepKwartiermaken
-
-    ga.repository.ga_groep_openhuis:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine", getRepository]
-        arguments:
-            - GaBundle\Entity\GaGroepOpenHuis
-
-    ga.repository.ga_groep_organisatie:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine", getRepository]
-        arguments:
-            - GaBundle\Entity\GaGroepOrganisatie
-
-    ga.form.rapportage:
-        class: GaBundle\Form\GaRapportageType
+    GaBundle\Form\RapportageType:
         tags:
             - { name: form.type }
 
     ga.report.buurtmaatjes.deelnemers.totaal:
         class: GaBundle\Report\DeelnemersTotaal
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes deelnemers totaal }
 
     ga.report.buurtmaatjes.deelnemers.per_groep:
         class: GaBundle\Report\DeelnemersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes deelnemers per groep }
 
     ga.report.buurtmaatjes.deelnemers.per_stadsdeel:
         class: GaBundle\Report\DeelnemersPerStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes deelnemers per stadsdeel }
 
     ga.report.buurtmaatjes.deelnemers.per_groep_stadsdeel:
         class: GaBundle\Report\DeelnemersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes deelnemers per groep en stadsdeel }
 
     ga.report.buurtmaatjes.vrijwilligers.totaal:
         class: GaBundle\Report\VrijwilligersTotaal
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes vrijwilligers totaal }
 
     ga.report.buurtmaatjes.vrijwilligers.per_groep:
         class: GaBundle\Report\VrijwilligersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes vrijwilligers per groep }
 
     ga.report.buurtmaatjes.vrijwilligers.per_groep_stadsdeel:
         class: GaBundle\Report\VrijwilligersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_buurtmaatjes"
+            - "@ga.repository.groep_buurtmaatjes"
         tags:
             - { name: ga.rapportage, category: Buurtmaatjes, title: Buurtmaatjes vrijwilligers per groep en stadsdeel }
 
     ga.report.eropuit.deelnemers.totaal:
         class: GaBundle\Report\DeelnemersTotaal
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit deelnemers totaal }
 
     ga.report.eropuit.deelnemers.per_groep:
         class: GaBundle\Report\DeelnemersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit deelnemers per groep }
 
     ga.report.eropuit.deelnemers.per_stadsdeel:
         class: GaBundle\Report\DeelnemersPerStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit deelnemers per stadsdeel }
 
     ga.report.eropuit.deelnemers.per_groep_stadsdeel:
         class: GaBundle\Report\DeelnemersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit deelnemers per groep en stadsdeel }
 
     ga.report.eropuit.vrijwilligers.totaal:
         class: GaBundle\Report\VrijwilligersTotaal
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit vrijwilligers totaal }
 
     ga.report.eropuit.vrijwilligers.per_groep:
         class: GaBundle\Report\VrijwilligersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit vrijwilligers per groep }
 
     ga.report.eropuit.vrijwilligers.per_groep_stadsdeel:
         class: GaBundle\Report\VrijwilligersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_eropuit"
+            - "@ga.repository.groep_eropuit"
         tags:
             - { name: ga.rapportage, category: ErOpUit, title: ErOpUit vrijwilligers per groep en stadsdeel }
 
     ga.report.kwartiermaken.deelnemers.totaal:
         class: GaBundle\Report\DeelnemersTotaal
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken deelnemers totaal }
 
     ga.report.kwartiermaken.deelnemers.per_groep:
         class: GaBundle\Report\DeelnemersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken deelnemers per groep }
 
     ga.report.kwartiermaken.deelnemers.per_stadsdeel:
         class: GaBundle\Report\DeelnemersPerStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken deelnemers per stadsdeel }
 
     ga.report.kwartiermaken.deelnemers.per_groep_stadsdeel:
         class: GaBundle\Report\DeelnemersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken deelnemers per groep en stadsdeel }
 
     ga.report.kwartiermaken.vrijwilligers.totaal:
         class: GaBundle\Report\VrijwilligersTotaal
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken vrijwilligers totaal }
 
     ga.report.kwartiermaken.vrijwilligers.per_groep:
         class: GaBundle\Report\VrijwilligersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken vrijwilligers per groep }
 
     ga.report.kwartiermaken.vrijwilligers.per_groep_stadsdeel:
         class: GaBundle\Report\VrijwilligersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_kwartiermaken"
+            - "@ga.repository.groep_kwartiermaken"
         tags:
             - { name: ga.rapportage, category: Kwartiermaken, title: Kwartiermaken vrijwilligers per groep en stadsdeel }
 
     ga.report.openhuis.deelnemers.totaal:
         class: GaBundle\Report\DeelnemersTotaal
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis deelnemers totaal }
 
     ga.report.openhuis.deelnemers.per_groep:
         class: GaBundle\Report\DeelnemersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis deelnemers per groep }
 
     ga.report.openhuis.deelnemers.per_stadsdeel:
         class: GaBundle\Report\DeelnemersPerStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis deelnemers per stadsdeel }
 
     ga.report.openhuis.deelnemers.per_groep_stadsdeel:
         class: GaBundle\Report\DeelnemersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis deelnemers per groep en stadsdeel }
 
     ga.report.openhuis.vrijwilligers.totaal:
         class: GaBundle\Report\VrijwilligersTotaal
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis vrijwilligers totaal }
 
     ga.report.openhuis.vrijwilligers.per_groep:
         class: GaBundle\Report\VrijwilligersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis vrijwilligers per groep }
 
     ga.report.openhuis.vrijwilligers.per_groep_stadsdeel:
         class: GaBundle\Report\VrijwilligersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_openhuis"
+            - "@ga.repository.groep_openhuis"
         tags:
             - { name: ga.rapportage, category: Open Huis, title: Open Huis vrijwilligers per groep en stadsdeel }
 
     ga.report.organisatie.vrijwilligers.totaal:
         class: GaBundle\Report\VrijwilligersTotaal
         arguments:
-            - "@ga.repository.ga_groep_organisatie"
+            - "@ga.repository.groep_organisatie"
         tags:
             - { name: ga.rapportage, category: Organisatie, title: Organisatie vrijwilligers totaal }
 
     ga.report.organisatie.vrijwilligers.per_groep:
         class: GaBundle\Report\VrijwilligersPerGroep
         arguments:
-            - "@ga.repository.ga_groep_organisatie"
+            - "@ga.repository.groep_organisatie"
         tags:
             - { name: ga.rapportage, category: Organisatie, title: Organisatie vrijwilligers per groep }
 
     ga.report.organisatie.vrijwilligers.per_groep_stadsdeel:
         class: GaBundle\Report\VrijwilligersPerGroepStadsdeel
         arguments:
-            - "@ga.repository.ga_groep_organisatie"
+            - "@ga.repository.groep_organisatie"
         tags:
             - { name: ga.rapportage, category: Organisatie, title: Organisatie vrijwilligers per groep en stadsdeel }

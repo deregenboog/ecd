@@ -70,6 +70,7 @@ doctrine:
                 hour: DoctrineExtensions\Query\Mysql\Hour
                 minute: DoctrineExtensions\Query\Mysql\Minute
                 now: DoctrineExtensions\Query\Mysql\Now
+                time: Luxifer\DQL\Datetime\Time
                 time_diff: DoctrineExtensions\Query\Mysql\TimeDiff
                 time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec
             string_functions:
@@ -125,6 +126,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /inloop/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/inloop'
+        ga_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /ga/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/ga'
         iz_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /iz/documenten/download
@@ -147,6 +152,7 @@ shivas_versioning:
     version_file: version.yml
 
 fos_ck_editor:
+    autoload: false
     jquery: true
     default_config: basic
     configs:

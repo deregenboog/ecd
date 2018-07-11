@@ -1,0 +1,32 @@
+{% extends 'GaBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'GaBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'verslagen'} %}
+    <div class="tab-content">
+        <div id="verslagen" class="tab-pane active">
+            <h2>Verslagen</h2>
+            {{ html.link('Verslag toevoegen', path('ga_vrijwilligerverslagen_add', {vrijwilliger: entity.id}), 'add') }}
+            {% for verslag in verslagen %}
+                <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }}</h3>
+                <p>
+                    {{ html.link('Verslag bewerken', path('ga_vrijwilligerverslagen_edit', {id: verslag.id}), 'edit') }}
+                </p>
+                <dl class="dl-horizontal">
+                    <dt>Medewerker</dt>
+                    <dd>{{ verslag.medewerker }}</dd>
+                    <dt>Opmerking</dt>
+                    <dd><div class="well">{{ verslag.opmerking|nl2br }}</div></dd>
+                </dl>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

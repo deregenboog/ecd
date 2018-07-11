@@ -62,11 +62,7 @@ class AbstractChildController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (!$parentEntity && $this->allowEmpty) {
-                    $this->dao->create($entity);
-                } else {
-                    $this->parentDao->update($parentEntity);
-                }
+                $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
@@ -137,6 +133,15 @@ class AbstractChildController extends AbstractController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
+    }
+
+    protected function persistEntity($entity, $parentEntity)
+    {
+        if (!$parentEntity && $this->allowEmpty) {
+            $this->dao->create($entity);
+        } else {
+            $this->parentDao->update($parentEntity);
+        }
     }
 
     protected function getParentConfig(Request $request)

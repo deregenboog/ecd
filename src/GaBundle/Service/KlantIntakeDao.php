@@ -17,8 +17,8 @@ class KlantIntakeDao extends AbstractDao implements KlantIntakeDaoInterface
             'klant.achternaam',
             'klant.geboortedatum',
             'medewerker.voornaam',
-            'dossier.intakedatum',
-            'dossier.afsluitdatum',
+            'intake.intakedatum',
+            'intake.afsluitdatum',
         ],
     ];
 
@@ -29,9 +29,8 @@ class KlantIntakeDao extends AbstractDao implements KlantIntakeDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("{$this->alias}, klant, werkgebied, medewerker")
+            ->select("{$this->alias}, klant, medewerker")
             ->innerJoin("{$this->alias}.klant", 'klant')
-            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.medewerker", 'medewerker')
         ;
 

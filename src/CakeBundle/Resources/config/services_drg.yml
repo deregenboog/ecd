@@ -150,6 +150,21 @@ parameters:
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
+                - ga
+                - GaBundle\Controller\Activiteiten
+                - GaBundle\Controller\Groepen
+                - GaBundle\Controller\Klantdeelnames
+                - GaBundle\Controller\Klanten
+                - GaBundle\Controller\Klantintakes
+                - GaBundle\Controller\Klantlidmaatschappen
+                - GaBundle\Controller\Klantverslagen
+                - GaBundle\Controller\Rapportages
+                - GaBundle\Controller\Selecties
+                - GaBundle\Controller\Vrijwilligerdeelnames
+                - GaBundle\Controller\Vrijwilligerintakes
+                - GaBundle\Controller\Vrijwilligerlidmaatschappen
+                - GaBundle\Controller\Vrijwilligers
+                - GaBundle\Controller\Vrijwilligerverslagen
                 - Hi5
                 - Intakes
                 - Klanten
@@ -283,6 +298,22 @@ parameters:
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
+                - ga
+                - GaBundle\Controller\Activiteiten
+                - GaBundle\Controller\Groepen
+                - GaBundle\Controller\Klantdeelnames
+                - GaBundle\Controller\Klanten
+                - GaBundle\Controller\Klantintakes
+                - GaBundle\Controller\Klantlidmaatschappen
+                - GaBundle\Controller\Klantverslagen
+                - GaBundle\Controller\Lidmaatschappen
+                - GaBundle\Controller\Rapportages
+                - GaBundle\Controller\Selecties
+                - GaBundle\Controller\Vrijwilligerdeelnames
+                - GaBundle\Controller\Vrijwilligerintakes
+                - GaBundle\Controller\Vrijwilligerlidmaatschappen
+                - GaBundle\Controller\Vrijwilligers
+                - GaBundle\Controller\Vrijwilligerverslagen
             GROUP_BEHEER_GROEPSACTIVITEIT:
                 - Klanten
                 - AppBundle\Controller\Klanten
@@ -299,6 +330,25 @@ parameters:
                 - GroepsactiviteitenRapportages
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
+                - GroepsactiviteitenAfsluitingen
+                - ga
+                - GaBundle\Controller\Activiteiten
+                - GaBundle\Controller\Groepen
+                - GaBundle\Controller\Intakeafsluitredenen
+                - GaBundle\Controller\Klantdeelnames
+                - GaBundle\Controller\Klanten
+                - GaBundle\Controller\Klantintakes
+                - GaBundle\Controller\Klantlidmaatschappen
+                - GaBundle\Controller\Klantverslagen
+                - GaBundle\Controller\Lidmaatschappen
+                - GaBundle\Controller\Lidmaatschapafsluitredenen
+                - GaBundle\Controller\Rapportages
+                - GaBundle\Controller\Selecties
+                - GaBundle\Controller\Vrijwilligerdeelnames
+                - GaBundle\Controller\Vrijwilligerintakes
+                - GaBundle\Controller\Vrijwilligerlidmaatschappen
+                - GaBundle\Controller\Vrijwilligers
+                - GaBundle\Controller\Vrijwilligerverslagen
             GROUP_OEK:
                 - oek
                 - OekBundle\Controller\Deelnames
@@ -631,6 +681,25 @@ parameters:
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
+                - ga
+                - GaBundle\Controller\Activiteiten
+                - GaBundle\Controller\Documenten
+                - GaBundle\Controller\Groepen
+                - GaBundle\Controller\Intakeafsluitredenen
+                - GaBundle\Controller\Klantdeelnames
+                - GaBundle\Controller\Klanten
+                - GaBundle\Controller\Klantintakes
+                - GaBundle\Controller\Klantlidmaatschappen
+                - GaBundle\Controller\Klantverslagen
+                - GaBundle\Controller\Lidmaatschappen
+                - GaBundle\Controller\Lidmaatschapafsluitredenen
+                - GaBundle\Controller\Rapportages
+                - GaBundle\Controller\Selecties
+                - GaBundle\Controller\Vrijwilligerdeelnames
+                - GaBundle\Controller\Vrijwilligerintakes
+                - GaBundle\Controller\Vrijwilligerlidmaatschappen
+                - GaBundle\Controller\Vrijwilligers
+                - GaBundle\Controller\Vrijwilligerverslagen
                 - Groepsactiviteiten
                 - GroepsactiviteitenKlanten
                 - groepsactiviteiten_klanten
@@ -641,6 +710,7 @@ parameters:
                 - GroepsactiviteitenRapportages
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
+                - GroepsactiviteitenAfsluitingen
 
         # controller: {label, url}
         all_menu_items:
@@ -671,9 +741,12 @@ parameters:
             dagbesteding:
                 label: Dagbesteding
                 url: dagbesteding
-            groepsactiviteiten_klanten:
+#            groepsactiviteiten_klanten:
+#                label: Groepsactiviteiten
+#                url: groepsactiviteiten_klanten
+            ga:
                 label: Groepsactiviteiten
-                url: groepsactiviteiten_klanten
+                url: ga
 #            Hi5:
 #                label: Hi5
 #                url: Hi5

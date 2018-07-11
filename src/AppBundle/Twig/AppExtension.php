@@ -58,7 +58,8 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('class', 'get_class'),
+            new \Twig_SimpleFunction('class', [$this, 'getClass']),
+            new \Twig_SimpleFunction('instanceof', [$this, 'isInstanceof']),
             new \Twig_SimpleFunction('isActiveRoute', [$this, 'isActiveRoute']),
             new \Twig_SimpleFunction('isActivePath', [$this, 'isActivePath']),
         ];
@@ -222,6 +223,22 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function uniqueFilter(array $values)
     {
         return array_unique($values);
+    }
+
+    public function getClass($object, $fqcn = true)
+    {
+        $class = get_class($object);
+
+        if (false === $fqcn) {
+            $class = substr($class, 1 + strrpos($class, '\\'));
+        }
+
+        return $class;
+    }
+
+    public function isInstanceof($object, $class)
+    {
+        return $object instanceof $class;
     }
 
     public function isActiveRoute($patterns)

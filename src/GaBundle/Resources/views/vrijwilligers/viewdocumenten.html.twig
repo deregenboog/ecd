@@ -1,0 +1,45 @@
+{% extends 'GaBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'GaBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'documenten'} %}
+    <div class="tab-content">
+        <div id="documenten" class="tab-pane active">
+            <h2>Documenten</h2>
+            <p>
+                {{ html.link('Documenten toevoegen', path('ga_documenten_add', {vrijwilliger: entity.id}), 'add') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Datum</th>
+                        <th>Medewerker</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for document in documenten %}
+                        <tr>
+                            <td>{{ document.naam }}</td>
+                            <td>{{ document.created|date('d-m-Y') }}</td>
+                            <td>{{ document.medewerker }}</td>
+                            <td>
+                                {{ html.link('Downloaden', vich_uploader_asset(document, 'file'), 'download') }}
+                                {{ html.link('Verwijderen', path('ga_documenten_delete', {id: document.id}), 'delete') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'GaBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Werkgebied</dt>
+        <dd>{{ entity.werkgebied }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#deelnemers">Deelnemers</a></li>
+        <li><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="deelnemers" class="tab-pane active">
+        <h2>Deelnemers</h2>
+        <p>
+            {{ html.link('Deelnemer toevoegen', path('ga_klantlidmaatschappen_add', {groep: entity.id}), 'add') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        {{ knp_pagination_sortable(klantlidmaatschappen, 'Deelnemer', 'klant.achternaam') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(klantlidmaatschappen, 'Werkgebied', 'werkgebied.naam') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(klantlidmaatschappen, 'Lid sinds', 'lidmaatschap.startdatum') }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lidmaatschap in klantlidmaatschappen %}
+                    <tr data-href="{{ path('ga_dossiers_view', {id: lidmaatschap.klant.id}) }}">
+                        <td>{{ lidmaatschap.klant|naam_voor_achter }}</td>
+                        <td>{{ lidmaatschap.klant.werkgebied }}</td>
+                        <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(klantlidmaatschappen) }}
+        </div>
+        <div id="vrijwilligers" class="tab-pane">
+            <h2>Vrijwilligers</h2>
+            <p>
+                {{ html.link('Vrijwilliger toevoegen', path('ga_vrijwilligerlidmaatschappen_add', {groep: entity.id}), 'add') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Vrijwilliger</th>
+                        <th>Werkgebied</th>
+                        <th>Lid sinds</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lidmaatschap in vrijwilligerlidmaatschappen %}
+                        <tr data-href="{{ path('ga_vrijwilligers_view', {id: lidmaatschap.vrijwilliger.id}) }}">
+                            <td>{{ lidmaatschap.vrijwilliger|naam_voor_achter }}</td>
+                            <td>{{ lidmaatschap.vrijwilliger.werkgebied }}</td>
+                            <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

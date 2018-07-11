@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     indexes={
  *         @ORM\Index(name="idx_vrijwilligers_werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"}),
- *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"})
+ *         @ORM\Index(name="idx_vrijwilligers_geboortedatum", columns={"geboortedatum"})
  *     }
  * )
  * @Gedmo\Loggable

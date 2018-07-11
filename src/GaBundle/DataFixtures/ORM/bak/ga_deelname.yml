@@ -1,0 +1,9 @@
+GaBundle\Entity\Deelname:
+    ga_klant_deelname_{1..50}:
+        dossier: '@klantdossier_*'
+        gaActiviteit: '@ga_activiteit_*'
+        status: 'Aanwezig'
+    ga_vrijwilliger_deelname_{1..50}:
+        dossier: '@vrijwilligerdossier_*'
+        activiteit: '@ga_activiteit_*'
+        status: 'Aanwezig'

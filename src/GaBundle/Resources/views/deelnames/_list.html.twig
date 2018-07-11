@@ -1,0 +1,109 @@
+{% if instanceof(entity, 'GaBundle\\Entity\\Dossier') %}
+    <h2>Activiteiten</h2>
+    <p>
+        {{ html.link('Activiteit toevoegen', path('ga_deelnames_add', {dossier: entity.id}), 'add') }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Activiteit</th>
+                <th>Datum</th>
+                <th>Tijd</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deelname in entity.deelnames %}
+                <tr>
+                    <td>{{ html.link(deelname.activiteit, path('ga_activiteiten_view', {id: deelname.activiteit.id})) }}</td>
+                    <td>{{ deelname.activiteit.datum|date('d-m-Y') }}</td>
+                    <td>{{ deelname.activiteit.tijd|date('H:i') }}</td>
+                    <td>{{ deelname.status }}</td>
+                    <td>
+                        {% set url = path('ga_deelnames_edit', {id: deelname.id}) %}
+                        {{ html.editLink(url) }}
+                        {{ html.link('Deelname wijzigen', url) }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if instanceof(entity, 'GaBundle\\Entity\\Activiteit') %}
+    {% if 'klanten' == context %}
+        <h2>Deelnemers</h2>
+        <p>
+            {% set url = path('ga_klantdeelnames_add', {activiteit: entity.id, type: 'klant'}) %}
+            {{ html.addLink(url) }}
+            {{ html.link('Deelnemer toevoegen', url) }}
+            {% if entity.groep and entity.groep.klantlidmaatschappen|length > 0 %}
+                {% set url = path('ga_klantdeelnames_addall', {activiteit: entity.id, type: 'klant'}) %}
+                {{ html.addLink(url) }}
+                {{ html.link('Alle deelnemers uit groep toevoegen', url) }}
+            {% endif %}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Deelnemer</th>
+                    <th>Datum</th>
+                    <th>Tijd</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for deelname in entity.klantDeelnames %}
+                    <tr data-href="{{ path('ga_klanten_view', {id: deelname.id}) }}">
+                        <td>{{ deelname.klant }}</td>
+                        <td>{{ deelname.activiteit.datum|date('d-m-Y') }}</td>
+                        <td>{{ deelname.activiteit.tijd|date('H:i') }}</td>
+                        <td>{{ deelname.status }}</td>
+                        <td>
+                            {% set url = path('ga_klantdeelnames_edit', {id: deelname.id}) %}
+                            {{ html.editLink(url) }}
+                            {{ html.link('Deelname wijzigen', url) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elseif 'vrijwilligers' == context %}
+        <h2>Vrijwilligers</h2>
+        <p>
+            {{ html.link('Vrijwilliger toevoegen', path('ga_vrijwilligerdeelnames_add', {activiteit: entity.id, type: 'vrijwilliger'}), 'add') }}
+            {% if entity.groep and entity.groep.vrijwilligerlidmaatschappen|length > 0 %}
+                {% set url = path('ga_vrijwilligerdeelnames_addall', {activiteit: entity.id, type: 'vrijwilliger'}) %}
+                {{ html.addLink(url) }}
+                {{ html.link('Alle vrijwilligers uit groep toevoegen', url) }}
+            {% endif %}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Vrijwilliger</th>
+                    <th>Datum</th>
+                    <th>Tijd</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for deelname in entity.vrijwilligerDeelnames %}
+                    <tr data-href="{{ path('ga_vrijwilligers_view', {id: deelname.id}) }}">
+                        <td>{{ deelname.vrijwilliger }}</td>
+                        <td>{{ deelname.activiteit.datum|date('d-m-Y') }}</td>
+                        <td>{{ deelname.activiteit.tijd|date('H:i') }}</td>
+                        <td>{{ deelname.status }}</td>
+                        <td>
+                            {% set url = path('ga_vrijwilligerdeelnames_edit', {id: deelname.id}) %}
+                            {{ html.editLink(url) }}
+                            {{ html.link('Deelname wijzigen', url) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endif %}

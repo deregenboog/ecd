@@ -1,0 +1,35 @@
+{% extends 'GaBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'GaBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'afsluiting'} %}
+    <div class="tab-content">
+        <div id="afsluiting" class="tab-pane active">
+            <h2>Afsluiting</h2>
+            {% if intake.afsluitdatum %}
+                <dl class="dl-horizontal">
+                    <dt>Datum afsluiting</dt>
+                    <dd>{{ intake.afsluitdatum ? intake.afsluitdatum|date('d-m-Y') }}</dd>
+                    <dt>Reden afsluiting</dt>
+                    <dd>{{ intake.afsluitdatum }}</dd>
+                </dl>
+            {% else %}
+                {% if lidmaatschappen|length > 0 %}
+                    <p class="alert alert-danger">Er is nog een lopende groep. Sluit die eerst, voor je het dossier sluit.</p>
+                {% else %}
+                    <p>
+                        {{ html.link('Afsluiten', path('ga_vrijwilligers_close', {id: entity.id}), 'close') }}
+                    </p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

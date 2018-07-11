@@ -1,0 +1,27 @@
+<h1>E-mail verzenden</h1>
+{{ form_start(form, {action: path('ga_selecties_email')}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <span class="form-inline pull-right">
+            {{ form_row(form.submit, {label: 'E-mail verzenden'}) }}
+        </span>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>Afzender</dt>
+        <dd>{{ form.from.vars.data }}</dd>
+        <dt>Ontvangers</dt>
+        <dd>
+            {% if form.to.vars.data|split(',')|length > 20 %}
+                {{ form.to.vars.data|split(',')|length }} personen
+            {% else %}
+                {{ form.to.vars.data }}
+            {% endif %}
+        </dd>
+    </dl>
+    {{ form_row(form.to) }}
+    {{ form_row(form.subject) }}
+    {{ form_row(form.text) }}
+    {{ form_row(form.file1) }}
+    {{ form_row(form.file2) }}
+    {{ form_row(form.file3) }}
+{{ form_end(form) }}

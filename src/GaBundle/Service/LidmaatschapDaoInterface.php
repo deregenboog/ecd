@@ -3,9 +3,9 @@
 namespace GaBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
+use GaBundle\Entity\Groep;
 use GaBundle\Entity\Lidmaatschap;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use GaBundle\Entity\Groep;
 
 interface LidmaatschapDaoInterface
 {

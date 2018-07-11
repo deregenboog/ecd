@@ -1,0 +1,25 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('ga_index') }}">Groepsactiviteiten</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Deelnemers', path('ga_klantintakes_index'), isActiveRoute('ga_klanten_') or isActiveRoute('ga_klantintakes_')) }}
+    {{ html.navLink('Vrijwilligers', path('ga_vrijwilligerintakes_index'), isActiveRoute('ga_vrijwilligers_') or isActiveRoute('ga_vrijwilligerintakes_')) }}
+    {{ html.navLink('Groepen', path('ga_groepen_index'), isActiveRoute('ga_groepen_')) }}
+    {{ html.navLink('Activiteiten', path('ga_activiteiten_index'), isActiveRoute('ga_activiteiten_')) }}
+    {{ html.navLink('Rapportages', path('ga_rapportages_index'), isActiveRoute('ga_rapportages_')) }}
+    {{ html.navLink('Selecties', path('ga_selecties_index'), isActiveRoute('ga_selecties_')) }}
+    {% if constant('GROUP_BEHEER_GROEPSACTIVITEIT') in userGroups|keys %}
+        <li role="presentation" class="dropdown {{ isActivePath('ga/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Afsluitredenen intakes', path('ga_intakeafsluitredenen_index'), isActiveRoute('ga_intakeafsluitredenen_')) }}
+                {{ html.navLink('Afsluitredenen lidmaatschappen', path('ga_lidmaatschapafsluitredenen_index'), isActiveRoute('ga_lidmaatschapaflsuitredenen_')) }}
+            </ul>
+        </li>
+    {% endif %}
+</ul>

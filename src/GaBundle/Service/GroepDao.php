@@ -25,7 +25,9 @@ class GroepDao extends AbstractDao implements GroepDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
+        ;
 
         return $this->doFindAll($builder, $page, $filter);
     }

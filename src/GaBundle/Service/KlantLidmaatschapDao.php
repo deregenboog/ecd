@@ -2,11 +2,9 @@
 
 namespace GaBundle\Service;
 
-use AppBundle\Service\AbstractDao;
-use GaBundle\Entity\Lidmaatschap;
-use GaBundle\Entity\KlantLidmaatschap;
-use GaBundle\Entity\Groep;
 use AppBundle\Entity\Klant;
+use GaBundle\Entity\Groep;
+use GaBundle\Entity\KlantLidmaatschap;
 
 class KlantLidmaatschapDao extends LidmaatschapDao
 {

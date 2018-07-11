@@ -7,7 +7,7 @@ use AppBundle\Entity\Persoon;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
-use GaBundle\Entity\GaGroep;
+use GaBundle\Entity\Groep;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -67,7 +67,7 @@ class CloseSubscriber implements EventSubscriberInterface
     private function hasErOpUitSubscription(Persoon $persoon)
     {
         if ($persoon instanceof Klant) {
-            $erOpUit = $this->entityManager->getRepository(GaGroep::class)->createQueryBuilder('groep')
+            $erOpUit = $this->entityManager->getRepository(Groep::class)->createQueryBuilder('groep')
                 ->innerJoin('groep.gaKlantLeden', 'lid', 'WITH', 'lid = :klant')
                 ->where('groep.id = :id')
                 ->setParameters([
@@ -78,7 +78,7 @@ class CloseSubscriber implements EventSubscriberInterface
                 ->getOneOrNullResult()
             ;
         } elseif ($persoon instanceof Vrijwilliger) {
-            $erOpUit = $this->entityManager->getRepository(GaGroep::class)->createQueryBuilder('groep')
+            $erOpUit = $this->entityManager->getRepository(Groep::class)->createQueryBuilder('groep')
                 ->innerJoin('groep.gaVrijwilligerLeden', 'lid', 'WITH', 'lid = :vrijwilliger')
                 ->where('groep.id = :id')
                 ->setParameters([

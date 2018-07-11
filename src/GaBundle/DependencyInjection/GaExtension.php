@@ -2,6 +2,7 @@
 
 namespace GaBundle\DependencyInjection;
 
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -24,5 +25,11 @@ class GaExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        try {
+            $loader->load(sprintf('services_%s.yml', $container->getParameter('kernel.environment')));
+        } catch (FileLocatorFileNotFoundException $exception) {
+            // ignore
+        }
     }
 }
