@@ -4,6 +4,7 @@ namespace IzBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityNotFoundException;
 use IzBundle\Entity\Intervisiegroep;
 
 class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterface
@@ -25,6 +26,7 @@ class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterf
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('intervisiegroep')
+            ->addSelect('medewerker')
             ->leftJoin('intervisiegroep.medewerker', 'medewerker')
         ;
 
@@ -37,6 +39,26 @@ class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterf
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    public function find($id)
+    {
+        $entity = $this->repository->createQueryBuilder('intervisiegroep')
+            ->addSelect('lidmaatschap, izVrijwilliger, medewerker')
+            ->innerJoin('intervisiegroep.lidmaatschappen', 'lidmaatschap')
+            ->innerJoin('lidmaatschap.vrijwilliger', 'izVrijwilliger', 'WITH', 'izVrijwilliger.afsluitDatum > NOW() OR izVrijwilliger.afsluitDatum IS NULL')
+            ->leftJoin('intervisiegroep.medewerker', 'medewerker')
+            ->where('intervisiegroep.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+
+        if ($entity) {
+            return $entity;
+        }
+
+        throw new EntityNotFoundException();
     }
 
     public function create(Intervisiegroep $entity)
