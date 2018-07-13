@@ -5,6 +5,7 @@ namespace IzBundle\Entity;
 use AppBundle\Exception\AppException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
@@ -92,6 +93,16 @@ class Hulpvraag extends Hulp
         }
 
         $this->hulpaanbod = $koppeling->getHulpaanbod();
+
+        return $this;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
+        if ($this->isGekoppeld()) {
+            $this->getKoppeling()->setMedewerker($medewerker);
+        }
 
         return $this;
     }

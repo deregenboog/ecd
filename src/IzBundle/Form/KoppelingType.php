@@ -24,38 +24,22 @@ class KoppelingType extends AbstractType
         $hulpaanbod = $hulpvraag->getKoppeling()->getHulpaanbod();
 
         if ($hulpvraag instanceof Hulpvraag) {
-            $builder->add('hulpvraag', HulpvraagType::class, [
-                'inherit_data' => true,
+            $builder->add('hulpvraag', DummyChoiceType::class, [
+                'dummy_label' => (string) $hulpvraag,
             ]);
-            foreach ($builder->get('hulpvraag')->all() as $elm) {
-                $builder->get('hulpvraag')->remove($elm->getName());
-            }
-            $builder->get('hulpvraag')
-                ->add('deelnemer', DummyChoiceType::class, [
-                    'dummy_label' => (string) $hulpvraag,
-                ])
-                ->add('medewerker', MedewerkerType::class, [
-                    'label' => 'Coördinator',
-                ])
-            ;
         }
 
         if ($hulpaanbod instanceof Hulpaanbod) {
-            $builder->add('hulpaanbod', HulpaanbodType::class);
-            foreach ($builder->get('hulpaanbod')->all() as $elm) {
-                $builder->get('hulpaanbod')->remove($elm->getName());
-            }
-            $builder->get('hulpaanbod')
-                ->add('vrijwilliger', DummyChoiceType::class, [
-                    'dummy_label' => (string) $hulpaanbod,
-                ])
-                ->add('medewerker', MedewerkerType::class, [
-                    'label' => 'Coördinator',
-                ])
-            ;
+            $builder->add('hulpaanbod', DummyChoiceType::class, [
+                'dummy_label' => (string) $hulpaanbod,
+            ]);
         }
 
         $builder
+            ->add('medewerker', MedewerkerType::class, [
+                'label' => 'Coördinator',
+                'required' => true,
+            ])
             ->add('koppelingStartdatum', AppDateType::class, [
                 'label' => 'Startdatum koppeling',
                 'required' => true,

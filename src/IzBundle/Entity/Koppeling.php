@@ -2,6 +2,8 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
+
 class Koppeling
 {
     /**
@@ -78,6 +80,29 @@ class Koppeling
     public function getHulpaanbod()
     {
         return $this->hulpaanbod;
+    }
+
+    /**
+     * @return Medewerker
+     */
+    public function getMedewerker()
+    {
+        return $this->hulpvraag->getMedewerker();
+    }
+
+    /**
+     * @param Medewerker $medewerker
+     */
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        if ($this->hulpvraag->getMedewerker() !== $medewerker) {
+            $this->hulpvraag->setMedewerker($medewerker);
+        }
+        if ($this->hulpaanbod->getMedewerker() !== $medewerker) {
+            $this->hulpaanbod->setMedewerker($medewerker);
+        }
+
+        return $this;
     }
 
     /**
