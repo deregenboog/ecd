@@ -46,6 +46,7 @@ class Vrijwilliger extends Persoon
 
     /**
      * @return bool
+     *
      * @deprecated
      */
     public function getVogAangevraagd()
@@ -75,6 +76,7 @@ class Vrijwilliger extends Persoon
 
     /**
      * @return bool
+     *
      * @deprecated
      */
     public function getVogAanwezig()
@@ -104,6 +106,7 @@ class Vrijwilliger extends Persoon
 
     /**
      * @return bool
+     *
      * @deprecated
      */
     public function getOvereenkomstAanwezig()

@@ -2,6 +2,8 @@
 
 namespace GaBundle\Event;
 
+use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Entity\GaKlantLidmaatschap;
 use GaBundle\Service\GroepDaoInterface;
 use GaBundle\Service\KlantIntakeDaoInterface;
 use GaBundle\Service\LidmaatschapDaoInterface;
@@ -10,8 +12,6 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use GaBundle\Entity\GaKlantIntake;
-use GaBundle\Entity\GaKlantLidmaatschap;
 
 class IzIntakeSubscriber implements EventSubscriberInterface
 {

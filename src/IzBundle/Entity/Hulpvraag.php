@@ -2,10 +2,10 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Exception\AppException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")

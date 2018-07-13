@@ -11,10 +11,10 @@ use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpaanbodFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HulpaanbodFilterType extends AbstractType
 {
@@ -26,7 +26,7 @@ class HulpaanbodFilterType extends AbstractType
         if (in_array('matching', $options['enabled_filters'])) {
             $builder->add('matching', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen matchende kandidaten tonen'
+                'label' => 'Alleen matchende kandidaten tonen',
             ]);
         }
 
