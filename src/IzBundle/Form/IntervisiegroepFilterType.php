@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class IntervisiegroepFilterType extends AbstractType
 {
@@ -38,6 +39,13 @@ class IntervisiegroepFilterType extends AbstractType
             $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
                 'label' => false,
+            ]);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen actieve groepen',
             ]);
         }
 
@@ -73,10 +81,12 @@ class IntervisiegroepFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IntervisiegroepFilter::class,
+            'data' => new IntervisiegroepFilter(),
             'enabled_filters' => [
                 'id',
                 'naam',
                 'startdatum',
+                'actief',
                 'einddatum',
                 'medewerker',
                 'filter',

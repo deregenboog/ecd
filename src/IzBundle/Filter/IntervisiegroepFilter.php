@@ -25,6 +25,11 @@ class IntervisiegroepFilter implements FilterInterface
     public $startdatum;
 
     /**
+     * @var bool
+     */
+    public $actief = true;
+
+    /**
      * @var AppDateRangeModel
      */
     public $einddatum;
@@ -63,6 +68,10 @@ class IntervisiegroepFilter implements FilterInterface
                     ->setParameter('startdatum_tot', $this->startdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder->andWhere('NOW() BETWEEN intervisiegroep.startdatum AND intervisiegroep.einddatum OR intervisiegroep.startdatum IS NULL OR intervisiegroep.einddatum IS NULL');
         }
 
         if ($this->einddatum) {
