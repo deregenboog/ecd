@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\EntityNotFoundException;
 
 abstract class AbstractDao
 {
@@ -75,13 +74,7 @@ abstract class AbstractDao
 
     public function find($id)
     {
-        $entity = $this->repository->find($id);
-
-        if ($entity) {
-            return $entity;
-        }
-
-        throw new EntityNotFoundException();
+        return $this->repository->find($id);
     }
 
     protected function doCreate($entity)
