@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class DocumentCopyCommand extends ContainerAwareCommand
 {
@@ -16,6 +19,7 @@ class DocumentCopyCommand extends ContainerAwareCommand
     {
         $this
             ->setName('iz:document:copy')
+            ->addArgument('filename', InputArgument::OPTIONAL, 'Filename to copy')
             ->addOption('dry-run')
         ;
     }
@@ -28,9 +32,14 @@ class DocumentCopyCommand extends ContainerAwareCommand
         $fs = new Filesystem();
         $count = 0;
 
-        $documents = $entityManager->getRepository(Document::class)->findAll();
+        if ($input->hasArgument('filename')) {
+            $filename = $input->getArgument('filename');
+            $documents = $entityManager->getRepository(Document::class)->findByFilename($filename);
+        } else {
+            $documents = $entityManager->getRepository(Document::class)->findAll();
+        }
         foreach ($documents as $document) {
-            $attachment = $entityManager->getRepository(Attachment::class)->findOneBY([
+            $attachment = $entityManager->getRepository(Attachment::class)->findOneBy([
                 'basename' => $document->getFilename(),
                 'model' => 'IzDeelnemer',
             ]);
@@ -42,12 +51,16 @@ class DocumentCopyCommand extends ContainerAwareCommand
             $source = sprintf('%s/media/%s/%s', $archiveDir, $attachment->dirname, $attachment->basename);
             $destination = sprintf('%s/iz/%s', $archiveDir, $document->getFilename());
 
-            if ($fs->exists($source) && !$fs->exists($destination)) {
+            try {
                 $output->writeln(sprintf('Copy %s to %s', $source, $destination));
                 if (!$input->getOption('dry-run')) {
-                    $fs->copy($source, $destination);
+                    $fs->copy($source, $destination, true);
                 }
                 ++$count;
+            } catch (FileNotFoundException $e) {
+                $output->writeln('Source does not exists');
+            } catch (IOException $e) {
+                $output->writeln('Error copying');
             }
         }
 
