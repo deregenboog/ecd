@@ -13,6 +13,11 @@ use IzBundle\Entity\Project;
 class HulpvraagFilter implements FilterInterface
 {
     /**
+     * @var bool
+     */
+    public $matching = true;
+
+    /**
      * @var \DateTime
      */
     public $startdatum;

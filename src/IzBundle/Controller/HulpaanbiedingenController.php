@@ -15,6 +15,7 @@ use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use IzBundle\Filter\HulpvraagFilter;
 
 /**
  * @Route("/hulpaanbiedingen")
@@ -72,8 +73,9 @@ class HulpaanbiedingenController extends AbstractChildController
     protected function addParams($entity, Request $request)
     {
         if ('iz_hulpaanbiedingen_view' === $request->get('_route')) {
-            $form = $this->createForm(HulpvraagFilterType::class, null, [
+            $form = $this->createForm(HulpvraagFilterType::class, new HulpvraagFilter(), [
                 'enabled_filters' => [
+                    'matching',
                     'startdatum',
                     'klant' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
                     'hulpvraagsoort',
@@ -83,7 +85,11 @@ class HulpaanbiedingenController extends AbstractChildController
             ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1), $form->getData());
+                if ($form->getData()->matching) {
+                    $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1), $form->getData());
+                } else {
+                    $kandidaten = $this->hulpvraagDao->findAll($request->get('page', 1), $form->getData());
+                }
             } else {
                 $kandidaten = $this->hulpvraagDao->findMatching($entity, $request->get('page', 1));
             }

@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HulpvraagFilterType extends AbstractType
 {
@@ -22,6 +23,13 @@ class HulpvraagFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (in_array('matching', $options['enabled_filters'])) {
+            $builder->add('matching', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen matchende kandidaten tonen'
+            ]);
+        }
+
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateType::class, [
                 'required' => false,
