@@ -73,6 +73,9 @@ services:
                 Medewerker(s) hulpaanbod: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Binnengekomen via: { expression: 'entity.getBinnengekomenVia()' }
+                VOG aangevraagd: { expression: 'entity.getVrijwilliger().isVogAangevraagd()' }
+                VOG aanwezig: { expression: 'entity.getVrijwilliger().isVogAanwezig()' }
+                Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().isOvereenkomstAanwezig()' }
 
     iz.export.hulpvragen:
         class: AppBundle\Export\GenericExport

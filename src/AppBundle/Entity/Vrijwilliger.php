@@ -39,9 +39,18 @@ class Vrijwilliger extends Persoon
     /**
      * @return bool
      */
-    public function getVogAangevraagd()
+    public function isVogAangevraagd()
     {
         return $this->vogAangevraagd;
+    }
+
+    /**
+     * @return bool
+     * @deprecated
+     */
+    public function getVogAangevraagd()
+    {
+        return $this->isVogAangevraagd();
     }
 
     /**
@@ -59,9 +68,18 @@ class Vrijwilliger extends Persoon
     /**
      * @return bool
      */
-    public function getVogAanwezig()
+    public function isVogAanwezig()
     {
         return $this->vogAanwezig;
+    }
+
+    /**
+     * @return bool
+     * @deprecated
+     */
+    public function getVogAanwezig()
+    {
+        return $this->isVogAanwezig();
     }
 
     /**
@@ -79,9 +97,18 @@ class Vrijwilliger extends Persoon
     /**
      * @return bool
      */
-    public function getOvereenkomstAanwezig()
+    public function isOvereenkomstAanwezig()
     {
         return $this->overeenkomstAanwezig;
+    }
+
+    /**
+     * @return bool
+     * @deprecated
+     */
+    public function getOvereenkomstAanwezig()
+    {
+        return $this->isOvereenkomstAanwezig();
     }
 
     /**
