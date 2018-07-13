@@ -40,6 +40,9 @@ class DocumentCopyCommand extends ContainerAwareCommand
         }
 
         foreach ($documents as $document) {
+            // prevent caching issue
+            $entityManager->clear();
+
             $attachment = $entityManager->getRepository(Attachment::class)->findOneBy([
                 'basename' => $document->getFilename(),
                 'model' => 'IzDeelnemer',
