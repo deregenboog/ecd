@@ -32,12 +32,13 @@ class DocumentCopyCommand extends ContainerAwareCommand
         $fs = new Filesystem();
         $count = 0;
 
-        if ($input->hasArgument('filename')) {
-            $filename = $input->getArgument('filename');
+        $filename = $input->getArgument('filename');
+        if ($filename) {
             $documents = $entityManager->getRepository(Document::class)->findByFilename($filename);
         } else {
             $documents = $entityManager->getRepository(Document::class)->findAll();
         }
+
         foreach ($documents as $document) {
             $attachment = $entityManager->getRepository(Attachment::class)->findOneBy([
                 'basename' => $document->getFilename(),
