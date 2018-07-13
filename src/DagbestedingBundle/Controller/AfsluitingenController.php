@@ -5,13 +5,13 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use DagbestedingBundle\Form\AfsluitingType;
-use DagbestedingBundle\Service\AfsluitingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Service\AbstractDao;
 
 abstract class AfsluitingenController extends SymfonyController
 {
     /**
-     * @var AfsluitingDaoInterface
+     * @var AbstractDao
      */
     protected $dao;
 

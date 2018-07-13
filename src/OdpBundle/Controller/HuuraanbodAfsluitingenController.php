@@ -4,7 +4,7 @@ namespace OdpBundle\Controller;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\HuuraanbodAfsluiting;
-use OdpBundle\Service\HuuraanbodAfsluitingDaoInterface;
+use OdpBundle\Service\AfsluitingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,7 +15,7 @@ class HuuraanbodAfsluitingenController extends AfsluitingenController
     public $title = 'Afsluitingen huuraanbiedingen';
 
     /**
-     * @var HuuraanbodAfsluitingDaoInterface
+     * @var AfsluitingDaoInterface
      *
      * @DI\Inject("odp.dao.huuraanbodafsluiting")
      */

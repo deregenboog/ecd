@@ -7,6 +7,8 @@ use AppBundle\Model\ZrmInterface;
 use AppBundle\Model\ZrmTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Service\NameFormatter;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @ORM\Entity
