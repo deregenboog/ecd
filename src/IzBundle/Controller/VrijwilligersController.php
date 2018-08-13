@@ -72,6 +72,10 @@ class VrijwilligersController extends AbstractController
         $entity = $this->dao->find($id);
         $this->formClass = IzDeelnemerCloseType::class;
 
+        if (!$entity) {
+            return $this->redirectToIndex();
+        }
+
         if (!$entity->isCloseable()) {
             $this->addFlash('danger', 'Dit dossier kan niet worden afgesloten omdat er nog open hulpaanbiedingen en/of actieve koppelingen zijn.');
 
