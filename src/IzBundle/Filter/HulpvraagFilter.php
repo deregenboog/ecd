@@ -69,6 +69,7 @@ class HulpvraagFilter implements FilterInterface
 
         if ($this->hulpvraagsoort) {
             $builder
+                ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
                 ->andWhere('hulpvraagsoort = :hulpvraagsoort')
                 ->setParameter('hulpvraagsoort', $this->hulpvraagsoort)
             ;
@@ -76,6 +77,7 @@ class HulpvraagFilter implements FilterInterface
 
         if ($this->doelgroep) {
             $builder
+                ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
                 ->andWhere('doelgroep = :doelgroep')
                 ->setParameter('doelgroep', $this->doelgroep)
             ;
