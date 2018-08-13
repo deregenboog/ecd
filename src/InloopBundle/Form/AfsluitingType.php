@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\LandSelectType;
 
 class AfsluitingType extends AbstractType
 {
@@ -38,7 +39,7 @@ class AfsluitingType extends AbstractType
         $builder->get('reden')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             if ($form->getData() && $form->getData()->isLand()) {
-                $form->getParent()->add('land', null, [
+                $form->getParent()->add('land', LandSelectType::class, [
                     'required' => true,
                     'placeholder' => '',
                     'label' => 'Land van bestemming',
