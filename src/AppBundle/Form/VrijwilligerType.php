@@ -44,8 +44,8 @@ class VrijwilligerType extends AbstractType
                 },
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
-            ->add('land')
-            ->add('nationaliteit')
+            ->add('land', LandSelectType::class)
+            ->add('nationaliteit', NationaliteitSelectType::class)
             ->add('bsn', null, ['label' => 'BSN'])
             ->add('medewerker', MedewerkerType::class)
             ->add('adres')
