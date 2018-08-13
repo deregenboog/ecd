@@ -67,9 +67,11 @@ class KoppelingenController extends AbstractController
         $hulpvraag = $this->dao->find($request->get('hulpvraag'));
         $hulpaanbod = $this->hulpaanbodDao->find($request->get('hulpaanbod'));
 
-        $hulpvraag
-            ->setHulpaanbod($hulpaanbod)
-            ->setKoppelingStartdatum(new \DateTime())
+        $hulpvraag->setHulpaanbod($hulpaanbod);
+
+        $hulpvraag->getKoppeling()
+            ->setStartdatum(new \DateTime())
+            ->setMedewerker($this->getMedewerker())
         ;
 
         return $this->processForm($request, $hulpvraag);
