@@ -72,8 +72,8 @@ class IzDeelnemerSelectieType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'choices' => [
-                    'Geen email' => 'geen_email',
-                    'Geen post' => 'geen_post',
+                    'E-mail' => 'geen_email',
+                    'Post' => 'geen_post',
                 ],
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
