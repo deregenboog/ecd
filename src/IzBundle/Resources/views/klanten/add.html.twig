@@ -62,7 +62,7 @@
             {{ form_start(creationForm) }}
                 <div class="col-xs-6">
                     <h2>Basisgegevens</h2>
-                    {{ form_widget(creationForm.klant) }}
+                    {% include 'AppBundle:klanten:_form.html.twig' with {form: creationForm.klant} %}
                 </div>
                 <div class="col-xs-6">
                     <h2>Informele Zorg</h2>

@@ -29,13 +29,7 @@ class IzKlantType extends AbstractType
                 'dummy_label' => (string) $options['data'],
             ]);
         } else {
-            $builder
-                ->add('klant', KlantType::class, ['required' => true])
-                ->get('klant')
-                ->remove('opmerking')
-                ->remove('geenPost')
-                ->remove('geenEmail')
-            ;
+            $builder->add('klant', KlantType::class, ['required' => true]);
         }
 
         $builder

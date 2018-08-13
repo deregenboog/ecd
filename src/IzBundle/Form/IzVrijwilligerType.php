@@ -29,10 +29,7 @@ class IzVrijwilligerType extends AbstractType
                 'dummy_label' => (string) $options['data'],
             ]);
         } else {
-            $builder
-                ->add('vrijwilliger', VrijwilligerType::class, ['required' => true])
-                ->get('vrijwilliger')
-            ;
+            $builder->add('vrijwilliger', VrijwilligerType::class, ['required' => true]);
         }
 
         $builder
