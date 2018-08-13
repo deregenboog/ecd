@@ -6,6 +6,10 @@
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script type="text/javascript">
     $(function() {
+        $('form button[type="submit"]').on('click', function(event) {
+            var button = $(this);
+            setTimeout(function() { button.prop('disabled', true); }, 10);
+        });
         // navigate to active tab
         $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show')
         // change urls when activating other tab
