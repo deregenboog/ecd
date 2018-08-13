@@ -130,6 +130,29 @@ class Intervisiegroep
         return $vrijwilligers;
     }
 
+    public function getLidmaatschappen()
+    {
+        $lidmaatschappen = [];
+
+        foreach ($this->lidmaatschappen as $lidmaatschap) {
+            $lidmaatschappen[] = $lidmaatschap;
+        }
+
+        $lidmaatschappen = array_filter($lidmaatschappen);
+        usort($lidmaatschappen, function (Lidmaatschap $a, Lidmaatschap $b) {
+            $naamA = $a->getVrijwilliger()->getVrijwilliger()->getNaam();
+            $naamB = $b->getVrijwilliger()->getVrijwilliger()->getNaam();
+
+            if ($naamA === $naamB) {
+                return 0;
+            }
+
+            return $naamA > $naamB ? 1 : -1;
+        });
+
+        return $lidmaatschappen;
+    }
+
     public function addLidmaatschap(Lidmaatschap $lidmaatschap)
     {
         $this->lidmaatschappen[] = $lidmaatschap;

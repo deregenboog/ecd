@@ -41,13 +41,15 @@
                     <tr>
                         <th>Naam</th>
                         <th>E-mail</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for vrijwilliger in entity.vrijwilligers %}
-                        <tr data-href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id}) }}">
-                            <td>{{ vrijwilliger }}</td>
-                            <td>{{ vrijwilliger.vrijwilliger.email }}</td>
+                    {% for lidmaatschap in entity.lidmaatschappen %}
+                        <tr data-href="{{ path('iz_vrijwilligers_view', {id: lidmaatschap.vrijwilliger.id}) }}">
+                            <td>{{ lidmaatschap.vrijwilliger }}</td>
+                            <td>{{ lidmaatschap.vrijwilliger.vrijwilliger.email }}</td>
+                            <td>{{ html.deleteLink(path('iz_lidmaatschappen_delete', {id: lidmaatschap.id})) }}</td>
                         </tr>
                     {% endfor%}
                 </tbody>

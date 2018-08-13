@@ -5,7 +5,6 @@ namespace IzBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Intervisiegroep;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,6 +18,9 @@ class IntervisiegroepType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var $intervisiegroep Intervisiegroep */
+        $intervisiegroep = $options['data'];
+
         $builder
             ->add('naam', null, [
                 'required' => true,
@@ -32,23 +34,8 @@ class IntervisiegroepType extends AbstractType
             ->add('medewerker', MedewerkerType::class, [
                 'required' => true,
             ])
+            ->add('submit', SubmitType::class)
         ;
-
-        if (isset($options['data']) && $options['data']->getId()) {
-            $builder->add('vrijwilligers', null, [
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('izVrijwilliger')
-                        ->innerJoin('izVrijwilliger.intervisiegroepen', 'intervisiegroep', 'WITH', 'intervisiegroep = :intervisiegroep')
-                        ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-                        ->orderBy('vrijwilliger.achternaam')
-                        ->setParameter('intervisiegroep', $options['data'])
-                    ;
-                },
-            ]);
-        }
-
-        $builder->add('submit', SubmitType::class);
     }
 
     /**
