@@ -53,7 +53,7 @@ class Legitimatie
 
     public function getNaam()
     {
-        return $this->land;
+        return $this->naam;
     }
 
     public function setNaam($naam)

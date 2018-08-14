@@ -16,11 +16,13 @@ class LandSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'required' => false,
             'class' => Land::class,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('land')
                     ->orderBy('land.land');
+            },
+            'preferred_choices' => function(Land $land) {
+                return in_array($land->getNaam(), ['Nederland', 'Onbekend']);
             },
         ]);
     }

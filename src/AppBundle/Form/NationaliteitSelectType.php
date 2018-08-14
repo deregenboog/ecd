@@ -16,11 +16,13 @@ class NationaliteitSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'required' => false,
             'class' => Nationaliteit::class,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('nationaliteit')
                     ->orderBy('nationaliteit.naam');
+            },
+            'preferred_choices' => function(Nationaliteit $nationaliteit) {
+                return in_array($nationaliteit->getNaam(), ['Nederlandse', 'Onbekend']);
             },
         ]);
     }
