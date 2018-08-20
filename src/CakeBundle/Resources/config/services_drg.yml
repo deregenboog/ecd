@@ -250,6 +250,9 @@ parameters:
                 - IzBundle\Controller\Rapportages
                 - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
+                - IzBundle\Controller\SuccesindicatorenFinancieel
+                - IzBundle\Controller\SuccesindicatorenParticipatie
+                - IzBundle\Controller\SuccesindicatorenPersoonlijk
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
@@ -622,6 +625,9 @@ parameters:
                 - IzBundle\Controller\Rapportages
                 - IzBundle\Controller\Reserveringen
                 - IzBundle\Controller\Selecties
+                - IzBundle\Controller\SuccesindicatorenFinancieel
+                - IzBundle\Controller\SuccesindicatorenParticipatie
+                - IzBundle\Controller\SuccesindicatorenPersoonlijk
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers

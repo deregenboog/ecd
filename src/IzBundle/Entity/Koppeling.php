@@ -41,6 +41,21 @@ class Koppeling
      */
     private $succesvol;
 
+    /**
+     * @var SuccesindicatorPersoonlijk[]
+     */
+    private $succesindicatorenPersoonlijk;
+
+    /**
+     * @var SuccesindicatorFinancieel[]
+     */
+    private $succesindicatorenFinancieel;
+
+    /**
+     * @var SuccesindicatorParticipatie[]
+     */
+    private $succesindicatorenParticipatie;
+
     public static function create(Hulpvraag $hulpvraag, Hulpaanbod $hulpaanbod)
     {
         $koppeling = new self($hulpvraag, $hulpaanbod);
@@ -233,5 +248,35 @@ class Koppeling
         }
 
         return $this;
+    }
+
+    public function getSuccesindicatorenPersoonlijk()
+    {
+        return $this->hulpvraag->getSuccesindicatorenPersoonlijk();
+    }
+
+    public function setSuccesindicatorenPersoonlijk($indicatoren)
+    {
+        return $this->hulpvraag->setSuccesindicatorenPersoonlijk($indicatoren);
+    }
+
+    public function getSuccesindicatorenFinancieel()
+    {
+        return $this->hulpvraag->getSuccesindicatorenFinancieel();
+    }
+
+    public function setSuccesindicatorenFinancieel($indicatoren)
+    {
+        return $this->hulpvraag->setSuccesindicatorenFinancieel($indicatoren);
+    }
+
+    public function getSuccesindicatorenParticipatie()
+    {
+        return $this->hulpvraag->getSuccesindicatorenParticipatie();
+    }
+
+    public function setSuccesindicatorenParticipatie($indicatoren)
+    {
+        return $this->hulpvraag->setSuccesindicatorenParticipatie($indicatoren);
     }
 }
