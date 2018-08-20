@@ -8,7 +8,14 @@
     $(function() {
         $('form button[type="submit"]').on('click', function(event) {
             var button = $(this);
-            setTimeout(function() { button.prop('disabled', true); }, 10);
+            // disable clicked button almost immediately to prevent double click
+            setTimeout(function() {
+                button.prop('disabled', true);
+                // enabled clicked button again after one second
+                setTimeout(function() {
+                    button.prop('disabled', false);
+                }, 1000);
+            }, 50);
         });
         // navigate to active tab
         $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show')
