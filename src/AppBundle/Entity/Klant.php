@@ -17,7 +17,9 @@ use InloopBundle\Entity\Schorsing;
  *     name="klanten",
  *     indexes={
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
- *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"})
+ *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
+ *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"}),
+ *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"})
  *     }
  * )
  * @Gedmo\Loggable
@@ -77,9 +79,17 @@ class Klant extends Persoon
     private $laatsteTbcControle;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="first_intake_date", type="date")
+     * @Gedmo\Versioned
+     */
+    private $eersteIntakeDatum;
+
+    /**
      * @var Intake
      *
-     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Intake")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake")
      * @ORM\JoinColumn(name="laste_intake_id")
      * @Gedmo\Versioned
      */
@@ -114,6 +124,20 @@ class Klant extends Persoon
      * @Gedmo\Versioned
      */
     private $overleden = false;
+
+    /**
+     * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $doorverwijzenNaarAmoc = false;
+
+    /**
+     * @var Klant
+     *
+     * @ORM\ManyToOne(targetEntity="Klant")
+     * @Gedmo\Versioned
+     */
+    private $merged;
 
     public function __construct()
     {
@@ -156,7 +180,7 @@ class Klant extends Persoon
     {
         $criteria = Criteria::create()
             ->orderBy(['id' => 'DESC'])
-            ->setMaxResults(20)
+            ->setMaxResults(50)
         ;
 
         return $this->registraties->matching($criteria);

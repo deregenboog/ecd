@@ -24,12 +24,12 @@ class Schorsing
     private $id;
 
     /**
-     * @ORM\Column(name="datum_van", type="date")
+     * @ORM\Column(name="datum_van", type="date", nullable=false)
      */
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date")
+     * @ORM\Column(name="datum_tot", type="date", nullable=false)
      */
     private $datumTot;
 
@@ -64,6 +64,8 @@ class Schorsing
     private $nazorg;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(name="agressie", type="boolean", nullable=true)
      */
     private $agressie;
@@ -112,6 +114,13 @@ class Schorsing
      * @ORM\Column(length=100, nullable=false)
      */
     private $locatiehoofd;
+
+    /**
+     * @deprecated
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $locatie;
 
     /**
      * @ORM\ManyToMany(targetEntity="Locatie")

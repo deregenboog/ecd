@@ -63,7 +63,7 @@ class Intake implements ZrmInterface
 
     /**
      * @var IzDeelnemer
-     * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="intake")
+     * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="intake")
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      * @Gedmo\Versioned
      */

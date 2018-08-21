@@ -9,7 +9,13 @@ use InloopBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="verslagen")
+ * @ORM\Table(
+ *     name="verslagen",
+ *     indexes={
+ *         @ORM\Index(name="idx_datum", columns={"datum"}),
+ *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"})
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
@@ -47,6 +53,12 @@ class Verslag
      * @Gedmo\Versioned
      */
     private $locatie;
+
+    /**
+     * @ORM\Column(name="medewerker", type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $naamMedewerker;
 
     /**
      * @ORM\ManyToOne(targetEntity="Medewerker")
