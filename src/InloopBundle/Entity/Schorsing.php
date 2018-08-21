@@ -3,6 +3,8 @@
 namespace InloopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
@@ -114,16 +116,18 @@ class Schorsing
     /**
      * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="schorsing_locatie")
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één locatie")
      */
     private $locaties;
 
     /**
-     * ORM\ManyToMany(targetEntity="SchorsingReden")
-     * ORM\JoinTable(
+     * @ORM\ManyToMany(targetEntity="SchorsingReden")
+     * @ORM\JoinTable(
      *     name="schorsingen_redenen",
      *     joinColumns={@ORM\JoinColumn(name="schorsing_id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="reden_id")}
      * ).
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één reden")
      */
     private $redenen;
 
@@ -142,6 +146,17 @@ class Schorsing
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
+
+    public function __construct()
+    {
+        $this->locaties = new ArrayCollection();
+        $this->redenen = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s (%s t/m %s)', $this->klant, $this->datumVan->format('d-m-Y'), $this->datumTot->format('d-m-Y'));
+    }
 
     public function getId()
     {
@@ -244,7 +259,7 @@ class Schorsing
         return $this;
     }
 
-    public function getAgressie()
+    public function isAgressie()
     {
         return $this->agressie;
     }

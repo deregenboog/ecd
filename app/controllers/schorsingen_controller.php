@@ -237,7 +237,7 @@ class SchorsingenController extends AppController
 
         $schorsing = $this->Schorsing->findById($id);
 
-        if (in_array('CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))) {
+        if (in_array('CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))) {
             if ($this->Schorsing->delete($id)) {
                 $this->flashError(__('Schorsing deleted', true));
             } else {

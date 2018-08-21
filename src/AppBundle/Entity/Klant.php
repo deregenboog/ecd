@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Registratie;
+use InloopBundle\Entity\Schorsing;
 
 /**
  * @ORM\Entity
@@ -60,6 +61,14 @@ class Klant extends Persoon
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $registraties;
+
+    /**
+     * @var Schorsing[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Schorsing", mappedBy="klant")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $schorsingen;
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
@@ -151,6 +160,21 @@ class Klant extends Persoon
         ;
 
         return $this->registraties->matching($criteria);
+    }
+
+    public function getSchorsingen()
+    {
+        return $this->schorsingen;
+    }
+
+    public function getRecenteSchorsingen()
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'DESC'])
+            ->setMaxResults(50)
+        ;
+
+        return $this->schorsingen->matching($criteria);
     }
 
     public function getIntakes()

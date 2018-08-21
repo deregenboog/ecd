@@ -44,4 +44,34 @@ class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
 
         return $builder->getQuery()->getResult();
     }
+
+    /**
+     * @param Schorsing
+     *
+     * @return Schorsing
+     */
+    public function create(Schorsing $entity)
+    {
+        return $this->doCreate($entity);
+    }
+
+    /**
+     * @param Schorsing
+     *
+     * @return Schorsing
+     */
+    public function update(Schorsing $entity)
+    {
+        return $this->doUpdate($entity);
+    }
+
+    /**
+     * @param Schorsing
+     *
+     * @return Schorsing
+     */
+    public function delete(Schorsing $entity)
+    {
+        return $this->doDelete($entity);
+    }
 }
