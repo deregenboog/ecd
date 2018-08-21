@@ -24,7 +24,7 @@ class ContactmomentType extends AbstractType
                 'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
             ])
             ->add('datum', AppDateType::class)
-            ->add('opmerking', AppTextareaType::class)
+            ->add('opmerking', AppTextareaType::class, ['label' => 'Verslag'])
             ->add('submit', SubmitType::class)
         ;
     }
