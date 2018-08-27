@@ -31,8 +31,8 @@ class Version20180821092424 extends AbstractMigration
         $this->addSql('ALTER TABLE schorsingen_redenen ADD CONSTRAINT FK_BB99D0FFA52077DE FOREIGN KEY (schorsing_id) REFERENCES schorsingen (id)');
         $this->addSql('ALTER TABLE schorsingen_redenen ADD CONSTRAINT FK_BB99D0FFD29703A5 FOREIGN KEY (reden_id) REFERENCES redenen (id)');
         $this->addSql('CREATE INDEX IDX_BB99D0FFD29703A5 ON schorsingen_redenen (reden_id)');
-        $this->addSql('DROP INDEX idx_schorsingen_redenen_schorsing_id ON schorsingen_redenen');
         $this->addSql('CREATE INDEX IDX_BB99D0FFA52077DE ON schorsingen_redenen (schorsing_id)');
+        $this->addSql('DROP INDEX idx_schorsingen_redenen_schorsing_id ON schorsingen_redenen');
     }
 
     /**
