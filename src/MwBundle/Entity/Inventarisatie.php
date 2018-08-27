@@ -20,7 +20,7 @@ class Inventarisatie
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     private $order;
@@ -111,7 +111,7 @@ class Inventarisatie
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", length=3, nullable=true)
      * @Gedmo\TreeLevel
      * @Gedmo\Versioned
      */

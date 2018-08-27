@@ -40,7 +40,7 @@
                         ['action' => 'edit', $schId],
                         ['escape' => false, 'title' => __('edit', true)]
                     ) ?>
-                    <?php if (in_array('CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))): ?>
+                    <?php if (in_array('CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))): ?>
                         <?= $html->link(
                             $html->image('delete.png'),
                             ['action' => 'delete', $schId],
@@ -122,7 +122,7 @@
                             ['method' => 'post', 'async' => false]
                         )
                     ) ?>
-                    <?php if (in_array('CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))): ?>
+                    <?php if (in_array('CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog', $this->Session->read('Auth.Medewerker.Group'))): ?>
                         <?= $html->link(
                             $html->image('delete.png'),
                             ['action' => 'delete', $schId],

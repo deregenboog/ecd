@@ -14,7 +14,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\ClientRepository")
- * @ORM\Table(name="pfo_clienten")
+ * @ORM\Table(
+ *     name="pfo_clienten",
+ *     indexes={
+ *         @ORM\Index(name="idx_pfo_clienten_roepnaam", columns={"roepnaam"}),
+ *         @ORM\Index(name="idx_pfo_clienten_achternaam", columns={"achternaam"})
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */

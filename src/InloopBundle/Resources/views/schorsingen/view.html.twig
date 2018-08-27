@@ -1,0 +1,149 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+{% import _self as macro %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>
+        {{ entity_name|capitalize }} {{ entity }}
+    </h1>
+    <p>
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Locaties</dt>
+        <dd>
+            <ul>
+                {% for locatie in entity.locaties %}
+                    <li>{{ locatie }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Begindatum</dt>
+        <dd>{{ entity.datumVan|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.datumTot|date('d-m-Y') }}</dd>
+        <dt>Redenen</dt>
+        <dd>
+            <ul>
+                {% for reden in entity.redenen %}
+                    <li>{{ reden }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        {% if entity.redenOverig %}
+            <dt>Reden overig</dt>
+            <dd>{{ entity.redenOverig }}</dd>
+        {% endif %}
+        {% if entity.agressie %}
+            <dt>Agressie tegen medewerker, stagair of vrijwilliger</dt>
+            <dd>Ja</dd>
+            <dt>Betrokkenen</dt>
+            <dd>
+                <ul>
+                    {% if entity.doelwitAgressie1 or entity.typeDoelwitAgressie1 %}
+                        <li>{{ entity.doelwitAgressie1 }} ({{ macro.doelwit(entity.typeDoelwitAgressie1) }})</li>
+                    {% endif %}
+                    {% if entity.doelwitAgressie2 or entity.typeDoelwitAgressie2 %}
+                        <li>{{ entity.doelwitAgressie2 }} ({{ macro.doelwit(entity.typeDoelwitAgressie2) }})</li>
+                    {% endif %}
+                    {% if entity.doelwitAgressie3 or entity.typeDoelwitAgressie3 %}
+                        <li>{{ entity.doelwitAgressie3 }} ({{ macro.doelwit(entity.typeDoelwitAgressie3) }})</li>
+                    {% endif %}
+                    {% if entity.doelwitAgressie4 or entity.typeDoelwitAgressie4 %}
+                        <li>{{ entity.doelwitAgressie4 }} ({{ macro.doelwit(entity.typeDoelwitAgressie4) }})</li>
+                    {% endif %}
+                </ul>
+            </dd>
+        {% endif %}
+        <dt>Opmerking</dt>
+        <dd>{{ entity.opmerking }}</dd>
+        <dt>Locatiehoofd</dt>
+        <dd>{{ entity.locatiehoofd }}</dd>
+        <dt>Bijzonderheden</dt>
+        <dd>{{ entity.bijzonderheden }}</dd>
+    </dl>
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li><a href="#">Registraties</a></li>
+        <li class="active"><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
+        <li><a href="#">Verslagen</a></li>
+        <li><a href="#">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="schorsingen" class="tab-pane active">
+            <h2>Recente schorsingen</h2>
+            <p>
+                {{ html.link('Alle schorsingen van '~entity.klant, path('inloop_schorsingen_index', {'schorsing_filter[klant][id]': entity.klant.id}), 'view') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Locaties</th>
+                        <th>Begindatum</th>
+                        <th>Einddatum</th>
+                        <th>Redenen</th>
+                        <th>Locatiehoofd</th>
+                        <th>Opmerking</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for schorsing in entity.klant.recenteSchorsingen %}
+                        <tr data-href="{{ path(route_base~'view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
+                            <td>
+                                <ul>
+                                    {% for locatie in schorsing.locaties %}
+                                        <li>{{ locatie }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
+                            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
+                            <td>
+                                <ul>
+                                    {% for reden in schorsing.redenen %}
+                                        <li>{{ reden }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ schorsing.locatiehoofd }}</td>
+                            <td>{{ schorsing.opmerking }}</td>
+                            <td>
+                                {{ html.editLink(path(route_base~'edit', {id: schorsing.id})) }}
+                                {{ html.deleteLink(path(route_base~'delete', {id: schorsing.id})) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% macro doelwit(key) %}
+    {%- spaceless %}
+    {% if key == 1 %}
+        {% set value = 'medewerker' %}
+    {% elseif key == 2 %}
+        {% set color = 'stagiair' %}
+    {% elseif key == 3 %}
+        {% set color = 'vrijwilliger' %}
+    {% endif %}
+    {{ value }}
+    {% endspaceless -%}
+{% endmacro %}

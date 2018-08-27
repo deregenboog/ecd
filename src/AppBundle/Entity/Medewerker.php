@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\Model\NameTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -13,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Medewerker
 {
-    use NameTrait;
+    use NameTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -23,12 +24,17 @@ class Medewerker
     private $id;
 
     /**
+     * @ORM\Column(name="uidnumber")
+     */
+    private $uid;
+
+    /**
      * @ORM\Column(nullable=false)
      */
     private $username;
 
     /**
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(nullable=true)
      */
     private $email;
 
@@ -41,6 +47,16 @@ class Medewerker
      * @ORM\Column(name="groups", type="json_array", nullable=true)
      */
     private $groepen = [];
+
+    /**
+     * @ORM\Column(name="eerste_bezoek", type="datetime", nullable=true)
+     */
+    private $eersteBezoek;
+
+    /**
+     * @ORM\Column(name="laatste_bezoek", type="datetime", nullable=true)
+     */
+    private $laatsteBezoek;
 
     public function getUsername()
     {

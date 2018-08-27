@@ -5,6 +5,7 @@ namespace IzBundle\Entity;
 use AppBundle\Model\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Lidmaatschap
 {
-    use IdentifiableTrait;
+    use IdentifiableTrait, TimestampableTrait;
 
     /**
      * @var Intervisiegroep

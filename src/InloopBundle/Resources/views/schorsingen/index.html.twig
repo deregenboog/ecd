@@ -73,9 +73,9 @@
         </thead>
         <tbody>
             {% for schorsing in pagination %}
-            <tr>
+            <tr data-href="{{ path(route_base~'view', {id: schorsing.id}) }}">
                 <td>
-                    {{ html.link(schorsing.klant.id, path('app_klanten_view', {id: schorsing.klant.id})) }}
+                    {{ schorsing.klant.id }}
                 </td>
                 <td>
                     {{ schorsing.klant }}

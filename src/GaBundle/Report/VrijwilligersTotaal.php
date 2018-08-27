@@ -6,6 +6,8 @@ use AppBundle\Report\Grid;
 
 class VrijwilligersTotaal extends AbstractReport
 {
+    protected $title = 'Vrijwilligers totaal';
+
     protected function init()
     {
         $this->data = $this->repository->countVrijwilligers($this->startDate, $this->endDate);

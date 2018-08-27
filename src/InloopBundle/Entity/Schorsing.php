@@ -3,6 +3,8 @@
 namespace InloopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
@@ -22,12 +24,12 @@ class Schorsing
     private $id;
 
     /**
-     * @ORM\Column(name="datum_van", type="date")
+     * @ORM\Column(name="datum_van", type="date", nullable=false)
      */
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date")
+     * @ORM\Column(name="datum_tot", type="date", nullable=false)
      */
     private $datumTot;
 
@@ -62,6 +64,8 @@ class Schorsing
     private $nazorg;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(name="agressie", type="boolean", nullable=true)
      */
     private $agressie;
@@ -112,18 +116,27 @@ class Schorsing
     private $locatiehoofd;
 
     /**
+     * @deprecated
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $locatie;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="schorsing_locatie")
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één locatie")
      */
     private $locaties;
 
     /**
-     * ORM\ManyToMany(targetEntity="SchorsingReden")
-     * ORM\JoinTable(
+     * @ORM\ManyToMany(targetEntity="SchorsingReden")
+     * @ORM\JoinTable(
      *     name="schorsingen_redenen",
      *     joinColumns={@ORM\JoinColumn(name="schorsing_id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="reden_id")}
      * ).
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één reden")
      */
     private $redenen;
 
@@ -142,6 +155,17 @@ class Schorsing
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
+
+    public function __construct()
+    {
+        $this->locaties = new ArrayCollection();
+        $this->redenen = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s (%s t/m %s)', $this->klant, $this->datumVan->format('d-m-Y'), $this->datumTot->format('d-m-Y'));
+    }
 
     public function getId()
     {
@@ -244,7 +268,7 @@ class Schorsing
         return $this;
     }
 
-    public function getAgressie()
+    public function isAgressie()
     {
         return $this->agressie;
     }

@@ -68,16 +68,20 @@ class HulpvraagFilter implements FilterInterface
         }
 
         if ($this->hulpvraagsoort) {
+            if (!in_array('hulpvraagsoort', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort');
+            }
             $builder
-                ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
                 ->andWhere('hulpvraagsoort = :hulpvraagsoort')
                 ->setParameter('hulpvraagsoort', $this->hulpvraagsoort)
             ;
         }
 
         if ($this->doelgroep) {
+            if (!in_array('doelgroep', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.doelgroepen', 'doelgroep');
+            }
             $builder
-                ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
                 ->andWhere('doelgroep = :doelgroep')
                 ->setParameter('doelgroep', $this->doelgroep)
             ;
