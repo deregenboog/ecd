@@ -6,6 +6,8 @@ use AppBundle\Report\Table;
 
 class DeelnemersPerGroepStadsdeel extends AbstractReport
 {
+    protected $title = 'Deelnemers per groep en stadsdeel';
+
     protected $xDescription = 'LET OP: Stadsdeel is op basis van woonadres deelnemer (dus niet op basis van activiteitlocatie)';
 
     protected $yDescription = 'Stadsdeel';

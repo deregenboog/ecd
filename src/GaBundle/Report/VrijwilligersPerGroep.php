@@ -6,6 +6,8 @@ use AppBundle\Report\Grid;
 
 class VrijwilligersPerGroep extends AbstractReport
 {
+    protected $title = 'Vrijwilligers per groep';
+
     protected $yDescription = 'Groep';
 
     protected function init()
