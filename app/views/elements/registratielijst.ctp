@@ -87,7 +87,7 @@
                         ['controller' => 'klanten', 'action' => 'view', $registratie['Registratie']['klant_id']]); ?>
                 </td>
                     <td class="registraiteAchternaam achternaamCol">
-                    <?= $this->Html->link($registratie['Klant']['achternaam'],
+                    <?= $this->Html->link($registratie['Klant']['name2nd_part'],
                         ['controller' => 'klanten', 'action' => 'view', $registratie['Registratie']['klant_id']]);
                     ?>
                     &nbsp;
@@ -263,7 +263,7 @@
                     </td>
                     <td class="achternaamCol">
                         <?= $this->Html->link(
-                            $registratie['Klant']['achternaam'],
+                            $registratie['Klant']['name2nd_part'],
                             [
                                 'controller' => 'klanten',
                                 'action' => 'view',
@@ -405,7 +405,7 @@
                         <?= $this->Format->name1st($registratie['Klant']); ?>&nbsp;
                     </td>
                     <td class="achternaamCol clickable">
-                        <?php echo $registratie['Klant']['achternaam']; ?>&nbsp;
+                        <?php echo $registratie['Klant']['name2nd_part']; ?>&nbsp;
                     </td>
                     <td class="clickable">
                         <?= date('H:i', strtotime($registratie['Registratie']['binnen'])); ?>
