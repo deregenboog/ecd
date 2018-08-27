@@ -6,7 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Registratie;
 
-class RegistratieDao extends AbstractDao implements SchorsingDaoInterface
+class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'registratie.binnen',
