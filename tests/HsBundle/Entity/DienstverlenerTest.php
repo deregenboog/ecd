@@ -15,11 +15,11 @@ class DienstverlenerTest extends \PHPUnit_Framework_TestCase
 {
     public function testToString()
     {
-        $appKlant = $this->createMock(AppKlant::class);
-        $appKlant->method('__toString')->willReturn('Piet Jansen');
+        $appKlant = new AppKlant();
+        $appKlant->setVoornaam('Piet')->setAchternaam('Jansen');
 
         $dienstverlener = new Dienstverlener($appKlant);
-        $this->assertEquals('Piet Jansen', (string) $dienstverlener);
+        $this->assertEquals('Jansen, Piet', (string) $dienstverlener);
     }
 
     public function testIsDeletable()
