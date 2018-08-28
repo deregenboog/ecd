@@ -83,7 +83,6 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->select('hulpvraag, izKlant, klant')
             ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
-            ->leftJoin('hulpvraag.reserveringen', 'reservering')
             ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
             ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->innerJoin('izKlant.intake', 'intake')
@@ -92,14 +91,25 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->leftJoin('klant.geslacht', 'geslacht')
             ->andWhere('hulpvraag.startdatum <= :today') // hulpvraag gestart
             ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum >= :today') // hulpvraag niet afgesloten
-            ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpvraag niet gereserveerd
             ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
             ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
             ->orderBy('hulpvraag.startdatum', 'ASC')
-            ->setParameters([
-                'today' => new \DateTime('today'),
-            ])
+            ->setParameter('today', new \DateTime('today'))
         ;
+
+        // hulpvraag niet gereserveerd
+        $gereserveerdeHulpvragen = $this->repository->createQueryBuilder('hulpvraag')
+            ->innerJoin('hulpvraag.reserveringen', 'reservering', 'WITH', ':today BETWEEN reservering.startdatum AND reservering.einddatum')
+            ->setParameter('today', new \DateTime('today'))
+            ->getQuery()
+            ->getResult()
+        ;
+        if (count($gereserveerdeHulpvragen)) {
+            $builder
+                ->andWhere('hulpvraag NOT IN (:gereserveerdeHulpvragen)')
+                ->setParameter('gereserveerdeHulpvragen', $gereserveerdeHulpvragen)
+            ;
+        }
 
         if ($filter) {
             $filter->applyTo($builder);

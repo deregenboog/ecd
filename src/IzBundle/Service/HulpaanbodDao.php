@@ -87,7 +87,6 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
             ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
-            ->leftJoin('hulpaanbod.reserveringen', 'reservering')
             ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
             ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->innerJoin('izVrijwilliger.intake', 'intake')
@@ -96,14 +95,25 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->leftJoin('vrijwilliger.geslacht', 'geslacht')
             ->andWhere('hulpaanbod.startdatum <= :today') // hulpaanbod gestart
             ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :today') // hulpaanbod niet afgesloten
-            ->andWhere('reservering.id IS NULL OR :today NOT BETWEEN reservering.startdatum AND reservering.einddatum') // hulpaanbod niet gereserveerd
             ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
             ->orderBy('hulpaanbod.startdatum', 'ASC')
-            ->setParameters([
-                'today' => new \DateTime('today'),
-            ])
+            ->setParameter('today', new \DateTime('today'))
         ;
+
+        // hulpaanbod niet gereserveerd
+        $gereserveerdeHulpaanbiedingen = $this->repository->createQueryBuilder('hulpaanbod')
+            ->innerJoin('hulpaanbod.reserveringen', 'reservering', 'WITH', ':today BETWEEN reservering.startdatum AND reservering.einddatum')
+            ->setParameter('today', new \DateTime('today'))
+            ->getQuery()
+            ->getResult()
+        ;
+        if (count($gereserveerdeHulpaanbiedingen)) {
+            $builder
+                ->andWhere('hulpaanbod NOT IN (:gereserveerdeHulpaanbiedingen)')
+                ->setParameter('gereserveerdeHulpaanbiedingen', $gereserveerdeHulpaanbiedingen)
+            ;
+        }
 
         if ($filter) {
             $filter->applyTo($builder);
