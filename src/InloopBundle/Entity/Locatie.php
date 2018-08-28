@@ -65,6 +65,13 @@ class Locatie
      */
     private $datumTot;
 
+    /**
+     * @var Locatietijd[]
+     *
+     * @ORM\OneToMany(targetEntity="Locatietijd", mappedBy="locatie")
+     */
+    private $locatietijden;
+
     public function __toString()
     {
         return $this->naam;
@@ -87,7 +94,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getNachtopvang()
+    {
+        return $this->nachtopvang;
+    }
+
+    public function isNachtopvang()
     {
         return $this->nachtopvang;
     }
@@ -99,7 +114,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getGebruikersruimte()
+    {
+        return $this->gebruikersruimte;
+    }
+
+    public function isGebruikersruimte()
     {
         return $this->gebruikersruimte;
     }
@@ -111,7 +134,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getMaatschappelijkWerk()
+    {
+        return $this->maatschappelijkWerk;
+    }
+
+    public function isMaatschappelijkWerk()
     {
         return $this->maatschappelijkWerk;
     }
@@ -123,7 +154,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getTbcCheck()
+    {
+        return $this->tbcCheck;
+    }
+
+    public function isTbcCheck()
     {
         return $this->tbcCheck;
     }
@@ -157,5 +196,81 @@ class Locatie
         $this->datumTot = $datumTot;
 
         return $this;
+    }
+
+    /**
+     * @return multitype:\InloopBundle\Entity\Locatietijd
+     */
+    public function getLocatietijden()
+    {
+        return $this->locatietijden;
+    }
+
+    /**
+     * @param multitype:\InloopBundle\Entity\Locatietijd $locatietijden
+     */
+    public function setLocatietijden($locatietijden)
+    {
+        $this->locatietijden = $locatietijden;
+
+        return $this;
+    }
+
+    public function isOpen(\DateTime $date = null)
+    {
+        if (!$date instanceof \DateTime) {
+            $date = new \DateTime();
+        }
+
+        $prevDate = (clone $date)->modify('-1 day');
+        $nextDate = (clone $date)->modify('+1 day');
+
+        $openingTimeCorrection = \Configure::read('openingTimeCorrectionSec');
+
+        foreach ($this->locatietijden as $tijd) {
+            if ($tijd->getDagVanDeWeek() == $date->format('w')) {
+                $tijd->getOpeningstijd()
+                    ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                    ->modify("-{$openingTimeCorrection} seconds")
+                ;
+                $tijd->getSluitingstijd()
+                    ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                    ->modify("+{$openingTimeCorrection} seconds")
+                ;
+                if ($date > $tijd->getOpeningstijd() && $date < $tijd->getSluitingstijd()) {
+                    return true;
+                }
+            }
+
+            if ($tijd->getDagVanDeWeek() == $prevDate->format('w')) {
+                $tijd->getOpeningstijd()
+                    ->setDate($prevDate->format('Y'), $prevDate->format('m'), $prevDate->format('d'))
+                    ->modify("-{$openingTimeCorrection} seconds")
+                ;
+                $tijd->getSluitingstijd()
+                    ->setDate($prevDate->format('Y'), $prevDate->format('m'), $prevDate->format('d'))
+                    ->modify("+{$openingTimeCorrection} seconds")
+                ;
+                if ($prevDate > $tijd->getOpeningstijd() && $prevDate < $tijd->getSluitingstijd()) {
+                    return true;
+                }
+            }
+
+            if ($tijd->getDagVanDeWeek() == $nextDate->format('w')) {
+                $tijd->getOpeningstijd()
+                    ->setDate($nextDate->format('Y'), $nextDate->format('m'), $nextDate->format('d'))
+                    ->modify("-{$openingTimeCorrection} seconds")
+                ;
+                $tijd->getSluitingstijd()
+                    ->setDate($nextDate->format('Y'), $nextDate->format('m'), $nextDate->format('d'))
+                    ->modify("+{$openingTimeCorrection} seconds")
+                ;
+                if ($nextDate > $tijd->getOpeningstijd() && $nextDate < $tijd->getSluitingstijd()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

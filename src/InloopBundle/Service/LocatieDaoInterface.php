@@ -2,13 +2,11 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Entity\Registratie;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-interface RegistratieDaoInterface
+interface LocatieDaoInterface
 {
     /**
      * @param int             $page
@@ -21,22 +19,22 @@ interface RegistratieDaoInterface
     /**
      * @param int $id
      *
-     * @return Registratie
+     * @return Locatie
      */
     public function find($id);
 
     /**
-     * @param Klant   $klant
      * @param Locatie $locatie
-     *
-     * @return Registratie
      */
-    public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie);
+    public function create(Locatie $locatie);
 
     /**
-     * @param Registratie $entity
-     *
-     * @return Registratie
+     * @param Locatie $locatie
      */
-    public function update(Registratie $entity);
+    public function update(Locatie $locatie);
+
+    /**
+     * @param Locatie $locatie
+     */
+    public function delete(Locatie $locatie);
 }

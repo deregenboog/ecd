@@ -2,21 +2,14 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Filter\SchorsingFilter;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\JaNeeType;
+use InloopBundle\Entity\Schorsing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Schorsing;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\JaNeeType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class SchorsingType extends AbstractType
 {
@@ -44,7 +37,7 @@ class SchorsingType extends AbstractType
                 'label' => 'Is de agressie gericht tegen een medewerker, stagair of vrijwilliger?',
                 'attr' => [
                     'class' => 'agressie agressie_parent',
-                ]
+                ],
             ])
         ;
 
@@ -54,7 +47,7 @@ class SchorsingType extends AbstractType
                 'label' => "Betrokkene $i",
                 'attr' => [
                     'class' => 'agressie  agressie_children',
-                ]
+                ],
             ]);
         }
 

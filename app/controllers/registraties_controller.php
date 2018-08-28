@@ -445,7 +445,7 @@ class RegistratiesController extends AppController
                     $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op deze locatie.';
                 } else {
                     $jsonVar['confirm'] = true;
-                    $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op andere locatie. Toch inchecken?';
+                    $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op een andere locatie. Toch inchecken?';
                     $sep = $separator;
                 }
 

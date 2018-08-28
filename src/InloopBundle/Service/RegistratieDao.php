@@ -2,8 +2,10 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
@@ -36,6 +38,21 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         ;
 
         return parent::doFindAll($builder, $page, $filter);
+    }
+
+    public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
+            ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie = :locatie')
+            ->orderBy("{$this->alias}.binnen")
+            ->setParameters([
+                'klant' => $klant,
+                'locatie' => $locatie,
+            ])
+        ;
+
+        return $builder->getQuery()->getOneOrNullResult();
     }
 
     /**

@@ -15,6 +15,9 @@ services:
     InloopBundle\Service\KlantDao:
         parent: inloop.dao
 
+    InloopBundle\Service\LocatieDao:
+        parent: inloop.dao
+
     InloopBundle\Service\MemoDao:
         parent: inloop.dao
 

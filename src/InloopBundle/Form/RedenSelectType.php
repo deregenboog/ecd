@@ -3,11 +3,10 @@
 namespace InloopBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\SchorsingReden;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\SchorsingReden;
 
 class RedenSelectType extends AbstractType
 {

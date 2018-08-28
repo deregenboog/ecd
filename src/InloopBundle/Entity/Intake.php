@@ -344,4 +344,22 @@ class Intake implements ZrmInterface
     {
         return $this->woonsituatie;
     }
+
+    /**
+     * @return bool
+     */
+    public function isMagGebruiken()
+    {
+        return $this->magGebruiken;
+    }
+
+    /**
+     * @param bool $magGebruiken
+     */
+    public function setMagGebruiken($magGebruiken)
+    {
+        $this->magGebruiken = $magGebruiken;
+
+        return $this;
+    }
 }

@@ -3,8 +3,8 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use InloopBundle\Entity\Schorsing;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface SchorsingDaoInterface
 {
@@ -36,7 +36,6 @@ interface SchorsingDaoInterface
      * @return Schorsing
      */
     public function update(Schorsing $entity);
-
 
     /**
      * @param Schorsing

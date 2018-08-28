@@ -53,6 +53,8 @@ doctrine:
         default_table_options:
             charset: "utf8"
             collate: "utf8_general_ci"
+        types:
+            mysql_time: AppBundle\Doctrine\MysqlTimeType
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true

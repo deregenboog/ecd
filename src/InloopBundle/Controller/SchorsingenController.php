@@ -5,10 +5,10 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Form\SchorsingFilterType;
+use InloopBundle\Form\SchorsingType;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use InloopBundle\Form\SchorsingType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

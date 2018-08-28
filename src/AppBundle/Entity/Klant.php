@@ -142,12 +142,20 @@ class Klant extends Persoon
      */
     private $merged;
 
+    /**
+     * @var Opmerking[]
+     *
+     * @ORM\OneToMany(targetEntity="Opmerking", mappedBy="klant")
+     */
+    private $opmerkingen;
+
     public function __construct()
     {
         $this->intakes = new ArrayCollection();
         $this->registraties = new ArrayCollection();
         $this->zrms = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
+        $this->opmerkingen = new ArrayCollection();
     }
 
     public function getLaatsteZrm()
@@ -271,5 +279,10 @@ class Klant extends Persoon
         $verslag->setKlant($this);
 
         return $this;
+    }
+
+    public function getOpmerkingen()
+    {
+        return $this->opmerkingen;
     }
 }
