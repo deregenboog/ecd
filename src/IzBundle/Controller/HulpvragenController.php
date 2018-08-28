@@ -86,11 +86,7 @@ class HulpvragenController extends AbstractChildController
             ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                if ($form->getData()->matching) {
-                    $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1), $form->getData());
-                } else {
-                    $kandidaten = $this->hulpaanbodDao->findAll($request->get('page', 1), $form->getData());
-                }
+                $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1), $form->getData());
             } else {
                 $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1));
             }

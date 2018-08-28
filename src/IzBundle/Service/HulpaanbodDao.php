@@ -8,6 +8,7 @@ use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
+use IzBundle\Filter\HulpaanbodFilter;
 
 class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 {
@@ -80,7 +81,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         $this->doDelete($entity);
     }
 
-    public function findMatching(Hulpvraag $hulpvraag, $page = null, FilterInterface $filter = null)
+    public function findMatching(Hulpvraag $hulpvraag, $page = null, HulpaanbodFilter $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
@@ -108,74 +109,76 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             $filter->applyTo($builder);
         }
 
-        // doelgroepen
-        if ($hulpvraag->getDoelgroep()) {
-            $builder
-                ->andWhere('doelgroep.id IS NULL OR doelgroep = (:doelgroep)')
-                ->setParameter('doelgroep', $hulpvraag->getDoelgroep())
-            ;
-        }
-
-        // hulpvraagsoorten
-        if ($hulpvraag->getHulpvraagsoort()) {
-            $builder
-                ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort = :hulpvraagsoort')
-                ->setParameter('hulpvraagsoort', $hulpvraag->getHulpvraagsoort())
-            ;
-        }
-
-        // expat
-        if (!$hulpvraag->isGeschiktVoorExpat()) {
-            $builder->andWhere('hulpaanbod.expat IS NULL OR hulpaanbod.expat = false');
-        }
-
-        // geslacht
-        if ($hulpvraag->getVoorkeurGeslacht()) {
-            $builder
-                ->andWhere('geslacht.id IS NULL OR geslacht.afkorting = :onbekend OR geslacht = :voorkeur_geslacht')
-                ->setParameter('onbekend', Geslacht::AFKORTING_ONBEKEND)
-                ->setParameter('voorkeur_geslacht', $hulpvraag->getVoorkeurGeslacht())
-            ;
-        }
-
-        // dagdeel
-        if ($hulpvraag->getDagdeel()) {
-            switch ($hulpvraag->getDagdeel()) {
-                case Hulp::DAGDEEL_OVERDAG:
-                    $dagdelen = [Hulp::DAGDEEL_OVERDAG];
-                    break;
-                case Hulp::DAGDEEL_AVOND:
-                    $dagdelen = [
-                        Hulp::DAGDEEL_AVOND,
-                        Hulp::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-                case Hulp::DAGDEEL_WEEKEND:
-                    $dagdelen = [
-                        Hulp::DAGDEEL_WEEKEND,
-                        Hulp::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-                case Hulp::DAGDEEL_AVOND_WEEKEND:
-                    $dagdelen = [
-                        Hulp::DAGDEEL_AVOND,
-                        Hulp::DAGDEEL_WEEKEND,
-                        Hulp::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
-                default:
-                    $dagdelen = [
-                        Hulp::DAGDEEL_OVERDAG,
-                        Hulp::DAGDEEL_AVOND,
-                        Hulp::DAGDEEL_WEEKEND,
-                        Hulp::DAGDEEL_AVOND_WEEKEND,
-                    ];
-                    break;
+        if ($filter->matching) {
+            // doelgroepen
+            if ($hulpvraag->getDoelgroep()) {
+                $builder
+                    ->andWhere('doelgroep.id IS NULL OR doelgroep = (:doelgroep)')
+                    ->setParameter('doelgroep', $hulpvraag->getDoelgroep())
+                ;
             }
-            $builder
-                ->andWhere('hulpaanbod.dagdeel IS NULL OR hulpaanbod.dagdeel IN (:dagdelen)')
-                ->setParameter('dagdelen', $dagdelen)
-            ;
+
+            // hulpvraagsoorten
+            if ($hulpvraag->getHulpvraagsoort()) {
+                $builder
+                    ->andWhere('hulpvraagsoort.id IS NULL OR hulpvraagsoort = :hulpvraagsoort')
+                    ->setParameter('hulpvraagsoort', $hulpvraag->getHulpvraagsoort())
+                ;
+            }
+
+            // expat
+            if (!$hulpvraag->isGeschiktVoorExpat()) {
+                $builder->andWhere('hulpaanbod.expat IS NULL OR hulpaanbod.expat = false');
+            }
+
+            // geslacht
+            if ($hulpvraag->getVoorkeurGeslacht()) {
+                $builder
+                    ->andWhere('geslacht.id IS NULL OR geslacht.afkorting = :onbekend OR geslacht = :voorkeur_geslacht')
+                    ->setParameter('onbekend', Geslacht::AFKORTING_ONBEKEND)
+                    ->setParameter('voorkeur_geslacht', $hulpvraag->getVoorkeurGeslacht())
+                ;
+            }
+
+            // dagdeel
+            if ($hulpvraag->getDagdeel()) {
+                switch ($hulpvraag->getDagdeel()) {
+                    case Hulp::DAGDEEL_OVERDAG:
+                        $dagdelen = [Hulp::DAGDEEL_OVERDAG];
+                        break;
+                    case Hulp::DAGDEEL_AVOND:
+                        $dagdelen = [
+                            Hulp::DAGDEEL_AVOND,
+                            Hulp::DAGDEEL_AVOND_WEEKEND,
+                        ];
+                        break;
+                    case Hulp::DAGDEEL_WEEKEND:
+                        $dagdelen = [
+                            Hulp::DAGDEEL_WEEKEND,
+                            Hulp::DAGDEEL_AVOND_WEEKEND,
+                        ];
+                        break;
+                    case Hulp::DAGDEEL_AVOND_WEEKEND:
+                        $dagdelen = [
+                            Hulp::DAGDEEL_AVOND,
+                            Hulp::DAGDEEL_WEEKEND,
+                            Hulp::DAGDEEL_AVOND_WEEKEND,
+                        ];
+                        break;
+                    default:
+                        $dagdelen = [
+                            Hulp::DAGDEEL_OVERDAG,
+                            Hulp::DAGDEEL_AVOND,
+                            Hulp::DAGDEEL_WEEKEND,
+                            Hulp::DAGDEEL_AVOND_WEEKEND,
+                        ];
+                        break;
+                }
+                $builder
+                    ->andWhere('hulpaanbod.dagdeel IS NULL OR hulpaanbod.dagdeel IN (:dagdelen)')
+                    ->setParameter('dagdelen', $dagdelen)
+                ;
+            }
         }
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
