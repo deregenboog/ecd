@@ -69,7 +69,7 @@
             </strong>
             gereserveerd voor hulpaanbod
             <strong>
-                {{ html.link(entity.huidigeReservering.hulpaanbod, path('iz_hulpvragen_view', {id: entity.huidigeReservering.hulpvraag.id})) }}
+                {{ html.link(entity.huidigeReservering.hulpaanbod, path('iz_hulpaanbiedingen_view', {id: entity.huidigeReservering.hulpaanbod.id})) }}
             </strong>.
         </p>
     {% elseif not entity.afgesloten and kandidaten is defined %}
