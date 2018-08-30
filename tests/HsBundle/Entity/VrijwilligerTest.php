@@ -3,6 +3,7 @@
 namespace Tests\HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use HsBundle\Entity\Document;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
@@ -14,11 +15,11 @@ class VrijwilligerTest extends \PHPUnit_Framework_TestCase
 {
     public function testToString()
     {
-        $appVrijwilliger = $this->createMock(\AppBundle\Entity\Vrijwilliger::class);
-        $appVrijwilliger->method('__toString')->willReturn('Piet Jansen');
+        $appVrijwilliger = new \AppBundle\Entity\Vrijwilliger();
+        $appVrijwilliger->setVoornaam('Piet')->setAchternaam('Jansen');
 
         $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-        $this->assertEquals('Piet Jansen', (string) $vrijwilliger);
+        $this->assertEquals('Jansen, Piet', (string) $vrijwilliger);
     }
 
     public function testIsDeletable()

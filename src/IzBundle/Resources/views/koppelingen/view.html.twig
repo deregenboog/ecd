@@ -12,12 +12,13 @@
 {% block content_left %}
     <h2>Koppeling</h2>
     <p>
-        {{ html.editLink(path('iz_koppelingen_edit', {id: entity.id})) }}
-        {{ html.link('Bewerken', path('iz_koppelingen_edit', {id: entity.id})) }}
+        {{ html.link('Bewerken', path('iz_koppelingen_edit', {id: entity.id}), 'edit') }}
         {% if not entity.afgesloten %}
             {{ html.closeLink(path('iz_koppelingen_close', {id: entity.id})) }}
             {{ html.link('Koppeling beëindigen', path('iz_koppelingen_close', {id: entity.id})) }}
         {% endif %}
+        {{ html.link('Hulpvraag bekijken', path('iz_hulpvragen_view', {id: entity.id}), 'view') }}
+        {{ html.link('Hulpaanbod bekijken', path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id}), 'view') }}
     </p>
     <dl class="dl-horizontal">
         <dt>Deelnemer</dt>
@@ -50,54 +51,5 @@
 {% endblock %}
 
 {% block content_right %}
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-        <li><a data-toggle="tab" href="#hulpaanbod">Hulpaanbod</a></li>
-        <li><a data-toggle="tab" href="#hulpvraag">Hulpvraag</a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="verslagen" class="tab-pane active">
-            {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
-        </div>
-        <div id="hulpvraag" class="tab-pane">
-            <h2>Hulpvraag</h2>
-            {{ html.viewLink(path('iz_hulpvragen_view', {id: entity.id})) }}
-            {{ html.link('Bekijken', path('iz_hulpvragen_view', {id: entity.id})) }}
-            <dl class="dl-horizontal">
-                <dt>Deelnemer</dt>
-                <dd>{{ entity|naam_klant }}</dd>
-                <dt>Coördinator</dt>
-                <dd>{{ entity.medewerker }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Startdatum</dt>
-                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-                <dt>Project</dt>
-                <dd>{{ entity.project }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Hulpvraagsoort</dt>
-                <dd>{{ entity.hulpvraagsoort }}</dd>
-                <dt>Doelgroep</dt>
-                <dd>{{ entity.doelgroep }}</dd>
-            </dl>
-        </div>
-        <div id="hulpaanbod" class="tab-pane">
-            <h2>Hulpaanbod</h2>
-            {{ html.viewLink(path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
-            {{ html.link('Bekijken', path('iz_hulpaanbiedingen_view', {id: entity.koppeling.hulpaanbod.id})) }}
-            <dl class="dl-horizontal">
-                <dt>Vrijwilliger</dt>
-                <dd>{{ entity.koppeling.hulpaanbod|naam_vrijwilliger }}</dd>
-                <dt>Coördinator</dt>
-                <dd>{{ entity.medewerker }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Startdatum</dt>
-                <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
-                <dt>Project</dt>
-                <dd>{{ entity.project }}</dd>
-            </dl>
-        </div>
-    </div>
+    {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
 {% endblock %}
