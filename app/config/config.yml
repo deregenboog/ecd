@@ -72,7 +72,7 @@ doctrine:
                 now: DoctrineExtensions\Query\Mysql\Now
                 time: Luxifer\DQL\Datetime\Time
                 time_diff: DoctrineExtensions\Query\Mysql\TimeDiff
-                time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec
+                time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec                
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
         filters:

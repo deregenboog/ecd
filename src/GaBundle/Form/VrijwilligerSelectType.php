@@ -57,9 +57,8 @@ class VrijwilligerSelectType extends AbstractType
         // get volunteers already participating...
         $vrijwilligers = [];
         foreach ($activiteit->getVrijwilligerDeelnames() as $deelname) {
-            $vrijwilligers[] = $deelname->getVrijwilliger();
+            $vrijwilligers[$deelname->getVrijwilliger()->getId()] = $deelname->getVrijwilliger();
         }
-        $vrijwilligers = array_unique($vrijwilligers);
 
         // ...and exclude them from choices
         if (count($vrijwilligers)) {
@@ -76,9 +75,8 @@ class VrijwilligerSelectType extends AbstractType
         // get volunteers already member...
         $vrijwilligers = [];
         foreach ($groep->getVrijwilligerLidmaatschappen() as $lidmaatschap) {
-            $vrijwilligers[] = $lidmaatschap->getVrijwilliger();
+            $vrijwilligers[$lidmaatschap->getVrijwilliger()->getId()] = $lidmaatschap->getVrijwilliger();
         }
-        $vrijwilligers = array_unique($vrijwilligers);
 
         // ...and exclude them from choices
         if (count($vrijwilligers)) {

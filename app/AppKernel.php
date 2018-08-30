@@ -52,6 +52,7 @@ class AppKernel extends Kernel
             new CakeBundle\CakeBundle(),
             new ClipBundle\ClipBundle(),
             new DagbestedingBundle\DagbestedingBundle(),
+            new ErOpUitBundle\ErOpUitBundle(),
             new GaBundle\GaBundle(),
             new HsBundle\HsBundle(),
             new InloopBundle\InloopBundle(),

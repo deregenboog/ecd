@@ -99,12 +99,13 @@ class KernelSubscriber implements EventSubscriberInterface
         $this->setFlashMessage();
         $this->setUserFullName();
 
+        $parts = explode('\\', get_class($this->controller));
+        $bundle = '@'.str_replace('Bundle', '', $parts[0]);
+
         $route = $this->controller->getRequest()->attributes->get('_route');
         $parts = explode('_', $route);
-
-        $bundle = '@'.ucfirst(reset($parts));
-        $path = next($parts);
-        $template = next($parts);
+        $path = $parts[1];
+        $template = $parts[2];
 
         if ($this->controller instanceof AbstractController && $this->controller->getTemplatePath()) {
             $path = $this->controller->getTemplatePath();

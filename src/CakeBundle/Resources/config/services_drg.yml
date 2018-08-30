@@ -150,6 +150,9 @@ parameters:
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
+                - eropuit
+                - ErOpUitBundle\Controller\Klanten
+                - ErOpUitBundle\Controller\Vrijwilligers
                 - ga
                 - GaBundle\Controller\Activiteiten
                 - GaBundle\Controller\Groepen
@@ -298,6 +301,9 @@ parameters:
                 - GroepsactiviteitenIntakes
                 - GroepsactiviteitenVerslagen
                 - GroepsactiviteitenRapportages
+                - eropuit
+                - ErOpUitBundle\Controller\Klanten
+                - ErOpUitBundle\Controller\Vrijwilligers
                 - ga
                 - GaBundle\Controller\Activiteiten
                 - GaBundle\Controller\Groepen
@@ -331,6 +337,9 @@ parameters:
                 - GroepsactiviteitenGroepen
                 - GroepsactiviteitenRedenen
                 - GroepsactiviteitenAfsluitingen
+                - eropuit
+                - ErOpUitBundle\Controller\Klanten
+                - ErOpUitBundle\Controller\Vrijwilligers
                 - ga
                 - GaBundle\Controller\Activiteiten
                 - GaBundle\Controller\Groepen
@@ -681,6 +690,9 @@ parameters:
                 - IzBundle\Controller\Verslagen
                 - IzBundle\Controller\ViaPersonen
                 - IzBundle\Controller\Vrijwilligers
+                - eropuit
+                - ErOpUitBundle\Controller\Klanten
+                - ErOpUitBundle\Controller\Vrijwilligers
                 - ga
                 - GaBundle\Controller\Activiteiten
                 - GaBundle\Controller\Documenten
@@ -741,6 +753,9 @@ parameters:
             dagbesteding:
                 label: Dagbesteding
                 url: dagbesteding
+            eropuit:
+                label: Er op uit
+                url: eropuit
 #            groepsactiviteiten_klanten:
 #                label: Groepsactiviteiten
 #                url: groepsactiviteiten_klanten

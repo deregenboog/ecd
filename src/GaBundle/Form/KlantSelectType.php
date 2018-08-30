@@ -57,9 +57,8 @@ class KlantSelectType extends AbstractType
         // get clients already participating...
         $klanten = [];
         foreach ($activiteit->getKlantDeelnames() as $deelname) {
-            $klanten[] = $deelname->getKlant();
+            $klanten[$deelname->getKlant()->getId()] = $deelname->getKlant();
         }
-        $klanten = array_unique($klanten);
 
         // ...and exclude them from choices
         if (count($klanten)) {
@@ -76,9 +75,8 @@ class KlantSelectType extends AbstractType
         // get clients already member...
         $klanten = [];
         foreach ($groep->getKlantLidmaatschappen() as $lidmaatschap) {
-            $klanten[] = $lidmaatschap->getKlant();
+            $klanten[$lidmaatschap->getKlant()->getId()] = $lidmaatschap->getKlant();
         }
-        $klanten = array_unique($klanten);
 
         // ...and exclude them from choices
         if (count($klanten)) {

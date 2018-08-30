@@ -1,0 +1,134 @@
+<?php
+
+namespace ErOpUitBundle\Controller;
+
+use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use ErOpUitBundle\Entity\Klant;
+use ErOpUitBundle\Form\KlantFilterType;
+use ErOpUitBundle\Form\KlantType;
+use ErOpUitBundle\Service\KlantDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/klanten")
+ */
+class KlantenController extends AbstractController
+{
+    protected $title = 'Klanten';
+    protected $entityName = 'klant';
+    protected $entityClass = Klant::class;
+    protected $formClass = KlantType::class;
+    protected $filterFormClass = KlantFilterType::class;
+    protected $baseRouteName = 'eropuit_klanten_';
+
+    /**
+     * @var KlantDaoInterface
+     *
+     * @DI\Inject("ErOpUitBundle\Service\KlantDao")
+     */
+    protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("eropuit.export.klanten")
+     */
+    protected $export;
+
+    /**
+     * @var KlantDaoInterface
+     *
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    private $klantDao;
+
+    /**
+     * @Route("/add")
+     */
+    public function addAction(Request $request)
+    {
+        if ($request->get('klant')) {
+            return $this->doAdd($request);
+        }
+
+        return $this->doSearch($request);
+    }
+
+    private function doSearch(Request $request)
+    {
+        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
+            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
+        ]);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $count = (int) $this->klantDao->countAll($filterForm->getData());
+            if (0 === $count) {
+                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
+
+                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
+            }
+
+            if ($count > 100) {
+                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
+            }
+
+            return [
+                'filterForm' => $filterForm->createView(),
+                'klanten' => $this->klantDao->findAll(null, $filterForm->getData()),
+            ];
+        }
+
+        return [
+            'filterForm' => $filterForm->createView(),
+        ];
+    }
+
+    private function doAdd(Request $request)
+    {
+        $klantId = $request->get('klant');
+        if ('new' === $klantId) {
+            $appKlant = new AppKlant();
+        } else {
+            $appKlant = $this->klantDao->find($klantId);
+        }
+
+        // redirect if already exists
+        $klant = $this->dao->findOneByKlant($appKlant);
+        if ($klant) {
+            return $this->redirectToView($klant);
+        }
+
+        $klant = new Klant($appKlant);
+        $creationForm = $this->createForm(KlantType::class, $klant);
+        $creationForm->handleRequest($request);
+
+        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+            try {
+                $this->dao->create($klant);
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
+                return $this->redirectToView($klant);
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            return $this->redirectToIndex();
+        }
+
+        return [
+            'creationForm' => $creationForm->createView(),
+        ];
+    }
+}

@@ -11,6 +11,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use GaBundle\Entity\LidmaatschapAfsluitreden;
 
 class VrijwilligerLidmaatschapCloseType extends AbstractType
 {
@@ -30,7 +32,9 @@ class VrijwilligerLidmaatschapCloseType extends AbstractType
                 'dummy_label' => (string) $lidmaatschap->getGroep(),
             ])
             ->add('einddatum', AppDateType::class)
-            ->add('reden')
+            ->add('afsluitreden', EntityType::class, [
+                'class' => LidmaatschapAfsluitreden::class,
+            ])
             ->add('submit', SubmitType::class)
         ;
     }
