@@ -193,7 +193,7 @@ class DashboardController extends SymfonyController
                 'koppelingStartdatum',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
-                'izProject',
+                'project',
                 'filter',
                 'download',
             ],
