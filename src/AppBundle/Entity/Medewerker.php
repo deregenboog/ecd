@@ -10,6 +10,7 @@ use AppBundle\Model\TimestampableTrait;
 /**
  * @ORM\Entity
  * @ORM\Table(name="medewerkers")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Medewerker
