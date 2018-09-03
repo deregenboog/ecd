@@ -119,7 +119,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             $filter->applyTo($builder);
         }
 
-        if ($filter->matching) {
+        if (!$filter || $filter->matching) {
             // doelgroepen
             if ($hulpvraag->getDoelgroep()) {
                 $builder

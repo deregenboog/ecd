@@ -1,0 +1,13 @@
+PfoBundle\Entity\Groep:
+    pfo_groep_{1..5}:
+        naam: 'Verslaving'
+        startdatum: '<dateTimeThisDecade()>'
+
+PfoBundle\Entity\Client:
+    pfo_client_{1..10}:
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        groep: '@pfo_groep_*'
+        medewerker: '@medewerker_*'
+        dubbeleDiagnose: false
+        eerdereHulpverlening: false

@@ -65,7 +65,6 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
             </th>
-            <th></th>
         </tr>
         {% for client in pagination %}
         <tr data-href="{{ path('pfo_clienten_view', {id: client.id}) }}">

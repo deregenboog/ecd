@@ -84,7 +84,7 @@ class Klant extends Persoon
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="first_intake_date", type="date")
+     * @ORM\Column(name="first_intake_date", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $eersteIntakeDatum;
