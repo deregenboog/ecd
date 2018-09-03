@@ -324,14 +324,15 @@ class AppController extends Controller implements ContainerAwareInterface
 
         // For development purposes only!
         // Pre-populate session with Medewerker with given ID.
-        if (Configure::read('acl.login.medewerker_id')) {
-            $medewerker = $this->getEntityManager()->getRepository(Medewerker::class)
-                ->find(Configure::read('acl.login.medewerker_id'));
+        if (Configure::read('acl.login.medewerker_username')) {
+            $medewerker = $this->getEntityManager()->getRepository(Medewerker::class)->findOneBy([
+                'username' => Configure::read('acl.login.medewerker_username'),
+            ]);
             if (!$medewerker) {
                 throw new AppException(sprintf(
-                    'Entity of class %s with ID %d not found! Did you load the database fixtures? Try running "%s".',
+                    'Entity of class %s with username "%s" not found! Did you load the database fixtures? Try running "%s".',
                     Medewerker::class,
-                    Configure::read('acl.login.medewerker_id'),
+                    Configure::read('acl.login.medewerker_username'),
                     'bin/console hautelook_alice:doctrine:fixtures:load'
                 ));
             }

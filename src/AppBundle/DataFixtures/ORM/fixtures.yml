@@ -1072,6 +1072,7 @@ AppBundle\Entity\Nationaliteit:
 
 AppBundle\Entity\Medewerker:
     medewerker_1:
+        uid: '1'
         username: 'bhuttinga'
         email: 'bhuttinga@deregenboog.org'
         voornaam: 'Bart'
@@ -1082,17 +1083,20 @@ AppBundle\Entity\Medewerker:
             - 'CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog'
             - 'CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog'
     medewerker_{2..10}:
+        uid: '<current()>'
         username: '<username()>'
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
     medewerker_{11..15}:
+        uid: '<current()>'
         username: '<username()>'
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         groepen: ['CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog']
     medewerker_{16..20}:
+        uid: '<current()>'
         username: '<username()>'
         email: '<email()>'
         voornaam: '<firstname()>'
