@@ -2,7 +2,7 @@
 
 namespace GaBundle\Form;
 
-use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use GaBundle\Filter\KlantIntakeFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +16,7 @@ class KlantFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', KlantFilterType::class, [
+            $builder->add('klant', AppKlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
