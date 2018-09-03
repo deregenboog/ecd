@@ -129,7 +129,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $notitie;
@@ -137,7 +137,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $via;
@@ -145,7 +145,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $hulpverleners;
@@ -153,7 +153,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $contacten;
@@ -210,7 +210,7 @@ class Client
     /**
      * @var Client[]
      *
-     * @ORM\ManyToMany(targetEntity="Client", inversedBy="gekoppeldeClienten")
+     * @ORM\ManyToMany(targetEntity="Client", inversedBy="gekoppeldeClienten", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="pfo_clienten_supportgroups",
      *     joinColumns={@ORM\JoinColumn(name="pfo_supportgroup_client_id")},
@@ -222,7 +222,7 @@ class Client
     /**
      * @var Client[]
      *
-     * @ORM\ManyToMany(targetEntity="Client", mappedBy="hoofdclienten")
+     * @ORM\ManyToMany(targetEntity="Client", mappedBy="hoofdclienten", cascade={"persist"})
      */
     private $gekoppeldeClienten;
 
@@ -619,9 +619,12 @@ class Client
         return $this->gekoppeldeClienten;
     }
 
-    public function addGekoppeldeClient(self $client)
+    public function setGekoppeldeClienten($clienten)
     {
-        $this->gekoppeldeClienten[] = $client;
+        $this->gekoppeldeClienten = $clienten;
+        foreach ($clienten as $client) {
+            $client->setHoofdclient($this);
+        }
 
         return $this;
     }

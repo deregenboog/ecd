@@ -12,9 +12,8 @@
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
-        {% set edit_link = path('pfo_clienten_edit', {id: entity.id}) %}
-        {{ html.editLink(edit_link)|raw }}
-        {{ html.link(entity_name|capitalize~' wijzigen', edit_link)|raw }}
+        {{ html.link(entity_name|capitalize~' wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {{ html.link(entity_name|capitalize~' koppelen', path(route_base~'connect', {id: entity.id}), 'edit') }}
     </p>
 {% endblock %}
 
