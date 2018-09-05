@@ -276,7 +276,7 @@ class AbstractController extends SymfonyController
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
     }
 
-    protected function createEntity($parentEntity)
+    protected function createEntity()
     {
         return new $this->entityClass();
     }

@@ -43,6 +43,24 @@ class GroepenController extends AbstractController
      */
     protected $vrijwilligerLidmaatschapDao;
 
+    /**
+     * @Route("/add")
+     */
+    public function addAction(Request $request)
+    {
+        if ($request->get('type')) {
+            $this->forceRedirect = true;
+            $this->entityClass = str_replace('Groep', Groep::class, $request->get('type'));
+
+            $entity = $this->createEntity();
+            if ($entity instanceof Groep) {
+                return $this->processForm($request, $entity);
+            }
+        }
+
+        return [];
+    }
+
     protected function addParams($entity, Request $request)
     {
         assert($entity instanceof Groep);

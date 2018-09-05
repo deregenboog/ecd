@@ -20,8 +20,8 @@ class GroepType extends AbstractType
         $builder
             ->add('naam')
             ->add('werkgebied')
-            ->add('startdatum', AppDateType::class)
-            ->add('einddatum', AppDateType::class)
+            ->add('startdatum', AppDateType::class, ['required' => true])
+            ->add('einddatum', AppDateType::class, ['required' => false])
             ->add('submit', SubmitType::class)
         ;
     }

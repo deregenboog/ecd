@@ -135,6 +135,11 @@ class AbstractChildController extends AbstractController
         ];
     }
 
+    protected function createEntity($parentEntity)
+    {
+        return new $this->entityClass();
+    }
+
     protected function persistEntity($entity, $parentEntity)
     {
         if (!$parentEntity && $this->allowEmpty) {
