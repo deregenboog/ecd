@@ -56,8 +56,6 @@ interface RegistratieDaoInterface
 
     /**
      * @param Klant $klant
-     *
-     * @return void
      */
     public function checkoutKlantFromAllLocations(Klant $klant);
 }

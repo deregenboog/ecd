@@ -167,7 +167,7 @@ class VrijwilligerintakesController extends AbstractController
         ];
     }
 
-    protected function addParams($entity)
+    protected function addParams($entity, Request $request)
     {
         $lidmaatschappen = $this->getDoctrine()->getRepository(VrijwilligerLidmaatschap::class)
             ->findBy(['vrijwilliger' => $entity->getVrijwilliger()], ['created' => 'desc']);

@@ -72,6 +72,8 @@ class Locatie
      */
     private $locatietijden;
 
+    private $openingTimeCorrection = 30 * 60; // 30 minutes
+
     public function __toString()
     {
         return $this->naam;
@@ -199,15 +201,7 @@ class Locatie
     }
 
     /**
-     * @return multitype:\InloopBundle\Entity\Locatietijd
-     */
-    public function getLocatietijden()
-    {
-        return $this->locatietijden;
-    }
-
-    /**
-     * @param multitype:\InloopBundle\Entity\Locatietijd $locatietijden
+     * @param Locatietijd[] $locatietijden
      */
     public function setLocatietijden($locatietijden)
     {
@@ -225,77 +219,43 @@ class Locatie
         $prevDate = (clone $date)->modify('-1 day');
         $nextDate = (clone $date)->modify('+1 day');
 
-        $openingTimeCorrection = \Configure::read('openingTimeCorrectionSec');
-
-        foreach ($this->locatietijden as $tijd) {
-            if ($tijd->getDagVanDeWeek() == $date->format('w')) {
-                $tijd->getOpeningstijd()
-                    ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                    ->modify("-{$openingTimeCorrection} seconds")
-                ;
-                $tijd->getSluitingstijd()
-                    ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                    ->modify("+{$openingTimeCorrection} seconds")
-                ;
-                if ($date > $tijd->getOpeningstijd() && $date < $tijd->getSluitingstijd()) {
-                    return true;
-                }
+        $between = function (\DateTime $date, \DateTime $openingstijd, \DateTime $sluitingstijd) {
+            $openingstijd = (clone $openingstijd)
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify("-{$this->openingTimeCorrection} seconds")
+            ;
+            $sluitingstijd = (clone $sluitingstijd)
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify("+{$this->openingTimeCorrection} seconds")
+            ;
+            if ($openingstijd > $sluitingstijd) {
+                $openingstijd->modify('-1 day');
             }
 
-            if ($tijd->getDagVanDeWeek() == $prevDate->format('w')) {
-                $tijd->getOpeningstijd()
-                    ->setDate($prevDate->format('Y'), $prevDate->format('m'), $prevDate->format('d'))
-                    ->modify("-{$openingTimeCorrection} seconds")
-                ;
-                $tijd->getSluitingstijd()
-                    ->setDate($prevDate->format('Y'), $prevDate->format('m'), $prevDate->format('d'))
-                    ->modify("+{$openingTimeCorrection} seconds")
-                ;
-                if ($prevDate > $tijd->getOpeningstijd() && $prevDate < $tijd->getSluitingstijd()) {
-                    return true;
-                }
+            if ($date > $openingstijd && $date < $sluitingstijd) {
+                return true;
             }
 
-            if ($tijd->getDagVanDeWeek() == $nextDate->format('w')) {
-                $tijd->getOpeningstijd()
-                    ->setDate($nextDate->format('Y'), $nextDate->format('m'), $nextDate->format('d'))
-                    ->modify("-{$openingTimeCorrection} seconds")
-                ;
-                $tijd->getSluitingstijd()
-                    ->setDate($nextDate->format('Y'), $nextDate->format('m'), $nextDate->format('d'))
-                    ->modify("+{$openingTimeCorrection} seconds")
-                ;
-                if ($nextDate > $tijd->getOpeningstijd() && $nextDate < $tijd->getSluitingstijd()) {
+            return false;
+        };
+
+        foreach ($this->locatietijden as $locatietijd) {
+            if ($locatietijd->getOpeningstijd() <= $locatietijd->getSluitingstijd()
+                && $locatietijd->getDagVanDeWeek() == $date->format('w')
+            ) {
+                if ($between($date, $locatietijd->getOpeningstijd(), $locatietijd->getSluitingstijd())) {
+                    return true;
+                }
+            } elseif ($locatietijd->getOpeningstijd() > $locatietijd->getSluitingstijd()
+                && $locatietijd->getDagVanDeWeek() == (clone $date)->modify('-1 day')->format('w')
+            ) {
+                if ($between($date, $locatietijd->getOpeningstijd(), $locatietijd->getSluitingstijd())) {
                     return true;
                 }
             }
         }
 
         return false;
-    }
-
-    public function getLastClosingTime($dayLimit = 0)
-    {
-        $date =  new \DateTime(sprintf('-%d days', $dayLimit));
-        $original = clone $date;
-
-        $count = 7;
-        do {
-            $closingTime = $this->getClosingTimeByDayOfWeek($date->format('w'));
-            $date->modify('-1 day');
-            --$count;
-            if (0 == $count) {
-                break;
-            }
-        } while (!$closingTime || $closingTime > $original);
-
-        var_dump($closingTime, $original, $count); die;
-
-        return $closingTime;
-
-
-
-        var_dump($builder); die;
     }
 
     public function getClosingTimeByDayOfWeek($dayOfWeek)
@@ -305,5 +265,10 @@ class Locatie
                 return $locatietijd->getSluitingstijd();
             }
         }
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }

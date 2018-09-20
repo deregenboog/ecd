@@ -2,15 +2,8 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Locatie;
 use AppBundle\Entity\Opmerking;
-use Doctrine\ORM\Query\Expr;
-use InloopBundle\Entity\RecenteOpmerking;
-use InloopBundle\Filter\OpmerkingFilter;
-use InloopBundle\Entity\Aanmelding;
+use AppBundle\Service\AbstractDao;
 
 class OpmerkingDao extends AbstractDao implements OpmerkingDaoInterface
 {

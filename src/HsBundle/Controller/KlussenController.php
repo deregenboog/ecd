@@ -9,11 +9,13 @@ use HsBundle\Form\KlusFilterType;
 use HsBundle\Form\KlusType;
 use HsBundle\Service\KlusDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klussen")
+ * @Template
  */
 class KlussenController extends AbstractChildController
 {

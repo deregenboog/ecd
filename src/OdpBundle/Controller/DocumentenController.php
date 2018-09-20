@@ -14,10 +14,12 @@ use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\DocumentType;
 use OdpBundle\Service\DocumentDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/documenten")
+ * @Template
  */
 class DocumentenController extends SymfonyController
 {

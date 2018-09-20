@@ -7,13 +7,12 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use GaBundle\Entity\KlantLidmaatschap;
 use GaBundle\Entity\Lidmaatschap;
+use GaBundle\Entity\LidmaatschapAfsluitreden;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use GaBundle\Controller\LidmaatschapafsluitredenenController;
-use GaBundle\Entity\LidmaatschapAfsluitreden;
 
 class KlantLidmaatschapCloseType extends AbstractType
 {

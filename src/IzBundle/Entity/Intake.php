@@ -3,8 +3,9 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Model\ZrmInterface;
-use AppBundle\Model\ZrmTrait;
+use AppBundle\Entity\Zrm;
+use AppBundle\Model\ZrmsInterface;
+use AppBundle\Model\ZrmsTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -14,9 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Intake implements ZrmInterface
+class Intake implements ZrmsInterface
 {
-    use ZrmTrait;
+    use ZrmsTrait;
 
     /**
      * @ORM\Id
@@ -277,6 +278,14 @@ class Intake implements ZrmInterface
     public function setRegelzaken($regelzaken)
     {
         $this->regelzaken = $regelzaken;
+
+        return $this;
+    }
+
+    public function addZrm(Zrm $zrm)
+    {
+        $this->zrms[] = $zrm;
+        $this->getIzDeelnemer()->getKlant()->addZrm($zrm);
 
         return $this;
     }

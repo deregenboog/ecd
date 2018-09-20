@@ -3,14 +3,9 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use IzBundle\Entity\AfsluitredenKoppeling;
-use IzBundle\Form\AfsluitredenKoppelingType;
-use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use IzBundle\Form\SuccesindicatorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Entity\SuccesindicatorPersoonlijk;
-use IzBundle\Form\SuccesindicatorType;
 
 /**
  * @Route("/admin/succesindicatorenpersoonlijk")

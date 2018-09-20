@@ -47,4 +47,24 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
         return $builder->getQuery()->getResult();
     }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Klant
+     */
+    public function create(Klant $entity)
+    {
+        return parent::doCreate($entity);
+    }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Klant
+     */
+    public function update(Klant $entity)
+    {
+        return parent::doUpdate($entity);
+    }
 }

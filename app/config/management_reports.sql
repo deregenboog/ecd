@@ -53,7 +53,6 @@ order by order_naam
 -- FIELDS: 0.Woonsituatie - Woonsituatie; 0.Aantal - Aantal; 0.percentage - Percentage
 -- !DISABLE
 -- ARRAY
-
 select Coalesce(w.naam, 'Onbekend') Woonsituatie,
        COUNT(*) Aantal,
        Concat(Round(COUNT(*) / (SELECT COUNT(DISTINCT klant_id)
@@ -69,7 +68,6 @@ LEFT JOIN woonsituaties w
   ON v.woonsituatie_id = w.id
 group by 1
 order by Aantal desc
-
 ;
 
 -- START 7-8-9-10-11-12. Bezoekers dakloos of thuisloos, met of zonder regiobinding
@@ -77,7 +75,6 @@ order by Aantal desc
 -- FIELDS: 0.naam - Bezoekers; 0.Met regiobinding - Met regiobinding; 0.Zonder regiobinding - Zonder regiobinding; 0.Regiobinding onbekend - Regiobinding onbekend; 0.Totaal - Totaal
 -- ARRAY
 -- !DISABLE
-
 (SELECT
     'Dakloos' AS 'naam',
     (SELECT COUNT(distinct klant_id)
@@ -178,7 +175,6 @@ UNION
 -- FIELDS: l.Geboorteland - Geboorteland; 0.Aantal mannen - Aantal mannen; 0.Aantal vrouwen - Aantal vrouwen; 0.Totaal - Totaal
 -- ARRAY
 -- !DISABLE
-
 SELECT
     `l`.`land` AS 'Geboorteland',
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`land_id` = `l`.`id` AND `tv`.`geslacht` = 'Man' AND `date` between :from and :until) AS 'Aantal mannen',
@@ -225,13 +221,11 @@ UNION
 ORDER BY order_name
 ;
 
-
 -- START 17-18. - Primaire problematiek.sql
 -- HEAD: Primaire verslaving van bezoekers
 -- FIELDS: v.Primaire problematiek - Primaire problematiek; 0.Aantal mannen - Aantal mannen; 0.Aantal vrouwen - Aantal vrouwen; 0.Totaal - Totaal
 -- ARRAY
 -- !DISABLE
-
 SELECT
     `naam` AS 'Primaire problematiek',
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`verslaving_id` <=> `v`.`id` AND `tv`.`geslacht` = 'Man' AND `date` between :from and :until) AS 'Aantal mannen',
@@ -248,7 +242,6 @@ ORDER BY 4 desc
 -- ARRAY
 -- !DISABLE
 -- SUMMARY
-
 select *
   from (
 (SELECT
@@ -275,8 +268,6 @@ order by order_name
 -- FIELDS: a.label - Duur bezoek; 0.cnt - Aantal bezoekers
 -- ARRAY
 -- !DISABLE
-
-
 select label, count(*) cnt from (
 SELECT klant_id, AVG(duration) as duration
   FROM `tmp_visits` `tv`
@@ -295,7 +286,6 @@ order by range_start asc
 -- ARRAY
 -- !DISABLE
 -- SUMMARY
-
 (SELECT
     `naam`,
     IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` is null AND v.`datum` between :from and :until), '-') AS 'Onbekend',
@@ -330,7 +320,6 @@ UNION
 -- FIELDS: n.nationaliteit - Nationaliteit; 0.cnt - Aantal unieke personen
 -- ARRAY
 -- !DISABLE
-
 select n.naam nationaliteit, count(distinct klant_id) cnt
   from verslagen v
   join klanten k
@@ -349,7 +338,6 @@ select n.naam nationaliteit, count(distinct klant_id) cnt
 -- ARRAY
 -- !DISABLE
 -- SUMMARY
-
 (SELECT
     CONCAT(`m`.`voornaam`, ' ', IF(`m`.`tussenvoegsel` IS NULL, '', CONCAT(`m`.`tussenvoegsel`, ' ')), `m`.`achternaam`) AS 'Medewerker',
     COUNT(distinct v.id) AS 'Aantal verslagen'
@@ -408,6 +396,5 @@ select 'Alle locaties samen' naam, count(distinct iv.id) cnt
  group by 1
 )
 ;
-
 
 -- END FILE: keep this at the end of the file

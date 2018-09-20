@@ -7,6 +7,7 @@ use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Form\TrajectafsluitingType;
 use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -31,7 +32,7 @@ class TrajectafsluitingenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

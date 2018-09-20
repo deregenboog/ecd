@@ -1,0 +1,56 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+
+services:
+    app.form.rapportage:
+        class: AppBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    AppBundle\Report\Activering:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/activering_reports.sql"
+        tags:
+            - { name: app.rapportage }
+
+    AppBundle\Report\GeenHulpverlenerscontact:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/geen_hulpverlenerscontact.sql"
+        tags:
+            - { name: app.rapportage }
+    
+    AppBundle\Report\Ladis:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/ladis_report.sql"
+        tags:
+            - { name: app.rapportage }
+
+    AppBundle\Report\Management:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/management_reports.sql"
+        tags:
+            - { name: app.rapportage }
+
+    AppBundle\Report\Veegploeg:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/veegploeg_reports.sql"
+        tags:
+            - { name: app.rapportage }
+
+    AppBundle\Report\ZrmScorePerPostcodegebied:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: app.rapportage, category: ZRM }
+
+    AppBundle\Report\ZrmV2ScorePerPostcodegebied:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: app.rapportage, category: ZRM }

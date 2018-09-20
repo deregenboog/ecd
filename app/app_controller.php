@@ -407,45 +407,6 @@ class AppController extends Controller implements ContainerAwareInterface
         $this->set('htmlBodyId', Inflector::variable($this->name.'_'.$this->action));
     }
 
-    /**
-     * before render.
-     */
-    public function beforeRender()
-    {
-        if (isset($this->data['Medewerker']['password'])) {
-            unset($this->data['Medewerker']['password']);
-        }
-        if (isset($this->data['Medewerker']['password_confirm'])) {
-            unset($this->data['Medewerker']['password_confirm']);
-        }
-
-        if ($this->container) {
-            $menu_elements = $this->container->getParameter('all_menu_items');
-            $menu_allowed = [];
-            foreach ($menu_elements as $controller => $props) {
-                if ($this->_isControllerAuthorized($controller)) {
-                    $menu_allowed[$props['url']] = $props['label'];
-                }
-            }
-            $this->set(compact('menu_allowed'));
-            $this->set('menuControllers', $this->menuControllers);
-        }
-
-        // A hack to fix the problem that HABTM validation messages do not come
-        // to the right place. Maybe it is fixed in latest Cakes, but we need
-        // it here for the Inkomen errors to be taken out from the Intakes, for
-        // example.
-        $model = Inflector::singularize($this->name);
-        if (!empty($this->{$model}) &&
-                is_array($this->{$model}->hasAndBelongsToMany)) {
-            foreach ($this->{$model}->hasAndBelongsToMany as $k => $v) {
-                if (isset($this->{$model}->validationErrors[$k])) {
-                    $this->{$model}->{$k}->validationErrors[$k] = $this->{$model}->validationErrors[$k];
-                }
-            }
-        }
-    }
-
     /*
      * sends an email to $recipent, with $content
     */

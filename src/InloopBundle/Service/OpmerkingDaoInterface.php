@@ -2,10 +2,6 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Filter\FilterInterface;
-use InloopBundle\Entity\Locatie;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use AppBundle\Entity\Opmerking;
 
 interface OpmerkingDaoInterface

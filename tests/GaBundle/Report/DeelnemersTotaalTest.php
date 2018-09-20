@@ -2,9 +2,9 @@
 
 namespace Tests\GaBundle\Report;
 
+use GaBundle\Entity\GroepBuurtmaatjes;
 use GaBundle\Report\DeelnemersTotaal;
 use GaBundle\Repository\GroepRepository;
-use GaBundle\Entity\GroepBuurtmaatjes;
 
 class DeelnemersTotaalTest extends \PHPUnit_Framework_TestCase
 {

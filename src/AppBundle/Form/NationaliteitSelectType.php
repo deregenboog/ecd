@@ -21,7 +21,7 @@ class NationaliteitSelectType extends AbstractType
                 return $repository->createQueryBuilder('nationaliteit')
                     ->orderBy('nationaliteit.naam');
             },
-            'preferred_choices' => function(Nationaliteit $nationaliteit) {
+            'preferred_choices' => function (Nationaliteit $nationaliteit) {
                 return in_array($nationaliteit->getNaam(), ['Nederlandse', 'Onbekend']);
             },
         ]);

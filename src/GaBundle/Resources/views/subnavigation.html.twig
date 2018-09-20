@@ -11,7 +11,7 @@
     {{ html.navLink('Activiteiten', path('ga_activiteiten_index'), isActiveRoute('ga_activiteiten_')) }}
     {{ html.navLink('Rapportages', path('ga_rapportages_index'), isActiveRoute('ga_rapportages_')) }}
     {{ html.navLink('Selecties', path('ga_selecties_index'), isActiveRoute('ga_selecties_')) }}
-    {% if constant('GROUP_BEHEER_GROEPSACTIVITEIT') in userGroups|keys %}
+    {% if is_granted('ROLE_GA_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('ga/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>

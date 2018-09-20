@@ -20,17 +20,13 @@ class AgressieDoelwitType extends AbstractType
 
         $builder
             ->add("typeDoelwitAgressie$i", ChoiceType::class, [
-                'label' => "Functie",
+                'label' => 'Functie',
                 'required' => false,
                 'expanded' => false,
-                'choices' => [
-                    'medewerker' => 1,
-                    'stagiair' => 2,
-                    'vrijwilliger' => 3,
-                ],
+                'choices' => array_flip(Schorsing::DOELWITTEN),
             ])
             ->add("doelwitAgressie$i", null, [
-                'label' => "Naam",
+                'label' => 'Naam',
                 'required' => false,
             ])
         ;

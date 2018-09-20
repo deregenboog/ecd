@@ -14,11 +14,13 @@ use OdpBundle\Form\HuurderFilterType;
 use OdpBundle\Form\HuurderSelectType;
 use OdpBundle\Form\HuurderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/huurders")
+ * @Template
  */
 class HuurdersController extends SymfonyController
 {

@@ -2,13 +2,13 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Entity\Klant;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use AppBundle\Model\TimestampableTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
@@ -23,6 +23,11 @@ class Schorsing
     const DOELWIT_MEDEWERKER = 1;
     const DOELWIT_STAGIAIR = 2;
     const DOELWIT_VRIJWILLIGER = 3;
+    const DOELWITTEN = [
+        self::DOELWIT_MEDEWERKER => 'medewerker',
+        self::DOELWIT_STAGIAIR => 'stagiair',
+        self::DOELWIT_VRIJWILLIGER => 'vrijwilliger',
+    ];
 
     /**
      * @ORM\Id

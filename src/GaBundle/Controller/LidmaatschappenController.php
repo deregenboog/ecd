@@ -4,7 +4,6 @@ namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Groep;
-use Symfony\Component\Routing\Annotation\Route;
 
 abstract class LidmaatschappenController extends AbstractChildController
 {
@@ -13,7 +12,7 @@ abstract class LidmaatschappenController extends AbstractChildController
     protected $disabledActions = ['delete'];
     protected $allowEmpty = true;
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         if ($parentEntity instanceof Groep) {
             return new $this->entityClass($parentEntity);

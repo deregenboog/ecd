@@ -21,7 +21,7 @@ class LandSelectType extends AbstractType
                 return $repository->createQueryBuilder('land')
                     ->orderBy('land.land');
             },
-            'preferred_choices' => function(Land $land) {
+            'preferred_choices' => function (Land $land) {
                 return in_array($land->getNaam(), ['Nederland', 'Onbekend']);
             },
         ]);

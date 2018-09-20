@@ -1,35 +1,11 @@
 <?php
 
-use CakeBundle\Service\CakeConfiguration;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    public function boot()
-    {
-        parent::boot();
-
-        if ('cli' === php_sapi_name()) {
-            @define('WWW_ROOT', '');
-        }
-
-        // configure CakeHPHP
-        require __DIR__.'/bootstrap_cake.php';
-        /** @var $cakeConfig CakeConfiguration */
-        $cakeConfig = $this->getContainer()->get('cake.configuration');
-        // define constants for acl groups
-        foreach ($cakeConfig->all()['ACL.groups'] as $name => $id) {
-            if (!defined($name)) {
-                define($name, $id);
-            }
-        }
-        // set CakePHP's Configure-object
-        foreach ($cakeConfig->all() as $key => $value) {
-            \Configure::write($key, $value);
-        }
-    }
-
     public function registerBundles()
     {
         $bundles = [
@@ -48,8 +24,11 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
+
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle(),
+
             new AppBundle\AppBundle(),
-            new CakeBundle\CakeBundle(),
             new ClipBundle\ClipBundle(),
             new DagbestedingBundle\DagbestedingBundle(),
             new ErOpUitBundle\ErOpUitBundle(),
@@ -88,5 +67,10 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+
+        $dotenv = new Dotenv();
+        $dotenv->load($this->getRootDir().'/config/.env');
+        $profile = getenv('PROFILE');
+        $loader->load($this->getRootDir().'/config/security_'.$profile.'.yml');
     }
 }

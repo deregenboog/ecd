@@ -3,19 +3,33 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Report\AbstractReport;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractRapportagesController extends SymfonyController
 {
     protected $title = 'Rapportages';
 
+    /**
+     * @Route("/")
+     * @Template
+     */
     public function indexAction(Request $request)
     {
         if (!$this->formClass) {
             throw new \InvalidArgumentException(get_class($this).'::formClass must be set.');
         }
 
-        $form = $this->createForm($this->formClass);
+        $formOptions = [];
+        if ($request->query->has('rapportage')) {
+            // get reporting service
+            /** @var AbstractReport $report */
+            $report = $this->container->get($request->query->get('rapportage')['rapport']);
+            $formOptions = $report->getFormOptions();
+        }
+
+        $form = $this->createForm($this->formClass, null, $formOptions);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -28,10 +42,13 @@ abstract class AbstractRapportagesController extends SymfonyController
                 return $this->download($report);
             }
 
-            $data = $this->extractDataFromReport($report);
-            $data['form'] = $form->createView();
-
-            return $data;
+            return [
+                'title' => $report->getTitle(),
+                'startDate' => $report->getStartDate(),
+                'endDate' => $report->getEndDate(),
+                'reports' => $report->getReports(),
+                'form' => $form->createView(),
+            ];
         }
 
         return [
@@ -44,7 +61,12 @@ abstract class AbstractRapportagesController extends SymfonyController
     {
         ini_set('memory_limit', '512M');
 
-        $data = $this->extractDataFromReport($report);
+        $data = [
+            'title' => $report->getTitle(),
+            'startDate' => $report->getStartDate(),
+            'endDate' => $report->getEndDate(),
+            'reports' => $report->getReports(),
+        ];
 
         $filename = sprintf(
             '%s-%s-%s.xlsx',
@@ -54,15 +76,5 @@ abstract class AbstractRapportagesController extends SymfonyController
         );
 
         return $this->export->create($data)->getResponse($filename);
-    }
-
-    protected function extractDataFromReport(AbstractReport $report)
-    {
-        return [
-            'title' => $report->getTitle(),
-            'startDate' => $report->getStartDate(),
-            'endDate' => $report->getEndDate(),
-            'reports' => $report->getReports(),
-        ];
     }
 }

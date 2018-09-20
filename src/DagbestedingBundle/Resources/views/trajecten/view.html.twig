@@ -17,7 +17,7 @@
 
 {% block content_left %}
     <h2>Traject dagbesteding</h2>
-    {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+    {% if is_granted('ROLE_DAGBESTEDING') %}
         <p>
             {% if entity.actief %}
                 {{ html.editLink(path('dagbesteding_trajecten_edit', {id: entity.id})) }}
@@ -86,7 +86,7 @@
 {% endblock %}
 
 {% block content_right %}
-    {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+    {% if is_granted('ROLE_DAGBESTEDING') %}
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#dagdelen">Dagdelen</a></li>
             <li><a data-toggle="tab" href="#rapportages">Rapportages</a></li>

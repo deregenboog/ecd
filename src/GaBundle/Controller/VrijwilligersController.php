@@ -4,6 +4,7 @@ namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
+use GaBundle\Entity\Document;
 use GaBundle\Entity\VrijwilligerDeelname;
 use GaBundle\Entity\VrijwilligerIntake;
 use GaBundle\Entity\VrijwilligerLidmaatschap;
@@ -17,8 +18,6 @@ use GaBundle\Service\VrijwilligerIntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use GaBundle\Entity\Document;
-use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @Route("/vrijwilligers")

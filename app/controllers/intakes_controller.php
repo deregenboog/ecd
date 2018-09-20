@@ -32,44 +32,6 @@ class IntakesController extends AppController
         $this->set('intakes', $this->paginate());
     }
 
-    public function view($id)
-    {
-        // get intake
-        $intake = $this->Intake->read(null, $id);
-        if (!$intake) {
-            $this->flashError(__('Invalid intake', true));
-            $this->redirect(['action' => 'index']);
-        }
-
-        // get client associated with intake
-        $klant = $this->Intake->Klant->read(null, $intake['Klant']['id']);
-
-        // get ZRM associated with intake
-        $this->loadModel(ZrmReport::class);
-        foreach (ZrmReport::getZrmReportModels() as $zrmReportModel) {
-            $this->loadModel($zrmReportModel);
-            $zrmReport = $this->{$zrmReportModel}->get_zrm_report('Intake', $id);
-            if ($zrmReport) {
-                break;
-            }
-        }
-        $zrmData = $this->{$zrmReportModel}->zrm_data();
-
-        // create title
-        App::import('Helper', 'Date');
-        $title_for_layout = sprintf(
-            ' - Intake van %s op %s',
-            $intake['Klant']['name'],
-            (new DateHelper())->show($intake['Intake']['datum_intake'])
-        );
-
-        // set template vars
-        $this->set('intake', $intake);
-        $this->set('klant', $klant);
-        $this->set('diensten', $this->Intake->Klant->diensten($intake['Intake']['klant_id'], $this->getEventDispatcher()));
-        $this->set(compact('title_for_layout', 'zrmData', 'zrmReport', 'zrmReportModel'));
-    }
-
     public function add($klant_id = null)
     {
         if (null == $klant_id) {

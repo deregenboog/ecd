@@ -3,22 +3,21 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use InloopBundle\Entity\Schorsing;
-use InloopBundle\Form\SchorsingFilterType;
-use InloopBundle\Form\SchorsingType;
-use InloopBundle\Service\SchorsingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Opmerking;
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Opmerking;
 use InloopBundle\Entity\Locatie;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use InloopBundle\Form\OpmerkingType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/opmerkingen")
+ * @Template
  */
 class OpmerkingenController extends AbstractController
 {
@@ -37,13 +36,16 @@ class OpmerkingenController extends AbstractController
     protected $dao;
 
     /**
-     * @Route("/{klant}/{locatie}", requirements={"klant" = "\d+", "locatie" = "\d+"})
+     * @Route("/{klant}", requirements={"klant"="\d+"})
+     * @Route("/{klant}/{locatie}", requirements={"klant"="\d+", "locatie"="\d+"})
+     * @ParamConverter("klant", class="AppBundle:Klant")
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
      */
-    public function indexAction(Request $request, Klant $klant, Locatie $locatie = null)
+    public function indexAction(Request $request)
     {
         return [
-            'klant' => $klant,
-            'locatie' => $locatie,
+            'klant' => $request->get('klant'),
+            'locatie' => $request->get('locatie'),
         ];
     }
 
@@ -61,9 +63,11 @@ class OpmerkingenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
+     * @ParamConverter("klant", class="AppBundle:Klant")
      */
-    public function addAction(Request $request, Klant $klant)
+    public function addAction(Request $request)
     {
+        $klant = $request->get('klant');
         $opmerking = new Opmerking($klant);
 
         return $this->processForm($request, $opmerking);
@@ -72,8 +76,9 @@ class OpmerkingenController extends AbstractController
     /**
      * @Route("/{opmerking}/delete")
      * @Method("POST")
+     * @ParamConverter("opmerking", class="AppBundle:Opmerking")
      */
-    public function deleteAction(Request $request, Opmerking $opmerking)
+    public function deleteAction(Request $request, $opmerking)
     {
         $this->dao->delete($opmerking);
 

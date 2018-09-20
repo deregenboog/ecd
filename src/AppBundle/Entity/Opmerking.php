@@ -128,7 +128,7 @@ class Opmerking
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isGezien()
     {
@@ -136,7 +136,7 @@ class Opmerking
     }
 
     /**
-     * @param boolean $gezien
+     * @param bool $gezien
      */
     public function setGezien($gezien)
     {

@@ -34,7 +34,7 @@
             </dl>
             <h3>Zelfredzaamheidmatrix</h3>
             {% for zrm in entity.zrms %}
-                {% include '::_zrm.html.twig' with {entity: zrm} %}
+                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: zrm} %}
             {% endfor %}
             <h3>Ondersteuning</h3>
             <dl>

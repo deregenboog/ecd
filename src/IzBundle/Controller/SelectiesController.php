@@ -12,11 +12,13 @@ use IzBundle\Filter\IzDeelnemerSelectie;
 use IzBundle\Form\IzDeelnemerSelectieType;
 use IzBundle\Form\IzEmailMessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/selecties")
+ * @Template
  */
 class SelectiesController extends SymfonyController
 {

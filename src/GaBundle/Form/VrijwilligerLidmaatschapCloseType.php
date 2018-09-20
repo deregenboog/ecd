@@ -6,13 +6,13 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use GaBundle\Entity\Lidmaatschap;
+use GaBundle\Entity\LidmaatschapAfsluitreden;
 use GaBundle\Entity\VrijwilligerLidmaatschap;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use GaBundle\Entity\LidmaatschapAfsluitreden;
 
 class VrijwilligerLidmaatschapCloseType extends AbstractType
 {

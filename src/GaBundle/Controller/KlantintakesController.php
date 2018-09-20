@@ -169,7 +169,7 @@ class KlantintakesController extends AbstractController
         ];
     }
 
-    protected function addParams($entity)
+    protected function addParams($entity, Request $request)
     {
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);

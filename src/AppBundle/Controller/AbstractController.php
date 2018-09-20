@@ -8,10 +8,11 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class AbstractController extends SymfonyController
+abstract class AbstractController extends SymfonyController
 {
     /**
      * @var string
@@ -74,6 +75,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/")
+     * @Template
      */
     public function indexAction(Request $request)
     {
@@ -131,6 +133,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/view")
+     * @Template
      */
     public function viewAction(Request $request, $id)
     {
@@ -151,6 +154,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/add")
+     * @Template
      */
     public function addAction(Request $request)
     {
@@ -165,6 +169,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/edit")
+     * @Template
      */
     public function editAction(Request $request, $id)
     {
@@ -205,14 +210,15 @@ class AbstractController extends SymfonyController
             return $this->afterFormSubmitted($request, $entity);
         }
 
-        return [
+        return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
-        ];
+        ], $this->addParams($entity, $request));
     }
 
     /**
      * @Route("/{id}/delete")
+     * @Template
      */
     public function deleteAction(Request $request, $id)
     {
@@ -253,11 +259,6 @@ class AbstractController extends SymfonyController
         ];
     }
 
-    public function getTemplatePath()
-    {
-        return $this->templatePath;
-    }
-
     protected function redirectToIndex()
     {
         if (!$this->baseRouteName) {
@@ -276,7 +277,7 @@ class AbstractController extends SymfonyController
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
     }
 
-    protected function createEntity()
+    protected function createEntity($parentEntity = null)
     {
         return new $this->entityClass();
     }

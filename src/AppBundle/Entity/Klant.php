@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
-use InloopBundle\Entity\Locatie;
+use MwBundle\Entity\Verslag;
 
 /**
  * @ORM\Entity
@@ -55,7 +56,7 @@ class Klant extends Persoon
     /**
      * @var Verslag[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Verslag", mappedBy="klant")
+     * @ORM\OneToMany(targetEntity="MwBundle\Entity\Verslag", mappedBy="klant")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -130,6 +131,8 @@ class Klant extends Persoon
     private $overleden = false;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean")
      * @Gedmo\Versioned
      */
@@ -150,6 +153,24 @@ class Klant extends Persoon
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $opmerkingen;
+
+    /**
+     * @return bool
+     */
+    public function isDoorverwijzenNaarAmoc()
+    {
+        return $this->doorverwijzenNaarAmoc;
+    }
+
+    /**
+     * @param bool $doorverwijzenNaarAmoc
+     */
+    public function setDoorverwijzenNaarAmoc($doorverwijzenNaarAmoc)
+    {
+        $this->doorverwijzenNaarAmoc = $doorverwijzenNaarAmoc;
+
+        return $this;
+    }
 
     public function __construct()
     {

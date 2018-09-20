@@ -12,10 +12,12 @@ use OdpBundle\Form\HuurverzoekCloseType;
 use OdpBundle\Form\HuurverzoekFilterType;
 use OdpBundle\Form\HuurverzoekType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/huurverzoeken")
+ * @Template
  */
 class HuurverzoekenController extends SymfonyController
 {

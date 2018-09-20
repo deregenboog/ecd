@@ -3,11 +3,42 @@ imports:
     - { resource: exports.yml }
     - { resource: reports.yml }
 
+parameters:
+    inloop.vrijwilligers_locaties:
+        vrijwilliger_oud_west: 14
+        vrijwilliger_eik: 9
+        vrijwilliger_de_kloof: 10
+        vrijwilliger_macom: 11
+        vrijwilliger_macom_nacht: 12
+        vwspreekbuis: 15
+
 services:
+    InloopBundle\Event\IntakeSubscriber:
+        arguments:
+            - "@logger"
+            - "@templating"
+            - "@mailer"
+            - "%informele_zorg_mail%"
+            - "%dagbesteding_mail%"
+            - "%inloophuis_mail%"
+            - "%hulpverlening_mail%"
+        tags:
+            - { name: doctrine.event_subscriber }
+    
     InloopBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
+
+    InloopBundle\Security\IntakeVoter:
+        tags:
+            - { name: security.voter }
+
+    InloopBundle\Security\RegistratieVoter:
+        arguments:
+            - "%inloop.vrijwilligers_locaties%"
+        tags:
+            - { name: security.voter }
 

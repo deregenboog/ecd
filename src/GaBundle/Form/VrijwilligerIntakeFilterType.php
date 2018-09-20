@@ -3,17 +3,16 @@
 namespace GaBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
-use GaBundle\Entity\Intake;
 use GaBundle\Filter\VrijwilligerIntakeFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
 
 class VrijwilligerIntakeFilterType extends AbstractType
 {

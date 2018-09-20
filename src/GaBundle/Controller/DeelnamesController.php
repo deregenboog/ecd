@@ -4,11 +4,13 @@ namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Activiteit;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")
+ * @Template
  */
 class DeelnamesController extends AbstractChildController
 {
@@ -54,7 +56,7 @@ class DeelnamesController extends AbstractChildController
         return $this->redirectToRoute('ga_activiteiten_view', ['id' => $activiteit->getId()]);
     }
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         if ($parentEntity instanceof Activiteit) {
             return new $this->entityClass($parentEntity);

@@ -24,7 +24,7 @@ class KlantIntake extends Intake implements ZrmInterface
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="ga_gaklantintake_zrm",
-     *     joinColumns={@ORM\JoinColumn(name="gaklantintake_id")},
+     *     joinColumns={@ORM\JoinColumn(name="gaklantintake_id", unique=true)},
      *     inverseJoinColumns={@ORM\JoinColumn(unique=true)}
      * )
      */
@@ -277,6 +277,14 @@ class KlantIntake extends Intake implements ZrmInterface
     public function setGezinMetKinderen($gezinMetKinderen)
     {
         $this->gezinMetKinderen = $gezinMetKinderen;
+
+        return $this;
+    }
+
+    public function setZrm(Zrm $zrm)
+    {
+        $this->zrms = [$zrm];
+        $this->klant->addZrm($zrm);
 
         return $this;
     }

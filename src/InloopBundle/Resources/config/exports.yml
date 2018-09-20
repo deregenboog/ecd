@@ -50,3 +50,6 @@ services:
                 Verblijf in Amsterdam sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInAmsterdamSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
                 Verblijfsstatus: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
                 Woonsituatie: { expression: 'entity.getKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getKlant().getLaatsteIntake()' }
+
+    inloop.export.report:
+        class: AppBundle\Export\ReportExport

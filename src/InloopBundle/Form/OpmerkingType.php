@@ -2,16 +2,13 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateTimeType;
+use AppBundle\Entity\Opmerking;
+use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
-use InloopBundle\Entity\Registratie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Opmerking;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use AppBundle\Form\AppTextareaType;
 
 class OpmerkingType extends AbstractType
 {

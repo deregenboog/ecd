@@ -1,0 +1,22 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Intakes</h2>
+<p>
+    {{ html.link('Overzicht intakes', path('inloop_intakes_index', {klant: klant.id}), 'view') }}
+    {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: klant.id}), 'add') }}
+</p>
+<p>
+    {{ html.link('Leeg intakeformulier printen', path('inloop_intakes_form'), 'print') }}
+</p>
+<table class="table">
+    <tr>
+        <th>Laatste intake</th>
+        <td>
+            {% if klant.laatsteIntake %}
+                {{ html.link(klant.laatsteIntake.intakedatum|date('d-m-Y'), path('inloop_intakes_view', {id: klant.laatsteIntake.id}), 'view') }}
+            {% else %}
+                Geen intakes
+            {% endif %}
+        </td>
+    </tr>
+</table>

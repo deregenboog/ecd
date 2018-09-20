@@ -3,27 +3,26 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Form\SchorsingFilterType;
 use InloopBundle\Form\SchorsingType;
+use InloopBundle\Pdf\PdfSchorsingEn;
+use InloopBundle\Pdf\PdfSchorsingNl;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Locatie;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use HsBundle\Pdf\PdfFactuur;
-use InloopBundle\Pdf\PdfSchorsingNl;
-use InloopBundle\Pdf\PdfSchorsingEn;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Router;
 
 /**
  * @Route("/schorsingen")
+ * @Template
  */
 class SchorsingenController extends AbstractController
 {
@@ -44,7 +43,7 @@ class SchorsingenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 
@@ -75,9 +74,11 @@ class SchorsingenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
+     * @ParamConverter("klant", class="AppBundle:Klant")
      */
-    public function addAction(Request $request, Klant $klant)
+    public function addAction(Request $request)
     {
+        $klant = $request->get('klant');
         $entity = new Schorsing($klant);
 
         $form = $this->createForm($this->formClass, $entity, [
@@ -113,7 +114,7 @@ class SchorsingenController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
-        if (!array_key_exists(GROUP_TEAMLEIDERS, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_TEAMLEIDERS')) {
             $this->addFlash('danger', 'U bent niet bevoegd schorsingen te wijzigen.');
 
             return $this->redirectToIndex();
@@ -127,7 +128,7 @@ class SchorsingenController extends AbstractController
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!array_key_exists(GROUP_TEAMLEIDERS, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_TEAMLEIDERS')) {
             $this->addFlash('danger', 'U bent niet bevoegd schorsingen te verwijderen.');
 
             return $this->redirectToIndex();
@@ -163,7 +164,7 @@ class SchorsingenController extends AbstractController
 
     /**
      * @param Schorsing $entity
-     * @param string $language
+     * @param string    $language
      *
      * @return \TCPDF
      */
@@ -192,7 +193,7 @@ class SchorsingenController extends AbstractController
             'schorsing' => $schorsing,
             'medewerker' => $this->getMedewerker(),
             'url' => $this->get('router')->generate('inloop_schorsingen_view', ['id' => $schorsing->getId()], Router::ABSOLUTE_URL),
-            'medewerker_types' => \Configure::read('options_medewerker'),
+            'medewerker_types' => Schorsing::DOELWITTEN,
         ]);
 
         /** @var \Swift_Mailer $mailer */
@@ -201,7 +202,7 @@ class SchorsingenController extends AbstractController
         /** @var \Swift_Mime_Message $message */
         $message = $mailer->createMessage()
             ->setFrom('noreply@deregenboog.org')
-            ->setTo(\Configure::read('agressie_mail'))
+            ->setTo($this->getParameter('agressie_mail'))
             ->setSubject('Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie')
             ->setBody($content, 'text/plain')
         ;

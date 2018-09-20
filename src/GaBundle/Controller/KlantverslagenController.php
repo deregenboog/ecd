@@ -46,7 +46,7 @@ class KlantverslagenController extends VerslagenController
         ]);
     }
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         return new $this->entityClass($parentEntity);
     }

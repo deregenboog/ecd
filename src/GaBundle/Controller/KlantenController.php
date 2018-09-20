@@ -16,11 +16,13 @@ use GaBundle\Form\IntakeCloseType;
 use GaBundle\Form\KlantIntakeType;
 use GaBundle\Service\KlantIntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
+ * @Template
  */
 class KlantenController extends AbstractController
 {
@@ -218,7 +220,7 @@ class KlantenController extends AbstractController
         ];
     }
 
-    protected function addParams($entity)
+    protected function addParams($entity, Request $request)
     {
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);

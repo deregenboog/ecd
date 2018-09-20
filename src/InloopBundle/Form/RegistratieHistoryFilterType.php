@@ -2,15 +2,9 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Filter\RegistratieFilter;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use InloopBundle\Filter\RegistratieHistoryFilter;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistratieHistoryFilterType extends AbstractType
 {

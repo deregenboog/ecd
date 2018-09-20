@@ -41,6 +41,16 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
      *
      * @return Intake
      */
+    public function create(Intake $entity)
+    {
+        return parent::doCreate($entity);
+    }
+
+    /**
+     * @param Intake $entity
+     *
+     * @return Intake
+     */
     public function update(Intake $entity)
     {
         return parent::doUpdate($entity);

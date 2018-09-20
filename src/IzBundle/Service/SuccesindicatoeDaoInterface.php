@@ -3,9 +3,8 @@
 namespace IzBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\Afsluiting;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use IzBundle\Entity\Succesindicator;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface SuccesindicatoeDaoInterface
 {

@@ -8,9 +8,11 @@ use AppBundle\Form\ZrmType;
 use AppBundle\Service\ZrmDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/zrms")
+ * @Template
  */
 class ZrmsController extends AbstractChildController
 {
@@ -36,7 +38,7 @@ class ZrmsController extends AbstractChildController
      */
     protected $entities;
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         return Zrm::create();
     }

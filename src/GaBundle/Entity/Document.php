@@ -3,6 +3,7 @@
 namespace GaBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -10,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use AppBundle\Entity\Vrijwilliger;
 
 /**
  * @ORM\Entity

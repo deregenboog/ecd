@@ -11,27 +11,57 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    {% if not entity.laatsteZrm %}
+        <p class="text-danger">
+            LET OP: geen ZRM aanwezig. Klik
+            {{ html.link('hier', path('app_zrms_add', {klant: entity.id})) }}
+            om een ZRM toe te voegen.
+        </p>
+    {% elseif entity.laatsteZrm < today|date_modify('-6 months') %}
+        <p class="text-danger">
+            LET OP: laatste ZRM is meer dan 6 maanden oud. Klik
+            {{ html.link('hier', path('app_zrms_add', {klant: entity.id})) }}
+            om een nieuwe ZRM toe te voegen.
+        </p>
+    {% endif %}
 {% endblock %}
 
 {% block content_left %}
     {% include '::klant_basis.html.twig' with {klant: entity} %}
+    {{ render(controller('MwBundle:Klanten:_documenten', {id: entity.id})) }}
+    {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
 {% endblock %}
 
 {% block content_right %}
+    <h2>Verslagen</h2>
+    <p>
+        {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: entity.id}), 'add') }}
+    </p>
     {% for verslag in entity.verslagen %}
-        <h2>Verslag van {{ verslag.datum|date('d-m-Y') }}</h2>
-        <dl class="dl-horizontal">
-            <dt>Locatie</dt>
-            <dd>{{ verslag.locatie }}</dd>
-            <dt>Medewerker</dt>
-            <dd>{{ verslag.medewerker }}</dd>
-            <dt>Contactsoort</dt>
-            <dd>{{ verslag.contactsoort }}</dd>
-            {% if verslag.duur %}
-                <dt>Duur</dt>
-                <dd>{{ verslag.duur }} minuten</dd>
-            {% endif %}
-        </dl>
-        <p>{{ verslag.opmerking|nl2br }}</p>
+        <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
+        <p>
+            {{ html.link('Verslag bewerken', path('mw_verslagen_edit', {id: verslag.id}), 'edit') }}
+        </p>
+        <div class="row">
+            <div class="col-xs-6">
+                <dl class="dl-horizontal">
+                    <dt>Locatie</dt>
+                    <dd>{{ verslag.locatie }}</dd>
+                    <dt>Medewerker</dt>
+                    <dd>{{ verslag.medewerker }}</dd>
+                </dl>
+            </div>
+            <div class="col-xs-6">
+                <dl class="dl-horizontal">
+                    <dt>Contactsoort</dt>
+                    <dd>{{ verslag.contactsoort }}</dd>
+                    {% if verslag.duur %}
+                        <dt>Duur</dt>
+                        <dd>{{ verslag.duur }} minuten</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+        <p class="well">{{ verslag.opmerking|nl2br }}</p>
     {% endfor %}
 {% endblock %}

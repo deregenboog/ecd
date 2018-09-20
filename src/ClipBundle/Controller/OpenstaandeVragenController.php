@@ -8,6 +8,7 @@ use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -33,6 +34,7 @@ class OpenstaandeVragenController extends AbstractVragenController
 
     /**
      * @Route("/")
+     * @Template
      */
     public function indexAction(Request $request)
     {

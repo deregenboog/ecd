@@ -1,0 +1,37 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'InloopBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {{ html.link('Inloopdossier afsluiten', path('inloop_klanten_close', {id: entity.id}), 'close') }}
+        {{ html.link('Klantrapportage bekijken', path('inloop_klanten_viewreport', {klant: entity.id}), 'list') }}
+        {% if entity.doorverwijzenNaarAmoc or entity.land in amoc_landen %}
+            {{ html.link('AMOC-brief printen', path('inloop_klanten_amoc', {klant: entity.id}), 'print') }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity} %}
+    {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
+    {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
+    {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
+    {{ render(controller('InloopBundle:Klanten:_registraties', {id: entity.id})) }}
+{% endblock %}
+
+{% block content_right %}
+    <h2>Laatste intake</h2>
+    {% if entity.laatsteIntake %}
+        {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
+    {% endif %}
+{% endblock %}

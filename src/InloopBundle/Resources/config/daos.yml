@@ -12,6 +12,15 @@ services:
     InloopBundle\Service\DocumentDao:
         parent: inloop.dao
 
+    InloopBundle\Service\FrequentieDao:
+        parent: inloop.dao
+
+    InloopBundle\Service\GebruikswijzeDao:
+        parent: inloop.dao
+
+    InloopBundle\Service\InfobaliedoelgroepDao:
+        parent: inloop.dao
+
     InloopBundle\Service\IntakeDao:
         parent: inloop.dao
 
@@ -27,13 +36,22 @@ services:
     InloopBundle\Service\OpmerkingDao:
         parent: inloop.dao
 
+    InloopBundle\Service\PeriodeDao:
+        parent: inloop.dao
+
     InloopBundle\Service\RegistratieDao:
         parent: inloop.dao
 
     InloopBundle\Service\SchorsingDao:
         parent: inloop.dao
         
+    InloopBundle\Service\VerslavingDao:
+        parent: inloop.dao
+
     InloopBundle\Service\VrijwilligerDao:
+        parent: inloop.dao
+
+    InloopBundle\Service\WoonsituatieDao:
         parent: inloop.dao
 
     inloop.document.entities:

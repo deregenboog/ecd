@@ -8,11 +8,14 @@ use HsBundle\Form\HerinneringType;
 use HsBundle\Pdf\PdfHerinnering;
 use HsBundle\Service\HerinneringDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/herinneringen")
+ * @Template
  */
 class HerinneringenController extends AbstractChildController
 {
@@ -40,7 +43,7 @@ class HerinneringenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 

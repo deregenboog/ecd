@@ -1,0 +1,230 @@
+imports:
+    - { resource: security.yml }
+
+ldap_tools:
+    security:
+        roles:
+            ROLE_USER: "CN=ECD Bureau Straatjurist,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_ADMIN: "CN=ECD Bureau Straatjurist Beheer,CN=Users,DC=cluster,DC=deregenboog"
+
+security:
+    role_hierarchy:
+        ROLE_USER:
+            - Attachments
+            - Intakes
+            - Klanten
+            - MaatschappelijkWerk
+            - Medewerkers
+            - MwInventarisaties
+            - Opmerkingen
+            - Rapportages
+            - Verslagen
+        ROLE_ADMIN:
+            - Admin
+            - Attachments
+            - Intakes
+            - Klanten
+            - MaatschappelijkWerk
+            - Medewerkers
+            - MwInventarisaties
+            - Opmerkingen
+            - Rapportages
+            - Verslagen
+
+#        ROLE_REPORT:
+#            - CONTROLLER_RAPPORTAGES
+#        ROLE_PORTIER:
+#            - CONTROLLER_REGISTRATIES
+#            - CONTROLLER_OPMERKINGEN
+#        ROLE_INLOOP: []
+#        ROLE_MLO:
+#            - ROLE_INLOOP
+#            - CONTROLLER_INTAKES
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_REGISTRATIES
+#            - CONTROLLER_SCHORSINGEN
+#            - CONTROLLER_OPMERKINGEN
+#        ROLE_MAATSCHAPPELIJK:
+#            - ROLE_INLOOP
+#            - CONTROLLER_AWBZ
+#            - CONTROLLER_AWBZHOOFDAANNEMERS
+#            - CONTROLLER_AWBZINDICATIES
+#            - CONTROLLER_AWBZINTAKES
+#            - CONTROLLER_INTAKES
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_REGISTRATIES
+#            - CONTROLLER_OPMERKINGEN
+#            - CONTROLLER_MAATSCHAPPELIJKWERK
+#            - CONTROLLER_VERSLAGEN
+#            - CONTROLLER_RAPPORTAGES
+#            - CONTROLLER_ATTACHMENTS
+#        ROLE_HI5:
+#            - CONTROLLER_INTAKES
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_ATTACHMENTS
+#        ROLE_BACK_ON_TRACK_COORDINATOR:
+#            - CONTROLLER_BACKONTRACK
+#            - CONTROLLER_BOTVERSLAGEN
+#            - CONTROLLER_BOTKOPPELINGEN
+#            - CONTROLLER_INTAKES
+#        ROLE_BACK_ON_TRACK_COACH:
+#            - CONTROLLER_BACKONTRACK
+#            - CONTROLLER_BOTVERSLAGEN
+#            - CONTROLLER_BOTKOPPELINGEN
+#        ROLE_VOLUNTEERS:
+#            - CONTROLLER_REGISTRATIES
+#        ROLE_STAGE:
+#            - CONTROLLER_INTAKES
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_REGISTRATIES
+#        ROLE_PFO:
+#            - CONTROLLER_PFOCLIENTEN
+#            - CONTROLLER_PFORAPPORTEN
+#            - CONTROLLER_PFOAARDRELATIES
+#            - CONTROLLER_PFOGROEPEN
+#            - CONTROLLER_PFOVERSLAGEN
+#        ROLE_TRAJECTBEGELEIDER:
+#            - CONTROLLER_AWBZ
+#            - CONTROLLER_AWBZHOOFDAANNEMERS
+#            - CONTROLLER_AWBZINDICATIES
+#            - CONTROLLER_AWBZINTAKES
+#            - CONTROLLER_HI5
+#            - CONTROLLER_ATTACHMENTS
+#        ROLE_TEAMLEIDERS:
+#            - CONTROLLER_ADMIN
+#            - CONTROLLER_ATTACHMENTS
+#            - CONTROLLER_AWBZ
+#            - CONTROLLER_AWBZHOOFDAANNEMERS
+#            - CONTROLLER_AWBZINDICATIES
+#            - CONTROLLER_AWBZINTAKES
+#            - CONTROLLER_BACKONTRACK
+#            - CONTROLLER_BOTVERSLAGEN
+#            - CONTROLLER_GROEPSACTIVITEITEN
+#            - CONTROLLER_GROEPSACTIVITEITENKLANTEN
+#            - CONTROLLER_GROEPSACTIVITEITEN_KLANTEN
+#            - CONTROLLER_GROEPSACTIVITEITENVRIJWILLIGERS
+#            - CONTROLLER_GROEPSACTIVITEITEN_VRIJWILLIGERS
+#            - CONTROLLER_GROEPSACTIVITEITENINTAKES
+#            - CONTROLLER_GROEPSACTIVITEITENVERSLAGEN
+#            - CONTROLLER_GROEPSACTIVITEITENRAPPORTAGES
+#            - CONTROLLER_HI5
+#            - CONTROLLER_INTAKES
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_MAATSCHAPPELIJKWERK
+#            - CONTROLLER_MWINVENTARISATIES
+#            - CONTROLLER_OPMERKINGEN
+#            - CONTROLLER_RAPPORTAGES
+#            - CONTROLLER_REGISTRATIES
+#            - CONTROLLER_SCHORSINGEN
+#            - CONTROLLER_VERSLAGEN
+#            - CONTROLLER_VRIJWILLIGERS
+#        ROLE_IZ:
+#            - ROLE_ODP
+#            - ROLE_OEK
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_VRIJWILLIGERS
+#            - CONTROLLER_IZKLANTEN
+#            - CONTROLLER_IZVRIJWILLIGERS
+#            - CONTROLLER_IZDEELNEMERS
+#            - CONTROLLER_IZHULPVRAGEN
+#            - CONTROLLER_IZHULPAANBIEDINGEN
+#            - CONTROLLER_IZKOPPELINGEN
+#            - CONTROLLER_IZRAPPORTAGES
+#            - CONTROLLER_IZVERSLAGEN
+#            - CONTROLLER_ATTACHMENTS
+#        ROLE_IZ_BEHEER:
+#            - ROLE_ODP
+#            - ROLE_OEK
+#            - CONTROLLER_IZAFSLUITINGEN
+#            - CONTROLLER_IZKLANTEN
+#            - CONTROLLER_IZVRIJWILLIGERS
+#            - CONTROLLER_IZDEELNEMERS
+#            - CONTROLLER_IZHULPVRAGEN
+#            - CONTROLLER_IZHULPAANBIEDINGEN
+#            - CONTROLLER_IZKOPPELINGEN
+#            - CONTROLLER_IZRAPPORTAGES
+#            - CONTROLLER_IZEINDEKOPPELINGEN
+#            - CONTROLLER_IZINTERVISIEGROEPEN
+#            - CONTROLLER_IZKOPPELINGEN
+#            - CONTROLLER_IZONTSTAAN
+#            - CONTROLLER_IZPROJECTEN
+#            - CONTROLLER_IZVERSLAGEN
+#            - CONTROLLER_IZVIAPERSONEN
+#            - CONTROLLER_IZVRAAGAANBODEN
+#            - CONTROLLER_IZONTSTAANCONTACTEN
+#        ROLE_GA:
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_VRIJWILLIGERS
+#            - CONTROLLER_ATTACHMENTS
+#            - CONTROLLER_GROEPSACTIVITEITEN
+#            - CONTROLLER_GROEPSACTIVITEITENKLANTEN
+#            - CONTROLLER_GROEPSACTIVITEITEN_KLANTEN
+#            - CONTROLLER_GROEPSACTIVITEITENVRIJWILLIGERS
+#            - CONTROLLER_GROEPSACTIVITEITEN_VRIJWILLIGERS
+#            - CONTROLLER_GROEPSACTIVITEITENINTAKES
+#            - CONTROLLER_GROEPSACTIVITEITENVERSLAGEN
+#            - CONTROLLER_GROEPSACTIVITEITENRAPPORTAGES
+#        ROLE_GA_BEHEER:
+#            - CONTROLLER_KLANTEN
+#            - CONTROLLER_VRIJWILLIGERS
+#            - CONTROLLER_ATTACHMENTS
+#            - CONTROLLER_GROEPSACTIVITEITEN
+#            - CONTROLLER_GROEPSACTIVITEITENKLANTEN
+#            - CONTROLLER_GROEPSACTIVITEITEN_KLANTEN
+#            - CONTROLLER_GROEPSACTIVITEITENVRIJWILLIGERS
+#            - CONTROLLER_GROEPSACTIVITEITEN_VRIJWILLIGERS
+#            - CONTROLLER_GROEPSACTIVITEITENINTAKES
+#            - CONTROLLER_GROEPSACTIVITEITENVERSLAGEN
+#            - CONTROLLER_GROEPSACTIVITEITENRAPPORTAGES
+#            - CONTROLLER_GROEPSACTIVITEITENGROEPEN
+#            - CONTROLLER_GROEPSACTIVITEITENREDENEN
+#        ROLE_CLIP: []
+#        ROLE_CLIP_BEHEER:
+#            - ROLE_CLIP 
+#        ROLE_DAGBESTEDING: []
+#        ROLE_DAGBESTEDING_BEHEER:
+#            - ROLE_DAGBESTEDING
+#        ROLE_HOMESERVICE:
+#            - CONTROLLER_KLANTEN
+#        ROLE_HOMESERVICE_BEHEER:
+#            - ROLE_HOMESERVICE
+#        ROLE_ODP: []
+#        ROLE_ODP_BEHEER:
+#            - ROLE_ODP
+#        ROLE_OEK: []
+#        ROLE_OEK_BEHEER:
+#            - ROLE_OEK
+#        ROLE_WERKBEGELEIDER: []
+#        ROLE_ADMINISTRATIEBEDRIJF: []
+#        ROLE_ADMIN:
+#            - ROLE_MAATSCHAPPELIJK
+#            - ROLE_REPORT
+#            - ROLE_PORTIER
+#            - ROLE_MLO
+#            - ROLE_MAATSCHAPPELIJK
+#            - ROLE_HI5
+#            - ROLE_CLIP
+#            - ROLE_CLIP_BEHEER
+#            - ROLE_DAGBESTEDING
+#            - ROLE_DAGBESTEDING_BEHEER
+#            - ROLE_HOMESERVICE
+#            - ROLE_HOMESERVICE_BEHEER
+#            - ROLE_ODP
+#            - ROLE_ODP_BEHEER
+#            - ROLE_OEK
+#            - ROLE_OEK_BEHEER
+#            - ROLE_INLOOP
+#            - ROLE_INLOOP_BEHEER
+#            - ROLE_BACK_ON_TRACK_COORDINATOR
+#            - ROLE_BACK_ON_TRACK_COACH
+#            - ROLE_VOLUNTEERS
+#            - ROLE_STAGE
+#            - ROLE_PFO
+#            - ROLE_TRAJECTBEGELEIDER
+#            - ROLE_TEAMLEIDERS
+#            - ROLE_IZ
+#            - ROLE_IZ_BEHEER
+#            - ROLE_GA
+#            - ROLE_GA_BEHEER
+#            - CONTROLLER_ADMIN
+#            - CONTROLLER_MEDEWERKERS

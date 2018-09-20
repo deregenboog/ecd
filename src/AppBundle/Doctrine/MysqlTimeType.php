@@ -2,15 +2,10 @@
 
 namespace AppBundle\Doctrine;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Vrijwilliger;
-use Doctrine\ORM\Mapping\ClassMetaData;
-use Doctrine\ORM\Query\Filter\SQLFilter;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\TimeType;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\TimeType;
 
 class MysqlTimeType extends TimeType
 {

@@ -16,10 +16,12 @@ use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
 use OdpBundle\Service\HuurovereenkomstDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/huurovereenkomsten")
+ * @Template
  */
 class HuurovereenkomstenController extends AbstractController
 {

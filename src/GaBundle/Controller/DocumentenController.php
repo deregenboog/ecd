@@ -48,7 +48,7 @@ class DocumentenController extends AbstractChildController
         return $downloadHandler->downloadObject($document, 'file');
     }
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         return new Document($parentEntity, $this->getMedewerker());
     }

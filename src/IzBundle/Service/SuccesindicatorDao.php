@@ -3,10 +3,9 @@
 namespace IzBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use IzBundle\Entity\Afsluiting;
 use Doctrine\ORM\EntityManager;
-use Knp\Component\Pager\PaginatorInterface;
 use IzBundle\Entity\Succesindicator;
+use Knp\Component\Pager\PaginatorInterface;
 
 class SuccesindicatorDao extends AbstractDao implements SuccesindicatoeDaoInterface
 {

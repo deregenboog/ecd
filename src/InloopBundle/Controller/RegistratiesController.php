@@ -11,24 +11,28 @@ use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Filter\KlantFilter;
+use InloopBundle\Filter\RegistratieFilter;
+use InloopBundle\Filter\RegistratieHistoryFilter;
 use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Form\RegistratieFilterType;
+use InloopBundle\Form\RegistratieHistoryFilterType;
 use InloopBundle\Form\RegistratieType;
+use InloopBundle\Security\Permissions;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
 use InloopBundle\Strategy\AmocStrategy;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
 use InloopBundle\Strategy\VerblijfsstatusStrategy;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use InloopBundle\Filter\RegistratieFilter;
-use InloopBundle\Filter\RegistratieHistoryFilter;
-use InloopBundle\Form\RegistratieHistoryFilterType;
 
 /**
  * @Route("/registraties")
+ * @Template
  */
 class RegistratiesController extends AbstractController
 {
@@ -98,9 +102,14 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{locatie}", requirements={"locatie" = "\d+"})
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
      */
-    public function indexAction(Request $request, Locatie $locatie)
+    public function indexAction(Request $request)
     {
+        $locatie = $request->get('locatie');
+
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
         // @todo move to container service
         $strategies = [
             new GebruikersruimteStrategy(),
@@ -146,6 +155,8 @@ class RegistratiesController extends AbstractController
      */
     public function jsonCanRegisterAction(Klant $klant, Locatie $locatie, $h = 1)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
         $jsonVar = [
             'confirm' => false,
             'allow' => true,
@@ -232,7 +243,7 @@ class RegistratiesController extends AbstractController
                 $jsonVar['confirm'] = true;
             }
 
-            $tbcValid = \Configure::read('TBC_months_period') * 30 * DAY;
+            $tbcValid = $this->getParameter('tbc_months_period') * 30 * DAY;
             $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime()) > $tbcValid);
             if ($newTbcCheckNeeded && $locatie->isTbcCheck()) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
@@ -258,6 +269,8 @@ class RegistratiesController extends AbstractController
      */
     public function registratieCheckOutAction(Request $request, Registratie $registratie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         $this->dao->checkout($registratie);
 
         $params = $this->activeAction($request, $registratie->getLocatie());
@@ -270,6 +283,8 @@ class RegistratiesController extends AbstractController
      */
     public function checkoutAllAction(Request $request, Locatie $locatie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
         $filter = new RegistratieFilter($locatie);
         $registraties = $this->dao->findActive(null, $filter);
 
@@ -284,9 +299,12 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{registratie}/delete")
+     * @ParamConverter("registratie", class="InloopBundle:Registratie")
      */
-    public function deleteAction(Request $request, Registratie $registratie)
+    public function deleteAction(Request $request, $registratie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         $this->dao->delete($registratie);
 
         $params = $this->activeAction($request, $registratie->getLocatie());
@@ -299,6 +317,8 @@ class RegistratiesController extends AbstractController
      */
     public function ajaxAddRegistratieAction(Request $request, Klant $klant, Locatie $locatie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
         $this->dao->checkoutKlantFromAllLocations($klant);
         $this->dao->create(new Registratie($klant, $locatie));
 
@@ -312,6 +332,8 @@ class RegistratiesController extends AbstractController
      */
     public function activeAction(Request $request, Locatie $locatie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
         $filter = new RegistratieFilter($locatie);
         $form = $this->createForm(RegistratieFilterType::class, $filter);
         $form->handleRequest($request);
@@ -331,6 +353,8 @@ class RegistratiesController extends AbstractController
      */
     public function historyAction(Request $request, Locatie $locatie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
         $filter = new RegistratieHistoryFilter($locatie);
         $form = $this->createForm(RegistratieHistoryFilterType::class, $filter);
         $form->handleRequest($request);
@@ -350,6 +374,8 @@ class RegistratiesController extends AbstractController
      */
     public function doucheAddAction(Request $request, Registratie $registratie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         // set position in queue
         $queue = $this->dao->findShowerQueue($registratie->getLocatie());
         $registratie->setDouche(1 + count($queue));
@@ -365,6 +391,8 @@ class RegistratiesController extends AbstractController
      */
     public function doucheDelAction(Request $request, Registratie $registratie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         if ($registratie->getDouche() > 0) {
             $registratie->setDouche(-1);
         } else {
@@ -383,6 +411,8 @@ class RegistratiesController extends AbstractController
      */
     public function mwAddAction(Request $request, Registratie $registratie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         // set position in queue
         $queue = $this->dao->findMwQueue($registratie->getLocatie());
         $registratie->setMw(1 + count($queue));
@@ -398,6 +428,8 @@ class RegistratiesController extends AbstractController
      */
     public function mwDelAction(Request $request, Registratie $registratie)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         if ($registratie->getMw() > 0) {
             $registratie->setMw(-1);
         } else {
@@ -416,6 +448,8 @@ class RegistratiesController extends AbstractController
      */
     public function updateKledingAction(Request $request, Registratie $registratie, $value)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         $registratie->setKleding((int) $value);
         $this->dao->update($registratie);
 
@@ -429,6 +463,8 @@ class RegistratiesController extends AbstractController
      */
     public function updateMaaltijdAction(Request $request, Registratie $registratie, $value)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         $registratie->setMaaltijd((int) $value);
         $this->dao->update($registratie);
 
@@ -442,6 +478,8 @@ class RegistratiesController extends AbstractController
      */
     public function updateActiveringAction(Request $request, Registratie $registratie, $value)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         $registratie->setActivering((int) $value);
         $this->dao->update($registratie);
 
@@ -455,6 +493,8 @@ class RegistratiesController extends AbstractController
      */
     public function updateVeegploegAction(Request $request, Registratie $registratie, $value)
     {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
         $registratie->setVeegploeg((int) $value);
         $this->dao->update($registratie);
 
@@ -475,7 +515,7 @@ class RegistratiesController extends AbstractController
         }
 
         $username = $this->AuthExt->user('username');
-        $volunteers = \Configure::read('ACL.volunteers');
+        $volunteers = $this->getParameter('ACL.volunteers');
 
         $request = $this->getRequest();
         if ($this->getRequest()->attributes->has('locatie')) {

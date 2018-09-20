@@ -4,11 +4,11 @@ namespace AppBundle\Twig;
 
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Persoon;
+use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use AppBundle\Service\NameFormatter;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -27,6 +27,11 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      */
     private $administratorEmail;
 
+    /**
+     * @var int
+     */
+    private $tbcMonthsPeriod;
+
     public static function getRedirectUri(Request $request)
     {
         return preg_replace('/^.*[?&]redirect=([^&]*).*/', '$1', $request->getRequestUri());
@@ -36,12 +41,14 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         RequestStack $requestStack,
         $locale,
         $administratorName,
-        $administratorEmail
+        $administratorEmail,
+        $tbcMonthsPeriod
     ) {
         $this->requestStack = $requestStack;
         setlocale(LC_MONETARY, $locale);
         $this->administratorName = $administratorName;
         $this->administratorEmail = $administratorEmail;
+        $this->tbcMonthsPeriod = $tbcMonthsPeriod;
     }
 
     public function getGlobals()
@@ -53,7 +60,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'administrator_name' => $this->administratorName,
             'administrator_email' => $this->administratorEmail,
             'redirect_uri' => self::getRedirectUri($this->requestStack->getCurrentRequest()),
-            'tbc_months_period'  => \Configure::read('TBC_months_period'),
+            'tbc_months_period' => $this->tbcMonthsPeriod,
         ];
     }
 
@@ -329,22 +336,22 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         }
 
         if ($days < 7) {
-            return $days . ' dagen';
+            return $days.' dagen';
         }
 
         if ($days < 30) {
-            return floor($days / 7) . ' weken';
+            return floor($days / 7).' weken';
         }
 
         if ($days < 365) {
-            return floor($days / 30) . ' maanden';
+            return floor($days / 30).' maanden';
         }
 
         if (1 == floor($days / 365)) {
             return '1 jaar';
         }
 
-        return floor($days / 365). ' jaren';
+        return floor($days / 365).' jaren';
     }
 
     public function implode($collection, $separator = ', ')

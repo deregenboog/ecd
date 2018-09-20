@@ -1,3 +1,17 @@
+login:
+    path: /login
+    defaults:
+        _controller: AppBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: login
+
 _app:
     resource: "@AppBundle/Resources/config/routing.yml"
 
@@ -31,9 +45,6 @@ _iz:
 _mw:
     resource: "@MwBundle/Resources/config/routing.yml"
     prefix: /mw
-
-_mw_cake:
-    resource: "@MwBundle/Resources/config/routing_cake.yml"
 
 _odp:
     resource: "@OdpBundle/Resources/config/routing.yml"

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0c319b80775411177916ab47e5e91b55",
-    "content-hash": "0d01194c6868fd3cfba547c1bd3d7d1c",
+    "hash": "060e50333292c3f895d1c5cd736d1712",
+    "content-hash": "dd7631f3d84fdc56c241f36d02a819c4",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
@@ -180,6 +180,51 @@
                 "transliterator"
             ],
             "time": "2017-04-04 11:38:05"
+        },
+        {
+            "name": "chadsikorra/php-simple-enum",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ChadSikorra/php-simple-enum.git",
+                "reference": "781f87ae9f4cc75fb2edab6517c6471c0181e93b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ChadSikorra/php-simple-enum/zipball/781f87ae9f4cc75fb2edab6517c6471c0181e93b",
+                "reference": "781f87ae9f4cc75fb2edab6517c6471c0181e93b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~1.0",
+                "phpspec/phpspec": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Enums\\": "src/Enums"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chad Sikorra",
+                    "email": "Chad.Sikorra@gmail.com",
+                    "homepage": "http://www.chadsikorra.com"
+                }
+            ],
+            "description": "Provides a simple enum and flag enum for PHP.",
+            "homepage": "https://github.com/ChadSikorra/php-simple-enum",
+            "keywords": [
+                "enum"
+            ],
+            "time": "2017-05-28 16:20:11"
         },
         {
             "name": "composer/ca-bundle",
@@ -1948,6 +1993,123 @@
             "time": "2016-11-11 18:43:20"
         },
         {
+            "name": "ldaptools/ldaptools",
+            "version": "v0.25.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ldaptools/ldaptools.git",
+                "reference": "18ec773284cdbf5f22cadeb1d85bcaf46c05df39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ldaptools/ldaptools/zipball/18ec773284cdbf5f22cadeb1d85bcaf46c05df39",
+                "reference": "18ec773284cdbf5f22cadeb1d85bcaf46c05df39",
+                "shasum": ""
+            },
+            "require": {
+                "chadsikorra/php-simple-enum": "^1.0.0",
+                "ext-ldap": "*",
+                "php": ">=5.6",
+                "ramsey/uuid": ">=3.0",
+                "symfony/event-dispatcher": ">=2.0",
+                "symfony/yaml": ">=2.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.0",
+                "friendsofphp/php-cs-fixer": "~1.0",
+                "phpspec/phpspec": "~3.0",
+                "tedivm/stash": ">=0.14.1"
+            },
+            "suggest": {
+                "doctrine/cache": "Provides the cache_type 'doctrine' to help increase performance.",
+                "ext-intl": "Better UTF-8 handling.",
+                "ext-mbstring": "Better UTF-8 handling.",
+                "tedivm/stash": "Provides the cache_type 'stash' to help increase performance."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LdapTools\\": "src/LdapTools"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chad Sikorra",
+                    "email": "Chad.Sikorra@gmail.com",
+                    "homepage": "http://www.chadsikorra.com"
+                }
+            ],
+            "description": "LdapTools is a feature-rich LDAP library for PHP 5.6+.",
+            "homepage": "http://www.phpldaptools.com",
+            "keywords": [
+                "Microsoft Exchange",
+                "active directory",
+                "ldap",
+                "openldap"
+            ],
+            "time": "2017-11-04 15:04:31"
+        },
+        {
+            "name": "ldaptools/ldaptools-bundle",
+            "version": "0.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ldaptools/ldaptools-bundle.git",
+                "reference": "eaa445aa551c321b9689614ac32101c3e3cf0298"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ldaptools/ldaptools-bundle/zipball/eaa445aa551c321b9689614ac32101c3e3cf0298",
+                "reference": "eaa445aa551c321b9689614ac32101c3e3cf0298",
+                "shasum": ""
+            },
+            "require": {
+                "ldaptools/ldaptools": ">=0.25",
+                "symfony/framework-bundle": "~2.7|~3.0|~4.0"
+            },
+            "require-dev": {
+                "akeneo/phpspec-skip-example-extension": "~2.0",
+                "doctrine/orm": "~2.4",
+                "friendsofphp/php-cs-fixer": "~1.0",
+                "phpspec/phpspec": "~3.0",
+                "symfony/form": "~2.7|~3.0|~4.0",
+                "symfony/security-bundle": "~2.7|~3.0|~4.0"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "For LDAP object type integration in Doctrine."
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "LdapTools\\Bundle\\LdapToolsBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chad Sikorra",
+                    "email": "Chad.Sikorra@gmail.com",
+                    "homepage": "http://www.chadsikorra.com"
+                }
+            ],
+            "description": "Provides easy LDAP integration for Symfony via LdapTools.",
+            "homepage": "http://github.com/ldaptools/LdapToolsBundle",
+            "keywords": [
+                "Microsoft Exchange",
+                "active directory",
+                "ldap",
+                "openldap"
+            ],
+            "time": "2018-06-07 22:01:44"
+        },
+        {
             "name": "league/flysystem",
             "version": "1.0.45",
             "source": {
@@ -2593,6 +2755,88 @@
             "time": "2017-10-23 01:57:42"
         },
         {
+            "name": "ramsey/uuid",
+            "version": "3.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "d09ea80159c1929d75b3f9c60504d613aeb4a1e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/d09ea80159c1929d75b3f9c60504d613aeb4a1e3",
+                "reference": "d09ea80159c1929d75b3f9c60504d613aeb4a1e3",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": "^1.0|^2.0|9.99.99",
+                "php": "^5.4 || ^7.0",
+                "symfony/polyfill-ctype": "^1.8"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
+                "doctrine/annotations": "~1.2.0",
+                "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ~2.1.0",
+                "ircmaxell/random-lib": "^1.1",
+                "jakub-onderka/php-parallel-lint": "^0.9.0",
+                "mockery/mockery": "^0.9.9",
+                "moontoast/math": "^1.1",
+                "php-mock/php-mock-phpunit": "^0.3|^1.1",
+                "phpunit/phpunit": "^4.7|^5.0|^6.5",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "suggest": {
+                "ext-ctype": "Provides support for PHP Ctype functions",
+                "ext-libsodium": "Provides the PECL libsodium extension for use with the SodiumRandomGenerator",
+                "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
+                "ircmaxell/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
+                "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marijn Huizendveld",
+                    "email": "marijn.huizendveld@gmail.com"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io"
+                },
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
+            "homepage": "https://github.com/ramsey/uuid",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "time": "2018-07-19 23:38:55"
+        },
+        {
             "name": "sensio/distribution-bundle",
             "version": "v5.0.21",
             "source": {
@@ -2646,23 +2890,23 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v5.1.6",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "bf4940572e43af679aaa13be98f3446a1c237bd8"
+                "reference": "50e8b7292425957b8fd66887504430c89bcbd83c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/bf4940572e43af679aaa13be98f3446a1c237bd8",
-                "reference": "bf4940572e43af679aaa13be98f3446a1c237bd8",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/50e8b7292425957b8fd66887504430c89bcbd83c",
+                "reference": "50e8b7292425957b8fd66887504430c89bcbd83c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.2",
                 "symfony/config": "^3.3|^4.0",
                 "symfony/dependency-injection": "^3.3|^4.0",
-                "symfony/framework-bundle": "^3.3|^4.0",
+                "symfony/framework-bundle": "^3.4|^4.0",
                 "symfony/http-kernel": "^3.3|^4.0"
             },
             "require-dev": {
@@ -2672,6 +2916,8 @@
                 "symfony/dom-crawler": "^3.3|^4.0",
                 "symfony/expression-language": "^3.3|^4.0",
                 "symfony/finder": "^3.3|^4.0",
+                "symfony/monolog-bridge": "^3.0|^4.0",
+                "symfony/monolog-bundle": "^3.2",
                 "symfony/phpunit-bridge": "^3.3|^4.0",
                 "symfony/psr-http-message-bridge": "^0.3",
                 "symfony/security-bundle": "^3.3|^4.0",
@@ -2688,7 +2934,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1.x-dev"
+                    "dev-master": "5.2.x-dev"
                 }
             },
             "autoload": {
@@ -2711,7 +2957,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2018-02-14 08:40:54"
+            "time": "2018-05-12 09:37:42"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -3515,16 +3761,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.11",
+            "version": "v3.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "8eb567d8398ce31a402ea8db3e6b5b1faf121cbc"
+                "reference": "de239d25e0bb3be451a17b627705a5970c6c59e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/8eb567d8398ce31a402ea8db3e6b5b1faf121cbc",
-                "reference": "8eb567d8398ce31a402ea8db3e6b5b1faf121cbc",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/de239d25e0bb3be451a17b627705a5970c6c59e6",
+                "reference": "de239d25e0bb3be451a17b627705a5970c6c59e6",
                 "shasum": ""
             },
             "require": {
@@ -3547,7 +3793,7 @@
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0||>=3.2.0,<3.2.2",
-                "phpdocumentor/type-resolver": "<0.2.1",
+                "phpdocumentor/type-resolver": "<0.3.0",
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
             },
             "provide": {
@@ -3666,7 +3912,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-05-25 13:16:49"
+            "time": "2018-10-03 12:03:55"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -6083,12 +6329,14 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "ldaptools/ldaptools-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
     "platform-overrides": {
-        "php": "5.6"
+        "php": "7.1"
     }
 }

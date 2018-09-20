@@ -12,10 +12,12 @@ use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/vragen")
+ * @Template
  */
 class VragenController extends AbstractVragenController
 {
@@ -151,7 +153,7 @@ class VragenController extends AbstractVragenController
     {
         $entity = $this->dao->find($id);
 
-        if (!array_key_exists(GROUP_CLIP_BEHEER, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_CLIP_BEHEER')) {
             return $this->redirectToView($entity);
         }
 

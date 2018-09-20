@@ -68,21 +68,19 @@ class Grid
 
     public function render()
     {
-        $set = new \Set();
-
         $data = $this->initializeStructure();
 
         foreach ($this->result as $row) {
             if ($this->yPath) {
-                $yLabel = $set->classicExtract($row, $this->yPath);
+                $yLabel = $row[$this->yPath];
                 foreach ($this->xLabels as $xLabel) {
                     $nPath = $this->columns[$xLabel];
-                    $data[$yLabel][$xLabel] = $set->classicExtract($row, $nPath);
+                    $data[$yLabel][$xLabel] = $row[$nPath];
                 }
             } else {
                 foreach ($this->xLabels as $xLabel) {
                     $nPath = $this->columns[$xLabel];
-                    $data[''][$xLabel] = $set->classicExtract($row, $nPath);
+                    $data[''][$xLabel] = $row[$nPath];
                 }
             }
         }
@@ -110,8 +108,6 @@ class Grid
 
     protected function initializeLabels()
     {
-        $set = new \Set();
-
         $xLabels = [];
         $yLabels = [];
         foreach (array_keys($this->columns) as $xLabel) {
@@ -120,7 +116,7 @@ class Grid
 
         foreach ($this->result as $row) {
             if ($this->yPath) {
-                $yLabel = $set->classicExtract($row, $this->yPath);
+                $yLabel = $row[$this->yPath];
                 $yLabels[] = $yLabel;
             }
         }

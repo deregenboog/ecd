@@ -19,7 +19,7 @@ class PdfSchorsingNl extends \XTCPDF
         $this->setPrintFooter(false);
         $this->SetFont('helvetica', '', 10);
 
-        $this->SetTitle("Schorsing van ".NameFormatter::formatInformal($schorsing->getKlant()));
+        $this->SetTitle('Schorsing van '.NameFormatter::formatInformal($schorsing->getKlant()));
         $this->SetSubject('Schorsing');
 
         $this->AddPage();

@@ -4,7 +4,7 @@ namespace HsBundle\Twig;
 
 use HsBundle\Entity\Klus;
 
-class HsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class HsExtension extends \Twig_Extension
 {
     public function getFilters()
     {

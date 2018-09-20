@@ -16,11 +16,15 @@ class ZrmType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (!$options['data'] instanceof Zrm) {
+            return;
+        }
+
         foreach ($options['data']::getFieldsAndLabels() as $field => $label) {
             $builder->add($field, ZrmItemType::class, ['label' => $label]);
         }
 
-        if (!isset($options['data']) || !$options['data']->getRequestModule()) {
+        if (!$options['data']->getRequestModule()) {
             $builder->add('requestModule', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Module',

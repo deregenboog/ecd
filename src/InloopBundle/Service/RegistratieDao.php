@@ -5,12 +5,10 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
-use Doctrine\ORM\Query\Expr;
-use InloopBundle\Entity\RecenteRegistratie;
 use InloopBundle\Filter\RegistratieFilter;
-use InloopBundle\Entity\Aanmelding;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
@@ -64,6 +62,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     public function delete(Registratie $entity)
     {
         $this->removeFromQueues($entity);
+
         return parent::doDelete($entity);
     }
 
@@ -243,8 +242,8 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             ->select("{$this->alias}, locatie, klant, schorsing, opmerking")
             ->innerJoin("{$this->alias}.locatie", 'locatie')
             ->innerJoin("{$this->alias}.klant", 'klant')
-            ->leftJoin("klant.schorsingen", 'schorsing')
-            ->leftJoin("klant.opmerkingen", 'opmerking')
+            ->leftJoin('klant.schorsingen', 'schorsing')
+            ->leftJoin('klant.opmerkingen', 'opmerking')
             ->where("{$this->alias}.closed = false")
         ;
 
@@ -258,8 +257,8 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             ->innerJoin("{$this->alias}.locatie", 'locatie')
             ->innerJoin("{$this->alias}.klant", 'klant')
             ->leftJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
-            ->leftJoin("klant.schorsingen", 'schorsing')
-            ->leftJoin("klant.opmerkingen", 'opmerking')
+            ->leftJoin('klant.schorsingen', 'schorsing')
+            ->leftJoin('klant.opmerkingen', 'opmerking')
             ->where("{$this->alias}.closed = true")
         ;
 
@@ -271,8 +270,8 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     public function findShowerQueue(Locatie $locatie)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
-            ->innerJoin("registratie.locatie", 'locatie')
-            ->where("registratie.closed = false")
+            ->innerJoin('registratie.locatie', 'locatie')
+            ->where('registratie.closed = false')
             ->orderBy('registratie.douche')
             ->setParameter('locatie', $locatie)
         ;
@@ -296,8 +295,8 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     public function findMwQueue(Locatie $locatie)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
-            ->innerJoin("registratie.locatie", 'locatie')
-            ->where("registratie.closed = false")
+            ->innerJoin('registratie.locatie', 'locatie')
+            ->where('registratie.closed = false')
             ->orderBy('registratie.mw')
             ->setParameter('locatie', $locatie)
         ;

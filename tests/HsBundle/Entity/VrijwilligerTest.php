@@ -3,7 +3,6 @@
 namespace Tests\HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use HsBundle\Entity\Document;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;

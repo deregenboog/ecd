@@ -54,6 +54,7 @@ doctrine:
             charset: "utf8"
             collate: "utf8_general_ci"
         types:
+            mysql_date: AppBundle\Doctrine\MysqlDateType
             mysql_time: AppBundle\Doctrine\MysqlTimeType
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -68,6 +69,7 @@ doctrine:
         dql:
             datetime_functions:
                 date: Luxifer\DQL\Datetime\Date
+                year: Luxifer\DQL\Datetime\Year
                 date_format: Luxifer\DQL\Datetime\DateFormat
                 hour: DoctrineExtensions\Query\Mysql\Hour
                 minute: DoctrineExtensions\Query\Mysql\Minute
@@ -123,6 +125,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /dagbesteding/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/dagbesteding'
+        ga_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /ga/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/ga'
         hs_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /hs/documenten/download
@@ -131,14 +137,14 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /inloop/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/inloop'
-        ga_document:
-            namer: vich_uploader.namer_uniqid
-            uri_prefix: /ga/documenten/download
-            upload_destination: '%kernel.root_dir%/../archive/ga'
         iz_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /iz/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/iz'
+        mw_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /mw/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/mw'
         odp_document:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /odp/documenten/download
@@ -166,3 +172,22 @@ fos_ck_editor:
             removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
             enterMode: CKEDITOR.ENTER_BR
             toolbar: [["Bold", "Italic", "Underline"]]
+
+ldap_tools:
+    domains:
+        default:
+            domain_name: '%ldap_domain%'
+            port: '%ldap_port%'
+            username: '%ldap_search_user%'
+            password: '%ldap_search_password%'
+            base_dn: '%ldap_base_dn%'
+            servers: '%ldap_servers%'
+            bind_format: '%%username%%'
+            use_ssl: true
+    security:
+        user: AppBundle\Entity\Medewerker
+        login_query_attribute: 'sAMAccountName'
+        additional_attributes:
+            - givenName
+            - sn
+            - mail

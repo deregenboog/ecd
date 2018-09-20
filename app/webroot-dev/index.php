@@ -1,8 +1,5 @@
 <?php
 
-define('WEBROOT_DIR', basename(dirname(__FILE__)));
-define('WWW_ROOT', dirname(__FILE__).'/');
-
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,16 +20,12 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 }
 
 require __DIR__.'/../../vendor/autoload.php';
-Debug::enable(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+Debug::enable();
 
 $kernel = new AppKernel('dev', true);
 if (PHP_VERSION_ID < 70000) {
     $kernel->loadClassCache();
 }
-
-$kernel->boot();
-Configure::write('acl.login.medewerker_username', 'bhuttinga');
-Configure::write('debug', 2);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

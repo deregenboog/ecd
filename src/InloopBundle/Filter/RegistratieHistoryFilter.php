@@ -2,8 +2,6 @@
 
 namespace InloopBundle\Filter;
 
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
@@ -20,7 +18,7 @@ class RegistratieHistoryFilter extends RegistratieFilter
     public function applyTo(QueryBuilder $builder)
     {
         $builder
-            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', "recenteRegistratie.klant = klant AND recenteRegistratie.locatie = locatie")
+            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'recenteRegistratie.klant = klant AND recenteRegistratie.locatie = locatie')
             ->andWhere('registratie.buiten = recenteRegistratie.buiten')
             ->andWhere('registratie.locatie = :locatie')
             ->groupBy('klant.id')

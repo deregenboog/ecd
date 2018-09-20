@@ -5,15 +5,15 @@
     <li class="active">{{ title }}</li>
 </ol>
 <ul class="nav nav-tabs">
-    {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+    {% if is_granted('ROLE_DAGBESTEDING') %}
         {{ html.navLink('Deelnemers', path('dagbesteding_deelnemers_index'), isActiveRoute('dagbesteding_deelnemers_')) }}
     {% endif %}
     {{ html.navLink('Trajecten', path('dagbesteding_trajecten_index'), isActiveRoute('dagbesteding_trajecten_')) }}
-    {% if constant('GROUP_DAGBESTEDING') in userGroups|keys %}
+    {% if is_granted('ROLE_DAGBESTEDING') %}
         {{ html.navLink('Dagdelen', path('dagbesteding_dagdelen_index'), isActiveRoute('dagbesteding_dagdelen_')) }}
         {{ html.navLink('Rapportages', path('dagbesteding_reporting_index'), isActiveRoute('dagbesteding_reporting_')) }}
     {% endif %}
-    {% if constant('GROUP_DAGBESTEDING_BEHEER') in userGroups|keys %}
+    {% if is_granted('ROLE_DAGBESTEDING_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('dagbesteding/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>

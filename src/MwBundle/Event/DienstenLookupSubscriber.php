@@ -3,10 +3,10 @@
 namespace MwBundle\Event;
 
 use AppBundle\Entity\Klant;
-use AppBundle\Entity\Verslag;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
+use MwBundle\Entity\Verslag;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -55,7 +55,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 'id' => $klant->getId(),
             ]);
             $dienst = [
-                'name' => 'Mw',
+                'name' => 'Maatschappeljk werk',
                 'url' => $url,
                 'from' => $verslag->getDatum() ? $verslag->getDatum()->format('d-m-Y') : null,
                 'to' => null,

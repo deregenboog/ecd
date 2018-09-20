@@ -10,20 +10,19 @@ trait ZrmTrait
     /**
      * @var Zrm[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(
+     *     joinColumns={@ORM\JoinColumn(unique=true)},
+     *     inverseJoinColumns={@ORM\JoinColumn(unique=true)}
+     * )
      */
     protected $zrms;
 
-    public function getZrms()
+    public function getZrm()
     {
-        return $this->zrms;
-    }
+        if (!$this->zrms || 0 === count($this->zrms)) {
+            return null;
+        }
 
-    public function addZrm(Zrm $zrm)
-    {
-        $this->getIzDeelnemer()->getKlant()->addZrm($zrm);
-        $this->zrms[] = $zrm;
-
-        return $this;
+        return $this->zrms[0];
     }
 }

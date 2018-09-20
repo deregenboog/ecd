@@ -8,10 +8,12 @@ use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Coordinator;
 use OdpBundle\Form\CoordinatorType;
 use OdpBundle\Service\CoordinatorDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/coordinatoren")
+ * @Template
  */
 class CoordinatorenController extends SymfonyController
 {

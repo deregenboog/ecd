@@ -7,10 +7,13 @@ use HsBundle\Entity\Activiteit;
 use HsBundle\Form\ActiviteitType;
 use HsBundle\Service\ActiviteitDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/activiteiten")
+ * @Template
  */
 class ActiviteitenController extends AbstractController
 {
@@ -30,7 +33,7 @@ class ActiviteitenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

@@ -11,12 +11,21 @@
     {#{ html.navLink('Intakes', path('inloop_intakes_index'), isActiveRoute('inloop_intakes_')) }#}
     {{ html.navLink('Schorsingen', path('inloop_schorsingen_index'), isActiveRoute('inloop_schorsingen_')) }}
     {#{ html.navLink('Opmerkingen', path('inloop_opmerkingen_index'), isActiveRoute('inloop_opmerkingen_')) }#}
-    <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
-        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            Beheer <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            {{ html.navLink('Binnen via-opties', path('inloop_binnenvia_index'), isActiveRoute('inloop_binnenvia_')) }}
-        </ul>
-    </li>
+    {{ html.navLink('Rapportage', path('inloop_rapportages_index'), isActiveRoute('inloop_rapportages_')) }}
+    {% if is_granted('ROLE_INLOOP_BEHEER') %}
+        <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Binnen via-opties', path('inloop_binnenvia_index'), isActiveRoute('inloop_binnenvia_')) }}
+                {{ html.navLink('Infobaliedoelgroepen', path('inloop_infobaliedoelgroepen_index'), isActiveRoute('inloop_infobaliedoelgroepen_')) }}
+                {{ html.navLink('Locaties', path('inloop_locaties_index'), isActiveRoute('inloop_locaties_')) }}
+                {{ html.navLink('Verslavingen', path('inloop_verslavingen_index'), isActiveRoute('inloop_verslavingen_')) }}
+                {{ html.navLink('Verslavingsfrequenties', path('inloop_frequenties_index'), isActiveRoute('inloop_frequenties_')) }}
+                {{ html.navLink('Verslavingsgebruikswijzen', path('inloop_gebruikswijzen_index'), isActiveRoute('inloop_gebruikswijzen_')) }}
+                {{ html.navLink('Verslavingsperiodes', path('inloop_periodes_index'), isActiveRoute('inloop_periodes_')) }}
+            </ul>
+        </li>
+    {% endif %}
 </ul>

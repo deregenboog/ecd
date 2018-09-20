@@ -16,12 +16,14 @@ use IzBundle\Form\IzKlantType;
 use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/klanten")
+ * @Template
  */
 class KlantenController extends AbstractController
 {
@@ -189,8 +191,10 @@ class KlantenController extends AbstractController
         ];
     }
 
-    protected function addParams(IzKlant $entity)
+    protected function addParams($entity, Request $request)
     {
+        assert($entity instanceof IzKlant);
+
         $event = new DienstenLookupEvent($entity->getKlant()->getId(), []);
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
 
