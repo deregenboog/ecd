@@ -10,9 +10,11 @@ use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/trainingen")
+ * @Template
  */
 class TrainingenController extends AbstractChildController
 {

@@ -8,6 +8,7 @@ use GaBundle\Form\VerslagType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligerverslagen")
@@ -34,6 +35,7 @@ class VrijwilligerverslagenController extends VerslagenController
 
     /**
      * @Route("/{id}/view")
+     * @Template
      */
     public function viewAction(Request $request, $id)
     {

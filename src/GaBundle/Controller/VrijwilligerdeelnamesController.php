@@ -9,6 +9,7 @@ use GaBundle\Service\ActiviteitDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligerdeelnames")
@@ -44,6 +45,7 @@ class VrijwilligerdeelnamesController extends DeelnamesController
      * Alle leden van groep toevoegen aan activiteit.
      *
      * @Route("/{activiteit}/addall")
+     * @Template
      */
     public function addAllAction(Request $request, $activiteit)
     {

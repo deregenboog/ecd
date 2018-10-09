@@ -18,6 +18,7 @@ use GaBundle\Service\VrijwilligerIntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligers")
@@ -54,6 +55,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/view")
+     * @Template
      */
     public function viewAction(Request $request, $id)
     {
@@ -66,6 +68,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/view/verslagen")
+     * @Template
      */
     public function viewVerslagenAction(Request $request, $id)
     {
@@ -85,6 +88,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/view/groepen")
+     * @Template
      */
     public function viewGroepenAction(Request $request, $id)
     {
@@ -104,6 +108,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/view/activiteiten")
+     * @Template
      */
     public function viewActiviteitenAction(Request $request, $id)
     {
@@ -123,6 +128,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/view/documenten")
+     * @Template
      */
     public function viewDocumentenAction(Request $request, $id)
     {
@@ -142,6 +148,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/view/afsluiting")
+     * @Template
      */
     public function viewAfsluitingAction(Request $request, $id)
     {
@@ -161,6 +168,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/open")
+     * @Template
      */
     public function openAction($id)
     {
@@ -192,6 +200,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/close")
+     * @Template
      */
     public function closeAction(Request $request, $id)
     {

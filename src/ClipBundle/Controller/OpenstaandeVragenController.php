@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/openstaandevragen")
+ * @Template
  */
 class OpenstaandeVragenController extends AbstractVragenController
 {
