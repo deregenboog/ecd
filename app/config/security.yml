@@ -38,6 +38,8 @@ security:
         - { path: ^/clip, roles: ROLE_CLIP }
         - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }
         - { path: ^/dagbesteding, roles: ROLE_DAGBESTEDING }
+        - { path: ^/eropuit/admin, roles: ROLE_EROPUIT_BEHEER }
+        - { path: ^/eropuit, roles: ROLE_EROPUIT }
         - { path: ^/ga/admin, roles: ROLE_GA_BEHEER }
         - { path: ^/ga, roles: ROLE_GA }
         - { path: ^/hs/admin, roles: ROLE_HOMESERVICE_BEHEER }

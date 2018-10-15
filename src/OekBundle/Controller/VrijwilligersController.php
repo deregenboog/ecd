@@ -14,9 +14,11 @@ use OekBundle\Service\VrijwilligerDaoInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligers")
+ * @Template
  */
 class VrijwilligersController extends AbstractController
 {

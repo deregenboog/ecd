@@ -11,9 +11,11 @@ use GaBundle\Service\LidmaatschapDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/vrijwilligerlidmaatschappen")
+ * @Template
  */
 class VrijwilligerlidmaatschappenController extends LidmaatschappenController
 {
@@ -37,6 +39,7 @@ class VrijwilligerlidmaatschappenController extends LidmaatschappenController
 
     /**
      * @Route("/{id}/reopen")
+     * @Template
      */
     public function reopenAction(Request $request, $id)
     {
@@ -50,6 +53,7 @@ class VrijwilligerlidmaatschappenController extends LidmaatschappenController
 
     /**
      * @Route("/{id}/close")
+     * @Template
      */
     public function closeAction(Request $request, $id)
     {

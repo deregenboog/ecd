@@ -82,11 +82,13 @@ security:
         ROLE_IZ_BEHEER:
             - ROLE_IZ
         ROLE_GA:
+            - ROLE_EROPUIT
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_ATTACHMENTS
         ROLE_GA_BEHEER:
             - ROLE_GA
+            - ROLE_EROPUIT_BEHEER
         ROLE_CLIP: []
         ROLE_CLIP_BEHEER:
             - ROLE_CLIP 
@@ -117,6 +119,8 @@ security:
             - ROLE_CLIP_BEHEER
             - ROLE_DAGBESTEDING
             - ROLE_DAGBESTEDING_BEHEER
+            - ROLE_EROPUIT
+            - ROLE_EROPUIT_BEHEER
             - ROLE_HOMESERVICE
             - ROLE_HOMESERVICE_BEHEER
             - ROLE_ODP

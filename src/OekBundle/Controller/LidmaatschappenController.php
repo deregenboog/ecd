@@ -9,9 +9,11 @@ use OekBundle\Entity\Groep;
 use OekBundle\Entity\Lidmaatschap;
 use OekBundle\Form\LidmaatschapType;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/lidmaatschappen")
+ * @Template
  */
 class LidmaatschappenController extends SymfonyController
 {

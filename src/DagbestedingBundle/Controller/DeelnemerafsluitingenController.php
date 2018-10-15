@@ -9,9 +9,11 @@ use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/admin/deelnemerafsluitingen")
+ * @Template
  */
 class DeelnemerafsluitingenController extends AbstractController
 {

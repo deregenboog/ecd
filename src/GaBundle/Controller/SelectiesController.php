@@ -14,6 +14,7 @@ use IzBundle\Form\IzEmailMessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/selecties")
@@ -22,6 +23,7 @@ class SelectiesController extends SymfonyController
 {
     /**
      * @Route("/")
+     * @Template
      */
     public function indexAction(Request $request)
     {

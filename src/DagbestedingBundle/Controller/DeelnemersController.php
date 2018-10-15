@@ -15,9 +15,11 @@ use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/deelnemers")
+ * @Template
  */
 class DeelnemersController extends AbstractController
 {

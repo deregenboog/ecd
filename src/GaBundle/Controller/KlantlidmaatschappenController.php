@@ -11,9 +11,11 @@ use GaBundle\Service\LidmaatschapDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/klantlidmaatschappen")
+ * @Template
  */
 class KlantlidmaatschappenController extends LidmaatschappenController
 {
