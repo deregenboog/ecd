@@ -215,11 +215,8 @@ class RegistratiesController extends AbstractController
                     $diff = $klant->getLaatsteRegistratie()->getBuiten()->diff(new \DateTime());
 
                     if ($diff->h < $h && 0 == $diff->d && 0 == $diff->m && 0 == $diff->y) {
-                        $jsonVar['message'] .= $sep.
-                        __('This client has been checked out less than an hour ago. '.
-                            'Are you sure you want to register him/her again?', true);
-
                         $jsonVar['confirm'] = true;
+                        $jsonVar['message'] .= $sep.'Deze klant is minder dan een uur geleden uitgechecked. Opnieuw registreren?';
                         $sep = $separator;
                     }
                 }
@@ -243,16 +240,19 @@ class RegistratiesController extends AbstractController
                 $jsonVar['confirm'] = true;
             }
 
-            $tbcValid = $this->getParameter('tbc_months_period') * 30 * DAY;
-            $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime()) > $tbcValid);
-            if ($newTbcCheckNeeded && $locatie->isTbcCheck()) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
-                $jsonVar['confirm'] = true;
-                $sep = $separator;
+            if ($locatie->isTbcCheck()) {
+                $tbcValid = $this->getParameter('tbc_months_period') * 30;
+                $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime())->days > $tbcValid);
+                if ($newTbcCheckNeeded) {
+                    $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
+                    $jsonVar['confirm'] = true;
+                    $sep = $separator;
+                }
             }
 
             if (count($klant->getOpmerkingen()) > 0) {
-                $laatsteOpmerking = end($klant->getOpmerkingen()->toArray());
+                $opmerkingen = $klant->getOpmerkingen()->toArray();
+                $laatsteOpmerking = end($opmerkingen);
                 if (!$laatsteOpmerking->isGezien()) {
                     $jsonVar['message'] .= $sep.'Laatste opmerking ('.$laatsteOpmerking->getCreated()->format('d-m-Y').'): '.$laatsteOpmerking->getBeschrijving();
                     $jsonVar['confirm'] = true;
