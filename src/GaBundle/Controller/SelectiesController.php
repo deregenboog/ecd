@@ -7,14 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NoResultException;
 use GaBundle\Filter\SelectieFilter;
 use GaBundle\Form\SelectieType;
-use IzBundle\Entity\IzDeelnemer;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Form\IzEmailMessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use GaBundle\Form\EmailMessageType;
+use GaBundle\Entity\Intake;
 
 /**
  * @Route("/selecties")
@@ -54,7 +52,7 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-        $form = $this->createForm(IzEmailMessageType::class);
+        $form = $this->createForm(EmailMessageType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,17 +66,6 @@ class SelectiesController extends SymfonyController
                 ->setSubject($form->get('subject')->getData())
                 ->setBody($form->get('text')->getData(), 'text/plain')
             ;
-
-            // add attachments
-            if ($form->get('file1')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file1')->getData()->getPathName()));
-            }
-            if ($form->get('file2')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file2')->getData()->getPathName()));
-            }
-            if ($form->get('file3')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
-            }
 
             try {
                 $sent = $mailer->send($message);
@@ -130,28 +117,32 @@ class SelectiesController extends SymfonyController
             throw new NoResultException();
         }
 
-        // convert IzKlant and IzVrijwilliger collections to IzDeelnemer collection
-        $izDeelnemers = $this->getEntityManager()->getRepository(IzDeelnemer::class)
-            ->createQueryBuilder('izDeelnemer')
-            ->where('izDeelnemer IN (:iz_klanten) OR izDeelnemer IN (:iz_vrijwilligers)')
+        // convert KlantIntake and VrijwilligerIntake collections to one Intake collection
+        $intakes = $this->getEntityManager()->getRepository(Intake::class)
+            ->createQueryBuilder('intake')
+            ->where('intake IN (:klanten) OR intake IN (:vrijwilligers)')
             ->setParameters([
-                'iz_klanten' => $klanten,
-                'iz_vrijwilligers' => $vrijwilligers,
+                'klanten' => $klanten,
+                'vrijwilligers' => $vrijwilligers,
             ])
             ->getQuery()
             ->getResult()
         ;
 
-        $form = $this->createForm(IzEmailMessageType::class, null, [
+        if (0 === count($intakes)) {
+            throw new NoResultException();
+        }
+
+        $form = $this->createForm(EmailMessageType::class, null, [
             'from' => $this->getMedewerker()->getEmail(),
-            'to' => $izDeelnemers,
+            'to' => $intakes,
         ]);
 
         return [
             'action' => 'email',
             'form' => $form->createView(),
-            'izKlanten' => $klanten,
-            'izVrijwilligers' => $vrijwilligers,
+            'klanten' => $klanten,
+            'vrijwilligers' => $vrijwilligers,
         ];
     }
 

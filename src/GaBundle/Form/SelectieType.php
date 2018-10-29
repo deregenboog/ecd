@@ -77,11 +77,12 @@ class SelectieType extends AbstractType
                 ],
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+                $form = $event->getForm();
                 $data = $event->getData();
-                if ($data['alleGroepen']) {
+                if (isset($data['alleGroepen'])) {
                     unset($data['groepen']);
                 }
-                if ($data['alleStadsdelen']) {
+                if (isset($data['alleStadsdelen'])) {
                     unset($data['stadsdelen']);
                 }
                 $event->setData($data);

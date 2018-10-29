@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use GaBundle\Entity\Intake;
+use GaBundle\Entity\KlantIntake;
+use GaBundle\Entity\VrijwilligerIntake;
 
 class EmailMessageType extends AbstractType
 {
@@ -19,12 +22,15 @@ class EmailMessageType extends AbstractType
     {
         $emails = [];
         if (isset($options['to'])) {
-            foreach ($options['to'] as $deelnemer) {
-                if ($deelnemer instanceof Deelnemer) {
-                    $emails[] = $deelnemer->getKlant()->getEmail();
+            foreach ($options['to'] as $intake) {
+                if ($intake instanceof KlantIntake) {
+                    $emails[] = $intake->getKlant()->getEmail();
+                } elseif ($intake instanceof VrijwilligerIntake) {
+                    $emails[] = $intake->getVrijwilliger()->getEmail();
                 }
             }
         }
+
         // remove empty values
         $emails = array_filter($emails);
         // copy values to keys
