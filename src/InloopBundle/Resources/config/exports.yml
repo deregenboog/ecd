@@ -51,5 +51,20 @@ services:
                 Verblijfsstatus: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
                 Woonsituatie: { expression: 'entity.getKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getKlant().getLaatsteIntake()' }
 
+    inloop.export.schorsing:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - InloopBundle\Entity\Schorsing
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Begindatum: { expression: 'entity.getDatumVan()', type: 'date' }
+                Einddatum: { expression: 'entity.getDatumTot()', type: 'date' }
+                Locaties: { expression: 'entity.getLocaties()' }
+                Redenen: { expression: 'entity.getRedenen()' }
+
     inloop.export.report:
         class: AppBundle\Export\ReportExport

@@ -41,11 +41,6 @@ class SchorsingFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-//             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
     }
 
     /**
@@ -68,6 +63,8 @@ class SchorsingFilterType extends AbstractType
                 'locatie',
                 'datumVan',
                 'datumTot',
+                'filter',
+                'download',
             ],
         ]);
     }

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
+use AppBundle\Export\ExportInterface;
 
 /**
  * @Route("/schorsingen")
@@ -39,6 +40,13 @@ class SchorsingenController extends AbstractController
      * @DI\Inject("InloopBundle\Service\SchorsingDao")
      */
     protected $dao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("inloop.export.schorsing")
+     */
+    protected $export;
 
     /**
      * @Route("/{id}/view")
