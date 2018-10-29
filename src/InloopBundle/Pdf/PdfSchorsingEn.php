@@ -5,9 +5,7 @@ namespace InloopBundle\Pdf;
 use AppBundle\Service\NameFormatter;
 use InloopBundle\Entity\Schorsing;
 
-\App::import('Vendor', 'xtcpdf');
-
-class PdfSchorsingEn extends \XTCPDF
+class PdfSchorsingEn extends \TCPDF
 {
     public function __construct($html, Schorsing $schorsing)
     {
