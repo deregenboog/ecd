@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppTextareaType;
 
 class KlantIntakeType extends AbstractType
 {
@@ -37,7 +38,7 @@ class KlantIntakeType extends AbstractType
             ->add('intakedatum', AppDateType::class)
             ->add('gezinMetKinderen')
             ->add('medewerker', MedewerkerType::class)
-            ->add('gespreksverslag', TextareaType::class, [
+            ->add('gespreksverslag', AppTextareaType::class, [
                 'required' => false,
             ])
             ->add('ondernemen', ChoiceType::class, [

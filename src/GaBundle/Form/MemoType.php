@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppTextareaType;
 
 class MemoType extends AbstractType
 {
@@ -22,7 +23,7 @@ class MemoType extends AbstractType
         $builder
             ->add('datum', AppDateTimeType::class, ['data' => new \DateTime('now')])
             ->add('onderwerp')
-            ->add('memo', TextareaType::class, ['attr' => ['rows' => 20]])
+            ->add('memo', AppTextareaType::class)
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class)
         ;

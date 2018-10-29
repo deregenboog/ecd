@@ -98,7 +98,7 @@ abstract class Groep
 
     public function __toString()
     {
-        return $this->naam;
+        return (string) $this->naam;
     }
 
     public function getId()
