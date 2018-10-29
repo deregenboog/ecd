@@ -82,9 +82,9 @@ class TrainingenController extends AbstractChildController
             ;
 
             if ($mailer->send($message)) {
-                $this->addFlash('success', __('Email is succesvol verzonden', true));
+                $this->addFlash('success', 'Email is succesvol verzonden');
             } else {
-                $this->addFlash('danger', __('Email kon niet worden verzonden', true));
+                $this->addFlash('danger', 'Email kon niet worden verzonden');
             }
 
             return $this->redirectToView($training);

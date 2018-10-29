@@ -3,6 +3,7 @@
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Dotenv\Exception\PathException;
 
 class AppKernel extends Kernel
 {
@@ -69,7 +70,11 @@ class AppKernel extends Kernel
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
 
         $dotenv = new Dotenv();
-        $dotenv->load($this->getRootDir().'/config/.env');
+        try {
+            $dotenv->load($this->getRootDir().'/config/.env');
+        } catch (PathException $e) {
+            $dotenv->load($this->getRootDir().'/config/.env.dist');
+        }
         $profile = getenv('PROFILE');
         $loader->load($this->getRootDir().'/config/security_'.$profile.'.yml');
     }
