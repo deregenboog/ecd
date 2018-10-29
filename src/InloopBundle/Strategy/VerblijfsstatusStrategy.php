@@ -25,6 +25,7 @@ class VerblijfsstatusStrategy implements StrategyInterface
     {
         $builder
             ->andWhere($builder->expr()->orX(
+                'laatsteIntake.verblijfsstatus IS NULL',
                 'laatsteIntake.verblijfsstatus <> :niet_rechthebbend_id',
                 $builder->expr()->andX(
                     'laatsteIntake.verblijfsstatus = :niet_rechthebbend_id',
