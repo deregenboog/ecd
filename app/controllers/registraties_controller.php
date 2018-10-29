@@ -74,6 +74,7 @@ class RegistratiesController extends AppController
             } elseif (12 == $locatie['id']) { // Nachtopvang De Regenboog Groep
             } else { // Rest
                 $conditions[] = ['OR' => [
+                    'LasteIntake.verblijfstatus_id' => null,
                     'LasteIntake.verblijfstatus_id NOT ' => 7,
                     // @see https://github.com/deregenboog/ecd/issues/249
                     [
