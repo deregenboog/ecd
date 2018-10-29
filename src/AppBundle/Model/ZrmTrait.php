@@ -9,6 +9,7 @@ trait ZrmTrait
 {
     /**
      * @var Zrm[]
+     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
      * @ORM\JoinTable(
      *     joinColumns={@ORM\JoinColumn(unique=true)},

@@ -151,6 +151,10 @@ class RegistratiesController extends AbstractController
     }
 
     /**
+     * This logic is copied from original code base. Candidate for refactoring.
+     *
+     * @todo
+     *
      * @Route("/jsonCanRegister/{klant}/{locatie}")
      */
     public function jsonCanRegisterAction(Klant $klant, Locatie $locatie, $h = 1)

@@ -17,7 +17,6 @@ services:
         tags:
             - { name: form.type }
             
-
     hs.event_subscriber.klant:
         class: HsBundle\Event\KlantUpdater
         tags:

@@ -202,7 +202,10 @@ class Client
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="pfo_clienten_documenten", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(
+     *     name="pfo_clienten_documenten",
+     *     inverseJoinColumns={@ORM\JoinColumn(unique=true)}
+     * )
      * @ORM\OrderBy({"created": "DESC"})
      */
     private $documenten;

@@ -4,7 +4,7 @@ namespace HsBundle\Pdf;
 
 use HsBundle\Entity\Herinnering;
 
-class PdfHerinnering extends \XTCPDF
+class PdfHerinnering extends \TCPDF
 {
     private $footerText = 'Uw betaling kunt u overmaken op bankrekeningnummer NL46 INGB 0000215793 o.v.v. factuurnummer ten name van Stichting De Regenboog Groep.';
 

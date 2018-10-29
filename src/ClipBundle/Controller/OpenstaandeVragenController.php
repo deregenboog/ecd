@@ -35,7 +35,6 @@ class OpenstaandeVragenController extends AbstractVragenController
 
     /**
      * @Route("/")
-     * @Template
      */
     public function indexAction(Request $request)
     {
