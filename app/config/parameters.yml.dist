@@ -12,7 +12,7 @@ parameters:
     administrator_name: Bart Huttinga
     administrator_email: bhuttinga@deregenboog.org
     ldap_domain: ''
-    ldap_port: ''
+    ldap_port: 389
     ldap_servers: []
     ldap_base_dn: ''
     ldap_search_user: ''
