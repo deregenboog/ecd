@@ -8,6 +8,7 @@ env:
   - DB=sqlite
 
 before_script:
+  - echo 'memory_limit=2G' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install --no-scripts
   - cp app/config/parameters.yml.dist app/config/parameters.yml
 
