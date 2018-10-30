@@ -7,6 +7,8 @@ php:
 env:
   - DB=sqlite
 
-before_script: composer install
+before_script:
+  - composer install --no-scripts
+  - cp app/config/parameters.yml.dist app/config/parameters.yml
 
 script: ant
