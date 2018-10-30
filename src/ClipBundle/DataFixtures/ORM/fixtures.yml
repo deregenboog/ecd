@@ -102,7 +102,7 @@ ClipBundle\Entity\Communicatiekanaal:
 
 ClipBundle\Entity\Behandelaar:
     clip_behandelaar_1:
-        medewerker: '@medewerker_1'
+        medewerker: '@medewerker_clip'
     clip_behandelaar_{2..5}:
         medewerker (unique): '@medewerker_*'
     clip_behandelaar_{6..10}:

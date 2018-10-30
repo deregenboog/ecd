@@ -18,7 +18,7 @@ class AppExtensionTest extends TestCase
     {
         $requestStack = $this->createMock(RequestStack::class);
 
-        $this->extension = new AppExtension($requestStack, 'nl_NL', 'Admin', 'admin@example.org');
+        $this->extension = new AppExtension($requestStack, 'nl_NL', 'Admin', 'admin@example.org', 6);
     }
 
     /**

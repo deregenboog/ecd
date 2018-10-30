@@ -7,7 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: nl_NL.utf8
-    acl_disabled: false
     pagination.items_per_page: 20
     doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
 
@@ -172,22 +171,3 @@ fos_ck_editor:
             removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
             enterMode: CKEDITOR.ENTER_BR
             toolbar: [["Bold", "Italic", "Underline"]]
-
-ldap_tools:
-    domains:
-        default:
-            domain_name: '%ldap_domain%'
-            port: '%ldap_port%'
-            username: '%ldap_search_user%'
-            password: '%ldap_search_password%'
-            base_dn: '%ldap_base_dn%'
-            servers: '%ldap_servers%'
-            bind_format: '%%username%%'
-            use_ssl: true
-    security:
-        user: AppBundle\Entity\Medewerker
-        login_query_attribute: 'sAMAccountName'
-        additional_attributes:
-            - givenName
-            - sn
-            - mail

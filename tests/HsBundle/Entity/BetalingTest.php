@@ -13,13 +13,13 @@ class BetalingTest extends \PHPUnit_Framework_TestCase
         $betaling = new Betaling($factuur);
 
         $betaling->setBedrag(123.45);
-        $this->assertEquals('€ 123,45', (string) $betaling);
+        $this->assertEquals('€ 123,45', trim((string) $betaling));
 
         $betaling->setBedrag(123.456789);
-        $this->assertEquals('€ 123,46', (string) $betaling);
+        $this->assertEquals('€ 123,46', trim((string) $betaling));
 
         $betaling->setBedrag(123.454321);
-        $this->assertEquals('€ 123,45', (string) $betaling);
+        $this->assertEquals('€ 123,45', trim((string) $betaling));
     }
 
     public function testIsDeletable()

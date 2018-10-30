@@ -22,7 +22,7 @@ class LoginEventListener
     /**
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em, LdapUserProvider $ldapUserProvider)
+    public function __construct(EntityManagerInterface $em, LdapUserProvider $ldapUserProvider = null)
     {
         $this->em = $em;
         $this->ldapUserProvider = $ldapUserProvider;

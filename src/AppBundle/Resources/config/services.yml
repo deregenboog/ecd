@@ -24,7 +24,7 @@ services:
     AppBundle\Event\LoginEventListener:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@ldap_tools.security.user.ldap_user_provider'
+            - '@?ldap_tools.security.user.ldap_user_provider'
         tags:
             - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
 

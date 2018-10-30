@@ -1,8 +1,6 @@
 imports:
-    - { resource: config_dev.yml }
-
-parameters:
-    acl_disabled: false
+    - { resource: config.yml }
+    - { resource: security_test.yml }
 
 framework:
     test: ~
@@ -34,5 +32,13 @@ swiftmailer:
 
 liip_functional_test:
     cache_sqlite_db: true
-    query:
-        max_query_count: 10
+#    query:
+#        max_query_count: 10
+
+hautelook_alice:
+    db_drivers:
+        orm: ~
+    locale: "nl_NL"
+    seed: 1
+    persist_once: false # Only persist objects once if multiple files are passed
+    loading_limit: 5    # Maximum number of time the loader will try to load the files passed

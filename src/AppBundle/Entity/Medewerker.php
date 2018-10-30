@@ -262,7 +262,7 @@ class Medewerker implements LdapUserInterface, UserInterface
      */
     public function getPassword()
     {
-        return null;
+        return '';
     }
 
     /**

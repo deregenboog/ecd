@@ -1071,37 +1071,55 @@ AppBundle\Entity\Nationaliteit:
         afkorting: ''
 
 AppBundle\Entity\Medewerker:
-    medewerker_1:
-        ldapGuid: '1'
-        username: 'bhuttinga'
-        email: 'bhuttinga@deregenboog.org'
-        voornaam: 'Bart'
-        achternaam: 'Huttinga'
-        groepen:
-            - 'CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog'
-            - 'CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog'
-            - 'CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog'
-            - 'CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog'
-    medewerker_{2..10}:
-        ldapGuid: '<current()>'
+    medewerker_clip:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'clip_user'
+        roles: ['ROLE_CLIP']
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_dagbesteding:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_DAGBESTEDING']
+        username: 'dagbesteding_user'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_ga:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_GA']
+        username: 'ga_user'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_hs:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_HS']
+        username: 'hs_user'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_ODP:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_ODP']
+        username: 'odp_user'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_oek:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_OEK']
+        username: 'oek_user'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+    medewerker_{1..15}:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_USER']
         username: '<username()>'
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
-    medewerker_{11..15}:
-        ldapGuid: '<current()>'
-        username: '<username()>'
-        email: '<email()>'
-        voornaam: '<firstname()>'
-        achternaam: '<lastname()>'
-        groepen: ['CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog']
-    medewerker_{16..20}:
-        ldapGuid: '<current()>'
-        username: '<username()>'
-        email: '<email()>'
-        voornaam: '<firstname()>'
-        achternaam: '<lastname()>'
-        groepen: ['CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog']
 
 AppBundle\Entity\Klant:
     klant_{1..200}:

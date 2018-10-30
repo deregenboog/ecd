@@ -1,12 +1,3 @@
-imports:
-    - { resource: security.yml }
-
-ldap_tools:
-    security:
-        roles:
-            ROLE_USER: "CN=ECD Bureau Straatjurist,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_ADMIN: "CN=ECD Bureau Straatjurist Beheer,CN=Users,DC=cluster,DC=deregenboog"
-
 security:
     role_hierarchy:
         ROLE_USER:
@@ -21,3 +12,9 @@ security:
         ROLE_ADMIN:
             - ROLE_USER
             - CONTROLLER_ADMIN
+
+ldap_tools:
+    security:
+        roles:
+            ROLE_USER: "CN=ECD Bureau Straatjurist,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_ADMIN: "CN=ECD Bureau Straatjurist Beheer,CN=Users,DC=cluster,DC=deregenboog"

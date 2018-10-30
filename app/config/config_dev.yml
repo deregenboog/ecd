@@ -1,8 +1,6 @@
 imports:
     - { resource: config.yml }
-
-parameters:
-    acl_disabled: '%kernel.debug%'
+    - { resource: security.yml }
 
 framework:
     router:

@@ -27,7 +27,6 @@ class AppKernel extends Kernel
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
 
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle(),
 
             new AppBundle\AppBundle(),
             new ClipBundle\ClipBundle(),
@@ -42,6 +41,10 @@ class AppKernel extends Kernel
             new OekBundle\OekBundle(),
             new PfoBundle\PfoBundle(),
         ];
+
+        if ('test' !== $this->getEnvironment()) {
+            $bundles[] = new LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle();
+        }
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
@@ -69,13 +72,16 @@ class AppKernel extends Kernel
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
 
-        $dotenv = new Dotenv();
-        try {
-            $dotenv->load($this->getRootDir().'/config/.env');
-        } catch (PathException $e) {
-            $dotenv->load($this->getRootDir().'/config/.env.dist');
+        if ('test' !== $this->getEnvironment()) {
+            $dotenv = new Dotenv();
+            try {
+                $dotenv->load($this->getRootDir().'/config/.env');
+            } catch (PathException $e) {
+                $dotenv->load($this->getRootDir().'/config/.env.dist');
+            }
+
+            $profile = getenv('PROFILE');
+            $loader->load($this->getRootDir().'/config/roles_'.$profile.'.yml');
         }
-        $profile = getenv('PROFILE');
-        $loader->load($this->getRootDir().'/config/security_'.$profile.'.yml');
     }
 }

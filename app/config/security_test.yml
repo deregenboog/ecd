@@ -1,0 +1,14 @@
+security:
+    encoders:
+        AppBundle\Entity\Medewerker: plaintext
+
+    providers:
+        database:
+            entity: { class: AppBundle\Entity\Medewerker, property: username }
+
+    firewalls:
+        main:
+            anonymous: ~
+            provider: database
+            pattern: ^/
+            logout: ~

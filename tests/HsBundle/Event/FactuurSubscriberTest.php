@@ -14,11 +14,6 @@ use Symfony\Component\HttpKernel\Client;
 class FactuurSubscriberTest extends WebTestCase
 {
     /**
-     * @var Client
-     */
-    private $client;
-
-    /**
      * @var EntityManager
      */
     private $entityManager;
