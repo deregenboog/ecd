@@ -61,8 +61,7 @@ class VrijwilligerIntakeFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => VrijwilligerIntakeFilter::class,
             'enabled_filters' => [
-                'vrijwilliger' => ['id', 'naam', 'geboortedatumRange'],
-                'medewerker',
+                'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'medewerker'],
                 'intakedatum',
                 'afsluitdatum',
                 'filter',
