@@ -10,6 +10,9 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface RegistratieDaoInterface
 {
+    const TYPE_NIGHT = true;
+    const TYPE_DAY = false;
+
     /**
      * @param int             $page
      * @param FilterInterface $filter
@@ -34,6 +37,20 @@ interface RegistratieDaoInterface
     public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie);
 
     /**
+     * @param bool $type The value of either self::TYPE_DAY of self::TYPE_NIGHT.
+     *
+     * @return Registratie[]
+     */
+    public function findAutoCheckoutCandidates($type);
+
+    /**
+     * @param Registratie $entity
+     *
+     * @return Registratie
+     */
+    public function create(Registratie $entity);
+
+    /**
      * @param Registratie $entity
      *
      * @return Registratie
@@ -49,10 +66,11 @@ interface RegistratieDaoInterface
 
     /**
      * @param Registratie $entity
+     * @param \DateTime $time
      *
      * @return Registratie
      */
-    public function checkout(Registratie $entity);
+    public function checkout(Registratie $registratie, \DateTime $time = null);
 
     /**
      * @param Klant $klant

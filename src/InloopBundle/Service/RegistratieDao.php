@@ -49,6 +49,39 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         return parent::doFindAll($builder, $page, $filter);
     }
 
+    public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
+            ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie = :locatie')
+            ->orderBy("{$this->alias}.binnen")
+            ->setParameters([
+                'klant' => $klant,
+                'locatie' => $locatie,
+            ])
+            ->setMaxResults(1)
+        ;
+
+        return $builder->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param bool $type The value of either self::TYPE_DAY of self::TYPE_NIGHT.
+     *
+     * @return Registratie[]
+     */
+    public function findAutoCheckoutCandidates($type)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin("{$this->alias}.locatie", "locatie")
+            ->where("{$this->alias}.closed = false AND locatie.nachtopvang = :type")
+            ->orWhere("{$this->alias}.buiten < {$this->alias}.binnen")
+            ->setParameter('type', (bool) $type)
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function create(Registratie $entity)
     {
         return parent::doCreate($entity);
@@ -64,22 +97,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $this->removeFromQueues($entity);
 
         return parent::doDelete($entity);
-    }
-
-    public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
-            ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie = :locatie')
-            ->orderBy("{$this->alias}.binnen")
-            ->setParameters([
-                'klant' => $klant,
-                'locatie' => $locatie,
-            ])
-            ->setMaxResults(1)
-        ;
-
-        return $builder->getQuery()->getOneOrNullResult();
     }
 
     public function checkout(Registratie $registratie, \DateTime $time = null)
