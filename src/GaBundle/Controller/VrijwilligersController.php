@@ -63,6 +63,10 @@ class VrijwilligersController extends AbstractController
 
         $intake = $this->intakeDao->findOneByVrijwilliger($vrijwilliger);
 
+        if (!$intake) {
+            return $this->redirectToRoute('ga_vrijwilligerintakes_index');
+        }
+
         return $this->redirectToRoute('ga_vrijwilligerintakes_view', ['id' => $intake->getId()]);
     }
 

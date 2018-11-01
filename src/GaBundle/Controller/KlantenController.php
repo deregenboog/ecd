@@ -62,6 +62,10 @@ class KlantenController extends AbstractController
 
         $intake = $this->intakeDao->findOneByKlant($klant);
 
+        if (!$intake) {
+            return $this->redirectToRoute('ga_klantintakes_index');
+        }
+
         return $this->redirectToRoute('ga_klantintakes_view', ['id' => $intake->getId()]);
     }
 
