@@ -13,6 +13,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/activiteiten")
@@ -43,6 +44,7 @@ class ActiviteitenController extends AbstractChildController
 
     /**
      * @Route("/calendar")
+     * @Template
      */
     public function calendarAction()
     {
