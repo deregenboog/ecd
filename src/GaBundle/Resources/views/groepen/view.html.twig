@@ -41,7 +41,7 @@
             </thead>
             <tbody>
                 {% for lidmaatschap in klantlidmaatschappen %}
-                    <tr data-href="{{ path('ga_dossiers_view', {id: lidmaatschap.klant.id}) }}">
+                    <tr data-href="{{ path('ga_klanten_view', {id: lidmaatschap.klant.id}) }}">
                         <td>{{ lidmaatschap.klant|naam_voor_achter }}</td>
                         <td>{{ lidmaatschap.klant.werkgebied }}</td>
                         <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
