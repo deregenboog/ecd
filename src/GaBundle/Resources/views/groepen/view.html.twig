@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for lidmaatschap in klantlidmaatschappen %}
+                {% for lidmaatschap in klantlidmaatschappen if not lidmaatschap.einddatum %}
                     <tr data-href="{{ path('ga_klanten_view', {id: lidmaatschap.klant.id}) }}">
                         <td>{{ lidmaatschap.klant|naam_voor_achter }}</td>
                         <td>{{ lidmaatschap.klant.werkgebied }}</td>
@@ -65,7 +65,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lidmaatschap in vrijwilligerlidmaatschappen %}
+                    {% for lidmaatschap in vrijwilligerlidmaatschappen if not lidmaatschap.einddatum %}
                         <tr data-href="{{ path('ga_vrijwilligers_view', {id: lidmaatschap.vrijwilliger.id}) }}">
                             <td>{{ lidmaatschap.vrijwilliger|naam_voor_achter }}</td>
                             <td>{{ lidmaatschap.vrijwilliger.werkgebied }}</td>
