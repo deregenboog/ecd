@@ -39,9 +39,7 @@
         <div id="wachtlijst" class="tab-pane active">
             <h2>Wachtlijst</h2>
             <p>
-                {% set link = path('oek_lidmaatschappen_add', {groep: entity.id}) %}
-                {{ html.addLink(link)|raw }}
-                {{ html.link('Deelnemer aan wachtlijst toevoegen', link)|raw }}
+                {{ html.link('Deelnemer aan wachtlijst toevoegen', path('oek_lidmaatschappen_add', {groep: entity.id}), 'add') }}
             </p>
             {% if entity.deelnemers.count == 0 %}
                 <p>Deze groep heeft nog geen wachtlijst.</p>
@@ -55,27 +53,25 @@
                         <th>Afsluitdatum</th>
                         <th></th>
                     </tr>
-                    {% for klant in entity.deelnemers %}
+                    {% for deelnemer in entity.deelnemers %}
                         <tr>
                             <td>
-                                {{ html.link(klant.klant.id, path('oek_deelnemers_view', {id: klant.id})) }}
+                                {{ html.link(deelnemer.klant.id, path('oek_deelnemers_view', {id: deelnemer.id})) }}
                             </td>
                             <td>
-                                {{ html.link(klant.klant.naam, path('oek_deelnemers_view', {id: klant.id})) }}
+                                {{ html.link(deelnemer.klant.naam, path('oek_deelnemers_view', {id: deelnemer.id})) }}
                             </td>
                             <td>
-                                {{ klant.klant.werkgebied }}
+                                {{ deelnemer.klant.werkgebied }}
                             </td>
                             <td>
-                                {{ klant.aanmelding ? klant.aanmelding.datum|date('d-m-Y') }}
+                                {{ deelnemer.aanmelding ? deelnemer.aanmelding.datum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {{ klant.afsluiting ? klant.afsluiting.datum|date('d-m-Y') }}
+                                {{ deelnemer.afsluiting ? deelnemer.afsluiting.datum|date('d-m-Y') }}
                             </td>
                             <td>
-                                {% set delete_link = path('oek_lidmaatschappen_delete', {deelnemer: klant.id, groep: entity.id}) %}
-                                {{ html.deleteLink(delete_link)|raw }}
-                                {{ html.link('Deelnemer van wachtlijst verwijderen', delete_link)|raw }}
+                                {{ html.link('Deelnemer van wachtlijst verwijderen', path('oek_lidmaatschappen_delete', {deelnemer: deelnemer.id, groep: entity.id}), 'delete') }}
                             </td>
                         </tr>
                     {% endfor %}
@@ -109,7 +105,7 @@
                             <td>
                                 {{ html.link(training.naam, path('oek_trainingen_view', {id: training.id})) }}
                             </td>
-                            <td>{{ training.klanten.count() }}</td>
+                            <td>{{ training.deelnemers.count() }}</td>
                             <td>
                                 {{ training.startdatum ? training.startdatum|date('d-m-Y') }}
                                 {{ training.starttijd ? training.starttijd|date('H:i') ~ ' uur' }}

@@ -13,29 +13,20 @@
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
         {% if entity.afsluiting %}
-            {% set open_link = path('oek_deelnemers_open', {id: entity.id}) %}
-            {{ html.addLink(open_link)|raw }}
-            {{ html.link('Dossier heropenen', open_link)|raw }}
+            {{ html.link('Dossier heropenen', path('oek_deelnemers_open', {id: entity.id}), 'add') }}
         {% else %}
-            {% set edit_link = path('oek_deelnemers_edit', {id: entity.id}) %}
-            {{ html.editLink(edit_link)|raw }}
-            {{ html.link('Deelnemer wijzigen', edit_link)|raw }}
-
+            {{ html.link('Deelnemer wijzigen', path('oek_deelnemers_edit', {id: entity.id}), 'edit') }}
             {% if entity.deletable %}
-                {% set delete_link = path('oek_deelnemers_delete', {id: entity.id}) %}
-                {{ html.deleteLink(delete_link)|raw }}
+                {{ html.deleteLink(path('oek_deelnemers_delete', {id: entity.id})) }}
             {% endif %}
-
-            {% set close_link = path('oek_deelnemers_close', {id: entity.id}) %}
-            {{ html.deleteLink(close_link)|raw }}
-            {{ html.link('Dossier afsluiten', close_link)|raw }}
+            {{ html.link('Dossier afsluiten', path('oek_deelnemers_close', {id: entity.id}), 'close') }}
         {% endif %}
     </p>
     <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ entity.klant.id }}</dd>
         <dt>Naam</dt>
-        <dd>{{ entity.klant.naam }}</dd>
+        <dd>{{ entity }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
         <dt>Historie</dt>
@@ -60,7 +51,7 @@
                     <li>
                         {{ html.link(lidmaatschap.groep, path('oek_groepen_view', {id: lidmaatschap.groep.id})) }}
                         {% set delete_link = path('oek_lidmaatschappen_delete', {deelnemer: lidmaatschap.deelnemer.id, groep: lidmaatschap.groep.id}) %}
-                        {{ html.deleteLink(delete_link)|raw }}
+                        {{ html.deleteLink(delete_link) }}
                     </li>
                 {% endfor %}
             </ul>
