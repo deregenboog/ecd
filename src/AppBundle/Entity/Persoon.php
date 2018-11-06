@@ -12,6 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 class Persoon
 {
@@ -23,6 +24,13 @@ class Persoon
      * @ORM\GeneratedValue
      */
     protected $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
@@ -187,5 +195,15 @@ class Persoon
         $this->disabled = $disabled;
 
         return $this;
+    }
+
+    /**
+     * SoftDeleteable, so it's safe to return true.
+     *
+     * @return bool
+     */
+    public function isDeletable()
+    {
+        return true;
     }
 }

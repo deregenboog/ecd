@@ -101,6 +101,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function delete(Klant $klant)
     {
+        // @todo remove this when disabled field is no longer needed
+        $klant->setDisabled(true);
+        $this->update($klant);
+
         return $this->doDelete($klant);
     }
 }

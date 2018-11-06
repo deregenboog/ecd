@@ -20,8 +20,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger extends Persoon
 {
-    use NotDeletableTrait;
-
     /**
      * @ORM\Column(name="vog_aangevraagd", type="boolean")
      * @Gedmo\Versioned

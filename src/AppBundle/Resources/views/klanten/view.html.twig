@@ -12,8 +12,10 @@
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
-        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
+        {% endif %}
     </p>
 {% endblock %}
 

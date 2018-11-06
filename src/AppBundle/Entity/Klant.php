@@ -29,8 +29,6 @@ use MwBundle\Entity\Verslag;
  */
 class Klant extends Persoon
 {
-    use NotDeletableTrait;
-
     /**
      * @ORM\Column(name="MezzoID", type="integer")
      * @Gedmo\Versioned

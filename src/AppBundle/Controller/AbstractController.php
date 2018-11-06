@@ -245,7 +245,7 @@ abstract class AbstractController extends SymfonyController
 
                 return $this->redirectToIndex();
             } else {
-                if ($url) {
+                if (isset($url)) {
                     return $this->redirect($url);
                 }
 
