@@ -9,6 +9,7 @@ use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Filter\RegistratieFilter;
+use InloopBundle\Entity\RecenteRegistratie;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
@@ -271,6 +272,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, locatie, klant, huidigeStatus, schorsing, opmerking")
+            ->innerJoin(RecenteRegistratie::class, 'recent', 'WITH', 'recent.registratie = registratie')
             ->innerJoin("{$this->alias}.locatie", 'locatie')
             ->innerJoin("{$this->alias}.klant", 'klant')
             ->leftJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)

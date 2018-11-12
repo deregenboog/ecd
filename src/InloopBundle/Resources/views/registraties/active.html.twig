@@ -11,174 +11,74 @@
 
 {% block content %}
     <h1>{{ title }} {{ locatie }}</h1>
+    <p>
+        <a href="{{ path('inloop_registraties_locationselect') }}">Locatie wijzigen</a>
+    </p>
     <ul class="nav nav-tabs">
         {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_index', {locatie: locatie.id}), isActiveRoute('inloop_registraties_index')) }}
         {{ html.navLink('Nu binnen', path('inloop_registraties_active', {locatie: locatie.id}), isActiveRoute('inloop_registraties_active')) }}
         {{ html.navLink('Recent uitgecheckt', path('inloop_registraties_history', {locatie: locatie.id}), isActiveRoute('inloop_registraties_history')) }}
     </ul>
     <div id="content">
-        {% include 'InloopBundle:registraties:_active.html.twig' %}
+        {{ form_start(filter) }}
+            <table class="table table-fixed">
+                {{ colgroup(13, [15, 15, 15]) }}
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            {{ form_widget(filter.klant.naam) }}
+                            {{ form_errors(filter.klant.naam) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.binnen.start) }}
+                            {{ form_errors(filter.binnen.start) }}
+                            {{ form_widget(filter.binnen.end) }}
+                            {{ form_errors(filter.binnen.end) }}
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            {{ form_widget(filter.douche) }}
+                            {{ form_errors(filter.douche) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.kleding) }}
+                            {{ form_errors(filter.kleding) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.maaltijd) }}
+                            {{ form_errors(filter.maaltijd) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.veegploeg) }}
+                            {{ form_errors(filter.veegploeg) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.activering) }}
+                            {{ form_errors(filter.activering) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.mw) }}
+                            {{ form_errors(filter.mw) }}
+                        </th>
+                        <th colspan="3">
+                            <span class="pull-right">
+                                {{ form_widget(filter.filter) }}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        {{ form_end(filter) }}
+        <div id="loader" style="display: none; margin-top: 1em">
+            <h4>Een moment geduld...</h4>
+        </div>
+        <div id="ajaxContainer" style="margin-top: -17px;">
+            {#% include 'InloopBundle:registraties:_active.html.twig' %#}
+        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        $(function() {
-
-            function checkoutAll(locatie_id) {
-                var confirmed = confirm('Weet u zeker dat u iedereen wilt uitchecken?');
-                if (confirmed) {
-                    $.post({
-                        url: `/inloop/registraties/checkoutAll/${locatie_id}`,
-                    }).done(function(data) {
-                        $('#content').html(data);
-                    }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-                }
-            };
-
-            function checkout(registratie_id) {
-                $.post({
-                    url: `/inloop/registraties/registratieCheckOut/${registratie_id}`,
-                }).done(function(data) {
-                    $('#content').html(data);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            function remove(registratie_id) {
-                var confirmed = confirm('Weet u zeker dat u deze registratie wilt verwijderen?');
-                if (confirmed) {
-                    $.post({
-                        url: `/inloop/registraties/${registratie_id}/delete`,
-                    }).done(function(data) {
-                        $('#content').html(data);
-                    }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-                }
-            };
-
-            function addToQueue(id, property) {
-                $.post({
-                    url: '/inloop/registraties/'+id+'/'+property+'/add',
-                }).done(function(data) {
-                    $('#content').html(data);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            function removeFromQueue(id, property) {
-                $.post({
-                    url: '/inloop/registraties/'+id+'/'+property+'/del',
-                }).done(function(data) {
-                    $('#content').html(data);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            function enable(id, property) {
-                $.post({
-                    url: '/inloop/registraties/'+id+'/'+property+'/1',
-                }).done(function(data) {
-                    $('#content').html(data);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            function disable(id, property) {
-                $.post({
-                    url: '/inloop/registraties/'+id+'/'+property+'/0',
-                }).done(function(data) {
-                    $('#content').html(data);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            $('#content').on('click', 'a.checkout-all', function() {
-                var id = $(this).attr('data-id');
-                checkoutAll(id);
-            });
-
-            $('#content').on('click', 'a.checkout', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                checkout(id);
-            });
-
-            $('#content').on('click', 'a.remove', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                remove(id);
-            });
-
-            $('#content').on('click', 'a.douche', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                removeFromQueue(id, 'douche');
-            });
-
-            $('#content').on('click', 'input.douche', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                if ($(this).is(':checked')) {
-                    addToQueue(id, 'douche');
-                } else {
-                    removeFromQueue(id, 'douche');
-                }
-            });
-
-            $('#content').on('click', 'a.mw', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                removeFromQueue(id, 'mw');
-            });
-
-            $('#content').on('click', 'input.mw', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                if ($(this).is(':checked')) {
-                    addToQueue(id, 'mw');
-                } else {
-                    removeFromQueue(id, 'mw');
-                }
-            });
-
-            $('#content').on('click', 'input.kleding', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                if ($(this).is(':checked')) {
-                    enable(id, 'kleding');
-                } else {
-                    disable(id, 'kleding');
-                }
-            });
-
-            $('#content').on('click', 'input.maaltijd', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                if ($(this).is(':checked')) {
-                    enable(id, 'maaltijd');
-                } else {
-                    disable(id, 'maaltijd');
-                }
-            });
-
-            $('#content').on('click', 'input.veegploeg', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                if ($(this).is(':checked')) {
-                    enable(id, 'veegploeg');
-                } else {
-                    disable(id, 'veegploeg');
-                }
-            });
-
-            $('#content').on('click', 'input.activering', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                if ($(this).is(':checked')) {
-                    enable(id, 'activering');
-                } else {
-                    disable(id, 'activering');
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('bundles/inloop/js/registraties/active.js') }}"></script>
 {% endblock %}

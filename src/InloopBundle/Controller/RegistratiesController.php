@@ -129,6 +129,7 @@ class RegistratiesController extends AbstractController
         }
 
         $form = $this->createForm(KlantFilterType::class, $filter, [
+            'attr' => ['class' => 'ajaxFilter'],
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'geboortedatum', 'geslacht'],
                 'gebruikersruimte',
@@ -138,16 +139,83 @@ class RegistratiesController extends AbstractController
         ]);
         $form->handleRequest($request);
 
+        if (!$request->isXmlHttpRequest()) {
+            return [
+                'locatie' => $locatie,
+                'filter' => $form->createView(),
+            ];
+        }
+
         $this->getEntityManager()->getFilters()->enable('overleden');
 
         $page = $request->get('page', 1);
         $pagination = $this->klantDao->findAll($page, $filter);
 
-        return [
+        return $this->render('InloopBundle:registraties:_index.html.twig', [
             'locatie' => $locatie,
             'filter' => $form->createView(),
             'pagination' => $pagination,
-        ];
+        ]);
+    }
+
+    /**
+     * @Route("/active/{locatie}")
+     */
+    public function activeAction(Request $request, Locatie $locatie)
+    {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
+        $filter = new RegistratieFilter($locatie);
+        $form = $this->createForm(RegistratieFilterType::class, $filter, [
+            'attr' => ['class' => 'ajaxFilter'],
+        ]);
+        $form->handleRequest($request);
+
+        if (!$request->isXmlHttpRequest()) {
+            return [
+                'locatie' => $locatie,
+                'filter' => $form->createView(),
+            ];
+        }
+
+        $page = $request->get('page', 1);
+        $pagination = $this->dao->findActive($page, $filter);
+
+        return $this->render('InloopBundle:registraties:_active.html.twig', [
+            'locatie' => $locatie,
+            'filter' => isset($form) ? $form->createView() : null,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/history/{locatie}")
+     */
+    public function historyAction(Request $request, Locatie $locatie)
+    {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
+        $filter = new RegistratieHistoryFilter($locatie);
+        $form = $this->createForm(RegistratieHistoryFilterType::class, $filter, [
+            'attr' => ['class' => 'ajaxFilter'],
+        ]);
+        $form->handleRequest($request);
+
+        if (!$request->isXmlHttpRequest()) {
+            return [
+                'locatie' => $locatie,
+                'filter' => $form->createView(),
+            ];
+        }
+
+        $page = $request->get('page', 1);
+        $pagination = $this->dao->findHistory($page, $filter);
+
+        return $this->render('InloopBundle:registraties:_history.html.twig', [
+            'locatie' => $locatie,
+            'filter' => isset($form) ? $form->createView() : null,
+            'pagination' => $pagination,
+        ]);
     }
 
     /**
@@ -277,9 +345,7 @@ class RegistratiesController extends AbstractController
 
         $this->dao->checkout($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse();
     }
 
     /**
@@ -296,9 +362,7 @@ class RegistratiesController extends AbstractController
             $this->dao->checkout($registratie);
         }
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse();
     }
 
     /**
@@ -311,9 +375,7 @@ class RegistratiesController extends AbstractController
 
         $this->dao->delete($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse();
     }
 
     /**
@@ -326,51 +388,7 @@ class RegistratiesController extends AbstractController
         $this->dao->checkoutKlantFromAllLocations($klant);
         $this->dao->create(new Registratie($klant, $locatie));
 
-        $params = $this->indexAction($request, $locatie);
-
-        return $this->render('InloopBundle:registraties:_index.html.twig', $params);
-    }
-
-    /**
-     * @Route("/active/{locatie}")
-     */
-    public function activeAction(Request $request, Locatie $locatie)
-    {
-        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
-
-        $filter = new RegistratieFilter($locatie);
-        $form = $this->createForm(RegistratieFilterType::class, $filter);
-        $form->handleRequest($request);
-
-        $page = $request->get('page', 1);
-        $pagination = $this->dao->findActive($page, $filter);
-
-        return [
-            'locatie' => $locatie,
-            'filter' => isset($form) ? $form->createView() : null,
-            'pagination' => $pagination,
-        ];
-    }
-
-    /**
-     * @Route("/history/{locatie}")
-     */
-    public function historyAction(Request $request, Locatie $locatie)
-    {
-        $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
-
-        $filter = new RegistratieHistoryFilter($locatie);
-        $form = $this->createForm(RegistratieHistoryFilterType::class, $filter);
-        $form->handleRequest($request);
-
-        $page = $request->get('page', 1);
-        $pagination = $this->dao->findHistory($page, $filter);
-
-        return [
-            'locatie' => $locatie,
-            'filter' => isset($form) ? $form->createView() : null,
-            'pagination' => $pagination,
-        ];
+        return new JsonResponse();
     }
 
     /**
@@ -385,9 +403,7 @@ class RegistratiesController extends AbstractController
         $registratie->setDouche(1 + count($queue));
         $this->dao->update($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['douche' => $registratie->getDouche()]);
     }
 
     /**
@@ -405,9 +421,7 @@ class RegistratiesController extends AbstractController
         $this->dao->update($registratie);
         $this->dao->reorderShowerQueue($registratie->getLocatie());
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['douche' => $registratie->getDouche()]);
     }
 
     /**
@@ -422,9 +436,7 @@ class RegistratiesController extends AbstractController
         $registratie->setMw(1 + count($queue));
         $this->dao->update($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['mw' => $registratie->getMw()]);
     }
 
     /**
@@ -442,9 +454,7 @@ class RegistratiesController extends AbstractController
         $this->dao->update($registratie);
         $this->dao->reorderMwQueue($registratie->getLocatie());
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['mw' => $registratie->getMw()]);
     }
 
     /**
@@ -457,9 +467,7 @@ class RegistratiesController extends AbstractController
         $registratie->setKleding((int) $value);
         $this->dao->update($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['kleding' => $registratie->isKleding()]);
     }
 
     /**
@@ -472,9 +480,7 @@ class RegistratiesController extends AbstractController
         $registratie->setMaaltijd((int) $value);
         $this->dao->update($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['maaltijd' => $registratie->isMaaltijd()]);
     }
 
     /**
@@ -487,9 +493,7 @@ class RegistratiesController extends AbstractController
         $registratie->setActivering((int) $value);
         $this->dao->update($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['activering' => $registratie->isActivering()]);
     }
 
     /**
@@ -502,9 +506,7 @@ class RegistratiesController extends AbstractController
         $registratie->setVeegploeg((int) $value);
         $this->dao->update($registratie);
 
-        $params = $this->activeAction($request, $registratie->getLocatie());
-
-        return $this->render('InloopBundle:registraties:_active.html.twig', $params);
+        return new JsonResponse(['veegploeg' => $registratie->isVeegploeg()]);
     }
 
     public function isAuthorized()

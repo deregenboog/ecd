@@ -1,46 +1,13 @@
-{% import '::html.macro.twig' as html %}
+{% import '::html.macro.twig' as html -%}
 
-<table class="table table-hover">
+<table class="table table-hover table-fixed">
+    {{ colgroup(10) }}
     <thead>
-        {{ form_start(filter) }}
-            <tr>
-                <th>
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.id) }}
-                    {{ form_errors(filter.klant.id) }}
-                </th>
-                <th colspan="2">
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.geslacht) }}
-                    {{ form_errors(filter.klant.geslacht) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.geboortedatum) }}
-                    {{ form_errors(filter.klant.geboortedatum) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.gebruikersruimte) }}
-                    {{ form_errors(filter.gebruikersruimte) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.laatsteIntakeLocatie) }}
-                    {{ form_errors(filter.laatsteIntakeLocatie) }}
-                </th>
-                <th colspan="3">
-                    <span class="pull-right">
-                        {{ form_widget(filter.filter) }}
-                    </span>
-                </th>
-            </tr>
-        {{ form_end(filter) }}
         <tr>
-            <th></th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'ID', 'klant.id') }}
+                <span style="margin-left: 2em;">
+                    {{ knp_pagination_sortable(pagination, 'ID', 'klant.id') }}
+                </span>
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
@@ -61,11 +28,9 @@
         {% for klant in pagination %}
             <tr data-id="{{ klant.id }}">
                 <td>
-                    <a class="checkin" title="Inchecken">
+                    <a class="checkin" title="Inchecken" style="margin-right: 1em;">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
                     </a>
-                </td>
-                <td>
                     {{ klant.id }}
                 </td>
                 <td>

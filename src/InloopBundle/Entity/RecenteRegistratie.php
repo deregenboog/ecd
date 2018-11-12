@@ -12,15 +12,21 @@ use Doctrine\ORM\Mapping as ORM;
 class RecenteRegistratie
 {
     /**
-     * @var Locatie
+     * @var Registratie
+     *
      * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Registratie")
+     */
+    private $registratie;
+
+    /**
+     * @var Locatie
      * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;
 
     /**
      * @var Klant
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
      */
     private $klant;

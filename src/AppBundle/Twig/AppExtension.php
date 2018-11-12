@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use AppBundle\Exception\AppException;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -71,6 +72,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFunction('instanceof', [$this, 'isInstanceof']),
             new \Twig_SimpleFunction('isActiveRoute', [$this, 'isActiveRoute']),
             new \Twig_SimpleFunction('isActivePath', [$this, 'isActivePath']),
+            new \Twig_SimpleFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -362,5 +364,40 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         }
 
         return implode($values, $separator);
+    }
+
+    public function colgroup($n, array $percentages = [])
+    {
+        if (array_sum($percentages) > 100) {
+            throw new AppException(sprintf('Percentage cannot be greater than 100 for %s', var_export($percentages, true)));
+        }
+
+        if ($n > count($percentages)) {
+            $percentages = array_merge($percentages, array_fill(0, $n - count($percentages), null));
+        }
+
+        $remainder = 100 - array_sum($percentages);
+        $nulls = array_filter($percentages, "is_null");
+        foreach (array_keys($nulls) as $i) {
+            $percentages[$i] = floor($remainder / count($nulls));
+        }
+
+        $remainder = 100 - array_sum($percentages);
+        foreach (array_keys($nulls) as $i) {
+            if ($remainder > 0) {
+                $percentages[$i] += 1;
+                --$remainder;
+            } else {
+                break;
+            }
+        }
+
+        $html = '<colgroup>';
+        foreach ($percentages as $percentage) {
+            $html .= '<col width="'.$percentage.'%"></col>';
+        }
+        $html .= '</colgroup>';
+
+        return $html;
     }
 }
