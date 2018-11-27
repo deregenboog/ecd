@@ -20,9 +20,6 @@ services:
     GaBundle\Service\GroepDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\GroepDao:
-        parent: app.dao.abstract
-
     GaBundle\Service\KlantdossierDao:
         parent: app.dao.abstract
         
