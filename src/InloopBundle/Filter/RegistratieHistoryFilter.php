@@ -17,11 +17,14 @@ class RegistratieHistoryFilter extends RegistratieFilter
 
     public function applyTo(QueryBuilder $builder)
     {
-        $builder
-            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'registratie = recenteRegistratie')
-            ->andWhere('recenteRegistratie.locatie = :locatie')
-            ->setParameter('locatie', $this->locatie)
-        ;
+        $builder->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'registratie = recenteRegistratie.registratie');
+
+        if ($this->locatie) {
+            $builder
+                ->andWhere('locatie = :locatie')
+                ->setParameter('locatie', $this->locatie)
+            ;
+        }
 
         if ($this->binnen) {
             if ($this->binnen->getStart()) {

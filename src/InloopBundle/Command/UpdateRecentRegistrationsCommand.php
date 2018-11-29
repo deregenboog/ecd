@@ -28,8 +28,13 @@ class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
     {
         $sql = '
             REPLACE INTO registraties_recent (registratie_id, klant_id, locatie_id, max_buiten)
-                SELECT id, klant_id, locatie_id, MAX(buiten) AS max_buiten
+                SELECT registraties.id, registraties.klant_id, registraties.locatie_id, registraties.buiten AS max_buiten
                 FROM registraties
+                INNER JOIN (
+                    SELECT klant_id, locatie_id, MAX(buiten) AS max_buiten FROM registraties WHERE closed = 1
+                    AND binnen > (NOW() + INTERVAL -15 day)
+                    GROUP BY klant_id, locatie_id
+                ) AS recent ON registraties.klant_id = recent.klant_id AND registraties.locatie_id = recent.locatie_id AND registraties.buiten = recent.max_buiten
                 WHERE closed = 1
                 AND binnen > (NOW() + INTERVAL -15 day)
                 GROUP BY klant_id, locatie_id;
