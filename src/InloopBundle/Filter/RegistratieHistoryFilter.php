@@ -18,10 +18,8 @@ class RegistratieHistoryFilter extends RegistratieFilter
     public function applyTo(QueryBuilder $builder)
     {
         $builder
-            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'recenteRegistratie.klant = klant AND recenteRegistratie.locatie = locatie')
-            ->andWhere('registratie.buiten = recenteRegistratie.buiten')
-            ->andWhere('registratie.locatie = :locatie')
-            ->groupBy('klant.id')
+            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'registratie = recenteRegistratie')
+            ->andWhere('recenteRegistratie.locatie = :locatie')
             ->setParameter('locatie', $this->locatie)
         ;
 
