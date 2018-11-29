@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\GaBundle\Controller;
+namespace Tests\ErOpUitBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ class UitschrijfredenenControllerTest extends WebTestCase
     public function testIndex()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
         $this->client->request('GET', $this->getUrl('eropuit_uitschrijfredenen_index'));
         $this->assertStatusCode(403, $this->client);
 

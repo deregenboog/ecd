@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\GaBundle\Controller;
+namespace Tests\ErOpUitBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,18 +10,18 @@ class KlantenControllerTest extends WebTestCase
     public function testIndex()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(15, $rows->count());
+        $this->assertEquals(16, $rows->count());
     }
 
     public function testSort()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
@@ -42,7 +42,7 @@ class KlantenControllerTest extends WebTestCase
     public function testFilter()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
@@ -58,7 +58,7 @@ class KlantenControllerTest extends WebTestCase
     public function testAddFilter()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_add'));
         $this->assertStatusCode(200, $this->client);
@@ -68,6 +68,6 @@ class KlantenControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(11, $rows->count());
+        $this->assertEquals(14, $rows->count());
     }
 }

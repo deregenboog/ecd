@@ -16,17 +16,14 @@ class DeelnemersTotaalTest extends \PHPUnit_Framework_TestCase
     {
         $report = $this->createSUT();
 
-        $expected = [
-            [
-                'title' => '',
-                'data' => [
-                    'Totaal' => [
-                        'Aantal activiteiten' => 55,
-                        'Aantal deelnemers' => 433,
-                        'Aantal unieke deelnemers' => 43,
-                    ],
-                ],
-            ],
+        $expected = [[
+            'title' => '',
+            'data' => [[
+                'Aantal activiteiten' => 55,
+                'Aantal deelnemers' => 433,
+                'Aantal deelnames' => 43,
+                'Aantal anonieme deelnames' => 10,
+            ]]],
         ];
 
         $this->assertEquals($expected, $report->getReports());
@@ -38,18 +35,14 @@ class DeelnemersTotaalTest extends \PHPUnit_Framework_TestCase
         $this->endDate = new \DateTime('2016-12-31');
 
         $repository = $this->createMock(GroepRepository::class);
-        $repository->method('countDeelnemers')->willReturn(
-            [
-                [
-                    0 => new GroepBuurtmaatjes(),
-                    'aantal_activiteiten' => 55,
-                    'aantal_deelnemers' => 433,
-                    'aantal_unieke_deelnemers' => 43,
-                ],
-            ]
-        );
+        $repository->method('countDeelnemers')->willReturn([
+            'aantal_activiteiten' => 55,
+            'aantal_deelnemers' => 433,
+            'aantal_deelnames' => 43,
+            'aantal_anonieme_deelnames' => 10,
+        ]);
 
-        $report = new DeelnemersTotaal($repository);
+        $report = new DeelnemersTotaal([$repository]);
         $report->setStartDate($this->startDate)->setEndDate($this->endDate);
 
         return $report;

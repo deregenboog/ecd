@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\GaBundle\Controller;
+namespace Tests\ErOpUitBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testIndex()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -21,7 +21,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testSort()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -42,7 +42,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testFilter()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -58,7 +58,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testAddFilter()
     {
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_add'));
         $this->assertStatusCode(200, $this->client);
