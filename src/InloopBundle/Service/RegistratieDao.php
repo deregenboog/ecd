@@ -55,7 +55,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
             ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie = :locatie')
-            ->orderBy("{$this->alias}.binnen")
+            ->orderBy("{$this->alias}.binnen", 'DESC')
             ->setParameters([
                 'klant' => $klant,
                 'locatie' => $locatie,
