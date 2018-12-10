@@ -65,7 +65,7 @@
                 var value = $(this).children('.value').text();
                 var input = $(this).closest('tr').children('td:last').find(':input');
                 if ('INPUT' === input[0].nodeName) {
-                    if ('text' === input[0].type) {
+                    if ('text' === input[0].type || 'email' === input[0].type) {
                         input.val(value);
                     } else if ('checkbox' === input[0].type) {
                         value = $(this).closest('td').attr('data-value');
