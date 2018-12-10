@@ -1,0 +1,101 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+{% import _self as macro %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'AppBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link('Terug naar opties', path(route_base~'duplicates'), 'cancel') }}
+    </p>
+    {{ form_start(form) }}
+        {% if form.klanten.vars.errors|length > 0 %}
+            <div class="alert alert-danger">{{ form_errors(form.klanten) }}</div>
+        {% endif %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    {% for elm in form.klanten.children %}
+                        <th>
+                            {{ form_widget(elm) }}
+                        </th>
+                    {% endfor %}
+                    <th>Resultaat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ macro.mergeRow(klanten, form.voornaam) }}
+                {{ macro.mergeRow(klanten, form.tussenvoegsel) }}
+                {{ macro.mergeRow(klanten, form.achternaam) }}
+                {{ macro.mergeRow(klanten, form.roepnaam) }}
+                {{ macro.mergeRow(klanten, form.geslacht) }}
+                {{ macro.mergeRow(klanten, form.geboortedatum, "date('d-m-Y')") }}
+                {{ macro.mergeRow(klanten, form.land) }}
+                {{ macro.mergeRow(klanten, form.nationaliteit) }}
+                {{ macro.mergeRow(klanten, form.bsn) }}
+                {{ macro.mergeRow(klanten, form.medewerker) }}
+                {{ macro.mergeRow(klanten, form.adres) }}
+                {{ macro.mergeRow(klanten, form.postcode) }}
+                {{ macro.mergeRow(klanten, form.plaats) }}
+                {{ macro.mergeRow(klanten, form.email) }}
+                {{ macro.mergeRow(klanten, form.mobiel) }}
+                {{ macro.mergeRow(klanten, form.telefoon) }}
+                {{ macro.mergeRow(klanten, form.opmerking) }}
+                {{ macro.mergeRow(klanten, form.geenPost, 'postvoorkeur') }}
+                {{ macro.mergeRow(klanten, form.geenEmail, 'emailvoorkeur') }}
+                {{ macro.mergeRow(klanten, form.doorverwijzenNaarAmoc, 'ja_nee') }}
+                {{ macro.mergeRow(klanten, form.laatsteTbcControle, "date('d-m-Y')") }}
+            </tbody>
+        </table>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function() {
+            $('.copy-paste').click(function() {
+                var value = $(this).children('.value').text();
+                var input = $(this).closest('tr').children('td:last').find(':input');
+                if ('INPUT' === input[0].nodeName) {
+                    if ('text' === input[0].type) {
+                        input.val(value);
+                    } else if ('checkbox' === input[0].type) {
+                        value = $(this).closest('td').attr('data-value');
+                        input.prop('checked', value == "1");
+                    }
+                } else if ('TEXTAREA' === input[0].nodeName) {
+                    input.val(value);
+                } else if ('SELECT' === input[0].nodeName) {
+                    input.find('option:contains("' + value + '")').attr('selected', true);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% macro mergeRow(klanten, form, filter) %}
+    <tr>
+        <td>{{ form_label(form) }}</td>
+        {% for klant in klanten %}
+            <td data-value="{{ attribute(klant, form.vars.name)|try }}">
+                <a class="copy-paste">
+                    <span class="glyphicon glyphicon-paste"></span>
+                    {% if filter %}
+                        <span class="value">{{ attribute(klant, form.vars.name)|apply_filter(filter) }}</span>
+                    {% else %}
+                        <span class="value">{{ attribute(klant, form.vars.name) }}</span>
+                    {% endif %}
+                </a>
+            </td>
+        {% endfor %}
+        <td>{{ form_widget(form) }}</td>
+    </tr>
+{% endmacro %}

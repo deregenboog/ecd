@@ -3,11 +3,17 @@ imports:
     - { resource: security.yml }
 
 monolog:
+    channels: ["merge"]
     handlers:
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: error
+        merge:
+            level: debug
+            type: stream
+            path: '%kernel.logs_dir%/merge.log'
+            channels: ["merge"]
         # https://symfony.com/doc/3.4/logging/monolog_email.html
         mail:
             type: fingers_crossed

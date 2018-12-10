@@ -53,6 +53,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
         - { path: ^/clip, roles: ROLE_CLIP }
         - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }

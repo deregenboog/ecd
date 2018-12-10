@@ -178,6 +178,16 @@ class Klant extends Persoon
         $this->opmerkingen = new ArrayCollection();
     }
 
+    /**
+     * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.5/cookbook/implementing-wakeup-or-clone.html#safely-implementing-clone
+     */
+    public function __clone()
+    {
+        if ($this->id) {
+            $this->id = null;
+        }
+    }
+
     public function getLaatsteZrm()
     {
         return $this->laatsteZrm;
@@ -300,6 +310,9 @@ class Klant extends Persoon
 
     public function addIntake(Intake $intake)
     {
+        if (0 === count($this->intakes)) {
+            $this->eersteIntakeDatum = $intake->getIntakedatum();
+        }
         $this->intakes->add($intake);
         $intake->setKlant($this);
         $this->laatsteIntake = $intake;
@@ -394,5 +407,28 @@ class Klant extends Persoon
         ;
 
         return $this->opmerkingen->matching($criteria);
+    }
+
+    public function setMerged(Klant $newKlant)
+    {
+        $this->merged = $newKlant;
+        $this->disabled = true;
+        $this->deletedAt = new \DateTime();
+    }
+
+    public function getEersteIntakeDatum()
+    {
+        return $this->eersteIntakeDatum;
+    }
+
+    public function updateCalculatedFields()
+    {
+        if (count($this->registraties) > 0) {
+            $this->laatsteRegistratie = $this->registraties[0];
+        }
+        if (count($this->intakes) > 0) {
+            $this->laatsteIntake = $this->intakes[0];
+            $this->eersteIntakeDatum = $this->intakes[count($this->intakes)-1]->getIntakeDatum();
+        }
     }
 }

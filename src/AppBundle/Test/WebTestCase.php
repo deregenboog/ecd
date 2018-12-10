@@ -4,10 +4,10 @@ namespace AppBundle\Test;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 use Nelmio\Alice\Fixtures;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
 
 class WebTestCase extends BaseWebTestCase
 {
@@ -52,7 +52,7 @@ class WebTestCase extends BaseWebTestCase
     protected function logIn(UserInterface $user, $additionalRoles = [])
     {
         if (!is_array($additionalRoles)) {
-            $additionalRoles = array($additionalRoles);
+            $additionalRoles = [$additionalRoles];
         }
 
         $session = $this->client->getContainer()->get('session');

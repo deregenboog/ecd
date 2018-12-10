@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 abstract class SymfonyController extends Controller
@@ -66,5 +67,19 @@ abstract class SymfonyController extends Controller
     protected function getPaginator()
     {
         return $this->get('knp_paginator');
+    }
+
+    /**
+     * @var string
+     *
+     * @return LoggerInterface
+     */
+    protected function getLogger($channel = null)
+    {
+        if ($channel) {
+            return $this->get('monolog.logger.'.$channel);
+        }
+
+        return $this->get('logger');
     }
 }

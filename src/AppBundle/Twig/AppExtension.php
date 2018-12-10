@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -79,6 +80,10 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function getFilters()
     {
         return [
+            new \Twig_SimpleFilter('apply_filter', [$this, 'applyFilter'], [
+                'needs_environment' => true,
+                'needs_context' => true,
+            ]),
             new \Twig_SimpleFilter('tabless', [$this, 'tablessFilter']),
             new \Twig_SimpleFilter('money', [$this, 'moneyFilter']),
             new \Twig_SimpleFilter('saldo', [$this, 'saldoFilter'], ['is_safe' => ['html']]),
@@ -97,7 +102,24 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('diff', [$this, 'diff']),
             new \Twig_SimpleFilter('human_days', [$this, 'humanDays']),
             new \Twig_SimpleFilter('implode', [$this, 'implode']),
+            new \Twig_SimpleFilter('postvoorkeur', [$this, 'postvoorkeur']),
+            new \Twig_SimpleFilter('emailvoorkeur', [$this, 'emailvoorkeur']),
+            new \Twig_SimpleFilter('telefoonvoorkeur', [$this, 'telefoonvoorkeur']),
+            new \Twig_SimpleFilter('try', [$this, 'try']),
+            new \Twig_SimpleFilter('ja_nee', [$this, 'jaNee']),
         ];
+    }
+
+    /**
+     * @see https://github.com/marcj/twig-apply_filter-bundle
+     */
+    public function applyFilter(\Twig_Environment $env, $context = [], $value, $filters)
+    {
+        $name = 'apply_filter_'.md5($filters);
+        $template = $env->createTemplate(sprintf('{{ %s|%s }}', $name, $filters));
+        $context[$name] = $value;
+
+        return $template->render($context);
     }
 
     public function naamVoorAchter(Persoon $persoon)
@@ -399,5 +421,37 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         $html .= '</colgroup>';
 
         return $html;
+    }
+
+    public function jaNee($value)
+    {
+        return $value ? 'Ja' : 'Nee';
+    }
+
+    public function postvoorkeur($value)
+    {
+        return ($value ? 'Geen' : 'Wel') . ' post';
+    }
+
+    public function emailvoorkeur($value)
+    {
+        return ($value ? 'Geen' : 'Wel') . ' e-mail';
+    }
+
+    public function telefoonvoorkeur($value)
+    {
+        return ($value ? 'Geen' : 'Wel') . ' telefonisch contact';
+    }
+
+    public function try($value)
+    {
+        try {
+            if (is_bool($value)) {
+                return (string) $value ? 1 : 0;
+            }
+            return (string) $value;
+        } catch (ContextErrorException $e) {
+            return '';
+        }
     }
 }

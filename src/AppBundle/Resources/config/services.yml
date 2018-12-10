@@ -60,6 +60,11 @@ services:
         tags:
             - { name: form.type }
 
+    AppBundle\Form\KlantMergeType:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
     AppBundle\Form\VrijwilligerType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:

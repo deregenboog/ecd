@@ -646,6 +646,9 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_dagbesteding:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_DAGBESTEDING']
@@ -653,6 +656,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_ga:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_GA']
@@ -660,6 +665,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_ga_admin:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_GA_ADMIN']
@@ -667,6 +674,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_hs:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_HS']
@@ -674,6 +683,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_odp:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_ODP']
@@ -681,6 +692,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_oek:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_OEK']
@@ -688,6 +701,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_{1..15}:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_USER']
@@ -695,6 +710,8 @@ AppBundle\Entity\Medewerker:
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
 
 AppBundle\Entity\Klant:
     klant_{1..200}:

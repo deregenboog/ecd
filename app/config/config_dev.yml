@@ -14,12 +14,18 @@ web_profiler:
     intercept_redirects: false
 
 monolog:
+    channels: ["merge"]
     handlers:
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: [!event]
+        merge:
+            level: debug
+            type: stream
+            path: '%kernel.logs_dir%/merge.log'
+            channels: ["merge"]
         console:
             type:   console
             channels: [!event, !doctrine]
