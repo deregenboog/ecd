@@ -107,6 +107,9 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('telefoonvoorkeur', [$this, 'telefoonvoorkeur']),
             new \Twig_SimpleFilter('try', [$this, 'try']),
             new \Twig_SimpleFilter('ja_nee', [$this, 'jaNee']),
+            new \Twig_SimpleFilter('if_date', [$this, 'ifDate'], [
+                'needs_environment' => true,
+            ]),
         ];
     }
 
@@ -453,5 +456,18 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         } catch (ContextErrorException $e) {
             return '';
         }
+    }
+
+    /**
+     * Like default date filter, but prints nothing if no date is provided
+     * (instead of printing todays date).
+     */
+    public function ifDate(\Twig_Environment $env, $date, $format = null, $timezone = null)
+    {
+        if ($date) {
+            return twig_date_format_filter($env, $date, $format, $timezone);
+        }
+
+        return '';
     }
 }

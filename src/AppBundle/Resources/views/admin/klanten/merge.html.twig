@@ -37,7 +37,7 @@
                 {{ macro.mergeRow(klanten, form.achternaam) }}
                 {{ macro.mergeRow(klanten, form.roepnaam) }}
                 {{ macro.mergeRow(klanten, form.geslacht) }}
-                {{ macro.mergeRow(klanten, form.geboortedatum, "date('d-m-Y')") }}
+                {{ macro.mergeRow(klanten, form.geboortedatum, "if_date('d-m-Y')") }}
                 {{ macro.mergeRow(klanten, form.land) }}
                 {{ macro.mergeRow(klanten, form.nationaliteit) }}
                 {{ macro.mergeRow(klanten, form.bsn) }}
@@ -52,7 +52,7 @@
                 {{ macro.mergeRow(klanten, form.geenPost, 'postvoorkeur') }}
                 {{ macro.mergeRow(klanten, form.geenEmail, 'emailvoorkeur') }}
                 {{ macro.mergeRow(klanten, form.doorverwijzenNaarAmoc, 'ja_nee') }}
-                {{ macro.mergeRow(klanten, form.laatsteTbcControle, "date('d-m-Y')") }}
+                {{ macro.mergeRow(klanten, form.laatsteTbcControle, "if_date('d-m-Y')") }}
             </tbody>
         </table>
     {{ form_end(form) }}
