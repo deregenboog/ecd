@@ -5,8 +5,8 @@ namespace Tests\GaBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Zrm;
 use GaBundle\Entity\Intake;
-use PHPUnit\Framework\TestCase;
 use GaBundle\Entity\Klantdossier;
+use PHPUnit\Framework\TestCase;
 
 class KlantIntakeTest extends TestCase
 {

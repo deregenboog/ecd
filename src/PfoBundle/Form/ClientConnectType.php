@@ -19,7 +19,7 @@ class ClientConnectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $client Client */
+        /* @var $client Client */
         $client = $options['data'];
 
         $builder

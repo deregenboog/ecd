@@ -22,7 +22,7 @@ class DeelnemerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $deelnemer Deelnemer */
+        /* @var $deelnemer Deelnemer */
         $deelnemer = $options['data'];
 
         if ($deelnemer instanceof Deelnemer

@@ -35,7 +35,7 @@ class DeelnameType extends AbstractType
             return;
         }
 
-        /** @var $deelname Deelname */
+        /* @var $deelname Deelname */
         $deelname = $options['data'];
 
         if ($deelname->getDossier()) {

@@ -35,6 +35,7 @@ class WebTestCase extends BaseWebTestCase
 //             '@PfoBundle/DataFixtures/ORM/fixtures.yml',
         ]);
 
+        unset($_GET);
         $this->client = static::createClient();
     }
 

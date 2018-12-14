@@ -35,7 +35,7 @@ class PostcodeSubscriber implements EventSubscriber
         if ($client instanceof Client) {
             $entityManager = $args->getEntityManager();
             if ($client->getPostcode()) {
-                /** @var $postcode Postcode */
+                /* @var $postcode Postcode */
                 $postcode = $entityManager->find(Postcode::class, $client->getPostcode());
                 $client->setWerkgebied($postcode ? $postcode->getStadsdeel() : null);
                 $client->setPostcodegebied($postcode ? $postcode->getPostcodegebied() : null);

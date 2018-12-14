@@ -63,6 +63,9 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             'administrator_email' => $this->administratorEmail,
             'redirect_uri' => self::getRedirectUri($this->requestStack->getCurrentRequest()),
             'tbc_months_period' => $this->tbcMonthsPeriod,
+            'title' => null,
+            'entity_name' => null,
+            'route_base' => null,
         ];
     }
 

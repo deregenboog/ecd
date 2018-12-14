@@ -3,7 +3,6 @@
 namespace Tests\ErOpUitBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class UitschrijfredenenControllerTest extends WebTestCase
 {

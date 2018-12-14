@@ -4,8 +4,9 @@ namespace Tests\HsBundle\Entity;
 
 use HsBundle\Entity\Betaling;
 use HsBundle\Entity\Factuur;
+use PHPUnit\Framework\TestCase;
 
-class BetalingTest extends \PHPUnit_Framework_TestCase
+class BetalingTest extends TestCase
 {
     public function testToString()
     {

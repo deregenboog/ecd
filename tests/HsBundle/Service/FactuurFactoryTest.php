@@ -9,8 +9,9 @@ use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Service\FactuurFactory;
+use PHPUnit\Framework\TestCase;
 
-class FactuurFactoryTest extends \PHPUnit_Framework_TestCase
+class FactuurFactoryTest extends TestCase
 {
     public function dataProvider()
     {

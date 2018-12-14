@@ -81,7 +81,7 @@ class HuurdersController extends SymfonyController
         $this->autoRender = false;
         $filename = sprintf('onder-de-pannen-huurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        /** @var $export ExportInterface */
+        /* @var $export ExportInterface */
         $export = $this->container->get('odp.export.huurders');
 
         return $export->create($huurders)->getResponse($filename);

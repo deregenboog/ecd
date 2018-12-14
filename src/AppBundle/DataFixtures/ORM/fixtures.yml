@@ -173,7 +173,7 @@ AppBundle\Entity\Land:
         __construct: ['Burkina Faso']
     land_Azerbajdsjan:
         __construct: ['Azerbajdsjan']
-    land_Belarus (Wit-Rusland):
+    land_Belarus:
         __construct: ['Belarus (Wit-Rusland)']
     land_Kazachstan:
         __construct: ['Kazachstan']
@@ -305,8 +305,6 @@ AppBundle\Entity\Land:
         __construct: ['Dominicaanse Republiek']
     land_Polen:
         __construct: ['Polen']
-    land_Rusland (oud):
-        __construct: ['Rusland (oud)']
     land_Tanzania:
         __construct: ['Tanzania']
     land_Sri Lanka:
@@ -401,7 +399,7 @@ AppBundle\Entity\Nationaliteit:
         __construct: ['Burger van Moldavië']
     nationaliteit_Burger van Kazachstan:
         __construct: ['Burger van Kazachstan']
-    nationaliteit_Burger van Belarus (Wit-Rusland):
+    nationaliteit_Burger van Belarus:
         __construct: ['Burger van Belarus (Wit-Rusland)']
     nationaliteit_Burger van Azerbajdsjan:
         __construct: ['Burger van Azerbajdsjan']
@@ -621,7 +619,7 @@ AppBundle\Entity\Nationaliteit:
         __construct: ['Burger van Britse afhankelijke gebieden']
     nationaliteit_Amerikaans onderdaan:
         __construct: ['Amerikaans onderdaan']
-    nationaliteit_British National (overseas):
+    nationaliteit_British National:
         __construct: ['British National (overseas)']
     nationaliteit_Burger van Servië:
         __construct: ['Burger van Servië']
@@ -647,7 +645,6 @@ AppBundle\Entity\Medewerker:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisDecade()>'
-        laatsteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_dagbesteding:
         ldapGuid (unique): '<randomNumber()>'
@@ -678,7 +675,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_hs:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_HS']
+        roles: ['ROLE_HOMESERVICE']
         username: 'hs_user'
         email: '<email()>'
         voornaam: '<firstname()>'
@@ -719,7 +716,7 @@ AppBundle\Entity\Klant:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
-        geboortedatum: '<date()>'
+        geboortedatum: '<dateTimeThisDecade()>'
         adres: '<streetAddress()>'
         postcode: '<postcode()>'
         plaats: '<city()>'
@@ -746,7 +743,7 @@ AppBundle\Entity\Vrijwilliger:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
-        geboortedatum: '<date()>'
+        geboortedatum: '<dateTimeThisDecade()>'
         adres: '<streetAddress()>'
         postcode: '<postcode()>'
         plaats: '<city()>'

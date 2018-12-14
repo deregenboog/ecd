@@ -32,10 +32,8 @@ class VrijwilligersControllerTest extends WebTestCase
             // @see https://github.com/KnpLabs/knp-components/issues/160
             $request = Request::create($header->link()->getUri());
             $_GET = $request->query->all();
-
             $this->client->click($header->link());
             $this->assertStatusCode(200, $this->client);
-            $_GET = [];
         });
     }
 
@@ -52,7 +50,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(1, $rows->count());
+        $this->assertEquals(3, $rows->count());
     }
 
     public function testAddFilter()
@@ -68,6 +66,6 @@ class VrijwilligersControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(10, $rows->count());
+        $this->assertEquals(19, $rows->count());
     }
 }

@@ -37,7 +37,7 @@ class DeelnameType extends AbstractType
 
     private function buildAddForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $deelname Deelname */
+        /* @var $deelname Deelname */
         $deelname = $options['data'];
 
         if ($deelname->getTraining() instanceof Training) {

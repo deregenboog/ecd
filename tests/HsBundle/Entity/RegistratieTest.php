@@ -9,8 +9,9 @@ use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
+use PHPUnit\Framework\TestCase;
 
-class RegistratieTest extends \PHPUnit_Framework_TestCase
+class RegistratieTest extends TestCase
 {
     /**
      * @dataProvider provideSettersAndArguments

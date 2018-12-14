@@ -67,6 +67,10 @@ class GroepenController extends AbstractController
 
     protected function addParams($entity, Request $request)
     {
+        if (!$entity->getId()) {
+            return [];
+        }
+
         assert($entity instanceof Groep);
 
         return [

@@ -20,7 +20,7 @@ class VrijwilligerCloseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $vrijwilliger Vrijwilliger */
+        /* @var $vrijwilliger Vrijwilliger */
         $vrijwilliger = $options['data'];
 
         $builder

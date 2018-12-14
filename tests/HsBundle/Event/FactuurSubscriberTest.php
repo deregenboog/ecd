@@ -21,18 +21,7 @@ class FactuurSubscriberTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $fixtures = $this->loadFixtureFiles([
-            '@AppBundle/DataFixtures/ORM/geslacht.yml',
-            '@AppBundle/DataFixtures/ORM/klant.yml',
-            '@AppBundle/DataFixtures/ORM/land.yml',
-            '@AppBundle/DataFixtures/ORM/medewerker.yml',
-            '@AppBundle/DataFixtures/ORM/nationaliteit.yml',
-            '@AppBundle/DataFixtures/ORM/vrijwilliger.yml',
-            '@AppBundle/DataFixtures/ORM/werkgebied.yml',
-            '@HsBundle/DataFixtures/ORM/fixtures.yml',
-        ]);
-
-        $this->client = $this->createClient();
+        parent::setUp();
         $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
     }
 

@@ -79,7 +79,7 @@ class HuuraanbiedingenController extends SymfonyController
         $this->autoRender = false;
         $filename = sprintf('onder-de-pannen-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        /** @var $export ExportInterface */
+        /* @var $export ExportInterface */
         $export = $this->container->get('odp.export.huuraanbiedingen');
 
         return $export->create($huuraanbiedingen)->getResponse($filename);

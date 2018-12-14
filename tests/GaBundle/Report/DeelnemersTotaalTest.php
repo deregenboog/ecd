@@ -2,11 +2,11 @@
 
 namespace Tests\GaBundle\Report;
 
-use GaBundle\Entity\GroepBuurtmaatjes;
 use GaBundle\Report\DeelnemersTotaal;
 use GaBundle\Repository\GroepRepository;
+use PHPUnit\Framework\TestCase;
 
-class DeelnemersTotaalTest extends \PHPUnit_Framework_TestCase
+class DeelnemersTotaalTest extends TestCase
 {
     private $startDate;
 
@@ -23,7 +23,7 @@ class DeelnemersTotaalTest extends \PHPUnit_Framework_TestCase
                 'Aantal deelnemers' => 433,
                 'Aantal deelnames' => 43,
                 'Aantal anonieme deelnames' => 10,
-            ]]],
+            ]], ],
         ];
 
         $this->assertEquals($expected, $report->getReports());

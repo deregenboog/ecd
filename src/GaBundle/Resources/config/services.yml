@@ -17,15 +17,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    GaBundle\Event\IzIntakeSubscriber:
-        arguments:
-            - '@GaBundle\Service\KlantdossierDao'
-            - '@GaBundle\Service\GroepDao'
-            - '@GaBundle\Service\LidmaatschapDao'
-            - 19
-        tags:
-            - { name: kernel.event_subscriber }
-
     GaBundle\Form\RapportageType:
         tags:
             - { name: form.type }

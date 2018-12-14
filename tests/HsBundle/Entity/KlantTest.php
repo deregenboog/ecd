@@ -5,8 +5,9 @@ namespace Tests\HsBundle\Entity;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
+use PHPUnit\Framework\TestCase;
 
-class KlantTest extends \PHPUnit_Framework_TestCase
+class KlantTest extends TestCase
 {
     /**
      * @dataProvider nameProvider

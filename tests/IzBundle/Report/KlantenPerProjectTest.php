@@ -4,8 +4,9 @@ namespace Tests\IzBundle\Report;
 
 use IzBundle\Report\KlantenPerProject;
 use IzBundle\Repository\IzKlantRepository;
+use PHPUnit\Framework\TestCase;
 
-class KlantenPerProjectTest extends \PHPUnit_Framework_TestCase
+class KlantenPerProjectTest extends TestCase
 {
     private $startDate;
 

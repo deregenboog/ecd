@@ -56,7 +56,7 @@ class DeelnamesController extends AbstractChildController
      */
     public function addAllAction(Request $request, $activiteit)
     {
-        /** @var $activiteit Activiteit */
+        /* @var $activiteit Activiteit */
         $activiteit = $this->activiteitDao->find($activiteit);
         $dossierClass = $this->getDossierClass($request);
 

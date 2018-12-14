@@ -35,10 +35,14 @@ class ZrmSubscriber implements EventSubscriber
         $zrms = [];
 
         if ($entity instanceof ZrmInterface) {
-            /** @var $zrm Zrm */
+            /* @var $zrm Zrm */
             $zrms = [$entity->getZrm()];
         } elseif ($entity instanceof ZrmsInterface) {
             $zrms = $entity->getZrms();
+        }
+
+        if (!$zrms) {
+            return;
         }
 
         /* @var $zrm Zrm */

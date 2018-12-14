@@ -5,8 +5,9 @@ namespace Tests\IzBundle\Entity;
 use IzBundle\Entity\AfsluitredenKoppeling;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
+use PHPUnit\Framework\TestCase;
 
-class KoppelingTest extends \PHPUnit_Framework_TestCase
+class KoppelingTest extends TestCase
 {
     public function testKoppelingStartdatumIsSetOnBothSides()
     {

@@ -7,8 +7,9 @@ use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\VerwijzingDoor;
 use OekBundle\Entity\VerwijzingNaar;
+use PHPUnit\Framework\TestCase;
 
-class DeelnemerTest extends \PHPUnit_Framework_TestCase
+class DeelnemerTest extends TestCase
 {
     public function testCanOpenDossier()
     {

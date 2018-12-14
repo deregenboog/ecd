@@ -10,7 +10,7 @@ class SecurityController extends Controller
 {
     public function loginAction(Request $request)
     {
-        /** @var $authUtils AuthenticationUtils */
+        /* @var $authUtils AuthenticationUtils */
         $authUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one

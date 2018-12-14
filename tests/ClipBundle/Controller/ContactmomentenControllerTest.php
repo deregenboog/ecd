@@ -25,7 +25,6 @@ class ContactmomentenControllerTest extends WebTestCase
 
             $this->client->click($header->link());
             $this->assertStatusCode(200, $this->client);
-            $_GET = [];
         });
     }
 }

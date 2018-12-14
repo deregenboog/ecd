@@ -15,7 +15,7 @@ class KlantenControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(16, $rows->count());
+        $this->assertEquals(18, $rows->count());
     }
 
     public function testSort()
@@ -32,10 +32,8 @@ class KlantenControllerTest extends WebTestCase
             // @see https://github.com/KnpLabs/knp-components/issues/160
             $request = Request::create($header->link()->getUri());
             $_GET = $request->query->all();
-
             $this->client->click($header->link());
             $this->assertStatusCode(200, $this->client);
-            $_GET = [];
         });
     }
 
@@ -47,12 +45,12 @@ class KlantenControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
         $form = $crawler->selectButton('klant_filter[filter]')->form([
-            'klant_filter[klant][naam]' => 'ee',
+            'klant_filter[klant][naam]' => 'er',
         ]);
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(2, $rows->count());
+        $this->assertEquals(6, $rows->count());
     }
 
     public function testAddFilter()
@@ -68,6 +66,6 @@ class KlantenControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(14, $rows->count());
+        $this->assertEquals(8, $rows->count());
     }
 }

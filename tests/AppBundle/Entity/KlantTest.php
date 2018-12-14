@@ -4,10 +4,10 @@ namespace Tests\AppBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Zrm;
-use PHPUnit\Framework\TestCase;
-use InloopBundle\Entity\Registratie;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\Registratie;
+use PHPUnit\Framework\TestCase;
 
 class KlantTest extends TestCase
 {

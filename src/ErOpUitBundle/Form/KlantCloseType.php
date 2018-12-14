@@ -20,7 +20,7 @@ class KlantCloseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $klant Klant */
+        /* @var $klant Klant */
         $klant = $options['data'];
 
         $builder

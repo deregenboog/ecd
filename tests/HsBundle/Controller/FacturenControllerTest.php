@@ -13,6 +13,7 @@ class FacturenControllerTest extends WebTestCase
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/hs/facturen/');
+        $this->assertStatusCode(200, $this->client);
 
         $headers = $crawler->filter('tr th a');
         $this->assertGreaterThan(1, $headers->count());
@@ -24,7 +25,6 @@ class FacturenControllerTest extends WebTestCase
 
             $this->client->click($header->link());
             $this->assertStatusCode(200, $this->client);
-            $_GET = [];
         });
     }
 }

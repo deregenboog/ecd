@@ -20,7 +20,7 @@ class LidmaatschapCloseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $lidmaatschap Lidmaatschap */
+        /* @var $lidmaatschap Lidmaatschap */
         $lidmaatschap = $options['data'];
 
         $builder

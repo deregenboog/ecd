@@ -19,7 +19,7 @@ class VraagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $vraag Vraag */
+        /* @var $vraag Vraag */
         $vraag = $options['data'];
 
         $builder

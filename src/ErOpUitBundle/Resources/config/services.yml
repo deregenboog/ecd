@@ -10,3 +10,9 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
+
+    ErOpUitBundle\Event\IzIntakeSubscriber:
+        arguments:
+            - '@ErOpUitBundle\Service\KlantDao'
+        tags:
+            - { name: kernel.event_subscriber }

@@ -9,8 +9,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
+use PHPUnit\Framework\TestCase;
 
-class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
+class KoppelingFilterTest extends TestCase
 {
     public function testKlantFilter()
     {

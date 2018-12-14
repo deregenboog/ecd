@@ -4,8 +4,9 @@ namespace Tests\IzBundle\Report;
 
 use IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant;
 use IzBundle\Repository\IzVrijwilligerRepository;
+use PHPUnit\Framework\TestCase;
 
-class VrijwilligersPerProjectStadsdeelTest extends \PHPUnit_Framework_TestCase
+class VrijwilligersPerProjectStadsdeelTest extends TestCase
 {
     private $startDate;
 
