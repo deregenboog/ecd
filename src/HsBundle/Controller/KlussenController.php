@@ -12,6 +12,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use HsBundle\Form\KlusCancelType;
 
 /**
  * @Route("/klussen")
@@ -54,6 +55,16 @@ class KlussenController extends AbstractChildController
     public function closeAction(Request $request, $id)
     {
         $this->formClass = KlusCloseType::class;
+
+        return $this->editAction($request, $id);
+    }
+
+    /**
+     * @Route("/{id}/cancel")
+     */
+    public function annulerenAction(Request $request, $id)
+    {
+        $this->formClass = KlusCancelType::class;
 
         return $this->editAction($request, $id);
     }

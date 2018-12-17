@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Homeservice | Klanten
+    Homeservice | Klussen
 {% endblock %}
 
 {% block subnavigation %}
@@ -18,15 +18,13 @@
 {% block content_top %}
     <h1>Klus {{ entity }}</h1>
     <p>
-        {{ html.editLink(path(edit_route, {id: entity.id})) }}
-        {{ html.link('Wijzigen', path(edit_route, {id: entity.id})) }}
-        {% if not entity.einddatum %}
-            {{ html.closeLink(path(close_route, {id: entity.id})) }}
-            {{ html.link('Afsluiten', path(close_route, {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(edit_route, {id: entity.id}), 'edit') }}
+        {% if not entity.einddatum and not entity.annuleringsdatum %}
+            {{ html.link('Annuleren', path('hs_klussen_annuleren', {id: entity.id}), 'cancel') }}
+            {{ html.link('Afsluiten', path(close_route, {id: entity.id}), 'close') }}
         {% endif %}
         {% if entity.deletable %}
-            {{ html.deleteLink(path(delete_route, {id: entity.id})) }}
-            {{ html.link('Verwijderen', path(delete_route, {id: entity.id})) }}
+            {{ html.link('Verwijderen', path(delete_route, {id: entity.id}), 'delete') }}
         {% endif %}
     </p>
 {% endblock %}
@@ -47,6 +45,8 @@
         <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
         <dt>Einddatum</dt>
         <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}</dd>
+        <dt>Annuleringsdatum</dt>
+        <dd>{{ entity.annuleringsdatum ? entity.annuleringsdatum|date('d-m-Y') : '-' }}</dd>
     </dl>
     <dl class="dl-horizontal">
         {% if entity.klant %}
