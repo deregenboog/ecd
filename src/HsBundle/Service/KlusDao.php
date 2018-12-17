@@ -15,6 +15,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
             'klus.status',
             'klus.startdatum',
             'klus.einddatum',
+            'klus.annuleringsdatum',
             'klant.achternaam',
             'werkgebied.naam',
             'activiteit.naam',

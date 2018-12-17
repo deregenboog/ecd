@@ -42,7 +42,9 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Einddatum', 'klus.einddatum') }}
                 </th>
-                <th>&nbsp;</th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Annuleringsdatum', 'klus.annuleringsdatum') }}
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -60,6 +62,7 @@
                     <td>{{ entity.status|status_color }}</td>
                     <td>{{ entity.startdatum|date('d-m-Y') }}</td>
                     <td>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</td>
+                    <td>{{ entity.annuleringsdatum ? entity.annuleringsdatum|date('d-m-Y') }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -26,6 +26,9 @@ class HsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInte
                 $color = 'orange';
                 break;
             case Klus::STATUS_AFGEROND:
+                $color = 'gray';
+                break;
+            case Klus::STATUS_GEANNULEERD:
                 $color = 'red';
                 break;
             default:

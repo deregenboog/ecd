@@ -25,6 +25,11 @@ class KlusFilter implements FilterInterface
     public $einddatum;
 
     /**
+     * @var AppDateRangeModel
+     */
+    public $annuleringsdatum;
+
+    /**
      * @var bool
      */
     public $zonderEinddatum;
@@ -85,6 +90,21 @@ class KlusFilter implements FilterInterface
 
         if ($this->zonderEinddatum) {
             $builder->andWhere('klus.einddatum IS NULL');
+        }
+
+        if ($this->annuleringsdatum) {
+            if ($this->annuleringsdatum->getStart()) {
+                $builder
+                    ->andWhere('klus.annuleringsdatum >= :annuleringsdatum_van')
+                    ->setParameter('annuleringsdatum_van', $this->annuleringsdatum->getStart())
+                ;
+            }
+            if ($this->annuleringsdatum->getEnd()) {
+                $builder
+                    ->andWhere('klus.annuleringsdatum <= :annuleringsdatum_tot')
+                    ->setParameter('annuleringsdatum_tot', $this->annuleringsdatum->getEnd())
+                ;
+            }
         }
 
         if ($this->status) {

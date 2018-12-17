@@ -42,6 +42,12 @@ class KlusFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('annuleringsdatum', $options['enabled_filters'])) {
+            $builder->add('annuleringsdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('zonderEinddatum', $options['enabled_filters'])) {
             $builder->add('zonderEinddatum', CheckboxType::class, [
                 'required' => false,
@@ -56,6 +62,7 @@ class KlusFilterType extends AbstractType
                     Klus::STATUS_IN_BEHANDELING => Klus::STATUS_IN_BEHANDELING,
                     Klus::STATUS_ON_HOLD => Klus::STATUS_ON_HOLD,
                     Klus::STATUS_AFGEROND => Klus::STATUS_AFGEROND,
+                    Klus::STATUS_GEANNULEERD => Klus::STATUS_GEANNULEERD,
                 ],
             ]);
         }
@@ -101,6 +108,7 @@ class KlusFilterType extends AbstractType
                 'status',
                 'startdatum',
                 'einddatum',
+                'annuleringsdatum',
                 'activiteit',
                 'klant' => ['naam', 'stadsdeel'],
                 'filter',
