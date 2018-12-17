@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 
-class IzExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class IzExtension extends \Twig_Extension
 {
     public function getFilters()
     {
