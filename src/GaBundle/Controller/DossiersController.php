@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 abstract class DossiersController extends AbstractController
 {
-    protected $disabledActions = ['edit', 'delete'];
+    protected $disabledActions = ['delete'];
 
     /**
      * @Route("/{id}/view/verslagen")

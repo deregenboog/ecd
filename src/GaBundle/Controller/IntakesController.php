@@ -10,6 +10,7 @@ use GaBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/intakes")
@@ -38,6 +39,17 @@ class IntakesController extends AbstractChildController
      * @DI\Inject("ga.intake.entities")
      */
     protected $entities;
+
+    /**
+     * @Route("/{id}/view")
+     * @Template
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        return $this->redirectToRoute('ga_klantdossiers_view', ['id' => $entity->getDossier()->getId()]);
+    }
 
     protected function createEntity($parentEntity = null)
     {

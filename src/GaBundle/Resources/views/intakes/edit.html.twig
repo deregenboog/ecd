@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include '::klant_basis.html.twig' with {klant: entity.dossier.klant} %}
 {% endblock %}
 
 {% block content_right %}
-    {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {intake: entity, klant: entity.klant, current: 'intake'} %}
+    {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {intake: entity, klant: entity.dossier.klant, current: 'intake'} %}
     <div class="tab-content">
         <div id="intakes" class="tab-pane active">
             <h2>Intake</h2>
