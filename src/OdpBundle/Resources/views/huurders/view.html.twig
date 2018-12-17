@@ -9,7 +9,7 @@
     {% include '@Odp/odp_subnavigation.html.twig' %}
 {% endblock %}
 
-{% block content_left %}
+{% block content_top %}
     <h1>
         Huurder {{ huurder.klant }}
     </h1>
@@ -36,6 +36,9 @@
             {{ html.link('Verwijderen', path('odp_huurders_delete', {id: huurder.id})) }}
         {% endif %}
     </p>
+{% endblock %}
+
+{% block content_left %}
     <dl class="dl-horizontal">
         <dt>Naam</dt>
         <dd>{{ huurder.klant }}</dd>
@@ -47,6 +50,10 @@
         <dd>{{ huurder.rekeningnummer }}</dd>
         <dt>Automatische incasso</dt>
         <dd>{{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}</dd>
+        <dt>Inschrijving Woningnet</dt>
+        <dd>{{ huurder.inschrijvingWoningnet ? 'Ja' : 'Nee' }}</dd>
+        <dt>WA-polis</dt>
+        <dd>{{ huurder.waPolis ? 'Ja' : 'Nee' }}</dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Klantmanager</dt>

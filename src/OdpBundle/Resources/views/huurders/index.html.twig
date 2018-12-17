@@ -40,12 +40,24 @@
                     {{ form_errors(filter.automatischeIncasso) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.aanmelddatum) }}
-                    {{ form_errors(filter.aanmelddatum) }}
+                    {{ form_widget(filter.inschrijvingWoningnet) }}
+                    {{ form_errors(filter.inschrijvingWoningnet) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.afsluitdatum) }}
-                    {{ form_errors(filter.afsluitdatum) }}
+                    {{ form_widget(filter.waPolis) }}
+                    {{ form_errors(filter.waPolis) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.aanmelddatum.start) }}
+                    {{ form_errors(filter.aanmelddatum.start) }}
+                    {{ form_widget(filter.aanmelddatum.end) }}
+                    {{ form_errors(filter.aanmelddatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.afsluitdatum.start) }}
+                    {{ form_errors(filter.afsluitdatum.start) }}
+                    {{ form_widget(filter.afsluitdatum.end) }}
+                    {{ form_errors(filter.afsluitdatum.end) }}
                 </th>
                 <th>
                     {{ form_widget(filter.filter) }}
@@ -70,14 +82,18 @@
                     {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'huurder.automatischeIncasso') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Inschrijving Woningnet', 'huurder.inschrijvingWoningnet') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'WA-polis', 'huurder.waPolis') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'huurder.aanmelddatum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Afsluitdatum dossier', 'huurder.afsluitdatum') }}
                 </th>
                 <th></th>
-                <th>
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -97,6 +113,12 @@
                     </td>
                     <td>
                         {{ huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ huurder.inschrijvingWoningnet ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ huurder.waPolis ? 'Ja' : 'Nee' }}
                     </td>
                     <td>
                         {{ huurder.aanmelddatum ? huurder.aanmelddatum|date('d-m-Y') }}
