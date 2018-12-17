@@ -6,7 +6,21 @@ services:
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
+    HsBundle\Report\ArbeidersPerGgwGebied:
+        arguments:
+            - "@hs.dao.dienstverlener"
+            - "@hs.dao.vrijwilliger"
+        tags:
+            - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
+
     HsBundle\Report\NieuweArbeidersPerStadsdeel:
+        arguments:
+            - "@hs.dao.dienstverlener"
+            - "@hs.dao.vrijwilliger"
+        tags:
+            - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
+
+    HsBundle\Report\NieuweArbeidersPerGgwGebied:
         arguments:
             - "@hs.dao.dienstverlener"
             - "@hs.dao.vrijwilliger"
@@ -19,7 +33,19 @@ services:
         tags:
             - { name: hs.rapportage, category: Klanten }
 
+    HsBundle\Report\KlantenPerGgwGebied:
+        arguments:
+            - "@hs.dao.klant"
+        tags:
+            - { name: hs.rapportage, category: Klanten }
+
     HsBundle\Report\NieuweKlantenPerStadsdeel:
+        arguments:
+            - "@hs.dao.klant"
+        tags:
+            - { name: hs.rapportage, category: Klanten }
+
+    HsBundle\Report\NieuweKlantenPerGgwGebied:
         arguments:
             - "@hs.dao.klant"
         tags:
@@ -31,7 +57,19 @@ services:
         tags:
             - { name: hs.rapportage, category: Klussen }
 
+    HsBundle\Report\KlussenPerGgwGebied:
+        arguments:
+            - "@hs.dao.klus"
+        tags:
+            - { name: hs.rapportage, category: Klussen }
+
     HsBundle\Report\KoppelingenPerStadsdeel:
+        arguments:
+            - "@hs.dao.klus"
+        tags:
+            - { name: hs.rapportage, category: Koppelingen }
+
+    HsBundle\Report\KoppelingenPerGgwGebied:
         arguments:
             - "@hs.dao.klus"
         tags:

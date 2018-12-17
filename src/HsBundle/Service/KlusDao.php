@@ -100,6 +100,30 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klus')
+            ->select('COUNT(DISTINCT klus.id) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('klus.klant', 'klant')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     /**
      * {inheritdoc}.
      */
@@ -128,6 +152,31 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
+    public function countDienstverlenersByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klus')
+            ->select('COUNT(DISTINCT klus.id) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('klus.dienstverleners', 'dienstverlener')
+            ->innerJoin('klus.registraties', 'registratie', 'WITH', 'registratie.arbeider = dienstverlener')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
     public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
@@ -137,6 +186,31 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
             ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
             ->groupBy('stadsdeel')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countVrijwilligersByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klus')
+            ->select('COUNT(DISTINCT klus.id) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('klus.vrijwilligers', 'vrijwilliger')
+            ->innerJoin('klus.registraties', 'registratie', 'WITH', 'registratie.arbeider = vrijwilliger')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->leftJoin('basisvrijwilliger.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
         ;
 
         if ($start) {

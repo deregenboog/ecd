@@ -121,6 +121,30 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     /**
      * {inheritdoc}.
      */
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('dienstverlener')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->innerJoin('dienstverlener.registraties', 'registratie')
+            ->groupBy('postcodegebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
@@ -128,6 +152,29 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
             ->innerJoin('dienstverlener.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->groupBy('stadsdeel')
+        ;
+
+        if ($start) {
+            $builder->andWhere('dienstverlener.inschrijving >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('dienstverlener.inschrijving <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('dienstverlener')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('dienstverlener.klant', 'klant')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
         ;
 
         if ($start) {
