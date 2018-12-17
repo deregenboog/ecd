@@ -36,6 +36,26 @@ class HuurderFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('inschrijvingWoningnet', $options['enabled_filters'])) {
+            $builder->add('inschrijvingWoningnet', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Ja' => 1,
+                    'Nee' => 0,
+                ],
+            ]);
+        }
+
+        if (in_array('waPolis', $options['enabled_filters'])) {
+            $builder->add('waPolis', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Ja' => 1,
+                    'Nee' => 0,
+                ],
+            ]);
+        }
+
         if (in_array('wpi', $options['enabled_filters'])) {
             $builder->add('wpi', CheckboxType::class, [
                 'required' => false,
@@ -78,6 +98,8 @@ class HuurderFilterType extends AbstractType
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'automatischeIncasso',
+                'inschrijvingWoningnet',
+                'waPolis',
                 'aanmelddatum',
                 'afsluitdatum',
                 'wpi',

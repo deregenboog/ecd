@@ -29,6 +29,8 @@ class HuurdersController extends SymfonyController
         'klant.achternaam',
         'werkgebied.naam',
         'huurder.automatischeIncasso',
+        'huurder.inschrijvingWoningnet',
+        'huurder.waPolis',
         'huurder.aanmelddatum',
         'huurder.afsluitdatum',
         'huurder.wpi',

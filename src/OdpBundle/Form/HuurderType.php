@@ -37,6 +37,14 @@ class HuurderType extends AbstractType
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
             ->add('automatischeIncasso', null, ['required' => false])
+            ->add('inschrijvingWoningnet', null, [
+                'required' => false,
+                'label' => 'Inschrijving Woningnet',
+            ])
+            ->add('waPolis', null, [
+                'required' => false,
+                'label' => 'WA-polis',
+            ])
             ->add('klantmanager')
             ->add('wpi')
         ;

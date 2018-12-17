@@ -38,6 +38,22 @@ class Huurder extends Deelnemer
      */
     private $automatischeIncasso;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $inschrijvingWoningnet;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $waPolis;
+
     public function __construct()
     {
         parent::__construct();
@@ -131,6 +147,30 @@ class Huurder extends Deelnemer
     public function setAutomatischeIncasso($automatischeIncasso)
     {
         $this->automatischeIncasso = (bool) $automatischeIncasso;
+
+        return $this;
+    }
+
+    public function isInschrijvingWoningnet()
+    {
+        return $this->inschrijvingWoningnet;
+    }
+
+    public function setInschrijvingWoningnet($inschrijvingWoningnet)
+    {
+        $this->inschrijvingWoningnet = (bool) $inschrijvingWoningnet;
+
+        return $this;
+    }
+
+    public function isWaPolis()
+    {
+        return $this->waPolis;
+    }
+
+    public function setWaPolis($waPolis)
+    {
+        $this->waPolis = (bool) $waPolis;
 
         return $this;
     }
