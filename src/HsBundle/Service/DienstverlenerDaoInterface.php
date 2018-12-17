@@ -47,5 +47,9 @@ interface DienstverlenerDaoInterface
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null);
 }

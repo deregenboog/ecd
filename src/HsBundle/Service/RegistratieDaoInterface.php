@@ -40,6 +40,8 @@ interface RegistratieDaoInterface
 
     public function countUrenByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countUrenByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countUrenByActiviteit(\DateTime $start = null, \DateTime $end = null);
 
     public function countUrenByKlant(\DateTime $start = null, \DateTime $end = null);
