@@ -6,7 +6,7 @@
          backupGlobals="false"
          colors="true"
          bootstrap="app/autoload.php"
-         processIsolation="true"
+         processIsolation="false"
          stopOnError="true"
          stopOnFailure="true"
 >
