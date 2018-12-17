@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: nl_NL.utf8
+    locale: nl_NL.UTF-8
     acl_disabled: false
     pagination.items_per_page: 20
     doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
