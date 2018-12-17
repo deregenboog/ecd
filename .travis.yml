@@ -7,7 +7,7 @@ env:
   - DB=sqlite
 
 before_script:
-  - locale-gen nl_NL.UTF-8 && update-locale
+  - sudo locale-gen nl_NL.UTF-8 && sudo update-locale
   - echo 'memory_limit=2G' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install --no-scripts
   - cp app/config/parameters.yml.dist app/config/parameters.yml
