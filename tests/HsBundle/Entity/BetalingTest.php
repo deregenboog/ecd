@@ -10,6 +10,8 @@ class BetalingTest extends KernelTestCase
 {
     public function testToString()
     {
+        $this->markTestSkipped();
+
         // set locale
         $kernel = static::bootKernel();
         $locale = $kernel->getContainer()->getParameter('locale');
