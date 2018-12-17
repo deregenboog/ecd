@@ -10,13 +10,10 @@ class BetalingTest extends KernelTestCase
 {
     public function testToString()
     {
-        if (!self::$kernel) {
-            self::bootKernel();
-        }
-
-        // get and set locale
-        $locale = setlocale(LC_ALL, 0);
-        setlocale(LC_ALL, self::$kernel->getContainer()->getParameter('locale'));
+        // set locale
+        $kernel = static::bootKernel();
+        $locale = $kernel->getContainer()->getParameter('locale');
+        setlocale(LC_ALL, $locale);
 
         $factuur = $this->createMock(Factuur::class);
         $betaling = new Betaling($factuur);
@@ -31,9 +28,7 @@ class BetalingTest extends KernelTestCase
         $this->assertEquals('€ 123,45', (string) $betaling);
 
         // restore locale
-        if ($locale) {
-            setlocale(LC_ALL, $locale);
-        }
+        setlocale(LC_ALL, 'C');
     }
 
     public function testIsDeletable()
