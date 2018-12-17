@@ -90,6 +90,19 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         return $builder->getQuery()->getResult();
     }
 
+    public function countByAfsluitreden(\DateTime $startdate, \DateTime $enddate)
+    {
+        $builder = $this->getCountBuilder($startdate, $enddate)
+            ->addSelect('afsluitreden.naam AS groep')
+            ->innerJoin("{$this->alias}.afsluiting", 'afsluitreden')
+            ->andWhere("{$this->alias}.startdatum <= :end")
+            ->andWhere("{$this->alias}.einddatum >= :start")
+            ->groupBy('groep')
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
     private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
     {
         return $this->repository->createQueryBuilder($this->alias)

@@ -5,7 +5,7 @@ namespace OdpBundle\Report;
 use AppBundle\Report\AbstractReport;
 use OdpBundle\Service\HuurovereenkomstDaoInterface;
 
-class KoppelingenPerWoningbouwcorporatie extends AbstractReport
+class Koppelingen extends AbstractReport
 {
     protected $title = 'Koppelingen';
 
@@ -24,6 +24,7 @@ class KoppelingenPerWoningbouwcorporatie extends AbstractReport
     {
         $this->tables['Koppelingen per vorm'] = $this->dao->countByVorm($this->startDate, $this->endDate);
         $this->tables['Koppelingen per woningbouwcorporatie'] = $this->dao->countByWoningbouwcorporatie($this->startDate, $this->endDate);
+        $this->tables['Koppelingen per afsluitreden'] = $this->dao->countByAfsluitreden($this->startDate, $this->endDate);
     }
 
     protected function build()
@@ -32,5 +33,6 @@ class KoppelingenPerWoningbouwcorporatie extends AbstractReport
 
         $this->reports[0]['yDescription'] = 'Vorm';
         $this->reports[1]['yDescription'] = 'Woningbouwcorporatie';
+        $this->reports[2]['yDescription'] = 'Afsluitreden';
     }
 }

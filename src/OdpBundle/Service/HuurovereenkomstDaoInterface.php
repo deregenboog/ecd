@@ -15,4 +15,6 @@ interface HuurovereenkomstDaoInterface
     public function countByVorm(\DateTime $startdate, \DateTime $enddate);
 
     public function countByWoningbouwcorporatie(\DateTime $startdate, \DateTime $enddate);
+
+    public function countByAfsluitreden(\DateTime $startdate, \DateTime $enddate);
 }
