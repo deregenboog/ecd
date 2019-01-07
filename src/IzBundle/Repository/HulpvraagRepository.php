@@ -91,17 +91,12 @@ class HulpvraagRepository extends EntityRepository
     public function countKoppelingenByPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('hulpvraag, izKlant, klant, ggwgebied')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
             ->groupBy('ggwgebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
-        $result = $builder->getQuery()->getResult();
-        foreach ($result as &$row) {
-            $row['postcodegebied'] = (string) $row[0]->getIzKlant()->getKlant()->getPostcodegebied();
-        }
-
-        return $result;
+        return $builder->getQuery()->getResult();
     }
 
     public function countKoppelingenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
@@ -121,18 +116,13 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->addSelect('hulpvraag, izKlant, klant, ggwgebied')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
             ->innerJoin('hulpvraag.project', 'project')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
             ->groupBy('project', 'ggwgebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
-        $result = $builder->getQuery()->getResult();
-        foreach ($result as &$row) {
-            $row['postcodegebied'] = (string) $row[0]->getIzKlant()->getKlant()->getPostcodegebied();
-        }
-
-        return $result;
+        return $builder->getQuery()->getResult();
     }
 
     public function countKoppelingenByHulpvraagsoortAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
