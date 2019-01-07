@@ -8,7 +8,7 @@ class KoppelingenPerProjectPostcodegebied extends AbstractKoppelingenReport
 
     protected $xPath = 'projectnaam';
 
-    protected $yPath = 'postcodegebied';
+    protected $yPath = 'ggwgebiednaam';
 
     protected $nPath = 'aantal';
 
