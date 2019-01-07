@@ -56,23 +56,10 @@ services:
     IzBundle\Service\ReserveringDao:
         parent: app.dao.abstract
 
-    IzBundle\Service\SuccesindicatorFinancieelDao:
+    IzBundle\Service\SuccesindicatorDao:
         parent: app.dao.abstract
-        class: IzBundle\Service\SuccesindicatorDao
         arguments:
-            - IzBundle\Entity\SuccesindicatorFinancieel
-
-    IzBundle\Service\SuccesindicatorParticipatieDao:
-        parent: app.dao.abstract
-        class: IzBundle\Service\SuccesindicatorDao
-        arguments:
-            - IzBundle\Entity\SuccesindicatorParticipatie
-
-    IzBundle\Service\SuccesindicatorPersoonlijkDao:
-        parent: app.dao.abstract
-        class: IzBundle\Service\SuccesindicatorDao
-        arguments:
-            - IzBundle\Entity\SuccesindicatorPersoonlijk
+            - IzBundle\Entity\Succesindicator
 
     IzBundle\Service\VerslagDao:
         parent: app.dao.abstract

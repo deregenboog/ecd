@@ -51,22 +51,10 @@ class Hulpvraag extends Hulp
     protected $reserveringen;
 
     /**
-     * @var SuccesindicatorPersoonlijk[]
-     * @ORM\ManyToMany(targetEntity="SuccesindicatorPersoonlijk")
+     * @var Succesindicator[]
+     * @ORM\ManyToMany(targetEntity="Succesindicator")
      */
-    private $succesindicatorenPersoonlijk;
-
-    /**
-     * @var SuccesindicatorFinancieel[]
-     * @ORM\ManyToMany(targetEntity="SuccesindicatorFinancieel")
-     */
-    private $succesindicatorenFinancieel;
-
-    /**
-     * @var SuccesindicatorParticipatie[]
-     * @ORM\ManyToMany(targetEntity="SuccesindicatorParticipatie")
-     */
-    private $succesindicatorenParticipatie;
+    private $succesindicatoren;
 
     public function __toString()
     {
@@ -189,38 +177,14 @@ class Hulpvraag extends Hulp
         return $this;
     }
 
-    public function getSuccesindicatorenPersoonlijk()
+    public function getSuccesindicatoren()
     {
-        return $this->succesindicatorenPersoonlijk;
+        return $this->succesindicatoren;
     }
 
-    public function setSuccesindicatorenPersoonlijk($indicatoren)
+    public function setSuccesindicatoren($indicatoren)
     {
-        $this->succesindicatorenPersoonlijk = $indicatoren;
-
-        return $this;
-    }
-
-    public function getSuccesindicatorenFinancieel()
-    {
-        return $this->succesindicatorenFinancieel;
-    }
-
-    public function setSuccesindicatorenFinancieel($indicatoren)
-    {
-        $this->succesindicatorenFinancieel = $indicatoren;
-
-        return $this;
-    }
-
-    public function getSuccesindicatorenParticipatie()
-    {
-        return $this->succesindicatorenParticipatie;
-    }
-
-    public function setSuccesindicatorenParticipatie($indicatoren)
-    {
-        $this->succesindicatorenParticipatie = $indicatoren;
+        $this->succesindicatoren = $indicatoren;
 
         return $this;
     }

@@ -13,20 +13,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(
  *     name="iz_succesindicatoren",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"naam", "discr"})
+ *         @ORM\UniqueConstraint(columns={"naam"})
  *     }
  * )
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({
- *     "financieel" = "SuccesindicatorFinancieel",
- *     "participatie" = "SuccesindicatorParticipatie",
- *     "persoonlijk" = "SuccesindicatorPersoonlijk"
- * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-abstract class Succesindicator
+class Succesindicator
 {
     use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
