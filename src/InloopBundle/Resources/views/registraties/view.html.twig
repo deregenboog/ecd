@@ -68,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for registratie in entity.klant.recenteRegistraties %}
+                    {% for registratie in entity.klant.recenteRegistraties(250) %}
                         <tr data-href="{{ path(route_base~'view', {id: registratie.id}) }}" class="{{ entity.id == registratie.id ? 'info' }}">
                             <td>{{ registratie.locatie }}</td>
                             <td>{{ registratie.binnen|date('d-m-Y H:i') }}</td>
