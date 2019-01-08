@@ -12,4 +12,4 @@ before_script:
   - composer install --no-scripts
   - cp app/config/parameters.yml.dist app/config/parameters.yml
 
-script: ant
+script: travis_wait 30 ant
