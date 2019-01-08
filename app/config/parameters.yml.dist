@@ -11,6 +11,7 @@ parameters:
     profile: drg
     administrator_name: 'Daan van Leeuwen'
     administrator_email: ecd@deregenboog.org
+    log_email: bhuttinga@deregenboog.org
     ldap_domain: ''
     ldap_port: 389
     ldap_servers: []
