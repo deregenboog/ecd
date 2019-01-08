@@ -2,7 +2,12 @@ $(function() {
 
     init();
 
-    $('#ajaxContainer').on('click', 'table tbody tr', function() {
+    $('#ajaxContainer').on('click', 'table tbody tr', function(event) {
+        // do nothing if an A-tag was clicked
+        if ('A' === event.target.tagName) {
+            return;
+        }
+
         var row = $(this).closest('tr');
         var klant_id = row.attr('data-id');
 

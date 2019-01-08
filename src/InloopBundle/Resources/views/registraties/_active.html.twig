@@ -111,7 +111,14 @@
             </td>
             <td>
                 <a href="{{ path('inloop_schorsingen_klantview', {klant: registratie.klant.id}) }}">
-                    {{ registratie.klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                    {% if registratie.klant.huidigeSchorsingen|length > 0 %}
+                        <strong class="text-danger">
+                            {{ registratie.klant.huidigeSchorsingen|length }}
+                            {{ registratie.klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
+                        </strong>
+                    {% else %}
+                        {{ registratie.klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                    {% endif %}
                 </a>
             </td>
             <td>

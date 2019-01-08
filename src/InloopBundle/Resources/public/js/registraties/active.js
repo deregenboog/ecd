@@ -2,7 +2,7 @@ $(function() {
 
     init();
 
-    $('#ajaxContainer').on('click', 'table tbody tr', function() {
+    $('#ajaxContainer').on('click', 'table tbody tr', function(event) {
         // do nothing when NOT clicked on TD tag (for example: A or INPUT tag inside a table)
         if ('TD' !== event.target.tagName) {
             return;
@@ -17,7 +17,7 @@ $(function() {
         checkoutAll(id);
     });
 
-    $('#ajaxContainer').on('click', 'a.checkout', function(event) {
+    $('#ajaxContainer').on('click', 'a.checkout', function() {
         var id = $(this).closest('tr').attr('data-id');
         checkout(id);
     });
@@ -138,7 +138,7 @@ function enable(id, property, event) {
     });
 };
 
-function disable(id, property) {
+function disable(id, property, event) {
     $.post({
         url: '/inloop/registraties/'+id+'/'+property+'/0',
     }).done(function(data) {

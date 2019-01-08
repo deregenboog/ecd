@@ -65,11 +65,16 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if klant.ongezieneSchorsingen|length > 0 %}
-                        schorsing verlopen
-                    {% else %}
-                        geen
-                    {% endif %}
+                    <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}">
+                        {% if klant.huidigeSchorsingen|length > 0 %}
+                            <strong class="text-danger">
+                                {{ klant.huidigeSchorsingen|length }}
+                                {{ klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
+                            </strong>
+                        {% else %}
+                            {{ klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                        {% endif %}
+                    </a>
                 </td>
             </tr>
         {% endfor %}
