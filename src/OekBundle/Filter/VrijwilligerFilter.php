@@ -17,7 +17,7 @@ class VrijwilligerFilter implements FilterInterface
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->vrijwilliger) {
-            $this->vrijwilliger->applyTo($builder);
+            $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
         }
     }
 }
