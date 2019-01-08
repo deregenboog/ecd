@@ -115,7 +115,9 @@ class KlantenController extends AbstractController
         assert($entity instanceof Klant);
 
         $event = new DienstenLookupEvent($entity->getId());
-        $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+        if ($event->getKlantId()) {
+            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+        }
 
         return [
             'diensten' => $event->getDiensten(),

@@ -134,7 +134,9 @@ class KlantdossiersController extends DossiersController
         }
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
-        $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+        if ($event->getKlantId()) {
+            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+        }
 
         return [
             'diensten' => $event->getDiensten(),
