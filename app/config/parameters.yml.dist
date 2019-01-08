@@ -9,8 +9,8 @@ parameters:
     email_policy: prod
     locale: nl_NL
     profile: drg
-    administrator_name: Bart Huttinga
-    administrator_email: bhuttinga@deregenboog.org
+    administrator_name: 'Daan van Leeuwen'
+    administrator_email: ecd@deregenboog.org
     ldap_domain: ''
     ldap_port: 389
     ldap_servers: []
