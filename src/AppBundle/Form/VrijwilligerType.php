@@ -38,6 +38,7 @@ class VrijwilligerType extends AbstractType
             ->add('roepnaam')
             ->add('geslacht', null, [
                 'required' => true,
+                'placeholder' => '',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->orderBy('geslacht.id', 'DESC');

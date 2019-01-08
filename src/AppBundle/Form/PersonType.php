@@ -23,6 +23,7 @@ class PersonType extends AbstractType
             ->add('geslacht', EntityType::class, [
                 'class' => Geslacht::class,
                 'required' => false,
+                'placeholder' => '',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->orderBy('geslacht.id', 'DESC');

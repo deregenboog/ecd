@@ -26,7 +26,10 @@ class KlantType extends AbstractType
         ->add('tussenvoegsel')
         ->add('achternaam')
         ->add('roepnaam')
-        ->add('geslacht')
+        ->add('geslacht', null, [
+            'required' => true,
+            'placeholder' => '',
+        ])
         ->add('geboortedatum', AppDateType::class)
         ->add('land', LandSelectType::class)
         ->add('doorverwijzenNaarAmoc', CheckboxType::class, [
