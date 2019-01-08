@@ -11,6 +11,7 @@ use GaBundle\Entity\Groep;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use ErOpUitBundle;
 
 class CloseSubscriber implements EventSubscriberInterface
 {
@@ -67,41 +68,25 @@ class CloseSubscriber implements EventSubscriberInterface
     private function hasErOpUitSubscription(Persoon $persoon)
     {
         if ($persoon instanceof Klant) {
-            $erOpUit = $this->entityManager->getRepository(Groep::class)->createQueryBuilder('groep')
-                ->innerJoin('groep.gaKlantLeden', 'lid', 'WITH', 'lid = :klant')
-                ->where('groep.id = :id')
-                ->setParameters([
-                    'id' => 19,
-                    'klant' => $persoon,
-                ])
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
+            $erOpUit = $this->entityManager->getRepository(ErOpUitBundle\Entity\Klant::class)
+                ->findOneBy(['klant' => $persoon]);
         } elseif ($persoon instanceof Vrijwilliger) {
-            $erOpUit = $this->entityManager->getRepository(Groep::class)->createQueryBuilder('groep')
-                ->innerJoin('groep.gaVrijwilligerLeden', 'lid', 'WITH', 'lid = :vrijwilliger')
-                ->where('groep.id = :id')
-                ->setParameters([
-                    'id' => 19,
-                    'vrijwilliger' => $persoon,
-                ])
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
+            $erOpUit = $this->entityManager->getRepository(ErOpUitBundle\Entity\Vrijwilliger::class)
+                ->findOneBy(['vrijwilliger' => $persoon]);
         }
 
-        return (bool) $erOpUit;
+        return $erOpUit && !$erOpUit->isUitgeschreven();
     }
 
     private function generateUrl(Persoon $persoon)
     {
         if ($persoon instanceof Klant) {
-            return $this->generator->generate('groepsactiviteiten_klanten_groepen_view', [
-                'klant_id' => $persoon->getId(),
+            return $this->generator->generate('eropuit_klanten_view', [
+                'id' => $persoon->getId(),
             ]);
         } elseif ($persoon instanceof Vrijwilliger) {
-            return $this->generator->generate('groepsactiviteiten_vrijwilligers_groepen_view', [
-                'vrijwilliger_id' => $persoon->getId(),
+            return $this->generator->generate('eropuit_vrijwilligers_view', [
+                'id' => $persoon->getId(),
             ]);
         }
     }
