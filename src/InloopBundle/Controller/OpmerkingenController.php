@@ -36,7 +36,7 @@ class OpmerkingenController extends AbstractController
     protected $dao;
 
     /**
-     * @Route("/{klant}", requirements={"klant"="\d+"})
+     * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})
      * @Route("/{klant}/{locatie}", requirements={"klant"="\d+", "locatie"="\d+"})
      * @ParamConverter("klant", class="AppBundle:Klant")
      * @ParamConverter("locatie", class="InloopBundle:Locatie")
