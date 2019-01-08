@@ -4,6 +4,7 @@ namespace InloopBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\LandSelectType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Afsluiting;
 use Symfony\Component\Form\AbstractType;
@@ -13,7 +14,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\LandSelectType;
 
 class AfsluitingType extends AbstractType
 {

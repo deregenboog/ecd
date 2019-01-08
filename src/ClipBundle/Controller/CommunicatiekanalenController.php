@@ -8,9 +8,12 @@ use ClipBundle\Form\CommunicatiekanaalType;
 use ClipBundle\Service\CommunicatiekanaalDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/communicatiekanalen")
+ * @Template
  */
 class CommunicatiekanalenController extends AbstractController
 {
@@ -30,7 +33,7 @@ class CommunicatiekanalenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

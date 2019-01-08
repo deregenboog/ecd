@@ -14,11 +14,13 @@ use HsBundle\Form\RegistratieType;
 use HsBundle\Service\RegistratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/registraties")
+ * @Template
  */
 class RegistratiesController extends AbstractChildController
 {

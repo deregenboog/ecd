@@ -22,4 +22,18 @@ interface KlantDaoInterface
      * @return Klant
      */
     public function find($id);
+
+    /**
+     * @param Klant $entity
+     *
+     * @return Klant
+     */
+    public function create(Klant $entity);
+
+    /**
+     * @param Klant $entity
+     *
+     * @return Klant
+     */
+    public function update(Klant $entity);
 }

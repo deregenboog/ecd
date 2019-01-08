@@ -10,7 +10,11 @@ class DeelnemersPerGroep extends AbstractReport
 
     protected function init()
     {
-        $this->data = $this->repository->countDeelnemersPerGroep($this->startDate, $this->endDate);
+        $data = [];
+        foreach ($this->repositories as $group => $repository) {
+            $data[$group] = $repository->countDeelnemersPerGroep($this->startDate, $this->endDate);
+        }
+        $this->data = $data;
     }
 
     protected function build()
@@ -18,19 +22,23 @@ class DeelnemersPerGroep extends AbstractReport
         $columns = [
             'Aantal activiteiten' => 'aantal_activiteiten',
             'Aantal deelnemers' => 'aantal_deelnemers',
-            'Aantal unieke deelnemers' => 'aantal_unieke_deelnemers',
+            'Aantal deelnames' => 'aantal_deelnames',
+            'Aantal anonieme deelnames' => 'aantal_anonieme_deelnames',
         ];
-        $grid = new Grid($this->data, $columns, 'groep');
-        $grid
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYNullReplacement('Onbekend')
-        ;
 
-        $this->reports[] = [
-            'title' => '',
-            'yDescription' => 'Groep',
-            'data' => $grid->render(),
-        ];
+        foreach ($this->data as $title => $data) {
+            $grid = new Grid($data, $columns, 'groepnaam');
+            $grid
+                ->setStartDate($this->startDate)
+                ->setEndDate($this->endDate)
+                ->setYNullReplacement('Onbekend')
+            ;
+
+            $this->reports[] = [
+                'title' => $title,
+                'yDescription' => 'Groep',
+                'data' => $grid->render(),
+            ];
+        }
     }
 }

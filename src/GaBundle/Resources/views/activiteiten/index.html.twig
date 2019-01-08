@@ -1,0 +1,91 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Informele Zorg | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'GaBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        <a class="btn btn-default" href="{{ path('ga_activiteiten_calendar') }}">Kalender tonen</a>
+        {{ html.link('Enkele activiteit toevoegen', path('ga_activiteiten_add'), 'add') }}
+        {{ html.link('Reeks activiteiten toevoegen', path('ga_activiteitenreeks_add'), 'add') }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th>
+                        {{ form_widget(filter.datum.start) }}
+                        {{ form_errors(filter.datum.start) }}
+                        {{ form_widget(filter.datum.end) }}
+                        {{ form_errors(filter.datum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.tijd.start) }}
+                        {{ form_errors(filter.tijd.start) }}
+                        {{ form_widget(filter.tijd.end) }}
+                        {{ form_errors(filter.tijd.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.groep) }}
+                        {{ form_errors(filter.groep) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.naam) }}
+                        {{ form_errors(filter.naam) }}
+                    </th>
+                    <th colspan="2">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th colspan="2">
+                    {{ knp_pagination_sortable(pagination, 'Datum en tijd', 'activiteit.datum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Groep', 'groep.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'activiteit.naam') }}
+                </th>
+                <th>Deelnemers</th>
+                <th>Vrijwilligers</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activiteit in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: activiteit.id}) }}">
+                    <td>
+                        {{ activiteit.datum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ activiteit.datum|date('H:i') }} uur
+                    </td>
+                    <td>
+                        {{ activiteit.groep }}
+                    </td>
+                    <td>
+                        {{ activiteit.naam }}
+                    </td>
+                    <td>
+                        {{ activiteit.klantDeelnames|length + activiteit.aantalAnoniemeDeelnemers }}
+                    </td>
+                    <td>
+                        {{ activiteit.vrijwilligerDeelnames|length }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

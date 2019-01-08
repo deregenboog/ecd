@@ -6,10 +6,11 @@ use AppBundle\Exception\AppException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class AbstractChildController extends AbstractController
+abstract class AbstractChildController extends AbstractController
 {
     /**
      * @var AbstractDao
@@ -38,6 +39,7 @@ class AbstractChildController extends AbstractController
 
     /**
      * @Route("/add")
+     * @Template
      */
     public function addAction(Request $request)
     {
@@ -62,11 +64,7 @@ class AbstractChildController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (!$parentEntity && $this->allowEmpty) {
-                    $this->dao->create($entity);
-                } else {
-                    $this->parentDao->update($parentEntity);
-                }
+                $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
@@ -94,6 +92,7 @@ class AbstractChildController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
+     * @Template
      */
     public function deleteAction(Request $request, $id)
     {
@@ -137,6 +136,20 @@ class AbstractChildController extends AbstractController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
+    }
+
+    protected function createEntity($parentEntity = null)
+    {
+        return new $this->entityClass();
+    }
+
+    protected function persistEntity($entity, $parentEntity)
+    {
+        if (!$parentEntity && $this->allowEmpty) {
+            $this->dao->create($entity);
+        } else {
+            $this->parentDao->update($parentEntity);
+        }
     }
 
     protected function getParentConfig(Request $request)

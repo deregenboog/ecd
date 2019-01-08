@@ -8,7 +8,7 @@
     {{ html.navLink('Facturen', path('hs_facturen_index'), isActiveRoute('hs_facturen_')) }}
     {{ html.navLink('Betalingen', path('hs_betalingen_index'), isActiveRoute('hs_betalingen_')) }}
     {{ html.navLink('Rapportages', path('hs_rapportages_index'), isActiveRoute('hs_rapportages_')) }}
-    {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
+    {% if is_granted('ROLE_HOMESERVICE_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('hs/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>

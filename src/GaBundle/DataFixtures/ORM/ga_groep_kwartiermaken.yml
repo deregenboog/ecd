@@ -1,4 +1,0 @@
-GaBundle\Entity\GaGroepKwartiermaken:
-    ga_groep_{11..15}:
-        naam: 'Kwartiermaken groep <current()>'
-        activiteitenRegistreren: true

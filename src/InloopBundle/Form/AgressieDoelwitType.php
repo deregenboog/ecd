@@ -2,21 +2,12 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Filter\SchorsingFilter;
+use AppBundle\Form\BaseType;
+use InloopBundle\Entity\Schorsing;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Schorsing;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\JaNeeType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class AgressieDoelwitType extends AbstractType
 {
@@ -29,16 +20,14 @@ class AgressieDoelwitType extends AbstractType
 
         $builder
             ->add("typeDoelwitAgressie$i", ChoiceType::class, [
-                'label' => 'Tegen wie is de agressie gericht?',
-                'expanded' => true,
-                'choices' => [
-                    'medewerker' => 1,
-                    'stagiair' => 2,
-                    'vrijwilliger' => 3,
-                ],
+                'label' => 'Functie',
+                'required' => false,
+                'expanded' => false,
+                'choices' => array_flip(Schorsing::DOELWITTEN),
             ])
             ->add("doelwitAgressie$i", null, [
                 'label' => 'Naam',
+                'required' => false,
             ])
         ;
     }

@@ -8,8 +8,6 @@ class Listing
 
     private $columns = [];
 
-    private $ySort = false;
-
     private $startDate;
 
     private $endDate;
@@ -36,24 +34,15 @@ class Listing
         return $this;
     }
 
-    public function setYSort($ySort)
-    {
-        $this->ySort = $ySort;
-
-        return $this;
-    }
-
     public function render()
     {
-        $set = new \Set();
-
         $data = $this->initializeStructure();
 
         foreach ($this->result as $i => $row) {
             $values = [];
             foreach ($this->xLabels as $xLabel) {
                 $nPath = $this->columns[$xLabel];
-                $values[$xLabel] = $set->classicExtract($row, $nPath);
+                $values[$xLabel] = $row[$nPath];
             }
             $data[$i + 1] = $values;
         }

@@ -3,15 +3,15 @@
 namespace Tests\HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use HsBundle\Entity\Document;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Memo;
 use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
+use PHPUnit\Framework\TestCase;
 
-class VrijwilligerTest extends \PHPUnit_Framework_TestCase
+class VrijwilligerTest extends TestCase
 {
     public function testToString()
     {

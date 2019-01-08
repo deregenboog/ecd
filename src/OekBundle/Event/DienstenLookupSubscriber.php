@@ -2,7 +2,6 @@
 
 namespace OekBundle\Event;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
@@ -38,12 +37,6 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        if (!$klant instanceof Klant) {
-            $klant = $this->entityManager->find(Klant::class, $event->getKlantId());
-            // store in event for subsequent subscribers to use
-            $event->setKlant($klant);
-        }
-
         $deelnemer = $this->entityManager->getRepository(Deelnemer::class)
             ->findOneBy(['klant' => $klant]);
 

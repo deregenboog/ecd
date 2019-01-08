@@ -16,10 +16,12 @@ use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\VerslagType;
 use OdpBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/verslagen")
+ * @Template
  */
 class VerslagenController extends SymfonyController
 {

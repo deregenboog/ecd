@@ -2,11 +2,10 @@
 
 namespace GaBundle\Event;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
-use GaBundle\Entity\GaKlantIntake;
+use GaBundle\Entity\Klantdossier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -38,30 +37,18 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        if (!$klant instanceof Klant) {
-            $klant = $this->entityManager->find(Klant::class, $event->getKlantId());
-            // store in event for subsequent subscribers to use
-            $event->setKlant($klant);
-        }
+        $dossier = $this->entityManager->getRepository(Klantdossier::class)
+            ->findOneBy(['klant' => $klant]);
 
-        /* @var $gaIntake GaKlantIntake */
-        $gaIntake = $this->entityManager->getRepository(GaKlantIntake::class)->findOneBy([
-            'klant' => $klant,
-        ]);
-
-        if ($gaIntake) {
-            $url = $this->generator->generate('groepsactiviteiten_intakes_view', [
-                'klant_id' => $klant->getId(),
-            ]);
-            $dienst = [
-                'name' => 'GA',
-                'url' => $url,
-                'from' => $gaIntake->getIntakedatum() ? $gaIntake->getIntakedatum()->format('d-m-Y') : null,
-                'to' => null,
+        if ($dossier instanceof Klantdossier) {
+            $event->addDienst([
+                'name' => 'Groepsactiviteiten',
+                'url' => $this->generator->generate('ga_klantdossiers_view', ['id' => $dossier->getId()]),
+                'from' => $dossier->getAanmelddatum()->format('d-m-Y'),
+                'to' => $dossier->getAfsluitdatum() ? $dossier->getAfsluitdatum()->format('d-m-Y') : null,
                 'type' => 'date',
                 'value' => '',
-            ];
-            $event->addDienst($dienst);
+            ]);
         }
     }
 }

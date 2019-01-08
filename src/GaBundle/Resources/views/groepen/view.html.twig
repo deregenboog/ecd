@@ -1,0 +1,154 @@
+{% extends 'GaBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Werkgebied</dt>
+        <dd>{{ entity.werkgebied }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#activiteiten">Activiteiten</a></li>
+        <li><a data-toggle="tab" href="#deelnemers">Deelnemers</a></li>
+        <li><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="activiteiten" class="tab-pane active">
+            <h2>Activiteiten</h2>
+            <p>
+                {{ html.link('Enkele activiteit toevoegen', path('ga_activiteiten_add', {groep: entity.id}), 'add') }}
+                {{ html.link('Reeks activiteiten toevoegen', path('ga_activiteitenreeks_add', {groep: entity.id}), 'add') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Activiteit</th>
+                        <th>Datum</th>
+                        <th>Tijd</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for activiteit in entity.activiteiten %}
+                        <tr data-href="{{ path('ga_activiteiten_view', {id: activiteit.id}) }}">
+                            <td>{{ activiteit }}</td>
+                            <td>{{ activiteit.datum|date('d-m-Y') }}</td>
+                            <td>{{ activiteit.datum|date('H:s') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="deelnemers" class="tab-pane">
+            <h2>Actieve deelnemers</h2>
+            <p>
+                {{ html.link('Deelnemer toevoegen', path('ga_lidmaatschappen_add', {groep: entity.id, type: 'klant'}), 'add') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Deelnemer</th>
+                        <th>Startdatum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lidmaatschap in entity.klantLidmaatschappen if not lidmaatschap.einddatum %}
+                        <tr data-href="{{ path('ga_klantdossiers_view', {id: lidmaatschap.dossier.id}) }}">
+                            <td>{{ lidmaatschap.dossier }}</td>
+                            <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
+                            <td>
+                                {{ html.link('Lidmaatschap wijzigen', path('ga_lidmaatschappen_edit', {id: lidmaatschap.id}), 'edit') }}
+                                {{ html.link('Lidmaatschap beëindigen', path('ga_lidmaatschappen_close', {id: lidmaatschap.id}), 'close') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Afgesloten deelnemers</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Deelnemer</th>
+                        <th>Startdatum</th>
+                        <th>Einddatum</th>
+                        <th>Reden</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lidmaatschap in entity.klantLidmaatschappen if lidmaatschap.einddatum %}
+                        <tr data-href="{{ path('ga_klantdossiers_view', {id: lidmaatschap.dossier.id}) }}">
+                            <td>{{ lidmaatschap.dossier }}</td>
+                            <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
+                            <td>{{ lidmaatschap.einddatum|date('d-m-Y') }}</td>
+                            <td>{{ lidmaatschap.afsluitreden }}</td>
+                            <td>
+                                {{ html.link('Lidmaatschap activeren', path('ga_lidmaatschappen_reopen', {id: lidmaatschap.id}), 'open') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="vrijwilligers" class="tab-pane">
+            <h2>Actieve vrijwilligers</h2>
+            <p>
+                {{ html.link('Vrijwilliger toevoegen', path('ga_lidmaatschappen_add', {groep: entity.id, type: 'vrijwilliger'}), 'add') }}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Vrijwilliger</th>
+                        <th>Startdatum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lidmaatschap in entity.vrijwilligerLidmaatschappen if not lidmaatschap.einddatum %}
+                        <tr data-href="{{ path('ga_vrijwilligerdossiers_view', {id: lidmaatschap.dossier.id}) }}">
+                            <td>{{ lidmaatschap.dossier }}</td>
+                            <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
+                            <td>
+                                {{ html.link('Lidmaatschap wijzigen', path('ga_lidmaatschappen_edit', {id: lidmaatschap.id}), 'edit') }}
+                                {{ html.link('Lidmaatschap beëindigen', path('ga_lidmaatschappen_close', {id: lidmaatschap.id}), 'close') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Afgesloten vrijwilligers</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Vrijwilliger</th>
+                        <th>Startdatum</th>
+                        <th>Einddatum</th>
+                        <th>Reden</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lidmaatschap in entity.vrijwilligerLidmaatschappen if lidmaatschap.einddatum %}
+                        <tr data-href="{{ path('ga_vrijwilligerdossiers_view', {id: lidmaatschap.dossier.id}) }}">
+                            <td>{{ lidmaatschap.dossier }}</td>
+                            <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
+                            <td>{{ lidmaatschap.einddatum|date('d-m-Y') }}</td>
+                            <td>{{ lidmaatschap.afsluitreden }}</td>
+                            <td>
+                                {{ html.link('Lidmaatschap activeren', path('ga_lidmaatschappen_reopen', {id: lidmaatschap.id}), 'open') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

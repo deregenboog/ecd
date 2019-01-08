@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloophuizen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function() {
+            var amoc_landen = [];
+            {% for land in amoc_landen %}
+                amoc_landen.push({{ land.id }});
+            {% endfor %}
+
+            var checkAmoc = function() {
+                var selected = parseInt($('select#klant_land').val());
+                if (amoc_landen.indexOf(selected) != -1) {
+                    console.log($('select#klant_land'));
+                    $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
+                }
+            };
+
+            $('select#klant_land').on('change', function() {
+                checkAmoc();
+            });
+
+            checkAmoc();
+        });
+    </script>
+{% endblock %}

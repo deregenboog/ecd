@@ -22,6 +22,8 @@ class Opmerking
     use TimestampableTrait;
 
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
@@ -31,7 +33,7 @@ class Opmerking
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="Klant")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="opmerkingen")
      * @Gedmo\Versioned
      */
     private $klant;
@@ -46,19 +48,100 @@ class Opmerking
     private $categorie;
 
     /**
+     * @var string
+     *
      * @ORM\Column()
      * @Gedmo\Versioned
      */
     private $beschrijving;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
-    private $gezien;
+    private $gezien = false;
+
+    public function __construct(Klant $klant = null)
+    {
+        $this->setKlant($klant);
+    }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Klant
+     */
+    public function getKlant()
+    {
+        return $this->klant;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Klant $klant
+     */
+    public function setKlant($klant)
+    {
+        $this->klant = $klant;
+
+        return $this;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Categorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Categorie $categorie
+     */
+    public function setCategorie($categorie)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBeschrijving()
+    {
+        return $this->beschrijving;
+    }
+
+    /**
+     * @param string $beschrijving
+     */
+    public function setBeschrijving($beschrijving)
+    {
+        $this->beschrijving = $beschrijving;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGezien()
+    {
+        return $this->gezien;
+    }
+
+    /**
+     * @param bool $gezien
+     */
+    public function setGezien($gezien)
+    {
+        $this->gezien = $gezien;
+
+        return $this;
     }
 }

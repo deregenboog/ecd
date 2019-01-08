@@ -5,8 +5,9 @@ namespace Tests\AppBundle\Filter;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
-class KlantFilterTest extends \PHPUnit_Framework_TestCase
+class KlantFilterTest extends TestCase
 {
     public function testIdFilter()
     {

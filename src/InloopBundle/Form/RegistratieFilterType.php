@@ -42,7 +42,7 @@ class RegistratieFilterType extends AbstractType
             ]);
         }
 
-        $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];
+        $props = ['douche', 'maaltijd', 'activering', 'kleding', 'veegploeg', 'mw'];
         foreach ($props as $prop) {
             if (in_array($prop, $options['enabled_filters'])) {
                 $builder->add($prop, ChoiceType::class, [
@@ -73,16 +73,15 @@ class RegistratieFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => RegistratieFilter::class,
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geslacht'],
-                'locatie',
+                'klant' => ['naam'],
                 'binnen',
-                'buiten',
+                'douche',
                 'maaltijd',
                 'activering',
                 'kleding',
                 'veegploeg',
+                'mw',
                 'filter',
-                'download',
             ],
         ]);
     }

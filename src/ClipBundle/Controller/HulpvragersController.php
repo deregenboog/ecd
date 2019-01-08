@@ -8,9 +8,12 @@ use ClipBundle\Form\HulpvragerType;
 use ClipBundle\Service\HulpvragerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/hulpvragers")
+ * @Template
  */
 class HulpvragersController extends AbstractController
 {
@@ -30,7 +33,7 @@ class HulpvragersController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

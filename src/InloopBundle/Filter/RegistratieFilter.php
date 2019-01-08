@@ -33,6 +33,11 @@ class RegistratieFilter implements FilterInterface
     /**
      * @var bool
      */
+    public $douche;
+
+    /**
+     * @var bool
+     */
     public $activering;
 
     /**
@@ -46,9 +51,19 @@ class RegistratieFilter implements FilterInterface
     public $veegploeg;
 
     /**
+     * @var bool
+     */
+    public $mw;
+
+    /**
      * @var AppKlantFilter
      */
     public $klant;
+
+    public function __construct(Locatie $locatie)
+    {
+        $this->locatie = $locatie;
+    }
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -87,6 +102,14 @@ class RegistratieFilter implements FilterInterface
                     ->setParameter('datum_tot_end', $this->buiten->getEnd())
                 ;
             }
+        }
+
+        if ($this->douche) {
+            $builder->andWhere('registratie.douche > 0');
+        }
+
+        if ($this->mw) {
+            $builder->andWhere('registratie.mw > 0');
         }
 
         $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];

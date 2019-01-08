@@ -14,7 +14,7 @@ class IzVrijwilligerRepository extends EntityRepository
     const REPORT_AFGESLOTEN = 'afgesloten';
     const REPORT_EINDSTAND = 'eindstand';
 
-    public function count($report, \DateTime $startDate, \DateTime $endDate)
+    public function countTotal($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder();
         $this->applyReportFilter($builder, $report, $startDate, $endDate);

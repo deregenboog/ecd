@@ -1,0 +1,24 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Laatste registraties</h2>
+{% set registraties = klant.recenteRegistraties(5) %}
+{% if 0 == registraties|length %}
+    <p>Geen registraties</p>
+{% else %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Locatie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registratie in registraties %}
+                <tr data-href="{{ path('inloop_registraties_view', {id: registratie.id}) }}">
+                    <td>{{ registratie.binnen|date('d-m-Y') }}</td>
+                    <td>{{ registratie.locatie }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

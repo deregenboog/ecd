@@ -3,34 +3,25 @@
 namespace GaBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use GaBundle\Entity\GaGroep;
-use GaBundle\Entity\GaLidmaatschap;
+use GaBundle\Entity\Lidmaatschap;
 
-abstract class LidmaatschapDao extends AbstractDao implements LidmaatschapDaoInterface
+class LidmaatschapDao extends AbstractDao implements LidmaatschapDaoInterface
 {
+    protected $class = Lidmaatschap::class;
+
     protected $alias = 'lidmaatschap';
 
-    public function findByGroep(GaGroep $groep, $page = null)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->where($this->alias.'.groep = :groep')
-            ->setParameter('groep', $groep)
-        ;
-
-        return $this->doFindAll($builder, $page);
-    }
-
-    public function create(GaLidmaatschap $entity)
+    public function create(Lidmaatschap $entity)
     {
         $this->doCreate($entity);
     }
 
-    public function update(GaLidmaatschap $entity)
+    public function update(Lidmaatschap $entity)
     {
         $this->doUpdate($entity);
     }
 
-    public function delete(GaLidmaatschap $entity)
+    public function delete(Lidmaatschap $entity)
     {
         $this->doDelete($entity);
     }

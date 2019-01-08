@@ -5,8 +5,6 @@ namespace AppBundle\Form;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AppDateRangeType extends AbstractType
@@ -23,20 +21,6 @@ class AppDateRangeType extends AbstractType
                 'attr' => ['placeholder' => 'Tot (dd-mm-jjjj)'],
             ])
         ;
-
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-            /* @var AppDateRangeModel $data */
-            $data = $event->getData();
-            if ($data instanceof AppDateRangeModel
-                && $data->getStart() instanceof \DateTime
-                && $data->getEnd() instanceof \DateTime
-                && $data->getStart() > $data->getEnd()
-            ) {
-                $tmp = $data->getStart();
-                $data->setStart($data->getEnd());
-                $data->setEnd($tmp);
-            }
-        });
     }
 
     /**

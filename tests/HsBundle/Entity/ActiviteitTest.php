@@ -6,8 +6,9 @@ use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
+use PHPUnit\Framework\TestCase;
 
-class ActiviteitTest extends \PHPUnit_Framework_TestCase
+class ActiviteitTest extends TestCase
 {
     public function testIsDeletable()
     {

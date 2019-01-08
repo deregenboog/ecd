@@ -6,14 +6,9 @@
         {% if diensten|length > 0 %}
             {% for dienst in diensten %}
                 <tr>
-                    <td>
-                        {% if dienst.url %}
-                            {% set link = html.link(dienst.name, dienst.url) %}
-                        {% else %}
-                            {% set link = dienst.name %}
-                        {% endif %}
-                        {{ link }}
-                    </td>
+                    <th>
+                        {{ dienst.name }}
+                    </th>
                     <td>
                         {% if 'date' == dienst.type %}
                             {% set value = '' %}
@@ -27,7 +22,12 @@
                         {% else %}
                             {% set value = dienst.value %}
                         {% endif %}
-                        {{ value }}
+
+                        {% if dienst.url %}
+                            {{ html.link(value, dienst.url, 'view') }}
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

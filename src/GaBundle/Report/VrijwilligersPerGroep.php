@@ -8,11 +8,15 @@ class VrijwilligersPerGroep extends AbstractReport
 {
     protected $title = 'Vrijwilligers per groep';
 
-    protected $yDescription = 'Groep';
+    protected $yDescription = 'groepnaam';
 
     protected function init()
     {
-        $this->data = $this->repository->countVrijwilligersPerGroep($this->startDate, $this->endDate);
+        $data = [];
+        foreach ($this->repositories as $group => $repository) {
+            $data[$group] = $repository->countVrijwilligersPerGroep($this->startDate, $this->endDate);
+        }
+        $this->data = $data;
     }
 
     protected function build()
@@ -20,19 +24,22 @@ class VrijwilligersPerGroep extends AbstractReport
         $columns = [
             'Aantal activiteiten' => 'aantal_activiteiten',
             'Aantal vrijwilligers' => 'aantal_vrijwilligers',
-            'Aantal unieke vrijwilligers' => 'aantal_unieke_vrijwilligers',
+            'Aantal vrijwilligersdeelnames' => 'aantal_vrijwilligersdeelnames',
         ];
-        $grid = new Grid($this->data, $columns, 'groep');
-        $grid
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYNullReplacement('Onbekend')
-        ;
 
-        $this->reports[] = [
-            'title' => '',
-            'yDescription' => 'Groep',
-            'data' => $grid->render(),
-        ];
+        foreach ($this->data as $title => $data) {
+            $grid = new Grid($data, $columns, 'groepnaam');
+            $grid
+                ->setStartDate($this->startDate)
+                ->setEndDate($this->endDate)
+                ->setYNullReplacement('Onbekend')
+            ;
+
+            $this->reports[] = [
+                'title' => $title,
+                'yDescription' => 'Groep',
+                'data' => $grid->render(),
+            ];
+        }
     }
 }

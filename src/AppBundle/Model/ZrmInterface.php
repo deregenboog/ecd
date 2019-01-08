@@ -6,7 +6,9 @@ use AppBundle\Entity\Zrm;
 
 interface ZrmInterface
 {
-    public function getZrms();
+    public function getId();
 
-    public function addZrm(Zrm $zrm);
+    public function getZrm();
+
+    public function setZrm(Zrm $zrm);
 }

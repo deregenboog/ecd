@@ -1,0 +1,101 @@
+{% extends 'GaBundle::index.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.id) }}
+                        {{ form_errors(filter.klant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                        {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                        {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                        {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.intakedatum.start) }}
+                        {{ form_errors(filter.intakedatum.start) }}
+                        {{ form_widget(filter.intakedatum.end) }}
+                        {{ form_errors(filter.intakedatum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.afsluitdatum.start) }}
+                        {{ form_errors(filter.afsluitdatum.start) }}
+                        {{ form_widget(filter.afsluitdatum.end) }}
+                        {{ form_errors(filter.afsluitdatum.end) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'medewerker.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'intake.afsluitdatum') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for intake in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: intake.id}) }}" class="{{ (intake.afsluitdatum and intake.afsluitdatum <= today) ? 'danger' }}">
+                    <td>
+                        {{ intake.klant.id }}
+                    </td>
+                    <td>
+                        {{ intake.klant.naam }}
+                    </td>
+                    <td>
+                        {{ intake.klant.geboortedatum ? intake.klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ intake.medewerker }}
+                    </td>
+                    <td>
+                        {{ intake.intakedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ intake.afsluitdatum ? intake.afsluitdatum|date('d-m-Y') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

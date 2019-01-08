@@ -50,6 +50,24 @@ class Hulpvraag extends Hulp
      */
     protected $reserveringen;
 
+    /**
+     * @var SuccesindicatorPersoonlijk[]
+     * @ORM\ManyToMany(targetEntity="SuccesindicatorPersoonlijk")
+     */
+    private $succesindicatorenPersoonlijk;
+
+    /**
+     * @var SuccesindicatorFinancieel[]
+     * @ORM\ManyToMany(targetEntity="SuccesindicatorFinancieel")
+     */
+    private $succesindicatorenFinancieel;
+
+    /**
+     * @var SuccesindicatorParticipatie[]
+     * @ORM\ManyToMany(targetEntity="SuccesindicatorParticipatie")
+     */
+    private $succesindicatorenParticipatie;
+
     public function __toString()
     {
         return sprintf('%s | %s | %s', $this->izKlant, $this->project, $this->startdatum->format('d-m-Y'));
@@ -167,6 +185,42 @@ class Hulpvraag extends Hulp
     {
         $this->koppelingStartdatum = $startdatum;
         $this->getKoppeling()->setStartdatum($startdatum);
+
+        return $this;
+    }
+
+    public function getSuccesindicatorenPersoonlijk()
+    {
+        return $this->succesindicatorenPersoonlijk;
+    }
+
+    public function setSuccesindicatorenPersoonlijk($indicatoren)
+    {
+        $this->succesindicatorenPersoonlijk = $indicatoren;
+
+        return $this;
+    }
+
+    public function getSuccesindicatorenFinancieel()
+    {
+        return $this->succesindicatorenFinancieel;
+    }
+
+    public function setSuccesindicatorenFinancieel($indicatoren)
+    {
+        $this->succesindicatorenFinancieel = $indicatoren;
+
+        return $this;
+    }
+
+    public function getSuccesindicatorenParticipatie()
+    {
+        return $this->succesindicatorenParticipatie;
+    }
+
+    public function setSuccesindicatorenParticipatie($indicatoren)
+    {
+        $this->succesindicatorenParticipatie = $indicatoren;
 
         return $this;
     }

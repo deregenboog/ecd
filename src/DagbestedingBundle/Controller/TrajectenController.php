@@ -13,10 +13,12 @@ use DagbestedingBundle\Form\TrajectType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/trajecten")
+ * @Template
  */
 class TrajectenController extends AbstractChildController
 {
@@ -54,7 +56,7 @@ class TrajectenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten aan te maken.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
@@ -68,7 +70,7 @@ class TrajectenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten te wijzigen.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
@@ -82,7 +84,7 @@ class TrajectenController extends AbstractChildController
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten te verwijderen.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
@@ -96,7 +98,7 @@ class TrajectenController extends AbstractChildController
      */
     public function closeAction(Request $request, Traject $id)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten af te sluiten.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');

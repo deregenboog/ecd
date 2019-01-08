@@ -40,3 +40,6 @@ services:
                 Werkgebied: { expression: 'entity.getWerkgebied()' }
                 Postvoorkeur: { expression: 'entity.getGeenPost() ? "Geen post" : "Wel post"' }
                 E-mailvoorkeur: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
+
+    app.export.report:
+        class: AppBundle\Export\ReportExport

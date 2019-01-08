@@ -9,10 +9,13 @@ use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
 use HsBundle\Service\BetalingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/betalingen")
+ * @Template
  */
 class BetalingenController extends AbstractChildController
 {
@@ -48,7 +51,7 @@ class BetalingenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

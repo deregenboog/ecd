@@ -100,6 +100,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
      */
     public function delete(Vrijwilliger $vrijwilliger)
     {
+        // @todo remove this when disabled field is no longer needed
+        $vrijwilliger->setDisabled(true);
+        $this->update($vrijwilliger);
+
         return $this->doDelete($vrijwilliger);
     }
 }

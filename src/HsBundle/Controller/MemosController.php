@@ -7,10 +7,12 @@ use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
 use HsBundle\Service\MemoDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/memos")
+ * @Template
  */
 class MemosController extends AbstractChildController
 {

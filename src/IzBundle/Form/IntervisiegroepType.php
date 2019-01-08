@@ -18,7 +18,7 @@ class IntervisiegroepType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $intervisiegroep Intervisiegroep */
+        /* @var $intervisiegroep Intervisiegroep */
         $intervisiegroep = $options['data'];
 
         $builder

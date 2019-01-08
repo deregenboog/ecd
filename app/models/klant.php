@@ -796,13 +796,6 @@ class Klant extends AppModel
         ];
     }
 
-    public function goesToInfobalie($klant)
-    {
-        return
-            $klant['Klant']['doorverwijzen_naar_amoc'] ||
-            in_array($klant['Klant']['land_id'], Configure::read('Landen.AMOC'));
-    }
-
     public function findDuplicates($data, $recursive = 0)
     {
         $this->recursive = $recursive;

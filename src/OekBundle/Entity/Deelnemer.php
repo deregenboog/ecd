@@ -5,7 +5,9 @@ namespace OekBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -119,7 +121,11 @@ class Deelnemer
 
     public function __toString()
     {
-        return (string) $this->klant;
+        try {
+            return NameFormatter::formatFormal($this->klant);
+        } catch (EntityNotFoundException $e) {
+            return '';
+        }
     }
 
     public function getId()

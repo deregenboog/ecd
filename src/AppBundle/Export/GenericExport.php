@@ -100,6 +100,13 @@ class GenericExport extends AbstractExport
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_TIME3);
                             break;
                         default:
+                            if (is_array($value) || $value instanceof \Traversable) {
+                                $values = [];
+                                foreach ($value as $v) {
+                                    $values[] = (string) $v;
+                                }
+                                $value = implode(', ', $values);
+                            }
                             $sheet->getCellByColumnAndRow($column, $this->row)
                                 ->setValue($value);
                             break;

@@ -2,21 +2,14 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Filter\SchorsingFilter;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\JaNeeType;
+use InloopBundle\Entity\Schorsing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Schorsing;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\JaNeeType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class SchorsingType extends AbstractType
 {
@@ -39,29 +32,44 @@ class SchorsingType extends AbstractType
             ])
             ->add('redenOverig', null, [
                 'label' => false,
+                'required' => false,
             ])
             ->add('agressie', JaNeeType::class, [
                 'label' => 'Is de agressie gericht tegen een medewerker, stagair of vrijwilliger?',
                 'attr' => [
                     'class' => 'agressie agressie_parent',
-                ]
+                ],
             ])
         ;
 
         foreach (range(1, 4) as $i) {
             $builder->add("agressiedoelwit_$i", AgressieDoelwitType::class, [
                 'index' => $i,
-                'label' => "Betrokkene $i",
+                'label' => 1 === $i ? "Tegen wie is de agressie gericht? Betrokkene $i" : "Betrokkene $i",
                 'attr' => [
                     'class' => 'agressie  agressie_children',
-                ]
+                ],
             ]);
         }
 
         $builder
-            ->add('opmerking')
-            ->add('locatiehoofd')
-            ->add('bijzonderheden')
+            ->add('aangifte', JaNeeType::class, [
+                'label' => 'Is er aangifte gedaan?',
+                'attr' => [
+                    'class' => 'agressie  agressie_children',
+                    'novalidate' => 'novalidate',
+                ],
+            ])
+            ->add('nazorg', JaNeeType::class, [
+                'label' => 'Is er nazorg nodig?',
+                'attr' => [
+                    'class' => 'agressie  agressie_children',
+                    'novalidate' => 'novalidate',
+                ],
+            ])
+            ->add('opmerking', null, ['required' => false])
+            ->add('locatiehoofd', null, ['required' => false])
+            ->add('bijzonderheden', null, ['required' => false])
             ->add('submit', SubmitType::class)
         ;
     }
@@ -81,6 +89,7 @@ class SchorsingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Schorsing::class,
+            'attr' => ['novalidate' => 'novalidate'],
         ]);
     }
 }

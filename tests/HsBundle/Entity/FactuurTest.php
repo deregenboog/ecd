@@ -8,8 +8,9 @@ use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Registratie;
+use PHPUnit\Framework\TestCase;
 
-class FactuurTest extends \PHPUnit_Framework_TestCase
+class FactuurTest extends TestCase
 {
     /**
      * @expectedException \HsBundle\Exception\InvoiceLockedException

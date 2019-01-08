@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Groepsactiviteiten | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Ga/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Groep toevoegen</h1>
+    {% if (form is defined) %}
+        {{ form(form) }}
+    {% else %}
+        <p>Selecteer het type groep dat je wilt toevoegen:</p>
+        <ul>
+            <li>{{ html.link('ErOpUit', path(route_base~'add', {type: 'GroepErOpUit'})) }}</li>
+            <li>{{ html.link('Buurtmaatjes', path(route_base~'add', {type: 'GroepBuurtmaatjes'})) }}</li>
+            <li>{{ html.link('Kwartiermaken', path(route_base~'add', {type: 'GroepKwartiermaken'})) }}</li>
+            <li>{{ html.link('OpenHuis', path(route_base~'add', {type: 'GroepOpenHuis'})) }}</li>
+            <li>{{ html.link('Organisatie', path(route_base~'add', {type: 'GroepOrganisatie'})) }}</li>
+        </ul>
+    {% endif %}
+{% endblock %}

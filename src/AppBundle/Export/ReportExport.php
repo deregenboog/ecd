@@ -14,7 +14,7 @@ class ReportExport extends AbstractExport
         $this->excel = new Spreadsheet();
 
         foreach ($data['reports'] as $i => $report) {
-            $reportTitle = preg_replace('[^A-Za-z0-9]', '_', $report['title']);
+            $reportTitle = substr(0, 31, preg_replace('[^A-Za-z0-9]', '_', $report['title']));
             if (!$reportTitle) {
                 $reportTitle = sprintf('Worksheet_%d', $i + 1);
             }

@@ -58,8 +58,8 @@ HsBundle\Entity\Registratie:
         activiteit: '@hs_activiteit_*'
         medewerker: '@medewerker_*'
         datum: '<dateTimeThisYear()>'
-        start: '10:00'
-        eind: '13:00'
+        start: '<dateTimeThisYear()>'
+        eind: '<dateTimeThisYear()>'
 
 #HsBundle\Entity\Declaratie:
 #    hs_declaratie_{1..200}:

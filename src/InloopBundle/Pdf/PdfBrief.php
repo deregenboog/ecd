@@ -2,9 +2,7 @@
 
 namespace InloopBundle\Pdf;
 
-\App::import('Vendor', 'xtcpdf');
-
-class PdfBrief extends \XTCPDF
+class PdfBrief extends \TCPDF
 {
     public function __construct($html)
     {

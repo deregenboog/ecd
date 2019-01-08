@@ -14,11 +14,13 @@ use OdpBundle\Form\VerhuurderFilterType;
 use OdpBundle\Form\VerhuurderSelectType;
 use OdpBundle\Form\VerhuurderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/verhuurders")
+ * @Template
  */
 class VerhuurdersController extends SymfonyController
 {
@@ -79,7 +81,7 @@ class VerhuurdersController extends SymfonyController
         $this->autoRender = false;
         $filename = sprintf('onder-de-pannen-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        /** @var $export ExportInterface */
+        /* @var $export ExportInterface */
         $export = $this->container->get('odp.export.verhuurders');
 
         return $export->create($verhuurders)->getResponse($filename);

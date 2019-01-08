@@ -8,9 +8,10 @@ use AppBundle\Event\Events;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Event\DienstenLookupSubscriber;
 use HsBundle\Service\DienstverlenerDaoInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class DienstenLookupSubscriberTest extends \PHPUnit_Framework_TestCase
+class DienstenLookupSubscriberTest extends TestCase
 {
     public function testGetSubscribedEvents()
     {

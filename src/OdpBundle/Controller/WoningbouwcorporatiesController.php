@@ -8,10 +8,12 @@ use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Woningbouwcorporatie;
 use OdpBundle\Form\WoningbouwcorporatieType;
 use OdpBundle\Service\WoningbouwcorporatieDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/woningbouwcorporaties")
+ * @Template
  */
 class WoningbouwcorporatiesController extends SymfonyController
 {

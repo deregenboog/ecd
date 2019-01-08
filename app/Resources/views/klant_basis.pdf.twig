@@ -1,0 +1,31 @@
+<h2>Basisgegevens</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Naam</td>
+        <td>{{ klant|naam_voor_achter }}</td>
+    </tr>
+    <tr>
+        <td>Geslacht</td>
+        <td>{{ klant.geslacht.volledig }}</td>
+    </tr>
+    <tr>
+        <td>Geboortedatum</td>
+        <td>{{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Geboorteland</td>
+        <td>{{ klant.land }}</td>
+    </tr>
+    <tr>
+        <td>Nationaliteit</td>
+        <td>{{ klant.nationaliteit }}</td>
+    </tr>
+    <tr>
+        <td>BSN</td>
+        <td>{{ klant.bsn }}</td>
+    </tr>
+    <tr>
+        <td>Medewerker</td>
+        <td>{{ klant.medewerker }}</td>
+    </tr>
+</table>

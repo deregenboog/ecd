@@ -3,18 +3,20 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Export\ExportInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Client;
+use PfoBundle\Form\ClientConnectType;
 use PfoBundle\Form\ClientFilterType;
 use PfoBundle\Form\ClientType;
 use PfoBundle\Service\ClientDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\ExportInterface;
-use PfoBundle\Form\ClientConnectType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/clienten")
+ * @Template
  */
 class ClientenController extends AbstractController
 {

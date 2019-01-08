@@ -17,8 +17,10 @@
             <tr>
                 <th>{{ label }}</th>
                 <td width="50%">
-                    {% if (99 != attribute(entity, field)) %}
-                        {% set value = attribute(entity, field) %}
+                    {% set value = attribute(entity, field) %}
+                    {% if 99 == value %}
+                        <span>Niet besproken</span>
+                    {% elseif value > 0 %}
                         <div style="padding-right: 5px; text-align: right; color: white; background-color: green; width: {{ value * 20 }}%;">
                             <strong>{{ value }}</strong>
                         </div>

@@ -14,7 +14,7 @@
     {{ html.navLink('Rapportages', path('iz_rapportages_index'), isActiveRoute('iz_rapportages_')) }}
     {{ html.navLink('Selecties', path('iz_selecties_index'), isActiveRoute('iz_selecties_')) }}
     {{ html.navLink('Intervisiegroepen', path('iz_intervisiegroepen_index'), isActiveRoute('iz_intervisiegroepen_')) }}
-    {% if constant('GROUP_IZ_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
+    {% if is_granted('ROLE_IZ_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('iz/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>
@@ -30,6 +30,9 @@
                 {{ html.navLink('Hulpvraagsoorten', path('iz_hulpvraagsoorten_index'), isActiveRoute('iz_hulpvraagsoorten_')) }}
                 {{ html.navLink('Projecten', path('iz_projecten_index'), isActiveRoute('iz_projecten_')) }}
                 {{ html.navLink('Redenen einde hulpvraag/hulpaanbod', path('iz_eindevraagaanbod_index'), isActiveRoute('iz_eindevraagaanbod_')) }}
+                {{ html.navLink('Succesindicatoren financieel', path('iz_succesindicatorenfinancieel_index'), isActiveRoute('iz_succesindicatorenfinancieel_')) }}
+                {{ html.navLink('Succesindicatoren participatie', path('iz_succesindicatorenparticipatie_index'), isActiveRoute('iz_succesindicatorenparticipatie_')) }}
+                {{ html.navLink('Succesindicatoren persoonlijk', path('iz_succesindicatorenpersoonlijk_index'), isActiveRoute('iz_succesindicatorenpersoonlijk_')) }}
             </ul>
         </li>
     {% endif %}

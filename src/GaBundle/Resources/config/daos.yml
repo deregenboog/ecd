@@ -1,9 +1,120 @@
 services:
+    GaBundle\Service\ActiviteitAnnuleringsredenDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\ActiviteitDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\DossierAfsluitredenDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\DossierDao:
+        parent: app.dao.abstract
+
     GaBundle\Service\GroepDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\KlantIntakeDao:
+    GaBundle\Service\KlantdossierDao:
+        parent: app.dao.abstract
+        
+    GaBundle\Service\KlantLidmaatschapDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - 100
+
+    GaBundle\Service\IntakeDao:
         parent: app.dao.abstract
 
-    GaBundle\Service\KlantLidmaatschapDao:
+    GaBundle\Service\LidmaatschapAfsluitredenDao:
         parent: app.dao.abstract
+
+    GaBundle\Service\LidmaatschapDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\VrijwilligerdossierDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\VrijwilligerLidmaatschapDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - 100
+
+    ga.repository.groep_buurtmaatjes:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - GaBundle\Entity\GroepBuurtmaatjes
+
+    ga.repository.groep_eropuit:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - GaBundle\Entity\GroepErOpUit
+
+    ga.repository.groep_kwartiermaken:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - GaBundle\Entity\GroepKwartiermaken
+
+    ga.repository.groep_openhuis:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - GaBundle\Entity\GroepOpenHuis
+
+    ga.repository.groep_organisatie:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - GaBundle\Entity\GroepOrganisatie
+
+    ga.activiteit.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: null }
+              - { key: groep, dao: '@GaBundle\Service\GroepDao' }
+
+    ga.deelname.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: activiteit, dao: '@GaBundle\Service\ActiviteitDao' }
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
+
+    ga.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+
+    ga.intake.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
+    
+    ga.lidmaatschap.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
+              - { key: groep, dao: '@GaBundle\Service\GroepDao' }
+
+    ga.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: dossier, dao: '@GaBundle\Service\DossierDao' }

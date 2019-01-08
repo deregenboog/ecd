@@ -1,8 +1,33 @@
 imports:
     - { resource: daos.yml }
     - { resource: exports.yml }
+    - { resource: reports.yml }
 
 services:
+    AppBundle\Security\ControllerAccessVoter:
+        arguments:
+            - '@security.access.decision_manager'
+            - '@request_stack'
+        tags:
+            - { name: security.voter }
+
+    AppBundle\Security\ControllerVoter:
+        arguments:
+            - '@security.role_hierarchy'
+        tags:
+            - { name: security.voter }
+
+    AppBundle\Event\LoadUserEventListener:
+        tags:
+            - { name: kernel.event_listener, event: ldap_tools_bundle.load_user.after, method: afterUserLoad }
+
+    AppBundle\Event\LoginEventListener:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@?ldap_tools.security.user.ldap_user_provider'
+        tags:
+            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
+
     twig.extension.routing: # override default routing extension
         class: AppBundle\Twig\RoutingExtension
         public: false
@@ -20,6 +45,7 @@ services:
             - '%locale%'
             - '%administrator_name%'
             - '%administrator_email%'
+            - '%tbc_months_period%'
         tags:
             - { name: twig.extension }
 
@@ -34,13 +60,18 @@ services:
         tags:
             - { name: form.type }
 
+    AppBundle\Form\KlantMergeType:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
     AppBundle\Form\VrijwilligerType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
 
     AppBundle\Form\MedewerkerType:
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
 
@@ -55,24 +86,8 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    app.form.rapportage:
-        class: AppBundle\Form\RapportageType
-        tags:
-            - { name: form.type }
-
-    app.report.klanten.zrm_score_per_postcodegebied:
-        class: AppBundle\Report\ZrmScorePerPostcodegebied
+    AppBundle\Event\DienstenLookupSubscriber:
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - '@AppBundle\Service\KlantDao'
         tags:
-            - { name: app.rapportage, category: ZRM }
-
-    app.report.klanten.zrm_v2_score_per_postcodegebied:
-        class: AppBundle\Report\ZrmV2ScorePerPostcodegebied
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            - { name: app.rapportage, category: ZRM }
-
-    app.export.report:
-        class: AppBundle\Export\ReportExport
+            - { name: kernel.event_subscriber }

@@ -124,6 +124,11 @@ class Inventarisatie
      */
     private $verslaginventarisaties;
 
+    public function __toString()
+    {
+        return (string) $this->titel;
+    }
+
     /**
      * @return int
      */
@@ -336,5 +341,36 @@ class Inventarisatie
         $this->depth = $depth;
 
         return $this;
+    }
+
+    public function isRoot()
+    {
+        return is_null($this->parent);
+    }
+
+    public function getRoot()
+    {
+        $current = $this;
+        while ($parent = $current->getParent()) {
+            $current = $parent;
+        }
+
+        return $current;
+    }
+
+    public function getPath($minDepth = 0)
+    {
+        $current = $this;
+
+        $parts = [$current->getTitel()];
+        while ($parent = $current->getParent()) {
+            if ($parent->getDepth() < $minDepth) {
+                break;
+            }
+            $parts[] = $parent->getTitel();
+            $current = $parent;
+        }
+
+        return $parts;
     }
 }

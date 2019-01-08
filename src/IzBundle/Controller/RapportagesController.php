@@ -7,7 +7,6 @@ use AppBundle\Export\ExportInterface;
 use IzBundle\Form\RapportageType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/rapportages")
@@ -22,12 +21,4 @@ class RapportagesController extends AbstractRapportagesController
      * @DI\Inject("iz.export.report")
      */
     protected $export;
-
-    /**
-     * @Route("/")
-     */
-    public function indexAction(Request $request)
-    {
-        return parent::indexAction($request);
-    }
 }

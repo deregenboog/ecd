@@ -12,12 +12,14 @@ use HsBundle\Form\DienstverlenerFilterType;
 use HsBundle\Form\DienstverlenerType;
 use HsBundle\Service\DienstverlenerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/dienstverleners")
+ * @Template
  */
 class DienstverlenersController extends AbstractController
 {
@@ -78,6 +80,10 @@ class DienstverlenersController extends AbstractController
 
             if ($count > 100) {
                 $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
             }
 
             return [

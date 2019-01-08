@@ -1,0 +1,117 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="5">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+{#
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.id) }}
+                        {{ form_errors(filter.klant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geslacht) }}
+                        {{ form_errors(filter.klant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.locatie) }}
+                        {{ form_errors(filter.locatie) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.binnen.start) }}
+                        {{ form_errors(filter.binnen.start) }}
+                        {{ form_widget(filter.binnen.end) }}
+                        {{ form_errors(filter.binnen.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.buiten.start) }}
+                        {{ form_errors(filter.buiten.start) }}
+                        {{ form_widget(filter.buiten.end) }}
+                        {{ form_errors(filter.buiten.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.maaltijd) }}
+                        {{ form_errors(filter.maaltijd) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.activering) }}
+                        {{ form_errors(filter.activering) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.kleding) }}
+                        {{ form_errors(filter.kleding) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.veegploeg) }}
+                        {{ form_errors(filter.veegploeg) }}
+                    </th>
+                </tr>
+#}
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'intakelocatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Datum', 'intake.intakedatum') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for intake in pagination %}
+            <tr data-href="{{ path('inloop_intakes_view', {id: intake.id}) }}">
+                <td>
+                    {{ intake.klant.id }}
+                </td>
+                <td>
+                    {{ intake.klant }}
+                </td>
+                <td>
+                    {{ intake.klant.geslacht }}
+                </td>
+                <td>
+                    {{ intake.intakelocatie }}
+                </td>
+                <td>
+                    {{ intake.intakedatum|date('d-m-Y') }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

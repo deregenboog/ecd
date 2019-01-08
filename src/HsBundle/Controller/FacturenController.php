@@ -18,12 +18,14 @@ use HsBundle\Service\FactuurDaoInterface;
 use HsBundle\Service\FactuurFactoryInterface;
 use HsBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/facturen")
+ * @Template
  */
 class FacturenController extends AbstractChildController
 {
@@ -108,7 +110,7 @@ class FacturenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 
@@ -152,8 +154,7 @@ class FacturenController extends AbstractChildController
      */
     public function lockAction(Request $request, $id)
     {
-        // @todo
-//         $this->denyAccessUnlessGranted(GROUP_HOMESERVICE_BEHEER);
+        $this->denyAccessUnlessGranted('ROLE_HOMESERVICE_BEHEER');
 
         $entity = $this->dao->find($id);
         $entity->lock();
@@ -162,7 +163,7 @@ class FacturenController extends AbstractChildController
         return $this->redirectToView($entity);
     }
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         return new $this->entityClass($parentEntity);
     }

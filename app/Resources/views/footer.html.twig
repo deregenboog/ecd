@@ -1,37 +1,5 @@
-<footer>
+<footer class="footer">
     <div class="container-fluid">
         ECD {{ app_version }}
     </div>
 </footer>
-<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script type="text/javascript">
-    $(function() {
-        $('form button[type="submit"]').on('click', function(event) {
-            var button = $(this);
-            // disable clicked button almost immediately to prevent double click
-            setTimeout(function() {
-                button.prop('disabled', true);
-                // enabled clicked button again after one second
-                setTimeout(function() {
-                    button.prop('disabled', false);
-                }, 1000);
-            }, 50);
-        });
-        // navigate to active tab
-        $('.nav-tabs a[href="'+window.location.hash+'"]').tab('show')
-        // change urls when activating other tab
-        $('.nav-tabs a').on('shown.bs.tab', function(event) {
-            window.history.replaceState({}, window.document.title, $(event.target).attr('href'));
-            $('a[href*="redirect="]').each(function(index, element) {
-//                $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+encodeURIComponent(window.location.href)));
-                $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+window.location.pathname+window.location.hash));
-            });
-        });
-        // make table rows clickable
-        $('table.table.table-hover tr').click(function() {
-            if (typeof($(this).data('href')) != 'undefined') {
-                window.document.location = $(this).data('href');
-            }
-        });
-    });
-</script>

@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }} {{ locatie }}</h1>
+    <p>
+        <a href="{{ path('inloop_registraties_locationselect') }}">Locatie wijzigen</a>
+    </p>
+    <ul class="nav nav-tabs">
+        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_index', {locatie: locatie.id}), isActiveRoute('inloop_registraties_index')) }}
+        {{ html.navLink('Nu binnen', path('inloop_registraties_active', {locatie: locatie.id}), isActiveRoute('inloop_registraties_active')) }}
+        {{ html.navLink('Recent uitgecheckt', path('inloop_registraties_history', {locatie: locatie.id}), isActiveRoute('inloop_registraties_history')) }}
+    </ul>
+    <div id="content">
+        {{ form_start(filter) }}
+            <table class="table table-fixed">
+                {{ colgroup(12) }}
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            {{ form_widget(filter.klant.naam) }}
+                            {{ form_errors(filter.klant.naam) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.binnen.start) }}
+                            {{ form_errors(filter.binnen.start) }}
+                            {{ form_widget(filter.binnen.end) }}
+                            {{ form_errors(filter.binnen.end) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.buiten.start) }}
+                            {{ form_errors(filter.buiten.start) }}
+                            {{ form_widget(filter.buiten.end) }}
+                            {{ form_errors(filter.buiten.end) }}
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            {{ form_widget(filter.kleding) }}
+                            {{ form_errors(filter.kleding) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.maaltijd) }}
+                            {{ form_errors(filter.maaltijd) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.veegploeg) }}
+                            {{ form_errors(filter.veegploeg) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.activering) }}
+                            {{ form_errors(filter.activering) }}
+                        </th>
+                        <th colspan="3">
+                            <span class="pull-right">
+                                {{ form_widget(filter.filter) }}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        {{ form_end(filter) }}
+        <div id="loader" style="display: none; margin-top: 1em">
+            <h4>Een moment geduld...</h4>
+        </div>
+        <div id="ajaxContainer" style="margin-top: -17px;">
+            {#% include 'InloopBundle:registraties:_history.html.twig' %#}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var locatie_id = {{ locatie.id }};
+    </script>
+    <script src="{{ asset('bundles/inloop/js/registraties/history.js') }}"></script>
+{% endblock %}

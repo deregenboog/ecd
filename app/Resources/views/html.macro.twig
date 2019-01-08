@@ -22,47 +22,61 @@
 {% endmacro %}
 
 {% macro iconLink(url, icon, title) %}
-    {{ _self.link(null, url, icon, title) }}
+    {% import _self as self %}
+    {{ self.link(null, url, icon, title) }}
 {% endmacro %}
 
 {% macro viewLink(url) %}
-    {{ _self.iconLink(url, 'view', 'Bekijken') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'view', 'Bekijken') }}
 {% endmacro %}
 
 {% macro addLink(url) %}
-    {{ _self.iconLink(url, 'add', 'Toevoegen') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'add', 'Toevoegen') }}
 {% endmacro %}
 
 {% macro editLink(url) %}
-    {{ _self.iconLink(url, 'edit', 'Wijzigen') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'edit', 'Wijzigen') }}
 {% endmacro %}
 
 {% macro deleteLink(url) %}
-    {{ _self.iconLink(url, 'delete', 'Verwijderen') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'delete', 'Verwijderen') }}
 {% endmacro %}
 
 {% macro closeLink(url) %}
-    {{ _self.iconLink(url, 'close', 'Afsluiten') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'close', 'Afsluiten') }}
 {% endmacro %}
 
 {% macro downloadLink(url) %}
-    {{ _self.iconLink(url, 'download', 'Downloaden') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'download', 'Downloaden') }}
 {% endmacro %}
 
 {% macro cancelLink(url) %}
-    {{ _self.iconLink(url, 'cancel', 'Annuleren') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'cancel', 'Annuleren') }}
 {% endmacro %}
 
 {% macro connectLink(url) %}
-    {{ _self.iconLink(url, 'connect', 'Koppelen') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'connect', 'Koppelen') }}
 {% endmacro %}
 
 {% macro emailLink(url) %}
-    {{ _self.iconLink(url, 'email', 'E-mailen') }}
+    {% import _self as self %}
+    {{ self.iconLink(url, 'email', 'E-mailen') }}
 {% endmacro %}
 
 {% macro navLink(label, url, active) %}
     <li role="presentation" class="{{ active ? "active" }}">
         <a href="{{ url }}" >{{ label }}</a>
     </li>
+{% endmacro %}
+
+{% macro tick() %}
+    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 {% endmacro %}

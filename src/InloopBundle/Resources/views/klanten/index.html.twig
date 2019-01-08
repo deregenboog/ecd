@@ -12,8 +12,7 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <p>
-        {{ html.addLink(path('app_klanten_add')) }}
-        {{ html.link('Klant toevoegen', path('app_klanten_add')) }}
+        {{ html.link('Klant toevoegen', path('inloop_klanten_add'), 'add') }}
     </p>
     <table class="table table-hover">
         <thead>
@@ -51,7 +50,7 @@
                     {{ form_widget(filter.huidigeStatus) }}
                     {{ form_errors(filter.huidigeStatus) }}
                 </th>
-                <th colspan="2">
+                <th>
                     {{ form_widget(filter.filter) }}
                 </th>
                 {{ form_end(filter) }}
@@ -84,44 +83,39 @@
                 <th>
                     Aantal intakes
                 </th>
-                <th>
-                </th>
             </tr>
         </thead>
         <tbody>
             {% for klant in pagination %}
-            <tr>
-                <td>
-                    {{ html.link(klant.id, path('app_klanten_view', {id: klant.id})) }}
-                </td>
-                <td>
-                    {{ klant }}
-                </td>
-                <td>
-                    {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ klant.geslacht }}
-                </td>
-                <td>
-                    {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
-                </td>
-                <td>
-                    {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
-                </td>
-                <td>
-                    {{ klant.laatsteIntake ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ klant.huidigeStatus }}
-                </td>
-                <td>
-                    {{ klant.intakes|length }}
-                </td>
-                <td>
-                    {{ html.viewLink(path('app_klanten_view', {id: klant.id})) }}
-                </td>
-            </tr>
+                <tr data-href="{{ path('inloop_klanten_view', {id: klant.id}) }}">
+                    <td>
+                        {{ klant.id }}
+                    </td>
+                    <td>
+                        {{ klant }}
+                    </td>
+                    <td>
+                        {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.geslacht }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.huidigeStatus }}
+                    </td>
+                    <td>
+                        {{ klant.intakes|length }}
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

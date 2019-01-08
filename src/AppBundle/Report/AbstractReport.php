@@ -112,6 +112,16 @@ abstract class AbstractReport
         return $this->reports;
     }
 
+    public function getFormOptions()
+    {
+        return [
+            'enabled_filters' => [
+                'startdatum',
+                'einddatum',
+            ],
+        ];
+    }
+
     protected function build()
     {
         foreach ($this->tables as $title => $table) {

@@ -10,8 +10,9 @@ use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Memo;
 use HsBundle\Entity\Registratie;
+use PHPUnit\Framework\TestCase;
 
-class DienstverlenerTest extends \PHPUnit_Framework_TestCase
+class DienstverlenerTest extends TestCase
 {
     public function testToString()
     {

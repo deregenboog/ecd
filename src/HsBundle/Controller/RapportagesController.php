@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\GenericExport;
 use HsBundle\Form\RapportageType;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/rapportages")
+ * @Template
  */
 class RapportagesController extends AbstractRapportagesController
 {
@@ -22,12 +23,4 @@ class RapportagesController extends AbstractRapportagesController
      * @DI\Inject("hs.export.report")
      */
     protected $export;
-
-    /**
-     * @Route("/")
-     */
-    public function indexAction(Request $request)
-    {
-        return parent::indexAction($request);
-    }
 }

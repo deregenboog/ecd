@@ -25,7 +25,7 @@ class IntakeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $intake Intake */
+        /* @var $intake Intake */
         $intake = $options['data'];
 
         $builder->addViewTransformer(new CallbackTransformer(

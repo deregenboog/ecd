@@ -7,6 +7,7 @@ use DagbestedingBundle\Entity\Trajectbegeleider;
 use DagbestedingBundle\Form\TrajectbegeleiderType;
 use DagbestedingBundle\Service\TrajectbegeleiderDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,7 +31,7 @@ class TrajectbegeleidersController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

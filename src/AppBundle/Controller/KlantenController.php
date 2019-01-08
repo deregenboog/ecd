@@ -12,9 +12,11 @@ use AppBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/klanten")
+ * @Template
  */
 class KlantenController extends AbstractController
 {
@@ -64,8 +66,10 @@ class KlantenController extends AbstractController
         ];
     }
 
-    protected function addParams(Klant $entity)
+    protected function addParams($entity, Request $request)
     {
+        assert($entity instanceof Klant);
+
         $event = new DienstenLookupEvent($entity->getId());
         $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
 

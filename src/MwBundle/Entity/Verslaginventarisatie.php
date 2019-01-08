@@ -2,7 +2,6 @@
 
 namespace MwBundle\Entity;
 
-use AppBundle\Entity\Verslag;
 use AppBundle\Model\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -21,7 +20,7 @@ class Verslaginventarisatie
     /**
      * @var Verslag
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verslag")
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Verslag", inversedBy="verslaginventarisaties")
      * @Gedmo\Versioned
      */
     private $verslag;
@@ -42,6 +41,13 @@ class Verslaginventarisatie
      */
     private $doorverwijzer;
 
+    public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, Doorverwijzer $doorverwijzer = null)
+    {
+        $this->verslag = $verslag;
+        $this->inventarisatie = $inventarisatie;
+        $this->doorverwijzer = $doorverwijzer;
+    }
+
     /**
      * @return Verslag
      */
@@ -53,7 +59,7 @@ class Verslaginventarisatie
     /**
      * @param Verslag $verslag
      */
-    public function setVerslag(Verslag $verslag)
+    public function setVerslag(Verslag $verslag = null)
     {
         $this->verslag = $verslag;
 

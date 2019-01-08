@@ -25,7 +25,7 @@ class RegistratieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $registratie Registratie */
+        /* @var $registratie Registratie */
         $registratie = $options['data'];
 
         if ($registratie->getKlus() && !$registratie->getArbeider()) {

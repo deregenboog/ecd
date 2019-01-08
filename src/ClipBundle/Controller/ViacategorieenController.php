@@ -8,6 +8,7 @@ use ClipBundle\Form\ViacategorieType;
 use ClipBundle\Service\ViacategorieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/viacategorieen")
@@ -30,7 +31,7 @@ class ViacategorieenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

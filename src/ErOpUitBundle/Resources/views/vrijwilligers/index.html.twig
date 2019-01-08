@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ErOpUit-kalender | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@ErOpUit/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    {% include '@ErOpUit/vrijwilligers/_filter.html.twig' %}
+    <table class="table table-hover">
+        {{ colgroup(5) }}
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'appVrijwilliger.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'appVrijwilliger.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Inschrijfdatum', 'vrijwilliger.inschrijfdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Uitschrijfdatum', 'vrijwilliger.uitschrijfdatum') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: entity.id}) }}" class="{{ entity.uitgeschreven ? 'warning' }}">
+                    <td>{{ entity.vrijwilliger.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.vrijwilliger.werkgebied }}</td>
+                    <td>{{ entity.inschrijfdatum|date('d-m-Y') }}</td>
+                    <td>
+                        {% if entity.uitschrijfdatum %}
+                            {{ entity.uitschrijfdatum|date('d-m-Y') }} ({{ entity.uitschrijfreden }})
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

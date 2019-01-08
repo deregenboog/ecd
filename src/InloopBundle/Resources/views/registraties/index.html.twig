@@ -10,136 +10,68 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <table class="table table-hover">
-        <thead>
-            {{ form_start(filter) }}
-                <tr>
-                    <th colspan="10">
-                        <span class="pull-right">
-                            {{ form_widget(filter.filter) }}
-                            {{ form_widget(filter.download) }}
-                        </span>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        {{ form_widget(filter.klant.id) }}
-                        {{ form_errors(filter.klant.id) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.klant.naam) }}
-                        {{ form_errors(filter.klant.naam) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.klant.geslacht) }}
-                        {{ form_errors(filter.klant.geslacht) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.locatie) }}
-                        {{ form_errors(filter.locatie) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.binnen.start) }}
-                        {{ form_errors(filter.binnen.start) }}
-                        {{ form_widget(filter.binnen.end) }}
-                        {{ form_errors(filter.binnen.end) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.buiten.start) }}
-                        {{ form_errors(filter.buiten.start) }}
-                        {{ form_widget(filter.buiten.end) }}
-                        {{ form_errors(filter.buiten.end) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.maaltijd) }}
-                        {{ form_errors(filter.maaltijd) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.activering) }}
-                        {{ form_errors(filter.activering) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.kleding) }}
-                        {{ form_errors(filter.kleding) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.veegploeg) }}
-                        {{ form_errors(filter.veegploeg) }}
-                    </th>
-                </tr>
-            {{ form_end(filter) }}
-            <tr>
-                <th>
-                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Locatie', 'locatie.naam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Buiten', 'registratie.buiten') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Maaltijd', 'registratie.maaltijd') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Activering', 'registratie.activering') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Kleding', 'registratie.kleding') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Veegploeg', 'registratie.veegploeg') }}
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for registratie in pagination %}
-            <tr data-href="{{ path('inloop_registraties_view', {id: registratie.id}) }}">
-                <td>
-                    {{ registratie.klant.id }}
-                </td>
-                <td>
-                    {{ registratie.klant }}
-                </td>
-                <td>
-                    {{ registratie.klant.geslacht }}
-                </td>
-                <td>
-                    {{ registratie.locatie }}
-                </td>
-                <td>
-                    {{ registratie.binnen ? registratie.binnen|date('d-m-Y H:i') }}
-                </td>
-                <td>
-                    {{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}
-                </td>
-                <td>
-                    {{ registratie.maaltijd ? 'Ja' : 'Nee' }}
-                </td>
-                <td>
-                    {{ registratie.activering ? 'Ja' : 'Nee' }}
-                </td>
-                <td>
-                    {{ registratie.kleding ? 'Ja' : 'Nee' }}
-                </td>
-                <td>
-                    {{ registratie.veegploeg ? 'Ja' : 'Nee' }}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>{{ title }} {{ locatie }}</h1>
     <p>
-        {{ knp_pagination_render(pagination) }}
+        <a href="{{ path('inloop_registraties_locationselect') }}">Locatie wijzigen</a>
     </p>
+    <ul class="nav nav-tabs">
+        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_index', {locatie: locatie.id}), isActiveRoute('inloop_registraties_index')) }}
+        {{ html.navLink('Nu binnen', path('inloop_registraties_active', {locatie: locatie.id}), isActiveRoute('inloop_registraties_active')) }}
+        {{ html.navLink('Recent uitgecheckt', path('inloop_registraties_history', {locatie: locatie.id}), isActiveRoute('inloop_registraties_history')) }}
+    </ul>
+    <div id="content">
+        {{ form_start(filter) }}
+            <table class="table table-fixed">
+                {{ colgroup(10) }}
+                <thead>
+                    <tr>
+                        <th>
+                            {{ form_widget(filter.klant.id) }}
+                            {{ form_errors(filter.klant.id) }}
+                        </th>
+                        <th colspan="2">
+                            {{ form_widget(filter.klant.naam) }}
+                            {{ form_errors(filter.klant.naam) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.klant.geslacht) }}
+                            {{ form_errors(filter.klant.geslacht) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.klant.geboortedatum) }}
+                            {{ form_errors(filter.klant.geboortedatum) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.gebruikersruimte) }}
+                            {{ form_errors(filter.gebruikersruimte) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.laatsteIntakeLocatie) }}
+                            {{ form_errors(filter.laatsteIntakeLocatie) }}
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <span class="pull-right">
+                                {{ form_widget(filter.filter) }}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        {{ form_end(filter) }}
+        <div id="loader" style="display: none; margin-top: 1em">
+            <h4>Een moment geduld...</h4>
+        </div>
+        <div id="ajaxContainer" style="margin-top: -17px;">
+            {#% include 'InloopBundle:registraties:_index.html.twig' %#}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var locatie_id = {{ locatie.id }};
+    </script>
+    <script src="{{ asset('bundles/inloop/js/registraties/index.js') }}"></script>
 {% endblock %}

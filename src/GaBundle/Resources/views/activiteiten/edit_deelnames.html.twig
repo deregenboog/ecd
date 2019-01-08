@@ -1,0 +1,25 @@
+{% extends 'GaBundle::edit.html.twig' %}
+
+{% block content %}
+    <h1>Aanwezigheid registreren</h1>
+    <p>
+        {{ html.link('Annuleren', path(route_base~'view', {id: entity.id}), 'cancel') }}
+    </p>
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>Deelnemers</h2>
+                {% for elm in form.deelnames.children if class(elm.vars.data.dossier) == 'GaBundle\\Entity\\Klantdossier' %}
+                    {{ form_row(elm, {label: elm.vars.value.dossier}) }}
+                {% endfor %}
+                {{ form_row(form.aantalAnoniemeDeelnemers) }}
+            </div>
+            <div class="col-xs-6">
+                <h2>Vrijwilligers</h2>
+                {% for elm in form.deelnames.children %}
+                    {{ form_row(elm, {label: elm.vars.value.dossier}) }}
+                {% endfor %}
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

@@ -11,9 +11,16 @@ parameters:
     profile: drg
     administrator_name: Bart Huttinga
     administrator_email: bhuttinga@deregenboog.org
-    ldap_active_directory: true
-    ldap_host: ''
-    ldap_port: ''
+    ldap_domain: ''
+    ldap_port: 389
+    ldap_servers: []
     ldap_base_dn: ''
     ldap_search_user: ''
     ldap_search_password: ''
+    tbc_months_period: 6
+    informele_zorg_mail: ''
+    dagbesteding_mail: ''
+    inloophuis_mail: ''
+    hulpverlening_mail: ''
+    agressie_mail: ''
+    administratiebedrijf_mail: ''

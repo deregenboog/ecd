@@ -12,8 +12,10 @@
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
-        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
+        {% endif %}
     </p>
 {% endblock %}
 
@@ -56,9 +58,9 @@
                     <dt>E-mail</dt>
                     <dd>{{ entity.email }}</dd>
                     <dt>Postvoorkeur</dt>
-                    <dd>{{ entity.geenPost ? 'Geen post' : 'Wel post' }}</dd>
+                    <dd>{{ entity.geenPost|postvoorkeur }}</dd>
                     <dt>E-mailvoorkeur</dt>
-                    <dd>{{ entity.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
+                    <dd>{{ entity.geenEmail|emailvoorkeur }}</dd>
                 </dl>
             </div>
         </div>

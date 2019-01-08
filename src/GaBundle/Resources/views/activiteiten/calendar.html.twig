@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Groepsactiviteiten | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'GaBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        <a class="btn btn-default" href="{{ path('ga_activiteiten_index') }}">Lijst tonen</a>
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    <div id="calendar"></div>
+{% endblock %}
+
+{% block scripts %}
+    <link rel="stylesheet" href="{{ asset('node_modules/fullcalendar/dist/fullcalendar.css') }}" />
+    <script src="{{ asset('node_modules/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('node_modules/fullcalendar/dist/fullcalendar.min.js') }}"></script>
+    <script src="{{ asset('node_modules/fullcalendar/dist/locale/nl.js') }}"></script>
+    <script>
+        $(function() {
+            $('#calendar').fullCalendar({
+                locale: 'nl',
+                events: '{{ path('ga_activiteiten_json')}}',
+                eventClick: function(event) {
+                    window.location.href = event.url;
+                },
+            })
+        });
+    </script>
+{% endblock %}

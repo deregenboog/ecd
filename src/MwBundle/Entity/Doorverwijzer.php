@@ -11,6 +11,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(name="doorverwijzers")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string", length=255)
+ * @ORM\DiscriminatorMap({"Doorverwijzer" = "Doorverwijzer", "Trajecthouder" = "Trajecthouder"})
  * @Gedmo\Loggable
  */
 class Doorverwijzer
@@ -23,7 +26,7 @@ class Doorverwijzer
      * @ORM\Column(type="string", nullable=false)
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $naam;
 
     /**
      * @var \DateTime
@@ -31,7 +34,7 @@ class Doorverwijzer
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
-    private $startdatum;
+    protected $startdatum;
 
     /**
      * @var \DateTime
@@ -39,15 +42,12 @@ class Doorverwijzer
      * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
-    private $einddatum;
+    protected $einddatum;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $type;
+    public function __toString()
+    {
+        return (string) $this->naam;
+    }
 
     /**
      * @return string
@@ -63,24 +63,6 @@ class Doorverwijzer
     public function setNaam($naam)
     {
         $this->naam = $naam;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
 
         return $this;
     }

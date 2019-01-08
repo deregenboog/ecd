@@ -8,10 +8,12 @@ use OekBundle\Entity\Deelname;
 use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Training;
 use OekBundle\Form\DeelnameType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")
+ * @Template
  */
 class DeelnamesController extends SymfonyController
 {

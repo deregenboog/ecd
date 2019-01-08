@@ -4,8 +4,9 @@ namespace Tests\HsBundle\Entity;
 
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\DeclaratieCategorie;
+use PHPUnit\Framework\TestCase;
 
-class DeclaratieCategorieTest extends \PHPUnit_Framework_TestCase
+class DeclaratieCategorieTest extends TestCase
 {
     public function testToString()
     {

@@ -10,9 +10,12 @@ use ClipBundle\Form\ContactmomentType;
 use ClipBundle\Service\ContactmomentDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/contactmomenten")
+ * @Template
  */
 class ContactmomentenController extends AbstractChildController
 {
@@ -48,7 +51,7 @@ class ContactmomentenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 

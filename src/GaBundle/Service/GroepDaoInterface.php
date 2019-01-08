@@ -3,7 +3,7 @@
 namespace GaBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use GaBundle\Entity\GaGroep;
+use GaBundle\Entity\Groep;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface GroepDaoInterface
@@ -19,22 +19,22 @@ interface GroepDaoInterface
     /**
      * @param int $id
      *
-     * @return GaGroep
+     * @return Groep
      */
     public function find($id);
 
     /**
-     * @param GaGroep $entity
+     * @param Groep $entity
      */
-    public function create(GaGroep $entity);
+    public function create(Groep $entity);
 
     /**
-     * @param GaGroep $entity
+     * @param Groep $entity
      */
-    public function update(GaGroep $entity);
+    public function update(Groep $entity);
 
     /**
-     * @param GaGroep $entity
+     * @param Groep $entity
      */
-    public function delete(GaGroep $entity);
+    public function delete(Groep $entity);
 }

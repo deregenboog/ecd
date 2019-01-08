@@ -8,6 +8,7 @@ use DagbestedingBundle\Form\TrajectsoortType;
 use DagbestedingBundle\Service\TrajectsoortDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/trajectsoorten")
@@ -30,7 +31,7 @@ class TrajectsoortenController extends AbstractController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

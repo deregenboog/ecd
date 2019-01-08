@@ -91,9 +91,9 @@ class HulpvraagRepository extends EntityRepository
     public function countKoppelingenByPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('ggwgebied.naam AS postcodegebied')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
-            ->groupBy('postcodegebied');
+            ->groupBy('ggwgebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -116,10 +116,62 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->addSelect('ggwgebied.naam AS postcodegebied')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
             ->innerJoin('hulpvraag.project', 'project')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
-            ->groupBy('project', 'postcodegebied');
+            ->groupBy('project', 'ggwgebied');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByHulpvraagsoortAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->groupBy('hulpvraagsoort', 'stadsdeel');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByHulpvraagsoortAndPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
+            ->leftJoin('klant.postcodegebied', 'ggwgebied')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->groupBy('hulpvraagsoort', 'ggwgebied');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByDoelgroepAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('doelgroep.naam AS doelgroepnaam')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+            ->groupBy('doelgroep', 'stadsdeel');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByDoelgroepAndPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('doelgroep.naam AS doelgroepnaam')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
+            ->leftJoin('klant.postcodegebied', 'ggwgebied')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+            ->groupBy('doelgroep', 'ggwgebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();

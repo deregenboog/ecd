@@ -6,6 +6,9 @@
          backupGlobals="false"
          colors="true"
          bootstrap="app/autoload.php"
+         processIsolation="false"
+         stopOnError="true"
+         stopOnFailure="true"
 >
     <php>
         <server name="KERNEL_CLASS" value="AppKernel" />

@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+    <li class="{{ current == 'intake' ? 'active' }}">
+        <a href="{{ path('ga_vrijwilligerdossiers_view', {id: entity.id}) }}">Aanmelding</a>
+    </li>
+    <li class="{{ current == 'verslagen' ? 'active' }}">
+        <a href="{{ path('ga_vrijwilligerdossiers_viewverslagen', {id: entity.id}) }}">Verslagen</a>
+    </li>
+    <li class="{{ current == 'groepen' ? 'active' }}">
+        <a href="{{ path('ga_vrijwilligerdossiers_viewgroepen', {id: entity.id}) }}">Groepen</a>
+    </li>
+    <li class="{{ current == 'activiteiten' ? 'active' }}">
+        <a href="{{ path('ga_vrijwilligerdossiers_viewactiviteiten', {id: entity.id}) }}">Activiteiten</a>
+    </li>
+    <li class="{{ current == 'afsluiting' ? 'active' }}">
+        <a href="{{ path('ga_vrijwilligerdossiers_viewafsluiting', {id: entity.id}) }}">Afsluiting</a>
+    </li>
+</ul>

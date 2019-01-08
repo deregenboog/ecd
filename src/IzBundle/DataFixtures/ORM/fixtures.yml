@@ -81,13 +81,13 @@ IzBundle\Entity\BinnengekomenVia:
     iz_binnengekomen_via_MEE xx:
         naam: 'MEE xx'
         actief: false
-    iz_binnengekomen_via_MVO (Maatschappelijk Verantwoord Ondernemen) :
-        naam: 'MVO (Maatschappelijk Verantwoord Ondernemen) '
+    iz_binnengekomen_via_MVO:
+        naam: 'MVO (Maatschappelijk Verantwoord Ondernemen)'
         actief: true
     iz_binnengekomen_via_Markten:
         naam: 'Markten'
         actief: true
-    iz_binnengekomen_via_Member get member (familie, vrienden, via via):
+    iz_binnengekomen_via_Member get member:
         naam: 'Member get member (familie, vrienden, via via)'
         actief: true
     iz_binnengekomen_via_Netwerkbijeenkomsten stadsdelen xx:
@@ -108,7 +108,7 @@ IzBundle\Entity\BinnengekomenVia:
     iz_binnengekomen_via_Samen Doen xx:
         naam: 'Samen Doen xx'
         actief: false
-    iz_binnengekomen_via_Sociale Dienst (DWI) xx:
+    iz_binnengekomen_via_Sociale Dienst:
         naam: 'Sociale Dienst (DWI) xx'
         actief: false
     iz_binnengekomen_via_VA :
@@ -120,13 +120,13 @@ IzBundle\Entity\BinnengekomenVia:
     iz_binnengekomen_via_Voedselbank xx:
         naam: 'Voedselbank xx'
         actief: false
-    iz_binnengekomen_via_Zelf(hulp)organisaties xx:
+    iz_binnengekomen_via_Zelfhulporganisaties xx:
         naam: 'Zelf(hulp)organisaties xx'
         actief: false
-    iz_binnengekomen_via_Zorg 1e lijn (huisarts) xx:
+    iz_binnengekomen_via_Zorg 1e lijn:
         naam: 'Zorg 1e lijn (huisarts) xx'
         actief: false
-    iz_binnengekomen_via_Zorginstelling (2e lijn) (GGZ, DAC, Cordaan, Sxxx:
+    iz_binnengekomen_via_Zorginstelling:
         naam: 'Zorginstelling (2e lijn) (GGZ, DAC, Cordaan, Sxxx'
         actief: false
     iz_binnengekomen_via_Maatschappelijke dienstencentrum xx:
@@ -167,7 +167,7 @@ IzBundle\Entity\ContactOntstaan:
     iz_ontstaan_contacten_MEE:
         naam: 'MEE'
         actief: true
-    iz_ontstaan_contacten_MVO (Maatschappelijk Verantwoord Ondernemen)  xx:
+    iz_ontstaan_contacten_MVO:
         naam: 'MVO (Maatschappelijk Verantwoord Ondernemen)  xx'
         actief: false
     iz_ontstaan_contacten_Markten xx:
@@ -194,7 +194,7 @@ IzBundle\Entity\ContactOntstaan:
     iz_ontstaan_contacten_Samen Doen:
         naam: 'Samen Doen'
         actief: true
-    iz_ontstaan_contacten_Sociale Dienst (DWI):
+    iz_ontstaan_contacten_Sociale Dienst:
         naam: 'Sociale Dienst (DWI)'
         actief: true
     iz_ontstaan_contacten_Via VA xx:
@@ -206,13 +206,13 @@ IzBundle\Entity\ContactOntstaan:
     iz_ontstaan_contacten_Voedselbank:
         naam: 'Voedselbank'
         actief: true
-    iz_ontstaan_contacten_Zelf(hulp)organisaties:
+    iz_ontstaan_contacten_Zelfhulporganisaties:
         naam: 'Zelf(hulp)organisaties'
         actief: true
-    iz_ontstaan_contacten_Zorg 1e lijn (huisarts):
+    iz_ontstaan_contacten_Zorg 1e lijn:
         naam: 'Zorg 1e lijn (huisarts)'
         actief: true
-    iz_ontstaan_contacten_Zorginstelling (2e lijn) (GGZ, Cordaan, SPV/PB´er):
+    iz_ontstaan_contacten_Zorginstelling:
         naam: 'Zorginstelling (2e lijn) (GGZ, Cordaan, SPV/PB´er)'
         actief: true
     iz_ontstaan_contacten_Maatschappelijke dienstencentrum:
@@ -259,7 +259,7 @@ IzBundle\Entity\Project:
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: '<(new Datetime("2014-01-01"))>'
         heeftKoppelingen: true
-    iz_project_Jongerenmaatjes SY *:
+    iz_project_Jongerenmaatjes SY:
         naam: 'Jongerenmaatjes SY *'
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: '<(new Datetime("2014-01-01"))>'
@@ -279,7 +279,7 @@ IzBundle\Entity\Project:
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: '<(new Datetime("2014-01-01"))>'
         heeftKoppelingen: true
-    iz_project_AV - maatje jong (SY):
+    iz_project_AV - maatje jong:
         naam: 'AV - maatje jong (SY)'
         startdatum: '<(new Datetime("2014-01-01"))>'
         einddatum: NULL
@@ -446,7 +446,7 @@ IzBundle\Entity\Hulpvraag:
         project: '@iz_project_*'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
-        doelgroepen: ['@iz_doelgroep_*']
+        doelgroep: '@iz_doelgroep_*'
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
         geschiktVoorExpat: true
@@ -459,7 +459,7 @@ IzBundle\Entity\Hulpvraag:
         startdatum: '<dateTimeThisDecade()>'
         koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
         koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
-        doelgroepen: ['@iz_doelgroep_*']
+        doelgroep: '@iz_doelgroep_*'
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
         geschiktVoorExpat: true

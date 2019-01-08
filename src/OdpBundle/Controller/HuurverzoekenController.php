@@ -12,10 +12,12 @@ use OdpBundle\Form\HuurverzoekCloseType;
 use OdpBundle\Form\HuurverzoekFilterType;
 use OdpBundle\Form\HuurverzoekType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/huurverzoeken")
+ * @Template
  */
 class HuurverzoekenController extends SymfonyController
 {
@@ -77,7 +79,7 @@ class HuurverzoekenController extends SymfonyController
         $this->autoRender = false;
         $filename = sprintf('onder-de-pannen-huurverzoeken-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        /** @var $export ExportInterface */
+        /* @var $export ExportInterface */
         $export = $this->container->get('odp.export.huurverzoeken');
 
         return $export->create($huurverzoeken)->getResponse($filename);

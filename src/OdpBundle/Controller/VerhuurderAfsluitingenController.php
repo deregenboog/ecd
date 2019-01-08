@@ -5,10 +5,12 @@ namespace OdpBundle\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\VerhuurderAfsluiting;
 use OdpBundle\Service\AfsluitingDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/verhuurderafsluitingen")
+ * @Template
  */
 class VerhuurderAfsluitingenController extends AfsluitingenController
 {

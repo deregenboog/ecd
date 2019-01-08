@@ -6,10 +6,17 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Strategy\StrategyInterface;
 
 class KlantFilter implements FilterInterface
 {
+    /**
+     * @var StrategyInterface
+     */
+    public $strategy;
+
     /**
      * @var int
      */
@@ -40,8 +47,28 @@ class KlantFilter implements FilterInterface
      */
     public $huidigeStatus;
 
+    public function __construct(StrategyInterface $strategy = null)
+    {
+        $this->strategy = $strategy;
+    }
+
     public function applyTo(QueryBuilder $builder)
     {
+        $builder
+            ->addSelect('schorsing')
+            ->leftJoin('klant.schorsingen', 'schorsing')
+        ;
+
+        if ($this->strategy) {
+            $builder
+                ->addSelect('laatsteIntake')
+                ->addSelect('huidigeStatus')
+                ->innerJoin('klant.laatsteIntake', 'laatsteIntake', 'WITH', 'laatsteIntake.toegangInloophuis = true')
+                ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
+            ;
+            $this->strategy->buildQuery($builder);
+        }
+
         if ($this->id) {
             $builder
                 ->andWhere('klant.id = :id')

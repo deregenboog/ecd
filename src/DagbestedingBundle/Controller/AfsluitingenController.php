@@ -6,8 +6,12 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Form\AfsluitingType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Template
+ */
 abstract class AfsluitingenController extends SymfonyController
 {
     /**
