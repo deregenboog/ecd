@@ -11,38 +11,43 @@ security:
         ROLE_INLOOP: []
         ROLE_MLO:
             - ROLE_INLOOP
-            - CONTROLLER_INLOOP_INTAKES
             - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_ZRMS
+            - CONTROLLER_INLOOP_INTAKES
             - CONTROLLER_INLOOP_REGISTRATIES
             - CONTROLLER_INLOOP_SCHORSINGEN
             - CONTROLLER_INLOOP_OPMERKINGEN
         ROLE_MW:
             - ROLE_INLOOP
-            - CONTROLLER_INLOOP_INTAKES
             - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_RAPPORTAGES
+            - CONTROLLER_APP_ZRMS
+            - CONTROLLER_ATTACHMENTS
+            - CONTROLLER_INLOOP_INTAKES
             - CONTROLLER_INLOOP_REGISTRATIES
             - CONTROLLER_INLOOP_OPMERKINGEN
-            - CONTROLLER_APP_RAPPORTAGES
-            - CONTROLLER_ATTACHMENTS
         ROLE_VOLUNTEERS:
             - CONTROLLER_INLOOP_REGISTRATIES
         ROLE_STAGE:
-            - CONTROLLER_INLOOP_INTAKES
+            - CONTROLLER_APP_ZRMS
             - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_INLOOP_INTAKES
             - CONTROLLER_INLOOP_REGISTRATIES
         ROLE_PFO: []
         ROLE_TEAMLEIDERS:
             - ROLE_GA
             - ROLE_MW
             - ROLE_INLOOP 
+            - CONTROLLER_ADMIN
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
+            - CONTROLLER_APP_ZRMS
             - CONTROLLER_APP_VRIJWILLIGERS
-            - CONTROLLER_ADMIN
             - CONTROLLER_ATTACHMENTS
         ROLE_IZ:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_APP_ZRMS
         ROLE_IZ_BEHEER:
             - ROLE_IZ
         ROLE_GA:
@@ -72,7 +77,6 @@ security:
         ROLE_WERKBEGELEIDER: []
         ROLE_ADMINISTRATIEBEDRIJF: []
         ROLE_ADMIN:
-            - CONTROLLER_APP_KLANTEN
             - ROLE_MW
             - ROLE_MW_BEHEER
             - ROLE_REPORT
@@ -105,6 +109,10 @@ security:
             - ROLE_GA
             - ROLE_GA_BEHEER
             - CONTROLLER_ADMIN
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_RAPPORTAGES
+            - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_APP_ZRMS
             - CONTROLLER_MEDEWERKERS
 
 ldap_tools:
