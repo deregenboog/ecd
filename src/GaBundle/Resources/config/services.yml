@@ -10,13 +10,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    GaBundle\Event\CloseSubscriber:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@router"
-        tags:
-            - { name: kernel.event_subscriber }
-
     GaBundle\Form\RapportageType:
         tags:
             - { name: form.type }

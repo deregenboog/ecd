@@ -4,6 +4,13 @@ imports:
     - { resource: reports.yml }
 
 services:
+    ErOpUitBundle\Event\CloseSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
     ErOpUitBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
