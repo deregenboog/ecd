@@ -17,7 +17,8 @@ $(function() {
         checkoutAll(id);
     });
 
-    $('#ajaxContainer').on('click', 'a.checkout', function() {
+    $('#ajaxContainer').on('click', 'a.checkout', function(event) {
+        $(event.target).closest('tr').hide();
         var id = $(this).closest('tr').attr('data-id');
         checkout(id);
     });
@@ -28,17 +29,17 @@ $(function() {
     });
 
     $.each(['douche', 'mw'], function(i, property) {
-        $('#ajaxContainer').on('click', 'a.'+property, function() {
+        $('#ajaxContainer').on('click', 'a.'+property, function(event) {
             var id = $(this).closest('tr').attr('data-id');
-            removeFromQueue(id, property);
+            removeFromQueue(id, property, event);
         });
 
-        $('#ajaxContainer').on('click', 'input.'+property, function() {
+        $('#ajaxContainer').on('click', 'input.'+property, function(event) {
             var id = $(this).closest('tr').attr('data-id');
             if ($(this).is(':checked')) {
-                addToQueue(id, property);
+                addToQueue(id, property, event);
             } else {
-                removeFromQueue(id, property);
+                removeFromQueue(id, property, event);
             }
         });
     });
@@ -108,7 +109,8 @@ function remove(registratie_id) {
     }
 };
 
-function addToQueue(id, property) {
+function addToQueue(id, property, event) {
+    $(event.target).hide();
     $.post({
         url: '/inloop/registraties/'+id+'/'+property+'/add',
     }).done(function(data) {
@@ -118,7 +120,8 @@ function addToQueue(id, property) {
     });
 };
 
-function removeFromQueue(id, property) {
+function removeFromQueue(id, property, event) {
+    $(event.target).hide();
     $.post({
         url: '/inloop/registraties/'+id+'/'+property+'/del',
     }).done(function(data) {
@@ -129,20 +132,24 @@ function removeFromQueue(id, property) {
 };
 
 function enable(id, property, event) {
+    $(event.target).hide();
     $.post({
         url: '/inloop/registraties/'+id+'/'+property+'/1',
     }).done(function(data) {
         $(event.target).prop('checked', data[property]);
+        $(event.target).show();
     }).fail(function() {
         alert('Er is een fout opgetreden.')
     });
 };
 
 function disable(id, property, event) {
+    $(event.target).hide();
     $.post({
         url: '/inloop/registraties/'+id+'/'+property+'/0',
     }).done(function(data) {
         $(event.target).prop('checked', data[property]);
+        $(event.target).show();
     }).fail(function() {
         alert('Er is een fout opgetreden.')
     });

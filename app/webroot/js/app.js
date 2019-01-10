@@ -1,4 +1,14 @@
+var ajaxInProgress = false;
+
 $(function() {
+
+    $(document).ajaxStart(function() {
+        ajaxInProgress = true;
+    });
+
+    $( document ).ajaxStop(function() {
+        ajaxInProgress = false;
+    });
 
     $('form button[type="submit"]').on('click', function(event) {
         var button = $(this);
