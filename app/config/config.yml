@@ -68,7 +68,7 @@ doctrine:
         dql:
             datetime_functions:
                 date: Luxifer\DQL\Datetime\Date
-                year: Luxifer\DQL\Datetime\Year
+                datediff: DoctrineExtensions\Query\Mysql\DateDiff
                 date_format: Luxifer\DQL\Datetime\DateFormat
                 hour: DoctrineExtensions\Query\Mysql\Hour
                 ifnull: DoctrineExtensions\Query\Mysql\IfNull
@@ -77,6 +77,7 @@ doctrine:
                 time: Luxifer\DQL\Datetime\Time
                 time_diff: DoctrineExtensions\Query\Mysql\TimeDiff
                 time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec
+                year: Luxifer\DQL\Datetime\Year
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
         filters:

@@ -16,46 +16,6 @@ class Koppeling
      */
     private $hulpaanbod;
 
-    /**
-     * @var \DateTime
-     */
-    private $startdatum;
-
-    /**
-     * @var \DateTime
-     */
-    private $einddatum;
-
-    /**
-     * @var \DateTime
-     */
-    private $tussenevaluatiedatum;
-
-    /**
-     * @var \DateTime
-     */
-    private $eindevaluatiedatum;
-
-    /**
-     * @var bool
-     */
-    private $succesvol;
-
-    /**
-     * @var SuccesindicatorPersoonlijk[]
-     */
-    private $succesindicatorenPersoonlijk;
-
-    /**
-     * @var SuccesindicatorFinancieel[]
-     */
-    private $succesindicatorenFinancieel;
-
-    /**
-     * @var SuccesindicatorParticipatie[]
-     */
-    private $succesindicatorenParticipatie;
-
     public static function create(Hulpvraag $hulpvraag, Hulpaanbod $hulpaanbod)
     {
         $koppeling = new self($hulpvraag, $hulpaanbod);
@@ -220,7 +180,7 @@ class Koppeling
      */
     public function isSuccesvol()
     {
-        return $this->succesvol;
+        return $this->hulpvraag->isKoppelingSuccesvol();
     }
 
     /**
@@ -236,6 +196,11 @@ class Koppeling
         }
 
         return $this;
+    }
+
+    public function getAfsluitreden()
+    {
+        return $this->hulpvraag->getAfsluitredenKoppeling();
     }
 
     public function setAfsluitreden(AfsluitredenKoppeling $afsluitreden)
