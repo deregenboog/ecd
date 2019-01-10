@@ -77,7 +77,7 @@ class SchorsingenController extends AbstractController
             return $this->redirectToRoute('inloop_schorsingen_view', ['id' => $klant->getLaatsteSchorsing()->getId()]);
         }
 
-        return $this->redirect('inloop_klanten_view', ['id' => $klant->getId()]);
+        return $this->redirectToRoute('inloop_klanten_view', ['id' => $klant->getId()]);
     }
 
     /**
