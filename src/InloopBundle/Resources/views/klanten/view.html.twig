@@ -33,5 +33,7 @@
     <h2>Laatste intake</h2>
     {% if entity.laatsteIntake %}
         {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
+    {% else %}
+        {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
     {% endif %}
 {% endblock %}
