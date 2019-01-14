@@ -43,7 +43,7 @@
     <dt>Nummer</dt>
     <dd>{{ entity.legitimatieNummer }}</dd>
     <dt>Geldig tot</dt>
-    <dd>{{ entity.legitimatieGeldigTot }}</dd>
+    <dd>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</dd>
 </dl>
 {% if entity.primaireProblematiek %}
     {% include 'InloopBundle:intakes:_verslaving_v1.html.twig' %}

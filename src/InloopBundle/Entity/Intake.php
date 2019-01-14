@@ -503,9 +503,9 @@ class Intake implements ZrmsInterface
     }
 
     /**
-     * @param DateTime $legitimatieGeldigTot
+     * @param \DateTime $legitimatieGeldigTot
      */
-    public function setLegitimatieGeldigTot($legitimatieGeldigTot)
+    public function setLegitimatieGeldigTot(\DateTime $legitimatieGeldigTot)
     {
         $this->legitimatieGeldigTot = $legitimatieGeldigTot;
 

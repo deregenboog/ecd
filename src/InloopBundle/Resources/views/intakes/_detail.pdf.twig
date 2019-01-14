@@ -74,7 +74,7 @@
     </tr>
     <tr>
         <td>Geldig tot</td>
-        <td>{{ entity.legitimatieGeldigTot }}</td>
+        <td>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</td>
     </tr>
 </table>
 
