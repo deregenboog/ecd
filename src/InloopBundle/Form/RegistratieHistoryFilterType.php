@@ -24,7 +24,7 @@ class RegistratieHistoryFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => RegistratieHistoryFilter::class,
             'enabled_filters' => [
-                'klant' => ['naam'],
+                'klant' => ['voornaam', 'achternaam'],
                 'binnen',
                 'buiten',
                 'maaltijd',

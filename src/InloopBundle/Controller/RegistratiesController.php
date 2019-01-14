@@ -40,7 +40,6 @@ class RegistratiesController extends AbstractController
     protected $entityName = 'registratie';
     protected $entityClass = Registratie::class;
     protected $formClass = RegistratieType::class;
-    protected $filterFormClass = RegistratieFilterType::class;
     protected $baseRouteName = 'inloop_registraties_';
 
     /**
@@ -131,7 +130,7 @@ class RegistratiesController extends AbstractController
         $form = $this->createForm(KlantFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geboortedatum', 'geslacht'],
+                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
                 'gebruikersruimte',
                 'laatsteIntakeLocatie',
                 'filter',

@@ -73,7 +73,7 @@ class RegistratieFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => RegistratieFilter::class,
             'enabled_filters' => [
-                'klant' => ['naam'],
+                'klant' => ['voornaam', 'achternaam'],
                 'binnen',
                 'douche',
                 'maaltijd',

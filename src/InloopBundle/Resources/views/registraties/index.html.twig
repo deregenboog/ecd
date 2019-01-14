@@ -29,9 +29,13 @@
                             {{ form_widget(filter.klant.id) }}
                             {{ form_errors(filter.klant.id) }}
                         </th>
-                        <th colspan="2">
-                            {{ form_widget(filter.klant.naam) }}
-                            {{ form_errors(filter.klant.naam) }}
+                        <th>
+                            {{ form_widget(filter.klant.voornaam) }}
+                            {{ form_errors(filter.klant.voornaam) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.klant.achternaam) }}
+                            {{ form_errors(filter.klant.achternaam) }}
                         </th>
                         <th>
                             {{ form_widget(filter.klant.geslacht) }}
