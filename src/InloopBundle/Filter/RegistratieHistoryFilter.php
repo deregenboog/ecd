@@ -12,7 +12,7 @@ class RegistratieHistoryFilter extends RegistratieFilter
     public function __construct(Locatie $locatie)
     {
         $this->locatie = $locatie;
-        $this->binnen = new AppDateRangeModel(new \DateTime('-1 week'));
+        $this->binnen = new AppDateRangeModel(new \DateTime('today'));
     }
 
     public function applyTo(QueryBuilder $builder)
