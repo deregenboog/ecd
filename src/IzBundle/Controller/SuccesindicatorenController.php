@@ -3,17 +3,30 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\Succesindicator;
 use IzBundle\Form\SuccesindicatorType;
+use IzBundle\Service\SuccesindicatoeDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/admin/succesindicatorenpersoonlijk")
+ * @Route("/admin/succesindicatoren")
  */
-abstract class SuccesindicatorenController extends AbstractController
+class SuccesindicatorenController extends AbstractController
 {
+    protected $title = 'Succesindicatoren';
     protected $entityName = 'succesindicator';
+    protected $entityClass = Succesindicator::class;
     protected $formClass = SuccesindicatorType::class;
+    protected $baseRouteName = 'iz_succesindicatoren_';
+
+    /**
+     * @var SuccesindicatorDaoInterface
+     *
+     * @DI\Inject("IzBundle\Service\SuccesindicatorDao")
+     */
+    protected $dao;
 
     /**
      * @Route("/{id}/view")

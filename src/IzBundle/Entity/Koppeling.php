@@ -215,33 +215,13 @@ class Koppeling
         return $this;
     }
 
-    public function getSuccesindicatorenPersoonlijk()
+    public function getSuccesindicatoren()
     {
-        return $this->hulpvraag->getSuccesindicatorenPersoonlijk();
+        return $this->hulpvraag->getSuccesindicatoren();
     }
 
-    public function setSuccesindicatorenPersoonlijk($indicatoren)
+    public function setSuccesindicatoren($indicatoren)
     {
-        return $this->hulpvraag->setSuccesindicatorenPersoonlijk($indicatoren);
-    }
-
-    public function getSuccesindicatorenFinancieel()
-    {
-        return $this->hulpvraag->getSuccesindicatorenFinancieel();
-    }
-
-    public function setSuccesindicatorenFinancieel($indicatoren)
-    {
-        return $this->hulpvraag->setSuccesindicatorenFinancieel($indicatoren);
-    }
-
-    public function getSuccesindicatorenParticipatie()
-    {
-        return $this->hulpvraag->getSuccesindicatorenParticipatie();
-    }
-
-    public function setSuccesindicatorenParticipatie($indicatoren)
-    {
-        return $this->hulpvraag->setSuccesindicatorenParticipatie($indicatoren);
+        return $this->hulpvraag->setSuccesindicatoren($indicatoren);
     }
 }

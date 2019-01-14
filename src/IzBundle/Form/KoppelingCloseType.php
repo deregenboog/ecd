@@ -47,17 +47,7 @@ class KoppelingCloseType extends AbstractType
             ->add('koppelingSuccesvol', null, [
                 'required' => false,
             ])
-            ->add('succesindicatorenPersoonlijk', null, [
-                'required' => true,
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('succesindicatorenFinancieel', null, [
-                'required' => true,
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('succesindicatorenParticipatie', null, [
+            ->add('succesindicatoren', null, [
                 'required' => true,
                 'multiple' => true,
                 'expanded' => true,
