@@ -233,7 +233,7 @@ class Registratie
 
     public function setVeegploeg($veegploeg)
     {
-        $this->veegploeg = $veegploeg;
+        $this->veegploeg = (bool) $veegploeg;
 
         return $this;
     }
@@ -245,7 +245,7 @@ class Registratie
 
     public function setKleding($kleding)
     {
-        $this->kleding = $kleding;
+        $this->kleding = (bool) $kleding;
 
         return $this;
     }
@@ -257,7 +257,7 @@ class Registratie
 
     public function setMaaltijd($maaltijd)
     {
-        $this->maaltijd = $maaltijd;
+        $this->maaltijd = (bool) $maaltijd;
 
         return $this;
     }
@@ -269,7 +269,7 @@ class Registratie
 
     public function setActivering($activering)
     {
-        $this->activering = $activering;
+        $this->activering = (bool) $activering;
 
         return $this;
     }

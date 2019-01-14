@@ -32,6 +32,12 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    InloopBundle\Event\RegistratieSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
     InloopBundle\Security\IntakeVoter:
         tags:
             - { name: security.voter }

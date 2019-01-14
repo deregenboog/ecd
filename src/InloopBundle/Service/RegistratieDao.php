@@ -10,9 +10,19 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Filter\RegistratieFilter;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\PaginatorInterface;
+use InloopBundle\Event\Events;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     protected $paginationOptions = [
         'defaultSortFieldName' => 'registratie.binnen',
         'defaultSortDirection' => 'desc',
@@ -36,6 +46,16 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     protected $class = Registratie::class;
 
     protected $alias = 'registratie';
+
+    public function __construct(
+        EntityManager $entityManager,
+        PaginatorInterface $paginator,
+        $itemsPerPage,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        parent::__construct($entityManager, $paginator, $itemsPerPage);
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
@@ -113,6 +133,8 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $this->removeFromQueues($registratie);
         $registratie->setBuiten($time);
         $this->update($registratie);
+
+        $this->eventDispatcher->dispatch(Events::CHECKOUT, new GenericEvent($registratie));
 
         return true;
     }

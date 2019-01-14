@@ -41,6 +41,8 @@ services:
 
     InloopBundle\Service\RegistratieDao:
         parent: inloop.dao
+        arguments:
+            - '@event_dispatcher'
 
     InloopBundle\Service\SchorsingDao:
         parent: inloop.dao

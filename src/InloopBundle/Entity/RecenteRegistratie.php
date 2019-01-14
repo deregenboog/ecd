@@ -36,4 +36,14 @@ class RecenteRegistratie
      * @ORM\Column(name="max_buiten", type="datetime")
      */
     private $buiten;
+
+    public function __construct(Registratie $registratie = null)
+    {
+        if ($registratie && $registratie->getBuiten()) {
+            $this->registratie = $registratie;
+            $this->locatie = $registratie->getLocatie();
+            $this->klant = $registratie->getKlant();
+            $this->buiten = $registratie->getBuiten();
+        }
+    }
 }
