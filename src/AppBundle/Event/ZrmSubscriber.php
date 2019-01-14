@@ -8,6 +8,7 @@ use AppBundle\Model\ZrmsInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\Common\Collections\Collection;
 
 class ZrmSubscriber implements EventSubscriber
 {
@@ -43,6 +44,10 @@ class ZrmSubscriber implements EventSubscriber
 
         if (!$zrms) {
             return;
+        }
+
+        if ($zrms instanceof Collection) {
+            $zrms = $zrms->toArray();
         }
 
         /* @var $zrm Zrm */

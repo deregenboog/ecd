@@ -192,7 +192,7 @@ class Intake implements ZrmsInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="legitimatie_geldig_tot", nullable=true)
+     * @ORM\Column(name="legitimatie_geldig_tot", type="date", nullable=true)
      */
     private $legitimatieGeldigTot;
 
