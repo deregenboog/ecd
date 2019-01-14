@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/vrijwilligers")
@@ -84,13 +85,15 @@ class VrijwilligersController extends AbstractController
             return $this->redirectToView($entity);
         }
 
+        $response = $this->processForm($request, $entity);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
         $event = new GenericEvent($entity->getVrijwilliger(), ['messages' => []]);
         $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
 
-        return array_merge(
-            $this->processForm($request, $entity),
-            ['messages' => $event->getArgument('messages')]
-        );
+        return array_merge($response, ['messages' => $event->getArgument('messages')]);
     }
 
     /**
