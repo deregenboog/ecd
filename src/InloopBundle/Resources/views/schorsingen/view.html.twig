@@ -90,7 +90,7 @@
         <div id="schorsingen" class="tab-pane active">
             <h2>Huidige schorsingen <small>({{ entity.klant.huidigeSchorsingen|length }} schorsingen)</small></h2>
             <p>
-                {{ html.link('Schorsingen toevoegen', path('inloop_schorsingen_add', {'klant': entity.klant.id}), 'add') }}
+                {{ html.link('Schorsing toevoegen', path('inloop_schorsingen_add', {'klant': entity.klant.id}), 'add') }}
             </p>
             {% if 0 == entity.klant.huidigeSchorsingen|length %}
                 <p>Deze persoon is op dit moment niet geschorst.</p>

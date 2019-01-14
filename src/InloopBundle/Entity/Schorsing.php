@@ -265,7 +265,7 @@ class Schorsing
 
     public function setAangifte($aangifte)
     {
-        $this->aangifte = $aangifte;
+        $this->aangifte = (bool) $aangifte;
 
         return $this;
     }
@@ -277,7 +277,7 @@ class Schorsing
 
     public function setNazorg($nazorg)
     {
-        $this->nazorg = $nazorg;
+        $this->nazorg = (bool) $nazorg;
 
         return $this;
     }
@@ -289,7 +289,7 @@ class Schorsing
 
     public function setAgressie($agressie)
     {
-        $this->agressie = $agressie;
+        $this->agressie = (bool) $agressie;
 
         return $this;
     }

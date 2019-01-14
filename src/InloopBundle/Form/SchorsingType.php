@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class SchorsingType extends AbstractType
 {
@@ -19,6 +20,10 @@ class SchorsingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('alleLocaties', CheckboxType::class, [
+                'mapped' => false,
+                'label' => 'Alle locaties',
+            ])
             ->add('locaties', LocatieSelectType::class, [
                 'multiple' => true,
                 'expanded' => true,

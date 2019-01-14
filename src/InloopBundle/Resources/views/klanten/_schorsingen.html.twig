@@ -2,7 +2,8 @@
 
 <h2>Schorsingen</h2>
 <p>
-    {{ html.link('Overzicht schorsingen', path('inloop_schorsingen_index', {klant: klant.id}), 'view') }}
+    {{ html.link('Overzicht schorsingen', path('inloop_schorsingen_index', {'schorsing_filter[klant][id]': klant.id}), 'view') }}
+    {{ html.link('Schorsing toevoegen', path('inloop_schorsingen_add', {'klant': klant.id}), 'add') }}
 </p>
 {% set schorsingen = klant.recenteSchorsingen(5) %}
 {% if 0 == schorsingen|length %}

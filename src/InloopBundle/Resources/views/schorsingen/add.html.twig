@@ -20,6 +20,9 @@
 {% block scripts %}
     <script type="text/javascript">
         $(function() {
+            var checkboxAlleLocaties = $('form input#schorsing_alleLocaties');
+            var checkboxesLocaties = $('form #schorsing_locaties input[type="checkbox"]');
+
             var checkboxesAgressie = $('form #schorsing_redenen label:contains("agressie") input[type="checkbox"]');
             var radioAgressie = $('form #schorsing_agressie input[type="radio"]');
             var checkboxOverig = $('form #schorsing_redenen label:contains("Overig") input[type="checkbox"]');
@@ -28,6 +31,18 @@
             var fieldsAgressieParent = $('form div.agressie_parent').closest('.form-group');
             var fieldsAgressieChildren = $('form div.agressie_children').closest('.form-group');
             var fieldOverig = $('form #schorsing_redenOverig').closest('.form-group');
+
+            var toggleLocaties = function() {
+                checkboxesLocaties.prop('checked', checkboxAlleLocaties.prop('checked'));
+            };
+
+            var toggleAlleLocaties = function() {
+                var checked = 0;
+                checkboxesLocaties.each(function(i, elm) {
+                    if ($(elm).prop('checked')) ++checked;
+                });
+                checkboxAlleLocaties.prop('checked', checked == checkboxesLocaties.length);
+            };
 
             var toggleFieldsAgressieParent = function() {
                 var checked = 0;
@@ -72,10 +87,17 @@
                 }
             };
 
+            toggleAlleLocaties();
             toggleFieldsAgressieParent();
             toggleFieldsAgressieChildren();
             toggleFieldOverig();
 
+            checkboxAlleLocaties.change(function() {
+                toggleLocaties();
+            });
+            checkboxesLocaties.change(function() {
+                toggleAlleLocaties();
+            });
             checkboxesAgressie.change(function() {
                 toggleFieldsAgressieParent();
             });
