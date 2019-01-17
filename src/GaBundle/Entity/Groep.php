@@ -42,6 +42,8 @@ abstract class Groep
     protected $naam;
 
     /**
+     * @var Werkgebied
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
      * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam", nullable=true)
      * @Gedmo\Versioned

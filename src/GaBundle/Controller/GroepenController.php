@@ -12,6 +12,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Export\AbstractExport;
 
 /**
  * @Route("/groepen")
@@ -46,6 +47,13 @@ class GroepenController extends AbstractController
      * @DI\Inject("GaBundle\Service\VrijwilligerLidmaatschapDao")
      */
     protected $vrijwilligerLidmaatschapDao;
+
+    /**
+     * @var AbstractExport
+     *
+     * @DI\Inject("ga.export.groepen")
+     */
+    protected $export;
 
     /**
      * @Route("/add")
