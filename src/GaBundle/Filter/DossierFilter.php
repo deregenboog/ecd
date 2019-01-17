@@ -49,13 +49,13 @@ abstract class DossierFilter implements FilterInterface
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
-                    ->andWhere('aanmelding.datum >= :aanmelddatum_van')
+                    ->andWhere('dossier.aanmelddatum >= :aanmelddatum_van')
                     ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
                 ;
             }
             if ($this->aanmelddatum->getEnd()) {
                 $builder
-                    ->andWhere('aanmelding.datum <= :aanmelddatum_tot')
+                    ->andWhere('dossier.aanmelddatum <= :aanmelddatum_tot')
                     ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
                 ;
             }
@@ -64,13 +64,13 @@ abstract class DossierFilter implements FilterInterface
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder
-                    ->andWhere('afsluiting.datum >= :afsluitdatum_van')
+                    ->andWhere('dossier.afsluitdatum >= :afsluitdatum_van')
                     ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
             if ($this->afsluitdatum->getEnd()) {
                 $builder
-                    ->andWhere('afsluiting.datum <= :afsluitdatum_tot')
+                    ->andWhere('dossier.afsluitdatum <= :afsluitdatum_tot')
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
