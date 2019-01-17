@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
 use PHPUnit\Framework\TestCase;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class KoppelingFilterTest extends TestCase
 {
@@ -42,16 +43,16 @@ class KoppelingFilterTest extends TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->koppelingStartdatum = new \DateTime('2016-01-01');
+        $filter->koppelingStartdatum = new AppDateRangeModel(new \DateTime('2016-01-01'));
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingStartdatum = :koppelingStartdatum',
+            'hulpvraag.koppelingStartdatum >= :koppelingStartdatum_van',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->koppelingStartdatum,
-            $builder->getParameter('koppelingStartdatum')->getValue()
+            $filter->koppelingStartdatum->getStart(),
+            $builder->getParameter('koppelingStartdatum_van')->getValue()
         );
     }
 
@@ -60,16 +61,16 @@ class KoppelingFilterTest extends TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->koppelingEinddatum = new \DateTime('2016-12-31');
+        $filter->koppelingEinddatum = new AppDateRangeModel(null, new \DateTime('2016-12-31'));
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingEinddatum = :koppelingEinddatum',
+            'hulpvraag.koppelingEinddatum <= :koppelingEinddatum_tot',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->koppelingEinddatum,
-            $builder->getParameter('koppelingEinddatum')->getValue()
+            $filter->koppelingEinddatum->getEnd(),
+            $builder->getParameter('koppelingEinddatum_tot')->getValue()
         );
     }
 
