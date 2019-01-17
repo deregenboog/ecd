@@ -9,8 +9,6 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Verblijfsstatus;
 use AppBundle\Entity\Zrm;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\ZrmsInterface;
-use AppBundle\Model\ZrmsTrait;
 use AppBundle\Validator\NoFutureDate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,9 +22,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\Loggable
  * @UniqueEntity({"klant", "intakedatum"}, message="Deze klant heeft al een intake op deze datum")
  */
-class Intake implements ZrmsInterface
+class Intake
 {
-    use ZrmsTrait, TimestampableTrait;
+    use TimestampableTrait;
 
     /**
      * @var int
@@ -402,6 +400,13 @@ class Intake implements ZrmsInterface
      */
     private $instanties;
 
+    /**
+     * @var Zrm
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
+     */
+    private $zrm;
+
     public function __construct(Klant $klant = null)
     {
         if ($klant) {
@@ -419,7 +424,8 @@ class Intake implements ZrmsInterface
     {
         $this->id = null;
         $this->intakedatum = new \DateTime();
-        $this->zrms = [];
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
     }
 
     /**
@@ -435,7 +441,7 @@ class Intake implements ZrmsInterface
     /**
      * @param \DateTime $intakedatum
      */
-    public function setIntakedatum($intakedatum)
+    public function setIntakedatum(\DateTime $intakedatum)
     {
         $this->intakedatum = $intakedatum;
 
@@ -443,9 +449,9 @@ class Intake implements ZrmsInterface
     }
 
     /**
-     * @param DateTime $amocToegangTot
+     * @param \DateTime $amocToegangTot
      */
-    public function setAmocToegangTot($amocToegangTot)
+    public function setAmocToegangTot(\DateTime $amocToegangTot = null)
     {
         $this->amocToegangTot = $amocToegangTot;
 
@@ -505,7 +511,7 @@ class Intake implements ZrmsInterface
     /**
      * @param \DateTime $legitimatieGeldigTot
      */
-    public function setLegitimatieGeldigTot(\DateTime $legitimatieGeldigTot)
+    public function setLegitimatieGeldigTot(\DateTime $legitimatieGeldigTot = null)
     {
         $this->legitimatieGeldigTot = $legitimatieGeldigTot;
 
@@ -523,9 +529,9 @@ class Intake implements ZrmsInterface
     }
 
     /**
-     * @param DateTime $verblijfInNederlandSinds
+     * @param \DateTime $verblijfInNederlandSinds
      */
-    public function setVerblijfInNederlandSinds($verblijfInNederlandSinds)
+    public function setVerblijfInNederlandSinds(\DateTime $verblijfInNederlandSinds = null)
     {
         $this->verblijfInNederlandSinds = $verblijfInNederlandSinds;
 
@@ -533,9 +539,9 @@ class Intake implements ZrmsInterface
     }
 
     /**
-     * @param DateTime $verblijfInAmsterdamSinds
+     * @param \DateTime $verblijfInAmsterdamSinds
      */
-    public function setVerblijfInAmsterdamSinds($verblijfInAmsterdamSinds)
+    public function setVerblijfInAmsterdamSinds(\DateTime $verblijfInAmsterdamSinds = null)
     {
         $this->verblijfInAmsterdamSinds = $verblijfInAmsterdamSinds;
 
@@ -1053,7 +1059,7 @@ class Intake implements ZrmsInterface
         return $this->intakelocatie;
     }
 
-    public function setIntakelocatie(Locatie $locatie)
+    public function setIntakelocatie(Locatie $locatie = null)
     {
         $this->intakelocatie = $locatie;
 
@@ -1065,7 +1071,7 @@ class Intake implements ZrmsInterface
         return $this->gebruikersruimte;
     }
 
-    public function setGebruikersruimte(Locatie $locatie)
+    public function setGebruikersruimte(Locatie $locatie = null)
     {
         $this->gebruikersruimte = $locatie;
 
@@ -1077,7 +1083,7 @@ class Intake implements ZrmsInterface
         return $this->locatie3;
     }
 
-    public function setLocatie3(Locatie $locatie)
+    public function setLocatie3(Locatie $locatie = null)
     {
         $this->locatie3 = $locatie;
 
@@ -1147,9 +1153,19 @@ class Intake implements ZrmsInterface
         return $this;
     }
 
-    public function addZrm(Zrm $zrm)
+    public function getZrm()
     {
-        $this->zrms[] = $zrm;
-        $this->klant->addZrm($zrm);
+        return $this->zrm;
+    }
+
+    public function setZrm(Zrm $zrm)
+    {
+        $zrm
+            ->setRequestModule('Intake')
+            ->setKlant($this->klant)
+        ;
+        $this->zrm = $zrm;
+
+        return $this;
     }
 }

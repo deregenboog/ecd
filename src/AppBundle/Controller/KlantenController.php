@@ -56,18 +56,6 @@ class KlantenController extends AbstractController
         ];
     }
 
-    /**
-     * @Template
-     */
-    public function _zrmsAction($id)
-    {
-        $entity = $this->dao->find($id);
-
-        return [
-            'klant' => $entity,
-        ];
-    }
-
     protected function addParams($entity, Request $request)
     {
         assert($entity instanceof Klant);

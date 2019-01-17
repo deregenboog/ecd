@@ -3,10 +3,7 @@
 namespace GaBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Zrm;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\ZrmInterface;
-use AppBundle\Model\ZrmTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,9 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Intake implements ZrmInterface
+class Intake
 {
-    use TimestampableTrait, ZrmTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -48,16 +45,6 @@ class Intake implements ZrmInterface
      * @Gedmo\Versioned
      */
     protected $intakedatum;
-
-    /**
-     * @var Zrm[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
-     * @ORM\JoinTable(
-     *     joinColumns={@ORM\JoinColumn(unique=true)},
-     *     inverseJoinColumns={@ORM\JoinColumn(unique=true)}
-     * )
-     */
-    protected $zrms;
 
     /**
      * @var Dossier
@@ -371,14 +358,6 @@ class Intake implements ZrmInterface
     public function setGezinMetKinderen($gezinMetKinderen)
     {
         $this->gezinMetKinderen = $gezinMetKinderen;
-
-        return $this;
-    }
-
-    public function setZrm(Zrm $zrm)
-    {
-        $this->zrms = [$zrm];
-        $this->dossier->getKlant()->addZrm($zrm);
 
         return $this;
     }

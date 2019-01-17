@@ -47,7 +47,7 @@
         <dt>Matchingsinformatie</dt>
         <dd><div class="well">{{ entity.info }}</div></dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.izKlant.klant} %}
+    {% include '::klant_basis.html.twig' with {klant: entity.izKlant.klant, module: 'IzIntake'} %}
 {% endblock %}
 
 {% block content_right %}

@@ -36,8 +36,8 @@ class ZrmFilterType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'choices' => [
-                    'GroepsactiviteitenIntake' => 'GroepsactiviteitenIntake',
-                    'Hi5' => 'Hi5',
+//                     'GroepsactiviteitenIntake' => 'GroepsactiviteitenIntake',
+//                     'Hi5' => 'Hi5',
                     'Intake' => 'Intake',
                     'IzIntake' => 'IzIntake',
                     'Klant' => 'Klant',

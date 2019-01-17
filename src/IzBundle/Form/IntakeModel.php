@@ -83,12 +83,12 @@ class IntakeModel
 
     public function getZrm()
     {
-        return null;
+        return $this->intake->getZrm();
     }
 
     public function setZrm(Zrm $zrm)
     {
-        $this->intake->addZrm($zrm);
+        $this->intake->setZrm($zrm);
 
         return $this;
     }

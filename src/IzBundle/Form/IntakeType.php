@@ -51,10 +51,15 @@ class IntakeType extends AbstractType
                 $builder->add('gezinMetKinderen', CheckboxType::class, [
                     'required' => false,
                 ]);
-                if (!$intake->getId()) {
+
+                if ($intake->getZrm()) {
                     $builder->add('zrm', ZrmType::class, [
-                        'data' => Zrm::create($intake->getIntakeDatum(), 'IzIntake'),
-                        'by_reference' => false,
+                        'data_class' => get_class($intake->getZrm()),
+                        'request_module' => 'IzIntake',
+                    ]);
+                } else {
+                    $builder->add('zrm', ZrmType::class, [
+                        'request_module' => 'IzIntake',
                     ]);
                 }
             } elseif ($intake->getIzDeelnemer() instanceof IzVrijwilliger) {

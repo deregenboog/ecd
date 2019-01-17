@@ -54,14 +54,6 @@
                         <dt>Heeft u hulp nodig met regelzaken?</dt>
                         <dd>{{ entity.intake.regelzaken ? 'Ja' : 'Nee' }}</dd>
                     </dl>
-                    {#
-                    <h3>Zelfredzaamheidmatrix</h3>
-                    {% if entity.intake.zrm %}
-                        {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.intake.zrm} %}
-                    {% else %}
-                        {{ html.link('ZRM toevoegen', path('app_zrms_add', {}), 'add') }}
-                    {% endif %}
-                    #}
                 {% elseif not entity.afgesloten %}
                     {{ html.link('Intake toevoegen', path('ga_intakes_add', {dossier: entity.id}), 'add') }}
                 {% endif %}

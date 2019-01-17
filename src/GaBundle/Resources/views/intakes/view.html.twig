@@ -29,12 +29,6 @@
                 <dt>Gespreksverslag</dt>
                 <dd class="well">{{ entity.gespreksverslag|nl2br }}</dd>
             </dl>
-            {#
-            <h3>Zelfredzaamheidmatrix</h3>
-            {% if entity.zrm %}
-                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
-            {% endif %}
-            #}
             <h3>Ondersteuning</h3>
             <dl>
                 <dt>Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?</dt>

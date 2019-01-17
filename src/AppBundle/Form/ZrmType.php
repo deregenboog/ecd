@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\ZrmV2;
 
 class ZrmType extends AbstractType
 {
@@ -16,22 +17,29 @@ class ZrmType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!$options['data'] instanceof Zrm) {
+        if (isset($options['data']) && !$options['data'] instanceof Zrm) {
             return;
         }
 
-        foreach ($options['data']::getFieldsAndLabels() as $field => $label) {
+        if (isset($options['data'])) {
+            $options['data_class'] = get_class($options['data']);
+        }
+
+        $fieldsAndLables = call_user_func([$options['data_class'], 'getFieldsAndLabels']);
+        foreach ($fieldsAndLables as $field => $label) {
             $builder->add($field, ZrmItemType::class, ['label' => $label]);
         }
 
-        if (!$options['data']->getRequestModule()) {
+        if (!isset($options['request_module']) &&
+            !(isset($options['data']) && $options['data']->getRequestModule())
+        ) {
             $builder->add('requestModule', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Module',
                 'placeholder' => 'Selecteer eem module',
                 'choices' => [
-                    'GroepsactiviteitenIntake' => 'GroepsactiviteitenIntake',
-                    'Hi5' => 'Hi5',
+//                     'GroepsactiviteitenIntake' => 'GroepsactiviteitenIntake',
+//                     'Hi5' => 'Hi5',
                     'Intake' => 'Intake',
                     'IzIntake' => 'IzIntake',
                     'Klant' => 'Klant',
@@ -49,7 +57,9 @@ class ZrmType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => Zrm::class,
+            'class' => ZrmV2::class,
+            'data_class' => ZrmV2::class,
+            'request_module' => null,
         ]);
     }
 

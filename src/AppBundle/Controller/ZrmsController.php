@@ -9,6 +9,7 @@ use AppBundle\Service\ZrmDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/zrms")
@@ -40,7 +41,10 @@ class ZrmsController extends AbstractChildController
 
     protected function createEntity($parentEntity = null)
     {
-        return Zrm::create();
+        return Zrm::create(
+            new \DateTime(),
+            $this->getRequest()->get('module', 'Klant')
+        );
     }
 
     protected function beforeParentUpdate($parentEntity, $entity)

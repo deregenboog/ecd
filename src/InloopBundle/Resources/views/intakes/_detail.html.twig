@@ -114,6 +114,6 @@
     <dt>Heeft u hulp nodig met regelzaken?</dt>
     <dd>{{ entity.hulpverlening ? 'Ja' : 'Nee' }}</dd>
 </dl>
-{% for zrm in entity.zrms %}
-    {% include 'AppBundle:zrms:_detail.html.twig' with {entity: zrm} %}
-{% endfor %}
+{% if entity.zrm %}
+    {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+{% endif %}

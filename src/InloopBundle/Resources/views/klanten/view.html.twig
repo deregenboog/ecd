@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity} %}
+    {% include '::klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}

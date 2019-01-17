@@ -72,10 +72,9 @@ class IntakesController extends AbstractController
 
         if ($klant->getLaatsteIntake()) {
             $entity = clone $klant->getLaatsteIntake();
-            $this->getDoctrine()->getEntityManager()->detach($entity);
+            $this->getEntityManager()->detach($entity);
         } else {
             $entity = new Intake($klant);
-            $entity->addZrm(Zrm::create(new \DateTime(), 'Intake'));
         }
 
         $form = $this->createForm($this->formClass, $entity, [

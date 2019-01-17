@@ -19,7 +19,7 @@
 {% block content_left %}
     <h1>Rapportage</h1>
     {{ form(form) }}
-    {% include '::klant_basis.html.twig' with {klant: klant} %}
+    {% include '::klant_basis.html.twig' with {klant: klant, module: 'Intake'} %}
 {% endblock %}
 
 {% block content_right %}

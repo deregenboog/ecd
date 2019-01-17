@@ -4,8 +4,6 @@ namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Zrm;
-use AppBundle\Model\ZrmsInterface;
-use AppBundle\Model\ZrmsTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,10 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Intake implements ZrmsInterface
+class Intake
 {
-    use ZrmsTrait;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -108,6 +104,13 @@ class Intake implements ZrmsInterface
      * @Gedmo\Versioned
      */
     protected $regelzaken;
+
+    /**
+     * @var Zrm
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
+     */
+    private $zrm;
 
     public function __construct()
     {
@@ -282,10 +285,18 @@ class Intake implements ZrmsInterface
         return $this;
     }
 
-    public function addZrm(Zrm $zrm)
+    public function getZrm()
     {
-        $this->zrms[] = $zrm;
-        $this->getIzDeelnemer()->getKlant()->addZrm($zrm);
+        return $this->zrm;
+    }
+
+    public function setZrm(Zrm $zrm)
+    {
+        $zrm
+            ->setRequestModule('IzIntake')
+            ->setKlant($this->klant)
+        ;
+        $this->zrm = $zrm;
 
         return $this;
     }

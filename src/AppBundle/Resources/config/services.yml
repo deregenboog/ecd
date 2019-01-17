@@ -82,10 +82,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    AppBundle\Event\ZrmSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber }
-
     AppBundle\Event\DienstenLookupSubscriber:
         arguments:
             - '@AppBundle\Service\KlantDao'

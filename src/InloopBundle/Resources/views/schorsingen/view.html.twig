@@ -76,7 +76,7 @@
         <dt>Bijzonderheden</dt>
         <dd>{{ entity.bijzonderheden }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include '::klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
 {% endblock %}
 
 {% block content_right %}

@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\ZrmV2;
+use AppBundle\Form\ZrmV2Type;
 
 class IntakeType extends AbstractType
 {
@@ -41,7 +43,12 @@ class IntakeType extends AbstractType
 
         if ($options['data']->getZrm()) {
             $builder->add('zrm', ZrmType::class, [
-                'data' => $options['data']->getZrm(),
+                'data_class' => get_class($options['data']->getZrm()),
+                'request_module' => 'Intake',
+            ]);
+        } else {
+            $builder->add('zrm', ZrmType::class, [
+                'request_module' => 'Intake',
             ]);
         }
 
@@ -89,8 +96,13 @@ class IntakeType extends AbstractType
             ->add('postcode')
             ->add('woonplaats')
             ->add('telefoonnummer')
-            ->add('verblijfInNederlandSinds', AppDateType::class)
-            ->add('verblijfInAmsterdamSinds', AppDateType::class)
+            ->add('verblijfInNederlandSinds', AppDateType::class, [
+                'label' => 'Verblijf in Nederland sinds',
+            ])
+            ->add('verblijfInAmsterdamSinds', AppDateType::class, [
+                'label' => 'Verblijf in Amsterdam sinds',
+                'required' => true,
+            ])
             ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
                 'required' => true,
             ])
@@ -206,7 +218,7 @@ class IntakeType extends AbstractType
             ->add('inkomenOverig')
             ->add('woonsituatie', EntityType::class, [
                 'class' => Woonsituatie::class,
-                'required' => false,
+                'required' => true,
             ])
         ;
     }
@@ -235,8 +247,8 @@ class IntakeType extends AbstractType
                 'compound' => true,
                 'inherit_data' => true,
             ])
-            ->add('verwachtingDienstaanbod', AppTextareaType::class)
-            ->add('toekomstplannen', AppTextareaType::class)
+            ->add('verwachtingDienstaanbod', AppTextareaType::class, ['required' => true])
+            ->add('toekomstplannen', AppTextareaType::class, ['required' => true])
         ;
     }
 
@@ -248,7 +260,7 @@ class IntakeType extends AbstractType
                 'inherit_data' => true,
             ])
             ->add('indruk', AppTextareaType::class)
-            ->add('doelgroep', JaNeeType::class)
+            ->add('doelgroep', JaNeeType::class, ['required' => true])
         ;
     }
 

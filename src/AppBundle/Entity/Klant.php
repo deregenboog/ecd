@@ -376,6 +376,7 @@ class Klant extends Persoon
     public function addZrm(Zrm $zrm)
     {
         $this->zrms[] = $zrm;
+        $this->laatsteZrm = $zrm->getCreated();
         $zrm->setKlant($this);
 
         return $this;

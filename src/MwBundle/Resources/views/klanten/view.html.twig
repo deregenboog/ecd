@@ -14,20 +14,20 @@
     {% if not entity.laatsteZrm %}
         <p class="text-danger">
             LET OP: geen ZRM aanwezig. Klik
-            {{ html.link('hier', path('app_zrms_add', {klant: entity.id})) }}
+            {{ html.link('hier', path('app_zrms_add', {klant: entity.id, module: 'MaatschappelijkWerk'})) }}
             om een ZRM toe te voegen.
         </p>
     {% elseif entity.laatsteZrm < today|date_modify('-6 months') %}
         <p class="text-danger">
             LET OP: laatste ZRM is meer dan 6 maanden oud. Klik
-            {{ html.link('hier', path('app_zrms_add', {klant: entity.id})) }}
+            {{ html.link('hier', path('app_zrms_add', {klant: entity.id, module: 'MaatschappelijkWerk'})) }}
             om een nieuwe ZRM toe te voegen.
         </p>
     {% endif %}
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity} %}
+    {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
