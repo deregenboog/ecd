@@ -1,4 +1,13 @@
 services:
+    ga.export.activiteiten:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - GaBundle\Entity\Activiteit
+            -
+                Naam: { expression: 'entity.getNaam()' }
+                Datum: { expression: 'entity.getDatum()', type: 'date' }
+                Groep: { expression: 'entity.getGroep().getNaam()', condition: 'entity.getGroep()' }
+
     ga.export.klantdossiers:
         class: AppBundle\Export\GenericExport
         arguments:

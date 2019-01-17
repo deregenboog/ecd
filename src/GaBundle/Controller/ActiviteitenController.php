@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Export\AbstractExport;
 
 /**
  * @Route("/activiteiten")
@@ -44,6 +45,13 @@ class ActiviteitenController extends AbstractChildController
      * @DI\Inject("ga.activiteit.entities")
      */
     protected $entities;
+
+    /**
+     * @var AbstractExport
+     *
+     * @DI\Inject("ga.export.activiteiten")
+     */
+    protected $export;
 
     /**
      * @Route("/calendar")
