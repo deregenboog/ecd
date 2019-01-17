@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\AppDateRangeType;
 
 class KoppelingFilterType extends AbstractType
 {
@@ -27,13 +28,13 @@ class KoppelingFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('koppelingStartdatum', $options['enabled_filters'])) {
-            $builder->add('koppelingStartdatum', AppDateType::class, [
+            $builder->add('koppelingStartdatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
 
         if (in_array('koppelingEinddatum', $options['enabled_filters'])) {
-            $builder->add('koppelingEinddatum', AppDateType::class, [
+            $builder->add('koppelingEinddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }

@@ -8,6 +8,7 @@ use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
+use AppBundle\Form\Model\AppDateRangeModel;
 
 class KoppelingFilter implements FilterInterface
 {
@@ -22,12 +23,12 @@ class KoppelingFilter implements FilterInterface
     public $vrijwilliger;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $koppelingStartdatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $koppelingEinddatum;
 
@@ -67,17 +68,33 @@ class KoppelingFilter implements FilterInterface
         }
 
         if ($this->koppelingStartdatum) {
-            $builder
-                ->andWhere('hulpvraag.koppelingStartdatum = :koppelingStartdatum')
-                ->setParameter('koppelingStartdatum', $this->koppelingStartdatum)
-            ;
+            if ($this->koppelingStartdatum->getStart()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingStartdatum >= :koppelingStartdatum_van')
+                    ->setParameter('koppelingStartdatum_van', $this->koppelingStartdatum->getStart())
+                ;
+            }
+            if ($this->koppelingStartdatum->getEnd()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingStartdatum <= :koppelingStartdatum_tot')
+                    ->setParameter('koppelingStartdatum_tot', $this->koppelingStartdatum->getEnd())
+                ;
+            }
         }
 
         if ($this->koppelingEinddatum) {
-            $builder
-                ->andWhere('hulpvraag.koppelingEinddatum = :koppelingEinddatum')
-                ->setParameter('koppelingEinddatum', $this->koppelingEinddatum)
-            ;
+            if ($this->koppelingEinddatum->getStart()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingEinddatum >= :koppelingEinddatum_van')
+                    ->setParameter('koppelingEinddatum_van', $this->koppelingEinddatum->getStart())
+                ;
+            }
+            if ($this->koppelingEinddatum->getEnd()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingEinddatum <= :koppelingEinddatum_tot')
+                    ->setParameter('koppelingEinddatum_tot', $this->koppelingEinddatum->getEnd())
+                ;
+            }
         }
 
         if ($this->lopendeKoppelingen) {
