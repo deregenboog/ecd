@@ -68,12 +68,14 @@ class ReportExport extends AbstractExport
                 ->getStyle()->getFont()->setBold(true);
 
             $column = 2;
-            foreach (array_keys(current($report['data'])) as $y) {
-                $sheet->getCellByColumnAndRow($column, $row)
-                    ->setValue($y)
-                    ->getStyle()->getFont()->setBold(true);
-                $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
-                ++$column;
+            if (!empty($report['data'])) {
+                foreach (array_keys(current($report['data'])) as $y) {
+                    $sheet->getCellByColumnAndRow($column, $row)
+                        ->setValue($y)
+                        ->getStyle()->getFont()->setBold(true);
+                    $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
+                    ++$column;
+                }
             }
 
             ++$row;
