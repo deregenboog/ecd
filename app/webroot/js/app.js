@@ -40,8 +40,8 @@ $(function() {
 
     // make table rows clickable
     $('table.table.table-hover tr').click(function(event) {
-        // do nothing when NOT clicked on TD tag (for example: A or INPUT tag inside a table)
-        if ('TD' !== event.target.tagName) {
+        // do nothing when clicked on a link or input element
+        if ('A' == event.target.tagName || $(event.target).is(':input')) {
             return;
         }
         if (typeof($(this).data('href')) != 'undefined') {
