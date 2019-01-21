@@ -145,6 +145,13 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
                     ->setParameter('voorkeur_geslacht', $hulpaanbod->getVoorkeurGeslacht())
                 ;
             }
+            $geslacht = $hulpaanbod->getIzVrijwilliger()->getVrijwilliger()->getGeslacht();
+            if ($geslacht && Geslacht::AFKORTING_ONBEKEND !== $geslacht->getAfkorting()) {
+                $builder
+                    ->andWhere('hulpvraag.voorkeurGeslacht IS NULL OR hulpvraag.voorkeurGeslacht = :geslacht')
+                    ->setParameter('geslacht', $geslacht)
+                ;
+            }
 
             // dagdeel
             if ($hulpaanbod->getDagdeel()) {
