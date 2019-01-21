@@ -48,7 +48,17 @@
         <dt>Koppeling succesvol</dt>
         <dd>{{ entity.koppelingSuccesvol ? 'Ja' }}</dd>
     </dl>
-{% endblock %}
+    <dl class="dl-horizontal">
+        <dt>Succesindicatoren</dt>
+        <dd>
+            <ul>
+                {% for indicator in entity.succesindicatoren %}
+                    <li>{{ indicator }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+        {% endblock %}
 
 {% block content_right %}
     {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
