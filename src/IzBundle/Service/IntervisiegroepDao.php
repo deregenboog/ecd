@@ -41,26 +41,6 @@ class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterf
         return $builder->getQuery()->getResult();
     }
 
-    public function find($id)
-    {
-        $entity = $this->repository->createQueryBuilder('intervisiegroep')
-            ->addSelect('lidmaatschap, izVrijwilliger, medewerker')
-            ->innerJoin('intervisiegroep.lidmaatschappen', 'lidmaatschap')
-            ->innerJoin('lidmaatschap.vrijwilliger', 'izVrijwilliger', 'WITH', 'izVrijwilliger.afsluitDatum > NOW() OR izVrijwilliger.afsluitDatum IS NULL')
-            ->leftJoin('intervisiegroep.medewerker', 'medewerker')
-            ->where('intervisiegroep.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-
-        if ($entity) {
-            return $entity;
-        }
-
-        throw new EntityNotFoundException();
-    }
-
     public function create(Intervisiegroep $entity)
     {
         $this->doCreate($entity);

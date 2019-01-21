@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lidmaatschap in entity.lidmaatschappen %}
+                    {% for lidmaatschap in entity.lidmaatschappen if not lidmaatschap.vrijwilliger.afsluitDatum or lidmaatschap.vrijwilliger.afsluitDatum > today %}
                         <tr data-href="{{ path('iz_vrijwilligers_view', {id: lidmaatschap.vrijwilliger.id}) }}">
                             <td>{{ lidmaatschap.vrijwilliger }}</td>
                             <td>{{ lidmaatschap.vrijwilliger.vrijwilliger.email }}</td>
