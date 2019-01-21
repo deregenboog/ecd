@@ -142,7 +142,6 @@ class FacturenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        $this->set('entity_name', 'handmatige factuur');
         $this->entityClass = Creditfactuur::class;
         $this->formClass = CreditfactuurType::class;
 
