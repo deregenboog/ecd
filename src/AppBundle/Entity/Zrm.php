@@ -50,6 +50,11 @@ abstract class Zrm
      */
     protected $requestModule;
 
+    public function __clone()
+    {
+        $this->id = null;
+    }
+
     /**
      * @return Zrm
      */

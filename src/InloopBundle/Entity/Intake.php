@@ -426,6 +426,7 @@ class Intake
         $this->intakedatum = new \DateTime();
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
+        $this->zrm = clone $this->zrm;
     }
 
     /**
