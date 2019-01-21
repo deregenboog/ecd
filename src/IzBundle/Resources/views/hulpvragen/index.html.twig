@@ -35,7 +35,7 @@
         </thead>
         <tbody>
             {% for hulpvraag in pagination %}
-                <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
+                <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}" class="{{ hulpvraag.gereserveerd ? 'danger' }}">
                     <td>
                         {{ hulpvraag.startdatum|date('d-m-Y') }}
                     </td>

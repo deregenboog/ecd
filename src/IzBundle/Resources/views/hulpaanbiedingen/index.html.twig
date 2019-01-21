@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             {% for hulpaanbod in pagination %}
-                <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}">
+                <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}" class="{{ hulpaanbod.gereserveerd ? 'danger' }}">
                     <td>
                         {{ hulpaanbod.startdatum|date('d-m-Y') }}
                     </td>
