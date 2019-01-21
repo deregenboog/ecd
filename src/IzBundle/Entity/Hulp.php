@@ -141,17 +141,6 @@ abstract class Hulp
     protected $info;
 
     /**
-     * @var Doelgroep[]
-     *
-     * @ORM\ManyToMany(targetEntity="Doelgroep")
-     * @ORM\JoinTable(
-     *     name="iz_koppeling_doelgroep",
-     *     joinColumns={@ORM\JoinColumn(name="koppeling_id")}
-     * )
-     */
-    protected $doelgroepen;
-
-    /**
      * @var string
      *
      * @ORM\Column(nullable=true)

@@ -6,6 +6,7 @@ use AppBundle\Exception\AppException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpaanbodRepository")
@@ -33,8 +34,21 @@ class Hulpaanbod extends Hulp
     /**
      * @var Hulpvraagsoort[]
      * @ORM\ManyToMany(targetEntity="Hulpvraagsoort")
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één hulpvraagsoort")
      */
     protected $hulpvraagsoorten;
+
+    /**
+     * @var Doelgroep[]
+     *
+     * @ORM\ManyToMany(targetEntity="Doelgroep")
+     * @ORM\JoinTable(
+     *     name="iz_koppeling_doelgroep",
+     *     joinColumns={@ORM\JoinColumn(name="koppeling_id")}
+     * )
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één doelgroep")
+     */
+    protected $doelgroepen;
 
     /**
      * @var bool
