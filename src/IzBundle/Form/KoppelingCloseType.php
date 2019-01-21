@@ -39,18 +39,16 @@ class KoppelingCloseType extends AbstractType
                 'label' => 'Einddatum koppeling',
                 'required' => true,
             ])
-            ->add('afsluitredenKoppeling', null, [
-                'label' => 'Afsluitreden',
+            ->add('afsluitredenKoppeling', AfsluitredenKoppelingSelectType::class, [
                 'required' => true,
-                'placeholder' => '',
+                'current' => $options['data'] ? $options['data']->getAfsluitredenKoppeling() : null,
             ])
             ->add('koppelingSuccesvol', null, [
                 'required' => false,
             ])
-            ->add('succesindicatoren', null, [
+            ->add('succesindicatoren', SuccesindicatorSelectType::class, [
                 'required' => true,
-                'multiple' => true,
-                'expanded' => true,
+                'current' => $options['data'] ? $options['data']->getSuccesindicatoren() : null,
             ])
             ->add('submit', SubmitType::class)
         ;
