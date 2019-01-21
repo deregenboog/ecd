@@ -294,7 +294,7 @@ class Intake
     {
         $zrm
             ->setRequestModule('IzIntake')
-            ->setKlant($this->klant)
+            ->setKlant($this->getIzDeelnemer()->getKlant())
         ;
         $this->zrm = $zrm;
 
