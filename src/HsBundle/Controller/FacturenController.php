@@ -171,6 +171,14 @@ class FacturenController extends AbstractChildController
     protected function getDownloadFilename()
     {
         return sprintf(
+            'hs-facturen-%s.xlsx',
+            (new \DateTime())->format('Y-m-d')
+        );
+    }
+
+    protected function getZipDownloadFilename()
+    {
+        return sprintf(
             'hs-facturen-%s.zip',
             (new \DateTime())->format('Y-m-d')
         );
@@ -185,7 +193,7 @@ class FacturenController extends AbstractChildController
         ini_set('memory_limit', '512M');
 
         $dir = $this->getParameter('kernel.cache_dir');
-        $filename = $this->getDownloadFilename();
+        $filename = $this->getZipDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
         if (0 === count($collection)) {
