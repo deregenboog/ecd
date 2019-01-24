@@ -114,7 +114,9 @@ class Intervisiegroep
 
         foreach ($this->lidmaatschappen as $lidmaatschap) {
             try {
-                if ($lidmaatschap->getVrijwilliger()->getVrijwilliger()) {
+                if ($lidmaatschap->getVrijwilliger()
+                    && $lidmaatschap->getVrijwilliger()->getVrijwilliger()
+                ) {
                     $vrijwilligers[] = $lidmaatschap->getVrijwilliger();
                 }
             } catch (EntityNotFoundException $e) {
@@ -143,7 +145,9 @@ class Intervisiegroep
 
         foreach ($this->lidmaatschappen as $lidmaatschap) {
             try {
-                if ($lidmaatschap->getVrijwilliger()->getVrijwilliger()) {
+                if ($lidmaatschap->getVrijwilliger()
+                    && $lidmaatschap->getVrijwilliger()->getVrijwilliger()
+                ) {
                     $lidmaatschappen[] = $lidmaatschap;
                 }
             } catch (EntityNotFoundException $e) {
