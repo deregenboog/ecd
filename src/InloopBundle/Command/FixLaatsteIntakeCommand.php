@@ -38,7 +38,6 @@ class FixLaatsteIntakeCommand extends ContainerAwareCommand
                     $laatsteIntake->getId()
                 ));
                 $klant->setLaatsteIntake($laatsteIntake);
-                break;
             } elseif ($klant->getLaatsteIntake()->getId() != $klant->getIntakes()[0]->getId()) {
                 $output->writeln(sprintf(
                     'Laatste intake voor klant %d instellen op %d (was %d)',
@@ -47,7 +46,6 @@ class FixLaatsteIntakeCommand extends ContainerAwareCommand
                     $klant->getLaatsteIntake()->getId()
                 ));
                 $klant->setLaatsteIntake($laatsteIntake);
-                break;
             }
         }
 
