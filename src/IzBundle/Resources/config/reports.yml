@@ -125,6 +125,12 @@ services:
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
+    IzBundle\Report\SuccesindicatorenPerHulpvraagsoort:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Succesindicatoren }
+
     IzBundle\Report\VrijwilligersTotaal:
         arguments:
             - "@iz.repository.iz_vrijwilliger"

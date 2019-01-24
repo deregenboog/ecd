@@ -7,6 +7,19 @@ use Doctrine\ORM\QueryBuilder;
 
 class HulpvraagRepository extends EntityRepository
 {
+    public function countSuccesindicatorenByHulpvraagsoort(\DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('succesindicator.naam AS succesindicatornaam')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.succesindicatoren', 'succesindicator')
+            ->groupBy('hulpvraagsoort, succesindicator');
+        $this->applyKoppelingenReportFilter($builder, 'afgesloten', $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()
