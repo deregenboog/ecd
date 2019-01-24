@@ -23,12 +23,18 @@
                     {{ form_errors(filter.klant.id) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
+                    {{ form_widget(filter.klant.voornaam) }}
+                    {{ form_errors(filter.klant.voornaam) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.geboortedatum) }}
-                    {{ form_errors(filter.klant.geboortedatum) }}
+                    {{ form_widget(filter.klant.achternaam) }}
+                    {{ form_errors(filter.klant.achternaam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                    {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                    {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                    {{ form_errors(filter.klant.geboortedatumRange.end) }}
                 </th>
                 <th>
                     {{ form_widget(filter.klant.geslacht) }}
@@ -60,7 +66,10 @@
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
@@ -92,7 +101,11 @@
                         {{ klant.id }}
                     </td>
                     <td>
-                        {{ klant }}
+                        {{ klant.voornaam }}
+                        {% if klant.roepnaam %}({{ klant.roepnaam }}){% endif %}
+                    </td>
+                    <td>
+                        {{ klant.tussenvoegsel }} {{ klant.achternaam }}
                     </td>
                     <td>
                         {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}

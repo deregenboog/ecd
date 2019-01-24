@@ -86,7 +86,7 @@ class KlantFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geboortedatum', 'geslacht'],
+                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht'],
                 'gebruikersruimte',
                 'laatsteIntakeLocatie',
                 'laatsteIntakeDatum',

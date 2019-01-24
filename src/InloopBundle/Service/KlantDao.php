@@ -13,6 +13,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'klant.id',
+            'klant.voornaam',
             'klant.achternaam',
             'klant.geboortedatum',
             'geslacht.volledig',
