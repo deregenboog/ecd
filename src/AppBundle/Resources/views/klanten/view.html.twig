@@ -34,6 +34,10 @@
         <dd>{{ entity.nationaliteit }}</dd>
         <dt>BSN</dt>
         <dd>{{ entity.bsn }}</dd>
+        {% if entity.overleden %}
+            <dt>Overleden</dt>
+            <dd class="text-danger">Ja</dd>
+        {% endif %}
     </dl>
     <h2>Contactgegevens</h2>
     <dl class="dl-horizontal">

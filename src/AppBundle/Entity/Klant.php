@@ -432,4 +432,17 @@ class Klant extends Persoon
             $this->eersteIntakeDatum = $this->intakes[count($this->intakes)-1]->getIntakeDatum();
         }
     }
+
+    public function isOverleden()
+    {
+        return $this->overleden;
+    }
+
+
+    public function setOverleden($overleden)
+    {
+        $this->overleden = (bool) $overleden;
+
+        return $this;
+    }
 }

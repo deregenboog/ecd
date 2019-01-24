@@ -22,6 +22,12 @@
     <dd>{{ klant.bsn }}</dd>
     <dt>Medewerker</dt>
     <dd>{{ klant.medewerker }}</dd>
+    {% if klant.overleden %}
+        <span class="text-danger">
+            <dt>Overleden</dt>
+            <dd>Ja</dd>
+        </span>
+    {% endif %}
 </dl>
 <h2>Contactgegevens</h2>
 <p>

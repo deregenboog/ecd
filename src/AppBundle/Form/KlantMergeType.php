@@ -69,7 +69,7 @@ class KlantMergeType extends AbstractType
                 },
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
-//             ->add('overleden', CheckboxType::class, ['required' => false])
+            ->add('overleden', CheckboxType::class, ['required' => false])
             ->add('land', LandSelectType::class, ['required' => true])
             ->add('nationaliteit', NationaliteitSelectType::class, ['required' => true])
             ->add('bsn', null, ['label' => 'BSN'])
