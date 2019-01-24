@@ -73,6 +73,7 @@ class IntakesController extends AbstractController
         if ($klant->getLaatsteIntake()) {
             $entity = clone $klant->getLaatsteIntake();
             $this->getEntityManager()->detach($entity);
+            $klant->addIntake($entity);
         } else {
             $entity = new Intake($klant);
         }
