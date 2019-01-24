@@ -278,6 +278,9 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 
     public function findActive($page = null, FilterInterface $filter = null)
     {
+        // show all in one page
+        $this->itemsPerPage = 10000;
+
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, locatie, klant, schorsing, opmerking")
             ->innerJoin("{$this->alias}.locatie", 'locatie')
