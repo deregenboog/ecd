@@ -39,18 +39,6 @@ class Hulpaanbod extends Hulp
     protected $hulpvraagsoorten;
 
     /**
-     * @var Doelgroep[]
-     *
-     * @ORM\ManyToMany(targetEntity="Doelgroep")
-     * @ORM\JoinTable(
-     *     name="iz_koppeling_doelgroep",
-     *     joinColumns={@ORM\JoinColumn(name="koppeling_id")}
-     * )
-     * @Assert\Count(min=1, minMessage="Selecteer tenminste één doelgroep")
-     */
-    protected $doelgroepen;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="expat", type="boolean", nullable=false)

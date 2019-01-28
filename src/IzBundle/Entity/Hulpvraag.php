@@ -6,7 +6,6 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Exception\AppException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
@@ -37,18 +36,6 @@ class Hulpvraag extends Hulp
      * @Gedmo\Versioned
      */
     protected $hulpvraagsoort;
-
-    /**
-     * @var Doelgroep[]
-     *
-     * @ORM\ManyToMany(targetEntity="Doelgroep")
-     * @ORM\JoinTable(
-     *     name="iz_koppeling_doelgroep",
-     *     joinColumns={@ORM\JoinColumn(name="koppeling_id")}
-     * )
-     * @Assert\Count(min=1, minMessage="Selecteer een doelgroep")
-     */
-    protected $doelgroepen;
 
     /**
      * @var bool
