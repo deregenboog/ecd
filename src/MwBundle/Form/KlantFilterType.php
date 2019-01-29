@@ -6,7 +6,7 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Form\GebruikersruimteSelectType;
+use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -28,8 +28,9 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
-            $builder->add('gebruikersruimte', GebruikersruimteSelectType::class, [
+            $builder->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
+                'gebruikersruimte' => true,
             ]);
         }
 

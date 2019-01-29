@@ -30,8 +30,8 @@ class LocatieSelectType extends AbstractType
             'query_builder' => function (Options $options) {
                 return function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('locatie')
-                        ->where("locatie.datumVan <> '0000-00-00' AND locatie.datumVan <= NOW()")
-                        ->andWhere("locatie.datumTot IS NULL OR locatie.datumTot = '0000-00-00' OR locatie.datumTot >= NOW()")
+                        ->where("locatie.datumVan <= DATE(NOW())")
+                        ->andWhere("locatie.datumTot IS NULL OR locatie.datumTot >= DATE(NOW())")
                         ->orderBy('locatie.naam')
                     ;
 

@@ -31,8 +31,9 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
-            $builder->add('gebruikersruimte', GebruikersruimteSelectType::class, [
+            $builder->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
+                'gebruikersruimte' => true,
             ]);
         }
 

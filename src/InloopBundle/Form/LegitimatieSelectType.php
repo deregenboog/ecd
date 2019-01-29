@@ -20,8 +20,8 @@ class LegitimatieSelectType extends AbstractType
             'required' => false,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('legitimatie')
-                    ->where('legitimatie.datumVan <= NOW()')
-                    ->andWhere('legitimatie.datumTot IS NULL OR legitimatie.datumTot > NOW()')
+                    ->where('legitimatie.datumVan <= DATE(NOW())')
+                    ->andWhere('legitimatie.datumTot IS NULL OR legitimatie.datumTot > DATE(NOW())')
                     ->orderBy('legitimatie.id')
                 ;
             },

@@ -23,9 +23,6 @@ class AmocStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder)
     {
-        $builder
-            ->andWhere('laatsteIntake.amocToegangTot IS NULL OR laatsteIntake.amocToegangTot >= :today')
-            ->setParameter('today', new \DateTime('today'))
-        ;
+        $builder->andWhere('laatsteIntake.amocToegangTot IS NULL OR laatsteIntake.amocToegangTot >= DATE(NOW())');
     }
 }

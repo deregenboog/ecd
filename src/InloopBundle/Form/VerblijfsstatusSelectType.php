@@ -21,8 +21,8 @@ class VerblijfsstatusSelectType extends AbstractType
             'required' => false,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('verblijfsstatus')
-                    ->where('verblijfsstatus.datumVan <= NOW()')
-                    ->andWhere('verblijfsstatus.datumTot IS NULL OR verblijfsstatus.datumTot > NOW()')
+                    ->where('verblijfsstatus.datumVan <= DATE(NOW())')
+                    ->andWhere('verblijfsstatus.datumTot IS NULL OR verblijfsstatus.datumTot > DATE(NOW())')
                     ->orderBy('verblijfsstatus.id')
                 ;
             },

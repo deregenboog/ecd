@@ -20,8 +20,8 @@ class VerslavingSelectType extends AbstractType
             'required' => false,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('verslaving')
-                    ->where('verslaving.datumVan <= NOW()')
-                    ->andWhere('verslaving.datumTot IS NULL OR verslaving.datumTot > NOW()')
+                    ->where('verslaving.datumVan <= DATE(NOW())')
+                    ->andWhere('verslaving.datumTot IS NULL OR verslaving.datumTot > DATE(NOW())')
                     ->orderBy('verslaving.naam')
                 ;
             },

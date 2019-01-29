@@ -60,17 +60,10 @@ class VrijwilligerType extends AbstractType
                     ;
                 },
             ])
-            ->add('locaties', null, [
+            ->add('locaties', LocatieSelectType::class, [
                 'required' => true,
                 'expanded' => true,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('locatie')
-                        ->where("locatie.datumVan <> '0000-00-00' AND locatie.datumVan <= :today")
-                        ->andWhere("locatie.datumTot IS NULL OR locatie.datumTot = '0000-00-00' OR locatie.datumTot >= :today")
-                        ->orderBy('locatie.naam')
-                        ->setParameter('today', new \DateTime('today'))
-                    ;
-                },
+                'multiple' => true,
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class)

@@ -20,8 +20,8 @@ class PeriodeSelectType extends AbstractType
             'required' => false,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('periode')
-                    ->where('periode.datumVan <= NOW()')
-                    ->andWhere('periode.datumTot IS NULL OR periode.datumTot > NOW()')
+                    ->where('periode.datumVan <= DATE(NOW())')
+                    ->andWhere('periode.datumTot IS NULL OR periode.datumTot > DATE(NOW())')
                     ->orderBy('periode.id')
                 ;
             },

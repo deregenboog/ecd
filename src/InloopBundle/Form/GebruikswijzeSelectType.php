@@ -21,8 +21,8 @@ class GebruikswijzeSelectType extends AbstractType
             'expanded' => true,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('gebruikswijze')
-                    ->where('gebruikswijze.datumVan <= NOW()')
-                    ->andWhere('gebruikswijze.datumTot IS NULL OR gebruikswijze.datumTot > NOW()')
+                    ->where('gebruikswijze.datumVan <= DATE(NOW())')
+                    ->andWhere('gebruikswijze.datumTot IS NULL OR gebruikswijze.datumTot > DATE(NOW())')
                     ->orderBy('gebruikswijze.naam')
                 ;
             },

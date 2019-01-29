@@ -20,8 +20,8 @@ class FrequentieSelectType extends AbstractType
             'required' => false,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('frequentie')
-                    ->where('frequentie.datumVan <= NOW()')
-                    ->andWhere('frequentie.datumTot IS NULL OR frequentie.datumTot > NOW()')
+                    ->where('frequentie.datumVan <= DATE(NOW())')
+                    ->andWhere('frequentie.datumTot IS NULL OR frequentie.datumTot > DATE(NOW())')
                     ->orderBy('frequentie.id')
                 ;
             },

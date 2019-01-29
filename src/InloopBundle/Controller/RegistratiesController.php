@@ -85,11 +85,9 @@ class RegistratiesController extends AbstractController
         $locaties = $this->getEntityManager()->getRepository(Locatie::class)
             ->createQueryBuilder('locatie')
             ->where('locatie.maatschappelijkWerk = false')
-            ->andWhere('locatie.datumVan <= :today')
-            ->andWhere('locatie.datumTot > :today OR locatie.datumTot = :null')
+            ->andWhere('locatie.datumVan <= DATE(NOW())')
+            ->andWhere('locatie.datumTot > DATE(NOW()) OR locatie.datumTot IS NULL')
             ->orderBy('locatie.naam')
-            ->setParameter('today', new \DateTime('today'))
-            ->setParameter('null', '0000-00-00') // @todo replace 0000-00-00 with null
             ->getQuery()
             ->getResult()
         ;
