@@ -10,6 +10,7 @@
         {{ html.link('Verslag toevoegen', url) }}
     {% endif %}
 </p>
+<h3>Verslagen deelnemer</h3>
 <table class="table">
     {% for verslag in entity.verslagen %}
         <tr>
@@ -22,7 +23,10 @@
             </td>
         </tr>
     {% endfor %}
-    {% if deelnemer is defined %}
+</table>
+{% if deelnemer is defined %}
+    <h3>Verslagen trajecten</h3>
+    <table class="table">
         {% for traject in entity.trajecten %}
             {% for verslag in traject.verslagen %}
                 <tr>
@@ -36,5 +40,5 @@
                 </tr>
             {% endfor %}
         {% endfor %}
-    {% endif %}
-</table>
+    </table>
+{% endif %}
