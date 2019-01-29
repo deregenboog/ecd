@@ -47,6 +47,7 @@
                     {{ entity.datumTot ? entity.datumTot|date('d-m-Y') }}
                 </td>
                 <td>
+                    {{ html.viewLink(path(route_base ~ 'view', {'id': entity.id})) }}
                     {{ html.editLink(path(route_base ~ 'edit', {'id': entity.id})) }}
                     {% if entity.deletable %}
                         {{ html.deleteLink(path(route_base ~ 'delete', {'id': entity.id})) }}

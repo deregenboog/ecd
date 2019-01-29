@@ -18,7 +18,9 @@ class LocatieTest extends TestCase
                 ->setSluitingstijd(new \DateTime('20:00:00')),
         ]);
 
+        // Monday afternoon open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
+        // Tuesday afternoon closed
         $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-09 15:00:00')));
 
         $locatie = new Locatie();
@@ -29,8 +31,11 @@ class LocatieTest extends TestCase
                 ->setSluitingstijd(new \DateTime('10:00:00')),
         ]);
 
+        // Monday morning closed
         $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-08 02:00:00')));
+        // Monday afternoon closed
         $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
+        // Tuesday morning open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-09 02:00:00')));
 
         $locatie = new Locatie();
@@ -45,8 +50,17 @@ class LocatieTest extends TestCase
                 ->setSluitingstijd(new \DateTime('10:00:00')),
         ]);
 
+        // Sunday at 19:00 closed
+        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-07 19:00:00')));
+        // Sunday at 20:00 open
+        $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-07 20:00:00')));
+        // Monday morning open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-08 02:00:00')));
+        // Monday afternoon closed
         $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
+        // Tuesday morning open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-09 02:00:00')));
+        // Tuesday afternoon closed
+        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-09 15:00:00')));
     }
 }

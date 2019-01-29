@@ -19,4 +19,21 @@ class DateTimeUtil
             $time->format('H:i:s'),
         ]));
     }
+
+    /**
+     * Return a string representation of the given day of week.
+     *
+     * @param int $dayOfWeek
+     *
+     * @return string
+     */
+    public static function dayOfWeek($dayOfWeek)
+    {
+        $days = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+        while ($dayOfWeek >= 7) {
+            $dayOfWeek = $dayOfWeek % 7;
+        }
+
+        return $days[$dayOfWeek];
+    }
 }

@@ -5,6 +5,7 @@ namespace InloopBundle\Entity;
 use AppBundle\Model\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Util\DateTimeUtil;
 
 /**
  * @ORM\Entity
@@ -41,6 +42,16 @@ class Locatietijd
      * @Gedmo\Versioned
      */
     private $sluitingstijd;
+
+    public function __toString()
+    {
+        return sprintf('%s %s-%s (%s)',
+            DateTimeUtil::dayOfWeek($this->getDagVanDeWeek()),
+            $this->openingstijd->format('H:i'),
+            $this->sluitingstijd->format('H:i'),
+            $this->locatie
+        );
+    }
 
     /**
      * @return Locatie

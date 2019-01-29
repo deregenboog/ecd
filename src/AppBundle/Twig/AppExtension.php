@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Debug\Exception\ContextErrorException;
+use AppBundle\Util\DateTimeUtil;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -104,6 +105,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             new \Twig_SimpleFilter('name_informal', [$this, 'nameInformal']),
             new \Twig_SimpleFilter('diff', [$this, 'diff']),
             new \Twig_SimpleFilter('human_days', [$this, 'humanDays']),
+            new \Twig_SimpleFilter('day_of_week', [DateTimeUtil::class, 'dayOfWeek']),
             new \Twig_SimpleFilter('implode', [$this, 'implode']),
             new \Twig_SimpleFilter('postvoorkeur', [$this, 'postvoorkeur']),
             new \Twig_SimpleFilter('emailvoorkeur', [$this, 'emailvoorkeur']),

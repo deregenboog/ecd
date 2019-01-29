@@ -260,12 +260,12 @@ class RegistratiesController extends AbstractController
             return new JsonResponse($jsonVar);
         }
 
-//         if (!$locatie->isOpen()) {
-//             $jsonVar['allow'] = false;
-//             $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
+        if (!$locatie->isOpen()) {
+            $jsonVar['allow'] = false;
+            $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
 
-//             return new JsonResponse($jsonVar);
-//         }
+            return new JsonResponse($jsonVar);
+        }
 
         try {
             if ($klant->getLaatsteRegistratie()) {
