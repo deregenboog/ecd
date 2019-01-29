@@ -51,21 +51,21 @@ class KlantenController extends AbstractController
     public function infoEditAction(Request $request, Klant $klant)
     {
         $em = $this->getEntityManager();
-        $info = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
-        if (!$info) {
-            $info = new Info($klant);
+        $entity = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
+        if (!$entity) {
+            $entity = new Info($klant);
         }
 
-        $form = $this->createForm(InfoType::class, $info);
+        $form = $this->createForm(InfoType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (!$entity->getId()) {
-                    $em->persist($info);
+                    $em->persist($entity);
                 }
-                $em->flush($info);
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+                $em->flush($entity);
+                $this->addFlash('success', 'Info is opgeslagen.');
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

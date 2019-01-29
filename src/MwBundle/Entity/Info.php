@@ -28,180 +28,182 @@ class Info
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(unique=true)
+     * @ORM\JoinColumn(unique=true, nullable=false)
      * @Gedmo\Versioned
      * @Assert\NotNull
      */
     private $klant;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $advocaat;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $contact;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $casemanager;
 
     /**
-     * @ORM\Column(name="casemanager_email", type="string", nullable=false)
+     * @ORM\Column(name="casemanager_email", type="string", nullable=true)
      * @Gedmo\Versioned
      * @Assert\Email
      */
     private $casemanagerEmail;
 
     /**
-     * @ORM\Column(name="casemanager_telefoonnummer", type="string", nullable=false)
+     * @ORM\Column(name="casemanager_telefoonnummer", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $casemanagerTelefoon;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $trajectbegeleider;
 
     /**
-     * @ORM\Column(name="trajectbegeleider_email", type="string", nullable=false)
+     * @ORM\Column(name="trajectbegeleider_email", type="string", nullable=true)
      * @Gedmo\Versioned
      * @Assert\Email
      */
     private $trajectbegeleiderEmail;
 
     /**
-     * @ORM\Column(name="trajectbegeleider_telefoonnummer", type="string", nullable=false)
+     * @ORM\Column(name="trajectbegeleider_telefoonnummer", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $trajectbegeleiderTelefoon;
 
     /**
-     * @ORM\Column(name="trajecthouder_extern_organisatie", type="string", nullable=false)
+     * @ORM\Column(name="trajecthouder_extern_organisatie", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $trajecthouderExternOrganisatie;
 
     /**
-     * @ORM\Column(name="trajecthouder_extern_naam", type="string", nullable=false)
+     * @ORM\Column(name="trajecthouder_extern_naam", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $trajecthouderExternNaam;
 
     /**
-     * @ORM\Column(name="trajecthouder_extern_email", type="string", nullable=false)
+     * @ORM\Column(name="trajecthouder_extern_email", type="string", nullable=true)
      * @Gedmo\Versioned
      * @Assert\Email
      */
     private $trajecthouderExternEmail;
 
     /**
-     * @ORM\Column(name="trajecthouder_extern_telefoonnummer", type="string", nullable=false)
+     * @ORM\Column(name="trajecthouder_extern_telefoonnummer", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $trajecthouderExternTelefoon;
 
     /**
-     * @ORM\Column(name="overige_contactpersonen_extern", type="text", nullable=false)
+     * @ORM\Column(name="overige_contactpersonen_extern", type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $overigeContactpersonenExtern;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $instantie;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $registratienummer;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $budgettering;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $contactpersoon;
 
     /**
-     * @ORM\Column(name="klantmanager_naam", type="string", nullable=false)
+     * @ORM\Column(name="klantmanager_naam", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $klantmanagerNaam;
 
     /**
-     * @ORM\Column(name="klantmanager_email", type="string", nullable=false)
+     * @ORM\Column(name="klantmanager_email", type="string", nullable=true)
      * @Gedmo\Versioned
      * @Assert\Email
      */
     private $klantmanagerEmail;
 
     /**
-     * @ORM\Column(name="klantmanager_telefoonnummer", type="string", nullable=false)
+     * @ORM\Column(name="klantmanager_telefoonnummer", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $klantmanagerTelefoon;
 
     /**
-     * @ORM\Column(name="sociaal_netwerk", type="text", nullable=false)
+     * @ORM\Column(name="sociaal_netwerk", type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $sociaalNetwerk;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $bankrekeningnummer;
 
     /**
-     * @ORM\Column(name="polisnummer_ziektekostenverzekering", type="string", nullable=false)
+     * @ORM\Column(name="polisnummer_ziektekostenverzekering", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $polisnummerZiektekostenverzekering;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $inschrijfnummer;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $wachtwoord;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $telefoonnummer;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $adres;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $overigen;

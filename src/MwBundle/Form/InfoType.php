@@ -21,43 +21,44 @@ class InfoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $casemanager = $builder->create('casemanagerForm', ContainerType::class, ['label' => 'Casemanager DRG'])
-            ->add('casemanager', MedewerkerType::class)
-            ->add('casemanagerEmail', null, ['label' => 'E-mail'])
-            ->add('casemanagerTelefoon', null, ['label' => 'Telefoonnummer'])
+            ->add('casemanager', MedewerkerType::class, ['required' => false])
+            ->add('casemanagerEmail', null, ['label' => 'E-mail', 'required' => false])
+            ->add('casemanagerTelefoon', null, ['label' => 'Telefoonnummer', 'required' => false])
         ;
 
         $trajectbegeleider = $builder->create('trajectbegeleiderForm', ContainerType::class, ['label' => 'Trajectbegeleider'])
-            ->add('trajectbegeleider', MedewerkerType::class)
-            ->add('trajectbegeleiderEmail', null, ['label' => 'E-mail'])
-            ->add('trajectbegeleiderTelefoon', null, ['label' => 'Telefoonnummer'])
+            ->add('trajectbegeleider', MedewerkerType::class, ['required' => false])
+            ->add('trajectbegeleiderEmail', null, ['label' => 'E-mail', 'required' => false])
+            ->add('trajectbegeleiderTelefoon', null, ['label' => 'Telefoonnummer', 'required' => false])
         ;
 
         $trajecthouder = $builder->create('trajecthouderForm', ContainerType::class, ['label' => 'Trajecthouder extern'])
-            ->add('trajecthouderExternOrganisatie', null, ['label' => 'Organisatie'])
-            ->add('trajecthouderExternNaam', null, ['label' => 'Naam'])
-            ->add('trajecthouderExternEmail', null, ['label' => 'E-mail'])
-            ->add('trajecthouderExternTelefoon', null, ['label' => 'Telefoonnummer'])
+            ->add('trajecthouderExternOrganisatie', null, ['label' => 'Organisatie', 'required' => false])
+            ->add('trajecthouderExternNaam', null, ['label' => 'Naam', 'required' => false])
+            ->add('trajecthouderExternEmail', null, ['label' => 'E-mail', 'required' => false])
+            ->add('trajecthouderExternTelefoon', null, ['label' => 'Telefoonnummer', 'required' => false])
         ;
 
         $instantie = $builder->create('instantieForm', ContainerType::class, ['label' => 'Uitkerende instantie'])
             ->add('instantie', ChoiceType::class, [
                 'placeholder' => '',
                 'choices' => array_flip(Info::INSTANTIES),
+                'required' => false
             ])
-            ->add('registratienummer');
+            ->add('registratienummer', null, ['required' => false]);
 
         $budgettering = $builder->create('budgetteringForm', ContainerType::class, ['label' => 'Budgettering'])
-            ->add('budgettering')
-            ->add('contactpersoon');
+            ->add('budgettering', null, ['required' => false])
+            ->add('contactpersoon', null, ['required' => false]);
 
         $klantmanager = $builder->create('klantmanagerForm', ContainerType::class, ['label' => 'Klantmanager'])
-            ->add('klantmanagerNaam', null, ['label' => 'Naam'])
-            ->add('klantmanagerEmail', null, ['label' => 'E-mail'])
-            ->add('klantmanagerTelefoon', null, ['label' => 'Telefoonnummer']);
+            ->add('klantmanagerNaam', null, ['label' => 'Naam', 'required' => false])
+            ->add('klantmanagerEmail', null, ['label' => 'E-mail', 'required' => false])
+            ->add('klantmanagerTelefoon', null, ['label' => 'Telefoonnummer', 'required' => false]);
 
         $woningnet = $builder->create('woningnetForm', ContainerType::class, ['label' => 'Woningnet'])
-            ->add('inschrijfnummer')
-            ->add('wachtwoord');
+            ->add('inschrijfnummer', null, ['required' => false])
+            ->add('wachtwoord', null, ['required' => false]);
         $builder->add($woningnet);
 
         $builder
@@ -66,25 +67,30 @@ class InfoType extends AbstractType
             ->add($trajecthouder)
             ->add('overigeContactpersonenExtern', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
+                'required' => false,
             ])
             ->add($instantie)
             ->add($budgettering)
             ->add($klantmanager)
             ->add('sociaalNetwerk', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
+                'required' => false,
             ])
-            ->add('bankrekeningnummer')
-            ->add('polisnummerZiektekostenverzekering')
+            ->add('bankrekeningnummer', null, ['required' => false])
+            ->add('polisnummerZiektekostenverzekering', null, ['required' => false])
             ->add($woningnet)
-            ->add('telefoonnummer')
+            ->add('telefoonnummer', null, ['required' => false])
             ->add('contact', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
+                'required' => false,
             ])
             ->add('adres', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
+                'required' => false,
             ])
             ->add('overigen', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
+                'required' => false,
             ])
             ->add('submit', SubmitType::class)
         ;
