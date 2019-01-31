@@ -2,7 +2,7 @@
 
 <h2>Intakes</h2>
 <p>
-    {{ html.link('Overzicht intakes', path('inloop_intakes_index', {klant: klant.id}), 'view') }}
+    {{ html.link('Overzicht intakes', path('inloop_intakes_index', {'intake_filter[klant][id]': klant.id}), 'view') }}
     {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: klant.id}), 'add') }}
 </p>
 <p>

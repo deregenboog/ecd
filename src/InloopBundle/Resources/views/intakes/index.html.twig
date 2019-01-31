@@ -15,22 +15,25 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="5">
+                    <th colspan="6">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
                         </span>
                     </th>
                 </tr>
-{#
                 <tr>
                     <th>
                         {{ form_widget(filter.klant.id) }}
                         {{ form_errors(filter.klant.id) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.klant.naam) }}
-                        {{ form_errors(filter.klant.naam) }}
+                        {{ form_widget(filter.klant.voornaam) }}
+                        {{ form_errors(filter.klant.voornaam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.achternaam) }}
+                        {{ form_errors(filter.klant.achternaam) }}
                     </th>
                     <th>
                         {{ form_widget(filter.klant.geslacht) }}
@@ -41,42 +44,22 @@
                         {{ form_errors(filter.locatie) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.binnen.start) }}
-                        {{ form_errors(filter.binnen.start) }}
-                        {{ form_widget(filter.binnen.end) }}
-                        {{ form_errors(filter.binnen.end) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.buiten.start) }}
-                        {{ form_errors(filter.buiten.start) }}
-                        {{ form_widget(filter.buiten.end) }}
-                        {{ form_errors(filter.buiten.end) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.maaltijd) }}
-                        {{ form_errors(filter.maaltijd) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.activering) }}
-                        {{ form_errors(filter.activering) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.kleding) }}
-                        {{ form_errors(filter.kleding) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.veegploeg) }}
-                        {{ form_errors(filter.veegploeg) }}
+                        {{ form_widget(filter.datum.start) }}
+                        {{ form_errors(filter.datum.start) }}
+                        {{ form_widget(filter.datum.end) }}
+                        {{ form_errors(filter.datum.end) }}
                     </th>
                 </tr>
-#}
             {{ form_end(filter) }}
             <tr>
                 <th>
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
@@ -96,7 +79,11 @@
                     {{ intake.klant.id }}
                 </td>
                 <td>
-                    {{ intake.klant }}
+                    {{ intake.klant.voornaam }}
+                    {% if intake.klant.roepnaam %}({{ intake.klant.roepnaam }}){% endif %}
+                </td>
+                <td>
+                    {{ intake.klant.tussenvoegsel }} {{ intake.klant.achternaam }}
                 </td>
                 <td>
                     {{ intake.klant.geslacht }}
