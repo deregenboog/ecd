@@ -167,9 +167,13 @@
 
 {% macro koppeling_warning_style(koppeling) %}
     {% if koppeling.koppelingStartdatum|date('Y') >= 2018 %}
-        {% if koppeling.koppelingStartdatum|date_modify('+6 months') < today %}
+        {% if koppeling.koppelingStartdatum|date_modify('+6 months') < today
+            or koppeling.eindevaluatiedatum < today
+        %}
             {{ 'background-color: red; color: white' }}
-        {% elseif koppeling.koppelingStartdatum|date_modify('+5 months +2 weeks') < today %}
+        {% elseif koppeling.koppelingStartdatum|date_modify('+5 months +2 weeks') < today
+            or koppeling.eindevaluatiedatum|date_modify('-2 weeks') < today
+        %}
             {{ 'background-color: orange; color: white' }}
         {% endif %}
     {% endif %}
