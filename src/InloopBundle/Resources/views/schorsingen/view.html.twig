@@ -15,8 +15,8 @@
         {{ entity_name|capitalize }} {{ entity }}
     </h1>
     <p>
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
         {% if is_granted('ROLE_TEAMLEIDERS') %}
-            {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
             {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
         {% endif %}
     </p>
@@ -135,12 +135,14 @@
                                         <span class="glyphicon glyphicon-print"></span>
                                         Printen Engels
                                     </a>
+                                    {{ html.link('Wijzigen', path(route_base~'edit', {id: schorsing.id}), 'edit') }}
+                                    {% if is_granted('ROLE_TEAMLEIDERS') %}
+                                        {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
                                     <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                                    {#{ html.editLink(path(route_base~'edit', {id: schorsing.id})) }#}
-                                    {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -183,12 +185,16 @@
                                     {% endfor %}
                                 </ul>
                             </td>
-                            <td>{{ schorsing.opmerking }}</td>
+                            <td>
+                                {{ schorsing.opmerking }}<br><br>
+                                {{ html.link('Wijzigen', path(route_base~'edit', {id: schorsing.id}), 'edit') }}
+                                {% if is_granted('ROLE_TEAMLEIDERS') %}
+                                    {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
+                                {% endif %}
+                            </td>
                             <td>
                                 <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
                                 <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                                {#{ html.editLink(path(route_base~'edit', {id: schorsing.id})) }#}
-                                {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
                             </td>
                         </tr>
                     {% endfor %}

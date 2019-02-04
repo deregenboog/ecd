@@ -118,20 +118,6 @@ class SchorsingenController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit")
-     */
-    public function editAction(Request $request, $id)
-    {
-        if (!$this->isGranted('ROLE_TEAMLEIDERS')) {
-            $this->addFlash('danger', 'U bent niet bevoegd schorsingen te wijzigen.');
-
-            return $this->redirectToIndex();
-        }
-
-        return parent::editAction($request, $id);
-    }
-
-    /**
      * @Route("/{id}/delete")
      */
     public function deleteAction(Request $request, $id)
