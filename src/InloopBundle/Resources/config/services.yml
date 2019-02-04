@@ -39,6 +39,8 @@ services:
             - { name: kernel.event_subscriber }
 
     InloopBundle\Security\IntakeVoter:
+        arguments:
+            - "@security.access.decision_manager"
         tags:
             - { name: security.voter }
 

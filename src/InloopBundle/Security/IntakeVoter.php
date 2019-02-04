@@ -5,9 +5,17 @@ namespace InloopBundle\Security;
 use InloopBundle\Entity\Intake;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
 class IntakeVoter extends Voter
 {
+    private $decisionManager;
+
+    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    {
+        $this->decisionManager = $decisionManager;
+    }
+
     protected function supports($attribute, $subject)
     {
         if (!in_array($attribute, [Permissions::EDIT, Permissions::OWNER])) {
@@ -24,6 +32,10 @@ class IntakeVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         assert($subject instanceof Intake);
+
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
+            return true;
+        }
 
         switch ($attribute) {
             case Permissions::EDIT:

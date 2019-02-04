@@ -32,6 +32,12 @@
 {% block content_right %}
     <h2>Laatste intake</h2>
     {% if entity.laatsteIntake %}
+        <p>
+            {{ html.link('Printen', path('inloop_intakes_view', {id: entity.laatsteIntake.id, _format: 'pdf'}), 'print') }}
+            {% if is_granted('edit', entity.laatsteIntake) %}
+                {{ html.link('Wijzigen', path('inloop_intakes_edit', {id: entity.laatsteIntake.id}), 'edit') }}
+            {% endif %}
+        </p>
         {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
     {% else %}
         {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
