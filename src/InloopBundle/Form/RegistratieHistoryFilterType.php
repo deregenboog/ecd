@@ -27,10 +27,12 @@ class RegistratieHistoryFilterType extends AbstractType
                 'klant' => ['voornaam', 'achternaam'],
                 'binnen',
                 'buiten',
+                'douche',
                 'maaltijd',
                 'activering',
                 'kleding',
                 'veegploeg',
+                'mw',
                 'filter',
             ],
         ]);

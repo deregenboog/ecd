@@ -1,7 +1,7 @@
 {% import '::html.macro.twig' as html -%}
 
 <table class="table table-hover table-fixed">
-    {{ colgroup(12) }}
+    {{ colgroup(14, [10, 10, 10, 10]) }}
     <thead>
         <tr>
             <th>
@@ -22,6 +22,9 @@
                 Duur
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Douche', 'registratie.douche') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Kleding', 'registratie.kleding') }}
             </th>
             <th>
@@ -32,6 +35,9 @@
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Activering', 'registratie.activering') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'MW', 'registratie.mw') }}
             </th>
             <th>
                 TBC-check
@@ -46,7 +52,7 @@
     </thead>
     <tbody>
         {% for registratie in pagination %}
-            <tr data-id="{{ registratie.klant.id }}">
+            <tr data-registratie-id="{{ registratie.id }}" data-klant-id="{{ registratie.klant.id }}">
                 <td>
                     <a class="checkin" title="Inchecken" style="margin-right: 1em;">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
@@ -69,16 +75,22 @@
                     {{ duration.h }}:{{ '%02d'|format(duration.i) }} uur
                 </td>
                 <td>
-                    {{ registratie.kleding ? html.tick }}
+                    <input class="douche" type="checkbox" {{ 0 != registratie.douche ? 'checked' }}/>
                 </td>
                 <td>
-                    {{ registratie.maaltijd ? html.tick }}
+                    <input class="kleding" type="checkbox" {{ registratie.kleding ? 'checked' }}/>
                 </td>
                 <td>
-                    {{ registratie.veegploeg ? html.tick }}
+                    <input class="maaltijd" type="checkbox" {{ registratie.maaltijd ? 'checked' }}/>
                 </td>
                 <td>
-                    {{ registratie.activering ? html.tick }}
+                    <input class="veegploeg" type="checkbox" {{ registratie.veegploeg ? 'checked' }}/>
+                </td>
+                <td>
+                    <input class="activering" type="checkbox" {{ registratie.activering ? 'checked' }}/>
+                </td>
+                <td>
+                    <input class="mw" type="checkbox" {{ 0 != registratie.mw ? 'checked' }}/>
                 </td>
                 <td>
                     {% if locatie.tbcCheck() %}

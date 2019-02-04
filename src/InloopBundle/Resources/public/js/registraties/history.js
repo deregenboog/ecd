@@ -9,7 +9,7 @@ $(function() {
         }
 
         var row = $(this).closest('tr');
-        var klant_id = row.attr('data-id');
+        var klant_id = row.attr('data-klant-id');
 
         row.addClass('info');
 
@@ -34,6 +34,17 @@ $(function() {
             row.removeClass('info');
         });
     });
+
+    $.each(['douche', 'kleding', 'maaltijd', 'veegploeg', 'activering', 'mw'], function(i, property) {
+        $('#ajaxContainer').on('click', 'input.'+property, function(event) {
+            var id = $(this).closest('tr').attr('data-registratie-id');
+            if ($(this).is(':checked')) {
+                enable(id, property, event);
+            } else {
+                disable(id, property, event);
+            }
+        });
+    });
 });
 
 function init() {
@@ -51,6 +62,30 @@ function checkin(klant_id, locatie_id) {
         url: `/inloop/registraties/ajaxAddRegistratie/${klant_id}/${locatie_id}`,
     }).done(function(data) {
         init();
+    }).fail(function() {
+        alert('Er is een fout opgetreden.')
+    });
+};
+
+function enable(id, property, event) {
+    $(event.target).hide();
+    $.post({
+        url: '/inloop/registraties/'+id+'/'+property+'/1',
+    }).done(function(data) {
+        $(event.target).prop('checked', data[property]);
+        $(event.target).show();
+    }).fail(function() {
+        alert('Er is een fout opgetreden.')
+    });
+};
+
+function disable(id, property, event) {
+    $(event.target).hide();
+    $.post({
+        url: '/inloop/registraties/'+id+'/'+property+'/0',
+    }).done(function(data) {
+        $(event.target).prop('checked', data[property]);
+        $(event.target).show();
     }).fail(function() {
         alert('Er is een fout opgetreden.')
     });

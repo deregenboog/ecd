@@ -104,12 +104,16 @@ class RegistratieFilter implements FilterInterface
             }
         }
 
-        if ($this->douche) {
-            $builder->andWhere('registratie.douche > 0');
+        if (0 === $this->douche) {
+            $builder->andWhere('registratie.douche = 0');
+        } elseif (1 === $this->douche) {
+            $builder->andWhere('registratie.douche <> 0');
         }
 
-        if ($this->mw) {
-            $builder->andWhere('registratie.mw > 0');
+        if (0 === $this->mw) {
+            $builder->andWhere('registratie.mw = 0');
+        } elseif (1 === $this->mw) {
+            $builder->andWhere('registratie.mw <> 0');
         }
 
         $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];

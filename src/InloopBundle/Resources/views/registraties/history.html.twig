@@ -22,7 +22,7 @@
     <div id="content">
         {{ form_start(filter) }}
             <table class="table table-fixed">
-                {{ colgroup(12) }}
+                {{ colgroup(14, [10, 10, 10, 10]) }}
                 <thead>
                     <tr>
                         <th>
@@ -48,6 +48,10 @@
                         <th>
                         </th>
                         <th>
+                            {{ form_widget(filter.douche) }}
+                            {{ form_errors(filter.douche) }}
+                        </th>
+                        <th>
                             {{ form_widget(filter.kleding) }}
                             {{ form_errors(filter.kleding) }}
                         </th>
@@ -63,7 +67,15 @@
                             {{ form_widget(filter.activering) }}
                             {{ form_errors(filter.activering) }}
                         </th>
-                        <th colspan="3">
+                        <th>
+                            {{ form_widget(filter.mw) }}
+                            {{ form_errors(filter.mw) }}
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
                             <span class="pull-right">
                                 {{ form_widget(filter.filter) }}
                             </span>

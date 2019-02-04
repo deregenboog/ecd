@@ -494,6 +494,38 @@ class RegistratiesController extends AbstractController
     }
 
     /**
+     * Because `douche` and `mw` are queues, TRUE is stored as -1 and FALSE is
+     * stored as 0. Queue positions are stored as positive integers.
+     *
+     * @Route("/{registratie}/douche/{value}")
+     */
+    public function updateDoucheAction(Request $request, Registratie $registratie, $value)
+    {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
+        $registratie->setDouche(-1 * $value);
+        $this->dao->update($registratie);
+
+        return new JsonResponse(['douche' => -1 * $registratie->getDouche()]);
+    }
+
+    /**
+     * Because `douche` and `mw` are queues, TRUE is stored as -1 and FALSE is
+     * stored as 0. Queue positions are stored as positive integers.
+     *
+     * @Route("/{registratie}/mw/{value}")
+     */
+    public function updateMwAction(Request $request, Registratie $registratie, $value)
+    {
+        $this->denyAccessUnlessGranted(Permissions::REGISTER, $registratie->getLocatie());
+
+        $registratie->setMw(-1 * $value);
+        $this->dao->update($registratie);
+
+        return new JsonResponse(['mw' => -1 * $registratie->getMw()]);
+    }
+
+    /**
      * @Route("/{registratie}/veegploeg/{value}")
      */
     public function updateVeegploegAction(Request $request, Registratie $registratie, $value)

@@ -316,12 +316,13 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $builder = $this->repository->createQueryBuilder('registratie')
             ->innerJoin('registratie.locatie', 'locatie')
             ->where('registratie.closed = false')
+            ->andWhere('registratie.douche > 0')
             ->orderBy('registratie.douche')
             ->setParameter('locatie', $locatie)
         ;
 
         $filter = new RegistratieFilter($locatie);
-        $filter->douche = true;
+        $filter->douche = 1;
         $filter->applyTo($builder);
 
         return $builder->getQuery()->getResult();
@@ -341,12 +342,13 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $builder = $this->repository->createQueryBuilder('registratie')
             ->innerJoin('registratie.locatie', 'locatie')
             ->where('registratie.closed = false')
+            ->andWhere('registratie.mw > 0')
             ->orderBy('registratie.mw')
             ->setParameter('locatie', $locatie)
         ;
 
         $filter = new RegistratieFilter($locatie);
-        $filter->mw = true;
+        $filter->mw = 1;
         $filter->applyTo($builder);
 
         return $builder->getQuery()->getResult();
