@@ -144,6 +144,14 @@ class Traject
      */
     private $projecten;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $ondersteuningsplanVerwerkt;
+
     public function __construct()
     {
         $this->documenten = new ArrayCollection();
@@ -565,6 +573,24 @@ class Traject
                 $this->addDagdeel($newDagdeel);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOndersteuningsplanVerwerkt()
+    {
+        return $this->ondersteuningsplanVerwerkt;
+    }
+
+    /**
+     * @param bool $ondersteuningsplanVerwerkt
+     */
+    public function setOndersteuningsplanVerwerkt($ondersteuningsplanVerwerkt)
+    {
+        $this->ondersteuningsplanVerwerkt = (bool) $ondersteuningsplanVerwerkt;
 
         return $this;
     }

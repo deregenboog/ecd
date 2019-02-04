@@ -48,6 +48,7 @@ class TrajectType extends AbstractType
                         'label' => 'Resultaatgebied',
                         'placeholder' => '',
                     ])
+                    ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
                     ->add('begeleider')
                     ->add('locaties', null, [
