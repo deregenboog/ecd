@@ -8,11 +8,11 @@ use InloopBundle\Entity\Locatie;
 class AmocStrategy implements StrategyInterface
 {
     // @todo do not define database ID here
-    private $amocId = 5;
+    private $amocIds = [5, 12, 22];
 
     public function supports(Locatie $locatie)
     {
-        return $this->amocId == $locatie->getId();
+        return in_array($locatie->getId(), $this->amocIds);
     }
 
     /**
