@@ -39,18 +39,21 @@ class RegistratieSubscriber implements EventSubscriberInterface
         }
 
         // huidige recente registratie verwijderen
-        $current = $this->entityManager->getRepository(RecenteRegistratie::class)->findOneBy([
-            'klant' => $registratie->getKlant(),
-            'locatie' => $registratie->getLocatie(),
-        ]);
-        if ($current) {
+        $registraties = $this->entityManager->getRepository(RecenteRegistratie::class)->createQueryBuilder('registratie')
+            ->where('registratie.klant = :klant AND registratie.locatie = :locatie AND DATE(registratie.buiten) = :today')
+            ->setParameters([
+                'klant' => $registratie->getKlant(),
+                'locatie'  => $registratie->getLocatie(),
+                'today' => new \DateTime('today'),
+            ])->getQuery()->getResult();
+        foreach ($registraties as $current) {
             $this->entityManager->remove($current);
         }
+        $this->entityManager->flush();
 
         // nieuewe recente registratie toevoegen
         $recent = new RecenteRegistratie($registratie);
         $this->entityManager->persist($recent);
-
         $this->entityManager->flush();
     }
 }

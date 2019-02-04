@@ -3,8 +3,8 @@ $(function() {
     init();
 
     $('#ajaxContainer').on('click', 'table tbody tr', function(event) {
-        // do nothing if an A-tag was clicked
-        if ('A' === event.target.tagName) {
+        // do nothing when NOT clicked on SPAN/TD tag (for example: A or INPUT tag inside a table)
+        if (-1 === $.inArray(event.target.tagName, ['TD', 'SPAN'])) {
             return;
         }
 
