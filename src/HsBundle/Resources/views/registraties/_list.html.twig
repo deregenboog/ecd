@@ -49,11 +49,13 @@
                 <td>{{ registratie }}</td>
                 <td>{{ registratie.dagdelen }}</td>
                 <td>
-                    {{ html.link(registratie.factuur, path('hs_facturen_view', {id: registratie.factuur.id})) }}
-                    {{ not registratie.factuur.locked ? '(concept)' }}
+                    {% if registratie.factuur %}
+                        {{ html.link(registratie.factuur, path('hs_facturen_view', {id: registratie.factuur.id})) }}
+                        {{ not registratie.factuur.locked ? '(concept)' }}
+                    {% endif %}
                 </td>
                 <td>
-                    {% if not registratie.factuur.locked %}
+                    {% if registratie.factuur and not registratie.factuur.locked %}
                         {{ html.editLink(path('hs_registraties_edit', {id: registratie.id})) }}
                         {{ html.deleteLink(path('hs_registraties_delete', {id: registratie.id})) }}
                     {% endif %}
