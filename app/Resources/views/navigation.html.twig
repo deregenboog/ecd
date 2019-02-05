@@ -48,6 +48,7 @@
             Beheer <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            {{ html.navLink('Postcodes', path('app_postcodes_index'), isActiveRoute('app_postcodes_')) }}
             {# @todo #}
             {#{ html.navLink('Geslachten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
             {#{ html.navLink('Doorverwijzers', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}

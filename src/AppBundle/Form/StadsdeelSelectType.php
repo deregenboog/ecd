@@ -19,6 +19,7 @@ class StadsdeelSelectType extends AbstractType
             'label' => 'Stadsdeel',
             'required' => false,
             'class' => Werkgebied::class,
+            'placeholder' => '',
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('werkgebied')
                     ->orderBy('werkgebied.naam');

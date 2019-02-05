@@ -1,0 +1,80 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="4">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.postcode) }}
+                        {{ form_errors(filter.postcode) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.stadsdeel) }}
+                        {{ form_errors(filter.stadsdeel) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.postcodegebied) }}
+                        {{ form_errors(filter.postcodegebied) }}
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Postcode', 'postcode.postcode') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'stadsdeel.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'GGW-gebied', 'postcodegebied.naam') }}
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for postcode in pagination %}
+            <tr>
+                <td>
+                    {{ postcode.postcode }}
+                </td>
+                <td>
+                    {{ postcode.stadsdeel }}
+                </td>
+                <td>
+                    {{ postcode.postcodegebied }}
+                </td>
+                <td>
+                    {% if not postcode.system %}
+                        {{ html.editLink(path('app_postcodes_edit', {id: postcode.postcode})) }}
+                        {{ html.deleteLink(path('app_postcodes_delete', {id: postcode.postcode})) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}
