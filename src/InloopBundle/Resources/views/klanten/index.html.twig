@@ -49,8 +49,10 @@
                     {{ form_errors(filter.laatsteIntakeLocatie) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.laatsteIntakeDatum) }}
-                    {{ form_errors(filter.laatsteIntakeDatum) }}
+                    {{ form_widget(filter.laatsteIntakeDatum.start) }}
+                    {{ form_errors(filter.laatsteIntakeDatum.start) }}
+                    {{ form_widget(filter.laatsteIntakeDatum.end) }}
+                    {{ form_errors(filter.laatsteIntakeDatum.end) }}
                 </th>
                 <th>
                     {{ form_widget(filter.huidigeStatus) }}
