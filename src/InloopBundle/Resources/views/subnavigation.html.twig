@@ -6,16 +6,22 @@
 </ol>
 <ul class="nav nav-tabs">
     {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_locationselect'), isActiveRoute('inloop_registraties_')) }}
-    {{ html.navLink('Klanten', path('inloop_klanten_index'), isActiveRoute('inloop_klanten_')) }}
-    {{ html.navLink('Vrijwilligers', path('inloop_vrijwilligers_index'), isActiveRoute('inloop_vrijwilligers_')) }}
-    {% if is_granted('CONTROLLER_INLOOP_INTAKES') %}
+    {% if is_granted('ROLE_INLOOP_KLANTEN') %}
+        {{ html.navLink('Klanten', path('inloop_klanten_index'), isActiveRoute('inloop_klanten_')) }}
+    {% endif %}
+    {% if is_granted('ROLE_INLOOP_VRIJWILLIGERS') %}
+        {{ html.navLink('Vrijwilligers', path('inloop_vrijwilligers_index'), isActiveRoute('inloop_vrijwilligers_')) }}
+    {% endif %}
+    {% if is_granted('ROLE_INLOOP_INTAKES') %}
         {{ html.navLink('Intakes', path('inloop_intakes_index'), isActiveRoute('inloop_intakes_')) }}
     {% endif %}
-    {% if is_granted('CONTROLLER_INLOOP_SCHORSINGEN') %}
+    {% if is_granted('ROLE_INLOOP_SCHORSINGEN') %}
         {{ html.navLink('Schorsingen', path('inloop_schorsingen_index'), isActiveRoute('inloop_schorsingen_')) }}
     {% endif %}
     {#{ html.navLink('Opmerkingen', path('inloop_opmerkingen_index'), isActiveRoute('inloop_opmerkingen_')) }#}
-    {{ html.navLink('Rapportage', path('inloop_rapportages_index'), isActiveRoute('inloop_rapportages_')) }}
+    {% if is_granted('ROLE_INLOOP_REPORTS') %}
+        {{ html.navLink('Rapportage', path('inloop_rapportages_index'), isActiveRoute('inloop_rapportages_')) }}
+    {% endif %}
     {% if is_granted('ROLE_INLOOP_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">

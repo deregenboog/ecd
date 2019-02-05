@@ -65,6 +65,15 @@ security:
         - { path: ^/hs/admin, roles: ROLE_HOMESERVICE_BEHEER }
         - { path: ^/hs, roles: ROLE_HOMESERVICE }
         - { path: ^/inloop/admin, roles: ROLE_INLOOP_BEHEER }
+        - { path: ^/inloop/documenten, roles: ROLE_INLOOP_VRIJWILLIGERS }
+        - { path: ^/inloop/intakes, roles: ROLE_INLOOP_INTAKES }
+        - { path: ^/inloop/klanten, roles: ROLE_INLOOP_KLANTEN }
+        - { path: ^/inloop/memos, roles: ROLE_INLOOP_KLANTEN }
+        - { path: ^/inloop/opmerkingen, roles: ROLE_INLOOP_OPMERKINGEN }
+        - { path: ^/inloop/rapportages, roles: ROLE_INLOOP_REPORTS }
+        - { path: ^/inloop/registraties, roles: ROLE_INLOOP_REGISTRATIES }
+        - { path: ^/inloop/schorsingen, roles: ROLE_INLOOP_SCHORSINGEN }
+        - { path: ^/inloop/vrijwilligers, roles: ROLE_INLOOP_VRIJWILLIGERS }
         - { path: ^/inloop, roles: ROLE_INLOOP }
         - { path: ^/iz/admin, roles: ROLE_IZ_BEHEER }
         - { path: ^/iz, roles: ROLE_IZ }
