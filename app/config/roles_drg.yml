@@ -11,6 +11,7 @@ security:
             - ROLE_INLOOP_OPMERKINGEN
         ROLE_INLOOP_INTAKES:
             - ROLE_INLOOP
+            - ROLE_INLOOP_KLANTEN
         ROLE_INLOOP_OPMERKINGEN:
             - ROLE_INLOOP
         ROLE_INLOOP_REGISTRATIES:
