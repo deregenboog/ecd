@@ -276,6 +276,7 @@ class IzKlant extends IzDeelnemer
 
     public function isCloseable()
     {
-        return 0 === count($this->getOpenHulpvragen()) + count($this->getActieveKoppelingen());
+        return !$this->isAfgesloten() &&
+            0 === count($this->getOpenHulpvragen()) + count($this->getActieveKoppelingen());
     }
 }

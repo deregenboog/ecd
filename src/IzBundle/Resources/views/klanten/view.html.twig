@@ -6,6 +6,14 @@
         <p class="h3 text-danger pull-right">Dossier is afgesloten</p>
     {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    {% if entity.closeable %}
+        <div class="alert alert-danger" role="alert">
+            Deelnemer {{ entity }} heeft geen open hulpvragen of actieve koppelingen.
+            Sluit het dossier af of maak een nieuwe hulpvraag aan.
+            {{ html.link('Hulpvraag aanmaken', path('iz_hulpvragen_add', {klant: entity.id}), 'add') }}
+            {{ html.link('Dossier afsluiten', path('iz_klanten_close', {id: entity.id}), 'close') }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content_left %}

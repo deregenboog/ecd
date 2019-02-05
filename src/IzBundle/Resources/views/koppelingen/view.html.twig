@@ -7,6 +7,24 @@
         {{ entity|naam_klant }} -
         {{ entity.koppeling.hulpaanbod|naam_vrijwilliger }}
     </h1>
+    {% if entity.afgesloten %}
+        {% if entity.closeable %}
+            <div class="alert alert-danger" role="alert">
+                Deelnemer {{ entity.izKlant }} heeft geen open hulpvragen of actieve koppelingen.
+                Sluit het dossier af of maak een nieuwe hulpvraag aan.
+                {{ html.link('Hulpvraag aanmaken', path('iz_hulpvragen_add', {klant: entity.izKlant.id}), 'add') }}
+                {{ html.link('Dossier afsluiten', path('iz_klanten_close', {id: entity.izKlant.id}), 'close') }}
+            </div>
+        {% endif %}
+        {% if entity.hulpaanbod.izVrijwilliger.closeable %}
+            <div class="alert alert-danger" role="alert">
+                Vrijwilliger {{ entity.hulpaanbod.izVrijwilliger }} heeft geen open hulpaanbiedingen of actieve koppelingen.
+                Sluit het dossier af of maak een nieuw hulpaanbod aan.
+                {{ html.link('Hulpaanbod aanmaken', path('iz_hulpaanbiedingen_add', {vrijwilliger: entity.hulpaanbod.izVrijwilliger.id}), 'add') }}
+                {{ html.link('Dossier afsluiten', path('iz_vrijwilligers_close', {id: entity.hulpaanbod.izVrijwilliger.id}), 'close') }}
+            </div>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block content_left %}

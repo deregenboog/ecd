@@ -39,7 +39,7 @@
         </thead>
         <tbody>
             {% for izVrijwilliger in pagination %}
-                <tr data-href="{{ path(route_base~'view', {id: izVrijwilliger.id}) }}">
+                <tr data-href="{{ path(route_base~'view', {id: izVrijwilliger.id}) }}" class="{{ izVrijwilliger.closeable ? 'danger' }}">
                     <td>
                         {{ izVrijwilliger.vrijwilliger.id }}
                     </td>
