@@ -412,6 +412,8 @@ class Intake
         if ($klant) {
             $klant->addIntake($this);
         }
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
         $this->inkomens = new ArrayCollection();
         $this->primaireProblematiekGebruikswijzen = new ArrayCollection();
