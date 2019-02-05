@@ -40,7 +40,7 @@
         </thead>
         <tbody>
             {% for izKlant in pagination %}
-                <tr data-href="{{ path(route_base~'view', {id: izKlant.id}) }}" class="{{ izKlant.closeable ? 'danger' }}">
+                <tr data-href="{{ path(route_base~'view', {id: izKlant.id}) }}" class="{{ izKlant.closeable ? 'warning' }}">
                     <td>
                         {{ izKlant.klant.id }}
                     </td>
