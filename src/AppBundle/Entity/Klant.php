@@ -17,6 +17,9 @@ use MwBundle\Entity\Verslag;
  * @ORM\Entity
  * @ORM\Table(
  *     name="klanten",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"huidigeStatus_id", "deleted"})
+*      },
  *     indexes={
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
@@ -100,7 +103,7 @@ class Klant extends Persoon
     /**
      * @var DossierStatus
      *
-     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\DossierStatus")
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
