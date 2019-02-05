@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class HulpaanbodType extends AbstractType
 {
@@ -34,6 +35,10 @@ class HulpaanbodType extends AbstractType
             ])
             ->add('hulpvraagsoorten', HulpvraagsoortSelectType::class, [
                 'multiple' => true,
+                'constraints' => [new Assert\Count([
+                    'min' => 1,
+                    'minMessage' => 'Selecteer tenminste één hulpvraagsoort',
+                ])],
             ])
             ->add('doelgroepen', null, [
                 'required' => true,
@@ -44,6 +49,10 @@ class HulpaanbodType extends AbstractType
                         ->orderBy('doelgroep.naam')
                     ;
                 },
+                'constraints' => [new Assert\Count([
+                    'min' => 1,
+                    'minMessage' => 'Selecteer tenminste één doelgroep',
+                ])],
             ])
             ->add('dagdeel', ChoiceType::class, [
                 'required' => false,

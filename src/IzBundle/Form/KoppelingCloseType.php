@@ -43,11 +43,9 @@ class KoppelingCloseType extends AbstractType
                 'required' => true,
                 'current' => $options['data'] ? $options['data']->getAfsluitredenKoppeling() : null,
             ])
-            ->add('koppelingSuccesvol', null, [
-                'required' => false,
-            ])
             ->add('succesindicatoren', SuccesindicatorSelectType::class, [
                 'required' => true,
+                'by_reference' => false,
                 'current' => $options['data'] ? $options['data']->getSuccesindicatoren() : null,
             ])
             ->add('submit', SubmitType::class)

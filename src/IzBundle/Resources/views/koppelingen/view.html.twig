@@ -45,10 +45,10 @@
         <dd>{{ entity.koppelingEinddatum ? entity.koppelingEinddatum|date('d-m-Y') }}</dd>
         <dt>Reden beëindiging</dt>
         <dd>{{ entity.afsluitredenKoppeling }}</dd>
-        <dt>Koppeling succesvol</dt>
-        <dd>{{ entity.koppelingSuccesvol ? 'Ja' }}</dd>
     </dl>
     <dl class="dl-horizontal">
+        <dt>Koppeling succesvol</dt>
+        <dd>{{ entity.koppelingSuccesvol is not null ? entity.koppelingSuccesvol|ja_nee }}</dd>
         <dt>Succesindicatoren</dt>
         <dd>
             <ul>

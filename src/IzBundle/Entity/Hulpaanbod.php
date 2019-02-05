@@ -34,7 +34,6 @@ class Hulpaanbod extends Hulp
     /**
      * @var Hulpvraagsoort[]
      * @ORM\ManyToMany(targetEntity="Hulpvraagsoort")
-     * @Assert\Count(min=1, minMessage="Selecteer tenminste één hulpvraagsoort")
      */
     protected $hulpvraagsoorten;
 

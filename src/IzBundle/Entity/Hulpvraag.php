@@ -185,6 +185,7 @@ class Hulpvraag extends Hulp
     public function setSuccesindicatoren($indicatoren)
     {
         $this->succesindicatoren = $indicatoren;
+        $this->setKoppelingSuccesvol(count($this->succesindicatoren) >= 2);
 
         return $this;
     }

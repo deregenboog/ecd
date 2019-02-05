@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class HulpvraagType extends AbstractType
 {
@@ -36,6 +37,9 @@ class HulpvraagType extends AbstractType
             ])
             ->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => true,
+                'constraints' => [new Assert\NotNull([
+                    'message' => 'Selecteer een hulpvraagsoort',
+                ])],
             ])
             ->add('doelgroep', EntityType::class, [
                 'required' => true,
@@ -48,6 +52,9 @@ class HulpvraagType extends AbstractType
                         ->orderBy('doelgroep.naam')
                     ;
                 },
+                'constraints' => [new Assert\NotNull([
+                    'message' => 'Selecteer een doelgroep',
+                ])],
             ])
             ->add('dagdeel', ChoiceType::class, [
                 'required' => false,

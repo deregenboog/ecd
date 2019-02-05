@@ -149,7 +149,6 @@ abstract class Hulp
      *     name="iz_koppeling_doelgroep",
      *     joinColumns={@ORM\JoinColumn(name="koppeling_id")}
      * )
-     * @Assert\Count(min=1, minMessage="Selecteer tenminste één doelgroep")
      */
     protected $doelgroepen;
 
