@@ -32,6 +32,11 @@ class VrijwilligerFilter implements FilterInterface
     public $achternaam;
 
     /**
+     * @var string
+     */
+    public $adres;
+
+    /**
      * @var Geslacht
      */
     public $geslacht;
@@ -106,6 +111,17 @@ class VrijwilligerFilter implements FilterInterface
                 $builder
                     ->andWhere("CONCAT_WS(' ', {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_achternaam_part_{$i}")
                     ->setParameter("{$alias}_achternaam_part_{$i}", "%{$part}%")
+                ;
+            }
+        }
+
+        if ($this->adres) {
+            $parts = preg_split('/\s+/', $this->adres);
+            $fields = ["{$alias}.adres", "{$alias}.postcode", "{$alias}.plaats", "{$alias}.telefoon", "{$alias}.mobiel"];
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', ".implode(', ', $fields).") LIKE :{$alias}_adres_part_{$i}")
+                    ->setParameter("{$alias}_adres_part_{$i}", "%{$part}%")
                 ;
             }
         }

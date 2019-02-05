@@ -46,6 +46,12 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('adres', $options['enabled_filters'])) {
+            $builder->add('adres', null, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('geslacht', $options['enabled_filters'])) {
             $builder->add('geslacht', EntityType::class, [
                 'class' => Geslacht::class,

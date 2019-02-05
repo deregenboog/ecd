@@ -16,6 +16,11 @@ class ArbeiderFilter implements FilterInterface
     public $id;
 
     /**
+     * @var string
+     */
+    public $hulpverlener;
+
+    /**
      * @var bool
      */
     public $rijbewijs;
@@ -32,6 +37,17 @@ class ArbeiderFilter implements FilterInterface
                 ->andWhere("{$this->alias}.id = :{$this->alias}_id")
                 ->setParameter("{$this->alias}_id", $this->id)
             ;
+        }
+
+        if ($this->hulpverlener) {
+            $parts = preg_split('/\s+/', $this->hulpverlener);
+            $fields = ["{$this->alias}.naamHulpverlener", "{$this->alias}.organisatieHulpverlener"];
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', ".implode(', ', $fields).") LIKE :{$this->alias}_hulpverlener_part_{$i}")
+                    ->setParameter("{$this->alias}_hulpverlener_part_{$i}", "%{$part}%")
+                ;
+            }
         }
 
         if ($this->rijbewijs) {

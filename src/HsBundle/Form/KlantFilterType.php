@@ -33,6 +33,18 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('hulpverlener', $options['enabled_filters'])) {
+            $builder->add('hulpverlener', null, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('adres', $options['enabled_filters'])) {
+            $builder->add('adres', null, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('stadsdeel', $options['enabled_filters'])) {
             $builder->add('stadsdeel', EntityType::class, [
                 'required' => false,
@@ -84,6 +96,8 @@ class KlantFilterType extends AbstractType
             'enabled_filters' => [
                 'id',
                 'naam',
+                'hulpverlener',
+                'adres',
                 'stadsdeel',
                 'afwijkendFactuuradres',
                 'status',

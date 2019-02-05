@@ -24,6 +24,16 @@ class KlantFilter implements FilterInterface
     public $naam;
 
     /**
+     * @var string
+     */
+    public $hulpverlener;
+
+    /**
+     * @var string
+     */
+    public $adres;
+
+    /**
      * @var Werkgebied
      */
     public $stadsdeel;
@@ -58,6 +68,28 @@ class KlantFilter implements FilterInterface
                 $builder
                     ->andWhere("CONCAT_WS(' ', {$this->alias}.voornaam, {$this->alias}.tussenvoegsel, {$this->alias}.achternaam) LIKE :{$this->alias}_naam_part_{$i}")
                     ->setParameter("{$this->alias}_naam_part_{$i}", "%{$part}%")
+                ;
+            }
+        }
+
+        if ($this->hulpverlener) {
+            $parts = preg_split('/\s+/', $this->hulpverlener);
+            $fields = ["{$this->alias}.naamHulpverlener", "{$this->alias}.organisatieHulpverlener"];
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', ".implode(', ', $fields).") LIKE :{$this->alias}_hulpverlener_part_{$i}")
+                    ->setParameter("{$this->alias}_hulpverlener_part_{$i}", "%{$part}%")
+                ;
+            }
+        }
+
+        if ($this->adres) {
+            $parts = preg_split('/\s+/', $this->adres);
+            $fields = ["{$this->alias}.adres", "{$this->alias}.postcode", "{$this->alias}.plaats", "{$this->alias}.telefoon", "{$this->alias}.mobiel"];
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', ".implode(', ', $fields).") LIKE :{$this->alias}_adres_part_{$i}")
+                    ->setParameter("{$this->alias}_adres_part_{$i}", "%{$part}%")
                 ;
             }
         }

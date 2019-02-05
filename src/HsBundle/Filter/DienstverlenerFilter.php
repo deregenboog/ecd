@@ -3,6 +3,7 @@
 namespace HsBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Filter\KlantFilter;
 
 class DienstverlenerFilter extends ArbeiderFilter
 {

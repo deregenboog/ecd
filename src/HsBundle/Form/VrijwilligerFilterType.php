@@ -26,6 +26,12 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('hulpverlener', $options['enabled_filters'])) {
+            $builder->add('hulpverlener', null, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('rijbewijs', $options['enabled_filters'])) {
             $builder->add('rijbewijs', CheckboxType::class, [
                 'label' => 'Rijbewijs',
@@ -64,9 +70,10 @@ class VrijwilligerFilterType extends AbstractType
             'data_class' => VrijwilligerFilter::class,
             'data' => new VrijwilligerFilter(),
             'enabled_filters' => [
+                'hulpverlener',
                 'rijbewijs',
                 'status',
-                'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
+                'vrijwilliger' => ['id', 'naam', 'adres', 'geboortedatumRange', 'stadsdeel'],
                 'filter',
                 'download',
             ],
