@@ -55,7 +55,7 @@
         </thead>
         <tbody>
             {% for medewerker in pagination %}
-            <tr data-href="{{ path(route_base~'view', {id: medewerker.username}) }}">
+            <tr data-href="{{ path(route_base~'view', {username: medewerker.username}) }}">
                 <td>
                     {{ medewerker.username }}
                 </td>
