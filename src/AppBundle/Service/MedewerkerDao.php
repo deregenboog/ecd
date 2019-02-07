@@ -6,6 +6,15 @@ use AppBundle\Entity\Medewerker;
 
 class MedewerkerDao extends AbstractDao implements MedewerkerDaoInterface
 {
+    protected $paginationOptions = [
+        'defaultSortFieldName' => 'medewerker.username',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'medewerker.username',
+            'medewerker.achternaam',
+        ],
+    ];
+
     protected $class = Medewerker::class;
 
     protected $alias = 'medewerker';

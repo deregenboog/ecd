@@ -1,0 +1,82 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="4">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.username) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.rol) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.actief) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Username', 'medewerker.username') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'medewerker.achternaam') }}
+                </th>
+                <th>
+                    Rollen
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'medewerker.actief') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medewerker in pagination %}
+            <tr data-href="{{ path(route_base~'view', {id: medewerker.username}) }}">
+                <td>
+                    {{ medewerker.username }}
+                </td>
+                <td>
+                    {{ medewerker }}
+                </td>
+                <td>
+                    <ul>
+                        {% for role in medewerker.roles %}
+                            <li>{{ role }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    {{ medewerker.actief|ja_nee }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

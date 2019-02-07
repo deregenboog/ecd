@@ -6,6 +6,9 @@
 {% if is_granted('CONTROLLER_APP_VRIJWILLIGERS') %}
     {{ html.navLink('Vrijwilligers', path('app_vrijwilligers_index'), isActiveRoute('app_vrijwilligers_')) }}
 {% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+    {{ html.navLink('Medewerkers', path('app_medewerkers_index'), isActiveRoute('app_medewerkers_')) }}
+{% endif %}
 {% if is_granted('CONTROLLER_APP_RAPPORTAGES') %}
     {{ html.navLink('Rapportages', path('app_rapportages_index'), isActiveRoute('app_rapportages_')) }}
 {% endif %}
