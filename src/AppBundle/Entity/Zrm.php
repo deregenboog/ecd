@@ -6,6 +6,7 @@ use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\OptionalMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -18,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Zrm
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait, TimestampableTrait, OptionalMedewerkerTrait;
 
     const ZRM_VERSIONS = [
         ZrmV2::class => '2017-10-05',

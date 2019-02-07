@@ -48,6 +48,8 @@ class ZrmType extends AbstractType
             ]);
         }
 
+        $builder->add('medewerker', MedewerkerType::class);
+
         $builder->add('submit', SubmitType::class);
     }
 
