@@ -6,7 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Contactsoort;
-use MwBundle\Entity\Doorverwijzer;
+use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Inventarisatie;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Verslaginventarisatie;
@@ -166,14 +166,14 @@ class VerslagModel
             switch ($verslaginventarisatie->getInventarisatie()->getActie()) {
                 case 'Doorverwijzer':
                     $key = 'inventarisatie_doorverwijzer_'.$verslaginventarisatie->getInventarisatie()->getId();
-                    $this->data[$key] = $verslaginventarisatie->getDoorverwijzer();
+                    $this->data[$key] = $verslaginventarisatie->getDoorverwijzing();
 
                     $key = 'inventarisatie_'.$verslaginventarisatie->getInventarisatie()->getRoot()->getId();
                     $this->data[$key] = $verslaginventarisatie->getInventarisatie();
                     break;
                 case 'Trajecthouder':
                     $key = 'inventarisatie_trajecthouder_'.$verslaginventarisatie->getInventarisatie()->getId();
-                    $this->data[$key] = $verslaginventarisatie->getDoorverwijzer();
+                    $this->data[$key] = $verslaginventarisatie->getDoorverwijzing();
 
                     $key = 'inventarisatie_'.$verslaginventarisatie->getInventarisatie()->getRoot()->getId();
                     $this->data[$key] = $verslaginventarisatie->getInventarisatie();
@@ -211,7 +211,7 @@ class VerslagModel
         foreach ($this->data as $property => $value) {
             $matches = [];
             if (preg_match('/^inventarisatie_(doorverwijzer|trajecthouder)_(\d+)$/', $property, $matches)) {
-                assert($value instanceof Doorverwijzer);
+                assert($value instanceof Doorverwijzing);
                 $id = $matches[2];
                 $inventarisatie = $this->getInventarisatie($id);
                 $verslaginventarisaties[$inventarisatie->getId()] = new Verslaginventarisatie($this->verslag, $inventarisatie, $value);

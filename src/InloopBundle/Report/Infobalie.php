@@ -12,7 +12,7 @@ use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Verslaving;
-use MwBundle\Entity\Doorverwijzer;
+use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Verslaginventarisatie;
 
@@ -117,12 +117,13 @@ class Infobalie extends AbstractReport
         $referentie = sprintf('%s - %s', $refStartDate->format('d-m-Y'), $refEndDate->format('d-m-Y'));
 
         $this->reports[] = [
+            'title' => 'Landen',
+            'data' => ['Klanten uit' => ['' => implode($count[0]['amoc_landen'], ', ')]]
+        ];
+
+        $this->reports[] = [
             'title' => 'Basisstatistieken',
             'data' => [
-                'Klanten uit' => [
-                    $periode => implode($count[0]['amoc_landen'], ', '),
-                    $referentie => null,
-                ],
                 'Nieuwe klanten binnen periode' => [
                     $periode => $count[0]['totalNewClients'],
                     $referentie => $count[1]['totalNewClients'],
@@ -140,8 +141,8 @@ class Infobalie extends AbstractReport
                     $referentie => $count[1]['totalVerslagen'],
                 ],
                 'Aantal doorverwijzingen' => [
-                    $periode => $count[0]['doorverwijzers_count'],
-                    $referentie => $count[1]['doorverwijzers_count'],
+                    $periode => $count[0]['doorverwijzingen_count'],
+                    $referentie => $count[1]['doorverwijzingen_count'],
                 ],
                 'Gemiddelde leeftijd' => [
                     $periode => $count[0]['averageAge'],
@@ -222,27 +223,27 @@ class Infobalie extends AbstractReport
             'data' => $table->render(),
         ];
 
-        $perDoorverwijzer = [];
-        foreach ($count[0]['count_per_doorverwijzers'] as $i => $cnt) {
-            $perDoorverwijzer[] = [
+        $perDoorverwijzing = [];
+        foreach ($count[0]['count_per_doorverwijzing'] as $i => $cnt) {
+            $perDoorverwijzing[] = [
                 'periode' => $periode,
-                'doorverwijzer' => $i ? $count[0]['doorverwijzers'][$i] : '',
+                'doorverwijzing' => $i ? $count[0]['doorverwijzingen'][$i] : '',
                 'aantal' => $cnt,
             ];
         }
-        foreach ($count[1]['count_per_doorverwijzers'] as $i => $cnt) {
-            $perDoorverwijzer[] = [
+        foreach ($count[1]['count_per_doorverwijzing'] as $i => $cnt) {
+            $perDoorverwijzing[] = [
                 'periode' => $referentie,
-                'doorverwijzer' => $i ? $count[1]['doorverwijzers'][$i] : '',
+                'doorverwijzing' => $i ? $count[1]['doorverwijzingen'][$i] : '',
                 'aantal' => $cnt,
             ];
         }
 
-        $table = new Table($perDoorverwijzer, 'periode', 'doorverwijzer', 'aantal');
+        $table = new Table($perDoorverwijzing, 'periode', 'doorverwijzing', 'aantal');
         $table->setXTotals(false)->setYTotals(false)->setXSort(false);
         $this->reports[] = [
-            'title' => 'Doorverwijsrichtingen',
-            'yDescription' => 'Doorverwijsrichting',
+            'title' => 'Doorverwijzingen',
+            'yDescription' => 'Doorverwijzing',
             'data' => $table->render(),
         ];
     }
@@ -261,6 +262,23 @@ class Infobalie extends AbstractReport
      */
     private function getData(\DateTime $startDate, \DateTime $endDate)
     {
+        $count = [
+            'totalClients' => null,
+            'totalNewClients' => null,
+            'uniqueVisits' => null,
+            'totalVisits' => null,
+            'totalVerslagen' => null,
+            'doorverwijzingen_count' => null,
+            'averageAge' => null,
+            'amoc_landen' => [],
+            'clientsPerCountry' => [],
+            'ages' => [],
+            'primaryProblems' => [],
+            'count_per_doorverwijzing' => [],
+            'primaireproblematiek' => [],
+            'doorverwijzingen' => [],
+        ];
+
         $endDatePlusOneDay = (clone $endDate)->modify('+1 day');
 
         $klantRepository = $this->entityManager->getRepository(Klant::class);
@@ -347,9 +365,9 @@ class Infobalie extends AbstractReport
             $count['primaireproblematiek'][$verslaving->getId()] = $verslaving->getNaam();
         }
 
-        $doorverwijzers = $this->entityManager->getRepository(Doorverwijzer::class)->findAll();
-        foreach ($doorverwijzers as $doorverwijzer) {
-            $count['doorverwijzers'][$doorverwijzer->getId()] = $doorverwijzer->getNaam();
+        $doorverwijzingen = $this->entityManager->getRepository(Doorverwijzing::class)->findAll();
+        foreach ($doorverwijzingen as $doorverwijzing) {
+            $count['doorverwijzingen'][$doorverwijzing->getId()] = $doorverwijzing->getNaam();
         }
 
         $count['totalClients'] = count($klanten);
@@ -408,21 +426,21 @@ class Infobalie extends AbstractReport
         }, $builder->getQuery()->getScalarResult());
         $count['totalVerslagen'] = count($verslagen);
 
-        $count['count_per_doorverwijzers'] = [];
+        $count['count_per_doorverwijzing'] = [];
         $builder = $this->entityManager->getRepository(Verslaginventarisatie::class)->createQueryBuilder('verslaginventarisatie')
-            ->select('doorverwijzer.id, COUNT(verslaginventarisatie.id) AS cnt')
+            ->select('doorverwijzing.id, COUNT(verslaginventarisatie.id) AS cnt')
             ->innerJoin('verslaginventarisatie.verslag', 'verslag')
             ->innerJoin('verslaginventarisatie.inventarisatie', 'inventarisatie')
-            ->innerJoin('verslaginventarisatie.doorverwijzer', 'doorverwijzer')
+            ->innerJoin('verslaginventarisatie.doorverwijzing', 'doorverwijzing')
             ->where('verslag.id IN (:ids)')
-            ->groupBy('doorverwijzer.id')
+            ->groupBy('doorverwijzing.id')
             ->setParameter('ids', array_keys($verslagen))
         ;
         $result = $builder->getQuery()->getResult();
         foreach ($result as $row) {
-            $count['count_per_doorverwijzers'][$row['id']] = $row['cnt'];
+            $count['count_per_doorverwijzing'][$row['id']] = $row['cnt'];
         }
-        $count['doorverwijzers_count'] = array_sum($count['count_per_doorverwijzers']);
+        $count['doorverwijzingen_count'] = array_sum($count['count_per_doorverwijzing']);
 
         $count['clientsPerCountry'] = [];
         $result = $klantRepository->createQueryBuilder('klant')
@@ -440,24 +458,11 @@ class Infobalie extends AbstractReport
             $count['clientsPerCountry'][$row['id']] = $row['cnt'];
         }
 
-        $count['birthdates'] = [];
-        $result = $klantRepository->createQueryBuilder('klant')
-            ->select('YEAR(klant.geboortedatum) AS year, COUNT(klant.id) AS cnt')
-            ->where('klant.id IN (:ids)')
-            ->groupBy('year')
-            ->orderBy('year')
-            ->setParameter('ids', array_keys($klanten))
-            ->getQuery()
-            ->getResult();
-        foreach ($result as $row) {
-            $count['birthdates'][$row['year']] = $row['cnt'];
-        }
-
         $today = new \DateTime('today');
         $count['ages'] = [];
         $result = $klantRepository->createQueryBuilder('klant')
             ->select('klant.geboortedatum, COUNT(klant.id) AS cnt')
-            ->where('klant.id IN (:ids)')
+            ->where('klant.id IN (:ids) AND klant.geboortedatum IS NOT NULL')
             ->groupBy('klant.geboortedatum')
             ->orderBy('klant.geboortedatum')
             ->setParameter('ids', array_keys($klanten))

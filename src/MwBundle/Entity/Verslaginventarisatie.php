@@ -34,18 +34,19 @@ class Verslaginventarisatie
     private $inventarisatie;
 
     /**
-     * @var Doorverwijzer
+     * @var Doorverwijzing
      *
-     * @ORM\ManyToOne(targetEntity="Doorverwijzer")
+     * @ORM\ManyToOne(targetEntity="Doorverwijzing")
+     * @ORM\JoinColumn(name="doorverwijzer_id")
      * @Gedmo\Versioned
      */
-    private $doorverwijzer;
+    private $doorverwijzing;
 
-    public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, Doorverwijzer $doorverwijzer = null)
+    public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, Doorverwijzing $doorverwijzing = null)
     {
         $this->verslag = $verslag;
         $this->inventarisatie = $inventarisatie;
-        $this->doorverwijzer = $doorverwijzer;
+        $this->doorverwijzing = $doorverwijzing;
     }
 
     /**
@@ -85,19 +86,19 @@ class Verslaginventarisatie
     }
 
     /**
-     * @return Doorverwijzer
+     * @return Doorverwijzing
      */
-    public function getDoorverwijzer()
+    public function getDoorverwijzing()
     {
-        return $this->doorverwijzer;
+        return $this->doorverwijzing;
     }
 
     /**
-     * @param Doorverwijzer $doorverwijzer
+     * @param Doorverwijzing $doorverwijzing
      */
-    public function setDoorverwijzer($doorverwijzer)
+    public function setDoorverwijzing($doorverwijzing)
     {
-        $this->doorverwijzer = $doorverwijzer;
+        $this->doorverwijzing = $doorverwijzing;
 
         return $this;
     }

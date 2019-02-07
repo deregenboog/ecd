@@ -7,4 +7,15 @@
 <ul class="nav nav-tabs">
     {{ html.navLink('Klanten', path('mw_klanten_index'), isActiveRoute('mw_klanten_')) }}
     {{ html.navLink('Rapportages', path('mw_rapportages_index'), isActiveRoute('mw_rapportages_')) }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <li role="presentation" class="dropdown {{ isActivePath('mw/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Doorverwijzingen', path('mw_doorverwijzingen_index'), isActiveRoute('mw_doorverwijzingen_')) }}
+                {{ html.navLink('Trajecthouders', path('mw_trajecthouders_index'), isActiveRoute('mw_trajecthouders_')) }}
+            </ul>
+        </li>
+    {% endif %}
 </ul>

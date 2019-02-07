@@ -9,7 +9,7 @@ use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Contactsoort;
-use MwBundle\Entity\Doorverwijzer;
+use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Trajecthouder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -89,12 +89,12 @@ class VerslagType extends AbstractType
                             'label' => $inventarisatie->getTitel(),
                             'required' => false,
                             'placeholder' => 'Doorverwezen naar...',
-                            'class' => Doorverwijzer::class,
+                            'class' => Doorverwijzing::class,
                             'query_builder' => function (EntityRepository $repository) {
-                                return $repository->createQueryBuilder('doorverwijzer')
-                                    ->where('doorverwijzer.startdatum <= NOW()')
-                                    ->andWhere('doorverwijzer.einddatum IS NULL OR doorverwijzer.einddatum > NOW()')
-                                    ->orderBy('doorverwijzer.naam')
+                                return $repository->createQueryBuilder('doorverwijzing')
+                                    ->where('doorverwijzing.startdatum <= NOW()')
+                                    ->andWhere('doorverwijzing.einddatum IS NULL OR doorverwijzing.einddatum > NOW()')
+                                    ->orderBy('doorverwijzing.naam')
                                 ;
                             },
                         ]);

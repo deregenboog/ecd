@@ -13,10 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string", length=255)
- * @ORM\DiscriminatorMap({"Doorverwijzer" = "Doorverwijzer", "Trajecthouder" = "Trajecthouder"})
+ * @ORM\DiscriminatorMap({"Doorverwijzer" = "Doorverwijzing", "Trajecthouder" = "Trajecthouder"})
  * @Gedmo\Loggable
  */
-class Doorverwijzer
+abstract class Verwijzing
 {
     use IdentifiableTrait, TimestampableTrait;
 
@@ -43,6 +43,11 @@ class Doorverwijzer
      * @Gedmo\Versioned
      */
     protected $einddatum;
+
+    public function __construct()
+    {
+        $this->startdatum = new \DateTime();
+    }
 
     public function __toString()
     {
