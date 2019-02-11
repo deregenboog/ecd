@@ -34,7 +34,7 @@
                     Hulpverlener
                 </th>
                 <th>
-                    Adres
+                    Contactgegevens
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
@@ -62,6 +62,8 @@
                 <td>
                     {{ entity.adres }}<br>
                     {{ entity.postcode }} {{ entity.plaats }}
+                    {% if entity.telefoon %}<br>{{ entity.telefoon }}{% endif %}
+                    {% if entity.mobiel %}<br>{{ entity.mobiel }}{% endif %}
                 </td>
                 <td>{{ entity.werkgebied }}</td>
                 <td>{{ entity.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</td>

@@ -34,7 +34,7 @@
                     Hulpverlener
                 </th>
                 <th>
-                    Adres
+                    Contactgegevens
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
@@ -66,6 +66,8 @@
                     <td>
                         {{ entity.klant.adres }}<br>
                         {{ entity.klant.postcode }} {{ entity.klant.plaats }}
+                        {% if entity.klant.telefoon %}<br>{{ entity.klant.telefoon }}{% endif %}
+                        {% if entity.klant.mobiel %}<br>{{ entity.klant.mobiel }}{% endif %}
                     </td>
                     <td>
                         {{ entity.klant.geboortedatum ? entity.klant.geboortedatum|date('d-m-Y') }}

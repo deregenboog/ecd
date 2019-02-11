@@ -34,7 +34,7 @@
                     Hulpverlener
                 </th>
                 <th>
-                    Adres
+                    Contactgegevens
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'basisvrijwilliger.geboortedatum') }}
@@ -66,6 +66,8 @@
                     <td>
                         {{ entity.vrijwilliger.adres }}<br>
                         {{ entity.vrijwilliger.postcode }} {{ entity.vrijwilliger.plaats }}
+                        {% if entity.vrijwilliger.telefoon %}<br>{{ entity.vrijwilliger.telefoon }}{% endif %}
+                        {% if entity.vrijwilliger.mobiel %}<br>{{ entity.vrijwilliger.mobiel }}{% endif %}
                     </td>
                     <td>
                         {{ entity.vrijwilliger.geboortedatum ? entity.vrijwilliger.geboortedatum|date('d-m-Y') }}
