@@ -287,4 +287,16 @@ class Deelnemer
     {
         return $this->voedselbankklant;
     }
+
+    public function getAfgerondeTrainingen()
+    {
+        $trainingen = [];
+        foreach ($this->deelnames as $deelname) {
+            if (DeelnameStatus::STATUS_AFGEROND === $deelname->getStatus()) {
+                $trainingen[] = $deelname->getTraining();
+            }
+        }
+
+        return $trainingen;
+    }
 }

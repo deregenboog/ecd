@@ -7,6 +7,9 @@ use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use OekBundle\Entity\Groep;
+use OekBundle\Entity\Training;
+use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\DeelnameStatus;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -24,6 +27,11 @@ class DeelnemerFilter implements FilterInterface
      * @var Training
      */
     public $training;
+
+    /**
+     * @var bool
+     */
+    public $heeftAfgerondeTraining;
 
     /**
      * @var AppDateRangeModel
@@ -61,6 +69,29 @@ class DeelnemerFilter implements FilterInterface
                 ->andWhere('training = :training')
                 ->setParameter('training', $this->training)
             ;
+        }
+
+        if (null !== $this->heeftAfgerondeTraining) {
+            $deelnemers = $builder->getEntityManager()->createQueryBuilder()
+                ->select('deelnemer.id')
+                ->distinct(true)
+                ->from(Deelnemer::class, 'deelnemer')
+                ->innerJoin('deelnemer.deelnames', 'deelname')
+                ->innerJoin('deelname.deelnameStatus', 'deelnameStatus')
+                ->where('deelnameStatus.status = :afgerond')
+                ->setParameter('afgerond', DeelnameStatus::STATUS_AFGEROND)
+                ->getQuery()
+                ->getResult()
+            ;
+            $deelnemerIds = array_map(function($deelnemer) {
+                return $deelnemer['id'];
+            }, $deelnemers);
+
+            if ($this->heeftAfgerondeTraining) {
+                $builder->andWhere($builder->expr()->in('deelnemer.id', $deelnemerIds));
+            } else {
+                $builder->andWhere($builder->expr()->notIn('deelnemer.id', $deelnemerIds));
+            }
         }
 
         if ($this->aanmelddatum) {

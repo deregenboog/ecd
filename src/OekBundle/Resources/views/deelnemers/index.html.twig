@@ -18,7 +18,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="6">
+                <th colspan="7">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -41,6 +41,10 @@
                 <th>
                     {{ form_widget(filter.training) }}
                     {{ form_errors(filter.training) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.heeftAfgerondeTraining) }}
+                    {{ form_errors(filter.heeftAfgerondeTraining) }}
                 </th>
                 <th>
                     {{ form_widget(filter.aanmelddatum.start) }}
@@ -70,6 +74,9 @@
                 {{ knp_pagination_sortable(pagination, 'Training(en)', 'training.naam') }}
             </th>
             <th>
+                Trainingen afgerond
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'aanmelding.datum') }}
             </th>
             <th>
@@ -93,6 +100,9 @@
                             <li>{{ training.naam }}</li>
                         {% endfor %}
                     </ul>
+                </td>
+                <td>
+                    {{ deelnemer.afgerondeTrainingen|length }}
                 </td>
                 <td>
                     {{ deelnemer.aanmelding ? deelnemer.aanmelding.datum|date('d-m-Y') }}

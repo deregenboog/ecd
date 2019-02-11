@@ -13,6 +13,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\JaNeeType;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -42,6 +43,13 @@ class DeelnemerFilterType extends AbstractType
             $builder->add('training', EntityType::class, [
                 'required' => false,
                 'class' => Training::class,
+            ]);
+        }
+
+        if (in_array('heeftAfgerondeTraining', $options['enabled_filters'])) {
+            $builder->add('heeftAfgerondeTraining', JaNeeType::class, [
+                'required' => false,
+                'expanded' => false,
             ]);
         }
 
@@ -76,6 +84,7 @@ class DeelnemerFilterType extends AbstractType
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'training',
+                'heeftAfgerondeTraining',
                 'aanmelddatum',
                 'afsluitdatum',
             ],
