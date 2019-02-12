@@ -19,6 +19,6 @@ class RedirectController extends SymfonyController
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
-        return $this->redirectToRoute('dagbesteding_deelnemers_index');
+        return $this->redirectToRoute('dagbesteding_dashboard_index');
     }
 }

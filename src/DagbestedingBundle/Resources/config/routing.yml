@@ -1,9 +1,3 @@
 dagbesteding_annotations:
     resource: "@DagbestedingBundle/Controller"
     type: annotation
-
-dagbesteding_index:
-    path: /
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: dagbesteding_dashboard_index

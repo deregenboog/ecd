@@ -6,6 +6,7 @@
 </ol>
 <ul class="nav nav-tabs">
     {% if is_granted('ROLE_DAGBESTEDING') %}
+        {{ html.navLink('Mijn Dagbesteding', path('dagbesteding_dashboard_index'), isActiveRoute('dagbesteding_dashboard_')) }}
         {{ html.navLink('Deelnemers', path('dagbesteding_deelnemers_index'), isActiveRoute('dagbesteding_deelnemers_')) }}
     {% endif %}
     {{ html.navLink('Trajecten', path('dagbesteding_trajecten_index'), isActiveRoute('dagbesteding_trajecten_')) }}
