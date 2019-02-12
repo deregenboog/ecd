@@ -29,7 +29,9 @@
     <dt>Toegang inloophuis</dt>
     <dd>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
     <dt>Einddatum toegang AMOC</dt>
-    <dd>{{ entity.amocToegangTot ? entity.amocToegangTot|date('d-m-Y') }}</dd>
+    <dd>{{ entity.amocToegangTot|if_date('d-m-Y') }}</dd>
+    <dt>Startdatum toegang overigen</dt>
+    <dd>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</dd>
     <dt>Toegang gebruikersruimte</dt>
     <dd>{{ entity.gebruikersruimte }}</dd>
 </dl>

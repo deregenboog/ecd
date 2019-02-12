@@ -122,7 +122,12 @@ class IntakeType extends AbstractType
             ->add('toegangInloophuis', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('amocToegangTot', AppDateType::class)
+            ->add('amocToegangTot', AppDateType::class, [
+                'label' => 'Einddatum toegang AMOC',
+            ])
+            ->add('overigenToegangVan', AppDateType::class, [
+                'label' => 'Startdatum toegang overigen',
+            ])
             ->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
                 'gebruikersruimte' => true,

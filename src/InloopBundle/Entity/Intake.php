@@ -101,6 +101,15 @@ class Intake
     private $amocToegangTot;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
+     * @Gedmo\Versioned
+     * @Assert\Date
+     */
+    private $overigenToegangVan;
+
+    /**
      * @var string
      *
      * @ORM\Column(nullable=true)
@@ -459,6 +468,16 @@ class Intake
     public function setAmocToegangTot(\DateTime $amocToegangTot = null)
     {
         $this->amocToegangTot = $amocToegangTot;
+
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $overigenToegangVan
+     */
+    public function setOverigenToegangVan(\DateTime $overigenToegangVan = null)
+    {
+        $this->overigenToegangVan = $overigenToegangVan;
 
         return $this;
     }
@@ -1113,6 +1132,11 @@ class Intake
     public function getAmocToegangTot()
     {
         return $this->amocToegangTot;
+    }
+
+    public function getOverigenToegangVan()
+    {
+        return $this->overigenToegangVan;
     }
 
     public function getLegitimatie()

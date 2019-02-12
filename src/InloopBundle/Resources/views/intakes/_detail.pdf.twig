@@ -54,7 +54,11 @@
     </tr>
     <tr>
         <td>Einddatum toegang AMOC</td>
-        <td>{{ entity.amocToegangTot ? entity.amocToegangTot|date('d-m-Y') }}</td>
+        <td>{{ entity.amocToegangTot|if_date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Startdatum toegang overigen</td>
+        <td>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</td>
     </tr>
     <tr>
         <td>Toegang gebruikersruimte</td>
