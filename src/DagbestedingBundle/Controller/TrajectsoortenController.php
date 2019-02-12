@@ -24,7 +24,7 @@ class TrajectsoortenController extends AbstractController
     /**
      * @var TrajectsoortDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.trajectsoort")
+     * @DI\Inject("DagbestedingBundle\Service\TrajectsoortDao")
      */
     protected $dao;
 

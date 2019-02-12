@@ -8,40 +8,40 @@ services:
         class: ArrayObject
         arguments:
             -
-              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
 
     dagbesteding.dagdeel.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: traject, dao: '@dagbesteding.dao.traject' }
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
 
     dagbesteding.document.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
-              - { key: traject, dao: '@dagbesteding.dao.traject' }
-              - { key: rapportage, dao: '@dagbesteding.dao.rapportage' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: rapportage, dao: '@DagbestedingBundle\Service\RapportageDao' }
 
     dagbesteding.traject.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
 
     dagbesteding.rapportage.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: traject, dao: '@dagbesteding.dao.traject' }
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
 
     dagbesteding.verslag.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: deelnemer, dao: '@dagbesteding.dao.deelnemer' }
-              - { key: traject, dao: '@dagbesteding.dao.traject' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
 
     dagbesteding.event.diensten_lookup_subscriber:
         class: DagbestedingBundle\Event\DienstenLookupSubscriber

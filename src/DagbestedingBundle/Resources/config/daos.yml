@@ -6,58 +6,44 @@ services:
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
-    dagbesteding.dao.contactpersoon:
+    DagbestedingBundle\Service\ContactpersoonDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ContactpersoonDao
 
-    dagbesteding.dao.dagdeel:
+    DagbestedingBundle\Service\DagdeelDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DagdeelDao
 
-    dagbesteding.dao.deelnemer:
+    DagbestedingBundle\Service\DeelnemerDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DeelnemerDao
 
-    dagbesteding.dao.deelnemerafsluiting:
+    DagbestedingBundle\Service\DeelnemerafsluitingDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DeelnemerafsluitingDao
 
-    dagbesteding.dao.document:
+    DagbestedingBundle\Service\DocumentDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DocumentDao
 
-    dagbesteding.dao.locatie:
+    DagbestedingBundle\Service\LocatieDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\LocatieDao
 
-    dagbesteding.dao.project:
+    DagbestedingBundle\Service\ProjectDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ProjectDao
 
-    dagbesteding.dao.rapportage:
+    DagbestedingBundle\Service\RapportageDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\RapportageDao
 
-    dagbesteding.dao.resultaatgebiedsoort:
+    DagbestedingBundle\Service\ResultaatgebiedsoortDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ResultaatgebiedsoortDao
 
-    dagbesteding.dao.traject:
+    DagbestedingBundle\Service\TrajectDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectDao
 
-    dagbesteding.dao.trajectafsluiting:
+    DagbestedingBundle\Service\TrajectafsluitingDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectafsluitingDao
 
-    dagbesteding.dao.trajectbegeleider:
+    DagbestedingBundle\Service\TrajectbegeleiderDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectbegeleiderDao
 
-    dagbesteding.dao.trajectsoort:
+    DagbestedingBundle\Service\TrajectsoortDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectsoortDao
 
-    dagbesteding.dao.verslag:
+    DagbestedingBundle\Service\VerslagDao:
         parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\VerslagDao

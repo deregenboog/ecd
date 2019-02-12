@@ -34,7 +34,7 @@ class DeelnemersController extends AbstractController
     /**
      * @var DeelnemerDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.deelnemer")
+     * @DI\Inject("DagbestedingBundle\Service\DeelnemerDao")
      */
     protected $dao;
 

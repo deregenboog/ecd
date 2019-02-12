@@ -26,6 +26,11 @@ class Dagdeel
         self::DAGDEEL_AVOND,
     ];
 
+    const AANWEZIGHEID_AANWEZIG = 'A';
+    const AANWEZIGHEID_ZIEK = 'Z';
+    const AANWEZIGHEID_ONGEOORLOOFD = 'O';
+    const AANWEZIGHEID_VERLOF = 'V';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

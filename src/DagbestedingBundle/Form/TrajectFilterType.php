@@ -53,6 +53,12 @@ class TrajectFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', EntityType::class, [
                 'class' => Project::class,

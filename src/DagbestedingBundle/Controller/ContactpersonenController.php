@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Contactpersoon;
 use DagbestedingBundle\Form\ContactpersoonType;
+use DagbestedingBundle\Service\ContactpersoonDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -23,7 +24,7 @@ class ContactpersonenController extends AbstractChildController
     /**
      * @var ContactpersoonDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.contactpersoon")
+     * @DI\Inject("DagbestedingBundle\Service\ContactpersoonDao")
      */
     protected $dao;
 

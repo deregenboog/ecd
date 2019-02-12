@@ -24,7 +24,7 @@ class ResultaatgebiedsoortenController extends AbstractController
     /**
      * @var ResultaatgebiedsoortDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.resultaatgebiedsoort")
+     * @DI\Inject("DagbestedingBundle\Service\ResultaatgebiedsoortDao")
      */
     protected $dao;
 

@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Export\GenericExport;
 use DagbestedingBundle\Entity\Dagdeel;
 use DagbestedingBundle\Form\DagdeelFilterType;
+use DagbestedingBundle\Service\DagdeelDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -24,7 +25,7 @@ class DagdelenController extends AbstractController
     /**
      * @var DagdeelDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.dagdeel")
+     * @DI\Inject("DagbestedingBundle\Service\DagdeelDao")
      */
     protected $dao;
 

@@ -33,7 +33,7 @@ class TrajectenController extends AbstractChildController
     /**
      * @var TrajectDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.traject")
+     * @DI\Inject("DagbestedingBundle\Service\TrajectDao")
      */
     protected $dao;
 

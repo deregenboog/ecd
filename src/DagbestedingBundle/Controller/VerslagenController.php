@@ -24,7 +24,7 @@ class VerslagenController extends AbstractChildController
     /**
      * @var VerslagDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.verslag")
+     * @DI\Inject("DagbestedingBundle\Service\VerslagDao")
      */
     protected $dao;
 

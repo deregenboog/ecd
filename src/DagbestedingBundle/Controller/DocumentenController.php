@@ -24,7 +24,7 @@ class DocumentenController extends AbstractChildController
     /**
      * @var DocumentDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.document")
+     * @DI\Inject("DagbestedingBundle\Service\DocumentDao")
      */
     protected $dao;
 

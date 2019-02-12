@@ -24,7 +24,7 @@ class LocatiesController extends AbstractController
     /**
      * @var LocatieDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.locatie")
+     * @DI\Inject("DagbestedingBundle\Service\LocatieDao")
      */
     protected $dao;
 

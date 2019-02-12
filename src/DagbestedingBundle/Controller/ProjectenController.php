@@ -24,7 +24,7 @@ class ProjectenController extends AbstractController
     /**
      * @var ProjectDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.project")
+     * @DI\Inject("DagbestedingBundle\Service\ProjectDao")
      */
     protected $dao;
 
