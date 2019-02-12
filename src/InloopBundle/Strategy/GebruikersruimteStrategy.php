@@ -4,6 +4,7 @@ namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\RecenteRegistratie;
 
 class GebruikersruimteStrategy implements StrategyInterface
 {
@@ -24,8 +25,11 @@ class GebruikersruimteStrategy implements StrategyInterface
     {
         $builder
             ->innerJoin('laatsteIntake.gebruikersruimte', 'laatsteIntakeGebruikersruimte')
+            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'recenteRegistratie.klant = klant AND recenteRegistratie.locatie = :locatie_id')
+            ->innerJoin('recenteRegistratie.registratie', 'registratie', 'WITH', 'DATE(registratie.buiten) > :two_weeks_ago')
             ->andWhere('laatsteIntakeGebruikersruimte.id = :locatie_id')
             ->setParameter('locatie_id', $this->locatie->getId())
+            ->setParameter('two_weeks_ago', new \DateTime('-2 weeks'))
         ;
     }
 }

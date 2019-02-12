@@ -38,7 +38,7 @@ class RegistratieSubscriber implements EventSubscriberInterface
             return;
         }
 
-        // huidige recente registratie verwijderen
+        // recente registratie(s) voor deze klant/locatie/datum verwijderen
         $registraties = $this->entityManager->getRepository(RecenteRegistratie::class)->createQueryBuilder('registratie')
             ->where('registratie.klant = :klant AND registratie.locatie = :locatie AND DATE(registratie.buiten) = :today')
             ->setParameters([
