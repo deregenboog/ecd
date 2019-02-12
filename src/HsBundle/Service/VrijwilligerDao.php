@@ -42,8 +42,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->leftJoin("{$this->alias}.documenten", 'document')
         ;
 
-        if ($filter && $filter->vrijwilliger) {
-            $filter->vrijwilliger->alias = 'basisvrijwilliger';
+        if ($filter) {
+            if ($filter->vrijwilliger) {
+                $filter->vrijwilliger->alias = 'basisvrijwilliger';
+            }
             $filter->applyTo($builder);
         }
 
