@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use InloopBundle\Form\VrijwilligerCloseType;
 
 /**
  * @Route("/vrijwilligers")
@@ -60,6 +61,20 @@ class VrijwilligersController extends AbstractController
         }
 
         return $this->doSearch($request);
+    }
+
+    /**
+     * @Route("/close/{id}")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $this->formClass = VrijwilligerCloseType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->setAfsluitdatum(new \DateTime());
+
+        return $this->processForm($request, $entity);
+
     }
 
     protected function getDownloadFilename()

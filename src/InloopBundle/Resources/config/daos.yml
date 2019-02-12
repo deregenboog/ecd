@@ -6,6 +6,9 @@ services:
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
+    InloopBundle\Service\AfsluitredenDao:
+        parent: inloop.dao
+
     InloopBundle\Service\BinnenViaDao:
         parent: inloop.dao
 

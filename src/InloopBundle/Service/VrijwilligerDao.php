@@ -17,6 +17,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'appVrijwilliger.voornaam',
             'appVrijwilliger.achternaam',
             'vrijwilliger.aanmelddatum',
+            'vrijwilliger.afsluitdatum',
             'werkgebied.naam',
         ],
     ];

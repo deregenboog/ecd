@@ -29,6 +29,12 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+            $builder->add('afsluitdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('locatie', $options['enabled_filters'])) {
             $builder->add('locatie', LocatieSelectType::class, [
                 'required' => false,
@@ -47,6 +53,7 @@ class VrijwilligerFilterType extends AbstractType
             'enabled_filters' => [
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
                 'aanmelddatum',
+                'afsluitdatum',
                 'locatie',
                 'stadsdeel',
                 'filter',

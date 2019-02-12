@@ -55,6 +55,20 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $aanmelddatum;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $afsluitdatum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\ManyToOne(targetEntity="Afsluitreden")
+     */
+    protected $afsluitreden;
+
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
@@ -102,6 +116,30 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
+    public function getAfsluitdatum()
+    {
+        return $this->afsluitdatum;
+    }
+
+    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    {
+        $this->afsluitdatum = $afsluitdatum;
+
+        return $this;
+    }
+
+    public function getAfsluitreden()
+    {
+        return $this->afsluitreden;
+    }
+
+    public function setAfsluitreden(Afsluitreden $afsluitreden)
+    {
+        $this->afsluitreden = $afsluitreden;
+
+        return $this;
+    }
+
     public function getBinnenVia()
     {
         return $this->binnenVia;
@@ -131,5 +169,10 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         $this->locaties->removeElement($locatie);
 
         return $this;
+    }
+
+    public function isActief()
+    {
+        return $this->afsluitdatum === null || $this->afsluitdatum > new \DateTime('today');
     }
 }

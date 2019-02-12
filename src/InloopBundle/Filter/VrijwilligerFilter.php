@@ -12,7 +12,7 @@ class VrijwilligerFilter implements FilterInterface
     public $alias = 'vrijwilliger';
 
     /**
-     * @var AppBundle\Filter\VrijwilligerFilter
+     * @var \AppBundle\Filter\VrijwilligerFilter
      */
     public $vrijwilliger;
 
@@ -20,6 +20,11 @@ class VrijwilligerFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $aanmelddatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $afsluitdatum;
 
     /**
      * @var Locatie
@@ -43,6 +48,21 @@ class VrijwilligerFilter implements FilterInterface
                 $builder
                     ->andWhere('vrijwilliger.aanmelddatum <= :aanmelddatum_end')
                     ->setParameter('aanmelddatum_end', $this->aanmelddatum->getEnd())
+                ;
+            }
+        }
+
+        if ($this->afsluitdatum) {
+            if ($this->afsluitdatum->getStart()) {
+                $builder
+                    ->andWhere('vrijwilliger.afsluitdatum >= :afsluitdatum_start')
+                    ->setParameter('afsluitdatum_start', $this->afsluitdatum->getStart())
+                ;
+            }
+            if ($this->afsluitdatum->getEnd()) {
+                $builder
+                    ->andWhere('vrijwilliger.afsluitdatum <= :afsluitdatum_end')
+                    ->setParameter('afsluitdatum_end', $this->afsluitdatum->getEnd())
                 ;
             }
         }

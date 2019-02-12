@@ -20,7 +20,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="5">
+                <th colspan="6">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -43,6 +43,12 @@
                     {{ form_errors(filter.aanmelddatum.end) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.afsluitdatum.start) }}
+                    {{ form_errors(filter.afsluitdatum.start) }}
+                    {{ form_widget(filter.afsluitdatum.end) }}
+                    {{ form_errors(filter.afsluitdatum.end) }}
+                </th>
+                <th>
                     {{ form_widget(filter.locatie) }}
                     {{ form_errors(filter.locatie) }}
                 </th>
@@ -63,6 +69,9 @@
                 {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'vrijwilliger.aanmelddatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'vrijwilliger.afsluitdatum') }}
+            </th>
+            <th>
                 Locatie(s)
             </th>
             <th>
@@ -70,7 +79,7 @@
             </th>
         </tr>
         {% for vrijwilliger in pagination %}
-        <tr data-href="{{ path('inloop_vrijwilligers_view', {id: vrijwilliger.id}) }}">
+        <tr data-href="{{ path('inloop_vrijwilligers_view', {id: vrijwilliger.id}) }}" class="{{ not vrijwilliger.actief ? 'danger' }}">
             <td>
                 {{ vrijwilliger.vrijwilliger.id }}
             </td>
@@ -79,6 +88,12 @@
             </td>
             <td>
                 {{ vrijwilliger.aanmelddatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {% if not vrijwilliger.actief %}
+                    {{ vrijwilliger.afsluitdatum|if_date('d-m-Y') }}
+                    ({{ vrijwilliger.afsluitreden }})
+                {% endif %}
             </td>
             <td>
                 <ul>

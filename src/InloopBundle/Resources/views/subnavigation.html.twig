@@ -28,6 +28,7 @@
                 Beheer <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
+                {{ html.navLink('Afsluitredenen vrijwilligers', path('inloop_afsluitredenenvrijwilligers_index'), isActiveRoute('inloop_afsluitredenenvrijwilligers_')) }}
                 {{ html.navLink('Binnen via-opties', path('inloop_binnenvia_index'), isActiveRoute('inloop_binnenvia_')) }}
                 {{ html.navLink('Infobaliedoelgroepen', path('inloop_infobaliedoelgroepen_index'), isActiveRoute('inloop_infobaliedoelgroepen_')) }}
                 {{ html.navLink('Locaties', path('inloop_locaties_index'), isActiveRoute('inloop_locaties_')) }}
