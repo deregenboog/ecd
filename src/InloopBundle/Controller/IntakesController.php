@@ -93,16 +93,6 @@ class IntakesController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            // create "Aanmelding"
-            try {
-                $entityManager = $this->getDoctrine()->getEntityManager();
-                $entityManager->persist(new Aanmelding($entity->getKlant(), $this->getMedewerker()));
-                $entityManager->flush();
-            } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-            }
-
             return $this->afterFormSubmitted($request, $entity);
         }
 

@@ -103,7 +103,7 @@ class Klant extends Persoon
     /**
      * @var DossierStatus
      *
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\DossierStatus")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
