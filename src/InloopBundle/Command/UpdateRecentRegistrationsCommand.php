@@ -31,7 +31,7 @@ class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
             SELECT id, locatie_id, klant_id, MAX(buiten) AS max_buiten
             FROM registraties
             WHERE buiten >= (NOW() + INTERVAL -3 month) AND closed = 1
-            GROUP BY klant_id';
+            GROUP BY klant_id, locatie_id, DATE(buiten)';
         $this->em->getConnection()->query($sql);
         */
 
