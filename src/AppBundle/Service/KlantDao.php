@@ -26,6 +26,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'werkgebied.naam',
             'postcodegebied.naam',
         ],
+        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Klant::class;
