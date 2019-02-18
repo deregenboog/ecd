@@ -25,9 +25,12 @@ class GebruikersruimteStrategy implements StrategyInterface
     {
         $builder
             ->innerJoin('laatsteIntake.gebruikersruimte', 'laatsteIntakeGebruikersruimte')
-            ->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'recenteRegistratie.klant = klant AND recenteRegistratie.locatie = :locatie_id')
-            ->innerJoin('recenteRegistratie.registratie', 'registratie', 'WITH', 'DATE(registratie.buiten) > :two_months_ago')
+            ->leftJoin('klant.registraties', 'registratie', 'WITH', 'registratie.locatie = :locatie_id')
+            ->leftJoin(RecenteRegistratie::class, 'recent', 'WITH', 'recent.klant = klant AND recent.locatie = :locatie_id')
+            ->leftJoin('recent.registratie', 'recenteRegistratie', 'WITH', 'DATE(recenteRegistratie.buiten) > :two_months_ago')
             ->andWhere('laatsteIntakeGebruikersruimte.id = :locatie_id')
+            ->groupBy('klant.id')
+            ->having('COUNT(recenteRegistratie) > 0 OR COUNT(registratie.id) = 0') // recent of nog nooit geregistreerd op deze locatie
             ->setParameter('locatie_id', $this->locatie->getId())
             ->setParameter('two_months_ago', new \DateTime('-2 months'))
         ;
