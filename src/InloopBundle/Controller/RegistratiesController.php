@@ -20,9 +20,6 @@ use InloopBundle\Form\RegistratieType;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
-use InloopBundle\Strategy\AmocStrategy;
-use InloopBundle\Strategy\GebruikersruimteStrategy;
-use InloopBundle\Strategy\VerblijfsstatusStrategy;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -107,23 +104,8 @@ class RegistratiesController extends AbstractController
 
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
-        // @todo move to container service
-        $strategies = [
-            new GebruikersruimteStrategy(),
-            new AmocStrategy(),
-            new VerblijfsstatusStrategy(),
-        ];
-
-        foreach ($strategies as $strategy) {
-            if ($strategy->supports($locatie)) {
-                $filter = new KlantFilter($strategy);
-                break;
-            }
-        }
-
-        if (!isset($filter)) {
-            $filter = new KlantFilter();
-        }
+        $filter = new KlantFilter();
+        $filter->locatie = $locatie;
 
         $form = $this->createForm(KlantFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],

@@ -38,11 +38,6 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        if (!$klant instanceof Klant) {
-            $klant = $this->entityManager->find(Klant::class, $event->getKlantId());
-            // store in event for subsequent subscribers to use
-            $event->setKlant($klant);
-        }
 
         /* @var $verslag Verslag */
         $verslag = $this->entityManager->getRepository(Verslag::class)->findOneBy(

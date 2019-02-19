@@ -8,6 +8,7 @@ use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use InloopBundle\Entity\Toegang;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
@@ -37,10 +38,24 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        if (!$klant instanceof Klant) {
-            $klant = $this->entityManager->find(Klant::class, $event->getKlantId());
-            // store in event for subsequent subscribers to use
-            $event->setKlant($klant);
+
+        if ($klant->getLaatsteIntake()) {
+            $toegang = $this->entityManager->getRepository(Toegang::class)->findBy(['klant' => $klant]);
+            if (count($toegang) > 0) {
+                $locaties = [];
+                foreach ($toegang as $t) {
+                    $locaties[] = (string) $t->getLocatie();
+                }
+                $dienst = [
+                    'name' => 'Inloophuizen',
+                    'url' => null,
+                    'from' => null,
+                    'to' => null,
+                    'type' => 'string',
+                    'value' => implode(', ', $locaties),
+                ];
+                $event->addDienst($dienst);
+            }
         }
 
         if ($klant->getLaatsteIntake() && $klant->getLaatsteIntake()->getGebruikersruimte()) {

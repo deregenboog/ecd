@@ -9,6 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\StrategyInterface;
+use InloopBundle\Entity\Toegang;
 
 class KlantFilter implements FilterInterface
 {
@@ -21,6 +22,11 @@ class KlantFilter implements FilterInterface
      * @var int
      */
     public $id;
+
+    /**
+     * @var Locatie
+     */
+    public $locatie;
 
     /**
      * @var Locatie
@@ -67,6 +73,13 @@ class KlantFilter implements FilterInterface
                 ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
             ;
             $this->strategy->buildQuery($builder);
+        }
+
+        if ($this->locatie) {
+            $builder
+                ->innerJoin(Toegang::class, 'toegang', 'WITH', 'toegang.klant = klant AND toegang.locatie = :locatie')
+                ->setParameter('locatie', $this->locatie)
+            ;
         }
 
         if ($this->id) {

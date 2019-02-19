@@ -1,6 +1,7 @@
 services:
     inloop.dao:
         abstract: true
+        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'

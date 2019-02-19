@@ -41,6 +41,17 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
+        $builder = $this->getAllQueryBuilder($filter);
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function getAllQueryBuilder(FilterInterface $filter = null)
+    {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin("{$this->alias}.geslacht", 'geslacht')
             ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
@@ -51,11 +62,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             $filter->applyTo($builder);
         }
 
-        if ($page) {
-            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
-        }
-
-        return $builder->getQuery()->getResult();
+        return $builder;
     }
 
     /**
