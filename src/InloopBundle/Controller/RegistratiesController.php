@@ -9,6 +9,7 @@ use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
+use InloopBundle\Event\Events;
 use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\RegistratieFilter;
 use InloopBundle\Filter\RegistratieHistoryFilter;
@@ -24,6 +25,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -160,10 +162,17 @@ class RegistratiesController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->dao->findActive($page, $filter);
 
+        $klantIds = array_map(function (Registratie $registratie) {
+            return $registratie->getKlant()->getId();
+        }, $pagination->getItems());
+        $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
+        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+
         return $this->render('InloopBundle:registraties:_active.html.twig', [
             'locatie' => $locatie,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
+            'geen_activering_klant_ids' => $event->getArgument('geen_activering_klant_ids'),
         ]);
     }
 
@@ -190,10 +199,17 @@ class RegistratiesController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->dao->findHistory($page, $filter);
 
+        $klantIds = array_map(function (Registratie $registratie) {
+            return $registratie->getKlant()->getId();
+        }, $pagination->getItems());
+        $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
+        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+
         return $this->render('InloopBundle:registraties:_history.html.twig', [
             'locatie' => $locatie,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
+            'geen_activering_klant_ids' => $event->getArgument('geen_activering_klant_ids'),
         ]);
     }
 

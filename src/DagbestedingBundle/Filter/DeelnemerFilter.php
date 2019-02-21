@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 
 class DeelnemerFilter implements FilterInterface
@@ -14,12 +15,12 @@ class DeelnemerFilter implements FilterInterface
     public $id;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $aanmelddatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $afsluitdatum;
 
@@ -40,14 +41,14 @@ class DeelnemerFilter implements FilterInterface
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
-                ->andWhere('deelnemer.aanmelddatum >= :aanmelddatum_van')
-                ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+                    ->andWhere('deelnemer.aanmelddatum >= :aanmelddatum_van')
+                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
                 ;
             }
             if ($this->aanmelddatum->getEnd()) {
                 $builder
-                ->andWhere('deelnemer.aanmelddatum <= :aanmelddatum_tot')
-                ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+                    ->andWhere('deelnemer.aanmelddatum <= :aanmelddatum_tot')
+                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
                 ;
             }
         }
@@ -55,14 +56,14 @@ class DeelnemerFilter implements FilterInterface
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder
-                ->andWhere('deelnemer.afsluitdatum >= :afsluitdatum_van')
-                ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
+                    ->andWhere('deelnemer.afsluitdatum >= :afsluitdatum_van')
+                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
             if ($this->afsluitdatum->getEnd()) {
                 $builder
-                ->andWhere('deelnemer.afsluitdatum <= :afsluitdatum_tot')
-                ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
+                    ->andWhere('deelnemer.afsluitdatum <= :afsluitdatum_tot')
+                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
         }

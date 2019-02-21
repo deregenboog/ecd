@@ -87,7 +87,9 @@
                     <input class="veegploeg" type="checkbox" {{ registratie.veegploeg ? 'checked' }}/>
                 </td>
                 <td>
-                    <input class="activering" type="checkbox" {{ registratie.activering ? 'checked' }}/>
+                    {% if registratie.klant.id not in geen_activering_klant_ids %}
+                        <input class="activering" type="checkbox" {{ registratie.activering ? 'checked' }}/>
+                    {% endif %}
                 </td>
                 <td>
                     <input class="mw" type="checkbox" {{ 0 != registratie.mw ? 'checked' }}/>

@@ -43,10 +43,15 @@ services:
               - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
               - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
 
-    dagbesteding.event.diensten_lookup_subscriber:
-        class: DagbestedingBundle\Event\DienstenLookupSubscriber
+    DagbestedingBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    DagbestedingBundle\Event\GeenActiveringSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_subscriber }
