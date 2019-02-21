@@ -43,6 +43,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', intake, geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
+            ->innerJoin('klant.huidigeStatus', 'status')
             ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
