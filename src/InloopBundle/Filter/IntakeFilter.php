@@ -29,7 +29,7 @@ class IntakeFilter implements FilterInterface
     {
         if ($this->locatie) {
             $builder
-                ->andWhere('locatie = :locatie')
+                ->andWhere('intakelocatie = :locatie')
                 ->setParameter('locatie', $this->locatie)
             ;
         }
