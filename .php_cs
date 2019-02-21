@@ -3,6 +3,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('app/config_sql')
     ->exclude('app/config_template')
+    ->exclude('app/DoctrineMigrations')
     ->exclude('app/locale')
     ->exclude('app/plugins')
     ->exclude('app/sql')
