@@ -173,6 +173,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function isActief()
     {
-        return $this->afsluitdatum === null || $this->afsluitdatum > new \DateTime('today');
+        return null === $this->afsluitdatum || $this->afsluitdatum > new \DateTime('today');
     }
 }

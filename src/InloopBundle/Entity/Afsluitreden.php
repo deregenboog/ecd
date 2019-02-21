@@ -2,14 +2,13 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
+use AppBundle\Model\NotDeletableTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\NameableTrait;
-use AppBundle\Model\ActivatableTrait;
-use AppBundle\Model\NotDeletableTrait;
 
 /**
  * @ORM\Entity

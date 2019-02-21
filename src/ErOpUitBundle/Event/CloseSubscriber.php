@@ -7,10 +7,10 @@ use AppBundle\Entity\Persoon;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
+use ErOpUitBundle;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use ErOpUitBundle;
 
 class CloseSubscriber implements EventSubscriberInterface
 {
@@ -82,12 +82,14 @@ class CloseSubscriber implements EventSubscriberInterface
         if ($persoon instanceof Klant) {
             $erOpUit = $this->entityManager->getRepository(ErOpUitBundle\Entity\Klant::class)
                 ->findOneBy(['klant' => $persoon]);
+
             return $this->generator->generate('eropuit_klanten_view', [
                 'id' => $erOpUit->getId(),
             ]);
         } elseif ($persoon instanceof Vrijwilliger) {
             $erOpUit = $this->entityManager->getRepository(ErOpUitBundle\Entity\Vrijwilliger::class)
                 ->findOneBy(['vrijwilliger' => $persoon]);
+
             return $this->generator->generate('eropuit_vrijwilligers_view', [
                 'id' => $erOpUit->getId(),
             ]);

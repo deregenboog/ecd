@@ -2,11 +2,9 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\IntakeFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

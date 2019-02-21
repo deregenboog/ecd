@@ -3,7 +3,7 @@
 namespace IzBundle\Form;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\VrijwilligerFilterType;
@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\AppDateRangeType;
 
 class KoppelingFilterType extends AbstractType
 {

@@ -5,8 +5,8 @@ namespace HsBundle\Service;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Vrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -145,6 +145,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 
         return $builder->getQuery()->getResult();
     }
+
     /**
      * {inheritdoc}.
      */

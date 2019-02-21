@@ -4,7 +4,6 @@ namespace IzBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityNotFoundException;
 use IzBundle\Entity\Intervisiegroep;
 
 class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterface

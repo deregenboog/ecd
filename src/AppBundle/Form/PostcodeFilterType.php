@@ -2,14 +2,11 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Geslacht;
-use AppBundle\Filter\KlantFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Filter\PostcodeFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Filter\PostcodeFilter;
 
 class PostcodeFilterType extends AbstractType
 {

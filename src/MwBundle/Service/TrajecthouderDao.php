@@ -2,7 +2,6 @@
 
 namespace MwBundle\Service;
 
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use MwBundle\Entity\Trajecthouder;
 

@@ -2,19 +2,13 @@
 
 namespace MwBundle\Form;
 
-use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\ContainerType;
-use AppBundle\Form\MedewerkerType;
-use MwBundle\Entity\Info;
+use MwBundle\Entity\Doorverwijzing;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use MwBundle\Entity\Trajecthouder;
-use MwBundle\Entity\Doorverwijzing;
-use AppBundle\Form\AppDateType;
 
 class DoorverwijzingType extends AbstractType
 {

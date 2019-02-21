@@ -6,10 +6,10 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use OekBundle\Entity\DeelnameStatus;
+use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Groep;
 use OekBundle\Entity\Training;
-use OekBundle\Entity\Deelnemer;
-use OekBundle\Entity\DeelnameStatus;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -83,7 +83,7 @@ class DeelnemerFilter implements FilterInterface
                 ->getQuery()
                 ->getResult()
             ;
-            $deelnemerIds = array_map(function($deelnemer) {
+            $deelnemerIds = array_map(function ($deelnemer) {
                 return $deelnemer['id'];
             }, $deelnemers);
 

@@ -100,7 +100,6 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-
     /**
      * {inheritdoc}.
      */

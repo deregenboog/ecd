@@ -6,7 +6,6 @@ use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use HsBundle\Service\DienstverlenerDaoInterface;
 use HsBundle\Service\VrijwilligerDaoInterface;
-use AppBundle\Entity\GgwGebied;
 
 class ArbeidersPerGgwGebied extends AbstractReport
 {

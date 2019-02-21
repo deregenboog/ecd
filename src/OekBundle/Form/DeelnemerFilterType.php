@@ -4,6 +4,7 @@ namespace OekBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\JaNeeType;
 use AppBundle\Form\KlantFilterType;
 use OekBundle\Entity\Groep;
 use OekBundle\Entity\Training;
@@ -13,7 +14,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\JaNeeType;
 
 class DeelnemerFilterType extends AbstractType
 {

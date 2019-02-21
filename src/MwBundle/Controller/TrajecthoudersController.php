@@ -3,23 +3,12 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use AppBundle\Entity\Klant;
-use AppBundle\Event\DienstenLookupEvent;
-use AppBundle\Event\Events;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Form\KlantType;
-use AppBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use MwBundle\Entity\Document;
-use MwBundle\Entity\Info;
-use MwBundle\Form\InfoType;
-use MwBundle\Form\KlantFilterType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Form\TrajecthouderType;
 use MwBundle\Service\TrajecthouderDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/trajecthouders")

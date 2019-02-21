@@ -2,18 +2,13 @@
 
 namespace ErOpUitBundle\Event;
 
-use GaBundle\Entity\Intake as GaIntake;
-use GaBundle\Entity\Lidmaatschap;
-use GaBundle\Service\GroepDaoInterface;
-use GaBundle\Service\klantdossierDaoInterface;
-use GaBundle\Service\LidmaatschapDaoInterface;
+use ErOpUitBundle\Entity\Klant;
+use ErOpUitBundle\Service\KlantDaoInterface;
 use IzBundle\Entity\Intake as IzIntake;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use ErOpUitBundle\Service\KlantDaoInterface;
-use ErOpUitBundle\Entity\Klant;
 
 class IzIntakeSubscriber implements EventSubscriberInterface
 {

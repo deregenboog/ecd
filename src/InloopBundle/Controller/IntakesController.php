@@ -3,9 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use AppBundle\Entity\Zrm;
 use AppBundle\Export\ExportInterface;
-use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Form\IntakeFilterType;
 use InloopBundle\Form\IntakeType;

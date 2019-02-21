@@ -2,16 +2,14 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Form\DagSelectType;
+use InloopBundle\Entity\Locatietijd;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Locatietijd;
-use AppBundle\Form\DagSelectType;
-use AppBundle\Form\AppTimeType;
 
 class LocatietijdType extends AbstractType
 {

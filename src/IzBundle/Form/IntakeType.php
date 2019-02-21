@@ -2,7 +2,6 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Entity\Zrm;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;

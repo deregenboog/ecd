@@ -5,7 +5,6 @@ namespace InloopBundle\Entity;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Util\DateTimeUtil;
 
 /**
  * @ORM\Entity
@@ -275,12 +274,12 @@ class Locatie
         if ($locatietijd && $locatietijd->getOpeningstijd() > $locatietijd->getSluitingstijd()) {
             $openingstijd = (clone $locatietijd->getOpeningstijd())
                 ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                ->modify("-1 day")
+                ->modify('-1 day')
                 ->modify("-{$this->openingTimeCorrection} seconds")
             ;
             $sluitingstijd = (clone $locatietijd->getSluitingstijd())
                 ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                ->modify("-1 day")
+                ->modify('-1 day')
                 ->modify("+{$this->openingTimeCorrection} seconds")
             ;
             if ($openingstijd > $sluitingstijd) {

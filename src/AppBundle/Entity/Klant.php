@@ -19,7 +19,7 @@ use MwBundle\Entity\Verslag;
  *     name="klanten",
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(columns={"huidigeStatus_id", "deleted"})
-*      },
+ *      },
  *     indexes={
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
@@ -432,7 +432,7 @@ class Klant extends Persoon
         }
         if (count($this->intakes) > 0) {
             $this->laatsteIntake = $this->intakes[0];
-            $this->eersteIntakeDatum = $this->intakes[count($this->intakes)-1]->getIntakeDatum();
+            $this->eersteIntakeDatum = $this->intakes[count($this->intakes) - 1]->getIntakeDatum();
         }
     }
 
@@ -440,7 +440,6 @@ class Klant extends Persoon
     {
         return $this->overleden;
     }
-
 
     public function setOverleden($overleden)
     {

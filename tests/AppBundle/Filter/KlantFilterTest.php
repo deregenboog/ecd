@@ -4,9 +4,9 @@ namespace Tests\AppBundle\Filter;
 
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
-use Doctrine\ORM\Query\Expr;
 
 class KlantFilterTest extends TestCase
 {
@@ -37,7 +37,7 @@ class KlantFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            "klant.voornaam LIKE :klant_naam_part_0 OR klant.roepnaam LIKE :klant_naam_part_0 OR klant.tussenvoegsel LIKE :klant_naam_part_0 OR klant.achternaam LIKE :klant_naam_part_0",
+            'klant.voornaam LIKE :klant_naam_part_0 OR klant.roepnaam LIKE :klant_naam_part_0 OR klant.tussenvoegsel LIKE :klant_naam_part_0 OR klant.achternaam LIKE :klant_naam_part_0',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -55,7 +55,7 @@ class KlantFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            "(klant.voornaam LIKE :klant_naam_part_0 OR klant.roepnaam LIKE :klant_naam_part_0 OR klant.tussenvoegsel LIKE :klant_naam_part_0 OR klant.achternaam LIKE :klant_naam_part_0) AND (klant.voornaam LIKE :klant_naam_part_1 OR klant.roepnaam LIKE :klant_naam_part_1 OR klant.tussenvoegsel LIKE :klant_naam_part_1 OR klant.achternaam LIKE :klant_naam_part_1)",
+            '(klant.voornaam LIKE :klant_naam_part_0 OR klant.roepnaam LIKE :klant_naam_part_0 OR klant.tussenvoegsel LIKE :klant_naam_part_0 OR klant.achternaam LIKE :klant_naam_part_0) AND (klant.voornaam LIKE :klant_naam_part_1 OR klant.roepnaam LIKE :klant_naam_part_1 OR klant.tussenvoegsel LIKE :klant_naam_part_1 OR klant.achternaam LIKE :klant_naam_part_1)',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(

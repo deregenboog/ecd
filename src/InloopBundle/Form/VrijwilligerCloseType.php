@@ -2,11 +2,8 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
-use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\AbstractType;

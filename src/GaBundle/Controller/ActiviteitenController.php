@@ -3,6 +3,7 @@
 namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\AbstractExport;
 use AppBundle\Form\Model\AppDateRangeModel;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Filter\ActiviteitFilter;
@@ -16,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\AbstractExport;
 
 /**
  * @Route("/activiteiten")

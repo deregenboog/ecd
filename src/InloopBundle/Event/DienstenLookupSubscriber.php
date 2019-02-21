@@ -2,13 +2,12 @@
 
 namespace InloopBundle\Event;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;
+use InloopBundle\Entity\Toegang;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use InloopBundle\Entity\Toegang;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {

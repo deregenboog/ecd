@@ -43,7 +43,7 @@ class InfoType extends AbstractType
             ->add('instantie', ChoiceType::class, [
                 'placeholder' => '',
                 'choices' => array_flip(Info::INSTANTIES),
-                'required' => false
+                'required' => false,
             ])
             ->add('registratienummer', null, ['required' => false]);
 

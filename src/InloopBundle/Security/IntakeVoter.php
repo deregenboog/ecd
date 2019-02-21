@@ -4,8 +4,8 @@ namespace InloopBundle\Security;
 
 use InloopBundle\Entity\Intake;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class IntakeVoter extends Voter
 {

@@ -3,9 +3,9 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Util\DateTimeUtil;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Util\DateTimeUtil;
 
 /**
  * @ORM\Entity

@@ -2,13 +2,10 @@
 
 namespace InloopBundle\Event;
 
-use InloopBundle\Entity\Intake;
-use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use InloopBundle\Entity\Registratie;
-use InloopBundle\Entity\RecenteRegistratie;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManager;
+use InloopBundle\Entity\RecenteRegistratie;
+use InloopBundle\Entity\Registratie;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RegistratieSubscriber implements EventSubscriberInterface
@@ -43,7 +40,7 @@ class RegistratieSubscriber implements EventSubscriberInterface
             ->where('registratie.klant = :klant AND registratie.locatie = :locatie AND DATE(registratie.buiten) = :today')
             ->setParameters([
                 'klant' => $registratie->getKlant(),
-                'locatie'  => $registratie->getLocatie(),
+                'locatie' => $registratie->getLocatie(),
                 'today' => new \DateTime('today'),
             ])->getQuery()->getResult();
         foreach ($registraties as $current) {

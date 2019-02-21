@@ -2,23 +2,18 @@
 
 namespace IzBundle\Command;
 
-use AppBundle\Entity\Attachment;
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
-use IzBundle\Entity\Document;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Koppeling;
+use IzBundle\Entity\Verslag;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
-use IzBundle\Entity\Koppeling;
-use IzBundle\Entity\Hulpvraag;
-use Symfony\Component\Console\Helper\Table;
-use IzBundle\Entity\Hulpaanbod;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use IzBundle\Entity\Verslag;
-use AppBundle\Entity\Medewerker;
 
 class KoppelingenSplitCommand extends ContainerAwareCommand
 {
@@ -99,7 +94,6 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
 
         $tableData = [];
         foreach ($hulpvragen as $hulpvraag) {
-
             list($koppeling, $newKoppeling) = $this->split($hulpvraag->getKoppeling());
 
             $this->addEndMessage($koppeling);
@@ -183,10 +177,12 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setIzKlant($hulpvraag->getIzKlant())
             ->setDeelnemer($hulpvraag->getIzKlant())
             ->setMedewerker($hulpvraag->getMedewerker());
-        if ($hulpvraag->getDoelgroep())
-                $newHulpvraag->setDoelgroep($hulpvraag->getDoelgroep());
-        if ($hulpvraag->getHulpvraagsoort())
-                $newHulpvraag->setHulpvraagsoort($hulpvraag->getHulpvraagsoort());
+        if ($hulpvraag->getDoelgroep()) {
+            $newHulpvraag->setDoelgroep($hulpvraag->getDoelgroep());
+        }
+        if ($hulpvraag->getHulpvraagsoort()) {
+            $newHulpvraag->setHulpvraagsoort($hulpvraag->getHulpvraagsoort());
+        }
         $newHulpvraag
             ->setProject($hulpvraag->getProject())
             // afsluiting
@@ -194,8 +190,9 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setSuccesindicatorenFinancieel($hulpvraag->getSuccesindicatorenFinancieel())
             ->setSuccesindicatorenParticipatie($hulpvraag->getSuccesindicatorenParticipatie())
             ->setSuccesindicatorenPersoonlijk($hulpvraag->getSuccesindicatorenPersoonlijk());
-        if ($hulpvraag->getEindeVraagAanbod())
+        if ($hulpvraag->getEindeVraagAanbod()) {
             $newHulpvraag->setEindeVraagAanbod($hulpvraag->getEindeVraagAanbod());
+        }
         $newHulpvraag
             // matching
             ->setDagdeel($hulpvraag->getDagdeel())
@@ -216,8 +213,9 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setProject($hulpaanbod->getProject())
             // afsluiting
             ->setEinddatum($hulpaanbod->getEinddatum());
-        if ($hulpaanbod->getEindeVraagAanbod())
+        if ($hulpaanbod->getEindeVraagAanbod()) {
             $newHulpaanbod->setEindeVraagAanbod($hulpaanbod->getEindeVraagAanbod());
+        }
         $newHulpaanbod
             // matching
             ->setDagdeel($hulpaanbod->getDagdeel())
@@ -271,6 +269,6 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
 
     private function createLink(Hulpvraag $hulpvraag)
     {
-        return $this->host . $this->router->generate('iz_koppelingen_view', ['id' => $hulpvraag->getId()]);
+        return $this->host.$this->router->generate('iz_koppelingen_view', ['id' => $hulpvraag->getId()]);
     }
 }

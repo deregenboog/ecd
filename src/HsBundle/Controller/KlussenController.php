@@ -4,6 +4,7 @@ namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Klus;
+use HsBundle\Form\KlusCancelType;
 use HsBundle\Form\KlusCloseType;
 use HsBundle\Form\KlusFilterType;
 use HsBundle\Form\KlusType;
@@ -12,7 +13,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use HsBundle\Form\KlusCancelType;
 
 /**
  * @Route("/klussen")

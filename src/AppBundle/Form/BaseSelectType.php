@@ -2,12 +2,12 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\Common\Collections\Collection;
 
 class BaseSelectType extends AbstractType
 {

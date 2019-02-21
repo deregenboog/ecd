@@ -2,9 +2,8 @@
 
 namespace InloopBundle\Entity;
 
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Klant;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

@@ -2,9 +2,9 @@
 
 namespace MwBundle\Service;
 
-use MwBundle\Entity\Doorverwijzing;
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\Doorverwijzing;
 
 interface DoorverwijzingDaoInterface
 {

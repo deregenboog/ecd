@@ -2,17 +2,13 @@
 
 namespace InloopBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use InloopBundle\Entity\Locatie;
-use InloopBundle\Form\LocatieType;
-use InloopBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/admin/locatietijden")

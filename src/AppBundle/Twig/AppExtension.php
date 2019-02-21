@@ -6,12 +6,12 @@ use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Persoon;
 use AppBundle\Exception\AppException;
 use AppBundle\Service\NameFormatter;
+use AppBundle\Util\DateTimeUtil;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Debug\Exception\ContextErrorException;
-use AppBundle\Util\DateTimeUtil;
 
 class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -438,17 +438,17 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
 
     public function postvoorkeur($value)
     {
-        return ($value ? 'Geen' : 'Wel') . ' post';
+        return ($value ? 'Geen' : 'Wel').' post';
     }
 
     public function emailvoorkeur($value)
     {
-        return ($value ? 'Geen' : 'Wel') . ' e-mail';
+        return ($value ? 'Geen' : 'Wel').' e-mail';
     }
 
     public function telefoonvoorkeur($value)
     {
-        return ($value ? 'Geen' : 'Wel') . ' telefonisch contact';
+        return ($value ? 'Geen' : 'Wel').' telefonisch contact';
     }
 
     public function try($value)
@@ -457,6 +457,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
             if (is_bool($value)) {
                 return (string) $value ? 1 : 0;
             }
+
             return (string) $value;
         } catch (ContextErrorException $e) {
             return '';

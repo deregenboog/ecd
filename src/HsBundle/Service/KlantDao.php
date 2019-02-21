@@ -105,7 +105,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-
     /**
      * {inheritdoc}.
      */

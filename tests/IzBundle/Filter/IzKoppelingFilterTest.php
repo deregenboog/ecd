@@ -5,12 +5,12 @@ namespace Tests\IzBundle\Filter;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
 use PHPUnit\Framework\TestCase;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 class KoppelingFilterTest extends TestCase
 {

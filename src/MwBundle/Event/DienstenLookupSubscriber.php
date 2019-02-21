@@ -2,7 +2,6 @@
 
 namespace MwBundle\Event;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManager;

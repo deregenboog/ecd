@@ -118,7 +118,7 @@ class Infobalie extends AbstractReport
 
         $this->reports[] = [
             'title' => 'Landen',
-            'data' => ['Klanten uit' => ['' => implode($count[0]['amoc_landen'], ', ')]]
+            'data' => ['Klanten uit' => ['' => implode($count[0]['amoc_landen'], ', ')]],
         ];
 
         $this->reports[] = [

@@ -7,6 +7,7 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use InloopBundle\Entity\Vrijwilliger;
+use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
 use InloopBundle\Service\VrijwilligerDaoInterface;
@@ -15,7 +16,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use InloopBundle\Form\VrijwilligerCloseType;
 
 /**
  * @Route("/vrijwilligers")
@@ -74,7 +74,6 @@ class VrijwilligersController extends AbstractController
         $entity->setAfsluitdatum(new \DateTime());
 
         return $this->processForm($request, $entity);
-
     }
 
     protected function getDownloadFilename()

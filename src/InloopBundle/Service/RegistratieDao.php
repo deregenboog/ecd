@@ -5,16 +5,16 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 use InloopBundle\Entity\Registratie;
-use InloopBundle\Filter\RegistratieFilter;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManager;
-use Knp\Component\Pager\PaginatorInterface;
 use InloopBundle\Event\Events;
+use InloopBundle\Filter\RegistratieFilter;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {

@@ -4,9 +4,9 @@ namespace HsBundle\Service;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
+use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Vrijwilliger;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use HsBundle\Entity\Dienstverlener;
 
 interface VrijwilligerDaoInterface
 {
