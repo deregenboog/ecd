@@ -13,6 +13,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\MedewerkerType;
 
 class VrijwilligerdossierType extends AbstractType
 {
@@ -24,6 +25,7 @@ class VrijwilligerdossierType extends AbstractType
         $dossier = $options['data'];
 
         $builder->add('aanmelddatum', AppDateType::class);
+        $builder->add('medewerker', MedewerkerType::class);
 
         if ($this->hasVrijwilliger($dossier)) {
             $builder->add('vrijwilliger', DummyChoiceType::class, [

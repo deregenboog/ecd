@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\MedewerkerType;
 
 class VrijwilligerdossierFilterType extends AbstractType
 {
@@ -29,6 +30,13 @@ class VrijwilligerdossierFilterType extends AbstractType
         if (in_array('groep', $options['enabled_filters'])) {
             $builder->add('groep', GroepSelectType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'data' => null,
             ]);
         }
 
@@ -71,6 +79,7 @@ class VrijwilligerdossierFilterType extends AbstractType
             'enabled_filters' => [
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
                 'groep',
+                'medewerker',
                 'aanmelddatum',
                 'afsluitdatum',
                 'filter',

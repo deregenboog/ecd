@@ -23,9 +23,12 @@
         <div class="tab-content">
             <div id="intake" class="tab-pane active">
                 <h2>Aanmelding</h2>
+                {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
                 <dl class="dl-horizontal">
                     <dt>Aanmelddatum</dt>
                     <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
+                    <dt>Medewerker</dt>
+                    <dd>{{ entity.medewerker }}</dd>
                 </dl>
             </div>
         </div>

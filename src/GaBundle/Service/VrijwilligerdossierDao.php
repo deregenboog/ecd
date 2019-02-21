@@ -17,6 +17,7 @@ class VrijwilligerdossierDao extends AbstractDao implements VrijwilligerdossierD
             'vrijwilliger.achternaam',
             'werkgebied.naam',
             'groep.naam',
+            'medewerker.voornaam',
             'dossier.aanmelddatum',
             'dossier.afsluitdatum',
         ],
@@ -31,6 +32,7 @@ class VrijwilligerdossierDao extends AbstractDao implements VrijwilligerdossierD
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, vrijwilliger, werkgebied, lidmaatschap, groep")
             ->innerJoin("{$this->alias}.vrijwilliger", 'vrijwilliger')
+            ->leftJoin($this->alias.'.medewerker', 'medewerker')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.lidmaatschappen", 'lidmaatschap')
             ->leftJoin('lidmaatschap.groep', 'groep')

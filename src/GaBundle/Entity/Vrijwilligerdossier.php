@@ -7,6 +7,7 @@ use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\OptionalMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -15,6 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilligerdossier extends Dossier
 {
+    use OptionalMedewerkerTrait;
+
     /**
      * @var Vrijwilliger
      *

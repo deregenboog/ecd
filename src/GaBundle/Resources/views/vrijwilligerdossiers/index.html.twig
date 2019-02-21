@@ -11,7 +11,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="6">
+                    <th colspan="7">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -34,6 +34,10 @@
                     <th>
                         {{ form_widget(filter.groep) }}
                         {{ form_errors(filter.groep) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
                     </th>
                     <th>
                         {{ form_widget(filter.aanmelddatum.start) }}
@@ -63,6 +67,9 @@
                     {{ knp_pagination_sortable(pagination, 'Groep(en)', 'groep.naam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'dossier.aanmelddatum') }}
                 </th>
                 <th>
@@ -88,6 +95,9 @@
                                 <li>{{ lidmaatschap.groep.naam }}</li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td>
+                        {{ dossier.medewerker }}
                     </td>
                     <td>
                         {{ dossier.aanmelddatum|date('d-m-Y') }}
