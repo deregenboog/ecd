@@ -56,7 +56,6 @@ class IntakeFilterType extends AbstractType
                 'locatie',
                 'datum',
                 'filter',
-                'download',
             ],
         ]);
     }
