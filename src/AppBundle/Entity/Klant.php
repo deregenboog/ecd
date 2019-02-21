@@ -230,6 +230,16 @@ class Klant extends Persoon
         return $this->registraties->matching($criteria);
     }
 
+    public function getRegistratiesSinds(\DateTime $date)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gte('buiten', $date))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->registraties->matching($criteria);
+    }
+
     public function getLaatsteRegistratie()
     {
         $registraties = $this->getRecenteRegistraties(1);
