@@ -5,7 +5,6 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
-use AppBundle\Service\KlantDaoInterface;
 use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Locatie;
@@ -18,6 +17,7 @@ use InloopBundle\Form\RegistratieFilterType;
 use InloopBundle\Form\RegistratieHistoryFilterType;
 use InloopBundle\Form\RegistratieType;
 use InloopBundle\Security\Permissions;
+use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -49,7 +49,7 @@ class RegistratiesController extends AbstractController
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @DI\Inject("InloopBundle\Service\KlantDao")
      */
     protected $klantDao;
 

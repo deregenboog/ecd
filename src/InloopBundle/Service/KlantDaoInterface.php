@@ -4,6 +4,7 @@ namespace InloopBundle\Service;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
+use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface KlantDaoInterface
@@ -15,6 +16,13 @@ interface KlantDaoInterface
      * @return PaginationInterface
      */
     public function findAll($page = null, FilterInterface $filter = null);
+
+    /**
+     * @param FilterInterface $filter
+     *
+     * @return QueryBuilder
+     */
+    public function getAllQueryBuilder(FilterInterface $filter = null);
 
     /**
      * @param int $id

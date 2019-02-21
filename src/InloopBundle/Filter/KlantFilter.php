@@ -8,8 +8,8 @@ use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Strategy\StrategyInterface;
 use InloopBundle\Entity\Toegang;
+use InloopBundle\Strategy\StrategyInterface;
 
 class KlantFilter implements FilterInterface
 {
@@ -67,10 +67,9 @@ class KlantFilter implements FilterInterface
 
         if ($this->strategy) {
             $builder
-                ->addSelect('laatsteIntake')
                 ->addSelect('huidigeStatus')
-                ->innerJoin('klant.laatsteIntake', 'laatsteIntake', 'WITH', 'laatsteIntake.toegangInloophuis = true')
                 ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
+                ->andWhere('laatsteIntake.toegangInloophuis = true')
             ;
             $this->strategy->buildQuery($builder);
         }

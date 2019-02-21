@@ -2,10 +2,14 @@
 
 namespace InloopBundle\Command;
 
-use AppBundle\Service\KlantDaoInterface;
+use AppBundle\Entity\Klant;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Toegang;
 use InloopBundle\Filter\KlantFilter;
+use InloopBundle\Filter\LocatieFilter;
+use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Strategy\AmocStrategy;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
@@ -13,10 +17,6 @@ use InloopBundle\Strategy\VerblijfsstatusStrategy;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use InloopBundle\Filter\LocatieFilter;
-use AppBundle\Entity\Klant;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 
 class UpdateAccessCommand extends ContainerAwareCommand
 {
@@ -46,7 +46,7 @@ class UpdateAccessCommand extends ContainerAwareCommand
     {
         $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $this->locatieDao = $this->getContainer()->get('InloopBundle\Service\LocatieDao');
-        $this->klantDao = $this->getContainer()->get('AppBundle\Service\KlantDao');
+        $this->klantDao = $this->getContainer()->get('InloopBundle\Service\KlantDao');
 
         $this->em->getFilters()->enable('overleden');
         $this->klantDao->setItemsPerPage(self::BATCH_SIZE);
@@ -81,7 +81,7 @@ class UpdateAccessCommand extends ContainerAwareCommand
             }
 
             $builder = $this->klantDao->getAllQueryBuilder($filter);
-            $klantIds = array_map(function($klantId) {
+            $klantIds = array_map(function ($klantId) {
                 return $klantId['id'];
             }, $builder->select('klant.id')->distinct(true)->getQuery()->getResult());
 
