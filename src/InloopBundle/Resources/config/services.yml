@@ -18,6 +18,7 @@ services:
             - "@logger"
             - "@templating"
             - "@mailer"
+            - '@knp_paginator'
             - "%informele_zorg_mail%"
             - "%dagbesteding_mail%"
             - "%inloophuis_mail%"

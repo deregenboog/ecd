@@ -5,8 +5,11 @@ namespace InloopBundle\Event;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Service\AccessUpdater;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\EntityManager;
 
 class IntakeSubscriber implements EventSubscriber
 {
@@ -22,6 +25,7 @@ class IntakeSubscriber implements EventSubscriber
         LoggerInterface $logger,
         EngineInterface $templating,
         \Swift_Mailer $mailer,
+        PaginatorInterface $paginator,
         $informeleZorgEmail,
         $dagbestedingEmail,
         $inloophuisEmail,
@@ -30,6 +34,7 @@ class IntakeSubscriber implements EventSubscriber
         $this->logger = $logger;
         $this->templating = $templating;
         $this->mailer = $mailer;
+        $this->paginator = $paginator;
         $this->informeleZorgEmail = $informeleZorgEmail;
         $this->dagbestedingEmail = $dagbestedingEmail;
         $this->inloophuisEmail = $inloophuisEmail;
@@ -45,13 +50,24 @@ class IntakeSubscriber implements EventSubscriber
 
     public function postPersist(LifecycleEventArgs $args)
     {
+        $this->updateAccess($args);
         $this->sendIntakeNotification($args);
+    }
+
+    public function updateAccess(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+        if (!$entity instanceof Intake) {
+            return;
+        }
+
+        $accessUpdater = new AccessUpdater($args->getEntityManager(), $this->paginator, 25000);
+        $accessUpdater->updateForClient($entity->getKlant());
     }
 
     public function sendIntakeNotification(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
-
         if (!$entity instanceof Intake) {
             return;
         }
