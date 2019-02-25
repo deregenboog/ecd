@@ -37,13 +37,13 @@ class IntakeFilter implements FilterInterface
         if ($this->datum) {
             if ($this->datum->getStart()) {
                 $builder
-                    ->andWhere('intake.datum >= :datum_start')
+                    ->andWhere('intake.intakedatum >= :datum_start')
                     ->setParameter('datum_start', $this->datum->getStart())
                 ;
             }
             if ($this->datum->getEnd()) {
                 $builder
-                    ->andWhere('intake.datum <= :datum_end')
+                    ->andWhere('intake.intakedatum <= :datum_end')
                     ->setParameter('datum_end', $this->datum->getEnd())
                 ;
             }
