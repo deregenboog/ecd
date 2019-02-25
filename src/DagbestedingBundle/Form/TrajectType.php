@@ -3,7 +3,10 @@
 namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
+use DagbestedingBundle\Entity\Locatie;
+use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Trajectafsluiting;
@@ -51,11 +54,17 @@ class TrajectType extends AbstractType
                     ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
                     ->add('begeleider')
-                    ->add('locaties', null, [
+                    ->add('locaties', BaseSelectType::class, [
+                        'class' => Locatie::class,
+                        'multiple' => true,
                         'expanded' => true,
+                        'current' => $options['data']->getLocaties(),
                     ])
-                    ->add('projecten', null, [
+                    ->add('projecten', BaseSelectType::class, [
+                        'class' => Project::class,
+                        'multiple' => true,
                         'expanded' => true,
+                        'current' => $options['data']->getProjecten(),
                     ])
                     ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
                 ;

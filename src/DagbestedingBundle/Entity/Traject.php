@@ -127,7 +127,7 @@ class Traject
     private $documenten;
 
     /**
-     * @var ArrayCollection|Werklocatie[]
+     * @var ArrayCollection|Locatie[]
      *
      * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="dagbesteding_traject_locatie")
@@ -136,7 +136,7 @@ class Traject
     private $locaties;
 
     /**
-     * @var ArrayCollection|Document[]
+     * @var ArrayCollection|Project[]
      *
      * @ORM\ManyToMany(targetEntity="Project")
      * @ORM\JoinTable(name="dagbesteding_traject_project")

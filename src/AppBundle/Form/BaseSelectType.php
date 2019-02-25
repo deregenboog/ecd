@@ -23,8 +23,8 @@ class BaseSelectType extends AbstractType
                 return function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('entity')
                         ->where('entity.actief = true')
-                        ->setParameter('current', $options['current'])
-                        ->orderBy('entity.naam');
+                        ->orderBy('entity.naam')
+                        ->setParameter('current', $options['current']);
 
                     if (is_array($options['current']) || $options['current'] instanceof Collection) {
                         return $builder->orWhere('entity IN (:current)');
