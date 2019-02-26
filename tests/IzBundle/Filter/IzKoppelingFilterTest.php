@@ -47,7 +47,7 @@ class KoppelingFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingStartdatum >= :koppelingStartdatum_van',
+            'hulpvraag.koppelingStartdatum >= :koppelingStartdatum_van AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now)',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -65,7 +65,7 @@ class KoppelingFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingEinddatum <= :koppelingEinddatum_tot',
+            'hulpvraag.koppelingEinddatum <= :koppelingEinddatum_tot AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now)',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -103,7 +103,7 @@ class KoppelingFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.project = :project',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpvraag.project = :project',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -122,7 +122,7 @@ class KoppelingFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.medewerker = :hulpvraagMedewerker',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpvraag.medewerker = :hulpvraagMedewerker',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -141,7 +141,7 @@ class KoppelingFilterTest extends TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpaanbod.medewerker = :hulpaanbodMedewerker',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpaanbod.medewerker = :hulpaanbodMedewerker',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
