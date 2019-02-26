@@ -101,6 +101,7 @@ class HulpvraagFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HulpvraagFilter::class,
+            'data' => new HulpvraagFilter(),
             'enabled_filters' => [
                 'startdatum',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
