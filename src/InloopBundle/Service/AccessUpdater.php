@@ -11,6 +11,7 @@ use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\LocatieFilter;
 use InloopBundle\Strategy\AmocStrategy;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
+use InloopBundle\Strategy\OndroBongStrategy;
 use InloopBundle\Strategy\VerblijfsstatusStrategy;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -57,6 +58,7 @@ class AccessUpdater
         $strategies = [
             new GebruikersruimteStrategy(),
             new AmocStrategy(),
+            new OndroBongStrategy(),
             new VerblijfsstatusStrategy(),
         ];
 
@@ -111,6 +113,7 @@ class AccessUpdater
             $strategies = [
                 new GebruikersruimteStrategy(),
                 new AmocStrategy(),
+                new OndroBongStrategy(),
                 new VerblijfsstatusStrategy(),
             ];
 

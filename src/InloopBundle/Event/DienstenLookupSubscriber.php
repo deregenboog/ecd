@@ -45,6 +45,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 foreach ($toegang as $t) {
                     $locaties[] = (string) $t->getLocatie();
                 }
+                sort($locaties);
                 $dienst = [
                     'name' => 'Inloophuizen',
                     'url' => null,

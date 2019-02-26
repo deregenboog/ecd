@@ -118,7 +118,7 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->huidigeStatus) {
-            $builder->where($builder->expr()->isInstanceOf('status', $this->huidigeStatus));
+            $builder->andWhere($builder->expr()->isInstanceOf('status', $this->huidigeStatus));
         }
 
         if ($this->klant) {

@@ -103,6 +103,15 @@ class Intake
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="ondro_bong_toegang_van", type="date", nullable=true)
+     * @Gedmo\Versioned
+     * @Assert\Date
+     */
+    private $ondroBongToegangVan;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
      * @Gedmo\Versioned
      * @Assert\Date
@@ -468,6 +477,16 @@ class Intake
     public function setAmocToegangTot(\DateTime $amocToegangTot = null)
     {
         $this->amocToegangTot = $amocToegangTot;
+
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $ondroBongToegangVan
+     */
+    public function setOndroBongToegangVan(\DateTime $ondroBongToegangVan = null)
+    {
+        $this->ondroBongToegangVan = $ondroBongToegangVan;
 
         return $this;
     }
@@ -1132,6 +1151,11 @@ class Intake
     public function getAmocToegangTot()
     {
         return $this->amocToegangTot;
+    }
+
+    public function getOndroBongToegangVan()
+    {
+        return $this->ondroBongToegangVan;
     }
 
     public function getOverigenToegangVan()

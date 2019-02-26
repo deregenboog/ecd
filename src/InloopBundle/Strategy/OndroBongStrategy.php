@@ -5,10 +5,10 @@ namespace InloopBundle\Strategy;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
-class AmocStrategy implements StrategyInterface
+class OndroBongStrategy implements StrategyInterface
 {
     // @todo do not define database ID here
-    private $locatieIds = [5, 12, 22];
+    private $locatieIds = [13];
 
     public function supports(Locatie $locatie)
     {
@@ -18,11 +18,10 @@ class AmocStrategy implements StrategyInterface
     /**
      * {@inheritdoc}
      *
-     * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
-     * @see https://github.com/deregenboog/ecd/issues/249
+     * @see https://github.com/deregenboog/ecd/issues/749
      */
     public function buildQuery(QueryBuilder $builder)
     {
-        $builder->andWhere('laatsteIntake.amocToegangTot IS NULL OR laatsteIntake.amocToegangTot >= DATE(NOW())');
+        $builder->andWhere('laatsteIntake.ondroBongToegangVan <= DATE(NOW())');
     }
 }

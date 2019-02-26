@@ -123,6 +123,9 @@ class IntakeType extends AbstractType
             ->add('amocToegangTot', AppDateType::class, [
                 'label' => 'Einddatum toegang AMOC',
             ])
+            ->add('ondroBongToegangVan', AppDateType::class, [
+                'label' => 'Startdatum toegang Ondro Bong',
+            ])
             ->add('overigenToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang overigen',
             ])
