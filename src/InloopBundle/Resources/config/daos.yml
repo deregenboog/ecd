@@ -27,6 +27,8 @@ services:
 
     InloopBundle\Service\IntakeDao:
         parent: inloop.dao
+        arguments:
+            - '@event_dispatcher'
 
     InloopBundle\Service\KlantDao:
         parent: inloop.dao

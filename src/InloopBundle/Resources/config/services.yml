@@ -13,19 +13,26 @@ parameters:
         vwspreekbuis: 15
 
 services:
+    InloopBundle\Service\AccessUpdater:
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@InloopBundle\Service\KlantDao'
+            - '@InloopBundle\Service\LocatieDao'
+
     InloopBundle\Event\IntakeSubscriber:
         arguments:
             - "@logger"
             - "@templating"
             - "@mailer"
-            - '@knp_paginator'
+            - '@InloopBundle\Service\AccessUpdater'
             - "%informele_zorg_mail%"
             - "%dagbesteding_mail%"
             - "%inloophuis_mail%"
             - "%hulpverlening_mail%"
         tags:
-            - { name: doctrine.event_subscriber }
-    
+            - { name: kernel.event_subscriber }
+
     InloopBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

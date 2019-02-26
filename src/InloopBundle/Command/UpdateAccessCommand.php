@@ -21,10 +21,7 @@ class UpdateAccessCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $paginator = $this->getContainer()->get('knp_paginator');
-
-        $this->accessUpdater = new AccessUpdater($em, $paginator, 25000);
+        $this->accessUpdater = $this->getContainer()->get('InloopBundle\Service\AccessUpdater');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

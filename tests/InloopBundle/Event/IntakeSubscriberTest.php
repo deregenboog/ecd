@@ -3,19 +3,20 @@
 namespace Tests\InloopBundle\Event;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Event\IntakeSubscriber;
+use InloopBundle\Service\AccessUpdater;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IntakeSubscriberTest extends TestCase
 {
     private $logger;
     private $templating;
     private $mailer;
+    private $accessUpdater;
     public $informeleZorgEmail = 'informele_zorg@example.org';
     public $dagbestedingEmail = 'dagbesteding@example.org';
     public $inloophuisEmail = 'inloophuis@example.org';
@@ -29,14 +30,13 @@ class IntakeSubscriberTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['send'])
             ->getMock();
+        $this->accessUpdater = $this->createMock(AccessUpdater::class);
     }
 
     public function testEmailIsSentOnIntakeCreationWithServices()
     {
         $intake = new Intake(new Klant());
         $intake->setInformeleZorg(true)->setInloophuis(true);
-
-        $entityManager = $this->createMock(EntityManager::class);
 
         $test = $this;
         $this->mailer->expects($this->once())
@@ -52,29 +52,25 @@ class IntakeSubscriberTest extends TestCase
         ;
 
         $subscriber = $this->createSUT();
-        $subscriber->postPersist(new LifecycleEventArgs($intake, $entityManager));
+        $subscriber->afterIntakeCreated(new GenericEvent($intake));
     }
 
     public function testNoEmailIsSentOnIntakeCreationWithoutServices()
     {
         $intake = new Intake(new Klant());
 
-        $entityManager = $this->createMock(EntityManager::class);
-
         $this->mailer->expects($this->never())
             ->method('send')
         ;
 
         $subscriber = $this->createSUT();
-        $subscriber->postPersist(new LifecycleEventArgs($intake, $entityManager));
+        $subscriber->afterIntakeCreated(new GenericEvent($intake));
     }
 
     public function testEmailSuccessIsLoggedAtDebugLevel()
     {
         $intake = new Intake(new Klant());
         $intake->setDagbesteding(true)->setHulpverlening(true);
-
-        $entityManager = $this->createMock(EntityManager::class);
 
         $this->mailer->expects($this->once())
             ->method('send')
@@ -96,15 +92,13 @@ class IntakeSubscriberTest extends TestCase
         ;
 
         $subscriber = $this->createSUT();
-        $subscriber->postPersist(new LifecycleEventArgs($intake, $entityManager));
+        $subscriber->afterIntakeCreated(new GenericEvent($intake));
     }
 
     public function testEmailFailureIsLoggedAtErrorLevel()
     {
         $intake = new Intake(new Klant());
         $intake->setDagbesteding(true)->setHulpverlening(true);
-
-        $entityManager = $this->createMock(EntityManager::class);
 
         $this->mailer->expects($this->once())
             ->method('send')
@@ -126,7 +120,7 @@ class IntakeSubscriberTest extends TestCase
         ;
 
         $subscriber = $this->createSUT();
-        $subscriber->postPersist(new LifecycleEventArgs($intake, $entityManager));
+        $subscriber->afterIntakeCreated(new GenericEvent($intake));
     }
 
     protected function createSUT()
@@ -135,6 +129,7 @@ class IntakeSubscriberTest extends TestCase
             $this->logger,
             $this->templating,
             $this->mailer,
+            $this->accessUpdater,
             $this->informeleZorgEmail,
             $this->dagbestedingEmail,
             $this->inloophuisEmail,

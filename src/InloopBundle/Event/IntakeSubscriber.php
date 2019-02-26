@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Event;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
@@ -10,8 +9,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
-class IntakeSubscriber implements EventSubscriber
+class IntakeSubscriber implements EventSubscriberInterface
 {
     private $logger;
     private $templating;
@@ -25,7 +26,7 @@ class IntakeSubscriber implements EventSubscriber
         LoggerInterface $logger,
         EngineInterface $templating,
         \Swift_Mailer $mailer,
-        PaginatorInterface $paginator,
+        AccessUpdater $accessUpdater,
         $informeleZorgEmail,
         $dagbestedingEmail,
         $inloophuisEmail,
@@ -34,55 +35,49 @@ class IntakeSubscriber implements EventSubscriber
         $this->logger = $logger;
         $this->templating = $templating;
         $this->mailer = $mailer;
-        $this->paginator = $paginator;
+        $this->accessUpdater = $accessUpdater;
         $this->informeleZorgEmail = $informeleZorgEmail;
         $this->dagbestedingEmail = $dagbestedingEmail;
         $this->inloophuisEmail = $inloophuisEmail;
         $this->hulpverleningEmail = $hulpverleningEmail;
     }
 
-    public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return [
-            'postPersist',
+            Events::INTAKE_CREATED => ['afterIntakeCreated'],
         ];
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function afterIntakeCreated(GenericEvent $event)
     {
-        $this->updateAccess($args);
-        $this->sendIntakeNotification($args);
-    }
-
-    public function updateAccess(LifecycleEventArgs $args)
-    {
-        $entity = $args->getObject();
-        if (!$entity instanceof Intake) {
+        $intake = $event->getSubject();
+        if (!$intake instanceof Intake) {
             return;
         }
 
-        $accessUpdater = new AccessUpdater($args->getEntityManager(), $this->paginator, 25000);
-        $accessUpdater->updateForClient($entity->getKlant());
+        $this->updateAccess($intake);
+        $this->sendIntakeNotification($intake);
     }
 
-    public function sendIntakeNotification(LifecycleEventArgs $args)
+    public function updateAccess(Intake $intake)
     {
-        $entity = $args->getObject();
-        if (!$entity instanceof Intake) {
-            return;
-        }
+        $this->accessUpdater->updateForClient($intake->getKlant());
+    }
 
+    public function sendIntakeNotification(Intake $intake)
+    {
         $addresses = [];
-        if ($entity->isInformeleZorg()) {
+        if ($intake->isInformeleZorg()) {
             $addresses[] = $this->informeleZorgEmail;
         }
-        if ($entity->isDagbesteding()) {
+        if ($intake->isDagbesteding()) {
             $addresses[] = $this->dagbestedingEmail;
         }
-        if ($entity->isInloophuis()) {
+        if ($intake->isInloophuis()) {
             $addresses[] = $this->inloophuisEmail;
         }
-        if ($entity->isHulpverlening()) {
+        if ($intake->isHulpverlening()) {
             $addresses[] = $this->hulpverleningEmail;
         }
         $addresses = array_unique($addresses);
@@ -92,7 +87,7 @@ class IntakeSubscriber implements EventSubscriber
         }
 
         $content = $this->templating->render('InloopBundle:intakes:aanmelding.txt.twig', [
-            'intake' => $entity,
+            'intake' => $intake,
         ]);
 
         /** @var \Swift_Mime_Message $message */
@@ -110,9 +105,9 @@ class IntakeSubscriber implements EventSubscriber
         }
 
         if ($sent) {
-            $this->logger->debug('Email intake verzonden', ['intake' => $entity->getId(), 'to' => $addresses]);
+            $this->logger->debug('Email intake verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);
         } else {
-            $this->logger->error('Email intake kon niet worden verzonden', ['intake' => $entity->getId(), 'to' => $addresses]);
+            $this->logger->error('Email intake kon niet worden verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);
         }
     }
 }

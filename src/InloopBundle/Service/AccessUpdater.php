@@ -31,11 +31,14 @@ class AccessUpdater
      */
     private $locatieDao;
 
-    public function __construct(EntityManager $em, PaginatorInterface $paginator)
-    {
+    public function __construct(
+        EntityManager $em,
+        KlantDaoInterface $klantDao,
+        LocatieDaoInterface $locatieDao
+    ) {
         $this->em = $em;
-        $this->klantDao = new KlantDao($em, $paginator, 10000);
-        $this->locatieDao = new LocatieDao($em, $paginator, 10000);
+        $this->klantDao = $klantDao;
+        $this->locatieDao = $locatieDao;
     }
 
     public function updateAll()
