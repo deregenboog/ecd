@@ -103,6 +103,7 @@ class HulpaanbodFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HulpaanbodFilter::class,
+            'data' => new HulpaanbodFilter(),
             'enabled_filters' => [
                 'startdatum',
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
