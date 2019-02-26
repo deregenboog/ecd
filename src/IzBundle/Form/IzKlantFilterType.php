@@ -130,6 +130,7 @@ class IzKlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzKlantFilter::class,
+            'data' => new IzKlantFilter(),
             'enabled_filters' => [
                 'afsluitDatum',
                 'openDossiers',

@@ -70,6 +70,7 @@ class HuurverzoekFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurverzoekFilter::class,
+            'data' => new HuurverzoekFilter(),
             'enabled_filters' => [
                 'id',
                 'klant' => ['naam'],

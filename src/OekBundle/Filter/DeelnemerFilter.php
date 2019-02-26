@@ -44,6 +44,11 @@ class DeelnemerFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $actief = true;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -122,6 +127,14 @@ class DeelnemerFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere('aanmelding.datum <= :today')
+                ->andWhere('afsluiting.datum > :today OR afsluiting.datum IS NULL')
+                ->setParameter('today', new \DateTime('today'))
+            ;
         }
 
         if ($this->klant) {

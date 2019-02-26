@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\MedewerkerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class VrijwilligerdossierFilterType extends AbstractType
 {
@@ -59,6 +60,13 @@ class VrijwilligerdossierFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
+                'required' => false,
+            ]);
+        }
+
         $builder->add('filter', SubmitType::class, [
             'label' => 'Filteren',
         ]);
@@ -82,6 +90,7 @@ class VrijwilligerdossierFilterType extends AbstractType
                 'medewerker',
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
                 'filter',
                 'download',
             ],

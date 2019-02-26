@@ -49,6 +49,13 @@ class VerhuurderFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
+                'required' => false,
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
@@ -70,10 +77,12 @@ class VerhuurderFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VerhuurderFilter::class,
+            'data' => new VerhuurderFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
                 'wpi',
                 'ksgw',
             ],

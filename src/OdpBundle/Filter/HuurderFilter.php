@@ -39,6 +39,11 @@ class HuurderFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $actief = true;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -109,6 +114,14 @@ class HuurderFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere('huurder.aanmelddatum <= :today')
+                ->andWhere('huurder.afsluitdatum > :today OR huurder.afsluitdatum IS NULL')
+                ->setParameter('today', new \DateTime('today'))
+            ;
         }
 
         if ($this->wpi) {

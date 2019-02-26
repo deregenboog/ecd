@@ -30,6 +30,11 @@ abstract class DossierFilter implements FilterInterface
      */
     public $afsluitdatum;
 
+    /**
+     * @var bool
+     */
+    public $actief = true;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->groep) {
@@ -74,6 +79,14 @@ abstract class DossierFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere("dossier.aanmelddatum <= :today")
+                ->andWhere("dossier.afsluitdatum > :today OR dossier.afsluitdatum IS NULL")
+                ->setParameter('today', new \DateTime('today'))
+            ;
         }
     }
 }

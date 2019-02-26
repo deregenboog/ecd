@@ -43,7 +43,7 @@ class HuurovereenkomstFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $actief;
+    public $actief = true;
 
     /**
      * @var HuurderFilter

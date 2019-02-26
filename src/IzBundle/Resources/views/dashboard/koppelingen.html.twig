@@ -57,8 +57,10 @@
                                     {{ form_errors(filter.project) }}
                                 </th>
                                 <th>
-                                    {{ form_widget(filter.koppelingStartdatum) }}
-                                    {{ form_errors(filter.koppelingStartdatum) }}
+                                    {{ form_widget(filter.koppelingStartdatum.start) }}
+                                    {{ form_errors(filter.koppelingStartdatum.start) }}
+                                    {{ form_widget(filter.koppelingStartdatum.end) }}
+                                    {{ form_errors(filter.koppelingStartdatum.end) }}
                                 </th>
                                 <th>
                                     {{ form_widget(filter.klant.stadsdeel) }}

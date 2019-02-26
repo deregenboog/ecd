@@ -10,7 +10,7 @@ class VrijwilligerFilter implements FilterInterface
     public $alias = 'vrijwilliger';
 
     /**
-     * @var AppBundle\Filter\VrijwilligerFilter
+     * @var \AppBundle\Filter\VrijwilligerFilter
      */
     public $vrijwilliger;
 

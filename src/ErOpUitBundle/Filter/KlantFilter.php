@@ -29,6 +29,11 @@ class KlantFilter implements FilterInterface
      */
     public $uitschrijfdatum;
 
+    /**
+     * @var bool
+     */
+    public $actief = true;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->klant) {
@@ -63,6 +68,14 @@ class KlantFilter implements FilterInterface
                     ->setParameter("{$this->alias}_uitschrijfdatum_end", $this->uitschrijfdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere("{$this->alias}.inschrijfdatum <= :today")
+                ->andWhere("{$this->alias}.uitschrijfdatum > :today OR {$this->alias}.uitschrijfdatum IS NULL")
+                ->setParameter('today', new \DateTime('today'))
+            ;
         }
     }
 }

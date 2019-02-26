@@ -51,7 +51,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var string
      */
-    public $huidigeStatus;
+    public $huidigeStatus = Aanmelding::class;
 
     public function __construct(StrategyInterface $strategy = null)
     {

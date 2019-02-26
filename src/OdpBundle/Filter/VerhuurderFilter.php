@@ -24,6 +24,11 @@ class VerhuurderFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $actief = true;
+    
+	/**
      * @var KlantFilter
      */
     public $klant;
@@ -77,6 +82,14 @@ class VerhuurderFilter implements FilterInterface
             }
         }
 
+        if ($this->actief) {
+            $builder
+            ->andWhere('verhuurder.aanmelddatum <= :today')
+            ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
+            ->setParameter('today', new \DateTime('today'))
+            ;
+        }
+        
         if ($this->wpi) {
             $builder
                 ->andWhere('verhuurder.wpi = :wpi')

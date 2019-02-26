@@ -121,6 +121,7 @@ class KoppelingFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KoppelingFilter::class,
+            'data' => new KoppelingFilter(),
             'enabled_filters' => [
                 'koppelingStartdatum',
                 'koppelingEinddatum',

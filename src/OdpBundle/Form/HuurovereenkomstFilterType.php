@@ -117,6 +117,7 @@ class HuurovereenkomstFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurovereenkomstFilter::class,
+            'data' => new HuurovereenkomstFilter(),
             'enabled_filters' => [
                 'id',
                 'huurder' => ['automatischeIncasso', 'klant' => ['naam']],

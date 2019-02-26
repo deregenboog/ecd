@@ -51,11 +51,9 @@ class HuuraanbiedingenController extends SymfonyController
 
         $filter = $this->createForm(HuuraanbodFilterType::class);
         $filter->handleRequest($this->getRequest());
-        if ($filter->isSubmitted() && $filter->isValid()) {
-            $filter->getData()->applyTo($builder);
-            if ($filter->get('download')->isClicked()) {
-                return $this->download($builder);
-            }
+        $filter->getData()->applyTo($builder);
+        if ($filter->get('download')->isClicked()) {
+            return $this->download($builder);
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [

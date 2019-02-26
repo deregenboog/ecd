@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -65,6 +66,13 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
+                'required' => false,
+            ]);
+        }
+
         $builder->add('filter', SubmitType::class, [
             'label' => 'Filteren',
         ]);
@@ -81,12 +89,14 @@ class DeelnemerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DeelnemerFilter::class,
+            'data' => new DeelnemerFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'training',
                 'heeftAfgerondeTraining',
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
             ],
         ]);
     }

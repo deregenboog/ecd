@@ -131,6 +131,7 @@ class IzVrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzVrijwilligerFilter::class,
+            'data' => new IzVrijwilligerFilter(),
             'enabled_filters' => [
                 'afsluitDatum',
                 'openDossiers',

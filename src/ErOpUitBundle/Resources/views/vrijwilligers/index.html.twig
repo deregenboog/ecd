@@ -26,13 +26,13 @@
                     {{ knp_pagination_sortable(pagination, 'Naam', 'appVrijwilliger.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
-                </th>
-                <th>
                     {{ knp_pagination_sortable(pagination, 'Inschrijfdatum', 'vrijwilliger.inschrijfdatum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Uitschrijfdatum', 'vrijwilliger.uitschrijfdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
             </tr>
         </thead>
@@ -41,13 +41,13 @@
                 <tr data-href="{{ path(route_base~'view', {id: entity.id}) }}" class="{{ entity.uitgeschreven ? 'warning' }}">
                     <td>{{ entity.vrijwilliger.id }}</td>
                     <td>{{ entity }}</td>
-                    <td>{{ entity.vrijwilliger.werkgebied }}</td>
                     <td>{{ entity.inschrijfdatum|date('d-m-Y') }}</td>
                     <td>
                         {% if entity.uitschrijfdatum %}
                             {{ entity.uitschrijfdatum|date('d-m-Y') }} ({{ entity.uitschrijfreden }})
                         {% endif %}
                     </td>
+                    <td>{{ entity.vrijwilliger.werkgebied }}</td>
                 </tr>
             {% endfor %}
         </tbody>

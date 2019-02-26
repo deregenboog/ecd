@@ -27,7 +27,7 @@ class HuuraanbodFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $actief;
+    public $actief = true;
 
     /**
      * @var KlantFilter

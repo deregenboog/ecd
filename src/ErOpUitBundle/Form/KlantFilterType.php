@@ -9,6 +9,7 @@ use ErOpUitBundle\Filter\KlantFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class KlantFilterType extends AbstractType
 {
@@ -35,6 +36,13 @@ class KlantFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
+                'required' => false,
+            ]);
+        }
     }
 
     /**
@@ -49,6 +57,7 @@ class KlantFilterType extends AbstractType
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'inschrijfdatum',
                 'uitschrijfdatum',
+                'actief',
                 'filter',
                 'download',
             ],

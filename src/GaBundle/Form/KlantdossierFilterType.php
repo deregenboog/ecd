@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class KlantdossierFilterType extends AbstractType
 {
@@ -51,6 +52,13 @@ class KlantdossierFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
+                'required' => false,
+            ]);
+        }
+
         $builder->add('filter', SubmitType::class, [
             'label' => 'Filteren',
         ]);
@@ -67,11 +75,13 @@ class KlantdossierFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantdossierFilter::class,
+            'data' => new KlantdossierFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'groep',
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
                 'filter',
                 'download',
             ],

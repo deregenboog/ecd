@@ -71,6 +71,7 @@ class HuuraanbodFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuuraanbodFilter::class,
+            'data' => new HuuraanbodFilter(),
             'enabled_filters' => [
                 'id',
                 'klant' => ['naam', 'stadsdeel'],

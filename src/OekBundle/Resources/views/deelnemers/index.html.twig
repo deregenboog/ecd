@@ -18,7 +18,12 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="7">
+                <th colspan="5">
+                </th>
+                <th>
+                    {{ form_widget(filter.actief) }}
+                </th>
+                <th>
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -43,10 +48,6 @@
                     {{ form_errors(filter.training) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.heeftAfgerondeTraining) }}
-                    {{ form_errors(filter.heeftAfgerondeTraining) }}
-                </th>
-                <th>
                     {{ form_widget(filter.aanmelddatum.start) }}
                     {{ form_errors(filter.aanmelddatum.start) }}
                     {{ form_widget(filter.aanmelddatum.end) }}
@@ -57,6 +58,10 @@
                     {{ form_errors(filter.afsluitdatum.start) }}
                     {{ form_widget(filter.afsluitdatum.end) }}
                     {{ form_errors(filter.afsluitdatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.heeftAfgerondeTraining) }}
+                    {{ form_errors(filter.heeftAfgerondeTraining) }}
                 </th>
             </tr>
         {{ form_end(filter) }}
@@ -74,13 +79,13 @@
                 {{ knp_pagination_sortable(pagination, 'Training(en)', 'training.naam') }}
             </th>
             <th>
-                Trainingen afgerond
-            </th>
-            <th>
                 {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'aanmelding.datum') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'afsluiting.datum') }}
+            </th>
+            <th>
+                Trainingen afgerond
             </th>
         </tr>
         {% for deelnemer in pagination %}
@@ -102,13 +107,13 @@
                     </ul>
                 </td>
                 <td>
-                    {{ deelnemer.afgerondeTrainingen|length }}
-                </td>
-                <td>
                     {{ deelnemer.aanmelding ? deelnemer.aanmelding.datum|date('d-m-Y') }}
                 </td>
                 <td>
                     {{ deelnemer.afsluiting ? deelnemer.afsluiting.datum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ deelnemer.afgerondeTrainingen|length }}
                 </td>
             </tr>
         {% endfor %}

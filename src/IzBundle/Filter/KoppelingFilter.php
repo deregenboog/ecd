@@ -35,7 +35,7 @@ class KoppelingFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $lopendeKoppelingen;
+    public $lopendeKoppelingen = true;
 
     /**
      * @var Project
