@@ -31,8 +31,8 @@
             <td>{{ verslag.medewerker }}</td>
             <td>{{ verslag.opmerking|nl2br }}</td>
             <td>
-                {{ html.editLink(path('odp_verslagen_edit', {id: verslag.id, redirect: app.request.get('url')})) }}
-                {{ html.deleteLink(path('odp_verslagen_delete', {id: verslag.id, redirect: app.request.get('url')})) }}
+                {{ html.editLink(path('odp_verslagen_edit', {id: verslag.id})) }}
+                {{ html.deleteLink(path('odp_verslagen_delete', {id: verslag.id})) }}
             </td>
         </tr>
     {% endfor %}

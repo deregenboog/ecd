@@ -75,8 +75,7 @@
             <tr data-href="{{ path('dagbesteding_trajecten_viewdagdelen', {
                         id: dagdeel.traject.id,
                         project: dagdeel.project.id,
-                        month: dagdeel.datum|date('Y-m'),
-                        redirect: app.request.get('url')
+                        month: dagdeel.datum|date('Y-m')
                     }) }}">
                 <td>
                     {{ dagdeel.traject.deelnemer.klant.id }}
