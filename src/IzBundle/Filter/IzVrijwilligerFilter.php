@@ -22,7 +22,7 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $openDossiers = true;
+    public $openDossiers;
 
     /**
      * @var VrijwilligerFilter

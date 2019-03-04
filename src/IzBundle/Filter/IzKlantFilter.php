@@ -22,7 +22,7 @@ class IzKlantFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $openDossiers = true;
+    public $openDossiers;
 
     /**
      * @var KlantFilter
