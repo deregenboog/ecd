@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\BaseSelectType;
 
 class DagdeelFilterType extends AbstractType
 {
@@ -36,7 +37,7 @@ class DagdeelFilterType extends AbstractType
 //         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', EntityType::class, [
+            $builder->add('project', BaseSelectType::class, [
                 'class' => Project::class,
                 'required' => false,
                 'placeholder' => '',
