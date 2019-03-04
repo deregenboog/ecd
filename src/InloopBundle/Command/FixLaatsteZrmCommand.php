@@ -26,6 +26,7 @@ class FixLaatsteZrmCommand extends ContainerAwareCommand
             ) AS zrms ON zrms.klant_id = klanten.id
             SET klanten.last_zrm = zrms.zrm_created
             WHERE klanten.last_zrm <> zrms.zrm_created
+            OR klanten.last_zrm IS NULL
         ');
 
         $output->writeln(sprintf('%d klanten bijgewerkt', $n));
