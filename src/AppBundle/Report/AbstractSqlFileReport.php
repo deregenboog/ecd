@@ -106,6 +106,8 @@ class AbstractSqlFileReport extends AbstractReport
             if (!$report) {
                 continue;
             }
+
+            $matches = [];
             preg_match('/-- HEAD:\s*(.*)\n/m', $report, $matches);
             if (empty($matches[1])) {
                 debug('Head not found:');
@@ -113,6 +115,7 @@ class AbstractSqlFileReport extends AbstractReport
             }
             $head = $matches[1];
 
+            $matches = [];
             preg_match('/-- FIELDS:\s*(.*)\n/m', $report, $matches);
             if (empty($matches[1])) {
                 debug('Fields not found:');
