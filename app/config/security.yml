@@ -46,6 +46,7 @@ security:
             guard:
                 authenticators:
                     - ldap_tools.security.ldap_guard_authenticator
+            switch_user: { role: ROLE_ADMIN }
 
         login:
             anonymous: ~
