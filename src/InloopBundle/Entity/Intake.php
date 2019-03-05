@@ -446,8 +446,16 @@ class Intake
         $this->intakedatum = new \DateTime();
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-        if ($this->zrm) {
+
+        $this->primaireProblematiek = null;
+        $this->primaireProblematiekFrequentie = null;
+        $this->primaireProblematiekGebruikswijzen = null;
+        $this->primaireProblematiekPeriode = null;
+
+        if ($this->zrm && get_class($this->zrm) === get_class(Zrm::create())) {
             $this->zrm = clone $this->zrm;
+        } else {
+            $this->zrm = null;
         }
     }
 

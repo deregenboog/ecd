@@ -41,11 +41,13 @@ class IntakeType extends AbstractType
 
         if ($options['data']->getZrm()) {
             $builder->add('zrm', ZrmType::class, [
+                'label' => 'ZRM',
                 'data_class' => get_class($options['data']->getZrm()),
                 'request_module' => 'Intake',
             ]);
         } else {
             $builder->add('zrm', ZrmType::class, [
+                'label' => 'ZRM',
                 'request_module' => 'Intake',
             ]);
         }
