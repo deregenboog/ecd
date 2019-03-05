@@ -3,7 +3,9 @@
 <h2>Intakes</h2>
 <p>
     {{ html.link('Overzicht intakes', path('inloop_intakes_index', {'intake_filter[klant][id]': klant.id}), 'view') }}
-    {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: klant.id}), 'add') }}
+    {% if klant.huidigeStatus.aangemeld %}
+        {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: klant.id}), 'add') }}
+    {% endif %}
 </p>
 <p>
     {{ html.link('Leeg intakeformulier printen', path('inloop_intakes_form'), 'print') }}
