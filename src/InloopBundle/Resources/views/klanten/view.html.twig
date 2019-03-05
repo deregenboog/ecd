@@ -11,9 +11,17 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    {% if entity.huidigeStatus.afgesloten %}
+        <p class="alert alert-danger">
+            Dit dossier is afgesloten.
+            {{ html.link('Inloopdossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
+        </p>
+    {% endif %}
     <p>
-        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
-        {{ html.link('Inloopdossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+        {% if entity.huidigeStatus.aangemeld %}
+            {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+            {{ html.link('Inloopdossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+        {% endif %}
         {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}
         {% if entity.doorverwijzenNaarAmoc or entity.land in amoc_landen %}
             {{ html.link('AMOC-brief printen', path(route_base~'amoc', {klant: entity.id}), 'print') }}
@@ -22,6 +30,12 @@
 {% endblock %}
 
 {% block content_left %}
+    <h2>Inloopdossier</h2>
+    <ul>
+        {% for status in entity.statussen %}
+            <li>{{ status }}</li>
+        {% endfor %}
+    </ul>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
@@ -44,11 +58,15 @@
                     {% if is_granted('edit', entity.laatsteIntake) and is_granted('owner', entity.laatsteIntake) %}
                         {{ html.link('Wijzigen', path('inloop_intakes_edit', {id: entity.laatsteIntake.id}), 'edit') }}
                     {% endif %}
-                    {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
+                    {% if entity.huidigeStatus.aangemeld %}
+                        {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
+                    {% endif %}
                 </p>
                 {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
             {% else %}
-                {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
+                {% if entity.huidigeStatus.aangemeld %}
+                    {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
+                {% endif %}
             {% endif %}
         </div>
         <div id="opmerkingen" class="tab-pane">

@@ -103,11 +103,19 @@ class Klant extends Persoon
     /**
      * @var DossierStatus
      *
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $huidigeStatus;
+
+    /**
+     * @var DossierStatus[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\DossierStatus", mappedBy="klant")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $statussen;
 
     /**
      * @var Registratie
@@ -379,6 +387,11 @@ class Klant extends Persoon
         $this->huidigeStatus = $huidigeStatus;
 
         return $this;
+    }
+
+    public function getStatussen()
+    {
+        return $this->statussen;
     }
 
     public function getZrms()

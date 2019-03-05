@@ -84,4 +84,14 @@ abstract class DossierStatus
 
         return $this;
     }
+
+    public function isAangemeld()
+    {
+        return $this instanceof Aanmelding;
+    }
+
+    public function isAfgesloten()
+    {
+        return $this instanceof Afsluiting;
+    }
 }
