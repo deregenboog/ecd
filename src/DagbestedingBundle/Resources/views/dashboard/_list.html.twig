@@ -2,7 +2,7 @@
     <thead>
         {{ form_start(filter) }}
             <tr>
-                <th colspan="7">
+                <th colspan="8">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -29,6 +29,10 @@
                 <th>
                     {{ form_widget(filter.project) }}
                     {{ form_errors(filter.project) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.locatie) }}
+                    {{ form_errors(filter.locatie) }}
                 </th>
                 <th>
                     {{ form_widget(filter.startdatum.start) }}
@@ -61,6 +65,9 @@
                 Project(en)
             </th>
             <th>
+                Locatie(s)
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
             </th>
             <th>
@@ -86,6 +93,13 @@
                 <ul>
                     {% for project in traject.projecten %}
                         <li>{{ project }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {% for locatie in traject.locaties %}
+                        <li>{{ locatie }}</li>
                     {% endfor %}
                 </ul>
             </td>

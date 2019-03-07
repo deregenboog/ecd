@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\BaseSelectType;
+use DagbestedingBundle\Entity\Locatie;
 
 class TrajectFilterType extends AbstractType
 {
@@ -63,6 +64,13 @@ class TrajectFilterType extends AbstractType
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', BaseSelectType::class, [
                 'class' => Project::class,
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('locatie', $options['enabled_filters'])) {
+            $builder->add('locatie', BaseSelectType::class, [
+                'class' => Locatie::class,
                 'required' => false,
             ]);
         }

@@ -9,6 +9,7 @@ use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Trajectbegeleider;
 use DagbestedingBundle\Entity\Trajectsoort;
 use Doctrine\ORM\QueryBuilder;
+use DagbestedingBundle\Entity\Locatie;
 
 class TrajectFilter implements FilterInterface
 {
@@ -46,6 +47,11 @@ class TrajectFilter implements FilterInterface
      * @var Project
      */
     public $project;
+
+    /**
+     * @var Locatie
+     */
+    public $locatie;
 
     /**
      * @var \DateTime
@@ -129,6 +135,13 @@ class TrajectFilter implements FilterInterface
             $builder
                 ->innerJoin('traject.projecten', 'project', 'WITH', 'project = :project')
                 ->setParameter('project', $this->project)
+            ;
+        }
+
+        if ($this->locatie) {
+            $builder
+                ->innerJoin('traject.locaties', 'locatie', 'WITH', 'locatie = :locatie')
+                ->setParameter('locatie', $this->locatie)
             ;
         }
 
