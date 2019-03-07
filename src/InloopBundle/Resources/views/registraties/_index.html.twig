@@ -1,7 +1,7 @@
 {% import '::html.macro.twig' as html -%}
 
 <table class="table table-hover table-fixed">
-    {{ colgroup(10) }}
+    {{ colgroup(11) }}
     <thead>
         <tr>
             <th>
@@ -22,6 +22,7 @@
             <th>3e locatie</th>
             <th>Nieuwe intake nodig</th>
             <th>Schorsingen</th>
+            <th>Opmerkingen</th>
         </tr>
     </thead>
     <tbody>
@@ -74,6 +75,11 @@
                         {% else %}
                             {{ klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
                         {% endif %}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('inloop_opmerkingen_index_1', {klant: klant.id, locatie: locatie.id}) }}">
+                        {{ klant.openstaandeOpmerkingen|length > 0 ? klant.openstaandeOpmerkingen|length~' opmerkingen' : 'geen' }}
                     </a>
                 </td>
             </tr>
