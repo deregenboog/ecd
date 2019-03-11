@@ -19,6 +19,10 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
+                    <th>
+                        {{ form_widget(filter.zonderTraject) }}
+                        {{ form_errors(filter.zonderTraject) }}
+                    </th>
                     <th colspan="5">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
@@ -38,6 +42,10 @@
                     <th>
                         {{ form_widget(filter.klant.stadsdeel) }}
                         {{ form_errors(filter.klant.stadsdeel) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
                     </th>
                     <th>
                         {{ form_widget(filter.aanmelddatum.start) }}
@@ -64,6 +72,9 @@
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'deelnemer.aanmelddatum') }}
                 </th>
                 <th>
@@ -82,6 +93,9 @@
                 </td>
                 <td>
                     {{ deelnemer.klant.werkgebied }}
+                </td>
+                <td>
+                    {{ deelnemer.medewerker }}
                 </td>
                 <td>
                     {{ deelnemer.aanmelddatum ? deelnemer.aanmelddatum|date('d-m-Y') }}
