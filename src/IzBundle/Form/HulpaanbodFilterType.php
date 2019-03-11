@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\MedewerkerType;
 
 class HulpaanbodFilterType extends AbstractType
 {
@@ -72,18 +73,17 @@ class HulpaanbodFilterType extends AbstractType
         }
 
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+            $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
+                'preset' => $options['preset_medewerker'],
             ]);
         }
 
@@ -112,6 +112,7 @@ class HulpaanbodFilterType extends AbstractType
                 'filter',
                 'download',
             ],
+            'preset_medewerker' => false,
         ]);
     }
 

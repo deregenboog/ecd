@@ -86,25 +86,10 @@ class DashboardController extends SymfonyController
      */
     public function hulpvragenAction(Request $request)
     {
-        $medewerker = $this->getMedewerker();
-
-        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
-            'label' => '',
-            'method' => 'GET',
-        ])->handleRequest($request);
-
         $filter = new HulpvraagFilter();
-        $filter->medewerker = $medewerker;
+        $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(HulpvraagFilterType::class, $filter, [
-            'enabled_filters' => [
-                'startdatum',
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
-                'project',
-                'filter',
-                'download',
-            ],
-        ]);
+        $form = $this->createForm(HulpvraagFilterType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -117,7 +102,6 @@ class DashboardController extends SymfonyController
         $hulpvragen = $this->hulpvraagDao->findAll($page, $filter);
 
         return [
-            'medewerker_filter' => $medewerkerForm->createView(),
             'filter' => $form->createView(),
             'pagination' => $hulpvragen,
         ];
@@ -128,15 +112,8 @@ class DashboardController extends SymfonyController
      */
     public function hulpaanbiedingenAction(Request $request)
     {
-        $medewerker = $this->getMedewerker();
-
-        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
-            'label' => '',
-            'method' => 'GET',
-        ])->handleRequest($request);
-
         $filter = new HulpaanbodFilter();
-        $filter->medewerker = $medewerker;
+        $filter->medewerker = $this->getMedewerker();
 
         $form = $this->createForm(HulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
@@ -152,6 +129,7 @@ class DashboardController extends SymfonyController
                     'overeenkomstAanwezig',
                 ],
                 'project',
+                'medewerker',
                 'filter',
                 'download',
             ],
@@ -168,7 +146,6 @@ class DashboardController extends SymfonyController
         $hulpaanbiedingen = $this->hulpaanbodDao->findAll($page, $filter);
 
         return [
-            'medewerker_filter' => $medewerkerForm->createView(),
             'filter' => $form->createView(),
             'pagination' => $hulpaanbiedingen,
         ];
@@ -179,15 +156,8 @@ class DashboardController extends SymfonyController
      */
     public function koppelingenAction(Request $request)
     {
-        $medewerker = $this->getMedewerker();
-
-        $medewerkerForm = $this->createForm(MedewerkerType::class, $medewerker, [
-            'label' => '',
-            'method' => 'GET',
-        ])->handleRequest($request);
-
         $filter = new KoppelingFilter();
-        $filter->medewerker = $medewerker;
+        $filter->medewerker = $this->getMedewerker();
         $filter->lopendeKoppelingen = true;
 
         $form = $this->createForm(KoppelingFilterType::class, $filter, [
@@ -196,6 +166,7 @@ class DashboardController extends SymfonyController
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',
+                'medewerker',
                 'filter',
                 'download',
             ],
@@ -212,7 +183,6 @@ class DashboardController extends SymfonyController
         $koppelingen = $this->koppelingDao->findAll($page, $filter);
 
         return [
-            'medewerker_filter' => $medewerkerForm->createView(),
             'filter' => $form->createView(),
             'pagination' => $koppelingen,
         ];

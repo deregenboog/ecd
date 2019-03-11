@@ -10,14 +10,11 @@
 {% endblock %}
 
 {% block content %}
-    <span class="pull-right">
-        {{ form(medewerker_filter) }}
-    </span>
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li><a href="{{ path('iz_dashboard_koppelingen', {medewerker: medewerker_filter.vars.value}) }}">Lopende koppelingen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpvragen</a></li>
-        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
+        <li><a href="{{ path('iz_dashboard_koppelingen') }}">Lopende koppelingen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Open hulpvragen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane">
@@ -28,7 +25,7 @@
                 <thead>
                     {{ form_start(filter) }}
                         <tr>
-                            <th colspan="10">
+                            <th colspan="11">
                                 <span class="pull-right">
                                     {{ form_widget(filter.filter) }}
                                     {{ form_widget(filter.download) }}
@@ -57,6 +54,10 @@
                                 {{ form_errors(filter.project) }}
                             </th>
                             <th>
+                                {{ form_widget(filter.medewerker) }}
+                                {{ form_errors(filter.medewerker) }}
+                            </th>
+                            <th>
                             </th>
                             <th>
                                 {{ form_widget(filter.startdatum) }}
@@ -82,6 +83,9 @@
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakeDatum') }}
@@ -120,6 +124,9 @@
                             </td>
                             <td>
                                 {{ hulpaanbod.project }}
+                            </td>
+                            <td>
+                                {{ hulpaanbod.medewerker }}
                             </td>
                             <td>
                                 {{ hulpaanbod.izVrijwilliger.intake.intakedatum|date('d-m-Y') }}
