@@ -41,7 +41,7 @@ class Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $medewerker;

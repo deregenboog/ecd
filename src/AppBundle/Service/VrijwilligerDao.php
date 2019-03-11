@@ -15,6 +15,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'vrijwilliger.id',
             'vrijwilliger.achternaam',
             'vrijwilliger.geboortedatum',
+            'medewerker.voornaam',
             'geslacht.volledig',
             'werkgebied.naam',
             'postcodegebied.naam',
@@ -34,6 +35,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->leftJoin("{$this->alias}.medewerker", 'medewerker')
             ->leftJoin("{$this->alias}.geslacht", 'geslacht')
             ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
             ->leftJoin("{$this->alias}.postcodegebied", 'postcodegebied')

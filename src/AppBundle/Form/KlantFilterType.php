@@ -78,6 +78,13 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'preset' => false,
+            ]);
+        }
+
         if (in_array('stadsdeel', $options['enabled_filters'])) {
             $builder->add('stadsdeel', StadsdeelSelectType::class);
         }
@@ -105,6 +112,7 @@ class KlantFilterType extends AbstractType
                 'naam',
                 'geslacht',
                 'geboortedatum',
+                'medewerker',
                 'stadsdeel',
                 'postcodegebied',
             ],

@@ -89,17 +89,9 @@ class VrijwilligerFilterType extends AbstractType
         }
 
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+            $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
-                'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('medewerker')
-                        ->select('DISTINCT medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
-                        ->orderBy('medewerker.voornaam', 'ASC')
-                    ;
-                },
+                'preset' => false,
             ]);
         }
 
@@ -118,6 +110,7 @@ class VrijwilligerFilterType extends AbstractType
                 'naam',
                 'geslacht',
                 'geboortedatum',
+                'medewerker',
                 'stadsdeel',
                 'postcodegebied',
             ],
