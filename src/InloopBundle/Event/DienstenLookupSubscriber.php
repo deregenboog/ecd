@@ -41,33 +41,38 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         if ($klant->getLaatsteIntake()) {
             $toegang = $this->entityManager->getRepository(Toegang::class)->findBy(['klant' => $klant]);
             if (count($toegang) > 0) {
-                $locaties = [];
+                $inloophuizen = [];
+                $gebruikersruimtes = [];
                 foreach ($toegang as $t) {
-                    $locaties[] = (string) $t->getLocatie();
+                    if ($t->getLocatie()->isGebruikersruimte()) {
+                        $gebruikersruimtes[] = (string) $t->getLocatie();
+                    } else {
+                        $inloophuizen[] = (string) $t->getLocatie();
+                    }
                 }
-                sort($locaties);
-                $dienst = [
-                    'name' => 'Inloophuizen',
-                    'url' => null,
-                    'from' => null,
-                    'to' => null,
-                    'type' => 'string',
-                    'value' => implode(', ', $locaties),
-                ];
-                $event->addDienst($dienst);
+                if (count($inloophuizen) > 0) {
+                    sort($inloophuizen);
+                    $event->addDienst([
+                        'name' => 'Inloophuizen',
+                        'url' => null,
+                        'from' => null,
+                        'to' => null,
+                        'type' => 'string',
+                        'value' => implode(', ', $inloophuizen),
+                    ]);
+                }
+                if (count($gebruikersruimtes) > 0) {
+                    sort($gebruikersruimtes);
+                    $event->addDienst([
+                        'name' => 'Gebr. ruimte',
+                        'url' => null,
+                        'from' => null,
+                        'to' => null,
+                        'type' => 'string',
+                        'value' => implode(', ', $gebruikersruimtes),
+                    ]);
+                }
             }
-        }
-
-        if ($klant->getLaatsteIntake() && $klant->getLaatsteIntake()->getGebruikersruimte()) {
-            $dienst = [
-                'name' => 'Gebr. ruimte',
-                'url' => null,
-                'from' => null,
-                'to' => null,
-                'type' => 'string',
-                'value' => $klant->getLaatsteIntake()->getGebruikersruimte(),
-            ];
-            $event->addDienst($dienst);
         }
     }
 }

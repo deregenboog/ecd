@@ -30,7 +30,9 @@ class GebruikersruimteStrategy implements StrategyInterface
             ->leftJoin('recent.registratie', 'recenteRegistratie', 'WITH', 'DATE(recenteRegistratie.buiten) > :two_months_ago')
             ->andWhere('laatsteIntakeGebruikersruimte.id = :locatie_id')
             ->groupBy('klant.id')
-            ->having('COUNT(recenteRegistratie) > 0 OR COUNT(registratie.id) = 0') // recent of nog nooit geregistreerd op deze locatie
+            ->having('COUNT(recenteRegistratie) > 0') // recent geregistreerd op deze locatie
+            ->orHaving('COUNT(registratie.id) = 0') // of nog nooit geregistreerd op deze locatie
+            ->orHaving('MAX(laatsteIntake.intakedatum) > :two_months_ago') // of recent intake gehad
             ->setParameter('locatie_id', $this->locatie->getId())
             ->setParameter('two_months_ago', new \DateTime('-2 months'))
         ;
