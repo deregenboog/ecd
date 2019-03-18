@@ -28,6 +28,7 @@ class DeelnemerFilterType extends AbstractType
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
+                'preset' => false,
             ]);
         }
 
