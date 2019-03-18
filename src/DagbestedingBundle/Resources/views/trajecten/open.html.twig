@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Traject heropenen</h1>
+    <p>
+        Weet u zeker dat u traject
+        {{ html.link(entity, path('dagbesteding_trajecten_view', {id: entity.id})) }}
+        wilt heropenen?
+    </p>
+    {{ form(form) }}
+{% endblock %}
