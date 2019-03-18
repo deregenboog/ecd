@@ -8,7 +8,7 @@
         {{ entity.koppeling.hulpaanbod|naam_vrijwilliger }}
     </h1>
     {% if entity.afgesloten %}
-        {% if entity.closeable %}
+        {% if entity.izKlant.closeable %}
             <div class="alert alert-danger" role="alert">
                 Deelnemer {{ entity.izKlant }} heeft geen open hulpvragen of actieve koppelingen.
                 Sluit het dossier af of maak een nieuwe hulpvraag aan.
