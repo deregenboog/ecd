@@ -26,6 +26,11 @@
                 <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
                     Document downloaden
                 </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <span class="pull-right">
+                        {{ html.deleteLink(path('pfo_documenten_delete', {id: document.id})) }}
+                    </span>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

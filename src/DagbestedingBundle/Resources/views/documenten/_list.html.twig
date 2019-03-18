@@ -8,8 +8,7 @@
         {% set url = path('dagbesteding_documenten_add', {rapportage: rapportage.id}) %}
     {% endif %}
     {% if url is defined %}
-        {{ html.addLink(url) }}
-        {{ html.link('Document toevoegen', url) }}
+        {{ html.link('Document toevoegen', url, 'add') }}
     {% endif %}
 </p>
 <table class="table">
