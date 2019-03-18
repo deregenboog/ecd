@@ -89,15 +89,17 @@ class IntakeType extends AbstractType
     {
         return $builder
             ->create('adresgegevens', null, [
+                'required' => true,
                 'compound' => true,
                 'inherit_data' => true,
             ])
-            ->add('postadres')
-            ->add('postcode')
-            ->add('woonplaats')
-            ->add('telefoonnummer')
+            ->add('postadres', null, ['required' => false])
+            ->add('postcode', null, ['required' => false])
+            ->add('woonplaats', null, ['required' => false])
+            ->add('telefoonnummer', null, ['required' => false])
             ->add('verblijfInNederlandSinds', AppDateType::class, [
                 'label' => 'Verblijf in Nederland sinds',
+                'required' => false,
             ])
             ->add('verblijfInAmsterdamSinds', AppDateType::class, [
                 'label' => 'Verblijf in Amsterdam sinds',
@@ -215,6 +217,7 @@ class IntakeType extends AbstractType
     {
         return $builder
             ->create('inkomenWoonsituatie', null, [
+                'required' => true,
                 'compound' => true,
                 'inherit_data' => true,
             ])
@@ -222,11 +225,13 @@ class IntakeType extends AbstractType
                 'class' => Inkomen::class,
                 'expanded' => true,
                 'multiple' => true,
+                'required' => true,
             ])
-            ->add('inkomenOverig')
+            ->add('inkomenOverig', null, ['required' => false])
             ->add('woonsituatie', EntityType::class, [
                 'class' => Woonsituatie::class,
                 'required' => true,
+                'placeholder' => '',
             ])
         ;
     }
@@ -252,6 +257,7 @@ class IntakeType extends AbstractType
     {
         return $builder
             ->create('verwachtingenPlannen', null, [
+                'required' => true,
                 'compound' => true,
                 'inherit_data' => true,
             ])
@@ -264,10 +270,11 @@ class IntakeType extends AbstractType
     {
         return $builder
             ->create('indrukDoelgroep', null, [
+                'required' => true,
                 'compound' => true,
                 'inherit_data' => true,
             ])
-            ->add('indruk', AppTextareaType::class)
+            ->add('indruk', AppTextareaType::class, ['required' => false])
             ->add('doelgroep', JaNeeType::class, ['required' => true])
         ;
     }

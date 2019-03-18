@@ -5,6 +5,7 @@ namespace MwBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Aanmelding;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -56,7 +57,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function create(Klant $entity)
     {
-        $this->doCreate($entity);
+        $aanmelding = new Aanmelding($entity, $entity->getMedewerker());
+        $entity->setHuidigeStatus($aanmelding);
+
+        return parent::doCreate($entity);
     }
 
     public function update(Klant $entity)
