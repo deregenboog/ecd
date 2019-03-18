@@ -145,6 +145,10 @@ abstract class AbstractController extends SymfonyController
         $entity = $this->dao->find($id);
         $this->afterFind($entity);
 
+        if (!$entity) {
+            return $this->redirectToIndex();
+        }
+
         $params = ['entity' => $entity];
 
         $params = array_merge($params, $this->addParams($entity, $request));
