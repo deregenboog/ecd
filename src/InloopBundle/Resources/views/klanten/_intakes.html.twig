@@ -3,7 +3,7 @@
 <h2>Intakes</h2>
 <p>
     {{ html.link('Overzicht intakes', path('inloop_intakes_index', {'intake_filter[klant][id]': klant.id}), 'view') }}
-    {% if klant.huidigeStatus.aangemeld or not klant.huidigeStatus %}
+    {% if not klant.huidigeStatus or klant.huidigeStatus.aangemeld %}
         {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: klant.id}), 'add') }}
     {% endif %}
 </p>
