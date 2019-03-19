@@ -1,0 +1,6 @@
+services:
+    BuurtboerderijBundle\Service\AfsluitredenDao:
+        parent: app.dao.abstract
+
+    BuurtboerderijBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
