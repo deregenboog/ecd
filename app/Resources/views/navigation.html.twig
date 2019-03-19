@@ -18,6 +18,9 @@
 {% if is_granted('ROLE_MW') %}
     {{ html.navLink('Maatschappelijk werk', path('mw_index'), isActiveRoute('mw_')) }}
 {% endif %}
+{% if is_granted('CONTROLLER_APP_VRIJWILLIGERS') %}
+    {{ html.navLink('Buurtboerderij', path('buurtboerderij_index'), isActiveRoute('buurtboerderij_')) }}
+{% endif %}
 {% if is_granted('ROLE_CLIP') %}
     {{ html.navLink('CLIP', path('clip_index'), isActiveRoute('clip_')) }}
 {% endif %}

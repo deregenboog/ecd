@@ -1,7 +1,7 @@
 {% use "bootstrap_3_horizontal_layout.html.twig" %}
 
 {% block form_start -%}
-    {% if not form.vars.valid -%}
+    {% if 0 == form.vars.errors|length and not form.vars.valid -%}
         <div class="alert alert-danger" role="alert">
             LET OP! Dit formulier is nog niet opgeslagen. Herstel de fouten in
             dit formulier en klik nogmaals op "Opslaan".

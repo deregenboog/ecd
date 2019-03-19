@@ -15,6 +15,10 @@ logout:
 _app:
     resource: "@AppBundle/Resources/config/routing.yml"
 
+_buurtboerderij:
+    resource: "@BuurtboerderijBundle/Resources/config/routing.yml"
+    prefix: /buurtboerderij
+
 _clip:
     resource: "@ClipBundle/Resources/config/routing.yml"
     prefix: /clip

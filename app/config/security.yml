@@ -56,6 +56,7 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/medewerkers, roles: ROLE_ADMIN }
+        - { path: ^/buurtboerderij, roles: CONTROLLER_APP_VRIJWILLIGERS }
         - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
         - { path: ^/clip, roles: ROLE_CLIP }
         - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }

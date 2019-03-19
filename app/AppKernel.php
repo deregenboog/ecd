@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 
             new AppBundle\AppBundle(),
+            new BuurtboerderijBundle\BuurtboerderijBundle(),
             new ClipBundle\ClipBundle(),
             new DagbestedingBundle\DagbestedingBundle(),
             new ErOpUitBundle\ErOpUitBundle(),
