@@ -19,6 +19,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.geboortedatum',
             'werkgebied.naam',
             'klant.laatsteZrm',
+            'aanmeldingMedewerker.voornaam',
             'intakeMedewerker.voornaam',
             'hulpvraagMedewerker.voornaam',
             'izKlant.afsluitDatum',
@@ -36,6 +37,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select('izKlant, klant, hulpvraag, project, intake, intakeMedewerker, hulpvraagMedewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->leftJoin('izKlant.medewerker', 'aanmeldingMedewerker')
             ->leftJoin('izKlant.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
             ->leftJoin('izKlant.hulpvragen', 'hulpvraag')

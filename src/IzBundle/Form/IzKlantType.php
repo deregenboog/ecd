@@ -13,6 +13,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\MedewerkerType;
 
 class IzKlantType extends AbstractType
 {
@@ -34,6 +35,7 @@ class IzKlantType extends AbstractType
 
         $builder
             ->add('datumAanmelding', AppDateType::class)
+            ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('contactOntstaan', ContactOntstaanSelectType::class)
             ->add('organisatieAanmelder', null, [
                 'required' => false,

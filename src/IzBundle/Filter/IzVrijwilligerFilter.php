@@ -42,6 +42,11 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var Medewerker
      */
+    public $aanmeldingMedewerker;
+
+    /**
+     * @var Medewerker
+     */
     public $intakeMedewerker;
 
     /**
@@ -105,6 +110,13 @@ class IzVrijwilligerFilter implements FilterInterface
                     ;
                     break;
             }
+        }
+
+        if ($this->aanmeldingMedewerker) {
+            $builder
+                ->andWhere('aanmeldingMedewerker = :aanmeldingMedewerker')
+                ->setParameter('aanmeldingMedewerker', $this->aanmeldingMedewerker)
+            ;
         }
 
         if ($this->intakeMedewerker) {

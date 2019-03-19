@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\OptionalMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -23,7 +24,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class IzDeelnemer
 {
-    use TimestampableTrait;
+    use TimestampableTrait, OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id

@@ -21,6 +21,9 @@
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker aanmelding', 'aanmeldingMedewerker.voornaam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'intakeMedewerker.voornaam') }}
                 </th>
                 <th>
@@ -49,6 +52,9 @@
                     </td>
                     <td>
                         {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ izKlant.medewerker }}
                     </td>
                     <td>
                         {{ izKlant.intake ? izKlant.intake.medewerker }}
