@@ -14,13 +14,18 @@ use BackupManager\Filesystems\LocalFilesystem;
 use BackupManager\Manager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 class DatabaseBackupCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('app:database:backup');
+        $this
+            ->setName('app:database:backup')
+            ->addOption('keep', 'k', InputOption::VALUE_OPTIONAL, 'Number of backups to keep', 5)
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -76,5 +81,10 @@ class DatabaseBackupCommand extends ContainerAwareCommand
 
         $manager = new Manager($filesystems, $databases, $compressors);
         $manager->makeBackup()->run('mysql', [new Destination('local', $filename)], 'gzip');
+
+        $output->writeln(sprintf('Keeping %d newest backups', $input->getOption('keep')));
+        $command = sprintf("ls -tp | grep -v '/$' | tail -n +%d | xargs -I {} rm -- {}", 1 + $input->getOption('keep'));
+        $process = new Process($command, $backupDir);
+        $process->run();
     }
 }
