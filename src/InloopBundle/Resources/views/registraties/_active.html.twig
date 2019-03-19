@@ -125,7 +125,7 @@
             </td>
             <td>
                 <a href="{{ path('inloop_opmerkingen_index_1', {klant: registratie.klant.id, locatie: registratie.locatie.id}) }}">
-                    {{ registratie.klant.openstaandeOpmerkingen|length > 0 ? registratie.klant.opmerkingen|length~' opmerkingen' : 'geen' }}
+                    {{ registratie.klant.openstaandeOpmerkingen|length > 0 ? registratie.klant.openstaandeOpmerkingen|length~' opmerkingen' : 'geen' }}
                 </a>
             </td>
         </tr>

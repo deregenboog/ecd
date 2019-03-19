@@ -22,6 +22,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.voornaam',
             'klant.achternaam',
             'klant.geboortedatum',
+            'medewerker.voornaam',
             'geslacht.volledig',
             'werkgebied.naam',
             'postcodegebied.naam',
@@ -53,6 +54,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function getAllQueryBuilder(FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->leftJoin("{$this->alias}.medewerker", 'medewerker')
             ->leftJoin("{$this->alias}.geslacht", 'geslacht')
             ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
             ->leftJoin("{$this->alias}.postcodegebied", 'postcodegebied')

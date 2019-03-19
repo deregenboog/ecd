@@ -15,7 +15,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="6">
+                    <th colspan="7">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                         </span>
@@ -37,6 +37,10 @@
                     <th>
                         {{ form_widget(filter.geboortedatum) }}
                         {{ form_errors(filter.geboortedatum) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
                     </th>
                     <th>
                         {{ form_widget(filter.stadsdeel) }}
@@ -62,6 +66,9 @@
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
@@ -83,6 +90,9 @@
                 </td>
                 <td>
                     {{ vrijwilliger.geboortedatum ? vrijwilliger.geboortedatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ vrijwilliger.medewerker }}
                 </td>
                 <td>
                     {{ vrijwilliger.werkgebied }}

@@ -317,14 +317,13 @@ class RegistratiesController extends AbstractController
                 }
             }
 
-            if (count($klant->getOpmerkingen()) > 0) {
-                $opmerkingen = $klant->getOpmerkingen()->toArray();
-                $laatsteOpmerking = end($opmerkingen);
-                if (!$laatsteOpmerking->isGezien()) {
-                    $jsonVar['message'] .= $sep.'Laatste opmerking ('.$laatsteOpmerking->getCreated()->format('d-m-Y').'): '.$laatsteOpmerking->getBeschrijving();
-                    $jsonVar['confirm'] = true;
+            if (count($klant->getOpenstaandeOpmerkingen()) > 0) {
+                $opmerkingen = $klant->getOpenstaandeOpmerkingen()->toArray();
+                foreach ($opmerkingen as $opmerking) {
+                    $jsonVar['message'] .= $sep.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
                     $sep = $separator;
                 }
+                $jsonVar['confirm'] = true;
             }
         }
 

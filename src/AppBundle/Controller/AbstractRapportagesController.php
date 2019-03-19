@@ -6,6 +6,8 @@ use AppBundle\Report\AbstractReport;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Exception\ReportException;
+use Symfony\Component\Form\FormError;
 
 abstract class AbstractRapportagesController extends SymfonyController
 {
@@ -34,21 +36,30 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // get reporting service
-            /** @var AbstractReport $report */
+            /* @var AbstractReport $report */
             $report = $this->container->get($form->get('rapport')->getData());
             $report->setFilter($form->getData());
 
-            if ($form->get('download')->isClicked()) {
-                return $this->download($report);
-            }
+            try {
+                if ($form->get('download')->isClicked()) {
+                    return $this->download($report);
+                }
 
-            return [
-                'title' => $report->getTitle(),
-                'startDate' => $report->getStartDate(),
-                'endDate' => $report->getEndDate(),
-                'reports' => $report->getReports(),
-                'form' => $form->createView(),
-            ];
+                return [
+                    'title' => $report->getTitle(),
+                    'startDate' => $report->getStartDate(),
+                    'endDate' => $report->getEndDate(),
+                    'reports' => $report->getReports(),
+                    'form' => $form->createView(),
+                ];
+            } catch (ReportException $exception) {
+                $form->addError(new FormError($exception->getMessage()));
+
+                return [
+                    'form' => $form->createView(),
+                    'title' => '',
+                ];
+            }
         }
 
         return [

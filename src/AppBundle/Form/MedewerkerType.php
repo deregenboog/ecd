@@ -26,11 +26,13 @@ class MedewerkerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            if (!$event->getData()) {
-                $event->getForm()->setData($this->medewerker);
-            }
-        });
+        if ($options['preset']) {
+            $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+                if (!$event->getData()) {
+                    $event->getForm()->setData($this->medewerker);
+                }
+            });
+        }
     }
 
     /**
@@ -46,6 +48,7 @@ class MedewerkerType extends AbstractType
                     ->where('medewerker.actief = true')
                     ->orderBy('medewerker.voornaam');
             },
+            'preset' => true,
         ]);
     }
 

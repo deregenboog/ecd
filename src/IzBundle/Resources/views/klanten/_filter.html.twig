@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="6">
+        <th colspan="7">
             <span class="form-inline">
                 {{ form_widget(filter.openDossiers) }}
                 {{ form_widget(filter.zonderActieveKoppeling) }}
@@ -30,6 +30,10 @@
             {{ form_errors(filter.klant.geboortedatumRange.start) }}
             {{ form_widget(filter.klant.geboortedatumRange.end) }}
             {{ form_errors(filter.klant.geboortedatumRange.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.aanmeldingMedewerker) }}
+            {{ form_errors(filter.aanmeldingMedewerker) }}
         </th>
         <th>
             {{ form_widget(filter.intakeMedewerker) }}

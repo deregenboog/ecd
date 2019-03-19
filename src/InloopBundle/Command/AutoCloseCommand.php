@@ -26,7 +26,7 @@ class AutoCloseCommand extends ContainerAwareCommand
     {
         $this
             ->setName('inloop:automatisch-afsluiten')
-            ->setHelp(sprintf('Sluit inloop-dossiers automatisch af als er %d jaar geen inloophuis bezocht is.', $this->years))
+            ->setHelp(sprintf('Sluit inloopdossiers automatisch af als er %d jaar geen inloophuis bezocht is.', $this->years))
             ->addArgument('batch-size', InputArgument::OPTIONAL, 'Batch size', 100)
             ->addOption('dry-run')
         ;

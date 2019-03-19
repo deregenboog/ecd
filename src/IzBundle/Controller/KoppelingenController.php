@@ -18,6 +18,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Exception\UserException;
 
 /**
  * @Route("/koppelingen")
@@ -69,7 +70,13 @@ class KoppelingenController extends AbstractController
         $hulpvraag = $this->dao->find($request->get('hulpvraag'));
         $hulpaanbod = $this->hulpaanbodDao->find($request->get('hulpaanbod'));
 
-        $hulpvraag->setHulpaanbod($hulpaanbod);
+        try {
+            $hulpvraag->setHulpaanbod($hulpaanbod);
+        } catch (UserException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+
+            return $this->redirectToRoute('iz_hulpvragen_view', ['id' => $hulpvraag->getId()]);
+        }
 
         $hulpvraag->getKoppeling()
             ->setStartdatum(new \DateTime())

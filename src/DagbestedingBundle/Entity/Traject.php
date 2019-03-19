@@ -594,4 +594,12 @@ class Traject
 
         return $this;
     }
+
+    public function open()
+    {
+        $this->afsluitdatum = null;
+        $this->afsluiting = null;
+
+        return $this;
+    }
 }

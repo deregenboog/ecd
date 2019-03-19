@@ -33,7 +33,8 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
 #        - form_div_layout.html.twig
-        - bootstrap_3_horizontal_layout.html.twig
+#        - bootstrap_3_horizontal_layout.html.twig
+        - form/app.html.twig
         - form/zrm.html.twig
     cache: '%kernel.cache_dir%/twig'
     globals:

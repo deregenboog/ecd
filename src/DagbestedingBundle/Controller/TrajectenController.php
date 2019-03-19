@@ -15,6 +15,8 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Export\GenericExport;
+use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/trajecten")
@@ -106,6 +108,12 @@ class TrajectenController extends AbstractChildController
 
         $entity = $id;
 
+        if (!$entity->isActief() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'U bent niet bevoegd de afsluiting van dit traject te wijzigen.');
+
+            return $this->redirectToRoute('dagbesteding_trajecten_index');
+        }
+
         $form = $this->createForm($this->formClass, $entity, [
             'mode' => 'close',
         ]);
@@ -113,8 +121,8 @@ class TrajectenController extends AbstractChildController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->dao->create($entity);
-                $this->addFlash('success', $this->entityName.' is opgeslagen.');
+                $this->dao->update($entity);
+                $this->addFlash('success', $this->entityName.' is afgesloten.');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -125,6 +133,43 @@ class TrajectenController extends AbstractChildController
 
         return [
             'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/open/{id}")
+     */
+    public function openAction(Request $request, Traject $id)
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'U bent niet bevoegd trajecten af te heropenen.');
+
+            return $this->redirectToRoute('dagbesteding_trajecten_index');
+        }
+
+        $entity = $id;
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $entity->open();
+                    $this->dao->update($entity);
+                    $this->addFlash('success', $this->entityName.' is heropend.');
+                } catch (\Exception $e) {
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
+                }
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'form' => $form->createView(),
+            'entity' => $entity,
         ];
     }
 

@@ -1,15 +1,14 @@
 <h2>Documenten</h2>
 <p>
     {% if deelnemer is defined %}
-        {% set url = path('dagbesteding_documenten_add', {deelnemer: deelnemer.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_documenten_add', {deelnemer: deelnemer.id}) %}
     {% elseif traject is defined %}
-        {% set url = path('dagbesteding_documenten_add', {traject: traject.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_documenten_add', {traject: traject.id}) %}
     {% elseif rapportage is defined %}
-        {% set url = path('dagbesteding_documenten_add', {rapportage: rapportage.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_documenten_add', {rapportage: rapportage.id}) %}
     {% endif %}
     {% if url is defined %}
-        {{ html.addLink(url) }}
-        {{ html.link('Document toevoegen', url) }}
+        {{ html.link('Document toevoegen', url, 'add') }}
     {% endif %}
 </p>
 <table class="table">
@@ -24,8 +23,8 @@
                 </a>
             </td>
             <td>
-                {{ html.editLink(path('dagbesteding_documenten_edit', {id: document.id, redirect: app.request.get('url')})) }}
-                {{ html.deleteLink(path('dagbesteding_documenten_delete', {id: document.id, redirect: app.request.get('url')})) }}
+                {{ html.editLink(path('dagbesteding_documenten_edit', {id: document.id})) }}
+                {{ html.deleteLink(path('dagbesteding_documenten_delete', {id: document.id})) }}
             </td>
         </tr>
     {% endfor %}

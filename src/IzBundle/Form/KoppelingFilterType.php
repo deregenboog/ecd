@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\MedewerkerType;
 
 class KoppelingFilterType extends AbstractType
 {
@@ -72,9 +73,8 @@ class KoppelingFilterType extends AbstractType
         }
 
         if (in_array('hulpvraagMedewerker', $options['enabled_filters'])) {
-            $builder->add('hulpvraagMedewerker', EntityType::class, [
+            $builder->add('hulpvraagMedewerker', MedewerkerType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
                 'label' => 'Medewerker hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
@@ -85,13 +85,13 @@ class KoppelingFilterType extends AbstractType
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
+                'preset' => $options['preset_medewerker'],
             ]);
         }
 
         if (in_array('hulpaanbodMedewerker', $options['enabled_filters'])) {
-            $builder->add('hulpaanbodMedewerker', EntityType::class, [
+            $builder->add('hulpaanbodMedewerker', MedewerkerType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
                 'label' => 'Medewerker hulpaanbod',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
@@ -102,6 +102,24 @@ class KoppelingFilterType extends AbstractType
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
+                'preset' => $options['preset_medewerker'],
+            ]);
+        }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->leftJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
+                        ->leftJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
+                        ->where('medewerker.actief = true')
+                        ->andWhere('hulpvraag.id IS NOT NULL OR hulpaanbod.id IS NOT NULL')
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                        ;
+                },
+                'preset' => $options['preset_medewerker'],
             ]);
         }
 
@@ -134,6 +152,7 @@ class KoppelingFilterType extends AbstractType
                 'filter',
                 'download',
             ],
+            'preset_medewerker' => false,
         ]);
     }
 

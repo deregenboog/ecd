@@ -6,6 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Entity\Medewerker;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -13,6 +14,11 @@ class DeelnemerFilter implements FilterInterface
      * @var int
      */
     public $id;
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
 
     /**
      * @var AppDateRangeModel
@@ -25,6 +31,11 @@ class DeelnemerFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var bool
+     */
+    public $zonderTraject;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -35,6 +46,13 @@ class DeelnemerFilter implements FilterInterface
             $builder
                 ->andWhere('deelnemer.id = :id')
                 ->setParameter('id', $this->id)
+            ;
+        }
+
+        if ($this->medewerker) {
+            $builder
+                ->andWhere('deelnemer.medewerker = :medewerker')
+                ->setParameter('medewerker', $this->medewerker)
             ;
         }
 
@@ -66,6 +84,10 @@ class DeelnemerFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->zonderTraject) {
+            $builder->leftJoin('deelnemer.trajecten', 'traject')->andWhere('traject.id IS NULL');
         }
 
         if ($this->klant) {

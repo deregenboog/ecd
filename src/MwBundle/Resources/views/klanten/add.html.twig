@@ -2,15 +2,15 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Inloophuizen | {{ title }}
+    Maatschappelijk werk | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Inloop/subnavigation.html.twig' %}
+    {% include '@Mw/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_top %}
-    <h1>{{ entity_name|capitalize }} aanmelden</h1>
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,7 @@
             "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
         </p>
         <p>
-            {{ html.link('Nieuwe '~entity_name, path('inloop_klanten_add', {klant: 'new'}), 'plus') }}
+            {{ html.link('Nieuwe '~entity_name, path('mw_klanten_add', {klant: 'new'}), 'plus') }}
         </p>
         <table class="table table-hover">
             <thead>
@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             {% for entity in klanten %}
-                <tr data-href="{{ path('inloop_klanten_add', {klant: entity.id}) }}">
+                <tr data-href="{{ path('mw_klanten_add', {klant: entity.id}) }}">
                     <td>{{ entity.id }}</td>
                     <td>{{ entity }}</td>
                     <td>{{ entity.bsn }}</td>
@@ -55,7 +55,49 @@
                 {{ form(creationForm) }}
             </div>
         {% else %}
-            {{ form(creationForm) }}
+            {{ form_start(creationForm) }}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h2>Persoonsgegevens</h2>
+                            {{ form_row(creationForm.voornaam) }}
+                            {{ form_row(creationForm.tussenvoegsel) }}
+                            {{ form_row(creationForm.achternaam) }}
+                            {{ form_row(creationForm.roepnaam) }}
+                            {{ form_row(creationForm.geslacht) }}
+                            {{ form_row(creationForm.geboortedatum) }}
+                            {{ form_row(creationForm.land) }}
+                            {{ form_row(creationForm.nationaliteit) }}
+                            {{ form_row(creationForm.bsn) }}
+                            {{ form_row(creationForm.overleden) }}
+                        </div>
+                        <div class="col-xs-6">
+                            <h2>Contactgegevens</h2>
+                            {{ form_row(creationForm.adres) }}
+                            {{ form_row(creationForm.postcode) }}
+                            {{ form_row(creationForm.plaats) }}
+                            {{ form_row(creationForm.email) }}
+                            {{ form_row(creationForm.telefoon) }}
+                            {{ form_row(creationForm.mobiel) }}
+                            {{ form_row(creationForm.geenPost) }}
+                            {{ form_row(creationForm.geenEmail) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h2>Opmerking</h2>
+                            {{ form_row(creationForm.opmerking) }}
+                        </div>
+                        <div class="col-xs-6">
+                            <h2>Medewerker</h2>
+                            {{ form_row(creationForm.medewerker) }}
+                            <span class="pull-right">
+                                {{ form_row(creationForm.submit) }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(creationForm) }}
         {% endif %}
     {% endif %}
 {% endblock %}

@@ -11,14 +11,11 @@
 {% endblock %}
 
 {% block content %}
-    <span class="pull-right">
-        {{ form(medewerker_filter) }}
-    </span>
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{{ path('iz_dashboard_koppelingen', {medewerker: medewerker_filter.vars.value}) }}">Lopende koppelingen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpvragen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_koppelingen') }}">Lopende koppelingen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpvragen') }}">Open hulpvragen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane">
@@ -32,7 +29,7 @@
                     <tr>
                         {{ form_start(filter) }}
                             <tr>
-                                <th colspan="9">
+                                <th colspan="10">
                                     <span class="pull-right">
                                         {{ form_widget(filter.filter) }}
                                         {{ form_widget(filter.download) }}
@@ -67,6 +64,10 @@
                                     {{ form_errors(filter.klant.stadsdeel) }}
                                 </th>
                                 <th>
+                                    {{ form_widget(filter.medewerker) }}
+                                    {{ form_errors(filter.medewerker) }}
+                                </th>
+                                <th>
                                 </th>
                                 <th>
                                 </th>
@@ -92,6 +93,9 @@
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
+                        </th>
+                        <th>
+                            Medewerker hulpvraag/hulpaanbod
                         </th>
                         <th>
                             Laatste verslag
@@ -130,6 +134,14 @@
                             </td>
                             <td>
                                 {{ koppeling.izKlant.klant.werkgebied }}
+                            </td>
+                            <td>
+                                {% if koppeling.medewerker == koppeling.hulpaanbod.medewerker %}
+                                    {{ koppeling.medewerker }}
+                                {% else %}
+                                    {{ koppeling.medewerker }} (hulpvraag)<br>
+                                    {{ koppeling.hulpaanbod.medewerker }} (hulpaanbod)
+                                {% endif %}
                             </td>
                             <td>
                                 {{ iz.koppeling_laatste_verslag(koppeling) }}

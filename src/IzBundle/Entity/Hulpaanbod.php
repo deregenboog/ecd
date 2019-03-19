@@ -6,6 +6,7 @@ use AppBundle\Exception\AppException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Exception\UserException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpaanbodRepository")
@@ -101,7 +102,7 @@ class Hulpaanbod extends Hulp
     public function setKoppeling(Koppeling $koppeling)
     {
         if ($this->getKoppeling()) {
-            throw new AppException('Dit hulpaanbod is al gekoppeld.');
+            throw new UserException('Dit hulpaanbod is al gekoppeld.');
         }
 
         $this->hulpvraag = $koppeling->getHulpvraag();

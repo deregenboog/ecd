@@ -14,6 +14,7 @@ use InloopBundle\Strategy\GebruikersruimteStrategy;
 use InloopBundle\Strategy\OndroBongStrategy;
 use InloopBundle\Strategy\VerblijfsstatusStrategy;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class AccessUpdater
 {
@@ -54,49 +55,26 @@ class AccessUpdater
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
 
-        // @todo move to container service
-        $strategies = [
-            new GebruikersruimteStrategy(),
-            new AmocStrategy(),
-            new OndroBongStrategy(),
-            new VerblijfsstatusStrategy(),
+        $filter = new KlantFilter($this->getStrategy($locatie));
+        $builder = $this->klantDao->getAllQueryBuilder($filter);
+        $klantIds = $this->getKlantIds($builder);
+
+        $params = [
+            'locatie' => $locatie->getId(),
+            'klanten' => $klantIds,
+        ];
+        $types = [
+            'locatie' => ParameterType::INTEGER,
+            'klanten' => Connection::PARAM_INT_ARRAY,
         ];
 
-        foreach ($strategies as $strategy) {
-            if ($strategy->supports($locatie)) {
-                $filter = new KlantFilter($strategy);
-                break;
-            }
-        }
-
-        if (!isset($filter)) {
-            throw new \LogicException('No supported strategy found!');
-        }
-
-        $builder = $this->klantDao->getAllQueryBuilder($filter);
-        $klantIds = array_map(function ($klantId) {
-            return $klantId['id'];
-        }, $builder->select('klant.id')->distinct(true)->getQuery()->getResult());
-
         $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
-            WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', [
-                'locatie' => $locatie->getId(),
-                'klanten' => $klantIds,
-            ], [
-                'locatie' => ParameterType::INTEGER,
-                'klanten' => Connection::PARAM_INT_ARRAY,
-            ]);
+            WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
 
         $this->em->getConnection()->executeQuery('INSERT INTO inloop_toegang (klant_id, locatie_id)
             SELECT id, :locatie FROM klanten
             WHERE id IN (:klanten)
-            AND id NOT IN (SELECT klant_id FROM inloop_toegang WHERE locatie_id = :locatie)', [
-                'locatie' => $locatie->getId(),
-                'klanten' => $klantIds,
-            ], [
-                'locatie' => ParameterType::INTEGER,
-                'klanten' => Connection::PARAM_INT_ARRAY,
-            ]);
+            AND id NOT IN (SELECT klant_id FROM inloop_toegang WHERE locatie_id = :locatie)', $params, $types);
 
         if (!$wasEnabled) {
             $this->em->getFilters()->disable('overleden');
@@ -109,44 +87,30 @@ class AccessUpdater
         $this->em->getFilters()->enable('overleden');
 
         foreach ($this->getLocations() as $locatie) {
-            // @todo move to container service
-            $strategies = [
-                new GebruikersruimteStrategy(),
-                new AmocStrategy(),
-                new OndroBongStrategy(),
-                new VerblijfsstatusStrategy(),
+            $filter = new KlantFilter($this->getStrategy($locatie));
+            $builder = $this->klantDao->getAllQueryBuilder($filter);
+            $builder
+                ->andWhere('klant.id = :klant_id')
+                ->setParameter('klant_id', $klant->getId())
+            ;
+            $klantIds = $this->getKlantIds($builder);
+
+            $params = [
+                'locatie' => $locatie->getId(),
+                'klant' => $klant->getId(),
+            ];
+            $types = [
+                'locatie' => ParameterType::INTEGER,
+                'klant' => ParameterType::INTEGER,
             ];
 
-            foreach ($strategies as $strategy) {
-                if ($strategy->supports($locatie)) {
-                    $filter = new KlantFilter($strategy);
-                    break;
-                }
+            if (in_array($klant->getId(), $klantIds)) {
+                $this->em->getConnection()->executeQuery('INSERT IGNORE INTO inloop_toegang (klant_id, locatie_id)
+                    VALUES (:klant, :locatie)', $params, $types);
+            } else {
+                $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
+                    WHERE locatie_id = :locatie AND klant_id = :klant', $params, $types);
             }
-
-            if (!isset($filter)) {
-                throw new \LogicException('No supported strategy found!');
-            }
-
-            $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
-                WHERE locatie_id = :locatie AND klant_id = :klant', [
-                    'locatie' => $locatie->getId(),
-                    'klant' => $klant->getId(),
-                ], [
-                    'locatie' => ParameterType::INTEGER,
-                    'klant' => ParameterType::INTEGER,
-                ]);
-
-            $this->em->getConnection()->executeQuery('INSERT INTO inloop_toegang (klant_id, locatie_id)
-                SELECT id, :locatie FROM klanten
-                WHERE id = :klant
-                AND id NOT IN (SELECT klant_id FROM inloop_toegang WHERE locatie_id = :locatie)', [
-                    'locatie' => $locatie->getId(),
-                    'klant' => $klant->getId(),
-                ], [
-                    'locatie' => ParameterType::INTEGER,
-                    'klant' => ParameterType::INTEGER,
-                ]);
         }
 
         if (!$wasEnabled) {
@@ -160,5 +124,31 @@ class AccessUpdater
         $filter->actief = true;
 
         return $this->locatieDao->findAll(null, $filter);
+    }
+
+    private function getStrategy(Locatie $locatie)
+    {
+        // @todo move to container service
+        $strategies = [
+            new GebruikersruimteStrategy(),
+            new AmocStrategy(),
+            new OndroBongStrategy(),
+            new VerblijfsstatusStrategy(),
+        ];
+
+        foreach ($strategies as $strategy) {
+            if ($strategy->supports($locatie)) {
+                return $strategy;
+            }
+        }
+
+        throw new \LogicException('No supported strategy found!');
+    }
+
+    private function getKlantIds(QueryBuilder $builder)
+    {
+        return array_map(function ($klantId) {
+            return $klantId['id'];
+        }, $builder->select('klant.id')->distinct(true)->getQuery()->getResult());
     }
 }

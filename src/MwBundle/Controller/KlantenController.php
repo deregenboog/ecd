@@ -17,6 +17,7 @@ use MwBundle\Form\KlantFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 
 /**
  * @Route("/klanten")
@@ -39,11 +40,30 @@ class KlantenController extends AbstractController
     protected $dao;
 
     /**
+     * @var \AppBundle\Service\KlantDaoInterface
+     *
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    protected $klantDao;
+
+    /**
      * @var ExportInterface
      *
      * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @Route("/add")
+     */
+    public function addAction(Request $request)
+    {
+        if ($request->get('klant')) {
+            return $this->doAdd($request);
+        }
+
+        return $this->doSearch($request);
+    }
 
     /**
      * @Route("/{klant}/info")
@@ -121,6 +141,76 @@ class KlantenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
+        ];
+    }
+
+    private function doSearch(Request $request)
+    {
+        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
+            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
+        ]);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $count = (int) $this->klantDao->countAll($filterForm->getData());
+            if (0 === $count) {
+                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
+
+                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
+            }
+
+            if ($count > 100) {
+                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+            }
+
+            return [
+                'filterForm' => $filterForm->createView(),
+                'klanten' => $this->klantDao->findAll(null, $filterForm->getData()),
+            ];
+        }
+
+        return [
+            'filterForm' => $filterForm->createView(),
+        ];
+    }
+
+    private function doAdd(Request $request)
+    {
+        $klantId = $request->get('klant');
+        if ('new' === $klantId) {
+            $klant = new Klant();
+        } else {
+            $klant = $this->klantDao->find($klantId);
+            if ($klant) {
+                // redirect if already exists
+                $mwKlant = $this->dao->find($klantId);
+                if ($mwKlant) {
+                    return $this->redirectToView($mwKlant);
+                }
+            }
+        }
+
+        $mwKlant = $klant;
+        $creationForm = $this->createForm(KlantType::class, $mwKlant);
+        $creationForm->handleRequest($request);
+
+        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+            try {
+                $this->dao->create($mwKlant);
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
+                return $this->redirectToView($mwKlant);
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            return $this->redirectToIndex();
+        }
+
+        return [
+            'entity' => $mwKlant,
+            'creationForm' => $creationForm->createView(),
         ];
     }
 }

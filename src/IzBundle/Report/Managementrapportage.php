@@ -97,10 +97,8 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif (2018 == $this->startDate->format('Y')) {
-            $prestaties = array_merge($beginstand, $gestart);
         } else {
-            $prestaties = $gestart;
+            $prestaties = array_merge($beginstand, $gestart);
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
@@ -141,10 +139,8 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif (2018 == $this->startDate->format('Y')) {
-            $prestaties = array_merge($beginstand, $gestart);
         } else {
-            $prestaties = $gestart;
+            $prestaties = array_merge($beginstand, $gestart);
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
@@ -246,10 +242,8 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif (2018 == $this->startDate->format('Y')) {
-            $prestaties = array_merge($beginstand, $gestart);
         } else {
-            $prestaties = $gestart;
+            $prestaties = array_merge($beginstand, $gestart);
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';

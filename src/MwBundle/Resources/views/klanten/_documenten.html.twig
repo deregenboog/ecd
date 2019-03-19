@@ -9,8 +9,13 @@
         <tr>
             <td>
                 {{ html.link(document, vich_uploader_asset(document, 'file'), 'download') }}
+                {% if is_granted('ROLE_ADMIN') %}
+                    {{ html.deleteLink(path('mw_documenten_delete', {id: document.id})) }}
+                {% endif %}
             </td>
-            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>
+                {{ document.created|date('d-m-Y') }}
+            </td>
         </tr>
     {% endfor %}
 </table>

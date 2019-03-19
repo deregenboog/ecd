@@ -2,50 +2,33 @@
 
 namespace InloopBundle\Command;
 
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Registratie;
+use Doctrine\DBAL\Driver\Connection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixLaatsteRegistratieCommand extends ContainerAwareCommand
 {
-    private $interval = '-2 months';
-
     protected function configure()
     {
-        $this->setName('inloop:access:deny');
+        $this->setName('inloop:fix:laatste_registratie');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $manager \Doctrine\ORM\EntityManager */
-        $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $sql = 'UPDATE klanten AS klant
+            LEFT JOIN (
+                SELECT klant_id, MAX(buiten) AS buiten
+                FROM registraties
+                GROUP BY klant_id
+            ) AS laatste_regisratie ON laatste_regisratie.klant_id = klant.id
+            LEFT JOIN registraties AS registratie ON registratie.klant_id = klant.id AND registratie.buiten = laatste_regisratie.buiten
+            SET klant.laatste_registratie_id = registratie.id';
 
-        // get clients that haven't visited within the configured interval
-        $klanten = $manager->getRepository(Klant::class)->createQueryBuilder('klant')
-            ->select('klant, intake')
-            ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.toegangInloophuis = 1')
-            ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
-            ->innerJoin('registratie.locatie', 'locatie', 'WITH', 'locatie.gebruikersruimte = 1')
-            ->groupBy('klant.id')
-            ->having('MAX(registratie.binnen) < :date')
-            ->setParameter('date', new \DateTime($this->interval))
-            ->getQuery()
-            ->getResult()
-        ;
+        /* @var Connection $conn */
+        $conn = $this->getContainer()->get('database_connection');
+        $n = $conn->exec($sql);
 
-        $output->writeln(sprintf('%d klanten gevonden', count($klanten)));
-
-        foreach ($klanten as $klant) {
-            // deny access
-            $output->writeln(sprintf('Toegang ontzeggen voor klant #%d', $klant->getId()));
-            $klant->getLaatsteIntake()->setToegangInloophuis(false);
-            break;
-        }
-
-        $manager->flush();
-
-        $output->writeln('Succesvol afgerond');
+        $output->writeln(sprintf('%d rows affected', $n));
     }
 }

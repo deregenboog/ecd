@@ -1,7 +1,7 @@
 <h2>Contactpersonen</h2>
 <p>
     {% if deelnemer is defined %}
-        {% set url = path('dagbesteding_contactpersonen_add', {deelnemer: deelnemer.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_contactpersonen_add', {deelnemer: deelnemer.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
@@ -28,8 +28,8 @@
                 <td>{{ contactpersoon.email }}</td>
                 <td>{{ contactpersoon.opmerking }}</td>
                 <td>
-                    {{ html.editLink(path('dagbesteding_contactpersonen_edit', {id: contactpersoon.id, redirect: app.request.get('url')})) }}
-                    {{ html.deleteLink(path('dagbesteding_contactpersonen_delete', {id: contactpersoon.id, redirect: app.request.get('url')})) }}
+                    {{ html.editLink(path('dagbesteding_contactpersonen_edit', {id: contactpersoon.id})) }}
+                    {{ html.deleteLink(path('dagbesteding_contactpersonen_delete', {id: contactpersoon.id})) }}
                 </td>
             </tr>
         {% endfor %}

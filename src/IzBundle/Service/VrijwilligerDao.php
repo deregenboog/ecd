@@ -18,6 +18,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'vrijwilliger.achternaam',
             'vrijwilliger.geboortedatum',
             'werkgebied.naam',
+            'aanmeldingMedewerker.voornaam',
             'intakeMedewerker.voornaam',
             'hulpaanbodMedewerker.voornaam',
             'izVrijwilliger.afsluitDatum',
@@ -35,6 +36,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, intake, intakeMedewerker, hulpaanbodMedewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
+            ->leftJoin('izVrijwilliger.medewerker', 'aanmeldingMedewerker')
             ->leftJoin('izVrijwilliger.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
             ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')

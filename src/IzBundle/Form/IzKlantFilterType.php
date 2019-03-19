@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\IzDeelnemer;
 
 class IzKlantFilterType extends AbstractType
 {
@@ -66,6 +68,23 @@ class IzKlantFilterType extends AbstractType
                         ->where('project.einddatum IS NULL OR project.einddatum >= :now')
                         ->orderBy('project.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
+                },
+            ]);
+        }
+
+        if (in_array('aanmeldingMedewerker', $options['enabled_filters'])) {
+            $builder->add('aanmeldingMedewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'label' => 'Medewerker aanmelding',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzDeelnemer::class, 'deelnemer', 'WITH', 'deelnemer.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
                 },
             ]);
         }
@@ -137,6 +156,7 @@ class IzKlantFilterType extends AbstractType
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
+                'aanmeldingMedewerker',
                 'intakeMedewerker',
                 'hulpvraagMedewerker',
                 'zonderActieveHulpvraag',

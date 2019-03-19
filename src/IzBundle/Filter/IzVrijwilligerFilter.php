@@ -22,7 +22,7 @@ class IzVrijwilligerFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $openDossiers = true;
+    public $openDossiers;
 
     /**
      * @var VrijwilligerFilter
@@ -38,6 +38,11 @@ class IzVrijwilligerFilter implements FilterInterface
      * @var Project
      */
     public $project;
+
+    /**
+     * @var Medewerker
+     */
+    public $aanmeldingMedewerker;
 
     /**
      * @var Medewerker
@@ -105,6 +110,13 @@ class IzVrijwilligerFilter implements FilterInterface
                     ;
                     break;
             }
+        }
+
+        if ($this->aanmeldingMedewerker) {
+            $builder
+                ->andWhere('aanmeldingMedewerker = :aanmeldingMedewerker')
+                ->setParameter('aanmeldingMedewerker', $this->aanmeldingMedewerker)
+            ;
         }
 
         if ($this->intakeMedewerker) {

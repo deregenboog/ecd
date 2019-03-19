@@ -65,7 +65,7 @@ class VrijwilligerType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
             ])
-            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('submit', SubmitType::class)
         ;
     }

@@ -124,7 +124,7 @@ class Klus implements MemoSubjectInterface
     {
         $this->klant = $klant;
         $this->medewerker = $medewerker;
-        $this->activiteitn = new ArrayCollection();
+        $this->activiteiten = new ArrayCollection();
         $this->dienstverleners = new ArrayCollection();
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();

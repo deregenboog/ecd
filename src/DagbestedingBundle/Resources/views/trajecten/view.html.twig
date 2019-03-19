@@ -10,27 +10,26 @@
 {% endblock %}
 
 {% block content_top %}
-    <h1>
-        Traject van {{ entity.deelnemer.klant }}
-    </h1>
-{% endblock %}
-
-{% block content_left %}
-    <h2>Traject dagbesteding</h2>
-    {% if is_granted('ROLE_DAGBESTEDING') %}
-        <p>
+    <h1>Traject van {{ entity.deelnemer.klant }}</h1>
+    <p>
+        {% if is_granted('ROLE_DAGBESTEDING') %}
             {% if entity.actief %}
-                {{ html.editLink(path('dagbesteding_trajecten_edit', {id: entity.id})) }}
-                {{ html.link('Wijzigen', path('dagbesteding_trajecten_edit', {id: entity.id})) }}
-                {{ html.closeLink(path('dagbesteding_trajecten_close', {id: entity.id})) }}
-                {{ html.link('Afsluiten', path('dagbesteding_trajecten_close', {id: entity.id})) }}
+                {{ html.link('Wijzigen', path('dagbesteding_trajecten_edit', {id: entity.id}), 'edit') }}
+                {{ html.link('Afsluiten', path('dagbesteding_trajecten_close', {id: entity.id}), 'close') }}
+            {% elseif is_granted('ROLE_ADMIN') %}
+                {{ html.link('Heropenen', path('dagbesteding_trajecten_open', {id: entity.id}), 'open') }}
+                {{ html.link('Afsluiting wijzigen', path('dagbesteding_trajecten_close', {id: entity.id}), 'close') }}
             {% endif %}
             {% if entity.deletable %}
                 {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: entity.id})) }}
                 {{ html.link('Verwijderen', path('dagbesteding_trajecten_delete', {id: entity.id})) }}
             {% endif %}
-        </p>
-    {% endif %}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <h2>Traject dagbesteding</h2>
     <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ entity.id }}</dd>
@@ -84,7 +83,6 @@
         <dt>Reden afsluiting</dt>
         <dd>{{ entity.afsluiting }}</dd>
     </dl>
-
 {% endblock %}
 
 {% block content_right %}

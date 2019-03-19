@@ -50,7 +50,7 @@ class KlantenControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(6, $rows->count());
+        $this->assertEquals(4, $rows->count());
     }
 
     public function testAddFilter()
@@ -66,6 +66,6 @@ class KlantenControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(8, $rows->count());
+        $this->assertEquals(15, $rows->count());
     }
 }
