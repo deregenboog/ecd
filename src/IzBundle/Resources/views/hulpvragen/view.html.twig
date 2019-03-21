@@ -116,7 +116,7 @@
                                     {{ form_widget(filter.doelgroep) }}
                                     {{ form_errors(filter.doelgroep) }}
                                 </th>
-                                <th colspan="3">
+                                <th colspan="2">
                                     {{ form_widget(filter.matching) }}
                                     {{ form_errors(filter.matching) }}
                                 </th>
@@ -150,9 +150,6 @@
                             </th>
                             <th>
                                 {{ knp_pagination_sortable(kandidaten, 'Expat', 'hulpaanbod.expat') }}
-                            </th>
-                            <th>
-                                {{ knp_pagination_sortable(kandidaten, 'Coachend', 'hulpaanbod.coachend') }}
                             </th>
                             <th>Matchingsinformatie</th>
                             <th>
@@ -194,7 +191,6 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ hulpaanbod.expat ? 'Ja' : 'Nee' }}</td>
-                                <td>{{ hulpaanbod.coachend ? 'Ja' : 'Nee' }}</td>
                                 <td>{{ hulpaanbod.info }}</td>
                                 <td>
                                     {{ html.link('Reserveren', path('iz_reserveringen_add', {hulpvraag: entity.id, hulpaanbod: hulpaanbod.id}), 'tag') }}

@@ -46,10 +46,11 @@ class Hulpaanbod extends Hulp
 
     /**
      * @var bool
+     * @deprecated
      *
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $coachend = false;
+    private $coachend;
 
     /**
      * @var Reservering
@@ -146,11 +147,17 @@ class Hulpaanbod extends Hulp
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function isCoachend()
     {
         return (bool) $this->coachend;
     }
 
+    /**
+     * @deprecated
+     */
     public function setCoachend($coachend)
     {
         $this->coachend = (bool) $coachend;
