@@ -85,7 +85,7 @@ class GenericExport extends AbstractExport
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
-                            $value = Date::PHPToExcel($value);
+                            $value = @Date::PHPToExcel($value);
                             $sheet->getCellByColumnAndRow($column, $this->row)
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
@@ -94,7 +94,7 @@ class GenericExport extends AbstractExport
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
-                            $value = Date::PHPToExcel($value);
+                            $value = @Date::PHPToExcel($value);
                             $sheet->getCellByColumnAndRow($column, $this->row)
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_TIME3);
