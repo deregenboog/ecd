@@ -104,7 +104,7 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        $this->datum = new \DateTime('today');
+        $this->datum = new \DateTime('last day of this month');
     }
 
     public function __toString()
@@ -325,9 +325,12 @@ class Factuur
         return $this;
     }
 
+    /**
+     * Sets the date to the last day of the month of the most recent declaration/registration.
+     */
     private function updateDatum()
     {
-        $datum = null;
+        $datum = $this->datum;
 
         foreach ($this->declaraties as $declaratie) {
             if (!$datum || $declaratie->getDatum() > $datum) {
@@ -340,6 +343,12 @@ class Factuur
                 $datum = $registratie->getDatum();
             }
         }
+
+        $yearMonth = $datum->format('Y-m');
+        while ($yearMonth == $datum->format('Y-m')) {
+            $datum->modify('+1 day');
+        }
+        $datum->modify('-1 day');
 
         $this->datum = $datum;
     }

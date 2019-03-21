@@ -101,7 +101,7 @@ class FactuurSubscriber implements EventSubscriber
                 $factuur->addRegistratie($entity);
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported class '.get_class($subject));
+                throw new \InvalidArgumentException('Unsupported class '.get_class($entity));
         }
 
         $this->calculateBedrag($factuur);

@@ -52,25 +52,25 @@ class FactuurTest extends TestCase
 
     public function testAddingDeclaratieOrRegistratieResultsInDatumUpdate()
     {
+        $lastDayOfThisMonth = new \DateTime('last day of this month');
+        $lastDayOfNextMonth = new \DateTime('last day of next month');
+
         $factuur = new Factuur(new Klant());
-        $this->assertEquals(new \DateTime('today'), $factuur->getDatum());
+        $this->assertEquals($lastDayOfThisMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
 
-        $yesterday = new \DateTime('yesterday');
         $declaratie = new Declaratie();
-        $declaratie->setDatum($yesterday);
+        $declaratie->setDatum(new \DateTime('yesterday'));
         $factuur->addDeclaratie($declaratie);
-        $this->assertEquals($yesterday, $factuur->getDatum());
+        $this->assertEquals($lastDayOfThisMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
 
-        $plusTwoDays = new \DateTime('+2 days');
         $registratie = new Registratie();
-        $registratie->setDatum($plusTwoDays);
+        $registratie->setDatum(new \DateTime('first day of next month'));
         $factuur->addRegistratie($registratie);
-        $this->assertEquals($plusTwoDays, $factuur->getDatum());
+        $this->assertEquals($lastDayOfNextMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
 
-        $tomorrow = new \DateTime('tomorrow');
         $declaratie = new Declaratie();
-        $declaratie->setDatum($tomorrow);
+        $declaratie->setDatum(new \DateTime('tomorrow'));
         $factuur->addDeclaratie($declaratie);
-        $this->assertEquals($plusTwoDays, $factuur->getDatum());
+        $this->assertEquals($lastDayOfNextMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
     }
 }
