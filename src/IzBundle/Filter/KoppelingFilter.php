@@ -38,6 +38,11 @@ class KoppelingFilter implements FilterInterface
     public $lopendeKoppelingen = true;
 
     /**
+     * @var bool
+     */
+    public $langeKoppelingen = false;
+
+    /**
      * @var Project
      */
     public $project;
@@ -101,6 +106,16 @@ class KoppelingFilter implements FilterInterface
             $builder
                 ->andWhere('hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now')
                 ->setParameter('now', new \DateTime())
+            ;
+        }
+
+        if ($this->langeKoppelingen) {
+            $builder
+                ->andWhere($builder->expr()->orX(
+                    'hulpvraag.koppelingEinddatum IS NULL AND hulpvraag.koppelingStartdatum < :six_months_ago',
+                    'DATEDIFF(hulpvraag.koppelingEinddatum, hulpvraag.koppelingStartdatum) >= 183'
+                ))
+                ->setParameter('six_months_ago', new \DateTime('-6 months'))
             ;
         }
 

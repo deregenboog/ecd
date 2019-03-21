@@ -46,6 +46,13 @@ class KoppelingFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('langeKoppelingen', $options['enabled_filters'])) {
+            $builder->add('langeKoppelingen', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen koppelingen > 6 maanden',
+            ]);
+        }
+
         if (key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
@@ -144,6 +151,7 @@ class KoppelingFilterType extends AbstractType
                 'koppelingStartdatum',
                 'koppelingEinddatum',
                 'lopendeKoppelingen',
+                'langeKoppelingen',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',
