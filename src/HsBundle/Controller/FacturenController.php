@@ -94,6 +94,13 @@ class FacturenController extends AbstractChildController
                         // ignore
                     }
                 }
+                if ($form->has('pdfDownload') && $form->get('pdfDownload')->isClicked()) {
+                    try {
+                        return $this->pdfDownload($form->getData());
+                    } catch (HsException $e) {
+                        // ignore
+                    }
+                }
             }
             $filter = $form->getData();
         }
@@ -183,6 +190,14 @@ class FacturenController extends AbstractChildController
         );
     }
 
+    protected function getPdfDownloadFilename()
+    {
+        return sprintf(
+            'hs-facturen-%s.pdf',
+            (new \DateTime())->format('Y-m-d')
+        );
+    }
+
     private function zipDownload(FilterInterface $filter)
     {
         if (!$this->export) {
@@ -220,6 +235,61 @@ class FacturenController extends AbstractChildController
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         unlink($dir.'/'.$filename);
+
+        return $response;
+    }
+
+    private function pdfDownload(FilterInterface $filter)
+    {
+        if (!$this->export) {
+            throw new AppException(get_class($this).'::export not set!');
+        }
+
+        ini_set('memory_limit', '512M');
+
+        $dir = $this->getParameter('kernel.cache_dir');
+        $filename = $this->getPdfDownloadFilename();
+        $collection = $this->dao->findAll(null, $filter);
+
+        if (0 === count($collection)) {
+            $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
+
+            throw new HsException('Geen definitieve facturen gevonden.');
+        }
+
+        $combinedPdf = null;
+        $tempNames = [];
+        foreach ($collection as $factuur) {
+            // create and store PDF
+            $tempName = tempnam($dir, 'pdf_');
+            $tempNames[] = $tempName;
+            $pdf = $this->createPdf($factuur);
+            $pdf->Output($tempName, 'F');
+
+            // create or add to combined PDF
+            if ($combinedPdf) {
+                $tmpPdf = \Zend_Pdf::load($tempName);
+                foreach ($tmpPdf->pages as $page){
+                    $combinedPdf->pages[] = clone $page;
+                }
+            } else {
+                $combinedPdf = \Zend_Pdf::load($tempName);
+            }
+        }
+
+        $tempName = tempnam($dir, 'pdf_');
+        $tempNames[] = $tempName;
+        $combinedPdf->save($tempName);
+
+        $response = new Response(file_get_contents($tempName));
+        $response->headers->set('Content-type', 'application/zip');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        // clean-up temp files
+        foreach ($tempNames as $tempName) {
+            unlink($tempName);
+        }
 
         return $response;
     }

@@ -79,6 +79,10 @@ class FactuurFilterType extends AbstractType
         if (in_array('zipDownload', $options['enabled_filters'])) {
             $builder->add('zipDownload', SubmitType::class);
         }
+
+        if (in_array('pdfDownload', $options['enabled_filters'])) {
+            $builder->add('pdfDownload', SubmitType::class);
+        }
     }
 
     /**
@@ -99,6 +103,7 @@ class FactuurFilterType extends AbstractType
                 'filter',
                 'download',
                 'zipDownload',
+                'pdfDownload',
             ],
         ]);
     }
