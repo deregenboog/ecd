@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Klus;
 use HsBundle\Form\KlusCancelType;
 use HsBundle\Form\KlusCloseType;

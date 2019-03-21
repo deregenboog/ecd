@@ -6,7 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use IzBundle\Entity\Succesindicator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-interface SuccesindicatoeDaoInterface
+interface SuccesindicatorDaoInterface
 {
     /**
      * @param int             $page

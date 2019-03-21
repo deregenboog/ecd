@@ -3,6 +3,9 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use InloopBundle\Entity\Woonsituatie;
+use InloopBundle\Form\WoonsituatieType;
+use InloopBundle\Service\WoonsituatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

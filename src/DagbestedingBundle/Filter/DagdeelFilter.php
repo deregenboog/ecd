@@ -4,9 +4,9 @@ namespace DagbestedingBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
-use Doctrine\ORM\QueryBuilder;
-use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Entity\Traject;
+use Doctrine\ORM\QueryBuilder;
 
 class DagdeelFilter implements FilterInterface
 {
