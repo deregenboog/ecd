@@ -19,3 +19,25 @@
     {{ form_row(form.submit) }}
     {{ form_end(form) }}
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function() {
+            var toggleCountry = function() {
+                var selectedElm = $('select#afsluiting_reden option:selected');
+                if (/land_1/i.test(selectedElm.attr('class'))) {
+                    $('#afsluiting_land').closest('.form-group').show();
+                } else {
+                    $('#afsluiting_land option:selected').prop('selected', false);
+                    $('#afsluiting_land').closest('.form-group').hide();
+                }
+            };
+
+            $('select#afsluiting_reden').on('change', function() {
+                toggleCountry();
+            });
+
+            toggleCountry();
+        });
+    </script>
+{% endblock %}
