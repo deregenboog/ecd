@@ -269,7 +269,7 @@ class FacturenController extends AbstractChildController
             // create or add to combined PDF
             if ($combinedPdf) {
                 $tmpPdf = \Zend_Pdf::load($tempName);
-                foreach ($tmpPdf->pages as $page){
+                foreach ($tmpPdf->pages as $page) {
                     $combinedPdf->pages[] = clone $page;
                 }
             } else {

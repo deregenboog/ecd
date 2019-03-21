@@ -17,7 +17,7 @@ interface DocumentSubjectInterface
     public function addDocument(DocumentInterface $document);
 
     /**
-     * @param Document $document
+     * @param DocumentInterface $document
      *
      * @return self
      */

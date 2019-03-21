@@ -3,8 +3,10 @@
 namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Trajectbegeleider;
 use DagbestedingBundle\Entity\Trajectsoort;
@@ -13,8 +15,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseSelectType;
-use DagbestedingBundle\Entity\Locatie;
 
 class TrajectFilterType extends AbstractType
 {

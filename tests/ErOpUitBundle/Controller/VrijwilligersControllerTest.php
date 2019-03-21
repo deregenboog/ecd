@@ -15,7 +15,7 @@ class VrijwilligersControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(16, $rows->count());
+        $this->assertEquals(17, $rows->count());
     }
 
     public function testSort()
@@ -50,7 +50,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(2, $rows->count());
+        $this->assertEquals(3, $rows->count());
     }
 
     public function testAddFilter()
@@ -66,6 +66,6 @@ class VrijwilligersControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-        $this->assertEquals(22, $rows->count());
+        $this->assertEquals(19, $rows->count());
     }
 }

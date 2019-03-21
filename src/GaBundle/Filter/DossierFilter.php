@@ -83,8 +83,8 @@ abstract class DossierFilter implements FilterInterface
 
         if ($this->actief) {
             $builder
-                ->andWhere("dossier.aanmelddatum <= :today")
-                ->andWhere("dossier.afsluitdatum > :today OR dossier.afsluitdatum IS NULL")
+                ->andWhere('dossier.aanmelddatum <= :today')
+                ->andWhere('dossier.afsluitdatum > :today OR dossier.afsluitdatum IS NULL')
                 ->setParameter('today', new \DateTime('today'))
             ;
         }

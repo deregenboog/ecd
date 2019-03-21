@@ -63,7 +63,7 @@ class VrijwilligerType extends AbstractType
             ->add('overeenkomstAanwezig', null, ['label' => 'Vrijwilligersovereenkomst aanwezig'])
             ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-                /* @var Klant $data */
+                /* @var Vrijwilliger $data */
                 $data = $event->getData();
                 if ($data->getPostcode()) {
                     $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));

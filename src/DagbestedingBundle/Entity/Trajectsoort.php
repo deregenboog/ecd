@@ -7,6 +7,7 @@ use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity

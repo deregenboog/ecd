@@ -2,13 +2,10 @@
 
 namespace InloopBundle\Event;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 

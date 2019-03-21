@@ -7,6 +7,7 @@ use ErOpUitBundle\Entity\Uitschrijfreden;
 use ErOpUitBundle\Form\UitschrijfredenType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use ErOpUitBundle\Service\UitschrijfredenDaoInterface;
 
 /**
  * @Route("/admin/uitschrijfredenen")

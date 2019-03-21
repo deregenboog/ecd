@@ -3,11 +3,11 @@
 namespace GaBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\OptionalMedewerkerTrait;
 
 /**
  * @ORM\Entity

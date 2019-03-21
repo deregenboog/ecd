@@ -4,18 +4,17 @@ namespace DagbestedingBundle\Form;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Entity\Dagdeel;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Filter\DagdeelFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\BaseSelectType;
 
 class DagdeelFilterType extends AbstractType
 {

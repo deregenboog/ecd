@@ -3,9 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

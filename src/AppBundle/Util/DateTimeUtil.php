@@ -10,7 +10,7 @@ class DateTimeUtil
      * @param \DateTime $date
      * @param \DateTime $time
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public static function combine(\DateTime $date, \DateTime $time)
     {

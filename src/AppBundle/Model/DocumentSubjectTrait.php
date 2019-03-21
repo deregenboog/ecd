@@ -2,6 +2,8 @@
 
 namespace AppBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait DocumentSubjectTrait
 {
     /**
@@ -33,7 +35,7 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
+     * @param DocumentInterface $document
      *
      * @return self
      */

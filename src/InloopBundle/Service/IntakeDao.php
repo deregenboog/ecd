@@ -4,11 +4,11 @@ namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Intake;
 use Doctrine\ORM\EntityManager;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use InloopBundle\Event\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IntakeDao extends AbstractDao implements IntakeDaoInterface

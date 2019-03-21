@@ -2,9 +2,9 @@
 
 namespace GaBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\VrijwilligerFilter;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Medewerker;
 
 class VrijwilligerdossierFilter extends DossierFilter
 {

@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Medewerker;
 
 class DeelnemerFilter implements FilterInterface
 {

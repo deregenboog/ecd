@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Verslag;
 use PfoBundle\Form\VerslagType;
+use PfoBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

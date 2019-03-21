@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -16,8 +17,8 @@ use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 
 /**
  * @Route("/klanten")

@@ -27,8 +27,8 @@ class VerhuurderFilter implements FilterInterface
      * @var bool
      */
     public $actief = true;
-    
-	/**
+
+    /**
      * @var KlantFilter
      */
     public $klant;
@@ -89,7 +89,7 @@ class VerhuurderFilter implements FilterInterface
             ->setParameter('today', new \DateTime('today'))
             ;
         }
-        
+
         if ($this->wpi) {
             $builder
                 ->andWhere('verhuurder.wpi = :wpi')

@@ -9,6 +9,7 @@ use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
+use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 

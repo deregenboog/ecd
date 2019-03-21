@@ -4,8 +4,10 @@ namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\ConfirmationType;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
 use IzBundle\Form\KoppelingCloseType;
@@ -18,8 +20,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Exception\UserException;
-use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/koppelingen")

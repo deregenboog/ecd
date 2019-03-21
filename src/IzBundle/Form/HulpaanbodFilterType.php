@@ -2,8 +2,8 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
@@ -15,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\MedewerkerType;
 
 class HulpaanbodFilterType extends AbstractType
 {

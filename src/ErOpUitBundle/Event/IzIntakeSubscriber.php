@@ -4,7 +4,7 @@ namespace ErOpUitBundle\Event;
 
 use ErOpUitBundle\Entity\Klant;
 use ErOpUitBundle\Service\KlantDaoInterface;
-use IzBundle\Entity\Intake as IzIntake;
+use IzBundle\Entity\Intake;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

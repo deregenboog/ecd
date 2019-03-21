@@ -7,6 +7,7 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\LandSelectType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\RedenAfsluiting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +15,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\RedenAfsluiting;
 
 class AfsluitingType extends AbstractType
 {
@@ -34,7 +34,7 @@ class AfsluitingType extends AbstractType
                         ->orderBy('reden.gewicht, reden.naam')
                     ;
                 },
-                'choice_attr' => function(RedenAfsluiting $reden, $key, $value) {
+                'choice_attr' => function (RedenAfsluiting $reden, $key, $value) {
                     // adds a class land_0 or land_1
                     return ['class' => 'land_'.(int) $reden->isLand()];
                 },
