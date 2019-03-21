@@ -80,7 +80,12 @@ services:
                 Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
                 Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
                 E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
+                Naam training: { expression: 'entity.getTraining()' }
+                Startdatum training: { expression: 'entity.getTraining().getStartDatum()', type: 'date' }
+                Aanmelddatum: { expression: 'entity.getDeelnemer().getAanmelding().getDatum()', condition: 'entity.getDeelnemer().getAanmelding()', type: 'date' }
+                Status: { expression: 'entity.getStatus()' }
                 Verwezen door: { expression: 'entity.getDeelnemer().getAanmelding().getVerwijzing()', condition: 'entity.getDeelnemer().getAanmelding()' }
+                Verwezen naar: { expression: 'entity.getDeelnemer().getAfsluiting().getVerwijzing()', condition: 'entity.getDeelnemer().getAfsluiting()' }
 
     oek.export.presentielijst:
         class: OekBundle\Export\PresentielijstExport
