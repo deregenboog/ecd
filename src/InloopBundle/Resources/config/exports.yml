@@ -9,6 +9,7 @@ services:
                 Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
                 Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
                 Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
                 Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
