@@ -86,6 +86,14 @@ table.table.table-hover tr[data-href]:hover {
 }
 
 /* forms */
+label.required:after {
+    content: " *";
+}
+
+form #confirmation div.form-group {
+    float: left;
+}
+
 #klus_dienstverleners > .checkbox,
 #klus_vrijwilligers > .checkbox {
     float:left;

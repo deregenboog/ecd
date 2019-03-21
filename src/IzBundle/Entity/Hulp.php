@@ -413,7 +413,7 @@ abstract class Hulp
     /**
      * @param AfsluitredenKoppeling $afsluitreden
      */
-    public function setAfsluitredenKoppeling(AfsluitredenKoppeling $afsluitreden)
+    public function setAfsluitredenKoppeling(?AfsluitredenKoppeling $afsluitreden)
     {
         $this->afsluitredenKoppeling = $afsluitreden;
         $this->getKoppeling()->setAfsluitreden($afsluitreden);

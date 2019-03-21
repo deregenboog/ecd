@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Exception\UserException;
+use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/koppelingen")
@@ -92,12 +93,36 @@ class KoppelingenController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        if (!$entity->getKoppelingEinddatum()) {
-            $entity->setKoppelingEinddatum(new \DateTime());
-        }
         $this->formClass = KoppelingCloseType::class;
 
         return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->getKoppeling()->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     protected function afterFormSubmitted(Request $request, $entity)
