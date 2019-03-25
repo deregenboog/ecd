@@ -18,7 +18,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="8">
+                    <th colspan="9">
                         <span class="pull-left">
                             {{ form_widget(filter.alleenMetVerslag) }}
                             {{ form_errors(filter.alleenMetVerslag) }}
@@ -62,7 +62,7 @@
                         {{ form_widget(filter.laatsteVerslagDatum.end) }}
                         {{ form_errors(filter.laatsteVerslagDatum.end) }}
                     </th>
-                    <th>
+                    <th colspan="2">
                     </th>
                 </tr>
             {{ form_end(filter) }}
@@ -91,6 +91,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Aantal verslagen', 'aantalVerslagen') }}
                 </th>
+                <th>Dossierstatus</th>
             </tr>
         </thead>
         <tbody>
@@ -120,6 +121,9 @@
                     </td>
                     <td>
                         {{ item.aantalVerslagen }}
+                    </td>
+                    <td>
+                        {{ klant.huidigeStatus }}
                     </td>
                 </tr>
             {% endfor %}
