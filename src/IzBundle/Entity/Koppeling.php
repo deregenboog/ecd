@@ -41,6 +41,11 @@ class Koppeling
         $this->hulpaanbod = $hulpaanbod;
     }
 
+    public function __toString()
+    {
+        return sprintf('%s - %s', $this->hulpvraag->getDeelnemer(), $this->hulpaanbod->getDeelnemer());
+    }
+
     /**
      * @return Hulpvraag
      */
