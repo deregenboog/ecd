@@ -5,5 +5,8 @@
     <p>
         {{ html.link('Annuleren', path('inloop_klanten_view', {id: entity.id}), 'cancel') }}
     </p>
+{% endblock %}
+
+{% block content %}
     {{ form(form) }}
 {% endblock %}

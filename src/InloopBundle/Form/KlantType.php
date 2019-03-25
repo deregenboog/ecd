@@ -39,6 +39,7 @@ class KlantType extends AbstractType
         ->add('nationaliteit', NationaliteitSelectType::class)
         ->add('bsn')
         ->add('laatsteTbcControle', AppDateType::class, [
+            'label' => 'Laatste TBC-controle',
             'required' => false,
         ])
         ->add('medewerker', MedewerkerType::class, ['required' => true])
