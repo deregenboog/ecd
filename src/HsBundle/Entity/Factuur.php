@@ -286,9 +286,9 @@ class Factuur
         return (float) $betaald;
     }
 
-    public function getSaldo()
+    public function getSaldo(): float
     {
-        return (float) $this->bedrag - $this->getBetaald();
+        return round($this->bedrag - $this->getBetaald(), 2);
     }
 
     public function getBetreft()

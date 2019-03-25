@@ -83,8 +83,8 @@ class FactuurFilter implements FilterInterface
 
         if ($this->negatiefSaldo) {
             $builder
-                ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')
-                ->orHaving('SUM(factuur.bedrag) > 0 AND COUNT(betaling) = 0')
+                ->having('(factuur.bedrag - SUM(betaling.bedrag)) > 0')
+                ->orHaving('factuur.bedrag > 0 AND COUNT(betaling) = 0')
                 ->groupBy('factuur')
             ;
         }
