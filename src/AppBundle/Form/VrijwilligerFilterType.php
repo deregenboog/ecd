@@ -61,6 +61,7 @@ class VrijwilligerFilterType extends AbstractType
 
         if (in_array('bsn', $options['enabled_filters'])) {
             $builder->add('bsn', null, [
+                'label' => 'BSN',
                 'required' => false,
             ]);
         }
