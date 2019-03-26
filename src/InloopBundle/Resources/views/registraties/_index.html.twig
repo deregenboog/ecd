@@ -66,20 +66,23 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if klant.huidigeSchorsingen|length > 0 %}
+                    {% set huidige_schorsingen = klant.huidigeSchorsingen(locatie) %}
+                    {% if huidige_schorsingen|length > 0 %}
                         <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}" class="text-danger">
-                            {{ klant.huidigeSchorsingen|length }}
-                            {{ klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
+                            {{ huidige_schorsingen|length }}
+                            {{ huidige_schorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
                         </a>
                     {% else %}
+                        {% set ongeziene_schorsingen = klant.ongezieneSchorsingen(locatie) %}
                         <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}">
-                            {{ klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                            {{ ongeziene_schorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
                         </a>
                     {% endif %}
                 </td>
                 <td>
+                    {% set openstaande_opmerkingen = klant.openstaandeOpmerkingen %}
                     <a href="{{ path('inloop_opmerkingen_index_1', {klant: klant.id, locatie: locatie.id}) }}">
-                        {{ klant.openstaandeOpmerkingen|length > 0 ? klant.openstaandeOpmerkingen|length~' opmerkingen' : 'geen' }}
+                        {{ openstaande_opmerkingen|length > 0 ? openstaande_opmerkingen|length~' opmerkingen' : 'geen' }}
                     </a>
                 </td>
             </tr>
