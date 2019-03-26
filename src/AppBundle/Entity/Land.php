@@ -58,13 +58,25 @@ class Land
         return $this->id;
     }
 
-    public function getAfkorting()
+    public function getAfkorting2()
     {
-        return $this->afkorting;
+        return $this->afkorting2;
+    }
+
+    public function getAfkorting3()
+    {
+        return $this->afkorting3;
     }
 
     public function getNaam()
     {
         return $this->land;
+    }
+
+    public function setNaam(string $naam)
+    {
+        $this->land = $naam;
+
+        return $this;
     }
 }
