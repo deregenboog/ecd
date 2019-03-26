@@ -60,22 +60,22 @@
                 <td>
                     {% set verloopdatum = klant.laatsteIntake.intakedatum|date_modify('+1 year') %}
                     {% if verloopdatum < today %}
-                        <strong class="text-danger">
+                        <span class="text-danger">
                             {{ today|diff(verloopdatum).days|human_days }} verlopen
-                        </strong>
+                        </span>
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}">
-                        {% if klant.huidigeSchorsingen|length > 0 %}
-                            <strong class="text-danger">
-                                {{ klant.huidigeSchorsingen|length }}
-                                {{ klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
-                            </strong>
-                        {% else %}
+                    {% if klant.huidigeSchorsingen|length > 0 %}
+                        <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}" class="text-danger">
+                            {{ klant.huidigeSchorsingen|length }}
+                            {{ klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
+                        </a>
+                    {% else %}
+                        <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}">
                             {{ klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
-                        {% endif %}
-                    </a>
+                        </a>
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ path('inloop_opmerkingen_index_1', {klant: klant.id, locatie: locatie.id}) }}">
