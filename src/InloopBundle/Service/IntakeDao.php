@@ -77,6 +77,10 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
      */
     public function update(Intake $entity)
     {
-        return parent::doUpdate($entity);
+        parent::doUpdate($entity);
+
+        $this->eventDispatcher->dispatch(Events::INTAKE_UPDATED, new GenericEvent($entity));
+
+        return $entity;
     }
 }
