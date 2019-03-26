@@ -65,7 +65,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
      *
      * @return Vrijwilliger
      */
-    public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger): Vrijwilliger
+    public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger): ?Vrijwilliger
     {
         return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
     }
