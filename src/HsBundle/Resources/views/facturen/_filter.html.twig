@@ -1,10 +1,11 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="8">
+        <th colspan="9">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download, {label: 'Excel downloaden'}) }}
                 {{ form_widget(filter.zipDownload, {label: 'ZIP downloaden'}) }}
+                {{ form_widget(filter.pdfDownload, {label: 'PDF downloaden'}) }}
             </span>
         </th>
     </tr>
@@ -40,6 +41,10 @@
             {{ form_widget(filter.metHerinnering) }}
             {{ form_label(filter.metHerinnering) }}
             {{ form_errors(filter.metHerinnering) }}
+        </th>
+        <th>
+            {{ form_widget(filter.inbaar) }}
+            {{ form_errors(filter.inbaar) }}
         </th>
         <th>
             {{ form_widget(filter.klant.afwijkendFactuuradres) }}

@@ -56,6 +56,12 @@ class Factuur
     private $locked = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $oninbaar = false;
+
+    /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
      * @Gedmo\Versioned
@@ -104,7 +110,7 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        $this->datum = new \DateTime('today');
+        $this->datum = new \DateTime('last day of this month');
     }
 
     public function __toString()
@@ -286,9 +292,9 @@ class Factuur
         return (float) $betaald;
     }
 
-    public function getSaldo()
+    public function getSaldo(): float
     {
-        return (float) $this->bedrag - $this->getBetaald();
+        return round($this->bedrag - $this->getBetaald(), 2);
     }
 
     public function getBetreft()
@@ -325,9 +331,24 @@ class Factuur
         return $this;
     }
 
+    public function isOninbaar(): bool
+    {
+        return $this->oninbaar;
+    }
+
+    public function setOninbaar(bool $oninbaar)
+    {
+        $this->oninbaar = $oninbaar;
+
+        return $this;
+    }
+
+    /**
+     * Sets the date to the last day of the month of the most recent declaration/registration.
+     */
     private function updateDatum()
     {
-        $datum = null;
+        $datum = $this->datum;
 
         foreach ($this->declaraties as $declaratie) {
             if (!$datum || $declaratie->getDatum() > $datum) {
@@ -340,6 +361,12 @@ class Factuur
                 $datum = $registratie->getDatum();
             }
         }
+
+        $yearMonth = $datum->format('Y-m');
+        while ($yearMonth == $datum->format('Y-m')) {
+            $datum->modify('+1 day');
+        }
+        $datum->modify('-1 day');
 
         $this->datum = $datum;
     }

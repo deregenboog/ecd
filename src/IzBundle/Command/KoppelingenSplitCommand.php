@@ -221,7 +221,6 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setDagdeel($hulpaanbod->getDagdeel())
             ->setExpat($hulpaanbod->isExpat())
             ->setVoorkeurGeslacht($hulpaanbod->getVoorkeurGeslacht())
-            ->setCoachend($hulpaanbod->isCoachend())
             ->setInfo($hulpaanbod->getInfo())
         ;
 

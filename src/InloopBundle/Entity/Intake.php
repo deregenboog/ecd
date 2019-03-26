@@ -452,6 +452,11 @@ class Intake
         $this->primaireProblematiekGebruikswijzen = null;
         $this->primaireProblematiekPeriode = null;
 
+        $this->informeleZorg = null;
+        $this->dagbesteding = null;
+        $this->inloophuis = null;
+        $this->hulpverlening = null;
+
         if ($this->zrm && get_class($this->zrm) === get_class(Zrm::create())) {
             $this->zrm = clone $this->zrm;
         } else {

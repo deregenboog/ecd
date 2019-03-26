@@ -56,6 +56,16 @@ class FactuurFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('inbaar', $options['enabled_filters'])) {
+            $builder->add('inbaar', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    'Nee' => 0,
+                    'Ja' => 1,
+                ],
+            ]);
+        }
+
         if (in_array('metHerinnering', $options['enabled_filters'])) {
             $builder->add('metHerinnering', CheckboxType::class, [
                 'required' => false,
@@ -79,6 +89,10 @@ class FactuurFilterType extends AbstractType
         if (in_array('zipDownload', $options['enabled_filters'])) {
             $builder->add('zipDownload', SubmitType::class);
         }
+
+        if (in_array('pdfDownload', $options['enabled_filters'])) {
+            $builder->add('pdfDownload', SubmitType::class);
+        }
     }
 
     /**
@@ -94,11 +108,13 @@ class FactuurFilterType extends AbstractType
                 'bedrag',
                 'status',
                 'negatiefSaldo',
+                'inbaar',
                 'metHerinnering',
                 'klant' => ['naam', 'afwijkendFactuuradres'],
                 'filter',
                 'download',
                 'zipDownload',
+                'pdfDownload',
             ],
         ]);
     }

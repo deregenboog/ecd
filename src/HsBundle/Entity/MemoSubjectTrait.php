@@ -2,6 +2,8 @@
 
 namespace HsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait MemoSubjectTrait
 {
     /**

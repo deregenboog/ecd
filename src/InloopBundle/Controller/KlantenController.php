@@ -8,10 +8,12 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
+use InloopBundle\Form\AanmeldingType;
 use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Form\KlantType;
@@ -22,11 +24,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use InloopBundle\Entity\Aanmelding;
-use InloopBundle\Form\AanmeldingType;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/klanten")

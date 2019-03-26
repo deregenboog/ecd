@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Groep;
 use PfoBundle\Form\GroepType;
+use PfoBundle\Service\GroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

@@ -10,6 +10,9 @@ services:
     AppBundle\Service\KlantDao:
         parent: app.dao.abstract
 
+    AppBundle\Service\LandDao:
+        parent: app.dao.abstract
+
     AppBundle\Service\MedewerkerDao:
         parent: app.dao.abstract
 

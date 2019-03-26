@@ -11,6 +11,9 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
+    </p>
     {% if not entity.laatsteZrm %}
         <p class="text-danger">
             LET OP: geen ZRM aanwezig. Klik

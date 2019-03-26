@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Woonsituatie
 {
-    use TimestampableTrait;
+    use TimestampableTrait, NotDeletableTrait;
 
     /**
      * @ORM\Id
@@ -80,7 +81,7 @@ class Woonsituatie
         return $this->datumTot;
     }
 
-    public function setDatumTot(\DateTime $datumTot)
+    public function setDatumTot(?\DateTime $datumTot)
     {
         $this->datumTot = $datumTot;
 

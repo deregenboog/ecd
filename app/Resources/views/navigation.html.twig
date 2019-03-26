@@ -54,15 +54,16 @@
             Beheer <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            {{ html.navLink('Landen', path('app_landen_index'), isActiveRoute('app_landen_')) }}
             {{ html.navLink('Postcodes', path('app_postcodes_index'), isActiveRoute('app_postcodes_')) }}
-            {# @todo #}
-            {#{ html.navLink('Geslachten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
-            {#{ html.navLink('Inkomens', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
-            {#{ html.navLink('Instanties', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
-            {#{ html.navLink('Landen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
-            {#{ html.navLink('Legitimatiebewijzen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
-            {#{ html.navLink('Nationaliteiten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
-            {#{ html.navLink('Redenen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }#}
+            {# @todo
+            {{ html.navLink('Geslachten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Inkomens', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Instanties', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Legitimatiebewijzen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Nationaliteiten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Redenen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            #}
         </ul>
     </li>
 {% endif %}

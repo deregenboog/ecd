@@ -2,9 +2,9 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
@@ -15,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\MedewerkerType;
 
 class HulpvraagFilterType extends AbstractType
 {

@@ -18,7 +18,6 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         'sortFieldWhitelist' => [
             'hulpaanbod.startdatum',
             'hulpaanbod.expat',
-            'hulpaanbod.coachend',
             'project.naam',
             'intake.intakeDatum',
             'vrijwilliger.id',

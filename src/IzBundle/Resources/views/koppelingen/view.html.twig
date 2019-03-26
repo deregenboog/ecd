@@ -8,6 +8,10 @@
         {{ entity.koppeling.hulpaanbod|naam_vrijwilliger }}
     </h1>
     {% if entity.afgesloten %}
+        <div class="alert alert-warning" role="alert">
+            Deze koppeling is beëindigd.
+            {{ html.link('Koppeling heropenen', path('iz_koppelingen_reopen', {id: entity.id}), 'open') }}
+        </div>
         {% if entity.izKlant.closeable %}
             <div class="alert alert-danger" role="alert">
                 Deelnemer {{ entity.izKlant }} heeft geen open hulpvragen of actieve koppelingen.

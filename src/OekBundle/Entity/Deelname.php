@@ -98,7 +98,7 @@ class Deelname
         return $this;
     }
 
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->deelnameStatus->getStatus();
     }

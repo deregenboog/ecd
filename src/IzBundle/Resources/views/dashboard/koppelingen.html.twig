@@ -205,6 +205,6 @@
     {% if dateHulpvraag and dateHulpaanbod %}
         {{ dateHulpvraag > dateHulpaanbod ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
     {% else %}
-        {{ dateHulpvraag ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|date('d-m-Y') }}
+        {{ dateHulpvraag ? dateHulpvraag|date('d-m-Y') : dateHulpaanbod|if_date('d-m-Y') }}
     {% endif %}
 {% endmacro %}

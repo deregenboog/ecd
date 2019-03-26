@@ -3,6 +3,8 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\GenericExport;
+use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Traject;
@@ -15,8 +17,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\GenericExport;
-use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/trajecten")

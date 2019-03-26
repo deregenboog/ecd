@@ -5,11 +5,11 @@ namespace DagbestedingBundle\Filter;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
+use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Trajectbegeleider;
 use DagbestedingBundle\Entity\Trajectsoort;
 use Doctrine\ORM\QueryBuilder;
-use DagbestedingBundle\Entity\Locatie;
 
 class TrajectFilter implements FilterInterface
 {

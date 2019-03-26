@@ -91,6 +91,7 @@ security:
             - ROLE_DAGBESTEDING
         ROLE_HOMESERVICE:
             - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_HOMESERVICE_BEHEER:
             - ROLE_HOMESERVICE
         ROLE_ODP: []

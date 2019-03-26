@@ -2,13 +2,10 @@
 
 namespace InloopBundle\Event;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -46,6 +43,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     {
         return [
             Events::INTAKE_CREATED => ['afterIntakeCreated'],
+            Events::INTAKE_UPDATED => ['afterIntakeUpdated'],
         ];
     }
 
@@ -58,6 +56,16 @@ class IntakeSubscriber implements EventSubscriberInterface
 
         $this->updateAccess($intake);
         $this->sendIntakeNotification($intake);
+    }
+
+    public function afterIntakeUpdated(GenericEvent $event)
+    {
+        $intake = $event->getSubject();
+        if (!$intake instanceof Intake) {
+            return;
+        }
+
+        $this->updateAccess($intake);
     }
 
     public function updateAccess(Intake $intake)

@@ -14,6 +14,11 @@
     <p>
         {% if entity.locked %}
             {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
+            {% if entity.oninbaar %}
+                {{ html.link('Markeren als inbaar', path('hs_facturen_inbaar', {id: entity.id}), 'edit') }}
+            {% else %}
+                {{ html.link('Markeren als oninbaar', path('hs_facturen_oninbaar', {id: entity.id}), 'edit') }}
+            {% endif %}
         {% else %}
             {% if is_granted('ROLE_HOMESERVICE_BEHEER') %}
                 {{ html.link('Factuur definitief maken', path('hs_facturen_lock', {id: entity.id}), 'ok') }}

@@ -2,11 +2,10 @@
 
 namespace IzBundle\Entity;
 
-use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Exception\UserException;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpaanbodRepository")
@@ -47,9 +46,11 @@ class Hulpaanbod extends Hulp
     /**
      * @var bool
      *
+     * @deprecated
+     *
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $coachend = false;
+    private $coachend;
 
     /**
      * @var Reservering
@@ -146,11 +147,17 @@ class Hulpaanbod extends Hulp
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function isCoachend()
     {
         return (bool) $this->coachend;
     }
 
+    /**
+     * @deprecated
+     */
     public function setCoachend($coachend)
     {
         $this->coachend = (bool) $coachend;

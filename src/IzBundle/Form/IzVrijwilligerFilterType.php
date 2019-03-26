@@ -9,6 +9,7 @@ use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Intake;
+use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzVrijwilligerFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use IzBundle\Entity\IzDeelnemer;
 
 class IzVrijwilligerFilterType extends AbstractType
 {

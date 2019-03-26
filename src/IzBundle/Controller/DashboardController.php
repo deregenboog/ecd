@@ -7,7 +7,6 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\MedewerkerType;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Filter\HulpaanbodFilter;
 use IzBundle\Filter\HulpvraagFilter;

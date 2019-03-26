@@ -4,16 +4,16 @@ namespace GaBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Filter\VrijwilligerdossierFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\MedewerkerType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class VrijwilligerdossierFilterType extends AbstractType
 {

@@ -5,6 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\BinnenVia;
 use InloopBundle\Form\BinnenViaType;
+use InloopBundle\Service\BinnenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 

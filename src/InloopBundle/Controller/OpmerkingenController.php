@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Opmerking;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
+use InloopBundle\Service\OpmerkingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

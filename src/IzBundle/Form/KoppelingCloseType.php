@@ -38,6 +38,7 @@ class KoppelingCloseType extends AbstractType
             ->add('koppelingEinddatum', AppDateType::class, [
                 'label' => 'Einddatum koppeling',
                 'required' => true,
+                'data' => new \DateTime(),
             ])
             ->add('afsluitredenKoppeling', AfsluitredenKoppelingSelectType::class, [
                 'required' => true,

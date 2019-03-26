@@ -1,6 +1,6 @@
 <h2>Basisgegevens</h2>
 <p>
-    {{ html.link('Bekijken', path('app_vrijwilligers_view', {id: vrijwilliger.id}), 'view') }}
+    {{ html.link('Basisdossier bekijken', path('app_vrijwilligers_view', {id: vrijwilliger.id}), 'view') }}
     {{ html.link('Wijzigen', path('app_vrijwilligers_edit', {id: vrijwilliger.id}), 'edit') }}
 </p>
 <dl class="dl-horizontal">
@@ -21,7 +21,6 @@
 </dl>
 <h2>Contactgegevens</h2>
 <p>
-    {{ html.link('Bekijken', path('app_vrijwilligers_view', {id: vrijwilliger.id}), 'view') }}
     {{ html.link('Wijzigen', path('app_vrijwilligers_edit', {id: vrijwilliger.id}), 'edit') }}
 </p>
 <dl class="dl-horizontal">
@@ -48,4 +47,16 @@
     <dd>{{ vrijwilliger.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
     <dt>Opmerking</dt>
     <dd>{{ vrijwilliger.opmerking }}</dd>
+</dl>
+<h2>Overeenkomst</h2>
+<p>
+    {{ html.link('Wijzigen', path('app_vrijwilligers_edit', {id: vrijwilliger.id}), 'edit') }}
+</p>
+<dl class="dl-horizontal">
+    <dt>VOG aangevraagd</dt>
+    <dd>{{ vrijwilliger.vogAangevraagd ? 'Ja' : 'Nee' }}</dd>
+    <dt>VOG aanwezig</dt>
+    <dd>{{ vrijwilliger.vogAanwezig ? 'Ja' : 'Nee' }}</dd>
+    <dt>Overeenkomst aanwezig</dt>
+    <dd>{{ vrijwilliger.overeenkomstAanwezig ? 'Ja' : 'Nee' }}</dd>
 </dl>

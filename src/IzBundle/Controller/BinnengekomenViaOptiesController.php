@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\BinnengekomenVia;
 use IzBundle\Form\BinnengekomenViaType;
+use IzBundle\Service\BinnengekomenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;

@@ -31,6 +31,11 @@ class FactuurFilter implements FilterInterface
     /**
      * @var bool
      */
+    public $inbaar;
+
+    /**
+     * @var bool
+     */
     public $negatiefSaldo;
 
     /**
@@ -81,10 +86,17 @@ class FactuurFilter implements FilterInterface
             ;
         }
 
+        if (null !== $this->inbaar) {
+            $builder
+                ->andWhere('factuur.oninbaar = :oninbaar')
+                ->setParameter('oninbaar', !$this->inbaar)
+            ;
+        }
+
         if ($this->negatiefSaldo) {
             $builder
-                ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')
-                ->orHaving('SUM(factuur.bedrag) > 0 AND COUNT(betaling) = 0')
+                ->having('(factuur.bedrag - SUM(betaling.bedrag)) > 0')
+                ->orHaving('factuur.bedrag > 0 AND COUNT(betaling) = 0')
                 ->groupBy('factuur')
             ;
         }

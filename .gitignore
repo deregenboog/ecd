@@ -34,7 +34,7 @@
 /.mysql/*
 
 # Composer
-/vendor/*
+/vendor/
 
 # Eclipse
 /.settings/*

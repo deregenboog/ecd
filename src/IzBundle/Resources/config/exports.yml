@@ -107,6 +107,8 @@ services:
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
                 Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
+                Doelgroep: { expression: 'entity.getDoelgroep()' }
+                Hulpvraagsoort: { expression: 'entity.getHulpvraagsoort()' }
 
     iz.export.hulpaanbiedingen:
         class: AppBundle\Export\GenericExport
@@ -133,6 +135,8 @@ services:
                 Werkgebied: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getPostcodegebied()' }
                 Binnengekomen via: { expression: 'entity.getIzVrijwilliger().getBinnengekomenVia()' }
+                Doelgroepen: { expression: 'entity.getDoelgroepen()' }
+                Hulpvraagsoorten: { expression: 'entity.getHulpvraagsoorten()' }
 
     iz.export.koppelingen:
         class: AppBundle\Export\GenericExport
@@ -142,6 +146,7 @@ services:
                 Startdatum koppeling: { expression: 'entity.getKoppelingStartdatum()', type: 'date' }
                 Einddatum koppeling: { expression: 'entity.getKoppelingEinddatum()', type: 'date' }
                 Afsluitreden: { expression: 'entity.getAfsluitredenKoppeling()' }
+                Succesindicatoren: { expression: 'entity.getSuccesindicatoren()' }
                 Project: { expression: 'entity.getProject()' }
                 Medewerker hulpvraag: { expression: 'entity.getMedewerker()' }
                 Medewerker hulpaanbod: { expression: 'entity.getHulpaanbod().getMedewerker()' }

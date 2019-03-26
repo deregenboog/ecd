@@ -260,7 +260,7 @@ class Klant extends Persoon
         return $this->schorsingen;
     }
 
-    public function getHuidigeSchorsingen()
+    public function getHuidigeSchorsingen(?Locatie $locatie = null)
     {
         $today = new \DateTime('today');
         $criteria = Criteria::create()
@@ -268,8 +268,15 @@ class Klant extends Persoon
             ->andWhere(Criteria::expr()->gte('datumTot', $today))
             ->orderBy(['id' => 'DESC'])
         ;
+        $huidigeSchorsingen = $this->schorsingen->matching($criteria);
 
-        return $this->schorsingen->matching($criteria);
+        if ($locatie) {
+            $schorsingenLocatie = $this->getSchorsingenVoorLocatie($locatie);
+
+            return new ArrayCollection(array_intersect($schorsingenLocatie->toArray(), $huidigeSchorsingen->toArray()));
+        }
+
+        return $huidigeSchorsingen;
     }
 
     public function getVerlopenSchorsingen()
@@ -301,14 +308,21 @@ class Klant extends Persoon
         return count($registraties) > 0 ? $registraties[0] : null;
     }
 
-    public function getOngezieneSchorsingen()
+    public function getOngezieneSchorsingen(?Locatie $locatie = null)
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('gezien', false))
             ->orderBy(['id' => 'DESC'])
         ;
+        $ongezieneSchorsingen = $this->schorsingen->matching($criteria);
 
-        return $this->schorsingen->matching($criteria);
+        if ($locatie) {
+            $schorsingenLocatie = $this->getSchorsingenVoorLocatie($locatie);
+
+            return new ArrayCollection(array_intersect($schorsingenLocatie->toArray(), $ongezieneSchorsingen->toArray()));
+        }
+
+        return $ongezieneSchorsingen;
     }
 
     public function getSchorsingenVoorLocatie(Locatie $locatie)

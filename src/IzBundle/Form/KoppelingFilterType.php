@@ -2,10 +2,10 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\MedewerkerType;
 
 class KoppelingFilterType extends AbstractType
 {
@@ -43,6 +42,13 @@ class KoppelingFilterType extends AbstractType
             $builder->add('lopendeKoppelingen', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Alleen lopende koppelingen',
+            ]);
+        }
+
+        if (in_array('langeKoppelingen', $options['enabled_filters'])) {
+            $builder->add('langeKoppelingen', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen koppelingen > 6 maanden',
             ]);
         }
 
@@ -144,6 +150,7 @@ class KoppelingFilterType extends AbstractType
                 'koppelingStartdatum',
                 'koppelingEinddatum',
                 'lopendeKoppelingen',
+                'langeKoppelingen',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',

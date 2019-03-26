@@ -6,6 +6,7 @@ use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\LocatieFilter;
@@ -13,8 +14,6 @@ use InloopBundle\Strategy\AmocStrategy;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
 use InloopBundle\Strategy\OndroBongStrategy;
 use InloopBundle\Strategy\VerblijfsstatusStrategy;
-use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\QueryBuilder;
 
 class AccessUpdater
 {

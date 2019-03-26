@@ -88,7 +88,7 @@ class FactuurSubscriber implements EventSubscriber
         // ...or create one
         if (!$factuur) {
             $nummer = $this->getNummer($klant, $dateRange, $entityManager);
-            $betreft = $this->getBetreft($nummer, $dateRange);
+            $betreft = $this->getBetreft($klant, $nummer, $dateRange);
             $factuur = new Factuur($klant, $nummer, $betreft);
             $entityManager->persist($factuur);
         }
@@ -101,7 +101,7 @@ class FactuurSubscriber implements EventSubscriber
                 $factuur->addRegistratie($entity);
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported class '.get_class($subject));
+                throw new \InvalidArgumentException('Unsupported class '.get_class($entity));
         }
 
         $this->calculateBedrag($factuur);
@@ -152,11 +152,12 @@ class FactuurSubscriber implements EventSubscriber
         }
     }
 
-    private function getBetreft($nummer, AppDateRangeModel $dateRange)
+    private function getBetreft(Klant $klant, $nummer, AppDateRangeModel $dateRange): string
     {
         return sprintf(
-            'Factuurnr: %s van %s t/m %s',
+            'factuurnummer %s (%s, periode %s t/m %s)',
             $nummer,
+            $klant->getAchternaamCompleet(),
             $dateRange->getStart()->format('d-m-Y'),
             $dateRange->getEnd()->format('d-m-Y')
         );

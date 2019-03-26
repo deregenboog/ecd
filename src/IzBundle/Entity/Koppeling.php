@@ -41,6 +41,11 @@ class Koppeling
         $this->hulpaanbod = $hulpaanbod;
     }
 
+    public function __toString()
+    {
+        return sprintf('%s - %s', $this->hulpvraag->getDeelnemer(), $this->hulpaanbod->getDeelnemer());
+    }
+
     /**
      * @return Hulpvraag
      */
@@ -117,7 +122,7 @@ class Koppeling
     /**
      * @param \DateTime $einddatum
      */
-    public function setEinddatum($einddatum)
+    public function setEinddatum(?\DateTime $einddatum)
     {
         if ($this->hulpvraag->getKoppelingEinddatum() !== $einddatum) {
             $this->hulpvraag->setKoppelingEinddatum($einddatum);
@@ -203,7 +208,7 @@ class Koppeling
         return $this->hulpvraag->getAfsluitredenKoppeling();
     }
 
-    public function setAfsluitreden(AfsluitredenKoppeling $afsluitreden)
+    public function setAfsluitreden(?AfsluitredenKoppeling $afsluitreden)
     {
         if ($this->hulpvraag->getAfsluitredenKoppeling() !== $afsluitreden) {
             $this->hulpvraag->setAfsluitredenKoppeling($afsluitreden);
@@ -223,5 +228,13 @@ class Koppeling
     public function setSuccesindicatoren($indicatoren)
     {
         return $this->hulpvraag->setSuccesindicatoren($indicatoren);
+    }
+
+    public function reopen(): Koppeling
+    {
+        $this->setEinddatum(null);
+        $this->setAfsluitreden(null);
+
+        return $this;
     }
 }

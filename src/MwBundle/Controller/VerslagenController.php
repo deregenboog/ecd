@@ -12,6 +12,7 @@ use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
+use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

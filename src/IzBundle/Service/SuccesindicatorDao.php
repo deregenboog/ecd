@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use IzBundle\Entity\Succesindicator;
 use Knp\Component\Pager\PaginatorInterface;
 
-class SuccesindicatorDao extends AbstractDao implements SuccesindicatoeDaoInterface
+class SuccesindicatorDao extends AbstractDao implements SuccesindicatorDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'indicator.naam',

@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Entity;
 use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 

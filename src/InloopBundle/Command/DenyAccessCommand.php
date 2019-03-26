@@ -3,6 +3,7 @@
 namespace InloopBundle\Command;
 
 use AppBundle\Entity\Klant;
+use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Registratie;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;

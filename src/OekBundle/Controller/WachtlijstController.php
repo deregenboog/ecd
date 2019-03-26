@@ -7,6 +7,7 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Form\DeelnemerFilterType;
+use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

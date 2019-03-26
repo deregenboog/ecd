@@ -4,8 +4,10 @@ namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\ConfirmationType;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
 use IzBundle\Form\KoppelingCloseType;
@@ -18,7 +20,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Exception\UserException;
 
 /**
  * @Route("/koppelingen")
@@ -92,12 +93,36 @@ class KoppelingenController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        if (!$entity->getKoppelingEinddatum()) {
-            $entity->setKoppelingEinddatum(new \DateTime());
-        }
         $this->formClass = KoppelingCloseType::class;
 
         return $this->processForm($request, $entity);
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->getKoppeling()->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     protected function afterFormSubmitted(Request $request, $entity)

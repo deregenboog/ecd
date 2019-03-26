@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Exception\ReportException;
 use AppBundle\Report\AbstractReport;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Exception\ReportException;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractRapportagesController extends SymfonyController
 {

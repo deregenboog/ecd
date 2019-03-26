@@ -17,7 +17,7 @@ interface MemoSubjectInterface
     public function addMemo(MemoInterface $memo);
 
     /**
-     * @param Memo $memo
+     * @param MemoInterface $memo
      *
      * @return self
      */

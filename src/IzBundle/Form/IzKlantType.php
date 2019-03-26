@@ -8,12 +8,12 @@ use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\KlantType;
+use AppBundle\Form\MedewerkerType;
 use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\MedewerkerType;
 
 class IzKlantType extends AbstractType
 {
