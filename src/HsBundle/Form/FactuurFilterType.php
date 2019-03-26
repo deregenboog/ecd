@@ -67,9 +67,13 @@ class FactuurFilterType extends AbstractType
         }
 
         if (in_array('metHerinnering', $options['enabled_filters'])) {
-            $builder->add('metHerinnering', CheckboxType::class, [
+            $builder->add('metHerinnering', ChoiceType::class, [
                 'required' => false,
                 'label' => 'Met betalingsherinnering',
+                'choices' => [
+                    'Met betalingsherinnering' => 1,
+                    'Zonder betalingsherinnering' => 0,
+                ],
             ]);
         }
 

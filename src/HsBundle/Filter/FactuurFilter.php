@@ -101,8 +101,12 @@ class FactuurFilter implements FilterInterface
             ;
         }
 
-        if ($this->metHerinnering) {
-            $builder->andWhere('herinnering.id IS NOT NULL');
+        if (null !== $this->metHerinnering) {
+            if ($this->metHerinnering) {
+                $builder->andWhere('herinnering.id IS NOT NULL');
+            } else {
+                $builder->andWhere('herinnering.id IS NULL');
+            }
         }
 
         if ($this->klant) {
