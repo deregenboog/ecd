@@ -3,7 +3,9 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\AmocLand;
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Land;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
@@ -142,7 +144,18 @@ class KlantenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
+            'amoc_landen' => $this->getAmocLanden(),
         ];
+    }
+
+    protected function getAmocLanden()
+    {
+        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
+            ->createQueryBuilder('land')
+            ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
+            ->getquery()
+            ->getResult()
+        ;
     }
 
     private function doSearch(Request $request)
@@ -212,6 +225,7 @@ class KlantenController extends AbstractController
         return [
             'entity' => $mwKlant,
             'creationForm' => $creationForm->createView(),
+            'amoc_landen' => $this->getAmocLanden(),
         ];
     }
 }

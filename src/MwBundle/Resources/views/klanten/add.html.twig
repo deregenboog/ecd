@@ -55,49 +55,7 @@
                 {{ form(creationForm) }}
             </div>
         {% else %}
-            {{ form_start(creationForm) }}
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <h2>Persoonsgegevens</h2>
-                            {{ form_row(creationForm.voornaam) }}
-                            {{ form_row(creationForm.tussenvoegsel) }}
-                            {{ form_row(creationForm.achternaam) }}
-                            {{ form_row(creationForm.roepnaam) }}
-                            {{ form_row(creationForm.geslacht) }}
-                            {{ form_row(creationForm.geboortedatum) }}
-                            {{ form_row(creationForm.land) }}
-                            {{ form_row(creationForm.nationaliteit) }}
-                            {{ form_row(creationForm.bsn) }}
-                            {{ form_row(creationForm.overleden) }}
-                        </div>
-                        <div class="col-xs-6">
-                            <h2>Contactgegevens</h2>
-                            {{ form_row(creationForm.adres) }}
-                            {{ form_row(creationForm.postcode) }}
-                            {{ form_row(creationForm.plaats) }}
-                            {{ form_row(creationForm.email) }}
-                            {{ form_row(creationForm.telefoon) }}
-                            {{ form_row(creationForm.mobiel) }}
-                            {{ form_row(creationForm.geenPost) }}
-                            {{ form_row(creationForm.geenEmail) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <h2>Opmerking</h2>
-                            {{ form_row(creationForm.opmerking) }}
-                        </div>
-                        <div class="col-xs-6">
-                            <h2>Medewerker</h2>
-                            {{ form_row(creationForm.medewerker) }}
-                            <span class="pull-right">
-                                {{ form_row(creationForm.submit) }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            {{ form_end(creationForm) }}
+            {{ form(creationForm) }}
         {% endif %}
     {% endif %}
 {% endblock %}
