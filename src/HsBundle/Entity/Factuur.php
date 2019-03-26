@@ -56,6 +56,12 @@ class Factuur
     private $locked = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $oninbaar = false;
+
+    /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
      * @Gedmo\Versioned
@@ -321,6 +327,18 @@ class Factuur
     public function lock()
     {
         $this->locked = true;
+
+        return $this;
+    }
+
+    public function isOninbaar(): bool
+    {
+        return $this->oninbaar;
+    }
+
+    public function setOninbaar(bool $oninbaar)
+    {
+        $this->oninbaar = $oninbaar;
 
         return $this;
     }

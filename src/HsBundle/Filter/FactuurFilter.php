@@ -31,6 +31,11 @@ class FactuurFilter implements FilterInterface
     /**
      * @var bool
      */
+    public $inbaar;
+
+    /**
+     * @var bool
+     */
     public $negatiefSaldo;
 
     /**
@@ -78,6 +83,13 @@ class FactuurFilter implements FilterInterface
             $builder
                 ->andWhere('factuur.locked = :locked')
                 ->setParameter('locked', (bool) $this->status)
+            ;
+        }
+
+        if (null !== $this->inbaar) {
+            $builder
+                ->andWhere('factuur.oninbaar = :oninbaar')
+                ->setParameter('oninbaar', !$this->inbaar)
             ;
         }
 

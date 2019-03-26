@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
@@ -167,6 +168,60 @@ class FacturenController extends AbstractChildController
         $this->dao->update($entity);
 
         return $this->redirectToView($entity);
+    }
+
+    /**
+     * @Route("/{id}/oninbaar")
+     * @Template
+     */
+    public function oninbaarAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->setOninbaar(true);
+                $this->dao->update($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is gemarkeerd als oninbaar.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/inbaar")
+     * @Template
+     */
+    public function inbaarAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->setOninbaar(false);
+                $this->dao->update($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is gemarkeerd als inbaar.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     protected function createEntity($parentEntity = null)

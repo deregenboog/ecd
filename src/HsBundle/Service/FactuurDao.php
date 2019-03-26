@@ -16,6 +16,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
             'factuur.datum',
             'factuur.bedrag',
             'factuur.locked',
+            'factuur.oninbaar',
             'klant.achternaam',
             'herinnering.type',
         ],
