@@ -7,6 +7,9 @@ services:
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
+    AppBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+
     AppBundle\Service\KlantDao:
         parent: app.dao.abstract
 
@@ -24,6 +27,12 @@ services:
 
     AppBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
+
+    app.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     app.zrm.entities:
         class: ArrayObject
