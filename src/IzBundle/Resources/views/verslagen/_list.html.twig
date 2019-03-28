@@ -20,11 +20,24 @@
         {% set add_url = path('iz_verslagen_add', {deelnemer: deelnemer.id}) %}
     {% endif %}
     <p>
-        {{ html.addLink(add_url) }}
-        {{ html.link('Verslag toevoegen', add_url) }}
+        {{ html.link('Verslag toevoegen', add_url, 'add') }}
+        {% if koppeling is defined %}
+            {% if koppeling.tussenevaluatie %}
+                {{ html.link('Tussenevaluatie bekijken', '#verslag-'~koppeling.tussenevaluatie.id, 'view') }}
+            {% else %}
+                {{ html.link('Tussenevaluatie toevoegen', path('iz_tussenevaluaties_add', {koppeling: koppeling.id}), 'add') }}
+            {% endif %}
+            {% if koppeling.eindevaluatie %}
+                {{ html.link('Eindevaluatie bekijken', '#verslag-'~koppeling.eindevaluatie.id, 'view') }}
+            {% else %}
+                {{ html.link('Eindevaluatie toevoegen', path('iz_eindevaluaties_add', {koppeling: koppeling.id}), 'add') }}
+            {% endif %}
+        {% endif %}
     </p>
     {% for verslag in verslagen %}
-        <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }} | {{ verslag.medewerker }}</h3>
+        <h3 id="verslag-{{ verslag.id }}">
+            {{ class(verslag, false) }} {{ verslag.created|date('d-m-Y - H:i')~' uur' }} | {{ verslag.medewerker }}
+        </h3>
         <p>
             {% set edit_url = path('iz_verslagen_edit', {id: verslag.id}) %}
             {{ html.editLink(edit_url) }}

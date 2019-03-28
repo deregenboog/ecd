@@ -169,6 +169,38 @@ class Hulpvraag extends Hulp
         return $verslagen;
     }
 
+    public function getTussenevaluatie(): ?Tussenevaluatie
+    {
+        foreach ($this->verslagen as $verslag) {
+            if ($verslag instanceof Tussenevaluatie) {
+                return $verslag;
+            }
+        }
+
+        return null;
+    }
+
+    public function addTussenevaluatie(Tussenevaluatie $tussenevaluatie): self
+    {
+        return $this->addVerslag($tussenevaluatie);
+    }
+
+    public function getEindevaluatie(): ?Eindevaluatie
+    {
+        foreach ($this->verslagen as $verslag) {
+            if ($verslag instanceof Eindevaluatie) {
+                return $verslag;
+            }
+        }
+
+        return null;
+    }
+
+    public function addEindevaluatie(Eindevaluatie $eindevaluatie): self
+    {
+        return $this->addVerslag($eindevaluatie);
+    }
+
     public function setKoppelingStartdatum(\DateTime $startdatum = null)
     {
         $this->koppelingStartdatum = $startdatum;

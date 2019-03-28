@@ -350,6 +350,8 @@ abstract class Hulp
         $this->verslagen[] = $verslag;
         $verslag->setKoppeling($this);
         $verslag->setIzDeelnemer($this->getDeelnemer());
+
+        return $this;
     }
 
     public function isGereserveerd()
