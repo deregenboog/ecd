@@ -1,0 +1,28 @@
+{% extends 'IzBundle::add.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>
+        {{ entity_name|capitalize }} toevoegen
+        {% if 'IzKlant' == class(parent_entity, false) %}
+            voor deelnemer {{ parent_entity }}
+        {% elseif 'IzVrijwilliger' == class(parent_entity, false) %}
+            voor vrijwilliger {{ parent_entity }}
+        {% elseif 'Hulpvraag' == class(parent_entity, false) %}
+            voor koppeling {{ parent_entity.koppeling }}
+        {% endif %}
+    </h1>
+    <p>
+        {% if 'IzKlant' == class(parent_entity, false) %}
+            {{ html.link('Annuleren', path('iz_klanten_view', {id: parent_entity.id}), 'cancel') }}
+        {% elseif 'IzVrijwilliger' == class(parent_entity, false) %}
+            {{ html.link('Annuleren', path('iz_vrijwilligers_view', {id: parent_entity.id}), 'cancel') }}
+        {% elseif 'Hulpvraag' == class(parent_entity, false) %}
+            {{ html.link('Annuleren', path('iz_koppelingen_view', {id: parent_entity.id}), 'cancel') }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}

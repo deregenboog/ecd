@@ -11,6 +11,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(name="iz_verslagen")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string", length=15)
+ * @ORM\DiscriminatorMap({
+ *     "verslag" = "Verslag",
+ *     "tussenevaluatie" = "Tussenevaluatie",
+ *     "eindevaluatie" = "Eindevaluatie"
+ * })
  * @Gedmo\Loggable
  */
 class Verslag
@@ -22,13 +29,13 @@ class Verslag
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
-    private $opmerking;
+    protected $opmerking;
 
     /**
      * @var IzDeelnemer
@@ -36,7 +43,7 @@ class Verslag
      * @ORM\JoinColumn(name="iz_deelnemer_id")
      * @Gedmo\Versioned
      */
-    private $izDeelnemer;
+    protected $izDeelnemer;
 
     /**
      * @var Hulp
@@ -44,7 +51,7 @@ class Verslag
      * @ORM\JoinColumn(name="iz_koppeling_id")
      * @Gedmo\Versioned
      */
-    private $koppeling;
+    protected $koppeling;
 
     /**
      * @var Medewerker
@@ -52,7 +59,7 @@ class Verslag
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    private $medewerker;
+    protected $medewerker;
 
     public function getId()
     {

@@ -1,0 +1,53 @@
+<?php
+
+namespace IzBundle\Controller;
+
+use AppBundle\Controller\AbstractChildController;
+use IzBundle\Entity\Tussenevaluatie;
+use IzBundle\Form\VerslagType;
+use IzBundle\Service\VerslagDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * @Route("/tussenevaluaties")
+ * @Template
+ */
+class TussenevaluatiesController extends AbstractChildController
+{
+    protected $title = 'Tussenevaluaties';
+    protected $entityName = 'tussenevaluatie';
+    protected $entityClass = Tussenevaluatie::class;
+    protected $formClass = VerslagType::class;
+    protected $baseRouteName = 'iz_tussenevaluaties_';
+    protected $addMethod = 'addTussenevaluatie';
+
+    /**
+     * @var VerslagDaoInterface
+     *
+     * @DI\Inject("IzBundle\Service\VerslagDao")
+     */
+    protected $dao;
+
+    /**
+     * @var \ArrayObject
+     *
+     * @DI\Inject("iz.verslag.entities")
+     */
+    protected $entities;
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        return $this->redirectToIndex();
+    }
+
+    protected function redirectToView($entity)
+    {
+        return $this->redirectToIndex();
+    }
+}
