@@ -28,7 +28,7 @@ class ClientenController extends AbstractController
     /**
      * @var ClientDaoInterface
      *
-     * @DI\Inject("clip.dao.client")
+     * @DI\Inject("ClipBundle\Service\ClientDao")
      */
     protected $dao;
 

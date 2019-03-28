@@ -22,7 +22,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     /**
      * @var WoningbouwcorporatieDaoInterface
      *
-     * @DI\Inject("odp.dao.woningbouwcorporatie")
+     * @DI\Inject("OdpBundle\Service\WoningbouwcorporatieDao")
      */
     private $woningbouwcorporatieDao;
 

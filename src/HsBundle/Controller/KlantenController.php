@@ -29,7 +29,7 @@ class KlantenController extends AbstractController
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("hs.dao.klant")
+     * @DI\Inject("HsBundle\Service\KlantDao")
      */
     protected $dao;
 

@@ -28,7 +28,7 @@ class DocumentenController extends SymfonyController
     /**
      * @var DocumentDaoInterface
      *
-     * @DI\Inject("odp.dao.document")
+     * @DI\Inject("OdpBundle\Service\DocumentDao")
      */
     private $dao;
 

@@ -26,7 +26,7 @@ class ActiviteitenController extends AbstractController
     /**
      * @var ActiviteitDaoInterface
      *
-     * @DI\Inject("hs.dao.activiteit")
+     * @DI\Inject("HsBundle\Service\ActiviteitDao")
      */
     protected $dao;
 

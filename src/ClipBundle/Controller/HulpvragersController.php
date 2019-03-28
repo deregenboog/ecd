@@ -26,7 +26,7 @@ class HulpvragersController extends AbstractController
     /**
      * @var HulpvragerDaoInterface
      *
-     * @DI\Inject("clip.dao.hulpvrager")
+     * @DI\Inject("ClipBundle\Service\HulpvragerDao")
      */
     protected $dao;
 

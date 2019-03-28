@@ -1,55 +1,38 @@
 services:
-    odp.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    OdpBundle\Service\CoordinatorDao:
+        parent: app.dao.abstract
 
-    odp.dao.coordinator:
-        parent: odp.dao
-        class: OdpBundle\Service\CoordinatorDao
-
-    odp.dao.document:
-        class: OdpBundle\Service\DocumentDao
+    OdpBundle\Service\DocumentDao:
         arguments:
             - '@doctrine.orm.entity_manager'
 
-    odp.dao.huuraanbodafsluiting:
-        parent: odp.dao
-        class: OdpBundle\Service\HuuraanbodAfsluitingDao
+    OdpBundle\Service\HuuraanbodAfsluitingDao:
+        parent: app.dao.abstract
 
     OdpBundle\Service\HuurderDao:
-        parent: odp.dao
+        parent: app.dao.abstract
 
-    odp.dao.huurderafsluiting:
-        parent: odp.dao
-        class: OdpBundle\Service\HuurderAfsluitingDao
+    OdpBundle\Service\HuurderAfsluitingDao:
+        parent: app.dao.abstract
 
-    odp.dao.huurovereenkomst:
-        parent: odp.dao
-        class: OdpBundle\Service\HuurovereenkomstDao
+    OdpBundle\Service\HuurovereenkomstDao:
+        parent: app.dao.abstract
 
-    odp.dao.huurovereenkomstafsluiting:
-        parent: odp.dao
-        class: OdpBundle\Service\HuurovereenkomstAfsluitingDao
+    OdpBundle\Service\HuurovereenkomstAfsluitingDao:
+        parent: app.dao.abstract
 
-    odp.dao.huurverzoekafsluiting:
-        parent: odp.dao
-        class: OdpBundle\Service\HuurverzoekAfsluitingDao
+    OdpBundle\Service\HuurverzoekAfsluitingDao:
+        parent: app.dao.abstract
 
     OdpBundle\Service\VerhuurderDao:
-        parent: odp.dao
+        parent: app.dao.abstract
 
-    odp.dao.verhuurderafsluiting:
-        parent: odp.dao
-        class: OdpBundle\Service\VerhuurderAfsluitingDao
+    OdpBundle\Service\VerhuurderAfsluitingDao:
+        parent: app.dao.abstract
 
-    odp.dao.verslag:
-        class: OdpBundle\Service\VerslagDao
+    OdpBundle\Service\VerslagDao:
         arguments:
             - '@doctrine.orm.entity_manager'
 
-    odp.dao.woningbouwcorporatie:
-        parent: odp.dao
-        class: OdpBundle\Service\WoningbouwcorporatieDao
+    OdpBundle\Service\WoningbouwcorporatieDao:
+        parent: app.dao.abstract

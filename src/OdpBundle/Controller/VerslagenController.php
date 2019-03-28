@@ -30,7 +30,7 @@ class VerslagenController extends SymfonyController
     /**
      * @var VerslagDaoInterface
      *
-     * @DI\Inject("odp.dao.verslag")
+     * @DI\Inject("OdpBundle\Service\VerslagDao")
      */
     private $dao;
 

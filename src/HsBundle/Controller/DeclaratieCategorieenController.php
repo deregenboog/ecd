@@ -26,7 +26,7 @@ class DeclaratieCategorieenController extends AbstractController
     /**
      * @var DeclaratieCategorieDaoInterface
      *
-     * @DI\Inject("hs.dao.declaratiecategorie")
+     * @DI\Inject("HsBundle\Service\DeclaratieCategorieDao")
      */
     protected $dao;
 

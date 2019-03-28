@@ -32,7 +32,7 @@ class VrijwilligersController extends AbstractController
     /**
      * @var VrijwilligerDaoInterface
      *
-     * @DI\Inject("hs.dao.vrijwilliger")
+     * @DI\Inject("HsBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 

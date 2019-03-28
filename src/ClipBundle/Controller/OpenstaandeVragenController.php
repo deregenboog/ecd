@@ -22,7 +22,7 @@ class OpenstaandeVragenController extends AbstractVragenController
     /**
      * @var VraagDaoInterface
      *
-     * @DI\Inject("clip.dao.vraag")
+     * @DI\Inject("ClipBundle\Service\VraagDao")
      */
     protected $dao;
 

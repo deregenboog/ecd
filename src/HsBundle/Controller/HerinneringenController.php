@@ -29,7 +29,7 @@ class HerinneringenController extends AbstractChildController
     /**
      * @var HerinneringDaoInterface
      *
-     * @DI\Inject("hs.dao.herinnering")
+     * @DI\Inject("HsBundle\Service\HerinneringDao")
      */
     protected $dao;
 

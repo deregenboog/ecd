@@ -28,7 +28,7 @@ class DeclaratiesController extends AbstractChildController
     /**
      * @var DeclaratieDaoInterface
      *
-     * @DI\Inject("hs.dao.declaratie")
+     * @DI\Inject("HsBundle\Service\DeclaratieDao")
      */
     protected $dao;
 

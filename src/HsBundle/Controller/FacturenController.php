@@ -42,7 +42,7 @@ class FacturenController extends AbstractChildController
     /**
      * @var FactuurDaoInterface
      *
-     * @DI\Inject("hs.dao.factuur")
+     * @DI\Inject("HsBundle\Service\FactuurDao")
      */
     protected $dao;
 
@@ -63,7 +63,7 @@ class FacturenController extends AbstractChildController
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("hs.dao.klant")
+     * @DI\Inject("HsBundle\Service\KlantDao")
      */
     protected $klantDao;
 

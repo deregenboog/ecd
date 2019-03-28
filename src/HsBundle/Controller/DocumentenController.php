@@ -25,7 +25,7 @@ class DocumentenController extends AbstractChildController
     /**
      * @var DocumentDaoInterface
      *
-     * @DI\Inject("hs.dao.document")
+     * @DI\Inject("HsBundle\Service\DocumentDao")
      */
     protected $dao;
 

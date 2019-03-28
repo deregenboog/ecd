@@ -24,7 +24,7 @@ class VraagsoortenController extends AbstractController
     /**
      * @var VraagsoortDaoInterface
      *
-     * @DI\Inject("clip.dao.vraagsoort")
+     * @DI\Inject("ClipBundle\Service\VraagsoortDao")
      */
     protected $dao;
 

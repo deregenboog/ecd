@@ -27,7 +27,7 @@ class MemosController extends AbstractChildController
     /**
      * @var MemoDaoInterface
      *
-     * @DI\Inject("hs.dao.memo")
+     * @DI\Inject("HsBundle\Service\MemoDao")
      */
     protected $dao;
 

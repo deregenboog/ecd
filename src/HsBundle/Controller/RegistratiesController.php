@@ -34,7 +34,7 @@ class RegistratiesController extends AbstractChildController
     /**
      * @var RegistratieDaoInterface
      *
-     * @DI\Inject("hs.dao.registratie")
+     * @DI\Inject("HsBundle\Service\RegistratieDao")
      */
     protected $dao;
 

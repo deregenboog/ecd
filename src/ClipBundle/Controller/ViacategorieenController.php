@@ -24,7 +24,7 @@ class ViacategorieenController extends AbstractController
     /**
      * @var ViacategorieDaoInterface
      *
-     * @DI\Inject("clip.dao.viacategorie")
+     * @DI\Inject("ClipBundle\Service\ViacategorieDao")
      */
     protected $dao;
 

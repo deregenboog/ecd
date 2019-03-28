@@ -35,7 +35,7 @@ class HuurovereenkomstenController extends AbstractController
     /**
      * @var HuurovereenkomstDao
      *
-     * @DI\Inject("odp.dao.huurovereenkomst")
+     * @DI\Inject("OdpBundle\Service\HuurovereenkomstDao")
      */
     protected $dao;
 

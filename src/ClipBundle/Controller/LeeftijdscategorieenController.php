@@ -24,7 +24,7 @@ class LeeftijdscategorieenController extends AbstractController
     /**
      * @var LeeftijdscategorieDaoInterface
      *
-     * @DI\Inject("clip.dao.leeftijdscategorie")
+     * @DI\Inject("ClipBundle\Service\LeeftijdscategorieDao")
      */
     protected $dao;
 
