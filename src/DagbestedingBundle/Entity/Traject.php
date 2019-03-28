@@ -14,6 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="dagbesteding_trajecten")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 class Traject
 {
@@ -152,6 +153,13 @@ class Traject
      */
     private $ondersteuningsplanVerwerkt;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
+
     public function __construct()
     {
         $this->documenten = new ArrayCollection();
@@ -246,9 +254,18 @@ class Traject
         return $this;
     }
 
-    public function isDeletable()
+    public function isDeletable(): bool
     {
-        return false;
+        foreach ($this->rapportages as $rapportage) {
+            if (count($rapportage->getDocumenten()) > 0) {
+                return false;
+            }
+        }
+
+        return 0 === count($this->dagdelen)
+            && 0 === count($this->documenten)
+            && 0 === count($this->verslagen)
+        ;
     }
 
     public function isActief()
