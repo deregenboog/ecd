@@ -1,6 +1,5 @@
 services:
-    mw.form.rapportage:
-        class: MwBundle\Form\RapportageType
+    MwBundle\Form\RapportageType:
         tags:
             - { name: form.type }
 

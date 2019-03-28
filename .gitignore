@@ -60,3 +60,6 @@
 
 # Environment-specific configuration
 /app/config/.env
+
+# PHPUnit
+/coverage/*

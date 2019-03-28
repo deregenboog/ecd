@@ -42,17 +42,8 @@ class ControllerAccessVoter extends Voter
         }
 
         $controllerRole = $this->getControllerRole($controller);
-//         var_dump($controllerRole);
 
-        $decision = $this->decisionManager->decide($token, [$controllerRole]);
-//         // @todo remove this
-//         if (false === $decision) {
-//             var_dump($controllerRole); die;
-//         } else {
-//             var_dump('TRUE');
-//         }
-
-        return $decision;
+        return $this->decisionManager->decide($token, [$controllerRole]);
     }
 
     private function getControllerRole($controller)

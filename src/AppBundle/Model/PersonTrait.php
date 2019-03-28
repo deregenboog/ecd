@@ -50,11 +50,11 @@ trait PersonTrait
         if ($this->voornaam) {
             $parts[] = $this->voornaam;
         }
-        if ($this->tussenvoegsel) {
-            $parts[] = $this->tussenvoegsel;
-        }
         if ($this->roepnaam) {
             $parts[] = "({$this->roepnaam})";
+        }
+        if ($this->tussenvoegsel) {
+            $parts[] = $this->tussenvoegsel;
         }
 
         return implode(' ', $parts);

@@ -2,26 +2,10 @@
 
 namespace ErOpUitBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use AppBundle\DependencyInjection\Compiler\AbstractReportsCompilerPass;
 
-class ReportsCompilerPass implements CompilerPassInterface
+class ReportsCompilerPass extends AbstractReportsCompilerPass
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        $definition = $container->getDefinition('ErOpUitBundle\Form\RapportageType');
-
-        $reports = [];
-        foreach ($container->findTaggedServiceIds('eropuit.rapportage') as $id => $params) {
-            $report = $container->getDefinition($id);
-            $report->addMethodCall('setTitle', [$params[0]['title']]);
-            $category = $params[0]['category'];
-            $reports[$category][$id] = $report;
-        }
-
-        $definition->addArgument($reports);
-    }
+    protected $serviceId = 'ErOpUitBundle\Form\RapportageType';
+    protected $tagId = 'eropuit.rapportage';
 }

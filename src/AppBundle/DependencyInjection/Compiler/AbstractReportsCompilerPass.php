@@ -40,4 +40,14 @@ abstract class AbstractReportsCompilerPass implements CompilerPassInterface
 
         $definition->addArgument($reports);
     }
+
+    public function getServiceId(): string
+    {
+        return $this->serviceId;
+    }
+
+    public function getTagId(): string
+    {
+        return $this->tagId;
+    }
 }

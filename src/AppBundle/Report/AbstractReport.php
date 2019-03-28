@@ -60,8 +60,6 @@ abstract class AbstractReport
 
     protected $yDescription;
 
-    abstract protected function init();
-
     public function getTitle()
     {
         return $this->title;
@@ -121,6 +119,8 @@ abstract class AbstractReport
             ],
         ];
     }
+
+    abstract protected function init();
 
     protected function build()
     {
