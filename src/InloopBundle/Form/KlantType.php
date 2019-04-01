@@ -30,7 +30,9 @@ class KlantType extends AbstractType
             'required' => true,
             'placeholder' => '',
         ])
-        ->add('geboortedatum', AppDateType::class)
+        ->add('geboortedatum', AppDateType::class, [
+            'required' => false,
+        ])
         ->add('land', LandSelectType::class)
         ->add('doorverwijzenNaarAmoc', CheckboxType::class, [
             'label' => 'Ik wil deze persoon wegens taalproblemen doorverwijzen naar AMOC',
