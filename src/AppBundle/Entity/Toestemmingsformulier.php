@@ -12,6 +12,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */
-final class Overeenkomst extends Document
+final class Toestemmingsformulier extends Document
 {
 }

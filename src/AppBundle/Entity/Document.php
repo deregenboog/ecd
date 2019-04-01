@@ -20,7 +20,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\DiscriminatorMap({
  *     "document" = "Document",
  *     "vog" = "Vog",
- *     "overeenkomst" = "Overeenkomst"
+ *     "overeenkomst" = "Overeenkomst",
+ *     "toestemming" = "Toestemmingsformulier"
  * })
  * @Gedmo\Loggable
  * @Vich\Uploadable

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Document;
 use AppBundle\Entity\Overeenkomst;
+use AppBundle\Entity\Toestemmingsformulier;
 use AppBundle\Entity\Vog;
 use AppBundle\Form\DocumentType;
 use AppBundle\Service\DocumentDaoInterface;
@@ -59,6 +60,10 @@ class DocumentenController extends AbstractChildController
                 $this->addMethod = 'setOvereenkomst';
 
                 return new Overeenkomst();
+            case 'toestemming':
+                $this->addMethod = 'setToestemmingsformulier';
+
+                return new Toestemmingsformulier();
             default:
 
                 return new Document();

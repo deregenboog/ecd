@@ -32,6 +32,7 @@ services:
         class: ArrayObject
         arguments:
             -
+              - { key: klant, dao: '@AppBundle\Service\KlantDao' }
               - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     app.zrm.entities:

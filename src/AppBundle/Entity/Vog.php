@@ -12,6 +12,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */
-class Vog extends Document
+final class Vog extends Document
 {
 }

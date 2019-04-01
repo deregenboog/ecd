@@ -9,10 +9,8 @@
     <h1>
         {% if 'Vog' == class(entity, false) %}
             {{ class(entity, false)|upper }} toevoegen
-        {% elseif 'Overeenkomst' == class(entity, false) %}
-            {{ class(entity, false)|capitalize }} toevoegen
         {% else %}
-            {{ entity_name|capitalize }} toevoegen
+            {{ class(entity, false)|capitalize }} toevoegen
         {% endif %}
     </h1>
     <p>
