@@ -24,7 +24,7 @@ class DocumentenController extends AbstractChildController
     /**
      * @var DocumentDaoInterface
      *
-     * @DI\Inject("clip.dao.document")
+     * @DI\Inject("ClipBundle\Service\DocumentDao")
      */
     protected $dao;
 

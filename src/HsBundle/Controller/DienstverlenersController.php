@@ -33,7 +33,7 @@ class DienstverlenersController extends AbstractController
     /**
      * @var DienstverlenerDaoInterface
      *
-     * @DI\Inject("hs.dao.dienstverlener")
+     * @DI\Inject("HsBundle\Service\DienstverlenerDao")
      */
     protected $dao;
 

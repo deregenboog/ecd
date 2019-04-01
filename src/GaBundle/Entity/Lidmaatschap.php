@@ -195,6 +195,6 @@ class Lidmaatschap
         $today = new \DateTime('today');
 
         return $this->startdatum <= $today
-            && (!$this->einddatum || $this->einddatum < $today);
+            && (!$this->einddatum || $this->einddatum > $today);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,6 +32,8 @@ use MwBundle\Entity\Verslag;
  */
 class Klant extends Persoon
 {
+    use DocumentSubjectTrait;
+
     /**
      * @ORM\Column(name="MezzoID", type="integer")
      * @Gedmo\Versioned
@@ -483,5 +486,21 @@ class Klant extends Persoon
         $this->overleden = (bool) $overleden;
 
         return $this;
+    }
+
+    public function getToestemmingsformulier(): ?Toestemmingsformulier
+    {
+        foreach ($this->documenten as $document) {
+            if ($document instanceof Toestemmingsformulier) {
+                return $document;
+            }
+        }
+
+        return null;
+    }
+
+    public function setToestemmingsformulier(Toestemmingsformulier $toestemmingsformulier): self
+    {
+        return $this->addDocument($toestemmingsformulier);
     }
 }

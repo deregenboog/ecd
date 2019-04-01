@@ -32,7 +32,7 @@ class KlussenController extends AbstractChildController
     /**
      * @var KlusDaoInterface
      *
-     * @DI\Inject("hs.dao.klus")
+     * @DI\Inject("HsBundle\Service\KlusDao")
      */
     protected $dao;
 

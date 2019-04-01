@@ -48,15 +48,35 @@
     <dt>Opmerking</dt>
     <dd>{{ vrijwilliger.opmerking }}</dd>
 </dl>
-<h2>Overeenkomst</h2>
+<h2>Documenten</h2>
 <p>
     {{ html.link('Wijzigen', path('app_vrijwilligers_edit', {id: vrijwilliger.id}), 'edit') }}
 </p>
 <dl class="dl-horizontal">
     <dt>VOG aangevraagd</dt>
     <dd>{{ vrijwilliger.vogAangevraagd ? 'Ja' : 'Nee' }}</dd>
-    <dt>VOG aanwezig</dt>
-    <dd>{{ vrijwilliger.vogAanwezig ? 'Ja' : 'Nee' }}</dd>
-    <dt>Overeenkomst aanwezig</dt>
-    <dd>{{ vrijwilliger.overeenkomstAanwezig ? 'Ja' : 'Nee' }}</dd>
+    <dt>VOG</dt>
+    <dd>
+        {% if vrijwilliger.vogAanwezig %}
+            {% if vrijwilliger.vog %}
+                {{ html.link('VOG downloaden', vich_uploader_asset(vrijwilliger.vog, 'file'), 'download') }}
+            {% else %}
+                Aanwezig
+            {% endif %}
+        {% else %}
+            {{ html.link('VOG toevoegen', path('app_documenten_add', {vrijwilliger: vrijwilliger.id, type: 'vog'}), 'add') }}
+        {% endif %}
+    </dd>
+    <dt>Overeenkomst</dt>
+    <dd>
+        {% if vrijwilliger.overeenkomstAanwezig %}
+            {% if vrijwilliger.overeenkomst %}
+                {{ html.link('Overeenkomst downloaden', vich_uploader_asset(vrijwilliger.overeenkomst, 'file'), 'download') }}
+            {% else %}
+                Aanwezig
+            {% endif %}
+        {% else %}
+            {{ html.link('Overeenkomst toevoegen', path('app_documenten_add', {vrijwilliger: vrijwilliger.id, type: 'overeenkomst'}), 'add') }}
+        {% endif %}
+    </dd>
 </dl>

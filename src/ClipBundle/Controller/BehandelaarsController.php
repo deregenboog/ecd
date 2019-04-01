@@ -26,7 +26,7 @@ class BehandelaarsController extends AbstractController
     /**
      * @var BehandelaarDaoInterface
      *
-     * @DI\Inject("clip.dao.behandelaar")
+     * @DI\Inject("ClipBundle\Service\BehandelaarDao")
      */
     protected $dao;
 

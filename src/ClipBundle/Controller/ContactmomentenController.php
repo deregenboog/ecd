@@ -30,7 +30,7 @@ class ContactmomentenController extends AbstractChildController
     /**
      * @var ContactmomentDaoInterface
      *
-     * @DI\Inject("clip.dao.contactmoment")
+     * @DI\Inject("ClipBundle\Service\ContactmomentDao")
      */
     protected $dao;
 

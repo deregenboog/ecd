@@ -140,6 +140,10 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
             - CONTROLLER_MEDEWERKERS
+        CONTROLLER_APP_KLANTEN:
+            - CONTROLLER_APP_DOCUMENTEN
+        CONTROLLER_APP_VRIJWILLIGERS:
+            - CONTROLLER_APP_DOCUMENTEN
 
 ldap_tools:
     security:

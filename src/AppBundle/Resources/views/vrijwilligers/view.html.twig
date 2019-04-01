@@ -80,14 +80,34 @@
                 </dl>
             </div>
             <div class="col-xs-6">
-                <h2>Overeenkomst</h2>
+                <h2>Documenten</h2>
                 <dl class="dl-horizontal">
                     <dt>VOG aangevraagd</dt>
                     <dd>{{ entity.vogAangevraagd ? 'Ja' : 'Nee' }}</dd>
-                    <dt>VOG aanwezig</dt>
-                    <dd>{{ entity.vogAanwezig ? 'Ja' : 'Nee' }}</dd>
-                    <dt>Overeenkomst aanwezig</dt>
-                    <dd>{{ entity.overeenkomstAanwezig ? 'Ja' : 'Nee' }}</dd>
+                    <dt>VOG</dt>
+                    <dd>
+                        {% if entity.vogAanwezig %}
+                            {% if entity.vog %}
+                                {{ html.link('VOG downloaden', vich_uploader_asset(entity.vog, 'file'), 'download') }}
+                            {% else %}
+                                Aanwezig
+                            {% endif %}
+                        {% else %}
+                            {{ html.link('VOG toevoegen', path('app_documenten_add', {vrijwilliger: entity.id, type: 'vog'}), 'add') }}
+                        {% endif %}
+                    </dd>
+                    <dt>Overeenkomst</dt>
+                    <dd>
+                        {% if entity.overeenkomstAanwezig %}
+                            {% if entity.overeenkomst %}
+                                {{ html.link('Overeenkomst downloaden', vich_uploader_asset(entity.overeenkomst, 'file'), 'download') }}
+                            {% else %}
+                                Aanwezig
+                            {% endif %}
+                        {% else %}
+                            {{ html.link('Overeenkomst toevoegen', path('app_documenten_add', {vrijwilliger: entity.id, type: 'overeenkomst'}), 'add') }}
+                        {% endif %}
+                    </dd>
                 </dl>
             </div>
         </div>

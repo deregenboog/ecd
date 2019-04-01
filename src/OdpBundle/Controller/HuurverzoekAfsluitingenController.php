@@ -19,7 +19,7 @@ class HuurverzoekAfsluitingenController extends AfsluitingenController
     /**
      * @var AfsluitingDaoInterface
      *
-     * @DI\Inject("odp.dao.huurverzoekafsluiting")
+     * @DI\Inject("OdpBundle\Service\HuurverzoekafsluitingDao")
      */
     protected $dao;
 

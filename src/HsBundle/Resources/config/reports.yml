@@ -1,83 +1,83 @@
 services:
     HsBundle\Report\ArbeidersPerStadsdeel:
         arguments:
-            - "@hs.dao.dienstverlener"
-            - "@hs.dao.vrijwilliger"
+            - '@HsBundle\Service\DienstverlenerDao'
+            - '@HsBundle\Service\VrijwilligerDao'
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\ArbeidersPerGgwGebied:
         arguments:
-            - "@hs.dao.dienstverlener"
-            - "@hs.dao.vrijwilliger"
+            - '@HsBundle\Service\DienstverlenerDao'
+            - '@HsBundle\Service\VrijwilligerDao'
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\NieuweArbeidersPerStadsdeel:
         arguments:
-            - "@hs.dao.dienstverlener"
-            - "@hs.dao.vrijwilliger"
+            - '@HsBundle\Service\DienstverlenerDao'
+            - '@HsBundle\Service\VrijwilligerDao'
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\NieuweArbeidersPerGgwGebied:
         arguments:
-            - "@hs.dao.dienstverlener"
-            - "@hs.dao.vrijwilliger"
+            - '@HsBundle\Service\DienstverlenerDao'
+            - '@HsBundle\Service\VrijwilligerDao'
         tags:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\KlantenPerStadsdeel:
         arguments:
-            - "@hs.dao.klant"
+            - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\KlantenPerGgwGebied:
         arguments:
-            - "@hs.dao.klant"
+            - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\NieuweKlantenPerStadsdeel:
         arguments:
-            - "@hs.dao.klant"
+            - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\NieuweKlantenPerGgwGebied:
         arguments:
-            - "@hs.dao.klant"
+            - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\KlussenPerStadsdeel:
         arguments:
-            - "@hs.dao.klus"
+            - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Klussen }
 
     HsBundle\Report\KlussenPerGgwGebied:
         arguments:
-            - "@hs.dao.klus"
+            - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Klussen }
 
     HsBundle\Report\KoppelingenPerStadsdeel:
         arguments:
-            - "@hs.dao.klus"
+            - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Koppelingen }
 
     HsBundle\Report\KoppelingenPerGgwGebied:
         arguments:
-            - "@hs.dao.klus"
+            - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Koppelingen }
 
     HsBundle\Report\Uren:
         arguments:
-            - "@hs.dao.registratie"
+            - '@HsBundle\Service\RegistratieDao'
         tags:
             - { name: hs.rapportage, category: Uren }
 

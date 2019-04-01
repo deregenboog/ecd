@@ -19,7 +19,7 @@ class VerhuurderAfsluitingenController extends AfsluitingenController
     /**
      * @var AfsluitingDaoInterface
      *
-     * @DI\Inject("odp.dao.verhuurderafsluiting")
+     * @DI\Inject("OdpBundle\Service\VerhuurderafsluitingDao")
      */
     protected $dao;
 

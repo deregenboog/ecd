@@ -30,7 +30,7 @@ class BetalingenController extends AbstractChildController
     /**
      * @var BetalingDaoInterface
      *
-     * @DI\Inject("hs.dao.betaling")
+     * @DI\Inject("HsBundle\Service\BetalingDao")
      */
     protected $dao;
 

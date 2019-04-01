@@ -34,10 +34,10 @@
             {{ form_row(form.medewerker, {label: false}) }}
         </div>
         <div class="col-xs-6">
-            <h2>Overeenkomst</h2>
+            <h2>Documenten</h2>
             {{ form_row(form.vogAangevraagd) }}
-            {{ form_row(form.vogAanwezig) }}
-            {{ form_row(form.overeenkomstAanwezig) }}
+            {{ form.vog is defined ? form_row(form.vog) }}
+            {{ form.overeenkomst is defined ? form_row(form.overeenkomst) }}
             {% if form.submit is defined %}
                 <span class="pull-right">
                     {{ form_row(form.submit) }}

@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
 
 class KlusFilterType extends AbstractType
 {
@@ -84,6 +85,11 @@ class KlusFilterType extends AbstractType
             $builder->add('activiteit', EntityType::class, [
                 'required' => false,
                 'class' => Activiteit::class,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('activiteit')
+                        ->orderBy('activiteit.naam')
+                    ;
+                }
             ]);
         }
 

@@ -1,49 +1,42 @@
 services:
-    dagbesteding.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
     DagbestedingBundle\Service\ContactpersoonDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\DagdeelDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\DeelnemerDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\DeelnemerafsluitingDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\DocumentDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\LocatieDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\ProjectDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\RapportageDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\ResultaatgebiedsoortDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\TrajectDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\TrajectafsluitingDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\TrajectbegeleiderDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\TrajectsoortDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract
 
     DagbestedingBundle\Service\VerslagDao:
-        parent: dagbesteding.dao
+        parent: app.dao.abstract

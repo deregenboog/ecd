@@ -1,1 +1,6 @@
 {% extends 'IzBundle::edit.html.twig' %}
+
+{% block content %}
+    <h1>{{ class(entity, false) }} wijzigen</h1>
+    {{ form(form) }}
+{% endblock %}

@@ -8,21 +8,21 @@ services:
         class: ArrayObject
         arguments:
             -
-              - { key: client, dao: '@clip.dao.client' }
-              - { key: vraag, dao: '@clip.dao.vraag' }
+              - { key: client, dao: '@ClipBundle\Service\ClientDao' }
+              - { key: vraag, dao: '@ClipBundle\Service\VraagDao' }
 
     clip.document.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: client, dao: '@clip.dao.client' }
-              - { key: vraag, dao: '@clip.dao.vraag' }
+              - { key: client, dao: '@ClipBundle\Service\ClientDao' }
+              - { key: vraag, dao: '@ClipBundle\Service\VraagDao' }
 
     clip.vraag.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: client, dao: '@clip.dao.client' }
+              - { key: client, dao: '@ClipBundle\Service\ClientDao' }
 
 #    clip.event.diensten_lookup_subscriber:
 #        class: ClipBundle\Event\DienstenLookupSubscriber

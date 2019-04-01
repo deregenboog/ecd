@@ -12,7 +12,7 @@ services:
 
     OdpBundle\Report\Koppelingen:
         arguments:
-            - "@odp.dao.huurovereenkomst"
+            - '@OdpBundle\Service\HuurovereenkomstDao'
         tags:
             - { name: odp.rapportage }
 

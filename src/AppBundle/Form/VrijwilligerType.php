@@ -2,7 +2,9 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Overeenkomst;
 use AppBundle\Entity\Postcode;
+use AppBundle\Entity\Vog;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManager;
@@ -59,8 +61,47 @@ class VrijwilligerType extends AbstractType
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
             ->add('vogAangevraagd', null, ['label' => 'VOG aangevraagd'])
-            ->add('vogAanwezig', null, ['label' => 'VOG aanwezig'])
-            ->add('overeenkomstAanwezig', null, ['label' => 'Vrijwilligersovereenkomst aanwezig'])
+        ;
+
+        if (!$options['data']->getVog()) {
+            $builder->add('vog', DocumentType::class, [
+                'required' => false,
+                'label' => 'VOG',
+                'data_class' => Vog::class,
+                'data' => $options['data']->getVog(),
+            ])->get('vog')
+                ->remove('medewerker')
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    /* @var Vog vog */
+                    $vog = $event->getData();
+                    if ($vog) {
+                        // assign Medewerker from parent form
+                        $vog->setMedewerker($event->getForm()->getParent()->get('medewerker')->getData());
+                    }
+                })
+            ;
+        }
+
+        if (!$options['data']->getOvereenkomst()) {
+            $builder->add('overeenkomst', DocumentType::class, [
+                'required' => false,
+                'label' => 'Overeenkomst',
+                'data_class' => Overeenkomst::class,
+                'data' => $options['data']->getOvereenkomst(),
+            ])->get('overeenkomst')
+                ->remove('medewerker')
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    /* @var Overeenkomst $overeenkomst */
+                    $overeenkomst = $event->getData();
+                    if ($overeenkomst) {
+                        // assign Medewerker from parent form
+                        $overeenkomst->setMedewerker($event->getForm()->getParent()->get('medewerker')->getData());
+                    }
+                })
+            ;
+        }
+
+        $builder
             ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Vrijwilliger $data */

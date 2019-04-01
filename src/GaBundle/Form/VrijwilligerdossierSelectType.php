@@ -5,12 +5,10 @@ namespace GaBundle\Form;
 use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityRepository;
 use GaBundle\Entity\Vrijwilligerdossier;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VrijwilligerdossierSelectType extends AbstractType
+class VrijwilligerdossierSelectType extends DossierSelectType
 {
     /**
      * {@inheritdoc}
@@ -38,23 +36,13 @@ class VrijwilligerdossierSelectType extends AbstractType
                         $this->excludeForActiviteit($options['activiteit'], $builder);
                     }
 
-                    if ($options['groep'] && count($options['groep']) > 0) {
-                        $builder
-                            ->andWhere('dossier NOT IN (:dossiers)')
-                            ->setParameter('dossiers', $options['groep']->getDossiers());
+                    if ($options['groep']) {
+                        $this->excludeForGroep($options['groep'], $builder);
                     }
 
                     return $builder;
                 };
             },
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return EntityType::class;
     }
 }

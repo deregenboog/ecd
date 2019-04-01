@@ -1,25 +1,18 @@
 services:
-    pfo.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
     PfoBundle\Service\AardRelatieDao:
-        parent: pfo.dao
+        parent: app.dao.abstract
 
     PfoBundle\Service\ClientDao:
-        parent: pfo.dao
+        parent: app.dao.abstract
 
     PfoBundle\Service\DocumentDao:
-        parent: hs.dao
+        parent: app.dao.abstract
 
     PfoBundle\Service\GroepDao:
-        parent: pfo.dao
+        parent: app.dao.abstract
 
     PfoBundle\Service\VerslagDao:
-        parent: pfo.dao
+        parent: app.dao.abstract
 
     pfo.document.entities:
         class: ArrayObject

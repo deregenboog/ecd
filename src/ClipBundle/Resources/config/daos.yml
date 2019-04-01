@@ -1,47 +1,30 @@
 services:
-    clip.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    ClipBundle\Service\BehandelaarDao:
+        parent: app.dao.abstract
 
-    clip.dao.behandelaar:
-        parent: clip.dao
-        class: ClipBundle\Service\BehandelaarDao
+    ClipBundle\Service\ClientDao:
+        parent: app.dao.abstract
 
-    clip.dao.client:
-        parent: clip.dao
-        class: ClipBundle\Service\ClientDao
+    ClipBundle\Service\CommunicatiekanaalDao:
+        parent: app.dao.abstract
 
-    clip.dao.communicatiekanaal:
-        parent: clip.dao
-        class: ClipBundle\Service\CommunicatiekanaalDao
+    ClipBundle\Service\ContactmomentDao:
+        parent: app.dao.abstract
 
-    clip.dao.contactmoment:
-        parent: clip.dao
-        class: ClipBundle\Service\ContactmomentDao
+    ClipBundle\Service\DocumentDao:
+        parent: app.dao.abstract
 
-    clip.dao.document:
-        parent: clip.dao
-        class: ClipBundle\Service\DocumentDao
+    ClipBundle\Service\HulpvragerDao:
+        parent: app.dao.abstract
 
-    clip.dao.hulpvrager:
-        parent: clip.dao
-        class: ClipBundle\Service\HulpvragerDao
+    ClipBundle\Service\LeeftijdscategorieDao:
+        parent: app.dao.abstract
 
-    clip.dao.leeftijdscategorie:
-        parent: clip.dao
-        class: ClipBundle\Service\LeeftijdscategorieDao
+    ClipBundle\Service\ViacategorieDao:
+        parent: app.dao.abstract
 
-    clip.dao.viacategorie:
-        parent: clip.dao
-        class: ClipBundle\Service\ViacategorieDao
+    ClipBundle\Service\VraagDao:
+        parent: app.dao.abstract
 
-    clip.dao.vraag:
-        parent: clip.dao
-        class: ClipBundle\Service\VraagDao
-
-    clip.dao.vraagsoort:
-        parent: clip.dao
-        class: ClipBundle\Service\VraagsoortDao
+    ClipBundle\Service\VraagsoortDao:
+        parent: app.dao.abstract

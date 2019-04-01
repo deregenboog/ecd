@@ -26,7 +26,7 @@ class CommunicatiekanalenController extends AbstractController
     /**
      * @var CommunicatiekanaalDaoInterface
      *
-     * @DI\Inject("clip.dao.communicatiekanaal")
+     * @DI\Inject("ClipBundle\Service\CommunicatiekanaalDao")
      */
     protected $dao;
 

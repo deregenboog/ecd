@@ -10,10 +10,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Traject verwijderen</h1>
+    <h1>{{ entity_name|capitalize }} verwijderen</h1>
     <p>
         Weet u zeker dat u traject
-        {{ html.link(traject, path('dagbesteding_trajecten_view', {id: traject.id})) }}
+        {{ html.link(entity, path('dagbesteding_trajecten_view', {id: entity.id})) }}
         wilt verwijderen?
     </p>
     {{ form(form) }}

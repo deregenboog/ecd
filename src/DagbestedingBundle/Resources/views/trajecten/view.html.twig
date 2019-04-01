@@ -21,8 +21,7 @@
                 {{ html.link('Afsluiting wijzigen', path('dagbesteding_trajecten_close', {id: entity.id}), 'close') }}
             {% endif %}
             {% if entity.deletable %}
-                {{ html.deleteLink(path('dagbesteding_trajecten_delete', {id: entity.id})) }}
-                {{ html.link('Verwijderen', path('dagbesteding_trajecten_delete', {id: entity.id})) }}
+                {{ html.link('Verwijderen', path('dagbesteding_trajecten_delete', {id: entity.id}), 'delete') }}
             {% endif %}
         {% endif %}
     </p>
