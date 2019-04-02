@@ -58,10 +58,12 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
             if (count($izKlant->getHulpvragen()) > 0) {
                 $laatsteHulpvraag = $izKlant->getHulpvragen()[0];
-                $dienst
-                    ->setTitelMedewerker('coördinator')
-                    ->setMedewerker($laatsteHulpvraag->getMedewerker())
-                ;
+                if ($laatsteHulpvraag->getMedewerker()) {
+                    $dienst
+                        ->setTitelMedewerker('coördinator')
+                        ->setMedewerker($laatsteHulpvraag->getMedewerker())
+                    ;
+                }
             }
 
             $event->addDienst($dienst);
