@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    SCIP | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Scip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} wijzigen</h1>
+    <p>
+        {{ html.link('Annuleren', path(route_base~'index'), 'cancel') }}
+        {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

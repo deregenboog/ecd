@@ -49,7 +49,7 @@ class Persoon
     /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $land;
@@ -57,7 +57,7 @@ class Persoon
     /**
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $nationaliteit;

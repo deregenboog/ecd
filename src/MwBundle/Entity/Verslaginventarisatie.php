@@ -6,6 +6,7 @@ use AppBundle\Model\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\Timestampable;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -15,7 +16,7 @@ use Gedmo\Timestampable\Traits\Timestampable;
  */
 class Verslaginventarisatie
 {
-    use IdentifiableTrait, Timestampable;
+    use IdentifiableTrait, TimestampableTrait;
 
     /**
      * @var Verslag

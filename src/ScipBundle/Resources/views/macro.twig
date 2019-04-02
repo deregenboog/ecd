@@ -1,0 +1,48 @@
+{% macro beschikbaarheid(beschikbaarheid) %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Dag</th>
+                <th>Van</th>
+                <th>Tot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Maandag</td>
+                <td>{{ beschikbaarheid.maandagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.maandagTot|if_date('H:i') }}</td>
+            </tr>
+            <tr>
+                <td>Dinsdag</td>
+                <td>{{ beschikbaarheid.dinsdagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.dinsdagTot|if_date('H:i') }}</td>
+            </tr>
+            <tr>
+                <td>Woensdag</td>
+                <td>{{ beschikbaarheid.woensdagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.woensdagTot|if_date('H:i') }}</td>
+            </tr>
+            <tr>
+                <td>Donderdag</td>
+                <td>{{ beschikbaarheid.donderdagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.donderdagTot|if_date('H:i') }}</td>
+            </tr>
+            <tr>
+                <td>Vrijdag</td>
+                <td>{{ beschikbaarheid.vrijdagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.vrijdagTot|if_date('H:i') }}</td>
+            </tr>
+            <tr>
+                <td>Zaterdag</td>
+                <td>{{ beschikbaarheid.zaterdagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.zaterdagTot|if_date('H:i') }}</td>
+            </tr>
+            <tr>
+                <td>Zondag</td>
+                <td>{{ beschikbaarheid.zondagVan|if_date('H:i') }}</td>
+                <td>{{ beschikbaarheid.zondagTot|if_date('H:i') }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endmacro %}

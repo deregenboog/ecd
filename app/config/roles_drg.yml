@@ -135,6 +135,8 @@ security:
             - ROLE_IZ_BEHEER
             - ROLE_GA
             - ROLE_GA_BEHEER
+            - ROLE_SCIP
+            - ROLE_SCIP_BEHEER
             - CONTROLLER_ADMIN
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES

@@ -28,6 +28,7 @@ class AppKernel extends Kernel
 
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 
+            new LegacyBundle\LegacyBundle(),
             new AppBundle\AppBundle(),
             new BuurtboerderijBundle\BuurtboerderijBundle(),
             new ClipBundle\ClipBundle(),
@@ -41,6 +42,7 @@ class AppKernel extends Kernel
             new OdpBundle\OdpBundle(),
             new OekBundle\OekBundle(),
             new PfoBundle\PfoBundle(),
+            new ScipBundle\ScipBundle(),
         ];
 
         if ('test' !== $this->getEnvironment()) {

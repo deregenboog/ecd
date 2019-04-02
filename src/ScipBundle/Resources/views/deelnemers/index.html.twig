@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    SCIP | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Scip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    {% include '@Scip/deelnemers/_filter.html.twig' %}
+    <table class="table table-hover">
+        {{ colgroup(5) }}
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Type', 'deelnemer.type') }}
+                </th>
+                <th>
+                    Projecten
+                </th>
+                <th>
+                    Labels
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination if is_granted('access', entity) %}
+                <tr data-href="{{ path(route_base~'view', {id: entity.id}) }}" class="{{ not entity.actief ? 'warning' }}">
+                    <td>{{ entity.klant.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.type }}</td>
+                    <td>
+                        <ul>
+                            {% for project in entity.projecten %}
+                                <li>{{ project }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for label in entity.labels %}
+                                <li>{{ label }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

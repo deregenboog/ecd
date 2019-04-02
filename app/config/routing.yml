@@ -62,6 +62,10 @@ _pfo:
     resource: "@PfoBundle/Resources/config/routing.yml"
     prefix: /pfo
 
+_scip:
+    resource: "@ScipBundle/Resources/config/routing.yml"
+    prefix: /scip
+
 mw_rapportage_redirect:
     path: /maatschappelijk_werk/rapportage
     defaults:

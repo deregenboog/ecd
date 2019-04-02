@@ -1,0 +1,23 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('scip_index') }}">SCIP</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Mijn SCIP', path('scip_dashboard_index'), isActiveRoute('scip_dashboard_')) }}
+    {{ html.navLink('Vrijwilligers', path('scip_deelnemers_index'), isActiveRoute('scip_deelnemers_')) }}
+    {{ html.navLink('Projecten', path('scip_projecten_index'), isActiveRoute('scip_projecten_')) }}
+    {% if is_granted('ROLE_SCIP_BEHEER') %}
+        <li role="presentation" class="dropdown {{ isActivePath('scip/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Labels', path('scip_labels_index'), isActiveRoute('scip_labels_')) }}
+                {{ html.navLink('Toegangsrechten', path('scip_toegangsrechten_index'), isActiveRoute('scip_toegangsrechten_')) }}
+            </ul>
+        </li>
+    {% endif %}
+    <a class="btn btn-primary pull-right" href="{{ path('scip_deelnames_download') }}">Download gegevens</a>
+</ul>

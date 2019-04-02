@@ -1,0 +1,34 @@
+services:
+    scip.export.deelnames:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - ScipBundle\Entity\Deelname
+            -
+                Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
+                Achternaam: { expression: 'entity.getDeelnemer().getKlant().getAchternaam()' }
+                KPL: { expression: 'entity.getProject().getKpl()' }
+                Naam: { expression: 'entity.getProject().getNaam()' }
+                Functie: { expression: 'entity.getDeelnemer().getFunctie()' }
+                Werkbegeleider: { expression: 'entity.getDeelnemer().getWerkbegeleider()' }
+                Actief: { expression: 'entity.isActief()' }
+                WMO: { expression: 'entity.getDeelnemer().getRisNummer()' }
+                EmailAdres: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
+                Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
+                Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
+                telNr: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
+                gebDatum: { expression: 'entity.getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
+                maStart: { expression: 'entity.getBeschikbaarheid().getMaandagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                maEnd: { expression: 'entity.getBeschikbaarheid().getMaandagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                diStart: { expression: 'entity.getBeschikbaarheid().getDinsdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                diEnd: { expression: 'entity.getBeschikbaarheid().getDinsdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                woStart: { expression: 'entity.getBeschikbaarheid().getWoensdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                woEnd: { expression: 'entity.getBeschikbaarheid().getWoensdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                doStart: { expression: 'entity.getBeschikbaarheid().getDonderdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                doEnd: { expression: 'entity.getBeschikbaarheid().getDonderdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                vrStart: { expression: 'entity.getBeschikbaarheid().getVrijdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                vrEnd: { expression: 'entity.getBeschikbaarheid().getVrijdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                zaStart: { expression: 'entity.getBeschikbaarheid().getZaterdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                zaEnd: { expression: 'entity.getBeschikbaarheid().getZaterdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                zoStart: { expression: 'entity.getBeschikbaarheid().getZondagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+                zoEnd: { expression: 'entity.getBeschikbaarheid().getZondagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
