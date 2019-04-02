@@ -60,14 +60,10 @@
             </div>
         {% else %}
             {{ form_start(creationForm) }}
-                <div class="col-xs-6">
-                    <h2>Basisgegevens</h2>
-                    {% include 'AppBundle:vrijwilligers:_form.html.twig' with {form: creationForm.vrijwilliger} %}
-                </div>
-                <div class="col-xs-6">
-                    <h2>Informele Zorg</h2>
-                    {{ form(creationForm) }}
-                </div>
+                <h2>Basisgegevens</h2>
+                {% include 'AppBundle:vrijwilligers:_form.html.twig' with {form: creationForm.vrijwilliger} %}
+                <h2>Informele Zorg</h2>
+                {{ form(creationForm) }}
             {{ form_end(creationForm) }}
         {% endif %}
     {% endif %}

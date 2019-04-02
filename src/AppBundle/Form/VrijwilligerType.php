@@ -63,12 +63,12 @@ class VrijwilligerType extends AbstractType
             ->add('vogAangevraagd', null, ['label' => 'VOG aangevraagd'])
         ;
 
-        if (!$options['data']->getVog()) {
+        if (!$options['data'] || !$options['data']->getVog()) {
             $builder->add('vog', DocumentType::class, [
                 'required' => false,
                 'label' => 'VOG',
                 'data_class' => Vog::class,
-                'data' => $options['data']->getVog(),
+                'data' => $options['data'] ? $options['data']->getVog() : null,
             ])->get('vog')
                 ->remove('medewerker')
                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
@@ -82,12 +82,12 @@ class VrijwilligerType extends AbstractType
             ;
         }
 
-        if (!$options['data']->getOvereenkomst()) {
+        if (!$options['data'] || !$options['data']->getOvereenkomst()) {
             $builder->add('overeenkomst', DocumentType::class, [
                 'required' => false,
                 'label' => 'Overeenkomst',
                 'data_class' => Overeenkomst::class,
-                'data' => $options['data']->getOvereenkomst(),
+                'data' => $options['data'] ? $options['data']->getOvereenkomst() : null,
             ])->get('overeenkomst')
                 ->remove('medewerker')
                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
