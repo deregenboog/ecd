@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use DagbestedingBundle\Entity\Deelnemer;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,22 +42,27 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ->findOneBy(['klant' => $klant]);
 
         if ($deelnemer instanceof Deelnemer) {
-            if ($deelnemer->getAanmelddatum() && $deelnemer->getAfsluitdatum()) {
-                $value = sprintf('Van %s tot %s', $deelnemer->getAanmelddatum()->format('d-m-Y'), $deelnemer->getAfsluitdatum()->format('d-m-Y'));
-            } elseif ($deelnemer->getAanmelddatum()) {
-                $value = sprintf('Sinds %s', $deelnemer->getAanmelddatum()->format('d-m-Y'));
+            $dienst = new Dienst(
+                'Dagbesteding',
+                $this->generator->generate('dagbesteding_deelnemers_view', ['id' => $deelnemer->getId()])
+            );
+
+            if ($deelnemer->getAanmelddatum()) {
+                $dienst->setVan($deelnemer->getAanmelddatum());
+            }
+
+            if ($deelnemer->getAfsluitdatum()) {
+                $dienst->setTot($deelnemer->getAfsluitdatum());
             }
 
             if (count($deelnemer->getTrajecten()) > 0) {
-                $value .= sprintf(' (trajectbegeleider: %s)', (string) $deelnemer->getTrajecten()[0]->getBegeleider());
+                $dienst
+                    ->setTitelMedewerker('trajectbegeleider')
+                    ->setNaamMedewerker((string) $deelnemer->getTrajecten()[0]->getBegeleider())
+                ;
             }
 
-            $event->addDienst([
-                'name' => 'Dagbesteding',
-                'url' => $this->generator->generate('dagbesteding_deelnemers_view', ['id' => $deelnemer->getId()]),
-                'type' => 'string',
-                'value' => $value,
-            ]);
+            $event->addDienst($dienst);
         }
     }
 }

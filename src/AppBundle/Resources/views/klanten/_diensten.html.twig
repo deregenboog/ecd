@@ -1,4 +1,5 @@
 {% import '::html.macro.twig' as html %}
+{% import _self as macro %}
 
 {% if diensten is defined %}
     <h2>Diensten</h2>
@@ -7,26 +8,13 @@
             {% for dienst in diensten %}
                 <tr>
                     <th>
-                        {{ dienst.name }}
+                        {{ dienst.naam }}
                     </th>
                     <td>
-                        {% if 'date' == dienst.type %}
-                            {% set value = '' %}
-                            {% if not dienst.to %}
-                                {% set value = 'sinds ' %}
-                            {% endif %}
-                            {% set value = value~dienst.from~' ' %}
-                            {% if dienst.to %}
-                                {% set value = value~'tot '~dienst.to %}
-                            {% endif %}
-                        {% else %}
-                            {% set value = dienst.value %}
-                        {% endif %}
-
                         {% if dienst.url %}
-                            {{ html.link(value, dienst.url, 'view') }}
+                            {{ html.link(macro.dienst(dienst), dienst.url, 'view') }}
                         {% else %}
-                            {{ value }}
+                            {{ macro.dienst(dienst) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -38,3 +26,22 @@
         {% endif %}
     </table>
 {% endif %}
+
+{% macro dienst(dienst) %}
+    {% if dienst.van %}
+        {% if dienst.tot %}
+            {{ dienst.van|date('d-m-Y') }} tot
+            {{ dienst.tot|date('d-m-Y') }}
+        {% else %}
+            sinds {{ dienst.van|date('d-m-Y') }}
+        {% endif %}
+    {% endif %}
+    {% if dienst.medewerker %}
+        {% if dienst.titelMedewerker %}
+            ({{ dienst.titelMedewerker }}: {{ dienst.medewerker }})
+        {% else %}
+            ({{ dienst.medewerker }})
+        {% endif %}
+    {% endif %}
+    {{ dienst.omschrijving }}
+{% endmacro %}

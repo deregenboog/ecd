@@ -4,6 +4,7 @@ namespace MwBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
 use MwBundle\Entity\Verslag;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -45,17 +46,15 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         );
 
         if ($verslag) {
-            $url = $this->generator->generate('mw_klanten_view', [
-                'id' => $klant->getId(),
-            ]);
-            $dienst = [
-                'name' => 'Maatschappeljk werk',
-                'url' => $url,
-                'from' => $verslag->getDatum() ? $verslag->getDatum()->format('d-m-Y') : null,
-                'to' => null,
-                'type' => 'date',
-                'value' => '',
-            ];
+            $dienst = new Dienst(
+                'Maatschappeljk werk',
+                $this->generator->generate('mw_klanten_view', ['id' => $klant->getId()])
+            );
+
+            if ($verslag->getDatum()) {
+                $dienst->setVan($verslag->getDatum());
+            }
+
             $event->addDienst($dienst);
         }
     }

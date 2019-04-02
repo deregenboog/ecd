@@ -4,6 +4,7 @@ namespace InloopBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Toegang;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -52,25 +53,22 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 }
                 if (count($inloophuizen) > 0) {
                     sort($inloophuizen);
-                    $event->addDienst([
-                        'name' => 'Inloophuizen',
-                        'url' => null,
-                        'from' => null,
-                        'to' => null,
-                        'type' => 'string',
-                        'value' => implode(', ', $inloophuizen),
-                    ]);
+                    $dienst = new Dienst(
+                        'Inloophuizen',
+                        $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
+                        implode(', ', $inloophuizen)
+                    );
+
+                    $event->addDienst($dienst);
                 }
                 if (count($gebruikersruimtes) > 0) {
                     sort($gebruikersruimtes);
-                    $event->addDienst([
-                        'name' => 'Gebr. ruimte',
-                        'url' => null,
-                        'from' => null,
-                        'to' => null,
-                        'type' => 'string',
-                        'value' => implode(', ', $gebruikersruimtes),
-                    ]);
+                    $dienst = new Dienst(
+                        'Gebr. ruimte',
+                        $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
+                        implode(', ', $gebruikersruimtes)
+                    );
+                    $event->addDienst($dienst);
                 }
             }
         }

@@ -4,6 +4,7 @@ namespace GaBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
 use GaBundle\Entity\Klantdossier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,14 +42,17 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ->findOneBy(['klant' => $klant]);
 
         if ($dossier instanceof Klantdossier) {
-            $event->addDienst([
-                'name' => 'Groepsactiviteiten',
-                'url' => $this->generator->generate('ga_klantdossiers_view', ['id' => $dossier->getId()]),
-                'from' => $dossier->getAanmelddatum()->format('d-m-Y'),
-                'to' => $dossier->getAfsluitdatum() ? $dossier->getAfsluitdatum()->format('d-m-Y') : null,
-                'type' => 'date',
-                'value' => '',
-            ]);
+            $dienst = new Dienst(
+                'Groepsactiviteiten',
+                $this->generator->generate('ga_klantdossiers_view', ['id' => $dossier->getId()])
+            );
+            $dienst->setVan($dossier->getAanmelddatum());
+
+            if ($dossier->getAfsluitdatum()) {
+                $dienst->setTot($dossier->getAfsluitdatum());
+            }
+
+            $event->addDienst($dienst);
         }
     }
 }

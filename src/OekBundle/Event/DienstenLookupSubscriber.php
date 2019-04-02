@@ -4,6 +4,7 @@ namespace OekBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
 use OekBundle\Entity\Deelnemer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,14 +42,20 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ->findOneBy(['klant' => $klant]);
 
         if ($deelnemer instanceof Deelnemer) {
-            $event->addDienst([
-                'name' => 'Op eigen kracht',
-                'url' => $this->generator->generate('oek_deelnemers_view', ['id' => $deelnemer->getId()]),
-                'from' => $deelnemer->getAanmelding() ? $deelnemer->getAanmelding()->getDatum()->format('Y-m-d') : null,
-                'to' => $deelnemer->getAfsluiting() ? $deelnemer->getAfsluiting()->getDatum()->format('Y-m-d') : null,
-                'type' => 'date',
-                'value' => '',
-            ]);
+            $dienst = new Dienst(
+                'Op eigen kracht',
+                $this->generator->generate('oek_deelnemers_view', ['id' => $deelnemer->getId()])
+            );
+
+            if ($deelnemer->getAanmelding()) {
+                $dienst->setVan($deelnemer->getAanmelding()->getDatum());
+            }
+
+            if ($deelnemer->getAfsluiting()) {
+                $dienst->setTot($deelnemer->getAfsluiting()->getDatum());
+            }
+
+            $event->addDienst($dienst);
         }
     }
 }

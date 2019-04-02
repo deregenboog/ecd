@@ -4,6 +4,7 @@ namespace OdpBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
 use OdpBundle\Entity\Deelnemer;
 use OdpBundle\Entity\Huurder;
@@ -48,14 +49,18 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             } elseif ($deelnemer instanceof Verhuurder) {
                 $url = $this->generator->generate('odp_verhuurders_view', ['id' => $deelnemer->getId()]);
             }
-            $event->addDienst([
-                'name' => 'Onder de Pannen',
-                'url' => $url,
-                'from' => $deelnemer->getAanmelddatum() ? $deelnemer->getAanmelddatum()->format('Y-m-d') : null,
-                'to' => $deelnemer->getAfsluitdatum() ? $deelnemer->getAfsluitdatum()->format('Y-m-d') : null,
-                'type' => 'date',
-                'value' => '',
-            ]);
+
+            $dienst = new Dienst('Onder de pannen', $url);
+
+            if ($deelnemer->getAanmelddatum()) {
+                $dienst->setVan($deelnemer->getAanmelddatum());
+            }
+
+            if ($deelnemer->getAfsluitdatum()) {
+                $dienst->setTot($deelnemer->getAfsluitdatum());
+            }
+
+            $event->addDienst($dienst);
         }
     }
 }
