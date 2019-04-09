@@ -8,18 +8,16 @@
 [Docker Composer](https://docs.docker.com/compose/) need to be installed on
 your system.
 
+The [Docker Compose configuration file](docker-compose.yml) in this project references the Docker image `ecd_database` which should be built first. Please refer to its repository: [https://github.com/deregenboog/docker-ecd-database](https://github.com/deregenboog/docker-ecd-database) for instructions.
+
 ## Installation
 
-Clone the repository from [https://github.com/deregenboog/ecd](https://github.com/deregenboog/ecd) and cd into the project directory.
+ - clone the repository: `git clone git@github.com:deregenboog/ecd.git`
+ - cd into the project directory: `cd ecd`
+ - build the image: `bin/docker-build.sh`
+ - start the Docker-containers and start a Bash shell on the web container: `bin/docker-up.sh`
+ - install dependencies using Composer: `./composer.phar install`
+ - migrate database: `bin/console doctrine:migrations:migrate --no-interaction`
+ - load database fixtures `bin/console fixtures:load --no-interaction --purge-with-truncate`
 
-Start the Docker-containers by running
-
-    docker-compose up --build
-
-To start a Bash shell on the web-container run
-
-    docker-compose exec web bash
-
-The ECD web-application should now be accessible by pointing your web-browser to [http://localhost/](http://localhost/).
-
-PhpMyAdmin is available at post 81 for easy database access: [http://localhost:81/](http://localhost:81/) (user: ecd, password: ecd).
+The ECD web-application should now be accessible by pointing your web-browser to [http://localhost/](http://localhost/). PhpMyAdmin is available at port 81 for easy database access: [http://localhost:81/](http://localhost:81/) (user: ecd, password: ecd).

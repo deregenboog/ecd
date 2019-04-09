@@ -1,0 +1,51 @@
+OekBundle\Entity\VerwijzingDoor:
+    oek_verwijzing_door_{1..10}:
+        naam: '<word()>'
+
+OekBundle\Entity\VerwijzingNaar:
+    oek_verwijzing_naar_{1..10}:
+        naam: '<word()>'
+
+OekBundle\Entity\Groep:
+    oek_groep_1:
+        naam: 'OEK basis'
+        aantalBijeenkomsten: 2
+    oek_groep_2:
+        naam: 'OEK psychiatrie'
+        aantalBijeenkomsten: 10
+    oek_groep_3:
+        naam: 'OEK werk aan je toekomst'
+        aantalBijeenkomsten: 6
+    oek_groep_4:
+        naam: 'OEK daklozen'
+        aantalBijeenkomsten: 8
+
+OekBundle\Entity\Training:
+    oek_training_{1..40}:
+        naam: 'Training <current()>'
+        groep: '@oek_groep_*'
+        startdatum: '<dateTimeThisDecade()>'
+        starttijd: '<dateTimeThisDecade()>'
+        einddatum: '<dateTimeThisDecade()>'
+        locatie: '<word()>'
+
+OekBundle\Entity\Deelnemer:
+    oek_deelnemer_{1..50}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        addAanmelding: ['<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>']
+        addAfsluiting: ['<afsluiting(@oek_verwijzing_naar_*, @medewerker_*, $this)>']
+    oek_deelnemer_{51..100}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        addAanmelding: ['<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>']
+
+OekBundle\Entity\Lidmaatschap:
+    oek_lidmaatschap_{1..40}:
+        groep: '@oek_groep_*'
+        deelnemer: '@oek_deelnemer_<current()>'
+
+OekBundle\Entity\Deelname:
+    oek_deelname_{1..40}:
+        training: '@oek_training_<current()>'
+        deelnemer: '@oek_deelnemer_<current()>'

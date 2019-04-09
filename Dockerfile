@@ -4,7 +4,25 @@ COPY docker/php.ini /usr/local/etc/php/
 
 EXPOSE 80
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ locales libldap2-dev
+RUN apt-get update && apt-get install -y \
+    g++ \
+    libfreetype6-dev \
+    libicu-dev \
+    libldap2-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    locales \
+    mysql-client \
+    zlib1g-dev
+
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+COPY docker/xdebug.ini /tmp/xdebug.ini
+RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && rm /tmp/xdebug.ini
+
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip
 
 # set timezone
 RUN echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
@@ -12,23 +30,6 @@ RUN echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractiv
 # install locale
 RUN echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
-
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
-RUN docker-php-ext-install mysqli pdo_mysql intl ldap zip
-
-RUN pecl install xdebug-2.5.5 && docker-php-ext-enable xdebug
-COPY docker/xdebug.ini /tmp/xdebug.ini
-RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && rm /tmp/xdebug.ini
-
-RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd
-
-RUN apt-get install -y mysql-client
 
 # configure apache
 COPY docker/vhost.conf /etc/apache2/sites-available/app.conf
