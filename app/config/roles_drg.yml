@@ -103,6 +103,7 @@ security:
         ROLE_WERKBEGELEIDER: []
         ROLE_ADMINISTRATIEBEDRIJF: []
         ROLE_ADMIN:
+            - ROLE_USER
             - ROLE_MW
             - ROLE_MW_BEHEER
             - ROLE_REPORT
