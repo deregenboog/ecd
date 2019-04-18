@@ -35,7 +35,7 @@ abstract class DossierStatus
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="statussen")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
