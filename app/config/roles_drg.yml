@@ -70,6 +70,7 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_ATTACHMENTS
         ROLE_IZ:
+            - ROLE_EROPUIT
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
