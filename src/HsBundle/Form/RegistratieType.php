@@ -34,6 +34,7 @@ class RegistratieType extends AbstractType
                 'required' => true,
                 'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     return $repository->createQueryBuilder('arbeider')
+                        ->select('arbeider, dienstverlener, vrijwilliger, klant, basisvrijwilliger')
                         ->leftJoin(Dienstverlener::class, 'dienstverlener', 'WITH', 'dienstverlener = arbeider')
                         ->leftJoin(Vrijwilliger::class, 'vrijwilliger', 'WITH', 'vrijwilliger = arbeider')
                         ->leftJoin('dienstverlener.klant', 'klant')

@@ -74,24 +74,7 @@ class FactuurSubscriber implements EventSubscriber
 
         $dateRange = $this->getDateRange($entity->getDatum());
         $oudeFactuur = $entity->getFactuur();
-
-        // find non-locked invoice within date range...
-        $facturen = $entityManager->getRepository(Factuur::class)->findNonLockedByKlantAndDateRange($klant, $dateRange);
-        $factuur = null;
-        foreach ($facturen as $factuur) {
-            if (!$factuur instanceof Creditfactuur) {
-                break;
-            }
-            $factuur = null;
-        }
-
-        // ...or create one
-        if (!$factuur) {
-            $nummer = $this->getNummer($klant, $dateRange, $entityManager);
-            $betreft = $this->getBetreft($klant, $nummer, $dateRange);
-            $factuur = new Factuur($klant, $nummer, $betreft);
-            $entityManager->persist($factuur);
-        }
+        $factuur = $this->findOrCreateFactuur($klant, $dateRange, $entityManager);
 
         switch (true) {
             case $entity instanceof Declaratie:
@@ -105,7 +88,7 @@ class FactuurSubscriber implements EventSubscriber
         }
 
         $this->calculateBedrag($factuur);
-        if ($oudeFactuur) {
+        if ($oudeFactuur && $oudeFactuur->getId() !== $factuur->getId()) {
             $this->calculateBedrag($oudeFactuur);
             if ($oudeFactuur->isDeletable()) {
                 $entityManager->remove($oudeFactuur);
@@ -176,7 +159,30 @@ class FactuurSubscriber implements EventSubscriber
         }
 
         $factuur->setBedrag($bedrag);
+    }
 
-        return $this;
+    private function findOrCreateFactuur(
+        Klant $klant,
+        AppDateRangeModel $dateRange,
+        EntityManager $entityManager
+    ) {
+        // find non-locked invoice within date range...
+        $facturen = $entityManager->getRepository(Factuur::class)
+            ->findNonLockedByKlantAndDateRange($klant, $dateRange);
+
+        $factuur = null;
+        foreach ($facturen as $factuur) {
+            if (!$factuur instanceof Creditfactuur) {
+                return $factuur;
+            }
+        }
+
+        // ...or create one
+        $nummer = $this->getNummer($klant, $dateRange, $entityManager);
+        $betreft = $this->getBetreft($klant, $nummer, $dateRange);
+        $factuur = new Factuur($klant, $nummer, $betreft);
+        $entityManager->persist($factuur);
+
+        return $factuur;
     }
 }

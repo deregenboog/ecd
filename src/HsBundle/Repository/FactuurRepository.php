@@ -17,6 +17,9 @@ class FactuurRepository extends EntityRepository
     public function findNonLockedByKlantAndDateRange(Klant $klant, AppDateRangeModel $dateRange)
     {
         return $this->createQueryBuilder('factuur')
+            ->select('factuur, registratie, declaratie')
+            ->leftJoin('factuur.registraties', 'registratie')
+            ->leftJoin('factuur.declaraties', 'declaratie')
             ->where('factuur.locked = false')
             ->andWhere('factuur.klant = :klant')
             ->andWhere('factuur.datum BETWEEN :start AND :end')
