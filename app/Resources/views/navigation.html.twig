@@ -48,6 +48,9 @@
 {% if is_granted('ROLE_PFO') %}
     {{ html.navLink('PFO', path('pfo_index'), isActiveRoute('pfo_')) }}
 {% endif %}
+{% if is_granted('ROLE_SCIP') %}
+    {{ html.navLink('SCIP', path('scip_index'), isActiveRoute('scip_')) }}
+{% endif %}
 {% if is_granted('ROLE_ADMIN') %}
     <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">

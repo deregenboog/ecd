@@ -11,7 +11,7 @@
     <dt>Naam</dt>
     <dd>{{ klant|naam_voor_achter }}</dd>
     <dt>Geslacht</dt>
-    <dd>{{ klant.geslacht.volledig }}</dd>
+    <dd>{{ klant.geslacht ? klant.geslacht.volledig }}</dd>
     <dt>Geboortedatum</dt>
     <dd>{{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}</dd>
     <dt>Geboorteland</dt>

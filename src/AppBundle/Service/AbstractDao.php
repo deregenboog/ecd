@@ -78,7 +78,7 @@ abstract class AbstractDao
         return $this->repository->find($id);
     }
 
-    public function setItemsPerPage($itemsPerPage)
+    public function setItemsPerPage(int $itemsPerPage)
     {
         $this->itemsPerPage = $itemsPerPage;
 

@@ -1,0 +1,32 @@
+{{ form_start(filter) }}
+    <table class="table table-filter">
+        {{ colgroup(4) }}
+        <thead>
+            <tr>
+                <th colspan="4">
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.id) }}
+                    {{ form_errors(filter.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.naam) }}
+                    {{ form_errors(filter.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.kpl) }}
+                    {{ form_errors(filter.kpl) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.actief) }}
+                    {{ form_errors(filter.actief) }}
+                </th>
+            </tr>
+        </thead>
+    </table>
+{{ form_end(filter) }}

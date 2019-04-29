@@ -35,7 +35,7 @@
     </target>
 
     <target name="phpcpd" unless="phpcpd.done" description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="${phpcpd}" taskname="phpcpd" failonerror="true">
+        <exec executable="${phpcpd}" taskname="phpcpd" failonerror="false">
             <arg path="${src}" />
             <arg value="--min-lines=75" />
         </exec>

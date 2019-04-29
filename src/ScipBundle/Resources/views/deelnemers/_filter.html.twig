@@ -1,0 +1,41 @@
+{{ form_start(filter) }}
+    <table class="table table-filter">
+        {{ colgroup(5) }}
+        <thead>
+            <tr>
+                <th colspan="3">
+                </th>
+                <th>
+                    {{ form_widget(filter.actief) }}
+                </th>
+                <th>
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.type) }}
+                    {{ form_errors(filter.type) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.project) }}
+                    {{ form_errors(filter.project) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.label) }}
+                    {{ form_errors(filter.label) }}
+                </th>
+            </tr>
+        </thead>
+    </table>
+{{ form_end(filter) }}

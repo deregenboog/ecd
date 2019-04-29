@@ -81,6 +81,7 @@ doctrine:
                 year: Luxifer\DQL\Datetime\Year
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
+                replace: DoctrineExtensions\Query\Mysql\Replace
         filters:
             softdeleteable:
                 class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
@@ -163,6 +164,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /pfo/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/pfo'
+        scip_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /scip/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/scip'
 
 shivas_versioning:
     version_parameter: application_version
