@@ -49,8 +49,8 @@ InloopBundle\Entity\Locatie:
         datumVan: '<dateTimeThisDecade()>'
         datuMTot: '<dateTimeThisDecade()>'
         maatschappelijkWerk: false
-    locatie_Ondro Bong:
-        naam: 'Ondro Bong'
+    locatie_Zeeburg:
+        naam: 'Zeeburg'
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeThisDecade()>'
