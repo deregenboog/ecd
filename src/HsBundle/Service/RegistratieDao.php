@@ -71,6 +71,9 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
      */
     public function update(Registratie $entity)
     {
+        if ($entity->getFactuur()) {
+            $entity->getFactuur()->calculateBedrag();
+        }
         $this->doUpdate($entity);
     }
 
