@@ -30,7 +30,7 @@
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#deelnemers">Vrijwilligers</a></li>
-        <li><a data-toggle="tab" href="#deelnemers">Gebruikers</a></li>
+        <li><a data-toggle="tab" href="#gebruikers">Gebruikers</a></li>
     </ul>
     <div class="tab-content">
         <div id="deelnemers" class="tab-pane active">
@@ -40,24 +40,23 @@
             </p>
             {% include '@Scip/deelnames/_list.html.twig' %}
         </div>
-        <div id="verslagen" class="tab-pane">
-            <h2>Verslagen</h2>
-        </div>
-        <div id="documenten" class="tab-pane">
-            <h2>Documenten</h2>
+        <div id="gebruikers" class="tab-pane">
+            <h2>Gebruikers</h2>
             <p>
-                {{ html.link('Toevoegen', path('scip_documenten_add', {project: entity.id}), 'add') }}
+                {% if is_granted('ROLE_SCIP_BEHEER') %}
+                    {{ html.link('Toegangsrechten beheren', path('scip_toegangsrechten_index'), 'edit') }}
+                {% endif %}
             </p>
-            <table class="table table-hover">
-                <thead></thead>
-                <tbody>
-                    {% for deelnemer in entity.deelnemers %}
-                        <tr>
-                            <td>{{ deelnemer }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <ul>
+                {% for toegangsrecht in entity.toegangsrechten %}
+                    <li>
+                        {{ toegangsrecht.medewerker }}
+                        {% if is_granted('ROLE_SCIP_BEHEER') %}
+                            {{ html.link('Wijzigen', path('scip_toegangsrechten_edit', {id: toegangsrecht.id}), 'edit') }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

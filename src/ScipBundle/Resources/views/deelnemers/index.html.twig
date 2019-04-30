@@ -16,7 +16,7 @@
     </p>
     {% include '@Scip/deelnemers/_filter.html.twig' %}
     <table class="table table-hover">
-        {{ colgroup(5) }}
+        {{ colgroup(7) }}
         <thead>
             <tr>
                 <th>
@@ -33,6 +33,12 @@
                 </th>
                 <th>
                     Labels
+                </th>
+                <th>
+                    VOG
+                </th>
+                <th>
+                    Overeenkomst
                 </th>
             </tr>
         </thead>
@@ -55,6 +61,12 @@
                                 <li>{{ label }}</li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td>
+                        {{ entity.hasVog ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ entity.hasOvereenkomst ? 'Ja' : 'Nee' }}
                     </td>
                 </tr>
             {% endfor %}

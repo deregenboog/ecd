@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use AppBundle\Form\JaNeeType;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -57,6 +58,20 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('vog', $options['enabled_filters'])) {
+            $builder->add('vog', JaNeeType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('overeenkomst', $options['enabled_filters'])) {
+            $builder->add('overeenkomst', JaNeeType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
         $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
     }
 
@@ -82,6 +97,8 @@ class DeelnemerFilterType extends AbstractType
                 'project',
                 'type',
                 'label',
+                'vog',
+                'overeenkomst',
             ],
         ]);
     }

@@ -47,6 +47,15 @@ class Project
     public function __construct()
     {
         $this->deelnames = new ArrayCollection();
+        $this->toegangsrechten = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Toegangsrecht[]
+     */
+    public function getToegangsrechten()
+    {
+        return $this->toegangsrechten;
     }
 
     /**

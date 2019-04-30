@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Vog;
 
 /**
  * @ORM\Entity
@@ -351,5 +352,27 @@ class Deelnemer implements DocumentSubjectInterface
         $this->werkdoelen[] = $werkdoel;
 
         return $this;
+    }
+
+    public function hasVog()
+    {
+        foreach ($this->documenten as $document) {
+            if (Document::TYPE_VOG === $document->getType()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasOvereenkomst()
+    {
+        foreach ($this->documenten as $document) {
+            if (Document::TYPE_OVEREENKOMST === $document->getType()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

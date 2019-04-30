@@ -1,11 +1,11 @@
 {{ form_start(filter) }}
     <table class="table table-filter">
-        {{ colgroup(5) }}
+        {{ colgroup(7) }}
         <thead>
             <tr>
                 <th colspan="3">
                 </th>
-                <th>
+                <th colspan="3">
                     {{ form_widget(filter.actief) }}
                 </th>
                 <th>
@@ -34,6 +34,14 @@
                 <th>
                     {{ form_widget(filter.label) }}
                     {{ form_errors(filter.label) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.vog) }}
+                    {{ form_errors(filter.vog) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.overeenkomst) }}
+                    {{ form_errors(filter.overeenkomst) }}
                 </th>
             </tr>
         </thead>
