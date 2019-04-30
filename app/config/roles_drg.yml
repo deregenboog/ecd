@@ -103,6 +103,10 @@ security:
             - ROLE_OEK
         ROLE_WERKBEGELEIDER: []
         ROLE_ADMINISTRATIEBEDRIJF: []
+        ROLE_SCIP: []
+        ROLE_SCIP_BEHEER:
+            - ROLE_SCIP
+        ROLE_EROPUIT: []
         ROLE_ADMIN:
             - ROLE_MW
             - ROLE_MW_BEHEER
