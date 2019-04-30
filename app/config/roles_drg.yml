@@ -106,6 +106,8 @@ security:
         ROLE_SCIP: []
         ROLE_SCIP_BEHEER:
             - ROLE_SCIP
+        ROLE_SKIP_BEHEER:
+            - ROLE_SCIP_BEHEER
         ROLE_EROPUIT: []
         ROLE_ADMIN:
             - ROLE_MW
@@ -186,4 +188,5 @@ ldap_tools:
             ROLE_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SCIP: "CN=ECD SCIP,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SCIP_BEHEER: "CN=ECD SCIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SKIP_BEHEER: "CN=ECD SKIP Beheer,CN=Users,DC=cluster,DC=deregenboog" # because of typo in LDAP-group
             ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
