@@ -180,3 +180,6 @@ ldap_tools:
             ROLE_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SCIP: "CN=ECD SCIP,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SCIP_BEHEER: "CN=ECD SCIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
