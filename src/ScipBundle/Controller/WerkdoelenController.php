@@ -19,8 +19,8 @@ class WerkdoelenController extends AbstractChildController
     protected $entityClass = Werkdoel::class;
     protected $formClass = WerkdoelType::class;
     protected $addMethod = 'addWerkdoel';
-    protected $baseRouteName = 'oek_werkdoelen_';
-    protected $disabledActions = ['index', 'view', 'deleted'];
+    protected $baseRouteName = 'scip_werkdoelen_';
+    protected $disabledActions = ['index', 'view'];
 
     /**
      * @var WerkdoelDaoInterface

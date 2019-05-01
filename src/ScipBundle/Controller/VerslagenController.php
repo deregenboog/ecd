@@ -19,8 +19,8 @@ class VerslagenController extends AbstractChildController
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;
     protected $addMethod = 'addVerslag';
-    protected $baseRouteName = 'oek_verslagen_';
-    protected $disabledActions = ['index', 'view', 'deleted'];
+    protected $baseRouteName = 'scip_verslagen_';
+    protected $disabledActions = ['index', 'view'];
 
     /**
      * @var VerslagDaoInterface

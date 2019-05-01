@@ -61,7 +61,11 @@
             </p>
             {% for werkdoel in entity.werkdoelen %}
                 <div class="well">
-                    <p class="text-right">{{ werkdoel.medewerker }} | {{ werkdoel.datum|date('d-m-Y') }}</p>
+                    <p class="text-right">
+                        {{ werkdoel.medewerker }} | {{ werkdoel.datum|date('d-m-Y') }} |
+                        {{ html.editLink(path('scip_werkdoelen_edit', {id: werkdoel.id})) }}
+                        {{ html.deleteLink(path('scip_werkdoelen_delete', {id: werkdoel.id})) }}
+                    </p>
                     <p>{{ werkdoel.tekst }}</p>
                 </div>
             {% endfor %}
@@ -73,7 +77,11 @@
             </p>
             {% for verslag in entity.verslagen %}
                 <div class="well">
-                    <p class="text-right">{{ verslag.medewerker }} | {{ verslag.datum|date('d-m-Y') }}</p>
+                    <p class="text-right">
+                        {{ verslag.medewerker }} | {{ verslag.datum|date('d-m-Y') }} |
+                        {{ html.editLink(path('scip_verslagen_edit', {id: verslag.id})) }}
+                        {{ html.deleteLink(path('scip_verslagen_delete', {id: verslag.id})) }}
+                    </p>
                     <p>{{ verslag.tekst }}</p>
                 </div>
             {% endfor %}
