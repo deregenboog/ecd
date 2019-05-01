@@ -103,7 +103,8 @@ security:
             - ROLE_OEK
         ROLE_WERKBEGELEIDER: []
         ROLE_ADMINISTRATIEBEDRIJF: []
-        ROLE_SCIP: []
+        ROLE_SCIP:
+            - CONTROLLER_APP_KLANTEN
         ROLE_SCIP_BEHEER:
             - ROLE_SCIP
         ROLE_SKIP_BEHEER:
