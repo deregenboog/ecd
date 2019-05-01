@@ -6,6 +6,7 @@ use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
+use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -198,6 +199,9 @@ abstract class AbstractController extends SymfonyController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($entity instanceof MedewerkerSubjectInterface && !$entity->getMedewerker()) {
+                $entity->setMedewerker($this->getMedewerker());
+            }
             try {
                 if ($entity->getId()) {
                     $this->dao->update($entity);

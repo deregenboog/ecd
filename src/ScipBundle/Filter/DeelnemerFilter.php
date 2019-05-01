@@ -5,9 +5,9 @@ namespace ScipBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
-use ScipBundle\Entity\Project;
-use ScipBundle\Entity\Document;
 use ScipBundle\Entity\Deelnemer;
+use ScipBundle\Entity\Document;
+use ScipBundle\Entity\Project;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -80,7 +80,7 @@ class DeelnemerFilter implements FilterInterface
             ;
             $builder
                 ->andWhere('deelnemer.id NOT IN (:ids)')
-                ->setParameter('ids', array_map(function($row) {
+                ->setParameter('ids', array_map(function ($row) {
                     return $row['id'];
                 }, $deelnemers))
             ;
@@ -102,7 +102,7 @@ class DeelnemerFilter implements FilterInterface
             ;
             $builder
                 ->andWhere('deelnemer.id NOT IN (:ids)')
-                ->setParameter('ids', array_map(function($row) {
+                ->setParameter('ids', array_map(function ($row) {
                     return $row['id'];
                 }, $deelnemers))
             ;

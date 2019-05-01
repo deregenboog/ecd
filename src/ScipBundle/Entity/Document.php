@@ -5,6 +5,7 @@ namespace ScipBundle\Entity;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Model\NameableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -20,7 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */
-class Document implements DocumentInterface
+class Document implements DocumentInterface, MedewerkerSubjectInterface
 {
     use IdentifiableTrait, NameableTrait, TimestampableTrait, RequiredMedewerkerTrait;
 

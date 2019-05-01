@@ -4,6 +4,7 @@ namespace ScipBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Verslag
+class Verslag implements MedewerkerSubjectInterface
 {
     use IdentifiableTrait, TimestampableTrait;
 

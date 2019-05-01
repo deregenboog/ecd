@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Vog;
 
 /**
  * @ORM\Entity

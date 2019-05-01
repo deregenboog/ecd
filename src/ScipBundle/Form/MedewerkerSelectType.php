@@ -18,12 +18,11 @@ class MedewerkerSelectType extends AbstractType
             'preset' => false,
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('medewerker')
-                    ->where('medewerker.roles LIKE :scip OR medewerker.roles LIKE :scip_beheer OR medewerker.roles LIKE :admin')
+                    ->where('medewerker.roles LIKE :scip OR medewerker.roles LIKE :scip_beheer')
                     ->andWhere('medewerker.actief = true')
                     ->orderBy('medewerker.voornaam')
                     ->setParameter('scip', '%"ROLE_SCIP"%')
                     ->setParameter('scip_beheer', '%"ROLE_SCIP_BEHEER"%')
-                    ->setParameter('admin', '%"ROLE_ADMIN"%')
                 ;
             },
         ]);

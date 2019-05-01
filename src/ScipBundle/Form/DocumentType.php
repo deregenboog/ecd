@@ -3,7 +3,6 @@
 namespace ScipBundle\Form;
 
 use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
 use ScipBundle\Entity\Document;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -22,6 +21,7 @@ class DocumentType extends AbstractType
         $builder
             ->add('naam')
             ->add('type', ChoiceType::class, [
+                'required' => false,
                 'placeholder' => 'Overige documenten',
                 'choices' => [
                     Document::TYPE_VOG => Document::TYPE_VOG,
@@ -35,10 +35,7 @@ class DocumentType extends AbstractType
             ]);
         }
 
-        $builder
-            ->add('medewerker', MedewerkerType::class, [
-            ])
-            ->add('submit', SubmitType::class);
+        $builder->add('submit', SubmitType::class);
     }
 
     /**

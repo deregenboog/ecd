@@ -5,7 +5,6 @@ namespace ScipBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
 use ScipBundle\Entity\Werkdoel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,9 +21,6 @@ class WerkdoelType extends AbstractType
         $builder
             ->add('tekst', AppTextareaType::class, [
                 'required' => false,
-            ])
-            ->add('medewerker', MedewerkerType::class, [
-                'required' => true,
             ])
             ->add('datum', AppDateType::class, [
                 'required' => false,
