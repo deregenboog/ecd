@@ -16,8 +16,9 @@ The [Docker Compose configuration file](docker-compose.yml) in this project refe
  - cd into the project directory: `cd ecd`
  - build the image: `bin/docker-build.sh`
  - start the Docker-containers and start a Bash shell on the web container: `bin/docker-up.sh`
- - install dependencies using Composer: `./composer.phar install`
+ - install PHP related dependencies using Composer: `./composer.phar install`
  - migrate database: `bin/console doctrine:migrations:migrate --no-interaction`
  - load database fixtures `bin/console fixtures:load --no-interaction --purge-with-truncate`
+ - install web related dependencies using NPM (node package manager): `cd app/webroot/ npm install` (if you have npm installed locally, otherwise do so)
 
 The ECD web-application should now be accessible by pointing your web-browser to [http://localhost/](http://localhost/). PhpMyAdmin is available at port 81 for easy database access: [http://localhost:81/](http://localhost:81/) (user: ecd, password: ecd).
