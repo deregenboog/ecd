@@ -10,7 +10,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ".:/var/www/html"
+      - "ecd-sync:/var/www/html:nocopy"
     environment:
       MYSQL_DATABASE: ecd
       MYSQL_USER: ecd
@@ -23,3 +23,6 @@ services:
       - database
     environment:
       PMA_HOST: database
+volumes:
+  ecd-sync:
+    external: true

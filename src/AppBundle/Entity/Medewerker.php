@@ -124,6 +124,10 @@ class Medewerker implements LdapUserInterface, UserInterface
         return $this;
     }
 
+    /*
+     * JTB: Ik denk dat dit dubbel is en het al in de Nametrait staat.
+     * Ik laat het nog even staan (190523) op dit moment om te checken of het later evt problemen oplevert.
+     */
     public function getNaam()
     {
         $parts = [];
