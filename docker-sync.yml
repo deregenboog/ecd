@@ -1,0 +1,12 @@
+version: "2"
+
+options:
+  verbose: true
+syncs:
+   ecd-sync: # tip: add -sync and you keep consistent names as a convention
+    src: '.'
+    sync_userid: '1000'
+    # sync_strategy: 'native_osx' # not needed, this is the default now
+    sync_excludes: ['tmp', '.git','.docker_sync','archive','data','.docker_ignore','.git_ignore','vendor','var','.idea','.php_cs*']
+    # when debugging, uncomment following line.
+    # sync_args: "-copyonconflict -debug verbose"
