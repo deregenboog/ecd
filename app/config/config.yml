@@ -11,6 +11,8 @@ parameters:
     doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
 
 framework:
+    ide: 'phpstorm://open?file=%%f&line=%%l&/var/www/html/>/Users/jtborger/Documents/webprojects/deregenboog/ecd/'
+#    ide: 'phpstorm'
     default_locale: '%locale%'
     translator: { fallbacks: ['nl_NL', 'nl'] }
     secret: "%secret%"

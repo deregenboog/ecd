@@ -32,6 +32,7 @@
 
 # Docker
 /.mysql/*
+.docker-sync/
 
 # Composer
 /vendor/
@@ -43,6 +44,9 @@
 
 # PhpStorm
 .idea
+
+#macOS
+.DS_Store
 
 # Custom tools
 /bin/*

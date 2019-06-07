@@ -83,6 +83,7 @@ abstract class AbstractController extends SymfonyController
             throw new AccessDeniedHttpException();
         }
 
+
         if ($this->filterFormClass) {
             $form = $this->createForm($this->filterFormClass);
             $form->handleRequest($request);
@@ -95,7 +96,6 @@ abstract class AbstractController extends SymfonyController
         } else {
             $filter = null;
         }
-
         $page = $request->get('page', 1);
         $pagination = $this->dao->findAll($page, $filter);
 
